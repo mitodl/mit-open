@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.9.4
+-------------
+
+- Self contained front end using Webpack to build HTML and Webpack Dev Server to serve (#678)
+- create api routes for user subscribe/unsubscribe to search (#782)
+- Retrieve OL events via API instead of HTML scraping (#786)
+
 Version 0.9.3 (Released April 23, 2024)
 -------------
 
