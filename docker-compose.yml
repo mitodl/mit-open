@@ -79,7 +79,6 @@ services:
       - opensearch-node-mitopen
       - redis
     volumes:
-      - .:/src
       - django_media:/var/media
 
   watch:
