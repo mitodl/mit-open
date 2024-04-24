@@ -1,8 +1,6 @@
 {
   "name": "ol-ckeditor",
-  "version": "0.0.0",
-  "packageManager": "yarn@4.1.1",
-  "private": true,
+  "packageManager": "yarn@3.8.1",
   "exports": {
     ".": "./src/index.ts",
     "./test_utils": "./src/test_utils.tsx",
@@ -35,8 +33,8 @@
     "@ckeditor/ckeditor5-ui": "^40.1.0",
     "axios": "^1.6.3",
     "classnames": "^2.3.2",
-    "ol-components": "0.0.0",
-    "ol-utilities": "0.0.0"
+    "ol-components": "workspace:*",
+    "ol-utilities": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/react": "^14.1.2"

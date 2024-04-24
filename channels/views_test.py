@@ -174,9 +174,7 @@ def test_patch_field_channel_image(client, field_channel, attribute):
     png_file = os.path.join(  # noqa: PTH118
         os.path.dirname(__file__),  # noqa: PTH120
         "..",
-        "frontends",
-        "mit-open",
-        "public",
+        "static",
         "images",
         "blank.png",
     )

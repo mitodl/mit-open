@@ -1,5 +1,6 @@
 import { setupMockEditors } from "ol-ckeditor/test_utils"
 import { mockAxiosInstance } from "./mockAxios"
+import { makeUserSettings } from "./factories"
 
 setupMockEditors()
 
@@ -13,6 +14,16 @@ jest.mock("axios", () => {
     },
     AxiosError,
   }
+})
+
+const _createSettings = () => ({
+  user: makeUserSettings(),
+})
+
+window.SETTINGS = _createSettings()
+
+afterEach(() => {
+  window.SETTINGS = _createSettings()
 })
 
 jest.mock("@/page-components/LearningResourceCard/LearningResourceCard", () => {

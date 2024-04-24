@@ -9,7 +9,7 @@ import type { Config } from "@jest/types"
 const projectsConfig: Config.InitialOptions = {
   collectCoverage: true,
   coverageDirectory: "coverage",
-  projects: ["<rootDir>/*/jest.config.ts"],
+  projects: ["<rootDir>/frontends/*/"],
   watchPlugins: [
     "jest-watch-typeahead/filename",
     "jest-watch-typeahead/testname",

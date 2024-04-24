@@ -7,16 +7,11 @@ module.exports = {
     "prettier",
   ],
   plugins: ["testing-library", "import"],
-  ignorePatterns: [
-    "**/build/**",
-    "ol-ckeditor-2/dist",
-    "github-pages",
-    "storybook-static",
-  ],
+  ignorePatterns: ["**/build/**"],
   settings: {
     "import/resolver": {
       typescript: {
-        project: "*/tsconfig.json",
+        project: "frontends/*/tsconfig.json",
       },
     },
   },
@@ -81,13 +76,16 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["./ol-components/**/*.ts", "./ol-components/**/*.tsx"],
+      files: [
+        "./frontends/ol-components/**/*.ts",
+        "./frontends/ol-components/**/*.tsx",
+      ],
       rules: {
         ...restrictedImports(),
       },
     },
     {
-      files: ["./**/*.test.{ts,tsx}"],
+      files: ["./frontends/**/*.test.{ts,tsx}"],
       plugins: ["testing-library"],
       extends: ["plugin:testing-library/react"],
     },

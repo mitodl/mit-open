@@ -1,7 +1,10 @@
 import React from "react"
 import { Outlet } from "react-router"
-import { ForbiddenError, Permissions } from "@/common/permissions"
-import { useUserMe } from "api/hooks/user"
+import {
+  ForbiddenError,
+  Permissions,
+  hasPermission,
+} from "@/common/permissions"
 
 type RestrictedRouteProps = {
   children?: React.ReactNode
@@ -38,9 +41,7 @@ const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
   children,
   requires,
 }) => {
-  const { isLoading, data: user } = useUserMe()
-  if (isLoading) return null
-  if (!isLoading && !user?.[requires]) {
+  if (!hasPermission(requires)) {
     // This error should be caught by an [`errorElement`](https://reactrouter.com/en/main/route/error-element).
     throw new ForbiddenError("Not allowed.")
   }

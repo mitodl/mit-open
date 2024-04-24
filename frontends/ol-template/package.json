@@ -1,10 +1,8 @@
 {
   "name": "ol-template",
-  "version": "0.0.0",
-  "packageManager": "yarn@4.1.1",
-  "private": true,
   "description": "Templates for the frontend.",
   "type": "module",
+  "packageManager": "yarn@3.8.1",
   "dependencies": {
     "plop": "^3.1.2"
   },
