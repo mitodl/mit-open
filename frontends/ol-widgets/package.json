@@ -1,6 +1,7 @@
 {
   "name": "ol-widgets",
   "version": "0.0.0",
+  "packageManager": "yarn@4.1.1",
   "private": true,
   "main": "./src/index.ts",
   "dependencies": {
