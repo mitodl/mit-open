@@ -19,23 +19,6 @@ jobs:
         with:
           ref: release
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "18.18.2"
-          cache: yarn
-          cache-dependency-path: frontends/yarn.lock
-
-      - name: Setup environment
-        run: sudo apt-get install libelf1
-
-      - name: Install frontend dependencies
-        working-directory: frontends
-        run: yarn install --immutable
-
-      - name: Build frontend
-        working-directory: frontends
-        run: yarn run build
-
       - uses: akhileshns/heroku-deploy@581dd286c962b6972d427fcf8980f60755c15520
         with:
           heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
