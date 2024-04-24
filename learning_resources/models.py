@@ -530,7 +530,7 @@ class LearningResourceViewEvent(TimestampedModel):
 
     learning_resource = models.ForeignKey(
         LearningResource,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.CASCADE,
         help_text="The learning resource for this event.",
         editable=False,
         related_name="views",
