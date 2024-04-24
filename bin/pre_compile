@@ -3,5 +3,5 @@
 # Syntax bin/compile <build-dir> <cache-dir>
 
 echo "-----> Writing out SOURCE_VERSION to frontends/build/static/hash ($SOURCE_VERSION)"
-mkdir -p /app/frontends/build/static
-echo $SOURCE_VERSION >/app/frontends/build/static/hash.txt
+mkdir -p $BUILD_DIR/frontends/build/static
+echo $SOURCE_VERSION >$BUILD_DIR/frontends/build/static/hash.txt
