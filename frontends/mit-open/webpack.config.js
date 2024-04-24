@@ -78,7 +78,7 @@ module.exports = (env, argv) => {
             filename: "[name].js",
           }),
       publicPath: "/",
-      clean: !isProduction,
+      clean: true,
     },
     module: {
       rules: [
