@@ -117,11 +117,10 @@ const ArticleUpsertForm = ({
         <TitleField
           name="title"
           label="Title"
-          variant="outlined"
           value={formik.values.title}
           onChange={formik.handleChange}
           error={!!formik.errors.title}
-          helperText={formik.errors.title}
+          errorText={formik.errors.title}
         />
         <CkeditorArticleLazy
           aria-label="Article body"

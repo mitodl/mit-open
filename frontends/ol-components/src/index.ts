@@ -98,8 +98,7 @@ export { default as Radio } from "@mui/material/Radio"
 export type { RadioProps } from "@mui/material/Radio"
 export { default as RadioGroup } from "@mui/material/RadioGroup"
 export type { RadioGroupProps } from "@mui/material/RadioGroup"
-export { default as TextField } from "@mui/material/TextField"
-export type { TextFieldProps } from "@mui/material/TextField"
+
 // Mui Custom Form Inputs
 export { default as FormControl } from "@mui/material/FormControl"
 export type { FormControlProps } from "@mui/material/FormControl"
@@ -132,6 +131,11 @@ export * from "./components/Carousel/Carousel"
 export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/RadioChoiceField/RadioChoiceField"
+
+export { Input, AdornmentButton } from "./components/Input/Input"
+export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
+export { TextField } from "./components/TextField/TextField"
+export type { TextFieldProps } from "./components/TextField/TextField"
 
 export * from "./components/learning-resources/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay"
 
