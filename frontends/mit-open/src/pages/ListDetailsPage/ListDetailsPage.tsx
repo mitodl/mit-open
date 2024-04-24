@@ -2,7 +2,7 @@ import React from "react"
 import { Container, Grid, Button, BannerPage } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
 import SwapVertIcon from "@mui/icons-material/SwapVert"
-
+import { useUserMe } from "api/hooks/user"
 import { useToggle, pluralize, MetaTags } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
@@ -29,9 +29,10 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
   isFetching,
   handleEdit,
 }) => {
+  const { data: user } = useUserMe()
   const [isSorting, toggleIsSorting] = useToggle(false)
 
-  const canEdit = window.SETTINGS.user.is_learning_path_editor
+  const canEdit = user?.is_learning_path_editor
   const showSort = canEdit && !!items.length
   const count = items.length
 

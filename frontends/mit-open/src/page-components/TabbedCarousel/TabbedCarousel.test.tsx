@@ -54,6 +54,7 @@ describe("TabbedCarousel", () => {
         },
       },
     ]
+    setMockResponse.get(urls.userMe.get(), {})
     const { list, search, upcoming } = setupApis()
     renderWithProviders(<TabbedCarousel config={config} />)
     const tabs = screen.getAllByRole("tab")
@@ -83,6 +84,7 @@ describe("TabbedCarousel", () => {
         },
       },
     ]
+    setMockResponse.get(urls.userMe.get(), {})
     setupApis()
     renderWithProviders(<TabbedCarousel config={config} />)
     await waitFor(() => {

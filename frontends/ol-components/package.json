@@ -1,6 +1,8 @@
 {
   "name": "ol-components",
-  "packageManager": "yarn@3.8.1",
+  "version": "0.0.0",
+  "packageManager": "yarn@4.1.1",
+  "private": true,
   "exports": {
     ".": "./src/index.ts",
     "./deprecated": "./src/components/deprecated/index.ts"
@@ -17,8 +19,8 @@
     "@mui/system": "^5.15.15",
     "lodash": "^4.17.21",
     "nuka-carousel": "^7.0.0",
-    "ol-test-utilities": "workspace:*",
-    "ol-utilities": "workspace:*",
+    "ol-test-utilities": "0.0.0",
+    "ol-utilities": "0.0.0",
     "rc-tooltip": "^6.1.2",
     "react-router": "^6.22.2",
     "react-router-dom": "^6.22.2",

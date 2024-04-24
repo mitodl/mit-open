@@ -12,8 +12,6 @@ x-environment: &py-environment
   CELERY_TASK_ALWAYS_EAGER: "False"
   CELERY_BROKER_URL: redis://redis:6379/4
   CELERY_RESULT_BACKEND: redis://redis:6379/4
-  DOCKER_HOST: ${DOCKER_HOST:-missing}
-
   TIKA_SERVER_ENDPOINT: ${TIKA_SERVER_ENDPOINT:-http://tika:9998/}
   TIKA_CLIENT_ONLY: "True"
 
@@ -61,7 +59,7 @@ services:
       - web
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
-      - ./:/src
+      - ./frontends/mit-open/build:/src/frontends/mit-open/build
 
   web:
     build:
@@ -80,30 +78,22 @@ services:
       - db
       - opensearch-node-mitopen
       - redis
-      - watch
     volumes:
-      - .:/src
       - django_media:/var/media
 
   watch:
     build:
-      context: .
-      dockerfile: Dockerfile-node
-    working_dir: /src
-    command: ./scripts/run-watch-dev.sh
-    ports:
-      - "8052:8052"
-      - "8062:8062"
-      - "6006:6006"
+      context: ./frontends
+    command: >
+      /bin/sh -c 'yarn rebuild && yarn watch:docker'
     environment:
-      DOCKER_HOST: ${DOCKER_HOST:-missing}
       NODE_ENV: ${NODE_ENV:-development}
-      CONTAINER_NAME: "watch"
-      WEBPACK_PORT_MITOPEN: 8062
+      PORT: 8062
     env_file: .env
+    ports:
+      - "8062:8062"
     volumes:
-      - .:/src
-      - yarn-cache:/home/mitodl/.cache/yarn
+      - ./frontends:/src
 
   celery:
     build:

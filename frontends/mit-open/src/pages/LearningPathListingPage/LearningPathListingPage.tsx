@@ -27,6 +27,7 @@ import { imgConfigs } from "@/common/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import CardRowList from "@/components/CardRowList/CardRowList"
 import * as urls from "@/common/urls"
+import { useUserMe } from "api/hooks/user"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
@@ -86,6 +87,7 @@ const ListCard: React.FC<ListCardProps> = ({ list, onActivate, canEdit }) => {
 
 const LearningPathListingPage: React.FC = () => {
   const listingQuery = useLearningPathsList()
+  const { data: user } = useUserMe()
 
   const navigate = useNavigate()
   const handleActivate = useCallback(
@@ -99,7 +101,7 @@ const LearningPathListingPage: React.FC = () => {
     manageListDialogs.upsertLearningPath()
   }, [])
 
-  const canEdit = window.SETTINGS.user.is_learning_path_editor
+  const canEdit = !!user?.is_learning_path_editor
 
   return (
     <BannerPage

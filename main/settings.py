@@ -341,7 +341,7 @@ AUTHORIZATION_URL = get_string(
 STATIC_URL = "/static/"
 
 STATIC_ROOT = "staticfiles"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # noqa: PTH118
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontends/mit-open/public")]  # noqa: PTH118
 for name, path in [
     ("mit-open", os.path.join(BASE_DIR, "frontends/mit-open/build")),  # noqa: PTH118
 ]:

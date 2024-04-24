@@ -98,12 +98,16 @@ jobs:
 
   javascript-tests:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontends
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
+          cache: yarn
+          cache-dependency-path: frontends/yarn.lock
 
       - name: Setup environment
         run: sudo apt-get install libelf1
@@ -136,6 +140,12 @@ jobs:
           CODECOV: true
           NODE_ENV: test
 
+      - name: Upload frontend build
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: frontends/mit-open/build
+
       - name: Upload coverage to CodeCov
         uses: codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed # v4.3.0
         with:
@@ -143,7 +153,9 @@ jobs:
 
   build-storybook:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: frontends
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -151,7 +163,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
+          cache: yarn
+          cache-dependency-path: frontends/yarn.lock
 
       - run: yarn install
 
@@ -182,9 +195,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
+          cache: yarn
+          cache-dependency-path: frontends/yarn.lock
 
       - name: Install dependencies
+        working-directory: frontends
         run: yarn install --immutable
 
       - name: Generate Fresh API Client
@@ -197,8 +212,11 @@ jobs:
             --output $GENERATOR_OUTPUT_DIR_CI \
             --ignore-file-override $GENERATOR_IGNORE_FILE \
             -c scripts/openapi-configs/typescript-axios-v0.yaml
+
       - name: Format freshly generated client
-        run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+        working-directory: frontends
+        run: npx prettier ../$GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+
       - name: Check VC client is up-to-date
         run: |
           diff $GENERATOR_OUTPUT_DIR_CI $GENERATOR_OUTPUT_DIR_VC \
@@ -215,12 +233,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
+          cache: yarn
+          cache-dependency-path: frontends/yarn.lock
 
       - name: Install dependencies
+        working-directory: frontends
         run: yarn install --immutable
 
       - name: Generate Fresh API Client
@@ -233,8 +254,11 @@ jobs:
             --output $GENERATOR_OUTPUT_DIR_CI \
             --ignore-file-override $GENERATOR_IGNORE_FILE \
             -c scripts/openapi-configs/typescript-axios-v1.yaml
+
       - name: Format freshly generated client
-        run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+        working-directory: frontends
+        run: npx prettier ../$GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+
       - name: Check VC client is up-to-date
         run: |
           diff $GENERATOR_OUTPUT_DIR_CI $GENERATOR_OUTPUT_DIR_VC \
@@ -249,12 +273,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18.18.2"
-          cache: "yarn"
+          cache: yarn
+          cache-dependency-path: e2e_testing/yarn.lock
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
+        working-directory: frontends
         run: yarn install --immutable
 
       - name: Build frontend
+        working-directory: frontends
         run: NODE_ENV=production yarn build
 
       - name: Build services
@@ -266,11 +293,17 @@ jobs:
       - name: Apply test data
         run: ./e2e_testing/scripts/apply-fixtures.sh
 
+      - name: Install E2E test dependencies
+        working-directory: e2e_testing
+        run: yarn install --immutable
+
       - name: Install Playwright browsers
-        run: yarn workspace e2e_testing playwright install --with-deps chromium
+        working-directory: e2e_testing
+        run: yarn playwright install --with-deps chromium
 
       - name: Run E2E tests
-        run: BASE_URL=http://localhost:8063 CI=true yarn workspace e2e_testing test
+        working-directory: e2e_testing
+        run: BASE_URL=http://localhost:8063 CI=true yarn test
 
       - name: Setup Pages
         if: always()

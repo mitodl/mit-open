@@ -10,7 +10,7 @@ import {
   PlatformsApi,
 } from "./generated/v1/api"
 
-import { ChannelsApi, WidgetListsApi } from "./generated/v0/api"
+import { ChannelsApi, WidgetListsApi, UsersApi } from "./generated/v0/api"
 
 import axiosInstance from "./axios"
 
@@ -50,7 +50,10 @@ const programLettersApi = new ProgramLettersApi(
 )
 
 const channelsApi = new ChannelsApi(undefined, BASE_PATH, axiosInstance)
+
 const widgetListsApi = new WidgetListsApi(undefined, BASE_PATH, axiosInstance)
+
+const usersApi = new UsersApi(undefined, BASE_PATH, axiosInstance)
 
 export {
   learningResourcesApi,
@@ -63,5 +66,6 @@ export {
   learningResourcesSearchApi,
   channelsApi,
   widgetListsApi,
+  usersApi,
   platformsApi,
 }

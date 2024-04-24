@@ -1,6 +1,8 @@
 {
   "name": "ol-widgets",
-  "packageManager": "yarn@3.8.1",
+  "version": "0.0.0",
+  "packageManager": "yarn@4.1.1",
+  "private": true,
   "main": "./src/index.ts",
   "dependencies": {
     "@faker-js/faker": "^7.3.0",
@@ -8,9 +10,9 @@
     "classnames": "^2.3.2",
     "formik": "^2.4.5",
     "lodash": "^4.17.21",
-    "ol-ckeditor": "workspace:*",
-    "ol-components": "workspace:*",
-    "ol-utilities": "workspace:*",
+    "ol-ckeditor": "0.0.0",
+    "ol-components": "0.0.0",
+    "ol-utilities": "0.0.0",
     "react-markdown": "6.0.3",
     "remark-gfm": "1.0.0",
     "validator": "^13.11.0",

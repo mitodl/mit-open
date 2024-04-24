@@ -23,6 +23,7 @@ services:
       - web
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
+      - ./frontends/mit-open/build:/src/frontends/mit-open/build
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8063"]
       interval: 30s
@@ -31,13 +32,12 @@ services:
 
   build-frontend:
     build:
-      context: .
-      dockerfile: Dockerfile-node
+      context: ./frontends
     environment:
       - NODE_ENV=production
     working_dir: /src
     user: root
-    command: bash -c "yarn install && yarn build"
+    command: bash -c "yarn build"
     volumes:
       - .:/src
       - yarn-cache:/home/mitodl/.cache/yarn

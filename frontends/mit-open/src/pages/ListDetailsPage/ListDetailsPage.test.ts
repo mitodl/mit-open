@@ -55,7 +55,7 @@ const setup = ({
   setMockResponse.get(pathResourcesUrl, paginatedRelationships)
 
   const { queryClient } = renderTestApp({
-    user: userSettings,
+    user: userSettings || {},
     url: learningPathsView(path.id),
   })
   return {
@@ -184,8 +184,9 @@ describe("ListDetailsPage", () => {
     spyItemsListing.mockClear()
     // invalidate the cache entries and check that isRefetching is true
     act(() => {
-      queryClient.invalidateQueries()
+      queryClient.invalidateQueries({ queryKey: ["learningResources"] })
     })
+
     // Wait till everything has settled except our ControlledPromise
     await waitFor(() => expect(queryClient.isFetching()).toBe(1))
     await waitFor(() =>

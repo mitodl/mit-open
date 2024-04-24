@@ -1,9 +1,10 @@
 {
   "name": "github-pages",
   "version": "0.1.0",
+  "packageManager": "yarn@4.1.1",
   "private": true,
   "dependencies": {
-    "ol-components": "workspace:*",
+    "ol-components": "0.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1"
@@ -32,6 +33,10 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "swc-loader": "^0.2.3"
+    "@types/eslint": "^8",
+    "babel-loader": "^9.1.3",
+    "eslint": "8",
+    "eslint-config-react-app": "^7.0.1",
+    "swc-loader": "^0.2.6"
   }
 }
