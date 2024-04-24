@@ -265,8 +265,6 @@ jobs:
           || { echo "OpenAPI spec is out of date. Please regenerate via ./scripts/generate_openapi.sh"; exit 1; }
 
   e2e-tests:
-    # Disabling the E2E tests for now
-    if: false
     runs-on: ubuntu-latest
 
     steps:
