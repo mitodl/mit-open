@@ -2,6 +2,7 @@
 
 import logging
 
+from celery import chain
 from django.apps import apps
 
 from learning_resources_search import tasks
@@ -50,14 +51,21 @@ class SearchIndexPlugin:
         try_with_retry_as_task(tasks.upsert_percolate_query, percolate_query.id)
 
     @hookimpl
-    def resource_upserted(self, resource):
+    def resource_upserted(self, resource, percolate):
         """
         Upsert a created/modified resource to the search index
 
         Args:
             resource(LearningResource): The Learning Resource that was upserted
         """
-        try_with_retry_as_task(tasks.upsert_learning_resource, resource.id)
+        upsert_task = tasks.upsert_learning_resource
+        if percolate:
+            upsert_task = chain(
+                tasks.percolate_learning_resource.si(resource.id),
+                tasks.upsert_learning_resource.si(resource.id),
+            )
+
+        try_with_retry_as_task(upsert_task, resource.id)
 
     @hookimpl
     def resource_unpublished(self, resource):
