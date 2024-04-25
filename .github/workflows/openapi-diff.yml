@@ -5,12 +5,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout HEAD
-        uses: actions/checkout@v4
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
         with:
           ref: ${{ github.head_ref }}
           path: head
       - name: Checkout BASE
-        uses: actions/checkout@v4
+        uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
         with:
           ref: ${{ github.base_ref }}
           path: base
@@ -33,7 +33,7 @@ jobs:
           echo summary=$(echo "${{ steps.oasdif_changelog.outputs.changelog }}" | head -1 ) \
           >> $GITHUB_OUTPUT
       - name: Post changes as comment
-        uses: thollander/actions-comment-pull-request@v2
+        uses: thollander/actions-comment-pull-request@fabd468d3a1a0b97feee5f6b9e499eab0dd903f6 # v2
         with:
           message: |
             ## OpenAPI Changes
