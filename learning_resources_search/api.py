@@ -1,6 +1,7 @@
 """API for general search-related functionality"""
 
 import re
+import time
 from collections import Counter
 
 from opensearch_dsl import Search
@@ -24,7 +25,6 @@ from learning_resources_search.constants import (
     TOPICS_QUERY_FIELDS,
 )
 from learning_resources_search.utils import adjust_search_for_percolator
-import time
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
@@ -87,26 +87,20 @@ def generate_sort_clause(search_params):
 
     if search_params.get("sortby") == "upcoming":
         sort_filter = {
-          "sort": [
-            {
-              "_script": {
-                "type": "number",
-                "script": {
-                  "lang": "painless",
-                  "source": "return doc['runs__start_date'].value.millis > params.now ? (doc['runs__start_date'].value.millis - params.now) : Long.MAX_VALUE",
-                  "params": {
-                    "now": now
-                  }
+            "sort": [
+                {
+                    "_script": {
+                        "type": "number",
+                        "script": {
+                            "lang": "painless",
+                            "source": "return doc['runs__start_date'].value.millis > params.now ? (doc['runs__start_date'].value.millis - params.now) : Long.MAX_VALUE",
+                            "params": {"now": now},
+                        },
+                        "order": "asc",
+                    }
                 },
-                "order": "asc"
-              }
-            },
-            {
-              "start_date": {
-                "order": "asc"
-              }
-            }
-          ]
+                {"start_date": {"order": "asc"}},
+            ]
         }
     elif "." in sort:
         if sort.startswith("-"):
