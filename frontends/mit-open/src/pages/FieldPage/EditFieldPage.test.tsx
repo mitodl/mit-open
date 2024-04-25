@@ -15,7 +15,6 @@ describe("EditFieldPage", () => {
 
   it("Displays 2 tabs for moderators", async () => {
     const field = setup()
-    setMockResponse.get(apiUrls.userMe.get(), {})
     renderTestApp({
       url: `${makeFieldEditPath(field.channel_type, field.name)}/`,
     })
@@ -25,7 +24,6 @@ describe("EditFieldPage", () => {
 
   it("Displays message and no tabs for non-moderators", async () => {
     const field = factory.field({ is_moderator: false })
-    setMockResponse.get(apiUrls.userMe.get(), {})
     setMockResponse.get(
       apiUrls.fields.details(field.channel_type, field.name),
       field,
@@ -40,7 +38,6 @@ describe("EditFieldPage", () => {
 
   it("Displays the correct tab and form for the #appearance hash", async () => {
     const field = setup()
-    setMockResponse.get(apiUrls.userMe.get(), {})
     renderTestApp({
       url: `${makeFieldEditPath(field.channel_type, field.name)}/#appearance`,
     })

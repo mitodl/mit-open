@@ -1,45 +1,24 @@
 import React from "react"
-import { renderRoutesWithProviders, screen, waitFor } from "../../test-utils"
+import {
+  renderRoutesWithProviders,
+  renderWithProviders,
+  screen,
+} from "../../test-utils"
 import RestrictedRoute from "./RestrictedRoute"
 import { ForbiddenError, Permissions } from "@/common/permissions"
 import { allowConsoleErrors } from "ol-test-utilities"
-import { useRouteError } from "react-router"
-
-const ErrorRecord: React.FC<{ errors: unknown[] }> = ({ errors }) => {
-  const error = useRouteError()
-  if (error) {
-    errors.push(error)
-  }
-  return null
-}
 
 test("Renders children if permission check satisfied", () => {
-  const errors: unknown[] = []
-
-  renderRoutesWithProviders(
-    [
-      {
-        path: "*",
-        element: (
-          <RestrictedRoute requires={Permissions.Authenticated}>
-            Hello, world!
-          </RestrictedRoute>
-        ),
-        errorElement: <ErrorRecord errors={errors} />,
-      },
-    ],
-    {
-      user: { [Permissions.Authenticated]: true },
-    },
+  renderWithProviders(
+    <RestrictedRoute requires={Permissions.Authenticated}>
+      Hello, world!
+    </RestrictedRoute>,
+    { user: { is_authenticated: true } },
   )
-
   screen.getByText("Hello, world!")
-  expect(!errors.length).toBe(true)
 })
 
 test("Renders child routes if permission check satisfied.", () => {
-  const errors: unknown[] = []
-
   renderRoutesWithProviders(
     [
       {
@@ -50,46 +29,28 @@ test("Renders child routes if permission check satisfied.", () => {
             path: "*",
           },
         ],
-        errorElement: <ErrorRecord errors={errors} />,
       },
     ],
-    {
-      user: { [Permissions.Authenticated]: true },
-    },
+    { user: { is_authenticated: true } },
   )
-
   screen.getByText("Hello, world!")
-  expect(!errors.length).toBe(true)
 })
 
 test.each(Object.values(Permissions))(
   "Throws error if and only if lacking required permission",
-  async (permission) => {
-    const errors: unknown[] = []
-
+  (permission) => {
     allowConsoleErrors()
+    expect(() => {
+      renderWithProviders(
+        <RestrictedRoute requires={permission}>Hello, world!</RestrictedRoute>,
+      )
+    }).toThrow(ForbiddenError)
 
-    renderRoutesWithProviders(
-      [
-        {
-          path: "*",
-          element: (
-            <RestrictedRoute requires={permission}>
-              Hello, world!
-            </RestrictedRoute>
-          ),
-          errorElement: <ErrorRecord errors={errors} />,
-        },
-      ],
-      {
-        user: { [permission]: false },
-      },
-    )
-
-    await waitFor(() => {
-      expect(errors.length > 0).toBe(true)
-    })
-
-    expect(errors[0]).toBeInstanceOf(ForbiddenError)
+    expect(() => {
+      renderWithProviders(
+        <RestrictedRoute requires={permission}>Hello, world!</RestrictedRoute>,
+        { user: { [permission]: true } },
+      )
+    }).not.toThrow()
   },
 )

@@ -9,7 +9,6 @@ import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
 import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
 import { LearningResource } from "api"
-import { useUserMe } from "api/hooks/user"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
 type LearningResourceCardProps = Pick<
@@ -43,12 +42,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return
   }, [resource])
 
-  const { isLoading, data: user } = useUserMe()
+  const { user } = window.SETTINGS
   const openLRDrawer = useOpenLearningResourceDrawer()
-
-  if (isLoading) {
-    return null
-  }
 
   return (
     <LearningResourceCardTemplate
@@ -61,7 +56,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       onActivate={(r) => openLRDrawer(r.id)}
       footerActionSlot={
         <div>
-          {user?.is_authenticated && user?.is_learning_path_editor && (
+          {user.is_authenticated && user.is_learning_path_editor && (
             <IconButton
               size="small"
               aria-label="Add to Learning Path"
@@ -70,7 +65,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
               <PlaylistAddIcon />
             </IconButton>
           )}
-          {user?.is_authenticated && (
+          {user.is_authenticated && (
             <IconButton
               size="small"
               aria-label="Add to User List"

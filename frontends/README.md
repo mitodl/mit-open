@@ -1,6 +1,4 @@
-## MIT Open Frontend
-
-## Yarn Workspaces
+# Yarn Workspaces in MIT Open
 
 This project uses [yarn workspaces](https://yarnpkg.com/features/workspaces) to help organize frontend code. Yarn workspaces are a tool for managing node packages, in this case _local_ node packages.
 
@@ -33,57 +31,7 @@ Most workspaces are shared dependencies built using typescript and tested with j
 
 ```bash
 # Lint the ol-utilities workspace
-> docker compose run --rm watch yarn workspace ol-utilities run global:lint-fix
+> docker compose run --rm watch yarn workspace ol-utilities run globa:lint-fix
 ```
 
 Again, `global:lint-fix` is defined at the root workspace, not within `ol-utilities`. This works because [yarn commands containing a colon can be run from any workspace](https://yarnpkg.com/getting-started/qa#how-to-share-scripts-between-workspaces).
-
-## Frontend Development
-
-### Docker Compose stack
-
-The frontend and backend stack can be started locally for development with Docker compose:
-
-```bash
-docker compose up
-```
-
-For front end development, at minumum we need these containers.
-
-```bash
-docker compose up nginx web db watch
-```
-
-In this mode, the watch container starts Webpack Dev Server and listens for changes, and building the front end to the local filesystem at `./frontends/mit-open/build`. This is mounted to the `nginx` container for it to serve the static bundle, while routing backend paths to the `web` service.
-
-The application is served at `http://localhost:8063`.
-
-### Local Frontend Dev Server with Local Backend
-
-The `watch` container can be slow to respond to changes to the filesystem mounted onto Docker. If [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) is slow for you, we can run Wepback Dev Server directly outside of Docker. Dev Server proxies API requests through to a locally running backend stack.
-
-Run the front end with:
-
-```bash
-yarn watch
-```
-
-At minimum we need these containers for the backend:
-
-```bash
-docker compose up nginx web db
-```
-
-The application is served at `http://localhost:8062`, using the API hosted on your local Docker.
-
-### Local Frontend Dev Server proxying to RC or Prod
-
-When working on the front end in isolation or to test changes against APIs already running in RC, the frontend dev server is configured to run against our hosted RC API without running the backend stack locally.
-
-Run the front end with:
-
-```bash
-yarn watch:rc
-```
-
-The front end is served at `http://localhost:8062`, using the API hosted on RC.

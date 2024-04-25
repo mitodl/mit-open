@@ -1,7 +1,6 @@
 {
   "name": "api",
-  "version": "workspace:*",
-  "private": true,
+  "packageManager": "yarn@3.8.1",
   "sideEffects": false,
   "exports": {
     ".": "./src/generated/v1/api.ts",
@@ -21,7 +20,7 @@
     "@testing-library/react": "^14.1.2",
     "jest-when": "^3.6.0",
     "lodash": "^4.17.21",
-    "ol-test-utilities": "0.0.0"
+    "ol-test-utilities": "workspace:*"
   },
   "dependencies": {
     "@lukemorales/query-key-factory": "^1.3.2"

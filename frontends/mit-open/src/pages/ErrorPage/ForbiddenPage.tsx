@@ -1,14 +1,12 @@
 import React, { useEffect } from "react"
 import ErrorPageTemplate from "./ErrorPageTemplate"
 import { useLocation } from "react-router"
-import { useUserMe } from "api/hooks/user"
 
 const ForbiddenPage: React.FC = () => {
-  const { data: user } = useUserMe()
+  const { user } = window.SETTINGS
   const location = useLocation()
-
   useEffect(() => {
-    if (!user?.is_authenticated) {
+    if (!user.is_authenticated) {
       window.location.assign(`/login/ol-oidc/?next=${location.pathname}`)
     }
   })

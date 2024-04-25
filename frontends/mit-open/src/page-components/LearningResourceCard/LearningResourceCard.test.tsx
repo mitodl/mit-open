@@ -20,10 +20,10 @@ jest.mock("@ebay/nice-modal-react", () => {
 describe("LearningResourceCard", () => {
   const makeResource = factories.learningResources.resource
   type SetupOptions = {
-    user?: Partial<User>
+    userSettings?: Partial<User>
     props?: Partial<LearningResourceCardProps>
   }
-  const setup = ({ user, props = {} }: SetupOptions = {}) => {
+  const setup = ({ userSettings: user, props = {} }: SetupOptions = {}) => {
     const { resource = makeResource(), variant = "column" } = props
     const { view, location } = renderWithProviders(
       <LearningResourceCard {...props} resource={resource} variant={variant} />,
@@ -38,34 +38,34 @@ describe("LearningResourceCard", () => {
   }
 
   test("Applies className to the resource card", () => {
-    const { view } = setup({ user: {}, props: { className: "test-class" } })
+    const { view } = setup({ props: { className: "test-class" } })
     expect(view.container.firstChild).toHaveClass("test-class")
   })
 
   test.each([
     {
-      user: { is_authenticated: true, is_learning_path_editor: false },
+      userSettings: { is_authenticated: true, is_learning_path_editor: false },
       expectAddToLearningPathButton: false,
       expectAddToUserListButton: true,
     },
     {
-      user: { is_authenticated: true, is_learning_path_editor: true },
+      userSettings: { is_authenticated: true, is_learning_path_editor: true },
       expectAddToLearningPathButton: true,
       expectAddToUserListButton: true,
     },
     {
-      user: { is_authenticated: false },
+      userSettings: { is_authenticated: false },
       expectAddToLearningPathButton: false,
       expectAddToUserListButton: false,
     },
   ])(
     "Shows add to list buttons if and only if user is authenticated and has editing privileges",
     async ({
-      user,
+      userSettings,
       expectAddToLearningPathButton,
       expectAddToUserListButton,
     }) => {
-      setup({ user })
+      setup({ userSettings })
       const addToLearningPathButton = screen.queryByRole("button", {
         name: labels.addToLearningPaths,
       })
@@ -81,7 +81,7 @@ describe("LearningResourceCard", () => {
     const showModal = jest.mocked(NiceModal.show)
 
     const { resource } = setup({
-      user: { is_learning_path_editor: true },
+      userSettings: { is_authenticated: true, is_learning_path_editor: true },
     })
     const addToLearningPathButton = screen.getByRole("button", {
       name: labels.addToLearningPaths,
@@ -102,9 +102,7 @@ describe("LearningResourceCard", () => {
   })
 
   test("Clicking card title opens resource drawer", async () => {
-    const { resource, location } = setup({
-      user: { is_learning_path_editor: true },
-    })
+    const { resource, location } = setup()
     const cardTitle = screen.getByRole("heading", { name: resource.title })
     await user.click(cardTitle)
     expect(

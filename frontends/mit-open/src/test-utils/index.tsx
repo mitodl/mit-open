@@ -8,13 +8,11 @@ import { render } from "@testing-library/react"
 import { setMockResponse } from "./mockAxios"
 import { createQueryClient } from "@/services/react-query/react-query"
 import type { User } from "../types/settings"
-import { QueryKey } from "@tanstack/react-query"
+import { makeUserSettings } from "./factories"
 
 interface TestAppOptions {
   url: string
   user: Partial<User>
-  queryClient?: ReturnType<typeof createQueryClient>
-  initialQueryData?: [QueryKey, unknown][]
 }
 
 const defaultTestAppOptions = {
@@ -41,22 +39,13 @@ const renderRoutesWithProviders = (
   routes: RouteObject[],
   options: Partial<TestAppOptions> = {},
 ) => {
-  const { url, user, initialQueryData } = {
-    ...defaultTestAppOptions,
-    ...options,
-  }
+  const { url } = { ...defaultTestAppOptions, ...options }
+
+  // window.SETTINGS is reset during tests via afterEach hook.
+  window.SETTINGS.user = makeUserSettings(options.user)
 
   const router = createMemoryRouter(routes, { initialEntries: [url] })
-  const queryClient = options.queryClient || createQueryClient()
-
-  if (user) {
-    queryClient.setQueryData(["userMe"], { is_authenticated: true, ...user })
-  }
-  if (initialQueryData) {
-    initialQueryData.forEach(([queryKey, data]) => {
-      queryClient.setQueryData(queryKey, data)
-    })
-  }
+  const queryClient = createQueryClient()
   const view = render(
     <AppProviders queryClient={queryClient} router={router}></AppProviders>,
   )
@@ -155,7 +144,6 @@ export {
   within,
   fireEvent,
   waitFor,
-  renderHook,
 } from "@testing-library/react"
 export { default as user } from "@testing-library/user-event"
 

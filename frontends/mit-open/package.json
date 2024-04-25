@@ -1,25 +1,15 @@
 {
   "name": "mit-open",
   "version": "0.0.0",
-  "private": true,
   "license": "BSD-3-Clause",
   "repository": {
     "type": "git",
     "url": "https://github.com/mitodl/mit-open.git"
   },
-  "scripts": {
-    "watch": "API_BASE_URL=http://localhost:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
-    "watch:docker": "API_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
-    "watch:rc": "API_BASE_URL=https://mitopen-rc.odl.mit.edu/ NODE_ENV=development ENVIRONMENT=local webpack serve",
-    "build": "webpack --config webpack.config.js --bail",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --output-dir build/storybook"
-  },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@faker-js/faker": "^7.3.0",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@storybook/addon-essentials": "^8.0.6",
     "@storybook/addon-interactions": "^8.0.6",
     "@storybook/addon-links": "^8.0.6",
@@ -32,22 +22,19 @@
     "@testing-library/user-event": "^14.5.1",
     "@types/lodash": "^4.14.182",
     "@types/react": "18.2.79",
-    "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^6.10.0",
-    "dotenv": "^16.4.5",
-    "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.6.1",
-    "ol-test-utilities": "0.0.0",
+    "ol-test-utilities": "workspace:*",
     "storybook": "^8.0.6",
-    "swc-loader": "^0.2.6",
+    "swc-loader": "^0.2.3",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
-    "webpack": "^5.91.0",
+    "webpack": "^5.89.0",
     "webpack-bundle-analyzer": "^4.10.1",
     "webpack-bundle-tracker": "^1.4.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-middleware": "^7.2.1",
-    "webpack-dev-server": "^5.0.4",
-    "webpack-hot-middleware": "^2.26.1"
+    "webpack-cli": "^4.9.2",
+    "webpack-dev-middleware": "^5.3.1",
+    "webpack-dev-server": "^4.9.2",
+    "webpack-hot-middleware": "^2.25.1"
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
@@ -61,10 +48,10 @@
     "classnames": "^2.3.2",
     "formik": "^2.4.5",
     "lodash": "^4.17.21",
-    "ol-ckeditor": "0.0.0",
-    "ol-components": "0.0.0",
-    "ol-utilities": "0.0.0",
-    "ol-widgets": "0.0.0",
+    "ol-ckeditor": "workspace:*",
+    "ol-components": "workspace:*",
+    "ol-utilities": "workspace:*",
+    "ol-widgets": "workspace:*",
     "posthog-js": "^1.128.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -77,6 +64,12 @@
     "yup": "^1.2.0"
   },
   "engines": {
-    "node": "20"
+    "node": "16"
+  },
+  "scripts": {
+    "start-dev": "webpack serve",
+    "build": "webpack --config webpack.config.js --bail",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   }
 }

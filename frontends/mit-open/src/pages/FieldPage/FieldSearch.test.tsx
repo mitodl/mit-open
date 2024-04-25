@@ -86,7 +86,6 @@ describe("FieldSearch", () => {
         results: resources,
       },
     })
-    setMockResponse.get(urls.userMe.get(), {})
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
     await screen.findByText(field.title)
     const tabpanel = await screen.findByRole("tabpanel")
@@ -135,8 +134,6 @@ describe("FieldSearch", () => {
           },
         },
       })
-      setMockResponse.get(urls.userMe.get(), {})
-
       renderTestApp({ url: `/c/${field.channel_type}/${field.name}/${url}` })
 
       await waitFor(() => {
@@ -189,9 +186,6 @@ describe("FieldSearch", () => {
           },
         },
       })
-
-      setMockResponse.get(urls.userMe.get(), {})
-
       renderTestApp({ url: `/c/${field.channel_type}/${field.name}/` })
 
       await waitFor(() => {
@@ -236,7 +230,6 @@ describe("FieldSearch", () => {
         results: [],
       },
     })
-    setMockResponse.get(urls.userMe.get(), {})
 
     const { location } = renderTestApp({
       url: `/c/${field.channel_type}/${field.name}/`,
