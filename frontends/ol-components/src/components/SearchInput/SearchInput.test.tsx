@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event"
 import { SearchInput } from "./SearchInput"
 import type { SearchInputProps } from "./SearchInput"
 import invariant from "tiny-invariant"
+import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 const getSearchInput = () => {
   const element = screen.getByLabelText("Search for")
@@ -43,6 +44,7 @@ describe("SearchInput", () => {
         onClear={onClear}
         {...otherProps}
       />,
+      { wrapper: ThemeProvider },
     )
     const user = userEvent.setup()
     const spies = { onClear, onChange, onSubmit }

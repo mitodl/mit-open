@@ -7,7 +7,7 @@ import type { FormFieldWrapperProps } from "../FormHelpers/FormHelpers"
 type TextFieldProps = Omit<FormFieldWrapperProps, "children"> & {
   name: string
   disabled?: boolean
-  value: string
+  value?: string | null
   size?: InputProps["size"]
   placeholder?: string
   onChange?: React.ChangeEventHandler<HTMLInputElement>
