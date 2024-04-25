@@ -84,8 +84,7 @@ services:
 
   watch:
     build:
-      context: .
-      dockerfile: frontends/Dockerfile
+      context: ./frontends
     command: >
       /bin/sh -c 'yarn rebuild && yarn watch:docker'
     environment:

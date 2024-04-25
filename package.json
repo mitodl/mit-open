@@ -12,7 +12,7 @@
     "frontends"
   ],
   "scripts": {
-    "build": "yarn workspace mit-open build"
+    "build": "yarn --cwd frontends build"
   },
   "packageManager": "yarn@3.8.1"
 }
