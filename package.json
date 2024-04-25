@@ -6,7 +6,7 @@
   "private": true,
   "engines": {
     "node": "^20",
-    "yarn": "^1.22.11"
+    "yarn": "^3.8.1"
   },
   "workspaces": [
     "frontends"
