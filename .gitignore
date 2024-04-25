@@ -113,6 +113,8 @@ docs/_site
 .pnp.*
 frontends/.yarn
 !frontends/.yarn/releases
+.yarn
+!.yarn/releases
 
 # Typescript
 tsconfig.tsbuildinfo
