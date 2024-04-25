@@ -361,7 +361,29 @@ def upsert_platform_data():
     return platforms
 
 
-def resource_upserted_actions(resource: LearningResource, percolate):
+@transaction.atomic()
+def upsert_topic_data():
+    """
+    Upsert LearningResourceTopic data
+    """
+
+    # TODO: implementation
+
+    platforms = []
+    with Path.open(Path(__file__).parent / "fixtures" / "platforms.json") as inf:
+        platform_json = json.load(inf)
+        for platform in platform_json:
+            platform_fields = platform["fields"]
+            LearningResourcePlatform.objects.update_or_create(
+                code=platform_fields["code"],
+                defaults=platform_fields,
+            )
+            platforms.append(platform_fields["code"])
+        LearningResourcePlatform.objects.exclude(code__in=platforms).delete()
+    return platforms
+
+
+def resource_upserted_actions(resource: LearningResource):
     """
     Trigger plugins when a LearningResource is created or updated
     """

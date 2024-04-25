@@ -75,6 +75,9 @@ def update_index(learning_resource, newly_created):
 
 def load_topics(resource, topics_data):
     """Load the topics for a resource into the database"""
+
+    # TODO: no inserts
+
     if topics_data is not None:
         topics = []
 
