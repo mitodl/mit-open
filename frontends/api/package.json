@@ -12,8 +12,6 @@
     "./test-utils": "./src/test-utils/index.ts"
   },
   "peerDependencies": {
-    "@tanstack/react-query": "^4.36.1",
-    "axios": "^1.6.3",
     "react": "^18.2.0"
   },
   "devDependencies": {
@@ -24,6 +22,8 @@
     "ol-test-utilities": "0.0.0"
   },
   "dependencies": {
-    "@lukemorales/query-key-factory": "^1.3.2"
+    "@lukemorales/query-key-factory": "^1.3.2",
+    "@tanstack/react-query": "^4.36.1",
+    "axios": "^1.6.3"
   }
 }

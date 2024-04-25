@@ -25,9 +25,9 @@
     "fmt-fix": "prettier --write .",
     "test": "yarn global:test",
     "test-watch": "yarn global:test-watch",
-    "style-lint": "yarn foreach global:style-lint",
-    "style-lint-fix": "yarn foreach global:style-lint-fix",
-    "typecheck": "yarn  workspaces foreach -A --exclude . run global:typecheck",
+    "style-lint": "yarn workspaces foreach -A --exclude .  global:style-lint",
+    "style-lint-fix": "yarn workspaces foreach -A --exclude .  global:style-lint-fix",
+    "typecheck": "yarn workspaces foreach -A --exclude . run global:typecheck",
     "global:style-lint": "cd $INIT_CWD && stylelint '**/*.{css,scss,ts,tsx}' --allow-empty-input",
     "global:style-lint-fix": "cd $INIT_CWD && stylelint '**/*.{css,scss,ts,tsx}' --allow-empty-input --fix",
     "global:test": "cd $INIT_CWD && NODE_ENV=test jest",
@@ -76,5 +76,6 @@
     "ts-node": "^10.9.2",
     "type-fest": "^4.14.0",
     "typescript": "^5.4.3"
-  }
+  },
+  "packageManager": "yarn@4.1.1"
 }
