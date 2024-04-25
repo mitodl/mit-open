@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "frontends",
   "private": true,
   "workspaces": [
     "api",

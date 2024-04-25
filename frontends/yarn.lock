@@ -13949,6 +13949,49 @@ __metadata:
   languageName: node
   linkType: hard
 
+"frontends@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "frontends@workspace:."
+  dependencies:
+    "@swc/core": "npm:^1.4.11"
+    "@swc/jest": "npm:^0.2.26"
+    "@testing-library/jest-dom": "npm:^6.4.2"
+    "@testing-library/react": "npm:^14.1.2"
+    "@testing-library/user-event": "npm:^14.5.1"
+    "@types/css-mediaquery": "npm:^0.1.1"
+    "@types/jest": "npm:^29.5.2"
+    "@types/jest-when": "npm:^3.5.2"
+    "@types/react-infinite-scroller": "npm:^1.2.3"
+    "@typescript-eslint/eslint-plugin": "npm:^7.0.0"
+    cross-fetch: "npm:^4.0.0"
+    eslint: "npm:8"
+    eslint-config-mitodl: "npm:^1.0.0"
+    eslint-config-prettier: "npm:^9.0.0"
+    eslint-import-resolver-typescript: "npm:^3.6.1"
+    eslint-plugin-import: "npm:^2.29.0"
+    eslint-plugin-jest: "npm:^27.1.1"
+    eslint-plugin-mdx: "npm:^2.3.1"
+    eslint-plugin-mocha: "npm:^10.4.1"
+    eslint-plugin-react: "npm:^7.30.1"
+    eslint-plugin-react-hooks: "npm:^4.6.0"
+    eslint-plugin-testing-library: "npm:^6.2.0"
+    jest: "npm:^29.7.0"
+    jest-environment-jsdom: "npm:^29.5.0"
+    jest-fail-on-console: "npm:^3.2.0"
+    jest-watch-typeahead: "npm:^2.2.2"
+    jest-when: "npm:^3.6.0"
+    postcss-styled-syntax: "npm:^0.6.4"
+    prettier: "npm:^3.0.3"
+    prettier-plugin-django-alpine: "npm:^1.2.6"
+    stylelint: "npm:^15.2.0"
+    stylelint-config-standard-scss: "npm:^7.0.1"
+    syncpack: "npm:^11.2.1"
+    ts-node: "npm:^10.9.2"
+    type-fest: "npm:^4.14.0"
+    typescript: "npm:^5.4.3"
+  languageName: unknown
+  linkType: soft
+
 "fs-constants@npm:^1.0.0":
   version: 1.0.0
   resolution: "fs-constants@npm:1.0.0"
@@ -22956,49 +22999,6 @@ __metadata:
   checksum: 10c0/421418687f5dcd7324f4387f203c6bfc7118b7ace789e30f5da022471c43e037a76f5fd93837052754eeeae798a4fb266ac05ccee1e594406d912a59af98dde9
   languageName: node
   linkType: hard
-
-"root@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "root@workspace:."
-  dependencies:
-    "@swc/core": "npm:^1.4.11"
-    "@swc/jest": "npm:^0.2.26"
-    "@testing-library/jest-dom": "npm:^6.4.2"
-    "@testing-library/react": "npm:^14.1.2"
-    "@testing-library/user-event": "npm:^14.5.1"
-    "@types/css-mediaquery": "npm:^0.1.1"
-    "@types/jest": "npm:^29.5.2"
-    "@types/jest-when": "npm:^3.5.2"
-    "@types/react-infinite-scroller": "npm:^1.2.3"
-    "@typescript-eslint/eslint-plugin": "npm:^7.0.0"
-    cross-fetch: "npm:^4.0.0"
-    eslint: "npm:8"
-    eslint-config-mitodl: "npm:^1.0.0"
-    eslint-config-prettier: "npm:^9.0.0"
-    eslint-import-resolver-typescript: "npm:^3.6.1"
-    eslint-plugin-import: "npm:^2.29.0"
-    eslint-plugin-jest: "npm:^27.1.1"
-    eslint-plugin-mdx: "npm:^2.3.1"
-    eslint-plugin-mocha: "npm:^10.4.1"
-    eslint-plugin-react: "npm:^7.30.1"
-    eslint-plugin-react-hooks: "npm:^4.6.0"
-    eslint-plugin-testing-library: "npm:^6.2.0"
-    jest: "npm:^29.7.0"
-    jest-environment-jsdom: "npm:^29.5.0"
-    jest-fail-on-console: "npm:^3.2.0"
-    jest-watch-typeahead: "npm:^2.2.2"
-    jest-when: "npm:^3.6.0"
-    postcss-styled-syntax: "npm:^0.6.4"
-    prettier: "npm:^3.0.3"
-    prettier-plugin-django-alpine: "npm:^1.2.6"
-    stylelint: "npm:^15.2.0"
-    stylelint-config-standard-scss: "npm:^7.0.1"
-    syncpack: "npm:^11.2.1"
-    ts-node: "npm:^10.9.2"
-    type-fest: "npm:^4.14.0"
-    typescript: "npm:^5.4.3"
-  languageName: unknown
-  linkType: soft
 
 "run-applescript@npm:^7.0.0":
   version: 7.0.0

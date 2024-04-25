@@ -1,13 +1,16 @@
 {
-  "name": "heroku-entry",
-  "description": "Provides build entrypoint for heroku-buildpack-nodejs",
+  "name": "mit-open-frontend",
   "version": "1.0.0",
   "repository": "https://github.com/mitodl/mit-open.git",
   "license": "MIT",
+  "private": true,
   "engines": {
-    "node": "^20.12.2",
+    "node": "^20",
     "yarn": "^1.22.11"
   },
+  "workspaces": [
+    "frontends"
+  ],
   "scripts": {
     "build": "yarn --cwd frontends build"
   }
