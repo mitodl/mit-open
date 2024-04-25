@@ -2,14 +2,15 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { SelectField } from "./SelectField"
-import type { SelectProps } from "./SelectField"
+import type { SelectFieldProps } from "./SelectField"
 import MenuItem from "@mui/material/MenuItem"
 
 import Stack from "@mui/material/Stack"
 import Grid from "@mui/material/Grid"
 import { fn } from "@storybook/test"
+import { useArgs } from "@storybook/preview-api"
 
-const SIZES = ["medium", "hero"] satisfies SelectProps["size"][]
+const SIZES = ["medium", "hero"] satisfies SelectFieldProps["size"][]
 const meta: Meta<typeof SelectField> = {
   title: "smoot-design/SelectField",
   argTypes: {
@@ -19,6 +20,11 @@ const meta: Meta<typeof SelectField> = {
         type: "select",
       },
     },
+    value: {
+      control: { type: "select" },
+      options: ["", "value1", "value2", "value3"],
+    },
+    onChange: { table: { disable: true } },
     children: { table: { disable: true } },
   },
   args: {
@@ -51,31 +57,26 @@ export default meta
 type Story = StoryObj<typeof SelectField>
 
 export const Sizes: Story = {
-  render: (args) => {
-    const [value, setValue] = React.useState("")
-    const onChange: SelectProps["onChange"] = (event, node) => {
-      setValue(event.target.value as string)
+  render: () => {
+    const [args, setArgs] = useArgs<SelectFieldProps>()
+    const onChange: SelectFieldProps["onChange"] = (event, node) => {
+      setArgs({ value: event.target.value })
       args.onChange?.(event, node)
     }
     return (
       <Stack direction="row" gap={2}>
-        <SelectField
-          {...args}
-          onChange={onChange}
-          size="medium"
-          value={value}
-        />
-        <SelectField {...args} onChange={onChange} size="hero" value={value} />
+        <SelectField {...args} onChange={onChange} size="medium" />
+        <SelectField {...args} onChange={onChange} size="hero" />
       </Stack>
     )
   },
 }
 
 export const States: Story = {
-  render: (args) => {
-    const [value, setValue] = React.useState("")
-    const onChange: SelectProps["onChange"] = (event, node) => {
-      setValue(event.target.value as string)
+  render: () => {
+    const [args, setArgs] = useArgs<SelectFieldProps>()
+    const onChange: SelectFieldProps["onChange"] = (event, node) => {
+      setArgs({ value: event.target.value })
       args.onChange?.(event, node)
     }
     return (
@@ -90,25 +91,25 @@ export const States: Story = {
           Default
         </Grid>
         <Grid item xs={8}>
-          <SelectField {...args} onChange={onChange} value={value} />
+          <SelectField {...args} onChange={onChange} />
         </Grid>
         <Grid item xs={4}>
           Required
         </Grid>
         <Grid item xs={8}>
-          <SelectField required {...args} onChange={onChange} value={value} />
+          <SelectField required {...args} onChange={onChange} />
         </Grid>
         <Grid item xs={4}>
           Error
         </Grid>
         <Grid item xs={8}>
-          <SelectField {...args} error onChange={onChange} value={value} />
+          <SelectField {...args} error onChange={onChange} />
         </Grid>
         <Grid item xs={4}>
           Disabled
         </Grid>
         <Grid item xs={8}>
-          <SelectField {...args} onChange={onChange} value={value} disabled />
+          <SelectField {...args} onChange={onChange} disabled />
         </Grid>
       </Grid>
     )

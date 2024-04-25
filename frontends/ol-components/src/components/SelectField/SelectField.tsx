@@ -8,9 +8,9 @@ import { Input } from "../Input/Input"
 import { FormFieldWrapper } from "../FormHelpers/FormHelpers"
 import type { FormFieldWrapperProps } from "../FormHelpers/FormHelpers"
 
-type SelectProps = Omit<MuiSelectProps, "input">
+type SelectProps<Value = unknown> = Omit<MuiSelectProps<Value>, "input">
 
-const Select: React.FC<SelectProps> = (props) => {
+function Select<Value = unknown>(props: SelectProps<Value>) {
   return (
     <MuiSelect
       variant="standard"
