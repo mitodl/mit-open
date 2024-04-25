@@ -113,7 +113,8 @@ docs/_site
 .pnp.*
 frontends/.yarn
 !frontends/.yarn/releases
-.yarn
+
+.yarn/*
 !.yarn/releases
 
 # Typescript
