@@ -3755,9 +3755,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:^3.0.4":
-  version: 3.0.4
-  resolution: "@mitodl/course-search-utils@npm:3.0.4"
+"@mitodl/course-search-utils@npm:^3.0.5":
+  version: 3.0.5
+  resolution: "@mitodl/course-search-utils@npm:3.0.5"
   dependencies:
     "@mitodl/open-api-axios": ^2024.3.22
     "@testing-library/react": 12
@@ -3779,7 +3779,7 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 65a3e2424296add21b2fe182a00e08ed8679cf770f93b538af71e36251641e6c1aa244ba03a6d1520d0aad4c6443b344b56b2ed435441662768b97b893494746
+  checksum: 429bf80dbfa4b08a513d10c9a1221569aa96b071d166131fdebb8e6bdab53a1a607a4541ed21ba2ca830860722b02e69d25f915b850b6aa1a7e7c52cb86a86a0
   languageName: node
   linkType: hard
 
@@ -17473,7 +17473,7 @@ __metadata:
     "@emotion/react": ^11.11.1
     "@emotion/styled": ^11.11.0
     "@faker-js/faker": ^7.3.0
-    "@mitodl/course-search-utils": ^3.0.4
+    "@mitodl/course-search-utils": ^3.0.5
     "@mui/icons-material": ^5.14.19
     "@sentry/react": ^7.57.0
     "@storybook/addon-essentials": ^8.0.6
