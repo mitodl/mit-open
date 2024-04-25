@@ -11,7 +11,7 @@
     "./test-utils": "./src/test-utils/index.ts"
   },
   "peerDependencies": {
-    "@tanstack/react-query": "^4.36.1",
+    "@tanstack/react-query": "^5.0.0",
     "axios": "^1.6.3",
     "react": "^18.2.0"
   },
