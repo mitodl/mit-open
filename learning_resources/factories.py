@@ -1,11 +1,11 @@
 """Factories for making test data"""
 
+import datetime
 import decimal
 import random
 from datetime import UTC, timedelta
 
 import factory
-import pytz
 from factory import Faker
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyText
@@ -336,7 +336,7 @@ class LearningResourceViewEventFactory(DjangoModelFactory):
         is_course=True,
         create_course=False,
     )
-    event_date = factory.Faker("date_time_this_year", tzinfo=pytz.utc)
+    event_date = factory.Faker("date_time_this_year", tzinfo=datetime.UTC)
 
     class Meta:
         """Meta options for the factory"""

@@ -2877,17 +2877,6 @@ mysql = ["mysql-connector-python"]
 postgresql = ["psycopg2"]
 
 [[package]]
-name = "pytz"
-version = "2024.1"
-description = "World timezone definitions, modern and historical"
-optional = false
-python-versions = "*"
-files = [
-    {file = "pytz-2024.1-py2.py3-none-any.whl", hash = "sha256:328171f4e3623139da4983451950b28e95ac706e13f3f2630a879749e7a8b319"},
-    {file = "pytz-2024.1.tar.gz", hash = "sha256:2a29735ea9c18baf14b448846bde5a48030ed267578472d8955cd0e7443a9812"},
-]
-
-[[package]]
 name = "pyxdg"
 version = "0.28"
 description = "PyXDG contains implementations of freedesktop.org standards in python."
@@ -3955,4 +3944,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "8aa951e23d49a7d765476ba59e9acebb7319cbca89793257ff7dbad5e8297015"
+content-hash = "0222d647aacfb5dcd9f190cdc17a80592e7d0f2b4a68f4a58e016289aa480138"
