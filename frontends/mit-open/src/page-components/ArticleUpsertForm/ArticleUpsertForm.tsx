@@ -157,7 +157,7 @@ const ArticleUpsertForm = ({
             Cancel
           </Button>
           <Button
-            variant="contained"
+            variant="filled"
             disabled={
               editorBusy || createArticle.isLoading || editArticle.isLoading
             }

@@ -232,7 +232,7 @@ const WidgetsListEditable: React.FC<WidgetsListEditableProps> = ({
             <Button size="small" variant="outlined" onClick={onCancel}>
               Cancel
             </Button>
-            <Button size="small" variant="contained" onClick={handleDone}>
+            <Button size="small" variant="filled" onClick={handleDone}>
               Done
             </Button>
           </div>
@@ -240,17 +240,12 @@ const WidgetsListEditable: React.FC<WidgetsListEditableProps> = ({
         <div className="ol-widget-editing-header-row">
           <Button
             size="small"
-            color="secondary"
             startIcon={<AddIcon />}
             onClick={dialogHandlers.beginAdd}
           >
             Add widget
           </Button>
-          <Button
-            size="small"
-            color="secondary"
-            onClick={modifyVisibility.toggleAll}
-          >
+          <Button size="small" onClick={modifyVisibility.toggleAll}>
             {visibility.allOpen ? "Collapse all" : "Expand all"}
           </Button>
         </div>

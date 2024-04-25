@@ -1,4 +1,4 @@
-import { Container } from "ol-components"
+import { Container, Typography } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import React from "react"
 
@@ -8,7 +8,7 @@ const DashboardPage: React.FC = () => {
       <MetaTags>
         <title>Dashboard</title>
       </MetaTags>
-      <h1>Dashboard</h1>
+      <Typography variant="h1">Dashboard</Typography>
       <p>Coming soon!</p>
     </Container>
   )

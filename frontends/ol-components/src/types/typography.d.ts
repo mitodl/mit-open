@@ -13,15 +13,15 @@ declare module "@mui/material/styles" {
     button: React.CSSProperties
   }
   interface TypographyVariantsOptions {
-    body1?: React.CSSProperties
-    body2?: React.CSSProperties
-    body3?: React.CSSProperties
-    body4?: React.CSSProperties
-    subtitle1?: React.CSSProperties
-    subtitle2?: React.CSSProperties
-    subtitle3?: React.CSSProperties
-    subtitle4?: React.CSSProperties
-    button?: React.CSSProperties
+    body1: React.CSSProperties
+    body2: React.CSSProperties
+    body3: React.CSSProperties
+    body4: React.CSSProperties
+    subtitle1: React.CSSProperties
+    subtitle2: React.CSSProperties
+    subtitle3: React.CSSProperties
+    subtitle4: React.CSSProperties
+    button: React.CSSProperties
   }
 }
 

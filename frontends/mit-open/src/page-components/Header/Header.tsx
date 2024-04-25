@@ -5,8 +5,8 @@ import UserMenu from "./UserMenu"
 import { Link } from "react-router-dom"
 
 const Bar = styled(AppBar)`
-  background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
-  color: ${({ theme }) => theme.custom.fontColorDefault};
+  background-color: ${({ theme }) => theme.custom.colors.white};
+  color: ${({ theme }) => theme.custom.colors.black};
   min-height: 55px;
   display: flex;
   flex-direction: column;

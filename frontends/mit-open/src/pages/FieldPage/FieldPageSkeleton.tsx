@@ -1,7 +1,7 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
-import { BannerPage, styled, Container } from "ol-components"
+import { BannerPage, styled, Container, Typography } from "ol-components"
 import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
@@ -58,7 +58,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
             {field.data && (
               <>
                 <FieldAvatar field={field.data} imageSize="medium" />
-                <h1>
+                <Typography variant="h3" component="h1">
                   <Link
                     to={routes.makeFieldViewPath(
                       field.data.channel_type,
@@ -67,7 +67,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   >
                     {field.data.title}
                   </Link>
-                </h1>
+                </Typography>
                 <FieldControls>
                   {field.data?.is_moderator ? (
                     <FieldMenu

@@ -7,6 +7,7 @@ import { makeWidgetListResponse, makeWidget } from "../../factories"
 import ManageWidgetDialog from "./ManageWidgetDialog"
 import type { ManageWidgetDialogProps } from "./ManageWidgetDialog"
 import { WidgetTypes } from "../../interfaces"
+import { ThemeProvider } from "ol-components"
 
 type TestProps = Partial<ManageWidgetDialogProps>
 
@@ -23,6 +24,7 @@ const setupEditingDialog = async (props?: TestProps) => {
       onCancel={spies.onCancel}
       {...props}
     />,
+    { wrapper: ThemeProvider },
   )
   await waitFor(() => {
     expect(screen.queryByLabelText("Loading")).toBe(null)

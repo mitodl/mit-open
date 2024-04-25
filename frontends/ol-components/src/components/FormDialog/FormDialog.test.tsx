@@ -5,6 +5,7 @@ import user from "@testing-library/user-event"
 import { FormDialog } from "./FormDialog"
 import type { FormDialogProps } from "./FormDialog"
 import { ControlledPromise } from "ol-test-utilities"
+import { ThemeProvider } from "ol-components"
 
 const setup = (props?: Partial<FormDialogProps>) => {
   const onSubmit = jest.fn((e) => {
@@ -21,7 +22,9 @@ const setup = (props?: Partial<FormDialogProps>) => {
     title: "Test Form",
     children: <div>Test Content</div>,
   }
-  const view = render(<FormDialog {...defaultProps} {...props} />)
+  const view = render(<FormDialog {...defaultProps} {...props} />, {
+    wrapper: ThemeProvider,
+  })
   const rerender = (props: Partial<FormDialogProps>) =>
     view.rerender(<FormDialog {...defaultProps} {...props} />)
   return { rerender, onSubmit, onReset, onClose }

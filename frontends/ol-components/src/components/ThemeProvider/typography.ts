@@ -15,7 +15,8 @@ import { createTheme } from "@mui/material/styles"
  */
 const pxToRem = (px: number) => `${px / 16}rem`
 
-const styles = {
+const globalSettings: ThemeOptions["typography"] = {
+  fontFamily: ['"Helvetica Neue"', "Arial", "sans-serif"].join(","),
   h1: {
     fontWeight: 700,
     fontSize: pxToRem(56),
@@ -34,7 +35,7 @@ const styles = {
   },
   h5: {
     fontWeight: 500,
-    fontSize: pxToRem(16),
+    fontSize: pxToRem(20),
   },
   subtitle1: {
     fontWeight: 500,
@@ -56,26 +57,21 @@ const styles = {
     fontSize: pxToRem(10),
     lineHeight: 1.26,
   },
-  p1: {
+  body1: {
     fontSize: pxToRem(16),
   },
-  p2: {
+  body2: {
     fontSize: pxToRem(14),
   },
-  p3: {
+  body3: {
     fontSize: pxToRem(12),
   },
-  p4: {
+  body4: {
     fontSize: pxToRem(10),
   },
   button: {
     textTransform: "none",
   },
-} as const
-
-const globalSettings: ThemeOptions["typography"] = {
-  fontFamily: ['"Helvetica Neue"', "Arial", "sans-serif"].join(","),
-  ...styles,
 }
 const component: NonNullable<ThemeOptions["components"]>["MuiTypography"] = {
   defaultProps: {

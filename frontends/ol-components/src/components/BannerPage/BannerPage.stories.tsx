@@ -1,6 +1,7 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { BannerPage } from "./BannerPage"
+import Typography from "@mui/material/Typography"
 
 const PUBLIC_URL =
   process.env.PUBLIC_URL || process.env.STORYBOOK_PUBLIC_URL || ""
@@ -9,7 +10,7 @@ const meta: Meta<typeof BannerPage> = {
   title: "ol-components/BannerPage",
   render: (props) => (
     <BannerPage {...props}>
-      <h1>Page Content</h1>
+      <Typography variant="h1">Page content</Typography>
     </BannerPage>
   ),
 }

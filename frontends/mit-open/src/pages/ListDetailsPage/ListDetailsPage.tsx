@@ -1,5 +1,5 @@
 import React from "react"
-import { Container, Grid, Button, BannerPage } from "ol-components"
+import { Container, Grid, Button, BannerPage, Typography } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
 import SwapVertIcon from "@mui/icons-material/SwapVert"
 
@@ -49,7 +49,9 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
           <GridColumn variant="single-full">
             <Grid container>
               <Grid item xs={12}>
-                <h1>{title}</h1>
+                <Typography variant="h3" component="h1">
+                  {title}
+                </Typography>
                 {description && <p>{description}</p>}
               </Grid>
               <Grid
@@ -61,7 +63,6 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
               >
                 {showSort && (
                   <Button
-                    color="secondary"
                     disabled={count === 0}
                     startIcon={isSorting ? undefined : <SwapVertIcon />}
                     onClick={toggleIsSorting.toggle}
@@ -82,11 +83,7 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
                 display="flex"
               >
                 {canEdit ? (
-                  <Button
-                    color="secondary"
-                    startIcon={<EditIcon />}
-                    onClick={handleEdit}
-                  >
+                  <Button startIcon={<EditIcon />} onClick={handleEdit}>
                     Edit
                   </Button>
                 ) : null}
