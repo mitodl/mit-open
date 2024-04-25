@@ -29,6 +29,12 @@ type TextFieldProps = Omit<FormFieldWrapperProps, "children"> & {
     | "inputProps"
   >
 
+/**
+ * A form field for text input. Supports labels, help text, error text, and
+ * start/end adornments.
+ *
+ * Modeled after MUI's [TextField component](https://mui.com/material-ui/react-text-field/).
+ */
 const TextField: React.FC<TextFieldProps> = ({
   label,
   size,
@@ -51,6 +57,7 @@ const TextField: React.FC<TextFieldProps> = ({
   id,
   InputProps,
   inputProps,
+  fullWidth,
 }) => {
   return (
     <FormFieldWrapper
@@ -61,7 +68,7 @@ const TextField: React.FC<TextFieldProps> = ({
       error={error}
       errorText={errorText}
       className={className}
-      fullWidth
+      fullWidth={fullWidth}
     >
       {({ labelId, ...childProps }) => (
         <Input

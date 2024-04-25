@@ -25,8 +25,9 @@ const Description = styled.div<{ error?: boolean }>(({ theme, error }) => [
 
 const Container = styled.div<{ fullWidth?: boolean }>(({ fullWidth }) => [
   {
-    display: "flex",
+    display: "inline-flex",
     flexDirection: "column",
+    alignItems: "start",
     "> *": {
       marginBottom: "4px",
     },
@@ -72,6 +73,7 @@ type FormFieldWrapperProps = {
     id: string
     required?: boolean
     error?: boolean
+    fullWidth?: boolean
     labelId: string
     "aria-describedby"?: string
   }) => React.ReactNode
@@ -115,6 +117,7 @@ const FormFieldWrapper: React.FC<FormFieldWrapperProps> = ({
         error,
         required,
         labelId,
+        fullWidth,
         "aria-describedby": describedBy,
       })}
       {helpText && <Description id={helpId}>{helpText}</Description>}

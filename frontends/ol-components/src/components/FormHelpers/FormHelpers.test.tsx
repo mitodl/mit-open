@@ -30,7 +30,7 @@ const assertDescription = ({
   }
 }
 
-describe("TextField", () => {
+describe("FormFieldWrapper", () => {
   const setup = (props: Partial<FormFieldWrapperProps>) => {
     const defaults = {
       name: "test-name",
@@ -39,7 +39,9 @@ describe("TextField", () => {
     }
     const { rerender: _rerender } = render(
       <FormFieldWrapper {...defaults} {...props}>
-        {({ error, labelId, ...childProps }) => <input {...childProps} />}
+        {({ error, labelId, fullWidth, ...childProps }) => (
+          <input {...childProps} />
+        )}
       </FormFieldWrapper>,
       {
         wrapper: ThemeProvider,
@@ -48,7 +50,9 @@ describe("TextField", () => {
     const rerender = (newProps: Partial<FormFieldWrapperProps>) => {
       _rerender(
         <FormFieldWrapper {...defaults} {...newProps}>
-          {({ error, labelId, ...childProps }) => <input {...childProps} />}
+          {({ error, labelId, fullWidth, ...childProps }) => (
+            <input {...childProps} />
+          )}
         </FormFieldWrapper>,
       )
     }

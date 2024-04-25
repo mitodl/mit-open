@@ -89,6 +89,18 @@ export const Sizes: Story = {
   argTypes: { size: { table: { disable: true } } },
 }
 
+export const Widths: Story = {
+  render: (args) => {
+    return (
+      <Stack direction="column" gap={1}>
+        <TextField {...args} label="default" />
+        <TextField {...args} label="fullWidth" fullWidth />
+      </Stack>
+    )
+  },
+  argTypes: { fullWidth: { table: { disable: true } } },
+}
+
 export const Adornments: Story = {
   render: (args) => {
     const adornments = [

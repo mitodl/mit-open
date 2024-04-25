@@ -14,6 +14,10 @@ const buttonPadding = {
   hero: 6,
 }
 
+/**
+ * A styled input that supports start and end adornments. In most cases, the
+ * higher-level TextField component should be used instead of this component.
+ */
 const Input = styled(InputBase)(({
   theme,
   size = defaultProps.size,

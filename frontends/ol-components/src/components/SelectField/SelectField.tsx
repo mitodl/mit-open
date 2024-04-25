@@ -20,9 +20,17 @@ function Select<Value = unknown>(props: SelectProps<Value>) {
   )
 }
 
-type SelectFieldProps = Omit<FormFieldWrapperProps, "children"> & SelectProps
+type SelectFieldProps<Value = unknown> = Omit<
+  FormFieldWrapperProps,
+  "children"
+> &
+  SelectProps<Value>
 
-const SelectField: React.FC<SelectFieldProps> = ({
+/**
+ * A form field for text input via dropdown. Supports labels, help text, error
+ *  text, and start/end adornments.
+ */
+function SelectField<Value = unknown>({
   label,
   required,
   className,
@@ -32,7 +40,7 @@ const SelectField: React.FC<SelectFieldProps> = ({
   errorText,
   helpText,
   ...props
-}) => {
+}: SelectFieldProps<Value>) {
   const wrapperProps = {
     label,
     required,
