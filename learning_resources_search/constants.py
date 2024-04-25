@@ -61,6 +61,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = {
     "resource_type": FilterConfig("resource_type"),
     "certification": FilterConfig("certification"),
     "professional": FilterConfig("professional"),
+    "free": FilterConfig("free"),
     "id": FilterConfig("id", case_sensitive=True),
     "course_feature": FilterConfig("course_feature"),
     "content_feature_type": FilterConfig("content_feature_type"),
@@ -99,6 +100,7 @@ LEARNING_RESOURCE_MAP = {
     "resource_relations": {"type": "join", "relations": {"resource": "content_file"}},
     "id": {"type": "long"},
     "certification": {"type": "boolean"},
+    "free": {"type": "boolean"},
     "readable_id": {"type": "keyword"},
     "title": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
     "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
@@ -349,4 +351,5 @@ SOURCE_EXCLUDED_FIELDS = [
     "course.course_numbers.primary",
     "created_on",
     "resource_relations",
+    "free",
 ]
