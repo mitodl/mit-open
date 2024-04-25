@@ -22,8 +22,8 @@ const Input = styled(InputBase)(({
   return [
     {
       backgroundColor: "white",
-      color: theme.custom.colors.silverGray2,
-      borderColor: theme.custom.colors.silverGray1,
+      color: theme.custom.colors.silverGrayDark,
+      borderColor: theme.custom.colors.silverGrayLight,
       borderWidth: "1px",
       borderStyle: "solid",
       "&:hover:not(.Mui-disabled)": {
@@ -83,7 +83,6 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
   lineHeight: 1,
   fontFamily: theme.typography.fontFamily,
   fontWeight: 500,
-  color: "inherit",
   // display
   display: "flex",
   justifyContent: "center",
@@ -116,10 +115,22 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
       fontSize: pxToRem(24),
     },
   },
+
+  color: theme.custom.colors.silverGray,
+  ".MuiInputBase-root:hover &": {
+    color: "inherit",
+  },
+  ".MuiInputBase-root.Mui-focused &": {
+    color: "inherit",
+  },
+  ".MuiInputBase-root.Mui-disabled &": {
+    color: "inherit",
+  },
 }))
 
 const noFocus: React.MouseEventHandler = (e) => e.preventDefault()
 
+type AdornmentButtonProps = React.ComponentProps<typeof AdornmentButtonStyled>
 /**
  * Button to be used with `startAdornment` and `endAdornment` props on Input and
  * TextField components. AdornmentButton takes care of positioning and other
@@ -147,7 +158,6 @@ const AdornmentButton: React.FC<AdornmentButtonProps> = (props) => {
 }
 
 type InputProps = Omit<InputBaseProps, "color">
-type AdornmentButtonProps = React.ComponentProps<typeof AdornmentButtonStyled>
 
 export { AdornmentButton, Input }
 export type { InputProps, AdornmentButtonProps }

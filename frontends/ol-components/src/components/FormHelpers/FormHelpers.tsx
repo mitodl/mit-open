@@ -13,7 +13,7 @@ const Description = styled.div<{ error?: boolean }>(({ theme, error }) => [
     ...theme.typography.body2,
     color: error
       ? theme.custom.colors.lightRed
-      : theme.custom.colors.silverGray2,
+      : theme.custom.colors.silverGrayDark,
   },
   error && {
     "> svg:first-of-type": {

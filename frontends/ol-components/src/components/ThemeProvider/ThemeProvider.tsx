@@ -44,7 +44,7 @@ const themeOptions: ThemeOptions = {
     },
     text: {
       primary: "#000",
-      secondary: colors.silverGray2,
+      secondary: colors.silverGrayDark,
     },
     primary: {
       main: colors.mitRed,
@@ -54,7 +54,7 @@ const themeOptions: ThemeOptions = {
     },
     secondary: {
       light: colors.lightGray2,
-      active: colors.silverGray2,
+      active: colors.silverGrayDark,
       main: colors.black,
       contrastText: colors.white,
     },
