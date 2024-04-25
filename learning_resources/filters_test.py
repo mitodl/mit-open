@@ -176,6 +176,31 @@ def test_learning_resource_filter_professional(is_professional, client):
     )
 
 
+def test_learning_resource_filter_free(client):
+    """Test that the free filter works"""
+
+    free_course = LearningResourceFactory.create(is_course=True, runs=[])
+    LearningResourceRunFactory.create(learning_resource=free_course, prices=[0.00])
+
+    paid_course = LearningResourceFactory.create(is_course=True, runs=[])
+    LearningResourceRunFactory.create(
+        learning_resource=paid_course, prices=[50.00, 100.00]
+    )
+
+    free2pay_course = LearningResourceFactory(is_course=True, runs=[])
+    LearningResourceRunFactory.create(
+        learning_resource=free2pay_course, prices=[0.00, 100.00]
+    )
+
+    results = client.get(f"{RESOURCE_API_URL}?free=true").json()["results"]
+    assert len(results) == 2
+    for course in [free_course, free2pay_course]:
+        assert course.id in [result["id"] for result in results]
+    results = client.get(f"{RESOURCE_API_URL}?free=false").json()["results"]
+    assert len(results) == 1
+    assert results[0]["id"] == paid_course.id
+
+
 @pytest.mark.parametrize(
     "multifilter", ["resource_type={}&resource_type={}", "resource_type={},{}"]
 )

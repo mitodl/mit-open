@@ -1,5 +1,7 @@
 """Models for learning resources and related entities"""
 
+from decimal import Decimal
+
 from django.contrib.admin.utils import flatten
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
@@ -194,17 +196,19 @@ class LearningResource(TimestampedModel):
     professional = models.BooleanField(default=False)
 
     @property
-    def prices(self) -> str | None:
+    def prices(self) -> list[Decimal]:
         """Returns the prices for the learning resource"""
         if self.resource_type in [
             LearningResourceType.course.name,
             LearningResourceType.program.name,
         ]:
             return list(
-                set(flatten([run.prices for run in self.runs.all() if run.prices]))
+                set(
+                    flatten([(run.prices or [Decimal(0.0)]) for run in self.runs.all()])
+                )
             )
         else:
-            return 0
+            return [Decimal(0.00)]
 
     @property
     def certification(self) -> bool:

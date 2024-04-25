@@ -1026,6 +1026,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
         "aggregations": ["offered_by"],
         "q": "math",
         "resource_type": ["course"],
+        "free": [True],
         "limit": 1,
         "offset": 1,
         "sortby": "-readable_id",
@@ -1304,7 +1305,21 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                 }
                             ]
                         }
-                    }
+                    },
+                    {
+                        "bool": {
+                            "should": [
+                                {
+                                    "term": {
+                                        "free": {
+                                            "case_insensitive": True,
+                                            "value": True,
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
                 ]
             }
         },
@@ -1379,7 +1394,21 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                         }
                                     ]
                                 }
-                            }
+                            },
+                            {
+                                "bool": {
+                                    "should": [
+                                        {
+                                            "term": {
+                                                "free": {
+                                                    "case_insensitive": True,
+                                                    "value": True,
+                                                }
+                                            }
+                                        }
+                                    ]
+                                }
+                            },
                         ]
                     }
                 },
@@ -1391,6 +1420,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                 "course.course_numbers.primary",
                 "created_on",
                 "resource_relations",
+                "free",
             ]
         },
     }
@@ -1593,6 +1623,7 @@ def test_execute_learn_search_for_content_file_query(opensearch):
                 "course.course_numbers.primary",
                 "created_on",
                 "resource_relations",
+                "free",
             ]
         },
     }

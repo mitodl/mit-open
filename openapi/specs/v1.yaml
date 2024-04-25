@@ -625,6 +625,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -1121,6 +1126,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -1444,6 +1454,11 @@ paths:
           * `WGS` - Women's and Gender Studies
         explode: true
         style: form
+      - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
       - in: query
         name: level
         schema:
@@ -1802,6 +1817,11 @@ paths:
           * `WGS` - Women's and Gender Studies
         explode: true
         style: form
+      - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
       - in: query
         name: level
         schema:
@@ -2365,6 +2385,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -2689,6 +2714,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -2918,6 +2948,7 @@ paths:
             - level
             - course_feature
             - professional
+            - free
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -2929,6 +2960,7 @@ paths:
               * `level` - level
               * `course_feature` - course_feature
               * `professional` - professional
+              * `free` - free
         description: Show resource counts by category
       - in: query
         name: certification
@@ -3045,6 +3077,11 @@ paths:
           * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
           \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
           \ and Gender Studies"
+      - in: query
+        name: free
+        schema:
+          type: boolean
+          nullable: true
       - in: query
         name: id
         schema:
@@ -3422,6 +3459,11 @@ paths:
           * `WGS` - Women's and Gender Studies
         explode: true
         style: form
+      - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
       - in: query
         name: level
         schema:
@@ -4079,6 +4121,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -4409,6 +4456,11 @@ paths:
           * `WGS` - Women's and Gender Studies
         explode: true
         style: form
+      - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
       - in: query
         name: level
         schema:
@@ -4827,6 +4879,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -5158,6 +5215,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -5481,6 +5543,11 @@ paths:
           * `WGS` - Women's and Gender Studies
         explode: true
         style: form
+      - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
       - in: query
         name: level
         schema:
@@ -6159,6 +6226,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -6556,6 +6628,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -6866,6 +6943,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -7175,6 +7257,11 @@ paths:
           * `WGS` - Women's and Gender Studies
         explode: true
         style: form
+      - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
       - in: query
         name: level
         schema:
@@ -7507,6 +7594,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -7817,6 +7909,11 @@ paths:
         explode: true
         style: form
       - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
         name: level
         schema:
           type: array
@@ -8038,6 +8135,7 @@ components:
       - level
       - course_feature
       - professional
+      - free
       type: string
       description: |-
         * `resource_type` - resource_type
@@ -8049,6 +8147,7 @@ components:
         * `level` - level
         * `course_feature` - course_feature
         * `professional` - professional
+        * `free` - free
     Article:
       type: object
       description: Serializer for LearningResourceInstructor model
@@ -8335,8 +8434,10 @@ components:
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
-          type: string
-          nullable: true
+          type: array
+          items:
+            type: number
+            format: double
           description: Returns the prices for the learning resource
           readOnly: true
         runs:
@@ -8642,8 +8743,10 @@ components:
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
-          type: string
-          nullable: true
+          type: array
+          items:
+            type: number
+            format: double
           description: Returns the prices for the learning resource
           readOnly: true
         runs:
@@ -9473,6 +9576,9 @@ components:
             \ course\n* `program` - program\n* `learning_path` - learning path\n*\
             \ `podcast` - podcast\n* `podcast_episode` - podcast episode\n* `video`\
             \ - video\n* `video_playlist` - video playlist"
+        free:
+          type: boolean
+          nullable: true
         professional:
           type: boolean
           nullable: true
@@ -10332,8 +10438,10 @@ components:
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
-          type: string
-          nullable: true
+          type: array
+          items:
+            type: number
+            format: double
           description: Returns the prices for the learning resource
           readOnly: true
         runs:
@@ -10530,8 +10638,10 @@ components:
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
-          type: string
-          nullable: true
+          type: array
+          items:
+            type: number
+            format: double
           description: Returns the prices for the learning resource
           readOnly: true
         runs:
@@ -10870,8 +10980,10 @@ components:
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
-          type: string
-          nullable: true
+          type: array
+          items:
+            type: number
+            format: double
           description: Returns the prices for the learning resource
           readOnly: true
         runs:
@@ -11269,8 +11381,10 @@ components:
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
-          type: string
-          nullable: true
+          type: array
+          items:
+            type: number
+            format: double
           description: Returns the prices for the learning resource
           readOnly: true
         runs:
@@ -11457,8 +11571,10 @@ components:
           description: Returns the certification for the learning resource
           readOnly: true
         prices:
-          type: string
-          nullable: true
+          type: array
+          items:
+            type: number
+            format: double
           description: Returns the prices for the learning resource
           readOnly: true
         runs:
