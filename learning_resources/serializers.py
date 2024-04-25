@@ -48,7 +48,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourceTopic
-        fields = ["id", "name", "subtopics", "channel_url"]
+        fields = ["id", "name", "parent_topic", "channel_url"]
 
 
 class WriteableTopicsMixin(serializers.Serializer):
