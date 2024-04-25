@@ -70,9 +70,6 @@ export { default as ListItemText } from "@mui/material/ListItemText"
 export type { ListItemTextProps } from "@mui/material/ListItemText"
 export { default as OutlinedInput } from "@mui/material/OutlinedInput"
 
-export { default as Select } from "@mui/material/Select"
-export type { SelectChangeEvent } from "@mui/material/Select"
-
 export { default as Skeleton } from "@mui/material/Skeleton"
 export type { SkeletonProps } from "@mui/material/Skeleton"
 
@@ -136,6 +133,12 @@ export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
 export { TextField } from "./components/TextField/TextField"
 export type { TextFieldProps } from "./components/TextField/TextField"
+export { Select, SelectField } from "./components/SelectField/SelectField"
+export type {
+  SelectChangeEvent,
+  SelectProps,
+  SelectFieldProps,
+} from "./components/SelectField/SelectField"
 
 export * from "./components/learning-resources/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay"
 

@@ -1,6 +1,9 @@
 import React from "react"
 import MuiSelect from "@mui/material/Select"
-import type { SelectProps as MuiSelectProps } from "@mui/material/Select"
+import type {
+  SelectProps as MuiSelectProps,
+  SelectChangeEvent,
+} from "@mui/material/Select"
 import { Input } from "../Input/Input"
 import { FormFieldWrapper } from "../FormHelpers/FormHelpers"
 import type { FormFieldWrapperProps } from "../FormHelpers/FormHelpers"
@@ -50,4 +53,4 @@ const SelectField: React.FC<SelectFieldProps> = ({
 }
 
 export { Select, SelectField }
-export type { SelectProps, SelectFieldProps }
+export type { SelectChangeEvent, SelectProps, SelectFieldProps }
