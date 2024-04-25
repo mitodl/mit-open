@@ -42,7 +42,7 @@
     "@mitodl/course-search-utils": "^3.0.4",
     "@mui/icons-material": "^5.14.19",
     "@sentry/react": "^7.57.0",
-    "@tanstack/react-query": "^4.36.1",
+    "@tanstack/react-query": "^5.0.0",
     "@tanstack/react-query-devtools": "^4.29.6",
     "api": "workspace:*",
     "axios": "^1.6.3",

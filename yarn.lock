@@ -5746,10 +5746,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:4.36.1":
-  version: 4.36.1
-  resolution: "@tanstack/query-core@npm:4.36.1"
-  checksum: 47672094da20d89402d9fe03bb7b0462be73a76ff9ca715169738bc600a719d064d106d083a8eedae22a2c22de22f87d5eb5d31ef447aba771d9190f2117ed10
+"@tanstack/query-core@npm:5.32.0":
+  version: 5.32.0
+  resolution: "@tanstack/query-core@npm:5.32.0"
+  checksum: e2f5292ad7160ecadf8f9d027991274e3baee95fb89cf3f47e7e58fe9ba5c3ce5528f669586d2a091fad0e12c5cc1c0bb1975fb4cffa551deb58b055a96189c6
   languageName: node
   linkType: hard
 
@@ -5768,22 +5768,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^4.36.1":
-  version: 4.36.1
-  resolution: "@tanstack/react-query@npm:4.36.1"
+"@tanstack/react-query@npm:^5.0.0":
+  version: 5.32.0
+  resolution: "@tanstack/react-query@npm:5.32.0"
   dependencies:
-    "@tanstack/query-core": 4.36.1
-    use-sync-external-store: ^1.2.0
+    "@tanstack/query-core": 5.32.0
   peerDependencies:
-    react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    react-native: "*"
-  peerDependenciesMeta:
-    react-dom:
-      optional: true
-    react-native:
-      optional: true
-  checksum: 1aff0a476859386f8d32253fa0d0bde7b81769a6d4d4d9cbd78778f0f955459a3bdb7ee27a0d2ee7373090f12998b45df80db0b5b313bd0a7a39d36c6e8e51c5
+    react: ^18.0.0
+  checksum: 71dca267653c3d1d8b0fe336e4c607f4cd36ab749d5e615e2451174c2d70f5e1478497907a247ad2c8d7e065180fb635f5c271eb968a13c2b8e8fba480e322ca
   languageName: node
   linkType: hard
 
@@ -17485,7 +17477,7 @@ __metadata:
     "@storybook/react-webpack5": ^8.0.6
     "@storybook/test": ^8.0.8
     "@swc/core": ^1.4.11
-    "@tanstack/react-query": ^4.36.1
+    "@tanstack/react-query": ^5.0.0
     "@tanstack/react-query-devtools": ^4.29.6
     "@testing-library/react": ^14.1.2
     "@testing-library/user-event": ^14.5.1
