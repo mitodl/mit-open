@@ -7,7 +7,6 @@ import type { ThemeOptions } from "@mui/material/styles"
 import type {} from "@mui/lab/themeAugmentation"
 import * as typography from "./typography"
 import * as buttons from "./buttons"
-import * as inputs from "./inputs"
 import * as chips from "./chips"
 import { colors } from "./colors"
 
@@ -68,7 +67,6 @@ const themeOptions: ThemeOptions = {
   components: {
     MuiButtonBase: buttons.buttonBaseComponent,
     MuiTypography: typography.component,
-    MuiInputBase: inputs.inputBaseComponent,
     MuiTabPanel: {
       styleOverrides: {
         root: {

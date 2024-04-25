@@ -68,7 +68,6 @@ export { default as ListItemButton } from "@mui/material/ListItemButton"
 export type { ListItemButtonProps } from "@mui/material/ListItemButton"
 export { default as ListItemText } from "@mui/material/ListItemText"
 export type { ListItemTextProps } from "@mui/material/ListItemText"
-export { default as OutlinedInput } from "@mui/material/OutlinedInput"
 
 export { default as Skeleton } from "@mui/material/Skeleton"
 export type { SkeletonProps } from "@mui/material/Skeleton"
