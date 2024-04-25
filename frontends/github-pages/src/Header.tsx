@@ -4,8 +4,8 @@ import { MITLogoLink } from "ol-utilities"
 import { Link } from "react-router-dom"
 
 const Bar = styled(AppBar)`
-  background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
-  color: ${({ theme }) => theme.custom.fontColorDefault};
+  background-color: ${({ theme }) => theme.custom.colors.white};
+  color: ${({ theme }) => theme.typography.body1.color};
   min-height: 55px;
   display: flex;
   flex-direction: column;

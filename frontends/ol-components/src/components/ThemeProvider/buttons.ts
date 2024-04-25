@@ -1,25 +1,18 @@
 import type { ThemeOptions } from "@mui/material/styles"
-import { pxToRem } from "./typography"
 
-const buttonComponent: NonNullable<ThemeOptions["components"]>["MuiButton"] = {
+const buttonBaseComponent: NonNullable<
+  ThemeOptions["components"]
+>["MuiButtonBase"] = {
   defaultProps: {
-    size: "large",
-    disableElevation: true,
+    disableRipple: true,
   },
-  variants: [
-    {
-      props: { size: "large" },
-      style: {
-        fontSize: pxToRem(16),
+  styleOverrides: {
+    root: {
+      ":focus-visible": {
+        outline: "revert",
       },
     },
-    {
-      props: { size: "small" },
-      style: {
-        fontSize: pxToRem(12),
-      },
-    },
-  ],
+  },
 }
 
-export { buttonComponent }
+export { buttonBaseComponent }

@@ -210,7 +210,7 @@ const PrivacyChip: React.FC<PrivacyChipProps> = ({
 }) => {
   const isPublic = selectedOption === publicOption
   const icon = isPublic ? <LockOpenIcon /> : <LockIcon />
-  return <Chip icon={icon} label={selectedOption} size="small" />
+  return <Chip icon={icon} label={selectedOption} size="medium" />
 }
 
 type AddToListDialogInnerProps = {

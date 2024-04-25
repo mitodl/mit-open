@@ -1,12 +1,13 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { BasicDialog } from "./BasicDialog"
+import Typography from "@mui/material/Typography"
 
 const meta: Meta<typeof BasicDialog> = {
   title: "ol-components/BasicDialog",
   render: (props) => (
     <BasicDialog {...props}>
-      <h1>Dialog Content</h1>
+      <Typography variant="h1">Dialog Content</Typography>
     </BasicDialog>
   ),
   argTypes: {

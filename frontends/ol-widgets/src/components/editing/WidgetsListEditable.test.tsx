@@ -10,7 +10,7 @@ import WidgetsListEditable from "./WidgetsListEditable"
 import { btnLabel } from "../Widget"
 import { WidgetTypes } from "../../interfaces"
 import { assertInstanceOf } from "ol-utilities"
-import { SortableList, SortEndEvent } from "ol-components"
+import { SortableList, SortEndEvent, ThemeProvider } from "ol-components"
 import invariant from "tiny-invariant"
 
 jest.mock("ol-components", () => {
@@ -47,6 +47,7 @@ const renderWidgetsList = () => {
       widgetsList={widgetsList}
       {...spies}
     />,
+    { wrapper: ThemeProvider },
   )
   const getWidgetEls = () => {
     return Array.from(

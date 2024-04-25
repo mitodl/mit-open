@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import ErrorPageTemplate from "./ErrorPageTemplate"
 import { useLocation } from "react-router"
 import { useUserMe } from "api/hooks/user"
+import { Typography } from "ol-components"
 
 const ForbiddenPage: React.FC = () => {
   const { data: user } = useUserMe()
@@ -14,7 +15,9 @@ const ForbiddenPage: React.FC = () => {
   })
   return (
     <ErrorPageTemplate title="Not Allowed">
-      <h1>Not Allowed</h1>
+      <Typography variant="h3" component="h1">
+        Not Allowed
+      </Typography>
       You do not have permission to access this resource.
     </ErrorPageTemplate>
   )

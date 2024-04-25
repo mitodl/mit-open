@@ -6,7 +6,7 @@ import type { ChipProps } from "@mui/material/Chip"
 
 type ChipLinkProps = { href: string } & Pick<
   ChipProps<typeof Link>,
-  "color" | "label" | "disabled" | "className" | "variant" | "size" | "color"
+  "color" | "label" | "disabled" | "className" | "variant" | "size" | "icon"
 >
 
 /**
