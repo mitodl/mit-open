@@ -109,12 +109,6 @@ jobs:
       - name: Setup environment
         run: sudo apt-get install libelf1
 
-      - name: Set yarn version
-        run: |
-          yarn -v
-          yarn set version 4.1.1
-          yarn -v
-
       - name: Install dependencies
         run: yarn install --immutable
 
