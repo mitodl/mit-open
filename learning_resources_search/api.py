@@ -4,9 +4,10 @@ import re
 from collections import Counter
 
 from opensearch_dsl import Search
-from opensearch_dsl.query import MoreLikeThis
+from opensearch_dsl.query import MoreLikeThis, Percolate
 
 from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
+from learning_resources.models import LearningResource
 from learning_resources_search.connection import get_default_alias_name
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
@@ -23,6 +24,8 @@ from learning_resources_search.constants import (
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
+from learning_resources_search.models import PercolateQuery
+from learning_resources_search.signals import learning_resource_indexed
 from learning_resources_search.utils import adjust_search_for_percolator
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
@@ -475,6 +478,21 @@ def adjust_original_query_for_percolate(query):
     for key in ["limit", "offset", "sortby"]:
         query.pop(key, None)
     return order_params(query)
+
+
+def percolate_matches_for_document(document_id, resource_type):
+    index = get_default_alias_name(resource_type)
+    search = Search()
+    results = search.query(
+        Percolate(field="query", index=index, id=str(document_id))
+    ).execute()
+    resource = LearningResource.objects.get(id=document_id)
+    percolate_ids = [result.id for result in results.hits]
+
+    learning_resource_indexed.send_robust(
+        sender=resource,
+        percolated_queries=PercolateQuery.objects.filter(id__in=percolate_ids),
+    )
 
 
 def construct_search(search_params):
