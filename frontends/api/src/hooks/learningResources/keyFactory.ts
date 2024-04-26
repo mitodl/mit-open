@@ -31,7 +31,6 @@ import { createQueryKeys } from "@lukemorales/query-key-factory"
 const learningResources = createQueryKeys("learningResources", {
   detail: (id: number) => ({
     queryKey: [id],
-    meow: "meow",
     queryFn: () =>
       learningResourcesApi
         .learningResourcesRetrieve({ id })
