@@ -163,8 +163,10 @@ jobs:
       - run: yarn install
 
       - run: PUBLIC_URL=/mit-open yarn build-github-pages
+        working-directory: frontends
 
       - run: PUBLIC_URL=/mit-open yarn build-storybook --output-dir ../github-pages/build/storybook
+        working-directory: frontends
 
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
@@ -207,7 +209,6 @@ jobs:
             -c scripts/openapi-configs/typescript-axios-v0.yaml
 
       - name: Format freshly generated client
-        working-directory: frontends
         run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
 
       - name: Check VC client is up-to-date

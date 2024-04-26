@@ -16,8 +16,7 @@
     "style-lint": "yarn workspace frontends run style-lint",
     "test": "yarn workspace frontends global:test",
     "lint-check": "yarn workspace frontends run lint-check",
-    "typecheck": "yarn workspace frontends run typecheck",
-    "build-storybook": "yarn workspace frontends run build-storybook"
+    "typecheck": "yarn workspace frontends run typecheck"
   },
   "packageManager": "yarn@4.1.1",
   "devDependencies": {
