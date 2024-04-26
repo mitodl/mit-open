@@ -7,7 +7,6 @@ import type { ThemeOptions } from "@mui/material/styles"
 import type {} from "@mui/lab/themeAugmentation"
 import * as typography from "./typography"
 import * as buttons from "./buttons"
-import * as inputs from "./inputs"
 import * as chips from "./chips"
 import { colors } from "./colors"
 
@@ -44,6 +43,7 @@ const themeOptions: ThemeOptions = {
     },
     text: {
       primary: "#000",
+      secondary: colors.silverGrayDark,
     },
     primary: {
       main: colors.mitRed,
@@ -53,7 +53,7 @@ const themeOptions: ThemeOptions = {
     },
     secondary: {
       light: colors.lightGray2,
-      active: colors.silverGray2,
+      active: colors.silverGrayDark,
       main: colors.black,
       contrastText: colors.white,
     },
@@ -67,8 +67,6 @@ const themeOptions: ThemeOptions = {
   components: {
     MuiButtonBase: buttons.buttonBaseComponent,
     MuiTypography: typography.component,
-    MuiInputBase: inputs.inputBaseComponent,
-    MuiOutlinedInput: inputs.outlinedInputComponent,
     MuiTabPanel: {
       styleOverrides: {
         root: {

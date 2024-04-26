@@ -1,11 +1,9 @@
-import React, { useCallback, useMemo } from "react"
+import React, { useCallback } from "react"
 
 import SearchIcon from "@mui/icons-material/Search"
 import ClearIcon from "@mui/icons-material/Clear"
-import OutlinedInput from "@mui/material/OutlinedInput"
-import type { OutlinedInputProps } from "@mui/material/OutlinedInput"
-import InputAdornment from "@mui/material/InputAdornment"
-import IconButton from "@mui/material/IconButton"
+import { Input, AdornmentButton } from "../Input/Input"
+import type { InputProps } from "../Input/Input"
 
 export interface SearchSubmissionEvent {
   target: {
@@ -20,7 +18,6 @@ export interface SearchSubmissionEvent {
 type SearchSubmitHandler = (event: SearchSubmissionEvent) => void
 
 interface SearchInputProps {
-  color?: OutlinedInputProps["color"]
   className?: string
   classNameClear?: string
   classNameSearch?: string
@@ -30,21 +27,14 @@ interface SearchInputProps {
   onChange: React.ChangeEventHandler<HTMLInputElement>
   onClear: React.MouseEventHandler
   onSubmit: SearchSubmitHandler
-  size?: OutlinedInputProps["size"]
+  size?: InputProps["size"]
   fullWidth?: boolean
 }
 
-const searchIconAdjustments = {
-  fontSize: "150%",
-  /**
-   * We want the icon to have its circle a bit closer to the baseline, which
-   * this accounts for.
-   */
-  transform: "translateY(+5%)",
-}
+const muiInputProps = { "aria-label": "Search for" }
 
 const SearchInput: React.FC<SearchInputProps> = (props) => {
-  const { onSubmit, value, color } = props
+  const { onSubmit, value } = props
   const handleSubmit = useCallback(() => {
     const event = {
       target: { value },
@@ -60,42 +50,37 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
       },
       [handleSubmit],
     )
-  const muiInputProps = useMemo(() => ({ "aria-label": "Search for" }), [])
+
   return (
-    <OutlinedInput
+    <Input
       fullWidth={props.fullWidth}
       size={props.size}
+      aria-label="foooo"
       inputProps={muiInputProps}
       autoFocus={props.autoFocus}
       className={props.className}
       placeholder={props.placeholder}
-      color={color}
       value={props.value}
       onChange={props.onChange}
       onKeyDown={onInputKeyDown}
       startAdornment={
-        <InputAdornment position="start" color="secondary">
-          <IconButton
-            aria-label="Search"
-            className={props.classNameSearch}
-            onClick={handleSubmit}
-            size="small"
-          >
-            <SearchIcon fontSize="inherit" sx={searchIconAdjustments} />
-          </IconButton>
-        </InputAdornment>
+        <AdornmentButton
+          aria-label="Search"
+          className={props.classNameSearch}
+          onClick={handleSubmit}
+        >
+          <SearchIcon fontSize="inherit" />
+        </AdornmentButton>
       }
       endAdornment={
         props.value && (
-          <InputAdornment position="end">
-            <IconButton
-              className={props.classNameClear}
-              aria-label="Clear search text"
-              onClick={props.onClear}
-            >
-              <ClearIcon />
-            </IconButton>
-          </InputAdornment>
+          <AdornmentButton
+            className={props.classNameClear}
+            aria-label="Clear search text"
+            onClick={props.onClear}
+          >
+            <ClearIcon />
+          </AdornmentButton>
         )
       }
     />
