@@ -1,0 +1,19 @@
+import { Canvas, Meta } from "@storybook/blocks";
+
+import * as TextFieldStories from "./TextField.stories";
+
+<Meta of={TextFieldStories} />
+
+# TextField
+
+`TextField` includes an input, label, help text, and error message. Internally, it uses `<Input />`. Two sizes, `size="medium" | "hero"`, are available.
+
+<Canvas of={TextFieldStories.Sizes} />
+
+Various states are shown below.
+
+<Canvas of={TextFieldStories.States} />
+
+Use `fullWidth` to make the input full width:
+
+<Canvas of={TextFieldStories.Widths} />

@@ -82,7 +82,7 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
         placeholder="List Title"
         value={formik.values.title}
         error={!!formik.errors.title}
-        helperText={formik.errors.title}
+        errorText={formik.errors.title}
         onChange={formik.handleChange}
         fullWidth
       />
@@ -93,7 +93,7 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
         placeholder="List Description"
         value={formik.values.public_description}
         error={!!formik.errors.public_description}
-        helperText={formik.errors.public_description}
+        errorText={formik.errors.public_description}
         onChange={formik.handleChange}
         fullWidth
         multiline

@@ -229,7 +229,6 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
           </GridColumn>
           <GridColumn variant="sidebar-2-wide-main">
             <SearchField
-              color="secondary"
               value={currentText}
               onChange={(e) => setCurrentText(e.target.value)}
               onSubmit={(e) => {
