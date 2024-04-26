@@ -24,7 +24,6 @@ const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
     ? APP_SETTINGS.posthog
     : {
         api_key: "",
-        enabled: false,
       }
   const phOptions = {
     feature_flag_request_timeout_ms: phSettings.timeout || 3000,

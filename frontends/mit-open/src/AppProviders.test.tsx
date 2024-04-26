@@ -12,7 +12,6 @@ describe("PostHogProvider", () => {
   it("Renders with PostHog support if enabled", async () => {
     APP_SETTINGS.posthog = {
       api_key: "", // pragma: allowlist secret
-      enabled: true,
     }
 
     renderWithProviders(<div data-testid="some-children" />)
@@ -25,7 +24,6 @@ describe("PostHogProvider", () => {
   it("Renders without PostHog support if disabled", async () => {
     APP_SETTINGS.posthog = {
       api_key: "", // pragma: allowlist secret
-      enabled: false,
     }
 
     renderWithProviders(<div data-testid="some-children" />)
