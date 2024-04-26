@@ -152,15 +152,27 @@ describe("FieldSearch", () => {
   test.each([
     {
       fieldType: ChannelTypeEnum.Topic,
-      displayedFacets: ["Resource Type", "Offered By", "Department", "Level"],
+      displayedFacets: [
+        "Resource Type",
+        "Offered By",
+        "Department",
+        "Level",
+        "Certification",
+      ],
     },
     {
       fieldType: ChannelTypeEnum.Department,
-      displayedFacets: ["Resource Type", "Offered By", "Topic", "Level"],
+      displayedFacets: [
+        "Resource Type",
+        "Offered By",
+        "Topic",
+        "Level",
+        "Certification",
+      ],
     },
     {
       fieldType: ChannelTypeEnum.Offeror,
-      displayedFacets: ["Resource Type", "Topic", "Platform"],
+      displayedFacets: ["Resource Type", "Topic", "Platform", "Certification"],
     },
     {
       fieldType: ChannelTypeEnum.Pathway,
@@ -184,6 +196,7 @@ describe("FieldSearch", () => {
               resource_type: [{ key: "course", doc_count: 100 }],
               platform: [{ key: "ocw", doc_count: 100 }],
               offered_by: [{ key: "ocw", doc_count: 100 }],
+              certification: [{ key: "true", doc_count: 100 }],
             },
             suggestions: [],
           },
@@ -206,6 +219,7 @@ describe("FieldSearch", () => {
         "Offered By",
         "Platforn",
         "Topic",
+        "Certification",
       ]) {
         if (dropdownName in displayedFacets) {
           await screen.findByText(dropdownName)
@@ -216,7 +230,7 @@ describe("FieldSearch", () => {
     },
   )
 
-  test("Selected Facets should be displayed and toggleable", async () => {
+  test("Multi-select facets should be displayed and toggleable", async () => {
     const { field } = setMockApiResponses({
       fieldPatch: {
         channel_type: ChannelTypeEnum.Department,
@@ -274,5 +288,101 @@ describe("FieldSearch", () => {
     courseSelect = await screen.findByText("Course")
 
     expect(courseSelect).toHaveAttribute("aria-selected", "false")
+  })
+
+  test("Boolean facets should be displayed and toggleable", async () => {
+    const { field } = setMockApiResponses({
+      fieldPatch: {
+        channel_type: ChannelTypeEnum.Department,
+        search_filter: "offered_by=ocw",
+      },
+      search: {
+        count: 700,
+        metadata: {
+          aggregations: {
+            certification: [
+              { key: "true", doc_count: 100 },
+              { key: "false", doc_count: 100 },
+            ],
+          },
+          suggestions: [],
+        },
+        results: [],
+      },
+    })
+
+    const { location } = renderTestApp({
+      url: `/c/${field.channel_type}/${field.name}/`,
+    })
+    expect(location.current.search).toBe("")
+    await waitFor(() => {
+      expect(makeRequest.mock.calls.length > 0).toBe(true)
+    })
+
+    let certificationDropdown = await screen.findByText("Certification")
+
+    await user.click(certificationDropdown)
+
+    let noneSelect = await screen.findByRole("option", {
+      name: "no selection",
+    })
+
+    expect(noneSelect).toHaveAttribute("aria-selected", "true")
+
+    let trueSelect = await screen.findByRole("option", {
+      name: /true/i,
+    })
+
+    expect(trueSelect).toHaveAttribute("aria-selected", "false")
+
+    await user.click(trueSelect)
+
+    expect(location.current.search).toBe("?certification=true")
+
+    certificationDropdown = await screen.findByText("Certification")
+
+    await user.click(certificationDropdown)
+
+    trueSelect = await screen.findByRole("option", {
+      name: /true/i,
+    })
+
+    expect(trueSelect).toHaveAttribute("aria-selected", "true")
+
+    let falseSelect = await screen.findByRole("option", {
+      name: /false/i,
+    })
+
+    expect(falseSelect).toHaveAttribute("aria-selected", "false")
+
+    await user.click(falseSelect)
+
+    expect(location.current.search).toBe("?certification=false")
+
+    certificationDropdown = await screen.findByText("Certification")
+
+    await user.click(certificationDropdown)
+
+    falseSelect = await screen.findByRole("option", {
+      name: /false/i,
+    })
+
+    expect(falseSelect).toHaveAttribute("aria-selected", "true")
+
+    trueSelect = await screen.findByRole("option", {
+      name: /true/i,
+    })
+
+    expect(trueSelect).toHaveAttribute("aria-selected", "false")
+
+    noneSelect = await screen.findByRole("option", {
+      name: /no selection/i,
+    })
+
+    expect(noneSelect).toHaveAttribute("aria-selected", "false")
+
+    await user.click(noneSelect)
+
+    expect(location.current.search).toBe("")
   })
 })

@@ -1,8 +1,11 @@
 """Filters for learning_resources API"""
 
 import logging
+from decimal import Decimal
 
+from django.db.models import Q
 from django_filters import (
+    BooleanFilter,
     ChoiceFilter,
     FilterSet,
     MultipleChoiceFilter,
@@ -24,6 +27,10 @@ log = logging.getLogger(__name__)
 
 class LearningResourceFilter(FilterSet):
     """LearningResource filter"""
+
+    free = BooleanFilter(
+        label="The course/program is offered for free", method="filter_free"
+    )
 
     department = MultipleChoiceFilter(
         label="The department that offers learning resources",
@@ -89,6 +96,21 @@ class LearningResourceFilter(FilterSet):
             ]
         ),
     )
+
+    def filter_free(self, queryset, _, value):
+        """Free cost filter for learning resources"""
+        queryset = queryset.exclude(runs__isnull=True)
+        free_filter = (
+            Q(runs__prices__isnull=True)
+            | Q(runs__prices=[])
+            | Q(runs__prices__contains=[Decimal(0.00)])
+        )
+        if value:
+            # Free resources
+            return queryset.filter(free_filter)
+        else:
+            # Resources that are not offered for free
+            return queryset.exclude(free_filter)
 
     def filter_readable_id(self, queryset, _, value):
         """Readable id filter for leaarning resources"""

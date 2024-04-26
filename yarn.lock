@@ -3582,7 +3582,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:^3.0.4":
+"@mitodl/course-search-utils@npm:^3.0.5":
   version: 3.0.5
   resolution: "@mitodl/course-search-utils@npm:3.0.5"
   dependencies:
@@ -17341,7 +17341,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^7.3.0"
-    "@mitodl/course-search-utils": "npm:^3.0.4"
+    "@mitodl/course-search-utils": "npm:^3.0.5"
     "@mui/icons-material": "npm:^5.14.19"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@sentry/react": "npm:^7.57.0"
