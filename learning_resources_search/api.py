@@ -86,22 +86,20 @@ def generate_sort_clause(search_params):
     now = time.time()
 
     if search_params.get("sortby") == "upcoming":
-        sort_filter = {
-            "sort": [
-                {
-                    "_script": {
-                        "type": "number",
-                        "script": {
-                            "lang": "painless",
-                            "source": "return doc['runs__start_date'].value.millis > params.now ? (doc['runs__start_date'].value.millis - params.now) : Long.MAX_VALUE",
-                            "params": {"now": now},
-                        },
-                        "order": "asc",
-                    }
-                },
-                {"start_date": {"order": "asc"}},
-            ]
-        }
+        sort_filter = [
+            {
+                "_script": {
+                    "type": "number",
+                    "script": {
+                        "lang": "painless",
+                        "source": "return doc['runs__start_date'].value.millis > params.now ? (doc['runs__start_date'].value.millis - params.now) : Long.MAX_VALUE",
+                        "params": {"now": 1594637988236},
+                    },
+                    "order": "asc",
+                }
+            },
+            {"start_date": {"order": "asc"}},
+        ]
     elif "." in sort:
         if sort.startswith("-"):
             field = sort[1:]
@@ -531,10 +529,25 @@ def construct_search(search_params):
     if search_params.get("limit"):
         search = search.extra(size=search_params.get("limit"))
 
-    if search_params.get("sortby"):
-        sort = generate_sort_clause(search_params)
+    # if search_params.get("sortby"):
+    #    sort = generate_sort_clause(search_params)
 
-        search = search.sort(sort)
+    #    search = search.sort(sort)
+
+    sort = [
+        {
+            "_script": {
+                "type": "number",
+                "script": {
+                    "lang": "painless",
+                    "source": "return doc['created_on'].value.millis > params.now ? (doc['created_on'].value.millis - params.now) : Long.MAX_VALUE",
+                    "params": {"now": 1704070800},
+                },
+                "order": "asc",
+            }
+        }
+    ]
+    search = search.extra(sort=sort)
 
     if search_params.get("endpoint") == CONTENT_FILE_TYPE:
         query_type_query = {"exists": {"field": "content_type"}}
@@ -564,6 +577,7 @@ def construct_search(search_params):
         )
         search = search.extra(aggs=aggregation_clauses)
 
+    print(search.to_dict())
     return search
 
 
