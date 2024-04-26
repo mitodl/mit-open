@@ -76,6 +76,13 @@ class LearningResourceRunInline(TabularInline):
     )
 
 
+class LearningResourceContentTagAdmin(admin.ModelAdmin):
+    """LearningResourceContentTag admin"""
+
+    model = models.LearningResourceContentTag
+    search_fields = ("name",)
+
+
 class LearningResourceViewEventAdmin(admin.ModelAdmin):
     """LearningResourceViewEvent admin"""
 
@@ -213,5 +220,6 @@ admin.site.register(models.LearningResourceDepartment, LearningResourceDepartmen
 admin.site.register(models.LearningResourcePlatform, LearningResourcePlatformAdmin)
 admin.site.register(models.LearningResourceOfferor, LearningResourceOfferorAdmin)
 admin.site.register(models.LearningResourceViewEvent, LearningResourceViewEventAdmin)
+admin.site.register(models.LearningResourceContentTag, LearningResourceContentTagAdmin)
 admin.site.register(models.UserList, UserListAdmin)
 admin.site.register(models.VideoChannel, VideoChannelAdmin)
