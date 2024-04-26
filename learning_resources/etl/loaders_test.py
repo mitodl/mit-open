@@ -113,6 +113,9 @@ def mock_upsert_tasks(mocker):
         upsert_learning_resource=mocker.patch(
             "learning_resources_search.tasks.upsert_learning_resource",
         ),
+        upsert_learning_resource_immutable_signature=mocker.patch(
+            "learning_resources_search.tasks.upsert_learning_resource.si",
+        ),
         deindex_learning_resource=mocker.patch(
             "learning_resources_search.tasks.deindex_document"
         ),
@@ -215,7 +218,12 @@ def test_load_program(
             result.id, result.resource_type
         )
     elif is_published:
-        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        if program_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
     else:
         mock_upsert_tasks.upsert_learning_resource.assert_not_called()
 
@@ -333,7 +341,12 @@ def test_load_course(  # noqa: PLR0913
             result.id, result.resource_type
         )
     elif is_published and is_run_published and not blocklisted:
-        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        if course_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
     else:
         mock_upsert_tasks.deindex_learning_resource.assert_not_called()
         mock_upsert_tasks.upsert_learning_resource.assert_not_called()
@@ -450,8 +463,15 @@ def test_load_duplicate_course(
 
     if course_id_is_duplicate and duplicate_course_exists:
         mock_upsert_tasks.deindex_learning_resource.assert_called()
-
-    mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+    if course.learning_resource.id:
+        if course_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(
+                course.learning_resource.id
+            )
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                course.learning_resource.id
+            )
 
     assert Course.objects.count() == (2 if duplicate_course_exists else 1)
 
@@ -885,7 +905,12 @@ def test_load_podcast_episode(
             result.id, result.resource_type
         )
     elif is_published:
-        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        if podcast_episode_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
     else:
         mock_upsert_tasks.upsert_learning_resource.assert_not_called()
         mock_upsert_tasks.deindex_learning_resource.assert_not_called()
@@ -960,7 +985,12 @@ def test_load_podcast(
             result.id, result.resource_type
         )
     elif is_published:
-        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        if podcast_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
     else:
         mock_upsert_tasks.deindex_learning_resource.assert_not_called()
         mock_upsert_tasks.upsert_learning_resource.assert_not_called()
