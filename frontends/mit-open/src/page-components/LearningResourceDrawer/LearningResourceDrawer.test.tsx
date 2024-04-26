@@ -44,7 +44,6 @@ describe("LearningResourceDrawer", () => {
     async (descriptor, enablePostHog) => {
       APP_SETTINGS.posthog = {
         api_key: "test1234", // pragma: allowlist secret
-        enabled: enablePostHog,
       }
       const resource = factories.learningResources.resource()
       setMockResponse.get(

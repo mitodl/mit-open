@@ -10,7 +10,6 @@ export type User = {
 
 export type PostHogSettings = {
   api_key: string
-  enabled: boolean
   timeout?: int
   bootstrap_flags?: Record<string, string | boolean>
 }

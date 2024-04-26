@@ -49,7 +49,7 @@ const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
     </ThemeProvider>
   )
 
-  return phSettings.enabled ? (
+  return phSettings.api_key.length > 0 ? (
     <StrictMode>
       <PostHogProvider apiKey={phSettings.api_key} options={phOptions}>
         {interiorElements}
