@@ -40,7 +40,6 @@ const setupApis = (
 ) => {
   const field = factories.fields.field(fieldPatch)
 
-  setMockResponse.get(urls.userMe.get(), {})
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
     field,

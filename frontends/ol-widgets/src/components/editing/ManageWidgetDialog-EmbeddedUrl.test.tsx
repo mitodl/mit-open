@@ -2,7 +2,7 @@ import React from "react"
 import { screen, render } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { assertInstanceOf, assertNotNil } from "ol-utilities"
-import { EmbedlyCard } from "ol-components"
+import { EmbedlyCard, ThemeProvider } from "ol-components"
 import {
   makeEmbeddedUrlWidgetSpec,
   makeEmbeddedUrlWidget,
@@ -61,6 +61,7 @@ const setupEmbeddedUrlTest = ({
       specs={[spec]}
       widget={widget}
     />,
+    { wrapper: ThemeProvider },
   )
 
   const input = screen.getByLabelText(urlFieldSpec.label)

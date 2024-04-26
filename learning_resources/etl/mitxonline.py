@@ -82,6 +82,20 @@ def extract_courses():
     return []
 
 
+def parse_program_prices(program_data: dict) -> list[float]:
+    """Return a list of unique prices for a program"""
+    prices = [program_data.get("current_price") or 0.00]
+    price_string = parse_page_attribute(program_data, "price")
+    if price_string:
+        prices.extend(
+            [
+                float(price.replace(",", ""))
+                for price in re.findall(r"[\d\.,]+", price_string)
+            ]
+        )
+    return sorted(set(prices))
+
+
 def _transform_image(mitxonline_data: dict) -> dict:
     """
     Transforms an image into our normalized data structure
@@ -225,6 +239,7 @@ def transform_programs(programs):
                     "url": parse_page_attribute(program, "page_url", is_url=True),
                     "image": _transform_image(program),
                     "description": parse_page_attribute(program, "description"),
+                    "prices": parse_program_prices(program),
                 }
             ],
             "courses": [

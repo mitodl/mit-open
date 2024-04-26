@@ -9,6 +9,7 @@ import {
   BannerPage,
   Container,
   styled,
+  Typography,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
@@ -27,7 +28,6 @@ import { imgConfigs } from "@/common/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import CardRowList from "@/components/CardRowList/CardRowList"
 import * as urls from "@/common/urls"
-import { useUserMe } from "api/hooks/user"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
@@ -87,7 +87,6 @@ const ListCard: React.FC<ListCardProps> = ({ list, onActivate, canEdit }) => {
 
 const LearningPathListingPage: React.FC = () => {
   const listingQuery = useLearningPathsList()
-  const { data: user } = useUserMe()
 
   const navigate = useNavigate()
   const handleActivate = useCallback(
@@ -101,7 +100,7 @@ const LearningPathListingPage: React.FC = () => {
     manageListDialogs.upsertLearningPath()
   }, [])
 
-  const canEdit = !!user?.is_learning_path_editor
+  const canEdit = window.SETTINGS.user.is_learning_path_editor
 
   return (
     <BannerPage
@@ -117,7 +116,9 @@ const LearningPathListingPage: React.FC = () => {
           <GridColumn variant="single-full">
             <ListHeaderGrid container justifyContent="space-between">
               <Grid item>
-                <h1>Learning Paths</h1>
+                <Typography variant="h3" component="h1">
+                  Learning Paths
+                </Typography>
               </Grid>
               <Grid
                 item
@@ -126,7 +127,7 @@ const LearningPathListingPage: React.FC = () => {
                 display="flex"
               >
                 {canEdit ? (
-                  <Button variant="contained" onClick={handleCreate}>
+                  <Button variant="filled" onClick={handleCreate}>
                     Create new list
                   </Button>
                 ) : null}

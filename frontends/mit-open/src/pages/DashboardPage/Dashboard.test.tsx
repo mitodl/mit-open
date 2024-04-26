@@ -1,20 +1,10 @@
-import {
-  renderTestApp,
-  screen,
-  waitFor,
-  setMockResponse,
-} from "../../test-utils"
-import { urls } from "api/test-utils"
-import { Permissions } from "@/common/permissions"
+import { renderTestApp, screen, waitFor } from "../../test-utils"
 
 describe("DashboardPage", () => {
   test("Renders title", async () => {
-    setMockResponse.get(urls.userMe.get(), {
-      [Permissions.Authenticated]: true,
-    })
-
     renderTestApp({
       url: "/dashboard",
+      user: { is_authenticated: true },
     })
     await waitFor(() => {
       expect(document.title).toBe("Dashboard")

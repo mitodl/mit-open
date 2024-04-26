@@ -1,8 +1,6 @@
 {
   "name": "ol-utilities",
-  "version": "0.0.0",
-  "packageManager": "yarn@4.1.1",
-  "private": true,
+  "packageManager": "yarn@3.8.1",
   "exports": {
     ".": "./src/index.ts",
     "./test-utils/factories": "./src/test-utils/factories.ts"
@@ -12,7 +10,7 @@
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
-    "@dnd-kit/sortable": "^7.0.2",
+    "@dnd-kit/sortable": "^8.0.0",
     "@dnd-kit/utilities": "^3.2.1",
     "@faker-js/faker": "^7.3.0",
     "api": "workspace:*",

@@ -28,7 +28,7 @@ import {
   getDepartmentName,
   getLevelName,
 } from "@mitodl/course-search-utils"
-import type { Facets } from "@mitodl/course-search-utils"
+import type { Facets, BooleanFacets } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import CardRowList from "@/components/CardRowList/CardRowList"
@@ -46,14 +46,21 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
     "offered_by",
     "department",
     "level",
+    "certification",
   ],
   [ChannelTypeEnum.Department]: [
     "resource_type",
     "offered_by",
     "topic",
     "level",
+    "certification",
   ],
-  [ChannelTypeEnum.Offeror]: ["resource_type", "topic", "Platform"],
+  [ChannelTypeEnum.Offeror]: [
+    "resource_type",
+    "topic",
+    "platform",
+    "certification",
+  ],
   [ChannelTypeEnum.Pathway]: [],
 }
 
@@ -94,6 +101,10 @@ const getFacetManifest = (
       title: "Offered By",
       labelFunction: (key: string) => offerors[key]?.name ?? key,
     },
+    {
+      name: "certification",
+      title: "Certification",
+    },
   ].filter(
     (facetSetting: SingleFacetOptions) =>
       !Object.keys(constantSearchParams).includes(facetSetting.name) &&
@@ -102,7 +113,7 @@ const getFacetManifest = (
 }
 
 const SearchField = styled(SearchInput)`
-  background-color: ${({ theme }) => theme.custom.colorBackgroundLight};
+  background-color: ${({ theme }) => theme.custom.colors.white};
   width: 100%;
   margin-top: 9px;
 `
@@ -126,7 +137,7 @@ export const FieldSearchControls = styled.div`
 const PAGE_SIZE = 10
 
 interface FeildSearchProps {
-  constantSearchParams: Facets
+  constantSearchParams: Facets & BooleanFacets
   channelType: ChannelTypeEnum
 }
 
@@ -177,7 +188,7 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
 
   const {
     params,
-    toggleParamValue,
+    setParamValue,
     currentText,
     setCurrentText,
     setCurrentTextAndQuery,
@@ -200,7 +211,7 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
       aggregations: facetNames as LRSearchRequest["aggregations"],
       offset: (page - 1) * PAGE_SIZE,
     },
-    { keepPreviousData: false },
+    { keepPreviousData: true },
   )
 
   return (
@@ -210,8 +221,8 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
           <GridColumn variant="main-2-wide-main">
             <AvailableFacetsDropdowns
               facetMap={facetManifest}
-              activeFacets={allParams}
-              onFacetChange={toggleParamValue}
+              activeFacets={allParams as Facets & BooleanFacets}
+              onFacetChange={setParamValue}
               facetOptions={(name) => data?.metadata.aggregations?.[name] ?? []}
               constantSearchParams={constantSearchParams}
             />

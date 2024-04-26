@@ -1,20 +1,21 @@
 import React, { useEffect } from "react"
 import ErrorPageTemplate from "./ErrorPageTemplate"
 import { useLocation } from "react-router"
-import { useUserMe } from "api/hooks/user"
+import { Typography } from "ol-components"
 
 const ForbiddenPage: React.FC = () => {
-  const { data: user } = useUserMe()
+  const { user } = window.SETTINGS
   const location = useLocation()
-
   useEffect(() => {
-    if (!user?.is_authenticated) {
+    if (!user.is_authenticated) {
       window.location.assign(`/login/ol-oidc/?next=${location.pathname}`)
     }
   })
   return (
     <ErrorPageTemplate title="Not Allowed">
-      <h1>Not Allowed</h1>
+      <Typography variant="h3" component="h1">
+        Not Allowed
+      </Typography>
       You do not have permission to access this resource.
     </ErrorPageTemplate>
   )

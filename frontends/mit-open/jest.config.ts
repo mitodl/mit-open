@@ -1,6 +1,6 @@
 import path from "path"
 import type { Config } from "@jest/types"
-import baseConfig from "../jest.jsdom.config"
+import baseConfig from "../../jest.jsdom.config"
 
 const config: Config.InitialOptions = {
   ...baseConfig,

@@ -72,10 +72,17 @@ def test_serialize_learning_resource_for_bulk(resource_type):
     The "course" resource type is tested by `test_serialize_course_numbers_for_bulk` below.
     """
     resource = factories.LearningResourceFactory.create(resource_type=resource_type)
+    free_dict = (
+        {"free": False}
+        if resource_type
+        in [LearningResourceType.program.name, LearningResourceType.course.name]
+        else {}
+    )
     assert serializers.serialize_learning_resource_for_bulk(resource) == {
         "_id": resource.id,
         "resource_relations": {"name": "resource"},
         "created_on": resource.created_on,
+        **free_dict,
         **LearningResourceSerializer(resource).data,
     }
 
@@ -120,6 +127,7 @@ def test_serialize_course_numbers_for_bulk(
         "_id": resource.id,
         "resource_relations": {"name": "resource"},
         "created_on": resource.created_on,
+        "free": False,
         **LearningResourceSerializer(resource).data,
     }
     expected_data["course"]["course_numbers"][0] = {
@@ -196,6 +204,7 @@ def test_learning_resources_search_request_serializer():
         "sortby": "-start_date",
         "professional": "true",
         "certification": "false",
+        "free": True,
         "offered_by": "xpro,ocw",
         "platform": "xpro,edx,ocw",
         "topic": "Math",
@@ -213,6 +222,7 @@ def test_learning_resources_search_request_serializer():
         "sortby": "-start_date",
         "professional": [True],
         "certification": [False],
+        "free": [True],
         "offered_by": ["xpro", "ocw"],
         "platform": ["xpro", "edx", "ocw"],
         "topic": ["Math"],
@@ -569,7 +579,7 @@ response_test_raw_data_2 = {
                     },
                     "id": 7363,
                     "departments": [],
-                    "prices": 0,
+                    "prices": [0.00],
                     "last_modified": None,
                     "runs": [],
                     "course_feature": [],
@@ -650,6 +660,14 @@ response_test_raw_data_2 = {
                 "buckets": [{"key": 0, "key_as_string": "false", "doc_count": 1}],
             },
         },
+        "free": {
+            "doc_count": 1,
+            "free": {
+                "doc_count_error_upper_bound": 0,
+                "sum_other_doc_count": 0,
+                "buckets": [{"key": 0, "key_as_string": "false", "doc_count": 1}],
+            },
+        },
     },
     "suggest": {
         "description.trigram": [
@@ -710,7 +728,7 @@ response_test_response_2 = {
             },
             "id": 7363,
             "departments": [],
-            "prices": 0,
+            "prices": [0.00],
             "last_modified": None,
             "runs": [],
             "course_feature": [],
@@ -729,6 +747,7 @@ response_test_response_2 = {
             "course_feature": [],
             "professional": [{"key": "false", "doc_count": 1}],
             "certification": [{"key": "false", "doc_count": 1}],
+            "free": [{"key": "false", "doc_count": 1}],
         },
         "suggest": ["broadignite"],
     },

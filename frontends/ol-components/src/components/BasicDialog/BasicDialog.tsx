@@ -3,7 +3,7 @@ import Dialog from "@mui/material/Dialog"
 import type { DialogProps } from "@mui/material/Dialog"
 import DialogContent from "@mui/material/DialogContent"
 import DialogTitle from "@mui/material/DialogTitle"
-import Button from "@mui/material/Button"
+import { Button } from "../Button/Button"
 import DialogActions from "@mui/material/DialogActions"
 import IconButton from "@mui/material/IconButton"
 import Close from "@mui/icons-material/Close"
@@ -91,12 +91,11 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
       <DialogContent>{children}</DialogContent>
       {showFooter && (
         <DialogActions>
-          <Button variant="outlined" color="secondary" onClick={onClose}>
+          <Button variant="outlined" onClick={onClose}>
             {cancelText}
           </Button>
           <Button
-            variant="contained"
-            color="primary"
+            variant="filled"
             onClick={handleConfirm}
             disabled={confirming}
           >

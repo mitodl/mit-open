@@ -1,8 +1,8 @@
 import React from "react"
-import { Container, Grid, Button, BannerPage } from "ol-components"
+import { Container, Grid, Button, BannerPage, Typography } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
 import SwapVertIcon from "@mui/icons-material/SwapVert"
-import { useUserMe } from "api/hooks/user"
+
 import { useToggle, pluralize, MetaTags } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
@@ -29,10 +29,9 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
   isFetching,
   handleEdit,
 }) => {
-  const { data: user } = useUserMe()
   const [isSorting, toggleIsSorting] = useToggle(false)
 
-  const canEdit = user?.is_learning_path_editor
+  const canEdit = window.SETTINGS.user.is_learning_path_editor
   const showSort = canEdit && !!items.length
   const count = items.length
 
@@ -50,7 +49,9 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
           <GridColumn variant="single-full">
             <Grid container>
               <Grid item xs={12}>
-                <h1>{title}</h1>
+                <Typography variant="h3" component="h1">
+                  {title}
+                </Typography>
                 {description && <p>{description}</p>}
               </Grid>
               <Grid
@@ -62,7 +63,6 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
               >
                 {showSort && (
                   <Button
-                    color="secondary"
                     disabled={count === 0}
                     startIcon={isSorting ? undefined : <SwapVertIcon />}
                     onClick={toggleIsSorting.toggle}
@@ -83,11 +83,7 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
                 display="flex"
               >
                 {canEdit ? (
-                  <Button
-                    color="secondary"
-                    startIcon={<EditIcon />}
-                    onClick={handleEdit}
-                  >
+                  <Button startIcon={<EditIcon />} onClick={handleEdit}>
                     Edit
                   </Button>
                 ) : null}

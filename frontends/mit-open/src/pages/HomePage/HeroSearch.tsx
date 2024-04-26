@@ -109,13 +109,7 @@ const HeroSearch: React.FC = () => {
         </Typography>
         <Stack direction="row" columnGap={1} flexWrap="wrap" rowGap={1}>
           {SEARCH_CHIPS.map(({ label, ...others }, index) => (
-            <ChipLink
-              key={index}
-              size="small"
-              color="default"
-              label={<Typography variant="subtitle4">{label}</Typography>}
-              {...others}
-            />
+            <ChipLink key={index} size="medium" label={label} {...others} />
           ))}
         </Stack>
       </SearchContainer>

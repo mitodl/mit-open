@@ -2,24 +2,14 @@
   "name": "root",
   "private": true,
   "workspaces": [
-    "api",
-    "github-pages",
-    "mit-open",
-    "ol-ckeditor",
-    "ol-common",
-    "ol-components",
-    "ol-template",
-    "ol-test-utilities",
-    "ol-utilities",
-    "ol-widgets"
+    "frontends/*",
+    "e2e_testing"
   ],
   "scripts": {
-    "foreach": "yarn workspaces foreach --all -pvi --exclude=root run",
-    "watch": "yarn workspace mit-open watch",
-    "watch:docker": "yarn workspace mit-open watch:docker",
-    "watch:rc": "yarn workspace mit-open watch:rc",
-    "build": "yarn workspace mit-open build",
-    "lint-check": "eslint . --ext .js,.jsx,.ts,.tsx,.mdx",
+    "foreach": "yarn workspaces foreach -pvi --exclude=root run",
+    "start-dev": "yarn workspaces foreach -pvi run start-dev",
+    "build": "yarn workspaces foreach run build",
+    "lint-check": "eslint --ignore-path .gitignore . --ext .js,.jsx,.ts,.tsx,.mdx",
     "lint-fix": "yarn lint-check --fix",
     "fmt-check": "prettier --check .",
     "fmt-fix": "prettier --write .",
@@ -39,7 +29,7 @@
     "build-storybook": "yarn workspace mit-open build-storybook"
   },
   "version": "0.0.0",
-  "packageManager": "yarn@4.1.1",
+  "packageManager": "yarn@3.8.1",
   "devDependencies": {
     "@swc/core": "^1.4.11",
     "@swc/jest": "^0.2.26",
@@ -52,7 +42,7 @@
     "@types/react-infinite-scroller": "^1.2.3",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "cross-fetch": "^4.0.0",
-    "eslint": "8",
+    "eslint": "^8.18.0",
     "eslint-config-mitodl": "^1.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -73,8 +63,9 @@
     "prettier-plugin-django-alpine": "^1.2.6",
     "stylelint": "^15.2.0",
     "stylelint-config-standard-scss": "^7.0.1",
+    "swc-loader": "^0.2.3",
     "syncpack": "^11.2.1",
-    "ts-node": "^10.9.2",
+    "ts-node": "^10.9.1",
     "type-fest": "^4.14.0",
     "typescript": "^5.4.3"
   }

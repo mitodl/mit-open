@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import Button from "@mui/material/Button"
-import type { ButtonProps } from "@mui/material/Button"
+import { Button } from "../Button/Button"
+import type { ButtonProps } from "../Button/Button"
 import Dialog from "@mui/material/Dialog"
 import DialogActions from "@mui/material/DialogActions"
 import DialogContent from "@mui/material/DialogContent"
@@ -158,16 +158,11 @@ const FormDialog: React.FC<FormDialogProps> = ({
       </div>
       <DialogContent dividers={true}>{children}</DialogContent>
       <DialogActions>
-        <Button
-          variant="outlined"
-          color="secondary"
-          onClick={onClose}
-          {...cancelButtonProps}
-        >
+        <Button variant="outlined" onClick={onClose} {...cancelButtonProps}>
           {cancelButtonContent}
         </Button>
         <Button
-          variant="contained"
+          variant="filled"
           type="submit"
           disabled={isSubmitting}
           {...submitButtonProps}

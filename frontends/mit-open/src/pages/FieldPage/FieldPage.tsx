@@ -8,7 +8,11 @@ import WidgetsList from "./WidgetsList"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { makeFieldViewPath } from "@/common/urls"
 import FieldSearch from "./FieldSearch"
-import type { Facets, FacetKey } from "@mitodl/course-search-utils"
+import type {
+  Facets,
+  FacetKey,
+  BooleanFacets,
+} from "@mitodl/course-search-utils"
 import { ChannelTypeEnum } from "api/v0"
 
 type RouteParams = {
@@ -45,7 +49,7 @@ const FieldPage: React.FC = () => {
     navigate(makeFieldViewPath(String(channelType), String(name)))
   }, [navigate, channelType, name])
 
-  const searchParams: Facets = {}
+  const searchParams: Facets & BooleanFacets = {}
 
   if (fieldQuery.data?.search_filter) {
     const urlParams = new URLSearchParams(fieldQuery.data.search_filter)

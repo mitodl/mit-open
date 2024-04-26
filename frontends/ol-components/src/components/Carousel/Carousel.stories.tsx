@@ -11,7 +11,6 @@ const Panel = styled.div({
   alignItems: "center",
   color: theme.palette.primary.main,
   backgroundColor: theme.palette.grey[300],
-  borderRadius: theme.custom.borderRadius,
   borderShadow: theme.custom.shadow,
 })
 

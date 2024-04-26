@@ -28,7 +28,7 @@ const config = {
   docs: {
     autodocs: "tag",
   },
-  staticDirs: ["../public/images"],
+  staticDirs: ["../../../static"],
   env: (config: any) => ({
     ...config,
     PUBLIC_URL: process.env.PUBLIC_URL || "",
