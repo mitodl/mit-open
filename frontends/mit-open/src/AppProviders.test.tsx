@@ -11,7 +11,7 @@ jest.mock("posthog-js/react", () => ({
 describe("PostHogProvider", () => {
   it("Renders with PostHog support if enabled", async () => {
     APP_SETTINGS.posthog = {
-      api_key: "", // pragma: allowlist secret
+      api_key: "12345", // pragma: allowlist secret
     }
 
     renderWithProviders(<div data-testid="some-children" />)

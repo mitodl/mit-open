@@ -15,8 +15,8 @@ const useCapturePageView = (resourceId: number) => {
 
   useEffect(() => {
     if (
-      APP_SETTINGS.posthog?.api_key &&
-      APP_SETTINGS.posthog.api_key.length > 0
+      !APP_SETTINGS.posthog?.api_key ||
+      APP_SETTINGS.posthog.api_key.length < 1
     )
       return
     if (!isSuccess) return
