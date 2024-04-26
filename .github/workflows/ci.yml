@@ -98,16 +98,13 @@ jobs:
 
   javascript-tests:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontends
     steps:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
+          node-version: "^20"
           cache: yarn
-          cache-dependency-path: frontends/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Setup environment
         run: sudo apt-get install libelf1
@@ -153,18 +150,15 @@ jobs:
 
   build-storybook:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: frontends
     steps:
       - name: Checkout
         uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
 
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
+          node-version: "^20"
           cache: yarn
-          cache-dependency-path: frontends/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - run: yarn install
 
@@ -194,12 +188,11 @@ jobs:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
+          node-version: "^20"
           cache: yarn
-          cache-dependency-path: frontends/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        working-directory: frontends
         run: yarn install --immutable
 
       - name: Generate Fresh API Client
@@ -215,7 +208,7 @@ jobs:
 
       - name: Format freshly generated client
         working-directory: frontends
-        run: npx prettier ../$GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+        run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
 
       - name: Check VC client is up-to-date
         run: |
@@ -235,12 +228,11 @@ jobs:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
+          node-version: "^20"
           cache: yarn
-          cache-dependency-path: frontends/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        working-directory: frontends
         run: yarn install --immutable
 
       - name: Generate Fresh API Client
@@ -255,8 +247,7 @@ jobs:
             -c scripts/openapi-configs/typescript-axios-v1.yaml
 
       - name: Format freshly generated client
-        working-directory: frontends
-        run: npx prettier ../$GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+        run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
 
       - name: Check VC client is up-to-date
         run: |
@@ -273,16 +264,14 @@ jobs:
 
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
+          node-version: "^20"
           cache: yarn
           cache-dependency-path: e2e_testing/yarn.lock
 
       - name: Install frontend dependencies
-        working-directory: frontends
         run: yarn install --immutable
 
       - name: Build frontend
-        working-directory: frontends
         run: NODE_ENV=production yarn build
 
       - name: Build services
@@ -330,7 +319,7 @@ jobs:
 
     needs:
       - build-storybook
-      - e2e-tests
+      # - e2e-tests
 
     steps:
       - name: Download artifacts
