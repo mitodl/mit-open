@@ -6558,7 +6558,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.2.79, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0":
+"@types/react@npm:18.3.1":
+  version: 18.3.1
+  resolution: "@types/react@npm:18.3.1"
+  dependencies:
+    "@types/prop-types": "*"
+    csstype: ^3.0.2
+  checksum: 9224ef319a0c2b7f66e7e7f06012aa5eb638a6c76c9742843eab1a5d243f2bed5ff829ddbb41efd60d33a266420528adfcb84cb93f238b00e905f98c3a355768
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0":
   version: 18.2.79
   resolution: "@types/react@npm:18.2.79"
   dependencies:
@@ -17489,7 +17499,7 @@ __metadata:
     "@testing-library/react": ^14.1.2
     "@testing-library/user-event": ^14.5.1
     "@types/lodash": ^4.14.182
-    "@types/react": 18.2.79
+    "@types/react": 18.3.1
     api: "workspace:*"
     axios: ^1.6.3
     classnames: ^2.3.2
