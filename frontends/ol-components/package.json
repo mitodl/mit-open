@@ -16,6 +16,7 @@
     "@mui/lab": "^5.0.0-alpha.170",
     "@mui/material": "^5.15.15",
     "@mui/system": "^5.15.15",
+    "@types/react": "18.2.0",
     "@types/tinycolor2": "^1.4.6",
     "lodash": "^4.17.21",
     "nuka-carousel": "^7.0.0",
