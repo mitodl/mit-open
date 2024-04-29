@@ -14,7 +14,7 @@
   "scripts": {
     "build": "yarn workspace mit-open run build",
     "style-lint": "yarn workspace frontends run style-lint",
-    "test": "yarn workspace frontends run test",
+    "test": "yarn workspace frontends global:test",
     "lint-check": "yarn workspace frontends run lint-check",
     "typecheck": "yarn workspace frontends run typecheck"
   },
