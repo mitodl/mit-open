@@ -30,9 +30,6 @@
     "tinycolor2": "^1.6.0",
     "validator": "^13.11.0"
   },
-  "peerDependencies": {
-    "react": "^18.2.0"
-  },
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
     "@storybook/addon-actions": "^8.0.9",
@@ -44,13 +41,13 @@
     "@storybook/react": "^8.0.9",
     "@storybook/react-webpack5": "^8.0.9",
     "@storybook/test": "^8.0.9",
-    "@testing-library/react": "^14.1.2",
-    "@testing-library/user-event": "^14.5.1",
+    "@testing-library/react": "14.3.1",
+    "@testing-library/user-event": "14.5.2",
     "api": "workspace:*",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "storybook-addon-react-router-v6": "^2.0.15"
   }
 }

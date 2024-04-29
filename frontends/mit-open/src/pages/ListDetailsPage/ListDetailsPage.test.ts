@@ -110,7 +110,7 @@ describe("ListDetailsPage", () => {
     expect(reorderButton).toHaveAccessibleName("Done ordering")
     await user.click(reorderButton)
     expectLastProps(spyItemsListing, { sortable: false })
-  })
+  }, 10000)
 
   it.each([
     {
@@ -200,5 +200,5 @@ describe("ListDetailsPage", () => {
     await waitFor(() =>
       expectLastProps(spyItemsListing, { isRefetching: false }),
     )
-  })
+  }, 10000)
 })

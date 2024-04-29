@@ -5587,7 +5587,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/react@npm:^14.1.2":
+"@testing-library/react@npm:14.3.1":
   version: 14.3.1
   resolution: "@testing-library/react@npm:14.3.1"
   dependencies:
@@ -5601,7 +5601,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/user-event@npm:^14.5.1, @testing-library/user-event@npm:^14.5.2":
+"@testing-library/user-event@npm:14.5.2, @testing-library/user-event@npm:^14.5.2":
   version: 14.5.2
   resolution: "@testing-library/user-event@npm:14.5.2"
   peerDependencies:
@@ -7299,13 +7299,13 @@ __metadata:
     "@faker-js/faker": "npm:^7.3.0"
     "@lukemorales/query-key-factory": "npm:^1.3.2"
     "@tanstack/react-query": "npm:^4.36.1"
-    "@testing-library/react": "npm:^14.1.2"
+    "@testing-library/react": "npm:14.3.1"
     axios: "npm:^1.6.3"
     jest-when: "npm:^3.6.0"
     lodash: "npm:^4.17.21"
     ol-test-utilities: "npm:0.0.0"
   peerDependencies:
-    react: ^18.2.0
+    react: 18.2.0
   languageName: unknown
   linkType: soft
 
@@ -11327,12 +11327,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:^4.3.0, eslint-plugin-react-hooks@npm:^4.6.0":
+"eslint-plugin-react-hooks@npm:^4.3.0":
   version: 4.6.1
   resolution: "eslint-plugin-react-hooks@npm:4.6.1"
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
   checksum: 10/4ee9d00a5e7ed0257db07508e4ac5161377ceefc0180eb2924fe0e7c8bbbfb422a274ab017a68e5c1f4ae1f1cb3c8a04c6748bba5891f0e97b8953435578ef36
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-react-hooks@npm:^4.6.0":
+  version: 4.6.2
+  resolution: "eslint-plugin-react-hooks@npm:4.6.2"
+  peerDependencies:
+    eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0
+  checksum: 10/5a0680941f34e70cf505bcb6082df31a3e445d193ee95a88ff3483041eb944f4cefdaf7e81b0eb1feb4eeceee8c7c6ddb8a2a6e8c4c0388514a42e16ac7b7a69
   languageName: node
   linkType: hard
 
@@ -12286,8 +12295,8 @@ __metadata:
     "@swc/core": "npm:^1.4.11"
     "@swc/jest": "npm:^0.2.26"
     "@testing-library/jest-dom": "npm:^6.4.2"
-    "@testing-library/react": "npm:^14.1.2"
-    "@testing-library/user-event": "npm:^14.5.1"
+    "@testing-library/react": "npm:14.3.1"
+    "@testing-library/user-event": "npm:14.5.2"
     "@types/css-mediaquery": "npm:^0.1.1"
     "@types/jest": "npm:^29.5.2"
     "@types/jest-when": "npm:^3.5.2"
@@ -12581,8 +12590,8 @@ __metadata:
     eslint: "npm:8"
     eslint-config-react-app: "npm:^7.0.1"
     ol-components: "npm:0.0.0"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
     react-scripts: "npm:5.0.1"
     swc-loader: "npm:^0.2.6"
   languageName: unknown
@@ -17355,8 +17364,8 @@ __metadata:
     "@swc/core": "npm:^1.4.11"
     "@tanstack/react-query": "npm:^4.36.1"
     "@tanstack/react-query-devtools": "npm:^4.29.6"
-    "@testing-library/react": "npm:^14.1.2"
-    "@testing-library/user-event": "npm:^14.5.1"
+    "@testing-library/react": "npm:14.3.1"
+    "@testing-library/user-event": "npm:14.5.2"
     "@types/lodash": "npm:^4.14.182"
     "@types/react": "npm:18.3.1"
     api: "workspace:*"
@@ -17375,8 +17384,8 @@ __metadata:
     ol-utilities: "npm:0.0.0"
     ol-widgets: "npm:0.0.0"
     posthog-js: "npm:^1.128.2"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
     react-dotdotdot: "npm:^1.3.1"
     react-helmet-async: "npm:^2.0.3"
     react-infinite-scroller: "npm:^1.2.6"
@@ -17983,13 +17992,13 @@ __metadata:
     "@ckeditor/ckeditor5-react": "npm:^6.2.0"
     "@ckeditor/ckeditor5-theme-lark": "npm:^41.0.0"
     "@ckeditor/ckeditor5-ui": "npm:^41.0.0"
-    "@testing-library/react": "npm:^14.1.2"
+    "@testing-library/react": "npm:14.3.1"
     axios: "npm:^1.6.3"
     classnames: "npm:^2.3.2"
     ol-components: "npm:0.0.0"
     ol-utilities: "npm:0.0.0"
   peerDependencies:
-    react: ^18.2.0
+    react: 18.2.0
   languageName: unknown
   linkType: soft
 
@@ -18016,8 +18025,8 @@ __metadata:
     "@storybook/react": "npm:^8.0.9"
     "@storybook/react-webpack5": "npm:^8.0.9"
     "@storybook/test": "npm:^8.0.9"
-    "@testing-library/react": "npm:^14.1.2"
-    "@testing-library/user-event": "npm:^14.5.1"
+    "@testing-library/react": "npm:14.3.1"
+    "@testing-library/user-event": "npm:14.5.2"
     "@types/tinycolor2": "npm:^1.4.6"
     api: "workspace:*"
     lodash: "npm:^4.17.21"
@@ -18026,8 +18035,8 @@ __metadata:
     ol-utilities: "npm:0.0.0"
     prop-types: "npm:^15.8.1"
     rc-tooltip: "npm:^6.1.2"
-    react: "npm:^18.2.0"
-    react-dom: "npm:^18.2.0"
+    react: "npm:18.2.0"
+    react-dom: "npm:18.2.0"
     react-router: "npm:^6.22.2"
     react-router-dom: "npm:^6.22.2"
     react-select: "npm:^5.7.7"
@@ -18036,8 +18045,6 @@ __metadata:
     tiny-invariant: "npm:^1.3.1"
     tinycolor2: "npm:^1.6.0"
     validator: "npm:^13.11.0"
-  peerDependencies:
-    react: ^18.2.0
   languageName: unknown
   linkType: soft
 
@@ -18054,7 +18061,7 @@ __metadata:
   resolution: "ol-test-utilities@workspace:frontends/ol-test-utilities"
   dependencies:
     "@faker-js/faker": "npm:^7.3.0"
-    "@testing-library/react": "npm:^14.1.2"
+    "@testing-library/react": "npm:14.3.1"
     css-mediaquery: "npm:^0.1.2"
     tiny-invariant: "npm:^1.3.1"
   languageName: unknown
@@ -18068,8 +18075,8 @@ __metadata:
     "@dnd-kit/sortable": "npm:^8.0.0"
     "@dnd-kit/utilities": "npm:^3.2.1"
     "@faker-js/faker": "npm:^7.3.0"
-    "@testing-library/react": "npm:^14.1.2"
-    "@testing-library/user-event": "npm:^14.5.1"
+    "@testing-library/react": "npm:14.3.1"
+    "@testing-library/user-event": "npm:14.5.2"
     "@types/validator": "npm:^13.7.6"
     api: "workspace:*"
     casual-browserify: "npm:^1.5.19-2"
@@ -18085,7 +18092,7 @@ __metadata:
     striptags: "npm:^3.2.0"
     tiny-invariant: "npm:^1.3.1"
   peerDependencies:
-    react: ^18.2.0
+    react: 18.2.0
   languageName: unknown
   linkType: soft
 
@@ -18095,8 +18102,8 @@ __metadata:
   dependencies:
     "@faker-js/faker": "npm:^7.3.0"
     "@mui/icons-material": "npm:^5.15.15"
-    "@testing-library/react": "npm:^14.1.2"
-    "@testing-library/user-event": "npm:^14.5.1"
+    "@testing-library/react": "npm:14.3.1"
+    "@testing-library/user-event": "npm:14.5.2"
     "@types/js-beautify": "npm:^1.13.3"
     classnames: "npm:^2.3.2"
     formik: "npm:^2.4.5"
@@ -18111,7 +18118,7 @@ __metadata:
     validator: "npm:^13.11.0"
     yup: "npm:^1.2.0"
   peerDependencies:
-    react: ^18.2.0
+    react: 18.2.0
   languageName: unknown
   linkType: soft
 
@@ -20575,7 +20582,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^16.8.0 || ^17.0.0 || ^18.0.0, react-dom@npm:^18.2.0":
+"react-dom@npm:18.2.0":
+  version: 18.2.0
+  resolution: "react-dom@npm:18.2.0"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+    scheduler: "npm:^0.23.0"
+  peerDependencies:
+    react: ^18.2.0
+  checksum: 10/ca5e7762ec8c17a472a3605b6f111895c9f87ac7d43a610ab7024f68cd833d08eda0625ce02ec7178cc1f3c957cf0b9273cdc17aa2cd02da87544331c43b1d21
+  languageName: node
+  linkType: hard
+
+"react-dom@npm:^16.8.0 || ^17.0.0 || ^18.0.0":
   version: 18.3.0
   resolution: "react-dom@npm:18.3.0"
   dependencies:
@@ -20866,7 +20885,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, react@npm:^18.2.0":
+"react@npm:18.2.0":
+  version: 18.2.0
+  resolution: "react@npm:18.2.0"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+  checksum: 10/b9214a9bd79e99d08de55f8bef2b7fc8c39630be97c4e29d7be173d14a9a10670b5325e94485f74cd8bff4966ef3c78ee53c79a7b0b9b70cba20aa8973acc694
+  languageName: node
+  linkType: hard
+
+"react@npm:^16.8.0 || ^17.0.0 || ^18.0.0":
   version: 18.3.0
   resolution: "react@npm:18.3.0"
   dependencies:
@@ -21660,6 +21688,15 @@ __metadata:
   dependencies:
     xmlchars: "npm:^2.2.0"
   checksum: 10/97b50daf6ca3a153e89842efa18a862e446248296622b7473c169c84c823ee8a16e4a43bac2f73f11fc8cb9168c73fbb0d73340f26552bac17970e9052367aa9
+  languageName: node
+  linkType: hard
+
+"scheduler@npm:^0.23.0":
+  version: 0.23.2
+  resolution: "scheduler@npm:0.23.2"
+  dependencies:
+    loose-envify: "npm:^1.1.0"
+  checksum: 10/e8d68b89d18d5b028223edf090092846868a765a591944760942b77ea1f69b17235f7e956696efbb62c8130ab90af7e0949bfb8eba7896335507317236966bc9
   languageName: node
   linkType: hard
 
@@ -23462,7 +23499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tough-cookie@npm:^4.0.0, tough-cookie@npm:^4.1.2":
+"tough-cookie@npm:^4.0.0":
   version: 4.1.3
   resolution: "tough-cookie@npm:4.1.3"
   dependencies:
@@ -23471,6 +23508,18 @@ __metadata:
     universalify: "npm:^0.2.0"
     url-parse: "npm:^1.5.3"
   checksum: 10/cf148c359b638a7069fc3ba9a5257bdc9616a6948a98736b92c3570b3f8401cf9237a42bf716878b656f372a1fb65b74dd13a46ccff8eceba14ffd053d33f72a
+  languageName: node
+  linkType: hard
+
+"tough-cookie@npm:^4.1.2":
+  version: 4.1.4
+  resolution: "tough-cookie@npm:4.1.4"
+  dependencies:
+    psl: "npm:^1.1.33"
+    punycode: "npm:^2.1.1"
+    universalify: "npm:^0.2.0"
+    url-parse: "npm:^1.5.3"
+  checksum: 10/75663f4e2cd085f16af0b217e4218772adf0617fb3227171102618a54ce0187a164e505d61f773ed7d65988f8ff8a8f935d381f87da981752c1171b076b4afac
   languageName: node
   linkType: hard
 
@@ -23754,9 +23803,9 @@ __metadata:
   linkType: hard
 
 "type-fest@npm:^4.14.0":
-  version: 4.17.0
-  resolution: "type-fest@npm:4.17.0"
-  checksum: 10/16df8a9d1856f8662cdcf26a7da878285f1371f2090b25666e28744da6013f39986af712a0d8d0ffde155f46cd4872eceeab9a8b0eb6ddd2f345923257f41c36
+  version: 4.18.0
+  resolution: "type-fest@npm:4.18.0"
+  checksum: 10/038fab7f07e4b2646d0c6a52be278bcf8171e733b6af29b605416e138914eb9d29d6ad6e3fb786ebe56eada3f127f690d3cf8fd0fb59e7c2efda9b31cde23082
   languageName: node
   linkType: hard
 
@@ -25521,7 +25570,22 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^8.11.0, ws@npm:^8.13.0, ws@npm:^8.16.0, ws@npm:^8.2.3":
+"ws@npm:^8.11.0":
+  version: 8.17.0
+  resolution: "ws@npm:8.17.0"
+  peerDependencies:
+    bufferutil: ^4.0.1
+    utf-8-validate: ">=5.0.2"
+  peerDependenciesMeta:
+    bufferutil:
+      optional: true
+    utf-8-validate:
+      optional: true
+  checksum: 10/5e1dcb0ae70c6e2f158f5b446e0a72a2cd335b07aba73ee1872e9bae1285382286a10e53ed479db21bdd690a5dfd05641a768611ebb236253c62fefa43ef58b4
+  languageName: node
+  linkType: hard
+
+"ws@npm:^8.13.0, ws@npm:^8.16.0, ws@npm:^8.2.3":
   version: 8.16.0
   resolution: "ws@npm:8.16.0"
   peerDependencies:
@@ -25592,7 +25656,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.0.0, yaml@npm:^2.3.4":
+"yaml@npm:^2.0.0":
+  version: 2.4.2
+  resolution: "yaml@npm:2.4.2"
+  bin:
+    yaml: bin.mjs
+  checksum: 10/6eafbcd68dead734035f6f72af21bd820c29214caf7d8e40c595671a3c908535cef8092b9660a1c055c5833aa148aa640e0c5fa4adb5af2dacd6d28296ccd81c
+  languageName: node
+  linkType: hard
+
+"yaml@npm:^2.3.4":
   version: 2.4.1
   resolution: "yaml@npm:2.4.1"
   bin:

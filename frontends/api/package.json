@@ -12,11 +12,11 @@
     "./test-utils": "./src/test-utils/index.ts"
   },
   "peerDependencies": {
-    "react": "^18.2.0"
+    "react": "18.2.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^7.3.0",
-    "@testing-library/react": "^14.1.2",
+    "@testing-library/react": "14.3.1",
     "jest-when": "^3.6.0",
     "lodash": "^4.17.21",
     "ol-test-utilities": "0.0.0"

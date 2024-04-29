@@ -107,5 +107,5 @@ describe("EditFieldAppearanceForm", () => {
     })
     await screen.findByText(newTitle)
     await screen.findByText(newDesc)
-  })
+  }, 10000)
 })

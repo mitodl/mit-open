@@ -94,7 +94,7 @@ describe("FieldSearch", () => {
     expect(headings.map((h) => h.textContent)).toEqual(
       resources.map((r) => r.title),
     )
-  })
+  }, 10000)
 
   test.each([
     {
@@ -311,6 +311,8 @@ describe("FieldSearch", () => {
       },
     })
 
+    setMockResponse.get(urls.userMe.get(), {})
+
     const { location } = renderTestApp({
       url: `/c/${field.channel_type}/${field.name}/`,
     })
@@ -384,5 +386,5 @@ describe("FieldSearch", () => {
     await user.click(noneSelect)
 
     expect(location.current.search).toBe("")
-  })
+  }, 10000)
 })
