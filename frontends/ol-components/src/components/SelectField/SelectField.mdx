@@ -1,0 +1,17 @@
+import { Canvas, Meta } from "@storybook/blocks";
+
+import * as SelectField from "./SelectField.stories";
+
+<Meta of={SelectField} />
+
+# SelectField
+
+`SelectField` includes an input, label, help text, and error message. Internally, it uses `<Select />`. The child menu items should be `<MenuItem>...</MenuItem>` components; "placeholder" text can be added via a disabled `MenuItem`.
+
+SelectFields come in two sizes, `size="medium" | "hero"`:
+
+<Canvas of={SelectField.Sizes} />
+
+Various states are shown below:
+
+<Canvas of={SelectField.States} />

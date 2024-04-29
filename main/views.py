@@ -21,7 +21,11 @@ def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
     """Render the example app"""
 
     user = request.user
-    all_flags = get_all_feature_flags(user.username if user.is_authenticated else None)
+    all_flags = (
+        get_all_feature_flags(user.username if user.is_authenticated else None)
+        if settings.POSTHOG_ENABLED
+        else None
+    )
 
     js_settings = {
         "user": {

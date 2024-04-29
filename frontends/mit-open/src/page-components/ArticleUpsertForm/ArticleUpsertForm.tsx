@@ -9,7 +9,6 @@ import {
 } from "api/hooks/articles"
 import {
   Button,
-  FormControl,
   FormHelperText,
   Grid,
   TextField,
@@ -29,18 +28,6 @@ const postSchema = Yup.object().shape({
 })
 
 type FormValues = Yup.InferType<typeof postSchema>
-
-const TitleField = styled(TextField)`
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-
-  input {
-    font-size: 24px;
-    font-weight: bold;
-    padding: 0.5rem;
-    background-color: white;
-  }
-`
 
 const FormFooter = styled(Grid)`
   margin-top: 1rem;
@@ -113,32 +100,29 @@ const ArticleUpsertForm = ({
 
   return (
     <form onSubmit={formik.handleSubmit}>
-      <FormControl fullWidth sx={{ position: "relative" }}>
-        <TitleField
-          name="title"
-          label="Title"
-          variant="outlined"
-          value={formik.values.title}
-          onChange={formik.handleChange}
-          error={!!formik.errors.title}
-          helperText={formik.errors.title}
-        />
-        <CkeditorArticleLazy
-          aria-label="Article body"
-          fallbackLines={10}
-          className="article-editor"
-          initialData={article.data?.html}
-          onReady={setEditorReady.on}
-          onChangeHasPendingActions={setEditorBusy}
-          onChange={(value) => {
-            formik.setFieldValue("html", value)
-          }}
-          config={configOverrides}
-        />
-        {formik.errors.html ? (
-          <FormHelperText error>{formik.errors.html}</FormHelperText>
-        ) : null}
-      </FormControl>
+      <TextField
+        name="title"
+        label="Title"
+        value={formik.values.title}
+        onChange={formik.handleChange}
+        error={!!formik.errors.title}
+        errorText={formik.errors.title}
+      />
+      <CkeditorArticleLazy
+        aria-label="Article body"
+        fallbackLines={10}
+        className="article-editor"
+        initialData={article.data?.html}
+        onReady={setEditorReady.on}
+        onChangeHasPendingActions={setEditorBusy}
+        onChange={(value) => {
+          formik.setFieldValue("html", value)
+        }}
+        config={configOverrides}
+      />
+      {formik.errors.html ? (
+        <FormHelperText error>{formik.errors.html}</FormHelperText>
+      ) : null}
 
       <FormFooter container>
         <Grid item xs={6}>

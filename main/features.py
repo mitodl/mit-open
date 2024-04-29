@@ -31,17 +31,18 @@ def configure():
     The posthog library normally takes care of this but it doesn't
     expose all the client config options.
     """
-    posthog.default_client = posthog.Client(
-        api_key=settings.POSTHOG_PROJECT_API_KEY,
-        host=settings.POSTHOG_API_HOST,
-        debug=settings.DEBUG,
-        on_error=None,
-        send=None,
-        sync_mode=False,
-        poll_interval=30,
-        disable_geoip=True,
-        feature_flags_request_timeout_seconds=3,
-    )
+    if settings.POSTHOG_ENABLED:
+        posthog.default_client = posthog.Client(
+            api_key=settings.POSTHOG_PROJECT_API_KEY,
+            host=settings.POSTHOG_API_HOST,
+            debug=settings.DEBUG,
+            on_error=None,
+            send=None,
+            sync_mode=False,
+            poll_interval=30,
+            disable_geoip=True,
+            feature_flags_request_timeout_seconds=3,
+        )
 
 
 def default_unique_id() -> str:

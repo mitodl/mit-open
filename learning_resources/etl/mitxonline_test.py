@@ -11,12 +11,17 @@ from urllib.parse import urljoin
 import pytest
 
 from learning_resources.constants import LearningResourceType, PlatformType
-from learning_resources.etl import mitxonline
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.mitxonline import (
+    OFFERED_BY,
     _parse_datetime,
     _transform_image,
+    extract_courses,
+    extract_programs,
     parse_page_attribute,
+    parse_program_prices,
+    transform_courses,
+    transform_programs,
 )
 from learning_resources.etl.utils import (
     UCC_TOPIC_MAPPINGS,
@@ -72,35 +77,35 @@ def mocked_mitxonline_courses_responses(
 @pytest.mark.usefixtures("mocked_mitxonline_programs_responses")
 def test_mitxonline_extract_programs(mock_mitxonline_programs_data):
     """Verify that the extraction function calls the mitxonline programs API and returns the responses"""
-    assert mitxonline.extract_programs() == mock_mitxonline_programs_data
+    assert extract_programs() == mock_mitxonline_programs_data
 
 
 def test_mitxonline_extract_programs_disabled(settings):
     """Verify an empty list is returned if the API URL isn't set"""
     settings.MITX_ONLINE_PROGRAMS_API_URL = None
-    assert mitxonline.extract_programs() == []
+    assert extract_programs() == []
 
 
 @pytest.mark.usefixtures("mocked_mitxonline_courses_responses")
 def test_mitxonline_extract_courses(mock_mitxonline_courses_data):
     """Verify that the extraction function calls the mitxonline courses API and returns the responses"""
-    assert mitxonline.extract_courses() == mock_mitxonline_courses_data
+    assert extract_courses() == mock_mitxonline_courses_data
 
 
 def test_mitxonline_extract_courses_disabled(settings):
     """Verify an empty list is returned if the API URL isn't set"""
     settings.MITX_ONLINE_COURSES_API_URL = None
-    assert mitxonline.extract_courses() == []
+    assert extract_courses() == []
 
 
 def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
     """Test that mitxonline program data is correctly transformed into our normalized structure"""
-    result = mitxonline.transform_programs(mock_mitxonline_programs_data)
+    result = transform_programs(mock_mitxonline_programs_data)
     expected = [
         {
             "readable_id": program_data["readable_id"],
             "title": program_data["title"],
-            "offered_by": mitxonline.OFFERED_BY,
+            "offered_by": OFFERED_BY,
             "etl_source": ETLSource.mitxonline.name,
             "platform": PlatformType.mitxonline.name,
             "resource_type": LearningResourceType.program.name,
@@ -131,6 +136,7 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                     "published": bool(
                         program_data.get("page", {}).get("page_url", None) is not None
                     ),
+                    "prices": parse_program_prices(program_data),
                     "image": _transform_image(program_data),
                     "title": program_data["title"],
                     "description": program_data.get("description", None),
@@ -140,7 +146,7 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
             "courses": [
                 {
                     "readable_id": course_data["readable_id"],
-                    "offered_by": mitxonline.OFFERED_BY,
+                    "offered_by": OFFERED_BY,
                     "platform": PlatformType.mitxonline.name,
                     "resource_type": LearningResourceType.course.name,
                     "professional": False,
@@ -220,7 +226,7 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
 
 def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
     """Test that mitxonline courses data is correctly transformed into our normalized structure"""
-    result = mitxonline.transform_courses(mock_mitxonline_courses_data)
+    result = transform_courses(mock_mitxonline_courses_data)
     expected = [
         {
             "readable_id": course_data["readable_id"],
@@ -231,7 +237,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             "title": course_data["title"],
             "image": _transform_image(course_data),
             "description": course_data.get("page", {}).get("description", None),
-            "offered_by": mitxonline.OFFERED_BY,
+            "offered_by": OFFERED_BY,
             "published": course_data.get("page", {}).get("page_url", None) is not None,
             "professional": False,
             "topics": [
@@ -323,7 +329,7 @@ def test_course_run_start_date_value(
     """Test that the start date value is correctly determined for course runs"""
     mock_mitxonline_courses_data[0]["courseruns"][0]["start_date"] = start_dt
     mock_mitxonline_courses_data[0]["courseruns"][0]["enrollment_start"] = enrollment_dt
-    transformed_courses = mitxonline.transform_courses(mock_mitxonline_courses_data)
+    transformed_courses = transform_courses(mock_mitxonline_courses_data)
     assert transformed_courses[0]["runs"][0]["start_date"] == _parse_datetime(
         expected_dt
     )
@@ -345,7 +351,25 @@ def test_program_run_start_date_value(
     """Test that the start date value is correctly determined for program runs"""
     mock_mitxonline_programs_data[0]["start_date"] = start_dt
     mock_mitxonline_programs_data[0]["enrollment_start"] = enrollment_dt
-    transformed_programs = mitxonline.transform_programs(mock_mitxonline_programs_data)
+    transformed_programs = transform_programs(mock_mitxonline_programs_data)
     assert transformed_programs[0]["runs"][0]["start_date"] == _parse_datetime(
         expected_dt
+    )
+
+
+@pytest.mark.parametrize(
+    ("current_price", "page_price", "expected"),
+    [
+        (0, "100", [0, 100]),
+        (None, "$100 - $1,000", [0, 100, 1000]),
+        (99.99, "$99.99 - $3,000,000", [99.99, 3000000]),
+        (9.99, "$99.99 per course", [9.99, 99.99]),
+        (100, "varies from $29-$129", [100, 29, 129]),
+    ],
+)
+def test_parse_prices(current_price, page_price, expected):
+    """Test that the prices are correctly parsed from the page data"""
+    program_data = {"current_price": current_price, "page": {"price": page_price}}
+    assert parse_program_prices(program_data) == sorted(
+        [float(price) for price in expected]
     )

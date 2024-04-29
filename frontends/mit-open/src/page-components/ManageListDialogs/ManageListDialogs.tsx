@@ -178,7 +178,7 @@ const UpsertLearningPathDialog = NiceModal.create(
           placeholder="List Title"
           value={formik.values.title}
           error={!!formik.errors.title}
-          helperText={formik.errors.title}
+          errorText={formik.errors.title}
           onChange={formik.handleChange}
           {...variantProps}
           fullWidth
@@ -191,7 +191,7 @@ const UpsertLearningPathDialog = NiceModal.create(
           placeholder="List Description"
           value={formik.values.description}
           error={!!formik.errors.description}
-          helperText={formik.errors.description}
+          errorText={formik.errors.description}
           onChange={formik.handleChange}
           {...variantProps}
           fullWidth
@@ -207,13 +207,12 @@ const UpsertLearningPathDialog = NiceModal.create(
           value={formik.values.topics ?? []}
           loading={topicsQuery.isLoading}
           onChange={(_event, value) => formik.setFieldValue("topics", value)}
-          renderInput={(params) => (
+          renderInput={({ size, ...params }) => (
             <TextField
               {...params}
-              {...variantProps}
               required
               error={!!formik.errors.topics}
-              helperText={formik.errors.topics as string | undefined}
+              errorText={formik.errors.topics as string | undefined}
               label="Subjects"
               name="topics"
               placeholder={
@@ -299,7 +298,7 @@ const UpsertUserListDialog = NiceModal.create(
           placeholder="List Title"
           value={formik.values.title}
           error={!!formik.errors.title}
-          helperText={formik.errors.title}
+          errorText={formik.errors.title}
           onChange={formik.handleChange}
           {...variantProps}
           fullWidth
@@ -312,7 +311,7 @@ const UpsertUserListDialog = NiceModal.create(
           placeholder="List Description"
           value={formik.values.description}
           error={!!formik.errors.description}
-          helperText={formik.errors.description}
+          errorText={formik.errors.description}
           onChange={formik.handleChange}
           {...variantProps}
           fullWidth
