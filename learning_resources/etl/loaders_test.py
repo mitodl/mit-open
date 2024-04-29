@@ -1217,3 +1217,68 @@ def test_load_video_channels_unpublish(mock_upsert_tasks):
     assert playlist.published is False
     channel.refresh_from_db()
     assert channel.published is False
+
+
+@pytest.mark.parametrize("course_exists", [True, False])
+def test_load_course_percolation(
+    mocker,
+    mock_upsert_tasks,
+    course_exists,
+):
+    blocklisted = False
+    is_published = True
+    is_run_published = True
+    """Test that load_course loads the course"""
+    platform = LearningResourcePlatformFactory.create()
+
+    course = (
+        CourseFactory.create(learning_resource__runs=[], platform=platform.code)
+        if course_exists
+        else CourseFactory.build(learning_resource__runs=[], platform=platform.code)
+    )
+    learning_resource = course.learning_resource
+    learning_resource.published = is_published
+
+    if course_exists:
+        run = LearningResourceRunFactory.create(
+            learning_resource=learning_resource, published=True
+        )
+        learning_resource.runs.set([run])
+        learning_resource.save()
+    else:
+        run = LearningResourceRunFactory.build()
+    assert Course.objects.count() == (1 if course_exists else 0)
+
+    props = {
+        "readable_id": learning_resource.readable_id,
+        "platform": platform.code,
+        "professional": True,
+        "title": learning_resource.title,
+        "image": {"url": learning_resource.image.url},
+        "description": learning_resource.description,
+        "url": learning_resource.url,
+        "published": is_published,
+    }
+
+    if is_run_published:
+        run = {
+            "run_id": run.run_id,
+            "enrollment_start": run.enrollment_start,
+            "start_date": run.start_date,
+            "end_date": run.end_date,
+        }
+        props["runs"] = [run]
+    else:
+        props["runs"] = []
+
+    blocklist = [learning_resource.readable_id] if blocklisted else []
+
+    result = load_course(props, blocklist, [], config=CourseLoaderConfig(prune=True))
+
+    if course_exists:
+        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_not_called()
+    else:
+        mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+            result.id
+        )
