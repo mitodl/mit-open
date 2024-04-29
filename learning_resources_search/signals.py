@@ -38,8 +38,9 @@ def percolate_query_saved(sender, instance, created, **kwargs):  # noqa: ARG001
 
 
 @receiver(learning_resource_percolated, sender=LearningResource)
-def percolate_document(sender, instance, **kwargs):  # noqa: ARG001
+def document_percolated(sender, instance, **kwargs):  # noqa: ARG001
     """
     Percolate queries for indexed document
     """
     log.info("queries percolated")
+    log.info(kwargs.get("percolated_queries"))
