@@ -56,7 +56,7 @@
     "eslint-config-mitodl": "^1.0.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jest": "^27.1.1",
     "eslint-plugin-mdx": "^2.3.1",
     "eslint-plugin-mocha": "^10.4.1",
