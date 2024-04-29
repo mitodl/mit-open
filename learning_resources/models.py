@@ -1,12 +1,13 @@
 """Models for learning resources and related entities"""
 
-from decimal import Decimal
+import logging
 
 from django.contrib.admin.utils import flatten
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import JSONField
+from django.db.models.functions import Lower
 
 from learning_resources import constants
 from learning_resources.constants import (
@@ -15,6 +16,8 @@ from learning_resources.constants import (
     PrivacyLevel,
 )
 from main.models import TimestampedModel
+
+log = logging.getLogger(__name__)
 
 
 class LearningResourcePlatform(TimestampedModel):
@@ -35,15 +38,33 @@ class LearningResourceTopic(TimestampedModel):
     Topics for all learning resources (e.g. "History")
     """
 
-    name = models.CharField(max_length=128, unique=True)
-    subtopics = models.ManyToManyField(
+    name = models.CharField(max_length=128)
+    parent = models.ForeignKey(
         "LearningResourceTopic",
         blank=True,
-        symmetrical=False,
+        null=True,
+        on_delete=models.CASCADE,
     )
 
+    @property
+    def subtopics(self):
+        """Return a queryset of subtopics."""
+
+        return self.objects.filter(parent=self)
+
     def __str__(self):
+        """Return the topic name."""
+
         return self.name
+
+    class Meta:
+        """Meta options for LearningResourceTopic"""
+
+        constraints = [
+            models.UniqueConstraint(
+                Lower("name"), "parent", name="unique_lower_name_parent"
+            )
+        ]
 
 
 class LearningResourceOfferor(TimestampedModel):
@@ -206,19 +227,17 @@ class LearningResource(TimestampedModel):
         return None
 
     @property
-    def prices(self) -> list[Decimal]:
+    def prices(self) -> str | None:
         """Returns the prices for the learning resource"""
         if self.resource_type in [
             LearningResourceType.course.name,
             LearningResourceType.program.name,
         ]:
             return list(
-                set(
-                    flatten([(run.prices or [Decimal(0.0)]) for run in self.runs.all()])
-                )
+                set(flatten([run.prices for run in self.runs.all() if run.prices]))
             )
         else:
-            return [Decimal(0.00)]
+            return 0
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)

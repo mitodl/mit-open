@@ -2,6 +2,7 @@
 
 import csv
 import glob
+import json
 import logging
 import mimetypes
 import os
@@ -47,9 +48,74 @@ from learning_resources.models import (
     Course,
     LearningResource,
     LearningResourceRun,
+    LearningResourceTopic,
 )
 
 log = logging.getLogger(__name__)
+
+
+def _walk_ocw_topic_map(
+    topics: dict, parent: None | LearningResourceTopic = None
+) -> None:
+    """
+    Walk the topic map provided and create topic records accordingly.
+
+    This will recursively walk through the topics list and create/update topic
+    records as appropriate. There's just names here so if the record exists with
+    the same name (and parent), it'll update; otherwise, it creates.
+
+    Args:
+    - topics (dict): the topics to process
+    - parent (None or LearningResourceTopic): the parent topic (for inner loops)
+    Returns:
+    - None
+    """
+
+    for topic in topics:
+        lr_topic, _ = LearningResourceTopic.objects.filter(
+            name=topic, parent=parent
+        ).get_or_create(
+            defaults={
+                "parent": parent,
+                "name": topic,
+            }
+        )
+
+        try:
+            if len(topics[topic]) > 0:
+                _walk_ocw_topic_map(topics[topic], lr_topic)
+        except TypeError:
+            # the ends here are lists of str - if we get this, there's
+            # nothing else to process
+            pass
+
+
+def load_ocw_topic_mappings() -> None:
+    """
+    Load the topics from the OCW course site config file.
+
+    The OCW settings are in a JSON file. We're specifically looking at the field
+    named "Topics" and walking the list from there.
+    """
+
+    with Path.open(
+        Path("learning_resources/data/ocw-course-site-config.json")
+    ) as ocw_config:
+        ocw_config_json = ocw_config.read()
+
+    ocw_config = json.loads(ocw_config_json)
+    topics = []
+
+    for collection in ocw_config["collections"]:
+        if collection["category"] == "Settings":
+            for file in collection["files"]:
+                for field in file["fields"]:
+                    if field["label"] == "Topics":
+                        topics = field["options_map"]
+                        # There should only be one here so stop after finding it.
+                        break
+
+    _walk_ocw_topic_map(topics)
 
 
 def _load_ucc_topic_mappings():
