@@ -65,11 +65,12 @@ class LearningResourcesSearchView(ESView):
     @extend_schema(summary="Search")
     def get(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
-
         if request_data.is_valid():
             response = execute_learn_search(
                 request_data.data | {"endpoint": LEARNING_RESOURCE}
             )
+            print(response)
+
             return Response(
                 SearchResponseSerializer(response, context={"request": request}).data
             )
@@ -185,6 +186,7 @@ class ContentFileSearchView(ESView):
             )
         else:
             errors = {}
+            print(request_data.errors)
             for key, errors_obj in request_data.errors.items():
                 if isinstance(errors_obj, list):
                     errors[key] = errors_obj

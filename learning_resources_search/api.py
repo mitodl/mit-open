@@ -93,11 +93,11 @@ def generate_sort_clause(search_params):
                 },
                 "script": {
                     "lang": "painless",
-                    "source": "return doc['runs.start_date'].value.millis > params.now ? (doc['runs.start_date'].value.millis - params.now) : Long.MAX_VALUE",
+                    "source": "return (doc['runs.start_date'].size() > 0 && doc['runs.start_date'].value.millis > params.now) ? (doc['runs.start_date'].value.millis - params.now) : Long.MAX_VALUE",
                     "params": {"now": now},
                 },
-                "order": "desc",
-                "type": "number",
+                "order": "asc",
+                "type": "String",
             }
         }
     elif "." in sort:
@@ -564,6 +564,7 @@ def construct_search(search_params):
         )
         search = search.extra(aggs=aggregation_clauses)
 
+    search = search.extra(explain=True)
     print(search.to_dict())
     return search
 
