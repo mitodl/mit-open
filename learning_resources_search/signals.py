@@ -2,6 +2,8 @@
 Receivers for OpenSearch indexing
 """
 
+import logging
+
 import django.dispatch
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
@@ -13,7 +15,9 @@ from learning_resources_search.utils import (
     percolate_query_saved_actions,
 )
 
-learning_resource_indexed = django.dispatch.Signal()
+learning_resource_percolated = django.dispatch.Signal()
+
+log = logging.getLogger(__name__)
 
 
 @receiver(post_delete, sender=PercolateQuery)
@@ -33,9 +37,9 @@ def percolate_query_saved(sender, instance, created, **kwargs):  # noqa: ARG001
     percolate_query_saved_actions(percolate_query)
 
 
-@receiver(learning_resource_indexed, sender=LearningResource)
+@receiver(learning_resource_percolated, sender=LearningResource)
 def percolate_document(sender, instance, **kwargs):  # noqa: ARG001
     """
-    De-index percolate query post delete
+    Percolate queries for indexed document
     """
-    percolate_query_removed_actions(instance)
+    log.info("queries percolated")

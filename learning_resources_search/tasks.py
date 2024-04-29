@@ -18,7 +18,10 @@ from learning_resources.models import (
 )
 from learning_resources.utils import load_course_blocklist
 from learning_resources_search import indexing_api as api
-from learning_resources_search.api import gen_content_file_id
+from learning_resources_search.api import (
+    gen_content_file_id,
+    percolate_matches_for_document,
+)
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
     COURSE_TYPE,
@@ -97,7 +100,6 @@ def upsert_learning_resource(learning_resource_id):
     """Upsert learning resource based on stored database information"""
     resource_obj = LearningResource.objects.get(id=learning_resource_id)
     resource_data = serialize_learning_resource_for_update(resource_obj)
-
     api.upsert_document(
         learning_resource_id,
         resource_data,
@@ -132,6 +134,7 @@ def index_learning_resources(ids, resource_type, index_types):
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
 def percolate_learning_resource(resource_id):
     log.info("percolating document %s", resource_id)
+    percolate_matches_for_document(resource_id)
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")

@@ -61,8 +61,8 @@ class SearchIndexPlugin:
         upsert_task = tasks.upsert_learning_resource
         if percolate:
             upsert_task = chain(
-                tasks.percolate_learning_resource.si(resource.id),
                 tasks.upsert_learning_resource.si(resource.id),
+                tasks.percolate_learning_resource.si(resource.id),
             )
 
         try_with_retry_as_task(upsert_task, resource.id)
