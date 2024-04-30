@@ -14,7 +14,11 @@ const useCapturePageView = (resourceId: number) => {
   const posthog = usePostHog()
 
   useEffect(() => {
-    if (!APP_SETTINGS.posthog?.enabled) return
+    if (
+      !APP_SETTINGS.posthog?.api_key ||
+      APP_SETTINGS.posthog.api_key.length < 1
+    )
+      return
     if (!isSuccess) return
     posthog.capture("lrd_view", {
       resourceId: data?.id,

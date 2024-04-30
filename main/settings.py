@@ -686,10 +686,6 @@ KEYCLOAK_REALM_NAME = get_string(
 
 MICROMASTERS_CMS_API_URL = get_string("MICROMASTERS_CMS_API_URL", None)
 
-POSTHOG_ENABLED = get_bool(
-    name="POSTHOG_ENABLED",
-    default=False,
-)
 POSTHOG_PROJECT_API_KEY = get_string(
     name="POSTHOG_PROJECT_API_KEY",
     default="",

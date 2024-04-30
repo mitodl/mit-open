@@ -31,7 +31,7 @@ def configure():
     The posthog library normally takes care of this but it doesn't
     expose all the client config options.
     """
-    if settings.POSTHOG_ENABLED:
+    if settings.POSTHOG_PROJECT_API_KEY:
         posthog.default_client = posthog.Client(
             api_key=settings.POSTHOG_PROJECT_API_KEY,
             host=settings.POSTHOG_API_HOST,
@@ -162,7 +162,7 @@ def is_enabled(
             unique_id,
             person_properties=person_properties,
         )
-        if settings.POSTHOG_ENABLED
+        if settings.POSTHOG_PROJECT_API_KEY
         else None
     )
 

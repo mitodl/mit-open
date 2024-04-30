@@ -193,7 +193,6 @@ The system can use PostHog to evaluate feature flags and record views for the Le
 
 The following environment variables must be set for this support to work:
 
-- `POSTHOG_ENABLED` - boolean, toggles the integration on/off
 - `POSTHOG_PROJECT_ID` - int, the project ID for the app in PostHog
 - `POSTHOG_PROJECT_API_KEY` - string, the project API key for the app in PostHog. This usually starts with `phc_`.
 - `POSTHOG_PERSONAL_API_KEY` - string, your personal API key for PostHog. This usually starts with `phx_`.

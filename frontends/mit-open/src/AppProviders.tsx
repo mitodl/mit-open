@@ -20,12 +20,12 @@ interface AppProps {
  * Renders child with Router, QueryClientProvider, and other such context provides.
  */
 const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
-  const phSettings: PostHogSettings = APP_SETTINGS.posthog?.enabled
-    ? APP_SETTINGS.posthog
-    : {
-        api_key: "",
-        enabled: false,
-      }
+  const phSettings: PostHogSettings =
+    APP_SETTINGS.posthog?.api_key && APP_SETTINGS.posthog.api_key.length > 0
+      ? APP_SETTINGS.posthog
+      : {
+          api_key: "",
+        }
   const phOptions = {
     feature_flag_request_timeout_ms: phSettings.timeout || 3000,
     bootstrap: {
@@ -50,7 +50,7 @@ const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
     </ThemeProvider>
   )
 
-  return phSettings.enabled ? (
+  return phSettings.api_key.length > 0 ? (
     <StrictMode>
       <PostHogProvider apiKey={phSettings.api_key} options={phOptions}>
         {interiorElements}
