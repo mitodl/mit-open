@@ -468,7 +468,7 @@ def order_params(params):
 
 
 def adjust_query_for_percolator(query_params):
-    search = construct_search(query_params)
+    search = construct_search(query_params.copy())
     return adjust_search_for_percolator(search).to_dict()["query"]
 
 
@@ -603,7 +603,6 @@ def subscribe_user_to_search_query(user, search_params):
         dict: The opensearch response dict
     """
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
-
     percolate_query, _ = PercolateQuery.objects.get_or_create(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
         original_query=adjusted_original_query,
@@ -630,6 +629,7 @@ def unsubscribe_user_from_search_query(user, search_params):
         dict: The opensearch response dict
     """
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
+
     percolate_query = PercolateQuery.objects.filter(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
         original_query=adjusted_original_query,
@@ -669,9 +669,10 @@ def user_subscribed_to_query(user, search_params):
     Returns:
         bool: Whether or not the user has subscribed to the query
     """
+    adjusted_original_query = adjust_original_query_for_percolate(search_params)
     percolate_query = PercolateQuery.objects.filter(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
-        original_query=adjust_original_query_for_percolate(search_params),
+        original_query=adjusted_original_query,
     ).first()
     return (
         percolate_query.users.filter(id=user.id).exists() if percolate_query else False

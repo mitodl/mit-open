@@ -15,6 +15,7 @@ from rest_framework.views import APIView
 
 from authentication.decorators import blocked_ip_exempt
 from learning_resources_search.api import (
+    adjust_original_query_for_percolate,
     execute_learn_search,
     subscribe_user_to_search_query,
     unsubscribe_user_from_percolate_query,
@@ -100,6 +101,15 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
             QuerySet of PercolateQuery objects subscribed to by request user
         """
         queryset = self.request.user.percolate_queries.all()
+        if len(self.request.query_params) > 0:
+            request_data = LearningResourcesSearchRequestSerializer(
+                data=self.request.query_params
+            )
+            if request_data.is_valid():
+                adjusted_original_query = adjust_original_query_for_percolate(
+                    request_data.data | {"endpoint": LEARNING_RESOURCE}
+                )
+                queryset = queryset.filter(original_query=adjusted_original_query)
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, view=self)
         return queryset
