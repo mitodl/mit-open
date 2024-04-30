@@ -1225,6 +1225,7 @@ def test_load_course_percolation(
     mock_upsert_tasks,
     course_exists,
 ):
+    """Test loading a new course triggers percolation"""
     blocklisted = False
     is_published = True
     is_run_published = True

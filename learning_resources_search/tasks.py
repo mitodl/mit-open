@@ -133,6 +133,9 @@ def index_learning_resources(ids, resource_type, index_types):
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
 def percolate_learning_resource(resource_id):
+    """
+    Task that percolates a document following an index operation
+    """
     log.info("percolating document %s", resource_id)
     percolate_matches_for_document(resource_id)
 

@@ -40,7 +40,7 @@ def percolate_query_saved(sender, instance, created, **kwargs):  # noqa: ARG001
 @receiver(learning_resource_percolated, sender=LearningResource)
 def document_percolated(sender, instance, **kwargs):  # noqa: ARG001
     """
-    Percolate queries for indexed document
+    Global signal handler that gets called when a document matches percolated queries
     """
     log.info("queries percolated")
     log.info(kwargs.get("percolated_queries"))

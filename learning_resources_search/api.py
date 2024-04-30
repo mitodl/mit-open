@@ -483,6 +483,10 @@ def adjust_original_query_for_percolate(query):
 
 
 def percolate_matches_for_document(document_id):
+    """
+    Percolate matching queries for a given learning resource
+    and call signal handler with matches
+    """
     resource = LearningResource.objects.get(id=document_id)
     index = get_default_alias_name(resource.resource_type)
     search = Search()
