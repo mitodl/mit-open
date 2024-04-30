@@ -7,6 +7,7 @@ import {
   userListsApi,
   offerorsApi,
   platformsApi,
+  schoolsApi,
 } from "../../clients"
 import axiosInstance from "../../axios"
 import type {
@@ -134,6 +135,12 @@ const learningResources = createQueryKeys("learningResources", {
     return {
       queryKey: [params],
       queryFn: () => platformsApi.platformsList(params).then((res) => res.data),
+    }
+  },
+  schools: () => {
+    return {
+      queryKey: ["schools"],
+      queryFn: () => schoolsApi.schoolsList().then((res) => res.data),
     }
   },
 })

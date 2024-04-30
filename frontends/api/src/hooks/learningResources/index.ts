@@ -424,6 +424,10 @@ const usePlatformsList = (
   })
 }
 
+const useSchoolsList = () => {
+  return useQuery(learningResources.schools())
+}
+
 export {
   useLearningResourcesList,
   useLearningResourcesUpcoming,
@@ -451,4 +455,5 @@ export {
   useOfferorsList,
   useListItemMove,
   usePlatformsList,
+  useSchoolsList,
 }
