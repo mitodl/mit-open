@@ -118,7 +118,7 @@ def _transform_learning_resource_course(course):
         "topics": transform_topics(course.get("topics", [])),
         "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
         "resource_type": LearningResourceType.course.name,
-        "format": transform_format(course.get("format")),
+        "learning_format": transform_format(course.get("format")),
         "course": {
             "course_numbers": generate_course_numbers_json(
                 course["readable_id"], is_ocw=False
@@ -160,7 +160,7 @@ def transform_programs(programs):
             "topics": transform_topics(program.get("topics", [])),
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.name,
-            "format": transform_format(program.get("format")),
+            "learning_format": transform_format(program.get("format")),
             "runs": [
                 {
                     "prices": (

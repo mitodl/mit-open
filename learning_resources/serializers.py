@@ -13,7 +13,11 @@ from rest_framework.exceptions import ValidationError
 
 from channels.models import FieldChannel
 from learning_resources import constants, models
-from learning_resources.constants import LearningResourceType, LevelType
+from learning_resources.constants import (
+    LearningResourceFormat,
+    LearningResourceType,
+    LevelType,
+)
 from learning_resources.etl.loaders import update_index
 from main.serializers import COMMON_IGNORED_FIELDS, WriteableSerializerMethodField
 
@@ -197,6 +201,21 @@ class LearningResourceImageSerializer(serializers.ModelSerializer):
 class LearningResourceLevelSerializer(serializers.Field):
     def to_representation(self, value):
         return {"code": value, "name": LevelType[value].value}
+
+
+@extend_schema_field(
+    {
+        "type": "object",
+        "properties": {
+            "code": {"enum": LearningResourceFormat.names()},
+            "name": {"type": "string"},
+        },
+        "required": ["code", "name"],
+    }
+)
+class LearningResourceFormatSerializer(serializers.Field):
+    def to_representation(self, value):
+        return {"code": value, "name": LearningResourceFormat[value].value}
 
 
 class LearningResourceRunSerializer(serializers.ModelSerializer):
@@ -386,6 +405,9 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     learning_path_parents = serializers.SerializerMethodField()
     user_list_parents = serializers.SerializerMethodField()
     views = serializers.SerializerMethodField()
+    learning_format = serializers.ListField(
+        child=LearningResourceFormatSerializer(), read_only=True
+    )
 
     @extend_schema_field(LearningResourceImageSerializer(allow_null=True))
     def get_image(self, instance) -> dict:

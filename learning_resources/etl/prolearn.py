@@ -178,7 +178,9 @@ def update_format(unique_resource: dict, resource_format: list[str]):
         resource_data: another resource with the same url
 
     """
-    unique_resource["format"] = sorted(set(unique_resource["format"] + resource_format))
+    unique_resource["learning_format"] = sorted(
+        set(unique_resource["learning_format"] + resource_format)
+    )
 
 
 def extract_data(course_or_program: str) -> list[dict]:
@@ -246,7 +248,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                 "url": parse_url(program),
                 "image": parse_image(program),
                 "professional": offered_by.professional,
-                "format": transform_format(program["format_name"]),
+                "learning_format": transform_format(program["format_name"]),
                 "runs": [
                     {
                         "run_id": f'{program["nid"]}_{start_value}',
@@ -281,7 +283,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
             unique_program = unique_programs.setdefault(
                 transformed_program["url"], transformed_program
             )
-            update_format(unique_program, transformed_program["format"])
+            update_format(unique_program, transformed_program["learning_format"])
             unique_programs[transformed_program["url"]] = unique_program
     return list(unique_programs.values())
 
@@ -339,7 +341,7 @@ def _transform_course(
         "course": {
             "course_numbers": [],
         },
-        "format": transform_format(course["format_name"]),
+        "learning_format": transform_format(course["format_name"]),
         "published": True,
         "topics": parse_topic(course),
         "runs": _transform_runs(course),
@@ -366,6 +368,6 @@ def transform_courses(courses: list[dict]) -> list[dict]:
             unique_course = unique_courses.setdefault(
                 transformed_course["url"], transformed_course
             )
-            update_format(unique_course, transformed_course["format"])
+            update_format(unique_course, transformed_course["learning_format"])
             unique_courses[transformed_course["url"]] = unique_course
     return list(unique_courses.values())
