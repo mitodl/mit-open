@@ -3,8 +3,12 @@
 from unittest.mock import Mock
 
 import pytest
+from opensearch_dsl import response
+from opensearch_dsl.query import Percolate
 
+from learning_resources.factories import LearningResourceFactory
 from learning_resources_search.api import (
+    Search,
     execute_learn_search,
     generate_aggregation_clause,
     generate_aggregation_clauses,
@@ -15,6 +19,7 @@ from learning_resources_search.api import (
     generate_sort_clause,
     generate_suggest_clause,
     get_similar_topics,
+    percolate_matches_for_document,
     relevant_indexes,
 )
 from learning_resources_search.constants import (
@@ -22,6 +27,7 @@ from learning_resources_search.constants import (
     COURSE_TYPE,
     LEARNING_RESOURCE,
 )
+from learning_resources_search.factories import PercolateQueryFactory
 
 
 def os_topic(topic_name) -> Mock:
@@ -1695,3 +1701,49 @@ def test_get_similar_topics(settings, opensearch):
         },
         index=[f"{settings.OPENSEARCH_INDEX}_{COURSE_TYPE}_default"],
     )
+
+
+@pytest.mark.django_db()
+def test_document_percolation(opensearch, mocker):
+    mocker.patch(
+        "learning_resources_search.indexing_api.index_percolators", autospec=True
+    )
+    mocker.patch(
+        "learning_resources_search.indexing_api._update_document_by_id", autospec=True
+    )
+    og_query = {"test": "test"}
+    percolate_hits = []
+    for i in range(4):
+        og_query["test"] += str(i)
+        query = PercolateQueryFactory.create(original_query=og_query, query=og_query)
+        percolate_hits.append(
+            {
+                "_index": "test-index",
+                "_id": f"{query.id}",
+                "id": f"{query.id}",
+                "_score": 12.0,
+            }
+        )
+
+    percolated_signal = mocker.patch(
+        "learning_resources_search.api.learning_resource_percolated"
+    )
+    mocker.patch.object(Search, "execute")
+
+    Search.execute.return_value = response.Response(
+        Search().query(Percolate(field="query", index="test", id="test")),
+        {
+            "_shards": {"failed": 0, "successful": 10, "total": 10},
+            "hits": {
+                "hits": percolate_hits,
+                "max_score": 12.0,
+                "total": 123,
+            },
+            "timed_out": False,
+            "took": 123,
+        },
+    ).hits
+
+    lr = LearningResourceFactory.create()
+    percolate_matches_for_document(lr.id)
+    percolated_signal.send_robust.assert_called_once()
