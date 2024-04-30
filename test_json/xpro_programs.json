@@ -14,6 +14,7 @@
       { "name": "Business:Leadership & Organizations" },
       { "name": "Planning" }
     ],
+    "format": "Online",
     "platform": "xPRO",
     "courses": [
       {
@@ -25,7 +26,8 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [{ "name": "Business:Leadership & Organizations" }],
-        "platform": "xPRO"
+        "platform": "xPRO",
+        "format": "Online"
       },
       {
         "id": 20,
@@ -35,6 +37,7 @@
         "readable_id": "course-v1:xPRO+SysEngxB3",
         "topics": [],
         "platform": "xPRO",
+        "format": "Online",
         "courseruns": [
           {
             "title": "SEED Model-Based Systems Engineering: Documentation and Analysis - Fall 2020",
@@ -61,6 +64,7 @@
         "readable_id": "course-v1:xPRO+SysEngxB2",
         "topics": [{ "name": "Business:Leadership & Organizations" }],
         "platform": "xPRO",
+        "format": "Online",
         "courseruns": [
           {
             "title": "SEED Models in Engineering - Spring 2020",
@@ -104,6 +108,7 @@
     "end_date": "2019-12-10T00:00:00Z",
     "enrollment_start": null,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
+    "format": "In person",
     "platform": "xPRO",
     "courses": [
       {

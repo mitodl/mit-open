@@ -591,6 +591,12 @@ export interface CourseResource {
   url?: string | null
   /**
    *
+   * @type {Array<FormatEnum>}
+   * @memberof CourseResource
+   */
+  format?: Array<FormatEnum>
+  /**
+   *
    * @type {boolean}
    * @memberof CourseResource
    */
@@ -657,6 +663,12 @@ export interface CourseResourceRequest {
    * @memberof CourseResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<FormatEnum>}
+   * @memberof CourseResourceRequest
+   */
+  format?: Array<FormatEnum>
 }
 /**
  *
@@ -719,6 +731,20 @@ export const DepartmentEnum = {
 
 export type DepartmentEnum =
   (typeof DepartmentEnum)[keyof typeof DepartmentEnum]
+
+/**
+ * * `Online` - Online * `Hybrid` - Hybrid * `In person` - In person
+ * @export
+ * @enum {string}
+ */
+
+export const FormatEnum = {
+  Online: "Online",
+  Hybrid: "Hybrid",
+  InPerson: "In person",
+} as const
+
+export type FormatEnum = (typeof FormatEnum)[keyof typeof FormatEnum]
 
 /**
  * Serializer for the LearningPath model
@@ -947,6 +973,12 @@ export interface LearningPathResource {
   url?: string | null
   /**
    *
+   * @type {Array<FormatEnum>}
+   * @memberof LearningPathResource
+   */
+  format?: Array<FormatEnum>
+  /**
+   *
    * @type {boolean}
    * @memberof LearningPathResource
    */
@@ -1007,6 +1039,12 @@ export interface LearningPathResourceRequest {
    * @memberof LearningPathResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<FormatEnum>}
+   * @memberof LearningPathResourceRequest
+   */
+  format?: Array<FormatEnum>
   /**
    *
    * @type {boolean}
@@ -2746,6 +2784,12 @@ export interface PatchedLearningPathResourceRequest {
   url?: string | null
   /**
    *
+   * @type {Array<FormatEnum>}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  format?: Array<FormatEnum>
+  /**
+   *
    * @type {boolean}
    * @memberof PatchedLearningPathResourceRequest
    */
@@ -3126,6 +3170,12 @@ export interface PodcastEpisodeResource {
   url?: string | null
   /**
    *
+   * @type {Array<FormatEnum>}
+   * @memberof PodcastEpisodeResource
+   */
+  format?: Array<FormatEnum>
+  /**
+   *
    * @type {boolean}
    * @memberof PodcastEpisodeResource
    */
@@ -3192,6 +3242,12 @@ export interface PodcastEpisodeResourceRequest {
    * @memberof PodcastEpisodeResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<FormatEnum>}
+   * @memberof PodcastEpisodeResourceRequest
+   */
+  format?: Array<FormatEnum>
 }
 /**
  *
@@ -3377,6 +3433,12 @@ export interface PodcastResource {
   url?: string | null
   /**
    *
+   * @type {Array<FormatEnum>}
+   * @memberof PodcastResource
+   */
+  format?: Array<FormatEnum>
+  /**
+   *
    * @type {boolean}
    * @memberof PodcastResource
    */
@@ -3443,6 +3505,12 @@ export interface PodcastResourceRequest {
    * @memberof PodcastResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<FormatEnum>}
+   * @memberof PodcastResourceRequest
+   */
+  format?: Array<FormatEnum>
 }
 /**
  *
@@ -3855,6 +3923,12 @@ export interface ProgramResource {
   url?: string | null
   /**
    *
+   * @type {Array<FormatEnum>}
+   * @memberof ProgramResource
+   */
+  format?: Array<FormatEnum>
+  /**
+   *
    * @type {boolean}
    * @memberof ProgramResource
    */
@@ -3921,6 +3995,12 @@ export interface ProgramResourceRequest {
    * @memberof ProgramResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<FormatEnum>}
+   * @memberof ProgramResourceRequest
+   */
+  format?: Array<FormatEnum>
 }
 /**
  *
@@ -4392,6 +4472,12 @@ export interface VideoPlaylistResource {
   url?: string | null
   /**
    *
+   * @type {Array<FormatEnum>}
+   * @memberof VideoPlaylistResource
+   */
+  format?: Array<FormatEnum>
+  /**
+   *
    * @type {boolean}
    * @memberof VideoPlaylistResource
    */
@@ -4458,6 +4544,12 @@ export interface VideoPlaylistResourceRequest {
    * @memberof VideoPlaylistResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<FormatEnum>}
+   * @memberof VideoPlaylistResourceRequest
+   */
+  format?: Array<FormatEnum>
 }
 /**
  *
@@ -4637,6 +4729,12 @@ export interface VideoResource {
   url?: string | null
   /**
    *
+   * @type {Array<FormatEnum>}
+   * @memberof VideoResource
+   */
+  format?: Array<FormatEnum>
+  /**
+   *
    * @type {boolean}
    * @memberof VideoResource
    */
@@ -4703,6 +4801,12 @@ export interface VideoResourceRequest {
    * @memberof VideoResourceRequest
    */
   url?: string | null
+  /**
+   *
+   * @type {Array<FormatEnum>}
+   * @memberof VideoResourceRequest
+   */
+  format?: Array<FormatEnum>
 }
 /**
  *

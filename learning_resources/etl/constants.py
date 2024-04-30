@@ -5,6 +5,8 @@ from enum import Enum
 
 from django.conf import settings
 
+from learning_resources.constants import LearningResourceFormat
+
 # A custom UA so that operators of OpenEdx will know who is pinging their service
 COMMON_HEADERS = {
     "User-Agent": f"CourseCatalogBot/{settings.VERSION} ({settings.SITE_BASE_URL})"
@@ -67,3 +69,11 @@ RESOURCE_FILE_ETL_SOURCES = [
     ETLSource.mitxonline.value,
     ETLSource.xpro.value,
 ]
+
+
+RESOURCE_FORMAT_MAPPING = {
+    None: LearningResourceFormat.online.value,
+    "": LearningResourceFormat.online.value,
+    "Blended": LearningResourceFormat.hybrid.value,
+    **{value: value for value in LearningResourceFormat.values()},
+}
