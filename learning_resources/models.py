@@ -239,6 +239,39 @@ class LearningResource(TimestampedModel):
         else:
             return 0
 
+    @property
+    def certification(self) -> bool:
+        """Returns the certification for the learning resource"""
+        return bool(
+            self.professional
+            or (
+                self.offered_by
+                and self.offered_by.name == constants.OfferedBy.mitx.value
+                and (
+                    any(
+                        availability != constants.AvailabilityType.archived.value
+                        for availability in self.runs.values_list(
+                            "availability", flat=True
+                        )
+                    )
+                )
+            )
+        )
+
+    def save(self, *args, **kwargs):
+        """
+        Ensure all applicable topics are attached to this resource.
+
+        If the learning resource has topics attached to it, we should save then
+        walk up the tree and add in any parent topics.
+        """
+
+        super().save(*args, **kwargs)
+
+        from learning_resources.tasks import update_learning_resource_topics
+
+        update_learning_resource_topics.delay(self.id) if self.id else None
+
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
 
