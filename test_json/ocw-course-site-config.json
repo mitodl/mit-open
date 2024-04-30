@@ -1,0 +1,29 @@
+{
+  "collections": [
+    {
+      "category": "Settings",
+      "files": [
+        {
+          "fields": [
+            {
+              "label": "Topics",
+              "name": "topics",
+              "options_map": {
+                "Two-Level": {
+                  "Test Two Level 1": [],
+                  "Test Two Level 2": [],
+                  "Test Two Level 3": []
+                },
+                "Three-Level": {
+                  "Test Three Level 1": ["Third Level 1"],
+                  "Test Three Level 2": ["Third Level 2", "Third Level 3"],
+                  "Test Three Level 3": ["Third Level 4"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

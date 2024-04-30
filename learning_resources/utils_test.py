@@ -16,7 +16,8 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.utils import get_content_type
 from learning_resources.factories import CourseFactory, LearningResourceRunFactory
-from learning_resources.models import LearningResourcePlatform
+from learning_resources.models import LearningResourcePlatform, LearningResourceTopic
+from learning_resources.utils import upsert_topic_data
 
 pytestmark = pytest.mark.django_db
 
@@ -271,3 +272,40 @@ def test_resource_run_delete_actions(mock_plugin_manager, fixture_resource_run):
     mock_plugin_manager.hook.resource_run_delete.assert_called_once_with(
         run=fixture_resource_run
     )
+
+
+def test_upsert_topic_data(mocker):
+    """
+    upsert_topic_data should properly process the OCW JSON file, and trigger the
+    topic_upserted_actions hook when it does.
+    """
+
+    test_file_location = "test_json/ocw-course-site-config.json"
+    mock_pluggy = mocker.patch("learning_resources.utils.topic_upserted_actions")
+
+    with Path.open(Path(test_file_location)) as ocw_config:
+        ocw_config_json = ocw_config.read()
+
+    ocw_config = json.loads(ocw_config_json)["collections"][0]["files"][0]["fields"][0][
+        "options_map"
+    ]
+
+    def _walk_ocw_config(config_point):
+        """Walk the test OCW config file."""
+
+        item_count = len(config_point)
+
+        for item in config_point:
+            if isinstance(item, dict):
+                item_count += _walk_ocw_config(item)
+
+        return item_count
+
+    item_count = _walk_ocw_config(ocw_config)
+
+    assert LearningResourceTopic.objects.count() == 0
+
+    upsert_topic_data(test_file_location)
+
+    assert mock_pluggy.called
+    assert LearningResourceTopic.objects.count() > item_count
