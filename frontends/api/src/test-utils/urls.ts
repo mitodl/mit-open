@@ -34,8 +34,6 @@ type Params<API extends BaseAPI, K extends keyof API> = API[K] extends Callable
 const learningResources = {
   list: (params?: Params<LRApi, "learningResourcesList">) =>
     `/api/v1/learning_resources/${query(params)}`,
-  upcoming: (params?: Params<LRApi, "learningResourcesUpcomingList">) =>
-    `/api/v1/learning_resources/upcoming/${query(params)}`,
   details: (params: Params<LRApi, "learningResourcesRetrieve">) =>
     `/api/v1/learning_resources/${params.id}/`,
 }

@@ -10,12 +10,7 @@ describe("TabbedCarousel", () => {
     const resources = {
       search: factories.learningResources.resources({ count: 10 }),
       list: factories.learningResources.resources({ count: 10 }),
-      upcoming: factories.learningResources.resources({ count: 10 }),
     }
-    setMockResponse.get(
-      expect.stringContaining(urls.learningResources.upcoming()),
-      resources.upcoming,
-    )
     setMockResponse.get(
       expect.stringContaining(urls.search.resources()),
       resources.search,
@@ -38,14 +33,6 @@ describe("TabbedCarousel", () => {
         },
       },
       {
-        label: "Upcoming",
-        pageSize: 4,
-        data: {
-          type: "resources_upcoming",
-          params: { resource_type: ["video"] },
-        },
-      },
-      {
         label: "Search",
         pageSize: 4,
         data: {
@@ -54,19 +41,18 @@ describe("TabbedCarousel", () => {
         },
       },
     ]
+
     setMockResponse.get(urls.userMe.get(), {})
-    const { list, search, upcoming } = setupApis()
+    const { list, search } = setupApis()
     renderWithProviders(<TabbedCarousel config={config} />)
     const tabs = screen.getAllByRole("tab")
-    expect(tabs).toHaveLength(3)
+    expect(tabs).toHaveLength(2)
     expect(tabs[0]).toHaveTextContent("Resources")
-    expect(tabs[1]).toHaveTextContent("Upcoming")
-    expect(tabs[2]).toHaveTextContent("Search")
+    expect(tabs[1]).toHaveTextContent("Search")
 
     await screen.findByText(list.results[0].title)
+    await user.click(tabs[0])
     await user.click(tabs[1])
-    await screen.findByText(upcoming.results[0].title)
-    await user.click(tabs[2])
     await act(() => {
       return new Promise((resolve) => setTimeout(resolve, 1000))
     })

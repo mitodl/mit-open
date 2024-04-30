@@ -1,7 +1,6 @@
 import React from "react"
 import {
   useLearningResourcesList,
-  useLearningResourcesUpcoming,
   useLearningResourcesSearch,
 } from "api/hooks/learningResources"
 import {
@@ -12,12 +11,7 @@ import {
   Carousel,
   styled,
 } from "ol-components"
-import type {
-  TabConfig,
-  ResourceDataSource,
-  SearchDataSource,
-  UpcomingDataSource,
-} from "./types"
+import type { TabConfig, ResourceDataSource, SearchDataSource } from "./types"
 import { LearningResource } from "api"
 import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
 
@@ -37,14 +31,6 @@ const ResourcesData: React.FC<DataPanelProps<ResourceDataSource>> = ({
   children,
 }) => {
   const { data, isLoading } = useLearningResourcesList(dataConfig.params)
-  return children({ resources: data?.results ?? [], isLoading })
-}
-
-const UpcomingResourcesData: React.FC<DataPanelProps<UpcomingDataSource>> = ({
-  dataConfig,
-  children,
-}) => {
-  const { data, isLoading } = useLearningResourcesUpcoming(dataConfig.params)
   return children({ resources: data?.results ?? [], isLoading })
 }
 
@@ -69,12 +55,6 @@ const DataPanel: React.FC<DataPanelProps> = ({ dataConfig, children }) => {
       return <ResourcesData dataConfig={dataConfig}>{children}</ResourcesData>
     case "lr_search":
       return <SearchData dataConfig={dataConfig}>{children}</SearchData>
-    case "resources_upcoming":
-      return (
-        <UpcomingResourcesData dataConfig={dataConfig}>
-          {children}
-        </UpcomingResourcesData>
-      )
     default:
       // @ts-expect-error This will always be an error if the switch statement
       // is exhaustive since dataConfig will have type `never`

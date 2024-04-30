@@ -211,12 +211,8 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = {
         "title": "Last Modified Date descending",
         "sort": "-last_modified",
     },
-    "created_on": {
-        "title": "Creation Date ascending",
-        "sort": "created_on",
-    },
-    "-created_on": {
-        "title": "CreationDate descending",
+    "new": {
+        "title": "Newest resources first",
         "sort": "-created_on",
     },
     "start_date": {
@@ -242,6 +238,10 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = {
     "-views": {
         "title": "Popularity descending",
         "sort": "-views",
+    },
+    "upcoming": {
+        "title": "Next start date ascending",
+        "sort": "next_start_date",
     },
 }
 
