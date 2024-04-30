@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 0.9.5 (Released April 30, 2024)
+-------------
+
+- Minor updates for PostHog settings (#833)
+- Update nginx Docker tag to v1.26.0 (#836)
+- Update dependency @types/react to v18.3.1 (#835)
+- Update dependency ruff to v0.4.2 (#834)
+- Don't initialize PostHog if it's disabled (#831)
+
 Version 0.9.4 (Released April 30, 2024)
 -------------
 
