@@ -51,7 +51,6 @@ from learning_resources.utils import (
     resource_unpublished_actions,
     resource_upserted_actions,
     similar_topics_action,
-    topic_upserted_actions,
 )
 
 log = logging.getLogger()
@@ -74,20 +73,22 @@ def update_index(learning_resource, newly_created):
 
 
 def load_topics(resource, topics_data):
-    """Load the topics for a resource into the database"""
+    """
+    Load the topics for a resource into the database.
 
-    # TODO: no inserts
+    Topics must exist; if they don't, then we skip them.
+    """
 
     if topics_data is not None:
         topics = []
 
         for topic_data in topics_data:
-            topic, created = LearningResourceTopic.objects.get_or_create(
+            topic = LearningResourceTopic.objects.filter(
                 name=topic_data["name"]
+            ).first()
+            topics.append(topic) if topic else log.warning(
+                "Skipped adding topic %s to resource %s", topic_data["name"], resource
             )
-            if created:
-                topic_upserted_actions(topic)
-            topics.append(topic)
 
         resource.topics.set(topics)
         resource.save()

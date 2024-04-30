@@ -321,7 +321,7 @@ def get_learning_resource_views():
 def update_learning_resource_topics(learning_resource_id: int) -> None:
     """Ensure parent topics are attached to a LearningResource."""
 
-    log.info("Updating learning resource topics for %d", learning_resource_id)
+    log.debug("Updating learning resource topics for %d", learning_resource_id)
 
     resource = LearningResource.objects.get(pk=learning_resource_id)
 
@@ -330,7 +330,7 @@ def update_learning_resource_topics(learning_resource_id: int) -> None:
     ) -> None:
         """Walk the topic list and add parents as necessary."""
 
-        log.info("Adding parent topic %s to %s", topic, learning_resource)
+        log.debug("Adding parent topic %s to %s", topic, learning_resource)
 
         learning_resource.topics.add(topic)
 
