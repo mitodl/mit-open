@@ -29,9 +29,8 @@ const getFeatureFlags = () => {
 
 const getPostHogSettings = () => {
   if (
-    process.env.POSTHOG_ENABLED &&
-    process.env.POSTHOG_ENABLED.toLowerCase().trim() === "true" &&
-    process.env.POSTHOG_PROJECT_API_KEY
+    process.env.POSTHOG_PROJECT_API_KEY &&
+    process.env.POSTHOG_PROJECT_API_KEY.length > 0
   ) {
     getFeatureFlags()
 

@@ -94,7 +94,7 @@ def test_flags_from_cache(mocker, caplog, settings):
     )
     durable_cache = caches["durable"]
     settings.FEATURES["testing_function"] = True
-    settings.POSTHOG_ENABLED = True
+    settings.POSTHOG_PROJECT_API_KEY = "fake key"
     cache_key = features.generate_cache_key(
         "testing_function",
         features.default_unique_id(),
@@ -148,7 +148,7 @@ def test_cache_population(mocker, settings):
     settings.FEATURES["testing_function_1"] = True
     settings.FEATURES["testing_function_2"] = True
     settings.FEATURES["testing_function_3"] = True
-    settings.POSTHOG_ENABLED = True
+    settings.POSTHOG_PROJECT_API_KEY = "fake key"
 
     durable_cache.clear()
 
@@ -168,7 +168,7 @@ def test_posthog_flag_cache_timeout(mocker, settings):
         "posthog.get_feature_flag", autospec=True, return_value=True
     )
     durable_cache = caches["durable"]
-    settings.POSTHOG_ENABLED = True
+    settings.POSTHOG_PROJECT_API_KEY = "fake key"
 
     durable_cache.clear()
 
