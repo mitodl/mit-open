@@ -229,6 +229,7 @@ LEARNING_RESOURCE_MAP = {
             "prices": {"type": "scaled_float", "scaling_factor": 100},
         },
     },
+    "next_start_date": {"type": "date"},
 }
 
 

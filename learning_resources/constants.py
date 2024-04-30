@@ -243,6 +243,10 @@ LEARNING_RESOURCE_SORTBY_OPTIONS = {
         "title": "Popularity descending",
         "sort": "-views",
     },
+    "upcoming": {
+        "title": "Next start date ascending",
+        "sort": "next_start_date",
+    },
 }
 
 

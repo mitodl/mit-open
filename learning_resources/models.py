@@ -195,6 +195,8 @@ class LearningResource(TimestampedModel):
         "self", through="LearningResourceRelationship", symmetrical=False, blank=True
     )
     etl_source = models.CharField(max_length=12, default="")
+    professional = models.BooleanField(default=False)
+    next_start_date = models.DateTimeField(null=True, blank=True, db_index=True)
 
     @property
     def audience(self) -> str | None:
@@ -202,8 +204,6 @@ class LearningResource(TimestampedModel):
         if self.platform:
             return self.platform.audience
         return None
-
-    professional = models.BooleanField(default=False)
 
     @property
     def prices(self) -> list[Decimal]:
@@ -271,7 +271,7 @@ class LearningResourceRun(TimestampedModel):
     )
     semester = models.CharField(max_length=20, null=True, blank=True)  # noqa: DJ001
     year = models.IntegerField(null=True, blank=True)
-    start_date = models.DateTimeField(null=True, blank=True, db_index=True)
+    start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
     enrollment_start = models.DateTimeField(null=True, blank=True)
     enrollment_end = models.DateTimeField(null=True, blank=True)
