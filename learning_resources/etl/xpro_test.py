@@ -11,7 +11,7 @@ import pytest
 from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl import xpro
 from learning_resources.etl.constants import CourseNumberType, ETLSource
-from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS
+from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS, transform_format
 from learning_resources.etl.xpro import _parse_datetime
 from main.test_utils import any_instance_of
 
@@ -103,6 +103,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             ],
             "platform": PlatformType.xpro.name,
             "resource_type": LearningResourceType.program.name,
+            "format": transform_format(program_data.get("format")),
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
@@ -132,6 +133,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                     "description": course_data["description"],
                     "url": course_data.get("url", None),
                     "offered_by": xpro.OFFERED_BY,
+                    "format": transform_format(course_data.get("format")),
                     "professional": True,
                     "published": any(
                         course_run.get("current_price", None)
@@ -202,6 +204,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
             "description": course_data["description"],
             "url": course_data.get("url"),
             "offered_by": xpro.OFFERED_BY,
+            "format": transform_format(course_data.get("format")),
             "published": any(
                 course_run.get("current_price", None)
                 for course_run in course_data["courseruns"]

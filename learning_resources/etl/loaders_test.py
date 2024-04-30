@@ -9,6 +9,7 @@ import pytest
 from django.forms.models import model_to_dict
 
 from learning_resources.constants import (
+    LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     OfferedBy,
@@ -132,12 +133,16 @@ def learning_resource_offeror():
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("courses_exist", [True, False])
 @pytest.mark.parametrize("has_retired_course", [True, False])
-def test_load_program(
+@pytest.mark.parametrize(
+    "resource_format", [LearningResourceFormat.in_person.value, None]
+)
+def test_load_program(  # noqa: PLR0913
     mock_upsert_tasks,
     program_exists,
     is_published,
     courses_exist,
     has_retired_course,
+    resource_format,
 ):  # pylint: disable=too-many-arguments
     """Test that load_program loads the program"""
     platform = LearningResourcePlatformFactory.create()
@@ -188,6 +193,7 @@ def test_load_program(
         "end_date": "2017-06-20T00:00:00Z",
     }
 
+    format_data = {"format": [resource_format]} if resource_format else {}
     result = load_program(
         {
             "platform": platform.code,
@@ -205,6 +211,7 @@ def test_load_program(
                 }
                 for course in courses
             ],
+            **format_data,
         },
         [],
         [],
@@ -224,6 +231,13 @@ def test_load_program(
 
     # assert we got a program back and that each course is in a program
     assert isinstance(result, LearningResource)
+    assert result.format == (
+        [
+            resource_format
+            if resource_format is not None
+            else LearningResourceFormat.online.value
+        ]
+    )
     assert result.professional is False
     assert result.children.count() == len(courses)
     assert result.program.courses.count() == len(courses)
@@ -270,13 +284,14 @@ def test_load_program_bad_platform(mocker):
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("is_run_published", [True, False])
 @pytest.mark.parametrize("blocklisted", [True, False])
+@pytest.mark.parametrize("resource_format", [LearningResourceFormat.hybrid.value, None])
 def test_load_course(  # noqa: PLR0913
-    mocker,
     mock_upsert_tasks,
     course_exists,
     is_published,
     is_run_published,
     blocklisted,
+    resource_format,
 ):
     """Test that load_course loads the course"""
     platform = LearningResourcePlatformFactory.create()
@@ -301,6 +316,7 @@ def test_load_course(  # noqa: PLR0913
         run = LearningResourceRunFactory.build()
     assert Course.objects.count() == (1 if course_exists else 0)
 
+    format_data = {"format": [resource_format]} if resource_format else {}
     props = {
         "readable_id": learning_resource.readable_id,
         "platform": platform.code,
@@ -310,6 +326,7 @@ def test_load_course(  # noqa: PLR0913
         "description": learning_resource.description,
         "url": learning_resource.url,
         "published": is_published,
+        **format_data,
     }
 
     if is_run_published:
@@ -351,6 +368,15 @@ def test_load_course(  # noqa: PLR0913
     # assert we got a course back
     assert isinstance(result, LearningResource)
 
+    assert result.format == (
+        [
+            resource_format
+            if resource_format is not None
+            else LearningResourceFormat.online.value
+        ]
+    )
+
+    props.pop("format")
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"
 

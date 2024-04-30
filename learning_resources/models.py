@@ -10,6 +10,7 @@ from django.db.models import JSONField
 
 from learning_resources import constants
 from learning_resources.constants import (
+    LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     PrivacyLevel,
@@ -161,6 +162,15 @@ class LearningResource(TimestampedModel):
     url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     image = models.ForeignKey(
         LearningResourceImage, null=True, blank=True, on_delete=models.deletion.SET_NULL
+    )
+    format = ArrayField(
+        models.CharField(
+            max_length=24,
+            choices=list(
+                zip(LearningResourceFormat.values(), LearningResourceFormat.values())
+            ),
+        ),
+        default=list,
     )
     platform = models.ForeignKey(
         LearningResourcePlatform,

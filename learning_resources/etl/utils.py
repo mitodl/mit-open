@@ -34,7 +34,11 @@ from learning_resources.constants import (
     VALID_TEXT_FILE_TYPES,
     LevelType,
 )
-from learning_resources.etl.constants import CourseNumberType, ETLSource
+from learning_resources.etl.constants import (
+    RESOURCE_FORMAT_MAPPING,
+    CourseNumberType,
+    ETLSource,
+)
 from learning_resources.models import (
     ContentFile,
     Course,
@@ -648,3 +652,17 @@ def most_common_topics(
     )
     common_topics = dict(counter.most_common(max_topics)).keys()
     return [{"name": topic} for topic in common_topics]
+
+
+def transform_format(resource_format: str) -> list[str]:
+    """
+    Return the correct format of the resource
+
+    Args:
+        document: course or program data
+
+    Returns:
+        str: format of the course/program
+
+    """
+    return [RESOURCE_FORMAT_MAPPING[resource_format]]

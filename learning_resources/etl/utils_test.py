@@ -13,6 +13,7 @@ from lxml import etree
 from learning_resources.constants import (
     CONTENT_TYPE_FILE,
     CONTENT_TYPE_VERTICAL,
+    LearningResourceFormat,
     PlatformType,
 )
 from learning_resources.etl import utils
@@ -352,3 +353,23 @@ def test_most_common_topics():
             for topic in utils.most_common_topics(resources, max_topics=max_topics)
         ]
     ) == [topic.name for topic in common_topics]
+
+
+@pytest.mark.parametrize(
+    ("original", "expected"),
+    [
+        (None, LearningResourceFormat.online.value),
+        (LearningResourceFormat.online.value, LearningResourceFormat.online.value),
+        ("Blended", LearningResourceFormat.hybrid.value),
+        ("In person", LearningResourceFormat.in_person.value),
+    ],
+)
+def test_parse_format(original, expected):
+    """parse_format should return expected format"""
+    assert utils.transform_format(original) == [expected]
+
+
+def test_parse_bad_format():
+    """An exception should be raised for bad formats"""
+    with pytest.raises(KeyError):
+        utils.transform_format("bad_format")
