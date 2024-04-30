@@ -19,7 +19,7 @@ def assign_next_start_date(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("learning_resources", "0042_update_ondelete_for_events"),
+        ("learning_resources", "0043_learningresource_format"),
     ]
 
     operations = [
