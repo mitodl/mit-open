@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.4
+Version 0.9.4 (Released April 30, 2024)
 -------------
 
 - Text Input + Select components (#827)
