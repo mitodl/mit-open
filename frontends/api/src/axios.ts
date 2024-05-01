@@ -8,7 +8,7 @@ const instance = axios.create({
   xsrfHeaderName: "X-CSRFToken",
 })
 const withCredentials =
-  process.env.MITOPEN_AXIOS_WITH_CREDENTIALS?.toLowerCase() === "true"
+  APP_SETTINGS.axios_with_credentials?.toLowerCase() === "true"
 instance.defaults.withCredentials = withCredentials || false
 
 export default instance
