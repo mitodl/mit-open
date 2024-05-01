@@ -495,6 +495,7 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                 {
                     "name": topic.name,
                     "id": topic.id,
+                    "parent": topic.parent,
                     "channel_url": urljoin(
                         settings.SITE_BASE_URL,
                         f"/c/topic/{FieldChannel.objects.get(topic_detail__topic=topic).name}/"
