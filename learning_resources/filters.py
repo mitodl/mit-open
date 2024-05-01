@@ -3,7 +3,7 @@
 import logging
 from decimal import Decimal
 
-from django.db.models import Q
+from django.db.models import Count, Q
 from django_filters import (
     BooleanFilter,
     ChoiceFilter,
@@ -131,7 +131,13 @@ class LearningResourceFilter(FilterSet):
 
     def filter_sortby(self, queryset, _, value):
         """Sort the queryset in the order specified by the value"""
-        return queryset.order_by(LEARNING_RESOURCE_SORTBY_OPTIONS[value]["sort"])
+        sort_param = LEARNING_RESOURCE_SORTBY_OPTIONS[value]["sort"]
+
+        if "views" in value:
+            queryset = queryset.annotate(num_hits=Count("views"))
+            sort_param = sort_param.replace("views", "num_hits")
+
+        return queryset.order_by(sort_param)
 
     class Meta:
         model = LearningResource

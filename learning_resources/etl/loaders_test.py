@@ -1,12 +1,14 @@
 """Tests for ETL loaders"""
 
 import json
+from datetime import timedelta
 
 # pylint: disable=redefined-outer-name,too-many-locals,too-many-lines
 from types import SimpleNamespace
 
 import pytest
 from django.forms.models import model_to_dict
+from django.utils import timezone
 
 from learning_resources.constants import (
     LearningResourceFormat,
@@ -285,6 +287,7 @@ def test_load_program_bad_platform(mocker):
 @pytest.mark.parametrize("is_run_published", [True, False])
 @pytest.mark.parametrize("blocklisted", [True, False])
 @pytest.mark.parametrize("resource_format", [LearningResourceFormat.hybrid.value, None])
+@pytest.mark.parametrize("has_upcoming_run", [True, False])
 def test_load_course(  # noqa: PLR0913
     mock_upsert_tasks,
     course_exists,
@@ -292,6 +295,7 @@ def test_load_course(  # noqa: PLR0913
     is_run_published,
     blocklisted,
     resource_format,
+    has_upcoming_run,
 ):
     """Test that load_course loads the course"""
     platform = LearningResourcePlatformFactory.create()
@@ -306,14 +310,20 @@ def test_load_course(  # noqa: PLR0913
 
     learning_resource.published = is_published
 
+    start_date = (
+        timezone.now() + timedelta(10)
+        if has_upcoming_run
+        else timezone.now() - timedelta(1)
+    )
+
     if course_exists:
         run = LearningResourceRunFactory.create(
-            learning_resource=learning_resource, published=True
+            learning_resource=learning_resource, published=True, start_date=start_date
         )
         learning_resource.runs.set([run])
         learning_resource.save()
     else:
-        run = LearningResourceRunFactory.build()
+        run = LearningResourceRunFactory.build(start_date=start_date)
     assert Course.objects.count() == (1 if course_exists else 0)
 
     format_data = {"format": [resource_format]} if resource_format else {}
@@ -333,7 +343,7 @@ def test_load_course(  # noqa: PLR0913
         run = {
             "run_id": run.run_id,
             "enrollment_start": run.enrollment_start,
-            "start_date": run.start_date,
+            "start_date": start_date,
             "end_date": run.end_date,
         }
         props["runs"] = [run]
@@ -344,6 +354,11 @@ def test_load_course(  # noqa: PLR0913
 
     result = load_course(props, blocklist, [], config=CourseLoaderConfig(prune=True))
     assert result.professional is True
+
+    expected_next_start_date = (
+        start_date if has_upcoming_run and is_run_published else None
+    )
+    assert result.next_start_date == expected_next_start_date
 
     if course_exists and ((not is_published or not is_run_published) or blocklisted):
         mock_upsert_tasks.deindex_learning_resource.assert_called_with(

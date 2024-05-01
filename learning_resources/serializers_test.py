@@ -240,6 +240,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         detail_key: detail_serializer_cls(instance=getattr(resource, detail_key)).data,
         "views": resource.views.count(),
         "format": resource.format,
+        "next_start_date": resource.next_start_date,
     }
 
 

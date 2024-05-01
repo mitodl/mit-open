@@ -190,6 +190,7 @@ class LearningResourceFactory(DjangoModelFactory):
     topics = factory.PostGeneration(_post_gen_topics)
     content_tags = factory.PostGeneration(_post_gen_tags)
     published = True
+
     format = factory.List(random.choices(LearningResourceFormat.names()))  # noqa: S311
 
     course = factory.Maybe(

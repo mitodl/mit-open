@@ -13,11 +13,9 @@ from django.views.decorators.cache import cache_page
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import views, viewsets
-from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
-from rest_framework.generics import GenericAPIView, get_object_or_404
+from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
-from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_nested.viewsets import NestedViewSetMixin
 
@@ -155,62 +153,6 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         return self._get_base_queryset().filter(published=True)
 
 
-class NewResourcesViewSetMixin(GenericAPIView):
-    """ViewSet mixin for adding new resource functionality."""
-
-    resource_type_name_plural: str
-
-    def __init_subclass__(cls) -> None:
-        """Initialize subclasses by updating the view with the correct serializer."""
-        name = cls.resource_type_name_plural
-        # this decorator mutates the view in place so the return value is safely ignored
-        extend_schema_view(
-            new=extend_schema(
-                description=f"Get a paginated list of newly released {name}.",
-                responses=cls.serializer_class(many=True),
-            ),
-        )(cls)
-        super().__init_subclass__()
-
-    @extend_schema(summary="List New")
-    @action(methods=["GET"], detail=False, name="New Resources")
-    def new(self, request: Request) -> QuerySet:  # noqa: ARG002
-        queryset = self.get_queryset()
-        filtered_queryset = self.filter_queryset(queryset)
-        page = self.paginate_queryset(filtered_queryset.order_by("-created_on"))
-        serializer = self.get_serializer(page, many=True)
-        return self.get_paginated_response(serializer.data)
-
-
-class PopularResourcesViewSetMixin(GenericAPIView):
-    """ViewSet mixin for adding popular resource functionality."""
-
-    resource_type_name_plural: str
-
-    def __init_subclass__(cls) -> None:
-        """Initialize subclasses by updating the view with the correct serializer."""
-        name = cls.resource_type_name_plural
-        # this decorator mutates the view in place so the return value is safely ignored
-        extend_schema_view(
-            new=extend_schema(
-                description=f"Get a paginated list of popular {name}.",
-                responses=cls.serializer_class(many=True),
-            ),
-        )(cls)
-        super().__init_subclass__()
-
-    @extend_schema(summary="List Popular")
-    @action(methods=["GET"], detail=False, name="Popular Resources")
-    def popular(self, request: Request) -> QuerySet:  # noqa: ARG002
-        """Retrieve a list of popular resources"""
-
-        queryset = self.get_queryset().annotate(num_hits=Count("views"))
-        filtered_queryset = self.filter_queryset(queryset)
-        page = self.paginate_queryset(filtered_queryset.order_by("-num_hits"))
-        serializer = self.get_serializer(page, many=True)
-        return self.get_paginated_response(serializer.data)
-
-
 @extend_schema_view(
     list=extend_schema(
         description="Get a paginated list of learning resources.",
@@ -221,8 +163,6 @@ class PopularResourcesViewSetMixin(GenericAPIView):
 )
 class LearningResourceViewSet(
     BaseLearningResourceViewSet,
-    NewResourcesViewSetMixin,
-    PopularResourcesViewSetMixin,
 ):
     """
     Viewset for LearningResources
@@ -242,8 +182,6 @@ class LearningResourceViewSet(
 )
 class CourseViewSet(
     BaseLearningResourceViewSet,
-    NewResourcesViewSetMixin,
-    PopularResourcesViewSetMixin,
 ):
     """
     Viewset for Courses
@@ -275,8 +213,6 @@ class CourseViewSet(
 )
 class ProgramViewSet(
     BaseLearningResourceViewSet,
-    NewResourcesViewSetMixin,
-    PopularResourcesViewSetMixin,
 ):
     """
     Viewset for Programs
@@ -819,7 +755,7 @@ class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
         description="Retrieve a single video",
     ),
 )
-class VideoViewSet(BaseLearningResourceViewSet, NewResourcesViewSetMixin):
+class VideoViewSet(BaseLearningResourceViewSet):
     """
     Viewset for Videos
     """
@@ -848,7 +784,7 @@ class VideoViewSet(BaseLearningResourceViewSet, NewResourcesViewSetMixin):
         description="Retrieve a single video playlist",
     ),
 )
-class VideoPlaylistViewSet(BaseLearningResourceViewSet, NewResourcesViewSetMixin):
+class VideoPlaylistViewSet(BaseLearningResourceViewSet):
     """
     Viewset for VideoPlaylists
     """
