@@ -294,6 +294,10 @@
       "description": "List of pluggy plugins to use for authentication",
       "required": false
     },
+    "MITOPEN_AXIOS_WITH_CREDENTIALS": {
+      "description": "When building the Axios API, set defaults.withCredentials to this value",
+      "required": false
+    },
     "MITOPEN_LEARNING_RESOURCES_PLUGINS": {
       "description": "List of pluggy plugins to use for learning resources",
       "required": false
