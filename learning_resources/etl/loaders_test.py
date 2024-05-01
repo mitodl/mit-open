@@ -1039,13 +1039,19 @@ def test_load_podcast(
 @pytest.mark.parametrize("video_exists", [True, False])
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("pass_topics", [True, False])
-def test_load_video(mocker, mock_upsert_tasks, video_exists, is_published, pass_topics):
+def test_load_video(mocker, video_exists, is_published, pass_topics):
     """Test that a video is properly loaded and saved"""
+    expected_topics = [{"name": "Biology"}, {"name": "Chemistry"}]
+    [
+        LearningResourceTopicFactory.create(name=topic["name"])
+        for topic in expected_topics
+    ]
+
     video_resource = (
         VideoFactory.create() if video_exists else VideoFactory.build()
     ).learning_resource
     offered_by = LearningResourceOfferorFactory.create()
-    expected_topics = [{"name": "Biology"}, {"name": "Chemistry"}]
+
     mock_similar_topics_action = mocker.patch(
         "learning_resources.etl.loaders.similar_topics_action",
         return_value=expected_topics,
@@ -1110,6 +1116,10 @@ def test_load_videos():
 def test_load_playlist(mocker):
     """Test load_playlist"""
     expected_topics = [{"name": "Biology"}, {"name": "Physics"}]
+    [
+        LearningResourceTopicFactory.create(name=topic["name"])
+        for topic in expected_topics
+    ]
     mock_most_common_topics = mocker.patch(
         "learning_resources.etl.loaders.most_common_topics",
         return_value=expected_topics,
