@@ -460,7 +460,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     class Meta:
         model = models.LearningResource
         read_only_fields = ["professional", "views"]
-        exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
+        exclude = ["content_tags", "resources", "etl_source", "updated_on"]
 
 
 class ProgramResourceSerializer(LearningResourceBaseSerializer):
@@ -548,7 +548,7 @@ class LearningPathResourceSerializer(LearningResourceBaseSerializer):
 
     class Meta:
         model = models.LearningResource
-        exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
+        exclude = ["content_tags", "resources", "etl_source", "updated_on"]
         read_only_fields = ["platform", "offered_by", "readable_id"]
 
 

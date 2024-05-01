@@ -75,7 +75,6 @@ def serialize_learning_resource_for_update(
         ]
     return {
         "resource_relations": {"name": "resource"},
-        "created_on": learning_resource_obj.created_on,
         **serialized_data,
     }
 

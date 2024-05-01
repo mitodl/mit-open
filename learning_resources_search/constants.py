@@ -351,7 +351,6 @@ SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)
 SOURCE_EXCLUDED_FIELDS = [
     "course.course_numbers.sort_coursenum",
     "course.course_numbers.primary",
-    "created_on",
     "resource_relations",
     "free",
 ]

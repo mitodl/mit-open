@@ -241,6 +241,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "views": resource.views.count(),
         "format": resource.format,
         "next_start_date": resource.next_start_date,
+        "created_on": drf_datetime(resource.created_on),
     }
 
 

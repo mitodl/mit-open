@@ -546,6 +546,12 @@ export interface CourseResource {
    * @type {string}
    * @memberof CourseResource
    */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof CourseResource
+   */
   readable_id: string
   /**
    *
@@ -935,6 +941,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   learning_path: LearningPath
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  created_on: string
   /**
    *
    * @type {string}
@@ -3155,6 +3167,12 @@ export interface PodcastEpisodeResource {
    * @type {string}
    * @memberof PodcastEpisodeResource
    */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeResource
+   */
   readable_id: string
   /**
    *
@@ -3425,6 +3443,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   podcast: Podcast
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastResource
+   */
+  created_on: string
   /**
    *
    * @type {string}
@@ -3927,6 +3951,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   program: Program
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramResource
+   */
+  created_on: string
   /**
    *
    * @type {string}
@@ -4494,6 +4524,12 @@ export interface VideoPlaylistResource {
    * @type {string}
    * @memberof VideoPlaylistResource
    */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof VideoPlaylistResource
+   */
   readable_id: string
   /**
    *
@@ -4758,6 +4794,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   video: Video
+  /**
+   *
+   * @type {string}
+   * @memberof VideoResource
+   */
+  created_on: string
   /**
    *
    * @type {string}

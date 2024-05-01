@@ -1418,7 +1418,6 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
             "excludes": [
                 "course.course_numbers.sort_coursenum",
                 "course.course_numbers.primary",
-                "created_on",
                 "resource_relations",
                 "free",
             ]
@@ -1621,7 +1620,6 @@ def test_execute_learn_search_for_content_file_query(opensearch):
             "excludes": [
                 "course.course_numbers.sort_coursenum",
                 "course.course_numbers.primary",
-                "created_on",
                 "resource_relations",
                 "free",
             ]

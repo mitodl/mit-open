@@ -5302,6 +5302,10 @@ components:
           allOf:
           - $ref: '#/components/schemas/Course'
           readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
         readable_id:
           type: string
           maxLength: 128
@@ -5346,6 +5350,7 @@ components:
       - certification
       - course
       - course_feature
+      - created_on
       - departments
       - id
       - image
@@ -5637,6 +5642,10 @@ components:
           allOf:
           - $ref: '#/components/schemas/LearningPath'
           readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
         readable_id:
           type: string
           readOnly: true
@@ -5679,6 +5688,7 @@ components:
       required:
       - certification
       - course_feature
+      - created_on
       - departments
       - id
       - image
@@ -7357,6 +7367,10 @@ components:
           allOf:
           - $ref: '#/components/schemas/PodcastEpisode'
           readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
         readable_id:
           type: string
           maxLength: 128
@@ -7400,6 +7414,7 @@ components:
       required:
       - certification
       - course_feature
+      - created_on
       - departments
       - id
       - image
@@ -7573,6 +7588,10 @@ components:
           allOf:
           - $ref: '#/components/schemas/Podcast'
           readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
         readable_id:
           type: string
           maxLength: 128
@@ -7616,6 +7635,7 @@ components:
       required:
       - certification
       - course_feature
+      - created_on
       - departments
       - id
       - image
@@ -7931,6 +7951,10 @@ components:
           allOf:
           - $ref: '#/components/schemas/Program'
           readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
         readable_id:
           type: string
           maxLength: 128
@@ -7974,6 +7998,7 @@ components:
       required:
       - certification
       - course_feature
+      - created_on
       - departments
       - id
       - image
@@ -8350,6 +8375,10 @@ components:
           allOf:
           - $ref: '#/components/schemas/VideoPlaylist'
           readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
         readable_id:
           type: string
           maxLength: 128
@@ -8393,6 +8422,7 @@ components:
       required:
       - certification
       - course_feature
+      - created_on
       - departments
       - id
       - image
@@ -8556,6 +8586,10 @@ components:
           allOf:
           - $ref: '#/components/schemas/Video'
           readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
         readable_id:
           type: string
           maxLength: 128
@@ -8599,6 +8633,7 @@ components:
       required:
       - certification
       - course_feature
+      - created_on
       - departments
       - id
       - image
