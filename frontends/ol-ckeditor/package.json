@@ -1,13 +1,14 @@
 {
   "name": "ol-ckeditor",
-  "packageManager": "yarn@3.8.1",
+  "version": "0.0.0",
+  "private": true,
   "exports": {
     ".": "./src/index.ts",
     "./test_utils": "./src/test_utils.tsx",
     "./webpack-utils": "./src/webpack-utils.js"
   },
   "peerDependencies": {
-    "react": "^18.2.0"
+    "react": "18.2.0"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-adapter-ckfinder": "^41.0.0",
@@ -33,10 +34,10 @@
     "@ckeditor/ckeditor5-ui": "^41.0.0",
     "axios": "^1.6.3",
     "classnames": "^2.3.2",
-    "ol-components": "workspace:*",
-    "ol-utilities": "workspace:*"
+    "ol-components": "0.0.0",
+    "ol-utilities": "0.0.0"
   },
   "devDependencies": {
-    "@testing-library/react": "^14.1.2"
+    "@testing-library/react": "14.3.1"
   }
 }

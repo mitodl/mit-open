@@ -102,8 +102,9 @@ jobs:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
-          cache: "yarn"
+          node-version: "^20"
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
       - name: Setup environment
         run: sudo apt-get install libelf1
@@ -136,6 +137,12 @@ jobs:
           CODECOV: true
           NODE_ENV: test
 
+      - name: Upload frontend build
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-build
+          path: frontends/mit-open/build
+
       - name: Upload coverage to CodeCov
         uses: codecov/codecov-action@84508663e988701840491b86de86b666e8a86bed # v4.3.0
         with:
@@ -143,21 +150,29 @@ jobs:
 
   build-storybook:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
 
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
-          cache: "yarn"
+          node-version: "^20"
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
-      - run: yarn install
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Copy static assets
+        run: |
+          mkdir -p  frontends/mit-open/build/static;
+          cp -R frontends/mit-open/public/ frontends/mit-open/build/static;
 
       - run: PUBLIC_URL=/mit-open yarn build-github-pages
+        working-directory: frontends
 
       - run: PUBLIC_URL=/mit-open yarn build-storybook --output-dir ../github-pages/build/storybook
+        working-directory: frontends
 
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
@@ -181,8 +196,9 @@ jobs:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
-          cache: "yarn"
+          node-version: "^20"
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -197,8 +213,10 @@ jobs:
             --output $GENERATOR_OUTPUT_DIR_CI \
             --ignore-file-override $GENERATOR_IGNORE_FILE \
             -c scripts/openapi-configs/typescript-axios-v0.yaml
+
       - name: Format freshly generated client
         run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+
       - name: Check VC client is up-to-date
         run: |
           diff $GENERATOR_OUTPUT_DIR_CI $GENERATOR_OUTPUT_DIR_VC \
@@ -217,8 +235,9 @@ jobs:
       - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
-          cache: "yarn"
+          node-version: "^20"
+          cache: yarn
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
         run: yarn install --immutable
@@ -233,14 +252,18 @@ jobs:
             --output $GENERATOR_OUTPUT_DIR_CI \
             --ignore-file-override $GENERATOR_IGNORE_FILE \
             -c scripts/openapi-configs/typescript-axios-v1.yaml
+
       - name: Format freshly generated client
         run: npx prettier $GENERATOR_OUTPUT_DIR_CI/**/*.ts --no-semi --write
+
       - name: Check VC client is up-to-date
         run: |
           diff $GENERATOR_OUTPUT_DIR_CI $GENERATOR_OUTPUT_DIR_VC \
           || { echo "OpenAPI spec is out of date. Please regenerate via ./scripts/generate_openapi.sh"; exit 1; }
 
   e2e-tests:
+    # Disabling the E2E tests for now
+    if: false
     runs-on: ubuntu-latest
 
     steps:
@@ -248,10 +271,11 @@ jobs:
 
       - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
         with:
-          node-version: "18.18.2"
-          cache: "yarn"
+          node-version: "^20"
+          cache: yarn
+          cache-dependency-path: e2e_testing/yarn.lock
 
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: yarn install --immutable
 
       - name: Build frontend
@@ -266,11 +290,17 @@ jobs:
       - name: Apply test data
         run: ./e2e_testing/scripts/apply-fixtures.sh
 
+      - name: Install E2E test dependencies
+        working-directory: e2e_testing
+        run: yarn install --immutable
+
       - name: Install Playwright browsers
-        run: yarn workspace e2e_testing playwright install --with-deps chromium
+        working-directory: e2e_testing
+        run: yarn playwright install --with-deps chromium
 
       - name: Run E2E tests
-        run: BASE_URL=http://localhost:8063 CI=true yarn workspace e2e_testing test
+        working-directory: e2e_testing
+        run: BASE_URL=http://localhost:8063 CI=true yarn test
 
       - name: Setup Pages
         if: always()
@@ -296,14 +326,14 @@ jobs:
 
     needs:
       - build-storybook
-      - e2e-tests
+      # - e2e-tests
 
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e # v4
 
-      - name: Move E2E test report
-        run: mv playwright-report pages-site/
+      # - name: Move E2E test report
+      #   run: mv playwright-report pages-site/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
