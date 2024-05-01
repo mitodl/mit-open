@@ -132,6 +132,7 @@ export * from "./components/Carousel/Carousel"
 export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/RadioChoiceField/RadioChoiceField"
+export * from "./components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 
 export * from "./components/learning-resources/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay"
 

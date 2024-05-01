@@ -8,6 +8,7 @@ import {
   ProgramLettersApi,
   LearningResourcesSearchApi,
   PlatformsApi,
+  LearningResourcesUserSubscriptionApi,
 } from "./generated/v1/api"
 
 import { ChannelsApi, WidgetListsApi } from "./generated/v0/api"
@@ -51,7 +52,11 @@ const programLettersApi = new ProgramLettersApi(
 
 const channelsApi = new ChannelsApi(undefined, BASE_PATH, axiosInstance)
 const widgetListsApi = new WidgetListsApi(undefined, BASE_PATH, axiosInstance)
-
+const searchSubscriptionApi = new LearningResourcesUserSubscriptionApi(
+  undefined,
+  BASE_PATH,
+  axiosInstance,
+)
 export {
   learningResourcesApi,
   learningpathsApi,
@@ -64,4 +69,5 @@ export {
   channelsApi,
   widgetListsApi,
   platformsApi,
+  searchSubscriptionApi,
 }

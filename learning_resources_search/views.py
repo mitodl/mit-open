@@ -84,6 +84,16 @@ class LearningResourcesSearchView(ESView):
             return Response(errors, status=400)
 
 
+@extend_schema_view(
+    get=extend_schema(
+        parameters=[LearningResourcesSearchRequestSerializer()],
+        responses=PercolateQuerySerializer(),
+    ),
+    post=extend_schema(
+        request=LearningResourcesSearchRequestSerializer(),
+        responses=PercolateQuerySerializer(),
+    ),
+)
 class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
     View for listing percolate query subscriptions for a user
@@ -115,11 +125,20 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
         return queryset
 
     @extend_schema(
-        summary="Subscribe user to query",
+        summary="List subscribed queries",
+        parameters=[LearningResourcesSearchRequestSerializer],
         request=LearningResourcesSearchRequestSerializer(),
         responses=PercolateQuerySerializer(),
     )
-    @action(detail=False, methods=["post"], name="Subscribe user to query")
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="Subscribe user to query",
+        request={"multipart/form-data": LearningResourcesSearchRequestSerializer()},
+        responses=PercolateQuerySerializer(),
+    )
+    @action(detail=False, methods=["POST"], name="Subscribe user to query")
     def subscribe(self, request, *args, **kwargs):  # noqa: ARG002
         """
         Subscribe a user to query

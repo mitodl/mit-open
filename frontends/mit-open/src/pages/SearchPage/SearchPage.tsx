@@ -10,6 +10,7 @@ import {
   Stack,
   Button,
   Typography,
+  SearchSubscriptionToggle,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
@@ -312,6 +313,7 @@ const SearchPage: React.FC = () => {
                 }}
                 placeholder="Search for resources"
               />
+              <SearchSubscriptionToggle queryParams={params} />
             </Grid>
           </GridContainer>
         </Container>

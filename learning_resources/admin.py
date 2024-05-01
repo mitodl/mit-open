@@ -6,6 +6,10 @@ from django.contrib.admin import TabularInline
 from learning_resources import models
 
 
+class LearningResourceContentTagAdmin(admin.ModelAdmin):
+    model = models.LearningResourceContentTag
+
+
 class LearningResourceInstructorAdmin(admin.ModelAdmin):
     """Instructor Admin"""
 
@@ -215,3 +219,4 @@ admin.site.register(models.LearningResourceOfferor, LearningResourceOfferorAdmin
 admin.site.register(models.LearningResourceViewEvent, LearningResourceViewEventAdmin)
 admin.site.register(models.UserList, UserListAdmin)
 admin.site.register(models.VideoChannel, VideoChannelAdmin)
+admin.site.register(models.LearningResourceContentTag, LearningResourceContentTagAdmin)

@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from "react"
-
 import SearchIcon from "@mui/icons-material/Search"
 import ClearIcon from "@mui/icons-material/Clear"
 import OutlinedInput from "@mui/material/OutlinedInput"
@@ -45,6 +44,7 @@ const searchIconAdjustments = {
 
 const SearchInput: React.FC<SearchInputProps> = (props) => {
   const { onSubmit, value, color } = props
+
   const handleSubmit = useCallback(() => {
     const event = {
       target: { value },
