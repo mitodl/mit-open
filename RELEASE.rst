@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 0.9.6
+-------------
+
+- Lock file maintenance (#578)
+- Self contained front end and fixes for building on Heroku (#829)
+- remove pytz (#830)
+- Update dependency dj-database-url to v2 (#839)
+- Update dependency cryptography to v42 (#838)
+- Add format field to LearningResource model and ETL pipelines (#828)
+
 Version 0.9.5 (Released April 30, 2024)
 -------------
 
