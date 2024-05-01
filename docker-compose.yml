@@ -83,19 +83,22 @@ services:
       - django_media:/var/media
 
   watch:
-    build:
-      context: .
-      dockerfile: frontends/Dockerfile
+    image: node:20.12-alpine
     command: >
-      /bin/sh -c 'yarn rebuild && yarn watch:docker'
+      /bin/sh -c '
+      yarn install --immutable --inline-builds;
+      yarn storybook &
+      yarn watch:docker;'
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       PORT: 8062
     env_file: .env
     ports:
       - "8062:8062"
+      - "6006:6006"
+    working_dir: /src/frontends
     volumes:
-      - ./frontends:/src
+      - .:/src
 
   celery:
     build:
@@ -123,4 +126,3 @@ services:
 volumes:
   opensearch-data1:
   django_media:
-  yarn-cache:
