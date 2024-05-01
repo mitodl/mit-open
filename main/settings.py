@@ -591,8 +591,6 @@ def get_all_config_keys():
     return list(os.environ.keys())
 
 
-MITOPEN_AXIOS_WITH_CREDENTIALS = get_string("MITOPEN_AXIOS_WITH_CREDENTIALS", False)  # noqa: FBT003
-
 MITOPEN_FEATURES_PREFIX = get_string("MITOPEN_FEATURES_PREFIX", "FEATURE_")
 MITOPEN_FEATURES_DEFAULT = get_bool("MITOPEN_FEATURES_DEFAULT", False)  # noqa: FBT003
 FEATURES = {
