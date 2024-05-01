@@ -160,7 +160,13 @@ jobs:
           cache: yarn
           cache-dependency-path: yarn.lock
 
-      - run: yarn install
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Copy static assets
+        run: |
+          mkdir -p  frontends/mit-open/build/static;
+          cp -R frontends/mit-open/public/ frontends/mit-open/build/static;
 
       - run: PUBLIC_URL=/mit-open yarn build-github-pages
         working-directory: frontends
