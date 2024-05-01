@@ -14,7 +14,6 @@
     "ol-widgets"
   ],
   "scripts": {
-    "foreach": "yarn workspaces foreach --all -pvi --exclude=root run",
     "watch": "yarn workspace mit-open watch",
     "watch:docker": "yarn workspace mit-open watch:docker",
     "watch:rc": "yarn workspace mit-open watch:rc",
@@ -23,7 +22,7 @@
     "lint-fix": "yarn lint-check --fix",
     "fmt-check": "prettier --check .",
     "fmt-fix": "prettier --write .",
-    "test": "yarn in-workspaces run global:test",
+    "test": "yarn global:test",
     "test-watch": "yarn global:test-watch",
     "style-lint": "yarn in-workspaces run global:style-lint",
     "style-lint-fix": "yarn in-workspaces run global:style-lint-fix",

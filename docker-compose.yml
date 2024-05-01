@@ -97,6 +97,7 @@ services:
       - "6006:6006"
     volumes:
       - ./frontends:/src/frontends
+      - ./.git:/src/.git
 
   celery:
     build:
