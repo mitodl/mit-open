@@ -170,6 +170,7 @@ const learningResourceTopic: Factory<LearningResourceTopic> = (
     id: faker.helpers.unique(faker.datatype.number),
     name: faker.helpers.unique(faker.lorem.words),
     channel_url: faker.internet.url(),
+    parent: null,
     ...overrides,
   }
   return topic
@@ -205,7 +206,7 @@ const _learningResourceShared = (): Partial<
     image: learningResourceImage(),
     offered_by: maybe(learningResourceOfferor) ?? null,
     platform: maybe(learningResourcePlatform) ?? null,
-    prices: [0.0],
+    prices: "",
     readable_id: faker.lorem.slug(),
     course_feature: repeat(faker.lorem.word),
     runs: [],

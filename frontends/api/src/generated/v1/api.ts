@@ -1891,10 +1891,10 @@ export interface LearningResourceTopic {
   name: string
   /**
    *
-   * @type {string}
+   * @type {number}
    * @memberof LearningResourceTopic
    */
-  subtopics: string
+  parent?: number | null
   /**
    * Get the channel url for the topic if it exists
    * @type {string}
