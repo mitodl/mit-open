@@ -25,17 +25,10 @@ const assertLinksTo = (
 }
 
 const setup = () => {
-  // upcoming resources carousel
-  const upcoming = factory.resources({ count: 4 })
-  setMockResponse.get(
-    expect.stringContaining(urls.learningResources.upcoming()),
-    upcoming,
-  )
-  // media carousel
-  const media = factory.resources({ count: 4 })
+  const resources = factory.resources({ count: 4 })
   setMockResponse.get(
     expect.stringContaining(urls.learningResources.list()),
-    media,
+    resources,
   )
   return renderWithProviders(<HomePage />)
 }
