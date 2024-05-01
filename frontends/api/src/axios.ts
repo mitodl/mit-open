@@ -9,5 +9,6 @@ const instance = axios.create({
   withCredentials:
     APP_SETTINGS.axios_with_credentials?.toLowerCase() === "true",
 })
+instance.defaults.withCredentials = true
 
 export default instance
