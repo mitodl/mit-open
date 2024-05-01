@@ -32,11 +32,6 @@ The following settings must be configured before running the app:
   is not needed. It's recommended that you eventually configure the site to be able
   to send emails. Those configuration steps can be found [below](#enabling-email).
 
-- `MITOPEN_HOSTNAME`
-
-  Sets the hostname required by webpack for building the frontend. Should likely be whatever you set
-  the host to in your /etc/hosts or the hostname that you're accessing it from. Likely `od.odl.local`.
-
 ### Loading Data
 
 The MIT Open platform aggregates data from many sources. These data are populated by ETL (extract, transform, load) pipelines that run automatically on a regular schedule. Django [management commands](https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/) are also available to force the pipelines to run—particularly useful for local development.
@@ -55,6 +50,12 @@ docker compose run --rm web python manage.py backpopulate_xpro_data
 ```
 
 See [learning_resources/management/commands](learning_resources/management/commands) and [main/settings_course_etl.py](main/settings_course_etl.py) for more ETL commands and their relevant environment variables.
+
+### Frontend Development
+
+The frontend package root is at [./frontends](./frontends). A `watch` container is provided to serve and rebuild the front end when there are changes to source files, which is started alongside backing services with `docker compose up`.
+
+Package scripts are also provided for building and serving the frontend in isolation. More detail can be found in the [Frontend README](./frontends/README.md#frontend-development).
 
 ## Code Generation
 
@@ -193,7 +194,6 @@ The system can use PostHog to evaluate feature flags and record views for the Le
 
 The following environment variables must be set for this support to work:
 
-- `POSTHOG_ENABLED` - boolean, toggles the integration on/off
 - `POSTHOG_PROJECT_ID` - int, the project ID for the app in PostHog
 - `POSTHOG_PROJECT_API_KEY` - string, the project API key for the app in PostHog. This usually starts with `phc_`.
 - `POSTHOG_PERSONAL_API_KEY` - string, your personal API key for PostHog. This usually starts with `phx_`.

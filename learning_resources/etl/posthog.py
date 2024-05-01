@@ -4,12 +4,11 @@ import dataclasses
 import json
 import logging
 from collections.abc import Generator
-from datetime import datetime
+from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import Optional
 from urllib.parse import urljoin
 
-import pytz
 import requests
 from django.conf import settings
 
@@ -154,7 +153,7 @@ def posthog_extract_lrd_view_events() -> Generator[PostHogEvent, None, None]:
 
     if last_event:
         last_event_day = (
-            last_event.event_date.astimezone(pytz.utc).replace(tzinfo=None).isoformat()
+            last_event.event_date.astimezone(UTC).replace(tzinfo=None).isoformat()
         )
 
         query = (

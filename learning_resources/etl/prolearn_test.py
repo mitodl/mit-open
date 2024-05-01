@@ -7,18 +7,23 @@ from urllib.parse import urljoin, urlparse
 
 import pytest
 
-from learning_resources.constants import OfferedBy, PlatformType
-from learning_resources.etl import prolearn
+from learning_resources.constants import LearningResourceFormat, OfferedBy, PlatformType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.prolearn import (
     PROLEARN_BASE_URL,
     UNIQUE_FIELD,
+    extract_courses,
+    extract_programs,
     get_offered_by,
     parse_date,
     parse_image,
     parse_price,
     parse_topic,
+    transform_courses,
+    transform_programs,
+    update_format,
 )
+from learning_resources.etl.utils import transform_format
 from learning_resources.factories import (
     LearningResourceOfferorFactory,
     LearningResourcePlatformFactory,
@@ -94,7 +99,7 @@ def mocked_prolearn_courses_responses(
 def test_prolearn_extract_programs(mock_csail_programs_data):
     """Verify that the extraction function calls the prolearn programs API and returns the responses"""
     assert (
-        prolearn.extract_programs()
+        extract_programs()
         == mock_csail_programs_data["data"]["searchAPISearch"]["documents"]
     )
 
@@ -102,14 +107,14 @@ def test_prolearn_extract_programs(mock_csail_programs_data):
 def test_prolearn_extract_programs_disabled(settings):
     """Verify an empty list is returned if the API URL isn't set"""
     settings.PROLEARN_CATALOG_API_URL = None
-    assert prolearn.extract_programs() == []
+    assert extract_programs() == []
 
 
 @pytest.mark.usefixtures("mocked_prolearn_courses_responses")
 def test_prolearn_extract_courses(mock_mitpe_courses_data):
     """Verify that the extraction function calls the prolearn courses API and returns the responses"""
     assert (
-        prolearn.extract_courses()
+        extract_courses()
         == mock_mitpe_courses_data["data"]["searchAPISearch"]["documents"]
     )
 
@@ -117,13 +122,13 @@ def test_prolearn_extract_courses(mock_mitpe_courses_data):
 def test_prolearn_extract_courses_disabled(settings):
     """Verify an empty list is returned if the API URL isn't set"""
     settings.PROLEARN_CATALOG_API_URL = None
-    assert prolearn.extract_courses() == []
+    assert extract_courses() == []
 
 
 def test_prolearn_transform_programs(mock_csail_programs_data):
     """Test that prolearn program data is correctly transformed into our normalized structure"""
     extracted_data = mock_csail_programs_data["data"]["searchAPISearch"]["documents"]
-    result = prolearn.transform_programs(extracted_data)
+    result = transform_programs(extracted_data)
     expected = [
         {
             "readable_id": f"prolearn-{PlatformType.csail.name}-{program['nid']}",
@@ -138,6 +143,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             "offered_by": {"name": OfferedBy.csail.value},
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
+            "format": transform_format(program["format_name"]),
             "runs": [
                 {
                     "run_id": f"{program['nid']}_{start_val}",
@@ -178,7 +184,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
 def test_prolearn_transform_courses(mock_mitpe_courses_data):
     """Test that prolearn courses data is correctly transformed into our normalized structure"""
     extracted_data = mock_mitpe_courses_data["data"]["searchAPISearch"]["documents"]
-    result = list(prolearn.transform_courses(extracted_data))
+    result = list(transform_courses(extracted_data))
     expected = [
         {
             "readable_id": f"prolearn-{PlatformType.mitpe.name}-{course['nid']}",
@@ -190,6 +196,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "description": course["body"],
             "published": True,
             "professional": True,
+            "format": transform_format(course["format_name"]),
             "topics": parse_topic(course),
             "url": course["course_link"]
             if urlparse(course["course_link"]).path
@@ -305,3 +312,38 @@ def test_parse_image(featured_image_url, expected_url):
     """parse_image should return the expected url"""
     document = {"featured_image_url": featured_image_url}
     assert parse_image(document) == ({"url": expected_url} if expected_url else None)
+
+
+@pytest.mark.parametrize(
+    ("old_format", "new_format", "expected_format"),
+    [
+        (
+            [LearningResourceFormat.online.value],
+            [LearningResourceFormat.online.value],
+            [LearningResourceFormat.online.value],
+        ),
+        (
+            [LearningResourceFormat.online.value],
+            [LearningResourceFormat.hybrid.value],
+            [LearningResourceFormat.online.value, LearningResourceFormat.hybrid.value],
+        ),
+        (
+            [
+                LearningResourceFormat.online.value,
+                LearningResourceFormat.in_person.value,
+            ],
+            [LearningResourceFormat.hybrid.value],
+            list(LearningResourceFormat.values()),
+        ),
+    ],
+)
+def test_update_format(
+    mock_mitpe_courses_data, old_format, new_format, expected_format
+):
+    """update_format should combine old format and new format appropriately"""
+    first_course = transform_courses(
+        mock_mitpe_courses_data["data"]["searchAPISearch"]["documents"]
+    )[0]
+    first_course["format"] = old_format
+    update_format(first_course, new_format)
+    assert first_course["format"] == sorted(expected_format)

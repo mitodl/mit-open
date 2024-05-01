@@ -17,8 +17,8 @@ boto3 = "^1.26.155"
 cairosvg = "^2.7.0"
 celery = "^5.3.1"
 cffi = "^1.15.1"
-cryptography = "^39.0.1"
-dj-database-url = "^0.5.0"
+cryptography = "^42.0.0"
+dj-database-url = "^2.0.0"
 dj-static = "^0.0.6"
 Django = "4.2.11"
 django-anymail = {extras = ["mailgun"], version = "^10.0"}
@@ -79,8 +79,7 @@ django-scim2 = "^0.19.1"
 django-oauth-toolkit = "^2.3.0"
 youtube-transcript-api = "^0.6.2"
 posthog = "^3.5.0"
-ruff = "0.4.1"
-pytz = "^2024.1"
+ruff = "0.4.2"
 
 [tool.poetry.group.dev.dependencies]
 bpython = "^0.24"
@@ -104,6 +103,7 @@ ruff = "^0.4.0"
 safety = "^2.3.4"
 semantic-version = "^2.10.0"
 freezegun = "^1.4.0"
+
 
 [build-system]
 requires = ["poetry_core>=1.0.0"]

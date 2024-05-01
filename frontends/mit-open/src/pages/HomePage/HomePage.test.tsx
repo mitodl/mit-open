@@ -1,7 +1,5 @@
 import React from "react"
-
 import HomePage from "./HomePage"
-
 import { urls, setMockResponse } from "api/test-utils"
 import { learningResources as factory } from "api/test-utils/factories"
 import { renderWithProviders, screen, user, within } from "../../test-utils"
@@ -42,6 +40,7 @@ const setup = () => {
 
 describe("HomePage Hero", () => {
   test("Submitting search goes to search page", async () => {
+    setMockResponse.get(urls.userMe.get(), {})
     const { location } = setup()
     const searchbox = screen.getByRole("textbox", { name: /search for/i })
     await user.click(searchbox)

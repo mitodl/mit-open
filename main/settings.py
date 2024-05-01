@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.9.3"
+VERSION = "0.9.5"
 
 log = logging.getLogger()
 
@@ -341,7 +341,7 @@ AUTHORIZATION_URL = get_string(
 STATIC_URL = "/static/"
 
 STATIC_ROOT = "staticfiles"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # noqa: PTH118
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontends/mit-open/public")]  # noqa: PTH118
 for name, path in [
     ("mit-open", os.path.join(BASE_DIR, "frontends/mit-open/build")),  # noqa: PTH118
 ]:
@@ -686,10 +686,6 @@ KEYCLOAK_REALM_NAME = get_string(
 
 MICROMASTERS_CMS_API_URL = get_string("MICROMASTERS_CMS_API_URL", None)
 
-POSTHOG_ENABLED = get_bool(
-    name="POSTHOG_ENABLED",
-    default=False,
-)
 POSTHOG_PROJECT_API_KEY = get_string(
     name="POSTHOG_PROJECT_API_KEY",
     default="",

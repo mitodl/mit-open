@@ -8505,6 +8505,10 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -8567,6 +8571,10 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -8652,6 +8660,16 @@ components:
         * `RES` - Supplemental Resources
         * `STS` - Science, Technology, and Society
         * `WGS` - Women's and Gender Studies
+    FormatEnum:
+      enum:
+      - Online
+      - Hybrid
+      - In person
+      type: string
+      description: |-
+        * `Online` - Online
+        * `Hybrid` - Hybrid
+        * `In person` - In person
     LearningPath:
       type: object
       description: Serializer for the LearningPath model
@@ -8814,6 +8832,10 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
       required:
@@ -8870,6 +8892,10 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
       required:
@@ -10239,6 +10265,10 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
     PatchedUserListRelationshipRequest:
@@ -10509,6 +10539,10 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -10571,6 +10605,10 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -10709,6 +10747,10 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -10771,6 +10813,10 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -11051,6 +11097,10 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -11113,6 +11163,10 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -11452,6 +11506,10 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -11514,6 +11572,10 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -11642,6 +11704,10 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -11704,6 +11770,10 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+        format:
+          type: array
+          items:
+            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title

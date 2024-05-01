@@ -177,7 +177,7 @@ const FacetStyles = styled.div`
   input.facet-filter {
     background-color: initial;
     border-radius: 0;
-    border: 1px solid ${({ theme }) => theme.custom.colors.silverGray1};
+    border: 1px solid ${({ theme }) => theme.custom.colors.silverGrayLight};
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
@@ -301,7 +301,6 @@ const SearchPage: React.FC = () => {
             <GridColumn variant="sidebar-2-wide-main"></GridColumn>
             <Grid item xs={12} md={6} container alignItems="center">
               <SearchField
-                color="secondary"
                 value={currentText}
                 onChange={(e) => setCurrentText(e.target.value)}
                 onSubmit={(e) => {

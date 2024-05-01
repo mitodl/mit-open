@@ -92,6 +92,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
     ])(
       "Shows empty message when there are no items",
       ({ listType, count, hasEmptyMessage }) => {
+        setMockResponse.get(urls.userMe.get(), {})
         const emptyMessage = faker.lorem.sentence()
         const paginatedRelationships = getPaginatedRelationships(
           listType,
@@ -141,6 +142,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
             items={items}
             sortable={sortable}
           />,
+          { user: {} },
         )
         const titles = items.map((item) => item.resource.title)
         const headings = screen.getAllByRole("heading", {
@@ -176,7 +178,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
         emptyMessage,
       }
       const allProps = { ...defaultProps, ...props }
-      renderWithProviders(<ItemsListing {...allProps} />)
+      renderWithProviders(<ItemsListing {...allProps} />, { user: {} })
 
       const onSortEnd = spySortableList.mock.lastCall?.[0]?.onSortEnd
       invariant(onSortEnd)

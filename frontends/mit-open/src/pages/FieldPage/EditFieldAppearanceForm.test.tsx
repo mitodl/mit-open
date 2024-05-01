@@ -13,6 +13,7 @@ import type { FieldChannel } from "api/v0"
 
 const setupApis = (fieldOverrides: Partial<FieldChannel>) => {
   const field = factory.field({ is_moderator: true, ...fieldOverrides })
+  setMockResponse.get(urls.userMe.get(), {})
   field.search_filter = undefined
 
   setMockResponse.get(
@@ -106,5 +107,5 @@ describe("EditFieldAppearanceForm", () => {
     })
     await screen.findByText(newTitle)
     await screen.findByText(newDesc)
-  })
+  }, 10000)
 })

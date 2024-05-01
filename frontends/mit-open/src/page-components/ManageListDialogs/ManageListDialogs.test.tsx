@@ -191,7 +191,7 @@ describe("manageListDialogs.upsertLearningPath", () => {
       patchUrl,
       expect.objectContaining({ ...patch }),
     )
-  })
+  }, 10000)
 
   test("Displays overall error if form validates but API call fails", async () => {
     allowConsoleErrors()

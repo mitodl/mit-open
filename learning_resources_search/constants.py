@@ -101,6 +101,7 @@ LEARNING_RESOURCE_MAP = {
     "id": {"type": "long"},
     "certification": {"type": "boolean"},
     "free": {"type": "boolean"},
+    "format": {"type": "keyword"},
     "readable_id": {"type": "keyword"},
     "title": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
     "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,

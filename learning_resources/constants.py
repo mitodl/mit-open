@@ -258,3 +258,9 @@ class LevelType(ExtendedEnum):
     advanced = "Advanced"
     intermediate = "Intermediate"
     introductory = "Introductory"
+
+
+class LearningResourceFormat(ExtendedEnum):
+    online = "Online"
+    hybrid = "Hybrid"
+    in_person = "In person"

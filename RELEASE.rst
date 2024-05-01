@@ -1,6 +1,39 @@
 Release Notes
 =============
 
+Version 0.9.5 (Released April 30, 2024)
+-------------
+
+- Minor updates for PostHog settings (#833)
+- Update nginx Docker tag to v1.26.0 (#836)
+- Update dependency @types/react to v18.3.1 (#835)
+- Update dependency ruff to v0.4.2 (#834)
+- Don't initialize PostHog if it's disabled (#831)
+
+Version 0.9.4 (Released April 30, 2024)
+-------------
+
+- Text Input + Select components (#827)
+- Update ckeditor monorepo to v41 (major) (#795)
+- Do not analyze webpack by default (#785)
+- Populate prices for mitxonline programs (#817)
+- Filter for free resources (#810)
+- Add drop down for certification in channel search (#802)
+- Pin dependencies (#735)
+- Update dependency @dnd-kit/sortable to v8 (#796)
+- Design system buttons (#800)
+- Reverts decoupled front end and subsequent commits to fix Heroku build errors (#825)
+- Remove package manager config (#823)
+- Set engines to instruct Heroku to install yarn (#821)
+- Deployment fixes for static frontend on Heroku (#819)
+- fixing compose mount (#818)
+- Move hash.txt location to frontend build directory (#815)
+- Build front end to make available on Heroku (#813)
+- Updating the LearningResourceViewEvent to cascade delete, rather than do nothing, so things can be deleted (#812)
+- Self contained front end using Webpack to build HTML and Webpack Dev Server to serve (#678)
+- create api routes for user subscribe/unsubscribe to search (#782)
+- Retrieve OL events via API instead of HTML scraping (#786)
+
 Version 0.9.3 (Released April 23, 2024)
 -------------
 

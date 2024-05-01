@@ -13,6 +13,7 @@ import type {
   PaginatedLearningResourceOfferorList,
 } from "api"
 import invariant from "tiny-invariant"
+import { Permissions } from "@/common/permissions"
 
 const setMockApiResponses = ({
   search,
@@ -21,6 +22,10 @@ const setMockApiResponses = ({
   search?: Partial<LearningResourceSearchResponse>
   offerors?: PaginatedLearningResourceOfferorList
 }) => {
+  setMockResponse.get(urls.userMe.get(), {
+    [Permissions.Authenticated]: false,
+  })
+
   setMockResponse.get(expect.stringContaining(urls.search.resources()), {
     count: 0,
     next: null,

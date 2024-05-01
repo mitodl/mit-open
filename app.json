@@ -579,16 +579,24 @@
       "description": "The base URL for a Keycloak configuration.",
       "required": true
     },
-    "POSTHOG_ENABLED": {
-      "description": "Whether to enable Posthog feature flags",
-      "required": false
-    },
     "POSTHOG_API_HOST": {
       "description": "API host for PostHog",
       "required": false
     },
     "POSTHOG_PROJECT_API_KEY": {
+      "description": "Project API key to capture events in PostHog",
+      "required": false
+    },
+    "POSTHOG_PERSONAL_API_KEY": {
       "description": "Private API key to communicate with PostHog",
+      "required": false
+    },
+    "POSTHOG_PROJECT_ID": {
+      "description": "PostHog project ID for the application",
+      "required": false
+    },
+    "POSTHOG_TIMEOUT_MS": {
+      "description": "Timeout for communication with PostHog API",
       "required": false
     }
   },

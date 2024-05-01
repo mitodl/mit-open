@@ -1,17 +1,22 @@
 """Factories for making test data"""
 
+import datetime
 import decimal
 import random
 from datetime import UTC, timedelta
 
 import factory
-import pytz
 from factory import Faker
 from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice, FuzzyText
 
 from learning_resources import constants, models
-from learning_resources.constants import DEPARTMENTS, LevelType, PlatformType
+from learning_resources.constants import (
+    DEPARTMENTS,
+    LearningResourceFormat,
+    LevelType,
+    PlatformType,
+)
 from learning_resources.etl.constants import CourseNumberType
 from main.factories import UserFactory
 
@@ -185,6 +190,7 @@ class LearningResourceFactory(DjangoModelFactory):
     topics = factory.PostGeneration(_post_gen_topics)
     content_tags = factory.PostGeneration(_post_gen_tags)
     published = True
+    format = factory.List(random.choices(LearningResourceFormat.names()))  # noqa: S311
 
     course = factory.Maybe(
         "create_course",
@@ -330,7 +336,7 @@ class LearningResourceViewEventFactory(DjangoModelFactory):
         is_course=True,
         create_course=False,
     )
-    event_date = factory.Faker("date_time_this_year", tzinfo=pytz.utc)
+    event_date = factory.Faker("date_time_this_year", tzinfo=datetime.UTC)
 
     class Meta:
         """Meta options for the factory"""
