@@ -7,6 +7,7 @@ from opensearch_dsl import Search
 from opensearch_dsl.query import MoreLikeThis, Percolate
 
 from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
+from learning_resources.hooks import get_plugin_manager
 from learning_resources.models import LearningResource
 from learning_resources_search.connection import (
     get_default_alias_name,
@@ -27,7 +28,6 @@ from learning_resources_search.constants import (
     TOPICS_QUERY_FIELDS,
 )
 from learning_resources_search.models import PercolateQuery
-from learning_resources_search.signals import learning_resource_percolated
 from learning_resources_search.utils import adjust_search_for_percolator
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
@@ -494,10 +494,12 @@ def percolate_matches_for_document(document_id):
         Percolate(field="query", index=index, id=str(document_id))
     ).execute()
     percolate_ids = [result.id for result in results.hits]
+
     if len(percolate_ids) > 0:
-        learning_resource_percolated.send_robust(
-            sender=LearningResource,
-            instance=resource,
+        pm = get_plugin_manager()
+        hook = pm.hook
+        hook.document_percolated(
+            resource=resource,
             percolated_queries=PercolateQuery.objects.filter(id__in=percolate_ids),
         )
 

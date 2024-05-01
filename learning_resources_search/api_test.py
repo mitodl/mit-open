@@ -28,6 +28,7 @@ from learning_resources_search.constants import (
     LEARNING_RESOURCE,
 )
 from learning_resources_search.factories import PercolateQueryFactory
+from learning_resources_search.models import PercolateQuery
 
 
 def os_topic(topic_name) -> Mock:
@@ -1705,6 +1706,9 @@ def test_get_similar_topics(settings, opensearch):
 
 @pytest.mark.django_db()
 def test_document_percolation(opensearch, mocker):
+    """
+    Test that our plugin handler is called when docs are percolated
+    """
     mocker.patch(
         "learning_resources_search.indexing_api.index_percolators", autospec=True
     )
@@ -1725,9 +1729,7 @@ def test_document_percolation(opensearch, mocker):
             }
         )
 
-    percolated_signal = mocker.patch(
-        "learning_resources_search.api.learning_resource_percolated"
-    )
+    plugin_log_handler = mocker.patch("learning_resources_search.plugins.log")
     mocker.patch.object(Search, "execute")
 
     Search.execute.return_value = response.Response(
@@ -1746,4 +1748,9 @@ def test_document_percolation(opensearch, mocker):
 
     lr = LearningResourceFactory.create()
     percolate_matches_for_document(lr.id)
-    percolated_signal.send_robust.assert_called_once()
+
+    plugin_log_handler.info.assert_called_once_with(
+        "document %i percolated - %s",
+        lr.id,
+        list(PercolateQuery.objects.filter(id__in=[p["id"] for p in percolate_hits])),
+    )

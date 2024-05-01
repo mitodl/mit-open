@@ -46,9 +46,19 @@ class SearchIndexPlugin:
         Upsert a created/modified percolate_query to the search index
 
         Args:
-            resource(PercolateQuery): The Learning Resource that was upserted
+            percolate_query(PercolateQuery): The Learning Resource that was upserted
         """
         try_with_retry_as_task(tasks.upsert_percolate_query, percolate_query.id)
+
+    @hookimpl
+    def document_percolated(self, resource, percolated_queries):
+        """
+        Call to signal when a document is percolated
+        Args:
+            resource(LearningResource): The Learning Resource that was percolated
+            percolated_queries(PercolateQuery): list of percolated queries
+        """
+        log.info("document %i percolated - %s", resource.id, list(percolated_queries))
 
     @hookimpl
     def resource_upserted(self, resource, percolate):
