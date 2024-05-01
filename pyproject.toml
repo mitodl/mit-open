@@ -80,7 +80,6 @@ django-oauth-toolkit = "^2.3.0"
 youtube-transcript-api = "^0.6.2"
 posthog = "^3.5.0"
 ruff = "0.4.2"
-pytz = "^2024.1"
 
 [tool.poetry.group.dev.dependencies]
 bpython = "^0.24"
@@ -104,6 +103,7 @@ ruff = "^0.4.0"
 safety = "^2.3.4"
 semantic-version = "^2.10.0"
 freezegun = "^1.4.0"
+
 
 [build-system]
 requires = ["poetry_core>=1.0.0"]
