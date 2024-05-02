@@ -2,6 +2,8 @@
 Receivers for OpenSearch indexing
 """
 
+import logging
+
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 
@@ -10,6 +12,8 @@ from learning_resources_search.utils import (
     percolate_query_removed_actions,
     percolate_query_saved_actions,
 )
+
+log = logging.getLogger(__name__)
 
 
 @receiver(post_delete, sender=PercolateQuery)

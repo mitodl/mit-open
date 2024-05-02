@@ -43,7 +43,7 @@ def test_search_index_plugin_resource_upserted(
 ):
     """The plugin function should upsert a resource to the search index"""
     resource = LearningResourceFactory.create(resource_type=resource_type)
-    SearchIndexPlugin().resource_upserted(resource)
+    SearchIndexPlugin().resource_upserted(resource, percolate=False)
 
     mock_search_index_helpers.mock_upsert_learning_resource.assert_called_once_with(
         resource.id

@@ -205,9 +205,9 @@ def test_resource_upserted_actions(mock_plugin_manager, fixture_resource):
     """
     resource_upserted_actions function should trigger plugin hook's resource_upserted function
     """
-    utils.resource_upserted_actions(fixture_resource)
+    utils.resource_upserted_actions(fixture_resource, percolate=False)
     mock_plugin_manager.hook.resource_upserted.assert_called_once_with(
-        resource=fixture_resource
+        resource=fixture_resource, percolate=False
     )
 
 

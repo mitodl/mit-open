@@ -4,10 +4,13 @@ import re
 from collections import Counter
 
 from opensearch_dsl import Search
-from opensearch_dsl.query import MoreLikeThis
+from opensearch_dsl.query import MoreLikeThis, Percolate
 
 from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
-from learning_resources_search.connection import get_default_alias_name
+from learning_resources.models import LearningResource
+from learning_resources_search.connection import (
+    get_default_alias_name,
+)
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
     COURSE_QUERY_FIELDS,
@@ -23,7 +26,11 @@ from learning_resources_search.constants import (
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
-from learning_resources_search.utils import adjust_search_for_percolator
+from learning_resources_search.models import PercolateQuery
+from learning_resources_search.utils import (
+    adjust_search_for_percolator,
+    document_percolated_actions,
+)
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
@@ -463,7 +470,7 @@ def order_params(params):
 
 
 def adjust_query_for_percolator(query_params):
-    search = construct_search(query_params)
+    search = construct_search(query_params.copy())
     return adjust_search_for_percolator(search).to_dict()["query"]
 
 
@@ -475,6 +482,26 @@ def adjust_original_query_for_percolate(query):
     for key in ["limit", "offset", "sortby"]:
         query.pop(key, None)
     return order_params(query)
+
+
+def percolate_matches_for_document(document_id):
+    """
+    Percolate matching queries for a given learning resource
+    and call signal handler with matches
+    """
+    resource = LearningResource.objects.get(id=document_id)
+    index = get_default_alias_name(resource.resource_type)
+    search = Search()
+    results = search.query(
+        Percolate(field="query", index=index, id=str(document_id))
+    ).execute()
+    percolate_ids = [result.id for result in results.hits]
+
+    if len(percolate_ids) > 0:
+        document_percolated_actions(
+            resource,
+            PercolateQuery.objects.filter(id__in=percolate_ids),
+        )
 
 
 def construct_search(search_params):
@@ -582,7 +609,6 @@ def subscribe_user_to_search_query(user, search_params):
         dict: The opensearch response dict
     """
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
-
     percolate_query, _ = PercolateQuery.objects.get_or_create(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
         original_query=adjusted_original_query,
@@ -609,6 +635,7 @@ def unsubscribe_user_from_search_query(user, search_params):
         dict: The opensearch response dict
     """
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
+
     percolate_query = PercolateQuery.objects.filter(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
         original_query=adjusted_original_query,
@@ -648,9 +675,10 @@ def user_subscribed_to_query(user, search_params):
     Returns:
         bool: Whether or not the user has subscribed to the query
     """
+    adjusted_original_query = adjust_original_query_for_percolate(search_params)
     percolate_query = PercolateQuery.objects.filter(
         source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
-        original_query=adjust_original_query_for_percolate(search_params),
+        original_query=adjusted_original_query,
     ).first()
     return (
         percolate_query.users.filter(id=user.id).exists() if percolate_query else False

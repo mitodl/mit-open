@@ -21,8 +21,15 @@ def mock_opensearch(mocker):
     mock_upsert = mocker.patch(
         "learning_resources_search.tasks.upsert_learning_resource"
     )
+    mock_upsert_immutable_signature = mocker.patch(
+        "learning_resources_search.tasks.upsert_learning_resource.si"
+    )
     mock_deindex = mocker.patch("learning_resources_search.tasks.deindex_document")
-    return SimpleNamespace(upsert=mock_upsert, deindex=mock_deindex)
+    return SimpleNamespace(
+        upsert=mock_upsert,
+        deindex=mock_deindex,
+        upsert_si=mock_upsert_immutable_signature,
+    )
 
 
 @pytest.mark.parametrize("is_public", [True, False])
@@ -127,7 +134,7 @@ def test_learning_path_endpoint_create(  # pylint: disable=too-many-arguments  #
     if resp.status_code == 201:
         assert resp.data.get("title") == resp.data.get("title")
         assert resp.data.get("description") == resp.data.get("description")
-    assert mock_opensearch.upsert.call_count == (
+    assert mock_opensearch.upsert_si.call_count == (
         1 if has_permission and is_published else 0
     )
 

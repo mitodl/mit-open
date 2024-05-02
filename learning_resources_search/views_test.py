@@ -391,3 +391,29 @@ def test_param_reordering_generates_same_query(client, user):
     client.post(url, json.dumps(params), content_type="application/json")
 
     assert user.percolate_queries.count() == 1
+
+
+@pytest.mark.django_db()
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+def test_user_subscribtion_list_filter(client, user):
+    """Test user subscription list filter"""
+    client.force_login(user)
+    params = {"q": "monkey"}
+    list_url = reverse("lr_search:v1:learning_resources_user_subscription-list")
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
+    assert user.percolate_queries.count() == 0
+    initial_response = client.post(
+        sub_url, json.dumps(params), content_type="application/json"
+    ).json()
+    initial_query_id = initial_response["id"]
+    initial_query = initial_response["original_query"]
+    for i in range(3):
+        client.post(
+            sub_url, json.dumps({"q": "test" + str(i)}), content_type="application/json"
+        )
+
+    assert user.percolate_queries.count() == 4
+    response = client.get(list_url, params).json()
+    assert len(response) == 1
+    assert response[0]["id"] == initial_query_id
+    assert response[0]["original_query"] == initial_query

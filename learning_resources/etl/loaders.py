@@ -67,7 +67,7 @@ def update_index(learning_resource, newly_created):
     if not newly_created and not learning_resource.published:
         resource_unpublished_actions(learning_resource)
     elif learning_resource.published:
-        resource_upserted_actions(learning_resource)
+        resource_upserted_actions(learning_resource, percolate=newly_created)
 
 
 def load_topics(resource, topics_data):
