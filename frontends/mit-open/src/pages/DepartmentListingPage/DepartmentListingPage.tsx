@@ -4,10 +4,24 @@ import {
   Typography,
   styled,
   PlainList,
-  ChipLink,
+  Chip,
   Stack,
+  List,
+  ListItem,
+  ListItemLink,
+  ListItemText,
 } from "ol-components"
-import { useSchoolsList } from "api/hooks/learningResources"
+import type { TypographyProps } from "ol-components"
+import { pluralize } from "ol-utilities"
+import type {
+  LearningResourceSchool,
+  LearningResourceSearchResponse,
+} from "api"
+import {
+  useLearningResourcesSearch,
+  useSchoolsList,
+} from "api/hooks/learningResources"
+import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined"
 
 const FullWidthBackground = styled.div`
   background-image: url("/static/images/background_steps.jpeg");
@@ -16,93 +30,144 @@ const FullWidthBackground = styled.div`
   padding-bottom: 48px;
   color: ${({ theme }) => theme.custom.colors.white};
 `
+
+const Page = styled.div(({ theme }) => ({
+  backgroundColor: theme.custom.colors.white,
+}))
+
 const HeaderDesription = styled(Typography)(({ theme }) => ({
   maxWidth: theme.breakpoints.values.sm,
   marginTop: theme.spacing(1),
 }))
 
-type ChannelListItemProps = {
-  title: string
-  subchannels: {
-    name: string
-    id: string
-    channel_url: string | null
-  }[]
+const SchoolTitle: React.FC<TypographyProps> = styled(Typography)(
+  ({ theme }) => ({
+    paddingTop: "16px",
+    paddingBottom: "16px",
+    borderBottom: `1px solid ${theme.custom.colors.silverGrayLight}`,
+    "& > svg": {
+      verticalAlign: "text-top",
+      marginRight: "8px",
+    },
+  }),
+)
+
+const DepartmentLink = styled(ListItemLink)(({ theme }) => ({
+  borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
+  paddingTop: "16px",
+  paddingBottom: "16px",
+  paddingLeft: "32px", // Icon (24px) + 8px icon padding
+}))
+
+type SchoolDepartmentProps = {
+  school: LearningResourceSchool
+  courseCounts: Record<string, number>
+  programCounts: Record<string, number>
   className?: string
+  as?: React.ElementType
+}
+const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
+  school,
+  courseCounts,
+  programCounts,
+  className,
+  as: Component = "div",
+}) => {
+  return (
+    <Component className={className}>
+      <SchoolTitle variant="h5" component="h2">
+        <PaletteOutlinedIcon />
+        {school.name}
+      </SchoolTitle>
+      <List disablePadding>
+        {school.departments.map((department) => {
+          const courses = courseCounts[department.department_id] ?? 0
+          const programs = programCounts[department.department_id] ?? 0
+          return (
+            <ListItem disablePadding key={department.department_id}>
+              <DepartmentLink href={department.channel_url ?? ""}>
+                <Stack direction="row" columnGap={1} alignItems="center">
+                  <ListItemText
+                    primaryTypographyProps={{ variant: "subtitle1" }}
+                    primary={department.name}
+                  />
+                  {courses ? (
+                    <Chip
+                      variant="outlined"
+                      label={`${courses} ${pluralize("Course", courses)}`}
+                    />
+                  ) : null}
+                  {programs ? (
+                    <Chip
+                      variant="outlined"
+                      label={`${programs} ${pluralize("Program", programs)}`}
+                    />
+                  ) : null}
+                </Stack>
+              </DepartmentLink>
+            </ListItem>
+          )
+        })}
+      </List>
+    </Component>
+  )
 }
 
-const ChannelListItem = styled(
-  ({ className, title, subchannels }: ChannelListItemProps) => {
-    return (
-      <li className={className}>
-        <Typography variant="h5" component="span">
-          {title}
-        </Typography>
-        <Typography
-          variant="body3"
-          color={(theme) => theme.custom.colors.silverGrayDark}
-        >
-          Courses 123 | Programs 123 | Resources 123
-        </Typography>
-        <Stack
-          direction="row"
-          marginTop={1}
-          flexWrap="wrap"
-          rowGap={1}
-          columnGap={0.5}
-        >
-          {subchannels.map((sub) => {
-            if (!sub.channel_url) {
-              console.warn(`No channel_url found for ${sub.id}`)
-              return
-            }
-            return (
-              <ChipLink key={sub.id} href={sub.channel_url} label={sub.name} />
-            )
-          })}
-        </Stack>
-      </li>
-    )
-  },
-)(({ theme }) => ({
-  paddingTop: "24px",
-  paddingBottom: "24px",
-  "&:not(:last-child)": {
-    borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
-  },
-}))
+const aggregateByDepartment = (
+  data: LearningResourceSearchResponse,
+): Record<string, number> => {
+  const buckets = data.metadata.aggregations["department"] ?? []
+  return Object.fromEntries(
+    buckets.map((bucket) => {
+      return [bucket.key, bucket.doc_count]
+    }),
+  )
+}
 
 const DepartmentListingPage: React.FC = () => {
   const schoolsQuery = useSchoolsList()
+  const courseQuery = useLearningResourcesSearch({
+    resource_type: ["course"],
+    aggregations: ["department"],
+  })
+  const programQuery = useLearningResourcesSearch({
+    resource_type: ["program"],
+    aggregations: ["department"],
+  })
+  const courseCounts = courseQuery.data
+    ? aggregateByDepartment(courseQuery.data)
+    : {}
+  const programCounts = programQuery.data
+    ? aggregateByDepartment(programQuery.data)
+    : {}
 
   return (
-    <>
+    <Page>
       <FullWidthBackground>
         <Container>
           <Typography variant="subtitle3">MIT / Departments</Typography>
           <Typography variant="h1">Departments</Typography>
           <HeaderDesription>
-            Lorem ipsum dolor sit amet consectetur. Vitae nunc ut donec viverra
-            odio ac rutrum. Pellentesque ipsum tortor orci ut nulla.
+            At MIT, academic departments span a wide range of disciplines, from
+            science and engineering to Humanities. Select a department below to
+            explore all of its online course offerings
           </HeaderDesription>
         </Container>
       </FullWidthBackground>
       <Container>
-        <PlainList marginBottom={10} marginTop={10}>
+        <PlainList marginTop={10} marginBottom={10} itemSpacing={5}>
           {schoolsQuery.data?.results?.map((school) => (
-            <ChannelListItem
+            <SchoolDepartments
+              as="li"
               key={school.id}
-              title={school.name}
-              subchannels={school.departments.map((d) => ({
-                name: d.name,
-                id: d.department_id,
-                channel_url: d.channel_url,
-              }))}
+              school={school}
+              courseCounts={courseCounts}
+              programCounts={programCounts}
             />
           ))}
         </PlainList>
       </Container>
-    </>
+    </Page>
   )
 }
 

@@ -18,6 +18,10 @@ const ListItemLink: React.FC<ListItemLinkProps> = styled(
         color: theme.custom.colors.red,
       },
     },
+    ".MuiListItemText-root": {
+      marginTop: 0,
+      marginBottom: 0,
+    },
   },
 ])
 
