@@ -515,12 +515,13 @@ def _walk_ocw_topic_map(
     for topic in topics:
         lr_topic, _ = LearningResourceTopic.objects.filter(
             name=topic, parent=parent
-        ).get_or_create(
+        ).update_or_create(
             defaults={
                 "parent": parent,
                 "name": topic,
             }
         )
+
         topic_upserted_actions(lr_topic)
 
         try:
