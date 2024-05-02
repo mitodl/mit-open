@@ -6,9 +6,8 @@ import axios from "axios"
 const instance = axios.create({
   xsrfCookieName: "csrftoken",
   xsrfHeaderName: "X-CSRFToken",
+  withCredentials:
+    APP_SETTINGS.axios_with_credentials?.toLowerCase() === "true" || false,
 })
-const withCredentials =
-  APP_SETTINGS.axios_with_credentials?.toLowerCase() === "true"
-instance.defaults.withCredentials = withCredentials || false
 
 export default instance
