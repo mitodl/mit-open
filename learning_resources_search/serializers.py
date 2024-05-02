@@ -506,10 +506,7 @@ def serialize_bulk_percolators(ids):
         ids(list of int): List of percolator id's
     """
     for percolator in PercolateQuery.objects.filter(id__in=ids):
-        yield {
-            "_id": percolator.id,
-            "query": {**remove_child_queries(percolator.query)},
-        }
+        yield serialize_percolate_query(percolator)
 
 
 def serialize_percolate_query(query):
@@ -526,7 +523,7 @@ def serialize_percolate_query(query):
     """
     return {
         "query": {**remove_child_queries(query.query)},
-        "_id": query.id,
+        "id": query.id,
     }
 
 
@@ -542,10 +539,7 @@ def serialize_percolate_query_for_update(query):
             This is the query dict value with `_id` set to the database id so that
             OpenSearch can update this in place.
     """
-    return {
-        "query": {**remove_child_queries(query.query)},
-        "id": query.id,
-    }
+    return serialize_percolate_query(query)
 
 
 def serialize_bulk_learning_resources_for_deletion(ids):
