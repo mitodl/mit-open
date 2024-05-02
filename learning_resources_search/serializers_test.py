@@ -811,6 +811,6 @@ def test_percolate_serializer():
     }
     percolate_query = PercolateQueryFactory(query=query, original_query=query)
     serialized = serialize_percolate_query(percolate_query)
-    assert "_id" in serialized
+    assert "id" in serialized
     assert "query" in serialized
     assert "has_child" not in serialized["query"]
