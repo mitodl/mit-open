@@ -248,7 +248,7 @@ def load_course(
     course_data = resource_data.pop("course", None)
     department_data = resource_data.pop("departments", [])
     content_tags_data = resource_data.pop("content_tags", [])
-    resource_data.setdefault("format", [LearningResourceFormat.online.value])
+    resource_data.setdefault("learning_format", [LearningResourceFormat.online.name])
 
     readable_id = resource_data.pop("readable_id")
     if readable_id in blocklist or not runs_data:
@@ -417,7 +417,7 @@ def load_program(
     departments_data = program_data.pop("departments", None)
     image_data = program_data.pop("image", None)
     platform_code = program_data.pop("platform")
-    program_data.setdefault("format", [LearningResourceFormat.online.value])
+    program_data.setdefault("learning_format", [LearningResourceFormat.online.name])
 
     course_resources = []
     with transaction.atomic():

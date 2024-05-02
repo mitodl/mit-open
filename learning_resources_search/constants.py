@@ -72,6 +72,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = {
     "department": FilterConfig("departments.department_id"),
     "platform": FilterConfig("platform.code"),
     "offered_by": FilterConfig("offered_by.code"),
+    "learning_format": FilterConfig("learning_format.code"),
 }
 
 SEARCH_NESTED_FILTERS = {
@@ -101,7 +102,13 @@ LEARNING_RESOURCE_MAP = {
     "id": {"type": "long"},
     "certification": {"type": "boolean"},
     "free": {"type": "boolean"},
-    "format": {"type": "keyword"},
+    "learning_format": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
     "readable_id": {"type": "keyword"},
     "title": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
     "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,

@@ -15,6 +15,7 @@ from rest_framework.utils.urls import replace_query_param
 from learning_resources.constants import (
     DEPARTMENTS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    LearningResourceFormat,
     LearningResourceType,
     LevelType,
     OfferedBy,
@@ -159,6 +160,7 @@ LEARNING_RESOURCE_AGGREGATIONS = [
     "course_feature",
     "professional",
     "free",
+    "learning_format",
 ]
 
 CONTENT_FILE_AGGREGATIONS = ["topic", "content_feature_type", "platform", "offered_by"]
@@ -186,7 +188,7 @@ class SearchRequestSerializer(serializers.Serializer):
         required=False,
         child=serializers.ChoiceField(choices=platform_choices),
         help_text=(
-            f"The platform on which the learning resource id offered \
+            f"The platform on which the learning resource is offered \
             \n\n{build_choice_description_list(platform_choices)}"
         ),
     )
@@ -269,6 +271,15 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         required=False,
         help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=LEARNING_RESOURCE_AGGREGATIONS),
+    )
+    learning_format_choices = LearningResourceFormat.as_list()
+    learning_format = StringArrayField(
+        required=False,
+        child=serializers.ChoiceField(choices=learning_format_choices),
+        help_text=(
+            f"The format(s) in which the learning resource is offered \
+            \n\n{build_choice_description_list(learning_format_choices)}"
+        ),
     )
 
 

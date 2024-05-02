@@ -7,6 +7,7 @@ from django.utils.http import urlencode
 
 from learning_resources.constants import (
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    LearningResourceFormat,
     LearningResourceType,
     LevelType,
     OfferedBy,
@@ -27,7 +28,7 @@ from learning_resources.factories import (
     VideoFactory,
     VideoPlaylistFactory,
 )
-from learning_resources.models import ContentFile, LearningResourceRun
+from learning_resources.models import ContentFile, LearningResource, LearningResourceRun
 
 pytestmark = pytest.mark.django_db
 
@@ -408,6 +409,43 @@ def test_learning_resource_filter_level(client, multifilter):
 
     results = client.get(f"{RESOURCE_API_URL}?{multifilter}").json()["results"]
     assert len(results) == 2
+
+
+@pytest.mark.parametrize(
+    "multifilter", ["learning_format={}&learning_format={}", "learning_format={},{}"]
+)
+def test_learning_resource_filter_formats(mock_courses, client, multifilter):
+    """Test that the learning_format filter works"""
+    LearningResource.objects.filter(id=mock_courses.ocw_course.id).update(
+        learning_format=[LearningResourceFormat.online.name]
+    )
+    LearningResource.objects.filter(id=mock_courses.mitx_course.id).update(
+        learning_format=[
+            LearningResourceFormat.online.name,
+            LearningResourceFormat.hybrid.name,
+        ]
+    )
+    LearningResource.objects.filter(id=mock_courses.mitpe_course.id).update(
+        learning_format=[
+            LearningResourceFormat.hybrid.name,
+            LearningResourceFormat.in_person.name,
+        ]
+    )
+
+    results = client.get(
+        f"{RESOURCE_API_URL}?learning_format={LearningResourceFormat.in_person.name}"
+    ).json()["results"]
+    assert len(results) == 1
+    assert results[0]["id"] == mock_courses.mitpe_course.id
+
+    multiformats_filter = multifilter.format(
+        LearningResourceFormat.in_person.name, LearningResourceFormat.hybrid.name
+    )
+    results = client.get(f"{RESOURCE_API_URL}?{multiformats_filter}").json()["results"]
+    assert len(results) == 2
+    assert sorted([result["readable_id"] for result in results]) == sorted(
+        [mock_courses.mitx_course.readable_id, mock_courses.mitpe_course.readable_id]
+    )
 
 
 @pytest.mark.parametrize("multifilter", ["run_id={}&run_id={}", "run_id={},{}"])
