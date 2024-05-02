@@ -1,7 +1,57 @@
 import React, { useEffect } from "react"
-import { default as MuiAlert } from "@mui/material/Alert"
-
+import styled from "@emotion/styled"
+import { default as MuiAlert, AlertColor } from "@mui/material/Alert"
+import { theme } from "../ThemeProvider/ThemeProvider"
 import type { AlertProps as MuiAlertProps } from "@mui/material/Alert"
+import { pxToRem } from "../ThemeProvider/typography"
+
+type Colors = {
+  [Severity in AlertColor]: string
+}
+
+const COLORS: Colors = {
+  info: theme.custom.colors.blue,
+  success: theme.custom.colors.green,
+  warning: theme.custom.colors.orange,
+  error: theme.custom.colors.lightRed,
+}
+
+type AlertStyleProps = {
+  severity: AlertColor
+}
+
+const AlertStyled = styled(MuiAlert)<AlertStyleProps>(({ severity }) => ({
+  padding: "11px 16px",
+  borderRadius: 4,
+  borderWidth: 2,
+  borderStyle: "solid",
+  borderColor: COLORS[severity],
+  background: "#FFF",
+  ".MuiAlert-message": {
+    lineHeight: pxToRem(22),
+    verticalAlign: "middle",
+    fontSize: pxToRem(14),
+    color: theme.custom.colors.darkGray2,
+  },
+  "> div": {
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  ".MuiAlert-icon": {
+    marginRight: 8,
+    svg: {
+      width: 16,
+      fill: COLORS[severity],
+    },
+  },
+  button: {
+    padding: 0,
+    ":hover": {
+      margin: 0,
+      background: "none",
+    },
+  },
+}))
 
 type AlertProps = { visible?: boolean; closeable?: boolean } & Pick<
   MuiAlertProps,
@@ -31,12 +81,14 @@ const Alert: React.FC<AlertProps> = ({
   }
 
   return (
-    <MuiAlert
-      severity={severity}
+    <AlertStyled
+      severity={severity!}
       onClose={closeable ? onCloseClick : undefined}
+      role="alert"
+      aria-description={`${severity} message`}
     >
       {children}
-    </MuiAlert>
+    </AlertStyled>
   )
 }
 

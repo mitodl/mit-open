@@ -32,7 +32,7 @@ type Story = StoryObj<typeof Alert>
 
 export const Plain: Story = {
   args: {
-    severity: "success",
+    severity: "info",
   },
   render: (args) => (
     <Alert {...args}>Alert with severity "{args.severity}"</Alert>
@@ -41,7 +41,7 @@ export const Plain: Story = {
 
 export const Closable: Story = {
   args: {
-    severity: "success",
+    severity: "warning",
     closeable: true,
   },
   render: (args) => (
@@ -50,28 +50,40 @@ export const Closable: Story = {
 }
 
 export const Variants: Story = {
+  argTypes: {
+    severity: {
+      table: {
+        disable: true,
+      },
+    },
+    closeable: {
+      table: {
+        disable: true,
+      },
+    },
+  },
   render: (args) => (
     <Stack direction="column" gap={2} sx={{ my: 2 }}>
-      <Alert {...args} severity="success">
-        Alert with severity "success"
-      </Alert>
       <Alert {...args} severity="info">
         Alert with severity "info"
-      </Alert>
-      <Alert {...args} severity="warning">
-        Alert with severity "warning"
-      </Alert>
-      <Alert {...args} severity="error">
-        Alert with severity "error"
-      </Alert>
-      <Alert {...args} closeable severity="success">
-        Closeable alert with severity "success"
       </Alert>
       <Alert {...args} closeable severity="info">
         Closeable alert with severity "info"
       </Alert>
+      <Alert {...args} severity="success">
+        Alert with severity "success"
+      </Alert>
+      <Alert {...args} closeable severity="success">
+        Closeable alert with severity "success"
+      </Alert>
+      <Alert {...args} severity="warning">
+        Alert with severity "warning"
+      </Alert>
       <Alert {...args} closeable severity="warning">
         Closeable alert with severity "warning"
+      </Alert>
+      <Alert {...args} severity="error">
+        Alert with severity "error"
       </Alert>
       <Alert {...args} closeable severity="error">
         Closeable alert with severity "error"
