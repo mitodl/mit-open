@@ -206,7 +206,7 @@ const _learningResourceShared = (): Partial<
     image: learningResourceImage(),
     offered_by: maybe(learningResourceOfferor) ?? null,
     platform: maybe(learningResourcePlatform) ?? null,
-    prices: "",
+    prices: [0.0],
     readable_id: faker.lorem.slug(),
     course_feature: repeat(faker.lorem.word),
     runs: [],
