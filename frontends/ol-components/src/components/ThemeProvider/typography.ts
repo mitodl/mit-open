@@ -20,42 +20,47 @@ const globalSettings: ThemeOptions["typography"] = {
   h1: {
     fontWeight: 700,
     fontSize: pxToRem(56),
+    lineHeight: pxToRem(64),
   },
   h2: {
     fontWeight: 700,
     fontSize: pxToRem(40),
+    lineHeight: pxToRem(48),
   },
   h3: {
     fontWeight: 700,
     fontSize: pxToRem(32),
+    lineHeight: pxToRem(40),
   },
   h4: {
     fontWeight: 700,
     fontSize: pxToRem(24),
+    lineHeight: pxToRem(30),
   },
   h5: {
     fontWeight: 500,
     fontSize: pxToRem(20),
+    lineHeight: pxToRem(26),
   },
   subtitle1: {
     fontWeight: 500,
     fontSize: pxToRem(16),
-    lineHeight: 1.75,
+    lineHeight: pxToRem(20),
   },
   subtitle2: {
     fontWeight: 500,
     fontSize: pxToRem(14),
-    lineHeight: 1.57,
+    lineHeight: pxToRem(18),
   },
   subtitle3: {
     fontWeight: 500,
     fontSize: pxToRem(12),
-    lineHeight: 1.41,
+    lineHeight: pxToRem(16),
   },
   subtitle4: {
     fontWeight: 500,
     fontSize: pxToRem(10),
-    lineHeight: 1.26,
+    lineHeight: pxToRem(14),
   },
   body1: {
     fontSize: pxToRem(16),
