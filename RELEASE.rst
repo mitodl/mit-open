@@ -1,6 +1,22 @@
 Release Notes
 =============
 
+Version 0.9.6
+-------------
+
+- Additional routes to the Django app (#858)
+- allow configuring Axios defaults.withCredentials (#854)
+- Alert handler for percolate matches (#842)
+- Adds the missing OIDC auth route (#855)
+- Learning format filter for search/db api's (#845)
+- Corrects the path to write hash.txt (#850)
+- Lock file maintenance (#578)
+- Self contained front end and fixes for building on Heroku (#829)
+- remove pytz (#830)
+- Update dependency dj-database-url to v2 (#839)
+- Update dependency cryptography to v42 (#838)
+- Add format field to LearningResource model and ETL pipelines (#828)
+
 Version 0.9.5 (Released April 30, 2024)
 -------------
 
