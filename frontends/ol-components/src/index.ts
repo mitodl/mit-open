@@ -133,6 +133,12 @@ export * from "./components/RadioChoiceField/RadioChoiceField"
 export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
 export { TextField } from "./components/TextField/TextField"
+export { SimpleSelect } from "./components/SimpleSelect/SimpleSelect"
+export type {
+  SimpleSelectProps,
+  SimpleSelectOptionProps,
+} from "./components/SimpleSelect/SimpleSelect"
+
 export type { TextFieldProps } from "./components/TextField/TextField"
 export { Select, SelectField } from "./components/SelectField/SelectField"
 export type {

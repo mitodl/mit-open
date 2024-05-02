@@ -8,7 +8,9 @@ import type {
   BooleanFacetKey,
 } from "@mitodl/course-search-utils"
 import { BOOLEAN_FACET_NAMES } from "@mitodl/course-search-utils"
-import { FormControl, Select, MenuItem, Skeleton, styled } from "ol-components"
+import { Skeleton, styled } from "ol-components"
+import { StyledDropdown } from "../SearchPage/SearchPage"
+
 export type KeyWithLabel = { key: string; label: string }
 
 const StyledSkeleton = styled(Skeleton)`
@@ -110,45 +112,22 @@ const AvailableFacetsDropdowns: React.FC<
           displayValue = activeFacets[facetSetting.name as FacetKey] || []
         }
 
+        if (!isMultiple) {
+          facetItems.unshift({ key: "", label: "no selection" })
+        }
+
         return (
           facetItems.length && (
-            <FormControl key={facetSetting.name}>
-              <Select
-                multiple={isMultiple}
-                displayEmpty
-                value={displayValue}
-                renderValue={() => {
-                  return facetSetting.title
-                }}
-                onChange={(e) =>
-                  onFacetChange(facetSetting.name, e.target.value)
-                }
-                sx={{ m: 1, minWidth: 140 }}
-              >
-                {!isMultiple ? (
-                  <MenuItem
-                    value=""
-                    key={facetSetting.name.concat(":", "unselect")}
-                  >
-                    no selection
-                  </MenuItem>
-                ) : (
-                  ""
-                )}
-                {filteredResultsWithLabels(
-                  facetOptions(facetSetting.name) || [],
-                  facetSetting.labelFunction || null,
-                  constantSearchParams[facetSetting.name as FacetKey] || null,
-                ).map((facet) => (
-                  <MenuItem
-                    value={facet.key}
-                    key={facetSetting.name.concat(":", facet.key)}
-                  >
-                    {facet.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <StyledDropdown
+              key={facetSetting.name}
+              initialValue={displayValue}
+              isMultiple={isMultiple}
+              onChange={(e) => onFacetChange(facetSetting.name, e.target.value)}
+              renderValue={() => {
+                return facetSetting.title
+              }}
+              options={facetItems}
+            />
           )
         )
       })}
