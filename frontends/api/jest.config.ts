@@ -10,6 +10,7 @@ const config: Config.InitialOptions = {
   globals: {
     APP_SETTINGS: {
       axios_with_credentials: "False",
+      axios_base_path: "",
     },
   },
 }
