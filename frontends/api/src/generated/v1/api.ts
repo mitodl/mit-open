@@ -496,10 +496,10 @@ export interface CourseResource {
   certification: boolean
   /**
    * Returns the prices for the learning resource
-   * @type {string}
+   * @type {Array<number>}
    * @memberof CourseResource
    */
-  prices: string | null
+  prices: Array<number>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -914,10 +914,10 @@ export interface LearningPathResource {
   certification: boolean
   /**
    * Returns the prices for the learning resource
-   * @type {string}
+   * @type {Array<number>}
    * @memberof LearningPathResource
    */
-  prices: string | null
+  prices: Array<number>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -3129,10 +3129,10 @@ export interface PodcastEpisodeResource {
   certification: boolean
   /**
    * Returns the prices for the learning resource
-   * @type {string}
+   * @type {Array<number>}
    * @memberof PodcastEpisodeResource
    */
-  prices: string | null
+  prices: Array<number>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -3398,10 +3398,10 @@ export interface PodcastResource {
   certification: boolean
   /**
    * Returns the prices for the learning resource
-   * @type {string}
+   * @type {Array<number>}
    * @memberof PodcastResource
    */
-  prices: string | null
+  prices: Array<number>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -3894,10 +3894,10 @@ export interface ProgramResource {
   certification: boolean
   /**
    * Returns the prices for the learning resource
-   * @type {string}
+   * @type {Array<number>}
    * @memberof ProgramResource
    */
-  prices: string | null
+  prices: Array<number>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -4449,10 +4449,10 @@ export interface VideoPlaylistResource {
   certification: boolean
   /**
    * Returns the prices for the learning resource
-   * @type {string}
+   * @type {Array<number>}
    * @memberof VideoPlaylistResource
    */
-  prices: string | null
+  prices: Array<number>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -4712,10 +4712,10 @@ export interface VideoResource {
   certification: boolean
   /**
    * Returns the prices for the learning resource
-   * @type {string}
+   * @type {Array<number>}
    * @memberof VideoResource
    */
-  prices: string | null
+  prices: Array<number>
   /**
    *
    * @type {Array<LearningResourceRun>}

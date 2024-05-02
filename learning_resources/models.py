@@ -1,6 +1,6 @@
 """Models for learning resources and related entities"""
 
-import logging
+from decimal import Decimal
 
 from django.contrib.admin.utils import flatten
 from django.contrib.auth.models import User
@@ -16,8 +16,6 @@ from learning_resources.constants import (
     PrivacyLevel,
 )
 from main.models import TimestampedModel
-
-log = logging.getLogger(__name__)
 
 
 class LearningResourcePlatform(TimestampedModel):
@@ -227,17 +225,19 @@ class LearningResource(TimestampedModel):
         return None
 
     @property
-    def prices(self) -> str | None:
+    def prices(self) -> list[Decimal]:
         """Returns the prices for the learning resource"""
         if self.resource_type in [
             LearningResourceType.course.name,
             LearningResourceType.program.name,
         ]:
             return list(
-                set(flatten([run.prices for run in self.runs.all() if run.prices]))
+                set(
+                    flatten([(run.prices or [Decimal(0.0)]) for run in self.runs.all()])
+                )
             )
         else:
-            return 0
+            return [Decimal(0.00)]
 
     @property
     def certification(self) -> bool:
@@ -257,20 +257,6 @@ class LearningResource(TimestampedModel):
                 )
             )
         )
-
-    def save(self, *args, **kwargs):
-        """
-        Ensure all applicable topics are attached to this resource.
-
-        If the learning resource has topics attached to it, we should save then
-        walk up the tree and add in any parent topics.
-        """
-
-        super().save(*args, **kwargs)
-
-        from learning_resources.tasks import update_learning_resource_topics
-
-        update_learning_resource_topics.delay(self.id) if self.id else None
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
