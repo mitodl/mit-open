@@ -521,9 +521,10 @@ def serialize_percolate_query(query):
             This is the query dict value with `_id` set to the database id so that
             OpenSearch can update this in place.
     """
+    serialized = PercolateQuerySerializer(instance=query).data
     return {
-        "query": {**remove_child_queries(query.query)},
-        "id": query.id,
+        "query": {**remove_child_queries(serialized["query"])},
+        "id": serialized["id"],
     }
 
 
