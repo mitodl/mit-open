@@ -13,9 +13,13 @@ import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp"
 import PopupState, { bindToggle, bindPopper } from "material-ui-popup-state"
 import { useUserMe } from "api/hooks/user"
 
-const SearchSubscriptionToggle = ({ searchParams }) => {
-  const queryParams = {}
-  for (const [key, value] of searchParams.entries()) {
+const SearchSubscriptionToggle = ({
+  searchParams,
+}: {
+  searchParams: URLSearchParams
+}) => {
+  const queryParams = Object.fromEntries(searchParams.entries())
+  for (const [key, value] of Object.entries(queryParams)) {
     queryParams[key] = value.split(",")
   }
   const buttonSx: React.CSSProperties = {
@@ -41,7 +45,7 @@ const SearchSubscriptionToggle = ({ searchParams }) => {
   const id = "unsubscribe-popper"
 
   useEffect(() => {
-    if (data && data[0].id) {
+    if (data && data.length > 0) {
       setIsSubscribed(true)
       setQueryId(data[0]?.id)
     } else {
