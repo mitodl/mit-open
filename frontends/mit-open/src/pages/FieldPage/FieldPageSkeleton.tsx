@@ -59,7 +59,6 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
     for (const [key, value] of urlParams.entries()) {
       searchParams[key as FacetKey] = value.split(",")
     }
-    console.log("fieldQuery", searchParams)
   }
 
   return (
@@ -85,7 +84,11 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                 </Typography>
 
                 <FieldControls>
-                  <SearchSubscriptionToggle queryParams={searchParams} />
+                  {searchParams.length > 0 ? (
+                    <SearchSubscriptionToggle queryParams={searchParams} />
+                  ) : (
+                    <span></span>
+                  )}
                   {field.data?.is_moderator ? (
                     <FieldMenu
                       channelType={String(channelType)}

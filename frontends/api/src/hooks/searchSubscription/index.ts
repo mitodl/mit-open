@@ -33,7 +33,6 @@ const useSearchSubscriptionDelete = () => {
 
   return useMutation({
     mutationFn: (id: number | undefined) => {
-      console.log("deleteid", id)
       return searchSubscriptionApi
         .learningResourcesUserSubscriptionUnsubscribeDestroy({ id })
         .then((res) => res.data)

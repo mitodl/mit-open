@@ -39,11 +39,9 @@ const SearchSubscriptionToggle = ({ queryParams }) => {
   const subscriptionDelete = useSearchSubscriptionDelete()
   const subscriptionCreate = useSearchSubscriptionCreate()
 
-  console.log("queryParams", queryParams)
   useEffect(() => {
     if (data?.length > 0 && data[0].id) {
       const queryId = data[0].id
-      console.log("subscribed data", data)
       setIsSubscribed(true)
       setQueryId(queryId)
     } else {
@@ -56,7 +54,6 @@ const SearchSubscriptionToggle = ({ queryParams }) => {
     setOpen(false)
     if (isSubscribed && queryId) {
       // Unsubscribe logic
-      console.log("unsubscribing")
       setIsSubscribed(false)
       subscriptionDelete.mutateAsync(queryId).then(() => {
         setQueryId(null)
@@ -65,7 +62,6 @@ const SearchSubscriptionToggle = ({ queryParams }) => {
       // Subscribe logic
       setIsSubscribed(true)
       subscriptionCreate.mutateAsync(queryParams).then((data) => {
-        console.log(data)
         setQueryId(data.id)
       })
     }

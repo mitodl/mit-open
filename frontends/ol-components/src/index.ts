@@ -127,7 +127,6 @@ export * from "./components/Carousel/Carousel"
 export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/RadioChoiceField/RadioChoiceField"
-export * from "./components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 
 export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
@@ -146,3 +145,4 @@ export * from "./hooks/useBreakpoint"
 
 export { default as styled } from "@emotion/styled"
 export { css, Global } from "@emotion/react"
+export * from "./components/SearchSubscriptionToggle/SearchSubscriptionToggle"
