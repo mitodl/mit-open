@@ -18,7 +18,7 @@ const meta: Meta<typeof Alert> = {
         type: "boolean",
       },
     },
-    closeable: {
+    closable: {
       control: {
         type: "boolean",
       },
@@ -42,7 +42,7 @@ export const Basic: Story = {
 export const Closable: Story = {
   args: {
     severity: "warning",
-    closeable: true,
+    closable: true,
   },
   render: (args) => (
     <Alert {...args}>Closable alert with severity "{args.severity}"</Alert>
@@ -56,7 +56,7 @@ export const Variants: Story = {
         disable: true,
       },
     },
-    closeable: {
+    closable: {
       table: {
         disable: true,
       },
@@ -67,26 +67,26 @@ export const Variants: Story = {
       <Alert {...args} severity="info">
         Alert with severity "info"
       </Alert>
-      <Alert {...args} closeable severity="info">
-        Closeable alert with severity "info"
+      <Alert {...args} closable severity="info">
+        Closable alert with severity "info"
       </Alert>
       <Alert {...args} severity="success">
         Alert with severity "success"
       </Alert>
-      <Alert {...args} closeable severity="success">
-        Closeable alert with severity "success"
+      <Alert {...args} closable severity="success">
+        Closable alert with severity "success"
       </Alert>
       <Alert {...args} severity="warning">
         Alert with severity "warning"
       </Alert>
-      <Alert {...args} closeable severity="warning">
-        Closeable alert with severity "warning"
+      <Alert {...args} closable severity="warning">
+        Closable alert with severity "warning"
       </Alert>
       <Alert {...args} severity="error">
         Alert with severity "error"
       </Alert>
-      <Alert {...args} closeable severity="error">
-        Closeable alert with severity "error"
+      <Alert {...args} closable severity="error">
+        Closable alert with severity "error"
       </Alert>
     </Stack>
   ),

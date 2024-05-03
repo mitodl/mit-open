@@ -55,14 +55,14 @@ const AlertStyled = styled(MuiAlert)<AlertStyleProps>(({ severity }) => ({
 
 type AlertProps = {
   visible?: boolean
-  closeable?: boolean
+  closable?: boolean
   className?: string
 } & Pick<MuiAlertProps, "severity" | "children">
 
 const Alert: React.FC<AlertProps> = ({
   visible = true,
   severity = "info",
-  closeable,
+  closable,
   children,
   className,
 }) => {
@@ -83,7 +83,7 @@ const Alert: React.FC<AlertProps> = ({
   return (
     <AlertStyled
       severity={severity!}
-      onClose={closeable ? onCloseClick : undefined}
+      onClose={closable ? onCloseClick : undefined}
       role="alert"
       aria-description={`${severity} message`}
       className={className}
