@@ -17,6 +17,7 @@
     "@mui/system": "^5.15.15",
     "@types/tinycolor2": "^1.4.6",
     "api": "workspace:*",
+    "material-ui-popup-state": "^5.1.0",
     "lodash": "^4.17.21",
     "nuka-carousel": "^7.0.0",
     "ol-test-utilities": "workspace:*",

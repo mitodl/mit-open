@@ -68,5 +68,9 @@
     "ts-node": "^10.9.1",
     "type-fest": "^4.14.0",
     "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "material-ui-popup-state": "^5.1.0",
+    "react-onclickoutside": "^6.13.0"
   }
 }

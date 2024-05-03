@@ -5,43 +5,41 @@ import {
   useSearchSubscriptionCreate,
   useSearchSubscriptionDelete,
 } from "api/hooks/searchSubscription"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp"
-
-import { DropdownMenu } from "./DropdownMenu"
-/*
-
-.follow-button,
-    .edit-button {
-      margin-right: 0;
-      margin-left: 10px;
-    }
-
-    .follow-button {
-      flex-grow: 1;
-      padding: $button-vert-padding 0;
-      min-width: 110px;
-      max-width: 145px;
-      text-align: center;
-    }
-
-    .dropdown-button {
-      position: relative;
-
-      span {
-        display: inline-block;
-        padding-right: 10px;
-      }
-*/
+import { Button } from "ol-components"
+import Box from "@mui/material/Box"
+import Popper from "@mui/material/Popper"
+import MenuItem from "@mui/material/MenuItem"
+import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp"
+import PopupState, { bindToggle, bindPopper } from "material-ui-popup-state"
 const SearchSubscriptionToggle = ({ queryParams }) => {
+  const buttonSx: React.CSSProperties = {
+    backgroundColor: "#a31f34",
+    color: "#fff",
+    margin: 0,
+    border: "none",
+    fontWeight: "400",
+    fontSize: "16px",
+    textDecoration: "none",
+    cursor: "pointer",
+    width: "120px",
+    borderRadius: "0px",
+  }
+  const unsubscribeSx: React.CSSProperties = {
+    bgcolor: "background.paper",
+    fontSize: "16px",
+    width: "120px",
+    fontWeight: "400",
+  }
+
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const [open, setOpen] = React.useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [queryId, setQueryId] = useState(null)
-  const isDropdownOpen = true
   const { data } = useSearchSubscriptionList(queryParams)
   const subscriptionDelete = useSearchSubscriptionDelete()
   const subscriptionCreate = useSearchSubscriptionCreate()
 
-  console.log(queryParams)
+  console.log("queryParams", queryParams)
   useEffect(() => {
     if (data?.length > 0 && data[0].id) {
       const queryId = data[0].id
@@ -55,44 +53,61 @@ const SearchSubscriptionToggle = ({ queryParams }) => {
   }, [data])
 
   const handleToggleSubscription = () => {
+    setOpen(false)
     if (isSubscribed && queryId) {
       // Unsubscribe logic
-      //
       console.log("unsubscribing")
-      subscriptionDelete
-        .mutateAsync(queryId)
-        .then(() => {
-          setIsSubscribed(false)
-          setQueryId(null)
-        })
-        .catch((error) => console.error("Error unsubscribing:", error))
+      setIsSubscribed(false)
+      subscriptionDelete.mutateAsync(queryId).then(() => {
+        setQueryId(null)
+      })
     } else {
       // Subscribe logic
-      subscriptionCreate.mutateAsync(queryParams)
+      setIsSubscribed(true)
+      subscriptionCreate.mutateAsync(queryParams).then((data) => {
+        console.log(data)
+        setQueryId(data.id)
+      })
     }
   }
 
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(anchorEl ? null : event.currentTarget)
+    setOpen((previousOpen) => !previousOpen)
+  }
+
+  const id = open ? "unsubscribe-popper" : undefined
+
   return isSubscribed ? (
-    <React.Fragment>
-      <a className="follow-button dropdown-button">
-        <span>Subscribed</span>
-        {isDropdownOpen ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-      </a>
-      {isDropdownOpen ? (
-        <DropdownMenu
-          closeMenu={handleToggleSubscription}
-          className="channel-follow-dropdown"
-        >
-          <li>
-            <a onClick={handleToggleSubscription}>Unfollow channel</a>
-          </li>
-        </DropdownMenu>
-      ) : null}
-    </React.Fragment>
+    <PopupState variant="popper" popupId="demo-popup-popper">
+      {(popupState) => (
+        <div>
+          <Button
+            endIcon={<ExpandMoreSharpIcon />}
+            style={buttonSx}
+            width={100}
+            aria-describedby={id}
+            onClick={handleClick}
+            {...bindToggle(popupState)}
+          >
+            Subscribed
+          </Button>
+          <Popper id={id} {...bindPopper(popupState)}>
+            <Box width={100} sx={unsubscribeSx} alignItems="center">
+              <MenuItem width={100} onClick={handleToggleSubscription}>
+                Unsubscribe
+              </MenuItem>
+            </Box>
+          </Popper>
+        </div>
+      )}
+    </PopupState>
   ) : (
-    <button className="follow-button" onClick={handleToggleSubscription}>
-      Follow
-    </button>
+    <div>
+      <Button fullWidth style={buttonSx} onClick={handleToggleSubscription}>
+        Subscribe
+      </Button>
+    </div>
   )
 }
 
