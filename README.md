@@ -207,6 +207,42 @@ Personal API keys only need read permission to Query. When creating a personal A
 
 Once these are set (and you've restarted the app), you should see events flowing into the PostHog dashboard.
 
+## Exported Components
+
+A Javascript bundle of exported frontend components can be generated for use in external websites that have CORS allowance into a given instance of `mit-open`. There are a few settings you might want to change in order to get the expected results.
+
+- `MITOPEN_AXIOS_WITH_CREDENTIALS` - This sets `withCredentials: true` when initializing the Axios API, which tells the end user's browser to send along any browser level cookies for the current domain when making CORS requests
+- `MITOPEN_AXIOS_BASE_PATH` - This sets the base path used for API requests, which will need to be set to a fully qualified url pointing to an instance of `mit-open` (i.e. https://mitopen.odl.mit.edu) in order for requests from the external site to reach the proper destination
+- `CORS_ALLOWED_ORIGINS`, `CSRF_TRUSTED_ORIGINS` - On the instance of `mit-open` that the externally hosted components will access via the API, the domains of any sites that need CORS access need to be here as a list of strings
+
+To build the bundle of exported components, run:
+
+```
+yarn workspace mit-open build-exports
+```
+
+The bundle will build out to `frontends/mit-open/build-exports/`
+
+### `initMitOpenDom`
+
+This function takes an argument of an `HTMLElement` with which `mit-open` components will mount into.
+
+### `openAddToUserListDialog`
+
+This function opens a modal for adding a given `LearningResource` to a `UserList`, given the `readable_id` of the `LearningResource` object. Given a div with an ID of `mit-open-components` and a button with the ID for `add-to-user-list-button`, you would use it in combination with `initMitOpenDom` like this:
+
+```javascript
+import { initMitOpenDom, openAddToUserListDialog } from "mit-open-components"
+
+$("#add-to-user-list-button").on("click", async (event) => {
+  event.preventDefault()
+  await initMitOpenDom($("#mit-open-components"))
+  await openAddToUserListDialog("18.700+fall_2013")
+})
+```
+
+This is just an example, and you could input any `readable_id` to bring up a dialog to add any given `LearningResource` object to a `UserList`.
+
 ## GitHub Pages
 
 A static site for this repo with developer resources publishes to https://mitodl.github.io/mit-open/ during CI runs.
