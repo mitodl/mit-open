@@ -1,12 +1,14 @@
+const path = require("path")
 // eslint-disable-next-line import/no-extraneous-dependencies
 const webpackMerge = require("webpack-merge")
 const config = require("./webpack.config")
 
 const exportOverrides = {
   entry: {
-    exports: "./src/ExportedComponents",
+    "mit-open-components": "./src/ExportedComponents",
   },
   output: {
+    path: path.resolve(__dirname, "build-exports"),
     library: {
       type: "module",
     },
