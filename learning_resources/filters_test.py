@@ -293,7 +293,7 @@ def test_video_playlist_filter_readable_id(client):
     assert results[0]["readable_id"] == resource.readable_id
 
 
-@pytest.mark.parametrize("sortby", ["created_on", "readable_id", "id"])
+@pytest.mark.parametrize("sortby", ["readable_id", "id"])
 @pytest.mark.parametrize("descending", [True, False])
 def test_learning_resource_sortby(client, sortby, descending):
     """Test that the query is sorted in the correct order"""
@@ -315,6 +315,25 @@ def test_learning_resource_sortby(client, sortby, descending):
             )
         ],
         reverse=descending,
+    )
+
+
+def test_learning_resource_sortby_new(client):
+    """Test that the query is sorted in the correct order"""
+    resources = [course.learning_resource for course in CourseFactory.create_batch(3)]
+    sortby_param = "new"
+
+    results = client.get(f"{RESOURCE_API_URL}?sortby={sortby_param}").json()["results"]
+
+    assert [result["id"] for result in results] == sorted(
+        [
+            resource.id
+            for resource in sorted(
+                resources,
+                key=lambda x: x.created_on,
+            )
+        ],
+        reverse=True,
     )
 
 

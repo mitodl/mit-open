@@ -10,16 +10,21 @@ const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
     label: "All",
     pageSize: 4,
     data: {
-      type: "resources_upcoming",
-      params: { resource_type: ["course"], limit: 12 },
+      type: "resources",
+      params: { resource_type: ["course"], limit: 12, sortby: "upcoming" },
     },
   },
   {
     label: "Professional",
     pageSize: 4,
     data: {
-      type: "resources_upcoming",
-      params: { professional: true, resource_type: ["course"], limit: 12 },
+      type: "resources",
+      params: {
+        professional: true,
+        resource_type: ["course"],
+        limit: 12,
+        sortby: "upcoming",
+      },
     },
   },
 ]

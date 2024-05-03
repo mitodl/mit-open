@@ -281,7 +281,7 @@ const SearchPage: React.FC = () => {
 
   const { data } = useLearningResourcesSearch(
     {
-      ...params,
+      ...(params as LRSearchRequest),
       aggregations: AGGREGATIONS,
       resource_type: resourceType ? resourceType : ALL_RESOURCE_TABS,
       limit: PAGE_SIZE,

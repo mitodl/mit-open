@@ -44,16 +44,6 @@ const useLearningResourcesList = (
   })
 }
 
-const useLearningResourcesUpcoming = (
-  params: LRListRequest = {},
-  opts: Pick<UseQueryOptions, "enabled"> = {},
-) => {
-  return useQuery({
-    ...learningResources.upcoming(params),
-    ...opts,
-  })
-}
-
 const useLearningResourcesDetail = (id: number) => {
   return useQuery(learningResources.detail(id))
 }
@@ -426,7 +416,6 @@ const usePlatformsList = (
 
 export {
   useLearningResourcesList,
-  useLearningResourcesUpcoming,
   useLearningResourcesDetail,
   useLearningResourceTopics,
   useLearningPathsList,
