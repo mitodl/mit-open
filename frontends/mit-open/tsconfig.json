@@ -5,8 +5,7 @@
     "target": "es2020",
     "declaration": true,
     "outDir": "./build",
-    // "rootDirs": ["./src", "./.storybook"],
-    "rootDir": "../../",
+    "rootDirs": ["./src", "./.storybook"],
     "baseUrl": "./src",
     "paths": {
       "@/*": ["./*"]
