@@ -136,7 +136,7 @@ const queryify = (params: unknown) => {
 }
 
 const search = {
-  resources: (params: LearningResourcesSearchRequestRequest) =>
+  resources: (params?: LearningResourcesSearchRequestRequest) =>
     `/api/v1/learning_resources_search/${queryify(params)}`,
 }
 
