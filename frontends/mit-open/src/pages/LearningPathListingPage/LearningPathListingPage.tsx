@@ -10,6 +10,7 @@ import {
   Container,
   styled,
   Typography,
+  PlainList,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
@@ -26,7 +27,6 @@ import LearningResourceCardTemplate from "@/page-components/LearningResourceCard
 
 import { imgConfigs } from "@/common/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import CardRowList from "@/components/CardRowList/CardRowList"
 import * as urls from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
 
@@ -138,7 +138,7 @@ const LearningPathListingPage: React.FC = () => {
             <section>
               <LoadingSpinner loading={listingQuery.isLoading} />
               {listingQuery.data && (
-                <CardRowList>
+                <PlainList itemSpacing={3}>
                   {listingQuery.data.results?.map((list) => {
                     return (
                       <li key={list.id}>
@@ -150,7 +150,7 @@ const LearningPathListingPage: React.FC = () => {
                       </li>
                     )
                   })}
-                </CardRowList>
+                </PlainList>
               )}
             </section>
           </GridColumn>

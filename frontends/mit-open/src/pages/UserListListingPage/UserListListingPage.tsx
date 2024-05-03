@@ -10,6 +10,7 @@ import {
   SimpleMenu,
   IconButton,
   Typography,
+  PlainList,
 } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
@@ -21,7 +22,6 @@ import { useUserListList } from "api/hooks/learningResources"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
-import CardRowList from "@/components/CardRowList/CardRowList"
 import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserListCardTemplate"
 import { useNavigate } from "react-router"
 import * as urls from "@/common/urls"
@@ -132,7 +132,7 @@ const UserListListingPage: React.FC = () => {
             <section>
               <LoadingSpinner loading={listingQuery.isLoading} />
               {listingQuery.data && (
-                <CardRowList>
+                <PlainList itemSpacing={3}>
                   {listingQuery.data.results?.map((list) => {
                     return (
                       <li key={list.id}>
@@ -144,7 +144,7 @@ const UserListListingPage: React.FC = () => {
                       </li>
                     )
                   })}
-                </CardRowList>
+                </PlainList>
               )}
             </section>
           </GridColumn>

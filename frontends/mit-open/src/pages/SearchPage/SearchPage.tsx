@@ -10,6 +10,7 @@ import {
   Stack,
   Button,
   Typography,
+  PlainList,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
@@ -32,7 +33,6 @@ import {
 import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
-import CardRowList from "@/components/CardRowList/CardRowList"
 import TuneIcon from "@mui/icons-material/Tune"
 
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
@@ -358,7 +358,7 @@ const SearchPage: React.FC = () => {
               />
               <ResourceTypeTabs.TabPanels tabs={TABS}>
                 {data && data.count > 0 ? (
-                  <CardRowList marginTop={false}>
+                  <PlainList itemSpacing={3}>
                     {data.results.map((resource) => (
                       <li key={resource.id}>
                         <LearningResourceCard
@@ -367,7 +367,7 @@ const SearchPage: React.FC = () => {
                         />
                       </li>
                     ))}
-                  </CardRowList>
+                  </PlainList>
                 ) : (
                   <Card>
                     <CardContent>No results found for your query.</CardContent>
