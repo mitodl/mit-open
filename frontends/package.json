@@ -75,5 +75,8 @@
     "ts-node": "^10.9.2",
     "type-fest": "^4.14.0",
     "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "material-ui-popup-state": "^5.1.0"
   }
 }
