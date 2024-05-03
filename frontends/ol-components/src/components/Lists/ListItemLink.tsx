@@ -10,14 +10,8 @@ const ListItemLink: React.FC<ListItemLinkProps> = styled(
   ({ href, ...props }: ListItemLinkProps) => (
     <ListItemButton component={Link} to={href} {...props} />
   ),
-)(({ theme }) => [
+)(() => [
   {
-    "&:hover": {
-      backgroundColor: theme.custom.colors.lightGray1,
-      ".MuiListItemText-root": {
-        color: theme.custom.colors.red,
-      },
-    },
     ".MuiListItemText-root": {
       marginTop: 0,
       marginBottom: 0,

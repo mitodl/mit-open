@@ -23,6 +23,8 @@ import type {
   VideoResource,
   VideoPlaylistResource,
   LearningResourceBaseSchool,
+  LearningResourceBaseDepartment,
+  LearningResourceSchool,
 } from "api"
 import { ResourceTypeEnum, LearningResourceRunLevelInnerCodeEnum } from "api"
 import { mergeOverrides } from "./index"
@@ -75,17 +77,40 @@ const learningResourceBaseSchool: Factory<LearningResourceBaseSchool> = (
   }
 }
 
+const learningResourceBaseDepartment: Factory<
+  LearningResourceBaseDepartment
+> = (overrides = {}) => {
+  return {
+    department_id: faker.helpers.unique(faker.lorem.word),
+    name: faker.helpers.unique(faker.lorem.words),
+    channel_url: faker.internet.url(),
+    ...overrides,
+  }
+}
+
 const learningResourceDepartment: Factory<LearningResourceDepartment> = (
   overrides = {},
 ) => {
   return {
-    department_id: faker.helpers.unique(faker.lorem.words),
-    name: faker.lorem.word(),
-    channel_url: faker.internet.url(),
+    ...learningResourceBaseDepartment(),
     school: maybe(learningResourceBaseSchool) ?? null,
     ...overrides,
   }
 }
+const departments = makePaginatedFactory(learningResourceDepartment)
+
+const learnigResourceSchool: Factory<LearningResourceSchool> = (
+  overrides = {},
+) => {
+  return {
+    id: faker.helpers.unique(faker.datatype.number),
+    name: faker.lorem.word(),
+    url: faker.internet.url(),
+    departments: repeat(learningResourceBaseDepartment),
+    ...overrides,
+  }
+}
+const schools = makePaginatedFactory(learnigResourceSchool)
 
 const learningResourcePlatform: Factory<LearningResourcePlatform> = (
   overrides = {},
@@ -406,6 +431,7 @@ export {
   learningResourceRun as run,
   learningResourceImage as image,
   learningResourceDepartment as department,
+  departments,
   learningResourceTopics as topics,
   learningResourceOfferors as offerors,
   learningResourcePlatforms as platforms,
@@ -426,4 +452,6 @@ export {
   videos,
   videoPlaylist,
   videoPlaylists,
+  learnigResourceSchool as school,
+  schools,
 }

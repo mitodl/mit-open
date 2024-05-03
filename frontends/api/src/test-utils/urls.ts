@@ -13,6 +13,9 @@ import type {
   UserlistsApi,
   OfferorsApi,
   PlatformsApi,
+  DepartmentsApi,
+  SchoolsApi,
+  LearningResourcesSearchRequestRequest,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
 
@@ -53,6 +56,16 @@ const platforms = {
 const topics = {
   list: (params?: Params<TopicsApi, "topicsList">) =>
     `/api/v1/topics/${query(params)}`,
+}
+
+const departments = {
+  list: (params?: Params<DepartmentsApi, "departmentsList">) =>
+    `/api/v1/departments/${query(params)}`,
+}
+
+const schools = {
+  list: (params?: Params<SchoolsApi, "schoolsList">) =>
+    `/api/v1/schools/${query(params)}`,
 }
 
 const learningPaths = {
@@ -109,8 +122,22 @@ const programLetters = {
   details: (id: string) => `/api/v1/program_letters/${id}/`,
 }
 
+const queryify = (params: unknown) => {
+  if (!params || Object.keys(params).length === 0) return ""
+  const query = new URLSearchParams()
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) {
+      value.forEach((v) => query.append(key, String(v)))
+    } else {
+      query.append(key, String(value))
+    }
+  }
+  return `?${query.toString()}`
+}
+
 const search = {
-  resources: () => "/api/v1/learning_resources_search/",
+  resources: (params: LearningResourcesSearchRequestRequest) =>
+    `/api/v1/learning_resources_search/${queryify(params)}`,
 }
 
 const userMe = {
@@ -130,4 +157,6 @@ export {
   offerors,
   userMe,
   platforms,
+  schools,
+  departments,
 }

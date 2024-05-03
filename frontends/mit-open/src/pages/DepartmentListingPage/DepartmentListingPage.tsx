@@ -4,15 +4,13 @@ import {
   Typography,
   styled,
   PlainList,
-  Chip,
-  Stack,
   List,
   ListItem,
   ListItemLink,
   ListItemText,
 } from "ol-components"
 import type { TypographyProps } from "ol-components"
-import { pluralize } from "ol-utilities"
+import { MetaTags, pluralize } from "ol-utilities"
 import type {
   LearningResourceSchool,
   LearningResourceSearchResponse,
@@ -21,7 +19,24 @@ import {
   useLearningResourcesSearch,
   useSchoolsList,
 } from "api/hooks/learningResources"
-import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined"
+import {
+  RiPaletteLine,
+  RiSeedlingLine,
+  RiBriefcaseLine,
+  RiMacbookLine,
+  RiBarChartBoxLine,
+  RiUserSearchLine,
+  RiArrowRightSLine,
+} from "@remixicon/react"
+
+const SCHOOL_ICONS: Record<string, React.ReactNode> = {
+  "https://sap.mit.edu/": <RiPaletteLine />,
+  "https://engineering.mit.edu/": <RiBriefcaseLine />,
+  "https://shass.mit.edu/": <RiMacbookLine />,
+  "https://science.mit.edu/": <RiBarChartBoxLine />,
+  "http://mitsloan.mit.edu/": <RiSeedlingLine />,
+  "https://computing.mit.edu/": <RiUserSearchLine />,
+}
 
 const FullWidthBackground = styled.div`
   background-image: url("/static/images/background_steps.jpeg");
@@ -36,7 +51,7 @@ const Page = styled.div(({ theme }) => ({
 }))
 
 const HeaderDesription = styled(Typography)(({ theme }) => ({
-  maxWidth: theme.breakpoints.values.sm,
+  maxWidth: "700px",
   marginTop: theme.spacing(1),
 }))
 
@@ -47,16 +62,45 @@ const SchoolTitle: React.FC<TypographyProps> = styled(Typography)(
     borderBottom: `1px solid ${theme.custom.colors.silverGrayLight}`,
     "& > svg": {
       verticalAlign: "text-top",
-      marginRight: "8px",
+      marginRight: "16px",
     },
   }),
 )
 
+const SchoolIcon = styled.span({
+  paddingRight: "16px",
+  verticalAlign: "text-top",
+  display: "inline-flex",
+})
+
 const DepartmentLink = styled(ListItemLink)(({ theme }) => ({
+  color: theme.custom.colors.darkGray2,
   borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
   paddingTop: "16px",
   paddingBottom: "16px",
-  paddingLeft: "32px", // Icon (24px) + 8px icon padding
+  paddingLeft: "40px", // Icon (24px) + 16px icon padding
+  display: "flex",
+  columnGap: "16px",
+  "& svg": {
+    color: theme.custom.colors.silverGray,
+  },
+  "& .MuiListItemText-secondary": {
+    color: theme.custom.colors.silverGrayDark,
+    marginTop: "4px",
+    "& > *": {
+      marginRight: "12px",
+    },
+  },
+  "&:hover": {
+    backgroundColor: theme.custom.colors.lightGray1,
+    ".hover-dark, .MuiListItemText-secondary": {
+      color: theme.custom.colors.darkGray1,
+    },
+    ".hover-highlight": {
+      color: theme.custom.colors.lightRed,
+      textDecoration: "underline",
+    },
+  },
 }))
 
 type SchoolDepartmentProps = {
@@ -76,34 +120,40 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
   return (
     <Component className={className}>
       <SchoolTitle variant="h5" component="h2">
-        <PaletteOutlinedIcon />
+        <SchoolIcon aria-hidden>
+          {SCHOOL_ICONS[school.url] ?? <RiPaletteLine />}
+        </SchoolIcon>
         {school.name}
       </SchoolTitle>
       <List disablePadding>
         {school.departments.map((department) => {
           const courses = courseCounts[department.department_id] ?? 0
           const programs = programCounts[department.department_id] ?? 0
+          const counts = [
+            { count: courses, label: pluralize("Course", courses) },
+            { count: programs, label: pluralize("Program", programs) },
+          ]
           return (
             <ListItem disablePadding key={department.department_id}>
               <DepartmentLink href={department.channel_url ?? ""}>
-                <Stack direction="row" columnGap={1} alignItems="center">
-                  <ListItemText
-                    primaryTypographyProps={{ variant: "subtitle1" }}
-                    primary={department.name}
-                  />
-                  {courses ? (
-                    <Chip
-                      variant="outlined"
-                      label={`${courses} ${pluralize("Course", courses)}`}
-                    />
-                  ) : null}
-                  {programs ? (
-                    <Chip
-                      variant="outlined"
-                      label={`${programs} ${pluralize("Program", programs)}`}
-                    />
-                  ) : null}
-                </Stack>
+                <ListItemText
+                  primary={department.name}
+                  primaryTypographyProps={{ variant: "h5", component: "span" }}
+                  secondary={counts
+                    .filter(({ count }) => count > 0)
+                    .map(({ count, label }) => (
+                      <span key={label}>{`${count} ${label}`}</span>
+                    ))}
+                  secondaryTypographyProps={{ variant: "body3" }}
+                />
+                <Typography
+                  variant="body2"
+                  className="hover-highlight"
+                  aria-hidden // This is a visual affordance only. Screenreaders will announce the link ancestor role.
+                >
+                  View
+                </Typography>
+                <RiArrowRightSLine className="hover-dark" />
               </DepartmentLink>
             </ListItem>
           )
@@ -112,6 +162,11 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
     </Component>
   )
 }
+
+const SchoolList = styled(PlainList)({
+  marginTop: "80px",
+  marginBottom: "80px",
+})
 
 const aggregateByDepartment = (
   data: LearningResourceSearchResponse,
@@ -143,19 +198,22 @@ const DepartmentListingPage: React.FC = () => {
 
   return (
     <Page>
+      <MetaTags>
+        <title>MIT Open | Departments</title>
+      </MetaTags>
       <FullWidthBackground>
         <Container>
           <Typography variant="subtitle3">MIT / Departments</Typography>
           <Typography variant="h1">Departments</Typography>
           <HeaderDesription>
             At MIT, academic departments span a wide range of disciplines, from
-            science and engineering to Humanities. Select a department below to
-            explore all of its online course offerings
+            science and engineering to humanities. Select a department below to
+            explore all of its online course offerings.
           </HeaderDesription>
         </Container>
       </FullWidthBackground>
       <Container>
-        <PlainList marginTop={10} marginBottom={10} itemSpacing={5}>
+        <SchoolList itemSpacing={5}>
           {schoolsQuery.data?.results?.map((school) => (
             <SchoolDepartments
               as="li"
@@ -165,7 +223,7 @@ const DepartmentListingPage: React.FC = () => {
               programCounts={programCounts}
             />
           ))}
-        </PlainList>
+        </SchoolList>
       </Container>
     </Page>
   )

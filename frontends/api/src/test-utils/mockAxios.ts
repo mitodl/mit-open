@@ -68,6 +68,15 @@ const mockAxiosInstance = {
  */
 const expectAnything: unknown = when(() => true)
 
+const standardizeUrl = <T>(url: T) => {
+  if (!(typeof url === "string")) return url
+  if (!url.includes("?")) return url
+  const [path, queryString] = url.split("?")
+  const query = new URLSearchParams(queryString)
+  query.sort()
+  return `${path}?${query.toString()}`
+}
+
 const mockRequest = (
   method: Method,
   url: string,
@@ -76,7 +85,7 @@ const mockRequest = (
   code: number,
 ) => {
   when(makeRequest)
-    .calledWith(method, url, requestBody)
+    .calledWith(method, standardizeUrl(url), requestBody)
     .mockImplementation(async () => {
       const data = await responseBody
       const response = { data, status: code }
