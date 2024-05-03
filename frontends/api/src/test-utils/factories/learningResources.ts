@@ -81,7 +81,7 @@ const learningResourceBaseDepartment: Factory<
   LearningResourceBaseDepartment
 > = (overrides = {}) => {
   return {
-    department_id: faker.helpers.unique(faker.lorem.word),
+    department_id: faker.helpers.unique(faker.lorem.words),
     name: faker.helpers.unique(faker.lorem.words),
     channel_url: faker.internet.url(),
     ...overrides,
