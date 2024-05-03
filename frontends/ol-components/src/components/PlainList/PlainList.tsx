@@ -11,6 +11,10 @@ type PlainListProps = {
   itemSpacing?: number
 }
 
+/**
+ * A list with no padding, margins, or bullets. Optionally specify a spacing
+ * between list items.
+ */
 const PlainList = styled.ul<PlainListProps>(
   ({ theme, itemSpacing, disabled }) => [
     {
