@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.9.7
+-------------
+
+- Api sort fixes (#846)
+- configure api BASE_PATH (#863)
+
 Version 0.9.6 (Released May 03, 2024)
 -------------
 
