@@ -60,14 +60,12 @@ type AlertProps = {
 } & Pick<MuiAlertProps, "severity" | "children">
 
 const Alert: React.FC<AlertProps> = ({
-  visible,
+  visible = true,
   severity = "info",
   closeable,
   children,
   className,
 }) => {
-  visible = typeof visible === "undefined" || visible
-
   const [open, setOpen] = React.useState(visible)
 
   const onCloseClick = () => {
