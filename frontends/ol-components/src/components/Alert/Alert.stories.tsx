@@ -8,7 +8,7 @@ const meta: Meta<typeof Alert> = {
   component: Alert,
   argTypes: {
     severity: {
-      options: ["success", "info", "warning", "error"],
+      options: ["info", "success", "warning", "error"],
       control: {
         type: "select",
       },
@@ -30,7 +30,7 @@ export default meta
 
 type Story = StoryObj<typeof Alert>
 
-export const Plain: Story = {
+export const Basic: Story = {
   args: {
     severity: "info",
   },
