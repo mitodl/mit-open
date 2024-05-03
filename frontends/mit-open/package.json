@@ -12,6 +12,7 @@
     "watch:docker": "API_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
     "watch:rc": "API_BASE_URL=https://mitopen-rc.odl.mit.edu/ NODE_ENV=development ENVIRONMENT=local webpack serve",
     "build": "webpack --config webpack.config.js --bail",
+    "build-exports": "webpack --config webpack.exports.js --bail",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --output-dir build/storybook"
   },
