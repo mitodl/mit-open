@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.6
+Version 0.9.6 (Released May 03, 2024)
 -------------
 
 - Additional routes to the Django app (#858)
