@@ -11,6 +11,7 @@ import Popper from "@mui/material/Popper"
 import MenuItem from "@mui/material/MenuItem"
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp"
 import PopupState, { bindToggle, bindPopper } from "material-ui-popup-state"
+import { useUserMe } from "api/hooks/user"
 const SearchSubscriptionToggle = ({ queryParams }) => {
   const buttonSx: React.CSSProperties = {
     backgroundColor: "#a31f34",
@@ -21,18 +22,23 @@ const SearchSubscriptionToggle = ({ queryParams }) => {
     fontSize: "16px",
     textDecoration: "none",
     cursor: "pointer",
-    width: "120px",
+    width: "125px",
     borderRadius: "0px",
   }
   const unsubscribeSx: React.CSSProperties = {
     bgcolor: "background.paper",
     fontSize: "16px",
-    width: "120px",
+    width: "125px",
     fontWeight: "400",
   }
 
+  const { data: user } = useUserMe()
+  useEffect(() => {
+    if (!user?.is_authenticated) {
+      return null
+    }
+  }, [user])
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const [open, setOpen] = React.useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [queryId, setQueryId] = useState(null)
   const { data } = useSearchSubscriptionList(queryParams)
@@ -51,7 +57,6 @@ const SearchSubscriptionToggle = ({ queryParams }) => {
   }, [data])
 
   const handleToggleSubscription = () => {
-    setOpen(false)
     if (isSubscribed && queryId) {
       // Unsubscribe logic
       setIsSubscribed(false)
@@ -69,10 +74,9 @@ const SearchSubscriptionToggle = ({ queryParams }) => {
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget)
-    setOpen((previousOpen) => !previousOpen)
   }
 
-  const id = open ? "unsubscribe-popper" : undefined
+  const id = "unsubscribe-popper"
 
   return isSubscribed ? (
     <PopupState variant="popper" popupId="demo-popup-popper">

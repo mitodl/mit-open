@@ -84,7 +84,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                 </Typography>
 
                 <FieldControls>
-                  {searchParams.length > 0 ? (
+                  {field.data?.search_filter ? (
                     <SearchSubscriptionToggle queryParams={searchParams} />
                   ) : (
                     <span></span>
