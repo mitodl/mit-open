@@ -65,6 +65,15 @@ def adjust_search_for_percolator(search):
     return updated_search
 
 
+def document_percolated_actions(resource, percolated_queries):
+    """
+    Trigger plugins when a LearningResource search document is percolated
+    """
+    pm = get_plugin_manager()
+    hook = pm.hook
+    hook.document_percolated(resource=resource, percolated_queries=percolated_queries)
+
+
 def percolate_query_removed_actions(percolate_query):
     """
     Trigger plugins when a LearningResource is created or updated

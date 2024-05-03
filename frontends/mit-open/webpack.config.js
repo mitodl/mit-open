@@ -1,16 +1,21 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path")
+require("dotenv").config({
+  path: path.resolve(__dirname, "../../.env"),
+})
+
 const webpack = require("webpack")
 const BundleTracker = require("webpack-bundle-tracker")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 const { withCKEditor } = require("ol-ckeditor/webpack-utils")
 const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const CopyPlugin = require("copy-webpack-plugin")
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
 
-const STATS_FILEPATH = path.resolve(
-  __dirname,
-  "../../webpack-stats/mit-open.json",
-)
+const { NODE_ENV, ENVIRONMENT, PORT, API_BASE_URL, WEBPACK_ANALYZE } =
+  process.env
 
 const MITOPEN_FEATURES_PREFIX = "FEATURE_"
 
@@ -45,31 +50,13 @@ const getPostHogSettings = () => {
   return undefined
 }
 
-const getPublicPath = (isProduction) => {
-  const { MITOPEN_HOSTNAME: hostname, WEBPACK_PORT_MITOPEN: port } = process.env
-  const buildPath = "/static/mit-open/"
-  if (isProduction) return buildPath
-  if (!hostname || !port) {
-    throw new Error(
-      `hostname (${hostname}) and port (${port}) should both be defined.`,
-    )
-  }
-  return `http://${hostname}:${port}/`
-}
+module.exports = (env, argv) => {
+  const mode = argv.mode || NODE_ENV || "production"
 
-const validateEnv = (isProduction) => {
-  if (isProduction) return
-  if (!process.env.WEBPACK_PORT_MITOPEN) {
-    throw new Error("WEBPACK_PORT_MITOPEN should be defined")
-  }
-}
+  console.info("Webpack build mode is:", mode)
 
-const getWebpackConfig = ({ mode, analyzeBundle }) => {
   const isProduction = mode === "production"
-  validateEnv(isProduction)
-  const publicPath = getPublicPath(isProduction)
 
-  console.info("Public path is:", publicPath)
   const config = {
     mode,
     context: __dirname,
@@ -79,7 +66,7 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
     },
     output: {
       path: path.resolve(__dirname, "build"),
-      ...(isProduction
+      ...(mode === "production"
         ? {
             filename: "[name]-[chunkhash].js",
             chunkFilename: "[id]-[chunkhash].js",
@@ -89,7 +76,8 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
         : {
             filename: "[name].js",
           }),
-      publicPath,
+      publicPath: "/",
+      clean: !isProduction,
     },
     module: {
       rules: [
@@ -111,7 +99,22 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       ],
     },
     plugins: [
-      new BundleTracker({ filename: STATS_FILEPATH }),
+      new HtmlWebpackPlugin({
+        template: "public/index.html",
+      }),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: "public",
+            to: "static",
+            globOptions: { ignore: ["public/index.html"] },
+          },
+        ],
+      }),
+      new BundleTracker({
+        // path: path.join(__dirname, "assets"),
+        filename: "webpack-stats.json",
+      }),
       new webpack.DefinePlugin({
         "process.env": {
           env: { NODE_ENV: JSON.stringify(mode) },
@@ -119,6 +122,9 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       }),
       new webpack.DefinePlugin({
         APP_SETTINGS: {
+          axios_with_credentials: JSON.stringify(
+            process.env.MITOPEN_AXIOS_WITH_CREDENTIALS,
+          ),
           embedlyKey: JSON.stringify(process.env.EMBEDLY_KEY),
           search_page_size: JSON.stringify(
             process.env.OPENSEARCH_DEFAULT_PAGE_SIZE,
@@ -130,6 +136,9 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
           posthog: getPostHogSettings(),
         },
       }),
+      new webpack.EnvironmentPlugin({
+        ENVIRONMENT: "production",
+      }),
     ]
       .concat(
         isProduction
@@ -140,10 +149,10 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
                 filename: "[name]-[contenthash].css",
               }),
             ]
-          : [],
+          : [new ReactRefreshWebpackPlugin()],
       )
       .concat(
-        analyzeBundle
+        ENVIRONMENT !== "local" && WEBPACK_ANALYZE === "True"
           ? [
               new BundleAnalyzerPlugin({
                 analyzerMode: "static",
@@ -179,23 +188,41 @@ const getWebpackConfig = ({ mode, analyzeBundle }) => {
       emitOnErrors: false,
     },
     devServer: {
+      port: PORT || 8062,
       allowedHosts: "all",
       headers: {
         "Access-Control-Allow-Origin": "*",
       },
-      host: "::",
-      port: process.env.WEBPACK_PORT_MITOPEN,
+      hot: "only",
+      liveReload: false,
+      historyApiFallback: true,
+      static: {
+        directory: path.join(__dirname, "public"),
+        publicPath: "/static",
+      },
+      devMiddleware: {
+        writeToDisk: true,
+      },
+      host: ENVIRONMENT === "docker" ? "0.0.0.0" : "::",
+      proxy: [
+        {
+          context: [
+            "/api",
+            "/login",
+            "/logout",
+            "/admin",
+            "/static/admin",
+            "/static/hijack",
+          ],
+          target: API_BASE_URL,
+          changeOrigin: true,
+          secure: false,
+          headers: {
+            Origin: API_BASE_URL,
+          },
+        },
+      ],
     },
   }
   return withCKEditor(config)
-}
-
-module.exports = (_env, argv) => {
-  const mode = argv.mode || process.env.NODE_ENV || "production"
-
-  console.info("Mode is:", mode)
-
-  const analyzeBundle = process.env.WEBPACK_ANALYZE === "True"
-  const settings = { mode, analyzeBundle }
-  return getWebpackConfig(settings)
 }

@@ -11,7 +11,7 @@ import {
   LearningResourcesUserSubscriptionApi,
 } from "./generated/v1/api"
 
-import { ChannelsApi, WidgetListsApi } from "./generated/v0/api"
+import { ChannelsApi, WidgetListsApi, UsersApi } from "./generated/v0/api"
 
 import axiosInstance from "./axios"
 
@@ -60,6 +60,8 @@ const searchSubscriptionApi = new LearningResourcesUserSubscriptionApi(
   axiosInstance,
 )
 
+const usersApi = new UsersApi(undefined, BASE_PATH, axiosInstance)
+
 export {
   learningResourcesApi,
   learningpathsApi,
@@ -71,6 +73,7 @@ export {
   learningResourcesSearchApi,
   channelsApi,
   widgetListsApi,
+  usersApi,
   platformsApi,
   searchSubscriptionApi,
 }

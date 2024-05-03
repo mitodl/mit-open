@@ -358,10 +358,10 @@ def test_most_common_topics():
 @pytest.mark.parametrize(
     ("original", "expected"),
     [
-        (None, LearningResourceFormat.online.value),
-        (LearningResourceFormat.online.value, LearningResourceFormat.online.value),
-        ("Blended", LearningResourceFormat.hybrid.value),
-        ("In person", LearningResourceFormat.in_person.value),
+        (None, LearningResourceFormat.online.name),
+        (LearningResourceFormat.online.value, LearningResourceFormat.online.name),
+        ("Blended", LearningResourceFormat.hybrid.name),
+        ("In person", LearningResourceFormat.in_person.name),
     ],
 )
 def test_parse_format(original, expected):

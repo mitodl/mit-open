@@ -61,25 +61,26 @@ http {
         server_name _;
         root /app;
 
-        location = /favicon.ico {
-            try_files /static/images/favicon.ico /favicon.ico;
-        }
-
-        location ~* /static/(.*$) {
+        location / {
             expires max;
-            add_header Access-Control-Allow-Origin *;
-            try_files $uri $uri/ /staticfiles/$1 /staticfiles/$1/ =404;
+            try_files /frontends/mit-open/build/static$uri /frontends/mit-open/build$uri @index;
         }
 
-        location = /robots.txt {
-            alias /app/static/robots.txt;
+        location ~ ^/program_letter/([0-9]+)/view$ {
+            expires 1m;
+            try_files /frontends/mit-open/build/index.html =404;
+        }
+
+        location @index {
+            expires 1m;
+            try_files /frontends/mit-open/build/index.html =404;
         }
 
         location = /.well-known/dnt-policy.txt {
             return 204;
         }
 
-        location / {
+        location ~ ^/(api|login|complete/ol-oidc|logout|admin|static/admin|static/rest_framework|static/hijack|_/features/|scim/|o/|disconnect/|podcasts/rss_feed|__debug__/|media/|profile/|program_letter/([0-9]+)/) {
             uwsgi_param QUERY_STRING $query_string;
             uwsgi_param REQUEST_METHOD $request_method;
             uwsgi_param CONTENT_TYPE $content_type;

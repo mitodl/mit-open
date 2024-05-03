@@ -72,8 +72,11 @@ RESOURCE_FILE_ETL_SOURCES = [
 
 
 RESOURCE_FORMAT_MAPPING = {
-    None: LearningResourceFormat.online.value,
-    "": LearningResourceFormat.online.value,
-    "Blended": LearningResourceFormat.hybrid.value,
-    **{value: value for value in LearningResourceFormat.values()},
+    None: LearningResourceFormat.online.name,
+    "": LearningResourceFormat.online.name,
+    "Blended": LearningResourceFormat.hybrid.name,
+    **{
+        value: LearningResourceFormat(value).name
+        for value in LearningResourceFormat.values()
+    },
 }

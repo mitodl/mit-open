@@ -36,7 +36,6 @@ from learning_resources_search.serializers import (
     serialize_bulk_percolators_for_deletion,
     serialize_content_file_for_bulk,
     serialize_content_file_for_bulk_deletion,
-    serialize_percolate_query,
 )
 from main.utils import chunks
 
@@ -229,20 +228,6 @@ def index_items(documents, object_type, index_types, **kwargs):
                     log.error(errors)
                     msg = f"Error during bulk {object_type} insert: {errors}"
                     raise ReindexError(msg)
-
-
-def get_percolate_documents(percolate_queries):
-    """
-    Get a generator for percolate query documents
-
-    Args:
-        percolate_queries (iterable of PercolateQuery): An iterable of PercolateQuery
-
-    Yields:
-        for each PercolateQuery:
-            a document in dict form
-    """
-    return (serialize_percolate_query(query) for query in percolate_queries)
 
 
 def index_learning_resources(ids, resource_type, index_types):

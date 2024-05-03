@@ -45,7 +45,6 @@ describe("ExpandedLearningResourceDisplay", () => {
     const resource = factories.learningResources.resource({
       resource_type: resourceType,
     })
-
     setup({ resource })
     const images = screen.getAllByRole("img")
     const image = images.find(

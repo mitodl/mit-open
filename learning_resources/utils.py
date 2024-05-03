@@ -361,13 +361,13 @@ def upsert_platform_data():
     return platforms
 
 
-def resource_upserted_actions(resource: LearningResource):
+def resource_upserted_actions(resource: LearningResource, percolate):
     """
     Trigger plugins when a LearningResource is created or updated
     """
     pm = get_plugin_manager()
     hook = pm.hook
-    hook.resource_upserted(resource=resource)
+    hook.resource_upserted(resource=resource, percolate=percolate)
 
 
 def resource_unpublished_actions(resource: LearningResource):

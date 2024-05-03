@@ -1,7 +1,13 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
-import { BannerPage, styled, Container, Typography } from "ol-components"
+import {
+  BannerPage,
+  styled,
+  Container,
+  Typography,
+  SearchSubscriptionToggle,
+} from "ol-components"
 import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
@@ -46,6 +52,15 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   name,
 }) => {
   const field = useChannelDetail(String(channelType), String(name))
+  const searchParams: Facets & BooleanFacets = {}
+  if (field.data?.search_filter) {
+    const urlParams = new URLSearchParams(field.data.search_filter)
+
+    for (const [key, value] of urlParams.entries()) {
+      searchParams[key as FacetKey] = value.split(",")
+    }
+    console.log("fieldQuery", searchParams)
+  }
 
   return (
     <BannerPage
@@ -68,7 +83,9 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     {field.data.title}
                   </Link>
                 </Typography>
+
                 <FieldControls>
+                  <SearchSubscriptionToggle queryParams={searchParams} />
                   {field.data?.is_moderator ? (
                     <FieldMenu
                       channelType={String(channelType)}

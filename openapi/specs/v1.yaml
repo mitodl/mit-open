@@ -248,7 +248,7 @@ paths:
               * `emeritus` - Emeritus
               * `podcast` - Podcast
               * `youtube` - YouTube
-        description: "The platform on which the learning resource id offered     \
+        description: "The platform on which the learning resource is offered     \
           \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
           * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
           * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
@@ -629,6 +629,27 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
+      - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
@@ -1131,6 +1152,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -1459,6 +1501,27 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
+      - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
@@ -1822,6 +1885,27 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
+      - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
@@ -2390,6 +2474,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -2719,6 +2824,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -2949,6 +3075,7 @@ paths:
             - course_feature
             - professional
             - free
+            - learning_format
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -2961,6 +3088,7 @@ paths:
               * `course_feature` - course_feature
               * `professional` - professional
               * `free` - free
+              * `learning_format` - learning_format
         description: Show resource counts by category
       - in: query
         name: certification
@@ -3090,6 +3218,23 @@ paths:
             type: integer
         description: The id value for the learning resource
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            enum:
+            - online
+            - hybrid
+            - in_person
+            type: string
+            description: |-
+              * `online` - Online
+              * `hybrid` - Hybrid
+              * `in_person` - In person
+        description: "The format(s) in which the learning resource is offered    \
+          \         \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person` -\
+          \ In person"
+      - in: query
         name: level
         schema:
           type: array
@@ -3196,7 +3341,7 @@ paths:
               * `emeritus` - Emeritus
               * `podcast` - Podcast
               * `youtube` - YouTube
-        description: "The platform on which the learning resource id offered     \
+        description: "The platform on which the learning resource is offered     \
           \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
           * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
           * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
@@ -3317,6 +3462,7 @@ paths:
             - course_feature
             - professional
             - free
+            - learning_format
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -3329,6 +3475,7 @@ paths:
               * `course_feature` - course_feature
               * `professional` - professional
               * `free` - free
+              * `learning_format` - learning_format
         description: Show resource counts by category
       - in: query
         name: certification
@@ -3458,6 +3605,23 @@ paths:
             type: integer
         description: The id value for the learning resource
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            enum:
+            - online
+            - hybrid
+            - in_person
+            type: string
+            description: |-
+              * `online` - Online
+              * `hybrid` - Hybrid
+              * `in_person` - In person
+        description: "The format(s) in which the learning resource is offered    \
+          \         \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person` -\
+          \ In person"
+      - in: query
         name: level
         schema:
           type: array
@@ -3564,7 +3728,7 @@ paths:
               * `emeritus` - Emeritus
               * `podcast` - Podcast
               * `youtube` - YouTube
-        description: "The platform on which the learning resource id offered     \
+        description: "The platform on which the learning resource is offered     \
           \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
           * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
           * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
@@ -3813,6 +3977,27 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
+      - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
@@ -4475,6 +4660,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -4810,6 +5016,27 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
+      - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
@@ -5233,6 +5460,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -5569,6 +5817,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -5897,6 +6166,27 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
+      - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
@@ -6580,6 +6870,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -6982,6 +7293,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -7297,6 +7629,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -7611,6 +7964,27 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
+      - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
       - in: query
         name: level
         schema:
@@ -7948,6 +8322,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -8263,6 +8658,27 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
         name: level
         schema:
           type: array
@@ -8485,6 +8901,7 @@ components:
       - course_feature
       - professional
       - free
+      - learning_format
       type: string
       description: |-
         * `resource_type` - resource_type
@@ -8497,6 +8914,7 @@ components:
         * `course_feature` - course_feature
         * `professional` - professional
         * `free` - free
+        * `learning_format` - learning_format
     Article:
       type: object
       description: Serializer for LearningResourceInstructor model
@@ -8816,6 +9234,22 @@ components:
           type: integer
           description: Return the number of views for the resource.
           readOnly: true
+        learning_format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/CourseResourceResourceTypeEnum'
@@ -8854,10 +9288,6 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -8868,6 +9298,7 @@ components:
       - departments
       - id
       - image
+      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -8920,10 +9351,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -9009,16 +9436,16 @@ components:
         * `RES` - Supplemental Resources
         * `STS` - Science, Technology, and Society
         * `WGS` - Women's and Gender Studies
-    FormatEnum:
+    LearningFormatEnum:
       enum:
-      - Online
-      - Hybrid
-      - In person
+      - online
+      - hybrid
+      - in_person
       type: string
       description: |-
-        * `Online` - Online
-        * `Hybrid` - Hybrid
-        * `In person` - In person
+        * `online` - Online
+        * `hybrid` - Hybrid
+        * `in_person` - In person
     LearningPath:
       type: object
       description: Serializer for the LearningPath model
@@ -9143,6 +9570,22 @@ components:
           type: integer
           description: Return the number of views for the resource.
           readOnly: true
+        learning_format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/LearningPathResourceResourceTypeEnum'
@@ -9181,10 +9624,6 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
       required:
@@ -9193,6 +9632,7 @@ components:
       - departments
       - id
       - image
+      - learning_format
       - learning_path
       - learning_path_parents
       - offered_by
@@ -9241,10 +9681,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
       required:
@@ -9904,7 +10340,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PlatformEnum'
-          description: "The platform on which the learning resource id offered   \
+          description: "The platform on which the learning resource is offered   \
             \          \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
             * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
             * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan\
@@ -9999,6 +10435,13 @@ components:
           items:
             $ref: '#/components/schemas/AggregationsEnum'
           description: Show resource counts by category
+        learning_format:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningFormatEnum'
+          description: "The format(s) in which the learning resource is offered  \
+            \           \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
+            \ - In person"
     LearningResourcesSearchRequestResourceTypeEnum:
       enum:
       - course
@@ -10614,10 +11057,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
     PatchedUserListRelationshipRequest:
@@ -10850,6 +11289,22 @@ components:
           type: integer
           description: Return the number of views for the resource.
           readOnly: true
+        learning_format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastEpisodeResourceResourceTypeEnum'
@@ -10888,10 +11343,6 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -10901,6 +11352,7 @@ components:
       - departments
       - id
       - image
+      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -10954,10 +11406,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -11058,6 +11506,22 @@ components:
           type: integer
           description: Return the number of views for the resource.
           readOnly: true
+        learning_format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastResourceResourceTypeEnum'
@@ -11096,10 +11560,6 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -11109,6 +11569,7 @@ components:
       - departments
       - id
       - image
+      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -11162,10 +11623,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -11408,6 +11865,22 @@ components:
           type: integer
           description: Return the number of views for the resource.
           readOnly: true
+        learning_format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/ProgramResourceResourceTypeEnum'
@@ -11446,10 +11919,6 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -11459,6 +11928,7 @@ components:
       - departments
       - id
       - image
+      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -11512,10 +11982,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -11817,6 +12283,22 @@ components:
           type: integer
           description: Return the number of views for the resource.
           readOnly: true
+        learning_format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoPlaylistResourceResourceTypeEnum'
@@ -11855,10 +12337,6 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -11868,6 +12346,7 @@ components:
       - departments
       - id
       - image
+      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -11921,10 +12400,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title
@@ -12015,6 +12490,22 @@ components:
           type: integer
           description: Return the number of views for the resource.
           readOnly: true
+        learning_format:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoResourceResourceTypeEnum'
@@ -12053,10 +12544,6 @@ components:
           format: uri
           nullable: true
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
         professional:
           type: boolean
           readOnly: true
@@ -12066,6 +12553,7 @@ components:
       - departments
       - id
       - image
+      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -12119,10 +12607,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
-        format:
-          type: array
-          items:
-            $ref: '#/components/schemas/FormatEnum'
       required:
       - readable_id
       - title

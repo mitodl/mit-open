@@ -114,6 +114,9 @@ def mock_upsert_tasks(mocker):
         upsert_learning_resource=mocker.patch(
             "learning_resources_search.tasks.upsert_learning_resource",
         ),
+        upsert_learning_resource_immutable_signature=mocker.patch(
+            "learning_resources_search.tasks.upsert_learning_resource.si",
+        ),
         deindex_learning_resource=mocker.patch(
             "learning_resources_search.tasks.deindex_document"
         ),
@@ -134,7 +137,7 @@ def learning_resource_offeror():
 @pytest.mark.parametrize("courses_exist", [True, False])
 @pytest.mark.parametrize("has_retired_course", [True, False])
 @pytest.mark.parametrize(
-    "resource_format", [LearningResourceFormat.in_person.value, None]
+    "resource_format", [LearningResourceFormat.in_person.name, None]
 )
 def test_load_program(  # noqa: PLR0913
     mock_upsert_tasks,
@@ -193,7 +196,7 @@ def test_load_program(  # noqa: PLR0913
         "end_date": "2017-06-20T00:00:00Z",
     }
 
-    format_data = {"format": [resource_format]} if resource_format else {}
+    format_data = {"learning_format": [resource_format]} if resource_format else {}
     result = load_program(
         {
             "platform": platform.code,
@@ -222,7 +225,12 @@ def test_load_program(  # noqa: PLR0913
             result.id, result.resource_type
         )
     elif is_published:
-        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        if program_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
     else:
         mock_upsert_tasks.upsert_learning_resource.assert_not_called()
 
@@ -231,11 +239,11 @@ def test_load_program(  # noqa: PLR0913
 
     # assert we got a program back and that each course is in a program
     assert isinstance(result, LearningResource)
-    assert result.format == (
+    assert result.learning_format == (
         [
             resource_format
             if resource_format is not None
-            else LearningResourceFormat.online.value
+            else LearningResourceFormat.online.name
         ]
     )
     assert result.professional is False
@@ -284,7 +292,7 @@ def test_load_program_bad_platform(mocker):
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("is_run_published", [True, False])
 @pytest.mark.parametrize("blocklisted", [True, False])
-@pytest.mark.parametrize("resource_format", [LearningResourceFormat.hybrid.value, None])
+@pytest.mark.parametrize("resource_format", [LearningResourceFormat.hybrid.name, None])
 def test_load_course(  # noqa: PLR0913
     mock_upsert_tasks,
     course_exists,
@@ -316,7 +324,7 @@ def test_load_course(  # noqa: PLR0913
         run = LearningResourceRunFactory.build()
     assert Course.objects.count() == (1 if course_exists else 0)
 
-    format_data = {"format": [resource_format]} if resource_format else {}
+    format_data = {"learning_format": [resource_format]} if resource_format else {}
     props = {
         "readable_id": learning_resource.readable_id,
         "platform": platform.code,
@@ -350,7 +358,12 @@ def test_load_course(  # noqa: PLR0913
             result.id, result.resource_type
         )
     elif is_published and is_run_published and not blocklisted:
-        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        if course_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
     else:
         mock_upsert_tasks.deindex_learning_resource.assert_not_called()
         mock_upsert_tasks.upsert_learning_resource.assert_not_called()
@@ -368,15 +381,15 @@ def test_load_course(  # noqa: PLR0913
     # assert we got a course back
     assert isinstance(result, LearningResource)
 
-    assert result.format == (
+    assert result.learning_format == (
         [
             resource_format
             if resource_format is not None
-            else LearningResourceFormat.online.value
+            else LearningResourceFormat.online.name
         ]
     )
 
-    props.pop("format")
+    props.pop("learning_format")
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"
 
@@ -476,8 +489,15 @@ def test_load_duplicate_course(
 
     if course_id_is_duplicate and duplicate_course_exists:
         mock_upsert_tasks.deindex_learning_resource.assert_called()
-
-    mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+    if course.learning_resource.id:
+        if course_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(
+                course.learning_resource.id
+            )
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                course.learning_resource.id
+            )
 
     assert Course.objects.count() == (2 if duplicate_course_exists else 1)
 
@@ -911,7 +931,12 @@ def test_load_podcast_episode(
             result.id, result.resource_type
         )
     elif is_published:
-        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        if podcast_episode_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
     else:
         mock_upsert_tasks.upsert_learning_resource.assert_not_called()
         mock_upsert_tasks.deindex_learning_resource.assert_not_called()
@@ -986,7 +1011,12 @@ def test_load_podcast(
             result.id, result.resource_type
         )
     elif is_published:
-        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        if podcast_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
     else:
         mock_upsert_tasks.deindex_learning_resource.assert_not_called()
         mock_upsert_tasks.upsert_learning_resource.assert_not_called()
@@ -1213,3 +1243,69 @@ def test_load_video_channels_unpublish(mock_upsert_tasks):
     assert playlist.published is False
     channel.refresh_from_db()
     assert channel.published is False
+
+
+@pytest.mark.parametrize("course_exists", [True, False])
+def test_load_course_percolation(
+    mocker,
+    mock_upsert_tasks,
+    course_exists,
+):
+    """Test loading a new course triggers percolation"""
+    blocklisted = False
+    is_published = True
+    is_run_published = True
+    """Test that load_course loads the course"""
+    platform = LearningResourcePlatformFactory.create()
+
+    course = (
+        CourseFactory.create(learning_resource__runs=[], platform=platform.code)
+        if course_exists
+        else CourseFactory.build(learning_resource__runs=[], platform=platform.code)
+    )
+    learning_resource = course.learning_resource
+    learning_resource.published = is_published
+
+    if course_exists:
+        run = LearningResourceRunFactory.create(
+            learning_resource=learning_resource, published=True
+        )
+        learning_resource.runs.set([run])
+        learning_resource.save()
+    else:
+        run = LearningResourceRunFactory.build()
+    assert Course.objects.count() == (1 if course_exists else 0)
+
+    props = {
+        "readable_id": learning_resource.readable_id,
+        "platform": platform.code,
+        "professional": True,
+        "title": learning_resource.title,
+        "image": {"url": learning_resource.image.url},
+        "description": learning_resource.description,
+        "url": learning_resource.url,
+        "published": is_published,
+    }
+
+    if is_run_published:
+        run = {
+            "run_id": run.run_id,
+            "enrollment_start": run.enrollment_start,
+            "start_date": run.start_date,
+            "end_date": run.end_date,
+        }
+        props["runs"] = [run]
+    else:
+        props["runs"] = []
+
+    blocklist = [learning_resource.readable_id] if blocklisted else []
+
+    result = load_course(props, blocklist, [], config=CourseLoaderConfig(prune=True))
+
+    if course_exists:
+        mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_not_called()
+    else:
+        mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+            result.id
+        )

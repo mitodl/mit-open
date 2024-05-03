@@ -1,12 +1,35 @@
 import React from "react"
 import { waitFor } from "@testing-library/react"
 import { renderWithProviders, screen } from "../../test-utils"
-import { withFakeLocation } from "../../test-utils/withFakeLocation"
 import { HOME } from "@/common/urls"
 import ForbiddenPage from "./ForbiddenPage"
+import { setMockResponse, urls } from "api/test-utils"
+import { Permissions } from "@/common/permissions"
+
+const oldWindowLocation = window.location
+
+beforeAll(() => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  delete (window as any).location
+
+  window.location = Object.defineProperties({} as Location, {
+    ...Object.getOwnPropertyDescriptors(oldWindowLocation),
+    assign: {
+      configurable: true,
+      value: jest.fn(),
+    },
+  })
+})
+
+afterAll(() => {
+  window.location = oldWindowLocation
+})
 
 test("The ForbiddenPage loads with meta", async () => {
-  renderWithProviders(<ForbiddenPage />, { user: { is_authenticated: true } })
+  setMockResponse.get(urls.userMe.get(), {
+    [Permissions.Authenticated]: true,
+  })
+  renderWithProviders(<ForbiddenPage />)
   await waitFor(() => {
     expect(document.title).toBe("Not Allowed")
   })
@@ -16,28 +39,27 @@ test("The ForbiddenPage loads with meta", async () => {
 })
 
 test("The ForbiddenPage loads with Correct Title", () => {
-  renderWithProviders(<ForbiddenPage />, { user: { is_authenticated: true } })
+  setMockResponse.get(urls.userMe.get(), {
+    [Permissions.Authenticated]: true,
+  })
+  renderWithProviders(<ForbiddenPage />)
   screen.getByRole("heading", { name: "Not Allowed" })
 })
 
 test("The ForbiddenPage loads with a link that directs to HomePage", () => {
-  renderWithProviders(<ForbiddenPage />, {
-    user: { is_authenticated: true },
+  setMockResponse.get(urls.userMe.get(), {
+    [Permissions.Authenticated]: true,
   })
+  renderWithProviders(<ForbiddenPage />)
   const homeLink = screen.getByRole("link", { name: "Home" })
   expect(homeLink).toHaveAttribute("href", HOME)
 })
 
 test("Redirects unauthenticated users to login", async () => {
-  const initialUrl = "/current/page"
-  const loc = await withFakeLocation(() => {
-    jest.spyOn(window.location, "assign").mockImplementation(jest.fn())
-    window.location.href = initialUrl
-    renderWithProviders(<ForbiddenPage />, {
-      user: { is_authenticated: false },
-      url: initialUrl,
-    })
+  setMockResponse.get(urls.userMe.get(), {
+    [Permissions.Authenticated]: false,
   })
+  renderWithProviders(<ForbiddenPage />)
 
-  expect(loc.assign).toHaveBeenCalledWith(`/login/ol-oidc/?next=${initialUrl}`)
+  expect(window.location.assign).toHaveBeenCalledWith("/login/ol-oidc/?next=/")
 })

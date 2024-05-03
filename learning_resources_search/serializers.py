@@ -15,6 +15,7 @@ from rest_framework.utils.urls import replace_query_param
 from learning_resources.constants import (
     DEPARTMENTS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    LearningResourceFormat,
     LearningResourceType,
     LevelType,
     OfferedBy,
@@ -159,6 +160,7 @@ LEARNING_RESOURCE_AGGREGATIONS = [
     "course_feature",
     "professional",
     "free",
+    "learning_format",
 ]
 
 CONTENT_FILE_AGGREGATIONS = ["topic", "content_feature_type", "platform", "offered_by"]
@@ -186,7 +188,7 @@ class SearchRequestSerializer(serializers.Serializer):
         required=False,
         child=serializers.ChoiceField(choices=platform_choices),
         help_text=(
-            f"The platform on which the learning resource id offered \
+            f"The platform on which the learning resource is offered \
             \n\n{build_choice_description_list(platform_choices)}"
         ),
     )
@@ -269,6 +271,15 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         required=False,
         help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=LEARNING_RESOURCE_AGGREGATIONS),
+    )
+    learning_format_choices = LearningResourceFormat.as_list()
+    learning_format = StringArrayField(
+        required=False,
+        child=serializers.ChoiceField(choices=learning_format_choices),
+        help_text=(
+            f"The format(s) in which the learning resource is offered \
+            \n\n{build_choice_description_list(learning_format_choices)}"
+        ),
     )
 
 
@@ -506,10 +517,7 @@ def serialize_bulk_percolators(ids):
         ids(list of int): List of percolator id's
     """
     for percolator in PercolateQuery.objects.filter(id__in=ids):
-        yield {
-            "_id": percolator.id,
-            "query": {**remove_child_queries(percolator.query)},
-        }
+        yield serialize_percolate_query(percolator)
 
 
 def serialize_percolate_query(query):
@@ -521,12 +529,13 @@ def serialize_percolate_query(query):
 
     Returns:
         dict:
-            This is the query dict value with `_id` set to the database id so that
+            This is the query dict value with `id` set to the database id so that
             OpenSearch can update this in place.
     """
+    serialized = PercolateQuerySerializer(instance=query).data
     return {
-        "query": {**remove_child_queries(query.query)},
-        "_id": query.id,
+        "query": {**remove_child_queries(serialized["query"])},
+        "id": serialized["id"],
     }
 
 
@@ -542,10 +551,7 @@ def serialize_percolate_query_for_update(query):
             This is the query dict value with `_id` set to the database id so that
             OpenSearch can update this in place.
     """
-    return {
-        "query": {**remove_child_queries(query.query)},
-        "id": query.id,
-    }
+    return serialize_percolate_query(query)
 
 
 def serialize_bulk_learning_resources_for_deletion(ids):

@@ -3,7 +3,7 @@ import TabbedCarousel from "./TabbedCarousel"
 import type { TabbedCarouselProps } from "./TabbedCarousel"
 import { renderWithProviders, screen, user, waitFor } from "@/test-utils"
 import { factories, setMockResponse, makeRequest, urls } from "api/test-utils"
-import { act } from "react-dom/test-utils"
+import { act } from "@testing-library/react"
 
 describe("TabbedCarousel", () => {
   const setupApis = () => {
@@ -54,6 +54,7 @@ describe("TabbedCarousel", () => {
         },
       },
     ]
+    setMockResponse.get(urls.userMe.get(), {})
     const { list, search, upcoming } = setupApis()
     renderWithProviders(<TabbedCarousel config={config} />)
     const tabs = screen.getAllByRole("tab")
@@ -70,7 +71,7 @@ describe("TabbedCarousel", () => {
       return new Promise((resolve) => setTimeout(resolve, 1000))
     })
     await screen.findByText(search.results[0].title)
-  })
+  }, 10000)
 
   it("calls API with expected parameters", async () => {
     const config: TabbedCarouselProps["config"] = [
@@ -83,6 +84,7 @@ describe("TabbedCarousel", () => {
         },
       },
     ]
+    setMockResponse.get(urls.userMe.get(), {})
     setupApis()
     renderWithProviders(<TabbedCarousel config={config} />)
     await waitFor(() => {

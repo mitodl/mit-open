@@ -143,7 +143,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             "offered_by": {"name": OfferedBy.csail.value},
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
-            "format": transform_format(program["format_name"]),
+            "learning_format": transform_format(program["format_name"]),
             "runs": [
                 {
                     "run_id": f"{program['nid']}_{start_val}",
@@ -196,7 +196,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "description": course["body"],
             "published": True,
             "professional": True,
-            "format": transform_format(course["format_name"]),
+            "learning_format": transform_format(course["format_name"]),
             "topics": parse_topic(course),
             "url": course["course_link"]
             if urlparse(course["course_link"]).path
@@ -318,22 +318,22 @@ def test_parse_image(featured_image_url, expected_url):
     ("old_format", "new_format", "expected_format"),
     [
         (
-            [LearningResourceFormat.online.value],
-            [LearningResourceFormat.online.value],
-            [LearningResourceFormat.online.value],
+            [LearningResourceFormat.online.name],
+            [LearningResourceFormat.online.name],
+            [LearningResourceFormat.online.name],
         ),
         (
-            [LearningResourceFormat.online.value],
-            [LearningResourceFormat.hybrid.value],
-            [LearningResourceFormat.online.value, LearningResourceFormat.hybrid.value],
+            [LearningResourceFormat.online.name],
+            [LearningResourceFormat.hybrid.name],
+            [LearningResourceFormat.online.name, LearningResourceFormat.hybrid.name],
         ),
         (
             [
-                LearningResourceFormat.online.value,
-                LearningResourceFormat.in_person.value,
+                LearningResourceFormat.online.name,
+                LearningResourceFormat.in_person.name,
             ],
-            [LearningResourceFormat.hybrid.value],
-            list(LearningResourceFormat.values()),
+            [LearningResourceFormat.hybrid.name],
+            list(LearningResourceFormat.names()),
         ),
     ],
 )
@@ -344,6 +344,6 @@ def test_update_format(
     first_course = transform_courses(
         mock_mitpe_courses_data["data"]["searchAPISearch"]["documents"]
     )[0]
-    first_course["format"] = old_format
+    first_course["learning_format"] = old_format
     update_format(first_course, new_format)
-    assert first_course["format"] == sorted(expected_format)
+    assert first_course["learning_format"] == sorted(expected_format)

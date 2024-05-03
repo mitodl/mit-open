@@ -14,6 +14,7 @@ from django_filters import (
 from learning_resources.constants import (
     DEPARTMENTS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    LearningResourceFormat,
     LearningResourceType,
     LevelType,
     OfferedBy,
@@ -97,6 +98,12 @@ class LearningResourceFilter(FilterSet):
         ),
     )
 
+    learning_format = MultipleChoiceFilter(
+        label="The learning format of course/program resources",
+        method="filter_format",
+        choices=LearningResourceFormat.as_list(),
+    )
+
     def filter_free(self, queryset, _, value):
         """Free cost filter for learning resources"""
         queryset = queryset.exclude(runs__isnull=True)
@@ -132,6 +139,11 @@ class LearningResourceFilter(FilterSet):
     def filter_sortby(self, queryset, _, value):
         """Sort the queryset in the order specified by the value"""
         return queryset.order_by(LEARNING_RESOURCE_SORTBY_OPTIONS[value]["sort"])
+
+    def filter_format(self, queryset, _, value):
+        """Format Filter for learning resources"""
+        values = [[LearningResourceFormat[val].name] for val in value]
+        return multi_or_filter(queryset, "learning_format__contains", values)
 
     class Meta:
         model = LearningResource
