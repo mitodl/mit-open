@@ -52,14 +52,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   name,
 }) => {
   const field = useChannelDetail(String(channelType), String(name))
-  const searchParams: Facets & BooleanFacets = {}
-  if (field.data?.search_filter) {
-    const urlParams = new URLSearchParams(field.data.search_filter)
-
-    for (const [key, value] of urlParams.entries()) {
-      searchParams[key as FacetKey] = value.split(",")
-    }
-  }
+  const urlParams = new URLSearchParams(field.data?.search_filter)
 
   return (
     <BannerPage
@@ -85,7 +78,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
 
                 <FieldControls>
                   {field.data?.search_filter ? (
-                    <SearchSubscriptionToggle queryParams={searchParams} />
+                    <SearchSubscriptionToggle searchParams={urlParams} />
                   ) : (
                     <span></span>
                   )}

@@ -32,7 +32,7 @@ const useSearchSubscriptionDelete = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: (id: number | undefined) => {
+    mutationFn: (id: number) => {
       return searchSubscriptionApi
         .learningResourcesUserSubscriptionUnsubscribeDestroy({ id })
         .then((res) => res.data)
