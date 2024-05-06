@@ -55,36 +55,48 @@ const HeaderDesription = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(1),
 }))
 
-const SchoolTitle: React.FC<TypographyProps> = styled(Typography)(
-  ({ theme }) => ({
-    paddingTop: "16px",
-    paddingBottom: "16px",
-    borderBottom: `1px solid ${theme.custom.colors.silverGrayLight}`,
-    "& > svg": {
-      verticalAlign: "text-top",
-      marginRight: "16px",
-    },
-  }),
-)
+const SchoolTitle: React.FC<TypographyProps> = styled(Typography)({
+  marginBottom: "10px",
+  "& > svg": {
+    verticalAlign: "text-top",
+    marginRight: "16px",
+  },
+})
 
-const SchoolIcon = styled.span({
-  paddingRight: "16px",
+const SchoolIcon = styled.span(({ theme }) => ({
+  paddingRight: "10px",
   verticalAlign: "text-top",
   display: "inline-flex",
-})
+  fontSize: theme.typography.pxToRem(20),
+  [theme.breakpoints.down("sm")]: {
+    fontSize: theme.typography.pxToRem(16),
+  },
+}))
 
 const DepartmentLink = styled(ListItemLink)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
   borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
   paddingTop: "16px",
   paddingBottom: "16px",
-  paddingLeft: "40px", // Icon (24px) + 16px icon padding
+  paddingLeft: `calc(${theme.typography.pxToRem(20)} + 10px)`,
+  [theme.breakpoints.down("sm")]: {
+    paddingBottom: "12px",
+    paddingTop: "12px",
+    paddingLeft: `calc(${theme.typography.pxToRem(16)} + 10px)`,
+  },
   display: "flex",
   columnGap: "16px",
   "& svg": {
     color: theme.custom.colors.silverGray,
   },
+  "& .MuiListItemText-primary": {
+    ...theme.typography.subtitle1,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.subtitle2,
+    },
+  },
   "& .MuiListItemText-secondary": {
+    ...theme.typography.body2,
     color: theme.custom.colors.silverGrayDark,
     marginTop: "4px",
     "& > *": {
@@ -138,13 +150,11 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
               <DepartmentLink href={department.channel_url ?? ""}>
                 <ListItemText
                   primary={department.name}
-                  primaryTypographyProps={{ variant: "h5", component: "span" }}
                   secondary={counts
                     .filter(({ count }) => count > 0)
                     .map(({ count, label }) => (
                       <span key={label}>{`${count} ${label}`}</span>
                     ))}
-                  secondaryTypographyProps={{ variant: "body3" }}
                 />
                 <Typography
                   variant="body2"
@@ -163,10 +173,16 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
   )
 }
 
-const SchoolList = styled(PlainList)({
-  marginTop: "80px",
-  marginBottom: "80px",
-})
+const SchoolList = styled(PlainList)(({ theme }) => ({
+  "> li": {
+    marginTop: "40px",
+    marginBottom: "40px",
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "30px",
+      marginBottom: "30px",
+    },
+  },
+}))
 
 const aggregateByDepartment = (
   data: LearningResourceSearchResponse,
@@ -213,7 +229,7 @@ const DepartmentListingPage: React.FC = () => {
         </Container>
       </FullWidthBackground>
       <Container>
-        <SchoolList itemSpacing={5}>
+        <SchoolList>
           {schoolsQuery.data?.results?.map((school) => (
             <SchoolDepartments
               as="li"
