@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.7
+Version 0.9.7 (Released May 06, 2024)
 -------------
 
 - Api sort fixes (#846)
