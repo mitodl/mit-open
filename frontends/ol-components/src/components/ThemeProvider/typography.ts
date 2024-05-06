@@ -64,15 +64,19 @@ const globalSettings: ThemeOptions["typography"] = {
   },
   body1: {
     fontSize: pxToRem(16),
+    lineHeight: pxToRem(20),
   },
   body2: {
     fontSize: pxToRem(14),
+    lineHeight: pxToRem(18),
   },
   body3: {
     fontSize: pxToRem(12),
+    lineHeight: pxToRem(16),
   },
   body4: {
     fontSize: pxToRem(10),
+    lineHeight: pxToRem(14),
   },
   button: {
     textTransform: "none",
