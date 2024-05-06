@@ -3,7 +3,6 @@ import styled from "@emotion/styled"
 import { default as MuiAlert, AlertColor } from "@mui/material/Alert"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import type { AlertProps as MuiAlertProps } from "@mui/material/Alert"
-import { pxToRem } from "../ThemeProvider/typography"
 
 type Colors = {
   [Severity in AlertColor]: string
@@ -28,9 +27,7 @@ const AlertStyled = styled(MuiAlert)<AlertStyleProps>(({ severity }) => ({
   borderColor: COLORS[severity],
   background: "#FFF",
   ".MuiAlert-message": {
-    lineHeight: pxToRem(22),
-    verticalAlign: "middle",
-    fontSize: pxToRem(14),
+    ...theme.typography.body2,
     color: theme.custom.colors.darkGray2,
   },
   "> div": {
@@ -66,17 +63,17 @@ const Alert: React.FC<AlertProps> = ({
   children,
   className,
 }) => {
-  const [open, setOpen] = React.useState(visible)
+  const [_visible, setVisible] = React.useState(visible)
 
   const onCloseClick = () => {
-    setOpen(false)
+    setVisible(false)
   }
 
   useEffect(() => {
-    setOpen(visible)
+    setVisible(visible)
   }, [visible])
 
-  if (!open) {
+  if (!_visible) {
     return null
   }
 
