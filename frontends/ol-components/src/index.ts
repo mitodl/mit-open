@@ -52,6 +52,9 @@ export type { DialogTitleProps } from "@mui/material/DialogTitle"
 export { default as Divider } from "@mui/material/Divider"
 export type { DividerProps } from "@mui/material/Divider"
 
+export { default as Drawer } from "@mui/material/Drawer"
+export type { DrawerProps } from "@mui/material/Drawer"
+
 export { default as Grid } from "@mui/material/Grid"
 export type { GridProps } from "@mui/material/Grid"
 export { default as IconButton } from "@mui/material/IconButton"

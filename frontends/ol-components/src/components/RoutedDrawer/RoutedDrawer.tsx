@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo } from "react"
-import Drawer from "@mui/material/Drawer"
-import type { DrawerProps } from "@mui/material/Drawer"
+import { Drawer, DrawerProps } from "ol-components"
 import IconButton from "@mui/material/IconButton"
 import CloseIcon from "@mui/icons-material/Close"
 import { useSearchParams } from "react-router-dom"
