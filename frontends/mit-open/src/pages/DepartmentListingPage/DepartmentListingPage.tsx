@@ -79,11 +79,6 @@ const SchoolIcon = styled.span(({ theme }) => ({
     width: "1em",
     height: "1em",
   },
-  "& .view-link": {
-    [theme.breakpoints.down("sm")]: {
-      display: "none",
-    },
-  },
 }))
 
 const DepartmentLink = styled(ListItemLink)(({ theme }) => ({
@@ -124,6 +119,11 @@ const DepartmentLink = styled(ListItemLink)(({ theme }) => ({
     ".hover-highlight": {
       color: theme.custom.colors.lightRed,
       textDecoration: "underline",
+    },
+  },
+  "& .view-link": {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
     },
   },
 }))
