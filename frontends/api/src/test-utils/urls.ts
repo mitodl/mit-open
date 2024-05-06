@@ -13,6 +13,7 @@ import type {
   UserlistsApi,
   OfferorsApi,
   PlatformsApi,
+  LearningResourcesUserSubscriptionApi as SubscriptionApi,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
 
@@ -95,6 +96,13 @@ const articles = {
   details: (id: number) => `/api/v1/articles/${id}/`,
 }
 
+const userSubscription = {
+  list: (params?: Params<SubscriptionApi, "subscriptionsList">) =>
+    `/api/v1/learning_resources_user_subscription/${query(params)}`,
+  details: (id: number) =>
+    `/api/v1/learning_resources_user_subscription/${id}/`,
+}
+
 const fields = {
   details: (channelType: string, name: string) =>
     `/api/v0/channels/type/${channelType}/${name}/`,
@@ -130,4 +138,5 @@ export {
   offerors,
   userMe,
   platforms,
+  userSubscription,
 }

@@ -45,6 +45,15 @@ const setupApis = (
     urls.fields.details(field.channel_type, field.name),
     field,
   )
+  const urlParams = new URLSearchParams(fieldPatch?.search_filter)
+  const subscribeParams: Record<string, string[]> = {}
+  for (const [key, value] of urlParams.entries()) {
+    subscribeParams[key] = value.split(",")
+  }
+  setMockResponse.get(
+    `${urls.userSubscription.list(subscribeParams)}`,
+    factories.percolateQueryList,
+  )
 
   const widgetsList = makeWidgetListResponse()
   setMockResponse.get(
