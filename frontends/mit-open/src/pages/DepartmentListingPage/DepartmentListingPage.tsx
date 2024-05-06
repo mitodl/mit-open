@@ -8,6 +8,7 @@ import {
   ListItem,
   ListItemLink,
   ListItemText,
+  Grid,
 } from "ol-components"
 import { MetaTags, pluralize } from "ol-utilities"
 import type {
@@ -241,17 +242,22 @@ const DepartmentListingPage: React.FC = () => {
         </Container>
       </FullWidthBackground>
       <Container>
-        <SchoolList>
-          {schoolsQuery.data?.results?.map((school) => (
-            <SchoolDepartments
-              as="li"
-              key={school.id}
-              school={school}
-              courseCounts={courseCounts}
-              programCounts={programCounts}
-            />
-          ))}
-        </SchoolList>
+        <Grid container>
+          <Grid item xs={0} sm={1}></Grid>
+          <Grid item xs={12} sm={10}>
+            <SchoolList>
+              {schoolsQuery.data?.results?.map((school) => (
+                <SchoolDepartments
+                  as="li"
+                  key={school.id}
+                  school={school}
+                  courseCounts={courseCounts}
+                  programCounts={programCounts}
+                />
+              ))}
+            </SchoolList>
+          </Grid>
+        </Grid>
       </Container>
     </Page>
   )
