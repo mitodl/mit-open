@@ -1,10 +1,8 @@
 import React, { StrictMode } from "react"
-import { HelmetProvider } from "react-helmet-async"
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"
 import { ThemeProvider } from "ol-components"
-import GlobalStyles from "./GlobalStyles"
 
 interface ExportedComponentProps {
   queryClient: QueryClient
@@ -18,11 +16,8 @@ const ExportedComponentProviders: React.FC<ExportedComponentProps> = ({
 }) => {
   const interiorElements = (
     <ThemeProvider>
-      <GlobalStyles />
       <QueryClientProvider client={queryClient}>
-        <HelmetProvider>
-          <NiceModalProvider></NiceModalProvider>
-        </HelmetProvider>
+        <NiceModalProvider></NiceModalProvider>
         <ReactQueryDevtools
           initialIsOpen={false}
           toggleButtonProps={{ style: { opacity: 0.5 } }}
