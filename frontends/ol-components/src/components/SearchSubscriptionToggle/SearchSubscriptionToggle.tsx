@@ -18,9 +18,9 @@ const SearchSubscriptionToggle = ({
 }: {
   searchParams: URLSearchParams
 }) => {
-  const queryParams = Object.fromEntries(searchParams.entries())
-  for (const [key, value] of Object.entries(queryParams)) {
-    queryParams[key] = value.split(",")
+  const subscribeParams: Record<string, string[]> = {}
+  for (const [key, value] of searchParams.entries()) {
+    subscribeParams[key] = value.split(",")
   }
   const buttonSx: React.CSSProperties = {
     backgroundColor: "#a31f34",
@@ -36,23 +36,27 @@ const SearchSubscriptionToggle = ({
   }
 
   const { data: user } = useUserMe()
-
+  const [ready, setReady] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [queryId, setQueryId] = useState<null | number>(null)
-  const { data } = useSearchSubscriptionList(queryParams)
+  const subscriptionList = useSearchSubscriptionList()
   const subscriptionDelete = useSearchSubscriptionDelete()
   const subscriptionCreate = useSearchSubscriptionCreate()
   const id = "unsubscribe-popper"
-
   useEffect(() => {
-    if (data && data.length > 0) {
-      setIsSubscribed(true)
-      setQueryId(data[0]?.id)
-    } else {
-      setIsSubscribed(false)
-      setQueryId(null)
-    }
-  }, [data])
+    if (!user?.is_authenticated || Object.keys(subscribeParams).length === 0)
+      return
+    subscriptionList.mutateAsync(subscribeParams).then((data) => {
+      if (data && data.length > 0) {
+        setIsSubscribed(true)
+        setQueryId(data[0]?.id)
+      } else {
+        setIsSubscribed(false)
+        setQueryId(null)
+      }
+    })
+    setReady(true)
+  }, [])
 
   const handleToggleSubscription = () => {
     if (isSubscribed && queryId) {
@@ -64,50 +68,57 @@ const SearchSubscriptionToggle = ({
     } else {
       // Subscribe logic
       setIsSubscribed(true)
-      subscriptionCreate.mutateAsync(queryParams).then((data) => {
+      subscriptionCreate.mutateAsync(subscribeParams).then((data) => {
         setQueryId(data?.id)
       })
     }
-  }
-  if (!user?.is_authenticated) {
-    return null
   }
 
   return isSubscribed ? (
     <PopupState variant="popper" popupId="demo-popup-popper">
       {(popupState) => (
         <div>
-          <Button
-            endIcon={<ExpandMoreSharpIcon />}
-            style={buttonSx}
-            aria-describedby={id}
-            {...bindToggle(popupState)}
-          >
-            Subscribed
-          </Button>
-          <Popper id={id} {...bindPopper(popupState)}>
-            <Box
-              sx={{
-                bgcolor: "background.paper",
-                fontSize: "16px",
-                width: "125px",
-                fontWeight: "400",
-              }}
-              alignItems="center"
-            >
-              <MenuItem onClick={handleToggleSubscription}>
-                Unsubscribe
-              </MenuItem>
-            </Box>
-          </Popper>
+          {ready ? (
+            <>
+              <Button
+                endIcon={<ExpandMoreSharpIcon />}
+                style={buttonSx}
+                aria-describedby={id}
+                {...bindToggle(popupState)}
+              >
+                Subscribed
+              </Button>
+              <Popper id={id} {...bindPopper(popupState)}>
+                <Box
+                  sx={{
+                    bgcolor: "background.paper",
+                    fontSize: "16px",
+                    width: "125px",
+                    fontWeight: "400",
+                  }}
+                  alignItems="center"
+                >
+                  <MenuItem onClick={handleToggleSubscription}>
+                    Unsubscribe
+                  </MenuItem>
+                </Box>
+              </Popper>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       )}
     </PopupState>
   ) : (
     <div>
-      <Button style={buttonSx} onClick={handleToggleSubscription}>
-        Subscribe
-      </Button>
+      {ready ? (
+        <Button style={buttonSx} onClick={handleToggleSubscription}>
+          Subscribe
+        </Button>
+      ) : (
+        <></>
+      )}
     </div>
   )
 }
