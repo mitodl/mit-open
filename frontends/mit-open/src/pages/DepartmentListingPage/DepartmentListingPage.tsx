@@ -9,7 +9,6 @@ import {
   ListItemLink,
   ListItemText,
 } from "ol-components"
-import type { TypographyProps } from "ol-components"
 import { MetaTags, pluralize } from "ol-utilities"
 import type {
   LearningResourceSchool,
@@ -55,12 +54,16 @@ const HeaderDesription = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(1),
 }))
 
-const SchoolTitle: React.FC<TypographyProps> = styled(Typography)({
-  marginBottom: "10px",
-  "& > svg": {
-    verticalAlign: "text-top",
-    marginRight: "16px",
-  },
+const SchoolTitle = styled.h2(({ theme }) => {
+  return {
+    marginBottom: "10px",
+    display: "flex",
+    alignItems: "center",
+    ...theme.typography.h5,
+    [theme.breakpoints.down("sm")]: {
+      ...theme.typography.subtitle1,
+    },
+  }
 })
 
 const SchoolIcon = styled.span(({ theme }) => ({
@@ -70,6 +73,15 @@ const SchoolIcon = styled.span(({ theme }) => ({
   fontSize: theme.typography.pxToRem(20),
   [theme.breakpoints.down("sm")]: {
     fontSize: theme.typography.pxToRem(16),
+  },
+  "& svg": {
+    width: "1em",
+    height: "1em",
+  },
+  "& .view-link": {
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
   },
 }))
 
@@ -131,7 +143,7 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
 }) => {
   return (
     <Component className={className}>
-      <SchoolTitle variant="h5" component="h2">
+      <SchoolTitle>
         <SchoolIcon aria-hidden>
           {SCHOOL_ICONS[school.url] ?? <RiPaletteLine />}
         </SchoolIcon>
@@ -158,7 +170,7 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
                 />
                 <Typography
                   variant="body2"
-                  className="hover-highlight"
+                  className="view-link hover-highlight"
                   aria-hidden // This is a visual affordance only. Screenreaders will announce the link ancestor role.
                 >
                   View
