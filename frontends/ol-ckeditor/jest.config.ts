@@ -16,6 +16,7 @@ const config: Config.InitialOptions = {
     APP_SETTINGS: {
       ckeditor_upload_url: "https://meowmeow.com",
       embedlyKey: "embedly_key",
+      axios_with_credentials: "False",
     },
   },
 }
