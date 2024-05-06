@@ -1,5 +1,4 @@
 const path = require("path")
-// eslint-disable-next-line import/no-extraneous-dependencies
 const webpackMerge = require("webpack-merge")
 const config = require("./webpack.config")
 
