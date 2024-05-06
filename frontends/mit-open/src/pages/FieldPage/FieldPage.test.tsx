@@ -50,9 +50,16 @@ const setupApis = (
   for (const [key, value] of urlParams.entries()) {
     subscribeParams[key] = value.split(",")
   }
+  if (fieldPatch?.search_filter) {
+    setMockResponse.get(
+      `${urls.userSubscription.list(subscribeParams)}`,
+      factories.percolateQueries,
+    )
+  }
+
   setMockResponse.get(
-    `${urls.userSubscription.list(subscribeParams)}`,
-    factories.percolateQueryList,
+    `${urls.userSubscription.list()}`,
+    factories.percolateQueries,
   )
 
   const widgetsList = makeWidgetListResponse()

@@ -97,8 +97,9 @@ const articles = {
 }
 
 const userSubscription = {
-  list: (params?: Params<SubscriptionApi, "subscriptionsList">) =>
-    `/api/v1/learning_resources_user_subscription/${query(params)}`,
+  list: (
+    params?: Params<SubscriptionApi, "learningResourcesUserSubscriptionList">,
+  ) => `/api/v1/learning_resources_user_subscription/${query(params)}`,
   details: (id: number) =>
     `/api/v1/learning_resources_user_subscription/${id}/`,
 }

@@ -19,16 +19,14 @@ const setMockApiResponses = ({
   for (const [key, value] of urlParams.entries()) {
     subscribeParams[key] = value.split(",")
   }
+  if (fieldPatch?.search_filter) {
+    setMockResponse.get(
+      `${urls.userSubscription.list(subscribeParams)}`,
+      factories.percolateQueries,
+    )
+  }
 
-  setMockResponse.get(
-    `${urls.userSubscription.list(subscribeParams)}`,
-    factories.percolateQueryList,
-  )
-
-  setMockResponse.get(
-    urls.userSubscription.list(),
-    factories.percolateQueryList,
-  )
+  setMockResponse.get(urls.userSubscription.list(), factories.percolateQueries)
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
     field,

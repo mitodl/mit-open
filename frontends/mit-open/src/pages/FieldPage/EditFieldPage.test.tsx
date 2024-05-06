@@ -12,7 +12,7 @@ describe("EditFieldPage", () => {
     )
     setMockResponse.get(
       apiUrls.userSubscription.list(),
-      factories.percolateQueryList,
+      factories.percolateQueries,
     )
 
     return field
@@ -33,7 +33,7 @@ describe("EditFieldPage", () => {
     setMockResponse.get(apiUrls.userMe.get(), {})
     setMockResponse.get(
       apiUrls.userSubscription.list(),
-      factories.percolateQueryList,
+      factories.percolateQueries,
     )
     setMockResponse.get(
       apiUrls.fields.details(field.channel_type, field.name),
