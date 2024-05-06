@@ -422,4 +422,8 @@ const AddToUserListDialogInner: React.FC<AddToListDialogProps> = ({
 const AddToLearningPathDialog = NiceModal.create(AddToLearningPathDialogInner)
 const AddToUserListDialog = NiceModal.create(AddToUserListDialogInner)
 
-export { AddToLearningPathDialog, AddToUserListDialog }
+export {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+  AddToUserListDialogInner,
+}

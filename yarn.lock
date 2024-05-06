@@ -17417,6 +17417,7 @@ __metadata:
     webpack-dev-middleware: "npm:^7.2.1"
     webpack-dev-server: "npm:^5.0.4"
     webpack-hot-middleware: "npm:^2.26.1"
+    webpack-merge: "npm:^5.10.0"
     yup: "npm:^1.2.0"
   languageName: unknown
   linkType: soft
@@ -24990,7 +24991,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-merge@npm:^5.7.3, webpack-merge@npm:^5.8.0":
+"webpack-merge@npm:^5.10.0, webpack-merge@npm:^5.7.3, webpack-merge@npm:^5.8.0":
   version: 5.10.0
   resolution: "webpack-merge@npm:5.10.0"
   dependencies:

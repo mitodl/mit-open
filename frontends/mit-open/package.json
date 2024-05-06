@@ -12,6 +12,7 @@
     "watch:docker": "API_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
     "watch:rc": "API_BASE_URL=https://mitopen-rc.odl.mit.edu/ NODE_ENV=development ENVIRONMENT=local webpack serve",
     "build": "webpack --config webpack.config.js --bail",
+    "build-exports": "webpack --config webpack.exports.js --bail",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build --output-dir build/storybook"
   },
@@ -47,7 +48,8 @@
     "webpack-cli": "^5.1.4",
     "webpack-dev-middleware": "^7.2.1",
     "webpack-dev-server": "^5.0.4",
-    "webpack-hot-middleware": "^2.26.1"
+    "webpack-hot-middleware": "^2.26.1",
+    "webpack-merge": "^5.10.0"
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
