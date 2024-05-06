@@ -7,7 +7,6 @@ import {
   Card,
   CardContent,
   Grid,
-  Stack,
   Button,
   Typography,
 } from "ol-components"
@@ -197,9 +196,11 @@ const FilterTitle = styled.div`
 
 const FacetsTitleContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  height: 48px;
-  justify-content: end;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  min-height: 40px;
+  padding-top: 8px;
 `
 
 const PaginationContainer = styled.div`
@@ -263,6 +264,7 @@ const SearchPage: React.FC = () => {
   }, [setPage])
   const {
     params,
+    hasFacets,
     clearAllFacets,
     patchParams,
     toggleParamValue,
@@ -320,23 +322,20 @@ const SearchPage: React.FC = () => {
           <ResourceTypeTabs.Context resourceType={params.resource_type?.[0]}>
             <GridColumn variant="sidebar-2-wide-main">
               <FacetsTitleContainer>
-                <Stack
-                  direction="row"
-                  alignItems="baseline"
-                  justifyContent="space-between"
-                >
-                  <FilterTitle>
-                    <Typography variant="h5">Filters </Typography>
-                    <TuneIcon fontSize="inherit" />
-                  </FilterTitle>
+                <FilterTitle>
+                  <Typography variant="h5">Filters</Typography>
+                  <TuneIcon fontSize="inherit" />
+                </FilterTitle>
+                {hasFacets ? (
                   <Button
                     variant="text"
                     color="secondary"
+                    size="small"
                     onClick={clearAllFacets}
                   >
                     Clear all
                   </Button>
-                </Stack>
+                ) : null}
               </FacetsTitleContainer>
               <FacetStyles>
                 <AvailableFacets
