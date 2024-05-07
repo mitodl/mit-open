@@ -5,6 +5,7 @@ import {
   Pagination,
   Card,
   CardContent,
+  PlainList,
 } from "ol-components"
 import { getReadableResourceType } from "ol-utilities"
 
@@ -31,7 +32,6 @@ import {
 import type { Facets, BooleanFacets } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
-import CardRowList from "@/components/CardRowList/CardRowList"
 import _ from "lodash"
 import AvailableFacetsDropdowns from "./FieldSearchFacetDisplay"
 import type {
@@ -244,7 +244,7 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
       </FieldSearchControls>
       <div>
         {data && data.count > 0 ? (
-          <CardRowList marginTop={false}>
+          <PlainList itemSpacing={3}>
             {data.results.map((resource) => (
               <li key={resource.id}>
                 <LearningResourceCard
@@ -253,7 +253,7 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
                 />
               </li>
             ))}
-          </CardRowList>
+          </PlainList>
         ) : (
           <Card>
             <CardContent>No results found for your query.</CardContent>

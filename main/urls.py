@@ -53,6 +53,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"^$", index, name="main-index"),
     re_path(r"^privacy-statement/", index, name="privacy-statement"),
     re_path(r"^search/", index, name="site-search"),
+    re_path(r"^departments/", index, name="departments"),
     re_path(r"^learningpaths/", index, name="learningpaths"),
     re_path(r"^userlists/", index, name="userlists"),
     re_path(r"^articles/", index, name="articles"),

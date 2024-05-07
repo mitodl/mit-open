@@ -9,9 +9,9 @@ import {
   OnSortEnd,
   LoadingSpinner,
   styled,
+  PlainList,
 } from "ol-components"
 import { useListItemMove } from "api/hooks/learningResources"
-import CardRowList from "@/components/CardRowList/CardRowList"
 
 const EmptyMessage = styled.p({
   fontStyle: "italic",
@@ -38,7 +38,7 @@ const ItemsListingViewOnly: React.FC<{
   items: NonNullable<ItemsListingProps["items"]>
 }> = ({ items }) => {
   return (
-    <CardRowList>
+    <PlainList itemSpacing={3}>
       {items.map((item) => {
         return (
           <li key={item.id}>
@@ -49,7 +49,7 @@ const ItemsListingViewOnly: React.FC<{
           </li>
         )
       })}
-    </CardRowList>
+    </PlainList>
   )
 }
 
@@ -99,7 +99,7 @@ const ItemsListingSortable: React.FC<{
   )
   const disabled = isRefetching || move.isLoading
   return (
-    <CardRowList disabled={disabled}>
+    <PlainList disabled={disabled}>
       <SortableList
         itemIds={sorted.map((item) => item.id)}
         onSortEnd={onSortEnd}
@@ -130,7 +130,7 @@ const ItemsListingSortable: React.FC<{
           )
         })}
       </SortableList>
-    </CardRowList>
+    </PlainList>
   )
 }
 
