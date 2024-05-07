@@ -3606,9 +3606,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#2d82ea290c4a509cbed848ff2c3b9f4906abb3cf":
-  version: 3.0.6
-  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=2d82ea290c4a509cbed848ff2c3b9f4906abb3cf"
+"@mitodl/course-search-utils@npm:^3.0.7":
+  version: 3.0.7
+  resolution: "@mitodl/course-search-utils@npm:3.0.7"
   dependencies:
     "@mitodl/open-api-axios": "npm:^2024.5.6"
     "@testing-library/react": "npm:12"
@@ -3630,7 +3630,7 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 10/d6832b5241584918d2b49a0b2f3bab55fadcc8a756d64f8eb409c913005bacd9c7fdd7ce514c77b58552b893876b90dc4f807a09310f0a337a1fcb3f4fadf7c1
+  checksum: 10/ee42113ac5bba2ddf84b73bdca15b2f4e82fd02c4949cf73d7cfd0c3b541acba933675008c7f753ac51e43af215c004bf254698e2e118be83abe25d808d5a0ae
   languageName: node
   linkType: hard
 
@@ -17365,7 +17365,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^7.3.0"
-    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#2d82ea290c4a509cbed848ff2c3b9f4906abb3cf"
+    "@mitodl/course-search-utils": "npm:^3.0.7"
     "@mui/icons-material": "npm:^5.15.15"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@sentry/react": "npm:^7.57.0"
