@@ -1,5 +1,5 @@
 import { SourceTypeEnum, type PercolateQuery } from "../../generated/v1"
-import { makePaginatedFactory, type Factory } from "ol-test-utilities"
+import type { Factory } from "ol-test-utilities"
 import { faker } from "@faker-js/faker/locale/en"
 const percolateQuery: Factory<PercolateQuery> = (overrides = {}) => {
   const percolateQuery: PercolateQuery = {
@@ -13,6 +13,21 @@ const percolateQuery: Factory<PercolateQuery> = (overrides = {}) => {
   return percolateQuery
 }
 
-const percolateQueryList = makePaginatedFactory(percolateQuery)
+//const percolateQueryList = makePaginatedFactory(percolateQuery)
+
+const percolateQueryList = ({
+  count,
+  pageSize,
+}: {
+  count: number
+  pageSize?: number
+}) => {
+  const results: PercolateQuery[] = Array(pageSize ?? count)
+    .fill(null)
+    .map((_val) => {
+      return percolateQuery({})
+    })
+  return results
+}
 
 export { percolateQuery, percolateQueryList }

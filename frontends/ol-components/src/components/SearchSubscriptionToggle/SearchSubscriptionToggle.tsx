@@ -22,6 +22,7 @@ const SearchSubscriptionToggle = ({
   for (const [key, value] of searchParams.entries()) {
     subscribeParams[key] = value.split(",")
   }
+
   const buttonSx: React.CSSProperties = {
     backgroundColor: "#a31f34",
     color: "#fff",
@@ -39,12 +40,18 @@ const SearchSubscriptionToggle = ({
   const [ready, setReady] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const [queryId, setQueryId] = useState<null | number>(null)
-  const subscriptionList = useSearchSubscriptionList()
+
   const subscriptionDelete = useSearchSubscriptionDelete()
   const subscriptionCreate = useSearchSubscriptionCreate()
   const id = "unsubscribe-popper"
+  const subscriptionList = useSearchSubscriptionList()
+
   useEffect(() => {
-    if (!user?.is_authenticated || Object.keys(subscribeParams).length === 0)
+    if (
+      !user?.is_authenticated ||
+      Object.keys(subscribeParams).length === 0 ||
+      ready === true
+    )
       return
     subscriptionList.mutateAsync(subscribeParams).then((data) => {
       if (data && data.length > 0) {
@@ -56,7 +63,7 @@ const SearchSubscriptionToggle = ({
       }
     })
     setReady(true)
-  }, [])
+  }, [user, subscribeParams, ready])
 
   const handleToggleSubscription = () => {
     if (isSubscribed && queryId) {
@@ -75,7 +82,7 @@ const SearchSubscriptionToggle = ({
   }
 
   return isSubscribed ? (
-    <PopupState variant="popper" popupId="demo-popup-popper">
+    <PopupState variant="popper" popupId="unsubscribe-popper">
       {(popupState) => (
         <div>
           {ready ? (
@@ -84,6 +91,7 @@ const SearchSubscriptionToggle = ({
                 endIcon={<ExpandMoreSharpIcon />}
                 style={buttonSx}
                 aria-describedby={id}
+                aria-label="unsubscribe-button"
                 {...bindToggle(popupState)}
               >
                 Subscribed
@@ -113,7 +121,11 @@ const SearchSubscriptionToggle = ({
   ) : (
     <div>
       {ready ? (
-        <Button style={buttonSx} onClick={handleToggleSubscription}>
+        <Button
+          aria-label="subscribe-button"
+          style={buttonSx}
+          onClick={handleToggleSubscription}
+        >
           Subscribe
         </Button>
       ) : (

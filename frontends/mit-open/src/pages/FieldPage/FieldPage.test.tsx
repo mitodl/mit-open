@@ -37,10 +37,14 @@ const mockedFieldSearch = jest.mocked(FieldSearch)
 const setupApis = (
   fieldPatch?: Partial<FieldChannel>,
   search?: Partial<LearningResourceSearchResponse>,
+  userIsAuthenticated?: boolean,
+  userIsSubscribed?: boolean,
 ) => {
   const field = factories.fields.field(fieldPatch)
 
-  setMockResponse.get(urls.userMe.get(), {})
+  setMockResponse.get(urls.userMe.get(), {
+    is_authenticated: userIsAuthenticated,
+  })
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
     field,
@@ -50,17 +54,27 @@ const setupApis = (
   for (const [key, value] of urlParams.entries()) {
     subscribeParams[key] = value.split(",")
   }
+  const subscribeResponse = userIsSubscribed
+    ? factories.percolateQueries.percolateQueryList({ count: 1 })
+    : factories.percolateQueries.percolateQueryList({ count: 0 })
   if (fieldPatch?.search_filter) {
     setMockResponse.get(
       `${urls.userSubscription.list(subscribeParams)}`,
-      factories.percolateQueries,
+      subscribeResponse,
+    )
+    setMockResponse.post(
+      `${urls.userSubscription.post(subscribeParams)}`,
+      subscribeResponse,
+    )
+  }
+  if (userIsSubscribed === true) {
+    setMockResponse.delete(
+      urls.userSubscription.delete(subscribeResponse[0]?.id),
+      subscribeResponse[0],
     )
   }
 
-  setMockResponse.get(
-    `${urls.userSubscription.list()}`,
-    factories.percolateQueries,
-  )
+  setMockResponse.get(`${urls.userSubscription.list()}`, subscribeResponse)
 
   const widgetsList = makeWidgetListResponse()
   setMockResponse.get(
@@ -193,4 +207,23 @@ describe("FieldPage", () => {
       })
     },
   )
+
+  it("Displays the unsubscribe toggle if the user is authenticated and subscribed", async () => {
+    const { field } = setupApis({ search_filter: "q=ocw" }, {}, true, true)
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findByText(field.title)
+    const subscribedButton = await screen.findByText("Subscribed")
+    assertInstanceOf(subscribedButton, HTMLButtonElement)
+    user.click(subscribedButton)
+    const unsubscribeButton = await screen.findByText("Unsubscribe")
+    assertInstanceOf(unsubscribeButton, HTMLLIElement)
+  })
+
+  it("Displays the subscribe toggle if the user is authenticated but not subscribed", async () => {
+    const { field } = setupApis({ search_filter: "q=ocw" }, {}, true, false)
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findByText(field.title)
+    const subscribeButton = await screen.findByText("Subscribe")
+    assertInstanceOf(subscribeButton, HTMLButtonElement)
+  })
 })
