@@ -81,6 +81,9 @@ const navData: NavData = {
           title: "Programs",
           description:
             "Learn in-depth from a series of courses and earn a certificate",
+          href: `${urls.SEARCH}?${new URLSearchParams({
+            resource_type: "program",
+          }).toString()}`,
         },
         {
           title: "Course Materials",
@@ -97,6 +100,7 @@ const navData: NavData = {
         },
         {
           title: "By Departments",
+          href: urls.DEPARTMENTS,
         },
         {
           title: "By Provider",
