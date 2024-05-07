@@ -36,3 +36,4 @@ const PlainList = styled.ul<PlainListProps>(
 )
 
 export { PlainList }
+export type { PlainListProps }
