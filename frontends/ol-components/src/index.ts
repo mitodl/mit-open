@@ -9,8 +9,6 @@
  *  - we don't need to implement ref-forwarding, which is important for some
  *    functionality.
  */
-export { default as Alert } from "@mui/material/Alert"
-export type { AlertProps } from "@mui/material/Alert"
 
 export { default as Avatar } from "@mui/material/Avatar"
 export type { AvatarProps } from "@mui/material/Avatar"
@@ -114,6 +112,7 @@ export type { TypographyProps } from "@mui/material/Typography"
 export { default as Menu } from "@mui/material/Menu"
 export { default as MenuItem } from "@mui/material/MenuItem"
 
+export * from "./components/Alert/Alert"
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
 export * from "./components/ButtonLink/ButtonLink"
