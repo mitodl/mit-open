@@ -4,6 +4,7 @@ from uuid import uuid4
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.postgres.fields import ArrayField
 from django.db import models, transaction
 from django.db.models import JSONField
 from django_scim.models import AbstractSCIMUserMixin
