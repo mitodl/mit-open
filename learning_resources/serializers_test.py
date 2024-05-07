@@ -244,6 +244,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
             {"code": lr_format, "name": LearningResourceFormat[lr_format].value}
             for lr_format in resource.learning_format
         ],
+        "next_start_date": resource.next_start_date,
     }
 
 

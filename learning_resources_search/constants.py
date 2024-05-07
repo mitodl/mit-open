@@ -236,6 +236,7 @@ LEARNING_RESOURCE_MAP = {
             "prices": {"type": "scaled_float", "scaling_factor": 100},
         },
     },
+    "next_start_date": {"type": "date"},
 }
 
 
@@ -355,9 +356,9 @@ MAPPING = {
 SEARCH_CONN_EXCEPTIONS = (ESConnectionError, UrlTimeoutError)
 
 SOURCE_EXCLUDED_FIELDS = [
+    "created_on",
     "course.course_numbers.sort_coursenum",
     "course.course_numbers.primary",
-    "created_on",
     "resource_relations",
     "free",
 ]

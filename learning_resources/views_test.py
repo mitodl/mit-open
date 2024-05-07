@@ -1,8 +1,10 @@
 """Test for learning_resources views"""
 
 import random
+from datetime import timedelta
 
 import pytest
+from django.utils import timezone
 from rest_framework.reverse import reverse
 
 from learning_resources.constants import (
@@ -29,7 +31,6 @@ from learning_resources.factories import (
     VideoPlaylistFactory,
 )
 from learning_resources.models import (
-    LearningResource,
     LearningResourceRelationship,
 )
 from learning_resources.serializers import (
@@ -135,97 +136,6 @@ def test_get_course_content_files_filtered(client, reverse_url, expected_url):
         f"{expected_url}?run_id={course.learning_resource.runs.last().id}"
     )
     assert resp.data.get("count") == 3
-
-
-@pytest.mark.parametrize(
-    ("url", "params"),
-    [
-        ("lr:v1:courses_api-list", ""),
-        ("lr:v1:learning_resources_api-list", "resource_type=course"),
-    ],
-)
-def test_new_courses_endpoint(client, url, params):
-    """Test new courses endpoint"""
-    courses = sorted(
-        CourseFactory.create_batch(3),
-        key=lambda course: course.learning_resource.created_on,
-        reverse=True,
-    )
-
-    resp = client.get(f"{reverse(url)}new/?{params}")
-    assert resp.data.get("count") == 3
-    for i in range(3):
-        assert resp.data.get("results")[i]["id"] == courses[i].learning_resource.id
-
-
-@pytest.mark.parametrize(
-    ("url", "params"),
-    [
-        ("lr:v1:courses_api-list", "platform=ocw"),
-        ("lr:v1:learning_resources_api-list", "resource_type=course&platform=ocw"),
-    ],
-)
-def test_new_courses_endpoint_stacks_with_other_filters(client, url, params):
-    """Test new courses endpoint stacks with other filters"""
-    courses = sorted(
-        CourseFactory.create_batch(3, platform=PlatformType.ocw.name),
-        key=lambda course: course.learning_resource.created_on,
-        reverse=True,
-    )
-
-    CourseFactory.create_batch(3, platform=PlatformType.mitxonline.name)
-
-    resp = client.get(f"{reverse(url)}new/?{params}")
-    assert resp.data.get("count") == 3
-    for i in range(3):
-        assert resp.data.get("results")[i]["id"] == courses[i].learning_resource.id
-
-
-@pytest.mark.parametrize(
-    ("url", "params"),
-    [
-        ("lr:v1:courses_api-list", ""),
-        ("lr:v1:learning_resources_api-list", "resource_type=course"),
-    ],
-)
-def test_upcoming_courses_endpoint(client, url, params):
-    """Test upcoming courses endpoint"""
-    learning_resource = LearningResourceFactory.create(
-        is_course=True, runs__in_future=True
-    )
-
-    LearningResourceFactory.create(is_course=True, runs__in_past=True)
-
-    resp = client.get(f"{reverse(url)}upcoming/?{params}")
-    assert resp.data.get("count") == 1
-    assert resp.data.get("results")[0]["id"] == learning_resource.id
-
-
-@pytest.mark.parametrize(
-    ("url", "params"),
-    [
-        ("lr:v1:courses_api-list", "platform=edx"),
-        ("lr:v1:learning_resources_api-list", "resource_type=course&platform=edx"),
-    ],
-)
-def test_upcoming_courses_endpoint_stacks_with_other_filters(client, url, params):
-    """Test upcoming courses endpoint stacks with other filters"""
-    edx = LearningResourcePlatformFactory.create(
-        code=PlatformType.edx.name, name=PlatformType.edx.value
-    )
-    ocw = LearningResourcePlatformFactory.create(
-        code=PlatformType.ocw.name, name=PlatformType.ocw.value
-    )
-    learning_resource = LearningResourceFactory.create(
-        is_course=True, runs__in_future=True, platform=edx
-    )
-
-    LearningResourceFactory.create(is_course=True, runs__in_past=True, platform=edx)
-    LearningResourceFactory.create(is_course=True, runs__in_future=True, platform=ocw)
-
-    resp = client.get(f"{reverse(url)}upcoming/?{params}")
-    assert resp.data.get("count") == 1
-    assert resp.data.get("results")[0]["id"] == learning_resource.id
 
 
 @pytest.mark.parametrize(
@@ -882,8 +792,64 @@ def test_get_video_detail_endpoint(client, url):
     assert resp.data.get("video") == VideoSerializer(instance=video).data
 
 
+@pytest.mark.parametrize(
+    ("url", "params"),
+    [
+        ("lr:v1:courses_api-list", "sortby=new"),
+        (
+            "lr:v1:learning_resources_api-list",
+            "sortby=new&resource_type=course",
+        ),
+    ],
+)
+def test_sortby_new(client, url, params):
+    """Test new courses endpoint"""
+    courses = sorted(
+        CourseFactory.create_batch(3),
+        key=lambda course: course.learning_resource.created_on,
+        reverse=True,
+    )
+
+    resp = client.get(f"{reverse(url)}?{params}")
+
+    assert resp.data.get("count") == 3
+    assert len(resp.data.get("results")) == 3
+
+    for i in range(3):
+        assert resp.data.get("results")[i]["id"] == courses[i].learning_resource.id
+
+
+@pytest.mark.parametrize(
+    ("url", "params"),
+    [
+        ("lr:v1:courses_api-list", "sortby=upcoming"),
+        ("lr:v1:learning_resources_api-list", "sortby=upcoming&resource_type=course"),
+    ],
+)
+def test_sortby_upcoming(client, url, params):
+    """Test upcoming courses endpoint"""
+    other_learning_resource = LearningResourceFactory.create(
+        is_course=True, next_start_date=None
+    )
+
+    later_upcoming_learning_resource = LearningResourceFactory.create(
+        is_course=True, next_start_date=timezone.now() + timedelta(2)
+    )
+
+    upcoming_learning_resource = LearningResourceFactory.create(
+        is_course=True, next_start_date=timezone.now() + timedelta(1)
+    )
+
+    resp = client.get(f"{reverse(url)}?{params}")
+    assert resp.data.get("count") == 3
+    assert len(resp.data.get("results")) == 3
+    assert resp.data.get("results")[0]["id"] == upcoming_learning_resource.id
+    assert resp.data.get("results")[1]["id"] == later_upcoming_learning_resource.id
+    assert resp.data.get("results")[2]["id"] == other_learning_resource.id
+
+
 @pytest.mark.parametrize("resource_type", ["course", "program"])
-def test_popular_endpoints(client, resource_type):
+def test_popular_sort(client, resource_type):
     """Test the popular endpoints to ensure they return data correctly."""
 
     resources = LearningResourceFactory.create_batch(5, resource_type=resource_type)
@@ -894,17 +860,18 @@ def test_popular_endpoints(client, resource_type):
             learning_resource=resource,
         )
 
-    url = reverse("lr:v1:learning_resources_api-popular")
-    params = f"resource_type={resource_type}" if resource_type else ""
+    url = reverse("lr:v1:learning_resources_api-list")
+
+    params = (
+        f"resource_type={resource_type}&sortby=-views"
+        if resource_type
+        else "sortby=-views"
+    )
 
     resp = client.get(f"{url}?{params}")
 
-    lr_queryset = LearningResource.objects.filter(published=True)
-
-    if resource_type:
-        lr_queryset = lr_queryset.filter(resource_type=resource_type)
-
-    assert len(resp.data.get("results")) == lr_queryset.count()
+    assert resp.data.get("count") == 5
+    assert len(resp.data.get("results")) == 5
 
     for i in range(1, 5):
         assert (

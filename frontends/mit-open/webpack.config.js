@@ -125,6 +125,7 @@ module.exports = (env, argv) => {
           axios_with_credentials: JSON.stringify(
             process.env.MITOPEN_AXIOS_WITH_CREDENTIALS,
           ),
+          axios_base_path: JSON.stringify(process.env.MITOPEN_AXIOS_BASE_PATH),
           embedlyKey: JSON.stringify(process.env.EMBEDLY_KEY),
           search_page_size: JSON.stringify(
             process.env.OPENSEARCH_DEFAULT_PAGE_SIZE,

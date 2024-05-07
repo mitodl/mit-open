@@ -15,7 +15,7 @@ import { ChannelsApi, WidgetListsApi, UsersApi } from "./generated/v0/api"
 
 import axiosInstance from "./axios"
 
-const BASE_PATH = ""
+const BASE_PATH = APP_SETTINGS.axios_base_path?.replace(/\/+$/, "") ?? ""
 const learningResourcesApi = new LearningResourcesApi(
   undefined,
   BASE_PATH,

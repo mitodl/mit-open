@@ -2,20 +2,26 @@
 Test tasks
 """
 
+from datetime import timedelta
 from unittest.mock import ANY
 
 import pytest
 from decorator import contextmanager
+from django.utils import timezone
 from moto import mock_s3
 
 from learning_resources import factories, models, tasks
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3, setup_s3_ocw
 from learning_resources.constants import LearningResourceType, PlatformType
 from learning_resources.etl.constants import ETLSource
+from learning_resources.factories import (
+    LearningResourceFactory,
+)
 from learning_resources.tasks import (
     get_ocw_data,
     get_youtube_data,
     get_youtube_transcripts,
+    update_next_start_date,
 )
 
 pytestmark = pytest.mark.django_db
@@ -316,3 +322,16 @@ def test_get_youtube_transcripts(mocker):
     mock_etl_youtube.get_youtube_transcripts.assert_called_once_with(
         mock_etl_youtube.get_youtube_videos_for_transcripts_job.return_value
     )
+
+
+def test_update_next_start_date(mocker):
+    learning_resource = LearningResourceFactory.create(
+        next_start_date=(timezone.now() - timedelta(10))
+    )
+    LearningResourceFactory.create(next_start_date=(timezone.now() + timedelta(1)))
+
+    mock_load_next_start_date = mocker.patch(
+        "learning_resources.tasks.load_next_start_date"
+    )
+    update_next_start_date()
+    mock_load_next_start_date.assert_called_once_with(learning_resource)
