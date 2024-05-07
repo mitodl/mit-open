@@ -56,7 +56,7 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
         borderColor: colors.lightGray2,
         color: colors.silverGrayDark,
         "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
-          clor: colors.darkGray2,
+          color: colors.darkGray2,
           backgroundColor: colors.lightGray2,
         },
       },
