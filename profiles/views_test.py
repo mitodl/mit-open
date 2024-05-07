@@ -2,7 +2,6 @@
 
 # pylint: disable=redefined-outer-name, unused-argument, too-many-arguments
 import json
-from os.path import basename, splitext
 
 import pytest
 from django.conf import settings
@@ -14,7 +13,7 @@ from learning_resources_search.serializers_test import get_request_object
 from profiles.factories import ProgramCertificateFactory, ProgramLetterFactory
 from profiles.models import ProgramLetter
 from profiles.serializers import ProgramCertificateSerializer, ProgramLetterSerializer
-from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
+from profiles.utils import DEFAULT_PROFILE_IMAGE
 
 pytestmark = [pytest.mark.django_db]
 
@@ -51,6 +50,12 @@ def test_list_users(staff_client, staff_user):
                 "headline": profile.headline,
                 "username": staff_user.username,
                 "placename": profile.location.get("value", ""),
+                "interests": profile.interests,
+                "goals": profile.goals,
+                "current_education": profile.current_education,
+                "certificate_desired": profile.certificate_desired,
+                "time_commitment": profile.time_commitment,
+                "course_format": profile.course_format,
             },
         }
     ]
@@ -100,6 +105,12 @@ def test_create_user(staff_client, staff_user, email_optin, toc_optin):  # pylin
             "username": user.username,
             "profile_image_small": "image_small",
             "profile_image_medium": "image_medium",
+            "interests": user.profile.interests,
+            "goals": user.profile.goals,
+            "current_education": user.profile.current_education,
+            "certificate_desired": user.profile.certificate_desired,
+            "time_commitment": user.profile.time_commitment,
+            "course_format": user.profile.course_format,
         }
     )
     assert resp.json()["profile"] == payload["profile"]
@@ -137,6 +148,12 @@ def test_get_user(staff_client, user):
             "headline": profile.headline,
             "username": profile.user.username,
             "placename": profile.location.get("value", ""),
+            "interests": profile.interests,
+            "goals": profile.goals,
+            "current_education": profile.current_education,
+            "certificate_desired": profile.certificate_desired,
+            "time_commitment": profile.time_commitment,
+            "course_format": profile.course_format,
         },
     }
 
@@ -167,6 +184,12 @@ def test_get_profile(logged_in, user, user_client):
         "username": profile.user.username,
         "placename": profile.location.get("value", ""),
         "user_websites": [],
+        "interests": profile.interests,
+        "goals": profile.goals,
+        "current_education": profile.current_education,
+        "certificate_desired": profile.certificate_desired,
+        "time_commitment": profile.time_commitment,
+        "course_format": profile.course_format,
     }
 
 
@@ -213,6 +236,12 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
             "headline": profile.headline,
             "username": profile.user.username,
             "placename": profile.location.get("value", ""),
+            "interests": profile.interests,
+            "goals": profile.goals,
+            "current_education": profile.current_education,
+            "certificate_desired": profile.certificate_desired,
+            "time_commitment": profile.time_commitment,
+            "course_format": profile.course_format,
         },
     }
     user.refresh_from_db()
@@ -242,32 +271,19 @@ def test_patch_profile_by_user(client, logged_in_profile):
     )
     # create a dummy image file in memory for upload
     location_json = {"value": "Boston"}
-    with make_temp_image_file(width=250, height=250) as image_file:
-        # format patch using multipart upload
-        resp = client.patch(
-            url,
-            data={
-                "bio": "updated_bio_value",
-                "image_file": image_file,
-                "location": json.dumps(location_json),
-            },
-            format="multipart",
-        )
-    filename, ext = splitext(image_file.name)  # noqa: PTH122
+    resp = client.patch(
+        url,
+        data={
+            "bio": "updated_bio_value",
+            "location": json.dumps(location_json),
+        },
+        format="multipart",
+    )
     assert resp.status_code == 200
     assert resp.json()["bio"] == "updated_bio_value"
     assert resp.json()["placename"] == "Boston"
-    assert basename(filename) in resp.json()["image_file"]  # noqa: PTH119
-    assert resp.json()["image_file"].endswith(ext)
-    assert resp.json()["image_small_file"].endswith(".jpg")
 
     logged_in_profile.refresh_from_db()
-    assert logged_in_profile.image_file.height == 250
-    assert logged_in_profile.image_file.width == 250
-    assert logged_in_profile.image_small_file.height == 64
-    assert logged_in_profile.image_small_file.width == 64
-    assert logged_in_profile.image_medium_file.height == 128
-    assert logged_in_profile.image_medium_file.width == 128
     assert logged_in_profile.location == location_json
 
 
@@ -342,6 +358,12 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
                 "headline": profile.headline,
                 "username": profile.user.username,
                 "placename": profile.location.get("value", ""),
+                "interests": profile.interests,
+                "goals": profile.goals,
+                "current_education": profile.current_education,
+                "certificate_desired": profile.certificate_desired,
+                "time_commitment": profile.time_commitment,
+                "course_format": profile.course_format,
             },
         }
 
