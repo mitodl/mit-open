@@ -16,7 +16,7 @@ import type {
   LearningResourcesUserSubscriptionApi as SubscriptionApi,
   DepartmentsApi,
   SchoolsApi,
-  LearningResourcesSearchRequestRequest,
+  LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LearningResourcesSearchRequest,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
 
@@ -144,7 +144,7 @@ const queryify = (params: unknown) => {
 }
 
 const search = {
-  resources: (params?: LearningResourcesSearchRequestRequest) =>
+  resources: (params?: LearningResourcesSearchRequest) =>
     `/api/v1/learning_resources_search/${queryify(params)}`,
 }
 
