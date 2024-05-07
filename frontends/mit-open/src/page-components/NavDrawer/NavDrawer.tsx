@@ -27,13 +27,13 @@ type NavItemProps = {
 
 const NavItem: React.FC<NavItemProps> = (props) => {
   const { title, description, href } = props
-  const linkText = <LinkText>{title}</LinkText>
-  return (
+  const navItem = (
     <div>
-      {href ? <a href={href}>{linkText}</a> : linkText}
+      <LinkText>{title}</LinkText>
       {description ? <LinkDescription>{description}</LinkDescription> : null}
     </div>
   )
+  return href ? <a href={href}>{navItem}</a> : navItem
 }
 
 const LinkText = styled.div`
