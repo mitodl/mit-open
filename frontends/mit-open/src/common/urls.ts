@@ -65,6 +65,4 @@ export const DASHBOARD = "/dashboard/"
 
 export const SEARCH = "/search/"
 
-export const DEPARTMENTS = "/departments/"
-
 export const RESOURCE_DRAWER_QUERY_PARAM = "resource"
