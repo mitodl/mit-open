@@ -22,10 +22,11 @@ const StyledMenuButton = styled.div({
 
 interface MenuButtonProps {
   text: string
+  onClick: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
-const MenuButton: React.FC<MenuButtonProps> = ({ text }) => (
-  <IconButton>
+const MenuButton: React.FC<MenuButtonProps> = ({ text, onClick }) => (
+  <IconButton onClick={onClick}>
     <StyledMenuButton>
       <StyledMenuIcon />
       <MenuButtonText>{text}</MenuButtonText>

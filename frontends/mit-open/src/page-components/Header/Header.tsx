@@ -1,13 +1,15 @@
 import React, { FunctionComponent } from "react"
 import { styled, AppBar, Divider, Toolbar } from "ol-components"
-import { MITLogoLink } from "ol-utilities"
+import { MITLogoLink, useToggle } from "ol-utilities"
 import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
+import { NavDrawer } from "../NavDrawer/NavDrawer"
 
 const Bar = styled(AppBar)`
+  z-index: ${({ theme }) => theme.zIndex.drawer + 1};
   background-color: ${({ theme }) => theme.custom.colors.white};
   color: ${({ theme }) => theme.custom.colors.black};
-  min-height: 55px;
+  height: 80px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 10px rgba(120 169 197 / 15%);
@@ -34,16 +36,24 @@ const Spacer = styled.div`
 `
 
 const Header: FunctionComponent = () => {
+  const [drawerOpen, toggleDrawer] = useToggle(false)
+  const toggler = () => {
+    toggleDrawer(!drawerOpen)
+  }
+
   return (
-    <Bar position="sticky">
-      <StyledToolbar variant="dense">
-        <LogoLink />
-        <StyledDivider orientation="vertical" flexItem />
-        <MenuButton text="Explore MIT" />
-        <Spacer />
-        <UserMenu />
-      </StyledToolbar>
-    </Bar>
+    <div>
+      <Bar position="fixed">
+        <StyledToolbar variant="dense">
+          <LogoLink />
+          <StyledDivider orientation="vertical" flexItem />
+          <MenuButton text="Explore MIT" onClick={toggler} />
+          <Spacer />
+          <UserMenu />
+        </StyledToolbar>
+      </Bar>
+      <NavDrawer open={drawerOpen}></NavDrawer>
+    </div>
   )
 }
 
