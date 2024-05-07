@@ -63,7 +63,7 @@ const SearchSubscriptionToggle = ({
       }
     })
     setReady(true)
-  }, [user, subscribeParams, ready])
+  }, [user, subscribeParams, ready, subscriptionList])
 
   const handleToggleSubscription = () => {
     if (isSubscribed && queryId) {
@@ -113,7 +113,7 @@ const SearchSubscriptionToggle = ({
               </Popper>
             </>
           ) : (
-            <></>
+            <Button style={buttonSx}></Button>
           )}
         </div>
       )}
@@ -129,7 +129,7 @@ const SearchSubscriptionToggle = ({
           Subscribe
         </Button>
       ) : (
-        <></>
+        <Button style={buttonSx}></Button>
       )}
     </div>
   )
