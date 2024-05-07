@@ -9,7 +9,7 @@ const Bar = styled(AppBar)`
   z-index: ${({ theme }) => theme.zIndex.drawer + 1};
   background-color: ${({ theme }) => theme.custom.colors.white};
   color: ${({ theme }) => theme.custom.colors.black};
-  height: 80px;
+  height: 55px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 10px rgba(120 169 197 / 15%);

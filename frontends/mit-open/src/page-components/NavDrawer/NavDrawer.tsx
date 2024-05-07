@@ -1,9 +1,10 @@
 import { Drawer, DrawerProps, styled } from "ol-components"
 import { useToggle } from "ol-utilities"
 import React from "react"
+import * as urls from "@/common/urls"
 
 const DrawerContent = styled.div`
-  padding-top: 80px;
+  padding-top: 55px;
   width: 350px;
 `
 
@@ -21,14 +22,15 @@ const NavSectionHeader = styled.div`
 type NavItemProps = {
   title: string
   description?: string
+  href?: string
 }
 
 const NavItem: React.FC<NavItemProps> = (props) => {
-  const { title, description } = props
-
+  const { title, description, href } = props
+  const linkText = <LinkText>{title}</LinkText>
   return (
     <div>
-      <LinkText>{title}</LinkText>
+      {href ? <a href={href}>{linkText}</a> : linkText}
       {description ? <LinkDescription>{description}</LinkDescription> : null}
     </div>
   )
@@ -60,6 +62,7 @@ export interface NavSection {
 export interface NavItem {
   title: string
   description?: string
+  href?: string
 }
 
 const navData: NavData = {
@@ -70,6 +73,9 @@ const navData: NavData = {
         {
           title: "Courses",
           description: "Learn with MIT instructors",
+          href: `${urls.SEARCH}?${new URLSearchParams({
+            resource_type: "course",
+          }).toString()}`,
         },
         {
           title: "Programs",
@@ -129,6 +135,7 @@ const NavDrawer = (props: DrawerProps) => {
         key={item.title}
         title={item.title}
         description={item.description}
+        href={item.href}
       />
     ))
     return (
