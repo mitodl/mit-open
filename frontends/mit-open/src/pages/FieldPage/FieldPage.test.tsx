@@ -62,10 +62,7 @@ const setupApis = (
       `${urls.userSubscription.list(subscribeParams)}`,
       subscribeResponse,
     )
-    setMockResponse.post(
-      `${urls.userSubscription.post(subscribeParams)}`,
-      subscribeResponse,
-    )
+    setMockResponse.post(`${urls.userSubscription.post()}`, subscribeResponse)
   }
   if (userIsSubscribed === true) {
     setMockResponse.delete(

@@ -43,8 +43,8 @@ const SearchSubscriptionToggle = ({
 
   const subscriptionDelete = useSearchSubscriptionDelete()
   const subscriptionCreate = useSearchSubscriptionCreate()
-  const id = "unsubscribe-popper"
   const subscriptionList = useSearchSubscriptionList()
+  const id = "unsubscribe-popper"
 
   useEffect(() => {
     if (
