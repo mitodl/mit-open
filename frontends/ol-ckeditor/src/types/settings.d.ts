@@ -5,5 +5,6 @@ export declare global {
     embedlyKey: string
     ckeditor_upload_url?: string
     axios_with_credentials: string
+    axios_base_path: string
   }
 }
