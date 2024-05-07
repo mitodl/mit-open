@@ -223,4 +223,12 @@ describe("FieldPage", () => {
     const subscribeButton = await screen.findByText("Subscribe")
     assertInstanceOf(subscribeButton, HTMLButtonElement)
   })
+  it("Hides the subscribe toggle if the user is not authenticated", async () => {
+    const { field } = setupApis({ search_filter: "q=ocw" }, {}, false, false)
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findByText(field.title)
+    await waitFor(() => {
+      expect(screen.queryByText("Subscribe")).not.toBeInTheDocument()
+    })
+  })
 })
