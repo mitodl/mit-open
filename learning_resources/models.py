@@ -8,6 +8,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import JSONField
 from django.db.models.functions import Lower
+from django.utils.functional import cached_property
 
 from learning_resources import constants
 from learning_resources.constants import (
@@ -50,6 +51,15 @@ class LearningResourceTopic(TimestampedModel):
 
         return self.objects.filter(parent=self)
 
+    @cached_property
+    def full_name(self):
+        """Return the full name of the topic (with parents)"""
+
+        separator = " - " if self.parent else ""
+        parent_name = self.parent.full_name if self.parent else ""
+
+        return f"{parent_name}{separator}{self.name}"
+
     def __str__(self):
         """Return the topic name."""
 
@@ -58,11 +68,7 @@ class LearningResourceTopic(TimestampedModel):
     class Meta:
         """Meta options for LearningResourceTopic"""
 
-        constraints = [
-            models.UniqueConstraint(
-                Lower("name"), "parent", name="unique_lower_name_parent"
-            )
-        ]
+        constraints = [models.UniqueConstraint(Lower("name"), name="unique_lower_name")]
 
 
 class LearningResourceOfferor(TimestampedModel):

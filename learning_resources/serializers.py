@@ -50,7 +50,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
         """Meta options for the serializer."""
 
         model = models.LearningResourceTopic
-        fields = ["id", "name", "parent", "channel_url"]
+        fields = ["id", "name", "full_name", "parent", "channel_url"]
 
 
 class WriteableTopicsMixin(serializers.Serializer):

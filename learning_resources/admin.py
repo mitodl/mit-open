@@ -17,7 +17,11 @@ class LearningResourceTopicAdmin(admin.ModelAdmin):
     """Topic Admin"""
 
     model = models.LearningResourceTopic
-    list_display = ("name", "parent")
+    list_display = (
+        "name",
+        "parent",
+        "full_name",
+    )
     search_fields = ("name",)
 
 

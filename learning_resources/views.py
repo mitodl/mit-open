@@ -10,6 +10,7 @@ from django.db.models import Count, F, Q, QuerySet
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import views, viewsets
@@ -31,6 +32,7 @@ from learning_resources.exceptions import WebhookException
 from learning_resources.filters import (
     ContentFileFilter,
     LearningResourceFilter,
+    TopicFilter,
 )
 from learning_resources.models import (
     ContentFile,
@@ -428,6 +430,8 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceTopicSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TopicFilter
 
 
 @extend_schema_view(

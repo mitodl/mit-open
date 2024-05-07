@@ -513,9 +513,7 @@ def _walk_ocw_topic_map(
     """
 
     for topic in topics:
-        lr_topic, _ = LearningResourceTopic.objects.filter(
-            name=topic, parent=parent
-        ).update_or_create(
+        lr_topic, _ = LearningResourceTopic.objects.filter(name=topic).update_or_create(
             defaults={
                 "parent": parent,
                 "name": topic,
