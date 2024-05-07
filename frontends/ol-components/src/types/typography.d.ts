@@ -2,6 +2,11 @@ import "@mui/material/styles"
 
 declare module "@mui/material/styles" {
   interface TypographyVariants {
+    h1: React.CSSProperties
+    h2: React.CSSProperties
+    h3: React.CSSProperties
+    h4: React.CSSProperties
+    h5: React.CSSProperties
     body1: React.CSSProperties
     body2: React.CSSProperties
     body3: React.CSSProperties
@@ -13,6 +18,11 @@ declare module "@mui/material/styles" {
     button: React.CSSProperties
   }
   interface TypographyVariantsOptions {
+    h1: React.CSSProperties
+    h2: React.CSSProperties
+    h3: React.CSSProperties
+    h4: React.CSSProperties
+    h5: React.CSSProperties
     body1: React.CSSProperties
     body2: React.CSSProperties
     body3: React.CSSProperties

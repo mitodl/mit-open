@@ -246,11 +246,13 @@ describe("SearchPage", () => {
     expect(chemistry).toBeChecked()
     // clear all
     await user.click(clearAll)
+    expect(clearAll).not.toBeVisible()
     expect(location.current.search).toBe("")
     expect(physics).not.toBeChecked()
     expect(chemistry).not.toBeChecked()
     // toggle physics
     await user.click(physics)
+    await screen.findByRole("button", { name: /clear all/i }) // Clear All shows again
     expect(physics).toBeChecked()
     expect(location.current.search).toBe("?topic=Physics")
   })

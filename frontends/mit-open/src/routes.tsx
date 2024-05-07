@@ -19,6 +19,7 @@ import SearchPage from "./pages/SearchPage/SearchPage"
 import UserListDetailsPage from "./pages/ListDetailsPage/UserListDetailsPage"
 import LearningPathDetailsPage from "./pages/ListDetailsPage/LearningPathDetailsPage"
 import LearningResourceDrawer from "./page-components/LearningResourceDrawer/LearningResourceDrawer"
+import DepartmentListingPage from "./pages/DepartmentListingPage/DepartmentListingPage"
 
 const routes: RouteObject[] = [
   {
@@ -75,6 +76,10 @@ const routes: RouteObject[] = [
       {
         path: urls.SEARCH,
         element: <SearchPage />,
+      },
+      {
+        path: urls.DEPARTMENTS,
+        element: <DepartmentListingPage />,
       },
       {
         path: urls.FIELD_VIEW,

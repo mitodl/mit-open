@@ -9,8 +9,6 @@
  *  - we don't need to implement ref-forwarding, which is important for some
  *    functionality.
  */
-export { default as Alert } from "@mui/material/Alert"
-export type { AlertProps } from "@mui/material/Alert"
 
 export { default as Avatar } from "@mui/material/Avatar"
 export type { AvatarProps } from "@mui/material/Avatar"
@@ -64,6 +62,8 @@ export { default as List } from "@mui/material/List"
 export type { ListProps } from "@mui/material/List"
 export { default as ListItem } from "@mui/material/ListItem"
 export type { ListItemProps } from "@mui/material/ListItem"
+export { ListItemLink } from "./components/Lists/ListItemLink"
+export type { ListItemLinkProps } from "./components/Lists/ListItemLink"
 export { default as ListItemButton } from "@mui/material/ListItemButton"
 export type { ListItemButtonProps } from "@mui/material/ListItemButton"
 export { default as ListItemText } from "@mui/material/ListItemText"
@@ -112,6 +112,7 @@ export type { TypographyProps } from "@mui/material/Typography"
 export { default as Menu } from "@mui/material/Menu"
 export { default as MenuItem } from "@mui/material/MenuItem"
 
+export * from "./components/Alert/Alert"
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
 export * from "./components/ButtonLink/ButtonLink"
@@ -124,6 +125,7 @@ export * from "./components/SimpleMenu/SimpleMenu"
 export * from "./components/SortableList/SortableList"
 export * from "./components/ShareTooltip/ShareTooltip"
 export * from "./components/Carousel/Carousel"
+export * from "./components/PlainList/PlainList"
 export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/RadioChoiceField/RadioChoiceField"

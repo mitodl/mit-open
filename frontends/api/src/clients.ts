@@ -9,6 +9,7 @@ import {
   LearningResourcesSearchApi,
   PlatformsApi,
   LearningResourcesUserSubscriptionApi,
+  SchoolsApi,
 } from "./generated/v1/api"
 
 import { ChannelsApi, WidgetListsApi, UsersApi } from "./generated/v0/api"
@@ -62,6 +63,8 @@ const searchSubscriptionApi = new LearningResourcesUserSubscriptionApi(
 
 const usersApi = new UsersApi(undefined, BASE_PATH, axiosInstance)
 
+const schoolsApi = new SchoolsApi(undefined, BASE_PATH, axiosInstance)
+
 export {
   learningResourcesApi,
   learningpathsApi,
@@ -76,4 +79,5 @@ export {
   usersApi,
   platformsApi,
   searchSubscriptionApi,
+  schoolsApi,
 }

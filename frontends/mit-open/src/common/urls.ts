@@ -22,6 +22,8 @@ export const articlesView = (id: number) =>
 export const articlesEditView = (id: number) =>
   generatePath(ARTICLES_EDIT, { id: String(id) })
 
+export const DEPARTMENTS = "/departments/"
+
 export const FIELD_VIEW = "/c/:channelType/:name" as const
 export const FIELD_EDIT = "/c/:channelType/:name/manage/" as const
 export const FIELD_EDIT_WIDGETS =
