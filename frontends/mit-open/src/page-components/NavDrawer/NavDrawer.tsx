@@ -3,21 +3,52 @@ import { useToggle } from "ol-utilities"
 import React from "react"
 import * as urls from "@/common/urls"
 
-const DrawerContent = styled.div`
-  padding-top: 55px;
-  width: 350px;
-`
+const DrawerContent = styled.div(({ theme }) => ({
+  paddingTop: "55px",
+  width: "350px",
+  height: "100%",
+  background: theme.custom.colors.white,
+  borderRight: `1px solid ${theme.custom.colors.lightGray2}`,
+}))
 
-const NavSection = styled.div`
-  padding: 15px 30px;
-  border-bottom: 1px solid ${({ theme }) => theme.custom.colors.lightGray2};
-`
+const NavSection = styled.div(({ theme }) => ({
+  padding: "15px 20px",
+  borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
+}))
 
-const NavSectionHeader = styled.div`
-  color: ${({ theme }) => theme.custom.colors.silverGrayDark};
-  font-size: ${({ theme }) => theme.typography.subtitle4.fontSize};
-  font-weight: ${({ theme }) => theme.typography.subtitle4.fontWeight};
-`
+const NavSectionHeader = styled.div(({ theme }) => ({
+  color: theme.custom.colors.silverGrayDark,
+  fontSize: theme.typography.subtitle4.fontSize,
+  fontWeight: theme.typography.subtitle4.fontWeight,
+}))
+
+const NavLinkText = styled.div(({ theme }) => ({
+  color: theme.custom.colors.darkGray2,
+  fontSize: theme.typography.subtitle3.fontSize,
+  fontWeight: theme.typography.h4.fontWeight,
+}))
+
+const NavLinkDescription = styled.div(({ theme }) => ({
+  display: "inline-block",
+  paddingTop: "5px",
+  color: theme.custom.colors.silverGrayDark,
+  fontSize: theme.typography.body3.fontSize,
+  fontWeight: theme.typography.body3.fontWeight,
+}))
+
+const NavItemContainer = styled.div(({ theme }) => ({
+  padding: "10px",
+  borderRadius: "5px",
+  "&:hover": {
+    background: theme.custom.colors.lightGray3,
+    ".nav-link-text": {
+      color: theme.custom.colors.mitRed,
+    },
+    ".nav-link-description": {
+      color: theme.custom.colors.black,
+    },
+  },
+}))
 
 type NavItemProps = {
   title: string
@@ -28,29 +59,19 @@ type NavItemProps = {
 const NavItem: React.FC<NavItemProps> = (props) => {
   const { title, description, href } = props
   const navItem = (
-    <div>
-      <LinkText>
+    <NavItemContainer>
+      <NavLinkText className="nav-link-text">
         {title} {href ? "" : "(Coming Soon)"}
-      </LinkText>
-      {description ? <LinkDescription>{description}</LinkDescription> : null}
-    </div>
+      </NavLinkText>
+      {description ? (
+        <NavLinkDescription className="nav-link-description">
+          {description}
+        </NavLinkDescription>
+      ) : null}
+    </NavItemContainer>
   )
   return href ? <a href={href}>{navItem}</a> : navItem
 }
-
-const LinkText = styled.div`
-  padding-top: 10px;
-  color: ${({ theme }) => theme.custom.colors.darkGray2};
-  font-size: ${({ theme }) => theme.typography.subtitle3.fontSize};
-  font-weight: ${({ theme }) => theme.typography.subtitle3.fontWeight};
-`
-
-const LinkDescription = styled.div`
-  padding: 5px 0px 10px 0px;
-  color: ${({ theme }) => theme.custom.colors.silverGrayDark};
-  font-size: ${({ theme }) => theme.typography.body3.fontSize};
-  font-weight: ${({ theme }) => theme.typography.body3.fontWeight};
-`
 
 export interface NavData {
   sections: NavSection[]
@@ -169,6 +190,11 @@ const NavDrawer = (props: DrawerProps) => {
       open={open}
       onClose={setOpen.off}
       hideBackdrop={true}
+      PaperProps={{
+        sx: {
+          boxShadow: "0px 6px 24px 0px rgba(37, 38, 43, 0.10)",
+        },
+      }}
       {...props}
     >
       <DrawerContent>{navSections}</DrawerContent>

@@ -8,6 +8,7 @@ const colors = {
   silverGrayDark: "#626A73",
   silverGray: "#8B959E",
   silverGrayLight: "#B8C2CC",
+  lightGray3: "#F4F4F4",
   lightGray2: "#DDE1E6",
   lightGray1: "#F3F4F8",
   darkPink: "#750062",
