@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.8
+Version 0.9.8 (Released May 08, 2024)
 -------------
 
 - Departments Listing Page (#865)
