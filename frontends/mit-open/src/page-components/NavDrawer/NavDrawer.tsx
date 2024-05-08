@@ -112,15 +112,30 @@ const navData: NavData = {
       items: [
         {
           title: "New",
+          href: `${urls.SEARCH}?${new URLSearchParams({
+            resource_type: "course",
+            sortby: "new",
+          }).toString()}`,
         },
         {
           title: "Upcoming",
+          href: `${urls.SEARCH}?${new URLSearchParams({
+            resource_type: "course",
+            sortby: "upcoming",
+          }).toString()}`,
         },
         {
           title: "Popular",
+          href: `${urls.SEARCH}?${new URLSearchParams({
+            resource_type: "course",
+            sortby: "popular",
+          }).toString()}`,
         },
         {
           title: "Free",
+          href: `${urls.SEARCH}?${new URLSearchParams({
+            free: "true",
+          }).toString()}`,
         },
         {
           title: "With Certificate",
