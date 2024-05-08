@@ -15,7 +15,6 @@ const StyledSkeleton = styled(Skeleton)`
   display: inline-flex;
   position: relative;
   transform: none;
-  margin: 8px 10px;
   width: 138px;
   height: 40px;
   margin: 8px 10px;
