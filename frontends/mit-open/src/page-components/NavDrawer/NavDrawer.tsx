@@ -29,7 +29,9 @@ const NavItem: React.FC<NavItemProps> = (props) => {
   const { title, description, href } = props
   const navItem = (
     <div>
-      <LinkText>{title}</LinkText>
+      <LinkText>
+        {title} {href ? "" : "(Coming Soon)"}
+      </LinkText>
       {description ? <LinkDescription>{description}</LinkDescription> : null}
     </div>
   )
