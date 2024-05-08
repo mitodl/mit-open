@@ -73,17 +73,13 @@ const navData: NavData = {
         {
           title: "Courses",
           description: "Learn with MIT instructors",
-          href: `${urls.SEARCH}?${new URLSearchParams({
-            resource_type: "course",
-          }).toString()}`,
+          href: urls.querifiedSearchUrl({ resource_type: "course" }),
         },
         {
           title: "Programs",
           description:
             "Learn in-depth from a series of courses and earn a certificate",
-          href: `${urls.SEARCH}?${new URLSearchParams({
-            resource_type: "program",
-          }).toString()}`,
+          href: urls.querifiedSearchUrl({ resource_type: "program" }),
         },
         {
           title: "Course Materials",
@@ -112,30 +108,28 @@ const navData: NavData = {
       items: [
         {
           title: "New",
-          href: `${urls.SEARCH}?${new URLSearchParams({
+          href: urls.querifiedSearchUrl({
             resource_type: "course",
             sortby: "new",
-          }).toString()}`,
+          }),
         },
         {
           title: "Upcoming",
-          href: `${urls.SEARCH}?${new URLSearchParams({
+          href: urls.querifiedSearchUrl({
             resource_type: "course",
             sortby: "upcoming",
-          }).toString()}`,
+          }),
         },
         {
           title: "Popular",
-          href: `${urls.SEARCH}?${new URLSearchParams({
+          href: urls.querifiedSearchUrl({
             resource_type: "course",
             sortby: "popular",
-          }).toString()}`,
+          }),
         },
         {
           title: "Free",
-          href: `${urls.SEARCH}?${new URLSearchParams({
-            free: "true",
-          }).toString()}`,
+          href: urls.querifiedSearchUrl({ free: "true" }),
         },
         {
           title: "With Certificate",
