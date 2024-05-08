@@ -29,7 +29,7 @@ const useSearchSubscriptionList = () => {
   return useMutation({
     mutationFn: (params: subscriptionListRequest = {}) =>
       searchSubscriptionApi
-        .learningResourcesUserSubscriptionList(params)
+        .learningResourcesUserSubscriptionCheckRetrieve(params)
         .then((res) => res.data),
     onSuccess: (_data) => {
       queryClient.invalidateQueries(searchSubscriptions._def)

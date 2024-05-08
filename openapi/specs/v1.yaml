@@ -2480,6 +2480,20 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v1/learning_resources_user_subscription/check/:
+    get:
+      operationId: learning_resources_user_subscription_check_retrieve
+      description: View for listing percolate query subscriptions for a user
+      summary: Check if a user is subscribed to a specific query
+      tags:
+      - learning_resources_user_subscription
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PercolateQuery'
+          description: ''
   /api/v1/learning_resources_user_subscription/subscribe/:
     post:
       operationId: learning_resources_user_subscription_subscribe_create

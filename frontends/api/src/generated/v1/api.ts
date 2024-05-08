@@ -10281,6 +10281,45 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
   return {
     /**
      * View for listing percolate query subscriptions for a user
+     * @summary Check if a user is subscribed to a specific query
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscriptionCheckRetrieve: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/learning_resources_user_subscription/check/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for listing percolate query subscriptions for a user
      * @summary List subscribed queries
      * @param {Array<LearningResourcesUserSubscriptionListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
@@ -10651,6 +10690,34 @@ export const LearningResourcesUserSubscriptionApiFp = function (
   return {
     /**
      * View for listing percolate query subscriptions for a user
+     * @summary Check if a user is subscribed to a specific query
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesUserSubscriptionCheckRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PercolateQuery>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesUserSubscriptionCheckRetrieve(
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningResourcesUserSubscriptionApi.learningResourcesUserSubscriptionCheckRetrieve"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for listing percolate query subscriptions for a user
      * @summary List subscribed queries
      * @param {Array<LearningResourcesUserSubscriptionListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
@@ -10855,6 +10922,19 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
 ) {
   const localVarFp = LearningResourcesUserSubscriptionApiFp(configuration)
   return {
+    /**
+     * View for listing percolate query subscriptions for a user
+     * @summary Check if a user is subscribed to a specific query
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserSubscriptionCheckRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PercolateQuery> {
+      return localVarFp
+        .learningResourcesUserSubscriptionCheckRetrieve(options)
+        .then((request) => request(axios, basePath))
+    },
     /**
      * View for listing percolate query subscriptions for a user
      * @summary List subscribed queries
@@ -11217,6 +11297,21 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
  * @extends {BaseAPI}
  */
 export class LearningResourcesUserSubscriptionApi extends BaseAPI {
+  /**
+   * View for listing percolate query subscriptions for a user
+   * @summary Check if a user is subscribed to a specific query
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesUserSubscriptionApi
+   */
+  public learningResourcesUserSubscriptionCheckRetrieve(
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningResourcesUserSubscriptionApiFp(this.configuration)
+      .learningResourcesUserSubscriptionCheckRetrieve(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
   /**
    * View for listing percolate query subscriptions for a user
    * @summary List subscribed queries
