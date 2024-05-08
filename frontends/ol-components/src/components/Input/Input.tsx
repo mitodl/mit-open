@@ -57,6 +57,9 @@ const Input = styled(InputBase)(({
       "&.MuiInputBase-adornedEnd": {
         marginRight: `-${buttonPadding.medium}px`,
       },
+      "&:hover:not(.Mui-disabled), &.Mui-focused": {
+        paddingLeft: "15px",
+      },
     },
     size === "medium" &&
       !multiline && {
@@ -73,6 +76,9 @@ const Input = styled(InputBase)(({
       },
       "&.MuiInputBase-adornedEnd": {
         marginRight: `-${buttonPadding.hero}px`,
+      },
+      "&:hover:not(.Mui-disabled), &.Mui-focused": {
+        paddingLeft: "15px",
       },
     },
     size === "hero" &&
