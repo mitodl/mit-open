@@ -111,6 +111,12 @@ const userSubscription = {
   list: (
     params?: Params<SubscriptionApi, "learningResourcesUserSubscriptionList">,
   ) => `/api/v1/learning_resources_user_subscription/${query(params)}`,
+  check: (
+    params?: Params<
+      SubscriptionApi,
+      "learningResourcesUserSubscriptionCheckList"
+    >,
+  ) => `/api/v1/learning_resources_user_subscription/check/${query(params)}`,
   delete: (id: number) =>
     `/api/v1/learning_resources_user_subscription/${id}/unsubscribe/`,
   post: () => "/api/v1/learning_resources_user_subscription/subscribe/",

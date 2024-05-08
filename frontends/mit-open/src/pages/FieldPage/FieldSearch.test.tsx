@@ -21,12 +21,12 @@ const setMockApiResponses = ({
   }
   if (fieldPatch?.search_filter) {
     setMockResponse.get(
-      `${urls.userSubscription.list(subscribeParams)}`,
+      `${urls.userSubscription.check(subscribeParams)}`,
       factories.percolateQueries,
     )
   }
 
-  setMockResponse.get(urls.userSubscription.list(), factories.percolateQueries)
+  setMockResponse.get(urls.userSubscription.check(), factories.percolateQueries)
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
     field,

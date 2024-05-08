@@ -59,7 +59,7 @@ const setupApis = (
     : factories.percolateQueries.percolateQueryList({ count: 0 })
   if (fieldPatch?.search_filter) {
     setMockResponse.get(
-      `${urls.userSubscription.list(subscribeParams)}`,
+      `${urls.userSubscription.check(subscribeParams)}`,
       subscribeResponse,
     )
     setMockResponse.post(`${urls.userSubscription.post()}`, subscribeResponse)
@@ -71,7 +71,7 @@ const setupApis = (
     )
   }
 
-  setMockResponse.get(`${urls.userSubscription.list()}`, subscribeResponse)
+  setMockResponse.get(`${urls.userSubscription.check()}`, subscribeResponse)
 
   const widgetsList = makeWidgetListResponse()
   setMockResponse.get(

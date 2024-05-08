@@ -107,7 +107,7 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
         summary="List subscribed queries",
         parameters=[LearningResourcesSearchRequestSerializer],
         request=LearningResourcesSearchRequestSerializer(),
-        responses=PercolateQuerySerializer(),
+        responses=PercolateQuerySerializer(many=True),
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
@@ -128,10 +128,31 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
                 adjusted_original_query = adjust_original_query_for_percolate(
                     request_data.data | {"endpoint": LEARNING_RESOURCE}
                 )
-                queryset = queryset.filter(original_query=adjusted_original_query)
+                queryset = queryset.filter(
+                    original_query__contains=adjusted_original_query
+                )
         for backend in list(self.filter_backends):
             queryset = backend().filter_queryset(self.request, queryset, view=self)
         return queryset
+
+    @extend_schema(
+        summary="Check if a user is subscribed to a specific query",
+        parameters=[LearningResourcesSearchRequestSerializer],
+        responses=PercolateQuerySerializer(many=True),
+    )
+    @action(detail=False, methods=["GET"], name="Check if user is subscribed")
+    def check(self, request):  # noqa: ARG002
+        queryset = self.request.user.percolate_queries.all()
+        if len(self.request.query_params) > 0:
+            request_data = LearningResourcesSearchRequestSerializer(
+                data=self.request.query_params
+            )
+            if request_data.is_valid():
+                adjusted_original_query = adjust_original_query_for_percolate(
+                    request_data.data | {"endpoint": LEARNING_RESOURCE}
+                )
+                queryset = queryset.filter(original_query=adjusted_original_query)
+        return Response(PercolateQuerySerializer(queryset, many=True).data)
 
     @extend_schema(
         summary="Subscribe user to query",
@@ -183,7 +204,9 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
 
         percolate_query = get_object_or_404(PercolateQuery, id=pk)
         unsubscribe_user_from_percolate_query(request.user, percolate_query)
-        return Response(PercolateQuerySerializer(percolate_query).data)
+        return Response(
+            PercolateQuerySerializer(percolate_query).data["original_query"]
+        )
 
 
 @method_decorator(blocked_ip_exempt, name="dispatch")

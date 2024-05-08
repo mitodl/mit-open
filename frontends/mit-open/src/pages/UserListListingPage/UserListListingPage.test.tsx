@@ -43,7 +43,7 @@ const setup = ({
 
   setMockResponse.get(urls.userLists.list(), paths)
 
-  setMockResponse.get(urls.userSubscription.list(), factories.percolateQueries)
+  setMockResponse.get(urls.userSubscription.check(), factories.percolateQueries)
 
   const { location } = renderWithProviders(<UserListListingPage />, {
     user,

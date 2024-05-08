@@ -11,7 +11,7 @@ describe("EditFieldPage", () => {
       field,
     )
     setMockResponse.get(
-      apiUrls.userSubscription.list(),
+      apiUrls.userSubscription.check(),
       factories.percolateQueries,
     )
 
@@ -32,7 +32,7 @@ describe("EditFieldPage", () => {
     const field = factory.field({ is_moderator: false })
     setMockResponse.get(apiUrls.userMe.get(), {})
     setMockResponse.get(
-      apiUrls.userSubscription.list(),
+      apiUrls.userSubscription.check(),
       factories.percolateQueries,
     )
     setMockResponse.get(

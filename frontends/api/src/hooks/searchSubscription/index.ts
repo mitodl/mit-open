@@ -1,13 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import {
+  useMutation,
+  UseQueryOptions,
+  useQueryClient,
+  useQuery,
+} from "@tanstack/react-query"
 import searchSubscriptions from "./keyFactory"
-import type {
-  LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionListRequest as subscriptionListRequest,
-  LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreateRequest as subscriptionCreateRequest,
-} from "../../generated/v1"
+import type { LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreateRequest as subscriptionCreateRequest } from "../../generated/v1"
 import { searchSubscriptionApi } from "../../clients"
-/**
- * Query is diabled if id is undefined.
- */
 
 const useSearchSubscriptionCreate = () => {
   const queryClient = useQueryClient()
@@ -23,17 +22,13 @@ const useSearchSubscriptionCreate = () => {
   })
 }
 
-const useSearchSubscriptionList = () => {
-  const queryClient = useQueryClient()
-
-  return useMutation({
-    mutationFn: (params: subscriptionListRequest = {}) =>
-      searchSubscriptionApi
-        .learningResourcesUserSubscriptionCheckRetrieve(params)
-        .then((res) => res.data),
-    onSuccess: (_data) => {
-      queryClient.invalidateQueries(searchSubscriptions._def)
-    },
+const useSearchSubscriptionList = (
+  params = {},
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...searchSubscriptions.list(params),
+    ...opts,
   })
 }
 
