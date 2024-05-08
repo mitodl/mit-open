@@ -68,6 +68,77 @@ def filter_profile_props(data):
 class Profile(AbstractSCIMUserMixin):
     """Profile model"""
 
+    class Interest(models.TextChoices):
+        """User interests choices"""
+
+        COMPUTER_SCIENCE = "computer-science", "Computer Science"
+        BUSINESS = "business", "Business"
+        ENGINEERING = "engineering", "Engineering"
+        LEADERSHIP = "leadership", "Leadership"
+        ORGANIZED_BEHAVIOR = "organized-behavior", "Organized Behavior"
+        MANAGEMENT = "management", "Management"
+        ELECTRICAL_ENGINEERING = "electrical-engineering", "Electrical Engineering"
+        INFORMATION_TECHNOLOGY = "information-technology", "Information Technology"
+        BIOLOGY = "biology", "Biology"
+        EARTH_SCIENCE = "earth-science", "Earth Science"
+        ENVIRONMENTAL_ENGINEERING = (
+            "environmental-engineering",
+            "Environmental Engineering",
+        )
+        HEALTH_AND_MEDICINE = "health-and-medicine", "Health & Medicine"
+        PROBABILITY_AND_STATS = "probability-and-stats", "Probability & Stats"
+        ECONOMICS = "economics", "Economics"
+        HISTORY = "history", "History"
+        MATHEMATICS = "mathematics", "Mathematics"
+        MECHANICAL_ENGINEERING = "mechanical-engineering", "Mechanical Engineering"
+        OTHER = "other", "Other"
+
+    class Goal(models.TextChoices):
+        """User goals choices"""
+
+        CAREER_GROWTH = "career-growth", "Career Growth"
+        SUPPLEMENTAL_LEARNING = "supplemental-learning", "Supplemental Learning"
+        JUST_TO_LEARN = "just-to-learn", "Just to Learn"
+
+    class CertificateDesired(models.TextChoices):
+        """User certificate desired choices"""
+
+        YES = "yes", "Yes"
+        NO = "no", "No"
+        NOT_SURE_YET = "not-sure-yet", "Not Sure Yet"
+
+    class CurrentEducation(models.TextChoices):
+        """User current education choices"""
+
+        NO_FORMAL = "no-formal", "No Formal Education"
+        PRIMARY = "primary", "Primary Education"
+        SECONDARY_OR_HIGH_SCHOOL = (
+            "secondary-or-high-school",
+            "Secondary Education or High School",
+        )
+        GED = "ged", "GED"
+        VOCATIONAL_QUALIFICATION = (
+            "vocational-qualification",
+            "Vocational Qualification",
+        )
+
+    class TimeCommitment(models.TextChoices):
+        """User time commitment choices"""
+
+        ZERO_TO_FIVE_HOURS = "0-to-5-hours", "<5 hours/week"
+        FIVE_TO_TEN_HOURS = "5-to-10-hours", "5-10 hours/week"
+        TEN_TO_TWENTY_HOURS = "10-to-20-hours", "10-20 hours/week"
+        TWENTY_TO_THIRTY_HOURS = "20-to-30-hours", "20-30 hours/week"
+        THIRY_PLUS_HOURS = "30-plus-hours", "30+ hours/week"
+
+    class CourseFormat(models.TextChoices):
+        """User course format choices"""
+
+        ONLINE = "online", "Online"
+        IN_PERSON = "in-person", "In-Person"
+        HYBRID = "hybrid", "Hybrid"
+
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     name = models.TextField(blank=True, null=True)  # noqa: DJ001
@@ -83,13 +154,13 @@ class Profile(AbstractSCIMUserMixin):
     )
 
     image_file = models.ImageField(
-        null=True, max_length=2083, upload_to=profile_image_upload_uri
+        null=True, max_length=2083, upload_to=profile_image_upload_uri, editable=False
     )
     image_small_file = models.ImageField(
-        null=True, max_length=2083, upload_to=profile_image_upload_uri_small
+        null=True, max_length=2083, upload_to=profile_image_upload_uri_small, editable=False
     )
     image_medium_file = models.ImageField(
-        null=True, max_length=2083, upload_to=profile_image_upload_uri_medium
+        null=True, max_length=2083, upload_to=profile_image_upload_uri_medium, editable=False
     )
 
     email_optin = models.BooleanField(null=True)
@@ -99,6 +170,17 @@ class Profile(AbstractSCIMUserMixin):
     bio = models.TextField(blank=True, null=True)  # noqa: DJ001
     location = JSONField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    interests = ArrayField(models.CharField(max_length=50, choices=Interest.choices), default=list)
+    goals = ArrayField(models.CharField(max_length=50, choices=Goal.choices), default=list)
+    certificate_desired = models.CharField(
+        max_length=50, choices=CertificateDesired.choices, null=True
+    )
+    current_education = models.CharField(
+        max_length=50, choices=CurrentEducation.choices
+    , null=True)
+    time_commitment = models.CharField(max_length=50, choices=TimeCommitment.choices, null=True)
+    course_format = models.CharField(max_length=50, choices=CourseFormat.choices, null=True)
 
     @transaction.atomic
     def save(self, *args, update_image=False, **kwargs):  # pylint: disable=arguments-differ
