@@ -20,7 +20,6 @@ class LearningResourceTopicAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "parent",
-        "full_name",
     )
     search_fields = ("name",)
 

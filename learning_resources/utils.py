@@ -533,12 +533,12 @@ def _walk_ocw_topic_map(
 
 @transaction.atomic()
 def upsert_topic_data(
-    config_path: str = "learning_resources/data/ocw-course-site-config.json",
+    config_path: str = "learning_resources/data/ocw-topics.yaml",
 ) -> None:
     """
     Load the topics from the OCW course site config file.
 
-    The OCW settings are in a JSON file. We're specifically looking at the field
+    The OCW settings are in a YAML file. We're specifically looking at the field
     named "Topics" and walking the list from there.
 
     Args:
@@ -548,9 +548,9 @@ def upsert_topic_data(
     """
 
     with Path.open(Path(config_path)) as ocw_config:
-        ocw_config_json = ocw_config.read()
+        ocw_config_yaml = ocw_config.read()
 
-    ocw_config = json.loads(ocw_config_json)
+    ocw_config = yaml.safe_load(ocw_config_yaml)
     topics = []
 
     for collection in ocw_config["collections"]:

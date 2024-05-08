@@ -21,7 +21,7 @@ class Command(BaseCommand):
             default=None,
             nargs="?",
             help="Specify path to the OCW course site config file (defaults to"
-            " learning_resources/data/ocw-course-site-config.json)",
+            " learning_resources/data/ocw-topics.yaml)",
         )
         super().add_arguments(parser)
 

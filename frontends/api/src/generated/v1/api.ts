@@ -1891,12 +1891,6 @@ export interface LearningResourceTopic {
   name: string
   /**
    *
-   * @type {string}
-   * @memberof LearningResourceTopic
-   */
-  full_name: string
-  /**
-   *
    * @type {number}
    * @memberof LearningResourceTopic
    */
