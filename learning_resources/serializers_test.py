@@ -60,7 +60,6 @@ def test_serialize_program_to_json():
     )
 
     serializer = serializers.ProgramSerializer(instance=program)
-
     assert_json_equal(
         serializer.data,
         {
