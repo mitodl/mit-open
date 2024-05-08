@@ -170,10 +170,12 @@ const ButtonInner: React.FC<
   )
 }
 
-const Button: React.FC<ButtonProps> = ({ children, ...props }) => (
-  <ButtonStyled type="button" {...props}>
-    <ButtonInner {...props}>{children}</ButtonInner>
-  </ButtonStyled>
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ children, ...props }, ref) => (
+    <ButtonStyled ref={ref} type="button" {...props}>
+      <ButtonInner {...props}>{children}</ButtonInner>
+    </ButtonStyled>
+  ),
 )
 
 type ButtonLinkProps = ButtonStyleProps &
@@ -200,7 +202,7 @@ const iconButtonDefaultProps: Required<
 
 type IconButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
   React.ComponentProps<"button">
-const IconButton: React.FC<IconButtonProps> = styled(ButtonStyled)((props) => {
+const IconButton = styled(ButtonStyled)((props: IconButtonProps) => {
   const { size = iconButtonDefaultProps.size } = props
   return {
     padding: 0,
