@@ -5428,7 +5428,6 @@ components:
           nullable: true
         certification:
           type: boolean
-          description: Returns the certification for the learning resource
           readOnly: true
         prices:
           type: array
@@ -5772,7 +5771,6 @@ components:
           nullable: true
         certification:
           type: boolean
-          description: Returns the certification for the learning resource
           readOnly: true
         prices:
           type: array
@@ -7503,7 +7501,6 @@ components:
           nullable: true
         certification:
           type: boolean
-          description: Returns the certification for the learning resource
           readOnly: true
         prices:
           type: array
@@ -7728,7 +7725,6 @@ components:
           nullable: true
         certification:
           type: boolean
-          description: Returns the certification for the learning resource
           readOnly: true
         prices:
           type: array
@@ -8095,7 +8091,6 @@ components:
           nullable: true
         certification:
           type: boolean
-          description: Returns the certification for the learning resource
           readOnly: true
         prices:
           type: array
@@ -8521,7 +8516,6 @@ components:
           nullable: true
         certification:
           type: boolean
-          description: Returns the certification for the learning resource
           readOnly: true
         prices:
           type: array
@@ -8736,7 +8730,6 @@ components:
           nullable: true
         certification:
           type: boolean
-          description: Returns the certification for the learning resource
           readOnly: true
         prices:
           type: array

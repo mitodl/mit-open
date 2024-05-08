@@ -175,6 +175,7 @@ class LearningResource(TimestampedModel):
     departments = models.ManyToManyField(
         LearningResourceDepartment,
     )
+    certification = models.BooleanField(default=False)
     resource_type = models.CharField(
         max_length=24,
         db_index=True,
@@ -213,25 +214,6 @@ class LearningResource(TimestampedModel):
             )
         else:
             return [Decimal(0.00)]
-
-    @property
-    def certification(self) -> bool:
-        """Returns the certification for the learning resource"""
-        return bool(
-            self.professional
-            or (
-                self.offered_by
-                and self.offered_by.name == constants.OfferedBy.mitx.value
-                and (
-                    any(
-                        availability != constants.AvailabilityType.archived.value
-                        for availability in self.runs.values_list(
-                            "availability", flat=True
-                        )
-                    )
-                )
-            )
-        )
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
