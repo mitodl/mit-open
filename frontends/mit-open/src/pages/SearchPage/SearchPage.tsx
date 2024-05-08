@@ -10,6 +10,7 @@ import {
   Button,
   Typography,
   PlainList,
+  Skeleton,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
@@ -57,6 +58,7 @@ const getFacetManifest = (
     },
   ]
 }
+
 const FACET_NAMES = getFacetManifest({}).map(
   (f) => f.name,
 ) as UseResourceSearchParamsProps["facets"]
@@ -208,6 +210,10 @@ const PaginationContainer = styled.div`
   justify-content: end;
 `
 
+const StyledSkeleton = styled(Skeleton)`
+  border-radius: 4px;
+`
+
 const PAGE_SIZE = 10
 const MAX_PAGE = 50
 
@@ -262,6 +268,7 @@ const SearchPage: React.FC = () => {
   const onFacetsChange = useCallback(() => {
     setPage(1)
   }, [setPage])
+
   const {
     params,
     hasFacets,
@@ -277,11 +284,12 @@ const SearchPage: React.FC = () => {
     facets: FACET_NAMES,
     onFacetsChange,
   })
+
   const page = +(searchParams.get("page") ?? "1")
 
   const resourceType = params.resource_type
 
-  const { data } = useLearningResourcesSearch(
+  const { data, isLoading } = useLearningResourcesSearch(
     {
       ...(params as LRSearchRequest),
       aggregations: AGGREGATIONS,
@@ -356,7 +364,17 @@ const SearchPage: React.FC = () => {
                 onTabChange={() => setPage(1)}
               />
               <ResourceTypeTabs.TabPanels tabs={TABS}>
-                {data && data.count > 0 ? (
+                {isLoading ? (
+                  <PlainList itemSpacing={3}>
+                    {Array(PAGE_SIZE)
+                      .fill(null)
+                      .map((a, index) => (
+                        <li key={index}>
+                          <StyledSkeleton variant="rectangular" height={162} />
+                        </li>
+                      ))}
+                  </PlainList>
+                ) : data && data.count > 0 ? (
                   <PlainList itemSpacing={3}>
                     {data.results.map((resource) => (
                       <li key={resource.id}>

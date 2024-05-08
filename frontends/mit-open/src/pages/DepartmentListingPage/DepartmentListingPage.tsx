@@ -189,10 +189,8 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
 const SchoolList = styled(PlainList)(({ theme }) => ({
   "> li": {
     marginTop: "40px",
-    marginBottom: "40px",
     [theme.breakpoints.down("sm")]: {
       marginTop: "30px",
-      marginBottom: "30px",
     },
   },
 }))

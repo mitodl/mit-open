@@ -1,6 +1,17 @@
 Release Notes
 =============
 
+Version 0.9.8 (Released May 08, 2024)
+-------------
+
+- Departments Listing Page (#865)
+- only show clear all if it would do something (#877)
+- create exported components bundle (#867)
+- Update Yarn to v4.2.1 (#872)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.21 (#871)
+- Update dependency ruff to v0.4.3 (#870)
+- Update codecov/codecov-action action to v4.3.1 (#869)
+
 Version 0.9.7 (Released May 06, 2024)
 -------------
 
