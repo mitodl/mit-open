@@ -51,15 +51,13 @@ const SearchSubscriptionToggle = ({
     return (
       <SimpleMenu
         trigger={
-          <div>
-            <Button
-              variant="filled"
-              endIcon={<ExpandMoreSharpIcon />}
-              aria-label="unsubscribe-button"
-            >
-              Subscribed
-            </Button>
-          </div>
+          <Button
+            variant="filled"
+            endIcon={<ExpandMoreSharpIcon />}
+            aria-label="unsubscribe-button"
+          >
+            Subscribed
+          </Button>
         }
         items={unsubscribeItems}
       />
