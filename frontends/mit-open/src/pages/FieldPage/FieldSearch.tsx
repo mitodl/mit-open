@@ -6,6 +6,7 @@ import {
   Card,
   CardContent,
   PlainList,
+  Skeleton,
 } from "ol-components"
 import { getReadableResourceType } from "ol-utilities"
 
@@ -134,6 +135,10 @@ export const FieldSearchControls = styled.div`
   margin-top: 30px;
 `
 
+const StyledSkeleton = styled(Skeleton)`
+  border-radius: 4px;
+`
+
 const PAGE_SIZE = 10
 
 interface FeildSearchProps {
@@ -205,7 +210,7 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
 
   const page = +(searchParams.get("page") ?? "1")
 
-  const { data } = useLearningResourcesSearch(
+  const { data, isLoading } = useLearningResourcesSearch(
     {
       ...(allParams as LRSearchRequest),
       aggregations: facetNames as LRSearchRequest["aggregations"],
@@ -221,6 +226,7 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
           <GridColumn variant="main-2-wide-main">
             <AvailableFacetsDropdowns
               facetMap={facetManifest}
+              isLoading={isLoading}
               activeFacets={allParams as Facets & BooleanFacets}
               onFacetChange={setParamValue}
               facetOptions={(name) => data?.metadata.aggregations?.[name] ?? []}
@@ -243,7 +249,17 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
         </GridContainer>
       </FieldSearchControls>
       <div>
-        {data && data.count > 0 ? (
+        {isLoading ? (
+          <PlainList itemSpacing={3}>
+            {Array(PAGE_SIZE)
+              .fill(null)
+              .map((a, index) => (
+                <li key={index}>
+                  <StyledSkeleton variant="rectangular" height={162} />
+                </li>
+              ))}
+          </PlainList>
+        ) : data && data?.count > 0 ? (
           <PlainList itemSpacing={3}>
             {data.results.map((resource) => (
               <li key={resource.id}>

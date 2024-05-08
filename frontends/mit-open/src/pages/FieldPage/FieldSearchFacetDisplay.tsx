@@ -8,8 +8,18 @@ import type {
   BooleanFacetKey,
 } from "@mitodl/course-search-utils"
 import { BOOLEAN_FACET_NAMES } from "@mitodl/course-search-utils"
-import { FormControl, Select, MenuItem } from "ol-components"
+import { FormControl, Select, MenuItem, Skeleton, styled } from "ol-components"
 export type KeyWithLabel = { key: string; label: string }
+
+const StyledSkeleton = styled(Skeleton)`
+  display: inline-flex;
+  position: relative;
+  transform: none;
+  width: 138px;
+  height: 40px;
+  margin: 8px 10px;
+  border-radius: 4px;
+`
 
 export type SingleFacetOptions = {
   name: string
@@ -21,6 +31,7 @@ export type FacetManifest = SingleFacetOptions[]
 
 interface FacetDisplayProps {
   facetMap: FacetManifest
+  isLoading?: boolean
   /**
    * Returns the aggregation options for a given group.
    *
@@ -63,6 +74,7 @@ const AvailableFacetsDropdowns: React.FC<
   Omit<FacetDisplayProps, "clearAllFilters">
 > = ({
   facetMap,
+  isLoading,
   facetOptions,
   activeFacets,
   onFacetChange,
@@ -70,12 +82,16 @@ const AvailableFacetsDropdowns: React.FC<
 }) => {
   return (
     <>
-      {facetMap.map((facetSetting) => {
+      {facetMap.map((facetSetting, index) => {
         const facetItems = filteredResultsWithLabels(
           facetOptions(facetSetting.name) || [],
           facetSetting.labelFunction || null,
           constantSearchParams[facetSetting.name as FacetKey] || null,
         )
+
+        if (isLoading) {
+          return <StyledSkeleton key={index} />
+        }
 
         const isMultiple = BOOLEAN_FACET_NAMES.includes(facetSetting.name)
           ? false
@@ -95,7 +111,7 @@ const AvailableFacetsDropdowns: React.FC<
         }
 
         return (
-          facetItems.length > 0 && (
+          facetItems.length && (
             <FormControl key={facetSetting.name}>
               <Select
                 multiple={isMultiple}

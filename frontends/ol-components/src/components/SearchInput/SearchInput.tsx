@@ -55,7 +55,6 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
     <Input
       fullWidth={props.fullWidth}
       size={props.size}
-      aria-label="foooo"
       inputProps={muiInputProps}
       autoFocus={props.autoFocus}
       className={props.className}
