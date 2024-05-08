@@ -58,7 +58,8 @@ const Input = styled(InputBase)(({
         marginRight: `-${buttonPadding.medium}px`,
       },
       "&:hover:not(.Mui-disabled), &.Mui-focused": {
-        paddingLeft: "15px",
+        paddingLeft: "11px",
+        paddingRight: "11px",
       },
     },
     size === "medium" &&
@@ -79,6 +80,7 @@ const Input = styled(InputBase)(({
       },
       "&:hover:not(.Mui-disabled), &.Mui-focused": {
         paddingLeft: "15px",
+        paddingRight: "15px",
       },
     },
     size === "hero" &&
