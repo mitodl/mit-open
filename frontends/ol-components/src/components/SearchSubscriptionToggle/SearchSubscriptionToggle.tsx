@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 
 import {
   useSearchSubscriptionList,
@@ -18,10 +18,13 @@ const SearchSubscriptionToggle = ({
 }: {
   searchParams: URLSearchParams
 }) => {
-  const subscribeParams: Record<string, string[]> = {}
-  for (const [key, value] of searchParams.entries()) {
-    subscribeParams[key] = value.split(",")
-  }
+  const subscribeParams: Record<string, string[]> = useMemo(() => {
+    const params: Record<string, string[]> = {}
+    for (const [key, value] of searchParams.entries()) {
+      params[key] = value.split(",")
+    }
+    return params
+  }, [searchParams])
 
   const buttonSx: React.CSSProperties = {
     backgroundColor: "#a31f34",
