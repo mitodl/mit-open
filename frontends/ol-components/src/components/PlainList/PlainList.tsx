@@ -25,10 +25,13 @@ const PlainList = styled.ul<PlainListProps>(
       marginBottom: 0,
       "> li": {
         listStyle: "none",
+        marginTop: 0,
+        marginBottom: 0,
       },
+    },
+    itemSpacing && {
       "> li + li": {
-        marginTop: theme.spacing(itemSpacing ?? 0),
-        marginBottom: theme.spacing(itemSpacing ?? 0),
+        marginTop: theme.spacing(itemSpacing),
       },
     },
     disabled && { opacity: 0.5 },
