@@ -15,9 +15,16 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
 )
 from learning_resources.etl.utils import get_content_type
-from learning_resources.factories import CourseFactory, LearningResourceRunFactory
+from learning_resources.factories import (
+    CourseFactory,
+    LearningResourceRunFactory,
+    LearningResourceTopicFactory,
+)
 from learning_resources.models import LearningResourcePlatform, LearningResourceTopic
-from learning_resources.utils import upsert_topic_data
+from learning_resources.utils import (
+    add_parent_topics_to_learning_resource,
+    upsert_topic_data,
+)
 
 pytestmark = pytest.mark.django_db
 
@@ -309,3 +316,19 @@ def test_upsert_topic_data(mocker):
 
     assert mock_pluggy.called
     assert LearningResourceTopic.objects.count() > item_count
+
+
+def test_add_parent_topics_to_learning_resource(fixture_resource):
+    """Ensure the parent topics get added to the resource."""
+
+    main_topic = LearningResourceTopicFactory.create()
+    sub_topic = LearningResourceTopicFactory.create(parent=main_topic)
+
+    fixture_resource.topics.add(sub_topic)
+    fixture_resource.save()
+
+    add_parent_topics_to_learning_resource(fixture_resource)
+
+    fixture_resource.refresh_from_db()
+
+    assert fixture_resource.topics.filter(pk=main_topic.id).exists()

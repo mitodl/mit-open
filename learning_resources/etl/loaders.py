@@ -43,6 +43,7 @@ from learning_resources.models import (
     VideoPlaylist,
 )
 from learning_resources.utils import (
+    add_parent_topics_to_learning_resource,
     bulk_resources_unpublished_actions,
     load_course_blocklist,
     load_course_duplicates,
@@ -361,6 +362,7 @@ def load_course(
         load_image(learning_resource, image_data)
         load_departments(learning_resource, department_data)
         load_content_tags(learning_resource, content_tags_data)
+        add_parent_topics_to_learning_resource(learning_resource)
 
         update_index(learning_resource, created)
     return learning_resource

@@ -361,7 +361,7 @@ def upsert_platform_data():
     return platforms
 
 
-def resource_upserted_actions(resource: LearningResource):
+def resource_upserted_actions(resource: LearningResource, percolate):
     """
     Trigger plugins when a LearningResource is created or updated
     """
@@ -503,7 +503,7 @@ def _walk_ocw_topic_map(
 
     This will recursively walk through the topics list and create/update topic
     records as appropriate. There's just names here so if the record exists with
-    the same name (and parent), it'll update; otherwise, it creates.
+    the same name, it'll update; otherwise, it creates.
 
     Args:
     - topics (dict): the topics to process
@@ -563,3 +563,24 @@ def upsert_topic_data(
                         break
 
     _walk_ocw_topic_map(topics)
+
+
+def _walk_lr_topic_parents(
+    learning_resource: LearningResource,
+    topic: LearningResourceTopic,
+) -> None:
+    """Walk the topic list and add parents as necessary."""
+
+    learning_resource.topics.add(topic)
+
+    if topic.parent:
+        _walk_lr_topic_parents(learning_resource, topic.parent)
+
+
+@transaction.atomic()
+def add_parent_topics_to_learning_resource(resource):
+    """Add the parent topics to the learning resource"""
+
+    for topic in resource.topics.all():
+        if topic.parent:
+            _walk_lr_topic_parents(resource, topic.parent)

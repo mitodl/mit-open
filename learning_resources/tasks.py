@@ -20,7 +20,7 @@ from learning_resources.etl.edx_shared import (
 from learning_resources.etl.loaders import load_next_start_date
 from learning_resources.etl.pipelines import ocw_courses_etl
 from learning_resources.etl.utils import get_learning_course_bucket_name
-from learning_resources.models import LearningResource, LearningResourceTopic
+from learning_resources.models import LearningResource
 from learning_resources.utils import load_course_blocklist
 from main.celery import app
 from main.constants import ISOFORMAT
@@ -315,30 +315,3 @@ def get_learning_resource_views():
     """Load learning resource views from the PostHog ETL."""
 
     pipelines.posthog_etl()
-
-
-@app.task
-def update_learning_resource_topics(learning_resource_id: int) -> None:
-    """Ensure parent topics are attached to a LearningResource."""
-
-    log.debug("Updating learning resource topics for %d", learning_resource_id)
-
-    resource = LearningResource.objects.get(pk=learning_resource_id)
-
-    def _walk_lr_topic_parents(
-        learning_resource: LearningResource, topic: LearningResourceTopic
-    ) -> None:
-        """Walk the topic list and add parents as necessary."""
-
-        log.debug("Adding parent topic %s to %s", topic, learning_resource)
-
-        learning_resource.topics.add(topic)
-
-        if topic.parent:
-            _walk_lr_topic_parents(learning_resource, topic.parent)
-
-    [
-        _walk_lr_topic_parents(resource, topic.parent)
-        for topic in resource.topics.all()
-        if topic.parent is not None
-    ]

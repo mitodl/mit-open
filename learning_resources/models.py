@@ -264,15 +264,6 @@ class LearningResource(TimestampedModel):
             )
         )
 
-    def save(self, *args, **kwargs):
-        """Perform some automated tasks when saving a learning resource"""
-
-        super().save(*args, **kwargs)
-
-        from learning_resources.tasks import update_learning_resource_topics
-
-        update_learning_resource_topics.delay(self.id)
-
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
 
