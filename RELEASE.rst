@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.10
+Version 0.9.10 (Released May 09, 2024)
 --------------
 
 - search dropdown (#875)
