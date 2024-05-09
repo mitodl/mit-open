@@ -41,7 +41,6 @@ const setupApis = (
   userIsSubscribed?: boolean,
 ) => {
   const field = factories.fields.field(fieldPatch)
-
   setMockResponse.get(urls.userMe.get(), {
     is_authenticated: userIsAuthenticated,
   })
@@ -55,8 +54,8 @@ const setupApis = (
     subscribeParams[key] = value.split(",")
   }
   const subscribeResponse = userIsSubscribed
-    ? factories.percolateQueries.percolateQueryList({ count: 1 })
-    : factories.percolateQueries.percolateQueryList({ count: 0 })
+    ? factories.percolateQueries.percolateQueryList({ count: 1 }).results
+    : factories.percolateQueries.percolateQueryList({ count: 0 }).results
   if (fieldPatch?.search_filter) {
     setMockResponse.get(
       `${urls.userSubscription.check(subscribeParams)}`,
