@@ -1,13 +1,8 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
-import {
-  BannerPage,
-  styled,
-  Container,
-  Typography,
-  SearchSubscriptionToggle,
-} from "ol-components"
+import { BannerPage, styled, Container, Typography } from "ol-components"
+import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"

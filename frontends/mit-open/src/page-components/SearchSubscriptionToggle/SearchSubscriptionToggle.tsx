@@ -5,9 +5,8 @@ import {
   useSearchSubscriptionDelete,
   useSearchSubscriptionList,
 } from "api/hooks/searchSubscription"
-import { Button } from "ol-components"
-import { SimpleMenu } from "../SimpleMenu/SimpleMenu"
-import type { SimpleMenuItem } from "../SimpleMenu/SimpleMenu"
+import { Button, SimpleMenu } from "ol-components"
+import type { SimpleMenuItem } from "ol-components"
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp"
 import { useUserMe } from "api/hooks/user"
 

@@ -147,4 +147,3 @@ export * from "./hooks/useBreakpoint"
 
 export { default as styled } from "@emotion/styled"
 export { css, Global } from "@emotion/react"
-export * from "./components/SearchSubscriptionToggle/SearchSubscriptionToggle"
