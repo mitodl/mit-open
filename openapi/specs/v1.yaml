@@ -4024,18 +4024,41 @@ paths:
       description: Topics covered by learning resources
       summary: List
       parameters:
+      - in: query
+        name: is_toplevel
+        schema:
+          type: boolean
+        description: Filter top-level topics
       - name: limit
         required: false
         in: query
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: name
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       - name: offset
         required: false
         in: query
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: parent_topic_name
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
       tags:
       - topics
       responses:
@@ -6549,6 +6572,9 @@ components:
         name:
           type: string
           maxLength: 128
+        parent:
+          type: integer
+          nullable: true
         channel_url:
           type: string
           description: Get the channel url for the topic if it exists
