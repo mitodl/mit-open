@@ -44,12 +44,6 @@ class LearningResourceTopic(TimestampedModel):
         on_delete=models.CASCADE,
     )
 
-    @property
-    def subtopics(self):
-        """Return a queryset of subtopics."""
-
-        return self.objects.filter(parent=self)
-
     def __str__(self):
         """Return the topic name."""
 
@@ -234,25 +228,6 @@ class LearningResource(TimestampedModel):
             )
         else:
             return [Decimal(0.00)]
-
-    @property
-    def certification(self) -> bool:
-        """Returns the certification for the learning resource"""
-        return bool(
-            self.professional
-            or (
-                self.offered_by
-                and self.offered_by.name == constants.OfferedBy.mitx.value
-                and (
-                    any(
-                        availability != constants.AvailabilityType.archived.value
-                        for availability in self.runs.values_list(
-                            "availability", flat=True
-                        )
-                    )
-                )
-            )
-        )
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
