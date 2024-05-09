@@ -1,9 +1,17 @@
 import React, { FunctionComponent } from "react"
-import { styled, AppBar, Divider, Toolbar } from "ol-components"
+import {
+  styled,
+  AppBar,
+  Divider,
+  Toolbar,
+  ClickAwayListener,
+} from "ol-components"
 import { MITLogoLink, useToggle } from "ol-utilities"
 import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
-import { NavDrawer } from "../NavDrawer/NavDrawer"
+import NavDrawer from "../NavDrawer/NavDrawer"
+import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
+import { useSearchParams } from "react-router-dom"
 
 const Bar = styled(AppBar)`
   z-index: ${({ theme }) => theme.zIndex.drawer + 1};
@@ -37,8 +45,20 @@ const Spacer = styled.div`
 
 const Header: FunctionComponent = () => {
   const [drawerOpen, toggleDrawer] = useToggle(false)
-  const toggler = () => {
+  const [searchParams] = useSearchParams()
+  const resourceDrawerOpen = searchParams.has(RESOURCE_DRAWER_QUERY_PARAM)
+
+  const toggler = (event: React.MouseEvent) => {
+    if (!resourceDrawerOpen) {
+      event.stopPropagation()
+    }
     toggleDrawer(!drawerOpen)
+  }
+  const closeDrawer = (event: MouseEvent | TouchEvent) => {
+    if (drawerOpen && !resourceDrawerOpen) {
+      event.preventDefault()
+      toggleDrawer(false)
+    }
   }
 
   return (
@@ -52,7 +72,11 @@ const Header: FunctionComponent = () => {
           <UserMenu />
         </StyledToolbar>
       </Bar>
-      <NavDrawer open={drawerOpen}></NavDrawer>
+      <ClickAwayListener onClickAway={closeDrawer}>
+        <div role="presentation">
+          <NavDrawer open={drawerOpen} onClose={toggleDrawer.off}></NavDrawer>
+        </div>
+      </ClickAwayListener>
     </div>
   )
 }

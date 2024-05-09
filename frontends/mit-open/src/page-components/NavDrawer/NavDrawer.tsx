@@ -1,5 +1,4 @@
 import { Drawer, DrawerProps, styled } from "ol-components"
-import { useToggle } from "ol-utilities"
 import React from "react"
 import * as urls from "@/common/urls"
 
@@ -165,8 +164,6 @@ const navData: NavData = {
 }
 
 const NavDrawer = (props: DrawerProps) => {
-  const [open, setOpen] = useToggle(false)
-
   const navSections = navData.sections.map((section) => {
     const navItemElements = section.items.map((item) => (
       <NavItem
@@ -189,9 +186,7 @@ const NavDrawer = (props: DrawerProps) => {
       anchor="left"
       variant="persistent"
       elevation={0}
-      open={open}
-      onClose={setOpen.off}
-      hideBackdrop={true}
+      hideBackdrop={false}
       PaperProps={{
         sx: {
           boxShadow: "0px 6px 24px 0px rgba(37, 38, 43, 0.10)",
@@ -204,4 +199,4 @@ const NavDrawer = (props: DrawerProps) => {
   )
 }
 
-export { NavDrawer }
+export default NavDrawer
