@@ -17,9 +17,10 @@ const NavSection = styled.div(({ theme }) => ({
 }))
 
 const NavSectionHeader = styled.div(({ theme }) => ({
+  paddingLeft: "10px",
   color: theme.custom.colors.silverGrayDark,
   fontSize: theme.typography.subtitle4.fontSize,
-  fontWeight: theme.typography.subtitle4.fontWeight,
+  fontWeight: theme.typography.h4.fontWeight,
 }))
 
 const NavLinkText = styled.div(({ theme }) => ({
@@ -32,22 +33,21 @@ const NavLinkDescription = styled.div(({ theme }) => ({
   display: "inline-block",
   paddingTop: "5px",
   color: theme.custom.colors.silverGrayDark,
-  fontSize: theme.typography.body3.fontSize,
-  fontWeight: theme.typography.body3.fontWeight,
+  ...theme.typography.body3,
 }))
 
 const NavItemContainer = styled.div(({ theme }) => ({
   padding: "10px",
   borderRadius: "5px",
   "&:hover": {
-    background: theme.custom.colors.lightGray3,
+    background: theme.custom.colors.lightGray2,
     ".nav-link-text": {
       color: theme.custom.colors.red,
       textDecorationLine: "underline",
       textDecorationColor: theme.custom.colors.red,
     },
     ".nav-link-description": {
-      color: theme.custom.colors.black,
+      color: theme.custom.colors.darkGray1,
     },
   },
 }))

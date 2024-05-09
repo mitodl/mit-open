@@ -23,7 +23,6 @@ interface CustomTheme {
     darkGray1: string
     silverGrayDark: string
     silverGrayLight: string
-    lightGray3: string
     lightGray2: string
     lightGray1: string
     darkPink: string
