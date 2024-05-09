@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.9.10
+--------------
+
+- search dropdown (#875)
+- Add certificate as a real database field to LearningResource (#862)
+- allow Button to hold a ref (#883)
+- Display loading view for search page (#881)
+
 Version 0.9.9 (Released May 09, 2024)
 -------------
 
