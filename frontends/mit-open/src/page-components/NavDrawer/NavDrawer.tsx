@@ -42,7 +42,9 @@ const NavItemContainer = styled.div(({ theme }) => ({
   "&:hover": {
     background: theme.custom.colors.lightGray3,
     ".nav-link-text": {
-      color: theme.custom.colors.mitRed,
+      color: theme.custom.colors.red,
+      textDecorationLine: "underline",
+      textDecorationColor: theme.custom.colors.red,
     },
     ".nav-link-description": {
       color: theme.custom.colors.black,
