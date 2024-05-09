@@ -3606,9 +3606,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@file:/Users/abeglova/work/course-search-utils::locator=mit-open%40workspace%3Afrontends%2Fmit-open":
-  version: 3.0.5
-  resolution: "@mitodl/course-search-utils@file:/Users/abeglova/work/course-search-utils#/Users/abeglova/work/course-search-utils::hash=790c43&locator=mit-open%40workspace%3Afrontends%2Fmit-open"
+"@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#ab/update-facet-types":
+  version: 3.0.7
+  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=3c3d6ac20e933488b50caee4a1abb9f3d01b51e5"
   dependencies:
     "@mitodl/open-api-axios": "npm:^2024.5.6"
     "@testing-library/react": "npm:12"
@@ -3630,17 +3630,17 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 10/473d21ff016dda5784f1ef0fdd80271c391f6aa7548c69b3d65750d0b761d3a21a8eb2e54b107abf64cf39ad4b75db8dadd3e1eeb8675483cf50d42ab10ac3df
+  checksum: 10/1da8a3950f11f189729127cd498cd82e5ac32da5f78d17596464a4aa04f38ccab941499ab849201bdb38cc3f7adee86d4a87b84091888e81ba1d7232b6c73619
   languageName: node
   linkType: hard
 
 "@mitodl/open-api-axios@npm:^2024.5.6":
-  version: 2024.5.6
-  resolution: "@mitodl/open-api-axios@npm:2024.5.6"
+  version: 2024.5.9
+  resolution: "@mitodl/open-api-axios@npm:2024.5.9"
   dependencies:
     "@types/node": "npm:^20.11.19"
     axios: "npm:^1.6.5"
-  checksum: 10/3349ca554644da05edc01efcddcc574f373894cf406dd119367537a993559c75ba2829eda53b9a809e390681a58a28a57ed07fc0171017f04276e032ce655be4
+  checksum: 10/b3ce799c35773475b1a3b4520d271f3ed218d6f1c2260e2addbea07f3811d4f38c2f2b644dfa6f0c4260da9b4c2077c0be17047ebb07af798f8ebf48c046617e
   languageName: node
   linkType: hard
 
@@ -6176,7 +6176,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.19":
+"@types/node@npm:*":
   version: 20.12.7
   resolution: "@types/node@npm:20.12.7"
   dependencies:
@@ -6191,6 +6191,15 @@ __metadata:
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10/654194d4f3cc5867e5525a39647773a12c0c7175972bc4d288cdc74991fc969be2a9689267a3dc1cc5c5c7617e8f7c4769ac4829525726cd3e2f60eb238c1ff4
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.11.19":
+  version: 20.12.11
+  resolution: "@types/node@npm:20.12.11"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10/c6afe7c2c4504a4f488814d7b306ebad16bf42cbb43bf9db9fe1aed8c5fb99235593c3be5088979a64526b106cf022256688e2f002811be8273d87dc2e0d484f
   languageName: node
   linkType: hard
 
@@ -17374,7 +17383,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^7.3.0"
-    "@mitodl/course-search-utils": "file:/Users/abeglova/work/course-search-utils"
+    "@mitodl/course-search-utils": "https://github.com/mitodl/course-search-utils.git#ab/update-facet-types"
     "@mui/icons-material": "npm:^5.15.15"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@remixicon/react": "npm:^4.2.0"
