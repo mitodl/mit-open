@@ -33,6 +33,7 @@ from learning_resources.constants import (
     DEPARTMENTS,
     VALID_TEXT_FILE_TYPES,
     AvailabilityType,
+    LearningResourceFormat,
     LevelType,
     OfferedBy,
 )
@@ -667,7 +668,11 @@ def transform_format(resource_format: str) -> list[str]:
         str: format of the course/program
 
     """
-    return [RESOURCE_FORMAT_MAPPING[resource_format]]
+    try:
+        return [RESOURCE_FORMAT_MAPPING[resource_format]]
+    except KeyError:
+        log.exception("Invalid format %s", resource_format)
+        return [LearningResourceFormat.online.name]
 
 
 def parse_certification(offeror, runs_data):

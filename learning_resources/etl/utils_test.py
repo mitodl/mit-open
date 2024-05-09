@@ -375,10 +375,11 @@ def test_parse_format(original, expected):
     assert utils.transform_format(original) == [expected]
 
 
-def test_parse_bad_format():
-    """An exception should be raised for bad formats"""
-    with pytest.raises(KeyError):
-        utils.transform_format("bad_format")
+def test_parse_bad_format(mocker):
+    """An exception log should be called for invalid formats"""
+    mock_log = mocker.patch("learning_resources.etl.utils.log.exception")
+    assert utils.transform_format("bad_format") == [LearningResourceFormat.online.name]
+    mock_log.assert_called_once_with("Invalid format %s", "bad_format")
 
 
 @pytest.mark.parametrize(
