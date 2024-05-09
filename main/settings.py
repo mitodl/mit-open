@@ -121,6 +121,7 @@ INSTALLED_APPS = (
     "articles",
     "oauth2_provider",
     "news_events",
+    "testimonials",
 )
 
 SCIM_SERVICE_PROVIDER = {
