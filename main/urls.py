@@ -49,6 +49,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"", include("openapi.urls")),
     re_path(r"", include("learning_resources.urls")),
     re_path(r"", include("articles.urls")),
+    re_path(r"", include("testimonials.urls")),
     # React App
     re_path(r"^$", index, name="main-index"),
     re_path(r"^privacy-statement/", index, name="privacy-statement"),
