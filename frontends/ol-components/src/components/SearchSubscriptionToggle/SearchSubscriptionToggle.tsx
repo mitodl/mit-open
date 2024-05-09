@@ -51,11 +51,7 @@ const SearchSubscriptionToggle = ({
     return (
       <SimpleMenu
         trigger={
-          <Button
-            variant="filled"
-            endIcon={<ExpandMoreSharpIcon />}
-            aria-label="unsubscribe-button"
-          >
+          <Button variant="filled" endIcon={<ExpandMoreSharpIcon />}>
             Subscribed
           </Button>
         }
@@ -65,7 +61,6 @@ const SearchSubscriptionToggle = ({
   }
   return (
     <Button
-      aria-label="subscribe-button"
       variant="filled"
       onClick={() => subscriptionCreate.mutateAsync(subscribeParams)}
     >
