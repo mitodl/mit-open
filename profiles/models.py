@@ -171,16 +171,16 @@ class Profile(AbstractSCIMUserMixin):
     location = JSONField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    interests = ArrayField(models.CharField(max_length=50, choices=Interest.choices), default=list)
-    goals = ArrayField(models.CharField(max_length=50, choices=Goal.choices), default=list)
+    interests = ArrayField(models.CharField(max_length=50, choices=Interest.choices), default=list, blank=True)
+    goals = ArrayField(models.CharField(max_length=50, choices=Goal.choices), default=list, blank=True)
     certificate_desired = models.CharField(
-        max_length=50, choices=CertificateDesired.choices, null=True
+        max_length=50, choices=CertificateDesired.choices, blank=True
     )
     current_education = models.CharField(
         max_length=50, choices=CurrentEducation.choices
-    , null=True)
-    time_commitment = models.CharField(max_length=50, choices=TimeCommitment.choices, null=True)
-    course_format = models.CharField(max_length=50, choices=CourseFormat.choices, null=True)
+    , blank=True)
+    time_commitment = models.CharField(max_length=50, choices=TimeCommitment.choices, blank=True)
+    course_format = models.CharField(max_length=50, choices=CourseFormat.choices, blank=True)
 
     @transaction.atomic
     def save(self, *args, update_image=False, **kwargs):  # pylint: disable=arguments-differ

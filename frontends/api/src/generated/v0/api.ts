@@ -40,6 +40,33 @@ import {
 } from "./base"
 
 /**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const BlankEnum = {
+  Empty: "",
+} as const
+
+export type BlankEnum = (typeof BlankEnum)[keyof typeof BlankEnum]
+
+/**
+ * * `yes` - Yes * `no` - No * `not-sure-yet` - Not Sure Yet
+ * @export
+ * @enum {string}
+ */
+
+export const CertificateDesiredEnum = {
+  Yes: "yes",
+  No: "no",
+  NotSureYet: "not-sure-yet",
+} as const
+
+export type CertificateDesiredEnum =
+  (typeof CertificateDesiredEnum)[keyof typeof CertificateDesiredEnum]
+
+/**
  * Serializer for the ChannelDepartmentDetail model
  * @export
  * @interface ChannelDepartmentDetail
@@ -148,6 +175,38 @@ export const ChannelTypeEnum = {
 
 export type ChannelTypeEnum =
   (typeof ChannelTypeEnum)[keyof typeof ChannelTypeEnum]
+
+/**
+ * * `online` - Online * `in-person` - In-Person * `hybrid` - Hybrid
+ * @export
+ * @enum {string}
+ */
+
+export const CourseFormatEnum = {
+  Online: "online",
+  InPerson: "in-person",
+  Hybrid: "hybrid",
+} as const
+
+export type CourseFormatEnum =
+  (typeof CourseFormatEnum)[keyof typeof CourseFormatEnum]
+
+/**
+ * * `no-formal` - No Formal Education * `primary` - Primary Education * `secondary-or-high-school` - Secondary Education or High School * `ged` - GED * `vocational-qualification` - Vocational Qualification
+ * @export
+ * @enum {string}
+ */
+
+export const CurrentEducationEnum = {
+  NoFormal: "no-formal",
+  Primary: "primary",
+  SecondaryOrHighSchool: "secondary-or-high-school",
+  Ged: "ged",
+  VocationalQualification: "vocational-qualification",
+} as const
+
+export type CurrentEducationEnum =
+  (typeof CurrentEducationEnum)[keyof typeof CurrentEducationEnum]
 
 /**
  * Serializer for Channel model of type department
@@ -568,6 +627,49 @@ export interface FieldModeratorRequest {
   email?: string
 }
 /**
+ * * `career-growth` - Career Growth * `supplemental-learning` - Supplemental Learning * `just-to-learn` - Just to Learn
+ * @export
+ * @enum {string}
+ */
+
+export const GoalsEnum = {
+  CareerGrowth: "career-growth",
+  SupplementalLearning: "supplemental-learning",
+  JustToLearn: "just-to-learn",
+} as const
+
+export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
+
+/**
+ * * `computer-science` - Computer Science * `business` - Business * `engineering` - Engineering * `leadership` - Leadership * `organized-behavior` - Organized Behavior * `management` - Management * `electrical-engineering` - Electrical Engineering * `information-technology` - Information Technology * `biology` - Biology * `earth-science` - Earth Science * `environmental-engineering` - Environmental Engineering * `health-and-medicine` - Health & Medicine * `probability-and-stats` - Probability & Stats * `economics` - Economics * `history` - History * `mathematics` - Mathematics * `mechanical-engineering` - Mechanical Engineering * `other` - Other
+ * @export
+ * @enum {string}
+ */
+
+export const InterestsEnum = {
+  ComputerScience: "computer-science",
+  Business: "business",
+  Engineering: "engineering",
+  Leadership: "leadership",
+  OrganizedBehavior: "organized-behavior",
+  Management: "management",
+  ElectricalEngineering: "electrical-engineering",
+  InformationTechnology: "information-technology",
+  Biology: "biology",
+  EarthScience: "earth-science",
+  EnvironmentalEngineering: "environmental-engineering",
+  HealthAndMedicine: "health-and-medicine",
+  ProbabilityAndStats: "probability-and-stats",
+  Economics: "economics",
+  History: "history",
+  Mathematics: "mathematics",
+  MechanicalEngineering: "mechanical-engineering",
+  Other: "other",
+} as const
+
+export type InterestsEnum = (typeof InterestsEnum)[keyof typeof InterestsEnum]
+
+/**
  * Serializer for a minimal preview of Learning Paths
  * @export
  * @interface LearningPathPreview
@@ -756,7 +858,7 @@ export interface PaginatedFeedSourceList {
    * @type {number}
    * @memberof PaginatedFeedSourceList
    */
-  count: number
+  count?: number
   /**
    *
    * @type {string}
@@ -774,7 +876,7 @@ export interface PaginatedFeedSourceList {
    * @type {Array<FeedSource>}
    * @memberof PaginatedFeedSourceList
    */
-  results: Array<FeedSource>
+  results?: Array<FeedSource>
 }
 /**
  *
@@ -787,7 +889,7 @@ export interface PaginatedFieldChannelList {
    * @type {number}
    * @memberof PaginatedFieldChannelList
    */
-  count: number
+  count?: number
   /**
    *
    * @type {string}
@@ -805,7 +907,7 @@ export interface PaginatedFieldChannelList {
    * @type {Array<FieldChannel>}
    * @memberof PaginatedFieldChannelList
    */
-  results: Array<FieldChannel>
+  results?: Array<FieldChannel>
 }
 /**
  * Similar to FieldChannelCreateSerializer, with read-only name
@@ -1100,19 +1202,19 @@ export interface Profile {
    * @type {string}
    * @memberof Profile
    */
-  image_file?: string | null
+  image_file: string | null
   /**
    *
    * @type {string}
    * @memberof Profile
    */
-  image_small_file?: string | null
+  image_small_file: string | null
   /**
    *
    * @type {string}
    * @memberof Profile
    */
-  image_medium_file?: string | null
+  image_medium_file: string | null
   /**
    *
    * @type {string}
@@ -1149,7 +1251,67 @@ export interface Profile {
    * @memberof Profile
    */
   placename: string
+  /**
+   *
+   * @type {Array<InterestsEnum>}
+   * @memberof Profile
+   */
+  interests?: Array<InterestsEnum>
+  /**
+   *
+   * @type {Array<GoalsEnum>}
+   * @memberof Profile
+   */
+  goals?: Array<GoalsEnum>
+  /**
+   *
+   * @type {ProfileCurrentEducation}
+   * @memberof Profile
+   */
+  current_education?: ProfileCurrentEducation
+  /**
+   *
+   * @type {ProfileCertificateDesired}
+   * @memberof Profile
+   */
+  certificate_desired?: ProfileCertificateDesired
+  /**
+   *
+   * @type {ProfileTimeCommitment}
+   * @memberof Profile
+   */
+  time_commitment?: ProfileTimeCommitment
+  /**
+   *
+   * @type {ProfileCourseFormat}
+   * @memberof Profile
+   */
+  course_format?: ProfileCourseFormat
 }
+/**
+ * @type ProfileCertificateDesired
+ * @export
+ */
+export type ProfileCertificateDesired = BlankEnum | CertificateDesiredEnum
+
+/**
+ * @type ProfileCourseFormat
+ * @export
+ */
+export type ProfileCourseFormat = BlankEnum | CourseFormatEnum
+
+/**
+ * @type ProfileCurrentEducation
+ * @export
+ */
+export type ProfileCurrentEducation = BlankEnum | CurrentEducationEnum
+
+/**
+ * @type ProfileTimeCommitment
+ * @export
+ */
+export type ProfileTimeCommitment = BlankEnum | TimeCommitmentEnum
+
 /**
  * Serializer for Subfields
  * @export
@@ -1175,6 +1337,23 @@ export interface Subfield {
    */
   position?: number
 }
+/**
+ * * `0-to-5-hours` - <5 hours/week * `5-to-10-hours` - 5-10 hours/week * `10-to-20-hours` - 10-20 hours/week * `20-to-30-hours` - 20-30 hours/week * `30-plus-hours` - 30+ hours/week
+ * @export
+ * @enum {string}
+ */
+
+export const TimeCommitmentEnum = {
+  _0To5Hours: "0-to-5-hours",
+  _5To10Hours: "5-to-10-hours",
+  _10To20Hours: "10-to-20-hours",
+  _20To30Hours: "20-to-30-hours",
+  _30PlusHours: "30-plus-hours",
+} as const
+
+export type TimeCommitmentEnum =
+  (typeof TimeCommitmentEnum)[keyof typeof TimeCommitmentEnum]
+
 /**
  * Serializer for Channel model of type topic
  * @export

@@ -30,7 +30,7 @@ v0_urls = [
         CurrentUserRetrieveViewSet.as_view({"get": "retrieve"}),
         name="users_api-me",
     ),
-    re_path(r"", include(router.urls)),
+    *router.urls,
 ]
 
 

@@ -472,6 +472,19 @@ paths:
           description: ''
 components:
   schemas:
+    BlankEnum:
+      enum:
+      - ''
+    CertificateDesiredEnum:
+      enum:
+      - 'yes'
+      - 'no'
+      - not-sure-yet
+      type: string
+      description: |-
+        * `yes` - Yes
+        * `no` - No
+        * `not-sure-yet` - Not Sure Yet
     ChannelDepartmentDetail:
       type: object
       description: Serializer for the ChannelDepartmentDetail model
@@ -540,6 +553,30 @@ components:
         * `department` - department
         * `offeror` - offeror
         * `pathway` - pathway
+    CourseFormatEnum:
+      enum:
+      - online
+      - in-person
+      - hybrid
+      type: string
+      description: |-
+        * `online` - Online
+        * `in-person` - In-Person
+        * `hybrid` - Hybrid
+    CurrentEducationEnum:
+      enum:
+      - no-formal
+      - primary
+      - secondary-or-high-school
+      - ged
+      - vocational-qualification
+      type: string
+      description: |-
+        * `no-formal` - No Formal Education
+        * `primary` - Primary Education
+        * `secondary-or-high-school` - Secondary Education or High School
+        * `ged` - GED
+        * `vocational-qualification` - Vocational Qualification
     DepartmentChannel:
       type: object
       description: Serializer for Channel model of type department
@@ -801,6 +838,56 @@ components:
         email:
           type: string
           description: Get the email from the associated user
+    GoalsEnum:
+      enum:
+      - career-growth
+      - supplemental-learning
+      - just-to-learn
+      type: string
+      description: |-
+        * `career-growth` - Career Growth
+        * `supplemental-learning` - Supplemental Learning
+        * `just-to-learn` - Just to Learn
+    InterestsEnum:
+      enum:
+      - computer-science
+      - business
+      - engineering
+      - leadership
+      - organized-behavior
+      - management
+      - electrical-engineering
+      - information-technology
+      - biology
+      - earth-science
+      - environmental-engineering
+      - health-and-medicine
+      - probability-and-stats
+      - economics
+      - history
+      - mathematics
+      - mechanical-engineering
+      - other
+      type: string
+      description: |-
+        * `computer-science` - Computer Science
+        * `business` - Business
+        * `engineering` - Engineering
+        * `leadership` - Leadership
+        * `organized-behavior` - Organized Behavior
+        * `management` - Management
+        * `electrical-engineering` - Electrical Engineering
+        * `information-technology` - Information Technology
+        * `biology` - Biology
+        * `earth-science` - Earth Science
+        * `environmental-engineering` - Environmental Engineering
+        * `health-and-medicine` - Health & Medicine
+        * `probability-and-stats` - Probability & Stats
+        * `economics` - Economics
+        * `history` - History
+        * `mathematics` - Mathematics
+        * `mechanical-engineering` - Mechanical Engineering
+        * `other` - Other
     LearningPathPreview:
       type: object
       description: Serializer for a minimal preview of Learning Paths
@@ -925,9 +1012,6 @@ components:
       - offeror
     PaginatedFeedSourceList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -948,9 +1032,6 @@ components:
             $ref: '#/components/schemas/FeedSource'
     PaginatedFieldChannelList:
       type: object
-      required:
-      - count
-      - results
       properties:
         count:
           type: integer
@@ -1162,14 +1243,17 @@ components:
         image_file:
           type: string
           format: uri
+          readOnly: true
           nullable: true
         image_small_file:
           type: string
           format: uri
+          readOnly: true
           nullable: true
         image_medium_file:
           type: string
           format: uri
+          readOnly: true
           nullable: true
         profile_image_small:
           type: string
@@ -1190,7 +1274,34 @@ components:
         placename:
           type: string
           readOnly: true
+        interests:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterestsEnum'
+        goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/GoalsEnum'
+        current_education:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentEducationEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        certificate_desired:
+          oneOf:
+          - $ref: '#/components/schemas/CertificateDesiredEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        time_commitment:
+          oneOf:
+          - $ref: '#/components/schemas/TimeCommitmentEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        course_format:
+          oneOf:
+          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/BlankEnum'
       required:
+      - image_file
+      - image_medium_file
+      - image_small_file
       - placename
       - profile_image_medium
       - profile_image_small
@@ -1212,6 +1323,20 @@ components:
       required:
       - field_channel
       - parent_field
+    TimeCommitmentEnum:
+      enum:
+      - 0-to-5-hours
+      - 5-to-10-hours
+      - 10-to-20-hours
+      - 20-to-30-hours
+      - 30-plus-hours
+      type: string
+      description: |-
+        * `0-to-5-hours` - <5 hours/week
+        * `5-to-10-hours` - 5-10 hours/week
+        * `10-to-20-hours` - 10-20 hours/week
+        * `20-to-30-hours` - 20-30 hours/week
+        * `30-plus-hours` - 30+ hours/week
     TopicChannel:
       type: object
       description: Serializer for Channel model of type topic

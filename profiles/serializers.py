@@ -112,6 +112,12 @@ class ProfileSerializer(serializers.ModelSerializer):
             "username",
             "placename",
             "location",
+            "interests",
+            "goals",
+            "current_education",
+            "certificate_desired",
+            "time_commitment",
+            "course_format",
         )
         read_only_fields = (
             "image_file_small",

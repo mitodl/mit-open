@@ -4,13 +4,15 @@ Admin site bindings for profiles
 
 from django.contrib import admin
 
-from .models import Profile
+from profiles.forms import ProfileForm
+from profiles.models import Profile
 
 
 class ProfileAdmin(admin.ModelAdmin):
     """Admin for Profile"""
 
     model = Profile
+    form = ProfileForm
 
     list_display = ["user", "name", "email_optin", "toc_optin"]
     list_filter = ["email_optin", "toc_optin", "user__is_active"]
