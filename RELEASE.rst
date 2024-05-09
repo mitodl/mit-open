@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.9.9 (Released May 09, 2024)
+-------------
+
+- fix spacing between department groups (#880)
+- #4053 Alert UI component (#861)
+
 Version 0.9.8 (Released May 08, 2024)
 -------------
 
