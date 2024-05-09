@@ -115,7 +115,7 @@ describe("FieldSearch", () => {
       expected: { offered_by: "ocw", topic: "physics" },
     },
     {
-      searchFilter: "offered_by=ocw&offered_by=xpro",
+      searchFilter: "offered_by=ocw",
       url: "?offered_by=xpro&topic=physics",
       expected: { offered_by: "xpro", topic: "physics" },
     },
