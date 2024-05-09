@@ -17,8 +17,12 @@ const SearchSubscriptionToggle = ({
 }) => {
   const subscribeParams: Record<string, string[]> = useMemo(() => {
     const params: Record<string, string[]> = {}
-    for (const [key, value] of searchParams.entries()) {
-      params[key] = value.split(",")
+    for (const [key] of searchParams.entries()) {
+      const paramValues = searchParams.getAll(key)
+      const finalparams = paramValues.map((p) => {
+        return p.indexOf(",") !== -1 ? p.split(",") : p
+      })
+      params[key] = finalparams.flat()
     }
     return params
   }, [searchParams])
