@@ -157,6 +157,7 @@ const navData: NavData = {
         },
         {
           title: "With Certificate",
+          href: urls.querifiedSearchUrl({ certification: "true" }),
         },
       ],
     },
