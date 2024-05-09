@@ -170,6 +170,7 @@ const learningResourceTopic: Factory<LearningResourceTopic> = (
     id: faker.helpers.unique(faker.datatype.number),
     name: faker.helpers.unique(faker.lorem.words),
     channel_url: faker.internet.url(),
+    parent: null,
     ...overrides,
   }
   return topic

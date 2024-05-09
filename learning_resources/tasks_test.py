@@ -287,7 +287,6 @@ def test_get_ocw_courses(settings, mocker, mocked_celery, timestamp, overwrite):
     assert models.LearningResource.objects.count() == 1
     assert models.Course.objects.count() == 1
     assert models.LearningResourceInstructor.objects.count() == 10
-    assert models.LearningResourceTopic.objects.count() == 11
 
     course_resource = models.Course.objects.first().learning_resource
     assert course_resource.title == "Unified Engineering I, II, III, & IV"

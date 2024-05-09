@@ -47,8 +47,10 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
         return channel.channel_url if channel else None
 
     class Meta:
+        """Meta options for the serializer."""
+
         model = models.LearningResourceTopic
-        fields = ["id", "name", "channel_url"]
+        fields = ["id", "name", "parent", "channel_url"]
 
 
 class WriteableTopicsMixin(serializers.Serializer):
