@@ -24,6 +24,9 @@ class Attestation(TimestampedModel):
         related_name="+",
         help_text="Channels that the testimonial belongs to",
     )
+    publish_date = models.DateTimeField(
+        null=True, blank=True, help_text="The datetime to show the testimonial"
+    )
 
     avatar = ProcessedImageField(
         max_length=2083, upload_to=avatar_uri, help_text="The attestant's avatar"
