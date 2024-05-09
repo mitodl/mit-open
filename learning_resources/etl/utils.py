@@ -32,7 +32,10 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
     DEPARTMENTS,
     VALID_TEXT_FILE_TYPES,
+    AvailabilityType,
+    LearningResourceFormat,
     LevelType,
+    OfferedBy,
 )
 from learning_resources.etl.constants import (
     RESOURCE_FORMAT_MAPPING,
@@ -665,4 +668,25 @@ def transform_format(resource_format: str) -> list[str]:
         str: format of the course/program
 
     """
-    return [RESOURCE_FORMAT_MAPPING[resource_format]]
+    try:
+        return [RESOURCE_FORMAT_MAPPING[resource_format]]
+    except KeyError:
+        log.exception("Invalid format %s", resource_format)
+        return [LearningResourceFormat.online.name]
+
+
+def parse_certification(offeror, runs_data):
+    """Return true/false depending on offeror and run availability"""
+    if offeror != OfferedBy.mitx.name:
+        return False
+    return bool(
+        [
+            availability
+            for availability in [
+                run.get("availability")
+                for run in runs_data
+                if run.get("published", True)
+            ]
+            if (availability and availability != AvailabilityType.archived.value)
+        ]
+    )

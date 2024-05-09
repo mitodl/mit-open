@@ -181,9 +181,11 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                             }
                         ]
                     },
+                    "certification": True,
                 }
                 for course_data in program_data["courses"]
             ],
+            "certification": True,
         }
         for program_data in mock_xpro_programs_data
     ]
@@ -251,6 +253,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                     }
                 ]
             },
+            "certification": True,
         }
         for course_data in mock_xpro_courses_data
     ]

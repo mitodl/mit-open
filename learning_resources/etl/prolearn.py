@@ -249,6 +249,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                 "image": parse_image(program),
                 "professional": offered_by.professional,
                 "learning_format": transform_format(program["format_name"]),
+                "certification": offered_by.professional,
                 "runs": [
                     {
                         "run_id": f'{program["nid"]}_{start_value}',
@@ -334,6 +335,7 @@ def _transform_course(
         "platform": platform,
         "etl_source": ETLSource.prolearn.name,
         "professional": offered_by.professional,
+        "certification": offered_by.professional,
         "title": course["title"],
         "url": parse_url(course),
         "image": parse_image(course),

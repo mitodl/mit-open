@@ -156,6 +156,7 @@ def test_transform_course(  # noqa: PLR0913
             "topics": [{"name": "Data Analysis & Statistics"}],
             "url": "http://localhost/fake-alt-url/this_course",
             "published": True,
+            "certification": False,
             "runs": (
                 []
                 if is_course_run_deleted or not has_runs
