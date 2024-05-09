@@ -13,7 +13,7 @@ import {
   Skeleton,
   SimpleSelect,
 } from "ol-components"
-import { MetaTags } from "ol-utilities"
+import { MetaTags, capitalize } from "ol-utilities"
 
 import { ResourceTypeEnum } from "api"
 import type {
@@ -57,6 +57,17 @@ const getFacetManifest = (
       expandedOnLoad: true,
       labelFunction: (key) => offerors[key]?.name ?? key,
     },
+    {
+      name: "learning_format",
+      title: "Format",
+      useFilterableFacet: false,
+      expandedOnLoad: true,
+      labelFunction: (key) =>
+        key
+          .split("_")
+          .map((word) => capitalize(word))
+          .join("-"),
+    },
   ]
 }
 
@@ -66,6 +77,7 @@ const FACET_NAMES = getFacetManifest({}).map(
 
 const AGGREGATIONS: LRSearchRequest["aggregations"] = [
   "resource_type",
+  "learning_format",
   "topic",
   "offered_by",
 ]
