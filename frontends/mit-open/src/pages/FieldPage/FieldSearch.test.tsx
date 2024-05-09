@@ -221,7 +221,7 @@ describe("FieldSearch", () => {
         "Topic",
         "Certification",
       ]) {
-        if (dropdownName in displayedFacets) {
+        if ((displayedFacets as string[]).includes(dropdownName as string)) {
           await screen.findByText(dropdownName)
         } else {
           expect(screen.queryByText(dropdownName)).toBeNull()
