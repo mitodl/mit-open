@@ -11,12 +11,12 @@ const MenuButtonText = styled.div(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
   fontSize: theme.typography.body2.fontSize,
   fontWeight: "700",
-  paddingLeft: "15px",
+  paddingLeft: "16px",
 }))
 
 const MenuButtonInner = styled.div({
   display: "flex",
-  padding: "9px 25px 9px 0px",
+  padding: "8px 24px 8px 0px",
   alignItems: "flex-start",
 })
 

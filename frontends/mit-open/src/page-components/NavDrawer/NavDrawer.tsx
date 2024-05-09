@@ -36,8 +36,8 @@ const NavLinkDescription = styled.div(({ theme }) => ({
 }))
 
 const NavItemContainer = styled.div(({ theme }) => ({
-  padding: "10px",
-  borderRadius: "5px",
+  padding: "8px",
+  borderRadius: "4px",
   "&:hover": {
     background: theme.custom.colors.lightGray2,
     ".nav-link-text": {
