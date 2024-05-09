@@ -1,23 +1,30 @@
-import { IconButton, styled } from "ol-components"
+import { Button, styled } from "ol-components"
 import MenuIcon from "@mui/icons-material/Menu"
 import React from "react"
 
-const StyledMenuIcon = styled(MenuIcon)`
-  color: ${({ theme }) => theme.custom.colors.black};
-`
+const StyledMenuIcon = styled(MenuIcon)(({ theme }) => ({
+  color: theme.custom.colors.darkGray1,
+}))
 
 const MenuButtonText = styled.div(({ theme }) => ({
   alignSelf: "center",
-  color: theme.custom.colors.darkGray2.toString(),
+  color: theme.custom.colors.darkGray2,
   fontSize: theme.typography.body2.fontSize,
   fontWeight: "700",
   paddingLeft: "15px",
 }))
 
-const StyledMenuButton = styled.div({
+const MenuButtonInner = styled.div({
   display: "flex",
   padding: "9px 25px 9px 0px",
   alignItems: "flex-start",
+})
+
+const StyledMenuButton = styled(Button)({
+  background: "transparent",
+  "&:hover:not(:disabled)": {
+    background: "transparent",
+  },
 })
 
 interface MenuButtonProps {
@@ -26,12 +33,12 @@ interface MenuButtonProps {
 }
 
 const MenuButton: React.FC<MenuButtonProps> = ({ text, onClick }) => (
-  <IconButton onClick={onClick}>
-    <StyledMenuButton>
+  <StyledMenuButton onClick={onClick}>
+    <MenuButtonInner>
       <StyledMenuIcon />
       <MenuButtonText>{text}</MenuButtonText>
-    </StyledMenuButton>
-  </IconButton>
+    </MenuButtonInner>
+  </StyledMenuButton>
 )
 
 export { MenuButton }
