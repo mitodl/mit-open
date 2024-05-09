@@ -72,12 +72,10 @@ def test_serialize_learning_resource_for_bulk(resource_type):
     The "course" resource type is tested by `test_serialize_course_numbers_for_bulk` below.
     """
     resource = factories.LearningResourceFactory.create(resource_type=resource_type)
-    free_dict = (
-        {"free": False}
-        if resource_type
-        in [LearningResourceType.program.name, LearningResourceType.course.name]
-        else {}
-    )
+    free_dict = {
+        "free": resource_type
+        not in [LearningResourceType.program.name, LearningResourceType.course.name]
+    }
     assert serializers.serialize_learning_resource_for_bulk(resource) == {
         "_id": resource.id,
         "resource_relations": {"name": "resource"},

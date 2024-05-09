@@ -106,9 +106,9 @@ class LearningResourceFilter(FilterSet):
 
     def filter_free(self, queryset, _, value):
         """Free cost filter for learning resources"""
-        queryset = queryset.exclude(runs__isnull=True)
         free_filter = (
-            Q(runs__prices__isnull=True)
+            Q(runs__isnull=True)
+            | Q(runs__prices__isnull=True)
             | Q(runs__prices=[])
             | Q(runs__prices__contains=[Decimal(0.00)])
         )
