@@ -404,6 +404,11 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: published
+        schema:
+          type: boolean
+        description: Only return published testimonials
       tags:
       - testimonials
       responses:
@@ -425,21 +430,6 @@ paths:
           type: integer
         description: A unique integer value identifying this attestation.
         required: true
-      tags:
-      - testimonials
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Attestation'
-          description: ''
-  /api/v0/testimonials/published/:
-    get:
-      operationId: testimonials_published_retrieve
-      description: Published testimonials have a publish date of null or a datetime
-        that's in the past.
-      summary: List published testimonials.
       tags:
       - testimonials
       responses:

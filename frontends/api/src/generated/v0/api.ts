@@ -3699,6 +3699,7 @@ export const TestimonialsApiAxiosParamCreator = function (
      * @param {Array<number>} [channels] The channels the attestation is for
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {boolean} [published] Only return published testimonials
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3706,6 +3707,7 @@ export const TestimonialsApiAxiosParamCreator = function (
       channels?: Array<number>,
       limit?: number,
       offset?: number,
+      published?: boolean,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v0/testimonials/`
@@ -3736,44 +3738,9 @@ export const TestimonialsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
+      if (published !== undefined) {
+        localVarQueryParameter["published"] = published
       }
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Published testimonials have a publish date of null or a datetime that\'s in the past.
-     * @summary List published testimonials.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    testimonialsPublishedRetrieve: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/testimonials/published/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -3852,6 +3819,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
      * @param {Array<number>} [channels] The channels the attestation is for
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {boolean} [published] Only return published testimonials
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3859,6 +3827,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
       channels?: Array<number>,
       limit?: number,
       offset?: number,
+      published?: boolean,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -3871,37 +3840,12 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
           channels,
           limit,
           offset,
+          published,
           options,
         )
       const index = configuration?.serverIndex ?? 0
       const operationBasePath =
         operationServerMap["TestimonialsApi.testimonialsList"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Published testimonials have a publish date of null or a datetime that\'s in the past.
-     * @summary List published testimonials.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async testimonialsPublishedRetrieve(
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Attestation>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.testimonialsPublishedRetrieve(options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["TestimonialsApi.testimonialsPublishedRetrieve"]?.[
-          index
-        ]?.url
       return (axios, basePath) =>
         createRequestFunction(
           localVarAxiosArgs,
@@ -3966,21 +3910,9 @@ export const TestimonialsApiFactory = function (
           requestParameters.channels,
           requestParameters.limit,
           requestParameters.offset,
+          requestParameters.published,
           options,
         )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Published testimonials have a publish date of null or a datetime that\'s in the past.
-     * @summary List published testimonials.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    testimonialsPublishedRetrieve(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Attestation> {
-      return localVarFp
-        .testimonialsPublishedRetrieve(options)
         .then((request) => request(axios, basePath))
     },
     /**
@@ -4027,6 +3959,13 @@ export interface TestimonialsApiTestimonialsListRequest {
    * @memberof TestimonialsApiTestimonialsList
    */
   readonly offset?: number
+
+  /**
+   * Only return published testimonials
+   * @type {boolean}
+   * @memberof TestimonialsApiTestimonialsList
+   */
+  readonly published?: boolean
 }
 
 /**
@@ -4067,21 +4006,9 @@ export class TestimonialsApi extends BaseAPI {
         requestParameters.channels,
         requestParameters.limit,
         requestParameters.offset,
+        requestParameters.published,
         options,
       )
-      .then((request) => request(this.axios, this.basePath))
-  }
-
-  /**
-   * Published testimonials have a publish date of null or a datetime that\'s in the past.
-   * @summary List published testimonials.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TestimonialsApi
-   */
-  public testimonialsPublishedRetrieve(options?: RawAxiosRequestConfig) {
-    return TestimonialsApiFp(this.configuration)
-      .testimonialsPublishedRetrieve(options)
       .then((request) => request(this.axios, this.basePath))
   }
 
