@@ -1,6 +1,6 @@
-import { Drawer, DrawerProps, styled } from "ol-components"
+import Drawer, { DrawerProps } from "@mui/material/Drawer"
+import styled from "@emotion/styled"
 import React from "react"
-import * as urls from "@/common/urls"
 
 const DrawerContent = styled.div(({ theme }) => ({
   paddingTop: "56px",
@@ -89,82 +89,12 @@ export interface NavItem {
   href?: string
 }
 
-const navData: NavData = {
-  sections: [
-    {
-      title: "LEARN",
-      items: [
-        {
-          title: "Courses",
-          description: "Learn with MIT instructors",
-          href: urls.querifiedSearchUrl({ resource_type: "course" }),
-        },
-        {
-          title: "Programs",
-          description:
-            "Learn in-depth from a series of courses and earn a certificate",
-          href: urls.querifiedSearchUrl({ resource_type: "program" }),
-        },
-        {
-          title: "Course Materials",
-          description:
-            "Free teaching and learning materials including videos, podcasts, lecture notes, etc.",
-        },
-      ],
-    },
-    {
-      title: "BROWSE",
-      items: [
-        {
-          title: "By Subject",
-        },
-        {
-          title: "By Departments",
-          href: urls.DEPARTMENTS,
-        },
-        {
-          title: "By Provider",
-        },
-      ],
-    },
-    {
-      title: "DISCOVER LEARNING RESOURCES",
-      items: [
-        {
-          title: "New",
-          href: urls.querifiedSearchUrl({
-            resource_type: "course",
-            sortby: "new",
-          }),
-        },
-        {
-          title: "Upcoming",
-          href: urls.querifiedSearchUrl({
-            resource_type: "course",
-            sortby: "upcoming",
-          }),
-        },
-        {
-          title: "Popular",
-          href: urls.querifiedSearchUrl({
-            resource_type: "course",
-            sortby: "popular",
-          }),
-        },
-        {
-          title: "Free",
-          href: urls.querifiedSearchUrl({ free: "true" }),
-        },
-        {
-          title: "With Certificate",
-          href: urls.querifiedSearchUrl({ certification: "true" }),
-        },
-      ],
-    },
-  ],
-}
+type NavDrawerProps = {
+  navData: NavData
+} & DrawerProps
 
-const NavDrawer = (props: DrawerProps) => {
+const NavDrawer = (props: NavDrawerProps) => {
+  const { navData } = props
   const navSections = navData.sections.map((section) => {
     const navItemElements = section.items.map((item) => (
       <NavItem
@@ -200,4 +130,5 @@ const NavDrawer = (props: DrawerProps) => {
   )
 }
 
-export default NavDrawer
+export { NavDrawer }
+export type { NavDrawerProps }

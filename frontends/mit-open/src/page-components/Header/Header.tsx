@@ -1,16 +1,21 @@
 import React, { FunctionComponent } from "react"
+import type { NavData } from "ol-components"
 import {
   styled,
   AppBar,
   Divider,
+  NavDrawer,
   Toolbar,
   ClickAwayListener,
 } from "ol-components"
 import { MITLogoLink, useToggle } from "ol-utilities"
 import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
-import NavDrawer from "../NavDrawer/NavDrawer"
-import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
+import {
+  DEPARTMENTS,
+  RESOURCE_DRAWER_QUERY_PARAM,
+  querifiedSearchUrl,
+} from "@/common/urls"
 import { useSearchParams } from "react-router-dom"
 
 const Bar = styled(AppBar)`
@@ -44,6 +49,81 @@ const Spacer = styled.div`
   flex: 1;
 `
 
+const navData: NavData = {
+  sections: [
+    {
+      title: "LEARN",
+      items: [
+        {
+          title: "Courses",
+          description: "Learn with MIT instructors",
+          href: querifiedSearchUrl({ resource_type: "course" }),
+        },
+        {
+          title: "Programs",
+          description:
+            "Learn in-depth from a series of courses and earn a certificate",
+          href: querifiedSearchUrl({ resource_type: "program" }),
+        },
+        {
+          title: "Course Materials",
+          description:
+            "Free teaching and learning materials including videos, podcasts, lecture notes, etc.",
+        },
+      ],
+    },
+    {
+      title: "BROWSE",
+      items: [
+        {
+          title: "By Subject",
+        },
+        {
+          title: "By Departments",
+          href: DEPARTMENTS,
+        },
+        {
+          title: "By Provider",
+        },
+      ],
+    },
+    {
+      title: "DISCOVER LEARNING RESOURCES",
+      items: [
+        {
+          title: "New",
+          href: querifiedSearchUrl({
+            resource_type: "course",
+            sortby: "new",
+          }),
+        },
+        {
+          title: "Upcoming",
+          href: querifiedSearchUrl({
+            resource_type: "course",
+            sortby: "upcoming",
+          }),
+        },
+        {
+          title: "Popular",
+          href: querifiedSearchUrl({
+            resource_type: "course",
+            sortby: "popular",
+          }),
+        },
+        {
+          title: "Free",
+          href: querifiedSearchUrl({ free: "true" }),
+        },
+        {
+          title: "With Certificate",
+          href: querifiedSearchUrl({ certification: "true" }),
+        },
+      ],
+    },
+  ],
+}
+
 const Header: FunctionComponent = () => {
   const [drawerOpen, toggleDrawer] = useToggle(false)
   const [searchParams] = useSearchParams()
@@ -75,7 +155,11 @@ const Header: FunctionComponent = () => {
       </Bar>
       <ClickAwayListener onClickAway={closeDrawer}>
         <div role="presentation">
-          <NavDrawer open={drawerOpen} onClose={toggleDrawer.off}></NavDrawer>
+          <NavDrawer
+            navData={navData}
+            open={drawerOpen}
+            onClose={toggleDrawer.off}
+          ></NavDrawer>
         </div>
       </ClickAwayListener>
     </div>
