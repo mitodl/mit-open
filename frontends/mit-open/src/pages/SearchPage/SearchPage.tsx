@@ -39,6 +39,7 @@ import TuneIcon from "@mui/icons-material/Tune"
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
 import type { TabConfig } from "./ResourceTypeTabs"
 import _ from "lodash"
+import { capitalize } from "ol-utilities"
 
 const getFacetManifest = (
   offerors: Record<string, LearningResourceOfferor>,
@@ -65,7 +66,7 @@ const getFacetManifest = (
       labelFunction: (key) =>
         key
           .split("_")
-          .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
+          .map((word) => capitalize(word))
           .join("-"),
     },
   ]
