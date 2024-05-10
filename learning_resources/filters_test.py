@@ -193,10 +193,14 @@ def test_learning_resource_filter_free(client):
         learning_resource=free2pay_course, prices=[0.00, 100.00]
     )
 
+    always_free_podcast_episode = LearningResourceFactory.create(
+        is_podcast_episode=True
+    )
+
     results = client.get(f"{RESOURCE_API_URL}?free=true").json()["results"]
-    assert len(results) == 2
-    for course in [free_course, free2pay_course]:
-        assert course.id in [result["id"] for result in results]
+    assert len(results) == 3
+    for resource in [free_course, free2pay_course, always_free_podcast_episode]:
+        assert resource.id in [result["id"] for result in results]
     results = client.get(f"{RESOURCE_API_URL}?free=false").json()["results"]
     assert len(results) == 1
     assert results[0]["id"] == paid_course.id
