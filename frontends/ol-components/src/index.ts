@@ -37,6 +37,9 @@ export type { CheckboxProps } from "@mui/material/Checkbox"
 export { default as Chip } from "@mui/material/Chip"
 export type { ChipProps } from "@mui/material/Chip"
 
+export { default as ClickAwayListener } from "@mui/material/ClickAwayListener"
+export type { ClickAwayListenerProps } from "@mui/material/ClickAwayListener"
+
 export { default as Container } from "@mui/material/Container"
 export type { ContainerProps } from "@mui/material/Container"
 
@@ -157,5 +160,3 @@ export * from "./hooks/useBreakpoint"
 
 export { default as styled } from "@emotion/styled"
 export { css, Global } from "@emotion/react"
-
-export * from "@mui/base/ClickAwayListener"
