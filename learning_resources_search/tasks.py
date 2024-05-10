@@ -112,7 +112,10 @@ def upsert_learning_resource(learning_resource_id):
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
 def send_subscription_emails(subscription_type, period="daily"):
-    since = datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=1)
+    delta = datetime.timedelta(days=1)
+    if period == "weekly":
+        delta = datetime.timedelta(days=7)
+    since = datetime.datetime.now(datetime.UTC) - delta
     new_learning_resources = LearningResource.objects.filter(created_on__gt=since)
     document_user_map = {}
     all_users = set()
