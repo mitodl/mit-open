@@ -183,6 +183,7 @@ class LearningResourceFactory(DjangoModelFactory):
     url = factory.Faker("url")
     languages = factory.List(random.choices(["en", "es"]))  # noqa: S311
     last_modified = factory.Faker("date_time", tzinfo=UTC)
+    created_on = factory.Faker("date_time", tzinfo=UTC)
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
     offered_by = factory.SubFactory(LearningResourceOfferorFactory)
