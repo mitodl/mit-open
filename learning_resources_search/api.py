@@ -496,12 +496,10 @@ def percolate_matches_for_document(document_id):
         Percolate(field="query", index=index, id=str(document_id))
     ).execute()
     percolate_ids = [result.id for result in results.hits]
-
+    percolated_queries = (PercolateQuery.objects.filter(id__in=percolate_ids),)
     if len(percolate_ids) > 0:
-        document_percolated_actions(
-            resource,
-            PercolateQuery.objects.filter(id__in=percolate_ids),
-        )
+        document_percolated_actions(resource, percolated_queries)
+    return percolated_queries
 
 
 def construct_search(search_params):
