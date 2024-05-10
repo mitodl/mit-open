@@ -19,6 +19,7 @@ from learning_resources.constants import (
     LevelType,
 )
 from learning_resources.etl.loaders import update_index
+from learning_resources.models import LearningResource, LearningResourceRelationship
 from main.serializers import COMMON_IGNORED_FIELDS, WriteableSerializerMethodField
 
 log = logging.getLogger(__name__)
@@ -268,9 +269,20 @@ class ProgramSerializer(serializers.ModelSerializer):
     )
     def get_courses(self, obj):
         """Get the learning resource courses for a program"""
-
+        ids = (
+            LearningResourceRelationship.objects.filter(
+                parent_id=obj.learning_resource.id, child__published=True
+            )
+            .values_list("child_id", flat=True)
+            .distinct()
+        )
         return CourseResourceSerializer(
-            [rel.child for rel in obj.courses.filter(child__published=True)], many=True
+            list(
+                LearningResource.objects.filter(id__in=ids)
+                .select_related(*LearningResource.related_selects)
+                .prefetch_related(*LearningResource.prefetches)
+            ),
+            many=True,
         ).data
 
     class Meta:
@@ -450,8 +462,9 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
             )
         ):
             return MicroLearningPathRelationshipSerializer(
-                instance.parents.filter(
-                    relation_type=constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+                LearningResourceRelationship.objects.filter(
+                    child=instance,
+                    relation_type=constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,
                 ),
                 many=True,
             ).data

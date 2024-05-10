@@ -211,7 +211,7 @@ def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
 
     CourseFactory.create_batch(course_count)
 
-    with django_assert_num_queries(9):
+    with django_assert_num_queries(10):
         view = CourseViewSet(request=mocker.Mock(query_params=[]))
         results = view.get_queryset().all()
         assert len(results) == course_count
