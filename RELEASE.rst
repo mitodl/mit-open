@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.9.11
+--------------
+
+- add format facet (#888)
+- Free everything (#885)
+- Add nesting learning resource topics (#844)
+
 Version 0.9.10 (Released May 09, 2024)
 --------------
 
