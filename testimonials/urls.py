@@ -12,6 +12,7 @@ v0_urls = [
     re_path(r"", include(v0_router.urls)),
 ]
 
+app_name = "testimonials"
 urlpatterns = [
     re_path("^api/v0/", include((v0_urls, "v0"))),
 ]

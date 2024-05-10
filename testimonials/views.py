@@ -1,15 +1,11 @@
 """Views for testimonials."""
 
 from django.contrib.auth import get_user_model
-from django.db.models import Q
 from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework.decorators import action
-from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from learning_resources.views import LargePagination
 from main.filters import MultipleOptionsFilterBackend
-from main.utils import now_in_utc
 from testimonials.filters import AttestationFilter
 from testimonials.models import Attestation
 from testimonials.serializers import AttestationSerializer
@@ -45,19 +41,3 @@ class AttestationViewSet(ReadOnlyModelViewSet):
     pagination_class = LargePagination
     filter_backends = [MultipleOptionsFilterBackend]
     filterset_class = AttestationFilter
-
-    @action(detail=False)
-    def published(self, request):  # noqa: ARG002
-        """Return only published testimonials."""
-
-        published = self.queryset.filter(
-            Q(publish_date__isnull=True) | Q(publish_date__lte=now_in_utc())
-        )
-
-        page = self.paginate_queryset(published)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        serializer = self.get_serializer(published, many=True)
-        return Response(serializer.data)

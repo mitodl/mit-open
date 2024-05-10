@@ -12,6 +12,7 @@ class AttestationFactory(DjangoModelFactory):
     attestant_name = Faker("name")
     title = Faker("job")
     quote = Faker("sentences")
+    publish_date = None
 
     avatar = ImageField()
     cover = ImageField()
