@@ -14,10 +14,11 @@ import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { useSearchParams } from "react-router-dom"
 
 const Bar = styled(AppBar)`
+  height: 56px;
+  padding: 0px 8px;
   z-index: ${({ theme }) => theme.zIndex.drawer + 1};
   background-color: ${({ theme }) => theme.custom.colors.white};
   color: ${({ theme }) => theme.custom.colors.black};
-  height: 55px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 10px rgba(120 169 197 / 15%);

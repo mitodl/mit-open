@@ -3,7 +3,7 @@ import React from "react"
 import * as urls from "@/common/urls"
 
 const DrawerContent = styled.div(({ theme }) => ({
-  paddingTop: "55px",
+  paddingTop: "56px",
   width: "350px",
   height: "100%",
   background: theme.custom.colors.white,
@@ -11,12 +11,12 @@ const DrawerContent = styled.div(({ theme }) => ({
 }))
 
 const NavSection = styled.div(({ theme }) => ({
-  padding: "15px 20px",
+  padding: "16px 24px",
   borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
 }))
 
 const NavSectionHeader = styled.div(({ theme }) => ({
-  paddingLeft: "10px",
+  paddingLeft: "8px",
   color: theme.custom.colors.silverGrayDark,
   fontSize: theme.typography.subtitle4.fontSize,
   fontWeight: theme.typography.h4.fontWeight,
@@ -30,7 +30,7 @@ const NavLinkText = styled.div(({ theme }) => ({
 
 const NavLinkDescription = styled.div(({ theme }) => ({
   display: "inline-block",
-  paddingTop: "5px",
+  paddingTop: "4px",
   color: theme.custom.colors.silverGrayDark,
   ...theme.typography.body3,
 }))
