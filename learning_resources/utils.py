@@ -493,3 +493,94 @@ def offeror_delete_actions(offeror: LearningResourceOfferor):
     pm = get_plugin_manager()
     hook = pm.hook
     hook.offeror_delete(offeror=offeror)
+
+
+def _walk_ocw_topic_map(
+    topics: dict, parent: None | LearningResourceTopic = None
+) -> None:
+    """
+    Walk the topic map provided and create topic records accordingly.
+
+    This will recursively walk through the topics list and create/update topic
+    records as appropriate. There's just names here so if the record exists with
+    the same name, it'll update; otherwise, it creates.
+
+    Args:
+    - topics (dict): the topics to process
+    - parent (None or LearningResourceTopic): the parent topic (for inner loops)
+    Returns:
+    - None
+    """
+
+    for topic in topics:
+        lr_topic, _ = LearningResourceTopic.objects.filter(name=topic).update_or_create(
+            defaults={
+                "parent": parent,
+                "name": topic,
+            }
+        )
+
+        topic_upserted_actions(lr_topic)
+
+        try:
+            if len(topics[topic]) > 0:
+                _walk_ocw_topic_map(topics[topic], lr_topic)
+        except TypeError:
+            # the ends here are lists of str - if we get this, there's
+            # nothing else to process
+            pass
+
+
+@transaction.atomic()
+def upsert_topic_data(
+    config_path: str = "learning_resources/data/ocw-topics.yaml",
+) -> None:
+    """
+    Load the topics from the OCW course site config file.
+
+    The OCW settings are in a YAML file. We're specifically looking at the field
+    named "Topics" and walking the list from there.
+
+    Args:
+    - config_path (str): the path to the OCW course site config file.
+    Returns:
+    - None
+    """
+
+    with Path.open(Path(config_path)) as ocw_config:
+        ocw_config_yaml = ocw_config.read()
+
+    ocw_config = yaml.safe_load(ocw_config_yaml)
+    topics = []
+
+    for collection in ocw_config["collections"]:
+        if collection["category"] == "Settings":
+            for file in collection["files"]:
+                for field in file["fields"]:
+                    if field["label"] == "Topics":
+                        topics = field["options_map"]
+                        # There should only be one here so stop after finding it.
+                        break
+
+    _walk_ocw_topic_map(topics)
+
+
+def _walk_lr_topic_parents(
+    learning_resource: LearningResource,
+    topic: LearningResourceTopic,
+) -> None:
+    """Walk the topic list and add parents as necessary."""
+
+    learning_resource.topics.add(topic)
+
+    if topic.parent:
+        _walk_lr_topic_parents(learning_resource, topic.parent)
+
+
+@transaction.atomic()
+def add_parent_topics_to_learning_resource(resource):
+    """Add the parent topics to the learning resource"""
+
+    for topic in resource.topics.all():
+        if topic.parent:
+            _walk_lr_topic_parents(resource, topic.parent)

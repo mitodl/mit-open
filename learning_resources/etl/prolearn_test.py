@@ -144,6 +144,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
             "learning_format": transform_format(program["format_name"]),
+            "certification": True,
             "runs": [
                 {
                     "run_id": f"{program['nid']}_{start_val}",
@@ -197,6 +198,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "published": True,
             "professional": True,
             "learning_format": transform_format(course["format_name"]),
+            "certification": True,
             "topics": parse_topic(course),
             "url": course["course_link"]
             if urlparse(course["course_link"]).path

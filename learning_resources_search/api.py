@@ -34,6 +34,7 @@ from learning_resources_search.utils import (
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
+DEFAULT_SORT = "-created_on"
 
 
 def gen_content_file_id(content_file_id):
@@ -81,6 +82,7 @@ def generate_sort_clause(search_params):
         dict or String: either a dictionary with the sort clause for
             nested sort params or just sort parameter
     """
+
     sort = (
         LEARNING_RESOURCE_SORTBY_OPTIONS.get(search_params.get("sortby"), {})
         .get("sort")
@@ -539,8 +541,9 @@ def construct_search(search_params):
 
     if search_params.get("sortby"):
         sort = generate_sort_clause(search_params)
-
         search = search.sort(sort)
+    elif not search_params.get("q"):
+        search = search.sort(DEFAULT_SORT)
 
     if search_params.get("endpoint") == CONTENT_FILE_TYPE:
         query_type_query = {"exists": {"field": "content_type"}}

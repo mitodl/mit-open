@@ -303,6 +303,42 @@ test("Facet 'Offered By' uses API response for names", async () => {
   expect(offeror2).toBeVisible()
 })
 
+test("Set sort", async () => {
+  setMockApiResponses({ search: { count: 137 } })
+
+  const { location } = renderWithProviders(<SearchPage />)
+
+  let sortDropdown = await screen.findByText("Sort by: Relevance")
+
+  await user.click(sortDropdown)
+
+  const noneSelect = await screen.findByRole("option", {
+    name: "Relevance",
+  })
+
+  expect(noneSelect).toHaveAttribute("aria-selected", "true")
+
+  let popularitySelect = await screen.findByRole("option", {
+    name: /Popular/i,
+  })
+
+  expect(popularitySelect).toHaveAttribute("aria-selected", "false")
+
+  await user.click(popularitySelect)
+
+  expect(location.current.search).toBe("?sortby=-views")
+
+  sortDropdown = await screen.findByText("Sort by: Popular")
+
+  await user.click(sortDropdown)
+
+  popularitySelect = await screen.findByRole("option", {
+    name: /Popular/i,
+  })
+
+  expect(popularitySelect).toHaveAttribute("aria-selected", "true")
+})
+
 test("Clearing text updates URL", async () => {
   setMockApiResponses({})
   const { location } = renderWithProviders(<SearchPage />, { url: "?q=meow" })

@@ -11,6 +11,7 @@ import {
   Typography,
   PlainList,
   Skeleton,
+  SimpleSelect,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
@@ -69,6 +70,25 @@ const AGGREGATIONS: LRSearchRequest["aggregations"] = [
   "offered_by",
 ]
 
+const SORT_OPTIONS = [
+  {
+    label: "Relevance",
+    key: "",
+  },
+  {
+    label: "New",
+    key: "new",
+  },
+  {
+    label: "Popular",
+    key: "-views",
+  },
+  {
+    label: "Upcoming",
+    key: "upcoming",
+  },
+]
+
 const ColoredHeader = styled.div`
   background-color: #394357;
   height: 150px;
@@ -80,6 +100,17 @@ const SearchField = styled(SearchInput)`
   width: 100%;
 `
 
+export const StyledDropdown = styled(SimpleSelect)`
+  margin: 8px;
+  min-width: 140px;
+`
+
+const SortContainer = styled.div`
+  ${({ theme }) => theme.breakpoints.up("sm")} {
+    float: right;
+    padding-right: 12px;
+  }
+`
 const FacetStyles = styled.div`
   * {
     color: ${({ theme }) => theme.palette.secondary.main};
@@ -263,7 +294,6 @@ const SearchPage: React.FC = () => {
     },
     [setSearchParams],
   )
-
   const facetManifest = useFacetManifest()
   const onFacetsChange = useCallback(() => {
     setPage(1)
@@ -278,6 +308,7 @@ const SearchPage: React.FC = () => {
     currentText,
     setCurrentText,
     setCurrentTextAndQuery,
+    setParamValue,
   } = useResourceSearchParams({
     searchParams,
     setSearchParams,
@@ -357,6 +388,20 @@ const SearchPage: React.FC = () => {
               </FacetStyles>
             </GridColumn>
             <GridColumn variant="main-2-wide-main">
+              <SortContainer>
+                <StyledDropdown
+                  initialValue={params.sortby || ""}
+                  isMultiple={false}
+                  onChange={(e) => setParamValue("sortby", e.target.value)}
+                  options={SORT_OPTIONS}
+                  renderValue={(value) => {
+                    const opt = SORT_OPTIONS.find(
+                      (option) => option.key === value,
+                    )
+                    return `Sort by: ${opt?.label}`
+                  }}
+                />
+              </SortContainer>
               <ResourceTypeTabs.TabList
                 patchParams={patchParams}
                 tabs={TABS}

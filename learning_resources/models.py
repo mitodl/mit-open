@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import JSONField
+from django.db.models.functions import Lower
 
 from learning_resources import constants
 from learning_resources.constants import (
@@ -35,10 +36,23 @@ class LearningResourceTopic(TimestampedModel):
     Topics for all learning resources (e.g. "History")
     """
 
-    name = models.CharField(max_length=128, unique=True)
+    name = models.CharField(max_length=128)
+    parent = models.ForeignKey(
+        "LearningResourceTopic",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
+        """Return the topic name."""
+
         return self.name
+
+    class Meta:
+        """Meta options for LearningResourceTopic"""
+
+        constraints = [models.UniqueConstraint(Lower("name"), name="unique_lower_name")]
 
 
 class LearningResourceOfferor(TimestampedModel):
@@ -175,6 +189,7 @@ class LearningResource(TimestampedModel):
     departments = models.ManyToManyField(
         LearningResourceDepartment,
     )
+    certification = models.BooleanField(default=False)
     resource_type = models.CharField(
         max_length=24,
         db_index=True,
@@ -213,25 +228,6 @@ class LearningResource(TimestampedModel):
             )
         else:
             return [Decimal(0.00)]
-
-    @property
-    def certification(self) -> bool:
-        """Returns the certification for the learning resource"""
-        return bool(
-            self.professional
-            or (
-                self.offered_by
-                and self.offered_by.name == constants.OfferedBy.mitx.value
-                and (
-                    any(
-                        availability != constants.AvailabilityType.archived.value
-                        for availability in self.runs.values_list(
-                            "availability", flat=True
-                        )
-                    )
-                )
-            )
-        )
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)

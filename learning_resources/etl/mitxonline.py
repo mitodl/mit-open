@@ -10,11 +10,17 @@ import requests
 from dateutil.parser import parse
 from django.conf import settings
 
-from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.constants import (
+    AvailabilityType,
+    LearningResourceType,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     extract_valid_department_from_id,
     generate_course_numbers_json,
+    parse_certification,
     transform_topics,
 )
 
@@ -178,6 +184,7 @@ def _transform_course(course):
             parse_page_attribute(course, "page_url")
         ),  # a course is only considered published if it has a page url
         "professional": False,
+        "certification": parse_certification(OFFERED_BY, course.get("courseruns", [])),
         "image": _transform_image(course),
         "url": parse_page_attribute(course, "page_url", is_url=True),
         "description": parse_page_attribute(course, "description"),
@@ -214,6 +221,7 @@ def transform_programs(programs):
             "departments": extract_valid_department_from_id(program["readable_id"]),
             "platform": PlatformType.mitxonline.name,
             "professional": False,
+            "certification": bool(parse_page_attribute(program, "page_url")),
             "topics": transform_topics(program.get("topics", [])),
             "description": parse_page_attribute(program, "description"),
             "url": parse_page_attribute(program, "page_url", is_url=True),
@@ -240,6 +248,9 @@ def transform_programs(programs):
                     "image": _transform_image(program),
                     "description": parse_page_attribute(program, "description"),
                     "prices": parse_program_prices(program),
+                    "availability": AvailabilityType.current.name
+                    if parse_page_attribute(program, "page_url")
+                    else AvailabilityType.archived.name,
                 }
             ],
             "courses": [

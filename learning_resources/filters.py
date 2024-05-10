@@ -20,7 +20,10 @@ from learning_resources.constants import (
     OfferedBy,
     PlatformType,
 )
-from learning_resources.models import ContentFile, LearningResource
+from learning_resources.models import (
+    ContentFile,
+    LearningResource,
+)
 from main.filters import CharInFilter, NumberInFilter, multi_or_filter
 
 log = logging.getLogger(__name__)
@@ -214,3 +217,44 @@ class ContentFileFilter(FilterSet):
     class Meta:
         model = ContentFile
         fields = []
+
+
+class TopicFilter(FilterSet):
+    """Filterset for learning resource topics."""
+
+    name = CharInFilter(
+        label="Topic name",
+        method="filter_name",
+    )
+    parent_topic_name = CharInFilter(
+        label="Parent topic name",
+        method="filter_parent_topic_name",
+    )
+    is_toplevel = BooleanFilter(
+        label="Filter top-level topics",
+        method="filter_toplevel",
+    )
+
+    def filter_name(self, queryset, _, values):
+        """Filter by topic name"""
+        return multi_or_filter(queryset, "name__iexact", values)
+
+    def filter_toplevel(self, queryset, _, value):
+        """Filter by top-level (parent == null)"""
+        return queryset.filter(parent__isnull=value)
+
+    def filter_parent_topic_name(self, queryset, _, values):
+        """Filter by parent topic name (up to 2 levels deep)"""
+
+        nested_topic_filter = Q()
+
+        for topic in values:
+            nested_topic_filter |= Q(
+                parent__isnull=False, parent__name__iexact=topic
+            ) | Q(
+                parent__isnull=False,
+                parent__parent__isnull=False,
+                parent__parent__name__iexact=topic,
+            )
+
+        return queryset.filter(nested_topic_filter)

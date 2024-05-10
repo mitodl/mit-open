@@ -11,11 +11,14 @@ import requests
 from dateutil.parser import parse
 from toolz import compose
 
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import (
+    LearningResourceType,
+)
 from learning_resources.etl.constants import COMMON_HEADERS
 from learning_resources.etl.utils import (
     extract_valid_department_from_id,
     generate_course_numbers_json,
+    parse_certification,
     transform_levels,
     without_none,
 )
@@ -246,6 +249,11 @@ def _transform_course(config, course):
     """
     last_modified = _parse_openedx_datetime(course.get("modified"))
     marketing_url = _get_course_marketing_url(config, course)
+    runs = [
+        _transform_course_run(config, course_run, last_modified, marketing_url)
+        for course_run in course.get("course_runs", [])
+        if _filter_course_run(course_run)
+    ]
     return {
         "readable_id": course.get("key"),
         "etl_source": config.etl_source,
@@ -263,17 +271,14 @@ def _transform_course(config, course):
         "topics": [
             {"name": subject.get("name")} for subject in course.get("subjects", [])
         ],
-        "runs": [
-            _transform_course_run(config, course_run, last_modified, marketing_url)
-            for course_run in course.get("course_runs", [])
-            if _filter_course_run(course_run)
-        ],
+        "runs": runs,
         "course": {
             "course_numbers": generate_course_numbers_json(course.get("key")),
         },
         "published": any(
             run["status"] == "published" for run in course.get("course_runs", [])
         ),
+        "certification": parse_certification(config.offered_by, runs),
     }
 
 

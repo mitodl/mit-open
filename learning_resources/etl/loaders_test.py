@@ -597,28 +597,27 @@ def test_load_run(run_exists):
 @pytest.mark.parametrize("parent_factory", [CourseFactory, ProgramFactory])
 @pytest.mark.parametrize("topics_exist", [True, False])
 def test_load_topics(mocker, parent_factory, topics_exist):
-    """Test that load_topics creates and/or assigns topics to the parent object"""
-    mock_pluggy = mocker.patch("learning_resources.etl.loaders.topic_upserted_actions")
+    """Test that load_topics assigns topics to the parent object"""
+
     topics = (
         LearningResourceTopicFactory.create_batch(3)
         if topics_exist
         else LearningResourceTopicFactory.build_batch(3)
     )
     parent = parent_factory.create()
+    total_topic_count = len(topics) if topics_exist else 0
 
     load_topics(parent.learning_resource, [])
 
     assert parent.learning_resource.topics.count() == 0
-    mock_pluggy.assert_not_called()
 
     load_topics(parent.learning_resource, [{"name": topic.name} for topic in topics])
 
-    assert parent.learning_resource.topics.count() == len(topics)
-    assert mock_pluggy.call_count == (0 if topics_exist else len(topics))
+    assert parent.learning_resource.topics.count() == total_topic_count
 
     load_topics(parent.learning_resource, None)
 
-    assert parent.learning_resource.topics.count() == len(topics)
+    assert parent.learning_resource.topics.count() == total_topic_count
 
     load_topics(parent.learning_resource, [])
 
@@ -1040,13 +1039,19 @@ def test_load_podcast(
 @pytest.mark.parametrize("video_exists", [True, False])
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("pass_topics", [True, False])
-def test_load_video(mocker, mock_upsert_tasks, video_exists, is_published, pass_topics):
+def test_load_video(mocker, video_exists, is_published, pass_topics):
     """Test that a video is properly loaded and saved"""
+    expected_topics = [{"name": "Biology"}, {"name": "Chemistry"}]
+    [
+        LearningResourceTopicFactory.create(name=topic["name"])
+        for topic in expected_topics
+    ]
+
     video_resource = (
         VideoFactory.create() if video_exists else VideoFactory.build()
     ).learning_resource
     offered_by = LearningResourceOfferorFactory.create()
-    expected_topics = [{"name": "Biology"}, {"name": "Chemistry"}]
+
     mock_similar_topics_action = mocker.patch(
         "learning_resources.etl.loaders.similar_topics_action",
         return_value=expected_topics,
@@ -1111,6 +1116,10 @@ def test_load_videos():
 def test_load_playlist(mocker):
     """Test load_playlist"""
     expected_topics = [{"name": "Biology"}, {"name": "Physics"}]
+    [
+        LearningResourceTopicFactory.create(name=topic["name"])
+        for topic in expected_topics
+    ]
     mock_most_common_topics = mocker.patch(
         "learning_resources.etl.loaders.most_common_topics",
         return_value=expected_topics,

@@ -2,11 +2,9 @@
 
 import pytest
 
-from learning_resources import constants
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import (
     CourseFactory,
-    LearningResourceOfferorFactory,
     ProgramFactory,
 )
 
@@ -49,51 +47,3 @@ def test_course_creation():
     assert resource.topics.count() > 0
     assert resource.offered_by is not None
     assert resource.runs.count() == course.runs.count()
-
-
-@pytest.mark.parametrize(
-    ("offered_by", "availability", "has_cert"),
-    [
-        [  # noqa: PT007
-            constants.OfferedBy.ocw.name,
-            constants.AvailabilityType.archived.value,
-            False,
-        ],
-        [  # noqa: PT007
-            constants.OfferedBy.ocw.name,
-            constants.AvailabilityType.current.value,
-            False,
-        ],
-        [  # noqa: PT007
-            constants.OfferedBy.xpro.name,
-            constants.AvailabilityType.archived.value,
-            True,
-        ],
-        [  # noqa: PT007
-            constants.OfferedBy.xpro.name,
-            constants.AvailabilityType.current.value,
-            True,
-        ],
-        [  # noqa: PT007
-            constants.OfferedBy.mitx.name,
-            constants.AvailabilityType.archived.value,
-            False,
-        ],
-        [  # noqa: PT007
-            constants.OfferedBy.mitx.name,
-            constants.AvailabilityType.current.value,
-            True,
-        ],
-    ],
-)
-def test_lr_certification(offered_by, availability, has_cert):
-    """The certification property should return the expected value"""
-    offered_by = LearningResourceOfferorFactory.create(code=offered_by)
-
-    course = CourseFactory.create(
-        offered_by=offered_by.code,
-        learning_resource__runs=[],
-        is_professional=(has_cert and offered_by != constants.OfferedBy.mitx.name),
-    )
-
-    assert course.learning_resource.certification == has_cert
