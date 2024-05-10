@@ -1,3 +1,5 @@
+import random
+
 import factory
 from factory.django import DjangoModelFactory
 
@@ -5,6 +7,7 @@ from learning_resources_search import models
 
 
 class PercolateQueryFactory(DjangoModelFactory):
+    source_type = models.PercolateQuery.SEARCH_SUBSCRIPTION_TYPE
     original_query = factory.Dict(
         {
             "q": factory.Faker("text"),
@@ -12,6 +15,21 @@ class PercolateQueryFactory(DjangoModelFactory):
             "endpoint": "learning_resource",
             "professional": None,
             "certification": None,
+            "topic": factory.List(
+                random.choices(  # noqa: S311
+                    [
+                        "Business",
+                        "Mechanical Engineering",
+                        "Environmental Engineering",
+                        "Computer Science",
+                        "Entrepreneurship",
+                        "Systems Engineering",
+                        "Communications",
+                        "Marketing",
+                        "Management",
+                    ]
+                )
+            ),
         }
     )
     query = {
