@@ -44,19 +44,19 @@ class ProfileSerializer(serializers.ModelSerializer):
     profile_image_small = serializers.SerializerMethodField(read_only=True)
     placename = serializers.SerializerMethodField(read_only=True)
 
-    def get_username(self, obj):
+    def get_username(self, obj) -> str:
         """Custom getter for the username"""  # noqa: D401
         return str(obj.user.username)
 
-    def get_profile_image_medium(self, obj):
+    def get_profile_image_medium(self, obj) -> str:
         """Custom getter for medium profile image"""  # noqa: D401
         return image_uri(obj, IMAGE_MEDIUM)
 
-    def get_profile_image_small(self, obj):
+    def get_profile_image_small(self, obj) -> str:
         """Custom getter for small profile image"""  # noqa: D401
         return image_uri(obj, IMAGE_SMALL)
 
-    def get_placename(self, obj):
+    def get_placename(self, obj) -> str:
         """Custom getter for location text"""  # noqa: D401
         if obj.location:
             return obj.location.get("value", "")
@@ -225,13 +225,13 @@ class UserSerializer(serializers.ModelSerializer):
     is_article_editor = serializers.SerializerMethodField()
     profile = ProfileSerializer()
 
-    def get_is_learning_path_editor(self, instance):  # noqa: ARG002
+    def get_is_learning_path_editor(self, instance) -> bool:  # noqa: ARG002
         request = self.context.get("request")
         if request:
             return is_admin_user(request) or is_learning_path_editor(request)
         return False
 
-    def get_is_article_editor(self, instance):  # noqa: ARG002
+    def get_is_article_editor(self, instance) -> bool:  # noqa: ARG002
         request = self.context.get("request")
         if request:
             return is_admin_user(request)
@@ -288,16 +288,17 @@ class ProgramCertificateSerializer(serializers.ModelSerializer):
     program_letter_generate_url = serializers.SerializerMethodField()
     program_letter_share_url = serializers.SerializerMethodField()
 
-    def get_program_letter_generate_url(self, instance):
+    def get_program_letter_generate_url(self, instance) -> str:
         request = self.context.get("request")
         letter_url = reverse(
-            "profile:program-letter-intercept", args=[instance.micromasters_program_id]
+            "profile:program-letter-intercept",
+            kwargs={"program_id": instance.micromasters_program_id},
         )
         if request:
             return request.build_absolute_uri(letter_url)
         return letter_url
 
-    def get_program_letter_share_url(self, instance):
+    def get_program_letter_share_url(self, instance) -> str:
         request = self.context.get("request")
 
         user = User.objects.get(email=instance.user_email)

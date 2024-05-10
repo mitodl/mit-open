@@ -5,7 +5,7 @@ TMPDIR="$(mktemp -d)"
 SPECS_DIR=./openapi/specs/
 
 ./manage.py generate_openapi_spec \
-	--directory=$TMPDIR
+	--directory=$TMPDIR --fail-on-warn
 
 diff $TMPDIR $SPECS_DIR
 

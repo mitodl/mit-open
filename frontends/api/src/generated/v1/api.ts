@@ -6598,12 +6598,12 @@ export const CourseFeaturesApiAxiosParamCreator = function (
     /**
      * Course Features and Content Feature Types
      * @summary Retrieve
-     * @param {string} id
+     * @param {number} id A unique integer value identifying this learning resource content tag.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     courseFeaturesRetrieve: async (
-      id: string,
+      id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -6690,12 +6690,12 @@ export const CourseFeaturesApiFp = function (configuration?: Configuration) {
     /**
      * Course Features and Content Feature Types
      * @summary Retrieve
-     * @param {string} id
+     * @param {number} id A unique integer value identifying this learning resource content tag.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async courseFeaturesRetrieve(
-      id: string,
+      id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -6796,11 +6796,11 @@ export interface CourseFeaturesApiCourseFeaturesListRequest {
  */
 export interface CourseFeaturesApiCourseFeaturesRetrieveRequest {
   /**
-   *
-   * @type {string}
+   * A unique integer value identifying this learning resource content tag.
+   * @type {number}
    * @memberof CourseFeaturesApiCourseFeaturesRetrieve
    */
-  readonly id: string
+  readonly id: number
 }
 
 /**
@@ -17316,9 +17316,8 @@ export const ProgramLettersApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Retrieve a single program letter.
-     * @summary Retrieve
-     * @param {string} id
+     * Detail only View for program letters
+     * @param {string} id A UUID string identifying this program letter.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -17373,9 +17372,8 @@ export const ProgramLettersApiFp = function (configuration?: Configuration) {
     ProgramLettersApiAxiosParamCreator(configuration)
   return {
     /**
-     * Retrieve a single program letter.
-     * @summary Retrieve
-     * @param {string} id
+     * Detail only View for program letters
+     * @param {string} id A UUID string identifying this program letter.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -17414,8 +17412,7 @@ export const ProgramLettersApiFactory = function (
   const localVarFp = ProgramLettersApiFp(configuration)
   return {
     /**
-     * Retrieve a single program letter.
-     * @summary Retrieve
+     * Detail only View for program letters
      * @param {ProgramLettersApiProgramLettersRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17438,7 +17435,7 @@ export const ProgramLettersApiFactory = function (
  */
 export interface ProgramLettersApiProgramLettersRetrieveRequest {
   /**
-   *
+   * A UUID string identifying this program letter.
    * @type {string}
    * @memberof ProgramLettersApiProgramLettersRetrieve
    */
@@ -17453,8 +17450,7 @@ export interface ProgramLettersApiProgramLettersRetrieveRequest {
  */
 export class ProgramLettersApi extends BaseAPI {
   /**
-   * Retrieve a single program letter.
-   * @summary Retrieve
+   * Detail only View for program letters
    * @param {ProgramLettersApiProgramLettersRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

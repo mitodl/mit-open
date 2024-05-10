@@ -72,6 +72,7 @@ def test_create_field_channel_missing_name(admin_client):
     response = admin_client.post(url, data=data)
     assert response.status_code == 400
     assert response.json() == {
+        "channel_type": ["This field is required."],
         "error_type": "ValidationError",
         "name": ["This field is required."],
     }
@@ -83,9 +84,14 @@ def test_create_field_channel_featured_list_only_learning_path(
 ):
     """Only learning_paths may be used as featured_list"""
     url = reverse("channels:v0:field_channels_api-list")
-    resoure = LearningResourceFactory.create(resource_type=resource_type.name)
+    resource = LearningResourceFactory.create(resource_type=resource_type.name)
     status = 201 if resource_type == LearningResourceType.learning_path else 400
-    data = {"title": "Biology", "name": "biology", "featured_list": resoure.id}
+    data = {
+        "title": "Biology",
+        "name": "biology",
+        "featured_list": resource.id,
+        "channel_type": ChannelType.pathway.name,
+    }
     response = admin_client.post(url, data=data, format="appliation/json")
     assert response.status_code == status
 
@@ -114,7 +120,12 @@ def test_create_field_channel_lists_only_learning_path(admin_client, resource_ty
     resoure = LearningResourceFactory.create(resource_type=resource_type.name)
     resource2 = LearningResourceFactory.create(resource_type=resource_type.name)
     status = 201 if resource_type == LearningResourceType.learning_path else 400
-    data = {"title": "Biology", "name": "biology", "lists": [resoure.id, resource2.id]}
+    data = {
+        "title": "Biology",
+        "name": "biology",
+        "lists": [resoure.id, resource2.id],
+        "channel_type": ChannelType.pathway.name,
+    }
     response = admin_client.post(url, data=data, content_type="application/json")
     assert response.status_code == status
 

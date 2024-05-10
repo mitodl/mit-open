@@ -512,7 +512,9 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this learning resource content
+          tag.
         required: true
       tags:
       - course_features
@@ -5113,13 +5115,14 @@ paths:
   /api/v1/program_letters/{id}/:
     get:
       operationId: program_letters_retrieve
-      description: Retrieve a single program letter.
-      summary: Retrieve
+      description: Detail only View for program letters
       parameters:
       - in: path
         name: id
         schema:
           type: string
+          format: uuid
+        description: A UUID string identifying this program letter.
         required: true
       tags:
       - program_letters

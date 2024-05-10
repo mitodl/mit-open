@@ -686,8 +686,6 @@ class ContentTagViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceContentTagSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
-    lookup_url_kwarg = "id"
-    lookup_field = "id_iexact"
 
 
 @extend_schema_view(

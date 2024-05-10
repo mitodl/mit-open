@@ -9,8 +9,15 @@ from drf_spectacular.plumbing import ResolvedComponent
 from channels import constants, serializers
 
 
-class ChannelTypeFieldConstant(OpenApiSerializerFieldExtension):
-    target_class = "channels.serializers.ChannelTypeField"
+class ChannelTypeChoiceFieldExtension(OpenApiSerializerFieldExtension):
+    target_class = "channels.serializers.ChannelTypeChoiceField"
+
+    def map_serializer_field(self, auto_schema, direction):  # noqa: ARG002
+        return {"allOf": [{"$ref": "ChannelTypeEnum"}]}
+
+
+class ChannelTypeConstantFieldExtension(OpenApiSerializerFieldExtension):
+    target_class = "channels.serializers.ChannelTypeConstantField"
 
     def map_serializer_field(self, auto_schema, direction):  # noqa: ARG002
         return {

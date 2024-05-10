@@ -32,7 +32,15 @@ User = get_user_model()
 log = logging.getLogger(__name__)
 
 
-class ChannelTypeField(serializers.ReadOnlyField):
+class ChannelTypeChoiceField(serializers.ChoiceField):
+    """Field for FieldChannel.channel_type"""
+
+    def __init__(self, **kwargs):
+        kwargs.setdefault("required", True)
+        super().__init__(ChannelType.as_tuple(), **kwargs)
+
+
+class ChannelTypeConstantField(serializers.ReadOnlyField):
     """Field for FieldChannel.channel_type"""
 
 
@@ -146,7 +154,7 @@ class FieldChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerial
             .order_by("position")
         ]
 
-    def get_channel_url(self, instance):
+    def get_channel_url(self, instance) -> str:
         """Get the URL for the channel"""
         return instance.channel_url
 
@@ -166,7 +174,7 @@ class ChannelTopicDetailSerializer(serializers.ModelSerializer):
 class TopicChannelSerializer(FieldChannelBaseSerializer):
     """Serializer for Channel model of type topic"""
 
-    channel_type = ChannelTypeField(default=ChannelType.topic.name)
+    channel_type = ChannelTypeConstantField(default=ChannelType.topic.name)
     topic_detail = ChannelTopicDetailSerializer()
 
 
@@ -181,7 +189,7 @@ class ChannelDepartmentDetailSerializer(serializers.ModelSerializer):
 class DepartmentChannelSerializer(FieldChannelBaseSerializer):
     """Serializer for Channel model of type department"""
 
-    channel_type = ChannelTypeField(default=ChannelType.department.name)
+    channel_type = ChannelTypeConstantField(default=ChannelType.department.name)
 
     department_detail = ChannelDepartmentDetailSerializer()
 
@@ -197,7 +205,7 @@ class ChannelOfferorDetailSerializer(serializers.ModelSerializer):
 class OfferorChannelSerializer(FieldChannelBaseSerializer):
     """Serializer for Channel model of type offeror"""
 
-    channel_type = ChannelTypeField(default=ChannelType.offeror.name)
+    channel_type = ChannelTypeConstantField(default=ChannelType.offeror.name)
 
     offeror_detail = ChannelOfferorDetailSerializer()
 
@@ -213,7 +221,7 @@ class ChannelPathwayDetailSerializer(serializers.ModelSerializer):
 class PathwayChannelSerializer(FieldChannelBaseSerializer):
     """Serializer for Channel model of type pathway"""
 
-    channel_type = ChannelTypeField(default=ChannelType.pathway.name)
+    channel_type = ChannelTypeConstantField(default=ChannelType.pathway.name)
 
     pathway_detail = ChannelPathwayDetailSerializer()
 
@@ -243,6 +251,8 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
     Write serializer for FieldChannel. Uses primary keys for referenced objects
     during requests, and delegates to FieldChannelSerializer for responses.
     """
+
+    channel_type = ChannelTypeChoiceField(required=True)
 
     featured_list = serializers.PrimaryKeyRelatedField(
         many=False,

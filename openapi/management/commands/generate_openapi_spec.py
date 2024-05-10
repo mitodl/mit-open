@@ -21,6 +21,13 @@ class Command(BaseCommand):
             default="openapi/specs/",
             help="Directory into which output is written",
         )
+        parser.add_argument(
+            "--fail-on-warn",
+            dest="fail-on-warn",
+            action="store_true",
+            default=False,
+            help="Fail the command if there are any warnings",
+        )
 
         super().add_arguments(parser)
 
@@ -35,4 +42,5 @@ class Command(BaseCommand):
                 file=filepath,
                 validate=True,
                 api_version=version,
+                fail_on_warn=options["fail-on-warn"],
             )
