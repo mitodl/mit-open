@@ -1,5 +1,6 @@
 """Indexing tasks"""
 
+import datetime
 import logging
 from contextlib import contextmanager
 
@@ -45,6 +46,7 @@ from learning_resources_search.serializers import (
 )
 from main.celery import app
 from main.utils import chunks, merge_strings
+from profiles.utils import send_template_email
 
 User = get_user_model()
 log = logging.getLogger(__name__)
@@ -106,6 +108,38 @@ def upsert_learning_resource(learning_resource_id):
         resource_obj.resource_type,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
     )
+
+
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def send_subscription_emails(subscription_type, period="daily"):
+    since = datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=1)
+    new_learning_resources = LearningResource.objects.filter(created_on__gt=since)
+    document_user_map = {}
+    all_users = set()
+    for resource in new_learning_resources:
+        percolated = percolate_matches_for_document(resource.id).filter(
+            source_type=subscription_type
+        )
+        if percolated.count() > 0:
+            percolated_users = list(percolated.values_list("users", flat=True))
+            document_user_map[resource.id] = percolated_users
+            all_users.update(percolated_users)
+
+    users = User.objects.filter(id__in=all_users)
+    for user in users:
+        percolated_for_user = []
+        doc_ids = [
+            document_id
+            for document_id in document_user_map
+            if user.id in document_user_map[document_id]
+        ]
+        percolated_for_user = new_learning_resources.filter(id__in=doc_ids)
+        send_template_email(
+            [user.email],
+            f"Your {period} subscription matches",
+            "email/subscribed_channel_digest.html",
+            context={"documents": percolated_for_user},
+        )
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
