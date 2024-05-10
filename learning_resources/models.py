@@ -11,6 +11,7 @@ from django.db.models.functions import Lower
 
 from learning_resources import constants
 from learning_resources.constants import (
+    LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     PrivacyLevel,
@@ -179,7 +180,7 @@ class LearningResource(TimestampedModel):
     )
     learning_format = ArrayField(
         models.CharField(max_length=24, db_index=True),
-        default=list,
+        default=[LearningResourceFormat.online.name],
     )
     platform = models.ForeignKey(
         LearningResourcePlatform,
