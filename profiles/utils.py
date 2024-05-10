@@ -377,13 +377,30 @@ def fetch_program_letter_template_data(letter):
 
 
 def send_template_email(recipients, subject, template, context):
+    """
+    Send an html email using a provided template
+    Args:
+        recipients(str[]): Emails to send to
+        subject(str): Subject line
+        template(str): Path to an html template
+        context(dict): context vars used in rendering the template
+    """
     if not context:
         context = {}
     html_content = render_to_string(template, context)
-    send_email(recipients, subject, html_content, text_only=False)
+    return send_email(recipients, subject, html_content, text_only=False)
 
 
 def send_email(recipients, subject, content, text_only):
+    """
+    Send an email
+    Args:
+        recipients(str[]): Emails to send to
+        subject(str): Subject line
+        content(str): The html or plain text content of the email.
+        text_only(bool): If True html from the 'content' arg
+        will be stripped and sent as plaint text
+    """
     if text_only:
         text_content = content
     else:
@@ -394,4 +411,4 @@ def send_email(recipients, subject, content, text_only):
     msg = EmailMultiAlternatives(subject, text_content, "from@example.com", recipients)
     if not text_only:
         msg.attach_alternative(content, "text/html")
-    msg.send()
+    return msg.send()
