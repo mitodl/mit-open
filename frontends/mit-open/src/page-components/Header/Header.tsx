@@ -156,10 +156,10 @@ const Header: FunctionComponent = () => {
       <ClickAwayListener onClickAway={closeDrawer}>
         <div role="presentation">
           <NavDrawer
-            navData={navData}
+            navdata={navData}
             open={drawerOpen}
             onClose={toggleDrawer.off}
-          ></NavDrawer>
+          />
         </div>
       </ClickAwayListener>
     </div>

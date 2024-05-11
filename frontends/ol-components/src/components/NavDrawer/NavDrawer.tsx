@@ -61,11 +61,11 @@ const NavItem: React.FC<NavItemProps> = (props) => {
   const { title, description, href } = props
   const navItem = (
     <NavItemContainer>
-      <NavLinkText className="nav-link-text">
+      <NavLinkText role="heading" className="nav-link-text">
         {title} {href ? "" : "(Coming Soon)"}
       </NavLinkText>
       {description ? (
-        <NavLinkDescription className="nav-link-description">
+        <NavLinkDescription role="note" className="nav-link-description">
           {description}
         </NavLinkDescription>
       ) : null}
@@ -90,12 +90,12 @@ export interface NavItem {
 }
 
 type NavDrawerProps = {
-  navData: NavData
+  navdata: NavData
 } & DrawerProps
 
 const NavDrawer = (props: NavDrawerProps) => {
-  const { navData } = props
-  const navSections = navData.sections.map((section) => {
+  const { navdata } = props
+  const navSections = navdata.sections.map((section) => {
     const navItemElements = section.items.map((item) => (
       <NavItem
         key={item.title}
