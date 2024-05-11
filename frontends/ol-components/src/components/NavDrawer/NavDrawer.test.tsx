@@ -86,18 +86,13 @@ describe("NavDrawer", () => {
     },
   ])(
     "Renders the expected drawer contents",
-    async ({
-      navData,
-      expectedLinks,
-      expectedTitles,
-      expectedDescriptions,
-    }) => {
+    ({ navData, expectedLinks, expectedTitles, expectedDescriptions }) => {
       render(<NavDrawer navdata={navData} open={true} />, {
         wrapper: ThemeProvider,
       })
-      const links = await screen.getAllByRole("link")
-      const titles = await screen.findAllByRole("heading")
-      const descriptions = await screen.findAllByRole("note")
+      const links = screen.getAllByRole("link")
+      const titles = screen.getAllByRole("heading")
+      const descriptions = screen.getAllByRole("note")
       expect(links).toHaveLength(expectedLinks)
       expect(titles).toHaveLength(expectedTitles)
       expect(descriptions).toHaveLength(expectedDescriptions)
@@ -108,7 +103,7 @@ describe("NavDrawer", () => {
             linksComingSoon++
           }
         })
-        expect(linksComingSoon === expectedTitles - expectedLinks)
+        expect(linksComingSoon === expectedTitles - expectedLinks).toBeTruthy()
       }
     },
   )
