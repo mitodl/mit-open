@@ -27,8 +27,17 @@ const Section = styled.section`
     linear-gradient(270deg, rgba(243, 244, 248, 0) 0%, #f3f4f8 100%),
     url("/static/images/open-bg-texture-wgradient.jpg") lightgray 50% / cover
       no-repeat;
-  background-position: center;
+  background-position: center right;
   padding: 80px 0px;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    padding: 40px 0px;
+  }
+`
+
+const Title = styled(Typography)`
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    text-align: center;
+  }
 `
 
 const Topics = styled.div`
@@ -36,21 +45,44 @@ const Topics = styled.div`
   flex-wrap: wrap;
   gap: 16px 24px;
   margin: 40px 0;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    gap: 5px;
+    margin: 24px 0;
+  }
 `
 
 const TopicBox = styled(Link)`
   flex: 0 1 calc(100% * (1 / 3) - 16px);
   padding: 28px 30px;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    flex: 0 1 100%;
+    padding: 18px 15px;
+  }
   border-radius: 5px;
   border: 1px solid var(--Light-Gray-2, ${theme.custom.colors.lightGray2});
   background: var(--white-mit-brand, ${theme.custom.colors.white});
+  overflow: hidden;
 `
 
-const TopicBoxHeading = styled.div`
+const TopicBoxContent = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
-  align-self: stretch;
+  svg {
+    flex: 0 0 20px;
+  }
+  font-weight: 500;
+  font-size: ${theme.typography.pxToRem(16)};
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    font-size: ${theme.typography.pxToRem(14)};
+  }
+`
+
+const TopicBoxName = styled.p`
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  margin: 0;
 `
 
 const SeeAllButton = styled(Button)`
@@ -65,17 +97,17 @@ const BrowseTopicsSection: React.FC = () => {
   return (
     <Section>
       <Container>
-        <Typography variant="h2">Browse by Topics</Typography>
+        <Title variant="h2">Browse by Topics</Title>
         <Topics>
           {topics?.results.map(
             ({ id, name, channel_url: channelUrl }, index) => {
               const Icon = ICONS[index % ICONS.length]
               return (
                 <TopicBox key={id} to={channelUrl!}>
-                  <TopicBoxHeading>
+                  <TopicBoxContent>
                     <Icon />
-                    {name}
-                  </TopicBoxHeading>
+                    <TopicBoxName>{name}</TopicBoxName>
+                  </TopicBoxContent>
                 </TopicBox>
               )
             },

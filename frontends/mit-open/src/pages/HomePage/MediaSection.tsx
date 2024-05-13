@@ -8,6 +8,9 @@ const Section = styled.section`
   background-color: ${theme.custom.colors.white};
   overflow: auto;
   padding: 80px 0px;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    padding: 40px 0px;
+  }
 `
 
 const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [

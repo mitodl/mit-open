@@ -7,6 +7,9 @@ import TabbedCarousel, {
 const Section = styled.section`
   padding: 80px 0px;
   overflow: auto;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    padding: 40px 0px;
+  }
 `
 
 const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
