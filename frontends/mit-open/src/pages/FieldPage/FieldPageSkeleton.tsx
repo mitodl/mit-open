@@ -74,9 +74,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                 <FieldControls>
                   {field.data?.search_filter ? (
                     <SearchSubscriptionToggle searchParams={urlParams} />
-                  ) : (
-                    null
-                  )}
+                  ) : null}
                   {field.data?.is_moderator ? (
                     <FieldMenu
                       channelType={String(channelType)}
