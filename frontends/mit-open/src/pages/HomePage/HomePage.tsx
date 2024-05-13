@@ -1,61 +1,9 @@
 import React from "react"
-import { Container, styled, theme } from "ol-components"
-import TabbedCarousel, {
-  TabbedCarouselProps,
-} from "@/page-components/TabbedCarousel/TabbedCarousel"
+import { Container, styled } from "ol-components"
 import HeroSearch from "./HeroSearch"
-import BrowseTopics from "./BrowseTopics"
-
-const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
-  {
-    label: "All",
-    pageSize: 4,
-    data: {
-      type: "resources",
-      params: { resource_type: ["course"], limit: 12, sortby: "upcoming" },
-    },
-  },
-  {
-    label: "Professional",
-    pageSize: 4,
-    data: {
-      type: "resources",
-      params: {
-        professional: true,
-        resource_type: ["course"],
-        limit: 12,
-        sortby: "upcoming",
-      },
-    },
-  },
-]
-
-const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
-  {
-    label: "All",
-    pageSize: 6,
-    data: {
-      type: "resources",
-      params: { resource_type: ["video", "podcast"], limit: 12 },
-    },
-  },
-  {
-    label: "Videos",
-    pageSize: 6,
-    data: {
-      type: "resources",
-      params: { resource_type: ["video"], limit: 12 },
-    },
-  },
-  {
-    label: "Podcasts",
-    pageSize: 6,
-    data: {
-      type: "resources",
-      params: { resource_type: ["podcast"], limit: 12 },
-    },
-  },
-]
+import UpcomingCoursesSection from "./UpcomingCoursesSection"
+import MediaSection from "./MediaSection"
+import BrowseTopicsSection from "./BrowseTopicsSection"
 
 const FullWidthBackground = styled.div`
   background-image: linear-gradient(
@@ -73,10 +21,6 @@ const FullWidthBackground = styled.div`
     padding-bottom: 55px;
   }
 `
-const MediaSection = styled.section`
-  background-color: ${theme.custom.colors.white};
-  overflow: auto;
-`
 
 const HomePage: React.FC = () => {
   return (
@@ -86,19 +30,9 @@ const HomePage: React.FC = () => {
           <HeroSearch />
         </Container>
       </FullWidthBackground>
-      <section>
-        <Container>
-          <h2>Upcoming Courses</h2>
-          <TabbedCarousel config={UPCOMING_COURSES_CAROUSEL} />
-        </Container>
-      </section>
-      <MediaSection>
-        <Container>
-          <h2>Media</h2>
-          <TabbedCarousel config={MEDIA_CAROUSEL} />
-        </Container>
-      </MediaSection>
-      <BrowseTopics />
+      <UpcomingCoursesSection />
+      <MediaSection />
+      <BrowseTopicsSection />
     </>
   )
 }

@@ -59,7 +59,7 @@ const SeeAllButton = styled(Button)`
   box-sizing: content-box;
 `
 
-const BrowseTopics: React.FC = () => {
+const BrowseTopicsSection: React.FC = () => {
   const { data: topics } = useTopicsList({ is_toplevel: true })
 
   return (
@@ -87,4 +87,4 @@ const BrowseTopics: React.FC = () => {
   )
 }
 
-export default BrowseTopics
+export default BrowseTopicsSection
