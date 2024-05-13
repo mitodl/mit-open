@@ -494,6 +494,12 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
             learning_resource=instance
         ).count()
 
+    def to_representation(self, instance):
+        """Filter out unpublished runs"""
+        data = super().to_representation(instance)
+        data["runs"] = [run for run in data["runs"] if run["published"]]
+        return data
+
     class Meta:
         model = models.LearningResource
         read_only_fields = ["professional", "views"]
