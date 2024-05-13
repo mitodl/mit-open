@@ -1639,7 +1639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.0, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.0, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.24.5
   resolution: "@babel/runtime@npm:7.24.5"
   dependencies:
@@ -6230,7 +6230,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*, @types/prop-types@npm:^15.7.11":
+"@types/prop-types@npm:*, @types/prop-types@npm:^15.7.11, @types/prop-types@npm:^15.7.3":
   version: 15.7.12
   resolution: "@types/prop-types@npm:15.7.12"
   checksum: 10/ac16cc3d0a84431ffa5cfdf89579ad1e2269549f32ce0c769321fdd078f84db4fbe1b461ed5a1a496caf09e637c0e367d600c541435716a55b1d9713f5035dfe
@@ -6294,7 +6294,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0":
+"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, @types/react@npm:^18.0.26":
   version: 18.3.1
   resolution: "@types/react@npm:18.3.1"
   dependencies:
@@ -8673,7 +8673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.1, classnames@npm:^2.3.1, classnames@npm:^2.3.2":
+"classnames@npm:^2.2.1, classnames@npm:^2.2.6, classnames@npm:^2.3.1, classnames@npm:^2.3.2":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
   checksum: 10/58eb394e8817021b153bb6e7d782cfb667e4ab390cb2e9dac2fc7c6b979d1cc2b2a733093955fc5c94aa79ef5c8c89f11ab77780894509be6afbb91dddd79d15
@@ -16356,6 +16356,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"material-ui-popup-state@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "material-ui-popup-state@npm:5.1.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.20.6"
+    "@types/prop-types": "npm:^15.7.3"
+    "@types/react": "npm:^18.0.26"
+    classnames: "npm:^2.2.6"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    "@mui/material": ^5.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/f5f88ab4d99a1eef66158f735c45d7404bd179a62b9961f855cdb43238a4758413ca57f4011fb3ad9802361129bc3376a16b3b18ad26ecfab3c22036e8de7cc6
+  languageName: node
+  linkType: hard
+
 "mathml-tag-names@npm:^2.1.3":
   version: 2.1.3
   resolution: "mathml-tag-names@npm:2.1.3"
@@ -18063,6 +18079,7 @@ __metadata:
     "@types/tinycolor2": "npm:^1.4.6"
     api: "workspace:*"
     lodash: "npm:^4.17.21"
+    material-ui-popup-state: "npm:^5.1.0"
     nuka-carousel: "npm:^7.0.0"
     ol-test-utilities: "npm:0.0.0"
     ol-utilities: "npm:0.0.0"

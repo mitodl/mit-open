@@ -395,11 +395,11 @@ def test_param_reordering_generates_same_query(client, user):
 
 @pytest.mark.django_db()
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-def test_user_subscribtion_list_filter(client, user):
+def test_user_subscribtion_check(client, user):
     """Test user subscription list filter"""
     client.force_login(user)
     params = {"q": "monkey"}
-    list_url = reverse("lr_search:v1:learning_resources_user_subscription-list")
+    list_url = reverse("lr_search:v1:learning_resources_user_subscription-check")
     sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
     assert user.percolate_queries.count() == 0
     initial_response = client.post(
