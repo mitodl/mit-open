@@ -36,7 +36,6 @@ from learning_resources.utils import (
     get_s3_object_and_read,
     parse_instructors,
     safe_load_json,
-    semester_year_to_date,
 )
 
 log = logging.getLogger(__name__)
@@ -254,7 +253,6 @@ def transform_run(course_data: dict) -> dict:
                 .get("image-alt")
             ),
         },
-        "start_date": semester_year_to_date(semester, year),
         "level": transform_levels(course_data.get("level", [])),
         "last_modified": course_data.get("last_modified"),
         "title": course_data.get("course_title"),
