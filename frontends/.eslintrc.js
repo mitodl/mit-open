@@ -79,6 +79,7 @@ module.exports = {
       },
     ],
     quotes: ["error", "double", { avoidEscape: true }],
+    "no-restricted-syntax": ["error", "Literal[value=fontWeight]"],
   },
   overrides: [
     {
