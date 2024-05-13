@@ -156,7 +156,7 @@ class LearningResourceFilter(FilterSet):
 
     class Meta:
         model = LearningResource
-        fields = ["professional"]
+        fields = ["professional", "certification"]
 
 
 class ContentFileFilter(FilterSet):

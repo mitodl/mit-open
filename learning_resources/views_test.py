@@ -4,10 +4,14 @@ import random
 from datetime import timedelta
 
 import pytest
+from _pytest.fixtures import fixture
 from django.utils import timezone
 from rest_framework.reverse import reverse
 
+from channels.factories import ChannelOfferorDetailFactory
+from channels.models import FieldChannel
 from learning_resources.constants import (
+    FEATURED_OFFERORS,
     LearningResourceRelationTypes,
     LearningResourceType,
     OfferedBy,
@@ -17,6 +21,7 @@ from learning_resources.exceptions import WebhookException
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
+    LearningPathFactory,
     LearningResourceDepartmentFactory,
     LearningResourceFactory,
     LearningResourceOfferorFactory,
@@ -31,6 +36,7 @@ from learning_resources.factories import (
     VideoPlaylistFactory,
 )
 from learning_resources.models import (
+    LearningResourceOfferor,
     LearningResourceRelationship,
 )
 from learning_resources.serializers import (
@@ -47,6 +53,31 @@ from learning_resources.serializers import (
 )
 
 pytestmark = [pytest.mark.django_db]
+
+
+@fixture()
+def offeror_featured_lists():
+    """Generate featured offeror lists for testing"""
+    for offered_by in FEATURED_OFFERORS:
+        offeror = LearningResourceOfferorFactory.create(code=offered_by.name)
+        featured_path = LearningPathFactory.create(resources=[]).learning_resource
+        for i in range(3):
+            featured_path.resources.add(
+                LearningResourceFactory.create(
+                    offered_by=offeror,
+                    is_course=True,
+                    certification=bool(random.getrandbits(1)),
+                    professional=bool(random.getrandbits(1)),
+                    no_prices=offered_by.name == OfferedBy.ocw.name,
+                ),
+                through_defaults={
+                    "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
+                    "position": i,
+                },
+            )
+        channel = ChannelOfferorDetailFactory.create(offeror=offeror).channel
+        channel.featured_list = featured_path
+        channel.save()
 
 
 @pytest.mark.parametrize(
@@ -878,3 +909,35 @@ def test_popular_sort(client, resource_type):
             resp.data.get("results")[i - 1]["views"]
             >= resp.data.get("results")[i]["views"]
         )
+
+
+def test_featured_view(client, offeror_featured_lists):
+    """The featured api endpoint should return resources in expected order"""
+    url = reverse("lr:v1:featured_api-list")
+    resp = client.get(f"{url}?limit=12")
+    assert resp.data.get("count") == 15
+    assert len(resp.data.get("results")) == 12
+    # Should get 1st resource from every featured list, then 2nd, etc.
+    for idx, resource in enumerate(resp.data.get("results")):
+        position = int(idx / 5)  # 5 featured offerors: 0,0,0,0,0,1,1,1,1,1,2,2
+        offeror = LearningResourceOfferor.objects.get(
+            code=resource["offered_by"]["code"]
+        )
+        featured_list = FieldChannel.objects.get(
+            offeror_detail__offeror=offeror
+        ).featured_list
+        assert featured_list.children.all()[position].child.id == resource["id"]
+
+
+@pytest.mark.parametrize("parameter", ["certification", "free", "professional"])
+def test_featured_view_filter(client, offeror_featured_lists, parameter):
+    """The featured api endpoint should return resources that match the filter"""
+    url = reverse("lr:v1:featured_api-list")
+    resp = client.get(f"{url}?{parameter}=true")
+    assert len(resp.data.get("results")) > 0
+    for resource in resp.data.get("results"):
+        if parameter != "free":
+            assert resource[parameter] is True
+        else:
+            for run in resource["runs"]:
+                assert run["prices"] is None

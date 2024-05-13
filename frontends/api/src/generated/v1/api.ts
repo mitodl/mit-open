@@ -7013,6 +7013,7 @@ export const CoursesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of courses
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<CoursesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -7031,6 +7032,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     coursesList: async (
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<CoursesListDepartmentEnum>,
       free?: boolean,
@@ -7062,6 +7064,10 @@ export const CoursesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (certification !== undefined) {
+        localVarQueryParameter["certification"] = certification
+      }
 
       if (course_feature) {
         localVarQueryParameter["course_feature"] = course_feature.join(
@@ -7282,6 +7288,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of courses
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<CoursesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -7300,6 +7307,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async coursesList(
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<CoursesListDepartmentEnum>,
       free?: boolean,
@@ -7322,6 +7330,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedCourseResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesList(
+        certification,
         course_feature,
         department,
         free,
@@ -7448,6 +7457,7 @@ export const CoursesApiFactory = function (
     ): AxiosPromise<PaginatedCourseResourceList> {
       return localVarFp
         .coursesList(
+          requestParameters.certification,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -7574,6 +7584,13 @@ export interface CoursesApiCoursesContentfilesRetrieveRequest {
  * @interface CoursesApiCoursesListRequest
  */
 export interface CoursesApiCoursesListRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly certification?: boolean
+
   /**
    * Multiple values may be separated by commas.
    * @type {Array<string>}
@@ -7756,6 +7773,7 @@ export class CoursesApi extends BaseAPI {
   ) {
     return CoursesApiFp(this.configuration)
       .coursesList(
+        requestParameters.certification,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -8284,6 +8302,689 @@ export class DepartmentsApi extends BaseAPI {
 }
 
 /**
+ * FeaturedApi - axios parameter creator
+ * @export
+ */
+export const FeaturedApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * Get a paginated list of featured resources
+     * @summary List
+     * @param {boolean} [certification]
+     * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
+     * @param {Array<FeaturedListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean} [free] The course/program is offered for free
+     * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
+     * @param {Array<FeaturedListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+     * @param {number} [limit] Number of results to return per page.
+     * @param {Array<FeaturedListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {Array<FeaturedListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
+     * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
+     * @param {Array<FeaturedListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
+     * @param {FeaturedListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {Array<string>} [topic] Multiple values may be separated by commas.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    featuredList: async (
+      certification?: boolean,
+      course_feature?: Array<string>,
+      department?: Array<FeaturedListDepartmentEnum>,
+      free?: boolean,
+      learning_format?: Array<Array<string>>,
+      level?: Array<FeaturedListLevelEnum>,
+      limit?: number,
+      offered_by?: Array<FeaturedListOfferedByEnum>,
+      offset?: number,
+      platform?: Array<FeaturedListPlatformEnum>,
+      professional?: boolean,
+      readable_id?: Array<string>,
+      resource_type?: Array<FeaturedListResourceTypeEnum>,
+      sortby?: FeaturedListSortbyEnum,
+      topic?: Array<string>,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v1/featured/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (certification !== undefined) {
+        localVarQueryParameter["certification"] = certification
+      }
+
+      if (course_feature) {
+        localVarQueryParameter["course_feature"] = course_feature.join(
+          COLLECTION_FORMATS.csv,
+        )
+      }
+
+      if (department) {
+        localVarQueryParameter["department"] = department
+      }
+
+      if (free !== undefined) {
+        localVarQueryParameter["free"] = free
+      }
+
+      if (learning_format) {
+        localVarQueryParameter["learning_format"] = learning_format
+      }
+
+      if (level) {
+        localVarQueryParameter["level"] = level
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by) {
+        localVarQueryParameter["offered_by"] = offered_by
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (professional !== undefined) {
+        localVarQueryParameter["professional"] = professional
+      }
+
+      if (readable_id) {
+        localVarQueryParameter["readable_id"] = readable_id.join(
+          COLLECTION_FORMATS.csv,
+        )
+      }
+
+      if (resource_type) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
+      }
+
+      if (topic) {
+        localVarQueryParameter["topic"] = topic.join(COLLECTION_FORMATS.csv)
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a single featured resource
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    featuredRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("featuredRetrieve", "id", id)
+      const localVarPath = `/api/v1/featured/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * FeaturedApi - functional programming interface
+ * @export
+ */
+export const FeaturedApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = FeaturedApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * Get a paginated list of featured resources
+     * @summary List
+     * @param {boolean} [certification]
+     * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
+     * @param {Array<FeaturedListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean} [free] The course/program is offered for free
+     * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
+     * @param {Array<FeaturedListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+     * @param {number} [limit] Number of results to return per page.
+     * @param {Array<FeaturedListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {Array<FeaturedListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
+     * @param {boolean} [professional]
+     * @param {Array<string>} [readable_id] Multiple values may be separated by commas.
+     * @param {Array<FeaturedListResourceTypeEnum>} [resource_type] The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
+     * @param {FeaturedListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {Array<string>} [topic] Multiple values may be separated by commas.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async featuredList(
+      certification?: boolean,
+      course_feature?: Array<string>,
+      department?: Array<FeaturedListDepartmentEnum>,
+      free?: boolean,
+      learning_format?: Array<Array<string>>,
+      level?: Array<FeaturedListLevelEnum>,
+      limit?: number,
+      offered_by?: Array<FeaturedListOfferedByEnum>,
+      offset?: number,
+      platform?: Array<FeaturedListPlatformEnum>,
+      professional?: boolean,
+      readable_id?: Array<string>,
+      resource_type?: Array<FeaturedListResourceTypeEnum>,
+      sortby?: FeaturedListSortbyEnum,
+      topic?: Array<string>,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedLearningResourceList>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.featuredList(
+        certification,
+        course_feature,
+        department,
+        free,
+        learning_format,
+        level,
+        limit,
+        offered_by,
+        offset,
+        platform,
+        professional,
+        readable_id,
+        resource_type,
+        sortby,
+        topic,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["FeaturedApi.featuredList"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Retrieve a single featured resource
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this learning resource.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async featuredRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningResource>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.featuredRetrieve(id, options)
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["FeaturedApi.featuredRetrieve"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * FeaturedApi - factory interface
+ * @export
+ */
+export const FeaturedApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = FeaturedApiFp(configuration)
+  return {
+    /**
+     * Get a paginated list of featured resources
+     * @summary List
+     * @param {FeaturedApiFeaturedListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    featuredList(
+      requestParameters: FeaturedApiFeaturedListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedLearningResourceList> {
+      return localVarFp
+        .featuredList(
+          requestParameters.certification,
+          requestParameters.course_feature,
+          requestParameters.department,
+          requestParameters.free,
+          requestParameters.learning_format,
+          requestParameters.level,
+          requestParameters.limit,
+          requestParameters.offered_by,
+          requestParameters.offset,
+          requestParameters.platform,
+          requestParameters.professional,
+          requestParameters.readable_id,
+          requestParameters.resource_type,
+          requestParameters.sortby,
+          requestParameters.topic,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a single featured resource
+     * @summary Retrieve
+     * @param {FeaturedApiFeaturedRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    featuredRetrieve(
+      requestParameters: FeaturedApiFeaturedRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LearningResource> {
+      return localVarFp
+        .featuredRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for featuredList operation in FeaturedApi.
+ * @export
+ * @interface FeaturedApiFeaturedListRequest
+ */
+export interface FeaturedApiFeaturedListRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly certification?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly course_feature?: Array<string>
+
+  /**
+   * The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+   * @type {Array<'1' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '2' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly department?: Array<FeaturedListDepartmentEnum>
+
+  /**
+   * The course/program is offered for free
+   * @type {boolean}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly free?: boolean
+
+  /**
+   * The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
+   * @type {Array<Array<string>>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly learning_format?: Array<Array<string>>
+
+  /**
+   * The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
+   * @type {Array<'advanced' | 'graduate' | 'high_school' | 'intermediate' | 'introductory' | 'noncredit' | 'undergraduate'>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly level?: Array<FeaturedListLevelEnum>
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly limit?: number
+
+  /**
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly offered_by?: Array<FeaturedListOfferedByEnum>
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly offset?: number
+
+  /**
+   * The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
+   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'edx' | 'emeritus' | 'globalalumni' | 'mitpe' | 'mitxonline' | 'ocw' | 'oll' | 'podcast' | 'scc' | 'see' | 'simplilearn' | 'susskind' | 'whu' | 'xpro' | 'youtube'>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly platform?: Array<FeaturedListPlatformEnum>
+
+  /**
+   *
+   * @type {boolean}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly professional?: boolean
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly readable_id?: Array<string>
+
+  /**
+   * The type of learning resource  * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_path&#x60; - Learning Path * &#x60;podcast&#x60; - Podcast * &#x60;podcast_episode&#x60; - Podcast Episode * &#x60;video&#x60; - Video * &#x60;video_playlist&#x60; - Video Playlist
+   * @type {Array<'course' | 'learning_path' | 'podcast' | 'podcast_episode' | 'program' | 'video' | 'video_playlist'>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly resource_type?: Array<FeaturedListResourceTypeEnum>
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+   * @type {'-id' | '-last_modified' | '-mitcoursenumber' | '-readable_id' | '-start_date' | '-views' | 'id' | 'last_modified' | 'mitcoursenumber' | 'new' | 'readable_id' | 'start_date' | 'upcoming' | 'views'}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly sortby?: FeaturedListSortbyEnum
+
+  /**
+   * Multiple values may be separated by commas.
+   * @type {Array<string>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly topic?: Array<string>
+}
+
+/**
+ * Request parameters for featuredRetrieve operation in FeaturedApi.
+ * @export
+ * @interface FeaturedApiFeaturedRetrieveRequest
+ */
+export interface FeaturedApiFeaturedRetrieveRequest {
+  /**
+   * A unique integer value identifying this learning resource.
+   * @type {number}
+   * @memberof FeaturedApiFeaturedRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * FeaturedApi - object-oriented interface
+ * @export
+ * @class FeaturedApi
+ * @extends {BaseAPI}
+ */
+export class FeaturedApi extends BaseAPI {
+  /**
+   * Get a paginated list of featured resources
+   * @summary List
+   * @param {FeaturedApiFeaturedListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FeaturedApi
+   */
+  public featuredList(
+    requestParameters: FeaturedApiFeaturedListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return FeaturedApiFp(this.configuration)
+      .featuredList(
+        requestParameters.certification,
+        requestParameters.course_feature,
+        requestParameters.department,
+        requestParameters.free,
+        requestParameters.learning_format,
+        requestParameters.level,
+        requestParameters.limit,
+        requestParameters.offered_by,
+        requestParameters.offset,
+        requestParameters.platform,
+        requestParameters.professional,
+        requestParameters.readable_id,
+        requestParameters.resource_type,
+        requestParameters.sortby,
+        requestParameters.topic,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a single featured resource
+   * @summary Retrieve
+   * @param {FeaturedApiFeaturedRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FeaturedApi
+   */
+  public featuredRetrieve(
+    requestParameters: FeaturedApiFeaturedRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return FeaturedApiFp(this.configuration)
+      .featuredRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * @export
+ */
+export const FeaturedListDepartmentEnum = {
+  _1: "1",
+  _10: "10",
+  _11: "11",
+  _12: "12",
+  _14: "14",
+  _15: "15",
+  _16: "16",
+  _17: "17",
+  _18: "18",
+  _2: "2",
+  _20: "20",
+  _21A: "21A",
+  _21G: "21G",
+  _21H: "21H",
+  _21L: "21L",
+  _21M: "21M",
+  _22: "22",
+  _24: "24",
+  _3: "3",
+  _4: "4",
+  _5: "5",
+  _6: "6",
+  _7: "7",
+  _8: "8",
+  _9: "9",
+  Cc: "CC",
+  CmsW: "CMS-W",
+  Ec: "EC",
+  Es: "ES",
+  Esd: "ESD",
+  Hst: "HST",
+  Ids: "IDS",
+  Mas: "MAS",
+  Pe: "PE",
+  Res: "RES",
+  Sts: "STS",
+  Wgs: "WGS",
+} as const
+export type FeaturedListDepartmentEnum =
+  (typeof FeaturedListDepartmentEnum)[keyof typeof FeaturedListDepartmentEnum]
+/**
+ * @export
+ */
+export const FeaturedListLevelEnum = {
+  Advanced: "advanced",
+  Graduate: "graduate",
+  HighSchool: "high_school",
+  Intermediate: "intermediate",
+  Introductory: "introductory",
+  Noncredit: "noncredit",
+  Undergraduate: "undergraduate",
+} as const
+export type FeaturedListLevelEnum =
+  (typeof FeaturedListLevelEnum)[keyof typeof FeaturedListLevelEnum]
+/**
+ * @export
+ */
+export const FeaturedListOfferedByEnum = {
+  Bootcamps: "bootcamps",
+  Csail: "csail",
+  Ctl: "ctl",
+  Mitpe: "mitpe",
+  Mitx: "mitx",
+  Ocw: "ocw",
+  Scc: "scc",
+  See: "see",
+  Xpro: "xpro",
+} as const
+export type FeaturedListOfferedByEnum =
+  (typeof FeaturedListOfferedByEnum)[keyof typeof FeaturedListOfferedByEnum]
+/**
+ * @export
+ */
+export const FeaturedListPlatformEnum = {
+  Bootcamps: "bootcamps",
+  Csail: "csail",
+  Ctl: "ctl",
+  Edx: "edx",
+  Emeritus: "emeritus",
+  Globalalumni: "globalalumni",
+  Mitpe: "mitpe",
+  Mitxonline: "mitxonline",
+  Ocw: "ocw",
+  Oll: "oll",
+  Podcast: "podcast",
+  Scc: "scc",
+  See: "see",
+  Simplilearn: "simplilearn",
+  Susskind: "susskind",
+  Whu: "whu",
+  Xpro: "xpro",
+  Youtube: "youtube",
+} as const
+export type FeaturedListPlatformEnum =
+  (typeof FeaturedListPlatformEnum)[keyof typeof FeaturedListPlatformEnum]
+/**
+ * @export
+ */
+export const FeaturedListResourceTypeEnum = {
+  Course: "course",
+  LearningPath: "learning_path",
+  Podcast: "podcast",
+  PodcastEpisode: "podcast_episode",
+  Program: "program",
+  Video: "video",
+  VideoPlaylist: "video_playlist",
+} as const
+export type FeaturedListResourceTypeEnum =
+  (typeof FeaturedListResourceTypeEnum)[keyof typeof FeaturedListResourceTypeEnum]
+/**
+ * @export
+ */
+export const FeaturedListSortbyEnum = {
+  Id: "-id",
+  LastModified: "-last_modified",
+  Mitcoursenumber: "-mitcoursenumber",
+  ReadableId: "-readable_id",
+  StartDate: "-start_date",
+  Views: "-views",
+  Id2: "id",
+  LastModified2: "last_modified",
+  Mitcoursenumber2: "mitcoursenumber",
+  New: "new",
+  ReadableId2: "readable_id",
+  StartDate2: "start_date",
+  Upcoming: "upcoming",
+  Views2: "views",
+} as const
+export type FeaturedListSortbyEnum =
+  (typeof FeaturedListSortbyEnum)[keyof typeof FeaturedListSortbyEnum]
+
+/**
  * LearningResourcesApi - axios parameter creator
  * @export
  */
@@ -8573,6 +9274,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -8591,6 +9293,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesList: async (
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesListDepartmentEnum>,
       free?: boolean,
@@ -8622,6 +9325,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (certification !== undefined) {
+        localVarQueryParameter["certification"] = certification
+      }
 
       if (course_feature) {
         localVarQueryParameter["course_feature"] = course_feature.join(
@@ -8926,6 +9633,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning resources.
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -8944,6 +9652,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesList(
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesListDepartmentEnum>,
       free?: boolean,
@@ -8967,6 +9676,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesList(
+          certification,
           course_feature,
           department,
           free,
@@ -9138,6 +9848,7 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<PaginatedLearningResourceList> {
       return localVarFp
         .learningResourcesList(
+          requestParameters.certification,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -9320,6 +10031,13 @@ export interface LearningResourcesApiLearningResourcesItemsRetrieveRequest {
  * @interface LearningResourcesApiLearningResourcesListRequest
  */
 export interface LearningResourcesApiLearningResourcesListRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly certification?: boolean
+
   /**
    * Multiple values may be separated by commas.
    * @type {Array<string>}
@@ -9546,6 +10264,7 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesList(
+        requestParameters.certification,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -12758,6 +13477,7 @@ export const LearningpathsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of learning paths
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningpathsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -12776,6 +13496,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningpathsList: async (
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<LearningpathsListDepartmentEnum>,
       free?: boolean,
@@ -12807,6 +13528,10 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (certification !== undefined) {
+        localVarQueryParameter["certification"] = certification
+      }
 
       if (course_feature) {
         localVarQueryParameter["course_feature"] = course_feature.join(
@@ -13245,6 +13970,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of learning paths
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningpathsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -13263,6 +13989,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningpathsList(
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<LearningpathsListDepartmentEnum>,
       free?: boolean,
@@ -13286,6 +14013,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsList(
+          certification,
           course_feature,
           department,
           free,
@@ -13538,6 +14266,7 @@ export const LearningpathsApiFactory = function (
     ): AxiosPromise<PaginatedLearningPathResourceList> {
       return localVarFp
         .learningpathsList(
+          requestParameters.certification,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -13753,6 +14482,13 @@ export interface LearningpathsApiLearningpathsItemsRetrieveRequest {
  * @interface LearningpathsApiLearningpathsListRequest
  */
 export interface LearningpathsApiLearningpathsListRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly certification?: boolean
+
   /**
    * Multiple values may be separated by commas.
    * @type {Array<string>}
@@ -14053,6 +14789,7 @@ export class LearningpathsApi extends BaseAPI {
   ) {
     return LearningpathsApiFp(this.configuration)
       .learningpathsList(
+        requestParameters.certification,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -14869,6 +15606,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
     /**
      * Get a paginated list of podcast episodes
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<PodcastEpisodesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -14887,6 +15625,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     podcastEpisodesList: async (
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<PodcastEpisodesListDepartmentEnum>,
       free?: boolean,
@@ -14918,6 +15657,10 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (certification !== undefined) {
+        localVarQueryParameter["certification"] = certification
+      }
 
       if (course_feature) {
         localVarQueryParameter["course_feature"] = course_feature.join(
@@ -15053,6 +15796,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of podcast episodes
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<PodcastEpisodesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -15071,6 +15815,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async podcastEpisodesList(
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<PodcastEpisodesListDepartmentEnum>,
       free?: boolean,
@@ -15094,6 +15839,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastEpisodesList(
+          certification,
           course_feature,
           department,
           free,
@@ -15180,6 +15926,7 @@ export const PodcastEpisodesApiFactory = function (
     ): AxiosPromise<PaginatedPodcastEpisodeResourceList> {
       return localVarFp
         .podcastEpisodesList(
+          requestParameters.certification,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -15222,6 +15969,13 @@ export const PodcastEpisodesApiFactory = function (
  * @interface PodcastEpisodesApiPodcastEpisodesListRequest
  */
 export interface PodcastEpisodesApiPodcastEpisodesListRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly certification?: boolean
+
   /**
    * Multiple values may be separated by commas.
    * @type {Array<string>}
@@ -15356,6 +16110,7 @@ export class PodcastEpisodesApi extends BaseAPI {
   ) {
     return PodcastEpisodesApiFp(this.configuration)
       .podcastEpisodesList(
+        requestParameters.certification,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -15664,6 +16419,7 @@ export const PodcastsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of podcasts
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<PodcastsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -15682,6 +16438,7 @@ export const PodcastsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     podcastsList: async (
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<PodcastsListDepartmentEnum>,
       free?: boolean,
@@ -15713,6 +16470,10 @@ export const PodcastsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (certification !== undefined) {
+        localVarQueryParameter["certification"] = certification
+      }
 
       if (course_feature) {
         localVarQueryParameter["course_feature"] = course_feature.join(
@@ -15923,6 +16684,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of podcasts
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<PodcastsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -15941,6 +16703,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async podcastsList(
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<PodcastsListDepartmentEnum>,
       free?: boolean,
@@ -15963,6 +16726,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedPodcastResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.podcastsList(
+        certification,
         course_feature,
         department,
         free,
@@ -16086,6 +16850,7 @@ export const PodcastsApiFactory = function (
     ): AxiosPromise<PaginatedPodcastResourceList> {
       return localVarFp
         .podcastsList(
+          requestParameters.certification,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -16184,6 +16949,13 @@ export interface PodcastsApiPodcastsItemsRetrieveRequest {
  * @interface PodcastsApiPodcastsListRequest
  */
 export interface PodcastsApiPodcastsListRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly certification?: boolean
+
   /**
    * Multiple values may be separated by commas.
    * @type {Array<string>}
@@ -16362,6 +17134,7 @@ export class PodcastsApi extends BaseAPI {
   ) {
     return PodcastsApiFp(this.configuration)
       .podcastsList(
+        requestParameters.certification,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -16708,6 +17481,7 @@ export const ProgramsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of programs
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<ProgramsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -16726,6 +17500,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     programsList: async (
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<ProgramsListDepartmentEnum>,
       free?: boolean,
@@ -16757,6 +17532,10 @@ export const ProgramsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (certification !== undefined) {
+        localVarQueryParameter["certification"] = certification
+      }
 
       if (course_feature) {
         localVarQueryParameter["course_feature"] = course_feature.join(
@@ -16891,6 +17670,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of programs
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<ProgramsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -16909,6 +17689,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async programsList(
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<ProgramsListDepartmentEnum>,
       free?: boolean,
@@ -16931,6 +17712,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedProgramResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsList(
+        certification,
         course_feature,
         department,
         free,
@@ -17014,6 +17796,7 @@ export const ProgramsApiFactory = function (
     ): AxiosPromise<PaginatedProgramResourceList> {
       return localVarFp
         .programsList(
+          requestParameters.certification,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -17056,6 +17839,13 @@ export const ProgramsApiFactory = function (
  * @interface ProgramsApiProgramsListRequest
  */
 export interface ProgramsApiProgramsListRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly certification?: boolean
+
   /**
    * Multiple values may be separated by commas.
    * @type {Array<string>}
@@ -17190,6 +17980,7 @@ export class ProgramsApi extends BaseAPI {
   ) {
     return ProgramsApiFp(this.configuration)
       .programsList(
+        requestParameters.certification,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -19645,6 +20436,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
     /**
      * Get a paginated list of video playlists
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -19663,6 +20455,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     videoPlaylistsList: async (
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<VideoPlaylistsListDepartmentEnum>,
       free?: boolean,
@@ -19694,6 +20487,10 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (certification !== undefined) {
+        localVarQueryParameter["certification"] = certification
+      }
 
       if (course_feature) {
         localVarQueryParameter["course_feature"] = course_feature.join(
@@ -19908,6 +20705,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of video playlists
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -19926,6 +20724,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async videoPlaylistsList(
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<VideoPlaylistsListDepartmentEnum>,
       free?: boolean,
@@ -19949,6 +20748,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.videoPlaylistsList(
+          certification,
           course_feature,
           department,
           free,
@@ -20073,6 +20873,7 @@ export const VideoPlaylistsApiFactory = function (
     ): AxiosPromise<PaginatedVideoPlaylistResourceList> {
       return localVarFp
         .videoPlaylistsList(
+          requestParameters.certification,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -20171,6 +20972,13 @@ export interface VideoPlaylistsApiVideoPlaylistsItemsRetrieveRequest {
  * @interface VideoPlaylistsApiVideoPlaylistsListRequest
  */
 export interface VideoPlaylistsApiVideoPlaylistsListRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof VideoPlaylistsApiVideoPlaylistsList
+   */
+  readonly certification?: boolean
+
   /**
    * Multiple values may be separated by commas.
    * @type {Array<string>}
@@ -20349,6 +21157,7 @@ export class VideoPlaylistsApi extends BaseAPI {
   ) {
     return VideoPlaylistsApiFp(this.configuration)
       .videoPlaylistsList(
+        requestParameters.certification,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -20532,6 +21341,7 @@ export const VideosApiAxiosParamCreator = function (
     /**
      * Get a paginated list of videos
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<VideosListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -20550,6 +21360,7 @@ export const VideosApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     videosList: async (
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<VideosListDepartmentEnum>,
       free?: boolean,
@@ -20581,6 +21392,10 @@ export const VideosApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
+
+      if (certification !== undefined) {
+        localVarQueryParameter["certification"] = certification
+      }
 
       if (course_feature) {
         localVarQueryParameter["course_feature"] = course_feature.join(
@@ -20715,6 +21530,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
     /**
      * Get a paginated list of videos
      * @summary List
+     * @param {boolean} [certification]
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<VideosListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -20733,6 +21549,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async videosList(
+      certification?: boolean,
       course_feature?: Array<string>,
       department?: Array<VideosListDepartmentEnum>,
       free?: boolean,
@@ -20755,6 +21572,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
       ) => AxiosPromise<PaginatedVideoResourceList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.videosList(
+        certification,
         course_feature,
         department,
         free,
@@ -20837,6 +21655,7 @@ export const VideosApiFactory = function (
     ): AxiosPromise<PaginatedVideoResourceList> {
       return localVarFp
         .videosList(
+          requestParameters.certification,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -20879,6 +21698,13 @@ export const VideosApiFactory = function (
  * @interface VideosApiVideosListRequest
  */
 export interface VideosApiVideosListRequest {
+  /**
+   *
+   * @type {boolean}
+   * @memberof VideosApiVideosList
+   */
+  readonly certification?: boolean
+
   /**
    * Multiple values may be separated by commas.
    * @type {Array<string>}
@@ -21013,6 +21839,7 @@ export class VideosApi extends BaseAPI {
   ) {
     return VideosApiFp(this.configuration)
       .videosList(
+        requestParameters.certification,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
