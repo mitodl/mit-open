@@ -1,9 +1,11 @@
 import type { ThemeOptions } from "@mui/material/styles"
 import { createTheme } from "@mui/material/styles"
 
-const neueHaasWeights = {
+const fontWeights = {
   /**
-   * ALERT! These weights are based on the stylesheet provided by Adobe.
+   * ALERT! These weights are based on the stylesheet provided by Adobe and are
+   * specific to the neue-haas-grotesk font family.
+   *
    * They may not match the weights shown in Figma, which can be incorrect.
    */
   display: {
@@ -36,112 +38,112 @@ const globalSettings: ThemeOptions["typography"] = {
   fontFamily: "neue-haas-grotesk-text, sans-serif",
   h1: {
     fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: neueHaasWeights.display.bold,
+    fontWeight: fontWeights.display.bold,
     fontStyle: "normal",
     fontSize: pxToRem(56),
     lineHeight: pxToRem(64),
   },
   h2: {
     fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: neueHaasWeights.display.bold,
+    fontWeight: fontWeights.display.bold,
     fontStyle: "normal",
     fontSize: pxToRem(40),
     lineHeight: pxToRem(48),
   },
   h3: {
     fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: neueHaasWeights.display.bold,
+    fontWeight: fontWeights.display.bold,
     fontStyle: "normal",
     fontSize: pxToRem(32),
     lineHeight: pxToRem(40),
   },
   h4: {
     fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: neueHaasWeights.display.bold,
+    fontWeight: fontWeights.display.bold,
     fontStyle: "normal",
     fontSize: pxToRem(24),
     lineHeight: pxToRem(30),
   },
   h5: {
     fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: neueHaasWeights.display.medium,
+    fontWeight: fontWeights.display.medium,
     fontStyle: "normal",
     fontSize: pxToRem(20),
     lineHeight: pxToRem(26),
   },
   subtitle1: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.medium,
+    fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(16),
     lineHeight: pxToRem(20),
   },
   subtitle2: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.medium,
+    fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(14),
     lineHeight: pxToRem(18),
   },
   subtitle3: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.medium,
+    fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(12),
     lineHeight: pxToRem(16),
   },
   subtitle4: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.medium,
+    fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(10),
     lineHeight: pxToRem(14),
   },
   body1: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.roman,
+    fontWeight: fontWeights.text.roman,
     fontStyle: "normal",
     fontSize: pxToRem(16),
     lineHeight: pxToRem(20),
   },
   body2: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.roman,
+    fontWeight: fontWeights.text.roman,
     fontStyle: "normal",
     fontSize: pxToRem(14),
     lineHeight: pxToRem(18),
   },
   body3: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.roman,
+    fontWeight: fontWeights.text.roman,
     fontStyle: "normal",
     fontSize: pxToRem(12),
     lineHeight: pxToRem(16),
   },
   body4: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.roman,
+    fontWeight: fontWeights.text.roman,
     fontStyle: "normal",
     fontSize: pxToRem(10),
     lineHeight: pxToRem(14),
   },
   buttonLarge: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.medium,
+    fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(16),
     lineHeight: pxToRem(16),
   },
   button: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.medium,
+    fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(14),
     lineHeight: pxToRem(14),
   },
   buttonSmall: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
-    fontWeight: neueHaasWeights.text.medium,
+    fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(12),
     lineHeight: pxToRem(12),

@@ -79,7 +79,15 @@ module.exports = {
       },
     ],
     quotes: ["error", "double", { avoidEscape: true }],
-    "no-restricted-syntax": ["error", "Literal[value=fontWeight]"],
+    "no-restricted-syntax": [
+      "error",
+      {
+        selector:
+          "Property[key.name=fontWeight][value.raw=/\\d+/], TemplateElement[value.raw=/font-weight: \\d+/]",
+        message:
+          "Do not specify `fontWeight` manually. Prefer spreading `theme.typography.subtitle1` or similar. If you MUST use a fontWeight, refer to `fontWeights` theme object.",
+      },
+    ],
   },
   overrides: [
     {
