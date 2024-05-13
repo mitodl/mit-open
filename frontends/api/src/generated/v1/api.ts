@@ -1897,6 +1897,116 @@ export interface LearningResourceTopic {
   channel_url: string | null
 }
 /**
+ *
+ * @export
+ * @interface LearningResourcesSearchRequestRequest
+ */
+export interface LearningResourcesSearchRequestRequest {
+  /**
+   * The search text
+   * @type {string}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  q?: string
+  /**
+   * The initial index from which to return the results
+   * @type {number}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  offset?: number
+  /**
+   * Number of results to return per page
+   * @type {number}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  limit?: number
+  /**
+   * The organization that offers the learning resource               * `mitx` - MITx * `ocw` - OCW * `bootcamps` - Bootcamps * `xpro` - xPRO * `csail` - CSAIL * `mitpe` - Professional Education * `see` - Sloan Executive Education * `scc` - Schwarzman College of Computing * `ctl` - Center for Transportation & Logistics
+   * @type {Array<OfferedByEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  offered_by?: Array<OfferedByEnum>
+  /**
+   * The platform on which the learning resource is offered               * `edx` - edX * `ocw` - OCW * `oll` - Open Learning Library * `mitxonline` - MITx Online * `bootcamps` - Bootcamps * `xpro` - xPRO * `csail` - CSAIL * `mitpe` - Professional Education * `see` - Sloan Executive Education * `scc` - Schwarzman College of Computing * `ctl` - Center for Transportation & Logistics * `whu` - WHU * `susskind` - Susskind * `globalalumni` - Global Alumni * `simplilearn` - Simplilearn * `emeritus` - Emeritus * `podcast` - Podcast * `youtube` - YouTube
+   * @type {Array<PlatformEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  platform?: Array<PlatformEnum>
+  /**
+   * The topic name. To see a list of options go to api/v1/topics/
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  topic?: Array<string>
+  /**
+   * The id value for the learning resource
+   * @type {Array<number>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  id?: Array<number>
+  /**
+   *
+   * @type {SortbyEnum}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  sortby?: SortbyEnum
+  /**
+   * The type of learning resource               * `course` - course * `program` - program * `learning_path` - learning path * `podcast` - podcast * `podcast_episode` - podcast episode * `video` - video * `video_playlist` - video playlist
+   * @type {Array<LearningResourcesSearchRequestResourceTypeEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  resource_type?: Array<LearningResourcesSearchRequestResourceTypeEnum>
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  free?: boolean | null
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  professional?: boolean | null
+  /**
+   * True if the learning resource offers a certificate
+   * @type {boolean}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  certification?: boolean | null
+  /**
+   * The department that offers the learning resource               * `1` - Civil and Environmental Engineering * `2` - Mechanical Engineering * `3` - Materials Science and Engineering * `4` - Architecture * `5` - Chemistry * `6` - Electrical Engineering and Computer Science * `7` - Biology * `8` - Physics * `9` - Brain and Cognitive Sciences * `10` - Chemical Engineering * `11` - Urban Studies and Planning * `12` - Earth, Atmospheric, and Planetary Sciences * `14` - Economics * `15` - Sloan School of Management * `16` - Aeronautics and Astronautics * `17` - Political Science * `18` - Mathematics * `20` - Biological Engineering * `21A` - Anthropology * `21G` - Global Studies and Languages * `21H` - History * `21L` - Literature * `21M` - Music and Theater Arts * `22` - Nuclear Science and Engineering * `24` - Linguistics and Philosophy * `CC` - Concourse * `CMS-W` - Comparative Media Studies/Writing * `EC` - Edgerton Center * `ES` - Experimental Study Group * `ESD` - Engineering Systems Division * `HST` - Health Sciences and Technology * `IDS` - Institute for Data, Systems, and Society * `MAS` - Media Arts and Sciences * `PE` - Athletics, Physical Education and Recreation * `RES` - Supplemental Resources * `STS` - Science, Technology, and Society * `WGS` - Women\'s and Gender Studies
+   * @type {Array<DepartmentEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  department?: Array<DepartmentEnum>
+  /**
+   *
+   * @type {Array<LevelEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  level?: Array<LevelEnum>
+  /**
+   * The course feature. Possible options are at api/v1/course_features/
+   * @type {Array<string>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  course_feature?: Array<string>
+  /**
+   * Show resource counts by category
+   * @type {Array<AggregationsEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  aggregations?: Array<AggregationsEnum>
+  /**
+   * The format(s) in which the learning resource is offered               * `online` - Online * `hybrid` - Hybrid * `in_person` - In person
+   * @type {Array<LearningFormatEnum>}
+   * @memberof LearningResourcesSearchRequestRequest
+   */
+  learning_format?: Array<LearningFormatEnum>
+}
+
+/**
  * * `course` - course * `program` - program * `learning_path` - learning path * `podcast` - podcast * `podcast_episode` - podcast episode * `video` - video * `video_playlist` - video playlist
  * @export
  * @enum {string}
@@ -10564,44 +10674,46 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
     /**
      * Subscribe a user to query
      * @summary Subscribe user to query
-     * @param {string} [q] The search text
-     * @param {number} [offset] The initial index from which to return the results
-     * @param {number} [limit] Number of results to return per page
-     * @param {Array<OfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-     * @param {Array<PlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
-     * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
-     * @param {Array<number>} [id] The id value for the learning resource
-     * @param {SortbyEnum} [sortby]
-     * @param {Array<LearningResourcesSearchRequestResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {boolean | null} [free]
-     * @param {boolean | null} [professional]
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
-     * @param {Array<DepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\\\&#39;s and Gender Studies
-     * @param {Array<LevelEnum>} [level]
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
-     * @param {Array<AggregationsEnum>} [aggregations] Show resource counts by category
-     * @param {Array<LearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [free]
+     * @param {Array<number>} [id] The id value for the learning resource
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>} [level]
+     * @param {number} [limit] Number of results to return per page
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
+     * @param {boolean | null} [professional]
+     * @param {string} [q] The search text
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {LearningResourcesSearchRequestRequest} [LearningResourcesSearchRequestRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     learningResourcesUserSubscriptionSubscribeCreate: async (
-      q?: string,
-      offset?: number,
-      limit?: number,
-      offered_by?: Array<OfferedByEnum>,
-      platform?: Array<PlatformEnum>,
-      topic?: Array<string>,
-      id?: Array<number>,
-      sortby?: SortbyEnum,
-      resource_type?: Array<LearningResourcesSearchRequestResourceTypeEnum>,
-      free?: boolean | null,
-      professional?: boolean | null,
+      aggregations?: Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>,
       certification?: boolean | null,
-      department?: Array<DepartmentEnum>,
-      level?: Array<LevelEnum>,
       course_feature?: Array<string>,
-      aggregations?: Array<AggregationsEnum>,
-      learning_format?: Array<LearningFormatEnum>,
+      department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
+      free?: boolean | null,
+      id?: Array<number>,
+      learning_format?: Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>,
+      level?: Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>,
+      limit?: number,
+      offered_by?: Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>,
+      offset?: number,
+      platform?: Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>,
+      professional?: boolean | null,
+      q?: string,
+      resource_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>,
+      sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum,
+      topic?: Array<string>,
+      LearningResourcesSearchRequestRequest?: LearningResourcesSearchRequestRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources_user_subscription/subscribe/`
@@ -10619,97 +10731,76 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-      const localVarFormParams = new ((configuration &&
-        configuration.formDataCtor) ||
-        FormData)()
 
-      if (q !== undefined) {
-        localVarFormParams.append("q", q as any)
-      }
-
-      if (offset !== undefined) {
-        localVarFormParams.append("offset", offset as any)
-      }
-
-      if (limit !== undefined) {
-        localVarFormParams.append("limit", limit as any)
-      }
-      if (offered_by) {
-        localVarFormParams.append(
-          "offered_by",
-          offered_by.join(COLLECTION_FORMATS.csv),
-        )
-      }
-
-      if (platform) {
-        localVarFormParams.append(
-          "platform",
-          platform.join(COLLECTION_FORMATS.csv),
-        )
-      }
-
-      if (topic) {
-        localVarFormParams.append("topic", topic.join(COLLECTION_FORMATS.csv))
-      }
-
-      if (id) {
-        localVarFormParams.append("id", id.join(COLLECTION_FORMATS.csv))
-      }
-
-      if (sortby !== undefined) {
-        localVarFormParams.append("sortby", sortby as any)
-      }
-      if (resource_type) {
-        localVarFormParams.append(
-          "resource_type",
-          resource_type.join(COLLECTION_FORMATS.csv),
-        )
-      }
-
-      if (free !== undefined) {
-        localVarFormParams.append("free", free as any)
-      }
-
-      if (professional !== undefined) {
-        localVarFormParams.append("professional", professional as any)
+      if (aggregations) {
+        localVarQueryParameter["aggregations"] = aggregations
       }
 
       if (certification !== undefined) {
-        localVarFormParams.append("certification", certification as any)
-      }
-      if (department) {
-        localVarFormParams.append(
-          "department",
-          department.join(COLLECTION_FORMATS.csv),
-        )
-      }
-
-      if (level) {
-        localVarFormParams.append("level", level.join(COLLECTION_FORMATS.csv))
+        localVarQueryParameter["certification"] = certification
       }
 
       if (course_feature) {
-        localVarFormParams.append(
-          "course_feature",
-          course_feature.join(COLLECTION_FORMATS.csv),
-        )
+        localVarQueryParameter["course_feature"] = course_feature
       }
 
-      if (aggregations) {
-        localVarFormParams.append(
-          "aggregations",
-          aggregations.join(COLLECTION_FORMATS.csv),
-        )
+      if (department) {
+        localVarQueryParameter["department"] = department
+      }
+
+      if (free !== undefined) {
+        localVarQueryParameter["free"] = free
+      }
+
+      if (id) {
+        localVarQueryParameter["id"] = id
       }
 
       if (learning_format) {
-        localVarFormParams.append(
-          "learning_format",
-          learning_format.join(COLLECTION_FORMATS.csv),
-        )
+        localVarQueryParameter["learning_format"] = learning_format
       }
 
-      localVarHeaderParameter["Content-Type"] = "multipart/form-data"
+      if (level) {
+        localVarQueryParameter["level"] = level
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offered_by) {
+        localVarQueryParameter["offered_by"] = offered_by
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      if (platform) {
+        localVarQueryParameter["platform"] = platform
+      }
+
+      if (professional !== undefined) {
+        localVarQueryParameter["professional"] = professional
+      }
+
+      if (q !== undefined) {
+        localVarQueryParameter["q"] = q
+      }
+
+      if (resource_type) {
+        localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
+      }
+
+      if (topic) {
+        localVarQueryParameter["topic"] = topic
+      }
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
@@ -10719,7 +10810,11 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         ...headersFromBaseOptions,
         ...options.headers,
       }
-      localVarRequestOptions.data = localVarFormParams
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        LearningResourcesSearchRequestRequest,
+        localVarRequestOptions,
+        configuration,
+      )
 
       return {
         url: toPathString(localVarUrlObj),
@@ -10957,67 +11052,70 @@ export const LearningResourcesUserSubscriptionApiFp = function (
     /**
      * Subscribe a user to query
      * @summary Subscribe user to query
-     * @param {string} [q] The search text
-     * @param {number} [offset] The initial index from which to return the results
-     * @param {number} [limit] Number of results to return per page
-     * @param {Array<OfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-     * @param {Array<PlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
-     * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
-     * @param {Array<number>} [id] The id value for the learning resource
-     * @param {SortbyEnum} [sortby]
-     * @param {Array<LearningResourcesSearchRequestResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {boolean | null} [free]
-     * @param {boolean | null} [professional]
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
-     * @param {Array<DepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\\\&#39;s and Gender Studies
-     * @param {Array<LevelEnum>} [level]
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
-     * @param {Array<AggregationsEnum>} [aggregations] Show resource counts by category
-     * @param {Array<LearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [free]
+     * @param {Array<number>} [id] The id value for the learning resource
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>} [level]
+     * @param {number} [limit] Number of results to return per page
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {number} [offset] The initial index from which to return the results
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
+     * @param {boolean | null} [professional]
+     * @param {string} [q] The search text
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {LearningResourcesSearchRequestRequest} [LearningResourcesSearchRequestRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async learningResourcesUserSubscriptionSubscribeCreate(
-      q?: string,
-      offset?: number,
-      limit?: number,
-      offered_by?: Array<OfferedByEnum>,
-      platform?: Array<PlatformEnum>,
-      topic?: Array<string>,
-      id?: Array<number>,
-      sortby?: SortbyEnum,
-      resource_type?: Array<LearningResourcesSearchRequestResourceTypeEnum>,
-      free?: boolean | null,
-      professional?: boolean | null,
+      aggregations?: Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>,
       certification?: boolean | null,
-      department?: Array<DepartmentEnum>,
-      level?: Array<LevelEnum>,
       course_feature?: Array<string>,
-      aggregations?: Array<AggregationsEnum>,
-      learning_format?: Array<LearningFormatEnum>,
+      department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
+      free?: boolean | null,
+      id?: Array<number>,
+      learning_format?: Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>,
+      level?: Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>,
+      limit?: number,
+      offered_by?: Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>,
+      offset?: number,
+      platform?: Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>,
+      professional?: boolean | null,
+      q?: string,
+      resource_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>,
+      sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum,
+      topic?: Array<string>,
+      LearningResourcesSearchRequestRequest?: LearningResourcesSearchRequestRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (axios?: AxiosInstance, basePath?: string) => AxiosPromise<PercolateQuery>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesUserSubscriptionSubscribeCreate(
-          q,
-          offset,
+          aggregations,
+          certification,
+          course_feature,
+          department,
+          free,
+          id,
+          learning_format,
+          level,
           limit,
           offered_by,
+          offset,
           platform,
-          topic,
-          id,
-          sortby,
-          resource_type,
-          free,
           professional,
-          certification,
-          department,
-          level,
-          course_feature,
-          aggregations,
-          learning_format,
+          q,
+          resource_type,
+          sortby,
+          topic,
+          LearningResourcesSearchRequestRequest,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -11159,23 +11257,24 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
     ): AxiosPromise<PercolateQuery> {
       return localVarFp
         .learningResourcesUserSubscriptionSubscribeCreate(
-          requestParameters.q,
-          requestParameters.offset,
+          requestParameters.aggregations,
+          requestParameters.certification,
+          requestParameters.course_feature,
+          requestParameters.department,
+          requestParameters.free,
+          requestParameters.id,
+          requestParameters.learning_format,
+          requestParameters.level,
           requestParameters.limit,
           requestParameters.offered_by,
+          requestParameters.offset,
           requestParameters.platform,
-          requestParameters.topic,
-          requestParameters.id,
-          requestParameters.sortby,
-          requestParameters.resource_type,
-          requestParameters.free,
           requestParameters.professional,
-          requestParameters.certification,
-          requestParameters.department,
-          requestParameters.level,
-          requestParameters.course_feature,
-          requestParameters.aggregations,
-          requestParameters.learning_format,
+          requestParameters.q,
+          requestParameters.resource_type,
+          requestParameters.sortby,
+          requestParameters.topic,
+          requestParameters.LearningResourcesSearchRequestRequest,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -11460,18 +11559,60 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
  */
 export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreateRequest {
   /**
-   * The search text
-   * @type {string}
+   * Show resource counts by category
+   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly q?: string
+  readonly aggregations?: Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>
 
   /**
-   * The initial index from which to return the results
-   * @type {number}
+   * True if the learning resource offers a certificate
+   * @type {boolean}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly offset?: number
+  readonly certification?: boolean | null
+
+  /**
+   * The course feature. Possible options are at api/v1/course_features/
+   * @type {Array<string>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly course_feature?: Array<string>
+
+  /**
+   * The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+   * @type {Array<'1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | '11' | '12' | '14' | '15' | '16' | '17' | '18' | '20' | '21A' | '21G' | '21H' | '21L' | '21M' | '22' | '24' | 'CC' | 'CMS-W' | 'EC' | 'ES' | 'ESD' | 'HST' | 'IDS' | 'MAS' | 'PE' | 'RES' | 'STS' | 'WGS'>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>
+
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly free?: boolean | null
+
+  /**
+   * The id value for the learning resource
+   * @type {Array<number>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly id?: Array<number>
+
+  /**
+   * The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
+   * @type {Array<'online' | 'hybrid' | 'in_person'>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly learning_format?: Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>
+
+  /**
+   *
+   * @type {Array<'undergraduate' | 'graduate' | 'high_school' | 'noncredit' | 'advanced' | 'intermediate' | 'introductory'>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly level?: Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>
 
   /**
    * Number of results to return per page
@@ -11482,52 +11623,24 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
 
   /**
    * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<OfferedByEnum>}
+   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly offered_by?: Array<OfferedByEnum>
+  readonly offered_by?: Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>
+
+  /**
+   * The initial index from which to return the results
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly offset?: number
 
   /**
    * The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
-   * @type {Array<PlatformEnum>}
+   * @type {Array<'edx' | 'ocw' | 'oll' | 'mitxonline' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl' | 'whu' | 'susskind' | 'globalalumni' | 'simplilearn' | 'emeritus' | 'podcast' | 'youtube'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly platform?: Array<PlatformEnum>
-
-  /**
-   * The topic name. To see a list of options go to api/v1/topics/
-   * @type {Array<string>}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
-   */
-  readonly topic?: Array<string>
-
-  /**
-   * The id value for the learning resource
-   * @type {Array<number>}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
-   */
-  readonly id?: Array<number>
-
-  /**
-   *
-   * @type {SortbyEnum}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
-   */
-  readonly sortby?: SortbyEnum
-
-  /**
-   * The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-   * @type {Array<LearningResourcesSearchRequestResourceTypeEnum>}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
-   */
-  readonly resource_type?: Array<LearningResourcesSearchRequestResourceTypeEnum>
-
-  /**
-   *
-   * @type {boolean}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
-   */
-  readonly free?: boolean | null
+  readonly platform?: Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>
 
   /**
    *
@@ -11537,46 +11650,39 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly professional?: boolean | null
 
   /**
-   * True if the learning resource offers a certificate
-   * @type {boolean}
+   * The search text
+   * @type {string}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly certification?: boolean | null
+  readonly q?: string
 
   /**
-   * The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\\\&#39;s and Gender Studies
-   * @type {Array<DepartmentEnum>}
+   * The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+   * @type {Array<'course' | 'program' | 'learning_path' | 'podcast' | 'podcast_episode' | 'video' | 'video_playlist'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly department?: Array<DepartmentEnum>
+  readonly resource_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>
 
   /**
-   *
-   * @type {Array<LevelEnum>}
+   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly level?: Array<LevelEnum>
+  readonly sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum
 
   /**
-   * The course feature. Possible options are at api/v1/course_features/
+   * The topic name. To see a list of options go to api/v1/topics/
    * @type {Array<string>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly course_feature?: Array<string>
+  readonly topic?: Array<string>
 
   /**
-   * Show resource counts by category
-   * @type {Array<AggregationsEnum>}
+   *
+   * @type {LearningResourcesSearchRequestRequest}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
-  readonly aggregations?: Array<AggregationsEnum>
-
-  /**
-   * The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
-   * @type {Array<LearningFormatEnum>}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
-   */
-  readonly learning_format?: Array<LearningFormatEnum>
+  readonly LearningResourcesSearchRequestRequest?: LearningResourcesSearchRequestRequest
 }
 
 /**
@@ -11686,23 +11792,24 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
   ) {
     return LearningResourcesUserSubscriptionApiFp(this.configuration)
       .learningResourcesUserSubscriptionSubscribeCreate(
-        requestParameters.q,
-        requestParameters.offset,
+        requestParameters.aggregations,
+        requestParameters.certification,
+        requestParameters.course_feature,
+        requestParameters.department,
+        requestParameters.free,
+        requestParameters.id,
+        requestParameters.learning_format,
+        requestParameters.level,
         requestParameters.limit,
         requestParameters.offered_by,
+        requestParameters.offset,
         requestParameters.platform,
-        requestParameters.topic,
-        requestParameters.id,
-        requestParameters.sortby,
-        requestParameters.resource_type,
-        requestParameters.free,
         requestParameters.professional,
-        requestParameters.certification,
-        requestParameters.department,
-        requestParameters.level,
-        requestParameters.course_feature,
-        requestParameters.aggregations,
-        requestParameters.learning_format,
+        requestParameters.q,
+        requestParameters.resource_type,
+        requestParameters.sortby,
+        requestParameters.topic,
+        requestParameters.LearningResourcesSearchRequestRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -12053,6 +12160,171 @@ export const LearningResourcesUserSubscriptionListSortbyEnum = {
 } as const
 export type LearningResourcesUserSubscriptionListSortbyEnum =
   (typeof LearningResourcesUserSubscriptionListSortbyEnum)[keyof typeof LearningResourcesUserSubscriptionListSortbyEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum =
+  {
+    ResourceType: "resource_type",
+    Certification: "certification",
+    OfferedBy: "offered_by",
+    Platform: "platform",
+    Topic: "topic",
+    Department: "department",
+    Level: "level",
+    CourseFeature: "course_feature",
+    Professional: "professional",
+    Free: "free",
+    LearningFormat: "learning_format",
+  } as const
+export type LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum = {
+  _1: "1",
+  _2: "2",
+  _3: "3",
+  _4: "4",
+  _5: "5",
+  _6: "6",
+  _7: "7",
+  _8: "8",
+  _9: "9",
+  _10: "10",
+  _11: "11",
+  _12: "12",
+  _14: "14",
+  _15: "15",
+  _16: "16",
+  _17: "17",
+  _18: "18",
+  _20: "20",
+  _21A: "21A",
+  _21G: "21G",
+  _21H: "21H",
+  _21L: "21L",
+  _21M: "21M",
+  _22: "22",
+  _24: "24",
+  Cc: "CC",
+  CmsW: "CMS-W",
+  Ec: "EC",
+  Es: "ES",
+  Esd: "ESD",
+  Hst: "HST",
+  Ids: "IDS",
+  Mas: "MAS",
+  Pe: "PE",
+  Res: "RES",
+  Sts: "STS",
+  Wgs: "WGS",
+} as const
+export type LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum =
+  {
+    Online: "online",
+    Hybrid: "hybrid",
+    InPerson: "in_person",
+  } as const
+export type LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreateLevelEnum = {
+  Undergraduate: "undergraduate",
+  Graduate: "graduate",
+  HighSchool: "high_school",
+  Noncredit: "noncredit",
+  Advanced: "advanced",
+  Intermediate: "intermediate",
+  Introductory: "introductory",
+} as const
+export type LearningResourcesUserSubscriptionSubscribeCreateLevelEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreateLevelEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateLevelEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum = {
+  Mitx: "mitx",
+  Ocw: "ocw",
+  Bootcamps: "bootcamps",
+  Xpro: "xpro",
+  Csail: "csail",
+  Mitpe: "mitpe",
+  See: "see",
+  Scc: "scc",
+  Ctl: "ctl",
+} as const
+export type LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum = {
+  Edx: "edx",
+  Ocw: "ocw",
+  Oll: "oll",
+  Mitxonline: "mitxonline",
+  Bootcamps: "bootcamps",
+  Xpro: "xpro",
+  Csail: "csail",
+  Mitpe: "mitpe",
+  See: "see",
+  Scc: "scc",
+  Ctl: "ctl",
+  Whu: "whu",
+  Susskind: "susskind",
+  Globalalumni: "globalalumni",
+  Simplilearn: "simplilearn",
+  Emeritus: "emeritus",
+  Podcast: "podcast",
+  Youtube: "youtube",
+} as const
+export type LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum =
+  {
+    Course: "course",
+    Program: "program",
+    LearningPath: "learning_path",
+    Podcast: "podcast",
+    PodcastEpisode: "podcast_episode",
+    Video: "video",
+    VideoPlaylist: "video_playlist",
+  } as const
+export type LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum = {
+  Id: "id",
+  Id2: "-id",
+  ReadableId: "readable_id",
+  ReadableId2: "-readable_id",
+  LastModified: "last_modified",
+  LastModified2: "-last_modified",
+  New: "new",
+  StartDate: "start_date",
+  StartDate2: "-start_date",
+  Mitcoursenumber: "mitcoursenumber",
+  Mitcoursenumber2: "-mitcoursenumber",
+  Views: "views",
+  Views2: "-views",
+  Upcoming: "upcoming",
+} as const
+export type LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum]
 
 /**
  * LearningpathsApi - axios parameter creator

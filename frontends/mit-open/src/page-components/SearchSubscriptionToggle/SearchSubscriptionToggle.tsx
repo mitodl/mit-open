@@ -65,7 +65,11 @@ const SearchSubscriptionToggle = ({
   return (
     <Button
       variant="filled"
-      onClick={() => subscriptionCreate.mutateAsync(subscribeParams)}
+      onClick={() =>
+        subscriptionCreate.mutateAsync({
+          LearningResourcesSearchRequestRequest: subscribeParams,
+        })
+      }
     >
       Subscribe
     </Button>

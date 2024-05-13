@@ -156,9 +156,11 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
 
     @extend_schema(
         summary="Subscribe user to query",
-        request={"multipart/form-data": LearningResourcesSearchRequestSerializer()},
+        parameters=[LearningResourcesSearchRequestSerializer],
+        request=LearningResourcesSearchRequestSerializer(),
         responses=PercolateQuerySerializer(),
     )
+    @action(detail=False, methods=["post"], name="Subscribe user to query")
     @action(detail=False, methods=["POST"], name="Subscribe user to query")
     def subscribe(self, request, *args, **kwargs):  # noqa: ARG002
         """
