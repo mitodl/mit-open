@@ -16,6 +16,7 @@ from learning_resources.models import (
     ContentFile,
     Course,
     LearningResource,
+    LearningResourceDepartment,
 )
 from learning_resources.utils import load_course_blocklist
 from learning_resources_search import indexing_api as api
@@ -110,6 +111,16 @@ def upsert_learning_resource(learning_resource_id):
     )
 
 
+def _infer_percolate_group(percolate_query):
+    group_keys = ["department", "topic", "offered_by"]
+    for key, val in percolate_query.original_query.items():
+        if key in group_keys and val and len(val) > 0:
+            if key == "department":
+                return LearningResourceDepartment.objects.get(department_id=val[0]).name
+            return val[0]
+    return None
+
+
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
 def send_subscription_emails(subscription_type, period="daily"):
     delta = datetime.timedelta(days=1)
@@ -125,23 +136,33 @@ def send_subscription_emails(subscription_type, period="daily"):
         )
         if percolated.count() > 0:
             percolated_users = list(percolated.values_list("users", flat=True))
-            document_user_map[resource.id] = percolated_users
+            document_user_map[resource.id] = {
+                "users": percolated_users,
+                "group_name": _infer_percolate_group(percolated.first()),
+            }
             all_users.update(percolated_users)
-
     users = User.objects.filter(id__in=all_users)
     for user in users:
         percolated_for_user = []
         doc_ids = [
             document_id
             for document_id in document_user_map
-            if user.id in document_user_map[document_id]
+            if user.id in document_user_map[document_id]["users"]
         ]
         percolated_for_user = new_learning_resources.filter(id__in=doc_ids)
+        user_documents = {}
+        for learning_resource in percolated_for_user:
+            group = document_user_map[learning_resource.id]["group_name"]
+            if group:
+                if group in user_documents:
+                    user_documents[group].append(learning_resource)
+                else:
+                    user_documents[group] = [learning_resource]
         send_template_email(
             [user.email],
             f"Your {period} subscription matches",
             "email/subscribed_channel_digest.html",
-            context={"documents": percolated_for_user},
+            context={"documents": user_documents},
         )
 
 
