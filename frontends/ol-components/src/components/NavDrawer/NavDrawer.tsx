@@ -18,14 +18,12 @@ const NavSection = styled.div(({ theme }) => ({
 const NavSectionHeader = styled.div(({ theme }) => ({
   paddingLeft: "8px",
   color: theme.custom.colors.silverGrayDark,
-  fontSize: theme.typography.subtitle4.fontSize,
-  fontWeight: theme.typography.h4.fontWeight,
+  ...theme.typography.subtitle4,
 }))
 
 const NavLinkText = styled.div(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
-  fontSize: theme.typography.subtitle3.fontSize,
-  fontWeight: theme.typography.h4.fontWeight,
+  ...theme.typography.subtitle3,
 }))
 
 const NavLinkDescription = styled.div(({ theme }) => ({

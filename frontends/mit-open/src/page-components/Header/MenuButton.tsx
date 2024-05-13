@@ -9,9 +9,9 @@ const StyledMenuIcon = styled(MenuIcon)(({ theme }) => ({
 const MenuButtonText = styled.div(({ theme }) => ({
   alignSelf: "center",
   color: theme.custom.colors.darkGray2,
-  fontSize: theme.typography.body2.fontSize,
-  fontWeight: "700",
   paddingLeft: "16px",
+  textTransform: "none",
+  ...theme.typography.subtitle2,
 }))
 
 const MenuButtonInner = styled.div({
