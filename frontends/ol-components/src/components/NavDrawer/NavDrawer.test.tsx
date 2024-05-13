@@ -4,107 +4,47 @@ import React from "react"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 describe("NavDrawer", () => {
-  it.each([
-    {
-      navData: {
-        sections: [
-          {
-            title: "TEST",
-            items: [
-              {
-                title: "Test Item 1",
-                description: "The first test item",
-                href: "https://mit.edu",
-              },
-              {
-                title: "Test Item 2",
-                description: "The second test item",
-                href: "https://ocw.mit.edu",
-              },
-            ],
-          },
-        ],
-      },
-      expectedLinks: 2,
-      expectedTitles: 2,
-      expectedDescriptions: 2,
-    },
-    {
-      navData: {
-        sections: [
-          {
-            title: "TEST",
-            items: [
-              {
-                title: "Test Item 1",
-                description: "The first test item",
-                href: "https://mit.edu",
-              },
-              {
-                title: "Test Item 2",
-                description: "The second test item",
-                href: "https://ocw.mit.edu",
-              },
-              {
-                title: "Test Item 3",
-                description: "The third test item",
-              },
-            ],
-          },
-        ],
-      },
-      expectedLinks: 2,
-      expectedTitles: 3,
-      expectedDescriptions: 3,
-    },
-    {
-      navData: {
-        sections: [
-          {
-            title: "TEST",
-            items: [
-              {
-                title: "Test Item 1",
-                description: "The first test item",
-                href: "https://mit.edu",
-              },
-              {
-                title: "Test Item 2",
-                href: "https://ocw.mit.edu",
-              },
-              {
-                title: "Test Item 3",
-                description: "The third test item",
-              },
-            ],
-          },
-        ],
-      },
-      expectedLinks: 2,
-      expectedTitles: 3,
-      expectedDescriptions: 2,
-    },
-  ])(
-    "Renders the expected drawer contents",
-    ({ navData, expectedLinks, expectedTitles, expectedDescriptions }) => {
-      render(<NavDrawer navdata={navData} open={true} />, {
-        wrapper: ThemeProvider,
-      })
-      const links = screen.getAllByRole("link")
-      const titles = screen.getAllByRole("heading")
-      const descriptions = screen.getAllByRole("note")
-      expect(links).toHaveLength(expectedLinks)
-      expect(titles).toHaveLength(expectedTitles)
-      expect(descriptions).toHaveLength(expectedDescriptions)
-      if (Number(expectedTitles) > Number(expectedLinks)) {
-        let linksComingSoon = 0
-        Array.prototype.forEach.call(titles, (title) => {
-          if (title.textContent?.includes("(Coming Soon)")) {
-            linksComingSoon++
-          }
-        })
-        expect(linksComingSoon === expectedTitles - expectedLinks).toBeTruthy()
+  it("Renders the expected drawer contents", () => {
+    const navData = {
+      sections: [
+        {
+          title: "TEST",
+          items: [
+            {
+              title: "Link and description",
+              description: "This item has a link and a description",
+              href: "https://mit.edu",
+            },
+            {
+              title: "Link but no description",
+              href: "https://ocw.mit.edu",
+            },
+            {
+              title: "Description, but no link",
+              description: "This item has a description, but no link",
+            },
+            {
+              title: "Title only",
+            },
+          ],
+        },
+      ],
+    }
+    render(<NavDrawer navdata={navData} open={true} />, {
+      wrapper: ThemeProvider,
+    })
+    const links = screen.getAllByTestId("nav-link")
+    const titles = screen.getAllByTestId("nav-link-text")
+    const descriptions = screen.getAllByTestId("nav-link-description")
+    expect(links).toHaveLength(2)
+    expect(titles).toHaveLength(4)
+    expect(descriptions).toHaveLength(2)
+    let linksComingSoon = 0
+    Array.prototype.forEach.call(titles, (title) => {
+      if (title.textContent?.includes("(Coming Soon)")) {
+        linksComingSoon++
       }
-    },
-  )
+    })
+    expect(linksComingSoon === 2).toBeTruthy()
+  })
 })

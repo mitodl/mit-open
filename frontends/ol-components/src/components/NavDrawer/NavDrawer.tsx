@@ -59,17 +59,26 @@ const NavItem: React.FC<NavItemProps> = (props) => {
   const { title, description, href } = props
   const navItem = (
     <NavItemContainer>
-      <NavLinkText role="heading" className="nav-link-text">
+      <NavLinkText className="nav-link-text" data-testid="nav-link-text">
         {title} {href ? "" : "(Coming Soon)"}
       </NavLinkText>
       {description ? (
-        <NavLinkDescription role="note" className="nav-link-description">
+        <NavLinkDescription
+          className="nav-link-description"
+          data-testid="nav-link-description"
+        >
           {description}
         </NavLinkDescription>
       ) : null}
     </NavItemContainer>
   )
-  return href ? <a href={href}>{navItem}</a> : navItem
+  return href ? (
+    <a href={href} data-testid="nav-link">
+      {navItem}
+    </a>
+  ) : (
+    navItem
+  )
 }
 
 export interface NavData {
