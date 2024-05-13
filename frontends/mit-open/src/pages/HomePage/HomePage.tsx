@@ -1,9 +1,10 @@
 import React from "react"
-import { Container, styled } from "ol-components"
+import { Container, styled, theme } from "ol-components"
 import TabbedCarousel, {
   TabbedCarouselProps,
 } from "@/page-components/TabbedCarousel/TabbedCarousel"
 import HeroSearch from "./HeroSearch"
+import BrowseTopics from "./BrowseTopics"
 
 const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
   {
@@ -72,6 +73,10 @@ const FullWidthBackground = styled.div`
     padding-bottom: 55px;
   }
 `
+const MediaSection = styled.section`
+  background-color: ${theme.custom.colors.white};
+  overflow: auto;
+`
 
 const HomePage: React.FC = () => {
   return (
@@ -81,16 +86,19 @@ const HomePage: React.FC = () => {
           <HeroSearch />
         </Container>
       </FullWidthBackground>
-      <Container>
-        <section>
+      <section>
+        <Container>
           <h2>Upcoming Courses</h2>
           <TabbedCarousel config={UPCOMING_COURSES_CAROUSEL} />
-        </section>
-        <section>
+        </Container>
+      </section>
+      <MediaSection>
+        <Container>
           <h2>Media</h2>
           <TabbedCarousel config={MEDIA_CAROUSEL} />
-        </section>
-      </Container>
+        </Container>
+      </MediaSection>
+      <BrowseTopics />
     </>
   )
 }
