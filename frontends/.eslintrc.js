@@ -81,6 +81,12 @@ module.exports = {
     quotes: ["error", "double", { avoidEscape: true }],
     "no-restricted-syntax": [
       "error",
+      /**
+       * See https://eslint.org/docs/latest/rules/no-restricted-syntax
+       *
+       * The selectors use "ES Query", a css-like syntax for AST querying. A
+       * useful tool is  https://estools.github.io/esquery/
+       */
       {
         selector:
           "Property[key.name=fontWeight][value.raw=/\\d+/], TemplateElement[value.raw=/font-weight: \\d+/]",
