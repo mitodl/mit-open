@@ -75,7 +75,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   {field.data?.search_filter ? (
                     <SearchSubscriptionToggle searchParams={urlParams} />
                   ) : (
-                    <span></span>
+                    null
                   )}
                   {field.data?.is_moderator ? (
                     <FieldMenu
