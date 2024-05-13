@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.11
+Version 0.9.11 (Released May 13, 2024)
 --------------
 
 - add format facet (#888)
