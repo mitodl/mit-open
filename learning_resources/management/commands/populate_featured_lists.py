@@ -1,8 +1,8 @@
 """Management command to create dev-only featured lists for offeror channels"""
 
-import os
 import sys
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management import BaseCommand
 
@@ -32,7 +32,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Create a Favorites userlist for every active user"""
-        if os.environ.get("MITOPEN_ENVIRONMENT") == "production":
+        if settings.ENVIRONMENT == "production":
             self.stderr.write("This command is only available in dev/rc environments")
             sys.exit(1)
 
