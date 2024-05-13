@@ -1,11 +1,11 @@
-import { NavDrawer } from "./NavDrawer"
+import { NavData, NavDrawer } from "./NavDrawer"
 import { render, screen } from "@testing-library/react"
 import React from "react"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 describe("NavDrawer", () => {
   it("Renders the expected drawer contents", () => {
-    const navData = {
+    const navData: NavData = {
       sections: [
         {
           title: "TEST",
