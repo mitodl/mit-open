@@ -5,10 +5,10 @@ import TabbedCarousel, {
 } from "@/page-components/TabbedCarousel/TabbedCarousel"
 
 const Section = styled.section`
-  padding: 80px 0px;
+  padding: 80px 0;
   overflow: auto;
   ${({ theme }) => theme.breakpoints.down("md")} {
-    padding: 40px 0px;
+    padding: 40px 0;
   }
 `
 

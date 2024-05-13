@@ -24,13 +24,13 @@ const ICONS = [
 
 const Section = styled.section`
   background:
-    linear-gradient(270deg, rgba(243, 244, 248, 0) 0%, #f3f4f8 100%),
+    linear-gradient(270deg, rgba(243 244 248 / 0%) 0%, rgb(243 244 248) 100%),
     url("/static/images/open-bg-texture-wgradient.jpg") lightgray 50% / cover
       no-repeat;
   background-position: center right;
-  padding: 80px 0px;
+  padding: 80px 0;
   ${({ theme }) => theme.breakpoints.down("md")} {
-    padding: 40px 0px;
+    padding: 40px 0;
   }
 `
 
@@ -58,9 +58,10 @@ const TopicBox = styled(Link)`
     flex: 0 1 100%;
     padding: 18px 15px;
   }
+
   border-radius: 5px;
-  border: 1px solid var(--Light-Gray-2, ${theme.custom.colors.lightGray2});
-  background: var(--white-mit-brand, ${theme.custom.colors.white});
+  border: 1px solid ${theme.custom.colors.lightGray2};
+  background: ${theme.custom.colors.white};
   overflow: hidden;
 `
 
@@ -68,9 +69,11 @@ const TopicBoxContent = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
+
   svg {
     flex: 0 0 20px;
   }
+
   font-weight: 500;
   font-size: ${theme.typography.pxToRem(16)};
   ${({ theme }) => theme.breakpoints.down("md")} {

@@ -7,9 +7,9 @@ import TabbedCarousel, {
 const Section = styled.section`
   background-color: ${theme.custom.colors.white};
   overflow: auto;
-  padding: 80px 0px;
+  padding: 80px 0;
   ${({ theme }) => theme.breakpoints.down("md")} {
-    padding: 40px 0px;
+    padding: 40px 0;
   }
 `
 
