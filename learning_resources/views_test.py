@@ -38,6 +38,7 @@ from learning_resources.factories import (
 from learning_resources.models import (
     LearningResourceOfferor,
     LearningResourceRelationship,
+    LearningResourceRun,
 )
 from learning_resources.serializers import (
     ContentFileSerializer,
@@ -62,14 +63,18 @@ def offeror_featured_lists():
         offeror = LearningResourceOfferorFactory.create(code=offered_by.name)
         featured_path = LearningPathFactory.create(resources=[]).learning_resource
         for i in range(3):
+            resource = LearningResourceFactory.create(
+                offered_by=offeror,
+                is_course=True,
+                certification=bool(random.getrandbits(1)),
+                professional=bool(random.getrandbits(1)),
+            )
+            if offered_by.name == OfferedBy.ocw.name:
+                LearningResourceRun.objects.filter(
+                    learning_resource=resource.id
+                ).update(prices=[])
             featured_path.resources.add(
-                LearningResourceFactory.create(
-                    offered_by=offeror,
-                    is_course=True,
-                    certification=bool(random.getrandbits(1)),
-                    professional=bool(random.getrandbits(1)),
-                    no_prices=offered_by.name == OfferedBy.ocw.name,
-                ),
+                resource,
                 through_defaults={
                     "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
                     "position": i,
@@ -940,4 +945,4 @@ def test_featured_view_filter(client, offeror_featured_lists, parameter):
             assert resource[parameter] is True
         else:
             for run in resource["runs"]:
-                assert run["prices"] is None
+                assert run["prices"] == []

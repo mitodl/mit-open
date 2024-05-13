@@ -255,7 +255,6 @@ class LearningResourceFactory(DjangoModelFactory):
         skip_postgeneration_save = True
 
     class Params:
-        no_prices = factory.Trait(runs__prices=[])
         no_topics = factory.Trait(topics=[])
         no_content_tags = factory.Trait(content_tags=[])
         no_image = factory.Trait(image=None)
@@ -419,6 +418,7 @@ class CourseFactory(DjangoModelFactory):
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
         is_professional = factory.Trait(learning_resource__professional=True)
+        has_certification = factory.Trait(learning_resource__certification=True)
 
 
 class LearningResourceRunFactory(DjangoModelFactory):
