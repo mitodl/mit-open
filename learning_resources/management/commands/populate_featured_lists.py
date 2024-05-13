@@ -32,8 +32,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Create a Favorites userlist for every active user"""
-        if not os.environ.get("DEV_ENV"):
-            self.stderr.write("This command is only available in dev environment")
+        if os.environ.get("MITOPEN_ENVIRONMENT") == "production":
+            self.stderr.write("This command is only available in dev/rc environments")
             sys.exit(1)
 
         self.stdout.write("Creating featured list for each featured offeror channel")
