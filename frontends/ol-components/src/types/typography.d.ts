@@ -15,7 +15,9 @@ declare module "@mui/material/styles" {
     subtitle2: React.CSSProperties
     subtitle3: React.CSSProperties
     subtitle4: React.CSSProperties
+    buttonLarge: React.CSSProperties
     button: React.CSSProperties
+    buttonSmall: React.CSSProperties
   }
   interface TypographyVariantsOptions {
     h1: React.CSSProperties
@@ -31,7 +33,9 @@ declare module "@mui/material/styles" {
     subtitle2: React.CSSProperties
     subtitle3: React.CSSProperties
     subtitle4: React.CSSProperties
+    buttonLarge: React.CSSProperties
     button: React.CSSProperties
+    buttonSmall: React.CSSProperties
   }
 }
 

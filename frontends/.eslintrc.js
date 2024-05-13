@@ -79,6 +79,27 @@ module.exports = {
       },
     ],
     quotes: ["error", "double", { avoidEscape: true }],
+    "no-restricted-syntax": [
+      "error",
+      /**
+       * See https://eslint.org/docs/latest/rules/no-restricted-syntax
+       *
+       * The selectors use "ES Query", a css-like syntax for AST querying. A
+       * useful tool is  https://estools.github.io/esquery/
+       */
+      {
+        selector:
+          "Property[key.name=fontWeight][value.raw=/\\d+/], TemplateElement[value.raw=/font-weight: \\d+/]",
+        message:
+          "Do not specify `fontWeight` manually. Prefer spreading `theme.typography.subtitle1` or similar. If you MUST use a fontWeight, refer to `fontWeights` theme object.",
+      },
+      {
+        selector:
+          "Property[key.name=fontFamily][value.raw=/Neue Haas/], TemplateElement[value.raw=/Neue Haas/]",
+        message:
+          "Do not specify `fontFamily` manually. Prefer spreading `theme.typography.subtitle1` or similar. If using neue-haas-grotesk-text, this is ThemeProvider's default fontFamily.",
+      },
+    ],
   },
   overrides: [
     {

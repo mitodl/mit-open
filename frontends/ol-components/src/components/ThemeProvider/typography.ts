@@ -1,6 +1,25 @@
 import type { ThemeOptions } from "@mui/material/styles"
 import { createTheme } from "@mui/material/styles"
 
+const fontWeights = {
+  /**
+   * ALERT! These weights are based on the stylesheet provided by Adobe and are
+   * specific to the neue-haas-grotesk font family.
+   *
+   * They may not match the weights shown in Figma, which can be incorrect.
+   */
+  display: {
+    roman: 500,
+    medium: 600,
+    bold: 700,
+  },
+  text: {
+    roman: 400,
+    medium: 500,
+    bold: 700,
+  },
+}
+
 /**
  * This function converts from pixels to rems, assuming a base font size of 16px
  * (which is the default for most modern browsers).
@@ -16,70 +35,119 @@ import { createTheme } from "@mui/material/styles"
 const pxToRem = (px: number) => `${px / 16}rem`
 
 const globalSettings: ThemeOptions["typography"] = {
-  fontFamily: ['"Helvetica Neue"', "Arial", "sans-serif"].join(","),
+  // Note: Figma calls this "Neue Haas Grotesk Text", but that is incorrect based on Adobe's font family.
+  fontFamily: "neue-haas-grotesk-text, sans-serif",
   h1: {
-    fontWeight: 700,
+    fontFamily: "neue-haas-grotesk-display, sans-serif",
+    fontWeight: fontWeights.display.bold,
+    fontStyle: "normal",
     fontSize: pxToRem(56),
     lineHeight: pxToRem(64),
   },
   h2: {
-    fontWeight: 700,
+    fontFamily: "neue-haas-grotesk-display, sans-serif",
+    fontWeight: fontWeights.display.bold,
+    fontStyle: "normal",
     fontSize: pxToRem(40),
     lineHeight: pxToRem(48),
   },
   h3: {
-    fontWeight: 700,
+    fontFamily: "neue-haas-grotesk-display, sans-serif",
+    fontWeight: fontWeights.display.bold,
+    fontStyle: "normal",
     fontSize: pxToRem(32),
     lineHeight: pxToRem(40),
   },
   h4: {
-    fontWeight: 700,
+    fontFamily: "neue-haas-grotesk-display, sans-serif",
+    fontWeight: fontWeights.display.bold,
+    fontStyle: "normal",
     fontSize: pxToRem(24),
     lineHeight: pxToRem(30),
   },
   h5: {
-    fontWeight: 500,
+    fontFamily: "neue-haas-grotesk-display, sans-serif",
+    fontWeight: fontWeights.display.medium,
+    fontStyle: "normal",
     fontSize: pxToRem(20),
     lineHeight: pxToRem(26),
   },
   subtitle1: {
-    fontWeight: 500,
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.medium,
+    fontStyle: "normal",
     fontSize: pxToRem(16),
     lineHeight: pxToRem(20),
   },
   subtitle2: {
-    fontWeight: 500,
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.medium,
+    fontStyle: "normal",
     fontSize: pxToRem(14),
     lineHeight: pxToRem(18),
   },
   subtitle3: {
-    fontWeight: 500,
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.medium,
+    fontStyle: "normal",
     fontSize: pxToRem(12),
     lineHeight: pxToRem(16),
   },
   subtitle4: {
-    fontWeight: 500,
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.medium,
+    fontStyle: "normal",
     fontSize: pxToRem(10),
     lineHeight: pxToRem(14),
   },
   body1: {
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.roman,
+    fontStyle: "normal",
     fontSize: pxToRem(16),
     lineHeight: pxToRem(20),
   },
   body2: {
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.roman,
+    fontStyle: "normal",
     fontSize: pxToRem(14),
     lineHeight: pxToRem(18),
   },
   body3: {
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.roman,
+    fontStyle: "normal",
     fontSize: pxToRem(12),
     lineHeight: pxToRem(16),
   },
   body4: {
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.roman,
+    fontStyle: "normal",
     fontSize: pxToRem(10),
     lineHeight: pxToRem(14),
   },
+  buttonLarge: {
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.medium,
+    fontStyle: "normal",
+    fontSize: pxToRem(16),
+    lineHeight: pxToRem(16),
+  },
   button: {
-    textTransform: "none",
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.medium,
+    fontStyle: "normal",
+    fontSize: pxToRem(14),
+    lineHeight: pxToRem(14),
+  },
+  buttonSmall: {
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.medium,
+    fontStyle: "normal",
+    fontSize: pxToRem(12),
+    lineHeight: pxToRem(12),
   },
 }
 const component: NonNullable<ThemeOptions["components"]>["MuiTypography"] = {
