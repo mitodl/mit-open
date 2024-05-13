@@ -16,19 +16,23 @@ class PercolateQueryFactory(DjangoModelFactory):
             "professional": None,
             "certification": None,
             "topic": factory.List(
-                random.choices(  # noqa: S311
-                    [
-                        "Business",
-                        "Mechanical Engineering",
-                        "Environmental Engineering",
-                        "Computer Science",
-                        "Entrepreneurship",
-                        "Systems Engineering",
-                        "Communications",
-                        "Marketing",
-                        "Management",
-                    ]
-                )
+                [
+                    factory.LazyAttribute(
+                        lambda: random.choice(  # noqa: S311
+                            [
+                                "Business",
+                                "Mechanical Engineering",
+                                "Environmental Engineering",
+                                "Computer Science",
+                                "Entrepreneurship",
+                                "Systems Engineering",
+                                "Communications",
+                                "Marketing",
+                                "Management",
+                            ]
+                        )
+                    )
+                ]
             ),
         }
     )
