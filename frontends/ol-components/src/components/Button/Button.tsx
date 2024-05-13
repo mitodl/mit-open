@@ -34,10 +34,6 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
   const { palette, typography } = theme
   return [
     {
-      // font
-      lineHeight: 1,
-      fontFamily: theme.typography.fontFamily,
-      fontWeight: 500,
       color: theme.palette.text.primary,
       // display
       display: "flex",

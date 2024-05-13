@@ -13,6 +13,7 @@ import {
   Skeleton,
   SimpleSelect,
   truncateText,
+  css,
 } from "ol-components"
 import { MetaTags, capitalize } from "ol-utilities"
 
@@ -136,8 +137,7 @@ const FacetStyles = styled.div`
   }
 
   .filter-section-button {
-    font-size: ${({ theme }) => theme.typography.subtitle1.fontSize};
-    font-weight: 600;
+    ${({ theme }) => css({ ...theme.typography.subtitle1 })};
     padding-left: 0;
     background-color: transparent;
     display: flex;

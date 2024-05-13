@@ -92,9 +92,7 @@ const Input = styled(InputBase)(({
 
 const AdornmentButtonStyled = styled("button")(({ theme }) => ({
   // font
-  lineHeight: 1,
-  fontFamily: theme.typography.fontFamily,
-  fontWeight: 500,
+  ...theme.typography.button,
   // display
   display: "flex",
   justifyContent: "center",
