@@ -1,7 +1,12 @@
 import React from "react"
-import Dotdotdot from "react-dotdotdot"
 import invariant from "tiny-invariant"
-import { Card, CardContent, CardMedia, styled } from "ol-components"
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  styled,
+  TruncateText,
+} from "ol-components"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import {
   DEFAULT_RESOURCE_IMG,
@@ -103,7 +108,7 @@ const FooterRow = styled.div`
   width: 100%;
 `
 
-const EllipsisTitle = styled(Dotdotdot)({
+const EllipsisTitle = styled(TruncateText)({
   fontWeight: "bold",
   margin: 0,
 })
@@ -210,12 +215,12 @@ const CardTemplate = ({
           {extraDetails}
           {handleActivate ? (
             <TitleButton onClick={handleActivate}>
-              <EllipsisTitle tagName="h3" clamp={3}>
+              <EllipsisTitle as="h3" lineClamp={3}>
                 {title}
               </EllipsisTitle>
             </TitleButton>
           ) : (
-            <EllipsisTitle tagName="h3" clamp={3}>
+            <EllipsisTitle as="h3" lineClamp={3}>
               {title}
             </EllipsisTitle>
           )}

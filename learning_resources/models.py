@@ -143,6 +143,7 @@ class LearningResource(TimestampedModel):
         "topics",
         "offered_by",
         "departments",
+        "departments__school",
         "content_tags",
         "runs",
         "runs__instructors",

@@ -12,8 +12,9 @@ import {
   PlainList,
   Skeleton,
   SimpleSelect,
+  truncateText,
 } from "ol-components"
-import { MetaTags } from "ol-utilities"
+import { MetaTags, capitalize } from "ol-utilities"
 
 import { ResourceTypeEnum } from "api"
 import type {
@@ -57,6 +58,17 @@ const getFacetManifest = (
       expandedOnLoad: true,
       labelFunction: (key) => offerors[key]?.name ?? key,
     },
+    {
+      name: "learning_format",
+      title: "Format",
+      useFilterableFacet: false,
+      expandedOnLoad: true,
+      labelFunction: (key) =>
+        key
+          .split("_")
+          .map((word) => capitalize(word))
+          .join("-"),
+    },
   ]
 }
 
@@ -66,6 +78,7 @@ const FACET_NAMES = getFacetManifest({}).map(
 
 const AGGREGATIONS: LRSearchRequest["aggregations"] = [
   "resource_type",
+  "learning_format",
   "topic",
   "offered_by",
 ]
@@ -134,6 +147,17 @@ const FacetStyles = styled.div`
     cursor: pointer;
   }
 
+  .facet-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    label {
+      ${truncateText(1)};
+    }
+  }
+
   .facets {
     box-sizing: border-box;
     background-color: ${({ theme }) => theme.custom.colors.white};
@@ -197,13 +221,6 @@ const FacetStyles = styled.div`
         padding: 0;
       }
     }
-  }
-
-  .facet-label {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
   }
 
   input.facet-filter {

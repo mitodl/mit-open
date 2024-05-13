@@ -13,9 +13,10 @@ import type {
   UserlistsApi,
   OfferorsApi,
   PlatformsApi,
+  LearningResourcesUserSubscriptionApi as SubscriptionApi,
   DepartmentsApi,
   SchoolsApi,
-  LearningResourcesSearchRequestRequest,
+  LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LearningResourcesSearchRequest,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
 
@@ -106,6 +107,21 @@ const articles = {
   details: (id: number) => `/api/v1/articles/${id}/`,
 }
 
+const userSubscription = {
+  list: (
+    params?: Params<SubscriptionApi, "learningResourcesUserSubscriptionList">,
+  ) => `/api/v1/learning_resources_user_subscription/${query(params)}`,
+  check: (
+    params?: Params<
+      SubscriptionApi,
+      "learningResourcesUserSubscriptionCheckList"
+    >,
+  ) => `/api/v1/learning_resources_user_subscription/check/${query(params)}`,
+  delete: (id: number) =>
+    `/api/v1/learning_resources_user_subscription/${id}/unsubscribe/`,
+  post: () => "/api/v1/learning_resources_user_subscription/subscribe/",
+}
+
 const fields = {
   details: (channelType: string, name: string) =>
     `/api/v0/channels/type/${channelType}/${name}/`,
@@ -134,7 +150,7 @@ const queryify = (params: unknown) => {
 }
 
 const search = {
-  resources: (params?: LearningResourcesSearchRequestRequest) =>
+  resources: (params?: LearningResourcesSearchRequest) =>
     `/api/v1/learning_resources_search/${queryify(params)}`,
 }
 
@@ -155,6 +171,7 @@ export {
   offerors,
   userMe,
   platforms,
+  userSubscription,
   schools,
   departments,
 }

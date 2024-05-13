@@ -18,6 +18,8 @@ from learning_resources.constants import (
     LearningResourceType,
     PlatformType,
 )
+from learning_resources.factories import LearningResourceFactory
+from learning_resources.serializers import LearningResourceSerializer
 from main.test_utils import assert_json_equal, drf_datetime
 
 pytestmark = pytest.mark.django_db
@@ -60,7 +62,6 @@ def test_serialize_program_to_json():
     )
 
     serializer = serializers.ProgramSerializer(instance=program)
-
     assert_json_equal(
         serializer.data,
         {
@@ -246,6 +247,19 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         ],
         "next_start_date": resource.next_start_date,
     }
+
+
+def test_learning_resource_serializer_published_runs_only():
+    """Only published runs should be in the serializer"""
+    resource = LearningResourceFactory.create(is_course=True)
+    assert resource.runs.count() == 2
+    assert len(LearningResourceSerializer(resource).data["runs"]) == 2
+    unpublished_run = resource.runs.last()
+    unpublished_run.published = False
+    unpublished_run.save()
+    updated_data = LearningResourceSerializer(resource).data
+    assert len(updated_data["runs"]) == 1
+    assert updated_data["runs"][0]["id"] != unpublished_run.id
 
 
 @pytest.mark.parametrize("has_context", [True, False])

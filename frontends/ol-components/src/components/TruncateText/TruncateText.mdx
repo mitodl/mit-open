@@ -1,0 +1,18 @@
+import { Canvas, Meta } from "@storybook/blocks";
+
+import * as TruncateTextStories from "./TruncateText.stories";
+
+<Meta of={TruncateTextStories} />
+
+# TruncateText
+
+Use `lineClamp` to truncate text after a certain number of lines:
+
+`lineClamp={1}`
+<Canvas of={TruncateTextStories.One} />
+
+`lineClamp={3}`
+<Canvas of={TruncateTextStories.Three} />
+
+`lineClamp={"none"}`
+<Canvas of={TruncateTextStories.None} />

@@ -1639,7 +1639,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.0, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
+"@babel/runtime@npm:^7.11.1, @babel/runtime@npm:^7.11.2, @babel/runtime@npm:^7.12.0, @babel/runtime@npm:^7.12.5, @babel/runtime@npm:^7.13.10, @babel/runtime@npm:^7.16.3, @babel/runtime@npm:^7.17.8, @babel/runtime@npm:^7.18.0, @babel/runtime@npm:^7.18.3, @babel/runtime@npm:^7.20.6, @babel/runtime@npm:^7.20.7, @babel/runtime@npm:^7.23.2, @babel/runtime@npm:^7.23.9, @babel/runtime@npm:^7.5.5, @babel/runtime@npm:^7.8.4, @babel/runtime@npm:^7.8.7, @babel/runtime@npm:^7.9.2":
   version: 7.24.5
   resolution: "@babel/runtime@npm:7.24.5"
   dependencies:
@@ -3606,9 +3606,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:^3.0.7":
-  version: 3.0.7
-  resolution: "@mitodl/course-search-utils@npm:3.0.7"
+"@mitodl/course-search-utils@npm:^3.0.9":
+  version: 3.0.9
+  resolution: "@mitodl/course-search-utils@npm:3.0.9"
   dependencies:
     "@mitodl/open-api-axios": "npm:^2024.5.6"
     "@testing-library/react": "npm:12"
@@ -3617,7 +3617,6 @@ __metadata:
     fuse.js: "npm:^7.0.0"
     query-string: "npm:^6.13.1"
     ramda: "npm:^0.27.1"
-    react-dotdotdot: "npm:^1.3.1"
   peerDependencies:
     "@types/history": ^4.9
     history: ^4.9 || ^5.0.0
@@ -3630,17 +3629,17 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 10/ee42113ac5bba2ddf84b73bdca15b2f4e82fd02c4949cf73d7cfd0c3b541acba933675008c7f753ac51e43af215c004bf254698e2e118be83abe25d808d5a0ae
+  checksum: 10/83bced0eaf513fc9778883dc8edcfc88266df1a8912d91c09d0b663023833873259861adadce03d3ca5f03be555582d51116d4cb38708329195f1967073c5a9d
   languageName: node
   linkType: hard
 
 "@mitodl/open-api-axios@npm:^2024.5.6":
-  version: 2024.5.6
-  resolution: "@mitodl/open-api-axios@npm:2024.5.6"
+  version: 2024.5.9
+  resolution: "@mitodl/open-api-axios@npm:2024.5.9"
   dependencies:
     "@types/node": "npm:^20.11.19"
     axios: "npm:^1.6.5"
-  checksum: 10/3349ca554644da05edc01efcddcc574f373894cf406dd119367537a993559c75ba2829eda53b9a809e390681a58a28a57ed07fc0171017f04276e032ce655be4
+  checksum: 10/b3ce799c35773475b1a3b4520d271f3ed218d6f1c2260e2addbea07f3811d4f38c2f2b644dfa6f0c4260da9b4c2077c0be17047ebb07af798f8ebf48c046617e
   languageName: node
   linkType: hard
 
@@ -6176,7 +6175,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.19":
+"@types/node@npm:*":
   version: 20.12.7
   resolution: "@types/node@npm:20.12.7"
   dependencies:
@@ -6191,6 +6190,15 @@ __metadata:
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10/654194d4f3cc5867e5525a39647773a12c0c7175972bc4d288cdc74991fc969be2a9689267a3dc1cc5c5c7617e8f7c4769ac4829525726cd3e2f60eb238c1ff4
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.11.19":
+  version: 20.12.11
+  resolution: "@types/node@npm:20.12.11"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10/c6afe7c2c4504a4f488814d7b306ebad16bf42cbb43bf9db9fe1aed8c5fb99235593c3be5088979a64526b106cf022256688e2f002811be8273d87dc2e0d484f
   languageName: node
   linkType: hard
 
@@ -6222,7 +6230,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*, @types/prop-types@npm:^15.7.11":
+"@types/prop-types@npm:*, @types/prop-types@npm:^15.7.11, @types/prop-types@npm:^15.7.3":
   version: 15.7.12
   resolution: "@types/prop-types@npm:15.7.12"
   checksum: 10/ac16cc3d0a84431ffa5cfdf89579ad1e2269549f32ce0c769321fdd078f84db4fbe1b461ed5a1a496caf09e637c0e367d600c541435716a55b1d9713f5035dfe
@@ -6286,7 +6294,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0":
+"@types/react@npm:*, @types/react@npm:^16.8.0 || ^17.0.0 || ^18.0.0, @types/react@npm:^18.0.26":
   version: 18.3.1
   resolution: "@types/react@npm:18.3.1"
   dependencies:
@@ -8665,7 +8673,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.1, classnames@npm:^2.3.1, classnames@npm:^2.3.2":
+"classnames@npm:^2.2.1, classnames@npm:^2.2.6, classnames@npm:^2.3.1, classnames@npm:^2.3.2":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
   checksum: 10/58eb394e8817021b153bb6e7d782cfb667e4ab390cb2e9dac2fc7c6b979d1cc2b2a733093955fc5c94aa79ef5c8c89f11ab77780894509be6afbb91dddd79d15
@@ -16348,6 +16356,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"material-ui-popup-state@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "material-ui-popup-state@npm:5.1.0"
+  dependencies:
+    "@babel/runtime": "npm:^7.20.6"
+    "@types/prop-types": "npm:^15.7.3"
+    "@types/react": "npm:^18.0.26"
+    classnames: "npm:^2.2.6"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    "@mui/material": ^5.0.0
+    react: ^16.8.0 || ^17.0.0 || ^18.0.0
+  checksum: 10/f5f88ab4d99a1eef66158f735c45d7404bd179a62b9961f855cdb43238a4758413ca57f4011fb3ad9802361129bc3376a16b3b18ad26ecfab3c22036e8de7cc6
+  languageName: node
+  linkType: hard
+
 "mathml-tag-names@npm:^2.1.3":
   version: 2.1.3
   resolution: "mathml-tag-names@npm:2.1.3"
@@ -17374,7 +17398,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^7.3.0"
-    "@mitodl/course-search-utils": "npm:^3.0.7"
+    "@mitodl/course-search-utils": "npm:^3.0.9"
     "@mui/icons-material": "npm:^5.15.15"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@remixicon/react": "npm:^4.2.0"
@@ -17411,7 +17435,6 @@ __metadata:
     posthog-js: "npm:^1.128.2"
     react: "npm:18.2.0"
     react-dom: "npm:18.2.0"
-    react-dotdotdot: "npm:^1.3.1"
     react-helmet-async: "npm:^2.0.3"
     react-infinite-scroller: "npm:^1.2.6"
     react-router: "npm:^6.22.2"
@@ -18056,6 +18079,7 @@ __metadata:
     "@types/tinycolor2": "npm:^1.4.6"
     api: "workspace:*"
     lodash: "npm:^4.17.21"
+    material-ui-popup-state: "npm:^5.1.0"
     nuka-carousel: "npm:^7.0.0"
     ol-test-utilities: "npm:0.0.0"
     ol-utilities: "npm:0.0.0"
@@ -20629,19 +20653,6 @@ __metadata:
   peerDependencies:
     react: ^18.3.1
   checksum: 10/3f4b73a3aa083091173b29812b10394dd06f4ac06aff410b74702cfb3aa29d7b0ced208aab92d5272919b612e5cda21aeb1d54191848cf6e46e9e354f3541f81
-  languageName: node
-  linkType: hard
-
-"react-dotdotdot@npm:^1.3.1":
-  version: 1.3.1
-  resolution: "react-dotdotdot@npm:1.3.1"
-  dependencies:
-    object.pick: "npm:^1.3.0"
-  peerDependencies:
-    prop-types: "*"
-    react: "*"
-    react-dom: "*"
-  checksum: 10/bc5be462de30a89266ecd56788a2e12bc37418912f9aed152873a4613c14ccedfab7ae470a1557490a6b568e18425a8e8aee7d5fafc8c2575b1fa9fd73edd27d
   languageName: node
   linkType: hard
 

@@ -14,7 +14,19 @@ const setMockApiResponses = ({
   fieldPatch?: Partial<FieldChannel>
 }) => {
   const field = factories.fields.field(fieldPatch)
+  const urlParams = new URLSearchParams(fieldPatch?.search_filter)
+  const subscribeParams: Record<string, string[]> = {}
+  for (const [key, value] of urlParams.entries()) {
+    subscribeParams[key] = value.split(",")
+  }
+  if (fieldPatch?.search_filter) {
+    setMockResponse.get(
+      `${urls.userSubscription.check(subscribeParams)}`,
+      factories.percolateQueries,
+    )
+  }
 
+  setMockResponse.get(urls.userSubscription.check(), factories.percolateQueries)
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
     field,
@@ -103,7 +115,7 @@ describe("FieldSearch", () => {
       expected: { offered_by: "ocw", topic: "physics" },
     },
     {
-      searchFilter: "offered_by=ocw,xpro",
+      searchFilter: "offered_by=ocw",
       url: "?offered_by=xpro&topic=physics",
       expected: { offered_by: "xpro", topic: "physics" },
     },

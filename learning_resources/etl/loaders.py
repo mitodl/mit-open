@@ -346,7 +346,6 @@ def load_course(
         for course_run_data in runs_data:
             load_run(learning_resource, course_run_data)
 
-        unpublished_runs = []
         if config.prune:
             # mark runs no longer included here as unpublished
             for run in learning_resource.runs.exclude(
@@ -354,7 +353,6 @@ def load_course(
             ).filter(published=True):
                 run.published = False
                 run.save()
-                unpublished_runs.append(run.id)
 
         load_next_start_date(learning_resource)
         load_topics(learning_resource, topics_data)
@@ -478,7 +476,6 @@ def load_program(
         for run_data in runs_data:
             load_run(learning_resource, run_data)
 
-        unpublished_runs = []
         if config.prune:
             # mark runs no longer included here as unpublished
             for run in learning_resource.runs.exclude(
@@ -486,7 +483,6 @@ def load_program(
             ).filter(published=True):
                 run.published = False
                 run.save()
-                unpublished_runs.append(run.id)
 
         load_next_start_date(learning_resource)
 
