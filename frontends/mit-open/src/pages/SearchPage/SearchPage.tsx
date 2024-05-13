@@ -12,6 +12,7 @@ import {
   PlainList,
   Skeleton,
   SimpleSelect,
+  truncateText,
 } from "ol-components"
 import { MetaTags, capitalize } from "ol-utilities"
 
@@ -146,6 +147,17 @@ const FacetStyles = styled.div`
     cursor: pointer;
   }
 
+  .facet-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    label {
+      ${truncateText(1)};
+    }
+  }
+
   .facets {
     box-sizing: border-box;
     background-color: ${({ theme }) => theme.custom.colors.white};
@@ -209,13 +221,6 @@ const FacetStyles = styled.div`
         padding: 0;
       }
     }
-  }
-
-  .facet-label {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
   }
 
   input.facet-filter {
