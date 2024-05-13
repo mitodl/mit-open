@@ -65,6 +65,7 @@ const SearchSubscriptionToggle = ({
   return (
     <Button
       variant="filled"
+      disabled={subscriptionCreate.isLoading}
       onClick={() =>
         subscriptionCreate.mutateAsync({
           LearningResourcesSearchRequestRequest: subscribeParams,
