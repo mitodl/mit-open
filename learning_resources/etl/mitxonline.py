@@ -22,7 +22,6 @@ from learning_resources.etl.utils import (
     parse_certification,
     transform_topics,
 )
-from learning_resources.models import LearningResourceDepartment
 
 log = logging.getLogger(__name__)
 

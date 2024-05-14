@@ -3893,16 +3893,8 @@
       }
     ],
     "requirements": {
-      "required": [
-        1,
-        2,
-        3
-      ],
-      "electives": [
-        5,
-        6,
-        4
-      ]
+      "required": [1, 2, 3],
+      "electives": [5, 6, 4]
     },
     "req_tree": [
       {
