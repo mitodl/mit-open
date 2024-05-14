@@ -35,9 +35,7 @@ const Section = styled.section`
 `
 
 const Title = styled(Typography)`
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    text-align: center;
-  }
+  text-align: center;
 `
 
 const Topics = styled.div`
