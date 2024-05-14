@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.9.13
+--------------
+
+- Adds learner testimonials support (#891)
+- Null start dates for OCW course runs (#899)
+- Featured API endpoint (#887)
+
 Version 0.9.12 (Released May 14, 2024)
 --------------
 
