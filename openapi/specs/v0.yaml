@@ -552,7 +552,9 @@ components:
           format: uri
         cover:
           type: string
-          format: uri
+          nullable: true
+          description: Get the cover image URL
+          readOnly: true
         created_on:
           type: string
           format: date-time
