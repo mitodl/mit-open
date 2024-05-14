@@ -76,7 +76,7 @@ WEBPACK_LOADER = {
         "CACHE": not DEBUG,
         "BUNDLE_DIR_NAME": "mit-open/",
         "STATS_FILE": os.path.join(  # noqa: PTH118
-            BASE_DIR, "webpack-stats/mit-open.json"
+            BASE_DIR, "frontends/mit-open/webpack-stats.json"
         ),
         "POLL_INTERVAL": 0.1,
         "TIMEOUT": None,
