@@ -34,10 +34,9 @@ const StyledToolbar = styled(Toolbar)({
 })
 
 const LogoLink = styled(MITLogoLink)({
-  width: 45,
-  height: "auto",
   img: {
-    height: 20,
+    width: 109,
+    height: 40,
   },
 })
 
