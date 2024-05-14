@@ -19,9 +19,8 @@ import {
 import { useSearchParams } from "react-router-dom"
 
 const Bar = styled(AppBar)`
-  height: 56px;
+  height: ${({ theme }) => theme.custom.dimensions.AppBarHeightPx}px;
   padding: 0 8px;
-  z-index: ${({ theme }) => theme.zIndex.drawer + 1};
   background-color: ${({ theme }) => theme.custom.colors.white};
   color: ${({ theme }) => theme.custom.colors.black};
   display: flex;

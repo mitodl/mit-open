@@ -3,7 +3,7 @@ import styled from "@emotion/styled"
 import React from "react"
 
 const DrawerContent = styled.div(({ theme }) => ({
-  paddingTop: "56px",
+  paddingTop: theme.custom.dimensions.AppBarHeightPx,
   width: "350px",
   height: "100%",
   background: theme.custom.colors.white,
@@ -128,6 +128,7 @@ const NavDrawer = (props: NavDrawerProps) => {
       PaperProps={{
         sx: {
           boxShadow: "0px 6px 24px 0px rgba(37, 38, 43, 0.10)",
+          zIndex: (theme) => theme.zIndex.appBar - 1,
         },
       }}
       {...props}

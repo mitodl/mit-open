@@ -43,6 +43,9 @@ interface CustomTheme {
     orange: string
     yellow: string
   }
+  dimensions: {
+    AppBarHeightPx: number
+  }
 }
 
 declare module "@mui/material/styles" {
