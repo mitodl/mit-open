@@ -1,6 +1,17 @@
 Release Notes
 =============
 
+Version 0.9.12
+--------------
+
+- use neue-haas-grotesk font (#889)
+- Shanbady/add subscribe button to pages (#878)
+- bump course-search-utils (#900)
+- Replace react-dotdotdot with CSS (#896)
+- Switch django migrations to release phase (#898)
+- Do not show unpublished runs in learning resource serializer data (#894)
+- Fix some n+1 query warnings (#884)
+
 Version 0.9.11 (Released May 13, 2024)
 --------------
 
