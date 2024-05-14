@@ -52,29 +52,29 @@ export interface Attestation {
    */
   id: number
   /**
-   * Get the avatar image URL
+   *
    * @type {string}
    * @memberof Attestation
    */
-  avatar: string | null
+  avatar: string
   /**
-   * Get the avatar image small URL
+   *
    * @type {string}
    * @memberof Attestation
    */
-  avatar_small: string | null
+  avatar_small: string
   /**
-   * Get the avatar image medium URL
+   *
    * @type {string}
    * @memberof Attestation
    */
-  avatar_medium: string | null
+  avatar_medium: string
   /**
-   * Get the cover image URL
+   *
    * @type {string}
    * @memberof Attestation
    */
-  cover: string | null
+  cover: string
   /**
    *
    * @type {string}

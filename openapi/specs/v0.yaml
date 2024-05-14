@@ -543,24 +543,16 @@ components:
           readOnly: true
         avatar:
           type: string
-          nullable: true
-          description: Get the avatar image URL
-          readOnly: true
+          format: uri
         avatar_small:
           type: string
-          nullable: true
-          description: Get the avatar image small URL
-          readOnly: true
+          format: uri
         avatar_medium:
           type: string
-          nullable: true
-          description: Get the avatar image medium URL
-          readOnly: true
+          format: uri
         cover:
           type: string
-          nullable: true
-          description: Get the cover image URL
-          readOnly: true
+          format: uri
         created_on:
           type: string
           format: date-time
