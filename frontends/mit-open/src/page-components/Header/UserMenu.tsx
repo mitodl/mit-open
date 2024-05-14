@@ -1,61 +1,57 @@
 import React, { useState } from "react"
-import { Avatar, Badge, SimpleMenu, styled } from "ol-components"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp"
-import type { BadgeProps, SimpleMenuItem, AvatarProps } from "ol-components"
+import { SimpleMenu, styled } from "ol-components"
+import type { MenuOverrideProps, SimpleMenuItem } from "ol-components"
 import * as urls from "@/common/urls"
-import PersonIcon from "@mui/icons-material/Person"
-import { useLocation } from "react-router"
+import {
+  RiAccountCircleFill,
+  RiArrowUpSLine,
+  RiArrowDownSLine,
+} from "@remixicon/react"
 import { useUserMe, User } from "api/hooks/user"
 
-const StyledBadge = styled(Badge)`
-  pointer-events: none;
-`
+const UserMenuContainer = styled.div({
+  display: "flex",
+  cursor: "pointer",
+})
 
-const SmallAvatar = styled(Avatar)<AvatarProps>`
-  pointer-events: all;
-  height: 35px;
-  width: 35px;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-`
+const StyledUserIcon = styled(RiAccountCircleFill)(({ theme }) => ({
+  width: "22px",
+  height: "22px",
+  color: theme.custom.colors.darkGray1,
+}))
 
-const badgeAnchorOrigin: BadgeProps["anchorOrigin"] = {
-  vertical: "bottom",
-  horizontal: "right",
-}
-
-type AuthMenuItem = SimpleMenuItem & {
+type UserMenuItem = SimpleMenuItem & {
   allow: boolean
 }
 
-const UserIcon: React.FC<{ user: User }> = ({ user }) => {
-  const first = user.first_name?.[0] ?? ""
-  const last = user.last_name?.[0] ?? ""
-  return `${first}${last}` || <PersonIcon />
+const UserNameContainer = styled.span(({ theme }) => ({
+  color: theme.custom.colors.darkGray1,
+  padding: "0 12px",
+}))
+
+const UserName: React.FC<{ user: User | undefined }> = ({ user }) => {
+  const first = user?.first_name ?? ""
+  const last = user?.last_name ?? ""
+  return (
+    <UserNameContainer>
+      {first} {last}
+    </UserNameContainer>
+  )
+}
+
+const UserMenuChevron: React.FC<{ open: boolean }> = ({ open }) => {
+  return open ? <RiArrowUpSLine /> : <RiArrowDownSLine />
 }
 
 const UserMenu: React.FC = () => {
   const [visible, setVisible] = useState(false)
-  const location = useLocation()
   const { isLoading, data: user } = useUserMe()
 
   if (isLoading) {
     return null
   }
 
-  const items: AuthMenuItem[] = [
-    {
-      label: "Log in",
-      key: "login",
-      allow: !user?.is_authenticated,
-      href: urls.login({
-        pathname: location.pathname,
-        search: location.search,
-      }),
-      LinkComponent: "a",
-    },
+  const items: UserMenuItem[] = [
     {
       label: "Dashboard",
       key: "dashboard",
@@ -83,22 +79,24 @@ const UserMenu: React.FC = () => {
     },
   ]
 
+  const menuOverrideProps: MenuOverrideProps = {
+    anchorOrigin: { horizontal: "right", vertical: "bottom" },
+    transformOrigin: { horizontal: "right", vertical: "top" },
+  }
+
   return (
     <SimpleMenu
+      menuOverrideProps={menuOverrideProps}
       onVisibilityChange={setVisible}
       items={items
         .filter(({ allow }) => allow)
         .map(({ allow, ...item }) => item)}
       trigger={
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={badgeAnchorOrigin}
-          badgeContent={visible ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-        >
-          <SmallAvatar component="button" aria-label="User Menu">
-            {user?.is_authenticated ? <UserIcon user={user} /> : <PersonIcon />}
-          </SmallAvatar>
-        </StyledBadge>
+        <UserMenuContainer>
+          <StyledUserIcon />
+          <UserName user={user} />
+          <UserMenuChevron open={visible} />
+        </UserMenuContainer>
       }
     />
   )

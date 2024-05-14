@@ -3,7 +3,7 @@ import styled from "@emotion/styled"
 import React from "react"
 
 const DrawerContent = styled.div(({ theme }) => ({
-  paddingTop: "56px",
+  paddingTop: "80px",
   width: "350px",
   height: "100%",
   background: theme.custom.colors.white,

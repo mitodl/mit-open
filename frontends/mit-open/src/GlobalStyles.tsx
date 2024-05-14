@@ -19,7 +19,7 @@ const pageCss = css`
 
   #app-container {
     height: 100vh;
-    margin-top: 55px;
+    margin-top: 80px;
   }
 
   a {

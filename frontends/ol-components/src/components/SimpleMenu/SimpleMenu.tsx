@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from "react"
-import Menu from "@mui/material/Menu"
+import Menu, { MenuProps } from "@mui/material/Menu"
 import MenuItem from "@mui/material/MenuItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import { Link as RouterLink } from "react-router-dom"
@@ -34,10 +34,12 @@ type SimpleMenuItemHref = SimpleMenuItemBase & {
   href: string
 }
 
+type MenuOverrideProps = Omit<MenuProps, "open" | "anchorEl" | "close">
 type SimpleMenuItem = SimpleMenuItemOnClick | SimpleMenuItemHref
 
 type SimpleMenuProps = {
   items: SimpleMenuItem[]
+  menuOverrideProps?: MenuOverrideProps
   trigger: React.ReactElement
   onVisibilityChange?: (visible: boolean) => void
 }
@@ -53,6 +55,7 @@ type SimpleMenuProps = {
  */
 const SimpleMenu: React.FC<SimpleMenuProps> = ({
   items,
+  menuOverrideProps,
   trigger: _trigger,
   onVisibilityChange,
 }) => {
@@ -82,7 +85,12 @@ const SimpleMenu: React.FC<SimpleMenuProps> = ({
   return (
     <>
       {trigger}
-      <Menu open={open} anchorEl={el} onClose={() => setOpen(false)}>
+      <Menu
+        open={open}
+        anchorEl={el}
+        onClose={() => setOpen(false)}
+        {...menuOverrideProps}
+      >
         {items.map((item) => {
           const linkProps = item.href
             ? {
@@ -120,4 +128,4 @@ const SimpleMenu: React.FC<SimpleMenuProps> = ({
 }
 
 export { SimpleMenu }
-export type { SimpleMenuProps, SimpleMenuItem }
+export type { SimpleMenuProps, MenuOverrideProps, SimpleMenuItem }

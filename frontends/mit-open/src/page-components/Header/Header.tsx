@@ -7,19 +7,24 @@ import {
   NavDrawer,
   Toolbar,
   ClickAwayListener,
+  Button,
 } from "ol-components"
+import { RiSearch2Line } from "@remixicon/react"
 import { MITLogoLink, useToggle } from "ol-utilities"
 import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
 import {
   DEPARTMENTS,
+  LOGIN,
   RESOURCE_DRAWER_QUERY_PARAM,
+  SEARCH,
   querifiedSearchUrl,
 } from "@/common/urls"
 import { useSearchParams } from "react-router-dom"
+import { useUserMe } from "api/hooks/user"
 
 const Bar = styled(AppBar)`
-  height: 56px;
+  height: 80px;
   padding: 0 8px;
   z-index: ${({ theme }) => theme.zIndex.drawer + 1};
   background-color: ${({ theme }) => theme.custom.colors.white};
@@ -28,6 +33,11 @@ const Bar = styled(AppBar)`
   flex-direction: column;
   box-shadow: 0 2px 10px rgba(120 169 197 / 15%);
 `
+
+const FlexContainer = styled.div({
+  display: "flex",
+  alignItems: "center",
+})
 
 const StyledToolbar = styled(Toolbar)({
   flex: 1,
@@ -40,13 +50,62 @@ const LogoLink = styled(MITLogoLink)({
   },
 })
 
-const StyledDivider = styled(Divider)({
-  margin: "0.5em 1em",
+const LeftDivider = styled(Divider)({
+  margin: "0 24px",
+})
+
+const RightDivider = styled(Divider)({
+  margin: "0 32px",
 })
 
 const Spacer = styled.div`
   flex: 1;
 `
+
+const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
+  color: theme.custom.colors.darkGray1,
+  margin: "4px 0",
+}))
+
+const SearchButton: FunctionComponent = () => {
+  return (
+    <a href={SEARCH}>
+      <FlexContainer>
+        <StyledSearchIcon />
+      </FlexContainer>
+    </a>
+  )
+}
+
+const LoginButtonContainer = styled.a({
+  paddingRight: "32px",
+  "&:hover": {
+    textDecoration: "none",
+  },
+})
+
+const LoggedOutView: FunctionComponent = () => {
+  return (
+    <FlexContainer>
+      <LoginButtonContainer href={LOGIN}>
+        <Button edge="rounded" size="small">
+          Sign Up / Login
+        </Button>
+      </LoginButtonContainer>
+      <SearchButton />
+    </FlexContainer>
+  )
+}
+
+const LoggedInView: FunctionComponent = () => {
+  return (
+    <FlexContainer>
+      <SearchButton />
+      <RightDivider orientation="vertical" flexItem />
+      <UserMenu />
+    </FlexContainer>
+  )
+}
 
 const navData: NavData = {
   sections: [
@@ -127,6 +186,11 @@ const Header: FunctionComponent = () => {
   const [drawerOpen, toggleDrawer] = useToggle(false)
   const [searchParams] = useSearchParams()
   const resourceDrawerOpen = searchParams.has(RESOURCE_DRAWER_QUERY_PARAM)
+  const { isLoading, data: user } = useUserMe()
+
+  if (isLoading) {
+    return null
+  }
 
   const toggler = (event: React.MouseEvent) => {
     if (!resourceDrawerOpen) {
@@ -146,11 +210,13 @@ const Header: FunctionComponent = () => {
     <div>
       <Bar position="fixed">
         <StyledToolbar variant="dense">
-          <LogoLink />
-          <StyledDivider orientation="vertical" flexItem />
-          <MenuButton text="Explore MIT" onClick={toggler} />
+          <FlexContainer>
+            <LogoLink />
+            <LeftDivider orientation="vertical" flexItem />
+            <MenuButton text="Explore MIT" onClick={toggler} />
+          </FlexContainer>
           <Spacer />
-          <UserMenu />
+          {user?.is_authenticated ? <LoggedInView /> : <LoggedOutView />}
         </StyledToolbar>
       </Bar>
       <ClickAwayListener onClickAway={closeDrawer}>

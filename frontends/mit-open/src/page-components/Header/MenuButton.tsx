@@ -16,11 +16,12 @@ const MenuButtonText = styled.div(({ theme }) => ({
 
 const MenuButtonInner = styled.div({
   display: "flex",
-  padding: "8px 24px 8px 0px",
+  padding: "8px 0",
   alignItems: "flex-start",
 })
 
 const StyledMenuButton = styled(Button)({
+  padding: "0",
   background: "transparent",
   "&:hover:not(:disabled)": {
     background: "transparent",

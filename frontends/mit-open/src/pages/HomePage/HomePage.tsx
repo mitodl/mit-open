@@ -17,7 +17,7 @@ const FullWidthBackground = styled.div`
   padding-bottom: 120px;
 
   ${({ theme }) => theme.breakpoints.down("sm")} {
-    padding-top: 56px;
+    padding-top: 80px;
     padding-bottom: 56px;
   }
 `

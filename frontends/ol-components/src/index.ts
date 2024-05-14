@@ -115,6 +115,7 @@ export { default as Typography } from "@mui/material/Typography"
 export type { TypographyProps } from "@mui/material/Typography"
 
 export { default as Menu } from "@mui/material/Menu"
+export type { MenuProps } from "@mui/material/Menu"
 export { default as MenuItem } from "@mui/material/MenuItem"
 
 export * from "./components/Alert/Alert"
