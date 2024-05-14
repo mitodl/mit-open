@@ -177,6 +177,26 @@ def test_learning_resource_filter_professional(is_professional, client):
     )
 
 
+@pytest.mark.parametrize("offers_certification", [True, False])
+def test_learning_resource_filter_certification(offers_certification, client):
+    """Test that the certification filter works"""
+
+    certified_course = CourseFactory.create(
+        platform=PlatformType.xpro.name, has_certification=True
+    ).learning_resource
+    uncertified_course = CourseFactory.create(
+        platform=PlatformType.xpro.name, has_certification=False
+    ).learning_resource
+
+    results = client.get(
+        f"{RESOURCE_API_URL}?certification={offers_certification}"
+    ).json()["results"]
+    assert len(results) == 1
+    assert results[0]["id"] == (
+        certified_course.id if offers_certification else uncertified_course.id
+    )
+
+
 def test_learning_resource_filter_free(client):
     """Test that the free filter works"""
 

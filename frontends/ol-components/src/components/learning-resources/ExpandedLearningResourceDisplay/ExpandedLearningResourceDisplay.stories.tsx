@@ -4,7 +4,7 @@ import { ExpandedLearningResourceDisplay } from "./ExpandedLearningResourceDispl
 import { factories } from "api/test-utils"
 import { ResourceTypeEnum as LRT } from "api"
 import invariant from "tiny-invariant"
-import Drawer from "@mui/material/Drawer"
+import { Drawer } from "ol-components"
 
 const _makeResource = factories.learningResources.resource
 const makeResource: typeof _makeResource = (overrides) => {

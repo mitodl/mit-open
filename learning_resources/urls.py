@@ -80,6 +80,8 @@ router.register(
     r"podcast_episodes", views.PodcastEpisodeViewSet, basename="podcast_episodes_api"
 )
 
+router.register(r"featured", views.FeaturedViewSet, basename="featured_api")
+
 router.register(r"contentfiles", views.ContentFileViewSet, basename="contentfiles_api")
 router.register(r"userlists", views.UserListViewSet, basename="userlists_api")
 nested_userlist_router = NestedSimpleRouter(router, r"userlists", lookup="userlist")

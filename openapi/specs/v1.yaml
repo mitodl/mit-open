@@ -530,6 +530,10 @@ paths:
       summary: List
       parameters:
       - in: query
+        name: certification
+        schema:
+          type: boolean
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -1093,12 +1097,377 @@ paths:
               schema:
                 $ref: '#/components/schemas/LearningResourceDepartment'
           description: ''
+  /api/v1/featured/:
+    get:
+      operationId: featured_list
+      description: Get a paginated list of featured resources
+      summary: List
+      parameters:
+      - in: query
+        name: certification
+        schema:
+          type: boolean
+      - in: query
+        name: course_feature
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: department
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - '1'
+            - '10'
+            - '11'
+            - '12'
+            - '14'
+            - '15'
+            - '16'
+            - '17'
+            - '18'
+            - '2'
+            - '20'
+            - 21A
+            - 21G
+            - 21H
+            - 21L
+            - 21M
+            - '22'
+            - '24'
+            - '3'
+            - '4'
+            - '5'
+            - '6'
+            - '7'
+            - '8'
+            - '9'
+            - CC
+            - CMS-W
+            - EC
+            - ES
+            - ESD
+            - HST
+            - IDS
+            - MAS
+            - PE
+            - RES
+            - STS
+            - WGS
+        description: |-
+          The department that offers learning resources
+
+          * `1` - Civil and Environmental Engineering
+          * `2` - Mechanical Engineering
+          * `3` - Materials Science and Engineering
+          * `4` - Architecture
+          * `5` - Chemistry
+          * `6` - Electrical Engineering and Computer Science
+          * `7` - Biology
+          * `8` - Physics
+          * `9` - Brain and Cognitive Sciences
+          * `10` - Chemical Engineering
+          * `11` - Urban Studies and Planning
+          * `12` - Earth, Atmospheric, and Planetary Sciences
+          * `14` - Economics
+          * `15` - Sloan School of Management
+          * `16` - Aeronautics and Astronautics
+          * `17` - Political Science
+          * `18` - Mathematics
+          * `20` - Biological Engineering
+          * `21A` - Anthropology
+          * `21G` - Global Studies and Languages
+          * `21H` - History
+          * `21L` - Literature
+          * `21M` - Music and Theater Arts
+          * `22` - Nuclear Science and Engineering
+          * `24` - Linguistics and Philosophy
+          * `CC` - Concourse
+          * `CMS-W` - Comparative Media Studies/Writing
+          * `EC` - Edgerton Center
+          * `ES` - Experimental Study Group
+          * `ESD` - Engineering Systems Division
+          * `HST` - Health Sciences and Technology
+          * `IDS` - Institute for Data, Systems, and Society
+          * `MAS` - Media Arts and Sciences
+          * `PE` - Athletics, Physical Education and Recreation
+          * `RES` - Supplemental Resources
+          * `STS` - Science, Technology, and Society
+          * `WGS` - Women's and Gender Studies
+        explode: true
+        style: form
+      - in: query
+        name: free
+        schema:
+          type: boolean
+        description: The course/program is offered for free
+      - in: query
+        name: learning_format
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+              maxLength: 24
+            enum:
+            - hybrid
+            - in_person
+            - online
+        description: |-
+          The learning format of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+        explode: true
+        style: form
+      - in: query
+        name: level
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - advanced
+            - graduate
+            - high_school
+            - intermediate
+            - introductory
+            - noncredit
+            - undergraduate
+        description: |-
+          The academic level of the resources
+
+          * `undergraduate` - Undergraduate
+          * `graduate` - Graduate
+          * `high_school` - High School
+          * `noncredit` - Non-Credit
+          * `advanced` - Advanced
+          * `intermediate` - Intermediate
+          * `introductory` - Introductory
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offered_by
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - mitpe
+            - mitx
+            - ocw
+            - scc
+            - see
+            - xpro
+        description: |-
+          The organization that offers a learning resource
+
+          * `mitx` - MITx
+          * `ocw` - OCW
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+        explode: true
+        style: form
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      - in: query
+        name: platform
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - bootcamps
+            - csail
+            - ctl
+            - edx
+            - emeritus
+            - globalalumni
+            - mitpe
+            - mitxonline
+            - ocw
+            - oll
+            - podcast
+            - scc
+            - see
+            - simplilearn
+            - susskind
+            - whu
+            - xpro
+            - youtube
+        description: |-
+          The platform on which learning resources are offered
+
+          * `edx` - edX
+          * `ocw` - OCW
+          * `oll` - Open Learning Library
+          * `mitxonline` - MITx Online
+          * `bootcamps` - Bootcamps
+          * `xpro` - xPRO
+          * `csail` - CSAIL
+          * `mitpe` - Professional Education
+          * `see` - Sloan Executive Education
+          * `scc` - Schwarzman College of Computing
+          * `ctl` - Center for Transportation & Logistics
+          * `whu` - WHU
+          * `susskind` - Susskind
+          * `globalalumni` - Global Alumni
+          * `simplilearn` - Simplilearn
+          * `emeritus` - Emeritus
+          * `podcast` - Podcast
+          * `youtube` - YouTube
+        explode: true
+        style: form
+      - in: query
+        name: professional
+        schema:
+          type: boolean
+      - in: query
+        name: readable_id
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      - in: query
+        name: resource_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_path
+            - podcast
+            - podcast_episode
+            - program
+            - video
+            - video_playlist
+        description: |-
+          The type of learning resource
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_path` - Learning Path
+          * `podcast` - Podcast
+          * `podcast_episode` - Podcast Episode
+          * `video` - Video
+          * `video_playlist` - Video Playlist
+        explode: true
+        style: form
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -id
+          - -last_modified
+          - -mitcoursenumber
+          - -readable_id
+          - -start_date
+          - -views
+          - id
+          - last_modified
+          - mitcoursenumber
+          - new
+          - readable_id
+          - start_date
+          - upcoming
+          - views
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `readable_id` - Readable ID ascending
+          * `-readable_id` - Readable ID descending
+          * `last_modified` - Last Modified Date ascending
+          * `-last_modified` - Last Modified Date descending
+          * `new` - Newest resources first
+          * `start_date` - Start Date ascending
+          * `-start_date` - Start Date descending
+          * `mitcoursenumber` - MIT course number ascending
+          * `-mitcoursenumber` - MIT course number descending
+          * `views` - Popularity ascending
+          * `-views` - Popularity descending
+          * `upcoming` - Next start date ascending
+      - in: query
+        name: topic
+        schema:
+          type: array
+          items:
+            type: string
+        description: Multiple values may be separated by commas.
+        explode: false
+        style: form
+      tags:
+      - featured
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedLearningResourceList'
+          description: ''
+  /api/v1/featured/{id}/:
+    get:
+      operationId: featured_retrieve
+      description: Retrieve a single featured resource
+      summary: Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this learning resource.
+        required: true
+      tags:
+      - featured
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningResource'
+          description: ''
   /api/v1/learning_resources/:
     get:
       operationId: learning_resources_list
       description: Get a paginated list of learning resources.
       summary: List
       parameters:
+      - in: query
+        name: certification
+        schema:
+          type: boolean
       - in: query
         name: course_feature
         schema:
@@ -2445,6 +2814,7 @@ paths:
           - search_subscription_type
           - channel_subscription_type
           type: string
+          default: search_subscription_type
           minLength: 1
         description: |-
           The subscription type
@@ -2870,6 +3240,7 @@ paths:
           - search_subscription_type
           - channel_subscription_type
           type: string
+          default: search_subscription_type
           minLength: 1
         description: |-
           The subscription type
@@ -3272,6 +3643,7 @@ paths:
           - search_subscription_type
           - channel_subscription_type
           type: string
+          default: search_subscription_type
           minLength: 1
         description: |-
           The subscription type
@@ -3312,6 +3684,10 @@ paths:
       description: Get a paginated list of learning paths
       summary: List
       parameters:
+      - in: query
+        name: certification
+        schema:
+          type: boolean
       - in: query
         name: course_feature
         schema:
@@ -3995,6 +4371,10 @@ paths:
       summary: List
       parameters:
       - in: query
+        name: certification
+        schema:
+          type: boolean
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -4351,6 +4731,10 @@ paths:
       description: Get a paginated list of podcasts
       summary: List
       parameters:
+      - in: query
+        name: certification
+        schema:
+          type: boolean
       - in: query
         name: course_feature
         schema:
@@ -4794,6 +5178,10 @@ paths:
       description: Get a paginated list of programs
       summary: List
       parameters:
+      - in: query
+        name: certification
+        schema:
+          type: boolean
       - in: query
         name: course_feature
         schema:
@@ -5542,6 +5930,10 @@ paths:
       summary: List
       parameters:
       - in: query
+        name: certification
+        schema:
+          type: boolean
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -5964,6 +6356,10 @@ paths:
       description: Get a paginated list of videos
       summary: List
       parameters:
+      - in: query
+        name: certification
+        schema:
+          type: boolean
       - in: query
         name: course_feature
         schema:
@@ -8544,6 +8940,7 @@ components:
         source_type:
           allOf:
           - $ref: '#/components/schemas/SourceTypeEnum'
+          default: search_subscription_type
           description: |-
             The subscription type
 

@@ -31,13 +31,9 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     ...defaultProps,
     ...props,
   }
-  const { palette } = theme
+  const { palette, typography } = theme
   return [
     {
-      // font
-      lineHeight: 1,
-      fontFamily: theme.typography.fontFamily,
-      fontWeight: 500,
       color: theme.palette.text.primary,
       // display
       display: "flex",
@@ -55,17 +51,17 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     size === "large" && {
       padding: "0px 24px",
       height: `calc(48px - 16px + ${pxToRem(16)})`, // 48px at default base font size
-      fontSize: pxToRem(16),
+      ...typography.buttonLarge,
     },
     size === "medium" && {
       padding: "0px 16px",
       height: `calc(40px - 14px + ${pxToRem(14)})`, // 40px at default base font size
-      fontSize: pxToRem(14),
+      ...typography.button,
     },
     size === "small" && {
       padding: "0px 12px",
       height: `calc(32px - 12px + ${pxToRem(12)})`, // 32px at default base font size
-      fontSize: pxToRem(12),
+      ...typography.buttonSmall,
     },
     // variant
     variant === "filled" && {

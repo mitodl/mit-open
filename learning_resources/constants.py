@@ -54,6 +54,15 @@ class OfferedBy(ExtendedEnum):
     ctl = "Center for Transportation & Logistics"
 
 
+FEATURED_OFFERORS = [
+    OfferedBy.mitx,
+    OfferedBy.ocw,
+    OfferedBy.xpro,
+    OfferedBy.mitpe,
+    OfferedBy.see,
+]
+
+
 class PlatformType(ExtendedEnum):
     """
     Enum for platforms, this should be kept in sync

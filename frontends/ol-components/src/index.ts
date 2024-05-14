@@ -37,6 +37,9 @@ export type { CheckboxProps } from "@mui/material/Checkbox"
 export { default as Chip } from "@mui/material/Chip"
 export type { ChipProps } from "@mui/material/Chip"
 
+export { default as ClickAwayListener } from "@mui/material/ClickAwayListener"
+export type { ClickAwayListenerProps } from "@mui/material/ClickAwayListener"
+
 export { default as Container } from "@mui/material/Container"
 export type { ContainerProps } from "@mui/material/Container"
 
@@ -51,6 +54,9 @@ export type { DialogTitleProps } from "@mui/material/DialogTitle"
 
 export { default as Divider } from "@mui/material/Divider"
 export type { DividerProps } from "@mui/material/Divider"
+
+export { default as Drawer } from "@mui/material/Drawer"
+export type { DrawerProps } from "@mui/material/Drawer"
 
 export { default as Grid } from "@mui/material/Grid"
 export type { GridProps } from "@mui/material/Grid"
@@ -120,6 +126,7 @@ export * from "./components/Chips/ChipLink"
 export * from "./components/EmbedlyCard/EmbedlyCard"
 export * from "./components/FormDialog/FormDialog"
 export * from "./components/RoutedDrawer/RoutedDrawer"
+export * from "./components/NavDrawer/NavDrawer"
 export * from "./components/SearchInput/SearchInput"
 export * from "./components/SimpleMenu/SimpleMenu"
 export * from "./components/SortableList/SortableList"
