@@ -100,7 +100,7 @@ const UserMenu: React.FC = () => {
           </SmallAvatar>
         </StyledBadge>
       }
-    ></SimpleMenu>
+    />
   )
 }
 
