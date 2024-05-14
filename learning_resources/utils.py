@@ -3,7 +3,6 @@
 import json
 import logging
 import re
-from datetime import UTC, datetime
 from pathlib import Path
 
 import rapidjson
@@ -89,30 +88,6 @@ def get_year_and_semester(course_run):
             semester = None
             year = course_run.get("start")[:4] if course_run.get("start") else None
     return year, semester
-
-
-def semester_year_to_date(semester, year):
-    """
-    Convert semester and year to a rough date
-
-    Args:
-        semester (str): Semester ("Fall", "Spring", etc)
-        year (int): Year
-
-    Returns:
-        datetime: The rough date of the course
-    """
-    if year is None:
-        return None
-    if semester is None:
-        month_day = "01-01"
-    elif semester.lower() == "fall":
-        month_day = "09-01"
-    elif semester.lower() == "summer":
-        month_day = "06-01"
-    else:
-        month_day = "01-01"
-    return datetime.strptime(f"{year}-{month_day}", "%Y-%m-%d").replace(tzinfo=UTC)
 
 
 def load_course_blocklist():

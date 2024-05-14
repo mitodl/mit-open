@@ -3,7 +3,6 @@ Test learning_resources utils
 """
 
 import json
-from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -54,32 +53,6 @@ def fixture_test_instructors_data():
     """
     with open("./test_json/test_instructors_data.json") as test_data:  # noqa: PTH123
         return json.load(test_data)["instructors"]
-
-
-@pytest.mark.parametrize(
-    ("semester", "year", "expected"),
-    [
-        ("Spring", 2020, "2020-01-01"),
-        ("Fall", 2020, "2020-09-01"),
-        ("fall", 2020, "2020-09-01"),
-        ("summer", 2021, "2021-06-01"),
-        ("Summer", 2021, "2021-06-01"),
-        ("spring", None, None),
-        (None, 2020, "2020-01-01"),
-        ("something", 2020, "2020-01-01"),
-        ("January IAP", 2018, "2018-01-01"),
-    ],
-)
-def test_semester_year_to_date(semester, year, expected):
-    """
-    Test that a correct rough date is returned for semester and year
-    """
-    if expected is None:
-        assert utils.semester_year_to_date(semester, year) is None
-    else:
-        assert utils.semester_year_to_date(semester, year) == datetime.strptime(
-            expected, "%Y-%m-%d"
-        ).replace(tzinfo=UTC)
 
 
 @pytest.mark.parametrize("url", [None, "http://test.me"])
