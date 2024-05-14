@@ -19,7 +19,7 @@ export type { BadgeProps } from "@mui/material/Badge"
 export { default as AppBar } from "@mui/material/AppBar"
 export type { AppBarProps } from "@mui/material/AppBar"
 
-export { Button } from "./components/Button/Button"
+export { Button, IconButton } from "./components/Button/Button"
 export type { ButtonProps } from "./components/Button/Button"
 
 export { default as Card } from "@mui/material/Card"
@@ -60,8 +60,8 @@ export type { DrawerProps } from "@mui/material/Drawer"
 
 export { default as Grid } from "@mui/material/Grid"
 export type { GridProps } from "@mui/material/Grid"
-export { default as IconButton } from "@mui/material/IconButton"
-export type { IconButtonProps } from "@mui/material/IconButton"
+export { default as DeprecatedIconButton } from "@mui/material/IconButton"
+export type { IconButtonProps as DeprecatedIconButtonProps } from "@mui/material/IconButton"
 export { default as InputLabel } from "@mui/material/InputLabel"
 
 export { default as List } from "@mui/material/List"

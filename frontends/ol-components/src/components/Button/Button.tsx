@@ -36,7 +36,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     {
       color: theme.palette.text.primary,
       // display
-      display: "flex",
+      display: "inline-flex",
       justifyContent: "center",
       alignItems: "center",
       // transitions

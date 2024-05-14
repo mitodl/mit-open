@@ -58,7 +58,12 @@ const EditUserListMenu: React.FC<EditUserListMenuProps> = ({ userList }) => {
   return (
     <SimpleMenu
       trigger={
-        <IconButton size="small" aria-label={`Edit list ${userList.title}`}>
+        <IconButton
+          variant="text"
+          color="secondary"
+          size="small"
+          aria-label={`Edit list ${userList.title}`}
+        >
           <MoreVertIcon fontSize="inherit" />
         </IconButton>
       }

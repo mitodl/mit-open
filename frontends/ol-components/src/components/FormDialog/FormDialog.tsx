@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Button } from "../Button/Button"
+import { Button, IconButton } from "../Button/Button"
 import type { ButtonProps } from "../Button/Button"
 import Dialog from "@mui/material/Dialog"
 import DialogActions from "@mui/material/DialogActions"
 import DialogContent from "@mui/material/DialogContent"
 import DialogTitle from "@mui/material/DialogTitle"
-import IconButton from "@mui/material/IconButton"
 import type { DialogProps } from "@mui/material/Dialog"
 import Close from "@mui/icons-material/Close"
 
@@ -152,7 +151,12 @@ const FormDialog: React.FC<FormDialogProps> = ({
     >
       <DialogTitle>{title}</DialogTitle>
       <div style={topRightStyle}>
-        <IconButton onClick={onClose} aria-label="Close">
+        <IconButton
+          variant="text"
+          color="secondary"
+          onClick={onClose}
+          aria-label="Close"
+        >
           <Close />
         </IconButton>
       </div>

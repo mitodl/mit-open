@@ -60,7 +60,12 @@ const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
   return (
     <SimpleMenu
       trigger={
-        <IconButton size="small" aria-label={`Edit list ${resource.title}`}>
+        <IconButton
+          variant="text"
+          color="secondary"
+          size="small"
+          aria-label={`Edit list ${resource.title}`}
+        >
           <MoreVertIcon fontSize="inherit" />
         </IconButton>
       }

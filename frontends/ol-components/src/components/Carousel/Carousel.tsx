@@ -3,10 +3,9 @@ import NukaCarousel from "nuka-carousel"
 import { clamp } from "lodash"
 import type { CarouselProps as NukaCarouselProps } from "nuka-carousel"
 import styled from "@emotion/styled"
-import NavigateNextIcon from "@mui/icons-material/NavigateNext"
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore"
-import { FilledIconButton } from "../FilledIconButton/FilledIconButton"
+import { IconButton } from "../Button/Button"
 import Stack from "@mui/material/Stack"
+import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 
 type CarouselProps = {
   children: React.ReactNode
@@ -103,24 +102,24 @@ const Carousel: React.FC<CarouselProps> = ({
         {children}
       </NukaCarouselStyled>
       <Stack direction="row" justifyContent="end" spacing={3} marginTop={3}>
-        <FilledIconButton
-          variant="contained"
+        <IconButton
           size="small"
+          edge="rounded"
           onClick={pageDown}
           disabled={!canPageDown}
           aria-label="Previous"
         >
-          <NavigateBeforeIcon fontSize="small" />
-        </FilledIconButton>
-        <FilledIconButton
-          variant="contained"
+          <RiArrowLeftLine />
+        </IconButton>
+        <IconButton
           size="small"
+          edge="rounded"
           onClick={pageUp}
           disabled={!canPageUp}
           aria-label="Next"
         >
-          <NavigateNextIcon fontSize="small" />
-        </FilledIconButton>
+          <RiArrowRightLine />
+        </IconButton>
       </Stack>
     </ContainerComponent>
   )
