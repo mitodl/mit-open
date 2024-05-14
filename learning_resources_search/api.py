@@ -594,9 +594,9 @@ def execute_learn_search(search_params):
     return search.execute().to_dict()
 
 
-def subscribe_user_to_search_query(user, search_params):
-    from learning_resources_search.models import PercolateQuery
-
+def subscribe_user_to_search_query(
+    user, search_params, source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE
+):
     """
     Subscribe a user to a search query
 
@@ -611,7 +611,7 @@ def subscribe_user_to_search_query(user, search_params):
     """
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
     percolate_query, _ = PercolateQuery.objects.get_or_create(
-        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        source_type=source_type,
         original_query=adjusted_original_query,
         query=adjust_query_for_percolator(adjusted_original_query),
     )
@@ -620,9 +620,9 @@ def subscribe_user_to_search_query(user, search_params):
     return percolate_query
 
 
-def unsubscribe_user_from_search_query(user, search_params):
-    from learning_resources_search.models import PercolateQuery
-
+def unsubscribe_user_from_search_query(
+    user, search_params, source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE
+):
     """
     Unsubscribe a user to a search query
 
@@ -638,7 +638,7 @@ def unsubscribe_user_from_search_query(user, search_params):
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
 
     percolate_query = PercolateQuery.objects.filter(
-        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        source_type=source_type,
         original_query=adjusted_original_query,
         query=adjust_query_for_percolator(adjusted_original_query),
     ).first()
@@ -661,9 +661,9 @@ def unsubscribe_user_from_percolate_query(user, percolate_query):
     return percolate_query
 
 
-def user_subscribed_to_query(user, search_params):
-    from learning_resources_search.models import PercolateQuery
-
+def user_subscribed_to_query(
+    user, search_params, source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE
+):
     """
     Check if a user is subscribed to a search query
 
@@ -678,7 +678,7 @@ def user_subscribed_to_query(user, search_params):
     """
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
     percolate_query = PercolateQuery.objects.filter(
-        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        source_type=source_type,
         original_query=adjusted_original_query,
     ).first()
     return (
