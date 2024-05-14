@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent"
 import DialogTitle from "@mui/material/DialogTitle"
 import { Button, ActionButton } from "../Button/Button"
 import DialogActions from "@mui/material/DialogActions"
-import Close from "@mui/icons-material/Close"
+import { RiCloseLine } from "@remixicon/react"
 
 const topRightStyle: React.CSSProperties = {
   position: "absolute",
@@ -84,7 +84,7 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
       <DialogTitle>{title}</DialogTitle>
       <div style={topRightStyle}>
         <ActionButton variant="text" color="secondary" onClick={onClose}>
-          <Close />
+          <RiCloseLine />
         </ActionButton>
       </div>
       <DialogContent>{children}</DialogContent>

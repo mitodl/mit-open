@@ -3,7 +3,7 @@ import Drawer from "@mui/material/Drawer"
 import type { DrawerProps } from "@mui/material/Drawer"
 import ClickAwayListener from "@mui/material/ClickAwayListener"
 import { ActionButton } from "../Button/Button"
-import CloseIcon from "@mui/icons-material/Close"
+import { RiCloseLine } from "@remixicon/react"
 import { useSearchParams } from "react-router-dom"
 import { useToggle } from "ol-utilities"
 
@@ -85,7 +85,7 @@ const RoutedDrawer = <K extends string, R extends K = K>(
               onClick={setOpen.off}
               aria-label="Close"
             >
-              <CloseIcon fontSize="large" />
+              <RiCloseLine />
             </ActionButton>
           </>
         }
