@@ -19,6 +19,7 @@ const setMockApiResponses = ({
   for (const [key, value] of urlParams.entries()) {
     subscribeParams[key] = value.split(",")
   }
+  subscribeParams["source_type"] = "channel_subscription_type"
   if (fieldPatch?.search_filter) {
     setMockResponse.get(
       `${urls.userSubscription.check(subscribeParams)}`,
@@ -26,7 +27,10 @@ const setMockApiResponses = ({
     )
   }
 
-  setMockResponse.get(urls.userSubscription.check(), factories.percolateQueries)
+  setMockResponse.get(
+    urls.userSubscription.check({ source_type: "channel_subscription_type" }),
+    factories.percolateQueries,
+  )
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
     field,
