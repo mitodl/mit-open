@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <style type="text/css">
+      .header-logo {
+        width: 45px;
+      }
+      .header-logo > img {
+        width: 45px;
+      }
+    </style>
+  </head>
+  <body>
+    <a
+      href="https://www.mit.edu/"
+      title="Link to MIT Homepage"
+      class="header-logo"
+    >
+      <img
+        src="https://mitopen.odl.mit.edu/static/images/mit-logo-transparent.svg"
+        alt="MIT Logo"
+      />
+    </a>
+    <hr />
+
+    {% for resource_group, resources in documents.items %}
+    <h1>{{resource_group}}</h1>
+    <ul>
+      {% for resource in resources %}
+      <li>
+        <a href="{{resource.url|safe}}">{{resource.title|safe}}</a>
+        {{resource.description|safe}}
+      </li>
+      {% endfor %}
+    </ul>
+    {% endfor %}
+  </body>
+</html>
