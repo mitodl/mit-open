@@ -70,11 +70,11 @@ export interface Attestation {
    */
   avatar_medium: string
   /**
-   *
+   * Get the cover image URL
    * @type {string}
    * @memberof Attestation
    */
-  cover: string
+  cover: string | null
   /**
    *
    * @type {string}
