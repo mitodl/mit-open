@@ -499,6 +499,12 @@ class PercolateQuerySubscriptionRequestSerializer(
         help_text="The subscription type",
     )
 
+    def get_search_request_data(self):
+        search_data = self.data.copy()
+        if "source_type" in search_data:
+            search_data.pop("source_type")
+        return search_data
+
 
 def serialize_content_file_for_update(content_file_obj):
     """Serialize a content file for API request"""
