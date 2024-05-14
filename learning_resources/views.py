@@ -21,8 +21,10 @@ from rest_framework.response import Response
 from rest_framework_nested.viewsets import NestedViewSetMixin
 
 from authentication.decorators import blocked_ip_exempt
+from channels.models import FieldChannel
 from learning_resources import permissions
 from learning_resources.constants import (
+    FEATURED_OFFERORS,
     LearningResourceType,
     PlatformType,
     PrivacyLevel,
@@ -807,3 +809,46 @@ class VideoPlaylistViewSet(BaseLearningResourceViewSet):
         return self._get_base_queryset(
             resource_type=LearningResourceType.video_playlist.name
         ).filter(published=True)
+
+
+@extend_schema_view(
+    list=extend_schema(
+        description="Get a paginated list of featured resources",
+    ),
+    retrieve=extend_schema(
+        description="Retrieve a single featured resource",
+    ),
+)
+class FeaturedViewSet(
+    BaseLearningResourceViewSet,
+):
+    """
+    Viewset for Featured Resources
+    """
+
+    lookup_url_kwarg = "id"
+    resource_type_name_plural = "Featured Resources"
+    serializer_class = LearningResourceSerializer
+
+    def get_queryset(self) -> QuerySet:
+        """
+        Generate a QuerySet for fetching featured LearningResource objects
+
+        Returns:
+            QuerySet of LearningResource objects that are in
+            featured learning paths from certain offerors
+        """
+        featured_list_ids = FieldChannel.objects.filter(
+            offeror_detail__offeror__code__in=[
+                offeror.name for offeror in FEATURED_OFFERORS
+            ]
+        ).values_list("featured_list", flat=True)
+
+        return (
+            self._get_base_queryset()
+            .filter(parents__parent_id__in=featured_list_ids)
+            .filter(published=True)
+            .annotate(position=F("parents__position"))
+            .order_by("position")
+            .distinct()
+        )

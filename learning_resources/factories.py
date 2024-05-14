@@ -418,6 +418,7 @@ class CourseFactory(DjangoModelFactory):
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
         is_professional = factory.Trait(learning_resource__professional=True)
+        has_certification = factory.Trait(learning_resource__certification=True)
 
 
 class LearningResourceRunFactory(DjangoModelFactory):
