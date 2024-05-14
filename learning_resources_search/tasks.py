@@ -127,7 +127,9 @@ def send_subscription_emails(subscription_type, period="daily"):
     if period == "weekly":
         delta = datetime.timedelta(days=7)
     since = datetime.datetime.now(datetime.UTC) - delta
-    new_learning_resources = LearningResource.objects.filter(created_on__gt=since)
+    new_learning_resources = LearningResource.objects.filter(
+        published=True, created_on__gt=since
+    )
     document_user_map = {}
     all_users = set()
     for resource in new_learning_resources:
