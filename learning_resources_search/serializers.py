@@ -497,6 +497,7 @@ class PercolateQuerySubscriptionRequestSerializer(
         required=False,
         choices=[(choice, choice) for choice in PercolateQuery.SOURCE_TYPES],
         help_text="The subscription type",
+        default=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
     )
 
     def get_search_request_data(self):
