@@ -485,14 +485,19 @@ class ContentFileSearchResponseSerializer(SearchResponseSerializer):
         return super().get_results()
 
 
-class UserPercolateQueryRequestSerializer(SearchResponseSerializer):
+class PercolateQuerySubscriptionRequestSerializer(
+    LearningResourcesSearchRequestSerializer
+):
     """
-    SearchResponseSerializer with OpenAPI annotations for Content Files search
+    PercolateQuerySubscriptionRequestSerializer with
+    OpenAPI annotations for Percolate Subscription requests
     """
 
-    @extend_schema_field(PercolateQuerySerializer(many=True))
-    def get_results():
-        return super().get_results()
+    source_type = DisplayChoiceField(
+        required=False,
+        choices=[(choice, choice) for choice in PercolateQuery.SOURCE_TYPES],
+        help_text="The subscription type",
+    )
 
 
 def serialize_content_file_for_update(content_file_obj):
