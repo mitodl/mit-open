@@ -72,16 +72,10 @@ def parse_page_attribute(
     return default_value
 
 
-def map_mxo_depts_to_open(departments):
+def parse_mitxonline_departments(departments):
     """Map the MITx Online departments to Open ones"""
 
-    return (
-        LearningResourceDepartment.objects.filter(
-            name__in=[mxo_dept["name"] for mxo_dept in departments]
-        )
-        .values_list("name", flat=True)
-        .all()
-    )
+    return [mxo_dept["name"] for mxo_dept in departments]
 
 
 def extract_programs():
@@ -183,7 +177,7 @@ def _transform_course(course):
         "title": course["title"],
         "offered_by": copy.deepcopy(OFFERED_BY),
         "topics": transform_topics(course.get("topics", [])),
-        "departments": map_mxo_depts_to_open(course["departments"]),
+        "departments": parse_mitxonline_departments(course["departments"]),
         "runs": [
             _transform_run(course_run, course) for course_run in course["courseruns"]
         ],
@@ -230,7 +224,7 @@ def transform_programs(programs):
             "offered_by": OFFERED_BY,
             "etl_source": ETLSource.mitxonline.name,
             "resource_type": LearningResourceType.program.name,
-            "departments": map_mxo_depts_to_open(program["departments"]),
+            "departments": parse_mitxonline_departments(program["departments"]),
             "platform": PlatformType.mitxonline.name,
             "professional": False,
             "certification": bool(parse_page_attribute(program, "page_url")),

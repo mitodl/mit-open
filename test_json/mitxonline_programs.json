@@ -1,6 +1,6 @@
 [
   {
-    "title": "Data, Economics and Development Policy",
+    "title": "Data, Economics, and Design of Policy: International Development",
     "readable_id": "program-v1:MITx+DEDP",
     "id": 1,
     "courses": [
@@ -8,233 +8,4034 @@
         "id": 1,
         "title": "Microeconomics",
         "readable_id": "course-v1:MITxT+14.100x",
+        "next_run_id": 246,
+        "departments": [
+          {
+            "name": "Economics"
+          }
+        ],
         "page": {
           "feature_image_src": "/media/original_images/14.100x.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
           "page_url": "/courses/course-v1:MITxT+14.100x/",
-          "financial_assistance_form_url": ""
+          "description": "Use economic models to learn how prices and markets benefit society in the face of scarcity.",
+          "live": true,
+          "length": "14 weeks",
+          "effort": "12–14 hours per week",
+          "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+          "current_price": 1000.0,
+          "instructors": [
+            {
+              "name": "Jonathan Gruber",
+              "description": ""
+            }
+          ]
         },
+        "programs": null,
         "courseruns": [
           {
             "title": "Microeconomics",
             "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T23:30:00Z",
+            "end_date": "2023-06-24T19:20:00Z",
             "enrollment_start": "2022-07-06T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
+            "enrollment_end": "2022-10-07T23:59:00Z",
             "expiration_date": null,
             "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.100x+3T2022/course/",
             "courseware_id": "course-v1:MITxT+14.100x+3T2022",
+            "certificate_available_date": "2023-06-25T00:00:00Z",
+            "upgrade_deadline": "2022-12-25T19:20:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
             "run_tag": "3T2022",
             "id": 35,
+            "live": true,
+            "course_number": "14.100x",
             "products": [
               {
                 "id": 22,
+                "price": "1000.00",
                 "description": "course-v1:MITxT+14.100x+3T2022",
                 "is_active": true,
-                "product_flexible_price": {
-                  "amount": null,
-                  "automatic": false,
-                  "discount_type": null,
-                  "redemption_type": null,
-                  "max_redemptions": null,
-                  "discount_code": "",
-                  "payment_type": null,
-                  "activation_date": null,
-                  "expiration_date": null
-                }
+                "product_flexible_price": null
               }
-            ]
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2023-09-12T15:00:00Z",
+            "end_date": "2024-02-18T15:00:00Z",
+            "enrollment_start": "2023-06-27T15:00:00Z",
+            "enrollment_end": "2023-10-10T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.100x+3T2023/course",
+            "courseware_id": "course-v1:MITxT+14.100x+3T2023",
+            "certificate_available_date": "2024-02-19T00:00:00Z",
+            "upgrade_deadline": "2023-11-03T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2023",
+            "id": 185,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 164,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.100x+3T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2023-05-30T15:00:00Z",
+            "end_date": "2024-02-01T15:00:00Z",
+            "enrollment_start": "2022-10-11T15:00:00Z",
+            "enrollment_end": "2023-06-27T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/learn/course/course-v1:MITxT+14.100x+2T2023",
+            "courseware_id": "course-v1:MITxT+14.100x+2T2023",
+            "certificate_available_date": "2024-02-02T00:00:00Z",
+            "upgrade_deadline": "2023-07-18T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2023",
+            "id": 143,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 108,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.100x+2T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2024-01-16T15:00:00Z",
+            "end_date": "2024-05-04T00:00:00Z",
+            "enrollment_start": "2023-10-10T15:00:00Z",
+            "enrollment_end": "2024-02-13T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.100x+1T2024/course",
+            "courseware_id": "course-v1:MITxT+14.100x+1T2024",
+            "certificate_available_date": "2024-05-15T00:00:00Z",
+            "upgrade_deadline": "2024-02-28T23:59:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2024",
+            "id": 225,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 200,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.100x+1T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2024-05-14T15:00:00Z",
+            "end_date": "2024-08-21T15:00:00Z",
+            "enrollment_start": "2024-02-13T23:59:00Z",
+            "enrollment_end": "2024-06-11T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.100x+2T2024/course",
+            "courseware_id": "course-v1:MITxT+14.100x+2T2024",
+            "certificate_available_date": "2024-09-18T00:00:00Z",
+            "upgrade_deadline": "2024-06-25T23:59:00Z",
+            "is_upgradable": true,
+            "is_enrollable": true,
+            "is_self_paced": false,
+            "run_tag": "2T2024",
+            "id": 246,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 217,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.100x+2T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2017-09-26T15:00:00Z",
+            "end_date": "2017-12-22T15:00:00Z",
+            "enrollment_start": "2017-07-03T15:00:00Z",
+            "enrollment_end": "2017-10-24T03:21:39Z",
+            "expiration_date": "2017-12-23T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+3T2017",
+            "courseware_id": "course-v1:MITx+14.100x+3T2017",
+            "certificate_available_date": "2017-12-22T15:00:00Z",
+            "upgrade_deadline": "2017-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2017",
+            "id": 63,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 26,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+3T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2017-02-06T15:00:00Z",
+            "end_date": "2017-05-05T15:00:00Z",
+            "enrollment_start": "2016-12-05T05:00:00Z",
+            "enrollment_end": "2017-03-06T14:00:00Z",
+            "expiration_date": "2017-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+1T2017",
+            "courseware_id": "course-v1:MITx+14.100x+1T2017",
+            "certificate_available_date": "2017-05-05T15:00:00Z",
+            "upgrade_deadline": "2017-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2017",
+            "id": 119,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 84,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+1T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2017-06-05T15:00:00Z",
+            "end_date": "2017-08-28T15:00:00Z",
+            "enrollment_start": "2017-03-06T14:00:00Z",
+            "enrollment_end": "2017-07-03T15:00:00Z",
+            "expiration_date": "2017-08-29T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+2T2017",
+            "courseware_id": "course-v1:MITx+14.100x+2T2017",
+            "certificate_available_date": "2017-08-28T15:00:00Z",
+            "upgrade_deadline": "2017-08-28T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2017",
+            "id": 120,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 85,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+2T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2018-02-06T15:00:00Z",
+            "end_date": "2018-05-05T15:00:00Z",
+            "enrollment_start": "2017-10-24T15:00:00Z",
+            "enrollment_end": "2018-03-06T04:00:00Z",
+            "expiration_date": "2018-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+1T2018",
+            "courseware_id": "course-v1:MITx+14.100x+1T2018",
+            "certificate_available_date": "2018-05-05T15:00:00Z",
+            "upgrade_deadline": "2018-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2018",
+            "id": 121,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 86,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+1T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2018-06-05T15:00:00Z",
+            "end_date": "2018-08-21T03:30:00Z",
+            "enrollment_start": "2018-03-06T15:00:00Z",
+            "enrollment_end": "2018-07-03T15:00:00Z",
+            "expiration_date": "2018-08-22T03:30:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+2T2018",
+            "courseware_id": "course-v1:MITx+14.100x+2T2018",
+            "certificate_available_date": "2018-08-21T03:30:00Z",
+            "upgrade_deadline": "2018-08-21T03:30:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2018",
+            "id": 122,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 87,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+2T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2020-06-02T15:00:00Z",
+            "end_date": "2020-08-18T15:00:00Z",
+            "enrollment_start": "2020-03-03T15:00:00Z",
+            "enrollment_end": "2020-07-01T15:00:00Z",
+            "expiration_date": "2020-08-19T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+2T2020",
+            "courseware_id": "course-v1:MITx+14.100x+2T2020",
+            "certificate_available_date": "2020-08-18T15:00:00Z",
+            "upgrade_deadline": "2020-08-18T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2020",
+            "id": 108,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 73,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+2T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2016-09-16T04:00:00Z",
+            "end_date": "2016-12-15T15:00:00Z",
+            "enrollment_start": "2016-09-16T04:00:00Z",
+            "enrollment_end": "2016-12-04T04:00:00Z",
+            "expiration_date": "2016-12-16T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+3T2016",
+            "courseware_id": "course-v1:MITx+14.100x+3T2016",
+            "certificate_available_date": "2016-12-15T15:00:00Z",
+            "upgrade_deadline": "2016-12-15T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2016",
+            "id": 118,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 83,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+3T2016",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2018-09-11T15:00:00Z",
+            "end_date": "2018-11-28T03:00:00Z",
+            "enrollment_start": "2018-07-03T15:00:00Z",
+            "enrollment_end": "2018-10-09T15:00:00Z",
+            "expiration_date": "2018-11-29T03:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+3T2018",
+            "courseware_id": "course-v1:MITx+14.100x+3T2018",
+            "certificate_available_date": "2018-11-28T03:00:00Z",
+            "upgrade_deadline": "2018-11-28T03:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2018",
+            "id": 123,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 88,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+3T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2019-02-05T15:00:00Z",
+            "end_date": "2019-04-23T15:00:00Z",
+            "enrollment_start": "2018-10-09T15:00:00Z",
+            "enrollment_end": "2019-03-03T15:00:00Z",
+            "expiration_date": "2019-04-24T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+1T2019",
+            "courseware_id": "course-v1:MITx+14.100x+1T2019",
+            "certificate_available_date": "2019-04-23T15:00:00Z",
+            "upgrade_deadline": "2019-04-23T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2019",
+            "id": 124,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 89,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+1T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2019-05-21T15:00:00Z",
+            "end_date": "2019-08-06T15:00:00Z",
+            "enrollment_start": "2019-03-04T15:02:19Z",
+            "enrollment_end": "2019-06-18T15:00:00Z",
+            "expiration_date": "2019-08-07T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+2T2019",
+            "courseware_id": "course-v1:MITx+14.100x+2T2019",
+            "certificate_available_date": "2019-08-06T15:00:00Z",
+            "upgrade_deadline": "2019-08-06T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019",
+            "id": 125,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 90,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+2T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2019-09-03T15:00:00Z",
+            "end_date": "2019-11-19T15:00:00Z",
+            "enrollment_start": "2019-06-18T15:00:00Z",
+            "enrollment_end": "2019-10-01T15:00:00Z",
+            "expiration_date": "2019-11-20T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+2T2019a",
+            "courseware_id": "course-v1:MITx+14.100x+2T2019a",
+            "certificate_available_date": "2019-11-19T15:00:00Z",
+            "upgrade_deadline": "2019-11-19T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019a",
+            "id": 126,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 91,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+2T2019a",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2020-02-04T15:00:00Z",
+            "end_date": "2020-04-21T15:00:00Z",
+            "enrollment_start": "2019-10-02T17:28:24Z",
+            "enrollment_end": "2020-03-03T15:00:00Z",
+            "expiration_date": "2020-04-22T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+1T2020",
+            "courseware_id": "course-v1:MITx+14.100x+1T2020",
+            "certificate_available_date": "2020-04-21T15:00:00Z",
+            "upgrade_deadline": "2020-04-21T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2020",
+            "id": 127,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 92,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+1T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2020-09-08T15:00:00Z",
+            "end_date": "2020-11-24T15:00:00Z",
+            "enrollment_start": "2020-07-17T14:42:28Z",
+            "enrollment_end": "2020-10-06T15:00:00Z",
+            "expiration_date": "2020-11-25T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+3T2020",
+            "courseware_id": "course-v1:MITx+14.100x+3T2020",
+            "certificate_available_date": "2020-11-24T15:00:00Z",
+            "upgrade_deadline": "2020-11-24T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2020",
+            "id": 128,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 93,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+3T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2021-02-09T15:00:00Z",
+            "end_date": "2021-04-27T15:00:00Z",
+            "enrollment_start": "2020-10-06T15:00:00Z",
+            "enrollment_end": "2021-03-12T15:00:00Z",
+            "expiration_date": "2021-04-28T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+1T2021",
+            "courseware_id": "course-v1:MITx+14.100x+1T2021",
+            "certificate_available_date": "2021-04-27T15:00:00Z",
+            "upgrade_deadline": "2021-04-27T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2021",
+            "id": 129,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 94,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+1T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2021-06-01T15:00:00Z",
+            "end_date": "2021-08-17T23:59:00Z",
+            "enrollment_start": "2021-03-13T23:59:00Z",
+            "enrollment_end": "2021-07-07T15:00:00Z",
+            "expiration_date": "2021-08-18T23:59:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.100x+2T2021",
+            "courseware_id": "course-v1:MITx+14.100x+2T2021",
+            "certificate_available_date": "2021-08-17T23:59:00Z",
+            "upgrade_deadline": "2021-08-17T23:59:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2021",
+            "id": 130,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 95,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.100x+2T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2021-10-05T15:00:00Z",
+            "end_date": "2021-12-22T15:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": "2021-11-02T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.100x+3T2021/course/",
+            "courseware_id": "course-v1:MITxT+14.100x+3T2021",
+            "certificate_available_date": "2021-12-23T23:30:00Z",
+            "upgrade_deadline": "2021-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2021",
+            "id": 2,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 9,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.100x+3T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Microeconomics",
+            "start_date": "2022-05-31T15:00:00Z",
+            "end_date": "2022-08-16T23:30:00Z",
+            "enrollment_start": "2021-11-02T23:59:00Z",
+            "enrollment_end": "2022-07-06T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.100x+2T2022/course/",
+            "courseware_id": "course-v1:MITxT+14.100x+2T2022",
+            "certificate_available_date": "2022-08-18T15:00:00Z",
+            "upgrade_deadline": "2022-08-16T23:30:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2022",
+            "id": 9,
+            "live": true,
+            "course_number": "14.100x",
+            "products": [
+              {
+                "id": 5,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.100x+2T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
           }
         ],
-        "next_run_id": 35,
-        "topics": [],
         "feature_image_src": "/media/original_images/14.100x.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
         "page_url": "/courses/course-v1:MITxT+14.100x/",
-        "financial_assistance_form_url": ""
+        "description": "Use economic models to learn how prices and markets benefit society in the face of scarcity.",
+        "live": true,
+        "length": "14 weeks",
+        "effort": "12–14 hours per week",
+        "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+        "current_price": 1000.0,
+        "instructors": [
+          {
+            "name": "Jonathan Gruber",
+            "description": ""
+          }
+        ]
       },
       {
         "id": 2,
         "title": "Designing and Running Randomized Evaluations",
         "readable_id": "course-v1:MITxT+JPAL102x",
+        "next_run_id": 248,
+        "departments": [
+          {
+            "name": "Economics"
+          }
+        ],
         "page": {
           "feature_image_src": "/media/original_images/JPAL102x.jpg?v=bf1f606cd8105828ceb9529ba5592d507d3b8d58",
           "page_url": "/courses/course-v1:MITxT+JPAL102x/",
-          "financial_assistance_form_url": ""
+          "description": "This course equips students with the practical skills for running evaluations in the field. Students will learn the foundations of randomizations and research design, as well as practical tips and skills for collecting high quality, reliable data in the field.",
+          "live": true,
+          "length": "14 Weeks",
+          "effort": "12–14 hours per week",
+          "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+          "current_price": 1000.0,
+          "instructors": [
+            {
+              "name": "Esther Duflo",
+              "description": ""
+            },
+            {
+              "name": "Rachel Glennerster",
+              "description": ""
+            }
+          ]
         },
+        "programs": null,
         "courseruns": [
           {
             "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2017-06-05T15:00:00Z",
+            "end_date": "2017-08-28T15:00:00Z",
+            "enrollment_start": "2017-03-06T23:30:00Z",
+            "enrollment_end": "2017-07-03T23:30:00Z",
+            "expiration_date": "2017-08-29T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+2T2017",
+            "courseware_id": "course-v1:MITx+JPAL102x+2T2017",
+            "certificate_available_date": "2017-08-28T15:00:00Z",
+            "upgrade_deadline": "2017-08-28T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2017",
+            "id": 67,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 32,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+2T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2017-09-26T15:00:00Z",
+            "end_date": "2017-12-22T15:00:00Z",
+            "enrollment_start": "2017-07-03T15:00:00Z",
+            "enrollment_end": "2017-10-24T03:25:53Z",
+            "expiration_date": "2017-12-23T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+3T2017",
+            "courseware_id": "course-v1:MITx+JPAL102x+3T2017",
+            "certificate_available_date": "2017-12-22T15:00:00Z",
+            "upgrade_deadline": "2017-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2017",
+            "id": 68,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 33,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+3T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2024-01-16T15:00:00Z",
+            "end_date": "2024-05-02T00:00:00Z",
+            "enrollment_start": "2023-10-10T23:59:00Z",
+            "enrollment_end": "2024-02-13T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+JPAL102x+1T2024/course",
+            "courseware_id": "course-v1:MITxT+JPAL102x+1T2024",
+            "certificate_available_date": "2024-05-15T00:00:00Z",
+            "upgrade_deadline": "2024-02-28T23:59:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2024",
+            "id": 223,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 198,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+JPAL102x+1T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2024-09-10T15:00:00Z",
+            "end_date": "2024-12-17T15:00:00Z",
+            "enrollment_start": "2024-02-13T23:59:00Z",
+            "enrollment_end": "2024-10-08T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+JPAL102x+3T2024/course",
+            "courseware_id": "course-v1:MITxT+JPAL102x+3T2024",
+            "certificate_available_date": "2025-01-14T00:00:00Z",
+            "upgrade_deadline": "2024-10-22T23:59:00Z",
+            "is_upgradable": true,
+            "is_enrollable": true,
+            "is_self_paced": false,
+            "run_tag": "3T2024",
+            "id": 248,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 219,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+JPAL102x+3T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2023-09-12T15:00:00Z",
+            "end_date": "2024-01-19T15:00:00Z",
+            "enrollment_start": "2023-03-07T23:59:00Z",
+            "enrollment_end": "2023-10-10T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+JPAL102x+3T2023/course",
+            "courseware_id": "course-v1:MITxT+JPAL102x+3T2023",
+            "certificate_available_date": "2024-01-20T00:00:00Z",
+            "upgrade_deadline": "2023-11-03T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2023",
+            "id": 171,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 150,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+JPAL102x+3T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2022-02-01T15:00:00Z",
+            "end_date": "2022-04-20T15:00:00Z",
+            "enrollment_start": "2021-11-02T23:59:00Z",
+            "enrollment_end": "2022-03-08T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+JPAL102x+1T2022/course/",
+            "courseware_id": "course-v1:MITxT+JPAL102x+1T2022",
+            "certificate_available_date": "2022-04-21T15:00:00Z",
+            "upgrade_deadline": "2022-04-20T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2022",
+            "id": 8,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 16,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+JPAL102x+1T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2021-10-05T15:00:00Z",
+            "end_date": "2021-12-22T15:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": "2021-11-02T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+JPAL102x+3T2021/course/",
+            "courseware_id": "course-v1:MITxT+JPAL102x+3T2021",
+            "certificate_available_date": "2021-12-23T23:30:00Z",
+            "upgrade_deadline": "2021-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2021",
+            "id": 4,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 17,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+JPAL102x+3T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
             "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T15:00:00Z",
+            "end_date": "2024-01-03T19:20:00Z",
             "enrollment_start": "2022-03-08T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
+            "enrollment_end": "2022-10-07T23:59:00Z",
             "expiration_date": null,
             "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+JPAL102x+3T2022/course/",
             "courseware_id": "course-v1:MITxT+JPAL102x+3T2022",
+            "certificate_available_date": "2024-01-04T00:00:00Z",
+            "upgrade_deadline": "2023-12-24T19:20:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
             "run_tag": "3T2022",
             "id": 22,
-            "products": []
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 8,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+JPAL102x+3T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2017-02-06T15:00:00Z",
+            "end_date": "2017-05-05T15:00:00Z",
+            "enrollment_start": "2016-12-05T05:00:00Z",
+            "enrollment_end": "2017-03-06T14:00:00Z",
+            "expiration_date": "2017-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+1T2017",
+            "courseware_id": "course-v1:MITx+JPAL102x+1T2017",
+            "certificate_available_date": "2017-05-05T15:00:00Z",
+            "upgrade_deadline": "2017-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2017",
+            "id": 64,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 29,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+1T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2018-06-05T15:00:00Z",
+            "end_date": "2018-08-21T03:30:00Z",
+            "enrollment_start": "2018-03-06T15:00:00Z",
+            "enrollment_end": "2018-07-03T15:00:00Z",
+            "expiration_date": "2018-08-22T03:30:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+2T2018",
+            "courseware_id": "course-v1:MITx+JPAL102x+2T2018",
+            "certificate_available_date": "2018-08-21T03:30:00Z",
+            "upgrade_deadline": "2018-08-21T03:30:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2018",
+            "id": 69,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 34,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+2T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2018-02-06T15:00:00Z",
+            "end_date": "2018-05-05T15:00:00Z",
+            "enrollment_start": "2017-10-25T15:00:00Z",
+            "enrollment_end": "2018-03-06T15:00:00Z",
+            "expiration_date": "2018-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+1T2018",
+            "courseware_id": "course-v1:MITx+JPAL102x+1T2018",
+            "certificate_available_date": "2018-05-05T15:00:00Z",
+            "upgrade_deadline": "2018-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2018",
+            "id": 78,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 43,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+1T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2018-09-11T15:00:00Z",
+            "end_date": "2018-11-28T03:00:00Z",
+            "enrollment_start": "2018-07-03T15:00:00Z",
+            "enrollment_end": "2018-10-09T15:00:00Z",
+            "expiration_date": "2018-11-29T03:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+3T2018",
+            "courseware_id": "course-v1:MITx+JPAL102x+3T2018",
+            "certificate_available_date": "2018-11-28T03:00:00Z",
+            "upgrade_deadline": "2018-11-28T03:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2018",
+            "id": 88,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 53,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+3T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2020-09-08T15:00:00Z",
+            "end_date": "2020-11-24T15:00:00Z",
+            "enrollment_start": "2020-07-17T14:42:21Z",
+            "enrollment_end": "2020-10-06T15:00:00Z",
+            "expiration_date": "2020-11-25T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+3T2020",
+            "courseware_id": "course-v1:MITx+JPAL102x+3T2020",
+            "certificate_available_date": "2020-11-24T15:00:00Z",
+            "upgrade_deadline": "2020-11-24T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2020",
+            "id": 117,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 82,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+3T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2019-02-05T15:00:00Z",
+            "end_date": "2019-04-23T15:00:00Z",
+            "enrollment_start": "2018-10-09T15:00:00Z",
+            "enrollment_end": "2019-03-03T15:00:00Z",
+            "expiration_date": "2019-04-24T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+1T2019",
+            "courseware_id": "course-v1:MITx+JPAL102x+1T2019",
+            "certificate_available_date": "2019-04-23T15:00:00Z",
+            "upgrade_deadline": "2019-04-23T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2019",
+            "id": 131,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 96,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+1T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2019-05-21T15:00:00Z",
+            "end_date": "2019-08-06T15:00:00Z",
+            "enrollment_start": "2019-03-04T15:02:13Z",
+            "enrollment_end": "2019-06-18T15:00:00Z",
+            "expiration_date": "2019-08-07T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+2T2019",
+            "courseware_id": "course-v1:MITx+JPAL102x+2T2019",
+            "certificate_available_date": "2019-08-06T15:00:00Z",
+            "upgrade_deadline": "2019-08-06T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019",
+            "id": 132,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 97,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+2T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2019-09-03T15:00:00Z",
+            "end_date": "2019-11-19T15:00:00Z",
+            "enrollment_start": "2019-06-18T15:00:00Z",
+            "enrollment_end": "2019-10-01T15:00:00Z",
+            "expiration_date": "2019-11-20T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+2T2019a",
+            "courseware_id": "course-v1:MITx+JPAL102x+2T2019a",
+            "certificate_available_date": "2019-11-19T15:00:00Z",
+            "upgrade_deadline": "2019-11-19T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019a",
+            "id": 133,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 98,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+2T2019a",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2020-02-04T15:00:00Z",
+            "end_date": "2020-04-21T15:00:00Z",
+            "enrollment_start": "2019-10-02T18:15:02Z",
+            "enrollment_end": "2020-03-03T15:00:00Z",
+            "expiration_date": "2020-04-22T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+1T2020a",
+            "courseware_id": "course-v1:MITx+JPAL102x+1T2020a",
+            "certificate_available_date": "2020-04-21T15:00:00Z",
+            "upgrade_deadline": "2020-04-21T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2020a",
+            "id": 134,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 99,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+1T2020a",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2020-06-02T15:00:00Z",
+            "end_date": "2020-08-18T15:00:00Z",
+            "enrollment_start": "2020-03-03T15:00:00Z",
+            "enrollment_end": "2020-07-01T15:00:00Z",
+            "expiration_date": "2020-08-19T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+2T2020",
+            "courseware_id": "course-v1:MITx+JPAL102x+2T2020",
+            "certificate_available_date": "2020-08-18T15:00:00Z",
+            "upgrade_deadline": "2020-08-18T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2020",
+            "id": 135,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 100,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+2T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2021-02-09T15:00:00Z",
+            "end_date": "2021-04-27T15:00:00Z",
+            "enrollment_start": "2020-10-06T15:00:00Z",
+            "enrollment_end": "2021-03-12T15:00:00Z",
+            "expiration_date": "2021-04-28T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+JPAL102x+1T2021",
+            "courseware_id": "course-v1:MITx+JPAL102x+1T2021",
+            "certificate_available_date": "2021-04-27T15:00:00Z",
+            "upgrade_deadline": "2021-04-27T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2021",
+            "id": 136,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 101,
+                "price": "1000.00",
+                "description": "course-v1:MITx+JPAL102x+1T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Designing and Running Randomized Evaluations",
+            "start_date": "2023-01-31T15:00:00Z",
+            "end_date": "2023-08-12T15:00:00Z",
+            "enrollment_start": "2022-10-11T15:00:00Z",
+            "enrollment_end": "2023-03-07T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+JPAL102x+1T2023/course/",
+            "courseware_id": "course-v1:MITxT+JPAL102x+1T2023",
+            "certificate_available_date": "2023-09-01T00:00:00Z",
+            "upgrade_deadline": "2023-03-16T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2023",
+            "id": 58,
+            "live": true,
+            "course_number": "JPAL102x",
+            "products": [
+              {
+                "id": 24,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+JPAL102x+1T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
           }
         ],
-        "next_run_id": 22,
-        "topics": [],
         "feature_image_src": "/media/original_images/JPAL102x.jpg?v=bf1f606cd8105828ceb9529ba5592d507d3b8d58",
         "page_url": "/courses/course-v1:MITxT+JPAL102x/",
-        "financial_assistance_form_url": ""
+        "description": "This course equips students with the practical skills for running evaluations in the field. Students will learn the foundations of randomizations and research design, as well as practical tips and skills for collecting high quality, reliable data in the field.",
+        "live": true,
+        "length": "14 Weeks",
+        "effort": "12–14 hours per week",
+        "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+        "current_price": 1000.0,
+        "instructors": [
+          {
+            "name": "Esther Duflo",
+            "description": ""
+          },
+          {
+            "name": "Rachel Glennerster",
+            "description": ""
+          }
+        ]
       },
       {
         "id": 3,
         "title": "Data Analysis for Social Scientists",
         "readable_id": "course-v1:MITxT+14.310x",
+        "next_run_id": 247,
+        "departments": [
+          {
+            "name": "Economics"
+          }
+        ],
         "page": {
           "feature_image_src": "/media/original_images/14.310x.max-800x600.jpg?v=9db950769510bfdc810f3a84699f139c26d0ffb4",
           "page_url": "/courses/course-v1:MITxT+14.310x/",
-          "financial_assistance_form_url": ""
+          "description": "Learn methods for harnessing and analyzing data to answer questions of cultural, social, economic, and policy interest.",
+          "live": true,
+          "length": "14 Weeks",
+          "effort": "12–14 hours per week",
+          "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+          "current_price": 1000.0,
+          "instructors": [
+            {
+              "name": "Esther Duflo",
+              "description": ""
+            },
+            {
+              "name": "Sara Fisher Ellison",
+              "description": ""
+            }
+          ]
         },
+        "programs": null,
         "courseruns": [
           {
             "title": "Data Analysis for Social Scientists",
+            "start_date": "2023-09-12T15:00:00Z",
+            "end_date": "2024-02-18T15:00:00Z",
+            "enrollment_start": "2023-06-27T23:59:00Z",
+            "enrollment_end": "2023-10-10T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+3T2023/course",
+            "courseware_id": "course-v1:MITxT+14.310x+3T2023",
+            "certificate_available_date": "2024-02-19T00:00:00Z",
+            "upgrade_deadline": "2023-12-31T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2023",
+            "id": 183,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 162,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.310x+3T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2022-05-31T15:00:00Z",
+            "end_date": "2022-08-16T23:30:00Z",
+            "enrollment_start": "2022-03-08T23:59:00Z",
+            "enrollment_end": "2022-08-16T23:00:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+2T2022/course/",
+            "courseware_id": "course-v1:MITxT+14.310x+2T2022",
+            "certificate_available_date": "2022-08-22T00:00:00Z",
+            "upgrade_deadline": "2022-08-16T23:30:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2022",
+            "id": 20,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 3,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.310x+2T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2023-05-30T15:00:00Z",
+            "end_date": "2024-02-01T15:00:00Z",
+            "enrollment_start": "2023-03-07T23:59:00Z",
+            "enrollment_end": "2023-06-27T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+2T2023/course",
+            "courseware_id": "course-v1:MITxT+14.310x+2T2023",
+            "certificate_available_date": "2024-02-02T00:00:00Z",
+            "upgrade_deadline": "2023-07-24T23:59:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2023",
+            "id": 170,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 149,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.310x+2T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2023-01-31T15:00:00Z",
+            "end_date": "2023-05-20T15:00:00Z",
+            "enrollment_start": "2022-10-11T15:00:00Z",
+            "enrollment_end": "2023-03-07T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+1T2023/course/",
+            "courseware_id": "course-v1:MITxT+14.310x+1T2023",
+            "certificate_available_date": "2023-05-22T00:00:00Z",
+            "upgrade_deadline": "2023-03-16T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2023",
+            "id": 55,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 23,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.310x+1T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2022-02-01T15:00:00Z",
+            "end_date": "2022-04-20T15:00:00Z",
+            "enrollment_start": "2021-11-02T23:59:00Z",
+            "enrollment_end": "2022-03-08T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+1T2022/course/",
+            "courseware_id": "course-v1:MITxT+14.310x+1T2022",
+            "certificate_available_date": "2022-04-21T15:00:00Z",
+            "upgrade_deadline": "2022-04-20T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2022",
+            "id": 7,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 6,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.310x+1T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2024-05-14T15:00:00Z",
+            "end_date": "2024-08-21T15:00:00Z",
+            "enrollment_start": "2024-02-13T23:59:00Z",
+            "enrollment_end": "2024-06-11T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+2T2024/course",
+            "courseware_id": "course-v1:MITxT+14.310x+2T2024",
+            "certificate_available_date": "2024-09-18T00:00:00Z",
+            "upgrade_deadline": "2024-06-25T23:59:00Z",
+            "is_upgradable": true,
+            "is_enrollable": true,
+            "is_self_paced": false,
+            "run_tag": "2T2024",
+            "id": 247,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 218,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.310x+2T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2018-02-06T15:00:00Z",
+            "end_date": "2018-05-05T15:00:00Z",
+            "enrollment_start": "2017-10-24T15:00:00Z",
+            "enrollment_end": "2018-03-06T15:00:00Z",
+            "expiration_date": "2018-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+1T2018",
+            "courseware_id": "course-v1:MITx+14.310x+1T2018",
+            "certificate_available_date": "2018-05-05T15:00:00Z",
+            "upgrade_deadline": "2018-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2018",
+            "id": 65,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 30,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+1T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2017-02-06T15:00:00Z",
+            "end_date": "2017-05-05T15:00:00Z",
+            "enrollment_start": "2016-12-05T05:00:00Z",
+            "enrollment_end": "2017-03-06T14:00:00Z",
+            "expiration_date": "2017-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+1T2017",
+            "courseware_id": "course-v1:MITx+14.310x+1T2017",
+            "certificate_available_date": "2017-05-05T15:00:00Z",
+            "upgrade_deadline": "2017-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2017",
+            "id": 70,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 35,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+1T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2017-06-05T14:00:00Z",
+            "end_date": "2017-08-28T15:00:00Z",
+            "enrollment_start": "2017-03-06T14:00:00Z",
+            "enrollment_end": "2017-07-03T15:00:00Z",
+            "expiration_date": "2017-08-29T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+2T2017",
+            "courseware_id": "course-v1:MITx+14.310x+2T2017",
+            "certificate_available_date": "2017-08-28T15:00:00Z",
+            "upgrade_deadline": "2017-08-28T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2017",
+            "id": 71,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 36,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+2T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2017-09-26T15:00:00Z",
+            "end_date": "2017-12-22T15:00:00Z",
+            "enrollment_start": "2017-07-03T15:00:00Z",
+            "enrollment_end": "2017-10-24T03:25:47Z",
+            "expiration_date": "2017-12-23T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+3T2017",
+            "courseware_id": "course-v1:MITx+14.310x+3T2017",
+            "certificate_available_date": "2017-12-22T15:00:00Z",
+            "upgrade_deadline": "2017-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2017",
+            "id": 72,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 37,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+3T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2018-09-11T15:00:00Z",
+            "end_date": "2018-11-28T03:00:00Z",
+            "enrollment_start": "2018-07-03T15:00:00Z",
+            "enrollment_end": "2018-10-09T15:00:00Z",
+            "expiration_date": "2018-11-29T03:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+3T2018",
+            "courseware_id": "course-v1:MITx+14.310x+3T2018",
+            "certificate_available_date": "2018-11-28T03:00:00Z",
+            "upgrade_deadline": "2018-11-28T03:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2018",
+            "id": 79,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 44,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+3T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2019-05-21T15:00:00Z",
+            "end_date": "2019-08-06T15:00:00Z",
+            "enrollment_start": "2019-03-04T15:02:09Z",
+            "enrollment_end": "2019-06-18T15:00:00Z",
+            "expiration_date": "2019-08-07T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+2T2019",
+            "courseware_id": "course-v1:MITx+14.310x+2T2019",
+            "certificate_available_date": "2019-08-06T15:00:00Z",
+            "upgrade_deadline": "2019-08-06T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019",
+            "id": 80,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 45,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+2T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2021-02-09T15:00:00Z",
+            "end_date": "2021-04-27T15:00:00Z",
+            "enrollment_start": "2020-10-06T15:00:00Z",
+            "enrollment_end": "2021-03-12T15:00:00Z",
+            "expiration_date": "2021-04-28T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+1T2021",
+            "courseware_id": "course-v1:MITx+14.310x+1T2021",
+            "certificate_available_date": "2021-04-27T15:00:00Z",
+            "upgrade_deadline": "2021-04-27T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2021",
+            "id": 81,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 46,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+1T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2016-09-16T15:00:00Z",
+            "end_date": "2016-12-18T00:00:00Z",
+            "enrollment_start": "2016-09-16T04:00:00Z",
+            "enrollment_end": "2016-12-04T15:00:00Z",
+            "expiration_date": "2016-12-19T00:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+3T2016",
+            "courseware_id": "course-v1:MITx+14.310x+3T2016",
+            "certificate_available_date": "2016-12-18T00:00:00Z",
+            "upgrade_deadline": "2016-12-18T00:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2016",
+            "id": 89,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 54,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+3T2016",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2018-06-05T15:00:00Z",
+            "end_date": "2018-08-21T03:30:00Z",
+            "enrollment_start": "2018-03-06T15:00:00Z",
+            "enrollment_end": "2018-07-03T15:00:00Z",
+            "expiration_date": "2018-08-22T03:30:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+2T2018",
+            "courseware_id": "course-v1:MITx+14.310x+2T2018",
+            "certificate_available_date": "2018-08-21T03:30:00Z",
+            "upgrade_deadline": "2018-08-21T03:30:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2018",
+            "id": 90,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 55,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+2T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2019-02-05T15:00:00Z",
+            "end_date": "2019-04-23T15:00:00Z",
+            "enrollment_start": "2018-10-09T15:00:00Z",
+            "enrollment_end": "2019-03-03T15:00:00Z",
+            "expiration_date": "2019-04-24T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+1T2019",
+            "courseware_id": "course-v1:MITx+14.310x+1T2019",
+            "certificate_available_date": "2019-04-23T15:00:00Z",
+            "upgrade_deadline": "2019-04-23T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2019",
+            "id": 91,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 56,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+1T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2020-02-04T15:00:00Z",
+            "end_date": "2020-04-21T15:00:00Z",
+            "enrollment_start": "2019-10-02T17:32:14Z",
+            "enrollment_end": "2020-03-03T15:00:00Z",
+            "expiration_date": "2020-04-22T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+1T2020",
+            "courseware_id": "course-v1:MITx+14.310x+1T2020",
+            "certificate_available_date": "2020-04-21T15:00:00Z",
+            "upgrade_deadline": "2020-04-21T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2020",
+            "id": 96,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 61,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+1T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2019-09-03T15:00:00Z",
+            "end_date": "2019-11-19T15:00:00Z",
+            "enrollment_start": "2019-06-18T15:00:00Z",
+            "enrollment_end": "2019-10-01T15:00:00Z",
+            "expiration_date": "2019-11-20T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+2T2019a",
+            "courseware_id": "course-v1:MITx+14.310x+2T2019a",
+            "certificate_available_date": "2019-11-19T15:00:00Z",
+            "upgrade_deadline": "2019-11-19T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019a",
+            "id": 100,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 65,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+2T2019a",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2020-06-02T15:00:00Z",
+            "end_date": "2020-08-18T15:00:00Z",
+            "enrollment_start": "2020-03-03T15:00:00Z",
+            "enrollment_end": "2020-07-01T15:00:00Z",
+            "expiration_date": "2020-08-19T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+2T2020",
+            "courseware_id": "course-v1:MITx+14.310x+2T2020",
+            "certificate_available_date": "2020-08-18T15:00:00Z",
+            "upgrade_deadline": "2020-08-18T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2020",
+            "id": 101,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 66,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+2T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2021-06-01T15:00:00Z",
+            "end_date": "2021-08-17T15:00:00Z",
+            "enrollment_start": "2021-03-13T04:59:59Z",
+            "enrollment_end": "2021-07-07T15:00:00Z",
+            "expiration_date": "2021-08-18T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+2T2021",
+            "courseware_id": "course-v1:MITx+14.310x+2T2021",
+            "certificate_available_date": "2021-08-17T15:00:00Z",
+            "upgrade_deadline": "2021-08-17T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2021",
+            "id": 109,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 74,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+2T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2020-09-08T15:00:00Z",
+            "end_date": "2020-11-24T15:00:00Z",
+            "enrollment_start": "2020-07-17T14:42:17Z",
+            "enrollment_end": "2020-10-06T15:00:00Z",
+            "expiration_date": "2020-11-25T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.310x+3T2020",
+            "courseware_id": "course-v1:MITx+14.310x+3T2020",
+            "certificate_available_date": "2020-11-24T15:00:00Z",
+            "upgrade_deadline": "2020-11-24T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2020",
+            "id": 137,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 102,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.310x+3T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2021-10-05T15:00:00Z",
+            "end_date": "2021-12-22T15:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": "2021-11-02T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+3T2021/course/",
+            "courseware_id": "course-v1:MITxT+14.310x+3T2021",
+            "certificate_available_date": "2021-12-23T23:30:00Z",
+            "upgrade_deadline": "2021-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2021",
+            "id": 1,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 10,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.310x+3T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
+            "start_date": "2024-01-16T15:00:00Z",
+            "end_date": "2024-05-02T00:00:00Z",
+            "enrollment_start": "2023-10-10T23:59:00Z",
+            "enrollment_end": "2024-02-13T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+1T2024/course",
+            "courseware_id": "course-v1:MITxT+14.310x+1T2024",
+            "certificate_available_date": "2024-05-15T00:00:00Z",
+            "upgrade_deadline": "2024-02-28T23:59:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2024",
+            "id": 222,
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 197,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.310x+1T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Data Analysis for Social Scientists",
             "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T15:00:00Z",
+            "end_date": "2023-01-04T19:20:00Z",
             "enrollment_start": "2022-07-06T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
+            "enrollment_end": "2022-10-07T23:59:00Z",
             "expiration_date": null,
             "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+3T2022/course/",
             "courseware_id": "course-v1:MITxT+14.310x+3T2022",
+            "certificate_available_date": "2023-04-22T00:00:00Z",
+            "upgrade_deadline": "2022-12-25T19:20:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
             "run_tag": "3T2022",
             "id": 36,
-            "products": []
+            "live": true,
+            "course_number": "14.310x",
+            "products": [
+              {
+                "id": 19,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.310x+3T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
           }
         ],
-        "next_run_id": 36,
-        "topics": [],
         "feature_image_src": "/media/original_images/14.310x.max-800x600.jpg?v=9db950769510bfdc810f3a84699f139c26d0ffb4",
         "page_url": "/courses/course-v1:MITxT+14.310x/",
-        "financial_assistance_form_url": ""
-      },
-      {
-        "id": 4,
-        "title": "The Challenges of Global Poverty",
-        "readable_id": "course-v1:MITxT+14.73x",
-        "page": {
-          "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
-          "page_url": "/courses/course-v1:MITxT+14.73x/",
-          "financial_assistance_form_url": ""
-        },
-        "courseruns": [
+        "description": "Learn methods for harnessing and analyzing data to answer questions of cultural, social, economic, and policy interest.",
+        "live": true,
+        "length": "14 Weeks",
+        "effort": "12–14 hours per week",
+        "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+        "current_price": 1000.0,
+        "instructors": [
           {
-            "title": "The Challenges of Global Poverty",
-            "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T15:00:00Z",
-            "enrollment_start": "2022-03-08T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
-            "expiration_date": null,
-            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.73x+3T2022/course/",
-            "courseware_id": "course-v1:MITxT+14.73x+3T2022",
-            "run_tag": "3T2022",
-            "id": 21,
-            "products": []
+            "name": "Esther Duflo",
+            "description": ""
+          },
+          {
+            "name": "Sara Fisher Ellison",
+            "description": ""
           }
-        ],
-        "next_run_id": 21,
-        "topics": [],
-        "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
-        "page_url": "/courses/course-v1:MITxT+14.73x/",
-        "financial_assistance_form_url": ""
+        ]
       },
       {
         "id": 5,
         "title": "Foundations of Development Policy",
         "readable_id": "course-v1:MITxT+14.740x",
+        "next_run_id": 188,
+        "departments": [
+          {
+            "name": "Economics"
+          }
+        ],
         "page": {
           "feature_image_src": "/media/original_images/14.740x.jpg?v=ce04d2d27a6d4b2f20d60f48e3c437726d02dc08",
           "page_url": "/courses/course-v1:MITxT+14.740x/",
-          "financial_assistance_form_url": ""
+          "description": "Examine the different facets of human development, including education, health, gender, the family, land relations, risk, public policy, and institutions. At the same time, discover modern empirical methods in economics while working with real data.",
+          "live": true,
+          "length": "14 weeks",
+          "effort": "12–14 hours per week",
+          "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+          "current_price": 1000.0,
+          "instructors": [
+            {
+              "name": "Abhijit Vinayak Banerjee",
+              "description": ""
+            },
+            {
+              "name": "Esther Duflo",
+              "description": ""
+            },
+            {
+              "name": "Benjamin Olken",
+              "description": ""
+            }
+          ]
         },
+        "programs": null,
         "courseruns": [
+          {
+            "title": "Foundations of Development Policy: Advanced Development Economics",
+            "start_date": "2016-09-16T04:00:00Z",
+            "end_date": "2016-12-11T23:59:00Z",
+            "enrollment_start": "2016-09-16T04:00:00Z",
+            "enrollment_end": "2016-12-04T04:00:00Z",
+            "expiration_date": "2016-12-12T23:59:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+3T2016",
+            "courseware_id": "course-v1:MITx+14.740x+3T2016",
+            "certificate_available_date": "2016-12-11T23:59:00Z",
+            "upgrade_deadline": "2016-12-11T23:59:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2016",
+            "id": 66,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 31,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+3T2016",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2024-01-16T15:00:00Z",
+            "end_date": "2024-05-02T00:00:00Z",
+            "enrollment_start": "2023-07-24T23:59:00Z",
+            "enrollment_end": "2024-02-13T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.740x+1T2024/course",
+            "courseware_id": "course-v1:MITxT+14.740x+1T2024",
+            "certificate_available_date": "2024-05-15T00:00:00Z",
+            "upgrade_deadline": "2024-02-28T23:59:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2024",
+            "id": 194,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 173,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.740x+1T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2019-09-03T15:00:00Z",
+            "end_date": "2019-11-19T15:00:00Z",
+            "enrollment_start": "2019-06-18T15:00:00Z",
+            "enrollment_end": "2019-10-01T15:00:00Z",
+            "expiration_date": "2019-11-20T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+2T2019a",
+            "courseware_id": "course-v1:MITx+14.740x+2T2019a",
+            "certificate_available_date": "2019-11-19T15:00:00Z",
+            "upgrade_deadline": "2019-11-19T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019a",
+            "id": 87,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 52,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+2T2019a",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2024-05-14T15:00:00Z",
+            "end_date": "2024-08-21T15:00:00Z",
+            "enrollment_start": "2023-06-27T23:59:00Z",
+            "enrollment_end": "2024-06-11T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.740x+2T2024/course",
+            "courseware_id": "course-v1:MITxT+14.740x+2T2024",
+            "certificate_available_date": "2024-09-18T00:00:00Z",
+            "upgrade_deadline": "2024-06-25T23:59:59Z",
+            "is_upgradable": true,
+            "is_enrollable": true,
+            "is_self_paced": false,
+            "run_tag": "2T2024",
+            "id": 188,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 167,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.740x+2T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2022-05-31T15:00:00Z",
+            "end_date": "2023-07-16T23:30:00Z",
+            "enrollment_start": "2021-10-05T15:00:00Z",
+            "enrollment_end": "2022-07-05T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.740x+2T2022/course/",
+            "courseware_id": "course-v1:MITxT+14.740x+2T2022",
+            "certificate_available_date": "2023-07-18T00:00:00Z",
+            "upgrade_deadline": "2022-08-16T23:30:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2022",
+            "id": 6,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 7,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.740x+2T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy: Advanced Development Economics",
+            "start_date": "2017-06-05T15:00:00Z",
+            "end_date": "2017-08-28T15:00:00Z",
+            "enrollment_start": "2017-03-06T23:30:00Z",
+            "enrollment_end": "2017-07-03T15:00:00Z",
+            "expiration_date": "2017-08-29T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+2T2017",
+            "courseware_id": "course-v1:MITx+14.740x+2T2017",
+            "certificate_available_date": "2017-08-28T15:00:00Z",
+            "upgrade_deadline": "2017-08-28T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2017",
+            "id": 85,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 50,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+2T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy: Advanced Development Economics",
+            "start_date": "2017-09-26T15:00:00Z",
+            "end_date": "2017-12-22T15:00:00Z",
+            "enrollment_start": "2017-07-03T15:00:00Z",
+            "enrollment_end": "2017-10-24T03:26:02Z",
+            "expiration_date": "2017-12-23T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+3T2017",
+            "courseware_id": "course-v1:MITx+14.740x+3T2017",
+            "certificate_available_date": "2017-12-22T15:00:00Z",
+            "upgrade_deadline": "2017-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2017",
+            "id": 86,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 51,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+3T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy: Advanced Development Economics",
+            "start_date": "2015-09-21T15:00:00Z",
+            "end_date": "2015-12-10T15:00:00Z",
+            "enrollment_start": "2015-07-20T15:00:00Z",
+            "enrollment_end": "2015-12-10T15:00:00Z",
+            "expiration_date": "2015-12-11T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.74x+3T2015",
+            "courseware_id": "course-v1:MITx+14.74x+3T2015",
+            "certificate_available_date": "2015-12-10T15:00:00Z",
+            "upgrade_deadline": "2015-12-10T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2015",
+            "id": 92,
+            "live": true,
+            "course_number": "14.74x",
+            "products": [
+              {
+                "id": 57,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.74x+3T2015",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy: Advanced Development Economics",
+            "start_date": "2017-02-06T15:00:00Z",
+            "end_date": "2017-05-05T15:00:00Z",
+            "enrollment_start": "2016-12-05T15:00:00Z",
+            "enrollment_end": "2017-03-06T14:00:00Z",
+            "expiration_date": "2017-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+1T2017",
+            "courseware_id": "course-v1:MITx+14.740x+1T2017",
+            "certificate_available_date": "2017-05-05T15:00:00Z",
+            "upgrade_deadline": "2017-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2017",
+            "id": 93,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 58,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+1T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy: Advanced Development Economics",
+            "start_date": "2018-02-06T15:00:00Z",
+            "end_date": "2018-05-05T15:00:00Z",
+            "enrollment_start": "2017-10-24T15:00:00Z",
+            "enrollment_end": "2018-03-06T15:00:00Z",
+            "expiration_date": "2018-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+1T2018",
+            "courseware_id": "course-v1:MITx+14.740x+1T2018",
+            "certificate_available_date": "2018-05-05T15:00:00Z",
+            "upgrade_deadline": "2018-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2018",
+            "id": 94,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 59,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+1T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy: Advanced Development Economics",
+            "start_date": "2018-06-05T15:00:00Z",
+            "end_date": "2018-08-21T03:30:00Z",
+            "enrollment_start": "2018-03-06T15:00:00Z",
+            "enrollment_end": "2018-07-03T15:00:00Z",
+            "expiration_date": "2018-08-22T03:30:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+2T2018",
+            "courseware_id": "course-v1:MITx+14.740x+2T2018",
+            "certificate_available_date": "2018-08-21T03:30:00Z",
+            "upgrade_deadline": "2018-08-21T03:30:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2018",
+            "id": 95,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 60,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+2T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2018-09-11T15:00:00Z",
+            "end_date": "2018-11-28T03:00:00Z",
+            "enrollment_start": "2018-07-03T15:00:00Z",
+            "enrollment_end": "2018-10-09T15:00:00Z",
+            "expiration_date": "2018-11-29T03:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+3T2018",
+            "courseware_id": "course-v1:MITx+14.740x+3T2018",
+            "certificate_available_date": "2018-11-28T03:00:00Z",
+            "upgrade_deadline": "2018-11-28T03:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2018",
+            "id": 98,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 63,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+3T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2019-05-21T15:00:00Z",
+            "end_date": "2019-08-06T15:00:00Z",
+            "enrollment_start": "2019-03-04T15:02:16Z",
+            "enrollment_end": "2019-06-18T15:00:00Z",
+            "expiration_date": "2019-08-07T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+2T2019",
+            "courseware_id": "course-v1:MITx+14.740x+2T2019",
+            "certificate_available_date": "2019-08-06T15:00:00Z",
+            "upgrade_deadline": "2019-08-06T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019",
+            "id": 99,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 64,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+2T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2019-02-05T15:00:00Z",
+            "end_date": "2019-04-23T15:00:00Z",
+            "enrollment_start": "2018-10-09T15:00:00Z",
+            "enrollment_end": "2019-03-03T15:00:00Z",
+            "expiration_date": "2019-04-24T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+1T2019",
+            "courseware_id": "course-v1:MITx+14.740x+1T2019",
+            "certificate_available_date": "2019-04-23T15:00:00Z",
+            "upgrade_deadline": "2019-04-23T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2019",
+            "id": 104,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 69,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+1T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2020-02-04T15:00:00Z",
+            "end_date": "2020-04-21T15:00:00Z",
+            "enrollment_start": "2019-10-02T18:13:07Z",
+            "enrollment_end": "2020-03-03T15:00:00Z",
+            "expiration_date": "2020-04-22T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+1T2020a",
+            "courseware_id": "course-v1:MITx+14.740x+1T2020a",
+            "certificate_available_date": "2020-04-21T15:00:00Z",
+            "upgrade_deadline": "2020-04-21T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2020a",
+            "id": 105,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 70,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+1T2020a",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2021-02-09T15:00:00Z",
+            "end_date": "2021-04-27T15:00:00Z",
+            "enrollment_start": "2020-10-06T15:00:00Z",
+            "enrollment_end": "2021-03-12T15:00:00Z",
+            "expiration_date": "2021-04-28T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+1T2021",
+            "courseware_id": "course-v1:MITx+14.740x+1T2021",
+            "certificate_available_date": "2021-04-27T15:00:00Z",
+            "upgrade_deadline": "2021-04-27T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2021",
+            "id": 112,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 77,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+1T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2020-06-02T15:00:00Z",
+            "end_date": "2020-08-18T15:00:00Z",
+            "enrollment_start": "2020-03-03T15:00:00Z",
+            "enrollment_end": "2020-07-01T15:00:00Z",
+            "expiration_date": "2020-08-19T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+2T2020",
+            "courseware_id": "course-v1:MITx+14.740x+2T2020",
+            "certificate_available_date": "2020-08-18T15:00:00Z",
+            "upgrade_deadline": "2020-08-18T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2020",
+            "id": 113,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 78,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+2T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2020-09-08T15:00:00Z",
+            "end_date": "2020-11-24T15:00:00Z",
+            "enrollment_start": "2020-07-17T14:42:24Z",
+            "enrollment_end": "2020-10-06T15:00:00Z",
+            "expiration_date": "2020-11-25T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+3T2020",
+            "courseware_id": "course-v1:MITx+14.740x+3T2020",
+            "certificate_available_date": "2020-11-24T15:00:00Z",
+            "upgrade_deadline": "2020-11-24T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2020",
+            "id": 114,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 79,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+3T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2021-06-01T15:00:00Z",
+            "end_date": "2021-08-17T15:00:00Z",
+            "enrollment_start": "2021-03-13T23:59:00Z",
+            "enrollment_end": "2021-07-07T23:59:00Z",
+            "expiration_date": "2021-08-18T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.740x+2T2021",
+            "courseware_id": "course-v1:MITx+14.740x+2T2021",
+            "certificate_available_date": "2021-08-17T15:00:00Z",
+            "upgrade_deadline": "2021-08-17T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2021",
+            "id": 141,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 106,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.740x+2T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
           {
             "title": "Foundations of Development Policy",
             "start_date": "2023-01-31T15:00:00Z",
-            "end_date": "2023-04-19T15:00:00Z",
+            "end_date": "2023-08-12T15:00:00Z",
             "enrollment_start": "2022-07-06T23:59:00Z",
             "enrollment_end": "2023-03-07T23:59:00Z",
             "expiration_date": null,
             "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.740x+1T2023/course/",
             "courseware_id": "course-v1:MITxT+14.740x+1T2023",
+            "certificate_available_date": "2023-08-20T00:00:00Z",
+            "upgrade_deadline": "2023-03-16T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
             "run_tag": "1T2023",
             "id": 37,
-            "products": []
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 21,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.740x+1T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Foundations of Development Policy",
+            "start_date": "2023-05-30T15:00:00Z",
+            "end_date": "2023-09-15T15:00:00Z",
+            "enrollment_start": "2023-03-07T23:59:00Z",
+            "enrollment_end": "2023-06-27T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.740x+2T2023/course",
+            "courseware_id": "course-v1:MITxT+14.740x+2T2023",
+            "certificate_available_date": "2023-09-25T00:00:00Z",
+            "upgrade_deadline": "2023-07-18T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2023",
+            "id": 165,
+            "live": true,
+            "course_number": "14.740x",
+            "products": [
+              {
+                "id": 146,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.740x+2T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
           }
         ],
-        "next_run_id": 37,
-        "topics": [],
         "feature_image_src": "/media/original_images/14.740x.jpg?v=ce04d2d27a6d4b2f20d60f48e3c437726d02dc08",
         "page_url": "/courses/course-v1:MITxT+14.740x/",
-        "financial_assistance_form_url": ""
+        "description": "Examine the different facets of human development, including education, health, gender, the family, land relations, risk, public policy, and institutions. At the same time, discover modern empirical methods in economics while working with real data.",
+        "live": true,
+        "length": "14 weeks",
+        "effort": "12–14 hours per week",
+        "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+        "current_price": 1000.0,
+        "instructors": [
+          {
+            "name": "Abhijit Vinayak Banerjee",
+            "description": ""
+          },
+          {
+            "name": "Esther Duflo",
+            "description": ""
+          },
+          {
+            "name": "Benjamin Olken",
+            "description": ""
+          }
+        ]
       },
       {
         "id": 6,
         "title": "Political Economy and Economic Development",
         "readable_id": "course-v1:MITxT+14.750x",
+        "next_run_id": 220,
+        "departments": [
+          {
+            "name": "Economics"
+          }
+        ],
         "page": {
           "feature_image_src": "/media/original_images/14.750x.jpg?v=444c4611e9d1bccef38b160d01d2015d4a601d72",
           "page_url": "/courses/course-v1:MITxT+14.750x/",
-          "financial_assistance_form_url": ""
+          "description": "Explore why and how political institutions affect economic development, and apply key theories and empirical techniques to real-world examples ranging from voting and corruption to the role of the media.",
+          "live": true,
+          "length": "14 weeks",
+          "effort": "12–14 hours per week",
+          "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+          "current_price": 1000.0,
+          "instructors": [
+            {
+              "name": "Abhijit Vinayak Banerjee",
+              "description": ""
+            },
+            {
+              "name": "Benjamin Olken",
+              "description": ""
+            }
+          ]
         },
+        "programs": null,
         "courseruns": [
           {
             "title": "Political Economy and Economic Development",
+            "start_date": "2024-05-14T15:00:00Z",
+            "end_date": "2024-08-21T15:00:00Z",
+            "enrollment_start": "2023-10-10T23:59:00Z",
+            "enrollment_end": "2024-06-11T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.750x+2T2024/course",
+            "courseware_id": "course-v1:MITxT+14.750x+2T2024",
+            "certificate_available_date": "2024-09-18T00:00:00Z",
+            "upgrade_deadline": "2024-06-25T23:59:00Z",
+            "is_upgradable": true,
+            "is_enrollable": true,
+            "is_self_paced": false,
+            "run_tag": "2T2024",
+            "id": 220,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 195,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.750x+2T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy and Economic Development",
             "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T15:00:00Z",
+            "end_date": "2023-06-24T19:20:00Z",
             "enrollment_start": "2021-11-02T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
+            "enrollment_end": "2022-10-07T23:59:00Z",
             "expiration_date": null,
             "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.750x+3T2022/course/",
             "courseware_id": "course-v1:MITxT+14.750x+3T2022",
+            "certificate_available_date": "2023-06-25T00:00:00Z",
+            "upgrade_deadline": "2022-12-25T19:20:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
             "run_tag": "3T2022",
             "id": 10,
-            "products": []
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 13,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.750x+3T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy and Economic Development",
+            "start_date": "2021-10-05T15:00:00Z",
+            "end_date": "2021-12-22T15:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": "2021-11-02T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.750x+3T2021/course/",
+            "courseware_id": "course-v1:MITxT+14.750x+3T2021",
+            "certificate_available_date": "2021-12-23T23:30:00Z",
+            "upgrade_deadline": "2021-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2021",
+            "id": 5,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 4,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.750x+3T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy & Economic Development",
+            "start_date": "2020-02-04T15:00:00Z",
+            "end_date": "2020-04-21T15:00:00Z",
+            "enrollment_start": "2019-10-01T15:00:00Z",
+            "enrollment_end": "2020-03-03T15:00:00Z",
+            "expiration_date": "2020-04-22T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.750x+1T2020",
+            "courseware_id": "course-v1:MITx+14.750x+1T2020",
+            "certificate_available_date": "2020-04-21T15:00:00Z",
+            "upgrade_deadline": "2020-04-21T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2020",
+            "id": 77,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 42,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.750x+1T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy & Economic Development",
+            "start_date": "2019-09-03T15:00:00Z",
+            "end_date": "2019-11-19T15:00:00Z",
+            "enrollment_start": "2019-07-29T15:18:12Z",
+            "enrollment_end": "2019-10-01T15:00:00Z",
+            "expiration_date": "2019-11-20T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.750x+3T2019",
+            "courseware_id": "course-v1:MITx+14.750x+3T2019",
+            "certificate_available_date": "2019-11-19T15:00:00Z",
+            "upgrade_deadline": "2019-11-19T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2019",
+            "id": 106,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 71,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.750x+3T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy & Economic Development",
+            "start_date": "2021-02-09T15:00:00Z",
+            "end_date": "2021-04-27T15:00:00Z",
+            "enrollment_start": "2020-10-06T15:00:00Z",
+            "enrollment_end": "2021-03-12T15:00:00Z",
+            "expiration_date": "2021-04-28T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.750x+1T2021",
+            "courseware_id": "course-v1:MITx+14.750x+1T2021",
+            "certificate_available_date": "2021-04-27T15:00:00Z",
+            "upgrade_deadline": "2021-04-27T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2021",
+            "id": 107,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 72,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.750x+1T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy & Economic Development",
+            "start_date": "2020-06-02T15:00:00Z",
+            "end_date": "2020-08-18T15:00:00Z",
+            "enrollment_start": "2020-03-03T15:00:00Z",
+            "enrollment_end": "2020-07-01T15:00:00Z",
+            "expiration_date": "2020-08-19T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.750x+2T2020",
+            "courseware_id": "course-v1:MITx+14.750x+2T2020",
+            "certificate_available_date": "2020-08-18T15:00:00Z",
+            "upgrade_deadline": "2020-08-18T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2020",
+            "id": 115,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 80,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.750x+2T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy & Economic Development",
+            "start_date": "2020-09-08T15:00:00Z",
+            "end_date": "2020-11-24T15:00:00Z",
+            "enrollment_start": "2020-07-17T14:42:30Z",
+            "enrollment_end": "2020-10-06T15:00:00Z",
+            "expiration_date": "2020-11-25T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.750x+3T2020",
+            "courseware_id": "course-v1:MITx+14.750x+3T2020",
+            "certificate_available_date": "2020-11-24T15:00:00Z",
+            "upgrade_deadline": "2020-11-24T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2020",
+            "id": 116,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 81,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.750x+3T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy and Economic Development",
+            "start_date": "2023-01-31T15:00:00Z",
+            "end_date": "2023-08-12T15:00:00Z",
+            "enrollment_start": "2022-10-11T15:00:00Z",
+            "enrollment_end": "2023-03-07T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.750x+1T2023/course/",
+            "courseware_id": "course-v1:MITxT+14.750x+1T2023",
+            "certificate_available_date": "2023-09-01T00:00:00Z",
+            "upgrade_deadline": "2023-03-16T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2023",
+            "id": 142,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 107,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.750x+1T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy and Economic Development",
+            "start_date": "2023-09-12T15:00:00Z",
+            "end_date": "2024-02-18T15:00:00Z",
+            "enrollment_start": "2023-06-27T23:59:00Z",
+            "enrollment_end": "2023-10-10T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.750x+3T2023/course",
+            "courseware_id": "course-v1:MITxT+14.750x+3T2023",
+            "certificate_available_date": "2024-02-19T00:00:00Z",
+            "upgrade_deadline": "2023-11-03T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2023",
+            "id": 186,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 165,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.750x+3T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Political Economy and Economic Development",
+            "start_date": "2023-05-30T15:00:00Z",
+            "end_date": "2023-11-01T15:00:00Z",
+            "enrollment_start": "2023-03-07T23:59:00Z",
+            "enrollment_end": "2023-06-27T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.750x+2T2023/course",
+            "courseware_id": "course-v1:MITxT+14.750x+2T2023",
+            "certificate_available_date": "2023-11-02T00:00:00Z",
+            "upgrade_deadline": "2023-07-14T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2023",
+            "id": 168,
+            "live": true,
+            "course_number": "14.750x",
+            "products": [
+              {
+                "id": 147,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.750x+2T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
           }
         ],
-        "next_run_id": 10,
-        "topics": [],
         "feature_image_src": "/media/original_images/14.750x.jpg?v=444c4611e9d1bccef38b160d01d2015d4a601d72",
         "page_url": "/courses/course-v1:MITxT+14.750x/",
-        "financial_assistance_form_url": ""
+        "description": "Explore why and how political institutions affect economic development, and apply key theories and empirical techniques to real-world examples ranging from voting and corruption to the role of the media.",
+        "live": true,
+        "length": "14 weeks",
+        "effort": "12–14 hours per week",
+        "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+        "current_price": 1000.0,
+        "instructors": [
+          {
+            "name": "Abhijit Vinayak Banerjee",
+            "description": ""
+          },
+          {
+            "name": "Benjamin Olken",
+            "description": ""
+          }
+        ]
       },
       {
-        "id": 16,
-        "title": "Good Economics for Hard Times",
-        "readable_id": "course-v1:MITxT+14.009x",
-        "page": {
-          "feature_image_src": "/media/original_images/14.009x_-_course_image_-_SMALL.jpg?v=52e6adb90be9d738874676756fe22cd1ad9e1965",
-          "page_url": "/courses/course-v1:MITxT+14.009x/",
-          "financial_assistance_form_url": ""
-        },
-        "courseruns": [
+        "id": 4,
+        "title": "The Challenges of Global Poverty",
+        "readable_id": "course-v1:MITxT+14.73x",
+        "next_run_id": 249,
+        "departments": [
           {
-            "title": "Good Economics for Hard Times",
-            "start_date": "2023-05-30T15:00:00Z",
-            "end_date": "2023-08-16T15:00:00Z",
-            "enrollment_start": "2022-07-06T23:59:00Z",
-            "enrollment_end": "2023-07-04T23:59:00Z",
-            "expiration_date": null,
-            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.009x+2T2023/course/",
-            "courseware_id": "course-v1:MITxT+14.009x+2T2023",
-            "run_tag": "2T2023",
-            "id": 38,
-            "products": []
+            "name": "Economics"
           }
         ],
-        "next_run_id": 38,
-        "topics": [],
-        "feature_image_src": "/media/original_images/14.009x_-_course_image_-_SMALL.jpg?v=52e6adb90be9d738874676756fe22cd1ad9e1965",
-        "page_url": "/courses/course-v1:MITxT+14.009x/",
-        "financial_assistance_form_url": ""
+        "page": {
+          "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
+          "page_url": "/courses/course-v1:MITxT+14.73x/",
+          "description": "A course for those who are interested in the challenge posed by massive and persistent world poverty.",
+          "live": true,
+          "length": "14 weeks",
+          "effort": "12–14 hours per week",
+          "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+          "current_price": 1000.0,
+          "instructors": [
+            {
+              "name": "Abhijit Vinayak Banerjee",
+              "description": ""
+            },
+            {
+              "name": "Esther Duflo",
+              "description": ""
+            },
+            {
+              "name": "Frank Schilbach",
+              "description": ""
+            }
+          ]
+        },
+        "programs": null,
+        "courseruns": [
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2023-09-12T15:00:00Z",
+            "end_date": "2024-02-18T15:00:00Z",
+            "enrollment_start": "2023-03-07T23:59:00Z",
+            "enrollment_end": "2023-10-10T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.73x+3T2023/course",
+            "courseware_id": "course-v1:MITxT+14.73x+3T2023",
+            "certificate_available_date": "2024-02-19T00:00:00Z",
+            "upgrade_deadline": "2023-11-03T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2023",
+            "id": 169,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 148,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.73x+3T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2023-01-31T15:00:00Z",
+            "end_date": "2023-05-12T15:00:00Z",
+            "enrollment_start": "2022-10-11T15:00:00Z",
+            "enrollment_end": "2023-03-07T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.73x+1T2023/course/",
+            "courseware_id": "course-v1:MITxT+14.73x+1T2023",
+            "certificate_available_date": "2023-05-22T00:00:00Z",
+            "upgrade_deadline": "2023-03-16T23:59:59Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2023",
+            "id": 56,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 20,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.73x+1T2023",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2021-10-05T15:00:00Z",
+            "end_date": "2021-12-22T15:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": "2021-11-02T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.73x+3T2021/course/",
+            "courseware_id": "course-v1:MITxT+14.73x+3T2021",
+            "certificate_available_date": "2021-12-23T23:30:00Z",
+            "upgrade_deadline": "2021-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2021",
+            "id": 3,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 12,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.73x+3T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2014-02-04T15:00:00Z",
+            "end_date": "2014-05-11T15:00:00Z",
+            "enrollment_start": "2013-12-13T04:00:00Z",
+            "enrollment_end": "2014-05-11T04:00:00Z",
+            "expiration_date": "2014-05-12T15:00:00Z",
+            "courseware_url": null,
+            "courseware_id": "MITx/14_73x/1T2014",
+            "certificate_available_date": "2014-05-11T15:00:00Z",
+            "upgrade_deadline": "2014-05-11T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2014",
+            "id": 60,
+            "live": true,
+            "course_number": "14_73x",
+            "products": [
+              {
+                "id": 27,
+                "price": "1000.00",
+                "description": "MITx/14_73x/1T2014",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2015-02-03T15:00:00Z",
+            "end_date": "2015-05-03T04:00:00Z",
+            "enrollment_start": "2014-10-20T15:00:00Z",
+            "enrollment_end": "2015-05-03T04:00:00Z",
+            "expiration_date": "2015-05-04T04:00:00Z",
+            "courseware_url": null,
+            "courseware_id": "MITx/14.73x_1/1T2015",
+            "certificate_available_date": "2015-05-03T04:00:00Z",
+            "upgrade_deadline": "2015-05-03T04:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2015",
+            "id": 62,
+            "live": true,
+            "course_number": "14.73x_1",
+            "products": [
+              {
+                "id": 25,
+                "price": "1000.00",
+                "description": "MITx/14.73x_1/1T2015",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2024-09-10T15:00:00Z",
+            "end_date": "2024-12-17T15:00:00Z",
+            "enrollment_start": "2024-02-13T23:59:00Z",
+            "enrollment_end": "2024-10-08T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.73x+3T2024/course",
+            "courseware_id": "course-v1:MITxT+14.73x+3T2024",
+            "certificate_available_date": "2025-01-14T00:00:00Z",
+            "upgrade_deadline": "2024-10-22T23:59:00Z",
+            "is_upgradable": true,
+            "is_enrollable": true,
+            "is_self_paced": false,
+            "run_tag": "3T2024",
+            "id": 249,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 220,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.73x+3T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2022-02-01T15:00:00Z",
+            "end_date": "2022-04-20T15:00:00Z",
+            "enrollment_start": "2021-11-02T23:59:00Z",
+            "enrollment_end": "2022-03-08T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.73x+1T2022/course/",
+            "courseware_id": "course-v1:MITxT+14.73x+1T2022",
+            "certificate_available_date": "2022-04-21T15:00:00Z",
+            "upgrade_deadline": "2022-04-20T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2022",
+            "id": 11,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 11,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.73x+1T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2013-02-12T15:00:00Z",
+            "end_date": "2013-05-11T15:00:00Z",
+            "enrollment_start": "2013-02-12T15:00:00Z",
+            "enrollment_end": "2016-12-04T04:00:00Z",
+            "expiration_date": "2013-05-12T15:00:00Z",
+            "courseware_url": null,
+            "courseware_id": "MITx/14.73x/2013_Spring",
+            "certificate_available_date": "2013-05-11T15:00:00Z",
+            "upgrade_deadline": "2013-05-11T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2013_Spring",
+            "id": 61,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 28,
+                "price": "1000.00",
+                "description": "MITx/14.73x/2013_Spring",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2016-02-22T15:00:00Z",
+            "end_date": "2016-05-15T15:00:00Z",
+            "enrollment_start": "2015-12-30T15:00:00Z",
+            "enrollment_end": "2016-12-04T04:00:00Z",
+            "expiration_date": "2016-05-16T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x_1+1T2016",
+            "courseware_id": "course-v1:MITx+14.73x_1+1T2016",
+            "certificate_available_date": "2016-05-15T15:00:00Z",
+            "upgrade_deadline": "2016-05-15T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2016",
+            "id": 73,
+            "live": true,
+            "course_number": "14.73x_1",
+            "products": [
+              {
+                "id": 38,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x_1+1T2016",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2016-09-16T04:00:00Z",
+            "end_date": "2016-12-11T15:00:00Z",
+            "enrollment_start": "2016-09-16T04:00:00Z",
+            "enrollment_end": "2016-12-04T04:00:00Z",
+            "expiration_date": "2016-12-12T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+3T2016",
+            "courseware_id": "course-v1:MITx+14.73x+3T2016",
+            "certificate_available_date": "2016-12-11T15:00:00Z",
+            "upgrade_deadline": "2016-12-11T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2016",
+            "id": 74,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 39,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+3T2016",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2019-02-05T15:00:00Z",
+            "end_date": "2019-04-23T15:00:00Z",
+            "enrollment_start": "2018-10-09T15:00:00Z",
+            "enrollment_end": "2019-03-03T15:00:00Z",
+            "expiration_date": "2019-04-24T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+1T2019",
+            "courseware_id": "course-v1:MITx+14.73x+1T2019",
+            "certificate_available_date": "2019-04-23T15:00:00Z",
+            "upgrade_deadline": "2019-04-23T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2019",
+            "id": 75,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 40,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+1T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2019-05-21T15:00:00Z",
+            "end_date": "2019-08-06T15:00:00Z",
+            "enrollment_start": "2019-03-04T15:02:22Z",
+            "enrollment_end": "2019-06-18T15:00:00Z",
+            "expiration_date": "2019-08-07T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+2T2019",
+            "courseware_id": "course-v1:MITx+14.73x+2T2019",
+            "certificate_available_date": "2019-08-06T15:00:00Z",
+            "upgrade_deadline": "2019-08-06T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019",
+            "id": 76,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 41,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+2T2019",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2017-02-06T15:00:00Z",
+            "end_date": "2017-05-05T15:00:00Z",
+            "enrollment_start": "2016-12-05T05:00:00Z",
+            "enrollment_end": "2017-03-06T14:00:00Z",
+            "expiration_date": "2017-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+1T2017",
+            "courseware_id": "course-v1:MITx+14.73x+1T2017",
+            "certificate_available_date": "2017-05-05T15:00:00Z",
+            "upgrade_deadline": "2017-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2017",
+            "id": 82,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 47,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+1T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of World Poverty",
+            "start_date": "2017-06-05T15:00:00Z",
+            "end_date": "2017-08-28T15:00:00Z",
+            "enrollment_start": "2017-03-06T14:00:00Z",
+            "enrollment_end": "2017-07-03T23:30:00Z",
+            "expiration_date": "2017-08-29T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+2T2017",
+            "courseware_id": "course-v1:MITx+14.73x+2T2017",
+            "certificate_available_date": "2017-08-28T15:00:00Z",
+            "upgrade_deadline": "2017-08-28T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2017",
+            "id": 83,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 48,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+2T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of World Poverty",
+            "start_date": "2017-09-26T15:00:00Z",
+            "end_date": "2017-12-22T15:00:00Z",
+            "enrollment_start": "2017-07-03T15:00:00Z",
+            "enrollment_end": "2017-10-24T03:26:14Z",
+            "expiration_date": "2017-12-23T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+3T2017",
+            "courseware_id": "course-v1:MITx+14.73x+3T2017",
+            "certificate_available_date": "2017-12-22T15:00:00Z",
+            "upgrade_deadline": "2017-12-22T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2017",
+            "id": 84,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 49,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+3T2017",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of World Poverty",
+            "start_date": "2018-02-06T15:00:00Z",
+            "end_date": "2018-05-05T15:00:00Z",
+            "enrollment_start": "2017-10-24T15:00:00Z",
+            "enrollment_end": "2018-03-06T15:00:00Z",
+            "expiration_date": "2018-05-06T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+1T2018",
+            "courseware_id": "course-v1:MITx+14.73x+1T2018",
+            "certificate_available_date": "2018-05-05T15:00:00Z",
+            "upgrade_deadline": "2018-05-05T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2018",
+            "id": 97,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 62,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+1T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2019-09-03T15:00:00Z",
+            "end_date": "2019-11-19T15:00:00Z",
+            "enrollment_start": "2019-06-18T15:00:00Z",
+            "enrollment_end": "2019-10-01T15:00:00Z",
+            "expiration_date": "2019-11-20T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+2T2019a",
+            "courseware_id": "course-v1:MITx+14.73x+2T2019a",
+            "certificate_available_date": "2019-11-19T15:00:00Z",
+            "upgrade_deadline": "2019-11-19T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2019a",
+            "id": 102,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 67,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+2T2019a",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2020-02-04T15:00:00Z",
+            "end_date": "2020-04-21T15:00:00Z",
+            "enrollment_start": "2019-10-02T17:34:22Z",
+            "enrollment_end": "2020-03-03T15:00:00Z",
+            "expiration_date": "2020-04-22T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+2T2019a",
+            "courseware_id": "course-v1:MITx+14.73x+1T2020a",
+            "certificate_available_date": "2020-04-21T15:00:00Z",
+            "upgrade_deadline": "2020-04-21T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2020a",
+            "id": 103,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 68,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+1T2020a",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2020-06-02T15:00:00Z",
+            "end_date": "2020-08-18T15:00:00Z",
+            "enrollment_start": "2020-03-03T15:00:00Z",
+            "enrollment_end": "2020-07-01T15:00:00Z",
+            "expiration_date": "2020-08-19T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+2T2020",
+            "courseware_id": "course-v1:MITx+14.73x+2T2020",
+            "certificate_available_date": "2020-08-18T15:00:00Z",
+            "upgrade_deadline": "2020-08-18T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2020",
+            "id": 110,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 75,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+2T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2020-09-08T15:00:00Z",
+            "end_date": "2020-11-24T15:00:00Z",
+            "enrollment_start": "2020-07-17T14:42:33Z",
+            "enrollment_end": "2020-10-06T15:00:00Z",
+            "expiration_date": "2020-11-25T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+3T2020",
+            "courseware_id": "course-v1:MITx+14.73x+3T2020",
+            "certificate_available_date": "2020-11-24T15:00:00Z",
+            "upgrade_deadline": "2020-11-24T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2020",
+            "id": 111,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 76,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+3T2020",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2018-06-05T15:00:00Z",
+            "end_date": "2018-08-21T03:30:00Z",
+            "enrollment_start": "2018-03-06T15:00:00Z",
+            "enrollment_end": "2018-07-03T15:00:00Z",
+            "expiration_date": "2018-08-22T03:30:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+2T2018",
+            "courseware_id": "course-v1:MITx+14.73x+2T2018",
+            "certificate_available_date": "2018-08-21T03:30:00Z",
+            "upgrade_deadline": "2018-08-21T03:30:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "2T2018",
+            "id": 138,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 103,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+2T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2018-09-11T15:00:00Z",
+            "end_date": "2018-11-28T03:00:00Z",
+            "enrollment_start": "2018-07-03T15:00:00Z",
+            "enrollment_end": "2018-10-09T15:00:00Z",
+            "expiration_date": "2018-11-29T03:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+3T2018",
+            "courseware_id": "course-v1:MITx+14.73x+3T2018",
+            "certificate_available_date": "2018-11-28T03:00:00Z",
+            "upgrade_deadline": "2018-11-28T03:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2018",
+            "id": 139,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 104,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+3T2018",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "Challenges of Global Poverty",
+            "start_date": "2021-02-09T15:00:00Z",
+            "end_date": "2021-04-27T15:00:00Z",
+            "enrollment_start": "2020-10-06T15:00:00Z",
+            "enrollment_end": "2021-03-12T15:00:00Z",
+            "expiration_date": "2021-04-28T15:00:00Z",
+            "courseware_url": "https://courses.edx.org/courses/course-v1:MITx+14.73x+1T2021",
+            "courseware_id": "course-v1:MITx+14.73x+1T2021",
+            "certificate_available_date": "2021-04-27T15:00:00Z",
+            "upgrade_deadline": "2021-04-27T15:00:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2021",
+            "id": 140,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 105,
+                "price": "1000.00",
+                "description": "course-v1:MITx+14.73x+1T2021",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2022-09-06T15:00:00Z",
+            "end_date": "2024-01-03T19:20:00Z",
+            "enrollment_start": "2022-03-08T23:59:00Z",
+            "enrollment_end": "2022-10-07T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.73x+3T2022/course/",
+            "courseware_id": "course-v1:MITxT+14.73x+3T2022",
+            "certificate_available_date": "2024-01-04T00:00:00Z",
+            "upgrade_deadline": "2023-12-24T19:20:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "3T2022",
+            "id": 21,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 15,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.73x+3T2022",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          },
+          {
+            "title": "The Challenges of Global Poverty",
+            "start_date": "2024-01-16T15:00:00Z",
+            "end_date": "2024-05-03T00:00:00Z",
+            "enrollment_start": "2023-10-10T23:59:00Z",
+            "enrollment_end": "2024-02-13T23:59:00Z",
+            "expiration_date": null,
+            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.73x+1T2024/course",
+            "courseware_id": "course-v1:MITxT+14.73x+1T2024",
+            "certificate_available_date": "2024-05-15T00:00:00Z",
+            "upgrade_deadline": "2024-02-28T23:59:00Z",
+            "is_upgradable": false,
+            "is_enrollable": false,
+            "is_self_paced": false,
+            "run_tag": "1T2024",
+            "id": 224,
+            "live": true,
+            "course_number": "14.73x",
+            "products": [
+              {
+                "id": 199,
+                "price": "1000.00",
+                "description": "course-v1:MITxT+14.73x+1T2024",
+                "is_active": true,
+                "product_flexible_price": null
+              }
+            ],
+            "approved_flexible_price_exists": false
+          }
+        ],
+        "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
+        "page_url": "/courses/course-v1:MITxT+14.73x/",
+        "description": "A course for those who are interested in the challenge posed by massive and persistent world poverty.",
+        "live": true,
+        "length": "14 weeks",
+        "effort": "12–14 hours per week",
+        "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+        "current_price": 1000.0,
+        "instructors": [
+          {
+            "name": "Abhijit Vinayak Banerjee",
+            "description": ""
+          },
+          {
+            "name": "Esther Duflo",
+            "description": ""
+          },
+          {
+            "name": "Frank Schilbach",
+            "description": ""
+          }
+        ]
       }
     ],
-    "start_date": "2021-10-05T15:00:00Z",
-    "end_date": "2023-08-16T15:00:00Z",
-    "enrollment_start": "2021-10-05T15:00:00Z",
-    "topics": []
+    "requirements": {
+      "required": [
+        1,
+        2,
+        3
+      ],
+      "electives": [
+        5,
+        6,
+        4
+      ]
+    },
+    "req_tree": [
+      {
+        "data": {
+          "node_type": "program_root",
+          "operator": null,
+          "operator_value": null,
+          "program": 1,
+          "course": null,
+          "title": "",
+          "elective_flag": false
+        },
+        "id": 1,
+        "children": [
+          {
+            "data": {
+              "node_type": "operator",
+              "operator": "all_of",
+              "operator_value": null,
+              "program": 1,
+              "course": null,
+              "title": "Required Courses",
+              "elective_flag": false
+            },
+            "id": 2,
+            "children": [
+              {
+                "data": {
+                  "node_type": "course",
+                  "operator": null,
+                  "operator_value": null,
+                  "program": 1,
+                  "course": 1,
+                  "title": null,
+                  "elective_flag": false
+                },
+                "id": 4
+              },
+              {
+                "data": {
+                  "node_type": "course",
+                  "operator": null,
+                  "operator_value": null,
+                  "program": 1,
+                  "course": 2,
+                  "title": null,
+                  "elective_flag": false
+                },
+                "id": 5
+              },
+              {
+                "data": {
+                  "node_type": "course",
+                  "operator": null,
+                  "operator_value": null,
+                  "program": 1,
+                  "course": 3,
+                  "title": null,
+                  "elective_flag": false
+                },
+                "id": 6
+              }
+            ]
+          },
+          {
+            "data": {
+              "node_type": "operator",
+              "operator": "min_number_of",
+              "operator_value": "2",
+              "program": 1,
+              "course": null,
+              "title": "Elective Courses",
+              "elective_flag": true
+            },
+            "id": 3,
+            "children": [
+              {
+                "data": {
+                  "node_type": "course",
+                  "operator": null,
+                  "operator_value": null,
+                  "program": 1,
+                  "course": 5,
+                  "title": null,
+                  "elective_flag": false
+                },
+                "id": 7
+              },
+              {
+                "data": {
+                  "node_type": "course",
+                  "operator": null,
+                  "operator_value": null,
+                  "program": 1,
+                  "course": 6,
+                  "title": null,
+                  "elective_flag": false
+                },
+                "id": 8
+              },
+              {
+                "data": {
+                  "node_type": "course",
+                  "operator": null,
+                  "operator_value": null,
+                  "program": 1,
+                  "course": 4,
+                  "title": null,
+                  "elective_flag": false
+                },
+                "id": 20
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "page": {
+      "feature_image_src": "/media/original_images/InternationalDevelopment-track_image_1134.jpg?v=32d70d0ad6a7b87b4cfbc4717e20177d601afb42",
+      "page_url": "/programs/program-v1:MITx+DEDP/",
+      "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+      "description": "<p data-block-key=\"s6wzo\">Grapple with some of the world’s most pressing problems from a rigorous, data-driven perspective developed by Nobel prize winners Esther Duflo and Abhijit Banerjee. Complete three core courses and two out of three electives plus proctored exams to earn your credential. You may then apply to the Master’s degree offered by MIT’s #1 world-ranked Economics Department.</p>",
+      "live": true,
+      "length": "3 terms (12 months)",
+      "effort": "12-14 hours per week",
+      "price": "$250 - $1000"
+    },
+    "program_type": "MicroMasters®",
+    "departments": [
+      {
+        "name": "Economics"
+      }
+    ],
+    "live": true
   }
 ]
