@@ -8,6 +8,7 @@ import {
 } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import React from "react"
+import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 const TestDrawerContents = ({ closeDrawer }: { closeDrawer: () => void }) => (
   <section>
@@ -37,7 +38,9 @@ const renderRoutedDrawer = <P extends string, R extends P>(
     },
   )
 
-  render(<RouterProvider router={router}></RouterProvider>)
+  render(<RouterProvider router={router}></RouterProvider>, {
+    wrapper: ThemeProvider,
+  })
   const location = {
     get current() {
       return router.state.location

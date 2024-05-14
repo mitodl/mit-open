@@ -198,7 +198,11 @@ const ActionButtonDefaultProps: Required<
 
 type ActionButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
   React.ComponentProps<"button">
-const ActionButton = styled(ButtonStyled)((props: ActionButtonProps) => {
+const ActionButton = styled(
+  React.forwardRef<HTMLButtonElement, ActionButtonProps>((props, ref) => (
+    <ButtonStyled ref={ref} type="button" {...props} />
+  )),
+)((props: ActionButtonProps) => {
   const { size = ActionButtonDefaultProps.size } = props
   return {
     padding: 0,

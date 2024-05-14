@@ -6,6 +6,7 @@ import user from "@testing-library/user-event"
 import { Carousel } from "./Carousel"
 import type { CarouselProps } from "./Carousel"
 import TrueNukaCarousel from "nuka-carousel"
+import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 jest.mock("nuka-carousel", () => {
   const actual = jest.requireActual("nuka-carousel")
@@ -27,6 +28,7 @@ const setupCarousel = (props?: Partial<CarouselProps>) =>
       <div>Child 4</div>
       <div>Child 5</div>
     </Carousel>,
+    { wrapper: ThemeProvider },
   )
 
 const getNextPageButton = () => screen.getByRole("button", { name: "Next" })
