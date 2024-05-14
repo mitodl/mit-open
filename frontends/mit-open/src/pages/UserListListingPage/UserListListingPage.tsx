@@ -8,7 +8,7 @@ import {
   styled,
   SimpleMenuItem,
   SimpleMenu,
-  IconButton,
+  ActionButton,
   Typography,
   PlainList,
 } from "ol-components"
@@ -58,14 +58,14 @@ const EditUserListMenu: React.FC<EditUserListMenuProps> = ({ userList }) => {
   return (
     <SimpleMenu
       trigger={
-        <IconButton
+        <ActionButton
           variant="text"
           color="secondary"
           size="small"
           aria-label={`Edit list ${userList.title}`}
         >
           <MoreVertIcon fontSize="inherit" />
-        </IconButton>
+        </ActionButton>
       }
       items={items}
     />

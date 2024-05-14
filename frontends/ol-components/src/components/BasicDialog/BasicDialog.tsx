@@ -3,9 +3,8 @@ import Dialog from "@mui/material/Dialog"
 import type { DialogProps } from "@mui/material/Dialog"
 import DialogContent from "@mui/material/DialogContent"
 import DialogTitle from "@mui/material/DialogTitle"
-import { Button } from "../Button/Button"
+import { Button, ActionButton } from "../Button/Button"
 import DialogActions from "@mui/material/DialogActions"
-import IconButton from "@mui/material/IconButton"
 import Close from "@mui/icons-material/Close"
 
 const topRightStyle: React.CSSProperties = {
@@ -84,9 +83,9 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
     >
       <DialogTitle>{title}</DialogTitle>
       <div style={topRightStyle}>
-        <IconButton onClick={onClose}>
+        <ActionButton variant="text" color="secondary" onClick={onClose}>
           <Close />
-        </IconButton>
+        </ActionButton>
       </div>
       <DialogContent>{children}</DialogContent>
       {showFooter && (

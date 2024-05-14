@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { Button, IconButton } from "../Button/Button"
+import { Button, ActionButton } from "../Button/Button"
 import type { ButtonProps } from "../Button/Button"
 import Dialog from "@mui/material/Dialog"
 import DialogActions from "@mui/material/DialogActions"
@@ -151,14 +151,14 @@ const FormDialog: React.FC<FormDialogProps> = ({
     >
       <DialogTitle>{title}</DialogTitle>
       <div style={topRightStyle}>
-        <IconButton
+        <ActionButton
           variant="text"
           color="secondary"
           onClick={onClose}
           aria-label="Close"
         >
           <Close />
-        </IconButton>
+        </ActionButton>
       </div>
       <DialogContent dividers={true}>{children}</DialogContent>
       <DialogActions>

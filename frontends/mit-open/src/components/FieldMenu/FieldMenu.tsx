@@ -1,10 +1,10 @@
 import React, { useMemo } from "react"
 import * as routes from "../../common/urls"
-import { SimpleMenu, IconButton, styled } from "ol-components"
+import { SimpleMenu, ActionButton, styled } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import SettingsIcon from "@mui/icons-material/Settings"
 
-const InvertedButton = styled(IconButton)({ color: "white" })
+const InvertedButton = styled(ActionButton)({ color: "white" })
 
 const FieldMenu: React.FC<{ channelType: string; name: string }> = ({
   channelType,

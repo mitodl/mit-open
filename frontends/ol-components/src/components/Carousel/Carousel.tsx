@@ -3,7 +3,7 @@ import NukaCarousel from "nuka-carousel"
 import { clamp } from "lodash"
 import type { CarouselProps as NukaCarouselProps } from "nuka-carousel"
 import styled from "@emotion/styled"
-import { IconButton } from "../Button/Button"
+import { ActionButton } from "../Button/Button"
 import Stack from "@mui/material/Stack"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 
@@ -102,7 +102,7 @@ const Carousel: React.FC<CarouselProps> = ({
         {children}
       </NukaCarouselStyled>
       <Stack direction="row" justifyContent="end" spacing={3} marginTop={3}>
-        <IconButton
+        <ActionButton
           size="small"
           edge="rounded"
           onClick={pageDown}
@@ -110,8 +110,8 @@ const Carousel: React.FC<CarouselProps> = ({
           aria-label="Previous"
         >
           <RiArrowLeftLine />
-        </IconButton>
-        <IconButton
+        </ActionButton>
+        <ActionButton
           size="small"
           edge="rounded"
           onClick={pageUp}
@@ -119,7 +119,7 @@ const Carousel: React.FC<CarouselProps> = ({
           aria-label="Next"
         >
           <RiArrowRightLine />
-        </IconButton>
+        </ActionButton>
       </Stack>
     </ContainerComponent>
   )
