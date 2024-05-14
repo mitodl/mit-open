@@ -15,7 +15,7 @@ const setMockApiResponses = ({
 }) => {
   const field = factories.fields.field(fieldPatch)
   const urlParams = new URLSearchParams(fieldPatch?.search_filter)
-  const subscribeParams: Record<string, string[]> = {}
+  const subscribeParams: Record<string, string[] | string> = {}
   for (const [key, value] of urlParams.entries()) {
     subscribeParams[key] = value.split(",")
   }
