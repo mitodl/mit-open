@@ -66,3 +66,12 @@ export const DASHBOARD = "/dashboard/"
 export const SEARCH = "/search/"
 
 export const RESOURCE_DRAWER_QUERY_PARAM = "resource"
+
+export const querifiedSearchUrl = (
+  params:
+    | string
+    | string[][]
+    | URLSearchParams
+    | Record<string, string>
+    | undefined,
+) => `${SEARCH}?${new URLSearchParams(params).toString()}`
