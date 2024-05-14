@@ -1,7 +1,7 @@
 """Serializers for opensearch data"""
 
 import logging
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 from decimal import Decimal
 from typing import TypedDict
 
@@ -142,6 +142,17 @@ class ArrayWrappedBoolean(serializers.BooleanField):
             return data
         else:
             return [data]
+
+
+class DisplayChoiceField(serializers.ChoiceField):
+    def __init__(self, *args, **kwargs):
+        choices = kwargs.get("choices")
+        self._choices = OrderedDict(choices)
+        super().__init__(*args, **kwargs)
+
+    def to_representation(self, obj):
+        """Use while retrieving value for the field."""
+        return self._choices[obj]
 
 
 CONTENT_FILE_SORTBY_OPTIONS = [
