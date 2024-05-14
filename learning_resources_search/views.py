@@ -87,11 +87,11 @@ class LearningResourcesSearchView(ESView):
 
 @extend_schema_view(
     get=extend_schema(
-        parameters=[LearningResourcesSearchRequestSerializer()],
+        parameters=[PercolateQuerySubscriptionRequestSerializer()],
         responses=PercolateQuerySerializer(),
     ),
     post=extend_schema(
-        request=LearningResourcesSearchRequestSerializer(),
+        request=PercolateQuerySubscriptionRequestSerializer(),
         responses=PercolateQuerySerializer(),
     ),
 )
@@ -106,8 +106,8 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
 
     @extend_schema(
         summary="List subscribed queries",
-        parameters=[LearningResourcesSearchRequestSerializer],
-        request=LearningResourcesSearchRequestSerializer(),
+        parameters=[PercolateQuerySubscriptionRequestSerializer],
+        request=PercolateQuerySubscriptionRequestSerializer(),
         responses=PercolateQuerySerializer(many=True),
     )
     def list(self, request, *args, **kwargs):
@@ -168,7 +168,6 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
         request=PercolateQuerySubscriptionRequestSerializer(),
         responses=PercolateQuerySerializer(),
     )
-    @action(detail=False, methods=["post"], name="Subscribe user to query")
     @action(detail=False, methods=["POST"], name="Subscribe user to query")
     def subscribe(self, request, *args, **kwargs):  # noqa: ARG002
         """

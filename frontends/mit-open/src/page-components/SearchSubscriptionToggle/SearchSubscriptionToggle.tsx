@@ -9,14 +9,17 @@ import { Button, SimpleMenu } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp"
 import { useUserMe } from "api/hooks/user"
+import { SourceTypeEnum } from "api"
 
 const SearchSubscriptionToggle = ({
   searchParams,
+  sourceType,
 }: {
   searchParams: URLSearchParams
+  sourceType: SourceTypeEnum
 }) => {
   const subscribeParams: Record<string, string[]> = useMemo(() => {
-    const params: Record<string, string[]> = {}
+    const params: Record<string, string[]> = { source_type: sourceType }
     for (const [key] of searchParams.entries()) {
       const paramValues = searchParams.getAll(key)
       const finalparams = paramValues.map((p) => {
@@ -25,7 +28,7 @@ const SearchSubscriptionToggle = ({
       params[key] = finalparams.flat()
     }
     return params
-  }, [searchParams])
+  }, [searchParams, sourceType])
 
   const { data: user } = useUserMe()
   const subscriptionDelete = useSearchSubscriptionDelete()
@@ -68,7 +71,7 @@ const SearchSubscriptionToggle = ({
       disabled={subscriptionCreate.isLoading}
       onClick={() =>
         subscriptionCreate.mutateAsync({
-          LearningResourcesSearchRequestRequest: subscribeParams,
+          PercolateQuerySubscriptionRequestRequest: subscribeParams,
         })
       }
     >
