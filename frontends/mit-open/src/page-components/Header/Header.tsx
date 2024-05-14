@@ -131,6 +131,7 @@ const Header: FunctionComponent = () => {
 
   const toggler = (event: React.MouseEvent) => {
     if (!resourceDrawerOpen) {
+      // This is done to prevent ClickAwayHandler from closing the drawer upon open
       event.stopPropagation()
     }
     toggleDrawer(!drawerOpen)
