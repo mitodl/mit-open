@@ -18,8 +18,10 @@ const SearchSubscriptionToggle = ({
   searchParams: URLSearchParams
   sourceType: SourceTypeEnum
 }) => {
-  const subscribeParams: Record<string, string[]> = useMemo(() => {
-    const params: Record<string, string[]> = { source_type: sourceType }
+  const subscribeParams: Record<string, string[] | string> = useMemo(() => {
+    const params: Record<string, string[] | string> = {
+      source_type: sourceType,
+    }
     for (const [key] of searchParams.entries()) {
       const paramValues = searchParams.getAll(key)
       const finalparams = paramValues.map((p) => {
