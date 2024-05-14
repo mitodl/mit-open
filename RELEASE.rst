@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.12
+Version 0.9.12 (Released May 14, 2024)
 --------------
 
 - use neue-haas-grotesk font (#889)
