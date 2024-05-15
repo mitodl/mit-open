@@ -5,7 +5,7 @@
  * mocking requests during tests.
  */
 
-import type { NewsEventsApiNewsEventsListRequest } from "../generated/v0"
+import type { NewsEventsApiNewsEventsListRequest, TestimonialsApi } from "../generated/v0"
 import type {
   LearningResourcesApi as LRApi,
   FeaturedApi,
@@ -21,6 +21,7 @@ import type {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LearningResourcesSearchRequest,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
+import type { BaseAPI as BaseAPIv0 } from "../generated/v0/base"
 
 // OpenAPI Generator declares parameters using interfaces, which makes passing
 // them to functions a little annoying.
@@ -49,6 +50,10 @@ type Callable = (...args: any[]) => void
 type Params<API extends BaseAPI, K extends keyof API> = API[K] extends Callable
   ? Parameters<API[K]>[0]
   : never
+type Paramsv0<
+  API extends BaseAPIv0,
+  K extends keyof API,
+> = API[K] extends Callable ? Parameters<API[K]>[0] : never
 
 const learningResources = {
   list: (params?: Params<LRApi, "learningResourcesList">) =>
@@ -153,6 +158,12 @@ const programLetters = {
   details: (id: string) => `/api/v1/program_letters/${id}/`,
 }
 
+const testimonials = {
+  list: (params?: Paramsv0<TestimonialsApi, "testimonialsList">) =>
+    `/api/v0/testimonials/${query(params)}`,
+  details: (id: number) => `/api/v0/testimonials/${id}/`,
+}
+
 const search = {
   resources: (params?: LearningResourcesSearchRequest) =>
     `/api/v1/learning_resources_search/${queryify(params)}`,
@@ -184,4 +195,5 @@ export {
   schools,
   departments,
   newsEvents,
+  testimonials,
 }
