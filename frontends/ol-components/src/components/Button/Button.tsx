@@ -36,7 +36,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     {
       color: theme.palette.text.primary,
       // display
-      display: "flex",
+      display: "inline-flex",
       justifyContent: "center",
       alignItems: "center",
       // transitions
@@ -187,7 +187,7 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
   </LinkStyled>
 )
 
-const iconButtonDefaultProps: Required<
+const ActionButtonDefaultProps: Required<
   Omit<ButtonStyleProps, "startIcon" | "endIcon">
 > = {
   variant: "filled",
@@ -196,10 +196,14 @@ const iconButtonDefaultProps: Required<
   color: "primary",
 }
 
-type IconButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
+type ActionButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
   React.ComponentProps<"button">
-const IconButton = styled(ButtonStyled)((props: IconButtonProps) => {
-  const { size = iconButtonDefaultProps.size } = props
+const ActionButton = styled(
+  React.forwardRef<HTMLButtonElement, ActionButtonProps>((props, ref) => (
+    <ButtonStyled ref={ref} type="button" {...props} />
+  )),
+)((props: ActionButtonProps) => {
+  const { size = ActionButtonDefaultProps.size } = props
   return {
     padding: 0,
     width: {
@@ -219,5 +223,5 @@ const IconButton = styled(ButtonStyled)((props: IconButtonProps) => {
   }
 })
 
-export { Button, ButtonLink, IconButton }
+export { Button, ButtonLink, ActionButton }
 export type { ButtonProps, ButtonLinkProps }

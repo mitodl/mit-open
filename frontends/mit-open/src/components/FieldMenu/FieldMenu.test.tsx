@@ -6,6 +6,7 @@ import FieldMenu from "./FieldMenu"
 import { urls } from "api/test-utils"
 import { setMockResponse, user } from "../../test-utils"
 import { fields as factory } from "api/test-utils/factories"
+import { ThemeProvider } from "ol-components"
 
 describe("FieldMenu", () => {
   it("Includes links to field management and widget management", async () => {
@@ -19,6 +20,7 @@ describe("FieldMenu", () => {
       <BrowserRouter>
         <FieldMenu channelType={field.channel_type} name={field.name} />
       </BrowserRouter>,
+      { wrapper: ThemeProvider },
     )
     const dropdown = await screen.findByRole("button")
     await user.click(dropdown)

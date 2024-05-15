@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useMemo } from "react"
 import Drawer from "@mui/material/Drawer"
 import type { DrawerProps } from "@mui/material/Drawer"
 import ClickAwayListener from "@mui/material/ClickAwayListener"
-import IconButton from "@mui/material/IconButton"
-import CloseIcon from "@mui/icons-material/Close"
+import { ActionButton } from "../Button/Button"
+import { RiCloseLine } from "@remixicon/react"
 import { useSearchParams } from "react-router-dom"
 import { useToggle } from "ol-utilities"
 
@@ -77,14 +77,16 @@ const RoutedDrawer = <K extends string, R extends K = K>(
                 params: childParams as Record<K, string>,
                 closeDrawer: setOpen.off,
               })}
-            <IconButton
-              sx={closeSx}
+            <ActionButton
+              style={closeSx}
+              variant="text"
+              color="secondary"
               size="small"
               onClick={setOpen.off}
               aria-label="Close"
             >
-              <CloseIcon fontSize="large" />
-            </IconButton>
+              <RiCloseLine />
+            </ActionButton>
           </>
         }
       </Drawer>

@@ -1,6 +1,6 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { Button, IconButton, ButtonLink } from "./Button"
+import { Button, ActionButton, ButtonLink } from "./Button"
 import Grid from "@mui/material/Grid"
 import Stack from "@mui/material/Stack"
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
@@ -163,18 +163,18 @@ export const WithIconStory: Story = {
 export const IconOnlyStory: Story = {
   render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <IconButton {...args}>
+      <ActionButton {...args}>
         <ArrowBackIcon />
-      </IconButton>
-      <IconButton {...args}>
+      </ActionButton>
+      <ActionButton {...args}>
         <ArrowForwardIcon />
-      </IconButton>
-      <IconButton {...args} variant="outlined">
+      </ActionButton>
+      <ActionButton {...args} variant="outlined">
         <DeleteIcon />
-      </IconButton>
-      <IconButton {...args} variant="outlined" edge="rounded">
+      </ActionButton>
+      <ActionButton {...args} variant="outlined" edge="rounded">
         <EditIcon />
-      </IconButton>
+      </ActionButton>
     </Stack>
   ),
 }
@@ -255,7 +255,7 @@ const ICONS = [
     key: "forward",
   },
 ]
-export const IconButtonsShowcase: Story = {
+export const ActionButtonsShowcase: Story = {
   render: () => (
     <>
       {VARIANTS.flatMap((variant) =>
@@ -271,7 +271,7 @@ export const IconButtonsShowcase: Story = {
               {SIZES.map((size) => (
                 <React.Fragment key={size}>
                   {ICONS.map((icon) => (
-                    <IconButton
+                    <ActionButton
                       key={icon.key}
                       variant={variant}
                       edge={edge}
@@ -279,7 +279,7 @@ export const IconButtonsShowcase: Story = {
                       color={color}
                     >
                       {icon.component}
-                    </IconButton>
+                    </ActionButton>
                   ))}
                 </React.Fragment>
               ))}

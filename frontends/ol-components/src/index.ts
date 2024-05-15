@@ -19,8 +19,9 @@ export type { BadgeProps } from "@mui/material/Badge"
 export { default as AppBar } from "@mui/material/AppBar"
 export type { AppBarProps } from "@mui/material/AppBar"
 
-export { Button } from "./components/Button/Button"
-export type { ButtonProps } from "./components/Button/Button"
+export { Button, ActionButton, ButtonLink } from "./components/Button/Button"
+
+export type { ButtonProps, ButtonLinkProps } from "./components/Button/Button"
 
 export { default as Card } from "@mui/material/Card"
 export type { CardProps } from "@mui/material/Card"
@@ -60,8 +61,6 @@ export type { DrawerProps } from "@mui/material/Drawer"
 
 export { default as Grid } from "@mui/material/Grid"
 export type { GridProps } from "@mui/material/Grid"
-export { default as IconButton } from "@mui/material/IconButton"
-export type { IconButtonProps } from "@mui/material/IconButton"
 export { default as InputLabel } from "@mui/material/InputLabel"
 
 export { default as List } from "@mui/material/List"
@@ -121,7 +120,6 @@ export { default as MenuItem } from "@mui/material/MenuItem"
 export * from "./components/Alert/Alert"
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
-export * from "./components/ButtonLink/ButtonLink"
 export * from "./components/Chips/ChipLink"
 export * from "./components/EmbedlyCard/EmbedlyCard"
 export * from "./components/FormDialog/FormDialog"
