@@ -124,12 +124,14 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
       marginRight: "-4px",
     },
     {
-      "& .MuiSvgIcon-root": {
+      "& svg, & .MuiSvgIcon-root": {
+        width: "1em",
+        height: "1em",
         fontSize: pxToRem(
           {
-            small: 20,
-            medium: 24,
-            large: 32,
+            small: 16,
+            medium: 20,
+            large: 24,
           }[size],
         ),
       },
@@ -244,12 +246,14 @@ const ActionButton = styled(
       medium: "40px",
       large: "48px",
     }[size],
-    "& .MuiSvgIcon-root": {
+    "& svg, & .MuiSvgIcon-root": {
+      width: "1em",
+      height: "1em",
       fontSize: pxToRem(
         {
-          small: 16,
-          medium: 20,
-          large: 24,
+          small: 20,
+          medium: 24,
+          large: 32,
         }[size],
       ),
     },
