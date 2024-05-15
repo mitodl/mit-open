@@ -129,6 +129,14 @@ const LoggedInView: FunctionComponent = () => {
   )
 }
 
+const UserView: FunctionComponent = () => {
+  const { isLoading, data: user } = useUserMe()
+  if (isLoading) {
+    return null
+  }
+  return user?.is_authenticated ? <LoggedInView /> : <LoggedOutView />
+}
+
 const navData: NavData = {
   sections: [
     {
@@ -208,11 +216,6 @@ const Header: FunctionComponent = () => {
   const [drawerOpen, toggleDrawer] = useToggle(false)
   const [searchParams] = useSearchParams()
   const resourceDrawerOpen = searchParams.has(RESOURCE_DRAWER_QUERY_PARAM)
-  const { isLoading, data: user } = useUserMe()
-
-  if (isLoading) {
-    return null
-  }
 
   const toggler = (event: React.MouseEvent) => {
     if (!resourceDrawerOpen) {
@@ -242,7 +245,7 @@ const Header: FunctionComponent = () => {
             <LogoLink />
           </MobileOnly>
           <Spacer />
-          {user?.is_authenticated ? <LoggedInView /> : <LoggedOutView />}
+          <UserView />
         </StyledToolbar>
       </Bar>
       <ClickAwayListener onClickAway={closeDrawer}>

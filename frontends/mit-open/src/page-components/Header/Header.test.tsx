@@ -16,7 +16,7 @@ describe("Header", () => {
     setMockResponse.get(urls.userMe.get(), {})
     renderWithProviders(<Header />)
     const header = screen.getByRole("banner")
-    within(header).getByTitle("MIT Homepage", { exact: false })
+    within(header).getAllByTitle("Link to Homepage", { exact: false })
   })
 })
 
