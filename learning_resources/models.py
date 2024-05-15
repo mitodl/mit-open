@@ -19,6 +19,11 @@ from learning_resources.constants import (
 from main.models import TimestampedModel
 
 
+def default_learning_format():
+    """Return the default learning format list"""
+    return [LearningResourceFormat.online.name]
+
+
 class LearningResourcePlatform(TimestampedModel):
     """Platforms for all learning resources"""
 
@@ -180,7 +185,7 @@ class LearningResource(TimestampedModel):
     )
     learning_format = ArrayField(
         models.CharField(max_length=24, db_index=True),
-        default=[LearningResourceFormat.online.name],
+        default=default_learning_format,
     )
     platform = models.ForeignKey(
         LearningResourcePlatform,
