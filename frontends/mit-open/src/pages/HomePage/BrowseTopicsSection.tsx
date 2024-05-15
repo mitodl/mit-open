@@ -9,17 +9,18 @@ import {
   RiMacbookLine,
   RiBarChartBoxLine,
   RiUserSearchLine,
-  RiArrowRightSLine,
+  RiEarthLine,
 } from "@remixicon/react"
 
+/* TODO Using any icons until we have a solution for specifying them */
 const ICONS = [
+  RiBriefcaseLine,
   RiPaletteLine,
   RiSeedlingLine,
-  RiBriefcaseLine,
   RiMacbookLine,
   RiBarChartBoxLine,
   RiUserSearchLine,
-  RiArrowRightSLine,
+  RiEarthLine,
 ]
 
 const Section = styled.section`
@@ -29,7 +30,7 @@ const Section = styled.section`
       no-repeat;
   background-position: center right;
   padding: 80px 0;
-  ${({ theme }) => theme.breakpoints.down("md")} {
+  ${theme.breakpoints.down("md")} {
     padding: 40px 0;
   }
 `
@@ -43,7 +44,7 @@ const Topics = styled.div`
   flex-wrap: wrap;
   gap: 16px 24px;
   margin: 40px 0;
-  ${({ theme }) => theme.breakpoints.down("md")} {
+  ${theme.breakpoints.down("md")} {
     gap: 5px;
     margin: 24px 0;
   }
@@ -52,7 +53,7 @@ const Topics = styled.div`
 const TopicBox = styled(Link)`
   flex: 0 1 calc(100% * (1 / 3) - 16px);
   padding: 28px 30px;
-  ${({ theme }) => theme.breakpoints.down("md")} {
+  ${theme.breakpoints.down("md")} {
     flex: 0 1 100%;
     padding: 18px 15px;
   }
@@ -72,11 +73,10 @@ const TopicBoxContent = styled.div`
     flex: 0 0 20px;
   }
 
-  font-weight: 500;
-  font-size: ${theme.typography.pxToRem(16)};
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    font-size: ${theme.typography.pxToRem(14)};
-  }
+  ${{
+    ...theme.typography.subtitle1,
+    [theme.breakpoints.down("md")]: theme.typography.subtitle2,
+  }}
 `
 
 const TopicBoxName = styled.p`
