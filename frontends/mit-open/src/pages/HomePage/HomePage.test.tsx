@@ -99,32 +99,9 @@ describe("Home Page Carousel", () => {
 
 describe("Home Page Browse by Topics", () => {
   test("Displays topics links", async () => {
+    const response = factory.topics({ count: 3 })
+    setMockResponse.get(urls.topics.list({ is_toplevel: true }), response)
     setMockResponse.get(urls.userMe.get(), {})
-    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
-      count: 3,
-      next: null,
-      previous: null,
-      results: [
-        {
-          id: 9,
-          name: "Business",
-          parent: null,
-          channel_url: "https://mitopen.odl.mit.edu/c/topic/business/",
-        },
-        {
-          id: 335,
-          name: "Communications",
-          parent: null,
-          channel_url: "https://mitopen.odl.mit.edu/c/topic/communications/",
-        },
-        {
-          id: 119,
-          name: "Energy",
-          parent: null,
-          channel_url: "https://mitopen.odl.mit.edu/c/topic/energy/",
-        },
-      ],
-    })
 
     setup()
 
@@ -136,17 +113,14 @@ describe("Home Page Browse by Topics", () => {
         .closest("section")!
 
       const links = within(section).getAllByRole("link")
-
       assertLinksTo(links[0], {
-        pathname: "/c/topic/business/",
+        pathname: new URL(response.results[0].channel_url!).pathname,
       })
-
       assertLinksTo(links[1], {
-        pathname: "/c/topic/communications/",
+        pathname: new URL(response.results[1].channel_url!).pathname,
       })
-
       assertLinksTo(links[2], {
-        pathname: "/c/topic/energy/",
+        pathname: new URL(response.results[2].channel_url!).pathname,
       })
     })
   })
