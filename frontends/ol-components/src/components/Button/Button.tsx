@@ -167,6 +167,9 @@ const ButtonInner: React.FC<
   )
 }
 
+/**
+ * Our styled button. If you need a link that looks like a button, use ButtonLink
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, ...props }, ref) => (
     <ButtonStyled ref={ref} type="button" {...props}>
@@ -223,6 +226,11 @@ const ActionButtonDefaultProps: Required<
 
 type ActionButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
   React.ComponentProps<"button">
+
+/**
+ * A button that should contain a remixicon icon and nothing else.
+ * For a variant that functions as a link, see ActionButtonLink.
+ */
 const ActionButton = styled(
   React.forwardRef<HTMLButtonElement, ActionButtonProps>((props, ref) => (
     <ButtonStyled ref={ref} type="button" {...props} />
