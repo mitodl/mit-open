@@ -20,6 +20,9 @@ const pageCss = css`
   #app-container {
     height: 100vh;
     margin-top: 80px;
+    ${theme.breakpoints.down("sm")} {
+      margin-top: 60px;
+    }
   }
 
   a {

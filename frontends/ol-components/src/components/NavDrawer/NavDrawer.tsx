@@ -8,6 +8,9 @@ const DrawerContent = styled.div(({ theme }) => ({
   height: "100%",
   background: theme.custom.colors.white,
   borderRight: `1px solid ${theme.custom.colors.lightGray2}`,
+  [theme.breakpoints.down("sm")]: {
+    height: "60px",
+  },
 }))
 
 const NavSection = styled.div(({ theme }) => ({

@@ -23,16 +23,19 @@ import {
 import { useSearchParams } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 
-const Bar = styled(AppBar)`
-  height: 80px;
-  padding: 0 8px;
-  z-index: ${({ theme }) => theme.zIndex.drawer + 1};
-  background-color: ${({ theme }) => theme.custom.colors.white};
-  color: ${({ theme }) => theme.custom.colors.black};
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 2px 10px rgba(120 169 197 / 15%);
-`
+const Bar = styled(AppBar)(({ theme }) => ({
+  height: "80px",
+  padding: "0 8px",
+  zIndex: theme.zIndex.drawer + 1,
+  backgroundColor: theme.custom.colors.white,
+  color: theme.custom.colors.darkGray1,
+  display: "flex",
+  flexDirection: "column",
+  boxShadow: "0 2px 10px rgba(120 169 197 / 15%)",
+  [theme.breakpoints.down("sm")]: {
+    height: "60px",
+  },
+}))
 
 const FlexContainer = styled.div({
   display: "flex",
