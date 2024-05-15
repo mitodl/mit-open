@@ -1,8 +1,8 @@
-import { Button, styled } from "ol-components"
-import MenuIcon from "@mui/icons-material/Menu"
+import { ActionButton, Button, styled } from "ol-components"
+import { RiMenuLine } from "@remixicon/react"
 import React from "react"
 
-const StyledMenuIcon = styled(MenuIcon)(({ theme }) => ({
+const MenuIcon = styled(RiMenuLine)(({ theme }) => ({
   color: theme.custom.colors.darkGray1,
 }))
 
@@ -39,7 +39,9 @@ interface MenuButtonProps {
 const MenuButton: React.FC<MenuButtonProps> = ({ text, onClick }) => (
   <StyledMenuButton onClick={onClick}>
     <MenuButtonInner>
-      <StyledMenuIcon />
+      <ActionButton variant="text">
+        <MenuIcon />
+      </ActionButton>
       {text ? <MenuButtonText>{text}</MenuButtonText> : ""}
     </MenuButtonInner>
   </StyledMenuButton>

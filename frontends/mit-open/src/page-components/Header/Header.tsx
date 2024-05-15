@@ -7,6 +7,7 @@ import {
   NavDrawer,
   Toolbar,
   ClickAwayListener,
+  ActionButtonLink,
 } from "ol-components"
 import { RiSearch2Line } from "@remixicon/react"
 import { MITLogoLink, useToggle } from "ol-utilities"
@@ -95,11 +96,14 @@ const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
 
 const SearchButton: FunctionComponent = () => {
   return (
-    <a href={SEARCH}>
-      <FlexContainer>
-        <StyledSearchIcon />
-      </FlexContainer>
-    </a>
+    <ActionButtonLink
+      edge="rounded"
+      variant="text"
+      nativeAnchor={true}
+      href={SEARCH}
+    >
+      <StyledSearchIcon />
+    </ActionButtonLink>
   )
 }
 

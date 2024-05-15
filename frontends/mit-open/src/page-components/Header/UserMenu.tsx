@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Button, SimpleMenu, styled } from "ol-components"
+import { ActionButtonLink, ButtonLink, SimpleMenu, styled } from "ol-components"
 import type { MenuOverrideProps, SimpleMenuItem } from "ol-components"
 import * as urls from "@/common/urls"
 import {
@@ -25,7 +25,7 @@ const UserMenuContainer = styled.button({
   font: "inherit",
 })
 
-const LoginLink = styled.a(({ theme }) => ({
+const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
   paddingRight: "32px",
   "&:hover": {
     textDecoration: "none",
@@ -142,16 +142,28 @@ const UserMenu: React.FC = () => {
     )
   } else {
     return (
-      <LoginLink href={LOGIN}>
+      <LoginButtonContainer>
         <FlexContainer className="login-button-desktop">
-          <Button edge="rounded" size="small">
+          <ButtonLink
+            edge="rounded"
+            size="small"
+            nativeAnchor={true}
+            href={LOGIN}
+          >
             Sign Up / Login
-          </Button>
+          </ButtonLink>
         </FlexContainer>
         <FlexContainer className="login-button-mobile">
-          <UserIcon data-testid="UserIcon" />
+          <ActionButtonLink
+            edge="rounded"
+            variant="text"
+            nativeAnchor={true}
+            href={LOGIN}
+          >
+            <UserIcon data-testid="UserIcon" />
+          </ActionButtonLink>
         </FlexContainer>
-      </LoginLink>
+      </LoginButtonContainer>
     )
   }
 }

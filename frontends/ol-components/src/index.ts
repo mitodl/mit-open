@@ -19,7 +19,12 @@ export type { BadgeProps } from "@mui/material/Badge"
 export { default as AppBar } from "@mui/material/AppBar"
 export type { AppBarProps } from "@mui/material/AppBar"
 
-export { Button, ActionButton, ButtonLink } from "./components/Button/Button"
+export {
+  Button,
+  ActionButton,
+  ActionButtonLink,
+  ButtonLink,
+} from "./components/Button/Button"
 
 export type { ButtonProps, ButtonLinkProps } from "./components/Button/Button"
 
