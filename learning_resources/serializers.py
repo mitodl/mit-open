@@ -113,7 +113,7 @@ class LearningResourceContentTagField(serializers.Field):
 
     def to_representation(self, value):
         """Serialize content tags as a list of names"""
-        return [tag.name for tag in value.all()]
+        return sorted([tag.name for tag in value.all()])
 
 
 class LearningResourcePlatformSerializer(serializers.ModelSerializer):
