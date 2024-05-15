@@ -19,6 +19,7 @@ import {
   UsersApi,
   NewsEventsApi,
   ProfilesApi,
+  TestimonialsApi,
 } from "./generated/v0/api"
 
 import axiosInstance from "./axios"
@@ -77,6 +78,7 @@ const profilesApi = new ProfilesApi(undefined, BASE_PATH, axiosInstance)
 const schoolsApi = new SchoolsApi(undefined, BASE_PATH, axiosInstance)
 
 const newsEventsApi = new NewsEventsApi(undefined, BASE_PATH, axiosInstance)
+const testimonialsApi = new TestimonialsApi(undefined, BASE_PATH, axiosInstance)
 
 export {
   learningResourcesApi,
@@ -96,4 +98,5 @@ export {
   schoolsApi,
   newsEventsApi,
   featuredApi,
+  testimonialsApi,
 }
