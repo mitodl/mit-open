@@ -1,6 +1,7 @@
 """Indexing tasks"""
 
 import datetime
+import itertools
 import logging
 from collections import OrderedDict
 from contextlib import contextmanager
@@ -123,6 +124,49 @@ def _infer_percolate_group(percolate_query):
     return None
 
 
+def _group_percolated_rows(rows):
+    def key_func(x):
+        return (x["user_id"], x["group"])
+
+    grouped_data = {}
+    for key, group in itertools.groupby(rows, key_func):
+        context = list(group)
+        if key[0] not in grouped_data:
+            grouped_data[key[0]] = {key[1]: context}
+        if key[1] not in grouped_data[key[0]]:
+            grouped_data[key[0]][key[1]] = context
+        else:
+            grouped_data[key[0]][key[1]].extend(context)
+    return grouped_data
+
+
+def _get_percolated_rows(resources, subscription_type):
+    rows = []
+    all_users = set()
+    # percolate each new learning resource to get matching queries
+    for resource in resources:
+        percolated = percolate_matches_for_document(resource.id).filter(
+            source_type=subscription_type
+        )
+        if percolated.count() > 0:
+            percolated_users = list(percolated.values_list("users", flat=True))
+            all_users.update(percolated_users)
+            query = percolated.first()
+            rows.extend(
+                [
+                    {
+                        "resource": resource,
+                        "user_id": user,
+                        "query": query,
+                        "group": _infer_percolate_group(query),
+                    }
+                    for user in percolated_users
+                ]
+            )
+
+    return rows
+
+
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
 def send_subscription_emails(subscription_type, period="daily"):
     delta = datetime.timedelta(days=1)
@@ -132,44 +176,15 @@ def send_subscription_emails(subscription_type, period="daily"):
     new_learning_resources = LearningResource.objects.filter(
         published=True, created_on__gt=since
     )
-    document_user_map = {}
-    all_users = set()
-    # percolate each new learning resource to get matching queries
-    for resource in new_learning_resources:
-        percolated = percolate_matches_for_document(resource.id).filter(
-            source_type=subscription_type
-        )
-        if percolated.count() > 0:
-            percolated_users = list(percolated.values_list("users", flat=True))
-            document_user_map[resource.id] = {
-                "users": percolated_users,
-                "group_name": _infer_percolate_group(percolated.first()),
-            }
-            all_users.update(percolated_users)
-    users = User.objects.filter(id__in=all_users)
-    for user in users:
-        percolated_for_user = []
-        # assemble list of matching documents for each user
-        doc_ids = [
-            document_id
-            for document_id in document_user_map
-            if user.id in document_user_map[document_id]["users"]
-        ]
-        percolated_for_user = new_learning_resources.filter(id__in=doc_ids)
-        user_documents = {}
-        # group documents by section for the email
-        for learning_resource in percolated_for_user:
-            group = document_user_map[learning_resource.id]["group_name"]
-            if group:
-                if group in user_documents:
-                    user_documents[group].append(learning_resource)
-                else:
-                    user_documents[group] = [learning_resource]
+    rows = _get_percolated_rows(new_learning_resources, subscription_type)
+    template_data = _group_percolated_rows(rows)
+    for user_id in template_data:
+        user = User.objects.get(id=user_id)
         send_template_email(
             [user.email],
             f"Your {period} subscription matches",
             "email/subscribed_channel_digest.html",
-            context={"documents": user_documents},
+            context={"documents": template_data[user_id]},
         )
 
 
