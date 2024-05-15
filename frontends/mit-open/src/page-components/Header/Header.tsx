@@ -7,7 +7,6 @@ import {
   NavDrawer,
   Toolbar,
   ClickAwayListener,
-  Button,
 } from "ol-components"
 import { RiSearch2Line } from "@remixicon/react"
 import { MITLogoLink, useToggle } from "ol-utilities"
@@ -15,7 +14,6 @@ import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
 import {
   DEPARTMENTS,
-  LOGIN,
   RESOURCE_DRAWER_QUERY_PARAM,
   SEARCH,
   querifiedSearchUrl,
@@ -34,6 +32,7 @@ const Bar = styled(AppBar)(({ theme }) => ({
   boxShadow: "0 2px 10px rgba(120 169 197 / 15%)",
   [theme.breakpoints.down("sm")]: {
     height: "60px",
+    padding: "0",
   },
 }))
 
@@ -42,24 +41,47 @@ const FlexContainer = styled.div({
   alignItems: "center",
 })
 
+const LeftContainer = styled(FlexContainer)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "row-reverse",
+  },
+}))
+
+const RightContainer = styled(FlexContainer)(({ theme }) => ({
+  [theme.breakpoints.up("sm")]: {
+    ".logged-out-right-divider": {
+      display: "none",
+    },
+  },
+}))
+
 const StyledToolbar = styled(Toolbar)({
   flex: 1,
 })
 
-const LogoLink = styled(MITLogoLink)({
+const LogoLink = styled(MITLogoLink)(({ theme }) => ({
   img: {
     width: 109,
     height: 40,
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: "16px",
+    },
   },
-})
+}))
 
-const LeftDivider = styled(Divider)({
+const LeftDivider = styled(Divider)(({ theme }) => ({
   margin: "0 24px",
-})
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+}))
 
-const RightDivider = styled(Divider)({
+const RightDivider = styled(Divider)(({ theme }) => ({
   margin: "0 32px",
-})
+  [theme.breakpoints.down("sm")]: {
+    margin: "0 16px",
+  },
+}))
 
 const Spacer = styled.div`
   flex: 1;
@@ -80,33 +102,27 @@ const SearchButton: FunctionComponent = () => {
   )
 }
 
-const LoginButtonContainer = styled.a({
-  paddingRight: "32px",
-  "&:hover": {
-    textDecoration: "none",
-  },
-})
-
 const LoggedOutView: FunctionComponent = () => {
   return (
-    <FlexContainer>
-      <LoginButtonContainer href={LOGIN}>
-        <Button edge="rounded" size="small">
-          Sign Up / Login
-        </Button>
-      </LoginButtonContainer>
+    <RightContainer>
+      <UserMenu />
+      <RightDivider
+        className="logged-out-right-divider"
+        orientation="vertical"
+        flexItem
+      />
       <SearchButton />
-    </FlexContainer>
+    </RightContainer>
   )
 }
 
 const LoggedInView: FunctionComponent = () => {
   return (
-    <FlexContainer>
+    <RightContainer>
       <SearchButton />
       <RightDivider orientation="vertical" flexItem />
       <UserMenu />
-    </FlexContainer>
+    </RightContainer>
   )
 }
 
@@ -213,11 +229,11 @@ const Header: FunctionComponent = () => {
     <div>
       <Bar position="fixed">
         <StyledToolbar variant="dense">
-          <FlexContainer>
+          <LeftContainer>
             <LogoLink />
             <LeftDivider orientation="vertical" flexItem />
             <MenuButton text="Explore MIT" onClick={toggler} />
-          </FlexContainer>
+          </LeftContainer>
           <Spacer />
           {user?.is_authenticated ? <LoggedInView /> : <LoggedOutView />}
         </StyledToolbar>

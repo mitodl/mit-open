@@ -11,6 +11,9 @@ const MenuButtonText = styled.div(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
   paddingLeft: "16px",
   textTransform: "none",
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
   ...theme.typography.subtitle2,
 }))
 
