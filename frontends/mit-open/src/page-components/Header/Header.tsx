@@ -41,7 +41,7 @@ const FlexContainer = styled.div({
   alignItems: "center",
 })
 
-const LeftContainer = styled(FlexContainer)(({ theme }) => ({
+const FlexReverseMobile = styled(FlexContainer)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     flexDirection: "row-reverse",
   },
@@ -105,13 +105,15 @@ const SearchButton: FunctionComponent = () => {
 const LoggedOutView: FunctionComponent = () => {
   return (
     <RightContainer>
-      <UserMenu />
-      <RightDivider
-        className="logged-out-right-divider"
-        orientation="vertical"
-        flexItem
-      />
-      <SearchButton />
+      <FlexReverseMobile>
+        <UserMenu />
+        <RightDivider
+          className="logged-out-right-divider"
+          orientation="vertical"
+          flexItem
+        />
+        <SearchButton />
+      </FlexReverseMobile>
     </RightContainer>
   )
 }
@@ -229,11 +231,11 @@ const Header: FunctionComponent = () => {
     <div>
       <Bar position="fixed">
         <StyledToolbar variant="dense">
-          <LeftContainer>
+          <FlexReverseMobile>
             <LogoLink />
             <LeftDivider orientation="vertical" flexItem />
             <MenuButton text="Explore MIT" onClick={toggler} />
-          </LeftContainer>
+          </FlexReverseMobile>
           <Spacer />
           {user?.is_authenticated ? <LoggedInView /> : <LoggedOutView />}
         </StyledToolbar>
