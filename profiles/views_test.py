@@ -365,7 +365,10 @@ def test_letter_intercept_view_generates_program_letter(
         assert ProgramLetter.objects.filter(user=user).count() == 0
 
         response = client.get(
-            reverse("profile:program-letter-intercept", args=[micromasters_program_id])
+            reverse(
+                "profile:program-letter-intercept",
+                kwargs={"program_id": micromasters_program_id},
+            )
         )
         assert ProgramLetter.objects.filter(user=user).count() == 1
         letter_id = ProgramLetter.objects.get(user=user, certificate=cert).id
@@ -376,13 +379,16 @@ def test_letter_intercept_view_generates_program_letter(
         )
         ProgramLetterFactory(user=user, certificate=cert)
         response = client.get(
-            reverse("profile:program-letter-intercept", args=[micromasters_program_id])
+            reverse(
+                "profile:program-letter-intercept",
+                kwargs={"program_id": micromasters_program_id},
+            )
         )
         assert response.status_code == 302
 
 
 @pytest.mark.parametrize("is_anonymous", [True, False])
-def test_program_letter_api_view(mocker, client, user, is_anonymous, settings):
+def test_program_letter_api_view(mocker, client, rf, user, is_anonymous, settings):  # noqa: PLR0913
     """
     Test that the program letter display page is viewable by
     all users logged in or not
@@ -411,10 +417,16 @@ def test_program_letter_api_view(mocker, client, user, is_anonymous, settings):
         user_email=user.email, micromasters_program_id=micromasters_program_id
     )
     program_letter = ProgramLetterFactory(user=user, certificate=cert)
-    response = client.get(
-        reverse("lr:v1:program_letters_api-detail", args=[program_letter.id])
+    letter_url = reverse(
+        "profile:v1:program_letters_api-detail", args=[program_letter.id]
     )
-    assert response.data == ProgramLetterSerializer(instance=program_letter).data
+    response = client.get(letter_url)
+    assert (
+        response.data
+        == ProgramLetterSerializer(
+            instance=program_letter, context={"request": rf.get(letter_url)}
+        ).data
+    )
 
 
 @pytest.mark.parametrize("is_anonymous", [True, False])
@@ -427,7 +439,7 @@ def test_program_letter_api_view_returns_404_for_invalid_id(
     """
     response = client.get(
         reverse(
-            "lr:v1:program_letters_api-detail",
+            "profile:v1:program_letters_api-detail",
             args=["5de96fc0-449e-4668-be89-a119dbdcab799999"],
         )
     )

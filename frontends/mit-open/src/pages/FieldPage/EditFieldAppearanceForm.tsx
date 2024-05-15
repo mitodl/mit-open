@@ -4,7 +4,7 @@ import { useFormik } from "formik"
 import { RadioChoiceField, Button, TextField } from "ol-components"
 import * as Yup from "yup"
 
-import { ChannelTypeAe2Enum, FieldChannel } from "api/v0"
+import { ChannelTypeEnum, FieldChannel } from "api/v0"
 import { makeFieldViewPath } from "@/common/urls"
 import { useChannelPartialUpdate } from "api/hooks/fields"
 
@@ -39,7 +39,7 @@ const postSchema = Yup.object().shape({
     .default("")
     .required("Description is required."),
   channel_type: Yup.string()
-    .oneOf(Object.values(ChannelTypeAe2Enum))
+    .oneOf(Object.values(ChannelTypeEnum))
     .default("pathway")
     .required("Channel Type is required."),
 })

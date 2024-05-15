@@ -80,6 +80,7 @@ def base_field_data():
     """Base field channel data for serializers"""  # noqa: D401
     return {
         "name": "my_field_name",
+        "channel_type": ChannelType.pathway.name,
         "title": "my_title",
         "about": {"foo": "bar"},
         "public_description": "my desc",

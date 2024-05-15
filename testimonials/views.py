@@ -24,14 +24,6 @@ User = get_user_model()
         description="Retrieve a testimonial.",
         responses=AttestationSerializer(),
     ),
-    published=extend_schema(
-        summary="List published testimonials.",
-        description=(
-            "Published testimonials have a publish date of null or a"
-            " datetime that's in the past."
-        ),
-        responses=AttestationSerializer(),
-    ),
 )
 class AttestationViewSet(ReadOnlyModelViewSet):
     """Viewset for attestations."""
