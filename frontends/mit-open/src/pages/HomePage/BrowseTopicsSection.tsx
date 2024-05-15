@@ -1,7 +1,7 @@
 import React from "react"
 import { Container, styled, theme, Button, Typography } from "ol-components"
 import { Link } from "react-router-dom"
-import { useTopicsList } from "api/hooks/topics"
+import { useLearningResourceTopics } from "api/hooks/learningResources"
 import {
   RiPaletteLine,
   RiSeedlingLine,
@@ -93,7 +93,7 @@ const SeeAllButton = styled(Button)`
 `
 
 const BrowseTopicsSection: React.FC = () => {
-  const { data: topics } = useTopicsList({ is_toplevel: true })
+  const { data: topics } = useLearningResourceTopics({ is_toplevel: true })
 
   return (
     <Section>
