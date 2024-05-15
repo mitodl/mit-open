@@ -32,7 +32,7 @@ const StyledMenuButton = styled(Button)({
 })
 
 interface MenuButtonProps {
-  text: string
+  text?: string
   onClick: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
@@ -40,7 +40,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({ text, onClick }) => (
   <StyledMenuButton onClick={onClick}>
     <MenuButtonInner>
       <StyledMenuIcon />
-      <MenuButtonText>{text}</MenuButtonText>
+      {text ? <MenuButtonText>{text}</MenuButtonText> : ""}
     </MenuButtonInner>
   </StyledMenuButton>
 )

@@ -41,17 +41,21 @@ const FlexContainer = styled.div({
   alignItems: "center",
 })
 
-const FlexReverseMobile = styled(FlexContainer)(({ theme }) => ({
+const DesktopOnly = styled(FlexContainer)(({ theme }) => ({
+  [theme.breakpoints.up("sm")]: {
+    display: "flex",
+  },
   [theme.breakpoints.down("sm")]: {
-    flexDirection: "row-reverse",
+    display: "none",
   },
 }))
 
-const RightContainer = styled(FlexContainer)(({ theme }) => ({
+const MobileOnly = styled(FlexContainer)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    display: "flex",
+  },
   [theme.breakpoints.up("sm")]: {
-    ".logged-out-right-divider": {
-      display: "none",
-    },
+    display: "none",
   },
 }))
 
@@ -69,12 +73,9 @@ const LogoLink = styled(MITLogoLink)(({ theme }) => ({
   },
 }))
 
-const LeftDivider = styled(Divider)(({ theme }) => ({
+const LeftDivider = styled(Divider)({
   margin: "0 24px",
-  [theme.breakpoints.down("sm")]: {
-    display: "none",
-  },
-}))
+})
 
 const RightDivider = styled(Divider)(({ theme }) => ({
   margin: "0 32px",
@@ -104,27 +105,27 @@ const SearchButton: FunctionComponent = () => {
 
 const LoggedOutView: FunctionComponent = () => {
   return (
-    <RightContainer>
-      <FlexReverseMobile>
+    <FlexContainer>
+      <DesktopOnly>
         <UserMenu />
-        <RightDivider
-          className="logged-out-right-divider"
-          orientation="vertical"
-          flexItem
-        />
         <SearchButton />
-      </FlexReverseMobile>
-    </RightContainer>
+      </DesktopOnly>
+      <MobileOnly>
+        <SearchButton />
+        <RightDivider orientation="vertical" flexItem />
+        <UserMenu />
+      </MobileOnly>
+    </FlexContainer>
   )
 }
 
 const LoggedInView: FunctionComponent = () => {
   return (
-    <RightContainer>
+    <FlexContainer>
       <SearchButton />
       <RightDivider orientation="vertical" flexItem />
       <UserMenu />
-    </RightContainer>
+    </FlexContainer>
   )
 }
 
@@ -231,11 +232,15 @@ const Header: FunctionComponent = () => {
     <div>
       <Bar position="fixed">
         <StyledToolbar variant="dense">
-          <FlexReverseMobile>
+          <DesktopOnly>
             <LogoLink />
             <LeftDivider orientation="vertical" flexItem />
             <MenuButton text="Explore MIT" onClick={toggler} />
-          </FlexReverseMobile>
+          </DesktopOnly>
+          <MobileOnly>
+            <MenuButton onClick={toggler} />
+            <LogoLink />
+          </MobileOnly>
           <Spacer />
           {user?.is_authenticated ? <LoggedInView /> : <LoggedOutView />}
         </StyledToolbar>
