@@ -15,9 +15,14 @@ const FlexContainer = styled.div({
   alignItems: "center",
 })
 
-const UserMenuContainer = styled.div({
+const UserMenuContainer = styled.button({
   display: "flex",
   cursor: "pointer",
+  background: "none",
+  color: "inherit",
+  border: "none",
+  padding: "0",
+  font: "inherit",
 })
 
 const LoginLink = styled.a(({ theme }) => ({
