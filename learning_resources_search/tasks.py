@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+from collections import OrderedDict
 from contextlib import contextmanager
 
 import celery
@@ -113,7 +114,8 @@ def upsert_learning_resource(learning_resource_id):
 
 def _infer_percolate_group(percolate_query):
     group_keys = ["department", "topic", "offered_by"]
-    for key, val in percolate_query.original_query.items():
+    original_query = OrderedDict(percolate_query.original_query)
+    for key, val in original_query.items():
         if key in group_keys and val and len(val) > 0:
             if key == "department":
                 return LearningResourceDepartment.objects.get(department_id=val[0]).name
@@ -132,6 +134,7 @@ def send_subscription_emails(subscription_type, period="daily"):
     )
     document_user_map = {}
     all_users = set()
+    # percolate each new learning resource to get matching queries
     for resource in new_learning_resources:
         percolated = percolate_matches_for_document(resource.id).filter(
             source_type=subscription_type
@@ -146,6 +149,7 @@ def send_subscription_emails(subscription_type, period="daily"):
     users = User.objects.filter(id__in=all_users)
     for user in users:
         percolated_for_user = []
+        # assemble list of matching documents for each user
         doc_ids = [
             document_id
             for document_id in document_user_map
@@ -153,6 +157,7 @@ def send_subscription_emails(subscription_type, period="daily"):
         ]
         percolated_for_user = new_learning_resources.filter(id__in=doc_ids)
         user_documents = {}
+        # group documents by section for the email
         for learning_resource in percolated_for_user:
             group = document_user_map[learning_resource.id]["group_name"]
             if group:
