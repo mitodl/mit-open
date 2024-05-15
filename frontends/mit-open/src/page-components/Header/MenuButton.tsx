@@ -1,4 +1,4 @@
-import { ActionButton, Button, styled } from "ol-components"
+import { Button, styled } from "ol-components"
 import { RiMenuLine } from "@remixicon/react"
 import React from "react"
 
@@ -37,11 +37,9 @@ interface MenuButtonProps {
 }
 
 const MenuButton: React.FC<MenuButtonProps> = ({ text, onClick }) => (
-  <StyledMenuButton onClick={onClick}>
+  <StyledMenuButton variant="text" onClick={onClick}>
     <MenuButtonInner>
-      <ActionButton variant="text">
-        <MenuIcon />
-      </ActionButton>
+      <MenuIcon />
       {text ? <MenuButtonText>{text}</MenuButtonText> : ""}
     </MenuButtonInner>
   </StyledMenuButton>
