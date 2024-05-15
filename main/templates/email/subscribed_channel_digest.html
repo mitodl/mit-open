@@ -1,41 +1,203 @@
-<!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title></title>
-    <style type="text/css">
-      .header-logo {
-        width: 45px;
-      }
-      .header-logo > img {
-        width: 45px;
-      }
-    </style>
-  </head>
-  <body>
-    <a
-      href="https://www.mit.edu/"
-      title="Link to MIT Homepage"
-      class="header-logo"
-    >
-      <img
-        src="https://mitopen.odl.mit.edu/static/images/mit-logo-transparent.svg"
-        alt="MIT Logo"
-      />
-    </a>
-    <hr />
+{% extends "email/email_base.html" %}
+{% load humanize %}
 
-    {% for resource_group, resources in documents.items %}
-    <h1>{{resource_group}}</h1>
-    <ul>
-      {% for resource in resources %}
-      <li>
-        <a href="{{resource.url|safe}}">{{resource.title|safe}}</a>
-        {{resource.description|safe}}
-      </li>
-      {% endfor %}
-    </ul>
-    {% endfor %}
-  </body>
-</html>
+{% block content %}
+
+<!-- 1 Column Text : BEGIN -->
+
+{% for resource_group, resources in documents.items %}
+<tr>
+  <td style="background-color: #ffffff">
+    <table
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      width="100%"
+    >
+      <tr>
+        <td
+          style="
+            padding: 5px 20px 0;
+            font-family: sans-serif;
+            font-size: 15px;
+            line-height: 20px;
+            color: #555555;
+          "
+        >
+          <h1
+            style="
+              margin: 0 0 10px;
+              font-size: 25px;
+              line-height: 30px;
+              color: #03152d;
+              font-weight: bold;
+            "
+          >
+            {{resource_group}}
+          </h1>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<!-- 1 Column Text : END -->
+
+{% for resource in resources %}
+
+<!-- 1 Column Text + Button : BEGIN -->
+<tr>
+  <td style="background-color: #ffffff">
+    <table
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      width="100%"
+    >
+      <tr>
+        <td
+          style="
+            padding: 10px 20px;
+            font-family: sans-serif;
+            font-size: 15px;
+            line-height: 20px;
+            color: #555555;
+          "
+        >
+          <h2
+            style="
+              margin: 0 0 10px;
+              font-family: sans-serif;
+              font-size: 25px;
+              line-height: 25px;
+              color: #03152d;
+              font-weight: bold;
+            "
+          >
+            <a
+              href=""
+              style="
+                margin: 0 0 10px 0;
+                font-family: sans-serif;
+                font-size: 18px;
+                line-height: 22px;
+                color: #03152d;
+                font-weight: bold;
+              "
+            >
+              {{resource.title|safe}}
+              {% if resource.url %}<span style="color: #b0b0b0; font-size: 12px"
+                >({{ resource.url_domain }})</span
+              >{% endif %}
+            </a>
+          </h2>
+          <p style="margin: 0 0 10px">
+            {# NOTE: this next line is intentionally long so it renders
+            correctly in plaintext #}
+          </p>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<!-- 1 Column Text + Button : END -->
+
+{% endfor %}
+<tr>
+  <td style="padding: 10px 20px">
+    <!-- Button : BEGIN -->
+    <table
+      align="left"
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      style="margin: auto"
+    >
+      <tr>
+        <td
+          class="button-td button-td-primary"
+          style="border-radius: 4px; background: #a31f34"
+        >
+          <a
+            class="button-a button-a-primary"
+            href="{{ base_url }}"
+            style="
+              background: #ffffff;
+              border: 1px solid #a31f34;
+              font-family: sans-serif;
+              font-size: 15px;
+              line-height: 15px;
+              text-decoration: none;
+              padding: 13px 17px;
+              color: #a31f34;
+              display: block;
+              border-radius: 4px;
+            "
+            >More Stories</a
+          >
+        </td>
+      </tr>
+    </table>
+    <!-- Button : END -->
+  </td>
+</tr>
+<tr>
+  <td style="padding: 10px 20px">
+    <p style="border-top: thin solid"></p>
+  </td>
+</tr>
+
+<tr>
+  {% endfor %}
+</tr>
+
+<tr>
+  <td style="padding: 10px 20px">
+    <!-- Button : BEGIN -->
+    <table
+      align="left"
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      style="margin: auto"
+    >
+      <tr>
+        <td
+          class="button-td button-td-primary"
+          style="border-radius: 4px; background: #a31f34"
+        >
+          <a
+            class="button-a button-a-primary"
+            href="{{ base_url }}/podcasts"
+            style="
+              background: #ffffff;
+              border: 1px solid #a31f34;
+              font-family: sans-serif;
+              font-size: 15px;
+              line-height: 15px;
+              text-decoration: none;
+              padding: 13px 17px;
+              color: #a31f34;
+              display: block;
+              border-radius: 4px;
+            "
+            >More Episodes</a
+          >
+        </td>
+      </tr>
+    </table>
+    <!-- Button : END -->
+  </td>
+</tr>
+<tr>
+  <td style="padding: 10px 20px">
+    <p style="border-top: thin solid"></p>
+  </td>
+</tr>
+
+<tr>
+  {% endblock %}
+</tr>

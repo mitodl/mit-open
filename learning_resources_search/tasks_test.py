@@ -1,8 +1,11 @@
 """Search task tests"""
 
+from collections import OrderedDict
+
 import pytest
 from celery.exceptions import Retry
 from django.conf import settings
+from django.core import mail
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from opensearchpy.exceptions import ConnectionTimeout, RequestError
 
@@ -13,6 +16,7 @@ from learning_resources.factories import (
     LearningResourceFactory,
     ProgramFactory,
 )
+from learning_resources.models import LearningResource
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
@@ -22,6 +26,8 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
+from learning_resources_search.factories import PercolateQueryFactory
+from learning_resources_search.models import PercolateQuery
 from learning_resources_search.serializers import (
     serialize_content_file_for_update,
     serialize_learning_resource_for_update,
@@ -34,12 +40,14 @@ from learning_resources_search.tasks import (
     index_course_content_files,
     index_learning_resources,
     index_run_content_files,
+    send_subscription_emails,
     start_recreate_index,
     start_update_index,
     upsert_content_file,
     upsert_learning_resource,
     wrap_retry_exception,
 )
+from main.factories import UserFactory
 from main.test_utils import assert_not_raises
 
 pytestmark = pytest.mark.django_db
@@ -561,3 +569,52 @@ def test_delete_run_content_files(mocker, with_error, unpublished_only):
     assert result == (
         "deindex_run_content_files threw an error" if with_error else None
     )
+
+
+@pytest.mark.django_db()
+def test_send_subscription_emails(mocked_api, mocker):
+    """
+    Test that a subscribed user receives
+    emails with percolate matches
+    """
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+        "Systems Engineering",
+    ]
+
+    LearningResource.objects.all().delete()
+    LearningResourceFactory.create_batch(len(topics), is_course=True)
+    user = UserFactory.create()
+    queries = []
+    query_ids = []
+    user_documents = dict.fromkeys(topics, [])
+    for topic in topics:
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topic]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        query.save()
+
+        queries.append(query)
+        query_ids.append(query.id)
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        query_id = query_ids.pop()
+        pq = PercolateQuery.objects.filter(id=query_id).first()
+        og_query = OrderedDict(pq.original_query)
+        ptopic = og_query["topic"][0]
+        user_documents[ptopic].append(LearningResource.objects.get(id=res))
+        return PercolateQuery.objects.filter(id=query_id)
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+    send_subscription_emails(PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
+    assert len(mail.outbox) == 1
+    mail_content = mail.outbox[0].body
+    for topic in topics:
+        assert topic in mail_content
