@@ -7,35 +7,31 @@ from learning_resources_search import models
 
 
 class PercolateQueryFactory(DjangoModelFactory):
-    source_type = models.PercolateQuery.SEARCH_SUBSCRIPTION_TYPE
     original_query = factory.Dict(
         {
-            "q": factory.Faker("text"),
+            "q": factory.Faker("text", max_nb_chars=50),
             "free": None,
             "endpoint": "learning_resource",
             "professional": None,
             "certification": None,
-            "topic": factory.List(
-                [
-                    factory.LazyAttribute(
-                        lambda: random.choice(  # noqa: S311
-                            [
-                                "Business",
-                                "Mechanical Engineering",
-                                "Environmental Engineering",
-                                "Computer Science",
-                                "Entrepreneurship",
-                                "Systems Engineering",
-                                "Communications",
-                                "Marketing",
-                                "Management",
-                            ]
-                        )
-                    )
-                ]
-            ),
+            "topic": [
+                random.choice(  # noqa: S311
+                    [
+                        "Business",
+                        "Mechanical Engineering",
+                        "Environmental Engineering",
+                        "Computer Science",
+                        "Entrepreneurship",
+                        "Systems Engineering",
+                        "Communications",
+                        "Marketing",
+                        "Management",
+                    ]
+                )
+            ],
         }
     )
+
     query = {
         "bool": {
             "must": [{"exists": {"field": "resource_type"}}],
