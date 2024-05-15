@@ -72,7 +72,9 @@ const UserName: React.FC<{ user: User | undefined }> = ({ user }) => {
   const last = user?.last_name ?? ""
   return (
     <UserNameContainer>
-      {first} {last}
+      {first}
+      {first && last ? " " : ""}
+      {last}
     </UserNameContainer>
   )
 }
@@ -130,8 +132,8 @@ const UserMenu: React.FC = () => {
           .filter(({ allow }) => allow)
           .map(({ allow, ...item }) => item)}
         trigger={
-          <UserMenuContainer>
-            <UserIcon />
+          <UserMenuContainer role="button" aria-label="User Menu">
+            <UserIcon data-testid="UserIcon" />
             <UserName user={user} />
             {user?.is_authenticated ? <UserMenuChevron open={visible} /> : ""}
           </UserMenuContainer>
@@ -147,7 +149,7 @@ const UserMenu: React.FC = () => {
           </Button>
         </FlexContainer>
         <FlexContainer className="login-button-mobile">
-          <UserIcon />
+          <UserIcon data-testid="UserIcon" />
         </FlexContainer>
       </LoginLink>
     )

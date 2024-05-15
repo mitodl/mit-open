@@ -11,7 +11,7 @@ interface Props {
 const MITLogoLink: React.FC<Props> = ({ className }) => (
   <a
     href={HOME_URL}
-    title="Link to MIT Homepage"
+    title="Link to Homepage"
     className={className}
     // eslint-disable-next-line react/no-unknown-property
     appzi-screenshot-exclude="true"

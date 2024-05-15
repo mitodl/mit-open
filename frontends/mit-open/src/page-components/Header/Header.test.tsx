@@ -12,7 +12,7 @@ import * as urlConstants from "@/common/urls"
 import { setMockResponse, urls } from "api/test-utils"
 
 describe("Header", () => {
-  it("Includes a link to MIT Homepage", async () => {
+  it("Includes a link to the Homepage", async () => {
     setMockResponse.get(urls.userMe.get(), {})
     renderWithProviders(<Header />)
     const header = screen.getByRole("banner")
@@ -31,87 +31,66 @@ describe("UserMenu", () => {
     return screen.findByRole("menu")
   }
 
-  test("Trigger button shows PersonIcon for unauthenticated users", async () => {
-    setMockResponse.get(urls.userMe.get(), { is_authenticated: false })
-    renderWithProviders(<Header />)
-    const trigger = await screen.findByRole("button", { name: "User Menu" })
-    within(trigger).getByTestId("PersonIcon")
-  })
-
   test.each([
     { first_name: "", last_name: "" },
     { first_name: null, last_name: null },
   ])(
-    "Trigger button shows PersonIcon for authenticated users w/o initials",
+    "Trigger button shows UserIcon for authenticated users w/o initials",
     async (userSettings) => {
       setMockResponse.get(urls.userMe.get(), userSettings)
 
       renderWithProviders(<Header />)
 
       const trigger = await screen.findByRole("button", { name: "User Menu" })
-      within(trigger).getByTestId("PersonIcon")
+      within(trigger).getByTestId("UserIcon")
     },
   )
 
   test.each([
     {
       userSettings: { first_name: "Alice", last_name: "Bee" },
-      expectedInitials: "AB",
+      expectedName: "Alice Bee",
     },
     {
       userSettings: { first_name: "Alice", last_name: "" },
-      expectedInitials: "A",
+      expectedName: "Alice",
     },
     {
       userSettings: { first_name: "", last_name: "Bee" },
-      expectedInitials: "B",
+      expectedName: "Bee",
     },
   ])(
-    "Trigger button shows initials if available",
-    async ({ userSettings, expectedInitials }) => {
+    "Trigger button shows name if available",
+    async ({ userSettings, expectedName }) => {
       setMockResponse.get(urls.userMe.get(), userSettings)
 
       renderWithProviders(<Header />)
       const trigger = await screen.findByRole("button", { name: "User Menu" })
-      expect(trigger.textContent).toBe(expectedInitials)
+      expect(trigger.textContent).toBe(expectedName)
     },
   )
 
-  test.each([
-    {
-      isAuthenticated: false,
-      initialUrl: "/foo/bar?cat=meow",
-      expected: {
-        text: "Log in",
-        url: urlConstants.login({ pathname: "/foo/bar", search: "?cat=meow" }),
-      },
-    },
-    {
-      isAuthenticated: true,
-      initialUrl: "/foo/bar?cat=meow",
-      expected: { text: "Log out", url: urlConstants.LOGOUT },
-    },
-  ])(
-    "Users (authenticated=$isAuthenticated) see '$expected.text' link",
-    async ({ isAuthenticated, expected, initialUrl }) => {
-      setMockResponse.get(urls.userMe.get(), {
-        is_authenticated: isAuthenticated,
-      })
-      renderWithProviders(<Header />, {
-        url: initialUrl,
-      })
-      const menu = await findUserMenu()
-      const authLink = within(menu).getByRole("menuitem", {
-        name: expected.text,
-      })
+  test("Authenticated users see Log Out link", async () => {
+    const isAuthenticated = true
+    const initialUrl = "/foo/bar?cat=meow"
+    const expected = { text: "Log out", url: urlConstants.LOGOUT }
+    setMockResponse.get(urls.userMe.get(), {
+      is_authenticated: isAuthenticated,
+    })
+    renderWithProviders(<Header />, {
+      url: initialUrl,
+    })
+    const menu = await findUserMenu()
+    const authLink = within(menu).getByRole("menuitem", {
+      name: expected.text,
+    })
 
-      invariant(authLink instanceof HTMLAnchorElement)
-      expect(authLink.href).toBe(`${window.origin}${expected.url}`)
+    invariant(authLink instanceof HTMLAnchorElement)
+    expect(authLink.href).toBe(`${window.origin}${expected.url}`)
 
-      // Check for real navigation; Login page needs a page reload
-      await expectWindowNavigation(() => user.click(authLink))
-    },
-  )
+    // Check for real navigation; Login page needs a page reload
+    await expectWindowNavigation(() => user.click(authLink))
+  })
 
   test("Learning path editors see 'Learning Paths' link", async () => {
     setMockResponse.get(urls.userMe.get(), { is_learning_path_editor: true })
