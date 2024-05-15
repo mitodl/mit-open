@@ -70,7 +70,32 @@ describe("UserMenu", () => {
     },
   )
 
-  test("Authenticated users see Log Out link", async () => {
+  test("Unauthenticated users see the Sign Up / Login link", async () => {
+    const isAuthenticated = false
+    const initialUrl = "/foo/bar?cat=meow"
+    const expectedUrl = urlConstants.login({
+      pathname: "/foo/bar",
+      search: "?cat=meow",
+    })
+    setMockResponse.get(urls.userMe.get(), {
+      is_authenticated: isAuthenticated,
+    })
+    renderWithProviders(<Header />, {
+      url: initialUrl,
+    })
+    const desktopLoginButton = await screen.findByTestId("login-button-desktop")
+    const mobileLoginButton = await screen.findByTestId("login-button-mobile")
+    invariant(desktopLoginButton instanceof HTMLAnchorElement)
+    invariant(mobileLoginButton instanceof HTMLAnchorElement)
+    expect(desktopLoginButton.href).toBe(`${window.origin}${expectedUrl}`)
+    expect(mobileLoginButton.href).toBe(`${window.origin}${expectedUrl}`)
+
+    // Check for real navigation; Login page needs a page reload
+    await expectWindowNavigation(() => user.click(desktopLoginButton))
+    await expectWindowNavigation(() => user.click(mobileLoginButton))
+  })
+
+  test("Authenticated users see the Log Out link", async () => {
     const isAuthenticated = true
     const initialUrl = "/foo/bar?cat=meow"
     const expected = { text: "Log out", url: urlConstants.LOGOUT }

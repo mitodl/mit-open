@@ -111,13 +111,13 @@ const LoggedOutView: FunctionComponent = () => {
   return (
     <FlexContainer>
       <DesktopOnly>
-        <UserMenu />
+        <UserMenu variant="desktop" />
         <SearchButton />
       </DesktopOnly>
       <MobileOnly>
         <SearchButton />
         <RightDivider orientation="vertical" flexItem />
-        <UserMenu />
+        <UserMenu variant="mobile" />
       </MobileOnly>
     </FlexContainer>
   )
@@ -134,10 +134,7 @@ const LoggedInView: FunctionComponent = () => {
 }
 
 const UserView: FunctionComponent = () => {
-  const { isLoading, data: user } = useUserMe()
-  if (isLoading) {
-    return null
-  }
+  const { data: user } = useUserMe()
   return user?.is_authenticated ? <LoggedInView /> : <LoggedOutView />
 }
 

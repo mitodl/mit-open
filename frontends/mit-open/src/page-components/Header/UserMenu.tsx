@@ -8,7 +8,7 @@ import {
   RiArrowDownSLine,
 } from "@remixicon/react"
 import { useUserMe, User } from "api/hooks/user"
-import { LOGIN } from "@/common/urls"
+import { useLocation } from "react-router"
 
 const FlexContainer = styled.div({
   display: "flex",
@@ -83,13 +83,19 @@ const UserMenuChevron: React.FC<{ open: boolean }> = ({ open }) => {
   return open ? <RiArrowUpSLine /> : <RiArrowDownSLine />
 }
 
-const UserMenu: React.FC = () => {
-  const [visible, setVisible] = useState(false)
-  const { isLoading, data: user } = useUserMe()
+type DeviceType = "mobile" | "desktop"
+type UserMenuProps = {
+  variant?: DeviceType
+}
 
-  if (isLoading) {
-    return null
-  }
+const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
+  const [visible, setVisible] = useState(false)
+  const location = useLocation()
+  const { data: user } = useUserMe()
+  const loginUrl = urls.login({
+    pathname: location.pathname,
+    search: location.search,
+  })
 
   const items: UserMenuItem[] = [
     {
@@ -123,6 +129,7 @@ const UserMenu: React.FC = () => {
     anchorOrigin: { horizontal: "right", vertical: "bottom" },
     transformOrigin: { horizontal: "right", vertical: "top" },
   }
+
   if (user?.is_authenticated) {
     return (
       <SimpleMenu
@@ -142,27 +149,37 @@ const UserMenu: React.FC = () => {
     )
   } else {
     return (
-      <LoginButtonContainer>
-        <FlexContainer className="login-button-desktop">
-          <ButtonLink
-            edge="rounded"
-            size="small"
-            nativeAnchor={true}
-            href={LOGIN}
-          >
-            Sign Up / Login
-          </ButtonLink>
-        </FlexContainer>
-        <FlexContainer className="login-button-mobile">
-          <ActionButtonLink
-            edge="rounded"
-            variant="text"
-            nativeAnchor={true}
-            href={LOGIN}
-          >
-            <UserIcon data-testid="UserIcon" />
-          </ActionButtonLink>
-        </FlexContainer>
+      <LoginButtonContainer data-testid="login-button-container">
+        {variant === "desktop" ? (
+          <FlexContainer className="login-button-desktop">
+            <ButtonLink
+              data-testid="login-button-desktop"
+              edge="rounded"
+              size="small"
+              nativeAnchor={true}
+              href={loginUrl}
+            >
+              Sign Up / Login
+            </ButtonLink>
+          </FlexContainer>
+        ) : (
+          ""
+        )}
+        {variant === "mobile" ? (
+          <FlexContainer className="login-button-mobile">
+            <ActionButtonLink
+              data-testid="login-button-mobile"
+              edge="rounded"
+              variant="text"
+              nativeAnchor={true}
+              href={loginUrl}
+            >
+              <UserIcon data-testid="UserIcon" />
+            </ActionButtonLink>
+          </FlexContainer>
+        ) : (
+          ""
+        )}
       </LoginButtonContainer>
     )
   }
