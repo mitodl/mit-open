@@ -4,6 +4,7 @@ import TabbedCarousel, {
   TabbedCarouselProps,
 } from "@/page-components/TabbedCarousel/TabbedCarousel"
 import HeroSearch from "./HeroSearch"
+import NewsEventsSection from "./NewsEventsSection"
 
 const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
   {
@@ -91,6 +92,7 @@ const HomePage: React.FC = () => {
           <TabbedCarousel config={MEDIA_CAROUSEL} />
         </section>
       </Container>
+      <NewsEventsSection />
     </>
   )
 }
