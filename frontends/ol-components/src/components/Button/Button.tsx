@@ -127,9 +127,9 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
       "& .MuiSvgIcon-root": {
         fontSize: pxToRem(
           {
-            small: 16,
-            medium: 20,
-            large: 24,
+            small: 20,
+            medium: 24,
+            large: 32,
           }[size],
         ),
       },
@@ -137,11 +137,12 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ],
 )
 
-const LinkStyled = styled(ButtonStyled.withComponent(Link))({
+const AnchorStyled = styled(ButtonStyled.withComponent("a"))({
   ":hover": {
     textDecoration: "none",
   },
 })
+const LinkStyled = ButtonStyled.withComponent(Link)
 
 type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
 
@@ -175,17 +176,41 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 
 type ButtonLinkProps = ButtonStyleProps &
-  React.ComponentProps<"a"> & { href: string }
+  React.ComponentProps<"a"> & {
+    href: string
+    /**
+     * If true, the component will render a native anchor element rather than
+     * a react router Link.
+     *
+     * In general, we want to use Link. It:
+     *  - WILL NOT trigger a full page reload for internal links
+     *  - WILL trigger a full page reload for external links.
+     *
+     * However, there are some rare cases where an internal link might need a
+     * full page reload, e.g., linking to login or logout pages.
+     */
+    nativeAnchor?: boolean
+  }
 
 const ButtonLink: React.FC<ButtonLinkProps> = ({
   children,
   href,
+  nativeAnchor,
   ...props
-}) => (
-  <LinkStyled to={href} {...props}>
-    <ButtonInner {...props}>{children}</ButtonInner>
-  </LinkStyled>
-)
+}) => {
+  if (nativeAnchor) {
+    return (
+      <AnchorStyled href={href} {...props}>
+        <ButtonInner {...props}>{children}</ButtonInner>
+      </AnchorStyled>
+    )
+  }
+  return (
+    <LinkStyled to={href} {...props}>
+      <ButtonInner {...props}>{children}</ButtonInner>
+    </LinkStyled>
+  )
+}
 
 const ActionButtonDefaultProps: Required<
   Omit<ButtonStyleProps, "startIcon" | "endIcon">
@@ -223,5 +248,27 @@ const ActionButton = styled(
   }
 })
 
-export { Button, ButtonLink, ActionButton }
-export type { ButtonProps, ButtonLinkProps }
+type ActionButtonLinkProps = ActionButtonProps &
+  React.ComponentProps<"a"> & {
+    href: string
+    nativeAnchor?: boolean
+  }
+
+const ActionButtonLink = ActionButton.withComponent(
+  React.forwardRef<HTMLAnchorElement, ActionButtonLinkProps>(
+    ({ href, nativeAnchor, ...props }, ref) => {
+      if (nativeAnchor) {
+        return <AnchorStyled ref={ref} href={href} {...props} />
+      }
+      return <LinkStyled ref={ref} to={href} {...props} />
+    },
+  ),
+)
+
+export { Button, ButtonLink, ActionButton, ActionButtonLink }
+export type {
+  ButtonProps,
+  ButtonLinkProps,
+  ActionButtonProps,
+  ActionButtonLinkProps,
+}
