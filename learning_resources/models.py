@@ -11,11 +11,17 @@ from django.db.models.functions import Lower
 
 from learning_resources import constants
 from learning_resources.constants import (
+    LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     PrivacyLevel,
 )
 from main.models import TimestampedModel
+
+
+def default_learning_format():
+    """Return the default learning format list"""
+    return [LearningResourceFormat.online.name]
 
 
 class LearningResourcePlatform(TimestampedModel):
@@ -179,7 +185,7 @@ class LearningResource(TimestampedModel):
     )
     learning_format = ArrayField(
         models.CharField(max_length=24, db_index=True),
-        default=list,
+        default=default_learning_format,
     )
     platform = models.ForeignKey(
         LearningResourcePlatform,

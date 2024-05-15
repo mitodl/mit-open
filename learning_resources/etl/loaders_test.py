@@ -84,6 +84,7 @@ non_transformable_attributes = (
     "departments",
     "content_tags",
     "resources",
+    "learning_format",
 )
 
 
@@ -868,6 +869,7 @@ def test_load_podcasts(learning_resource_offeror, podcast_platform):
 
     for result in results:
         assert isinstance(result, LearningResource)
+        assert result.learning_format == [LearningResourceFormat.online.name]
         assert result.resource_type == LearningResourceType.podcast.name
         assert result.platform.code == PlatformType.podcast.name
         assert result.children.count() > 0
