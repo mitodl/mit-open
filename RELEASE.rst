@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.13
+Version 0.9.13 (Released May 16, 2024)
 --------------
 
 - Adds learner testimonials support (#891)
