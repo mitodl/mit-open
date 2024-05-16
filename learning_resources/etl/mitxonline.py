@@ -18,7 +18,6 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
-    extract_valid_department_from_id,
     generate_course_numbers_json,
     parse_certification,
     transform_topics,
@@ -70,6 +69,12 @@ def parse_page_attribute(
             urljoin(settings.MITX_ONLINE_BASE_URL, attribute) if is_url else attribute
         )
     return default_value
+
+
+def parse_mitxonline_departments(departments):
+    """Map the MITx Online departments to Open ones"""
+
+    return [mxo_dept["name"] for mxo_dept in departments]
 
 
 def extract_programs():
@@ -171,7 +176,7 @@ def _transform_course(course):
         "title": course["title"],
         "offered_by": copy.deepcopy(OFFERED_BY),
         "topics": transform_topics(course.get("topics", [])),
-        "departments": extract_valid_department_from_id(course["readable_id"]),
+        "departments": parse_mitxonline_departments(course["departments"]),
         "runs": [
             _transform_run(course_run, course) for course_run in course["courseruns"]
         ],
@@ -218,7 +223,7 @@ def transform_programs(programs):
             "offered_by": OFFERED_BY,
             "etl_source": ETLSource.mitxonline.name,
             "resource_type": LearningResourceType.program.name,
-            "departments": extract_valid_department_from_id(program["readable_id"]),
+            "departments": parse_mitxonline_departments(program["departments"]),
             "platform": PlatformType.mitxonline.name,
             "professional": False,
             "certification": bool(parse_page_attribute(program, "page_url")),

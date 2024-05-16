@@ -22,6 +22,7 @@ from learning_resources.etl.mitxonline import (
     _transform_image,
     extract_courses,
     extract_programs,
+    parse_mitxonline_departments,
     parse_page_attribute,
     parse_program_prices,
     transform_courses,
@@ -29,7 +30,6 @@ from learning_resources.etl.mitxonline import (
 )
 from learning_resources.etl.utils import (
     UCC_TOPIC_MAPPINGS,
-    extract_valid_department_from_id,
     parse_certification,
 )
 from main.test_utils import any_instance_of
@@ -162,8 +162,8 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                     "resource_type": LearningResourceType.course.name,
                     "professional": False,
                     "etl_source": ETLSource.mitxonline.value,
-                    "departments": extract_valid_department_from_id(
-                        course_data["readable_id"]
+                    "departments": parse_mitxonline_departments(
+                        course_data["departments"]
                     ),
                     "title": course_data["title"],
                     "image": _transform_image(course_data),
@@ -247,7 +247,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             "platform": PlatformType.mitxonline.name,
             "etl_source": ETLSource.mitxonline.name,
             "resource_type": LearningResourceType.course.name,
-            "departments": extract_valid_department_from_id(course_data["readable_id"]),
+            "departments": parse_mitxonline_departments(course_data["departments"]),
             "title": course_data["title"],
             "image": _transform_image(course_data),
             "description": course_data.get("page", {}).get("description", None),
