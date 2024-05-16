@@ -210,7 +210,7 @@ export interface ChannelTopicDetailRequest {
   topic?: number | null
 }
 /**
- * * `topic` - topic * `department` - department * `offeror` - offeror * `pathway` - pathway
+ * * `topic` - Topic * `department` - Department * `offeror` - Offeror * `pathway` - Pathway
  * @export
  * @enum {string}
  */
@@ -293,10 +293,10 @@ export interface DepartmentChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {DepartmentChannelChannelTypeEnum}
+   * @type {DepartmentChannelTypeEnum}
    * @memberof DepartmentChannel
    */
-  channel_type: DepartmentChannelChannelTypeEnum
+  channel_type: DepartmentChannelTypeEnum
   /**
    *
    * @type {ChannelDepartmentDetail}
@@ -366,19 +366,6 @@ export interface DepartmentChannel {
 }
 
 /**
- *
- * @export
- * @enum {string}
- */
-
-export const DepartmentChannelChannelTypeEnum = {
-  Department: "department",
-} as const
-
-export type DepartmentChannelChannelTypeEnum =
-  (typeof DepartmentChannelChannelTypeEnum)[keyof typeof DepartmentChannelChannelTypeEnum]
-
-/**
  * Learning path featured in this field.
  * @export
  * @interface DepartmentChannelFeaturedList
@@ -403,6 +390,19 @@ export interface DepartmentChannelFeaturedList {
    */
   id: number
 }
+/**
+ * * `department` - Department
+ * @export
+ * @enum {string}
+ */
+
+export const DepartmentChannelTypeEnum = {
+  Department: "department",
+} as const
+
+export type DepartmentChannelTypeEnum =
+  (typeof DepartmentChannelTypeEnum)[keyof typeof DepartmentChannelTypeEnum]
+
 /**
  * Serializer for FeedImage
  * @export
@@ -736,10 +736,10 @@ export interface OfferorChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {OfferorChannelChannelTypeEnum}
+   * @type {OfferorChannelTypeEnum}
    * @memberof OfferorChannel
    */
-  channel_type: OfferorChannelChannelTypeEnum
+  channel_type: OfferorChannelTypeEnum
   /**
    *
    * @type {ChannelOfferorDetail}
@@ -809,17 +809,17 @@ export interface OfferorChannel {
 }
 
 /**
- *
+ * * `offeror` - Offeror
  * @export
  * @enum {string}
  */
 
-export const OfferorChannelChannelTypeEnum = {
+export const OfferorChannelTypeEnum = {
   Offeror: "offeror",
 } as const
 
-export type OfferorChannelChannelTypeEnum =
-  (typeof OfferorChannelChannelTypeEnum)[keyof typeof OfferorChannelChannelTypeEnum]
+export type OfferorChannelTypeEnum =
+  (typeof OfferorChannelTypeEnum)[keyof typeof OfferorChannelTypeEnum]
 
 /**
  *
@@ -1191,10 +1191,10 @@ export interface PathwayChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {PathwayChannelChannelTypeEnum}
+   * @type {PathwayChannelTypeEnum}
    * @memberof PathwayChannel
    */
-  channel_type: PathwayChannelChannelTypeEnum
+  channel_type: PathwayChannelTypeEnum
   /**
    *
    * @type {string}
@@ -1258,17 +1258,17 @@ export interface PathwayChannel {
 }
 
 /**
- *
+ * * `pathway` - Pathway
  * @export
  * @enum {string}
  */
 
-export const PathwayChannelChannelTypeEnum = {
+export const PathwayChannelTypeEnum = {
   Pathway: "pathway",
 } as const
 
-export type PathwayChannelChannelTypeEnum =
-  (typeof PathwayChannelChannelTypeEnum)[keyof typeof PathwayChannelChannelTypeEnum]
+export type PathwayChannelTypeEnum =
+  (typeof PathwayChannelTypeEnum)[keyof typeof PathwayChannelTypeEnum]
 
 /**
  * Serializer for Profile
@@ -1675,10 +1675,10 @@ export interface TopicChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {TopicChannelChannelTypeEnum}
+   * @type {TopicChannelTypeEnum}
    * @memberof TopicChannel
    */
-  channel_type: TopicChannelChannelTypeEnum
+  channel_type: TopicChannelTypeEnum
   /**
    *
    * @type {ChannelTopicDetail}
@@ -1748,17 +1748,17 @@ export interface TopicChannel {
 }
 
 /**
- *
+ * * `topic` - Topic
  * @export
  * @enum {string}
  */
 
-export const TopicChannelChannelTypeEnum = {
+export const TopicChannelTypeEnum = {
   Topic: "topic",
 } as const
 
-export type TopicChannelChannelTypeEnum =
-  (typeof TopicChannelChannelTypeEnum)[keyof typeof TopicChannelChannelTypeEnum]
+export type TopicChannelTypeEnum =
+  (typeof TopicChannelTypeEnum)[keyof typeof TopicChannelTypeEnum]
 
 /**
  * Serializer for User
