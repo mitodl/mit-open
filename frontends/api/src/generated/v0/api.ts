@@ -404,6 +404,124 @@ export type DepartmentChannelTypeEnum =
   (typeof DepartmentChannelTypeEnum)[keyof typeof DepartmentChannelTypeEnum]
 
 /**
+ * Serializer for News FeedItem
+ * @export
+ * @interface EventFeedItem
+ */
+export interface EventFeedItem {
+  /**
+   *
+   * @type {number}
+   * @memberof EventFeedItem
+   */
+  id: number
+  /**
+   *
+   * @type {EventFeedItemFeedTypeEnum}
+   * @memberof EventFeedItem
+   */
+  feed_type: EventFeedItemFeedTypeEnum
+  /**
+   *
+   * @type {FeedImage}
+   * @memberof EventFeedItem
+   */
+  image: FeedImage
+  /**
+   *
+   * @type {FeedEventDetail}
+   * @memberof EventFeedItem
+   */
+  event_details: FeedEventDetail
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  guid: string
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  url: string
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  summary?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  content?: string
+  /**
+   *
+   * @type {number}
+   * @memberof EventFeedItem
+   */
+  source: number
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const EventFeedItemFeedTypeEnum = {
+  Events: "events",
+} as const
+
+export type EventFeedItemFeedTypeEnum =
+  (typeof EventFeedItemFeedTypeEnum)[keyof typeof EventFeedItemFeedTypeEnum]
+
+/**
+ * FeedEventDetail serializer
+ * @export
+ * @interface FeedEventDetail
+ */
+export interface FeedEventDetail {
+  /**
+   *
+   * @type {number}
+   * @memberof FeedEventDetail
+   */
+  id: number
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedEventDetail
+   */
+  audience: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedEventDetail
+   */
+  location: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedEventDetail
+   */
+  event_type: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof FeedEventDetail
+   */
+  event_datetime: string
+}
+/**
  * Serializer for FeedImage
  * @export
  * @interface FeedImage
@@ -433,6 +551,45 @@ export interface FeedImage {
    * @memberof FeedImage
    */
   alt?: string
+}
+/**
+ * @type FeedItem
+ * @export
+ */
+export type FeedItem =
+  | ({ resource_type: "events" } & EventFeedItem)
+  | ({ resource_type: "news" } & NewsFeedItem)
+
+/**
+ * FeedNewsDetail serializer
+ * @export
+ * @interface FeedNewsDetail
+ */
+export interface FeedNewsDetail {
+  /**
+   *
+   * @type {number}
+   * @memberof FeedNewsDetail
+   */
+  id: number
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedNewsDetail
+   */
+  authors?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedNewsDetail
+   */
+  topics?: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof FeedNewsDetail
+   */
+  publish_date: string
 }
 /**
  * FeedSource serializer
@@ -472,10 +629,10 @@ export interface FeedSource {
   description?: string
   /**
    *
-   * @type {FeedTypeEnum}
+   * @type {FeedSourceFeedTypeEnum}
    * @memberof FeedSource
    */
-  feed_type: FeedTypeEnum
+  feed_type: FeedSourceFeedTypeEnum
 }
 
 /**
@@ -484,12 +641,13 @@ export interface FeedSource {
  * @enum {string}
  */
 
-export const FeedTypeEnum = {
+export const FeedSourceFeedTypeEnum = {
   News: "news",
   Events: "events",
 } as const
 
-export type FeedTypeEnum = (typeof FeedTypeEnum)[keyof typeof FeedTypeEnum]
+export type FeedSourceFeedTypeEnum =
+  (typeof FeedSourceFeedTypeEnum)[keyof typeof FeedSourceFeedTypeEnum]
 
 /**
  * @type FieldChannel
@@ -668,6 +826,87 @@ export interface LearningPathPreview {
    */
   id: number
 }
+/**
+ * Serializer for News FeedItem
+ * @export
+ * @interface NewsFeedItem
+ */
+export interface NewsFeedItem {
+  /**
+   *
+   * @type {number}
+   * @memberof NewsFeedItem
+   */
+  id: number
+  /**
+   *
+   * @type {NewsFeedItemFeedTypeEnum}
+   * @memberof NewsFeedItem
+   */
+  feed_type: NewsFeedItemFeedTypeEnum
+  /**
+   *
+   * @type {FeedImage}
+   * @memberof NewsFeedItem
+   */
+  image: FeedImage
+  /**
+   *
+   * @type {FeedNewsDetail}
+   * @memberof NewsFeedItem
+   */
+  news_details: FeedNewsDetail
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  guid: string
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  url: string
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  summary?: string
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  content?: string
+  /**
+   *
+   * @type {number}
+   * @memberof NewsFeedItem
+   */
+  source: number
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const NewsFeedItemFeedTypeEnum = {
+  News: "news",
+} as const
+
+export type NewsFeedItemFeedTypeEnum =
+  (typeof NewsFeedItemFeedTypeEnum)[keyof typeof NewsFeedItemFeedTypeEnum]
+
 /**
  * Serializer for Channel model of type offeror
  * @export
@@ -851,6 +1090,37 @@ export interface PaginatedAttestationList {
    * @memberof PaginatedAttestationList
    */
   results: Array<Attestation>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedFeedItemList
+ */
+export interface PaginatedFeedItemList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedFeedItemList
+   */
+  count: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedFeedItemList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedFeedItemList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<FeedItem>}
+   * @memberof PaginatedFeedItemList
+   */
+  results: Array<FeedItem>
 }
 /**
  *
@@ -1567,6 +1837,20 @@ export interface ProgramCertificate {
    */
   program_completion_timestamp?: string | null
 }
+/**
+ * * `news` - news * `events` - events
+ * @export
+ * @enum {string}
+ */
+
+export const ResourceTypeEnum = {
+  News: "news",
+  Events: "events",
+} as const
+
+export type ResourceTypeEnum =
+  (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
+
 /**
  * * `facebook` - facebook * `linkedin` - linkedin * `personal` - personal * `twitter` - twitter
  * @export
@@ -3558,7 +3842,10 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
       offset?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedFeedItemList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.newsEventsList(
         feed_type,
@@ -3587,7 +3874,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
       id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedItem>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.newsEventsRetrieve(id, options)
@@ -3625,7 +3912,7 @@ export const NewsEventsApiFactory = function (
     newsEventsList(
       requestParameters: NewsEventsApiNewsEventsListRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<PaginatedFeedItemList> {
       return localVarFp
         .newsEventsList(
           requestParameters.feed_type,
@@ -3644,7 +3931,7 @@ export const NewsEventsApiFactory = function (
     newsEventsRetrieve(
       requestParameters: NewsEventsApiNewsEventsRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<FeedItem> {
       return localVarFp
         .newsEventsRetrieve(requestParameters.id, options)
         .then((request) => request(axios, basePath))
