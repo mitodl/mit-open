@@ -952,10 +952,10 @@ components:
       - pathway
       type: string
       description: |-
-        * `topic` - topic
-        * `department` - department
-        * `offeror` - offeror
-        * `pathway` - pathway
+        * `topic` - Topic
+        * `department` - Department
+        * `offeror` - Offeror
+        * `pathway` - Pathway
     DepartmentChannel:
       type: object
       description: Serializer for Channel model of type department
@@ -1006,9 +1006,10 @@ components:
             $ref: '#/components/schemas/Subfield'
           readOnly: true
         channel_type:
-          allOf:
-          - $ref: '#/components/schemas/DepartmentChannelChannelTypeEnum'
+          type: string
           default: department
+          allOf:
+          - $ref: '#/components/schemas/DepartmentChannelTypeEnum'
           readOnly: true
         department_detail:
           $ref: '#/components/schemas/ChannelDepartmentDetail'
@@ -1057,10 +1058,11 @@ components:
       - subfields
       - title
       - updated_on
-    DepartmentChannelChannelTypeEnum:
-      type: string
+    DepartmentChannelTypeEnum:
       enum:
       - department
+      type: string
+      description: '* `department` - Department'
     FeedImage:
       type: object
       description: Serializer for FeedImage
@@ -1169,7 +1171,9 @@ components:
         about:
           nullable: true
         channel_type:
-          $ref: ChannelTypeEnum
+          type: string
+          allOf:
+          - $ref: '#/components/schemas/ChannelTypeEnum'
         search_filter:
           type: string
           maxLength: 2048
@@ -1285,9 +1289,10 @@ components:
             $ref: '#/components/schemas/Subfield'
           readOnly: true
         channel_type:
-          allOf:
-          - $ref: '#/components/schemas/OfferorChannelChannelTypeEnum'
+          type: string
           default: offeror
+          allOf:
+          - $ref: '#/components/schemas/OfferorChannelTypeEnum'
           readOnly: true
         offeror_detail:
           $ref: '#/components/schemas/ChannelOfferorDetail'
@@ -1336,10 +1341,11 @@ components:
       - subfields
       - title
       - updated_on
-    OfferorChannelChannelTypeEnum:
-      type: string
+    OfferorChannelTypeEnum:
       enum:
       - offeror
+      type: string
+      description: '* `offeror` - Offeror'
     PaginatedAttestationList:
       type: object
       required:
@@ -1450,7 +1456,9 @@ components:
         about:
           nullable: true
         channel_type:
-          $ref: ChannelTypeEnum
+          type: string
+          allOf:
+          - $ref: '#/components/schemas/ChannelTypeEnum'
         search_filter:
           type: string
           maxLength: 2048
@@ -1587,9 +1595,10 @@ components:
             $ref: '#/components/schemas/Subfield'
           readOnly: true
         channel_type:
-          allOf:
-          - $ref: '#/components/schemas/PathwayChannelChannelTypeEnum'
+          type: string
           default: pathway
+          allOf:
+          - $ref: '#/components/schemas/PathwayChannelTypeEnum'
           readOnly: true
         created_on:
           type: string
@@ -1635,10 +1644,11 @@ components:
       - subfields
       - title
       - updated_on
-    PathwayChannelChannelTypeEnum:
-      type: string
+    PathwayChannelTypeEnum:
       enum:
       - pathway
+      type: string
+      description: '* `pathway` - Pathway'
     Profile:
       type: object
       description: Serializer for Profile
@@ -1918,9 +1928,10 @@ components:
             $ref: '#/components/schemas/Subfield'
           readOnly: true
         channel_type:
-          allOf:
-          - $ref: '#/components/schemas/TopicChannelChannelTypeEnum'
+          type: string
           default: topic
+          allOf:
+          - $ref: '#/components/schemas/TopicChannelTypeEnum'
           readOnly: true
         topic_detail:
           $ref: '#/components/schemas/ChannelTopicDetail'
@@ -1969,10 +1980,11 @@ components:
       - title
       - topic_detail
       - updated_on
-    TopicChannelChannelTypeEnum:
-      type: string
+    TopicChannelTypeEnum:
       enum:
       - topic
+      type: string
+      description: '* `topic` - Topic'
     User:
       type: object
       description: Serializer for User
