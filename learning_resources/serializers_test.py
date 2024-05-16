@@ -208,7 +208,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "professional": resource.professional,
         "published": resource.published,
         "readable_id": resource.readable_id,
-        "course_feature": [tag.name for tag in resource.content_tags.all()],
+        "course_feature": sorted([tag.name for tag in resource.content_tags.all()]),
         "resource_type": resource.resource_type,
         "url": resource.url,
         "user_list_parents": [],
@@ -539,8 +539,8 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                 coursenum["value"]
                 for coursenum in content_file.run.learning_resource.course.course_numbers
             ],
-            "content_feature_type": [
-                tag.name for tag in content_file.content_tags.all()
-            ],
+            "content_feature_type": sorted(
+                [tag.name for tag in content_file.content_tags.all()]
+            ),
         },
     )
