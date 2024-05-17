@@ -64,12 +64,18 @@ const TopicBox = styled(Link)`
   background: ${theme.custom.colors.white};
   overflow: hidden;
 
+  svg:last-child {
+    display: none;
+    flex: 0 0 20px;
+  }
+
   :hover {
     color: ${theme.custom.colors.mitRed};
     border-color: ${theme.custom.colors.silverGrayLight};
 
     svg:last-child {
       color: ${theme.custom.colors.black};
+      display: block;
     }
   }
 `
@@ -77,10 +83,11 @@ const TopicBox = styled(Link)`
 const TopicBoxContent = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 10px;
 
   svg {
-    flex: 0 0 20px;
+    flex: 0 0 22px;
   }
 
   ${{
