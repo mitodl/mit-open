@@ -302,7 +302,11 @@ paths:
       - news_events
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFeedItemList'
+          description: ''
   /api/v0/news_events/{id}/:
     get:
       operationId: news_events_retrieve
@@ -318,7 +322,11 @@ paths:
       - news_events
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedItem'
+          description: ''
   /api/v0/news_events_sources/:
     get:
       operationId: news_events_sources_list
@@ -1063,6 +1071,82 @@ components:
       - department
       type: string
       description: '* `department` - Department'
+    EventFeedItem:
+      type: object
+      description: Serializer for News FeedItem
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        feed_type:
+          allOf:
+          - $ref: '#/components/schemas/EventFeedItemFeedTypeEnum'
+          default: events
+          readOnly: true
+        image:
+          $ref: '#/components/schemas/FeedImage'
+        event_details:
+          $ref: '#/components/schemas/FeedEventDetail'
+        guid:
+          type: string
+          maxLength: 2048
+        title:
+          type: string
+          maxLength: 255
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+        summary:
+          type: string
+        content:
+          type: string
+        source:
+          type: integer
+      required:
+      - event_details
+      - feed_type
+      - guid
+      - id
+      - image
+      - source
+      - title
+      - url
+    EventFeedItemFeedTypeEnum:
+      type: string
+      enum:
+      - events
+    FeedEventDetail:
+      type: object
+      description: FeedEventDetail serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        audience:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        location:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        event_type:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        event_datetime:
+          type: string
+          format: date-time
+      required:
+      - audience
+      - event_datetime
+      - event_type
+      - id
+      - location
     FeedImage:
       type: object
       description: Serializer for FeedImage
@@ -1081,6 +1165,38 @@ components:
           maxLength: 1024
       required:
       - id
+    FeedItem:
+      oneOf:
+      - $ref: '#/components/schemas/NewsFeedItem'
+      - $ref: '#/components/schemas/EventFeedItem'
+      discriminator:
+        propertyName: resource_type
+        mapping:
+          news: '#/components/schemas/NewsFeedItem'
+          events: '#/components/schemas/EventFeedItem'
+    FeedNewsDetail:
+      type: object
+      description: FeedNewsDetail serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        authors:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        topics:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        publish_date:
+          type: string
+          format: date-time
+      required:
+      - id
+      - publish_date
     FeedSource:
       type: object
       description: FeedSource serializer
@@ -1100,14 +1216,14 @@ components:
         description:
           type: string
         feed_type:
-          $ref: '#/components/schemas/FeedTypeEnum'
+          $ref: '#/components/schemas/FeedSourceFeedTypeEnum'
       required:
       - feed_type
       - id
       - image
       - title
       - url
-    FeedTypeEnum:
+    FeedSourceFeedTypeEnum:
       enum:
       - news
       - events
@@ -1239,6 +1355,51 @@ components:
       required:
       - id
       - title
+    NewsFeedItem:
+      type: object
+      description: Serializer for News FeedItem
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        feed_type:
+          allOf:
+          - $ref: '#/components/schemas/NewsFeedItemFeedTypeEnum'
+          default: news
+          readOnly: true
+        image:
+          $ref: '#/components/schemas/FeedImage'
+        news_details:
+          $ref: '#/components/schemas/FeedNewsDetail'
+        guid:
+          type: string
+          maxLength: 2048
+        title:
+          type: string
+          maxLength: 255
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+        summary:
+          type: string
+        content:
+          type: string
+        source:
+          type: integer
+      required:
+      - feed_type
+      - guid
+      - id
+      - image
+      - news_details
+      - source
+      - title
+      - url
+    NewsFeedItemFeedTypeEnum:
+      type: string
+      enum:
+      - news
     OfferorChannel:
       type: object
       description: Serializer for Channel model of type offeror
@@ -1369,6 +1530,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attestation'
+    PaginatedFeedItemList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedItem'
     PaginatedFeedSourceList:
       type: object
       required:
@@ -1849,6 +2033,14 @@ components:
       - program_title
       - record_hash
       - user_email
+    ResourceTypeEnum:
+      enum:
+      - news
+      - events
+      type: string
+      description: |-
+        * `news` - news
+        * `events` - events
     SiteTypeEnum:
       enum:
       - facebook
