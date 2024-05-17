@@ -37,7 +37,7 @@ jobs:
       - name: Upload frontend build to s3
         uses: jakejarvis/s3-sync-action@master
         with:
-          args: --acl public-read --follow-symlinks --delete
+          args: --acl public-read --follow-symlinks
         env:
           AWS_S3_BUCKET: ol-mitopen-app-storage-rc
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID_RC }}
