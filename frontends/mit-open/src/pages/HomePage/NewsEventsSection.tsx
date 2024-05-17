@@ -37,14 +37,12 @@ const StoriesContainer = styled.div``
 const EventsContainer = styled.div``
 
 const NewsEventsSection: React.FC = () => {
-  // TODO issue with generate schema missing the interface https://github.com/mitodl/mit-open/blob/ac66f387763024d3b92bedc2cc37ee36b6349bcb/frontends/api/src/generated/v0/api.ts#L3164
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: news }: any = useNewsEventsList({
+  const { data: news } = useNewsEventsList({
     feed_type: [NewsEventsListFeedTypeEnum.News],
     limit: 6,
   })
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: events }: any = useNewsEventsList({
+
+  const { data: events } = useNewsEventsList({
     feed_type: [NewsEventsListFeedTypeEnum.Events],
     limit: 6,
   })
@@ -60,7 +58,7 @@ const NewsEventsSection: React.FC = () => {
         <Content>
           <StoriesContainer>
             <Typography variant="h4">Stories</Typography>
-            {news!.results.map((item: LearningResource) => (
+            {news!.results.map((item) => (
               <LearningResourceCard
                 key={item.id}
                 resource={item}
@@ -70,7 +68,7 @@ const NewsEventsSection: React.FC = () => {
           </StoriesContainer>
           <EventsContainer>
             <Typography variant="h4">Events</Typography>
-            {events.results.map((item: LearningResource) => (
+            {events.results.map((item) => (
               <LearningResourceCard
                 key={item.id}
                 resource={item}
