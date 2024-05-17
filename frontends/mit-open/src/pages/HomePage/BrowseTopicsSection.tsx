@@ -10,6 +10,7 @@ import {
   RiBarChartBoxLine,
   RiUserSearchLine,
   RiEarthLine,
+  RiArrowRightLine,
 } from "@remixicon/react"
 
 /* TODO Using any icons until we have a solution for specifying them */
@@ -62,11 +63,20 @@ const TopicBox = styled(Link)`
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   overflow: hidden;
+
+  :hover {
+    color: ${theme.custom.colors.mitRed};
+    border-color: ${theme.custom.colors.silverGrayLight};
+
+    svg:last-child {
+      color: ${theme.custom.colors.black};
+    }
+  }
 `
 
 const TopicBoxContent = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   gap: 10px;
 
   svg {
@@ -80,6 +90,7 @@ const TopicBoxContent = styled.div`
 `
 
 const TopicBoxName = styled.p`
+  flex-grow: 1;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -108,13 +119,14 @@ const BrowseTopicsSection: React.FC = () => {
                   <TopicBoxContent>
                     <Icon />
                     <TopicBoxName>{name}</TopicBoxName>
+                    <RiArrowRightLine />
                   </TopicBoxContent>
                 </TopicBox>
               )
             },
           )}
         </Topics>
-        <SeeAllButton edge="rounded">See all</SeeAllButton>
+        <SeeAllButton edge="rounded">See all (coming soon)</SeeAllButton>
       </Container>
     </Section>
   )
