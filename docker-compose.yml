@@ -29,7 +29,7 @@ services:
       - "6379"
 
   opensearch-node-mitopen:
-    image: opensearchproject/opensearch:2.13.0
+    image: opensearchproject/opensearch:2.14.0
     container_name: opensearch-node-mitopen
     environment:
       - cluster.name=opensearch-cluster
