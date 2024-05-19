@@ -61,6 +61,11 @@ module.exports = (env, argv) => {
     mode,
     context: __dirname,
     devtool: "source-map",
+    snapshot: {
+      managedPaths: [
+        /^(.+?[\\/]node_modules)[\\/]((?!@mitodl\/course-search-utils)).*[\\/]*/,
+      ],
+    },
     entry: {
       root: "./src/App",
     },
