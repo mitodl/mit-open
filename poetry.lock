@@ -1221,17 +1221,17 @@ test = ["mock", "pytest (>=3.0)", "pytest-cov", "pytest-django", "pytest-runner"
 
 [[package]]
 name = "drf-nested-routers"
-version = "0.93.5"
+version = "0.94.1"
 description = "Nested resources for the Django Rest Framework"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "drf-nested-routers-0.93.5.tar.gz", hash = "sha256:1407565abc7bada37c162c7e11bf214ae71625a17fdec6d9a47a17f4a3627d32"},
-    {file = "drf_nested_routers-0.93.5-py2.py3-none-any.whl", hash = "sha256:9a6813554020134a02e62f8c2934b2047717f7da06f8b801752c521e43735c63"},
+    {file = "drf-nested-routers-0.94.1.tar.gz", hash = "sha256:2b846385ed95c9f17bf4242db3b264ac826b5af00dda6c737d3fe7cc7bf2c7db"},
+    {file = "drf_nested_routers-0.94.1-py2.py3-none-any.whl", hash = "sha256:3a8ec45a025c0f39188ec1ec415244beb875a6f4db87911a1f5a606d09b68c9f"},
 ]
 
 [package.dependencies]
-Django = ">=3.2"
+Django = ">=4.2"
 djangorestframework = ">=3.14.0"
 
 [[package]]
@@ -3963,4 +3963,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12.3"
-content-hash = "2f632c5daf9598807a125f1c665adbb3879cc49e2c8ceb61f17641622031f622"
+content-hash = "700a1fbe99062d0f8e941202f73a23abaae1331a64dade6860d9788912c26d2c"
