@@ -52,7 +52,7 @@ const getFacetManifest = (
         {
           value: true,
           name: "free",
-          label: "Free Courses",
+          label: "Free",
         },
         {
           value: true,
@@ -62,7 +62,7 @@ const getFacetManifest = (
         {
           value: true,
           name: "professional",
-          label: "Professional Courses",
+          label: "Professional",
         },
       ],
     },
@@ -421,7 +421,7 @@ const SearchPage: React.FC = () => {
               </FacetsTitleContainer>
               <FacetStyles>
                 <AvailableFacets
-                  facetMap={facetManifest}
+                  facetManifest={facetManifest}
                   activeFacets={params}
                   onFacetChange={toggleParamValue}
                   facetOptions={data?.metadata.aggregations ?? {}}

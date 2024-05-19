@@ -32,7 +32,7 @@ export type SingleFacetOptions = {
 export type FacetManifest = SingleFacetOptions[]
 
 interface FacetDisplayProps {
-  facetMap: FacetManifest
+  facetManifest: FacetManifest
   isLoading?: boolean
   /**
    * Returns the aggregation options for a given group.
@@ -75,7 +75,7 @@ const filteredResultsWithLabels = (
 const AvailableFacetsDropdowns: React.FC<
   Omit<FacetDisplayProps, "clearAllFilters">
 > = ({
-  facetMap,
+  facetManifest,
   isLoading,
   facetOptions,
   activeFacets,
@@ -84,7 +84,7 @@ const AvailableFacetsDropdowns: React.FC<
 }) => {
   return (
     <>
-      {facetMap.map((facetSetting, index) => {
+      {facetManifest.map((facetSetting, index) => {
         const facetItems = filteredResultsWithLabels(
           facetOptions(facetSetting.name) || [],
           facetSetting.labelFunction || null,
