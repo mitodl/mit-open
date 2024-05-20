@@ -48,7 +48,7 @@ from learning_resources_search.serializers import (
     serialize_percolate_query_for_update,
 )
 from main.celery import app
-from main.utils import chunks, merge_strings
+from main.utils import chunks, merge_strings, now_in_utc
 from profiles.utils import send_template_email
 
 User = get_user_model()
@@ -172,7 +172,7 @@ def send_subscription_emails(subscription_type, period="daily"):
     delta = datetime.timedelta(days=1)
     if period == "weekly":
         delta = datetime.timedelta(days=7)
-    since = datetime.datetime.now(datetime.UTC) - delta
+    since = now_in_utc() - delta
     new_learning_resources = LearningResource.objects.filter(
         published=True, created_on__gt=since
     )
