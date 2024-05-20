@@ -20,6 +20,7 @@ from learning_resources.models import (
     Course,
     LearningResource,
     LearningResourceDepartment,
+    LearningResourceOfferor,
 )
 from learning_resources.utils import load_course_blocklist
 from learning_resources_search import indexing_api as api
@@ -121,6 +122,8 @@ def _infer_percolate_group(percolate_query):
         if key in group_keys and val:
             if key == "department":
                 return LearningResourceDepartment.objects.get(department_id=val[0]).name
+            elif key == "offered_by":
+                return LearningResourceOfferor.objects.get(code=val[0]).name
             return val[0]
     return None
 
