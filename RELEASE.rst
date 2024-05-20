@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.9.14
+Version 0.9.14 (Released May 20, 2024)
 --------------
 
 - Fix schema issue that was breaking redoc (#920)
