@@ -12,7 +12,6 @@ from celery.exceptions import Ignore
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import Q
-from django.urls import reverse
 from opensearchpy.exceptions import NotFoundError, RequestError
 
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
@@ -130,8 +129,7 @@ def _infer_search_url(percolate_query):
     original_query = OrderedDict(percolate_query.original_query)
     query_string_params = {k: v for k, v in original_query.items() if v}
     query_string = urlencode(query_string_params, doseq=True)
-    search_url = reverse("lr_search:v1:learning_resources_search")
-    return f"{settings.SITE_BASE_URL}{search_url}?{query_string}"
+    return f"{settings.SITE_BASE_URL}/search?{query_string}"
 
 
 def _group_percolated_rows(rows):

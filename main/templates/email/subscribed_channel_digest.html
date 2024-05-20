@@ -88,6 +88,7 @@
             >
               {{item.resource.title|safe}}
               {% if item.resource.url %}
+              <br />
               <span style="color: #b0b0b0; font-size: 12px"
                 >({{ item.resource.url }})</span
               >
@@ -99,7 +100,9 @@
             NOTE: this next line is intentionally long so it renders
             correctly in plaintext -->
           </p>
+          {% if item.resource.description %}
           <p>{{item.resource.description|safe}}</p>
+          {% endif %}
         </td>
       </tr>
     </table>
