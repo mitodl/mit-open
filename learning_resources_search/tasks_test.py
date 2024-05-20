@@ -13,7 +13,9 @@ from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES, ETLSourc
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
+    LearningResourceDepartmentFactory,
     LearningResourceFactory,
+    LearningResourceOfferorFactory,
     ProgramFactory,
 )
 from learning_resources.models import LearningResource
@@ -33,6 +35,7 @@ from learning_resources_search.serializers import (
     serialize_learning_resource_for_update,
 )
 from learning_resources_search.tasks import (
+    _infer_percolate_group,
     bulk_deindex_learning_resources,
     deindex_document,
     deindex_run_content_files,
@@ -667,3 +670,23 @@ def test_send_multiple_subscription_emails(mocked_api, mocker):
     assert len(mail.outbox) == 3
     mail_content = mail.outbox[0].body
     assert len([topic for topic in topics if topic in mail_content]) > 0
+
+
+def test_infer_percolate_group(mocked_api):
+    topic = "Mechanical Engineering"
+    topic_query = PercolateQueryFactory.create()
+    topic_query.original_query["topic"] = [topic]
+    topic_query.save()
+    assert _infer_percolate_group(topic_query) == topic
+    department = LearningResourceDepartmentFactory.create()
+    department_query = PercolateQueryFactory.create()
+    department_query.original_query["topic"] = []
+    department_query.original_query["department"] = [department.department_id]
+    department_query.save()
+    assert _infer_percolate_group(department_query) == department.name
+    offerer = LearningResourceOfferorFactory.create()
+    offerer_query = PercolateQueryFactory.create()
+    offerer_query.original_query["topic"] = []
+    offerer_query.original_query["offered_by"] = [offerer.code]
+    offerer_query.save()
+    assert _infer_percolate_group(offerer_query) == offerer.name
