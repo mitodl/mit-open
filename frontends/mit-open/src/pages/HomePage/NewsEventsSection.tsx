@@ -4,8 +4,8 @@ import {
   useNewsEventsList,
   NewsEventsListFeedTypeEnum,
 } from "api/hooks/newsEvents"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
-import { LearningResource } from "api"
+// import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
+// import { LearningResource } from "api"
 
 const Section = styled.section`
   background: ${theme.custom.colors.white};
@@ -58,23 +58,13 @@ const NewsEventsSection: React.FC = () => {
         <Content>
           <StoriesContainer>
             <Typography variant="h4">Stories</Typography>
-            {news!.results.map((item) => (
-              <LearningResourceCard
-                key={item.id}
-                resource={item}
-                variant="column"
-              />
-            ))}
+            {/* {news!.results.map((item) => (
+            ))} */}
           </StoriesContainer>
           <EventsContainer>
             <Typography variant="h4">Events</Typography>
-            {events.results.map((item) => (
-              <LearningResourceCard
-                key={item.id}
-                resource={item}
-                variant="column"
-              />
-            ))}
+            {/* {events.results.map((item) => (
+            ))} */}
           </EventsContainer>
         </Content>
       </Container>
