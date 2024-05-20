@@ -17,7 +17,7 @@ class PercolateQuery(TimestampedModel):
         SEARCH_SUBSCRIPTION_TYPE,
         CHANNEL_SUBSCRIPTION_TYPE,
     ]
-    query_string = models.CharField(max_length=255, blank=True)
+
     original_query = JSONField()
     query = JSONField()
     source_type = models.CharField(
