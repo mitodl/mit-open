@@ -140,6 +140,18 @@ def import_all_mit_edx_files(self, chunk_size=None):
 
 
 @app.task(bind=True)
+def import_all_oll_files(self, chunk_size=None):
+    """Ingest MIT edX files from an S3 bucket"""
+    raise self.replace(
+        get_content_tasks(
+            ETLSource.oll.name,
+            chunk_size,
+            s3_prefix=settings.EDX_LEARNING_COURSE_BUCKET_PREFIX,
+        )
+    )
+
+
+@app.task(bind=True)
 def import_all_mitxonline_files(self, chunk_size=None):
     """Ingest MITx Online files from an S3 bucket"""
     raise self.replace(
