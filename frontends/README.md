@@ -40,50 +40,27 @@ Again, `global:lint-fix` is defined at the root workspace, not within `ol-utilit
 
 ## Frontend Development
 
-### Docker Compose stack
+### Running the frontend on host
 
-The frontend and backend stack can be started locally for development with Docker compose:
+The docker containers in MIT Open have associated [profiles](https://docs.docker.com/compose/profiles/). Our `.env.example` file recommends setting `COMPOSE_PROFILES=backend,frontend` in your `.env` file. In this way, all containers will start automatically when you run `docker compose up`.
 
-```bash
-docker compose up
-```
+You may want to run only the backend containers in docker and run the frontend on your host instead. Reasons to do this include:
 
-For front end development, at minumum we need these containers.
+- performance—webpack and tests are both faster on hosts.
+- developing with local branches of external dependencies
 
-```bash
-docker compose up nginx web db watch
-```
-
-In this mode, the watch container starts Webpack Dev Server and listens for changes, and building the front end to the local filesystem at `./frontends/mit-open/build`. This is mounted to the `nginx` container for it to serve the static bundle, while routing backend paths to the `web` service.
-
-The application is served at `http://localhost:8063`.
-
-### Local Frontend Dev Server with Local Backend
-
-The `watch` container can be slow to respond to changes to the filesystem mounted onto Docker. If [Hot Module Replacement](https://webpack.js.org/concepts/hot-module-replacement/) is slow for you, we can run Wepback Dev Server directly outside of Docker. Dev Server proxies API requests through to a locally running backend stack.
-
-Run the front end with:
+To run just the backend containers, set `COMPOSE_PROFILES=backend`. You will need to start the frontend containers manually via
 
 ```bash
 yarn watch
 ```
 
-At minimum we need these containers for the backend:
+**Warning:** Depending on your host operating system (e.g., Macs), node packages installed on your host vs on the container may not be compatible. You may need to reinstall node_modules in order to run on host.
+
+### Running locally against RC
+
+For frontend-only work, you can run your frontend against the RC backend via
 
 ```bash
-docker compose up nginx web db
+yarn workspace frontends watch:rc
 ```
-
-The application is served at `http://localhost:8062`, using the API hosted on your local Docker.
-
-### Local Frontend Dev Server proxying to RC or Prod
-
-When working on the front end in isolation or to test changes against APIs already running in RC, the frontend dev server is configured to run against our hosted RC API without running the backend stack locally.
-
-Run the front end with:
-
-```bash
-yarn watch:rc
-```
-
-The front end is served at `http://localhost:8062`, using the API hosted on RC.
