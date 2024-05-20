@@ -35,6 +35,8 @@ from learning_resources_search.serializers import (
     serialize_learning_resource_for_update,
 )
 from learning_resources_search.tasks import (
+    _get_percolated_rows,
+    _group_percolated_rows,
     _infer_percolate_group,
     bulk_deindex_learning_resources,
     deindex_document,
@@ -649,7 +651,6 @@ def test_send_multiple_subscription_emails(mocked_api, mocker):
         query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
         query.users.set([user])
         query.save()
-
         queries.append(query)
         query_ids.append(query.id)
 
@@ -690,3 +691,45 @@ def test_infer_percolate_group(mocked_api):
     offerer_query.original_query["offered_by"] = [offerer.code]
     offerer_query.save()
     assert _infer_percolate_group(offerer_query) == offerer.name
+
+
+def test_email_grouping_function(mocked_api, mocker):
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+        "Systems Engineering",
+    ]
+
+    LearningResource.objects.all().delete()
+    new_resources = LearningResourceFactory.create_batch(len(topics), is_course=True)
+
+    queries = []
+    query_ids = []
+    user_documents = dict.fromkeys(topics, [])
+    for topic in topics:
+        user = UserFactory.create()
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topic]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        query.save()
+        queries.append(query)
+        query_ids.append(query.id)
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        query_id = query_ids.pop()
+        pq = PercolateQuery.objects.filter(id=query_id).first()
+        og_query = OrderedDict(pq.original_query)
+        ptopic = og_query["topic"][0]
+        user_documents[ptopic].append(LearningResource.objects.get(id=res))
+        return PercolateQuery.objects.filter(id=query_id)
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+    rows = _get_percolated_rows(new_resources, PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
+    template_data = _group_percolated_rows(rows)
+    assert len(template_data.keys()) == len(topics)
