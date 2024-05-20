@@ -1,6 +1,23 @@
 Release Notes
 =============
 
+Version 0.9.14 (Released May 20, 2024)
+--------------
+
+- Fix schema issue that was breaking redoc (#920)
+- Fix flaky python test (#912)
+- adding fix for program letter route in nginx (#914)
+- Give video/podcast/learning_path resources a default learning format of ["online"] (#892)
+- Fix schema generation errors (#895)
+- Button Updates (#915)
+- Pin actions/upload-artifact action to 6546280 (#868)
+- Use our ActionButton, no more MUI IconButton (#909)
+- Update Python to v3.12.3 (#349)
+- Update Yarn to v4.2.2 (#897)
+- Update dependency django-cors-headers to v4 (#840)
+- Handle nulls in attestation cover field (#906)
+- navigation menu (#890)
+
 Version 0.9.13 (Released May 16, 2024)
 --------------
 
