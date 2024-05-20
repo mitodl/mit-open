@@ -87,16 +87,19 @@
               "
             >
               {{item.resource.title|safe}}
-              {% if item.resource.url %}<span
-                style="color: #b0b0b0; font-size: 12px"
-                >({{ item.resource.url_domain }})</span
-              >{% endif %}
+              {% if item.resource.url %}
+              <span style="color: #b0b0b0; font-size: 12px"
+                >({{ item.resource.url }})</span
+              >
+              {% endif %}
             </a>
           </h2>
           <p style="margin: 0 0 10px">
-            {# NOTE: this next line is intentionally long so it renders
-            correctly in plaintext #}
+            <!--
+            NOTE: this next line is intentionally long so it renders
+            correctly in plaintext -->
           </p>
+          <p>{{item.resource.description|safe}}</p>
         </td>
       </tr>
     </table>
@@ -123,7 +126,7 @@
         >
           <a
             class="button-a button-a-primary"
-            href="{{ base_url }}"
+            href="{{ items.0.search_url }}"
             style="
               background: #ffffff;
               border: 1px solid #a31f34;
@@ -136,7 +139,7 @@
               display: block;
               border-radius: 4px;
             "
-            >More Stories</a
+            >View More</a
           >
         </td>
       </tr>

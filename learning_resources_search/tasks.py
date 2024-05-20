@@ -5,12 +5,14 @@ import itertools
 import logging
 from collections import OrderedDict
 from contextlib import contextmanager
+from urllib.parse import urlencode
 
 import celery
 from celery.exceptions import Ignore
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.urls import reverse
 from opensearchpy.exceptions import NotFoundError, RequestError
 
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
@@ -117,11 +119,19 @@ def _infer_percolate_group(percolate_query):
     group_keys = ["department", "topic", "offered_by"]
     original_query = OrderedDict(percolate_query.original_query)
     for key, val in original_query.items():
-        if key in group_keys and val and len(val) > 0:
+        if key in group_keys and val:
             if key == "department":
                 return LearningResourceDepartment.objects.get(department_id=val[0]).name
             return val[0]
     return None
+
+
+def _infer_search_url(percolate_query):
+    original_query = OrderedDict(percolate_query.original_query)
+    query_string_params = {k: v for k, v in original_query.items() if v}
+    query_string = urlencode(query_string_params, doseq=True)
+    search_url = reverse("lr_search:v1:learning_resources_search")
+    return f"{settings.SITE_BASE_URL}{search_url}?{query_string}"
 
 
 def _group_percolated_rows(rows):
@@ -162,6 +172,7 @@ def _get_percolated_rows(resources, subscription_type):
                         "user_id": user,
                         "query": query,
                         "group": _infer_percolate_group(query),
+                        "search_url": _infer_search_url(query),
                     }
                     for user in percolated_users
                 ]
