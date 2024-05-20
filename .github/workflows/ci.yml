@@ -72,6 +72,7 @@ jobs:
 
       - name: Tests
         run: |
+          poetry run ./manage.py collectstatic --noinput --clear
           export MEDIA_ROOT="$(mktemp -d)"
           ./scripts/test/python_tests.sh
         env:

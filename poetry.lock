@@ -1145,17 +1145,6 @@ s3 = ["boto3 (>=1.4.4)"]
 sftp = ["paramiko (>=1.15)"]
 
 [[package]]
-name = "django-webpack-loader"
-version = "1.8.1"
-description = "Transparently use webpack with django"
-optional = false
-python-versions = "*"
-files = [
-    {file = "django-webpack-loader-1.8.1.tar.gz", hash = "sha256:073beda18e2929fa5cd83bafbcaaf975e5945e84a17bfa81927cb6c9f5a17b94"},
-    {file = "django_webpack_loader-1.8.1-py2.py3-none-any.whl", hash = "sha256:2d50a902256cf94bdd87eac3e7687989c9aa757a63af21db68773115216cedee"},
-]
-
-[[package]]
 name = "djangorestframework"
 version = "3.15.1"
 description = "Web APIs for Django, made easy."
@@ -3963,4 +3952,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12.3"
-content-hash = "700a1fbe99062d0f8e941202f73a23abaae1331a64dade6860d9788912c26d2c"
+content-hash = "8726eaeda62c8a636106ea54b735e38366120570fe354177c59d3c7a89ee2517"
