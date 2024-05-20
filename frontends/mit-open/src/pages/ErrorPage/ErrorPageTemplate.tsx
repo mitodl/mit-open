@@ -27,7 +27,7 @@ const ErrorPageTemplate: React.FC<ErrorPageTemplateProps> = ({
         </MetaTags>
         <CardContent>{children}</CardContent>
         <CardActions>
-          <ButtonLink variant="outlined" to={HOME}>
+          <ButtonLink variant="outlined" href={HOME}>
             Home
           </ButtonLink>
         </CardActions>

@@ -86,13 +86,11 @@ class LearningResourcesSearchView(ESView):
 
 
 @extend_schema_view(
-    get=extend_schema(
-        parameters=[PercolateQuerySubscriptionRequestSerializer()],
-        responses=PercolateQuerySerializer(),
-    ),
-    post=extend_schema(
-        request=PercolateQuerySubscriptionRequestSerializer(),
-        responses=PercolateQuerySerializer(),
+    list=extend_schema(
+        summary="List subscribed queries",
+        parameters=[LearningResourcesSearchRequestSerializer],
+        request=LearningResourcesSearchRequestSerializer(),
+        responses=PercolateQuerySerializer(many=True),
     ),
 )
 class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -103,15 +101,6 @@ class UserSearchSubscriptionViewSet(mixins.ListModelMixin, viewsets.GenericViewS
     permission_classes = (IsAuthenticated,)
     serializer_class = PercolateQuerySerializer
     http_method_names = ["get", "post", "delete"]
-
-    @extend_schema(
-        summary="List subscribed queries",
-        parameters=[PercolateQuerySubscriptionRequestSerializer],
-        request=PercolateQuerySubscriptionRequestSerializer(),
-        responses=PercolateQuerySerializer(many=True),
-    )
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
         """

@@ -512,7 +512,9 @@ paths:
       - in: path
         name: id
         schema:
-          type: string
+          type: integer
+        description: A unique integer value identifying this learning resource content
+          tag.
         required: true
       tags:
       - course_features
@@ -2807,20 +2809,6 @@ paths:
           * `views` - Popularity ascending
           * `-views` - Popularity descending
           * `upcoming` - Next start date ascending
-      - in: query
-        name: source_type
-        schema:
-          enum:
-          - search_subscription_type
-          - channel_subscription_type
-          type: string
-          default: search_subscription_type
-          minLength: 1
-        description: |-
-          The subscription type
-
-          * `search_subscription_type` - search_subscription_type
-          * `channel_subscription_type` - channel_subscription_type
       - in: query
         name: topic
         schema:
@@ -5155,13 +5143,14 @@ paths:
   /api/v1/program_letters/{id}/:
     get:
       operationId: program_letters_retrieve
-      description: Retrieve a single program letter.
-      summary: Retrieve
+      description: Detail only View for program letters
       parameters:
       - in: path
         name: id
         schema:
           type: string
+          format: uuid
+        description: A UUID string identifying this program letter.
         required: true
       tags:
       - program_letters

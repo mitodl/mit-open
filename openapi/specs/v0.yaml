@@ -252,15 +252,19 @@ paths:
               schema:
                 $ref: '#/components/schemas/FieldChannel'
           description: ''
-  /api/v0/ckeditor/:
+  /api/v0/ckeditor:
     get:
       operationId: ckeditor_retrieve
-      description: Get the JWT to authenticate for CKEditor
+      description: Get the settings response
       tags:
       - ckeditor
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CKEditorSettings'
+          description: ''
   /api/v0/news_events/:
     get:
       operationId: news_events_list
@@ -298,7 +302,11 @@ paths:
       - news_events
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedFeedItemList'
+          description: ''
   /api/v0/news_events/{id}/:
     get:
       operationId: news_events_retrieve
@@ -314,7 +322,11 @@ paths:
       - news_events
       responses:
         '200':
-          description: No response body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedItem'
+          description: ''
   /api/v0/news_events_sources/:
     get:
       operationId: news_events_sources_list
@@ -376,6 +388,115 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FeedSource'
+          description: ''
+  /api/v0/profiles/{user__username}/:
+    get:
+      operationId: profiles_retrieve
+      description: View for profile
+      parameters:
+      - in: path
+        name: user__username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - profiles
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    put:
+      operationId: profiles_update
+      description: View for profile
+      parameters:
+      - in: path
+        name: user__username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProfileRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    patch:
+      operationId: profiles_partial_update
+      description: View for profile
+      parameters:
+      - in: path
+        name: user__username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - profiles
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+  /api/v0/program_certificates/:
+    get:
+      operationId: program_certificates_list
+      description: |-
+        View for listing program certificates for a user
+        (includes program letter links)
+      parameters:
+      - in: query
+        name: micromasters_program_id
+        schema:
+          type: integer
+      - in: query
+        name: program_title
+        schema:
+          type: string
+      tags:
+      - program_certificates
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProgramCertificate'
           description: ''
   /api/v0/testimonials/:
     get:
@@ -439,6 +560,145 @@ paths:
               schema:
                 $ref: '#/components/schemas/Attestation'
           description: ''
+  /api/v0/users/:
+    get:
+      operationId: users_list
+      description: View for users
+      tags:
+      - users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: users_create
+      description: View for users
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+  /api/v0/users/{username}/:
+    get:
+      operationId: users_retrieve
+      description: View for users
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - users
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: users_update
+      description: View for users
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserRequest'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: users_partial_update
+      description: View for users
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: users_destroy
+      description: View for users
+      parameters:
+      - in: path
+        name: username
+        schema:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+        required: true
+      tags:
+      - users
+      responses:
+        '204':
+          description: No response body
   /api/v0/users/me/:
     get:
       operationId: users_me_retrieve
@@ -452,6 +712,47 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
           description: ''
+  /api/v0/websites/:
+    post:
+      operationId: websites_create
+      description: View for user websites
+      tags:
+      - websites
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserWebsiteRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserWebsiteRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserWebsiteRequest'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserWebsite'
+          description: ''
+  /api/v0/websites/{id}/:
+    delete:
+      operationId: websites_destroy
+      description: View for user websites
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user website.
+        required: true
+      tags:
+      - websites
+      responses:
+        '204':
+          description: No response body
   /api/v0/widget_lists/{id}/:
     get:
       operationId: widget_lists_retrieve
@@ -596,6 +897,17 @@ components:
       - quote
       - title
       - updated_on
+    CKEditorSettings:
+      type: object
+      description: Serializer for CKEditor settings
+      properties:
+        token:
+          type: string
+          nullable: true
+          description: Get the JWT token
+          readOnly: true
+      required:
+      - token
     ChannelDepartmentDetail:
       type: object
       description: Serializer for the ChannelDepartmentDetail model
@@ -640,7 +952,7 @@ components:
         topic:
           type: integer
           nullable: true
-    ChannelTypeAe2Enum:
+    ChannelTypeEnum:
       enum:
       - topic
       - department
@@ -652,18 +964,6 @@ components:
         * `department` - Department
         * `offeror` - Offeror
         * `pathway` - Pathway
-    ChannelTypeEnum:
-      enum:
-      - topic
-      - department
-      - offeror
-      - pathway
-      type: string
-      description: |-
-        * `topic` - topic
-        * `department` - department
-        * `offeror` - offeror
-        * `pathway` - pathway
     DepartmentChannel:
       type: object
       description: Serializer for Channel model of type department
@@ -700,6 +1000,7 @@ components:
           readOnly: true
         channel_url:
           type: string
+          description: Get the URL for the channel
           readOnly: true
         featured_list:
           allOf:
@@ -713,9 +1014,10 @@ components:
             $ref: '#/components/schemas/Subfield'
           readOnly: true
         channel_type:
-          allOf:
-          - $ref: '#/components/schemas/DepartmentChannelChannelTypeEnum'
+          type: string
           default: department
+          allOf:
+          - $ref: '#/components/schemas/DepartmentChannelTypeEnum'
           readOnly: true
         department_detail:
           $ref: '#/components/schemas/ChannelDepartmentDetail'
@@ -764,10 +1066,87 @@ components:
       - subfields
       - title
       - updated_on
-    DepartmentChannelChannelTypeEnum:
-      type: string
+    DepartmentChannelTypeEnum:
       enum:
       - department
+      type: string
+      description: '* `department` - Department'
+    EventFeedItem:
+      type: object
+      description: Serializer for News FeedItem
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        feed_type:
+          allOf:
+          - $ref: '#/components/schemas/EventFeedItemFeedTypeEnum'
+          default: events
+          readOnly: true
+        image:
+          $ref: '#/components/schemas/FeedImage'
+        event_details:
+          $ref: '#/components/schemas/FeedEventDetail'
+        guid:
+          type: string
+          maxLength: 2048
+        title:
+          type: string
+          maxLength: 255
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+        summary:
+          type: string
+        content:
+          type: string
+        source:
+          type: integer
+      required:
+      - event_details
+      - feed_type
+      - guid
+      - id
+      - image
+      - source
+      - title
+      - url
+    EventFeedItemFeedTypeEnum:
+      type: string
+      enum:
+      - events
+    FeedEventDetail:
+      type: object
+      description: FeedEventDetail serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        audience:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        location:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        event_type:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        event_datetime:
+          type: string
+          format: date-time
+      required:
+      - audience
+      - event_datetime
+      - event_type
+      - id
+      - location
     FeedImage:
       type: object
       description: Serializer for FeedImage
@@ -786,6 +1165,38 @@ components:
           maxLength: 1024
       required:
       - id
+    FeedItem:
+      oneOf:
+      - $ref: '#/components/schemas/NewsFeedItem'
+      - $ref: '#/components/schemas/EventFeedItem'
+      discriminator:
+        propertyName: resource_type
+        mapping:
+          news: '#/components/schemas/NewsFeedItem'
+          events: '#/components/schemas/EventFeedItem'
+    FeedNewsDetail:
+      type: object
+      description: FeedNewsDetail serializer
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        authors:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        topics:
+          type: array
+          items:
+            type: string
+            maxLength: 255
+        publish_date:
+          type: string
+          format: date-time
+      required:
+      - id
+      - publish_date
     FeedSource:
       type: object
       description: FeedSource serializer
@@ -805,14 +1216,14 @@ components:
         description:
           type: string
         feed_type:
-          $ref: '#/components/schemas/FeedTypeEnum'
+          $ref: '#/components/schemas/FeedSourceFeedTypeEnum'
       required:
       - feed_type
       - id
       - image
       - title
       - url
-    FeedTypeEnum:
+    FeedSourceFeedTypeEnum:
       enum:
       - news
       - events
@@ -876,9 +1287,9 @@ components:
         about:
           nullable: true
         channel_type:
+          type: string
           allOf:
-          - $ref: '#/components/schemas/ChannelTypeAe2Enum'
-          default: pathway
+          - $ref: '#/components/schemas/ChannelTypeEnum'
         search_filter:
           type: string
           maxLength: 2048
@@ -897,6 +1308,7 @@ components:
           - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
           nullable: true
       required:
+      - channel_type
       - name
       - title
     FieldModerator:
@@ -943,6 +1355,51 @@ components:
       required:
       - id
       - title
+    NewsFeedItem:
+      type: object
+      description: Serializer for News FeedItem
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        feed_type:
+          allOf:
+          - $ref: '#/components/schemas/NewsFeedItemFeedTypeEnum'
+          default: news
+          readOnly: true
+        image:
+          $ref: '#/components/schemas/FeedImage'
+        news_details:
+          $ref: '#/components/schemas/FeedNewsDetail'
+        guid:
+          type: string
+          maxLength: 2048
+        title:
+          type: string
+          maxLength: 255
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+        summary:
+          type: string
+        content:
+          type: string
+        source:
+          type: integer
+      required:
+      - feed_type
+      - guid
+      - id
+      - image
+      - news_details
+      - source
+      - title
+      - url
+    NewsFeedItemFeedTypeEnum:
+      type: string
+      enum:
+      - news
     OfferorChannel:
       type: object
       description: Serializer for Channel model of type offeror
@@ -979,6 +1436,7 @@ components:
           readOnly: true
         channel_url:
           type: string
+          description: Get the URL for the channel
           readOnly: true
         featured_list:
           allOf:
@@ -992,9 +1450,10 @@ components:
             $ref: '#/components/schemas/Subfield'
           readOnly: true
         channel_type:
-          allOf:
-          - $ref: '#/components/schemas/OfferorChannelChannelTypeEnum'
+          type: string
           default: offeror
+          allOf:
+          - $ref: '#/components/schemas/OfferorChannelTypeEnum'
           readOnly: true
         offeror_detail:
           $ref: '#/components/schemas/ChannelOfferorDetail'
@@ -1043,10 +1502,11 @@ components:
       - subfields
       - title
       - updated_on
-    OfferorChannelChannelTypeEnum:
-      type: string
+    OfferorChannelTypeEnum:
       enum:
       - offeror
+      type: string
+      description: '* `offeror` - Offeror'
     PaginatedAttestationList:
       type: object
       required:
@@ -1070,6 +1530,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attestation'
+    PaginatedFeedItemList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedItem'
     PaginatedFeedSourceList:
       type: object
       required:
@@ -1157,9 +1640,9 @@ components:
         about:
           nullable: true
         channel_type:
+          type: string
           allOf:
-          - $ref: '#/components/schemas/ChannelTypeAe2Enum'
-          default: pathway
+          - $ref: '#/components/schemas/ChannelTypeEnum'
         search_filter:
           type: string
           maxLength: 2048
@@ -1177,6 +1660,66 @@ components:
           allOf:
           - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
           nullable: true
+    PatchedProfileRequest:
+      type: object
+      description: Serializer for Profile
+      properties:
+        name:
+          type: string
+          nullable: true
+        image:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1024
+        image_small:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1024
+        image_medium:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1024
+        image_file:
+          type: string
+          format: binary
+          nullable: true
+        image_small_file:
+          type: string
+          format: binary
+          nullable: true
+        image_medium_file:
+          type: string
+          format: binary
+          nullable: true
+        email_optin:
+          type: boolean
+          writeOnly: true
+        toc_optin:
+          type: boolean
+          writeOnly: true
+        bio:
+          type: string
+          nullable: true
+        headline:
+          type: string
+          nullable: true
+          maxLength: 60
+        location:
+          writeOnly: true
+          nullable: true
+    PatchedUserRequest:
+      type: object
+      description: Serializer for User
+      properties:
+        profile:
+          $ref: '#/components/schemas/ProfileRequest'
+        email:
+          type: string
+          writeOnly: true
+          minLength: 1
     PatchedWidgetListRequest:
       type: object
       description: Serializer for WidgetLists
@@ -1222,6 +1765,7 @@ components:
           readOnly: true
         channel_url:
           type: string
+          description: Get the URL for the channel
           readOnly: true
         featured_list:
           allOf:
@@ -1235,9 +1779,10 @@ components:
             $ref: '#/components/schemas/Subfield'
           readOnly: true
         channel_type:
-          allOf:
-          - $ref: '#/components/schemas/PathwayChannelChannelTypeEnum'
+          type: string
           default: pathway
+          allOf:
+          - $ref: '#/components/schemas/PathwayChannelTypeEnum'
           readOnly: true
         created_on:
           type: string
@@ -1283,10 +1828,11 @@ components:
       - subfields
       - title
       - updated_on
-    PathwayChannelChannelTypeEnum:
-      type: string
+    PathwayChannelTypeEnum:
       enum:
       - pathway
+      type: string
+      description: '* `pathway` - Pathway'
     Profile:
       type: object
       description: Serializer for Profile
@@ -1320,9 +1866,11 @@ components:
           nullable: true
         profile_image_small:
           type: string
+          description: Custom getter for small profile image
           readOnly: true
         profile_image_medium:
           type: string
+          description: Custom getter for medium profile image
           readOnly: true
         bio:
           type: string
@@ -1333,15 +1881,178 @@ components:
           maxLength: 60
         username:
           type: string
+          description: Custom getter for the username
           readOnly: true
         placename:
           type: string
+          description: Custom getter for location text
           readOnly: true
       required:
       - placename
       - profile_image_medium
       - profile_image_small
       - username
+    ProfileRequest:
+      type: object
+      description: Serializer for Profile
+      properties:
+        name:
+          type: string
+          nullable: true
+        image:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1024
+        image_small:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1024
+        image_medium:
+          type: string
+          nullable: true
+          minLength: 1
+          maxLength: 1024
+        image_file:
+          type: string
+          format: binary
+          nullable: true
+        image_small_file:
+          type: string
+          format: binary
+          nullable: true
+        image_medium_file:
+          type: string
+          format: binary
+          nullable: true
+        email_optin:
+          type: boolean
+          writeOnly: true
+        toc_optin:
+          type: boolean
+          writeOnly: true
+        bio:
+          type: string
+          nullable: true
+        headline:
+          type: string
+          nullable: true
+          maxLength: 60
+        location:
+          writeOnly: true
+          nullable: true
+    ProgramCertificate:
+      type: object
+      description: Serializer for Program Certificates
+      properties:
+        record_hash:
+          type: string
+          readOnly: true
+        program_letter_generate_url:
+          type: string
+          readOnly: true
+        program_letter_share_url:
+          type: string
+          readOnly: true
+        program_title:
+          type: string
+          maxLength: 256
+        user_full_name:
+          type: string
+          maxLength: 256
+        user_email:
+          type: string
+          maxLength: 256
+        user_edxorg_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        micromasters_program_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        mitxonline_program_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        user_edxorg_username:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_gender:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_address_city:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_first_name:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_last_name:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_year_of_birth:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_country:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_address_postal_code:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_street_address:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_address_state_or_territory:
+          type: string
+          nullable: true
+          maxLength: 256
+        user_mitxonline_username:
+          type: string
+          nullable: true
+          maxLength: 256
+        program_completion_timestamp:
+          type: string
+          format: date-time
+          nullable: true
+      required:
+      - program_letter_generate_url
+      - program_letter_share_url
+      - program_title
+      - record_hash
+      - user_email
+    ResourceTypeEnum:
+      enum:
+      - news
+      - events
+      type: string
+      description: |-
+        * `news` - news
+        * `events` - events
+    SiteTypeEnum:
+      enum:
+      - facebook
+      - linkedin
+      - personal
+      - twitter
+      type: string
+      description: |-
+        * `facebook` - facebook
+        * `linkedin` - linkedin
+        * `personal` - personal
+        * `twitter` - twitter
     Subfield:
       type: object
       description: Serializer for Subfields
@@ -1395,6 +2106,7 @@ components:
           readOnly: true
         channel_url:
           type: string
+          description: Get the URL for the channel
           readOnly: true
         featured_list:
           allOf:
@@ -1408,9 +2120,10 @@ components:
             $ref: '#/components/schemas/Subfield'
           readOnly: true
         channel_type:
-          allOf:
-          - $ref: '#/components/schemas/TopicChannelChannelTypeEnum'
+          type: string
           default: topic
+          allOf:
+          - $ref: '#/components/schemas/TopicChannelTypeEnum'
           readOnly: true
         topic_detail:
           $ref: '#/components/schemas/ChannelTopicDetail'
@@ -1459,10 +2172,11 @@ components:
       - title
       - topic_detail
       - updated_on
-    TopicChannelChannelTypeEnum:
-      type: string
+    TopicChannelTypeEnum:
       enum:
       - topic
+      type: string
+      description: '* `topic` - Topic'
     User:
       type: object
       description: Serializer for User
@@ -1482,10 +2196,10 @@ components:
           type: string
           readOnly: true
         is_article_editor:
-          type: string
+          type: boolean
           readOnly: true
         is_learning_path_editor:
-          type: string
+          type: boolean
           readOnly: true
       required:
       - first_name
@@ -1495,6 +2209,54 @@ components:
       - last_name
       - profile
       - username
+    UserRequest:
+      type: object
+      description: Serializer for User
+      properties:
+        profile:
+          $ref: '#/components/schemas/ProfileRequest'
+        email:
+          type: string
+          writeOnly: true
+          minLength: 1
+      required:
+      - email
+      - profile
+    UserWebsite:
+      type: object
+      description: Serializer for UserWebsite
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        profile:
+          type: integer
+        url:
+          type: string
+          maxLength: 200
+        site_type:
+          allOf:
+          - $ref: '#/components/schemas/SiteTypeEnum'
+          readOnly: true
+          default: personal
+      required:
+      - id
+      - profile
+      - site_type
+      - url
+    UserWebsiteRequest:
+      type: object
+      description: Serializer for UserWebsite
+      properties:
+        profile:
+          type: integer
+        url:
+          type: string
+          minLength: 1
+          maxLength: 200
+      required:
+      - profile
+      - url
     WidgetInstance:
       type: object
       description: WidgetInstance serializer
@@ -1508,9 +2270,14 @@ components:
           type: string
           maxLength: 200
         configuration:
-          type: string
+          type: object
+          additionalProperties: {}
+          description: Returns the configuration to serialize
         json:
-          type: string
+          type: object
+          additionalProperties: {}
+          nullable: true
+          description: Renders the widget to json based on configuration
           readOnly: true
       required:
       - id

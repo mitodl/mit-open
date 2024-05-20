@@ -1,25 +1,19 @@
 """CKEditor views"""
 
-import math
-from time import time
+from drf_spectacular.utils import extend_schema
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
-import jwt
-from django.conf import settings
-from django.http import HttpResponse
-from rest_framework import status
-from rest_framework.decorators import api_view, permission_classes
-
+from ckeditor.serializers import CKEditorSettingsSerializer
 from main.permissions import AnonymousAccessReadonlyPermission
 
 
-@api_view()
-@permission_classes([AnonymousAccessReadonlyPermission])
-def ckeditor_view(request, **kwargs):  # noqa: ARG001
-    """Get the JWT to authenticate for CKEditor"""
-    if settings.CKEDITOR_SECRET_KEY and settings.CKEDITOR_ENVIRONMENT_ID:
-        payload = {"iss": settings.CKEDITOR_ENVIRONMENT_ID, "iat": math.floor(time())}
-        token = jwt.encode(payload, settings.CKEDITOR_SECRET_KEY, algorithm="HS256")
+class CKEditorSettingsView(APIView):
+    """Get the settings for CKEditor"""
 
-        return HttpResponse(token)
-    else:
-        return HttpResponse(status=status.HTTP_503_SERVICE_UNAVAILABLE)
+    permission_classes = [AnonymousAccessReadonlyPermission]
+
+    @extend_schema(responses=CKEditorSettingsSerializer())
+    def get(self, request, format=None):  # noqa: ARG002, A002
+        """Get the settings response"""
+        return Response(CKEditorSettingsSerializer({}).data)

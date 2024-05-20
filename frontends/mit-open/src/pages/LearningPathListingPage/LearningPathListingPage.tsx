@@ -3,7 +3,7 @@ import { useNavigate } from "react-router"
 import {
   Button,
   SimpleMenu,
-  IconButton,
+  ActionButton,
   Grid,
   LoadingSpinner,
   BannerPage,
@@ -60,9 +60,14 @@ const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
   return (
     <SimpleMenu
       trigger={
-        <IconButton size="small" aria-label={`Edit list ${resource.title}`}>
+        <ActionButton
+          variant="text"
+          color="secondary"
+          size="small"
+          aria-label={`Edit list ${resource.title}`}
+        >
           <MoreVertIcon fontSize="inherit" />
-        </IconButton>
+        </ActionButton>
       }
       items={items}
     />

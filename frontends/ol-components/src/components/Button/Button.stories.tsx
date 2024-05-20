@@ -1,21 +1,24 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { Button, IconButton, ButtonLink } from "./Button"
+import { Button, ActionButton, ButtonLink } from "./Button"
 import Grid from "@mui/material/Grid"
 import Stack from "@mui/material/Stack"
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward"
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
-import DeleteIcon from "@mui/icons-material/Delete"
-import EditIcon from "@mui/icons-material/Edit"
+import {
+  RiArrowLeftLine,
+  RiArrowRightLine,
+  RiDeleteBinLine,
+  RiEditLine,
+} from "@remixicon/react"
+
 import { withRouter } from "storybook-addon-react-router-v6"
 import { fn } from "@storybook/test"
 
 const icons = {
   None: undefined,
-  ArrowForwardIcon: <ArrowForwardIcon />,
-  ArrowBackIcon: <ArrowBackIcon />,
-  DeleteIcon: <DeleteIcon />,
-  EditIcon: <EditIcon />,
+  ArrowForwardIcon: <RiArrowRightLine />,
+  ArrowBackIcon: <RiArrowLeftLine />,
+  DeleteIcon: <RiDeleteBinLine />,
+  EditIcon: <RiEditLine />,
 }
 
 const meta: Meta<typeof Button> = {
@@ -144,16 +147,16 @@ export const EdgeStory: Story = {
 export const WithIconStory: Story = {
   render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button {...args} startIcon={<ArrowBackIcon />}>
+      <Button {...args} startIcon={<RiArrowLeftLine />}>
         Back
       </Button>
-      <Button {...args} startIcon={<DeleteIcon />}>
+      <Button {...args} startIcon={<RiDeleteBinLine />}>
         Delete
       </Button>
-      <Button {...args} startIcon={<EditIcon />}>
+      <Button {...args} startIcon={<RiEditLine />}>
         Edit
       </Button>
-      <Button {...args} endIcon={<ArrowForwardIcon />}>
+      <Button {...args} endIcon={<RiArrowRightLine />}>
         Forward
       </Button>
     </Stack>
@@ -163,18 +166,18 @@ export const WithIconStory: Story = {
 export const IconOnlyStory: Story = {
   render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <IconButton {...args}>
-        <ArrowBackIcon />
-      </IconButton>
-      <IconButton {...args}>
-        <ArrowForwardIcon />
-      </IconButton>
-      <IconButton {...args} variant="outlined">
-        <DeleteIcon />
-      </IconButton>
-      <IconButton {...args} variant="outlined" edge="rounded">
-        <EditIcon />
-      </IconButton>
+      <ActionButton {...args}>
+        <RiArrowLeftLine />
+      </ActionButton>
+      <ActionButton {...args}>
+        <RiArrowRightLine />
+      </ActionButton>
+      <ActionButton {...args} variant="outlined">
+        <RiDeleteBinLine />
+      </ActionButton>
+      <ActionButton {...args} variant="outlined" edge="rounded">
+        <RiEditLine />
+      </ActionButton>
     </Stack>
   ),
 }
@@ -184,8 +187,8 @@ const EDGES = ["sharp", "rounded"] as const
 const VARIANTS = ["filled", "outlined", "text"] as const
 const EXTRA_PROPS = [
   {},
-  { startIcon: <ArrowBackIcon /> },
-  { endIcon: <ArrowForwardIcon /> },
+  { startIcon: <RiArrowLeftLine /> },
+  { endIcon: <RiArrowRightLine /> },
 ]
 
 export const LinkStory: Story = {
@@ -239,23 +242,23 @@ export const ButtonsShowcase: Story = {
 const COLORS = ["primary", "secondary"] as const
 const ICONS = [
   {
-    component: <ArrowBackIcon />,
+    component: <RiArrowLeftLine />,
     key: "back",
   },
   {
-    component: <DeleteIcon />,
+    component: <RiDeleteBinLine />,
     key: "delete",
   },
   {
-    component: <EditIcon />,
+    component: <RiEditLine />,
     key: "edit",
   },
   {
-    component: <ArrowForwardIcon />,
+    component: <RiArrowRightLine />,
     key: "forward",
   },
 ]
-export const IconButtonsShowcase: Story = {
+export const ActionButtonsShowcase: Story = {
   render: () => (
     <>
       {VARIANTS.flatMap((variant) =>
@@ -271,7 +274,7 @@ export const IconButtonsShowcase: Story = {
               {SIZES.map((size) => (
                 <React.Fragment key={size}>
                   {ICONS.map((icon) => (
-                    <IconButton
+                    <ActionButton
                       key={icon.key}
                       variant={variant}
                       edge={edge}
@@ -279,7 +282,7 @@ export const IconButtonsShowcase: Story = {
                       color={color}
                     >
                       {icon.component}
-                    </IconButton>
+                    </ActionButton>
                   ))}
                 </React.Fragment>
               ))}

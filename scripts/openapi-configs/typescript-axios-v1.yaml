@@ -5,3 +5,4 @@ ignoreFileOverride: frontends/api/.openapi-generator-ignore
 additionalProperties:
   paramNaming: original
   useSingleRequestParameter: true
+  supportsES6: false

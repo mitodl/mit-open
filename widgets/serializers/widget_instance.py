@@ -1,5 +1,7 @@
 """WidgetInstnace serializer"""
 
+from typing import Optional
+
 from rest_framework import serializers
 
 from main.serializers import WriteableSerializerMethodField
@@ -61,13 +63,13 @@ class WidgetInstanceSerializer(serializers.ModelSerializer):
         # we'll end up here when WidgetListSerializer validates its widgets field
         return {"configuration": value}
 
-    def get_configuration(self, instance):
+    def get_configuration(self, instance) -> dict:
         """Returns the configuration to serialize"""  # noqa: D401
         return instance.configuration
 
-    def get_json(self, instance):  # pylint: disable=unused-argument  # noqa: ARG002
+    def get_json(self, instance) -> Optional[dict]:  # pylint: disable=unused-argument  # noqa: ARG002
         """Renders the widget to json based on configuration"""  # noqa: D401
-        return
+        return None
 
     class Meta:
         model = WidgetInstance

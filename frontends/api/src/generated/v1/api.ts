@@ -6605,12 +6605,12 @@ export const CourseFeaturesApiAxiosParamCreator = function (
     /**
      * Course Features and Content Feature Types
      * @summary Retrieve
-     * @param {string} id
+     * @param {number} id A unique integer value identifying this learning resource content tag.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     courseFeaturesRetrieve: async (
-      id: string,
+      id: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -6697,12 +6697,12 @@ export const CourseFeaturesApiFp = function (configuration?: Configuration) {
     /**
      * Course Features and Content Feature Types
      * @summary Retrieve
-     * @param {string} id
+     * @param {number} id A unique integer value identifying this learning resource content tag.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async courseFeaturesRetrieve(
-      id: string,
+      id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -6803,11 +6803,11 @@ export interface CourseFeaturesApiCourseFeaturesListRequest {
  */
 export interface CourseFeaturesApiCourseFeaturesRetrieveRequest {
   /**
-   *
-   * @type {string}
+   * A unique integer value identifying this learning resource content tag.
+   * @type {number}
    * @memberof CourseFeaturesApiCourseFeaturesRetrieve
    */
-  readonly id: string
+  readonly id: number
 }
 
 /**
@@ -11287,7 +11287,6 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
-     * @param {LearningResourcesUserSubscriptionListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11309,7 +11308,6 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       q?: string,
       resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>,
       sortby?: LearningResourcesUserSubscriptionListSortbyEnum,
-      source_type?: LearningResourcesUserSubscriptionListSourceTypeEnum,
       topic?: Array<string>,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -11391,10 +11389,6 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (sortby !== undefined) {
         localVarQueryParameter["sortby"] = sortby
-      }
-
-      if (source_type !== undefined) {
-        localVarQueryParameter["source_type"] = source_type
       }
 
       if (topic) {
@@ -11739,7 +11733,6 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
-     * @param {LearningResourcesUserSubscriptionListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11761,7 +11754,6 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       q?: string,
       resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>,
       sortby?: LearningResourcesUserSubscriptionListSortbyEnum,
-      source_type?: LearningResourcesUserSubscriptionListSourceTypeEnum,
       topic?: Array<string>,
       options?: RawAxiosRequestConfig,
     ): Promise<
@@ -11788,7 +11780,6 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           q,
           resource_type,
           sortby,
-          source_type,
           topic,
           options,
         )
@@ -11999,7 +11990,6 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.q,
           requestParameters.resource_type,
           requestParameters.sortby,
-          requestParameters.source_type,
           requestParameters.topic,
           options,
         )
@@ -12314,13 +12304,6 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly sortby?: LearningResourcesUserSubscriptionListSortbyEnum
 
   /**
-   * The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
-   * @type {'search_subscription_type' | 'channel_subscription_type'}
-   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
-   */
-  readonly source_type?: LearningResourcesUserSubscriptionListSourceTypeEnum
-
-  /**
    * The topic name. To see a list of options go to api/v1/topics/
    * @type {Array<string>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
@@ -12556,7 +12539,6 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.q,
         requestParameters.resource_type,
         requestParameters.sortby,
-        requestParameters.source_type,
         requestParameters.topic,
         options,
       )
@@ -12955,15 +12937,6 @@ export const LearningResourcesUserSubscriptionListSortbyEnum = {
 } as const
 export type LearningResourcesUserSubscriptionListSortbyEnum =
   (typeof LearningResourcesUserSubscriptionListSortbyEnum)[keyof typeof LearningResourcesUserSubscriptionListSortbyEnum]
-/**
- * @export
- */
-export const LearningResourcesUserSubscriptionListSourceTypeEnum = {
-  SearchSubscriptionType: "search_subscription_type",
-  ChannelSubscriptionType: "channel_subscription_type",
-} as const
-export type LearningResourcesUserSubscriptionListSourceTypeEnum =
-  (typeof LearningResourcesUserSubscriptionListSourceTypeEnum)[keyof typeof LearningResourcesUserSubscriptionListSourceTypeEnum]
 /**
  * @export
  */
@@ -17404,9 +17377,8 @@ export const ProgramLettersApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Retrieve a single program letter.
-     * @summary Retrieve
-     * @param {string} id
+     * Detail only View for program letters
+     * @param {string} id A UUID string identifying this program letter.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -17461,9 +17433,8 @@ export const ProgramLettersApiFp = function (configuration?: Configuration) {
     ProgramLettersApiAxiosParamCreator(configuration)
   return {
     /**
-     * Retrieve a single program letter.
-     * @summary Retrieve
-     * @param {string} id
+     * Detail only View for program letters
+     * @param {string} id A UUID string identifying this program letter.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -17502,8 +17473,7 @@ export const ProgramLettersApiFactory = function (
   const localVarFp = ProgramLettersApiFp(configuration)
   return {
     /**
-     * Retrieve a single program letter.
-     * @summary Retrieve
+     * Detail only View for program letters
      * @param {ProgramLettersApiProgramLettersRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17526,7 +17496,7 @@ export const ProgramLettersApiFactory = function (
  */
 export interface ProgramLettersApiProgramLettersRetrieveRequest {
   /**
-   *
+   * A UUID string identifying this program letter.
    * @type {string}
    * @memberof ProgramLettersApiProgramLettersRetrieve
    */
@@ -17541,8 +17511,7 @@ export interface ProgramLettersApiProgramLettersRetrieveRequest {
  */
 export class ProgramLettersApi extends BaseAPI {
   /**
-   * Retrieve a single program letter.
-   * @summary Retrieve
+   * Detail only View for program letters
    * @param {ProgramLettersApiProgramLettersRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

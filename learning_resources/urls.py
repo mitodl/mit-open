@@ -6,16 +6,12 @@ from rest_framework_nested.routers import NestedSimpleRouter
 
 from learning_resources import views
 from learning_resources.views import WebhookOCWView
-from profiles.views import ProgramLetterViewSet
 
 router = SimpleRouter()
 router.register(
     r"learning_resources",
     views.LearningResourceViewSet,
     basename="learning_resources_api",
-)
-router.register(
-    r"program_letters", ProgramLetterViewSet, basename="program_letters_api"
 )
 nested_learning_resources_router = NestedSimpleRouter(
     router, r"learning_resources", lookup="learning_resource"

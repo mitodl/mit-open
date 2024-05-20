@@ -119,6 +119,19 @@ export interface Attestation {
   channels: Array<number>
 }
 /**
+ * Serializer for CKEditor settings
+ * @export
+ * @interface CKEditorSettings
+ */
+export interface CKEditorSettings {
+  /**
+   * Get the JWT token
+   * @type {string}
+   * @memberof CKEditorSettings
+   */
+  token: string | null
+}
+/**
  * Serializer for the ChannelDepartmentDetail model
  * @export
  * @interface ChannelDepartmentDetail
@@ -202,22 +215,6 @@ export interface ChannelTopicDetailRequest {
  * @enum {string}
  */
 
-export const ChannelTypeAe2Enum = {
-  Topic: "topic",
-  Department: "department",
-  Offeror: "offeror",
-  Pathway: "pathway",
-} as const
-
-export type ChannelTypeAe2Enum =
-  (typeof ChannelTypeAe2Enum)[keyof typeof ChannelTypeAe2Enum]
-
-/**
- * * `topic` - topic * `department` - department * `offeror` - offeror * `pathway` - pathway
- * @export
- * @enum {string}
- */
-
 export const ChannelTypeEnum = {
   Topic: "topic",
   Department: "department",
@@ -277,7 +274,7 @@ export interface DepartmentChannel {
    */
   lists: Array<LearningPathPreview>
   /**
-   *
+   * Get the URL for the channel
    * @type {string}
    * @memberof DepartmentChannel
    */
@@ -296,10 +293,10 @@ export interface DepartmentChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {DepartmentChannelChannelTypeEnum}
+   * @type {DepartmentChannelTypeEnum}
    * @memberof DepartmentChannel
    */
-  channel_type: DepartmentChannelChannelTypeEnum
+  channel_type: DepartmentChannelTypeEnum
   /**
    *
    * @type {ChannelDepartmentDetail}
@@ -369,19 +366,6 @@ export interface DepartmentChannel {
 }
 
 /**
- *
- * @export
- * @enum {string}
- */
-
-export const DepartmentChannelChannelTypeEnum = {
-  Department: "department",
-} as const
-
-export type DepartmentChannelChannelTypeEnum =
-  (typeof DepartmentChannelChannelTypeEnum)[keyof typeof DepartmentChannelChannelTypeEnum]
-
-/**
  * Learning path featured in this field.
  * @export
  * @interface DepartmentChannelFeaturedList
@@ -405,6 +389,137 @@ export interface DepartmentChannelFeaturedList {
    * @memberof DepartmentChannelFeaturedList
    */
   id: number
+}
+/**
+ * * `department` - Department
+ * @export
+ * @enum {string}
+ */
+
+export const DepartmentChannelTypeEnum = {
+  Department: "department",
+} as const
+
+export type DepartmentChannelTypeEnum =
+  (typeof DepartmentChannelTypeEnum)[keyof typeof DepartmentChannelTypeEnum]
+
+/**
+ * Serializer for News FeedItem
+ * @export
+ * @interface EventFeedItem
+ */
+export interface EventFeedItem {
+  /**
+   *
+   * @type {number}
+   * @memberof EventFeedItem
+   */
+  id: number
+  /**
+   *
+   * @type {EventFeedItemFeedTypeEnum}
+   * @memberof EventFeedItem
+   */
+  feed_type: EventFeedItemFeedTypeEnum
+  /**
+   *
+   * @type {FeedImage}
+   * @memberof EventFeedItem
+   */
+  image: FeedImage
+  /**
+   *
+   * @type {FeedEventDetail}
+   * @memberof EventFeedItem
+   */
+  event_details: FeedEventDetail
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  guid: string
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  url: string
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  summary?: string
+  /**
+   *
+   * @type {string}
+   * @memberof EventFeedItem
+   */
+  content?: string
+  /**
+   *
+   * @type {number}
+   * @memberof EventFeedItem
+   */
+  source: number
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const EventFeedItemFeedTypeEnum = {
+  Events: "events",
+} as const
+
+export type EventFeedItemFeedTypeEnum =
+  (typeof EventFeedItemFeedTypeEnum)[keyof typeof EventFeedItemFeedTypeEnum]
+
+/**
+ * FeedEventDetail serializer
+ * @export
+ * @interface FeedEventDetail
+ */
+export interface FeedEventDetail {
+  /**
+   *
+   * @type {number}
+   * @memberof FeedEventDetail
+   */
+  id: number
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedEventDetail
+   */
+  audience: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedEventDetail
+   */
+  location: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedEventDetail
+   */
+  event_type: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof FeedEventDetail
+   */
+  event_datetime: string
 }
 /**
  * Serializer for FeedImage
@@ -436,6 +551,45 @@ export interface FeedImage {
    * @memberof FeedImage
    */
   alt?: string
+}
+/**
+ * @type FeedItem
+ * @export
+ */
+export type FeedItem =
+  | ({ resource_type: "events" } & EventFeedItem)
+  | ({ resource_type: "news" } & NewsFeedItem)
+
+/**
+ * FeedNewsDetail serializer
+ * @export
+ * @interface FeedNewsDetail
+ */
+export interface FeedNewsDetail {
+  /**
+   *
+   * @type {number}
+   * @memberof FeedNewsDetail
+   */
+  id: number
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedNewsDetail
+   */
+  authors?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof FeedNewsDetail
+   */
+  topics?: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof FeedNewsDetail
+   */
+  publish_date: string
 }
 /**
  * FeedSource serializer
@@ -475,10 +629,10 @@ export interface FeedSource {
   description?: string
   /**
    *
-   * @type {FeedTypeEnum}
+   * @type {FeedSourceFeedTypeEnum}
    * @memberof FeedSource
    */
-  feed_type: FeedTypeEnum
+  feed_type: FeedSourceFeedTypeEnum
 }
 
 /**
@@ -487,12 +641,13 @@ export interface FeedSource {
  * @enum {string}
  */
 
-export const FeedTypeEnum = {
+export const FeedSourceFeedTypeEnum = {
   News: "news",
   Events: "events",
 } as const
 
-export type FeedTypeEnum = (typeof FeedTypeEnum)[keyof typeof FeedTypeEnum]
+export type FeedSourceFeedTypeEnum =
+  (typeof FeedSourceFeedTypeEnum)[keyof typeof FeedSourceFeedTypeEnum]
 
 /**
  * @type FieldChannel
@@ -566,10 +721,10 @@ export interface FieldChannelCreateRequest {
   about?: any | null
   /**
    *
-   * @type {ChannelTypeAe2Enum}
+   * @type {ChannelTypeEnum}
    * @memberof FieldChannelCreateRequest
    */
-  channel_type?: ChannelTypeAe2Enum
+  channel_type: ChannelTypeEnum
   /**
    *
    * @type {string}
@@ -672,6 +827,87 @@ export interface LearningPathPreview {
   id: number
 }
 /**
+ * Serializer for News FeedItem
+ * @export
+ * @interface NewsFeedItem
+ */
+export interface NewsFeedItem {
+  /**
+   *
+   * @type {number}
+   * @memberof NewsFeedItem
+   */
+  id: number
+  /**
+   *
+   * @type {NewsFeedItemFeedTypeEnum}
+   * @memberof NewsFeedItem
+   */
+  feed_type: NewsFeedItemFeedTypeEnum
+  /**
+   *
+   * @type {FeedImage}
+   * @memberof NewsFeedItem
+   */
+  image: FeedImage
+  /**
+   *
+   * @type {FeedNewsDetail}
+   * @memberof NewsFeedItem
+   */
+  news_details: FeedNewsDetail
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  guid: string
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  url: string
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  summary?: string
+  /**
+   *
+   * @type {string}
+   * @memberof NewsFeedItem
+   */
+  content?: string
+  /**
+   *
+   * @type {number}
+   * @memberof NewsFeedItem
+   */
+  source: number
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const NewsFeedItemFeedTypeEnum = {
+  News: "news",
+} as const
+
+export type NewsFeedItemFeedTypeEnum =
+  (typeof NewsFeedItemFeedTypeEnum)[keyof typeof NewsFeedItemFeedTypeEnum]
+
+/**
  * Serializer for Channel model of type offeror
  * @export
  * @interface OfferorChannel
@@ -720,7 +956,7 @@ export interface OfferorChannel {
    */
   lists: Array<LearningPathPreview>
   /**
-   *
+   * Get the URL for the channel
    * @type {string}
    * @memberof OfferorChannel
    */
@@ -739,10 +975,10 @@ export interface OfferorChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {OfferorChannelChannelTypeEnum}
+   * @type {OfferorChannelTypeEnum}
    * @memberof OfferorChannel
    */
-  channel_type: OfferorChannelChannelTypeEnum
+  channel_type: OfferorChannelTypeEnum
   /**
    *
    * @type {ChannelOfferorDetail}
@@ -812,17 +1048,17 @@ export interface OfferorChannel {
 }
 
 /**
- *
+ * * `offeror` - Offeror
  * @export
  * @enum {string}
  */
 
-export const OfferorChannelChannelTypeEnum = {
+export const OfferorChannelTypeEnum = {
   Offeror: "offeror",
 } as const
 
-export type OfferorChannelChannelTypeEnum =
-  (typeof OfferorChannelChannelTypeEnum)[keyof typeof OfferorChannelChannelTypeEnum]
+export type OfferorChannelTypeEnum =
+  (typeof OfferorChannelTypeEnum)[keyof typeof OfferorChannelTypeEnum]
 
 /**
  *
@@ -854,6 +1090,37 @@ export interface PaginatedAttestationList {
    * @memberof PaginatedAttestationList
    */
   results: Array<Attestation>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedFeedItemList
+ */
+export interface PaginatedFeedItemList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedFeedItemList
+   */
+  count: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedFeedItemList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedFeedItemList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<FeedItem>}
+   * @memberof PaginatedFeedItemList
+   */
+  results: Array<FeedItem>
 }
 /**
  *
@@ -979,10 +1246,10 @@ export interface PatchedFieldChannelWriteRequest {
   about?: any | null
   /**
    *
-   * @type {ChannelTypeAe2Enum}
+   * @type {ChannelTypeEnum}
    * @memberof PatchedFieldChannelWriteRequest
    */
-  channel_type?: ChannelTypeAe2Enum
+  channel_type?: ChannelTypeEnum
   /**
    *
    * @type {string}
@@ -1015,6 +1282,104 @@ export interface PatchedFieldChannelWriteRequest {
   offeror_detail?: ChannelOfferorDetailRequest | null
 }
 
+/**
+ * Serializer for Profile
+ * @export
+ * @interface PatchedProfileRequest
+ */
+export interface PatchedProfileRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedProfileRequest
+   */
+  name?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedProfileRequest
+   */
+  image?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedProfileRequest
+   */
+  image_small?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedProfileRequest
+   */
+  image_medium?: string | null
+  /**
+   *
+   * @type {File}
+   * @memberof PatchedProfileRequest
+   */
+  image_file?: File | null
+  /**
+   *
+   * @type {File}
+   * @memberof PatchedProfileRequest
+   */
+  image_small_file?: File | null
+  /**
+   *
+   * @type {File}
+   * @memberof PatchedProfileRequest
+   */
+  image_medium_file?: File | null
+  /**
+   *
+   * @type {boolean}
+   * @memberof PatchedProfileRequest
+   */
+  email_optin?: boolean
+  /**
+   *
+   * @type {boolean}
+   * @memberof PatchedProfileRequest
+   */
+  toc_optin?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedProfileRequest
+   */
+  bio?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedProfileRequest
+   */
+  headline?: string | null
+  /**
+   *
+   * @type {any}
+   * @memberof PatchedProfileRequest
+   */
+  location?: any | null
+}
+/**
+ * Serializer for User
+ * @export
+ * @interface PatchedUserRequest
+ */
+export interface PatchedUserRequest {
+  /**
+   *
+   * @type {ProfileRequest}
+   * @memberof PatchedUserRequest
+   */
+  profile?: ProfileRequest
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedUserRequest
+   */
+  email?: string
+}
 /**
  * Serializer for WidgetLists
  * @export
@@ -1077,7 +1442,7 @@ export interface PathwayChannel {
    */
   lists: Array<LearningPathPreview>
   /**
-   *
+   * Get the URL for the channel
    * @type {string}
    * @memberof PathwayChannel
    */
@@ -1096,10 +1461,10 @@ export interface PathwayChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {PathwayChannelChannelTypeEnum}
+   * @type {PathwayChannelTypeEnum}
    * @memberof PathwayChannel
    */
-  channel_type: PathwayChannelChannelTypeEnum
+  channel_type: PathwayChannelTypeEnum
   /**
    *
    * @type {string}
@@ -1163,17 +1528,17 @@ export interface PathwayChannel {
 }
 
 /**
- *
+ * * `pathway` - Pathway
  * @export
  * @enum {string}
  */
 
-export const PathwayChannelChannelTypeEnum = {
+export const PathwayChannelTypeEnum = {
   Pathway: "pathway",
 } as const
 
-export type PathwayChannelChannelTypeEnum =
-  (typeof PathwayChannelChannelTypeEnum)[keyof typeof PathwayChannelChannelTypeEnum]
+export type PathwayChannelTypeEnum =
+  (typeof PathwayChannelTypeEnum)[keyof typeof PathwayChannelTypeEnum]
 
 /**
  * Serializer for Profile
@@ -1224,13 +1589,13 @@ export interface Profile {
    */
   image_medium_file?: string | null
   /**
-   *
+   * Custom getter for small profile image
    * @type {string}
    * @memberof Profile
    */
   profile_image_small: string
   /**
-   *
+   * Custom getter for medium profile image
    * @type {string}
    * @memberof Profile
    */
@@ -1248,18 +1613,259 @@ export interface Profile {
    */
   headline?: string | null
   /**
-   *
+   * Custom getter for the username
    * @type {string}
    * @memberof Profile
    */
   username: string
   /**
-   *
+   * Custom getter for location text
    * @type {string}
    * @memberof Profile
    */
   placename: string
 }
+/**
+ * Serializer for Profile
+ * @export
+ * @interface ProfileRequest
+ */
+export interface ProfileRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ProfileRequest
+   */
+  name?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProfileRequest
+   */
+  image?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProfileRequest
+   */
+  image_small?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProfileRequest
+   */
+  image_medium?: string | null
+  /**
+   *
+   * @type {File}
+   * @memberof ProfileRequest
+   */
+  image_file?: File | null
+  /**
+   *
+   * @type {File}
+   * @memberof ProfileRequest
+   */
+  image_small_file?: File | null
+  /**
+   *
+   * @type {File}
+   * @memberof ProfileRequest
+   */
+  image_medium_file?: File | null
+  /**
+   *
+   * @type {boolean}
+   * @memberof ProfileRequest
+   */
+  email_optin?: boolean
+  /**
+   *
+   * @type {boolean}
+   * @memberof ProfileRequest
+   */
+  toc_optin?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof ProfileRequest
+   */
+  bio?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProfileRequest
+   */
+  headline?: string | null
+  /**
+   *
+   * @type {any}
+   * @memberof ProfileRequest
+   */
+  location?: any | null
+}
+/**
+ * Serializer for Program Certificates
+ * @export
+ * @interface ProgramCertificate
+ */
+export interface ProgramCertificate {
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  record_hash: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_letter_generate_url: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_letter_share_url: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_title: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_full_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_email: string
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  user_edxorg_id?: number | null
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  micromasters_program_id?: number | null
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificate
+   */
+  mitxonline_program_id?: number | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_edxorg_username?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_gender?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_address_city?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_first_name?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_last_name?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_year_of_birth?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_country?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_address_postal_code?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_street_address?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_address_state_or_territory?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  user_mitxonline_username?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificate
+   */
+  program_completion_timestamp?: string | null
+}
+/**
+ * * `news` - news * `events` - events
+ * @export
+ * @enum {string}
+ */
+
+export const ResourceTypeEnum = {
+  News: "news",
+  Events: "events",
+} as const
+
+export type ResourceTypeEnum =
+  (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
+
+/**
+ * * `facebook` - facebook * `linkedin` - linkedin * `personal` - personal * `twitter` - twitter
+ * @export
+ * @enum {string}
+ */
+
+export const SiteTypeEnum = {
+  Facebook: "facebook",
+  Linkedin: "linkedin",
+  Personal: "personal",
+  Twitter: "twitter",
+} as const
+
+export type SiteTypeEnum = (typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]
+
 /**
  * Serializer for Subfields
  * @export
@@ -1334,7 +1940,7 @@ export interface TopicChannel {
    */
   lists: Array<LearningPathPreview>
   /**
-   *
+   * Get the URL for the channel
    * @type {string}
    * @memberof TopicChannel
    */
@@ -1353,10 +1959,10 @@ export interface TopicChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {TopicChannelChannelTypeEnum}
+   * @type {TopicChannelTypeEnum}
    * @memberof TopicChannel
    */
-  channel_type: TopicChannelChannelTypeEnum
+  channel_type: TopicChannelTypeEnum
   /**
    *
    * @type {ChannelTopicDetail}
@@ -1426,17 +2032,17 @@ export interface TopicChannel {
 }
 
 /**
- *
+ * * `topic` - Topic
  * @export
  * @enum {string}
  */
 
-export const TopicChannelChannelTypeEnum = {
+export const TopicChannelTypeEnum = {
   Topic: "topic",
 } as const
 
-export type TopicChannelChannelTypeEnum =
-  (typeof TopicChannelChannelTypeEnum)[keyof typeof TopicChannelChannelTypeEnum]
+export type TopicChannelTypeEnum =
+  (typeof TopicChannelTypeEnum)[keyof typeof TopicChannelTypeEnum]
 
 /**
  * Serializer for User
@@ -1476,16 +2082,86 @@ export interface User {
   last_name: string
   /**
    *
-   * @type {string}
+   * @type {boolean}
    * @memberof User
    */
-  is_article_editor: string
+  is_article_editor: boolean
+  /**
+   *
+   * @type {boolean}
+   * @memberof User
+   */
+  is_learning_path_editor: boolean
+}
+/**
+ * Serializer for User
+ * @export
+ * @interface UserRequest
+ */
+export interface UserRequest {
+  /**
+   *
+   * @type {ProfileRequest}
+   * @memberof UserRequest
+   */
+  profile: ProfileRequest
   /**
    *
    * @type {string}
-   * @memberof User
+   * @memberof UserRequest
    */
-  is_learning_path_editor: string
+  email: string
+}
+/**
+ * Serializer for UserWebsite
+ * @export
+ * @interface UserWebsite
+ */
+export interface UserWebsite {
+  /**
+   *
+   * @type {number}
+   * @memberof UserWebsite
+   */
+  id: number
+  /**
+   *
+   * @type {number}
+   * @memberof UserWebsite
+   */
+  profile: number
+  /**
+   *
+   * @type {string}
+   * @memberof UserWebsite
+   */
+  url: string
+  /**
+   *
+   * @type {SiteTypeEnum}
+   * @memberof UserWebsite
+   */
+  site_type: SiteTypeEnum
+}
+
+/**
+ * Serializer for UserWebsite
+ * @export
+ * @interface UserWebsiteRequest
+ */
+export interface UserWebsiteRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof UserWebsiteRequest
+   */
+  profile: number
+  /**
+   *
+   * @type {string}
+   * @memberof UserWebsiteRequest
+   */
+  url: string
 }
 /**
  * WidgetInstance serializer
@@ -1512,17 +2188,17 @@ export interface WidgetInstance {
    */
   title: string
   /**
-   *
-   * @type {string}
+   * Returns the configuration to serialize
+   * @type {{ [key: string]: any; }}
    * @memberof WidgetInstance
    */
-  configuration?: string
+  configuration?: { [key: string]: any }
   /**
-   *
-   * @type {string}
+   * Renders the widget to json based on configuration
+   * @type {{ [key: string]: any; }}
    * @memberof WidgetInstance
    */
-  json: string
+  json: { [key: string]: any } | null
 }
 
 /**
@@ -2910,14 +3586,14 @@ export const CkeditorApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * Get the JWT to authenticate for CKEditor
+     * Get the settings response
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     ckeditorRetrieve: async (
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/ckeditor/`
+      const localVarPath = `/api/v0/ckeditor`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -2958,14 +3634,17 @@ export const CkeditorApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = CkeditorApiAxiosParamCreator(configuration)
   return {
     /**
-     * Get the JWT to authenticate for CKEditor
+     * Get the settings response
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async ckeditorRetrieve(
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<CKEditorSettings>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.ckeditorRetrieve(options)
@@ -2995,11 +3674,13 @@ export const CkeditorApiFactory = function (
   const localVarFp = CkeditorApiFp(configuration)
   return {
     /**
-     * Get the JWT to authenticate for CKEditor
+     * Get the settings response
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    ckeditorRetrieve(options?: RawAxiosRequestConfig): AxiosPromise<void> {
+    ckeditorRetrieve(
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<CKEditorSettings> {
       return localVarFp
         .ckeditorRetrieve(options)
         .then((request) => request(axios, basePath))
@@ -3015,7 +3696,7 @@ export const CkeditorApiFactory = function (
  */
 export class CkeditorApi extends BaseAPI {
   /**
-   * Get the JWT to authenticate for CKEditor
+   * Get the settings response
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof CkeditorApi
@@ -3161,7 +3842,10 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
       offset?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedFeedItemList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.newsEventsList(
         feed_type,
@@ -3190,7 +3874,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
       id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedItem>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.newsEventsRetrieve(id, options)
@@ -3228,7 +3912,7 @@ export const NewsEventsApiFactory = function (
     newsEventsList(
       requestParameters: NewsEventsApiNewsEventsListRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<PaginatedFeedItemList> {
       return localVarFp
         .newsEventsList(
           requestParameters.feed_type,
@@ -3247,7 +3931,7 @@ export const NewsEventsApiFactory = function (
     newsEventsRetrieve(
       requestParameters: NewsEventsApiNewsEventsRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
+    ): AxiosPromise<FeedItem> {
       return localVarFp
         .newsEventsRetrieve(requestParameters.id, options)
         .then((request) => request(axios, basePath))
@@ -3686,6 +4370,649 @@ export type NewsEventsSourcesListFeedTypeEnum =
   (typeof NewsEventsSourcesListFeedTypeEnum)[keyof typeof NewsEventsSourcesListFeedTypeEnum]
 
 /**
+ * ProfilesApi - axios parameter creator
+ * @export
+ */
+export const ProfilesApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * View for profile
+     * @param {string} user__username
+     * @param {PatchedProfileRequest} [PatchedProfileRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    profilesPartialUpdate: async (
+      user__username: string,
+      PatchedProfileRequest?: PatchedProfileRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'user__username' is not null or undefined
+      assertParamExists(
+        "profilesPartialUpdate",
+        "user__username",
+        user__username,
+      )
+      const localVarPath = `/api/v0/profiles/{user__username}/`.replace(
+        `{${"user__username"}}`,
+        encodeURIComponent(String(user__username)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedProfileRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for profile
+     * @param {string} user__username
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    profilesRetrieve: async (
+      user__username: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'user__username' is not null or undefined
+      assertParamExists("profilesRetrieve", "user__username", user__username)
+      const localVarPath = `/api/v0/profiles/{user__username}/`.replace(
+        `{${"user__username"}}`,
+        encodeURIComponent(String(user__username)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for profile
+     * @param {string} user__username
+     * @param {ProfileRequest} [ProfileRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    profilesUpdate: async (
+      user__username: string,
+      ProfileRequest?: ProfileRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'user__username' is not null or undefined
+      assertParamExists("profilesUpdate", "user__username", user__username)
+      const localVarPath = `/api/v0/profiles/{user__username}/`.replace(
+        `{${"user__username"}}`,
+        encodeURIComponent(String(user__username)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        ProfileRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * ProfilesApi - functional programming interface
+ * @export
+ */
+export const ProfilesApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = ProfilesApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * View for profile
+     * @param {string} user__username
+     * @param {PatchedProfileRequest} [PatchedProfileRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async profilesPartialUpdate(
+      user__username: string,
+      PatchedProfileRequest?: PatchedProfileRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.profilesPartialUpdate(
+          user__username,
+          PatchedProfileRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["ProfilesApi.profilesPartialUpdate"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for profile
+     * @param {string} user__username
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async profilesRetrieve(
+      user__username: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.profilesRetrieve(
+          user__username,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["ProfilesApi.profilesRetrieve"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for profile
+     * @param {string} user__username
+     * @param {ProfileRequest} [ProfileRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async profilesUpdate(
+      user__username: string,
+      ProfileRequest?: ProfileRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.profilesUpdate(
+        user__username,
+        ProfileRequest,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["ProfilesApi.profilesUpdate"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * ProfilesApi - factory interface
+ * @export
+ */
+export const ProfilesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = ProfilesApiFp(configuration)
+  return {
+    /**
+     * View for profile
+     * @param {ProfilesApiProfilesPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    profilesPartialUpdate(
+      requestParameters: ProfilesApiProfilesPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Profile> {
+      return localVarFp
+        .profilesPartialUpdate(
+          requestParameters.user__username,
+          requestParameters.PatchedProfileRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for profile
+     * @param {ProfilesApiProfilesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    profilesRetrieve(
+      requestParameters: ProfilesApiProfilesRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Profile> {
+      return localVarFp
+        .profilesRetrieve(requestParameters.user__username, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for profile
+     * @param {ProfilesApiProfilesUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    profilesUpdate(
+      requestParameters: ProfilesApiProfilesUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Profile> {
+      return localVarFp
+        .profilesUpdate(
+          requestParameters.user__username,
+          requestParameters.ProfileRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for profilesPartialUpdate operation in ProfilesApi.
+ * @export
+ * @interface ProfilesApiProfilesPartialUpdateRequest
+ */
+export interface ProfilesApiProfilesPartialUpdateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ProfilesApiProfilesPartialUpdate
+   */
+  readonly user__username: string
+
+  /**
+   *
+   * @type {PatchedProfileRequest}
+   * @memberof ProfilesApiProfilesPartialUpdate
+   */
+  readonly PatchedProfileRequest?: PatchedProfileRequest
+}
+
+/**
+ * Request parameters for profilesRetrieve operation in ProfilesApi.
+ * @export
+ * @interface ProfilesApiProfilesRetrieveRequest
+ */
+export interface ProfilesApiProfilesRetrieveRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ProfilesApiProfilesRetrieve
+   */
+  readonly user__username: string
+}
+
+/**
+ * Request parameters for profilesUpdate operation in ProfilesApi.
+ * @export
+ * @interface ProfilesApiProfilesUpdateRequest
+ */
+export interface ProfilesApiProfilesUpdateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ProfilesApiProfilesUpdate
+   */
+  readonly user__username: string
+
+  /**
+   *
+   * @type {ProfileRequest}
+   * @memberof ProfilesApiProfilesUpdate
+   */
+  readonly ProfileRequest?: ProfileRequest
+}
+
+/**
+ * ProfilesApi - object-oriented interface
+ * @export
+ * @class ProfilesApi
+ * @extends {BaseAPI}
+ */
+export class ProfilesApi extends BaseAPI {
+  /**
+   * View for profile
+   * @param {ProfilesApiProfilesPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProfilesApi
+   */
+  public profilesPartialUpdate(
+    requestParameters: ProfilesApiProfilesPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ProfilesApiFp(this.configuration)
+      .profilesPartialUpdate(
+        requestParameters.user__username,
+        requestParameters.PatchedProfileRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for profile
+   * @param {ProfilesApiProfilesRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProfilesApi
+   */
+  public profilesRetrieve(
+    requestParameters: ProfilesApiProfilesRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ProfilesApiFp(this.configuration)
+      .profilesRetrieve(requestParameters.user__username, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for profile
+   * @param {ProfilesApiProfilesUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProfilesApi
+   */
+  public profilesUpdate(
+    requestParameters: ProfilesApiProfilesUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ProfilesApiFp(this.configuration)
+      .profilesUpdate(
+        requestParameters.user__username,
+        requestParameters.ProfileRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * ProgramCertificatesApi - axios parameter creator
+ * @export
+ */
+export const ProgramCertificatesApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * View for listing program certificates for a user (includes program letter links)
+     * @param {number} [micromasters_program_id]
+     * @param {string} [program_title]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programCertificatesList: async (
+      micromasters_program_id?: number,
+      program_title?: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/program_certificates/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (micromasters_program_id !== undefined) {
+        localVarQueryParameter["micromasters_program_id"] =
+          micromasters_program_id
+      }
+
+      if (program_title !== undefined) {
+        localVarQueryParameter["program_title"] = program_title
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * ProgramCertificatesApi - functional programming interface
+ * @export
+ */
+export const ProgramCertificatesApiFp = function (
+  configuration?: Configuration,
+) {
+  const localVarAxiosParamCreator =
+    ProgramCertificatesApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * View for listing program certificates for a user (includes program letter links)
+     * @param {number} [micromasters_program_id]
+     * @param {string} [program_title]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async programCertificatesList(
+      micromasters_program_id?: number,
+      program_title?: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<ProgramCertificate>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.programCertificatesList(
+          micromasters_program_id,
+          program_title,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["ProgramCertificatesApi.programCertificatesList"]?.[
+          index
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * ProgramCertificatesApi - factory interface
+ * @export
+ */
+export const ProgramCertificatesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = ProgramCertificatesApiFp(configuration)
+  return {
+    /**
+     * View for listing program certificates for a user (includes program letter links)
+     * @param {ProgramCertificatesApiProgramCertificatesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    programCertificatesList(
+      requestParameters: ProgramCertificatesApiProgramCertificatesListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<ProgramCertificate>> {
+      return localVarFp
+        .programCertificatesList(
+          requestParameters.micromasters_program_id,
+          requestParameters.program_title,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for programCertificatesList operation in ProgramCertificatesApi.
+ * @export
+ * @interface ProgramCertificatesApiProgramCertificatesListRequest
+ */
+export interface ProgramCertificatesApiProgramCertificatesListRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramCertificatesApiProgramCertificatesList
+   */
+  readonly micromasters_program_id?: number
+
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramCertificatesApiProgramCertificatesList
+   */
+  readonly program_title?: string
+}
+
+/**
+ * ProgramCertificatesApi - object-oriented interface
+ * @export
+ * @class ProgramCertificatesApi
+ * @extends {BaseAPI}
+ */
+export class ProgramCertificatesApi extends BaseAPI {
+  /**
+   * View for listing program certificates for a user (includes program letter links)
+   * @param {ProgramCertificatesApiProgramCertificatesListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ProgramCertificatesApi
+   */
+  public programCertificatesList(
+    requestParameters: ProgramCertificatesApiProgramCertificatesListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ProgramCertificatesApiFp(this.configuration)
+      .programCertificatesList(
+        requestParameters.micromasters_program_id,
+        requestParameters.program_title,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
  * TestimonialsApi - axios parameter creator
  * @export
  */
@@ -4039,6 +5366,138 @@ export const UsersApiAxiosParamCreator = function (
 ) {
   return {
     /**
+     * View for users
+     * @param {UserRequest} UserRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersCreate: async (
+      UserRequest: UserRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'UserRequest' is not null or undefined
+      assertParamExists("usersCreate", "UserRequest", UserRequest)
+      const localVarPath = `/api/v0/users/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        UserRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for users
+     * @param {string} username
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersDestroy: async (
+      username: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'username' is not null or undefined
+      assertParamExists("usersDestroy", "username", username)
+      const localVarPath = `/api/v0/users/{username}/`.replace(
+        `{${"username"}}`,
+        encodeURIComponent(String(username)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for users
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersList: async (
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/users/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * User retrieve and update viewsets for the current user
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4076,6 +5535,161 @@ export const UsersApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
+    /**
+     * View for users
+     * @param {string} username
+     * @param {PatchedUserRequest} [PatchedUserRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersPartialUpdate: async (
+      username: string,
+      PatchedUserRequest?: PatchedUserRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'username' is not null or undefined
+      assertParamExists("usersPartialUpdate", "username", username)
+      const localVarPath = `/api/v0/users/{username}/`.replace(
+        `{${"username"}}`,
+        encodeURIComponent(String(username)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedUserRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for users
+     * @param {string} username
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersRetrieve: async (
+      username: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'username' is not null or undefined
+      assertParamExists("usersRetrieve", "username", username)
+      const localVarPath = `/api/v0/users/{username}/`.replace(
+        `{${"username"}}`,
+        encodeURIComponent(String(username)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for users
+     * @param {string} username
+     * @param {UserRequest} UserRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersUpdate: async (
+      username: string,
+      UserRequest: UserRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'username' is not null or undefined
+      assertParamExists("usersUpdate", "username", username)
+      // verify required parameter 'UserRequest' is not null or undefined
+      assertParamExists("usersUpdate", "UserRequest", UserRequest)
+      const localVarPath = `/api/v0/users/{username}/`.replace(
+        `{${"username"}}`,
+        encodeURIComponent(String(username)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PUT",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        UserRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
   }
 }
 
@@ -4086,6 +5700,83 @@ export const UsersApiAxiosParamCreator = function (
 export const UsersApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
   return {
+    /**
+     * View for users
+     * @param {UserRequest} UserRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async usersCreate(
+      UserRequest: UserRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.usersCreate(
+        UserRequest,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UsersApi.usersCreate"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for users
+     * @param {string} username
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async usersDestroy(
+      username: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.usersDestroy(
+        username,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UsersApi.usersDestroy"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for users
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async usersList(
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<User>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.usersList(options)
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UsersApi.usersList"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
     /**
      * User retrieve and update viewsets for the current user
      * @param {*} [options] Override http request option.
@@ -4109,6 +5800,94 @@ export const UsersApiFp = function (configuration?: Configuration) {
           configuration,
         )(axios, operationBasePath || basePath)
     },
+    /**
+     * View for users
+     * @param {string} username
+     * @param {PatchedUserRequest} [PatchedUserRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async usersPartialUpdate(
+      username: string,
+      PatchedUserRequest?: PatchedUserRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.usersPartialUpdate(
+          username,
+          PatchedUserRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UsersApi.usersPartialUpdate"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for users
+     * @param {string} username
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async usersRetrieve(
+      username: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.usersRetrieve(
+        username,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UsersApi.usersRetrieve"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for users
+     * @param {string} username
+     * @param {UserRequest} UserRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async usersUpdate(
+      username: string,
+      UserRequest: UserRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.usersUpdate(
+        username,
+        UserRequest,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UsersApi.usersUpdate"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
   }
 }
 
@@ -4124,6 +5903,44 @@ export const UsersApiFactory = function (
   const localVarFp = UsersApiFp(configuration)
   return {
     /**
+     * View for users
+     * @param {UsersApiUsersCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersCreate(
+      requestParameters: UsersApiUsersCreateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<User> {
+      return localVarFp
+        .usersCreate(requestParameters.UserRequest, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for users
+     * @param {UsersApiUsersDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersDestroy(
+      requestParameters: UsersApiUsersDestroyRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .usersDestroy(requestParameters.username, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for users
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersList(options?: RawAxiosRequestConfig): AxiosPromise<Array<User>> {
+      return localVarFp
+        .usersList(options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * User retrieve and update viewsets for the current user
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4133,7 +5950,141 @@ export const UsersApiFactory = function (
         .usersMeRetrieve(options)
         .then((request) => request(axios, basePath))
     },
+    /**
+     * View for users
+     * @param {UsersApiUsersPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersPartialUpdate(
+      requestParameters: UsersApiUsersPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<User> {
+      return localVarFp
+        .usersPartialUpdate(
+          requestParameters.username,
+          requestParameters.PatchedUserRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for users
+     * @param {UsersApiUsersRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersRetrieve(
+      requestParameters: UsersApiUsersRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<User> {
+      return localVarFp
+        .usersRetrieve(requestParameters.username, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for users
+     * @param {UsersApiUsersUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    usersUpdate(
+      requestParameters: UsersApiUsersUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<User> {
+      return localVarFp
+        .usersUpdate(
+          requestParameters.username,
+          requestParameters.UserRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
   }
+}
+
+/**
+ * Request parameters for usersCreate operation in UsersApi.
+ * @export
+ * @interface UsersApiUsersCreateRequest
+ */
+export interface UsersApiUsersCreateRequest {
+  /**
+   *
+   * @type {UserRequest}
+   * @memberof UsersApiUsersCreate
+   */
+  readonly UserRequest: UserRequest
+}
+
+/**
+ * Request parameters for usersDestroy operation in UsersApi.
+ * @export
+ * @interface UsersApiUsersDestroyRequest
+ */
+export interface UsersApiUsersDestroyRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof UsersApiUsersDestroy
+   */
+  readonly username: string
+}
+
+/**
+ * Request parameters for usersPartialUpdate operation in UsersApi.
+ * @export
+ * @interface UsersApiUsersPartialUpdateRequest
+ */
+export interface UsersApiUsersPartialUpdateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof UsersApiUsersPartialUpdate
+   */
+  readonly username: string
+
+  /**
+   *
+   * @type {PatchedUserRequest}
+   * @memberof UsersApiUsersPartialUpdate
+   */
+  readonly PatchedUserRequest?: PatchedUserRequest
+}
+
+/**
+ * Request parameters for usersRetrieve operation in UsersApi.
+ * @export
+ * @interface UsersApiUsersRetrieveRequest
+ */
+export interface UsersApiUsersRetrieveRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof UsersApiUsersRetrieve
+   */
+  readonly username: string
+}
+
+/**
+ * Request parameters for usersUpdate operation in UsersApi.
+ * @export
+ * @interface UsersApiUsersUpdateRequest
+ */
+export interface UsersApiUsersUpdateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof UsersApiUsersUpdate
+   */
+  readonly username: string
+
+  /**
+   *
+   * @type {UserRequest}
+   * @memberof UsersApiUsersUpdate
+   */
+  readonly UserRequest: UserRequest
 }
 
 /**
@@ -4144,6 +6095,50 @@ export const UsersApiFactory = function (
  */
 export class UsersApi extends BaseAPI {
   /**
+   * View for users
+   * @param {UsersApiUsersCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public usersCreate(
+    requestParameters: UsersApiUsersCreateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UsersApiFp(this.configuration)
+      .usersCreate(requestParameters.UserRequest, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for users
+   * @param {UsersApiUsersDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public usersDestroy(
+    requestParameters: UsersApiUsersDestroyRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UsersApiFp(this.configuration)
+      .usersDestroy(requestParameters.username, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for users
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public usersList(options?: RawAxiosRequestConfig) {
+    return UsersApiFp(this.configuration)
+      .usersList(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
    * User retrieve and update viewsets for the current user
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4152,6 +6147,345 @@ export class UsersApi extends BaseAPI {
   public usersMeRetrieve(options?: RawAxiosRequestConfig) {
     return UsersApiFp(this.configuration)
       .usersMeRetrieve(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for users
+   * @param {UsersApiUsersPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public usersPartialUpdate(
+    requestParameters: UsersApiUsersPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UsersApiFp(this.configuration)
+      .usersPartialUpdate(
+        requestParameters.username,
+        requestParameters.PatchedUserRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for users
+   * @param {UsersApiUsersRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public usersRetrieve(
+    requestParameters: UsersApiUsersRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UsersApiFp(this.configuration)
+      .usersRetrieve(requestParameters.username, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for users
+   * @param {UsersApiUsersUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public usersUpdate(
+    requestParameters: UsersApiUsersUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UsersApiFp(this.configuration)
+      .usersUpdate(
+        requestParameters.username,
+        requestParameters.UserRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * WebsitesApi - axios parameter creator
+ * @export
+ */
+export const WebsitesApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * View for user websites
+     * @param {UserWebsiteRequest} UserWebsiteRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    websitesCreate: async (
+      UserWebsiteRequest: UserWebsiteRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'UserWebsiteRequest' is not null or undefined
+      assertParamExists(
+        "websitesCreate",
+        "UserWebsiteRequest",
+        UserWebsiteRequest,
+      )
+      const localVarPath = `/api/v0/websites/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "POST",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        UserWebsiteRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * View for user websites
+     * @param {number} id A unique integer value identifying this user website.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    websitesDestroy: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("websitesDestroy", "id", id)
+      const localVarPath = `/api/v0/websites/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "DELETE",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * WebsitesApi - functional programming interface
+ * @export
+ */
+export const WebsitesApiFp = function (configuration?: Configuration) {
+  const localVarAxiosParamCreator = WebsitesApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * View for user websites
+     * @param {UserWebsiteRequest} UserWebsiteRequest
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async websitesCreate(
+      UserWebsiteRequest: UserWebsiteRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserWebsite>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.websitesCreate(
+        UserWebsiteRequest,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["WebsitesApi.websitesCreate"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * View for user websites
+     * @param {number} id A unique integer value identifying this user website.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async websitesDestroy(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
+    > {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.websitesDestroy(
+        id,
+        options,
+      )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["WebsitesApi.websitesDestroy"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * WebsitesApi - factory interface
+ * @export
+ */
+export const WebsitesApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = WebsitesApiFp(configuration)
+  return {
+    /**
+     * View for user websites
+     * @param {WebsitesApiWebsitesCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    websitesCreate(
+      requestParameters: WebsitesApiWebsitesCreateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<UserWebsite> {
+      return localVarFp
+        .websitesCreate(requestParameters.UserWebsiteRequest, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * View for user websites
+     * @param {WebsitesApiWebsitesDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    websitesDestroy(
+      requestParameters: WebsitesApiWebsitesDestroyRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<void> {
+      return localVarFp
+        .websitesDestroy(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for websitesCreate operation in WebsitesApi.
+ * @export
+ * @interface WebsitesApiWebsitesCreateRequest
+ */
+export interface WebsitesApiWebsitesCreateRequest {
+  /**
+   *
+   * @type {UserWebsiteRequest}
+   * @memberof WebsitesApiWebsitesCreate
+   */
+  readonly UserWebsiteRequest: UserWebsiteRequest
+}
+
+/**
+ * Request parameters for websitesDestroy operation in WebsitesApi.
+ * @export
+ * @interface WebsitesApiWebsitesDestroyRequest
+ */
+export interface WebsitesApiWebsitesDestroyRequest {
+  /**
+   * A unique integer value identifying this user website.
+   * @type {number}
+   * @memberof WebsitesApiWebsitesDestroy
+   */
+  readonly id: number
+}
+
+/**
+ * WebsitesApi - object-oriented interface
+ * @export
+ * @class WebsitesApi
+ * @extends {BaseAPI}
+ */
+export class WebsitesApi extends BaseAPI {
+  /**
+   * View for user websites
+   * @param {WebsitesApiWebsitesCreateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WebsitesApi
+   */
+  public websitesCreate(
+    requestParameters: WebsitesApiWebsitesCreateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WebsitesApiFp(this.configuration)
+      .websitesCreate(requestParameters.UserWebsiteRequest, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * View for user websites
+   * @param {WebsitesApiWebsitesDestroyRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof WebsitesApi
+   */
+  public websitesDestroy(
+    requestParameters: WebsitesApiWebsitesDestroyRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return WebsitesApiFp(this.configuration)
+      .websitesDestroy(requestParameters.id, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

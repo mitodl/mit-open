@@ -4,13 +4,12 @@ from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
-from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -31,11 +30,9 @@ from profiles.serializers import (
 from profiles.utils import (
     DEFAULT_PROFILE_IMAGE,
     generate_svg_avatar,
-    validate_uuid,
 )
 
 
-@extend_schema(exclude=True)
 class UserViewSet(viewsets.ModelViewSet):
     """View for users"""
 
@@ -45,30 +42,6 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = get_user_model().objects.filter(is_active=True)
     lookup_field = "username"
-
-
-@extend_schema_view(
-    retrieve=extend_schema(
-        summary="Retrieve",
-        description="Retrieve a single program letter.",
-        responses=ProgramLetterSerializer(),
-    ),
-)
-class ProgramLetterViewSet(viewsets.ViewSet):
-    """Detail only View for program letters"""
-
-    authentication_classes = []
-    permission_classes = []
-    serializer_class = ProgramLetterSerializer
-
-    def retrieve(self, request, pk=None):  # noqa: ARG002
-        queryset = ProgramLetter.objects.all()
-        if not validate_uuid(pk):
-            invalid_uuid = "Invalid letter uuid"
-            raise Http404(invalid_uuid)
-        program_letter = get_object_or_404(queryset, pk=pk)
-        serializer = ProgramLetterSerializer(program_letter)
-        return Response(serializer.data)
 
 
 class CurrentUserRetrieveViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
@@ -83,7 +56,6 @@ class CurrentUserRetrieveViewSet(mixins.RetrieveModelMixin, viewsets.GenericView
         return self.request.user
 
 
-@extend_schema(exclude=True)
 class ProfileViewSet(
     mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet
 ):
@@ -100,7 +72,6 @@ class ProfileViewSet(
         return {"include_user_websites": True}
 
 
-@extend_schema(exclude=True)
 class UserWebsiteViewSet(
     mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet
 ):
@@ -111,7 +82,15 @@ class UserWebsiteViewSet(
     queryset = UserWebsite.objects.select_related("profile__user")
 
 
-@extend_schema(exclude=True)
+class ProgramLetterViewSet(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+    """Detail only View for program letters"""
+
+    authentication_classes = []
+    permission_classes = []
+    serializer_class = ProgramLetterSerializer
+    queryset = ProgramLetter.objects.all()
+
+
 class UserProgramCertificateViewSet(viewsets.ViewSet):
     """
     View for listing program certificates for a user
@@ -122,6 +101,8 @@ class UserProgramCertificateViewSet(viewsets.ViewSet):
     serializer_class = ProgramCertificateSerializer
     filter_backends = (DjangoFilterBackend,)
     filterset_fields = ["micromasters_program_id", "program_title"]
+
+    queryset = ProgramCertificate.objects.none()
 
     def list(self, request):
         queryset = ProgramCertificate.objects.filter(user_email=request.user.email)
