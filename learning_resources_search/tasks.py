@@ -163,7 +163,7 @@ def _group_percolated_rows(rows):
 
 def _get_percolated_rows(resources, subscription_type):
     """
-    Get percolated rows for a list of learning resources
+    Get percolated rows for a list of learning resources and subscription type
     """
     rows = []
     all_users = set()
