@@ -116,6 +116,10 @@ def upsert_learning_resource(learning_resource_id):
 
 
 def _infer_percolate_group(percolate_query):
+    """
+    Infer the heading name for the percolate query to be
+    grouped under in the email
+    """
     group_keys = ["department", "topic", "offered_by"]
     original_query = OrderedDict(percolate_query.original_query)
     for key, val in original_query.items():
@@ -129,6 +133,9 @@ def _infer_percolate_group(percolate_query):
 
 
 def _infer_search_url(percolate_query):
+    """
+    Infer the search URL for the percolate query
+    """
     original_query = OrderedDict(percolate_query.original_query)
     query_string_params = {k: v for k, v in original_query.items() if v}
     query_string = urlencode(query_string_params, doseq=True)
@@ -155,6 +162,9 @@ def _group_percolated_rows(rows):
 
 
 def _get_percolated_rows(resources, subscription_type):
+    """
+    Get percolated rows for a list of learning resources
+    """
     rows = []
     all_users = set()
     # percolate each new learning resource to get matching queries
@@ -184,6 +194,9 @@ def _get_percolated_rows(resources, subscription_type):
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
 def send_subscription_emails(subscription_type, period="daily"):
+    """
+    Send subscription emails by percolating matched documents
+    """
     delta = datetime.timedelta(days=1)
     if period == "weekly":
         delta = datetime.timedelta(days=7)
