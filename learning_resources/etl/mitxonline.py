@@ -150,6 +150,9 @@ def _transform_run(course_run: dict, course: dict) -> dict:
             {"full_name": instructor["name"]}
             for instructor in parse_page_attribute(course, "instructors", is_list=True)
         ],
+        "availability": AvailabilityType.current.name
+        if parse_page_attribute(course, "page_url")
+        else AvailabilityType.archived.name,
     }
 
 

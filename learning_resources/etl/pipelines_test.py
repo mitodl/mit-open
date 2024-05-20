@@ -144,7 +144,9 @@ def test_xpro_programs_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_programs.assert_called_once_with(
-        ETLSource.xpro.name, mock_transform.return_value
+        ETLSource.xpro.name,
+        mock_transform.return_value,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
     )
 
     assert result == mock_load_programs.return_value
@@ -165,6 +167,7 @@ def test_xpro_courses_etl():
     mock_load_courses.assert_called_once_with(
         ETLSource.xpro.name,
         mock_transform.return_value,
+        config=CourseLoaderConfig(prune=True),
     )
 
     assert result == mock_load_courses.return_value
@@ -310,7 +313,9 @@ def test_prolearn_programs_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_programs.assert_called_once_with(
-        ETLSource.prolearn.name, mock_transform.return_value
+        ETLSource.prolearn.name,
+        mock_transform.return_value,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
     )
 
     assert result == mock_load_programs.return_value
@@ -331,6 +336,7 @@ def test_prolearn_courses_etl():
     mock_load_courses.assert_called_once_with(
         ETLSource.prolearn.name,
         mock_transform.return_value,
+        config=CourseLoaderConfig(prune=True),
     )
 
     assert result == mock_load_courses.return_value

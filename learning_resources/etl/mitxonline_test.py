@@ -214,6 +214,9 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                                     course_run_data, "instructors", is_list=True
                                 )
                             ],
+                            "availability": AvailabilityType.current.name
+                            if parse_page_attribute(course_data, "page_url")
+                            else AvailabilityType.archived.name,
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
@@ -307,6 +310,9 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                             course_run_data, "instructors", is_list=True
                         )
                     ],
+                    "availability": AvailabilityType.current.name
+                    if parse_page_attribute(course_data, "page_url")
+                    else AvailabilityType.archived.name,
                 }
                 for course_run_data in course_data["courseruns"]
             ],
