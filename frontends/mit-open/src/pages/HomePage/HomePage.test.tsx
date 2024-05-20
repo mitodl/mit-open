@@ -2,7 +2,13 @@ import React from "react"
 import HomePage from "./HomePage"
 import { urls, setMockResponse } from "api/test-utils"
 import { learningResources as factory } from "api/test-utils/factories"
-import { renderWithProviders, screen, user, within } from "../../test-utils"
+import {
+  renderWithProviders,
+  screen,
+  user,
+  within,
+  waitFor,
+} from "../../test-utils"
 import invariant from "tiny-invariant"
 
 const assertLinksTo = (
@@ -31,9 +37,12 @@ const setup = () => {
   return renderWithProviders(<HomePage />)
 }
 
-describe("HomePage Hero", () => {
+describe("Home Page Hero", () => {
   test("Submitting search goes to search page", async () => {
     setMockResponse.get(urls.userMe.get(), {})
+    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
+      results: [],
+    })
     const { location } = setup()
     const searchbox = screen.getByRole("textbox", { name: /search for/i })
     await user.click(searchbox)
@@ -48,6 +57,9 @@ describe("HomePage Hero", () => {
   })
 
   test("Displays popular searches", () => {
+    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
+      results: [],
+    })
     setup()
     const aiCourses = screen.getByRole<HTMLAnchorElement>("link", {
       name: /ai courses/i,
@@ -70,8 +82,11 @@ describe("HomePage Hero", () => {
   })
 })
 
-describe("HomePage", () => {
+describe("Home Page Carousel", () => {
   test("Tabbed Carousel sanity check", () => {
+    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
+      results: [],
+    })
     setup()
     const [upcoming, media] = screen.getAllByRole("tablist")
     within(upcoming).getByRole("tab", { name: "All" })
@@ -79,5 +94,34 @@ describe("HomePage", () => {
     within(media).getByRole("tab", { name: "All" })
     within(media).getByRole("tab", { name: "Videos" })
     within(media).getByRole("tab", { name: "Podcasts" })
+  })
+})
+
+describe("Home Page Browse by Topics", () => {
+  test("Displays topics links", async () => {
+    const response = factory.topics({ count: 3 })
+    setMockResponse.get(urls.topics.list({ is_toplevel: true }), response)
+    setMockResponse.get(urls.userMe.get(), {})
+
+    setup()
+
+    await waitFor(() => {
+      const section = screen
+        .getByRole("heading", {
+          name: "Browse by Topics",
+        })!
+        .closest("section")!
+
+      const links = within(section).getAllByRole("link")
+      assertLinksTo(links[0], {
+        pathname: new URL(response.results[0].channel_url!).pathname,
+      })
+      assertLinksTo(links[1], {
+        pathname: new URL(response.results[1].channel_url!).pathname,
+      })
+      assertLinksTo(links[2], {
+        pathname: new URL(response.results[2].channel_url!).pathname,
+      })
+    })
   })
 })

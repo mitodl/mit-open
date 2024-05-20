@@ -8,7 +8,7 @@ jobs:
       # Label used to access the service container
       db:
         # Docker Hub image
-        image: postgres:12.18
+        image: postgres:12.19
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -93,7 +93,7 @@ jobs:
           MITOPEN_COOKIE_NAME: cookie_monster
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@5ecb98a3c6b747ed38dc09f787459979aebb39be # v4.3.1
+        uses: codecov/codecov-action@6d798873df2b1b8e5846dba6fb86631229fbcb17 # v4.4.0
         with:
           file: ./coverage.xml
 
@@ -145,7 +145,7 @@ jobs:
           path: frontends/mit-open/build
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@5ecb98a3c6b747ed38dc09f787459979aebb39be # v4.3.1
+        uses: codecov/codecov-action@6d798873df2b1b8e5846dba6fb86631229fbcb17 # v4.4.0
         with:
           file: coverage/lcov.info
 

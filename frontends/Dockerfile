@@ -1,4 +1,4 @@
-FROM node:20.12-alpine
+FROM node:20.13-alpine
 LABEL maintainer "ODL DevOps <mitx-devops@mit.edu>"
 
 # Allows Jest to be run in --watch mode alongside the mounted .git repo

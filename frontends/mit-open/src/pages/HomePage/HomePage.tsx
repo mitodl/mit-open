@@ -1,61 +1,10 @@
 import React from "react"
 import { Container, styled } from "ol-components"
-import TabbedCarousel, {
-  TabbedCarouselProps,
-} from "@/page-components/TabbedCarousel/TabbedCarousel"
 import HeroSearch from "./HeroSearch"
+import UpcomingCoursesSection from "./UpcomingCoursesSection"
+import MediaSection from "./MediaSection"
+import BrowseTopicsSection from "./BrowseTopicsSection"
 import NewsEventsSection from "./NewsEventsSection"
-
-const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
-  {
-    label: "All",
-    pageSize: 4,
-    data: {
-      type: "resources",
-      params: { resource_type: ["course"], limit: 12, sortby: "upcoming" },
-    },
-  },
-  {
-    label: "Professional",
-    pageSize: 4,
-    data: {
-      type: "resources",
-      params: {
-        professional: true,
-        resource_type: ["course"],
-        limit: 12,
-        sortby: "upcoming",
-      },
-    },
-  },
-]
-
-const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
-  {
-    label: "All",
-    pageSize: 6,
-    data: {
-      type: "resources",
-      params: { resource_type: ["video", "podcast"], limit: 12 },
-    },
-  },
-  {
-    label: "Videos",
-    pageSize: 6,
-    data: {
-      type: "resources",
-      params: { resource_type: ["video"], limit: 12 },
-    },
-  },
-  {
-    label: "Podcasts",
-    pageSize: 6,
-    data: {
-      type: "resources",
-      params: { resource_type: ["podcast"], limit: 12 },
-    },
-  },
-]
 
 const FullWidthBackground = styled.div`
   background-image: linear-gradient(
@@ -82,16 +31,9 @@ const HomePage: React.FC = () => {
           <HeroSearch />
         </Container>
       </FullWidthBackground>
-      <Container>
-        <section>
-          <h2>Upcoming Courses</h2>
-          <TabbedCarousel config={UPCOMING_COURSES_CAROUSEL} />
-        </section>
-        <section>
-          <h2>Media</h2>
-          <TabbedCarousel config={MEDIA_CAROUSEL} />
-        </section>
-      </Container>
+      <UpcomingCoursesSection />
+      <MediaSection />
+      <BrowseTopicsSection />
       <NewsEventsSection />
     </>
   )
