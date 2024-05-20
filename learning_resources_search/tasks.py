@@ -131,12 +131,15 @@ def _group_percolated_rows(rows):
     grouped_data = {}
     for key, group in itertools.groupby(rows, key_func):
         context = list(group)
+        user_id = key[0]
+        group_name = key[1]
         if key[0] not in grouped_data:
-            grouped_data[key[0]] = {key[1]: context}
-        if key[1] not in grouped_data[key[0]]:
-            grouped_data[key[0]][key[1]] = context
-        else:
-            grouped_data[key[0]][key[1]].extend(context)
+            grouped_data[user_id] = {group_name: []}
+        if group_name not in grouped_data[user_id]:
+            grouped_data[user_id][group_name] = []
+        for ctx in context:
+            if ctx["user_id"] == user_id:
+                grouped_data[user_id][group_name].append(ctx)
     return grouped_data
 
 
@@ -149,7 +152,7 @@ def _get_percolated_rows(resources, subscription_type):
             source_type=subscription_type
         )
         if percolated.count() > 0:
-            percolated_users = list(percolated.values_list("users", flat=True))
+            percolated_users = set(percolated.values_list("users", flat=True))
             all_users.update(percolated_users)
             query = percolated.first()
             rows.extend(
@@ -178,6 +181,7 @@ def send_subscription_emails(subscription_type, period="daily"):
     )
     rows = _get_percolated_rows(new_learning_resources, subscription_type)
     template_data = _group_percolated_rows(rows)
+
     for user_id in template_data:
         user = User.objects.get(id=user_id)
         send_template_email(
