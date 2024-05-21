@@ -210,8 +210,11 @@ describe("SearchPage", () => {
       })
       const apiSearchParams = getLastApiSearchParams()
       expect(apiSearchParams.getAll("aggregations").sort()).toEqual([
+        "certification",
+        "free",
         "learning_format",
         "offered_by",
+        "professional",
         "resource_type",
         "topic",
       ])
