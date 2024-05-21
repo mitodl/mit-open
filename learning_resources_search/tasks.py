@@ -214,7 +214,7 @@ def send_subscription_emails(subscription_type, period="daily"):
         )
         send_template_email(
             [user.email],
-            f"Your {period} subscription matches",
+            f"{settings.MITOPEN_TITLE} New Learning Resources for You",
             "email/subscribed_channel_digest.html",
             context={"documents": template_data[user_id], "total_count": total_count},
         )
