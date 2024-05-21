@@ -17,6 +17,7 @@ const FlexContainer = styled.div({
 
 const UserMenuContainer = styled.button({
   display: "flex",
+  alignItems: "center",
   cursor: "pointer",
   background: "none",
   color: "inherit",
@@ -50,8 +51,8 @@ const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
 }))
 
 const UserIcon = styled(RiAccountCircleFill)(({ theme }) => ({
-  width: "20px",
-  height: "20px",
+  width: "24px",
+  height: "24px",
   color: theme.custom.colors.darkGray1,
 }))
 
