@@ -5,6 +5,32 @@
 
 <!-- 1 Column Text : BEGIN -->
 
+<tr>
+  <td
+    style="
+      padding: 5px 20px 0;
+      font-family: sans-serif;
+      font-size: 15px;
+      line-height: 20px;
+      color: #555555;
+    "
+  >
+    <h4
+      style="
+        margin: 0 0 10px;
+        font-size: 16px;
+        line-height: 20px;
+        color: #858080;
+        font-weight: bold;
+      "
+    >
+      {{total_count}}
+      new course{{ total_count|pluralize:'s' }}
+      in MIT Open that match{{ total_count|pluralize:'es,' }}
+      your preferences
+    </h4>
+  </td>
+</tr>
 {% for resource_group, items in documents.items %}
 <tr>
   <td style="background-color: #ffffff">
@@ -88,7 +114,6 @@
             >
               {{item.resource.title|safe}}
               {% if item.resource.url %}
-              <br />
               <span style="color: #b0b0b0; font-size: 12px"
                 >({{ item.resource.url }})</span
               >

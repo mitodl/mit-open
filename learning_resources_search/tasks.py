@@ -209,11 +209,14 @@ def send_subscription_emails(subscription_type, period="daily"):
 
     for user_id in template_data:
         user = User.objects.get(id=user_id)
+        total_count = sum(
+            [len(template_data[user_id][group]) for group in template_data[user_id]]
+        )
         send_template_email(
             [user.email],
             f"Your {period} subscription matches",
             "email/subscribed_channel_digest.html",
-            context={"documents": template_data[user_id]},
+            context={"documents": template_data[user_id], "total_count": total_count},
         )
 
 
