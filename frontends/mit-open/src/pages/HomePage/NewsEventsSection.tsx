@@ -74,19 +74,31 @@ const EventsContainer = styled.div`
   align-self: stretch;
 `
 
-const Card = styled.div`
+const Card = styled.a`
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   box-shadow:
     0 2px 4px 0 rgb(37 38 43 / 10%),
     0 2px 4px 0 rgb(37 38 43 / 10%);
+
+  :hover {
+    text-decoration: none;
+    color: ${theme.custom.colors.mitRed};
+    border-color: ${theme.custom.colors.silverGrayLight};
+
+    > p {
+      color: ${theme.custom.colors.mitRed};
+      text-decoration: underline;
+    }
+  }
 `
 
 const StoryCard = styled(Card)<{ mobile: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  overflow: hidden;
   ${({ mobile }) => (mobile ? "width: 274px" : "")}
 `
 
@@ -125,7 +137,7 @@ const StoryTitle = styled.p`
   }
 `
 
-const StoryPublished = styled.p`
+const StoryPublished = styled.span`
   ${{
     ...theme.typography.body3,
     color: theme.custom.colors.silverGrayDark,
@@ -213,11 +225,11 @@ const Story: React.FC<{ item: NewsFeedItem; mobile: boolean }> = ({
   mobile,
 }) => {
   return (
-    <StoryCard mobile={mobile}>
+    <StoryCard mobile={mobile} href={item.url}>
       <StoryImage src={item.image?.url} alt={item.image?.alt} />
       <StoryTitle>{item.title}</StoryTitle>
       <StoryPublished>
-        Published: {formatDate(item.news_details.publish_date)}
+        Published: {formatDate(item.news_details?.publish_date)}
       </StoryPublished>
     </StoryCard>
   )
@@ -246,7 +258,7 @@ const NewsEventsSection: React.FC = () => {
   const stories = news!.results.slice(0, isAboveLg || isMobile ? 6 : 4)
 
   const EventCards = events!.results.map((item: EventFeedItem) => (
-    <EventCard key={item.id}>
+    <EventCard key={item.id} href={item.url}>
       <EventDate>
         <EventDay>
           {formatDate(item.event_details.event_datetime, "D")}
