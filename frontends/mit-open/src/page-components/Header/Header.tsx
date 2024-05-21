@@ -25,7 +25,6 @@ import { useUserMe } from "api/hooks/user"
 const Bar = styled(AppBar)(({ theme }) => ({
   height: "80px",
   padding: "0 8px",
-  zIndex: theme.zIndex.drawer + 1,
   backgroundColor: theme.custom.colors.white,
   color: theme.custom.colors.darkGray1,
   display: "flex",

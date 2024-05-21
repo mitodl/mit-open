@@ -127,10 +127,11 @@ const NavDrawer = (props: NavDrawerProps) => {
       anchor="left"
       variant="persistent"
       elevation={0}
-      hideBackdrop={false}
+      hideBackdrop={true}
       PaperProps={{
         sx: {
           boxShadow: "0px 6px 24px 0px rgba(37, 38, 43, 0.10)",
+          zIndex: (theme) => theme.zIndex.appBar - 1,
         },
       }}
       {...props}
