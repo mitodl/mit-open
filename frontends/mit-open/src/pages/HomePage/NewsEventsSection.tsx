@@ -60,8 +60,9 @@ const StoriesContainer = styled.section`
 const MobileContainer = styled.section`
   width: 100%;
   margin: 0 -16px;
+
   h4 {
-    margin: 0 16px 24px 16px;
+    margin: 0 16px 24px;
   }
 `
 
@@ -107,7 +108,7 @@ const StoriesSlider = styled.div`
   align-items: flex-start;
   gap: 16px;
   overflow-x: scroll;
-  padding: 0 16px 24px 16px;
+  padding: 0 16px 24px;
 `
 
 const StoryImage = styled.img`
