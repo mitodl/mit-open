@@ -106,8 +106,8 @@ const TopicBoxName = styled.p`
 
 const SeeAllButton = styled(Button)`
   margin: 0 auto;
-  width: 152px;
   box-sizing: content-box;
+  display: block;
 `
 
 const BrowseTopicsSection: React.FC = () => {
@@ -133,7 +133,9 @@ const BrowseTopicsSection: React.FC = () => {
             },
           )}
         </Topics>
-        <SeeAllButton edge="rounded">See all (coming soon)</SeeAllButton>
+        <SeeAllButton edge="rounded" size="large">
+          See all (coming soon)
+        </SeeAllButton>
       </Container>
     </Section>
   )
