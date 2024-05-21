@@ -21,7 +21,7 @@ class WidgetInstanceFactory(DjangoModelFactory):
     widget_type = "Text"
     position = factory.LazyAttribute(lambda inst: inst.widget_list.widgets.count() + 1)
     configuration = factory.LazyAttribute(
-        lambda inst: {"body": "example%s" % inst.position}
+        lambda inst: {"body": f"example{inst.position}"}
     )
     title = factory.Faker("text", max_nb_chars=200)
 

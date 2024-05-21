@@ -145,7 +145,10 @@ def ocw_courses_etl(
             log.exception("Error encountered parsing OCW json for %s", url_path)
             exceptions.append(url_path)
     if exceptions:
-        raise ExtractException("Some OCW urls raised errors: %s" % ",".join(exceptions))
+        message = "Some OCW urls raised errors: {exception}".format(
+            exception=",".join(exceptions)
+        )
+        raise ExtractException(message)
 
 
 youtube_etl = compose(loaders.load_video_channels, youtube.transform, youtube.extract)
