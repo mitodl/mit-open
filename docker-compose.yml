@@ -95,8 +95,11 @@ services:
       - frontend
     working_dir: /src
     image: node:20.13
-    command: >
-      /bin/sh -c 'yarn install && yarn storybook & yarn workspace mit-open watch:docker'
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        yarn install
+        yarn workspace mit-open storybook & yarn workspace mit-open watch:docker
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       PORT: 8062
