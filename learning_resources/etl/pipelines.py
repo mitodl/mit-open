@@ -72,26 +72,32 @@ oll_etl = compose(
 
 
 prolearn_programs_etl = compose(
-    load_programs(ETLSource.prolearn.name),
+    load_programs(
+        ETLSource.prolearn.name,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+    ),
     prolearn.transform_programs,
     prolearn.extract_programs,
 )
 
 
 prolearn_courses_etl = compose(
-    load_courses(ETLSource.prolearn.name),
+    load_courses(ETLSource.prolearn.name, config=CourseLoaderConfig(prune=True)),
     prolearn.transform_courses,
     prolearn.extract_courses,
 )
 
 
 xpro_programs_etl = compose(
-    load_programs(ETLSource.xpro.name),
+    load_programs(
+        ETLSource.xpro.name,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+    ),
     xpro.transform_programs,
     xpro.extract_programs,
 )
 xpro_courses_etl = compose(
-    load_courses(ETLSource.xpro.name),
+    load_courses(ETLSource.xpro.name, config=CourseLoaderConfig(prune=True)),
     xpro.transform_courses,
     xpro.extract_courses,
 )
