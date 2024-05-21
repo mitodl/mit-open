@@ -782,7 +782,7 @@ def test_digest_email_template(mocked_api, mocker):
     send_subscription_emails(PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
     assert len(mail.outbox) == 1
     mail_content = mail.outbox[0].body
-    assert "3 new courses in MIT Open that match" in mail_content
+    assert "3\n      new courses\n      in MIT Open that match" in mail_content
     assert "Mechanical Engineering" in mail_content
     assert "Environmental Engineering" in mail_content
     assert "Systems Engineering" in mail_content
