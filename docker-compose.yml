@@ -98,7 +98,7 @@ services:
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
-        yarn install
+        yarn install --immutable
         yarn workspace mit-open storybook & yarn workspace mit-open watch:docker
     environment:
       NODE_ENV: ${NODE_ENV:-development}
