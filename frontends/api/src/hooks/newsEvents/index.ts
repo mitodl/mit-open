@@ -5,10 +5,6 @@ import {
   NewsEventsListFeedTypeEnum,
 } from "../../generated/v0/api"
 
-// const useNewsEventsList = (params?: NewsEventsApiNewsEventsListRequest) => {
-//   return useQuery(newsEvents.list(params || {}))
-// }
-
 const useNewsEventsList = (params: NewsEventsApiNewsEventsListRequest) => {
   return useQuery({
     ...newsEvents.list(params),
