@@ -408,7 +408,9 @@ def send_email(recipients, subject, content, text_only):
         for link in soup.find_all("a"):
             link.replace_with(link.attrs["href"])
         text_content = soup.get_text().strip()
-    msg = EmailMultiAlternatives(subject, text_content, "from@example.com", recipients)
+    msg = EmailMultiAlternatives(
+        subject, text_content, settings.DEFAULT_FROM_EMAIL, recipients
+    )
     if not text_only:
         msg.attach_alternative(content, "text/html")
     return msg.send()
