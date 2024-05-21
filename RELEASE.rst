@@ -1,6 +1,23 @@
 Release Notes
 =============
 
+Version 0.10.0
+--------------
+
+- Add Free, Certification, and Professional Facets to Search UI (#917)
+- use docker profiles, mount root to watch (#936)
+- serve static react app for django 40x (#911)
+- Update postgres Docker tag to v12.19 (#931)
+- Update opensearchproject/opensearch Docker tag to v2.14.0 (#930)
+- Update mcr.microsoft.com/playwright Docker tag to v1.44.0 (#929)
+- Update dependency drf-nested-routers to ^0.94.0 (#928)
+- Update Node.js to v20.13.1 (#926)
+- Update codecov/codecov-action action to v4.4.0 (#927)
+- Update dependency ruff to v0.4.4 (#925)
+- Update dependency Django to v4.2.13 (#924)
+- Browse by Topics section for the home page (#901)
+- Fix schema for news_events feed items (#919)
+
 Version 0.9.14 (Released May 20, 2024)
 --------------
 
