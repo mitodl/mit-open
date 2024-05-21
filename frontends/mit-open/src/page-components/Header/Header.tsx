@@ -7,47 +7,140 @@ import {
   NavDrawer,
   Toolbar,
   ClickAwayListener,
+  ActionButtonLink,
 } from "ol-components"
+import { RiSearch2Line } from "@remixicon/react"
 import { MITLogoLink, useToggle } from "ol-utilities"
 import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
 import {
   DEPARTMENTS,
   RESOURCE_DRAWER_QUERY_PARAM,
+  SEARCH,
   querifiedSearchUrl,
 } from "@/common/urls"
 import { useSearchParams } from "react-router-dom"
+import { useUserMe } from "api/hooks/user"
 
-const Bar = styled(AppBar)`
-  height: 56px;
-  padding: 0 8px;
-  z-index: ${({ theme }) => theme.zIndex.drawer + 1};
-  background-color: ${({ theme }) => theme.custom.colors.white};
-  color: ${({ theme }) => theme.custom.colors.black};
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 2px 10px rgba(120 169 197 / 15%);
-`
+const Bar = styled(AppBar)(({ theme }) => ({
+  height: "80px",
+  padding: "0 8px",
+  backgroundColor: theme.custom.colors.white,
+  color: theme.custom.colors.darkGray1,
+  display: "flex",
+  flexDirection: "column",
+  boxShadow: "0 2px 10px rgba(120 169 197 / 15%)",
+  [theme.breakpoints.down("sm")]: {
+    height: "60px",
+    padding: "0",
+  },
+}))
+
+const FlexContainer = styled.div({
+  display: "flex",
+  alignItems: "center",
+})
+
+const DesktopOnly = styled(FlexContainer)(({ theme }) => ({
+  [theme.breakpoints.up("sm")]: {
+    display: "flex",
+  },
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+}))
+
+const MobileOnly = styled(FlexContainer)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    display: "flex",
+  },
+  [theme.breakpoints.up("sm")]: {
+    display: "none",
+  },
+}))
 
 const StyledToolbar = styled(Toolbar)({
   flex: 1,
 })
 
-const LogoLink = styled(MITLogoLink)({
-  width: 45,
-  height: "auto",
+const LogoLink = styled(MITLogoLink)(({ theme }) => ({
+  display: "flex",
+  border: "none",
   img: {
-    height: 20,
+    width: 109,
+    height: 40,
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: "16px",
+    },
   },
+}))
+
+const LeftDivider = styled(Divider)({
+  margin: "0 24px",
 })
 
-const StyledDivider = styled(Divider)({
-  margin: "0.5em 1em",
-})
+const RightDivider = styled(Divider)(({ theme }) => ({
+  margin: "0 32px",
+  [theme.breakpoints.down("sm")]: {
+    margin: "0 16px",
+  },
+}))
 
 const Spacer = styled.div`
   flex: 1;
 `
+
+const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
+  color: theme.custom.colors.darkGray2,
+  margin: "4px 0",
+}))
+
+const SearchButton: FunctionComponent = () => {
+  return (
+    <ActionButtonLink
+      edge="rounded"
+      variant="text"
+      nativeAnchor={true}
+      href={SEARCH}
+    >
+      <StyledSearchIcon />
+    </ActionButtonLink>
+  )
+}
+
+const LoggedOutView: FunctionComponent = () => {
+  return (
+    <FlexContainer>
+      <DesktopOnly>
+        <UserMenu variant="desktop" />
+        <SearchButton />
+      </DesktopOnly>
+      <MobileOnly>
+        <SearchButton />
+        <RightDivider orientation="vertical" flexItem />
+        <UserMenu variant="mobile" />
+      </MobileOnly>
+    </FlexContainer>
+  )
+}
+
+const LoggedInView: FunctionComponent = () => {
+  return (
+    <FlexContainer>
+      <SearchButton />
+      <RightDivider orientation="vertical" flexItem />
+      <UserMenu />
+    </FlexContainer>
+  )
+}
+
+const UserView: FunctionComponent = () => {
+  const { isLoading, data: user } = useUserMe()
+  if (isLoading) {
+    return null
+  }
+  return user?.is_authenticated ? <LoggedInView /> : <LoggedOutView />
+}
 
 const navData: NavData = {
   sections: [
@@ -147,11 +240,17 @@ const Header: FunctionComponent = () => {
     <div>
       <Bar position="fixed">
         <StyledToolbar variant="dense">
-          <LogoLink />
-          <StyledDivider orientation="vertical" flexItem />
-          <MenuButton text="Explore MIT" onClick={toggler} />
+          <DesktopOnly>
+            <LogoLink />
+            <LeftDivider orientation="vertical" flexItem />
+            <MenuButton text="Explore MIT" onClick={toggler} />
+          </DesktopOnly>
+          <MobileOnly>
+            <MenuButton onClick={toggler} />
+            <LogoLink />
+          </MobileOnly>
           <Spacer />
-          <UserMenu />
+          <UserView />
         </StyledToolbar>
       </Bar>
       <ClickAwayListener onClickAway={closeDrawer}>

@@ -20,6 +20,7 @@ from learning_resources.etl.mitxonline import (
     OFFERED_BY,
     _parse_datetime,
     _transform_image,
+    _transform_run,
     extract_courses,
     extract_programs,
     parse_page_attribute,
@@ -149,9 +150,9 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                     "title": program_data["title"],
                     "description": program_data.get("description", None),
                     "url": parse_page_attribute(program_data, "page_url", is_url=True),
-                    "availability": AvailabilityType.current.name
+                    "availability": AvailabilityType.current.value
                     if parse_page_attribute(program_data, "page_url")
-                    else AvailabilityType.archived.name,
+                    else AvailabilityType.archived.value,
                 }
             ],
             "courses": [
@@ -171,9 +172,7 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                     "published": bool(
                         course_data.get("page", {}).get("page_url", None)
                     ),
-                    "certification": parse_certification(
-                        OFFERED_BY, course_data["courseruns"]
-                    ),
+                    "certification": True,
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
                     "topics": [
                         {"name": topic_name}
@@ -214,6 +213,9 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                                     course_run_data, "instructors", is_list=True
                                 )
                             ],
+                            "availability": AvailabilityType.current.value
+                            if parse_page_attribute(course_data, "page_url")
+                            else AvailabilityType.archived.value,
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
@@ -254,7 +256,13 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             "offered_by": OFFERED_BY,
             "published": course_data.get("page", {}).get("page_url", None) is not None,
             "professional": False,
-            "certification": parse_certification(OFFERED_BY, course_data["courseruns"]),
+            "certification": parse_certification(
+                "mitx",
+                [
+                    _transform_run(course_run, course_data)
+                    for course_run in course_data["courseruns"]
+                ],
+            ),
             "topics": [
                 {"name": topic_name}
                 for topic_name in chain.from_iterable(
@@ -307,6 +315,9 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                             course_run_data, "instructors", is_list=True
                         )
                     ],
+                    "availability": AvailabilityType.current.value
+                    if parse_page_attribute(course_data, "page_url")
+                    else AvailabilityType.archived.value,
                 }
                 for course_run_data in course_data["courseruns"]
             ],

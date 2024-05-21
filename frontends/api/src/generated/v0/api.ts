@@ -119,6 +119,18 @@ export interface Attestation {
   channels: Array<number>
 }
 /**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const BlankEnum = {
+  Empty: "",
+} as const
+
+export type BlankEnum = (typeof BlankEnum)[keyof typeof BlankEnum]
+
+/**
  * Serializer for CKEditor settings
  * @export
  * @interface CKEditorSettings
@@ -131,6 +143,21 @@ export interface CKEditorSettings {
    */
   token: string | null
 }
+/**
+ * * `yes` - Yes * `no` - No * `not-sure-yet` - Not Sure Yet
+ * @export
+ * @enum {string}
+ */
+
+export const CertificateDesiredEnum = {
+  Yes: "yes",
+  No: "no",
+  NotSureYet: "not-sure-yet",
+} as const
+
+export type CertificateDesiredEnum =
+  (typeof CertificateDesiredEnum)[keyof typeof CertificateDesiredEnum]
+
 /**
  * Serializer for the ChannelDepartmentDetail model
  * @export
@@ -224,6 +251,38 @@ export const ChannelTypeEnum = {
 
 export type ChannelTypeEnum =
   (typeof ChannelTypeEnum)[keyof typeof ChannelTypeEnum]
+
+/**
+ * * `online` - Online * `in-person` - In-Person * `hybrid` - Hybrid
+ * @export
+ * @enum {string}
+ */
+
+export const CourseFormatEnum = {
+  Online: "online",
+  InPerson: "in-person",
+  Hybrid: "hybrid",
+} as const
+
+export type CourseFormatEnum =
+  (typeof CourseFormatEnum)[keyof typeof CourseFormatEnum]
+
+/**
+ * * `no-formal` - No Formal Education * `primary` - Primary Education * `secondary-or-high-school` - Secondary Education or High School * `ged` - GED * `vocational-qualification` - Vocational Qualification
+ * @export
+ * @enum {string}
+ */
+
+export const CurrentEducationEnum = {
+  NoFormal: "no-formal",
+  Primary: "primary",
+  SecondaryOrHighSchool: "secondary-or-high-school",
+  Ged: "ged",
+  VocationalQualification: "vocational-qualification",
+} as const
+
+export type CurrentEducationEnum =
+  (typeof CurrentEducationEnum)[keyof typeof CurrentEducationEnum]
 
 /**
  * Serializer for Channel model of type department
@@ -802,6 +861,49 @@ export interface FieldModeratorRequest {
   email?: string
 }
 /**
+ * * `career-growth` - Career Growth * `supplemental-learning` - Supplemental Learning * `just-to-learn` - Just to Learn
+ * @export
+ * @enum {string}
+ */
+
+export const GoalsEnum = {
+  CareerGrowth: "career-growth",
+  SupplementalLearning: "supplemental-learning",
+  JustToLearn: "just-to-learn",
+} as const
+
+export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
+
+/**
+ * * `computer-science` - Computer Science * `business` - Business * `engineering` - Engineering * `leadership` - Leadership * `organized-behavior` - Organized Behavior * `management` - Management * `electrical-engineering` - Electrical Engineering * `information-technology` - Information Technology * `biology` - Biology * `earth-science` - Earth Science * `environmental-engineering` - Environmental Engineering * `health-and-medicine` - Health & Medicine * `probability-and-stats` - Probability & Stats * `economics` - Economics * `history` - History * `mathematics` - Mathematics * `mechanical-engineering` - Mechanical Engineering * `other` - Other
+ * @export
+ * @enum {string}
+ */
+
+export const InterestsEnum = {
+  ComputerScience: "computer-science",
+  Business: "business",
+  Engineering: "engineering",
+  Leadership: "leadership",
+  OrganizedBehavior: "organized-behavior",
+  Management: "management",
+  ElectricalEngineering: "electrical-engineering",
+  InformationTechnology: "information-technology",
+  Biology: "biology",
+  EarthScience: "earth-science",
+  EnvironmentalEngineering: "environmental-engineering",
+  HealthAndMedicine: "health-and-medicine",
+  ProbabilityAndStats: "probability-and-stats",
+  Economics: "economics",
+  History: "history",
+  Mathematics: "mathematics",
+  MechanicalEngineering: "mechanical-engineering",
+  Other: "other",
+} as const
+
+export type InterestsEnum = (typeof InterestsEnum)[keyof typeof InterestsEnum]
+
+/**
  * Serializer for a minimal preview of Learning Paths
  * @export
  * @interface LearningPathPreview
@@ -1314,24 +1416,6 @@ export interface PatchedProfileRequest {
   image_medium?: string | null
   /**
    *
-   * @type {File}
-   * @memberof PatchedProfileRequest
-   */
-  image_file?: File | null
-  /**
-   *
-   * @type {File}
-   * @memberof PatchedProfileRequest
-   */
-  image_small_file?: File | null
-  /**
-   *
-   * @type {File}
-   * @memberof PatchedProfileRequest
-   */
-  image_medium_file?: File | null
-  /**
-   *
    * @type {boolean}
    * @memberof PatchedProfileRequest
    */
@@ -1360,7 +1444,71 @@ export interface PatchedProfileRequest {
    * @memberof PatchedProfileRequest
    */
   location?: any | null
+  /**
+   *
+   * @type {Array<InterestsEnum>}
+   * @memberof PatchedProfileRequest
+   */
+  interests?: Array<InterestsEnum>
+  /**
+   *
+   * @type {Array<GoalsEnum>}
+   * @memberof PatchedProfileRequest
+   */
+  goals?: Array<GoalsEnum>
+  /**
+   *
+   * @type {PatchedProfileRequestCurrentEducation}
+   * @memberof PatchedProfileRequest
+   */
+  current_education?: PatchedProfileRequestCurrentEducation
+  /**
+   *
+   * @type {PatchedProfileRequestCertificateDesired}
+   * @memberof PatchedProfileRequest
+   */
+  certificate_desired?: PatchedProfileRequestCertificateDesired
+  /**
+   *
+   * @type {PatchedProfileRequestTimeCommitment}
+   * @memberof PatchedProfileRequest
+   */
+  time_commitment?: PatchedProfileRequestTimeCommitment
+  /**
+   *
+   * @type {PatchedProfileRequestCourseFormat}
+   * @memberof PatchedProfileRequest
+   */
+  course_format?: PatchedProfileRequestCourseFormat
 }
+/**
+ * @type PatchedProfileRequestCertificateDesired
+ * @export
+ */
+export type PatchedProfileRequestCertificateDesired =
+  | BlankEnum
+  | CertificateDesiredEnum
+
+/**
+ * @type PatchedProfileRequestCourseFormat
+ * @export
+ */
+export type PatchedProfileRequestCourseFormat = BlankEnum | CourseFormatEnum
+
+/**
+ * @type PatchedProfileRequestCurrentEducation
+ * @export
+ */
+export type PatchedProfileRequestCurrentEducation =
+  | BlankEnum
+  | CurrentEducationEnum
+
+/**
+ * @type PatchedProfileRequestTimeCommitment
+ * @export
+ */
+export type PatchedProfileRequestTimeCommitment = BlankEnum | TimeCommitmentEnum
+
 /**
  * Serializer for User
  * @export
@@ -1575,19 +1723,19 @@ export interface Profile {
    * @type {string}
    * @memberof Profile
    */
-  image_file?: string | null
+  image_file: string | null
   /**
    *
    * @type {string}
    * @memberof Profile
    */
-  image_small_file?: string | null
+  image_small_file: string | null
   /**
    *
    * @type {string}
    * @memberof Profile
    */
-  image_medium_file?: string | null
+  image_medium_file: string | null
   /**
    * Custom getter for small profile image
    * @type {string}
@@ -1624,6 +1772,42 @@ export interface Profile {
    * @memberof Profile
    */
   placename: string
+  /**
+   *
+   * @type {Array<InterestsEnum>}
+   * @memberof Profile
+   */
+  interests?: Array<InterestsEnum>
+  /**
+   *
+   * @type {Array<GoalsEnum>}
+   * @memberof Profile
+   */
+  goals?: Array<GoalsEnum>
+  /**
+   *
+   * @type {PatchedProfileRequestCurrentEducation}
+   * @memberof Profile
+   */
+  current_education?: PatchedProfileRequestCurrentEducation
+  /**
+   *
+   * @type {PatchedProfileRequestCertificateDesired}
+   * @memberof Profile
+   */
+  certificate_desired?: PatchedProfileRequestCertificateDesired
+  /**
+   *
+   * @type {PatchedProfileRequestTimeCommitment}
+   * @memberof Profile
+   */
+  time_commitment?: PatchedProfileRequestTimeCommitment
+  /**
+   *
+   * @type {PatchedProfileRequestCourseFormat}
+   * @memberof Profile
+   */
+  course_format?: PatchedProfileRequestCourseFormat
 }
 /**
  * Serializer for Profile
@@ -1657,24 +1841,6 @@ export interface ProfileRequest {
   image_medium?: string | null
   /**
    *
-   * @type {File}
-   * @memberof ProfileRequest
-   */
-  image_file?: File | null
-  /**
-   *
-   * @type {File}
-   * @memberof ProfileRequest
-   */
-  image_small_file?: File | null
-  /**
-   *
-   * @type {File}
-   * @memberof ProfileRequest
-   */
-  image_medium_file?: File | null
-  /**
-   *
    * @type {boolean}
    * @memberof ProfileRequest
    */
@@ -1703,6 +1869,42 @@ export interface ProfileRequest {
    * @memberof ProfileRequest
    */
   location?: any | null
+  /**
+   *
+   * @type {Array<InterestsEnum>}
+   * @memberof ProfileRequest
+   */
+  interests?: Array<InterestsEnum>
+  /**
+   *
+   * @type {Array<GoalsEnum>}
+   * @memberof ProfileRequest
+   */
+  goals?: Array<GoalsEnum>
+  /**
+   *
+   * @type {PatchedProfileRequestCurrentEducation}
+   * @memberof ProfileRequest
+   */
+  current_education?: PatchedProfileRequestCurrentEducation
+  /**
+   *
+   * @type {PatchedProfileRequestCertificateDesired}
+   * @memberof ProfileRequest
+   */
+  certificate_desired?: PatchedProfileRequestCertificateDesired
+  /**
+   *
+   * @type {PatchedProfileRequestTimeCommitment}
+   * @memberof ProfileRequest
+   */
+  time_commitment?: PatchedProfileRequestTimeCommitment
+  /**
+   *
+   * @type {PatchedProfileRequestCourseFormat}
+   * @memberof ProfileRequest
+   */
+  course_format?: PatchedProfileRequestCourseFormat
 }
 /**
  * Serializer for Program Certificates
@@ -1891,6 +2093,23 @@ export interface Subfield {
    */
   position?: number
 }
+/**
+ * * `0-to-5-hours` - <5 hours/week * `5-to-10-hours` - 5-10 hours/week * `10-to-20-hours` - 10-20 hours/week * `20-to-30-hours` - 20-30 hours/week * `30-plus-hours` - 30+ hours/week
+ * @export
+ * @enum {string}
+ */
+
+export const TimeCommitmentEnum = {
+  _0To5Hours: "0-to-5-hours",
+  _5To10Hours: "5-to-10-hours",
+  _10To20Hours: "10-to-20-hours",
+  _20To30Hours: "20-to-30-hours",
+  _30PlusHours: "30-plus-hours",
+} as const
+
+export type TimeCommitmentEnum =
+  (typeof TimeCommitmentEnum)[keyof typeof TimeCommitmentEnum]
+
 /**
  * Serializer for Channel model of type topic
  * @export

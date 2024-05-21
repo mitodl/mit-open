@@ -1,5 +1,3 @@
-version: "3.7"
-
 x-environment: &py-environment
   DEBUG: ${DEBUG:-True}
   DEV_ENV: "True" # necessary to have nginx connect to web container
@@ -17,6 +15,8 @@ x-environment: &py-environment
 
 services:
   db:
+    profiles:
+      - backend
     image: postgres:12.19
     ports:
       - 5432:5432
@@ -24,11 +24,15 @@ services:
       - POSTGRES_PASSWORD=postgres
 
   redis:
+    profiles:
+      - backend
     image: redis:5.0.14
     ports:
       - "6379"
 
   opensearch-node-mitopen:
+    profiles:
+      - backend
     image: opensearchproject/opensearch:2.14.0
     container_name: opensearch-node-mitopen
     environment:
@@ -52,6 +56,8 @@ services:
       - 9100:9200
 
   nginx:
+    profiles:
+      - backend
     image: nginx:1.26.0
     ports:
       - "8063:8063"
@@ -62,6 +68,8 @@ services:
       - ./frontends/mit-open/build:/src/frontends/mit-open/build
 
   web:
+    profiles:
+      - backend
     build:
       context: .
       dockerfile: Dockerfile
@@ -83,11 +91,16 @@ services:
       - django_media:/var/media
 
   watch:
-    build:
-      context: .
-      dockerfile: frontends/Dockerfile
-    command: >
-      /bin/sh -c 'yarn storybook & yarn watch:docker'
+    profiles:
+      - frontend
+    working_dir: /src
+    image: node:20.13
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        yarn install --immutable
+        yarn workspace mit-open storybook &
+        yarn workspace mit-open watch:docker
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       PORT: 8062
@@ -96,10 +109,11 @@ services:
       - "8062:8062"
       - "6006:6006"
     volumes:
-      - ./frontends:/src/frontends
-      - ./.git:/src/.git
+      - .:/src
 
   celery:
+    profiles:
+      - backend
     build:
       context: .
       dockerfile: Dockerfile
@@ -118,6 +132,8 @@ services:
       - .:/src
       - django_media:/var/media
   tika:
+    profiles:
+      - backend
     image: apache/tika:2.5.0
     ports:
       - "9998:9998"

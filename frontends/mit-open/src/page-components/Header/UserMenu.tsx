@@ -1,61 +1,108 @@
 import React, { useState } from "react"
-import { Avatar, Badge, SimpleMenu, styled } from "ol-components"
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
-import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp"
-import type { BadgeProps, SimpleMenuItem, AvatarProps } from "ol-components"
+import { ActionButtonLink, ButtonLink, SimpleMenu, styled } from "ol-components"
+import type { MenuOverrideProps, SimpleMenuItem } from "ol-components"
 import * as urls from "@/common/urls"
-import PersonIcon from "@mui/icons-material/Person"
-import { useLocation } from "react-router"
+import {
+  RiAccountCircleFill,
+  RiArrowUpSLine,
+  RiArrowDownSLine,
+} from "@remixicon/react"
 import { useUserMe, User } from "api/hooks/user"
+import { useLocation } from "react-router"
 
-const StyledBadge = styled(Badge)`
-  pointer-events: none;
-`
+const FlexContainer = styled.div({
+  display: "flex",
+  alignItems: "center",
+})
 
-const SmallAvatar = styled(Avatar)<AvatarProps>`
-  pointer-events: all;
-  height: 35px;
-  width: 35px;
-  border: none;
-  font-size: 1rem;
-  cursor: pointer;
-`
+const UserMenuContainer = styled.button({
+  display: "flex",
+  alignItems: "center",
+  cursor: "pointer",
+  background: "none",
+  color: "inherit",
+  border: "none",
+  padding: "0",
+  font: "inherit",
+})
 
-const badgeAnchorOrigin: BadgeProps["anchorOrigin"] = {
-  vertical: "bottom",
-  horizontal: "right",
-}
+const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
+  paddingRight: "32px",
+  "&:hover": {
+    textDecoration: "none",
+  },
+  [theme.breakpoints.down("sm")]: {
+    padding: "0",
+    ".login-button-desktop": {
+      display: "none",
+    },
+    ".login-button-mobile": {
+      display: "flex",
+    },
+  },
+  [theme.breakpoints.up("sm")]: {
+    ".login-button-desktop": {
+      display: "flex",
+    },
+    ".login-button-mobile": {
+      display: "none",
+    },
+  },
+}))
 
-type AuthMenuItem = SimpleMenuItem & {
+const UserIcon = styled(RiAccountCircleFill)(({ theme }) => ({
+  width: "24px",
+  height: "24px",
+  color: theme.custom.colors.black,
+}))
+
+type UserMenuItem = SimpleMenuItem & {
   allow: boolean
 }
 
-const UserIcon: React.FC<{ user: User }> = ({ user }) => {
-  const first = user.first_name?.[0] ?? ""
-  const last = user.last_name?.[0] ?? ""
-  return `${first}${last}` || <PersonIcon />
+const UserNameContainer = styled.span(({ theme }) => ({
+  color: theme.custom.colors.darkGray2,
+  padding: "0 12px",
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+  ...theme.typography.body2,
+}))
+
+const UserName: React.FC<{ user: User | undefined }> = ({ user }) => {
+  const first = user?.first_name ?? ""
+  const last = user?.last_name ?? ""
+  return (
+    <UserNameContainer>
+      {first}
+      {first && last ? " " : ""}
+      {last}
+    </UserNameContainer>
+  )
 }
 
-const UserMenu: React.FC = () => {
+const UserMenuChevron: React.FC<{ open: boolean }> = ({ open }) => {
+  return open ? <RiArrowUpSLine /> : <RiArrowDownSLine />
+}
+
+type DeviceType = "mobile" | "desktop"
+type UserMenuProps = {
+  variant?: DeviceType
+}
+
+const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   const [visible, setVisible] = useState(false)
   const location = useLocation()
   const { isLoading, data: user } = useUserMe()
-
   if (isLoading) {
     return null
   }
+  const loginUrl = urls.login({
+    pathname: location.pathname,
+    search: location.search,
+  })
 
-  const items: AuthMenuItem[] = [
-    {
-      label: "Log in",
-      key: "login",
-      allow: !user?.is_authenticated,
-      href: urls.login({
-        pathname: location.pathname,
-        search: location.search,
-      }),
-      LinkComponent: "a",
-    },
+  const items: UserMenuItem[] = [
     {
       label: "Dashboard",
       key: "dashboard",
@@ -83,25 +130,64 @@ const UserMenu: React.FC = () => {
     },
   ]
 
-  return (
-    <SimpleMenu
-      onVisibilityChange={setVisible}
-      items={items
-        .filter(({ allow }) => allow)
-        .map(({ allow, ...item }) => item)}
-      trigger={
-        <StyledBadge
-          overlap="circular"
-          anchorOrigin={badgeAnchorOrigin}
-          badgeContent={visible ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
-        >
-          <SmallAvatar component="button" aria-label="User Menu">
-            {user?.is_authenticated ? <UserIcon user={user} /> : <PersonIcon />}
-          </SmallAvatar>
-        </StyledBadge>
-      }
-    ></SimpleMenu>
-  )
+  const menuOverrideProps: MenuOverrideProps = {
+    anchorOrigin: { horizontal: "right", vertical: "bottom" },
+    transformOrigin: { horizontal: "right", vertical: "top" },
+  }
+
+  if (user?.is_authenticated) {
+    return (
+      <SimpleMenu
+        menuOverrideProps={menuOverrideProps}
+        onVisibilityChange={setVisible}
+        items={items
+          .filter(({ allow }) => allow)
+          .map(({ allow, ...item }) => item)}
+        trigger={
+          <UserMenuContainer role="button" aria-label="User Menu">
+            <UserIcon data-testid="UserIcon" />
+            <UserName user={user} />
+            {user?.is_authenticated ? <UserMenuChevron open={visible} /> : ""}
+          </UserMenuContainer>
+        }
+      />
+    )
+  } else {
+    return (
+      <LoginButtonContainer data-testid="login-button-container">
+        {variant === "desktop" ? (
+          <FlexContainer className="login-button-desktop">
+            <ButtonLink
+              data-testid="login-button-desktop"
+              edge="rounded"
+              size="small"
+              nativeAnchor={true}
+              href={loginUrl}
+            >
+              Sign Up / Login
+            </ButtonLink>
+          </FlexContainer>
+        ) : (
+          ""
+        )}
+        {variant === "mobile" ? (
+          <FlexContainer className="login-button-mobile">
+            <ActionButtonLink
+              data-testid="login-button-mobile"
+              edge="rounded"
+              variant="text"
+              nativeAnchor={true}
+              href={loginUrl}
+            >
+              <UserIcon data-testid="UserIcon" />
+            </ActionButtonLink>
+          </FlexContainer>
+        ) : (
+          ""
+        )}
+      </LoginButtonContainer>
+    )
+  }
 }
 
 export default UserMenu

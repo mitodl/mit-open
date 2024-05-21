@@ -11,29 +11,18 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
-from learning_resources.permissions import is_learning_path_editor
 from main.features import get_all_feature_flags, is_enabled
-from main.permissions import is_admin_user
 
 
 def index(request, **kwargs):  # pylint: disable=unused-argument  # noqa: ARG001
-    """Render the example app"""
+    """
+    Return the static HTML index file for our react app.
 
-    user = request.user
-
-    js_settings = {
-        "user": {
-            "id": user.id,
-            "first_name": getattr(user, "first_name", None),
-            "last_name": getattr(user, "last_name", None),
-            "is_authenticated": bool(user.is_authenticated),
-            "is_learning_path_editor": user.is_authenticated
-            and (is_admin_user(request) or is_learning_path_editor(request)),
-            "is_article_editor": is_admin_user(request),
-        },
-    }
-
-    return render(request, "index.html", context={"js_settings": js_settings})
+    In general, this should not be served by Django, but directly by nginx or
+    another web server. However, if a route that nginx sends to Django is a 404,
+    then we return the react app via Django.
+    """
+    return render(request, "index.html")
 
 
 def handle_400(

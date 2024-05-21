@@ -3,11 +3,14 @@ import styled from "@emotion/styled"
 import React from "react"
 
 const DrawerContent = styled.div(({ theme }) => ({
-  paddingTop: "56px",
+  paddingTop: "80px",
   width: "350px",
   height: "100%",
   background: theme.custom.colors.white,
   borderRight: `1px solid ${theme.custom.colors.lightGray2}`,
+  [theme.breakpoints.down("sm")]: {
+    height: "60px",
+  },
 }))
 
 const NavSection = styled.div(({ theme }) => ({
@@ -124,10 +127,11 @@ const NavDrawer = (props: NavDrawerProps) => {
       anchor="left"
       variant="persistent"
       elevation={0}
-      hideBackdrop={false}
+      hideBackdrop={true}
       PaperProps={{
         sx: {
           boxShadow: "0px 6px 24px 0px rgba(37, 38, 43, 0.10)",
+          zIndex: (theme) => theme.zIndex.appBar - 1,
         },
       }}
       {...props}

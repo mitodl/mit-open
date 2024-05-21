@@ -21,6 +21,10 @@ Run through those steps **including the addition of `/etc/hosts` aliases and the
 
 The following settings must be configured before running the app:
 
+- `COMPOSE_PROFILES`
+
+  Controls which docker containers run. To run them all, use `COMPOSE_PROFILES=backend,frontend`. See [Frontend Development](./frontends/README.md) for more.
+
 - `INDEXING_API_USERNAME`
 
   At least to start out, this should be set to the username of the superuser

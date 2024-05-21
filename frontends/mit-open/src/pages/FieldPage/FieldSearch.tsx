@@ -225,7 +225,7 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
         <GridContainer>
           <GridColumn variant="main-2-wide-main">
             <AvailableFacetsDropdowns
-              facetMap={facetManifest}
+              facetManifest={facetManifest}
               isLoading={isLoading}
               activeFacets={allParams as Facets & BooleanFacets}
               onFacetChange={setParamValue}

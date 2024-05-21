@@ -47,22 +47,42 @@ const getFacetManifest = (
 ): FacetManifest => {
   return [
     {
+      type: "group",
+      facets: [
+        {
+          value: true,
+          name: "free",
+          label: "Free",
+        },
+        {
+          value: true,
+          name: "certification",
+          label: "With Certificate",
+        },
+        {
+          value: true,
+          name: "professional",
+          label: "Professional",
+        },
+      ],
+    },
+    {
       name: "topic",
       title: "Topics",
-      useFilterableFacet: true,
+      type: "filterable",
       expandedOnLoad: true,
     },
     {
       name: "offered_by",
       title: "Offered By",
-      useFilterableFacet: false,
+      type: "filterable",
       expandedOnLoad: true,
       labelFunction: (key) => offerors[key]?.name ?? key,
     },
     {
       name: "learning_format",
       title: "Format",
-      useFilterableFacet: false,
+      type: "filterable",
       expandedOnLoad: true,
       labelFunction: (key) =>
         key
@@ -73,15 +93,21 @@ const getFacetManifest = (
   ]
 }
 
-const FACET_NAMES = getFacetManifest({}).map(
-  (f) => f.name,
-) as UseResourceSearchParamsProps["facets"]
+const FACET_NAMES = getFacetManifest({}).flatMap((config) => {
+  if (config.type === "group") {
+    return config.facets.map((f) => f.name)
+  }
+  return config.name
+}) as UseResourceSearchParamsProps["facets"]
 
 const AGGREGATIONS: LRSearchRequest["aggregations"] = [
   "resource_type",
   "learning_format",
   "topic",
   "offered_by",
+  "certification",
+  "free",
+  "professional",
 ]
 
 const SORT_OPTIONS = [
@@ -395,12 +421,10 @@ const SearchPage: React.FC = () => {
               </FacetsTitleContainer>
               <FacetStyles>
                 <AvailableFacets
-                  facetMap={facetManifest}
+                  facetManifest={facetManifest}
                   activeFacets={params}
                   onFacetChange={toggleParamValue}
-                  facetOptions={(name) =>
-                    data?.metadata.aggregations?.[name] ?? []
-                  }
+                  facetOptions={data?.metadata.aggregations ?? {}}
                 />
               </FacetStyles>
             </GridColumn>
