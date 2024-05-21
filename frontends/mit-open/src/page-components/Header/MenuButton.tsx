@@ -1,8 +1,8 @@
 import { Button, styled } from "ol-components"
-import MenuIcon from "@mui/icons-material/Menu"
+import { RiMenuLine } from "@remixicon/react"
 import React from "react"
 
-const StyledMenuIcon = styled(MenuIcon)(({ theme }) => ({
+const MenuIcon = styled(RiMenuLine)(({ theme }) => ({
   color: theme.custom.colors.darkGray1,
 }))
 
@@ -11,16 +11,20 @@ const MenuButtonText = styled.div(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
   paddingLeft: "16px",
   textTransform: "none",
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
   ...theme.typography.subtitle2,
 }))
 
 const MenuButtonInner = styled.div({
   display: "flex",
-  padding: "8px 24px 8px 0px",
+  padding: "8px 0",
   alignItems: "flex-start",
 })
 
 const StyledMenuButton = styled(Button)({
+  padding: "0",
   background: "transparent",
   "&:hover:not(:disabled)": {
     background: "transparent",
@@ -28,15 +32,15 @@ const StyledMenuButton = styled(Button)({
 })
 
 interface MenuButtonProps {
-  text: string
+  text?: string
   onClick: React.MouseEventHandler<HTMLButtonElement> | undefined
 }
 
 const MenuButton: React.FC<MenuButtonProps> = ({ text, onClick }) => (
-  <StyledMenuButton onClick={onClick}>
+  <StyledMenuButton variant="text" onClick={onClick}>
     <MenuButtonInner>
-      <StyledMenuIcon />
-      <MenuButtonText>{text}</MenuButtonText>
+      <MenuIcon />
+      {text ? <MenuButtonText>{text}</MenuButtonText> : ""}
     </MenuButtonInner>
   </StyledMenuButton>
 )

@@ -19,7 +19,12 @@ export type { BadgeProps } from "@mui/material/Badge"
 export { default as AppBar } from "@mui/material/AppBar"
 export type { AppBarProps } from "@mui/material/AppBar"
 
-export { Button, ActionButton, ButtonLink } from "./components/Button/Button"
+export {
+  Button,
+  ActionButton,
+  ActionButtonLink,
+  ButtonLink,
+} from "./components/Button/Button"
 
 export type { ButtonProps, ButtonLinkProps } from "./components/Button/Button"
 
@@ -115,6 +120,7 @@ export { default as Typography } from "@mui/material/Typography"
 export type { TypographyProps } from "@mui/material/Typography"
 
 export { default as Menu } from "@mui/material/Menu"
+export type { MenuProps } from "@mui/material/Menu"
 export { default as MenuItem } from "@mui/material/MenuItem"
 
 export * from "./components/Alert/Alert"
