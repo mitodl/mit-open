@@ -141,6 +141,7 @@ const globalSettings: ThemeOptions["typography"] = {
     fontStyle: "normal",
     fontSize: pxToRem(14),
     lineHeight: pxToRem(14),
+    textTransform: "none",
   },
   buttonSmall: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
