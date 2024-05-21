@@ -268,7 +268,9 @@ def test_ocw_courses_etl_exception(settings, mocker):
             force_overwrite=True,
             start_timestamp=datetime(2020, 12, 15, tzinfo=UTC),
         )
-    assert str(ex.value) == "Some OCW urls raised errors: %s" % ",".join(url_paths)
+    assert str(ex.value) == "Some OCW urls raised errors: {exception}".format(
+        exception=",".join(url_paths)
+    )
     for path in url_paths:
         mock_log.assert_any_call("Error encountered parsing OCW json for %s", path)
 
