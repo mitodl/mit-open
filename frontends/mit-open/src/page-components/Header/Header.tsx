@@ -133,7 +133,10 @@ const LoggedInView: FunctionComponent = () => {
 }
 
 const UserView: FunctionComponent = () => {
-  const { data: user } = useUserMe()
+  const { isLoading, data: user } = useUserMe()
+  if (isLoading) {
+    return null
+  }
   return user?.is_authenticated ? <LoggedInView /> : <LoggedOutView />
 }
 
