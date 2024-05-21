@@ -674,6 +674,9 @@ def test_send_multiple_subscription_emails(mocked_api, mocker):
 
 
 def test_infer_percolate_group(mocked_api):
+    """
+    Test that the the email template groups can be inferred from queries
+    """
     topic = "Mechanical Engineering"
     topic_query = PercolateQueryFactory.create()
     topic_query.original_query["topic"] = [topic]
@@ -694,6 +697,9 @@ def test_infer_percolate_group(mocked_api):
 
 
 def test_email_grouping_function(mocked_api, mocker):
+    """
+    Test that template data for digest emails are grouped correctly
+    """
     settings.USE_TZ = False
     topics = [
         "Mechanical Engineering",
@@ -706,6 +712,7 @@ def test_email_grouping_function(mocked_api, mocker):
 
     queries = []
     query_ids = []
+    user_ids = []
     user_documents = dict.fromkeys(topics, [])
     for topic in topics:
         user = UserFactory.create()
@@ -713,6 +720,7 @@ def test_email_grouping_function(mocked_api, mocker):
         query.original_query["topic"] = [topic]
         query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
         query.users.set([user])
+        user_ids.append(user.id)
         query.save()
         queries.append(query)
         query_ids.append(query.id)
@@ -733,3 +741,48 @@ def test_email_grouping_function(mocked_api, mocker):
     rows = _get_percolated_rows(new_resources, PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
     template_data = _group_percolated_rows(rows)
     assert len(template_data.keys()) == len(topics)
+    assert len(template_data[user_ids[0]]) == 1
+
+
+def test_digest_email_template(mocked_api, mocker):
+    """
+    Test that email digest for percolated matches contains the
+    correct total and that the topic groups appear in the email
+    """
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+        "Systems Engineering",
+    ]
+
+    LearningResource.objects.all().delete()
+    LearningResourceFactory.create_batch(len(topics), is_course=True)
+
+    queries = []
+    query_ids = []
+
+    user = UserFactory.create()
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topics.pop()]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        query.save()
+        queries.append(query)
+        query_ids.append(query.id)
+        return PercolateQuery.objects.filter(id=query.id)
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+    send_subscription_emails(PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
+    assert len(mail.outbox) == 1
+    mail_content = mail.outbox[0].body
+    assert "3 new courses in MIT Open that match" in mail_content
+    assert "Mechanical Engineering" in mail_content
+    assert "Environmental Engineering" in mail_content
+    assert "Systems Engineering" in mail_content
