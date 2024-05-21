@@ -557,8 +557,8 @@ export interface FeedImage {
  * @export
  */
 export type FeedItem =
-  | ({ feed_type: "events" } & EventFeedItem)
-  | ({ feed_type: "news" } & NewsFeedItem)
+  | ({ resource_type: "events" } & EventFeedItem)
+  | ({ resource_type: "news" } & NewsFeedItem)
 
 /**
  * FeedNewsDetail serializer
