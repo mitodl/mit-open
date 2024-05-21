@@ -89,7 +89,7 @@ const Spacer = styled.div`
 `
 
 const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
-  color: theme.custom.colors.darkGray1,
+  color: theme.custom.colors.darkGray2,
   margin: "4px 0",
 }))
 

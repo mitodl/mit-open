@@ -53,7 +53,7 @@ const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
 const UserIcon = styled(RiAccountCircleFill)(({ theme }) => ({
   width: "24px",
   height: "24px",
-  color: theme.custom.colors.darkGray1,
+  color: theme.custom.colors.black,
 }))
 
 type UserMenuItem = SimpleMenuItem & {
@@ -61,11 +61,12 @@ type UserMenuItem = SimpleMenuItem & {
 }
 
 const UserNameContainer = styled.span(({ theme }) => ({
-  color: theme.custom.colors.darkGray1,
+  color: theme.custom.colors.darkGray2,
   padding: "0 12px",
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
+  ...theme.typography.body2,
 }))
 
 const UserName: React.FC<{ user: User | undefined }> = ({ user }) => {
