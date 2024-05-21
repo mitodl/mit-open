@@ -49,7 +49,7 @@ const MobileContent = styled.div`
   margin: 40px 0;
 `
 
-const StoriesContainer = styled.div`
+const StoriesContainer = styled.section`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -57,7 +57,7 @@ const StoriesContainer = styled.div`
   flex: 1 0 0;
 `
 
-const MobileContainer = styled.div`
+const MobileContainer = styled.section`
   width: 100%;
   margin: 0 -16px;
   h4 {
@@ -65,7 +65,7 @@ const MobileContainer = styled.div`
   }
 `
 
-const EventsContainer = styled.div`
+const EventsContainer = styled.section`
   display: flex;
   width: 408px;
   flex-direction: column;
@@ -255,22 +255,23 @@ const NewsEventsSection: React.FC = () => {
     return null
   }
 
-  const stories = news!.results.slice(0, isAboveLg || isMobile ? 6 : 4)
+  const stories = news!.results?.slice(0, isAboveLg || isMobile ? 6 : 4) || []
 
-  const EventCards = events!.results.map((item: EventFeedItem) => (
-    <EventCard key={item.id} href={item.url}>
-      <EventDate>
-        <EventDay>
-          {formatDate(item.event_details.event_datetime, "D")}
-        </EventDay>
-        <EventMonth>
-          {formatDate(item.event_details.event_datetime, "MMM")}
-        </EventMonth>
-      </EventDate>
-      <EventTitle>{item.title}</EventTitle>
-      <Chevron />
-    </EventCard>
-  ))
+  const EventCards =
+    events!.results?.map((item: EventFeedItem) => (
+      <EventCard key={item.id} href={item.url}>
+        <EventDate>
+          <EventDay>
+            {formatDate(item.event_details?.event_datetime, "D")}
+          </EventDay>
+          <EventMonth>
+            {formatDate(item.event_details?.event_datetime, "MMM")}
+          </EventMonth>
+        </EventDate>
+        <EventTitle>{item.title}</EventTitle>
+        <Chevron />
+      </EventCard>
+    )) || []
 
   return (
     <Section>

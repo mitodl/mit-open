@@ -106,8 +106,10 @@ const TopicBoxName = styled.p`
 
 const SeeAllButton = styled(Button)`
   margin: 0 auto;
+  display: block;
   width: 152px;
   box-sizing: content-box;
+  text-transform: none;
 `
 
 const BrowseTopicsSection: React.FC = () => {
