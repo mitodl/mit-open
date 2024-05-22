@@ -29,7 +29,11 @@ export {
   ButtonLink,
 } from "./components/Button/Button"
 
-export type { ButtonProps, ButtonLinkProps } from "./components/Button/Button"
+export type {
+  ButtonProps,
+  ButtonLinkProps,
+  ButtonStyleProps,
+} from "./components/Button/Button"
 
 export { default as Card } from "@mui/material/Card"
 export type { CardProps } from "@mui/material/Card"

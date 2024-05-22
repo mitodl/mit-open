@@ -1,10 +1,11 @@
 import React from "react"
 import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
+import { colors } from "../ThemeProvider/colors"
 import tinycolor from "tinycolor2"
 import { Link } from "react-router-dom"
 
-type ButtonVariant = "primary" | "secondary" | "tertiary" | "text"
+type ButtonVariant = "primary" | "secondary" | "tertiary" | "text" | "inverted"
 type ButtonSize = "small" | "medium" | "large"
 type ButtonEdge = "circular" | "rounded"
 
@@ -112,6 +113,12 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
         backgroundColor: colors.lightGray2,
         color: colors.silverGrayLight,
       },
+    },
+    variant === "inverted" && {
+      backgroundColor: colors.white,
+      color: colors.mitRed,
+      borderColor: colors.mitRed,
+      borderStyle: "solid",
     },
     // edge
     edge === "rounded" && {
@@ -299,6 +306,7 @@ export { Button, ButtonLink, ActionButton, ActionButtonLink }
 export type {
   ButtonProps,
   ButtonLinkProps,
+  ButtonStyleProps,
   ActionButtonProps,
   ActionButtonLinkProps,
 }

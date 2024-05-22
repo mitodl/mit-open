@@ -128,24 +128,43 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
           <Tab key={index} label={label} value={index.toString()} />
         ))}
       </TabList>
-      {config.map(({ data, pageSize }, index) => (
-        <TabPanel key={index} value={index.toString()}>
-          <DataPanel dataConfig={data}>
-            {({ resources }) => (
-              <CarouselStyled pageSize={pageSize}>
-                {resources.map((resource) => (
-                  <LearningResourceCardStyled
-                    key={resource.id}
-                    variant="column"
-                    resource={resource}
-                    cardsPerPage={pageSize}
-                  />
-                ))}
-              </CarouselStyled>
-            )}
-          </DataPanel>
-        </TabPanel>
-      ))}
+      {config.map(
+        (
+          {
+            data,
+            pageSize,
+            pageLeftIcon,
+            pageRightIcon,
+            buttonAlignment,
+            buttonVariant,
+            buttonSize,
+          },
+          index,
+        ) => (
+          <TabPanel key={index} value={index.toString()}>
+            <DataPanel dataConfig={data}>
+              {({ resources }) => (
+                <CarouselStyled
+                  pageSize={pageSize}
+                  pageLeftIcon={pageLeftIcon}
+                  pageRightIcon={pageRightIcon}
+                  buttonAlignment={buttonAlignment}
+                  buttonVariant={buttonVariant}
+                  buttonSize={buttonSize}
+                >
+                  {resources.map((resource) => (
+                    <LearningResourceCardStyled
+                      key={resource.id}
+                      variant="column"
+                      resource={resource}
+                    />
+                  ))}
+                </CarouselStyled>
+              )}
+            </DataPanel>
+          </TabPanel>
+        ),
+      )}
     </TabContext>
   )
 }
