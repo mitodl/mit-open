@@ -29,6 +29,7 @@ const StyledMenuButton = styled(Button)({
   "&:hover:not(:disabled)": {
     background: "transparent",
   },
+  touchAction: "none",
 })
 
 interface MenuButtonProps {

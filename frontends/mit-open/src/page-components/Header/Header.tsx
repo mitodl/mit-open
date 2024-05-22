@@ -247,7 +247,7 @@ const Header: FunctionComponent = () => {
     toggleDrawer(!drawerOpen)
   }
   const closeDrawer = (event: MouseEvent | TouchEvent) => {
-    if (drawerOpen && !resourceDrawerOpen) {
+    if (drawerOpen && !resourceDrawerOpen && event.type !== "touchstart") {
       event.preventDefault()
       toggleDrawer(false)
     }
