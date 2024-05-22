@@ -19,7 +19,6 @@ const shadow = {
 
 // To replace ../scss/theme.scss for #236 as we refactor it out
 const custom: ThemeOptions["custom"] = {
-  oldBackgroundColor: "#edeff5",
   transitionDuration: "300ms",
   shadow: `${shadow.shadowOffsetX} ${shadow.shadowOffsetY} ${shadow.shadowBlurRadius} ${shadow.shadowColor}`,
   colors,

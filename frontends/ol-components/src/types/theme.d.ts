@@ -10,7 +10,6 @@ export interface ColorGroup {
 }
 
 interface CustomTheme {
-  oldBackgroundColor: string
   transitionDuration: string
   shadow: string
   colors: {
