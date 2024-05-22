@@ -341,7 +341,7 @@ INTERNAL_IPS = (get_string("HOST_IP", "127.0.0.1"),)
 
 # Configure e-mail settings
 EMAIL_BACKEND = get_string(
-    "MITOPEN_EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend"
+    "MITOPEN_EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
 )
 EMAIL_HOST = get_string("MITOPEN_EMAIL_HOST", "localhost")
 EMAIL_PORT = get_int("MITOPEN_EMAIL_PORT", 25)
