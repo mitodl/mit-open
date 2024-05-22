@@ -149,26 +149,26 @@ const navData: NavData = {
       items: [
         {
           title: "Courses",
-          image: "/static/images/navdrawer/courses.svg",
+          icon: "/static/images/navdrawer/courses.svg",
           description: "Learn with MIT instructors",
           href: querifiedSearchUrl({ resource_type: "course" }),
         },
         {
           title: "Programs",
-          image: "/static/images/navdrawer/programs.svg",
+          icon: "/static/images/navdrawer/programs.svg",
           description:
             "Learn in-depth from a series of courses and earn a certificate",
           href: querifiedSearchUrl({ resource_type: "program" }),
         },
         {
           title: "Pathways",
-          image: "/static/images/navdrawer/pathways.svg",
+          icon: "/static/images/navdrawer/pathways.svg",
           description:
             "Achieve your learning goals with a curated collection of courses",
         },
         {
           title: "Course Materials",
-          image: "/static/images/navdrawer/course_materials.svg",
+          icon: "/static/images/navdrawer/course_materials.svg",
           description:
             "Free teaching and learning materials including videos, podcasts, lecture notes, etc.",
         },
@@ -179,16 +179,16 @@ const navData: NavData = {
       items: [
         {
           title: "By Topic",
-          image: "/static/images/navdrawer/topics.svg",
+          icon: "/static/images/navdrawer/topics.svg",
         },
         {
           title: "By Departments",
-          image: "/static/images/navdrawer/departments.svg",
+          icon: "/static/images/navdrawer/departments.svg",
           href: DEPARTMENTS,
         },
         {
           title: "By Provider",
-          image: "/static/images/navdrawer/provider.svg",
+          icon: "/static/images/navdrawer/provider.svg",
         },
       ],
     },
@@ -197,7 +197,7 @@ const navData: NavData = {
       items: [
         {
           title: "New",
-          image: "/static/images/navdrawer/new.svg",
+          icon: "/static/images/navdrawer/new.svg",
           href: querifiedSearchUrl({
             resource_type: "course",
             sortby: "new",
@@ -205,7 +205,7 @@ const navData: NavData = {
         },
         {
           title: "Upcoming",
-          image: "/static/images/navdrawer/free.svg",
+          icon: "/static/images/navdrawer/free.svg",
           href: querifiedSearchUrl({
             resource_type: "course",
             sortby: "upcoming",
@@ -213,7 +213,7 @@ const navData: NavData = {
         },
         {
           title: "Popular",
-          image: "/static/images/navdrawer/popular.svg",
+          icon: "/static/images/navdrawer/popular.svg",
           href: querifiedSearchUrl({
             resource_type: "course",
             sortby: "popular",
@@ -221,12 +221,12 @@ const navData: NavData = {
         },
         {
           title: "Free",
-          image: "/static/images/navdrawer/free.svg",
+          icon: "/static/images/navdrawer/free.svg",
           href: querifiedSearchUrl({ free: "true" }),
         },
         {
           title: "With Certificate",
-          image: "/static/images/navdrawer/certificate.svg",
+          icon: "/static/images/navdrawer/certificate.svg",
           href: querifiedSearchUrl({ certification: "true" }),
         },
       ],

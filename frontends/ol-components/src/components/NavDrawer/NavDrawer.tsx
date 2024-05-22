@@ -63,12 +63,12 @@ const NavItemContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const NavImageContainer = styled.div({
+const NavIconContainer = styled.div({
   display: "flex",
   alignItems: "flex-start",
 })
 
-const NavImage = styled.img({
+const NavIcon = styled.img({
   width: "22px",
   height: "22px",
 })
@@ -104,18 +104,18 @@ export interface NavSection {
 
 export interface NavItem {
   title: string
-  image?: string
+  icon?: string
   description?: string
   href?: string
 }
 
 const NavItem: React.FC<NavItem> = (props) => {
-  const { title, image, description, href } = props
+  const { title, icon, description, href } = props
   const navItem = (
     <NavItemContainer>
-      <NavImageContainer style={{ paddingTop: description ? "4px" : "" }}>
-        {image ? <NavImage className="nav-link-image" src={image} /> : null}
-      </NavImageContainer>
+      <NavIconContainer style={{ paddingTop: description ? "4px" : "" }}>
+        {icon ? <NavIcon src={icon} data-testid="nav-link-icon" /> : null}
+      </NavIconContainer>
       <NavTextContainer>
         <NavLinkText className="nav-link-text" data-testid="nav-link-text">
           {title} {href ? "" : "(Coming Soon)"}
@@ -151,7 +151,7 @@ const NavDrawer = (props: NavDrawerProps) => {
       <NavItem
         key={item.title}
         title={item.title}
-        image={item.image}
+        icon={item.icon}
         description={item.description}
         href={item.href}
       />
