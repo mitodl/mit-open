@@ -20,7 +20,7 @@ const NavSection = styled.div(({ theme }) => ({
 
 const NavSectionHeader = styled.div(({ theme }) => ({
   paddingLeft: "8px",
-  color: theme.custom.colors.silverGrayDark,
+  color: theme.custom.colors.darkGray1,
   ...theme.typography.subtitle3,
 }))
 
@@ -32,7 +32,7 @@ const NavLinkText = styled.div(({ theme }) => ({
 const NavLinkDescription = styled.div(({ theme }) => ({
   display: "inline-block",
   paddingTop: "4px",
-  color: theme.custom.colors.silverGrayDark,
+  color: theme.custom.colors.darkGray1,
   ...theme.typography.body3,
 }))
 
