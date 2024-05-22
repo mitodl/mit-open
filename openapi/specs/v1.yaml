@@ -178,27 +178,20 @@ paths:
             - ocw
             - bootcamps
             - xpro
-            - csail
             - mitpe
             - see
-            - scc
-            - ctl
             type: string
             description: |-
               * `mitx` - MITx
               * `ocw` - OCW
               * `bootcamps` - Bootcamps
               * `xpro` - xPRO
-              * `csail` - CSAIL
               * `mitpe` - Professional Education
               * `see` - Sloan Executive Education
-              * `scc` - Schwarzman College of Computing
-              * `ctl` - Center for Transportation & Logistics
         description: "The organization that offers the learning resource         \
           \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see`\
-          \ - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
-          * `ctl` - Center for Transportation & Logistics"
+          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
+          \ Education"
       - in: query
         name: offset
         schema:
@@ -346,12 +339,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -361,11 +351,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -696,12 +683,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -711,11 +695,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -921,12 +902,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -936,11 +914,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -1270,12 +1245,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -1285,11 +1257,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -1631,12 +1600,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -1646,11 +1612,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -1856,12 +1819,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -1871,11 +1831,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -2270,27 +2227,20 @@ paths:
             - ocw
             - bootcamps
             - xpro
-            - csail
             - mitpe
             - see
-            - scc
-            - ctl
             type: string
             description: |-
               * `mitx` - MITx
               * `ocw` - OCW
               * `bootcamps` - Bootcamps
               * `xpro` - xPRO
-              * `csail` - CSAIL
               * `mitpe` - Professional Education
               * `see` - Sloan Executive Education
-              * `scc` - Schwarzman College of Computing
-              * `ctl` - Center for Transportation & Logistics
         description: "The organization that offers the learning resource         \
           \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see`\
-          \ - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
-          * `ctl` - Center for Transportation & Logistics"
+          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
+          \ Education"
       - in: query
         name: offset
         schema:
@@ -2657,27 +2607,20 @@ paths:
             - ocw
             - bootcamps
             - xpro
-            - csail
             - mitpe
             - see
-            - scc
-            - ctl
             type: string
             description: |-
               * `mitx` - MITx
               * `ocw` - OCW
               * `bootcamps` - Bootcamps
               * `xpro` - xPRO
-              * `csail` - CSAIL
               * `mitpe` - Professional Education
               * `see` - Sloan Executive Education
-              * `scc` - Schwarzman College of Computing
-              * `ctl` - Center for Transportation & Logistics
         description: "The organization that offers the learning resource         \
           \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see`\
-          \ - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
-          * `ctl` - Center for Transportation & Logistics"
+          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
+          \ Education"
       - in: query
         name: offset
         schema:
@@ -3069,27 +3012,20 @@ paths:
             - ocw
             - bootcamps
             - xpro
-            - csail
             - mitpe
             - see
-            - scc
-            - ctl
             type: string
             description: |-
               * `mitx` - MITx
               * `ocw` - OCW
               * `bootcamps` - Bootcamps
               * `xpro` - xPRO
-              * `csail` - CSAIL
               * `mitpe` - Professional Education
               * `see` - Sloan Executive Education
-              * `scc` - Schwarzman College of Computing
-              * `ctl` - Center for Transportation & Logistics
         description: "The organization that offers the learning resource         \
           \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see`\
-          \ - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
-          * `ctl` - Center for Transportation & Logistics"
+          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
+          \ Education"
       - in: query
         name: offset
         schema:
@@ -3458,27 +3394,20 @@ paths:
             - ocw
             - bootcamps
             - xpro
-            - csail
             - mitpe
             - see
-            - scc
-            - ctl
             type: string
             description: |-
               * `mitx` - MITx
               * `ocw` - OCW
               * `bootcamps` - Bootcamps
               * `xpro` - xPRO
-              * `csail` - CSAIL
               * `mitpe` - Professional Education
               * `see` - Sloan Executive Education
-              * `scc` - Schwarzman College of Computing
-              * `ctl` - Center for Transportation & Logistics
         description: "The organization that offers the learning resource         \
           \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see`\
-          \ - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
-          * `ctl` - Center for Transportation & Logistics"
+          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
+          \ Education"
       - in: query
         name: offset
         schema:
@@ -3809,12 +3738,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -3824,11 +3750,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -4495,12 +4418,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -4510,11 +4430,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -4856,12 +4773,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -4871,11 +4785,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -5304,12 +5215,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -5319,11 +5227,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -6055,12 +5960,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -6070,11 +5972,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -6482,12 +6381,9 @@ paths:
             type: string
             enum:
             - bootcamps
-            - csail
-            - ctl
             - mitpe
             - mitx
             - ocw
-            - scc
             - see
             - xpro
         description: |-
@@ -6497,11 +6393,8 @@ paths:
           * `ocw` - OCW
           * `bootcamps` - Bootcamps
           * `xpro` - xPRO
-          * `csail` - CSAIL
           * `mitpe` - Professional Education
           * `see` - Sloan Executive Education
-          * `scc` - Schwarzman College of Computing
-          * `ctl` - Center for Transportation & Logistics
         explode: true
         style: form
       - name: offset
@@ -8190,9 +8083,8 @@ components:
             $ref: '#/components/schemas/OfferedByEnum'
           description: "The organization that offers the learning resource       \
             \      \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n\
-            * `xpro` - xPRO\n* `csail` - CSAIL\n* `mitpe` - Professional Education\n\
-            * `see` - Sloan Executive Education\n* `scc` - Schwarzman College of Computing\n\
-            * `ctl` - Center for Transportation & Logistics"
+            * `xpro` - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
+            \ Education"
         platform:
           type: array
           items:
@@ -8379,22 +8271,16 @@ components:
       - ocw
       - bootcamps
       - xpro
-      - csail
       - mitpe
       - see
-      - scc
-      - ctl
       type: string
       description: |-
         * `mitx` - MITx
         * `ocw` - OCW
         * `bootcamps` - Bootcamps
         * `xpro` - xPRO
-        * `csail` - CSAIL
         * `mitpe` - Professional Education
         * `see` - Sloan Executive Education
-        * `scc` - Schwarzman College of Computing
-        * `ctl` - Center for Transportation & Logistics
     PaginatedArticleList:
       type: object
       required:

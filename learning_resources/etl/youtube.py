@@ -18,7 +18,7 @@ from youtube_transcript_api import (
 )
 from youtube_transcript_api.formatters import TextFormatter
 
-from learning_resources.constants import LearningResourceType, PlatformType
+from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.loaders import update_index
@@ -33,6 +33,21 @@ YOUTUBE_MAX_RESULTS = 50
 WILDCARD_PLAYLIST_ID = "all"
 
 log = logging.getLogger()
+
+
+def parse_offered_by(offered_by_code: str) -> dict:
+    """
+    Return a dict with the offered_by code
+
+    Args:
+        offered_by_code (str): the offered_by code
+
+    Returns:
+        dict: the offered_by dict
+    """
+    if offered_by_code in OfferedBy.names():
+        return {"code": offered_by_code}
+    return None
 
 
 def get_youtube_client() -> Resource:
@@ -383,13 +398,13 @@ def extract(*, channel_ids: Optional[str] = None) -> Generator[tuple, None, None
     yield from extract_channels(youtube_client, channel_configs)
 
 
-def transform_video(video_data: dict, offered_by: str) -> dict:
+def transform_video(video_data: dict, offered_by_code: str) -> dict:
     """
     Transform raw video data into normalized data structure for single video
 
     Args:
         video_data (dict): the raw video data from the youtube api
-        offered_by (str): the offered_by value for this video
+        offered_by_code (str): the offered_by code for this video
 
     Returns:
         dict: normalized video data
@@ -405,7 +420,7 @@ def transform_video(video_data: dict, offered_by: str) -> dict:
         "image": {"url": video_data["snippet"]["thumbnails"]["high"]["url"]},
         "last_modified": video_data["snippet"]["publishedAt"],
         "url": f"https://www.youtube.com/watch?v={video_data['id']}",
-        "offered_by": {"code": offered_by} if offered_by else None,
+        "offered_by": parse_offered_by(offered_by_code),
         "published": True,
         "video": {
             "duration": video_data["contentDetails"]["duration"],
@@ -414,7 +429,7 @@ def transform_video(video_data: dict, offered_by: str) -> dict:
 
 
 def transform_playlist(
-    playlist_data: dict, videos: Generator[dict, None, None], offered_by: str
+    playlist_data: dict, videos: Generator[dict, None, None], offered_by_code: str
 ) -> dict:
     """
     Transform a playlist into our normalized data
@@ -422,7 +437,7 @@ def transform_playlist(
     Args:
         playlist_data (dict): the extracted playlist data
         videos (generator): generator for data for the playlist's videos
-        offered_by (str): the offered_by value for this playlist
+        offered_by_code (str): the offered_by code for this playlist
     Returns:
         dict: normalized playlist data
     """
@@ -432,10 +447,11 @@ def transform_playlist(
         "published": True,
         "platform": PlatformType.youtube.name,
         "etl_source": ETLSource.youtube.name,
-        "offered_by": {"code": offered_by} if offered_by else None,
+        "offered_by": parse_offered_by(offered_by_code),
         # intentional generator expression
         "videos": (
-            transform_video(extracted_video, offered_by) for extracted_video in videos
+            transform_video(extracted_video, offered_by_code)
+            for extracted_video in videos
         ),
     }
 

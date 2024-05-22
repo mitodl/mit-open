@@ -8,11 +8,14 @@ from django.core.management import BaseCommand
 
 from channels.models import FieldChannel
 from learning_resources.constants import (
-    FEATURED_OFFERORS,
     LearningResourceRelationTypes,
     LearningResourceType,
 )
-from learning_resources.models import LearningPath, LearningResource
+from learning_resources.models import (
+    LearningPath,
+    LearningResource,
+    LearningResourceOfferor,
+)
 from main.utils import now_in_utc
 
 
@@ -40,24 +43,22 @@ class Command(BaseCommand):
 
         start = now_in_utc()
         resource_count = options.get("resource_count", 10)
-        for featured_offeror in FEATURED_OFFERORS:
-            self.stdout.write(
-                f"Creating featured list for {featured_offeror.value} channel"
-            )
+        for offeror in LearningResourceOfferor.objects.all():
+            self.stdout.write(f"Creating featured list for {offeror.name} channel")
 
             # Get the channel for the offeror
             offeror_channel = FieldChannel.objects.filter(
-                offeror_detail__offeror__code=featured_offeror.name
+                offeror_detail__offeror=offeror
             ).first()
             if not offeror_channel:
                 self.stderr.write(
-                    f"{featured_offeror.value} channel not found, run backpopulate_resource_channels"  # noqa: E501
+                    f"{offeror.name} channel not found, run backpopulate_resource_channels"  # noqa: E501
                 )
                 sys.exit(1)
 
             # Create learning path resource for the offeror
             learning_path, _ = LearningResource.objects.get_or_create(
-                title=f"{featured_offeror.value} Featured Resources",
+                title=f"{offeror.name} Featured Resources",
                 resource_type=LearningResourceType.learning_path.name,
             )
             LearningPath.objects.get_or_create(
@@ -70,7 +71,7 @@ class Command(BaseCommand):
             for idx, resource in enumerate(
                 LearningResource.objects.filter(
                     published=True,
-                    offered_by=featured_offeror.name,
+                    offered_by=offeror,
                     resource_type=LearningResourceType.course.name,
                 )[:resource_count]
             ):

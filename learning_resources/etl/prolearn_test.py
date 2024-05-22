@@ -14,9 +14,10 @@ from learning_resources.etl.prolearn import (
     UNIQUE_FIELD,
     extract_courses,
     extract_programs,
-    get_offered_by,
     parse_date,
     parse_image,
+    parse_offered_by,
+    parse_platform,
     parse_price,
     parse_topic,
     transform_courses,
@@ -28,7 +29,8 @@ from learning_resources.factories import (
     LearningResourceOfferorFactory,
     LearningResourcePlatformFactory,
 )
-from learning_resources.models import LearningResourceOfferor
+from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
+from main.test_utils import assert_json_equal
 
 pytestmark = pytest.mark.django_db
 
@@ -36,14 +38,12 @@ pytestmark = pytest.mark.django_db
 @pytest.fixture(autouse=True)
 def _mock_offerors_platforms():
     """Make sure necessary platforms and offerors exist"""
-    LearningResourceOfferorFactory.create(name="CSAIL", code="csail", professional=True)
     LearningResourcePlatformFactory.create(code="csail")
     LearningResourceOfferorFactory.create(
         name="Professional Education", code="mitpe", professional=True
     )
-    LearningResourcePlatformFactory.create(code="mitpe")
-    LearningResourceOfferorFactory.create(
-        name="Center for Transportation & Logistics", code="ctl", professional=True
+    LearningResourcePlatformFactory.create(
+        code="mitpe", name="MIT Professional Education"
     )
 
 
@@ -140,7 +140,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             ),
             "image": parse_image(program),
             "platform": PlatformType.csail.name,
-            "offered_by": {"name": OfferedBy.csail.value},
+            "offered_by": None,
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
             "learning_format": transform_format(program["format_name"]),
@@ -163,8 +163,9 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                 {
                     "readable_id": course_id,
                     "platform": "csail",
-                    "offered_by": {"name": "CSAIL"},
+                    "offered_by": None,
                     "professional": True,
+                    "certification": True,
                     "etl_source": ETLSource.prolearn.name,
                     "runs": [
                         {
@@ -179,7 +180,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
         }
         for program in extracted_data
     ]
-    assert result == expected
+    assert_json_equal(expected, result)
 
 
 def test_prolearn_transform_courses(mock_mitpe_courses_data):
@@ -197,8 +198,8 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "description": course["body"],
             "published": True,
             "professional": True,
-            "learning_format": transform_format(course["format_name"]),
             "certification": True,
+            "learning_format": transform_format(course["format_name"]),
             "topics": parse_topic(course),
             "url": course["course_link"]
             if urlparse(course["course_link"]).path
@@ -231,7 +232,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
         }
         for course in extracted_data
     ]
-    assert expected == result
+    assert_json_equal(expected, result)
 
 
 @pytest.mark.parametrize(
@@ -282,24 +283,40 @@ def test_parse_topic(topic, expected):
 @pytest.mark.parametrize(
     ("department", "offered_by"),
     [
-        ("MIT CSAIL", "CSAIL"),
-        (
-            "MIT Center for Transportation & Logistics",
-            "Center for Transportation & Logistics",
-        ),
+        ("MIT Professional Education", "Professional Education"),
         ("MIT Other", None),
     ],
 )
-def test_offered_by(department, offered_by):
-    """get_offered_by should return expected LearningResourceOfferor or None"""
+def test_parse_offered_by(department, offered_by):
+    """parse_offered_by should return expected LearningResourceOfferor or None"""
     document = {"department": department}
     if offered_by:
         assert (
-            get_offered_by(document).name
+            parse_offered_by(document).name
             == LearningResourceOfferor.objects.get(name=offered_by).name
         )
     else:
-        assert get_offered_by(document) is None
+        assert parse_offered_by(document) is None
+
+
+@pytest.mark.parametrize(
+    ("department", "platform_name"),
+    [
+        ("MIT Professional Education", "MIT Professional Education"),
+        ("MIT CSAIL", "CSAIL"),
+        ("MIT Other", None),
+    ],
+)
+def test_parse_platform(department, platform_name):
+    """parse_platform should return expected platform code or None"""
+    document = {"department": department}
+    if platform_name:
+        assert (
+            parse_platform(document)
+            == LearningResourcePlatform.objects.get(name=platform_name).code
+        )
+    else:
+        assert parse_platform(document) is None
 
 
 @pytest.mark.parametrize(
