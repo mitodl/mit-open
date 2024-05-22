@@ -18,6 +18,12 @@ import { EmbedlyCard } from "../../EmbedlyCard/EmbedlyCard"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
 import { theme, ButtonLink, PlatformLogo } from "ol-components"
+import {
+  RiMoneyDollarCircleFill,
+  RiBarChartFill,
+  RiGraduationCapFill,
+  RiGlobalLine,
+} from "@remixicon/react"
 
 const Container = styled.div`
   display: flex;
@@ -70,36 +76,29 @@ const OnPlatform = styled.span`
   color: ${theme.custom.colors.black};
 `
 
+const Topics = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
 const TopicsList = styled.ul`
   display: flex;
   flex-wrap: wrap;
   padding: 0;
   margin: 0;
-
-  li {
-    margin: 0.5em;
-  }
+  gap: 8px;
 `
 
-const TopicsDisplay: React.FC<{ topics: LearningResourceTopic[] }> = ({
-  topics,
-}) => {
-  return (
-    <div>
-      <Typography variant="subtitle1">Subjects</Typography>
-      <TopicsList>
-        {topics.map((topic) => (
-          <Chip
-            size="medium"
-            key={topic.id}
-            component="li"
-            label={topic.name}
-          />
-        ))}
-      </TopicsList>
-    </div>
-  )
-}
+const InfoItems = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
+const InfoItem = styled.div``
+const InfoLabel = styled.div``
+const InfoValue = styled.div``
 
 type ExpandedLearningResourceDisplayProps = {
   resource?: LearningResource
@@ -158,6 +157,67 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
     )
   }
   return <Description>{resource.description}</Description>
+}
+
+const TopicsDisplay: React.FC<{ topics: LearningResourceTopic[] }> = ({
+  topics,
+}) => {
+  return (
+    <Topics>
+      <Typography variant="subtitle2">Topics</Typography>
+      <TopicsList>
+        {topics.map((topic) => (
+          <Chip
+            size="medium"
+            key={topic.id}
+            component="li"
+            label={topic.name}
+            variant="outlined"
+          />
+        ))}
+      </TopicsList>
+    </Topics>
+  )
+}
+
+const InfoSection = ({ resource }: { resource?: LearningResource }) => {
+  if (!resource) {
+    return null
+  }
+
+  return (
+    <InfoItems>
+      <Typography variant="subtitle2">Info</Typography>
+      <InfoItem>
+        <InfoLabel>
+          <RiMoneyDollarCircleFill />
+          Cost:
+        </InfoLabel>
+        <InfoValue>Cost</InfoValue>
+      </InfoItem>
+      <InfoItem>
+        <InfoLabel>
+          <RiBarChartFill />
+          Level:
+        </InfoLabel>
+        <InfoValue>Cost</InfoValue>
+      </InfoItem>
+      <InfoItem>
+        <InfoLabel>
+          <RiGraduationCapFill />
+          Instructors:
+        </InfoLabel>
+        <InfoValue>Cost</InfoValue>
+      </InfoItem>
+      <InfoItem>
+        <InfoLabel>
+          <RiGlobalLine />
+          Language:
+        </InfoLabel>
+        <InfoValue>Cost</InfoValue>
+      </InfoItem>
+    </InfoItems>
+  )
 }
 
 const DisplayTemplate: React.FC<
@@ -229,6 +289,8 @@ const Course: React.FC<ResourceDisplayProps<CourseResource>> = ({
         <ResourceTitle resource={resource} />
         <ResourceDescription resource={resource} />
       </div>
+      {resource?.topics ? <TopicsDisplay topics={resource.topics} /> : null}
+      <InfoSection resource={resource} />
     </Container>
   )
 }
