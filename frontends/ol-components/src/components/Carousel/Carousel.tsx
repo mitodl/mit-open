@@ -101,7 +101,7 @@ const Carousel: React.FC<CarouselProps> = ({
       >
         <ActionButton
           size={buttonSize}
-          edge="circular"
+          edge="rounded"
           onClick={pageDown}
           disabled={!canPageDown}
           aria-label="Previous"
@@ -111,7 +111,7 @@ const Carousel: React.FC<CarouselProps> = ({
         </ActionButton>
         <ActionButton
           size={buttonSize}
-          edge="circular"
+          edge="rounded"
           onClick={pageUp}
           disabled={!canPageUp}
           aria-label="Next"
