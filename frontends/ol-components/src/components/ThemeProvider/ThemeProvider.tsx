@@ -3,7 +3,7 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles"
-import type { ThemeOptions } from "@mui/material/styles"
+import type { ThemeOptions, Theme } from "@mui/material/styles"
 import type {} from "@mui/lab/themeAugmentation"
 import * as typography from "./typography"
 import * as buttons from "./buttons"
@@ -92,7 +92,5 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
 }
 
-export type Theme = typeof themeOptions
-
 export { ThemeProvider }
-export type { ThemeProviderProps }
+export type { ThemeProviderProps, Theme }

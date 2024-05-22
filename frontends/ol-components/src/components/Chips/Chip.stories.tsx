@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import Chip from "@mui/material/Chip"
 import type { ChipProps } from "@mui/material/Chip"
 import Stack from "@mui/material/Stack"
+
 import { fn } from "@storybook/test"
 import { ChipLink } from "./ChipLink"
 import { withRouter } from "storybook-addon-react-router-v6"
@@ -17,22 +18,40 @@ const icons = {
   EditIcon: <EditIcon />,
 }
 
-const COLORS: ChipProps["color"][] = [
-  "default",
-  "primary",
-  "secondary",
-] as const
 const VARIANTS: {
   variant: ChipProps["variant"]
   label: string
 }[] = [
   {
+    variant: "outlined",
+    label: "Outlined",
+  },
+  {
+    variant: "outlinedWhite",
+    label: "Outlined White",
+  },
+  {
+    variant: "gray",
+    label: "Gray",
+  },
+  {
+    variant: "dark",
+    label: "Dark",
+  },
+  {
     variant: "filled",
     label: "Filled",
   },
+] as const
+
+const SIZES = [
   {
-    variant: "outlined",
-    label: "Outlined",
+    size: "medium",
+    label: "Medium",
+  },
+  {
+    size: "large",
+    label: "Large",
   },
 ] as const
 
@@ -63,26 +82,12 @@ const meta: Meta<typeof Chip> = {
       <Stack gap={1}>
         {VARIANTS.map(({ variant, label }) => (
           <Stack key={variant} direction="row" gap={2}>
-            {COLORS.map((color) => (
+            {SIZES.map(({ size }) => (
               <Chip
                 {...args}
-                key={color}
+                key={size}
                 variant={variant}
-                color={color}
-                label={label}
-              />
-            ))}
-          </Stack>
-        ))}
-        {VARIANTS.map(({ variant, label }) => (
-          <Stack key={variant} direction="row" gap={2}>
-            {COLORS.map((color) => (
-              <Chip
-                {...args}
-                size="large"
-                variant={variant}
-                key={color}
-                color={color}
+                size={size}
                 label={label}
               />
             ))}
@@ -129,9 +134,15 @@ export const Links: StoryChipLink = {
   render: (args) => {
     return (
       <Stack direction="row" gap={2}>
-        <ChipLink {...args} label="Link" href="" />
-        <ChipLink {...args} label="Link" color="primary" href="" />
-        <ChipLink {...args} label="Link" color="secondary" href="" />
+        {VARIANTS.map(({ variant }) => (
+          <ChipLink
+            {...args}
+            key={variant}
+            variant={variant}
+            label="Link"
+            href=""
+          />
+        ))}
       </Stack>
     )
   },

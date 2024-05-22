@@ -69,7 +69,13 @@ const ResourceFooterDetails: React.FC<
 
   const formattedDate = formatDate(startDate, "MMMM DD, YYYY")
 
-  return <CalendarChip icon={<CalendarTodayIcon />} label={formattedDate} />
+  return (
+    <CalendarChip
+      variant="gray"
+      icon={<CalendarTodayIcon />}
+      label={formattedDate}
+    />
+  )
 }
 
 const OfferedByText = styled.span`

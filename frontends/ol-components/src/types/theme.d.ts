@@ -82,6 +82,14 @@ declare module "@mui/material/Chip" {
     medium: true
     small: false
   }
+
+  interface ChipPropsVariantOverrides {
+    filled: true
+    outlined: true
+    outlinedWhite: true
+    dark: true
+    gray: true
+  }
 }
 
 declare module "@emotion/react" {
