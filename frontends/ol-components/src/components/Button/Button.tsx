@@ -1,10 +1,11 @@
 import React from "react"
 import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
+import { colors } from "../ThemeProvider/colors"
 import tinycolor from "tinycolor2"
 import { Link } from "react-router-dom"
 
-type ButtonVariant = "outlined" | "filled" | "text"
+type ButtonVariant = "outlined" | "filled" | "text" | "inverted"
 type ButtonSize = "small" | "medium" | "large"
 type ButtonEdge = "rounded" | "sharp"
 type ButtonColor = "primary" | "secondary"
@@ -93,6 +94,12 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       ":disabled": {
         color: palette.action.disabled,
       },
+    },
+    variant === "inverted" && {
+      backgroundColor: colors.white,
+      color: colors.mitRed,
+      borderColor: colors.mitRed,
+      borderStyle: "solid",
     },
     // edge
     edge === "sharp" && {
@@ -281,6 +288,7 @@ export { Button, ButtonLink, ActionButton, ActionButtonLink }
 export type {
   ButtonProps,
   ButtonLinkProps,
+  ButtonStyleProps,
   ActionButtonProps,
   ActionButtonLinkProps,
 }
