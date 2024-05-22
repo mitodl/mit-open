@@ -9,8 +9,8 @@ import { useToggle } from "ol-utilities"
 
 const closeSx: React.CSSProperties = {
   position: "absolute",
-  top: "0px",
-  right: "0px",
+  top: "18px",
+  right: "32px",
 }
 
 type ChildParams<K extends string, R extends K> = Record<K, string | null> &
@@ -81,7 +81,7 @@ const RoutedDrawer = <K extends string, R extends K = K>(
               style={closeSx}
               variant="text"
               color="secondary"
-              size="small"
+              size="medium"
               onClick={setOpen.off}
               aria-label="Close"
             >

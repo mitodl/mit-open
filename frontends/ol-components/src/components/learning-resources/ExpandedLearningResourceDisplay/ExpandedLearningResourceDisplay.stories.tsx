@@ -5,13 +5,15 @@ import { factories } from "api/test-utils"
 import { ResourceTypeEnum as LRT } from "api"
 import invariant from "tiny-invariant"
 import { Drawer } from "ol-components"
+import { BrowserRouter } from "react-router-dom"
 
 const _makeResource = factories.learningResources.resource
+
 const makeResource: typeof _makeResource = (overrides) => {
   const resource = _makeResource(overrides)
   invariant(resource.image)
   resource.image.url =
-    "https://ocw.mit.edu/courses/res-hso-001-mit-haystack-observatory-k12-stem-lesson-plans/mitres_hso_001.jpg"
+    "https://prolearn.mit.edu/sites/default/files/images/GSAHC.jpg"
   return resource
 }
 
@@ -51,15 +53,17 @@ const meta: Meta<typeof ExpandedLearningResourceDisplay> = {
   },
   render: (args) => {
     return (
-      <Drawer
-        open={true}
-        anchor="right"
-        PaperProps={{
-          sx: { width: "485px", padding: "30px" },
-        }}
-      >
-        <ExpandedLearningResourceDisplay {...args} />
-      </Drawer>
+      <BrowserRouter>
+        <Drawer
+          open={true}
+          anchor="right"
+          PaperProps={{
+            sx: { width: "485px" },
+          }}
+        >
+          <ExpandedLearningResourceDisplay {...args} />
+        </Drawer>
+      </BrowserRouter>
     )
   },
 }
@@ -71,5 +75,17 @@ type Story = StoryObj<typeof ExpandedLearningResourceDisplay>
 export const Course: Story = {
   args: {
     resource: makeResource({ resource_type: LRT.Course }),
+  },
+}
+
+export const Program: Story = {
+  args: {
+    resource: makeResource({ resource_type: LRT.Program }),
+  },
+}
+
+export const Video: Story = {
+  args: {
+    resource: makeResource({ resource_type: LRT.Video }),
   },
 }

@@ -116,7 +116,9 @@ const learningResourcePlatform: Factory<LearningResourcePlatform> = (
   overrides = {},
 ) => {
   return {
-    code: faker.helpers.unique(faker.lorem.words),
+    code: faker.helpers.arrayElement(
+      Object.values(["edx", "mitxonline", "xpro"]),
+    ),
     name: faker.helpers.unique(faker.lorem.words),
     ...overrides,
   }
