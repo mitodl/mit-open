@@ -21,7 +21,7 @@ const NavSection = styled.div(({ theme }) => ({
 const NavSectionHeader = styled.div(({ theme }) => ({
   paddingLeft: "8px",
   color: theme.custom.colors.silverGrayDark,
-  ...theme.typography.subtitle4,
+  ...theme.typography.subtitle3,
 }))
 
 const NavLinkText = styled.div(({ theme }) => ({
