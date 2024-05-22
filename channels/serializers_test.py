@@ -35,6 +35,7 @@ from learning_resources.factories import (
     LearningResourceOfferorFactory,
     LearningResourceTopicFactory,
 )
+from learning_resources.serializers import LearningResourceOfferorDetailSerializer
 from main.factories import UserFactory
 
 # pylint:disable=redefined-outer-name
@@ -104,8 +105,8 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         avatar=mock_image_file("avatar.jpg") if has_avatar else None,
         about={"foo": "bar"} if has_about else None,
         ga_tracking_id=ga_tracking_id,
-        channel_type=ChannelType.topic.name,
-        search_filter="topic=Biology&platform=ocw",
+        channel_type=ChannelType.offeror.name,
+        search_filter="offered_by=ocw",
     )
 
     field_lists = FieldListFactory.create_batch(3, field_channel=channel)
@@ -139,9 +140,11 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "is_moderator": False,
         "configuration": {},
         "search_filter": channel.search_filter,
-        "channel_type": ChannelType.topic.name,
-        "topic_detail": {
-            "topic": channel.topic_detail.topic.id,
+        "channel_type": ChannelType.offeror.name,
+        "offeror_detail": {
+            "offeror": LearningResourceOfferorDetailSerializer(
+                instance=channel.offeror_detail.offeror
+            ).data,
         },
     }
 

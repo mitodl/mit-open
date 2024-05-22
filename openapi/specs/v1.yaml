@@ -4253,7 +4253,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedLearningResourceOfferorList'
+                $ref: '#/components/schemas/PaginatedLearningResourceOfferorDetailList'
           description: ''
   /api/v1/offerors/{code}/:
     get:
@@ -4274,7 +4274,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResourceOfferor'
+                $ref: '#/components/schemas/LearningResourceOfferorDetail'
           description: ''
   /api/v1/platforms/:
     get:
@@ -7693,7 +7693,7 @@ components:
           maxLength: 256
     LearningResourceOfferor:
       type: object
-      description: Serializer for LearningResourceOfferor
+      description: Serializer for LearningResourceOfferor with basic details
       properties:
         code:
           type: string
@@ -7710,9 +7710,64 @@ components:
       - channel_url
       - code
       - name
+    LearningResourceOfferorDetail:
+      type: object
+      description: Serializer for LearningResourceOfferor with all details
+      properties:
+        code:
+          type: string
+          maxLength: 12
+        channel_url:
+          type: string
+          description: Get the channel url for the offeror if it exists
+          readOnly: true
+          nullable: true
+        name:
+          type: string
+          maxLength: 256
+        professional:
+          type: boolean
+        offerings:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        audience:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        formats:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        fee:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        certifications:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        content_types:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        more_information:
+          type: string
+          format: uri
+          maxLength: 200
+      required:
+      - channel_url
+      - code
+      - name
     LearningResourceOfferorRequest:
       type: object
-      description: Serializer for LearningResourceOfferor
+      description: Serializer for LearningResourceOfferor with basic details
       properties:
         code:
           type: string
@@ -8524,7 +8579,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/LearningResource'
-    PaginatedLearningResourceOfferorList:
+    PaginatedLearningResourceOfferorDetailList:
       type: object
       required:
       - count
@@ -8546,7 +8601,7 @@ components:
         results:
           type: array
           items:
-            $ref: '#/components/schemas/LearningResourceOfferor'
+            $ref: '#/components/schemas/LearningResourceOfferorDetail'
     PaginatedLearningResourcePlatformList:
       type: object
       required:

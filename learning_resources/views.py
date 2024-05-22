@@ -62,7 +62,7 @@ from learning_resources.serializers import (
     LearningPathResourceSerializer,
     LearningResourceContentTagSerializer,
     LearningResourceDepartmentSerializer,
-    LearningResourceOfferorSerializer,
+    LearningResourceOfferorDetailSerializer,
     LearningResourcePlatformSerializer,
     LearningResourceRelationshipSerializer,
     LearningResourceSchoolSerializer,
@@ -745,7 +745,7 @@ class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     queryset = LearningResourceOfferor.objects.all().order_by("code")
-    serializer_class = LearningResourceOfferorSerializer
+    serializer_class = LearningResourceOfferorDetailSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
     lookup_field = "code"

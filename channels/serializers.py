@@ -24,6 +24,7 @@ from learning_resources.constants import LearningResourceType
 from learning_resources.models import (
     LearningResource,
 )
+from learning_resources.serializers import LearningResourceOfferorDetailSerializer
 from main.serializers import COMMON_IGNORED_FIELDS
 from profiles.models import Profile
 
@@ -196,6 +197,8 @@ class DepartmentChannelSerializer(FieldChannelBaseSerializer):
 
 class ChannelOfferorDetailSerializer(serializers.ModelSerializer):
     """Serializer for the ChannelOfferorDetail model"""
+
+    offeror = LearningResourceOfferorDetailSerializer(read_only=True)
 
     class Meta:
         model = ChannelOfferorDetail

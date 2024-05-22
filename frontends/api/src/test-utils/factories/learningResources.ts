@@ -4,27 +4,27 @@ import type { Factory, PartialFactory } from "ol-test-utilities"
 import { makePaginatedFactory } from "ol-test-utilities"
 import type {
   CourseNumber,
-  LearningResource,
-  LearningResourceImage,
-  LearningResourceDepartment,
-  LearningResourceOfferor,
-  LearningResourcePlatform,
-  LearningResourceRun,
-  LearningResourceInstructor,
-  LearningResourceTopic,
+  CourseResource,
   LearningPathRelationship,
   LearningPathResource,
+  LearningResource,
+  LearningResourceBaseDepartment,
+  LearningResourceBaseSchool,
+  LearningResourceDepartment,
+  LearningResourceImage,
+  LearningResourceInstructor,
+  LearningResourceOfferorDetail,
+  LearningResourcePlatform,
+  LearningResourceRun,
+  LearningResourceSchool,
+  LearningResourceTopic,
   MicroLearningPathRelationship,
-  ProgramResource,
-  CourseResource,
+  PaginatedLearningPathRelationshipList,
   PodcastResource,
   PodcastEpisodeResource,
-  PaginatedLearningPathRelationshipList,
-  VideoResource,
+  ProgramResource,
   VideoPlaylistResource,
-  LearningResourceBaseSchool,
-  LearningResourceBaseDepartment,
-  LearningResourceSchool,
+  VideoResource,
 } from "api"
 import { ResourceTypeEnum, LearningResourceRunLevelInnerCodeEnum } from "api"
 import { mergeOverrides } from "./index"
@@ -122,13 +122,20 @@ const learningResourcePlatform: Factory<LearningResourcePlatform> = (
   }
 }
 
-const learningResourceOfferor: Factory<LearningResourceOfferor> = (
+const learningResourceOfferor: Factory<LearningResourceOfferorDetail> = (
   overrides = {},
 ) => {
   return {
     code: faker.helpers.unique(faker.lorem.words),
     name: faker.helpers.unique(faker.lorem.words),
     channel_url: faker.internet.url(),
+    offerings: repeat(faker.lorem.word),
+    audience: repeat(faker.lorem.word),
+    formats: repeat(faker.lorem.word),
+    fee: repeat(faker.lorem.word),
+    certifications: repeat(faker.lorem.word),
+    content_types: repeat(faker.lorem.word),
+    more_information: faker.internet.url(),
     ...overrides,
   }
 }
@@ -434,6 +441,7 @@ export {
   learningResourceDepartment as department,
   departments,
   learningResourceTopics as topics,
+  learningResourceOfferor as offeror,
   learningResourceOfferors as offerors,
   learningResourcePlatforms as platforms,
   learningPath,
