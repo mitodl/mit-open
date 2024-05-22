@@ -179,9 +179,9 @@ def _get_percolated_rows(resources, subscription_type):
             rows.extend(
                 [
                     {
-                        "resource": resource,
+                        "resource_url": resource.url,
+                        "resource_title": resource.title,
                         "user_id": user,
-                        "query": query,
                         "group": _infer_percolate_group(query),
                         "search_url": _infer_search_url(query),
                     }
@@ -192,8 +192,8 @@ def _get_percolated_rows(resources, subscription_type):
     return rows
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
-def send_subscription_emails(subscription_type, period="daily"):
+@app.task(bind=True)
+def send_subscription_emails(self, subscription_type, period="daily"):
     """
     Send subscription emails by percolating matched documents
     """
@@ -207,17 +207,15 @@ def send_subscription_emails(subscription_type, period="daily"):
     rows = _get_percolated_rows(new_learning_resources, subscription_type)
     template_data = _group_percolated_rows(rows)
 
-    for user_id in template_data:
-        user = User.objects.get(id=user_id)
-        total_count = sum(
-            [len(template_data[user_id][group]) for group in template_data[user_id]]
-        )
-        send_template_email(
-            [user.email],
-            f"{settings.MITOPEN_TITLE} New Learning Resources for You",
-            "email/subscribed_channel_digest.html",
-            context={"documents": template_data[user_id], "total_count": total_count},
-        )
+    email_tasks = celery.group(
+        [
+            attempt_send_digest_email_batch.si(user_ids, template_data)
+            for user_ids in chunks(
+                template_data, chunk_size=settings.NOTIFICATION_ATTEMPT_CHUNK_SIZE
+            )
+        ]
+    )
+    raise self.replace(email_tasks)
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
@@ -708,3 +706,22 @@ def finish_recreate_index(results, backing_indices):
         except RequestError as ex:
             raise RetryError(str(ex)) from ex
     log.info("recreate_index has finished successfully!")
+
+
+@app.task(
+    acks_late=True,
+    reject_on_worker_lost=True,
+    rate_limit=settings.NOTIFICATION_ATTEMPT_RATE_LIMIT,
+)
+def attempt_send_digest_email_batch(user_ids, template_data):
+    for user_id in user_ids:
+        user = User.objects.get(id=user_id)
+        total_count = sum(
+            [len(template_data[user_id][group]) for group in template_data[user_id]]
+        )
+        send_template_email(
+            [user.email],
+            f"{settings.MITOPEN_TITLE} New Learning Resources for You",
+            "email/subscribed_channel_digest.html",
+            context={"documents": template_data[user_id], "total_count": total_count},
+        )

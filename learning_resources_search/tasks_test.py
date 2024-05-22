@@ -5,7 +5,6 @@ from collections import OrderedDict
 import pytest
 from celery.exceptions import Retry
 from django.conf import settings
-from django.core import mail
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from opensearchpy.exceptions import ConnectionTimeout, RequestError
 
@@ -577,7 +576,7 @@ def test_delete_run_content_files(mocker, with_error, unpublished_only):
 
 
 @pytest.mark.django_db()
-def test_send_subscription_emails(mocked_api, mocker):
+def test_send_subscription_emails(mocked_api, mocker, mocked_celery):
     """
     Test that a subscribed user receives
     emails with percolate matches
@@ -618,15 +617,19 @@ def test_send_subscription_emails(mocked_api, mocker):
         return PercolateQuery.objects.filter(id=query_id)
 
     percolate_matches_for_document_mock.side_effect = get_percolator
-    send_subscription_emails(PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
-    assert len(mail.outbox) == 1
-    mail_content = mail.outbox[0].body
+    with pytest.raises(mocked_celery.replace_exception_class):
+        send_subscription_emails(PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
+
+    task_args = mocked_celery.group.call_args[0][0][0]["args"]
+
+    template_data = task_args[1]
+    assert user.id in task_args[0]
     for topic in topics:
-        assert topic in mail_content
+        assert topic in template_data[user.id]
 
 
 @pytest.mark.django_db()
-def test_send_multiple_subscription_emails(mocked_api, mocker):
+def test_send_multiple_subscription_emails(mocked_api, mocker, mocked_celery):
     """
     Test that subscription email with
     multiple users and percolate matches
@@ -667,10 +670,15 @@ def test_send_multiple_subscription_emails(mocked_api, mocker):
         return PercolateQuery.objects.filter(id=query_id)
 
     percolate_matches_for_document_mock.side_effect = get_percolator
-    send_subscription_emails(PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
-    assert len(mail.outbox) == 3
-    mail_content = mail.outbox[0].body
-    assert len([topic for topic in topics if topic in mail_content]) > 0
+    with pytest.raises(mocked_celery.replace_exception_class):
+        send_subscription_emails.apply((PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,))
+
+    task_args = mocked_celery.group.call_args[0][0][0]["args"]
+    assert len(task_args[0]) == 3
+
+    template_data = task_args[1]
+    for user_id in template_data:
+        assert len([topic for topic in topics if topic in template_data[user_id]]) > 0
 
 
 def test_infer_percolate_group(mocked_api):
@@ -740,11 +748,11 @@ def test_email_grouping_function(mocked_api, mocker):
     percolate_matches_for_document_mock.side_effect = get_percolator
     rows = _get_percolated_rows(new_resources, PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
     template_data = _group_percolated_rows(rows)
-    assert len(template_data.keys()) == len(topics)
+    assert len(template_data) == len(topics)
     assert len(template_data[user_ids[0]]) == 1
 
 
-def test_digest_email_template(mocked_api, mocker):
+def test_digest_email_template(mocked_api, mocker, mocked_celery):
     """
     Test that email digest for percolated matches contains the
     correct total and that the topic groups appear in the email
@@ -779,10 +787,11 @@ def test_digest_email_template(mocked_api, mocker):
         return PercolateQuery.objects.filter(id=query.id)
 
     percolate_matches_for_document_mock.side_effect = get_percolator
-    send_subscription_emails(PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
-    assert len(mail.outbox) == 1
-    mail_content = mail.outbox[0].body
-    assert "3\n      new courses\n      in MIT Open that match" in mail_content
-    assert "Mechanical Engineering" in mail_content
-    assert "Environmental Engineering" in mail_content
-    assert "Systems Engineering" in mail_content
+    with pytest.raises(mocked_celery.replace_exception_class):
+        send_subscription_emails.apply([PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE])
+    task_args = mocked_celery.group.call_args[0][0][0]["args"]
+
+    template_data = task_args[1]
+    assert user.id in task_args[0]
+    for topic in topics:
+        assert topic in template_data[user.id]
