@@ -38,6 +38,13 @@ const NavItemsContainer = styled.div({
   gap: "12px",
 })
 
+const NavItemLink = styled.a({
+  display: "flex",
+  alignItems: "flex-start",
+  alignSelf: "stretch",
+  textDecoration: "none !important",
+})
+
 const NavItemContainer = styled.div(({ theme }) => ({
   display: "flex",
   padding: "4px 0",
@@ -107,7 +114,7 @@ const NavItem: React.FC<NavItem> = (props) => {
   const navItem = (
     <NavItemContainer>
       <NavImageContainer style={{ paddingTop: description ? "4px" : "" }}>
-        {image ? <NavImage src={image} /> : null}
+        {image ? <NavImage className="nav-link-image" src={image} /> : null}
       </NavImageContainer>
       <NavTextContainer>
         <NavLinkText className="nav-link-text" data-testid="nav-link-text">
@@ -125,9 +132,9 @@ const NavItem: React.FC<NavItem> = (props) => {
     </NavItemContainer>
   )
   return href ? (
-    <a href={href} data-testid="nav-link">
+    <NavItemLink href={href} data-testid="nav-link">
       {navItem}
-    </a>
+    </NavItemLink>
   ) : (
     navItem
   )
