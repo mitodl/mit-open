@@ -68,7 +68,9 @@ def serialize_learning_resource_for_update(
         LearningResourceType.program.name,
     ]:
         prices = learning_resource_obj.prices
-        serialized_data["free"] = Decimal(0.00) in prices or not prices or prices == []
+        serialized_data["free"] = not learning_resource_obj.professional and (
+            Decimal(0.00) in prices or not prices or prices == []
+        )
     else:
         serialized_data["free"] = True
     if learning_resource_obj.resource_type == LearningResourceType.course.name:
