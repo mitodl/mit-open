@@ -6,7 +6,10 @@ import {
   Grid,
   PlainList,
   ChipLink,
+  linkStyles,
+  Banner,
 } from "ol-components"
+import { Link } from "react-router-dom"
 import { MetaTags } from "ol-utilities"
 
 import {
@@ -16,6 +19,8 @@ import {
 import { RiEarthLine } from "@remixicon/react"
 import { LearningResourceSearchResponse, LearningResourceTopic } from "api"
 
+const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
+
 type ChannelSummary = {
   id: number | string
   name: string
@@ -24,108 +29,145 @@ type ChannelSummary = {
   programs: number
 }
 
-const FullWidthBackground = styled.div`
-  background-image: url("/static/images/background_steps.jpeg");
-  background-size: cover;
-  padding-top: 48px;
-  padding-bottom: 48px;
-  color: ${({ theme }) => theme.custom.colors.white};
-`
-
-type RootHeaderProps = {
+type TopicBoxHeaderProps = {
   SvgIcon: React.ComponentType
   title: string
   href?: string
   className?: string
 }
-const RootTopicHeader = styled(
-  ({ SvgIcon, title, href, className }: RootHeaderProps) => {
+const TopicBoxHeader = styled(
+  ({ SvgIcon, title, href, className }: TopicBoxHeaderProps) => {
     return (
-      <h3 className={className}>
-        <a href={href}>
+      <Typography variant="h5" component="h3" className={className}>
+        <Link to={href ?? ""}>
           <SvgIcon aria-hidden="true" />
-          {title}
-          <span>View</span>
-        </a>
-      </h3>
+          <span>
+            <span className="topic-title">{title}</span>
+            <span className="view-topic">View</span>
+          </span>
+        </Link>
+      </Typography>
     )
   },
 )(({ theme }) => ({
-  ...theme.typography.h5,
-  color: theme.custom.colors.black,
   marginBottom: "8px",
   a: {
     display: "flex",
     alignItems: "center",
+    textDecoration: "none",
   },
   svg: {
     marginRight: "16px",
+    [theme.breakpoints.down("sm")]: {
+      display: "none",
+    },
+  },
+  "svg, .topic-title": {
+    color: theme.custom.colors.black,
+  },
+  ":hover": {
+    "svg, .topic-title": {
+      color: theme.custom.colors.red,
+    },
+  },
+  ".view-topic": [
+    linkStyles({ theme, size: "medium" }),
+    {
+      color: theme.custom.colors.darkGray1,
+      marginLeft: "16px",
+      [theme.breakpoints.down("sm")]: {
+        ...theme.typography.body3,
+      },
+    },
+  ],
+}))
+
+const TopicBoxBody = styled.div(({ theme }) => ({
+  marginLeft: "40px",
+  [theme.breakpoints.down("sm")]: {
+    marginLeft: "0px",
   },
 }))
 
-const RootTopicCounts = styled.div(({ theme }) => ({
-  marginLeft: "40px",
+const TopicCounts = styled.div(({ theme }) => ({
   color: theme.custom.colors.silverGrayDark,
   display: "flex",
   gap: "8px",
 }))
 
-const SubTopicsContainer = styled.div({
-  marginLeft: "40px",
-  marginTop: "16px",
-  display: "flex",
-  flexWrap: "wrap",
-  gap: "12px",
-})
+const ChildTopicsContainer = styled.div<{ mobile: boolean }>(
+  ({ theme, mobile }) => ({
+    marginTop: "16px",
+    flexWrap: "wrap",
+    gap: "12px",
+    display: mobile ? "none" : "flex",
+    [theme.breakpoints.down("sm")]: {
+      display: mobile ? "flex" : "none",
+      gap: "8px",
+    },
+  }),
+)
 
-type RootTopicItemProps = {
+type TopicBoxProps = {
   SvgIcon: React.ComponentType
   topicGroup: TopicGroup
   className?: string
   courseCount?: number
   programCount?: number
 }
-const RootTopicItem = styled(
+const TopicBox = styled(
   ({
     SvgIcon,
     topicGroup,
     className,
     courseCount,
     programCount,
-  }: RootTopicItemProps) => {
+  }: TopicBoxProps) => {
     const counts = [
       { label: "Courses", count: courseCount },
-      { label: "Courses", count: programCount },
+      { label: "Programs", count: programCount },
     ].filter((item) => item.count)
     const { title, href, channels } = topicGroup
     return (
       <li className={className}>
-        <RootTopicHeader SvgIcon={SvgIcon} title={title} href={href} />
-        <RootTopicCounts>
-          {counts.map((item) => (
-            <Typography key={item.label} variant="body3">
-              {item.label}: {item.count}
-            </Typography>
-          ))}
-        </RootTopicCounts>
-        <SubTopicsContainer>
-          {channels.map((c) => (
-            <ChipLink key={c.id} href={c.channel_url} label={c.name} />
-          ))}
-        </SubTopicsContainer>
+        <TopicBoxHeader SvgIcon={SvgIcon} title={title} href={href} />
+        <TopicBoxBody>
+          <TopicCounts>
+            {counts.map((item) => (
+              <Typography key={item.label} variant="body3">
+                {item.label}: {item.count}
+              </Typography>
+            ))}
+          </TopicCounts>
+          <ChildTopicsContainer mobile={false}>
+            {channels.map((c) => (
+              <ChipLink
+                size="large"
+                variant="outlinedWhite"
+                key={c.id}
+                href={c.channel_url}
+                label={c.name}
+              />
+            ))}
+          </ChildTopicsContainer>
+          <ChildTopicsContainer mobile={true}>
+            {channels.map((c) => (
+              <ChipLink
+                size="medium"
+                variant="outlinedWhite"
+                key={c.id}
+                href={c.channel_url}
+                label={c.name}
+              />
+            ))}
+          </ChildTopicsContainer>
+        </TopicBoxBody>
       </li>
     )
   },
 )()
 
-const HeaderDesription = styled(Typography)(({ theme }) => ({
-  maxWidth: "700px",
-  marginTop: theme.spacing(1),
-}))
-
-const Page = styled.div(({ theme }) => ({
-  backgroundColor: theme.custom.colors.white,
-}))
+const Page = styled.div({})
 
 const aggregateByTopic = (
   data: LearningResourceSearchResponse,
@@ -142,6 +184,8 @@ type TopicGroup = {
   id: number
   title: string
   href?: string
+  courses: number
+  programs: number
   channels: ChannelSummary[]
 }
 const groupTopics = (
@@ -160,6 +204,8 @@ const groupTopics = (
         {
           id: topic.id,
           channels: [],
+          courses: courseCounts[topic.name],
+          programs: programCounts[topic.name],
           title: topic.name,
           href: topic.channel_url || undefined,
         },
@@ -182,6 +228,20 @@ const groupTopics = (
     .sort((a, b) => a.title.localeCompare(b.title))
 }
 
+const RootTopicList = styled(PlainList)(({ theme }) => ({
+  marginTop: "80px",
+  [theme.breakpoints.down("sm")]: {
+    marginTop: "32px",
+  },
+  "> li": {
+    paddingBottom: "32px",
+  },
+  "> li + li": {
+    borderTop: `1px solid ${theme.custom.colors.lightGray2}`,
+    paddingTop: "32px",
+  },
+}))
+
 const DepartmentListingPage: React.FC = () => {
   const topicsQuery = useLearningResourceTopics()
   const courseQuery = useLearningResourcesSearch({
@@ -199,44 +259,40 @@ const DepartmentListingPage: React.FC = () => {
     const programCounts = programQuery.data
       ? aggregateByTopic(programQuery.data)
       : {}
+    window.programCounts = programCounts
     return groupTopics(
       topicsQuery.data?.results ?? [],
       courseCounts,
       programCounts,
     )
   }, [topicsQuery.data?.results, courseQuery.data, programQuery.data])
-
+  window.channelsGroups = channelsGroups
   return (
     <Page>
       <MetaTags>
         <title>Topics</title>
       </MetaTags>
-      <FullWidthBackground>
-        <Container>
-          <Typography variant="subtitle3">MIT / Topics</Typography>
-          <Typography variant="h1">Topics</Typography>
-          <HeaderDesription>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam.
-          </HeaderDesription>
-        </Container>
-      </FullWidthBackground>
+      <Banner
+        navText="MIT / Topics"
+        title="Topics"
+        description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
+        backgroundUrl={TOPICS_BANNER_IMAGE}
+      />
       <Container>
         <Grid container>
           <Grid item xs={0} sm={1}></Grid>
           <Grid item xs={12} sm={10}>
-            <PlainList>
+            <RootTopicList>
               {channelsGroups.map((group) => (
-                <RootTopicItem
+                <TopicBox
                   SvgIcon={RiEarthLine}
                   key={group.id}
                   topicGroup={group}
-                  courseCount={10}
-                  programCount={100}
+                  courseCount={group.courses}
+                  programCount={group.programs}
                 />
               ))}
-            </PlainList>
+            </RootTopicList>
           </Grid>
         </Grid>
       </Container>

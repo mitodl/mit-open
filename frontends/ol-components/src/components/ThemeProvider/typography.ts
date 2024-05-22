@@ -2,17 +2,6 @@ import type { ThemeOptions } from "@mui/material/styles"
 import { createTheme } from "@mui/material/styles"
 
 const fontWeights = {
-  /**
-   * ALERT! These weights are based on the stylesheet provided by Adobe and are
-   * specific to the neue-haas-grotesk font family.
-   *
-   * They may not match the weights shown in Figma, which can be incorrect.
-   */
-  display: {
-    roman: 500,
-    medium: 600,
-    bold: 700,
-  },
   text: {
     roman: 400,
     medium: 500,
@@ -38,36 +27,36 @@ const globalSettings: ThemeOptions["typography"] = {
   // Note: Figma calls this "Neue Haas Grotesk Text", but that is incorrect based on Adobe's font family.
   fontFamily: "neue-haas-grotesk-text, sans-serif",
   h1: {
-    fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: fontWeights.display.bold,
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.bold,
     fontStyle: "normal",
     fontSize: pxToRem(52),
     lineHeight: pxToRem(60),
   },
   h2: {
-    fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: fontWeights.display.bold,
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.bold,
     fontStyle: "normal",
     fontSize: pxToRem(34),
     lineHeight: pxToRem(40),
   },
   h3: {
-    fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: fontWeights.display.bold,
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.bold,
     fontStyle: "normal",
     fontSize: pxToRem(28),
     lineHeight: pxToRem(36),
   },
   h4: {
-    fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: fontWeights.display.bold,
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.bold,
     fontStyle: "normal",
     fontSize: pxToRem(24),
     lineHeight: pxToRem(30),
   },
   h5: {
-    fontFamily: "neue-haas-grotesk-display, sans-serif",
-    fontWeight: fontWeights.display.medium,
+    fontFamily: "neue-haas-grotesk-text, sans-serif",
+    fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(18),
     lineHeight: pxToRem(22),
