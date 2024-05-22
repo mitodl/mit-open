@@ -5,6 +5,9 @@ import styled from "@emotion/styled"
 import { ActionButton } from "../Button/Button"
 import Stack from "@mui/material/Stack"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
+import type { ButtonStyleProps } from "../Button/Button"
+
+type CarouselButtonAlignment = "left" | "center" | "right"
 
 type CarouselProps = {
   children: React.ReactNode
@@ -21,6 +24,12 @@ type CarouselProps = {
 type NukaCarouselStyledProps = NukaCarouselProps & {
   cellSpacing?: number
   animationDuration?: number
+  cellSpacing?: NukaCarouselProps["cellSpacing"]
+  buttonAlignment?: CarouselButtonAlignment
+  buttonVariant?: ButtonStyleProps["variant"]
+  buttonSize?: ButtonStyleProps["size"]
+  pageLeftIcon?: ReactElement
+  pageRightIcon?: ReactElement
 }
 
 const DEFAULT_CAROUSEL_SPACING = 24
@@ -43,6 +52,11 @@ const Carousel: React.FC<CarouselProps> = ({
   animationDuration = DEFAULT_ANIMATION_DURATION,
   pageSize,
   as: ContainerComponent = "div",
+  pageRightIcon = <RiArrowRightLine />,
+  pageLeftIcon = <RiArrowLeftLine />,
+  buttonAlignment = "right",
+  buttonVariant = "filled",
+  buttonSize = "small",
 }) => {
   const ref = useRef<SlideHandle>(null)
 
@@ -73,15 +87,21 @@ const Carousel: React.FC<CarouselProps> = ({
       >
         {children}
       </NukaCarouselStyled>
-      <Stack direction="row" justifyContent="end" spacing={3} marginTop={3}>
+      <Stack
+        direction="row"
+        justifyContent={buttonAlignment || "center"}
+        spacing={3}
+        marginTop={3}
+      >
         <ActionButton
           size="small"
           edge="circular"
           onClick={pageDown}
           disabled={!canPageDown}
           aria-label="Previous"
+          variant={buttonVariant}
         >
-          <RiArrowLeftLine />
+          {pageLeftIcon}
         </ActionButton>
         <ActionButton
           size="small"
@@ -89,8 +109,9 @@ const Carousel: React.FC<CarouselProps> = ({
           onClick={pageUp}
           disabled={!canPageUp}
           aria-label="Next"
+          variant={buttonVariant}
         >
-          <RiArrowRightLine />
+          {pageRightIcon}
         </ActionButton>
       </Stack>
     </ContainerComponent>
@@ -98,4 +119,4 @@ const Carousel: React.FC<CarouselProps> = ({
 }
 
 export { Carousel }
-export type { CarouselProps }
+export type { CarouselProps, CarouselButtonAlignment }
