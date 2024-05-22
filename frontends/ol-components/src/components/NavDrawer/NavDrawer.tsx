@@ -13,10 +13,9 @@ const DrawerContent = styled.div(({ theme }) => ({
   },
 }))
 
-const NavSection = styled.div(({ theme }) => ({
+const NavSection = styled.div({
   padding: "16px 24px",
-  borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
-}))
+})
 
 const NavSectionHeader = styled.div(({ theme }) => ({
   paddingLeft: "8px",
