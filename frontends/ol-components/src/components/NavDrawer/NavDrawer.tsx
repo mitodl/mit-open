@@ -4,7 +4,7 @@ import React from "react"
 
 const DrawerContent = styled.div(({ theme }) => ({
   paddingTop: "80px",
-  width: "350px",
+  width: "366px",
   height: "100%",
   background: theme.custom.colors.white,
   borderRight: `1px solid ${theme.custom.colors.lightGray2}`,
