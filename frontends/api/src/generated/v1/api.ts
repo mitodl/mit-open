@@ -1372,7 +1372,7 @@ export interface LearningResourceInstructorRequest {
   full_name?: string | null
 }
 /**
- * Serializer for LearningResourceOfferor
+ * Serializer for LearningResourceOfferor with basic details
  * @export
  * @interface LearningResourceOfferor
  */
@@ -1397,7 +1397,80 @@ export interface LearningResourceOfferor {
   channel_url: string | null
 }
 /**
- * Serializer for LearningResourceOfferor
+ * Serializer for LearningResourceOfferor with all details
+ * @export
+ * @interface LearningResourceOfferorDetail
+ */
+export interface LearningResourceOfferorDetail {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  code: string
+  /**
+   * Get the channel url for the offeror if it exists
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  channel_url: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  name: string
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourceOfferorDetail
+   */
+  professional?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  offerings?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  audience?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  formats?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  fee?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  certifications?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  content_types?: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  more_information?: string
+}
+/**
+ * Serializer for LearningResourceOfferor with basic details
  * @export
  * @interface LearningResourceOfferorRequest
  */
@@ -2370,33 +2443,33 @@ export interface PaginatedLearningResourceList {
 /**
  *
  * @export
- * @interface PaginatedLearningResourceOfferorList
+ * @interface PaginatedLearningResourceOfferorDetailList
  */
-export interface PaginatedLearningResourceOfferorList {
+export interface PaginatedLearningResourceOfferorDetailList {
   /**
    *
    * @type {number}
-   * @memberof PaginatedLearningResourceOfferorList
+   * @memberof PaginatedLearningResourceOfferorDetailList
    */
   count: number
   /**
    *
    * @type {string}
-   * @memberof PaginatedLearningResourceOfferorList
+   * @memberof PaginatedLearningResourceOfferorDetailList
    */
   next?: string | null
   /**
    *
    * @type {string}
-   * @memberof PaginatedLearningResourceOfferorList
+   * @memberof PaginatedLearningResourceOfferorDetailList
    */
   previous?: string | null
   /**
    *
-   * @type {Array<LearningResourceOfferor>}
-   * @memberof PaginatedLearningResourceOfferorList
+   * @type {Array<LearningResourceOfferorDetail>}
+   * @memberof PaginatedLearningResourceOfferorDetailList
    */
-  results: Array<LearningResourceOfferor>
+  results: Array<LearningResourceOfferorDetail>
 }
 /**
  *
@@ -15114,7 +15187,7 @@ export const OfferorsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<PaginatedLearningResourceOfferorList>
+      ) => AxiosPromise<PaginatedLearningResourceOfferorDetailList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.offerorsList(
         limit,
@@ -15146,7 +15219,7 @@ export const OfferorsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<LearningResourceOfferor>
+      ) => AxiosPromise<LearningResourceOfferorDetail>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.offerorsRetrieve(code, options)
@@ -15185,7 +15258,7 @@ export const OfferorsApiFactory = function (
     offerorsList(
       requestParameters: OfferorsApiOfferorsListRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedLearningResourceOfferorList> {
+    ): AxiosPromise<PaginatedLearningResourceOfferorDetailList> {
       return localVarFp
         .offerorsList(
           requestParameters.limit,
@@ -15204,7 +15277,7 @@ export const OfferorsApiFactory = function (
     offerorsRetrieve(
       requestParameters: OfferorsApiOfferorsRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LearningResourceOfferor> {
+    ): AxiosPromise<LearningResourceOfferorDetail> {
       return localVarFp
         .offerorsRetrieve(requestParameters.code, options)
         .then((request) => request(axios, basePath))

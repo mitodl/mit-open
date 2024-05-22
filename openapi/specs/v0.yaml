@@ -941,16 +941,11 @@ components:
       description: Serializer for the ChannelOfferorDetail model
       properties:
         offeror:
-          type: string
-          nullable: true
-    ChannelOfferorDetailRequest:
-      type: object
-      description: Serializer for the ChannelOfferorDetail model
-      properties:
-        offeror:
-          type: string
-          minLength: 1
-          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferorDetail'
+          readOnly: true
+      required:
+      - offeror
     ChannelTopicDetail:
       type: object
       description: Serializer for the ChannelTopicDetail model
@@ -1340,10 +1335,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
           nullable: true
-        offeror_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
-          nullable: true
       required:
       - channel_type
       - name
@@ -1442,6 +1433,118 @@ components:
       required:
       - id
       - title
+    LearningResourceOfferorDetail:
+      type: object
+      description: Serializer for LearningResourceOfferor with all details
+      properties:
+        code:
+          type: string
+          maxLength: 12
+        channel_url:
+          type: string
+          description: Get the channel url for the offeror if it exists
+          readOnly: true
+          nullable: true
+        name:
+          type: string
+          maxLength: 256
+        professional:
+          type: boolean
+        offerings:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        audience:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        formats:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        fee:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        certifications:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        content_types:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        more_information:
+          type: string
+          format: uri
+          maxLength: 200
+      required:
+      - channel_url
+      - code
+      - name
+    LearningResourceOfferorDetailRequest:
+      type: object
+      description: Serializer for LearningResourceOfferor with all details
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 12
+        name:
+          type: string
+          minLength: 1
+          maxLength: 256
+        professional:
+          type: boolean
+        offerings:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        audience:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        formats:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        fee:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        certifications:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        content_types:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        more_information:
+          type: string
+          format: uri
+          maxLength: 200
+      required:
+      - code
+      - name
     NewsFeedItem:
       type: object
       description: Serializer for News FeedItem
@@ -1742,10 +1845,6 @@ components:
         department_detail:
           allOf:
           - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
-          nullable: true
-        offeror_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
           nullable: true
     PatchedProfileRequest:
       type: object

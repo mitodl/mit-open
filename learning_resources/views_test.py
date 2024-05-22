@@ -43,7 +43,7 @@ from learning_resources.models import (
 from learning_resources.serializers import (
     ContentFileSerializer,
     LearningResourceDepartmentSerializer,
-    LearningResourceOfferorSerializer,
+    LearningResourceOfferorDetailSerializer,
     LearningResourcePlatformSerializer,
     LearningResourceTopicSerializer,
     PodcastEpisodeSerializer,
@@ -691,7 +691,7 @@ def test_offerors_list_endpoint(client):
     for i in range(3):
         assert (
             resp.data.get("results")[i]
-            == LearningResourceOfferorSerializer(instance=offerors[i]).data
+            == LearningResourceOfferorDetailSerializer(instance=offerors[i]).data
         )
 
 
@@ -700,7 +700,7 @@ def test_offerors_detail_endpoint(client):
     offeror = LearningResourceOfferorFactory.create()
 
     resp = client.get(reverse("lr:v1:offerors_api-detail", args=[offeror.code]))
-    assert resp.data == LearningResourceOfferorSerializer(instance=offeror).data
+    assert resp.data == LearningResourceOfferorDetailSerializer(instance=offeror).data
 
 
 @pytest.mark.parametrize(
