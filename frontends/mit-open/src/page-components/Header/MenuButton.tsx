@@ -37,7 +37,7 @@ interface MenuButtonProps {
 }
 
 const MenuButton: React.FC<MenuButtonProps> = ({ text, onClick }) => (
-  <StyledMenuButton variant="text" onClick={onClick}>
+  <StyledMenuButton variant="text" onPointerDown={onClick}>
     <MenuButtonInner>
       <MenuIcon />
       {text ? <MenuButtonText>{text}</MenuButtonText> : ""}

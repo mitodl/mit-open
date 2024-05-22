@@ -270,13 +270,13 @@ const Header: FunctionComponent = () => {
           <UserView />
         </StyledToolbar>
       </Bar>
-      <ClickAwayListener onClickAway={closeDrawer}>
+      <ClickAwayListener
+        onClickAway={closeDrawer}
+        mouseEvent="onPointerDown"
+        touchEvent="onTouchStart"
+      >
         <div role="presentation">
-          <NavDrawer
-            navdata={navData}
-            open={drawerOpen}
-            onClose={toggleDrawer.off}
-          />
+          <NavDrawer navdata={navData} open={drawerOpen} />
         </div>
       </ClickAwayListener>
     </div>
