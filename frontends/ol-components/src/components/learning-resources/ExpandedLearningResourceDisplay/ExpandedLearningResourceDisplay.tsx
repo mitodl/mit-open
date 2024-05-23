@@ -1,10 +1,11 @@
-import React from "react"
+import React, { useState } from "react"
 import type {
   LearningResource,
   CourseResource,
   VideoResource,
   LearningResourceTopic,
   LearningResourceImage,
+  LearningResourceRun,
 } from "api"
 import {
   formatDate,
@@ -17,7 +18,14 @@ import Chip from "@mui/material/Chip"
 import { EmbedlyCard } from "../../EmbedlyCard/EmbedlyCard"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
-import { theme, ButtonLink, PlatformLogo } from "ol-components"
+import {
+  theme,
+  ButtonLink,
+  PlatformLogo,
+  SelectField,
+  MenuItem,
+  SelectChangeEvent,
+} from "ol-components"
 import {
   RiMoneyDollarCircleFill,
   RiBarChartFill,
@@ -52,6 +60,10 @@ const Image = styled.img<{ aspectRatio: number }>`
 const CallToAction = styled.div`
   display: flex;
   justify-content: space-between;
+`
+
+const StyledButton = styled(ButtonLink)`
+  width: 220px;
 `
 
 const Platform = styled.div`
@@ -93,12 +105,33 @@ const TopicsList = styled.ul`
 const InfoItems = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 `
 
-const InfoItem = styled.div``
-const InfoLabel = styled.div``
-const InfoValue = styled.div``
+const InfoItem = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+  ${{ ...theme.typography.body2 }}
+  color: ${theme.custom.colors.silverGrayDark};
+
+  svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+`
+
+const InfoLabel = styled.div`
+  width: 85px;
+  flex-shrink: 0;
+`
+
+const InfoValue = styled.div`
+  ${{ ...theme.typography.body2 }}
+  color: ${theme.custom.colors.black};
+`
 
 type ExpandedLearningResourceDisplayProps = {
   resource?: LearningResource
@@ -159,7 +192,7 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
   return <Description>{resource.description}</Description>
 }
 
-const TopicsDisplay: React.FC<{ topics: LearningResourceTopic[] }> = ({
+const TopicsSection: React.FC<{ topics: LearningResourceTopic[] }> = ({
   topics,
 }) => {
   return (
@@ -180,41 +213,38 @@ const TopicsDisplay: React.FC<{ topics: LearningResourceTopic[] }> = ({
   )
 }
 
-const InfoSection = ({ resource }: { resource?: LearningResource }) => {
-  if (!resource) {
+const InfoSection = ({ run }: { run?: LearningResourceRun }) => {
+  if (!run) {
     return null
   }
-
   return (
     <InfoItems>
       <Typography variant="subtitle2">Info</Typography>
       <InfoItem>
-        <InfoLabel>
-          <RiMoneyDollarCircleFill />
-          Cost:
-        </InfoLabel>
-        <InfoValue>Cost</InfoValue>
+        <RiMoneyDollarCircleFill />
+        <InfoLabel>Cost:</InfoLabel>
+        <InfoValue>{run.prices?.[0] || "-"}</InfoValue>
       </InfoItem>
       <InfoItem>
-        <InfoLabel>
-          <RiBarChartFill />
-          Level:
-        </InfoLabel>
-        <InfoValue>Cost</InfoValue>
+        <RiBarChartFill />
+        <InfoLabel>Level:</InfoLabel>
+        <InfoValue>{run.level?.[0]?.name || "-"}</InfoValue>
       </InfoItem>
       <InfoItem>
-        <InfoLabel>
-          <RiGraduationCapFill />
-          Instructors:
-        </InfoLabel>
-        <InfoValue>Cost</InfoValue>
+        <RiGraduationCapFill />
+        <InfoLabel>Instructors:</InfoLabel>
+        <InfoValue>
+          {run.instructors?.length
+            ? run.instructors.map(({ full_name: name }) => name).join(", ")
+            : "-"}
+        </InfoValue>
       </InfoItem>
       <InfoItem>
-        <InfoLabel>
-          <RiGlobalLine />
-          Language:
-        </InfoLabel>
-        <InfoValue>Cost</InfoValue>
+        <RiGlobalLine />
+        <InfoLabel>Languages:</InfoLabel>
+        <InfoValue>
+          {run.languages?.length ? run.languages.join(", ") : "-"}
+        </InfoValue>
       </InfoItem>
     </InfoItems>
   )
@@ -237,7 +267,7 @@ const DisplayTemplate: React.FC<
       {media ?? <ImageDisplay image={resource?.image} config={imgConfig} />}
       <ResourceTitle resource={resource} />
       <ResourceDescription resource={resource} />
-      {resource?.topics ? <TopicsDisplay topics={resource.topics} /> : null}
+      {resource?.topics ? <TopicsSection topics={resource.topics} /> : null}
     </Container>
   )
 }
@@ -267,18 +297,65 @@ const Course: React.FC<ResourceDisplayProps<CourseResource>> = ({
   resource,
   imgConfig,
 }) => {
-  return (
-    <Container>
+  const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
+  console.log("selectedRun", selectedRun)
+
+  const onDateChange = (event: SelectChangeEvent) => {
+    console.log("event", event.target.value)
+    setSelectedRun(
+      resource.runs?.find(
+        (run) => run.id === (event.target.value as unknown as number),
+      ),
+    )
+  }
+
+  const DateSection = () => {
+    if (!resource) {
+      return <Skeleton variant="text" />
+    }
+    const multipleRuns = resource.runs && resource.runs.length > 1
+
+    const onClick = (event: React.MouseEvent<HTMLElement>) => {
+      event.stopPropagation()
+    }
+
+    if (multipleRuns) {
+      return (
+        <Date>
+          <DateLabel>Start Date:</DateLabel>
+          <SelectField
+            label=""
+            value={selectedRun?.id as unknown as string}
+            onChange={onDateChange}
+            onClick={onClick}
+          >
+            {resource.runs!.map((run) => (
+              <MenuItem key={run.id} value={run.id}>
+                {formatDate(run.start_date!, "MMMM DD, YYYY")}
+              </MenuItem>
+            ))}
+          </SelectField>
+        </Date>
+      )
+    }
+
+    return (
       <Date>
         <DateLabel>As taught in:</DateLabel>
         {formatDate(resource.next_start_date!, "MMMM DD, YYYY")}
       </Date>
+    )
+  }
+
+  return (
+    <Container>
+      <DateSection />
       <ImageDisplay image={resource?.image} config={imgConfig} />
       <CallToAction>
         {resource ? (
-          <ButtonLink size="large" href={resource.url!}>
+          <StyledButton size="large" href={resource.url!}>
             Take Course
-          </ButtonLink>
+          </StyledButton>
         ) : null}
         <Platform>
           <OnPlatform>on</OnPlatform>
@@ -289,8 +366,8 @@ const Course: React.FC<ResourceDisplayProps<CourseResource>> = ({
         <ResourceTitle resource={resource} />
         <ResourceDescription resource={resource} />
       </div>
-      {resource?.topics ? <TopicsDisplay topics={resource.topics} /> : null}
-      <InfoSection resource={resource} />
+      {resource?.topics ? <TopicsSection topics={resource.topics} /> : null}
+      <InfoSection run={selectedRun} />
     </Container>
   )
 }

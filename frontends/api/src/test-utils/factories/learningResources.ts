@@ -41,7 +41,14 @@ const repeat = <T>(cb: () => T, { min = 2, max = 4 }: RepeatOptins = {}) => {
 }
 
 const language = () =>
-  faker.helpers.arrayElement(["en", "es", "ar", "zh", "fr", "pt"])
+  faker.helpers.arrayElement([
+    "en-us",
+    "es-es",
+    "ar-ar",
+    "zh-cn",
+    "fr-fr",
+    "pt-pt",
+  ])
 
 const learningResourceImage: Factory<LearningResourceImage> = (
   overrides = {},
