@@ -52,6 +52,9 @@ const NavItemContainer = styled.div(({ theme }) => ({
   alignSelf: "stretch",
   gap: "16px",
   "&:hover": {
+    ".nav-link-icon": {
+      opacity: ".7",
+    },
     ".nav-link-text": {
       color: theme.custom.colors.red,
       textDecorationLine: "underline",
@@ -71,6 +74,7 @@ const NavIconContainer = styled.div({
 const NavIcon = styled.img({
   width: "22px",
   height: "22px",
+  opacity: "1",
 })
 
 const NavTextContainer = styled.div({
@@ -114,7 +118,13 @@ const NavItem: React.FC<NavItem> = (props) => {
   const navItem = (
     <NavItemContainer>
       <NavIconContainer style={{ paddingTop: description ? "4px" : "" }}>
-        {icon ? <NavIcon src={icon} data-testid="nav-link-icon" /> : null}
+        {icon ? (
+          <NavIcon
+            src={icon}
+            className="nav-link-icon"
+            data-testid="nav-link-icon"
+          />
+        ) : null}
       </NavIconContainer>
       <NavTextContainer>
         <NavLinkText className="nav-link-text" data-testid="nav-link-text">
