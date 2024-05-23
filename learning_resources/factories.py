@@ -73,7 +73,7 @@ class LearningResourceInstructorFactory(DjangoModelFactory):
     """Factory for course instructors"""
 
     first_name = factory.Faker("first_name")
-    last_name = factory.Sequence(lambda n: "D%se" % ("o" * n))
+    last_name = factory.Faker("last_name")
     full_name = factory.LazyAttribute(lambda ci: f"{ci.first_name} {ci.last_name}")
 
     class Meta:
