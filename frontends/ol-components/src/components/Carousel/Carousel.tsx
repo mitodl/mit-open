@@ -1,5 +1,5 @@
-import React, { ElementType, useCallback, useState } from "react"
-import NukaCarousel from "nuka-carousel"
+import React, { ElementType, useCallback, useState, useRef } from "react"
+import { Carousel as NukaCarousel, SlideHandle } from "nuka-carousel"
 import { clamp } from "lodash"
 import type { CarouselProps as NukaCarouselProps } from "nuka-carousel"
 import styled from "@emotion/styled"
@@ -16,12 +16,16 @@ type CarouselProps = {
    * Animation duration in milliseconds.
    */
   animationDuration?: number
-  cellSpacing?: NukaCarouselProps["cellSpacing"]
+  cellSpacing?: number
+}
+
+type NukaCarouselStyledProps = NukaCarouselProps & {
+  cellSpacing?: number
 }
 
 const DEFAULT_CAROUSEL_SPACING = 24
 
-const NukaCarouselStyled = styled(NukaCarousel)(
+const NukaCarouselStyled = styled(NukaCarousel)<NukaCarouselStyledProps>(
   ({ cellSpacing = DEFAULT_CAROUSEL_SPACING }) => ({
     /*
       We want the carousel cards to:
@@ -66,38 +70,34 @@ const Carousel: React.FC<CarouselProps> = ({
   className,
   cellSpacing = DEFAULT_CAROUSEL_SPACING,
   pageSize,
-  animationDuration = defaultAnimationDuration,
   as: ContainerComponent = "div",
 }) => {
+  const ref = useRef<SlideHandle>(null)
+
   const [index, setIndex] = useState(0)
   const childCount = React.Children.count(children)
   const canPageUp = index + pageSize < childCount
   const canPageDown = index !== 0
 
-  const pageDown = useCallback(() => {
-    setIndex((currentIndex) =>
-      clamp(currentIndex - pageSize, 0, childCount - 1),
-    )
-  }, [pageSize, childCount])
-  const pageUp = useCallback(() => {
-    setIndex((currentIndex) =>
-      clamp(currentIndex + pageSize, 0, childCount - 1),
-    )
-  }, [pageSize, childCount])
+  const pageDown = () => {
+    ref && ref.current && ref.current.goBack()
+  }
+  const pageUp = () => {
+    ref && ref.current && ref.current.goForward()
+  }
   const handleBeforeSlide: NonNullable<NukaCarouselProps["beforeSlide"]> =
-    useCallback((_currentIndex, endIndex) => {
-      setIndex(endIndex)
+    useCallback(() => {
+      //setIndex(endIndex)
     }, [])
 
   return (
     <ContainerComponent id="hello" className={className}>
       <NukaCarouselStyled
-        slideIndex={index}
-        slidesToShow={pageSize}
         beforeSlide={handleBeforeSlide}
-        withoutControls={true}
+        showArrows={false}
+        showDots={true}
+        autoplay={false}
         cellSpacing={cellSpacing}
-        speed={animationDuration}
       >
         {children}
       </NukaCarouselStyled>

@@ -14,6 +14,11 @@ import {
 import type { TabConfig, ResourceDataSource, SearchDataSource } from "./types"
 import { LearningResource } from "api"
 import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
+import type { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
+
+type LearningResourceCardStyledProps = LearningResourceCardProps & {
+  cardsPerPage: number
+}
 
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   dataConfig: T
@@ -73,9 +78,14 @@ const CarouselStyled = styled(Carousel)`
   }
 `
 
-const LearningResourceCardStyled = styled(LearningResourceCard)({
-  height: "100%",
-})
+const LearningResourceCardStyled = styled(
+  LearningResourceCard,
+)<LearningResourceCardStyledProps>`
+  height: 100%;
+  margin: 0px 12px;
+  min-width: ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}%;
+  max-width: ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}%;
+`
 
 type TabbedCarouselProps = {
   config: TabConfig[]
@@ -107,6 +117,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
                     key={resource.id}
                     variant="column"
                     resource={resource}
+                    cardsPerPage={pageSize}
                   />
                 ))}
               </CarouselStyled>
