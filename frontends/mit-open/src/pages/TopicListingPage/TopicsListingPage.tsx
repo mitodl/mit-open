@@ -43,7 +43,9 @@ const TopicBoxHeader = styled(
           <SvgIcon aria-hidden="true" />
           <span>
             <span className="topic-title">{title}</span>
-            <span className="view-topic">View</span>
+            <span className="view-topic" aria-hidden="true">
+              View
+            </span>
           </span>
         </Link>
       </Typography>
@@ -259,18 +261,16 @@ const DepartmentListingPage: React.FC = () => {
     const programCounts = programQuery.data
       ? aggregateByTopic(programQuery.data)
       : {}
-    window.programCounts = programCounts
     return groupTopics(
       topicsQuery.data?.results ?? [],
       courseCounts,
       programCounts,
     )
   }, [topicsQuery.data?.results, courseQuery.data, programQuery.data])
-  window.channelsGroups = channelsGroups
   return (
     <Page>
       <MetaTags>
-        <title>Topics</title>
+        <title>MIT Open | Topics</title>
       </MetaTags>
       <Banner
         navText="MIT / Topics"
