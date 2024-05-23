@@ -12,7 +12,12 @@ import {
   SchoolsApi,
 } from "./generated/v1/api"
 
-import { ChannelsApi, WidgetListsApi, UsersApi } from "./generated/v0/api"
+import {
+  ChannelsApi,
+  WidgetListsApi,
+  UsersApi,
+  NewsEventsApi,
+} from "./generated/v0/api"
 
 import axiosInstance from "./axios"
 
@@ -65,6 +70,8 @@ const usersApi = new UsersApi(undefined, BASE_PATH, axiosInstance)
 
 const schoolsApi = new SchoolsApi(undefined, BASE_PATH, axiosInstance)
 
+const newsEventsApi = new NewsEventsApi(undefined, BASE_PATH, axiosInstance)
+
 export {
   learningResourcesApi,
   learningpathsApi,
@@ -80,4 +87,5 @@ export {
   platformsApi,
   searchSubscriptionApi,
   schoolsApi,
+  newsEventsApi,
 }

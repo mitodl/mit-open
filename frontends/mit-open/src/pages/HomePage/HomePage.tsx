@@ -4,6 +4,7 @@ import HeroSearch from "./HeroSearch"
 import UpcomingCoursesSection from "./UpcomingCoursesSection"
 import MediaSection from "./MediaSection"
 import BrowseTopicsSection from "./BrowseTopicsSection"
+import NewsEventsSection from "./NewsEventsSection"
 
 const FullWidthBackground = styled.div`
   background-image: linear-gradient(
@@ -33,6 +34,7 @@ const HomePage: React.FC = () => {
       <UpcomingCoursesSection />
       <MediaSection />
       <BrowseTopicsSection />
+      <NewsEventsSection />
     </>
   )
 }
