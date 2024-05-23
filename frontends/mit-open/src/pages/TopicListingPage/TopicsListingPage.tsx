@@ -17,28 +17,9 @@ import {
   useLearningResourcesSearch,
 } from "api/hooks/learningResources"
 import { LearningResourceSearchResponse, LearningResourceTopic } from "api"
-import {
-  RiPaletteLine,
-  RiSeedlingLine,
-  RiBriefcaseLine,
-  RiMacbookLine,
-  RiBarChartBoxLine,
-  RiUserSearchLine,
-  RiEarthLine,
-} from "@remixicon/react"
+import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 
 const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
-
-/* TODO Using any icons until we have a solution for specifying them */
-const ICONS = [
-  RiBriefcaseLine,
-  RiPaletteLine,
-  RiSeedlingLine,
-  RiMacbookLine,
-  RiBarChartBoxLine,
-  RiUserSearchLine,
-  RiEarthLine,
-]
 
 type ChannelSummary = {
   id: number | string
@@ -49,17 +30,16 @@ type ChannelSummary = {
 }
 
 type TopicBoxHeaderProps = {
-  SvgIcon: React.ComponentType
   title: string
   href?: string
   className?: string
 }
 const TopicBoxHeader = styled(
-  ({ SvgIcon, title, href, className }: TopicBoxHeaderProps) => {
+  ({ title, href, className }: TopicBoxHeaderProps) => {
     return (
       <Typography variant="h5" component="h3" className={className}>
         <Link to={href ?? ""}>
-          <SvgIcon aria-hidden="true" />
+          <RootTopicIcon name={title} aria-hidden="true" />
           <span>
             <span className="topic-title">{title}</span>
             <span className="view-topic" aria-hidden="true">
@@ -130,20 +110,13 @@ const ChildTopicsContainer = styled.div<{ mobile: boolean }>(
 )
 
 type TopicBoxProps = {
-  SvgIcon: React.ComponentType
   topicGroup: TopicGroup
   className?: string
   courseCount?: number
   programCount?: number
 }
 const TopicBox = styled(
-  ({
-    SvgIcon,
-    topicGroup,
-    className,
-    courseCount,
-    programCount,
-  }: TopicBoxProps) => {
+  ({ topicGroup, className, courseCount, programCount }: TopicBoxProps) => {
     const counts = [
       { label: "Courses", count: courseCount },
       { label: "Programs", count: programCount },
@@ -151,7 +124,7 @@ const TopicBox = styled(
     const { title, href, channels } = topicGroup
     return (
       <li className={className}>
-        <TopicBoxHeader SvgIcon={SvgIcon} title={title} href={href} />
+        <TopicBoxHeader title={title} href={href} />
         <TopicBoxBody>
           <TopicCounts>
             {counts.map((item) => (
@@ -302,9 +275,8 @@ const DepartmentListingPage: React.FC = () => {
           <Grid item xs={0} sm={1}></Grid>
           <Grid item xs={12} sm={10}>
             <RootTopicList>
-              {channelsGroups.map((group, i) => (
+              {channelsGroups.map((group) => (
                 <TopicBox
-                  SvgIcon={ICONS[i]}
                   key={group.id}
                   topicGroup={group}
                   courseCount={group.courses}

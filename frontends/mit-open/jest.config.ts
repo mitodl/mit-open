@@ -12,6 +12,7 @@ const config: Config.InitialOptions = {
     "^@/(.*)$": path.resolve(__dirname, "src/$1"),
     ...baseConfig.moduleNameMapper,
   },
+  transformIgnorePatterns: ["/node_modules/(?!(" + "yaml", ")/)"],
   globals: {
     APP_SETTINGS: {
       embedlyKey: "embedly_key",
