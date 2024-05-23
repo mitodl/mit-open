@@ -1428,7 +1428,6 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                 "course.course_numbers.sort_coursenum",
                 "course.course_numbers.primary",
                 "resource_relations",
-                "free",
             ]
         },
     }
@@ -1631,7 +1630,6 @@ def test_execute_learn_search_for_content_file_query(opensearch):
                 "course.course_numbers.sort_coursenum",
                 "course.course_numbers.primary",
                 "resource_relations",
-                "free",
             ]
         },
     }
