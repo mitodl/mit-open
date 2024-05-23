@@ -11,7 +11,6 @@ from rest_framework.reverse import reverse
 from channels.factories import ChannelOfferorDetailFactory
 from channels.models import FieldChannel
 from learning_resources.constants import (
-    FEATURED_OFFERORS,
     LearningResourceRelationTypes,
     LearningResourceType,
     OfferedBy,
@@ -59,8 +58,8 @@ pytestmark = [pytest.mark.django_db]
 @fixture()
 def offeror_featured_lists():
     """Generate featured offeror lists for testing"""
-    for offered_by in FEATURED_OFFERORS:
-        offeror = LearningResourceOfferorFactory.create(code=offered_by.name)
+    for offered_by in OfferedBy.names():
+        offeror = LearningResourceOfferorFactory.create(code=offered_by)
         featured_path = LearningPathFactory.create(resources=[]).learning_resource
         for i in range(3):
             resource = LearningResourceFactory.create(
@@ -69,7 +68,7 @@ def offeror_featured_lists():
                 certification=bool(random.getrandbits(1)),
                 professional=bool(random.getrandbits(1)),
             )
-            if offered_by.name == OfferedBy.ocw.name:
+            if offered_by == OfferedBy.ocw.name:
                 LearningResourceRun.objects.filter(
                     learning_resource=resource.id
                 ).update(prices=[])
@@ -920,11 +919,11 @@ def test_featured_view(client, offeror_featured_lists):
     """The featured api endpoint should return resources in expected order"""
     url = reverse("lr:v1:featured_api-list")
     resp = client.get(f"{url}?limit=12")
-    assert resp.data.get("count") == 15
+    assert resp.data.get("count") == 18
     assert len(resp.data.get("results")) == 12
     # Should get 1st resource from every featured list, then 2nd, etc.
     for idx, resource in enumerate(resp.data.get("results")):
-        position = int(idx / 5)  # 5 featured offerors: 0,0,0,0,0,1,1,1,1,1,2,2
+        position = int(idx / 6)  # 6 offerors: 0,0,0,0,0,0,1,1,1,1,1,1
         offeror = LearningResourceOfferor.objects.get(
             code=resource["offered_by"]["code"]
         )

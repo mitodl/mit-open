@@ -21,10 +21,10 @@ from rest_framework.response import Response
 from rest_framework_nested.viewsets import NestedViewSetMixin
 
 from authentication.decorators import blocked_ip_exempt
+from channels.constants import ChannelType
 from channels.models import FieldChannel
 from learning_resources import permissions
 from learning_resources.constants import (
-    FEATURED_OFFERORS,
     LearningResourceType,
     PlatformType,
     PrivacyLevel,
@@ -837,9 +837,7 @@ class FeaturedViewSet(
             featured learning paths from certain offerors
         """
         featured_list_ids = FieldChannel.objects.filter(
-            offeror_detail__offeror__code__in=[
-                offeror.name for offeror in FEATURED_OFFERORS
-            ]
+            channel_type=ChannelType.offeror.name
         ).values_list("featured_list", flat=True)
 
         return (

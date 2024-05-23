@@ -47,20 +47,8 @@ class OfferedBy(ExtendedEnum):
     ocw = "OCW"
     bootcamps = "Bootcamps"
     xpro = "xPRO"
-    csail = "CSAIL"
     mitpe = "Professional Education"
     see = "Sloan Executive Education"
-    scc = "Schwarzman College of Computing"
-    ctl = "Center for Transportation & Logistics"
-
-
-FEATURED_OFFERORS = [
-    OfferedBy.mitx,
-    OfferedBy.ocw,
-    OfferedBy.xpro,
-    OfferedBy.mitpe,
-    OfferedBy.see,
-]
 
 
 class PlatformType(ExtendedEnum):

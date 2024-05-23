@@ -21,6 +21,7 @@ log = logging.getLogger(__name__)
  prefixed with "MIT "
 """
 
+
 PROLEARN_BASE_URL = "https://prolearn.mit.edu"
 
 # List of query fields for prolearn, deduced from its website api calls
@@ -54,7 +55,7 @@ query {
 UNIQUE_FIELD = "url"
 
 
-def get_offered_by(document: dict) -> LearningResourceOfferor:
+def parse_offered_by(document: dict) -> LearningResourceOfferor:
     """
     Get a properly formatted offered_by name for a course/program
 
@@ -69,22 +70,21 @@ def get_offered_by(document: dict) -> LearningResourceOfferor:
     ).first()
 
 
-def parse_platform(offeror: LearningResourceOfferor) -> str:
+def parse_platform(document: dict) -> str or None:
     """
-    Get the platform value for a Prolearn course/program.
-    Assumes that offeror code == platform code for this particular source.
+    Get the platform code for a Prolearn course/program.
 
     Args:
-        offeror: LearningResourceOfferer
+        document: course or program data
 
     Returns:
-        str: platform.code value
+        str or None: platform.code
     """
-    if offeror:
-        platform = LearningResourcePlatform.objects.filter(code=offeror.code).first()
-        if platform:
-            return platform.code
-    return None
+    department = document["department"].strip()
+    platform = LearningResourcePlatform.objects.filter(
+        name__in=[department, department.lstrip("MIT").strip()]
+    ).first()
+    return platform.code if platform else None
 
 
 def parse_date(num) -> datetime:
@@ -236,20 +236,20 @@ def transform_programs(programs: list[dict]) -> list[dict]:
     """
     unique_programs = {}
     for program in programs:
-        offered_by = get_offered_by(program)
-        platform = parse_platform(offered_by)
-        if offered_by and platform:
+        offered_by = parse_offered_by(program)
+        platform = parse_platform(program)
+        if platform:
             transformed_program = {
                 "readable_id": f'prolearn-{platform}-{program["nid"]}',
                 "title": program["title"],
-                "offered_by": {"name": offered_by.name},
+                "offered_by": {"name": offered_by.name} if offered_by else None,
                 "platform": platform,
                 "etl_source": ETLSource.prolearn.name,
                 "url": parse_url(program),
                 "image": parse_image(program),
-                "professional": offered_by.professional,
+                "professional": True,
+                "certification": True,
                 "learning_format": transform_format(program["format_name"]),
-                "certification": offered_by.professional,
                 "runs": [
                     {
                         "run_id": f'{program["nid"]}_{start_value}',
@@ -266,10 +266,11 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                 "courses": [
                     {
                         "readable_id": course_id,
-                        "offered_by": {"name": offered_by.name},
+                        "offered_by": {"name": offered_by.name} if offered_by else None,
                         "platform": platform,
                         "etl_source": ETLSource.prolearn.name,
-                        "professional": offered_by.professional,
+                        "certification": True,
+                        "professional": True,
                         "runs": [
                             {
                                 "run_id": course_id,
@@ -331,11 +332,11 @@ def _transform_course(
     """  # noqa: D401
     return {
         "readable_id": f'prolearn-{platform}-{course["nid"]}',
-        "offered_by": {"name": offered_by.name},
+        "offered_by": {"name": offered_by.name} if offered_by else None,
         "platform": platform,
         "etl_source": ETLSource.prolearn.name,
-        "professional": offered_by.professional,
-        "certification": offered_by.professional,
+        "professional": True,
+        "certification": True,
         "title": course["title"],
         "url": parse_url(course),
         "image": parse_image(course),
@@ -363,9 +364,9 @@ def transform_courses(courses: list[dict]) -> list[dict]:
     """
     unique_courses = {}
     for course in courses:
-        offered_by = get_offered_by(course)
-        platform = parse_platform(offered_by)
-        if offered_by and platform:
+        offered_by = parse_offered_by(course)
+        platform = parse_platform(course)
+        if platform:
             transformed_course = _transform_course(course, offered_by, platform)
             unique_course = unique_courses.setdefault(
                 transformed_course["url"], transformed_course

@@ -72,16 +72,6 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "CSAIL",
-      "code": "csail",
-      "professional": true,
-      "created_on": "2023-08-08T14:27:25.128989+00:00",
-      "updated_on": "2023-08-08T14:27:25.128989+00:00"
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourceOfferor",
-    "fields": {
       "name": "Professional Education",
       "code": "mitpe",
       "professional": true,
@@ -123,26 +113,6 @@
       "certifications": ["Executive Certificates", "Professional Certificates"],
       "content_types": ["Professional"],
       "more_information": "https://executive.mit.edu",
-      "created_on": "2023-08-08T14:27:25.128989+00:00",
-      "updated_on": "2023-08-08T14:27:25.128989+00:00"
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourceOfferor",
-    "fields": {
-      "name": "Schwarzman College of Computing",
-      "code": "scc",
-      "professional": true,
-      "created_on": "2023-08-08T14:27:25.128989+00:00",
-      "updated_on": "2023-08-08T14:27:25.128989+00:00"
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourceOfferor",
-    "fields": {
-      "name": "Center for Transportation & Logistics",
-      "code": "ctl",
-      "professional": true,
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
