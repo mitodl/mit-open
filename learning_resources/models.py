@@ -146,7 +146,7 @@ class LearningResourceInstructor(TimestampedModel):
     full_name = models.CharField(max_length=256, null=True, blank=True, unique=True)
 
     class Meta:
-        ordering = ["last_name"]
+        ordering = ["last_name", "first_name"]
 
     def __str__(self):
         return self.full_name or f"{self.first_name} {self.last_name}"
