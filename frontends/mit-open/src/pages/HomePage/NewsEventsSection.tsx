@@ -237,14 +237,12 @@ const Story: React.FC<{ item: NewsFeedItem; mobile: boolean }> = ({
 }
 
 const NewsEventsSection: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: news }: any = useNewsEventsList({
+  const { data: news } = useNewsEventsList({
     feed_type: [NewsEventsListFeedTypeEnum.News],
     limit: 6,
   })
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: events }: any = useNewsEventsList({
+  const { data: events } = useNewsEventsList({
     feed_type: [NewsEventsListFeedTypeEnum.Events],
     limit: 5,
   })
@@ -259,14 +257,20 @@ const NewsEventsSection: React.FC = () => {
   const stories = news!.results?.slice(0, isAboveLg || isMobile ? 6 : 4) || []
 
   const EventCards =
-    events!.results?.map((item: EventFeedItem) => (
+    events!.results?.map((item: NewsFeedItem | EventFeedItem) => (
       <EventCard key={item.id} href={item.url}>
         <EventDate>
           <EventDay>
-            {formatDate(item.event_details?.event_datetime, "D")}
+            {formatDate(
+              (item as EventFeedItem).event_details?.event_datetime,
+              "D",
+            )}
           </EventDay>
           <EventMonth>
-            {formatDate(item.event_details?.event_datetime, "MMM")}
+            {formatDate(
+              (item as EventFeedItem).event_details?.event_datetime,
+              "MMM",
+            )}
           </EventMonth>
         </EventDate>
         <EventTitle>{item.title}</EventTitle>
@@ -283,8 +287,12 @@ const NewsEventsSection: React.FC = () => {
           <MobileContainer>
             <Typography variant="h4">Stories</Typography>
             <StoriesSlider>
-              {stories.map((item: NewsFeedItem) => (
-                <Story key={item.id} mobile={isMobile} item={item} />
+              {stories.map((item: NewsFeedItem | EventFeedItem) => (
+                <Story
+                  key={item.id}
+                  mobile={isMobile}
+                  item={item as NewsFeedItem}
+                />
               ))}
             </StoriesSlider>
           </MobileContainer>
@@ -299,9 +307,9 @@ const NewsEventsSection: React.FC = () => {
             <StoriesContainer>
               <Typography variant="h4">Stories</Typography>
               <Grid container columnSpacing="24px" rowSpacing="29px">
-                {stories.map((item: NewsFeedItem) => (
+                {stories.map((item: NewsFeedItem | EventFeedItem) => (
                   <Grid item key={item.id} xs={12} sm={12} md={6} lg={4} xl={4}>
-                    <Story item={item} mobile={false} />
+                    <Story item={item as NewsFeedItem} mobile={false} />
                   </Grid>
                 ))}
               </Grid>
