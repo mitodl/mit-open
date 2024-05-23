@@ -107,6 +107,7 @@ const TopicBoxName = styled.p`
 const SeeAllButton = styled(Button)`
   margin: 0 auto;
   box-sizing: content-box;
+  text-transform: none;
   display: block;
 `
 

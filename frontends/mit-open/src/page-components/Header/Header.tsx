@@ -149,17 +149,26 @@ const navData: NavData = {
       items: [
         {
           title: "Courses",
+          icon: "/static/images/navdrawer/courses.svg",
           description: "Learn with MIT instructors",
           href: querifiedSearchUrl({ resource_type: "course" }),
         },
         {
           title: "Programs",
+          icon: "/static/images/navdrawer/programs.svg",
           description:
             "Learn in-depth from a series of courses and earn a certificate",
           href: querifiedSearchUrl({ resource_type: "program" }),
         },
         {
+          title: "Pathways",
+          icon: "/static/images/navdrawer/pathways.svg",
+          description:
+            "Achieve your learning goals with a curated collection of courses",
+        },
+        {
           title: "Course Materials",
+          icon: "/static/images/navdrawer/course_materials.svg",
           description:
             "Free teaching and learning materials including videos, podcasts, lecture notes, etc.",
         },
@@ -169,14 +178,17 @@ const navData: NavData = {
       title: "BROWSE",
       items: [
         {
-          title: "By Subject",
+          title: "By Topic",
+          icon: "/static/images/navdrawer/topics.svg",
         },
         {
           title: "By Departments",
+          icon: "/static/images/navdrawer/departments.svg",
           href: DEPARTMENTS,
         },
         {
           title: "By Provider",
+          icon: "/static/images/navdrawer/provider.svg",
         },
       ],
     },
@@ -185,6 +197,7 @@ const navData: NavData = {
       items: [
         {
           title: "New",
+          icon: "/static/images/navdrawer/new.svg",
           href: querifiedSearchUrl({
             resource_type: "course",
             sortby: "new",
@@ -192,6 +205,7 @@ const navData: NavData = {
         },
         {
           title: "Upcoming",
+          icon: "/static/images/navdrawer/free.svg",
           href: querifiedSearchUrl({
             resource_type: "course",
             sortby: "upcoming",
@@ -199,6 +213,7 @@ const navData: NavData = {
         },
         {
           title: "Popular",
+          icon: "/static/images/navdrawer/popular.svg",
           href: querifiedSearchUrl({
             resource_type: "course",
             sortby: "popular",
@@ -206,10 +221,12 @@ const navData: NavData = {
         },
         {
           title: "Free",
+          icon: "/static/images/navdrawer/free.svg",
           href: querifiedSearchUrl({ free: "true" }),
         },
         {
           title: "With Certificate",
+          icon: "/static/images/navdrawer/certificate.svg",
           href: querifiedSearchUrl({ certification: "true" }),
         },
       ],
@@ -230,7 +247,7 @@ const Header: FunctionComponent = () => {
     toggleDrawer(!drawerOpen)
   }
   const closeDrawer = (event: MouseEvent | TouchEvent) => {
-    if (drawerOpen && !resourceDrawerOpen) {
+    if (drawerOpen && !resourceDrawerOpen && event.type !== "touchstart") {
       event.preventDefault()
       toggleDrawer(false)
     }
@@ -253,13 +270,13 @@ const Header: FunctionComponent = () => {
           <UserView />
         </StyledToolbar>
       </Bar>
-      <ClickAwayListener onClickAway={closeDrawer}>
+      <ClickAwayListener
+        onClickAway={closeDrawer}
+        mouseEvent="onPointerDown"
+        touchEvent="onTouchStart"
+      >
         <div role="presentation">
-          <NavDrawer
-            navdata={navData}
-            open={drawerOpen}
-            onClose={toggleDrawer.off}
-          />
+          <NavDrawer navdata={navData} open={drawerOpen} />
         </div>
       </ClickAwayListener>
     </div>

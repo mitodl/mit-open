@@ -192,23 +192,10 @@ export interface ChannelDepartmentDetailRequest {
 export interface ChannelOfferorDetail {
   /**
    *
-   * @type {string}
+   * @type {LearningResourceOfferorDetail}
    * @memberof ChannelOfferorDetail
    */
-  offeror?: string | null
-}
-/**
- * Serializer for the ChannelOfferorDetail model
- * @export
- * @interface ChannelOfferorDetailRequest
- */
-export interface ChannelOfferorDetailRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelOfferorDetailRequest
-   */
-  offeror?: string | null
+  offeror: LearningResourceOfferorDetail
 }
 /**
  * Serializer for the ChannelTopicDetail model
@@ -808,12 +795,6 @@ export interface FieldChannelCreateRequest {
    * @memberof FieldChannelCreateRequest
    */
   department_detail?: ChannelDepartmentDetailRequest | null
-  /**
-   *
-   * @type {ChannelOfferorDetailRequest}
-   * @memberof FieldChannelCreateRequest
-   */
-  offeror_detail?: ChannelOfferorDetailRequest | null
 }
 
 /**
@@ -927,6 +908,146 @@ export interface LearningPathPreview {
    * @memberof LearningPathPreview
    */
   id: number
+}
+/**
+ * Serializer for LearningResourceOfferor with all details
+ * @export
+ * @interface LearningResourceOfferorDetail
+ */
+export interface LearningResourceOfferorDetail {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  code: string
+  /**
+   * Get the channel url for the offeror if it exists
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  channel_url: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  name: string
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourceOfferorDetail
+   */
+  professional?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  offerings?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  audience?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  formats?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  fee?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  certifications?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  content_types?: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  more_information?: string
+}
+/**
+ * Serializer for LearningResourceOfferor with all details
+ * @export
+ * @interface LearningResourceOfferorDetailRequest
+ */
+export interface LearningResourceOfferorDetailRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  code: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  name: string
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  professional?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  offerings?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  audience?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  formats?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  fee?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  certifications?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  content_types?: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  more_information?: string
 }
 /**
  * Serializer for News FeedItem
@@ -1376,12 +1497,6 @@ export interface PatchedFieldChannelWriteRequest {
    * @memberof PatchedFieldChannelWriteRequest
    */
   department_detail?: ChannelDepartmentDetailRequest | null
-  /**
-   *
-   * @type {ChannelOfferorDetailRequest}
-   * @memberof PatchedFieldChannelWriteRequest
-   */
-  offeror_detail?: ChannelOfferorDetailRequest | null
 }
 
 /**

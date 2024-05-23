@@ -5,6 +5,7 @@
  * mocking requests during tests.
  */
 
+import type { NewsEventsApiNewsEventsListRequest } from "../generated/v0"
 import type {
   LearningResourcesApi as LRApi,
   TopicsApi,
@@ -27,6 +28,19 @@ import type { BaseAPI } from "../generated/v1/base"
 const query = (params: any) => {
   if (!params || Object.keys(params).length === 0) return ""
   return `?${new URLSearchParams(params).toString()}`
+}
+
+const queryify = (params: unknown) => {
+  if (!params || Object.keys(params).length === 0) return ""
+  const query = new URLSearchParams()
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) {
+      value.forEach((v) => query.append(key, String(v)))
+    } else {
+      query.append(key, String(value))
+    }
+  }
+  return `?${query.toString()}`
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -136,19 +150,6 @@ const programLetters = {
   details: (id: string) => `/api/v1/program_letters/${id}/`,
 }
 
-const queryify = (params: unknown) => {
-  if (!params || Object.keys(params).length === 0) return ""
-  const query = new URLSearchParams()
-  for (const [key, value] of Object.entries(params)) {
-    if (Array.isArray(value)) {
-      value.forEach((v) => query.append(key, String(v)))
-    } else {
-      query.append(key, String(value))
-    }
-  }
-  return `?${query.toString()}`
-}
-
 const search = {
   resources: (params?: LearningResourcesSearchRequest) =>
     `/api/v1/learning_resources_search/${queryify(params)}`,
@@ -156,6 +157,11 @@ const search = {
 
 const userMe = {
   get: () => "/api/v0/users/me/",
+}
+
+const newsEvents = {
+  list: (params?: NewsEventsApiNewsEventsListRequest) =>
+    `/api/v0/news_events/${query(params)}`,
 }
 
 export {
@@ -174,4 +180,5 @@ export {
   userSubscription,
   schools,
   departments,
+  newsEvents,
 }

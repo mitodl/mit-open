@@ -5,6 +5,15 @@
       "name": "MITx",
       "code": "mitx",
       "professional": false,
+      "offerings": ["Courses", "Programs"],
+      "audience": ["Everyone"],
+      "formats": ["Online"],
+      "fee": ["Free", "Paid"],
+      "certifications": [
+        "Certificate of Completion",
+        "Micromasters Credential"
+      ],
+      "content_types": ["Academic", "Professional"],
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
@@ -15,6 +24,13 @@
       "name": "OCW",
       "code": "ocw",
       "professional": false,
+      "offerings": ["Learning Materials"],
+      "audience": ["Students", "Professionals", "Educators"],
+      "formats": ["Online", "Downloadable"],
+      "fee": ["Free"],
+      "certifications": ["No Certificates"],
+      "content_types": ["Academic"],
+      "more_information": "https://ocw.mit.edu",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
@@ -25,6 +41,13 @@
       "name": "Bootcamps",
       "code": "bootcamps",
       "professional": true,
+      "offerings": ["Courses", "Programs"],
+      "audience": ["Entrepreneurs", "Intrapreneurs", "Innovators"],
+      "formats": ["Online", "In Person"],
+      "certifications": ["(tbd)"],
+      "fee": ["(tbd)"],
+      "content_types": ["Professional"],
+      "more_information": "https://bootcamps.mit.edu/",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
@@ -35,16 +58,13 @@
       "name": "xPRO",
       "code": "xpro",
       "professional": true,
-      "created_on": "2023-08-08T14:27:25.128989+00:00",
-      "updated_on": "2023-08-08T14:27:25.128989+00:00"
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourceOfferor",
-    "fields": {
-      "name": "CSAIL",
-      "code": "csail",
-      "professional": true,
+      "offerings": ["Courses", "Programs"],
+      "audience": ["Professionals"],
+      "formats": ["Online", "In Person"],
+      "fee": ["Paid"],
+      "certifications": ["Executive Certificates", "Professional Certificates"],
+      "content_types": ["Professional"],
+      "more_information": "https://xpro.mit.edu/",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
@@ -55,6 +75,17 @@
       "name": "Professional Education",
       "code": "mitpe",
       "professional": true,
+      "offerings": ["(tbd)"],
+      "audience": [
+        "Engineering Professionals",
+        "Technical Professionals",
+        "Scientists and Researchers"
+      ],
+      "formats": ["(tbd)"],
+      "fee": ["Paid"],
+      "certifications": ["(tbd)"],
+      "content_types": ["Academic"],
+      "more_information": "https://professional.mit.edu/",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
@@ -65,26 +96,23 @@
       "name": "Sloan Executive Education",
       "code": "see",
       "professional": true,
-      "created_on": "2023-08-08T14:27:25.128989+00:00",
-      "updated_on": "2023-08-08T14:27:25.128989+00:00"
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourceOfferor",
-    "fields": {
-      "name": "Schwarzman College of Computing",
-      "code": "scc",
-      "professional": true,
-      "created_on": "2023-08-08T14:27:25.128989+00:00",
-      "updated_on": "2023-08-08T14:27:25.128989+00:00"
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourceOfferor",
-    "fields": {
-      "name": "Center for Transportation & Logistics",
-      "code": "ctl",
-      "professional": true,
+      "offerings": [
+        "Courses",
+        "Programs",
+        "Enterprise or Organizational accounts",
+        "Custom Engagements"
+      ],
+      "audience": [
+        "Global Business Professionals (all levels)",
+        "Entrepreneurs and intrapreneurs",
+        "Managers and executives",
+        "Current and future business leaders"
+      ],
+      "formats": ["Online", "In-Person", "Blended"],
+      "fee": ["Paid", "Free Webinars and Blogs"],
+      "certifications": ["Executive Certificates", "Professional Certificates"],
+      "content_types": ["Professional"],
+      "more_information": "https://executive.mit.edu",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }

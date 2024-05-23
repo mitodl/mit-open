@@ -176,7 +176,7 @@ def extracted_and_transformed_values(youtube_api_responses):
             [(playlists_list[1]["items"][0], mitx_videos)],
         ),
         (
-            OfferedBy.csail.name,
+            "csail",
             channels_list[0]["items"][2],
             [
                 (playlists_list[2]["items"][1], csail_videos),
@@ -195,7 +195,9 @@ def extracted_and_transformed_values(youtube_api_responses):
                     "title": playlist["snippet"]["title"],
                     "platform": PlatformType.youtube.name,
                     "etl_source": ETLSource.youtube.name,
-                    "offered_by": {"code": offered_by} if offered_by else None,
+                    "offered_by": {"code": offered_by}
+                    if offered_by != "csail"
+                    else None,
                     "published": True,
                     "videos": [
                         {
@@ -211,7 +213,9 @@ def extracted_and_transformed_values(youtube_api_responses):
                             "last_modified": video["snippet"]["publishedAt"],
                             "published": True,
                             "url": f"https://www.youtube.com/watch?v={video['id']}",
-                            "offered_by": {"code": offered_by} if offered_by else None,
+                            "offered_by": {"code": offered_by}
+                            if offered_by != "csail"
+                            else None,
                             "title": video["snippet"]["localized"]["title"],
                             "video": {
                                 "duration": video["contentDetails"]["duration"],

@@ -4,7 +4,7 @@ import React from "react"
 
 const DrawerContent = styled.div(({ theme }) => ({
   paddingTop: "80px",
-  width: "350px",
+  width: "366px",
   height: "100%",
   background: theme.custom.colors.white,
   borderRight: `1px solid ${theme.custom.colors.lightGray2}`,
@@ -13,34 +13,48 @@ const DrawerContent = styled.div(({ theme }) => ({
   },
 }))
 
-const NavSection = styled.div(({ theme }) => ({
-  padding: "16px 24px",
-  borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
-}))
+const NavSection = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  alignSelf: "stretch",
+  padding: "24px 32px 8px 32px",
+  gap: "12px",
+})
 
 const NavSectionHeader = styled.div(({ theme }) => ({
-  paddingLeft: "8px",
-  color: theme.custom.colors.silverGrayDark,
-  ...theme.typography.subtitle4,
-}))
-
-const NavLinkText = styled.div(({ theme }) => ({
-  color: theme.custom.colors.darkGray2,
+  display: "flex",
+  alignItems: "center",
+  alignSelf: "stretch",
+  color: theme.custom.colors.darkGray1,
   ...theme.typography.subtitle3,
 }))
 
-const NavLinkDescription = styled.div(({ theme }) => ({
-  display: "inline-block",
-  paddingTop: "4px",
-  color: theme.custom.colors.silverGrayDark,
-  ...theme.typography.body3,
-}))
+const NavItemsContainer = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  alignSelf: "stretch",
+  gap: "12px",
+})
+
+const NavItemLink = styled.a({
+  display: "flex",
+  alignItems: "flex-start",
+  alignSelf: "stretch",
+  textDecoration: "none !important",
+})
 
 const NavItemContainer = styled.div(({ theme }) => ({
-  padding: "8px",
-  borderRadius: "4px",
+  display: "flex",
+  padding: "4px 0",
+  alignItems: "flex-start",
+  alignSelf: "stretch",
+  gap: "16px",
   "&:hover": {
-    background: theme.custom.colors.lightGray2,
+    ".nav-link-icon": {
+      opacity: "1",
+    },
     ".nav-link-text": {
       color: theme.custom.colors.red,
       textDecorationLine: "underline",
@@ -52,37 +66,36 @@ const NavItemContainer = styled.div(({ theme }) => ({
   },
 }))
 
-type NavItemProps = {
-  title: string
-  description?: string
-  href?: string
-}
+const NavIconContainer = styled.div({
+  display: "flex",
+  alignItems: "flex-start",
+})
 
-const NavItem: React.FC<NavItemProps> = (props) => {
-  const { title, description, href } = props
-  const navItem = (
-    <NavItemContainer>
-      <NavLinkText className="nav-link-text" data-testid="nav-link-text">
-        {title} {href ? "" : "(Coming Soon)"}
-      </NavLinkText>
-      {description ? (
-        <NavLinkDescription
-          className="nav-link-description"
-          data-testid="nav-link-description"
-        >
-          {description}
-        </NavLinkDescription>
-      ) : null}
-    </NavItemContainer>
-  )
-  return href ? (
-    <a href={href} data-testid="nav-link">
-      {navItem}
-    </a>
-  ) : (
-    navItem
-  )
-}
+const NavIcon = styled.img({
+  width: "22px",
+  height: "22px",
+  opacity: ".7",
+})
+
+const NavTextContainer = styled.div({
+  display: "flex",
+  flex: "1 0 0",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  alignSelf: "center",
+  gap: "4px",
+})
+
+const NavLinkText = styled.div(({ theme }) => ({
+  color: theme.custom.colors.darkGray2,
+  ...theme.typography.subtitle3,
+}))
+
+const NavLinkDescription = styled.div(({ theme }) => ({
+  alignSelf: "stretch",
+  color: theme.custom.colors.darkGray1,
+  ...theme.typography.body3,
+}))
 
 export interface NavData {
   sections: NavSection[]
@@ -95,8 +108,46 @@ export interface NavSection {
 
 export interface NavItem {
   title: string
+  icon?: string
   description?: string
   href?: string
+}
+
+const NavItem: React.FC<NavItem> = (props) => {
+  const { title, icon, description, href } = props
+  const navItem = (
+    <NavItemContainer>
+      <NavIconContainer style={{ paddingTop: description ? "4px" : "" }}>
+        {icon ? (
+          <NavIcon
+            src={icon}
+            className="nav-link-icon"
+            data-testid="nav-link-icon"
+          />
+        ) : null}
+      </NavIconContainer>
+      <NavTextContainer>
+        <NavLinkText className="nav-link-text" data-testid="nav-link-text">
+          {title} {href ? "" : "(Coming Soon)"}
+        </NavLinkText>
+        {description ? (
+          <NavLinkDescription
+            className="nav-link-description"
+            data-testid="nav-link-description"
+          >
+            {description}
+          </NavLinkDescription>
+        ) : null}
+      </NavTextContainer>
+    </NavItemContainer>
+  )
+  return href ? (
+    <NavItemLink href={href} data-testid="nav-link">
+      {navItem}
+    </NavItemLink>
+  ) : (
+    navItem
+  )
 }
 
 type NavDrawerProps = {
@@ -110,6 +161,7 @@ const NavDrawer = (props: NavDrawerProps) => {
       <NavItem
         key={item.title}
         title={item.title}
+        icon={item.icon}
         description={item.description}
         href={item.href}
       />
@@ -117,7 +169,7 @@ const NavDrawer = (props: NavDrawerProps) => {
     return (
       <NavSection key={section.title}>
         <NavSectionHeader>{section.title}</NavSectionHeader>
-        {navItemElements}
+        <NavItemsContainer>{navItemElements}</NavItemsContainer>
       </NavSection>
     )
   })

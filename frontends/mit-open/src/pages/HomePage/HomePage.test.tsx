@@ -1,7 +1,8 @@
 import React from "react"
 import HomePage from "./HomePage"
+import NewsEventsSection from "./NewsEventsSection"
 import { urls, setMockResponse } from "api/test-utils"
-import { learningResources as factory } from "api/test-utils/factories"
+import { learningResources, newsEvents } from "api/test-utils/factories"
 import {
   renderWithProviders,
   screen,
@@ -29,11 +30,21 @@ const assertLinksTo = (
 }
 
 const setup = () => {
-  const resources = factory.resources({ count: 4 })
+  const resources = learningResources.resources({ count: 4 })
   setMockResponse.get(
     expect.stringContaining(urls.learningResources.list()),
     resources,
   )
+
+  setMockResponse.get(
+    urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
+    {},
+  )
+  setMockResponse.get(
+    urls.newsEvents.list({ feed_type: ["events"], limit: 5 }),
+    {},
+  )
+
   return renderWithProviders(<HomePage />)
 }
 
@@ -43,6 +54,7 @@ describe("Home Page Hero", () => {
     setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
       results: [],
     })
+
     const { location } = setup()
     const searchbox = screen.getByRole("textbox", { name: /search for/i })
     await user.click(searchbox)
@@ -99,7 +111,7 @@ describe("Home Page Carousel", () => {
 
 describe("Home Page Browse by Topics", () => {
   test("Displays topics links", async () => {
-    const response = factory.topics({ count: 3 })
+    const response = learningResources.topics({ count: 3 })
     setMockResponse.get(urls.topics.list({ is_toplevel: true }), response)
     setMockResponse.get(urls.userMe.get(), {})
 
@@ -123,5 +135,90 @@ describe("Home Page Browse by Topics", () => {
         pathname: new URL(response.results[2].channel_url!).pathname,
       })
     })
+  })
+})
+
+describe("Home Page News and Events", () => {
+  test("Displays News section", async () => {
+    const news = newsEvents.newsItems({ count: 6 })
+    setMockResponse.get(
+      urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
+      news,
+    )
+
+    const events = newsEvents.eventItems({ count: 5 })
+    setMockResponse.get(
+      urls.newsEvents.list({ feed_type: ["events"], limit: 5 }),
+      events,
+    )
+
+    renderWithProviders(<NewsEventsSection />)
+
+    let section
+    await waitFor(() => {
+      section = screen
+        .getByRole("heading", { name: "Stories" })!
+        .closest("section")!
+    })
+
+    const links = within(section!).getAllByRole("link")
+
+    expect(links[0]).toHaveAttribute("href", news.results[0].url)
+    within(links[0]).getByText(news.results[0].title)
+
+    expect(links[1]).toHaveAttribute("href", news.results[1].url)
+    within(links[1]).getByText(news.results[1].title)
+
+    expect(links[2]).toHaveAttribute("href", news.results[2].url)
+    within(links[2]).getByText(news.results[2].title)
+
+    expect(links[3]).toHaveAttribute("href", news.results[3].url)
+    within(links[3]).getByText(news.results[3].title)
+
+    expect(links[4]).toHaveAttribute("href", news.results[4].url)
+    within(links[4]).getByText(news.results[4].title)
+
+    expect(links[5]).toHaveAttribute("href", news.results[5].url)
+    within(links[5]).getByText(news.results[5].title)
+  })
+
+  test("Displays Events section", async () => {
+    const news = newsEvents.newsItems({ count: 6 })
+    setMockResponse.get(
+      urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
+      news,
+    )
+
+    const events = newsEvents.eventItems({ count: 5 })
+    setMockResponse.get(
+      urls.newsEvents.list({ feed_type: ["events"], limit: 5 }),
+      events,
+    )
+
+    renderWithProviders(<NewsEventsSection />)
+
+    let section
+    await waitFor(() => {
+      section = screen
+        .getByRole("heading", { name: "Events" })!
+        .closest("section")!
+    })
+
+    const links = within(section!).getAllByRole("link")
+
+    expect(links[0]).toHaveAttribute("href", events.results[0].url)
+    within(links[0]).getByText(events.results[0].title)
+
+    expect(links[1]).toHaveAttribute("href", events.results[1].url)
+    within(links[1]).getByText(events.results[1].title)
+
+    expect(links[2]).toHaveAttribute("href", events.results[2].url)
+    within(links[2]).getByText(events.results[2].title)
+
+    expect(links[3]).toHaveAttribute("href", events.results[3].url)
+    within(links[3]).getByText(events.results[3].title)
+
+    expect(links[4]).toHaveAttribute("href", events.results[4].url)
+    within(links[4]).getByText(events.results[4].title)
   })
 })
