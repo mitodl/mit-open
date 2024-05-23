@@ -8,6 +8,7 @@ import {
   ChipLink,
   linkStyles,
   Banner,
+  Skeleton,
 } from "ol-components"
 import { Link } from "react-router-dom"
 import { MetaTags } from "ol-utilities"
@@ -51,7 +52,6 @@ const TopicBoxHeader = styled(
     )
   },
 )(({ theme }) => ({
-  marginBottom: "8px",
   a: {
     display: "flex",
     alignItems: "center",
@@ -84,6 +84,7 @@ const TopicBoxHeader = styled(
 }))
 
 const TopicBoxBody = styled.div(({ theme }) => ({
+  marginTop: "8px",
   marginLeft: "40px",
   [theme.breakpoints.down("sm")]: {
     marginLeft: "0px",
@@ -115,51 +116,65 @@ type TopicBoxProps = {
   courseCount?: number
   programCount?: number
 }
-const TopicBox = styled(
-  ({ topicGroup, className, courseCount, programCount }: TopicBoxProps) => {
-    const counts = [
-      { label: "Courses", count: courseCount },
-      { label: "Programs", count: programCount },
-    ].filter((item) => item.count)
-    const { title, href, channels } = topicGroup
-    return (
-      <li className={className}>
-        <TopicBoxHeader title={title} href={href} />
-        <TopicBoxBody>
-          <TopicCounts>
-            {counts.map((item) => (
-              <Typography key={item.label} variant="body3">
-                {item.label}: {item.count}
-              </Typography>
-            ))}
-          </TopicCounts>
-          <ChildTopicsContainer mobile={false}>
-            {channels.map((c) => (
-              <ChipLink
-                size="large"
-                variant="outlinedWhite"
-                key={c.id}
-                href={c.channel_url}
-                label={c.name}
-              />
-            ))}
-          </ChildTopicsContainer>
-          <ChildTopicsContainer mobile={true}>
-            {channels.map((c) => (
-              <ChipLink
-                size="medium"
-                variant="outlinedWhite"
-                key={c.id}
-                href={c.channel_url}
-                label={c.name}
-              />
-            ))}
-          </ChildTopicsContainer>
-        </TopicBoxBody>
-      </li>
-    )
-  },
-)()
+const TopicBox = ({
+  topicGroup,
+  className,
+  courseCount,
+  programCount,
+}: TopicBoxProps) => {
+  const counts = [
+    { label: "Courses", count: courseCount },
+    { label: "Programs", count: programCount },
+  ].filter((item) => item.count)
+  const { title, href, channels } = topicGroup
+  return (
+    <li className={className}>
+      <TopicBoxHeader title={title} href={href} />
+      <TopicBoxBody>
+        <TopicCounts>
+          {counts.map((item) => (
+            <Typography key={item.label} variant="body3">
+              {item.label}: {item.count}
+            </Typography>
+          ))}
+        </TopicCounts>
+        <ChildTopicsContainer mobile={false}>
+          {channels.map((c) => (
+            <ChipLink
+              size="large"
+              variant="outlinedWhite"
+              key={c.id}
+              href={c.channel_url}
+              label={c.name}
+            />
+          ))}
+        </ChildTopicsContainer>
+        <ChildTopicsContainer mobile={true}>
+          {channels.map((c) => (
+            <ChipLink
+              size="medium"
+              variant="outlinedWhite"
+              key={c.id}
+              href={c.channel_url}
+              label={c.name}
+            />
+          ))}
+        </ChildTopicsContainer>
+      </TopicBoxBody>
+    </li>
+  )
+}
+
+const TopicBoxLoading = () => {
+  return (
+    <li>
+      <TopicBoxBody>
+        <Skeleton variant="text" height={24} width={200} />
+        <Skeleton height={150} />
+      </TopicBoxBody>
+    </li>
+  )
+}
 
 const Page = styled.div({})
 
@@ -275,14 +290,20 @@ const DepartmentListingPage: React.FC = () => {
           <Grid item xs={0} sm={1}></Grid>
           <Grid item xs={12} sm={10}>
             <RootTopicList>
-              {channelsGroups.map((group) => (
-                <TopicBox
-                  key={group.id}
-                  topicGroup={group}
-                  courseCount={group.courses}
-                  programCount={group.programs}
-                />
-              ))}
+              {topicsQuery.isLoading
+                ? Array(10)
+                    .fill(null)
+                    .map((_null, i) => (
+                      <TopicBoxLoading key={`irrelevant-${i}`} />
+                    ))
+                : channelsGroups.map((group) => (
+                    <TopicBox
+                      key={group.id}
+                      topicGroup={group}
+                      courseCount={group.courses}
+                      programCount={group.programs}
+                    />
+                  ))}
             </RootTopicList>
           </Grid>
         </Grid>
