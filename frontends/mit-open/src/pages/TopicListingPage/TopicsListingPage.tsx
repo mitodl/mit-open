@@ -16,10 +16,29 @@ import {
   useLearningResourceTopics,
   useLearningResourcesSearch,
 } from "api/hooks/learningResources"
-import { RiEarthLine } from "@remixicon/react"
 import { LearningResourceSearchResponse, LearningResourceTopic } from "api"
+import {
+  RiPaletteLine,
+  RiSeedlingLine,
+  RiBriefcaseLine,
+  RiMacbookLine,
+  RiBarChartBoxLine,
+  RiUserSearchLine,
+  RiEarthLine,
+} from "@remixicon/react"
 
 const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
+
+/* TODO Using any icons until we have a solution for specifying them */
+const ICONS = [
+  RiBriefcaseLine,
+  RiPaletteLine,
+  RiSeedlingLine,
+  RiMacbookLine,
+  RiBarChartBoxLine,
+  RiUserSearchLine,
+  RiEarthLine,
+]
 
 type ChannelSummary = {
   id: number | string
@@ -283,9 +302,9 @@ const DepartmentListingPage: React.FC = () => {
           <Grid item xs={0} sm={1}></Grid>
           <Grid item xs={12} sm={10}>
             <RootTopicList>
-              {channelsGroups.map((group) => (
+              {channelsGroups.map((group, i) => (
                 <TopicBox
-                  SvgIcon={RiEarthLine}
+                  SvgIcon={ICONS[i]}
                   key={group.id}
                   topicGroup={group}
                   courseCount={group.courses}
