@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.10.0
+Version 0.10.0 (Released May 23, 2024)
 --------------
 
 - Update dependency django-ipware to v7 (#935)
