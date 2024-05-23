@@ -1,5 +1,5 @@
 import React from "react"
-import { Container, styled, theme, Button, Typography } from "ol-components"
+import { Container, styled, theme, Typography, ButtonLink } from "ol-components"
 import { Link } from "react-router-dom"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { RiArrowRightLine } from "@remixicon/react"
@@ -85,7 +85,7 @@ const TopicBoxName = styled.p`
   margin: 0;
 `
 
-const SeeAllButton = styled(Button)`
+const SeeAllButton = styled(ButtonLink)`
   margin: 0 auto;
   box-sizing: content-box;
   text-transform: none;
@@ -112,8 +112,8 @@ const BrowseTopicsSection: React.FC = () => {
             )
           })}
         </Topics>
-        <SeeAllButton edge="rounded" size="large">
-          See all (coming soon)
+        <SeeAllButton href="/topics/" edge="rounded" size="large">
+          See all
         </SeeAllButton>
       </Container>
     </Section>
