@@ -53,7 +53,7 @@ const NavItemContainer = styled.div(({ theme }) => ({
   gap: "16px",
   "&:hover": {
     ".nav-link-icon": {
-      opacity: ".7",
+      opacity: "1",
     },
     ".nav-link-text": {
       color: theme.custom.colors.red,
@@ -74,7 +74,7 @@ const NavIconContainer = styled.div({
 const NavIcon = styled.img({
   width: "22px",
   height: "22px",
-  opacity: "1",
+  opacity: ".7",
 })
 
 const NavTextContainer = styled.div({
