@@ -468,6 +468,7 @@ def load_program(
         load_image(learning_resource, image_data)
         load_offered_by(learning_resource, offered_by_data)
         load_departments(learning_resource, departments_data)
+        add_parent_topics_to_learning_resource(learning_resource)
 
         program, _ = Program.objects.get_or_create(learning_resource=learning_resource)
 
