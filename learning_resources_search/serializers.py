@@ -2,7 +2,6 @@
 
 import logging
 from collections import defaultdict
-from decimal import Decimal
 from typing import TypedDict
 
 from django.conf import settings
@@ -63,16 +62,6 @@ def serialize_learning_resource_for_update(
     serialized_data = LearningResourceSerializer(instance=learning_resource_obj).data
     # Note: this is an ES-specific field that is filtered out on retrieval
     #       see SOURCE_EXCLUDED_FIELDS in learning_resources_search/constants.py
-    if learning_resource_obj.resource_type in [
-        LearningResourceType.course.name,
-        LearningResourceType.program.name,
-    ]:
-        prices = learning_resource_obj.prices
-        serialized_data["free"] = not learning_resource_obj.professional and (
-            Decimal(0.00) in prices or not prices or prices == []
-        )
-    else:
-        serialized_data["free"] = True
     if learning_resource_obj.resource_type == LearningResourceType.course.name:
         serialized_data["course"]["course_numbers"] = [
             SearchCourseNumberSerializer(instance=num).data
