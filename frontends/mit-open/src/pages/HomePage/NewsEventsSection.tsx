@@ -257,7 +257,7 @@ const NewsEventsSection: React.FC = () => {
   const stories = news!.results?.slice(0, isAboveLg || isMobile ? 6 : 4) || []
 
   const EventCards =
-    events!.results?.map((item: NewsFeedItem | EventFeedItem) => (
+    events!.results?.map((item) => (
       <EventCard key={item.id} href={item.url}>
         <EventDate>
           <EventDay>
@@ -287,7 +287,7 @@ const NewsEventsSection: React.FC = () => {
           <MobileContainer>
             <Typography variant="h4">Stories</Typography>
             <StoriesSlider>
-              {stories.map((item: NewsFeedItem | EventFeedItem) => (
+              {stories.map((item) => (
                 <Story
                   key={item.id}
                   mobile={isMobile}
@@ -307,7 +307,7 @@ const NewsEventsSection: React.FC = () => {
             <StoriesContainer>
               <Typography variant="h4">Stories</Typography>
               <Grid container columnSpacing="24px" rowSpacing="29px">
-                {stories.map((item: NewsFeedItem | EventFeedItem) => (
+                {stories.map((item) => (
                   <Grid item key={item.id} xs={12} sm={12} md={6} lg={4} xl={4}>
                     <Story item={item as NewsFeedItem} mobile={false} />
                   </Grid>
