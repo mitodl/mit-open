@@ -12,10 +12,8 @@ import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
 import DashboardPage from "@/pages/DashboardPage/DashboardPage"
 import AboutPage from "@/pages/AboutPage/AboutPage"
-import AccessibilityPage from "@/pages/AccessibilityPage/AccessibilityPage"
 import PrivacyPage from "@/pages/PrivacyPage/PrivacyPage"
 import TermsPage from "@/pages/TermsPage/TermsPage"
-import ContactPage from "@/pages/ContactPage/ContactPage"
 import ErrorPage from "@/pages/ErrorPage/ErrorPage"
 import * as urls from "@/common/urls"
 import Header from "@/page-components/Header/Header"
@@ -82,20 +80,12 @@ const routes: RouteObject[] = [
         element: <AboutPage />,
       },
       {
-        path: urls.ACCESSIBILITY,
-        element: <AccessibilityPage />,
-      },
-      {
         path: urls.PRIVACY,
         element: <PrivacyPage />,
       },
       {
         path: urls.TERMS,
         element: <TermsPage />,
-      },
-      {
-        path: urls.CONTACT,
-        element: <ContactPage />,
       },
       {
         path: urls.PROGRAMLETTER_VIEW,
