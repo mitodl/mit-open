@@ -95,7 +95,7 @@ const Carousel: React.FC<CarouselProps> = ({
       <NukaCarouselStyled
         beforeSlide={handleBeforeSlide}
         showArrows={false}
-        showDots={true}
+        showDots={false}
         autoplay={false}
         cellSpacing={cellSpacing}
       >

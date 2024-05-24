@@ -81,10 +81,14 @@ const CarouselStyled = styled(Carousel)`
 const LearningResourceCardStyled = styled(
   LearningResourceCard,
 )<LearningResourceCardStyledProps>`
-  height: 100%;
+  min-height: 100%;
   margin: 0px 12px;
-  min-width: ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}%;
-  max-width: ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}%;
+  min-width: calc(
+    ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
+  );
+  max-width: calc(
+    ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
+  );
 `
 
 type TabbedCarouselProps = {
