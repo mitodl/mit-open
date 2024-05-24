@@ -721,9 +721,14 @@ def attempt_send_digest_email_batch(user_template_items):
         log.info("Sending email to user %s", user_id)
         user = User.objects.get(id=user_id)
         total_count = sum([len(template_data[group]) for group in template_data])
+        subject = f"{settings.MITOPEN_TITLE} New Learning Resources for You"
         send_template_email(
             [user.email],
-            f"{settings.MITOPEN_TITLE} New Learning Resources for You",
+            subject,
             "email/subscribed_channel_digest.html",
-            context={"documents": template_data, "total_count": total_count},
+            context={
+                "documents": template_data,
+                "total_count": total_count,
+                "subject": subject,
+            },
         )
