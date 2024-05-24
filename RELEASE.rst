@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.10.1
+Version 0.10.1 (Released May 24, 2024)
 --------------
 
 - Homepage News and Events section (#945)
