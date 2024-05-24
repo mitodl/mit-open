@@ -2,7 +2,6 @@
 
 import logging
 from collections import OrderedDict, defaultdict
-from decimal import Decimal
 from typing import TypedDict
 
 from django.conf import settings
