@@ -211,9 +211,10 @@ def send_subscription_emails(self, subscription_type, period="daily"):
 
     email_tasks = celery.group(
         [
-            attempt_send_digest_email_batch.si(user_ids, template_data)
-            for user_ids in chunks(
-                template_data, chunk_size=settings.NOTIFICATION_ATTEMPT_CHUNK_SIZE
+            attempt_send_digest_email_batch.si(user_template_items)
+            for user_template_items in chunks(
+                template_data.items(),
+                chunk_size=settings.NOTIFICATION_ATTEMPT_CHUNK_SIZE,
             )
         ]
     )
@@ -715,15 +716,14 @@ def finish_recreate_index(results, backing_indices):
     reject_on_worker_lost=True,
     rate_limit=settings.NOTIFICATION_ATTEMPT_RATE_LIMIT,
 )
-def attempt_send_digest_email_batch(user_ids, template_data):
-    for user_id in user_ids:
+def attempt_send_digest_email_batch(user_template_items):
+    for user_id, template_data in user_template_items:
+        log.info("Sending email to user %s", user_id)
         user = User.objects.get(id=user_id)
-        total_count = sum(
-            [len(template_data[user_id][group]) for group in template_data[user_id]]
-        )
+        total_count = sum([len(template_data[group]) for group in template_data])
         send_template_email(
             [user.email],
             f"{settings.MITOPEN_TITLE} New Learning Resources for You",
             "email/subscribed_channel_digest.html",
-            context={"documents": template_data[user_id], "total_count": total_count},
+            context={"documents": template_data, "total_count": total_count},
         )
