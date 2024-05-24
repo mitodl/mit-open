@@ -11,9 +11,15 @@ import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
 import DashboardPage from "@/pages/DashboardPage/DashboardPage"
+import AboutPage from "@/pages/AboutPage/AboutPage"
+import AccessibilityPage from "@/pages/AccessibilityPage/AccessibilityPage"
+import PrivacyPage from "@/pages/PrivacyPage/PrivacyPage"
+import TermsPage from "@/pages/TermsPage/TermsPage"
+import ContactPage from "@/pages/ContactPage/ContactPage"
 import ErrorPage from "@/pages/ErrorPage/ErrorPage"
 import * as urls from "@/common/urls"
 import Header from "@/page-components/Header/Header"
+import Footer from "@/page-components/Footer/Footer"
 import { Permissions } from "@/common/permissions"
 import SearchPage from "./pages/SearchPage/SearchPage"
 import UserListDetailsPage from "./pages/ListDetailsPage/UserListDetailsPage"
@@ -29,6 +35,7 @@ const routes: RouteObject[] = [
         <Header />
         <Outlet />
         <LearningResourceDrawer />
+        <Footer />
       </>
     ),
     errorElement: <ErrorPage />,
@@ -69,6 +76,26 @@ const routes: RouteObject[] = [
             <DashboardPage />
           </RestrictedRoute>
         ),
+      },
+      {
+        path: urls.ABOUT,
+        element: <AboutPage />,
+      },
+      {
+        path: urls.ACCESSIBILITY,
+        element: <AccessibilityPage />,
+      },
+      {
+        path: urls.PRIVACY,
+        element: <PrivacyPage />,
+      },
+      {
+        path: urls.TERMS,
+        element: <TermsPage />,
+      },
+      {
+        path: urls.CONTACT,
+        element: <ContactPage />,
       },
       {
         path: urls.PROGRAMLETTER_VIEW,

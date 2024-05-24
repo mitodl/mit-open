@@ -66,6 +66,16 @@ export const DASHBOARD = "/dashboard/"
 
 export const SEARCH = "/search/"
 
+export const ABOUT = "/about/"
+
+export const ACCESSIBILITY = "/accessibility/"
+
+export const PRIVACY = "/privacy/"
+
+export const TERMS = "/terms/"
+
+export const CONTACT = "/contact/"
+
 export const RESOURCE_DRAWER_QUERY_PARAM = "resource"
 
 export const querifiedSearchUrl = (
