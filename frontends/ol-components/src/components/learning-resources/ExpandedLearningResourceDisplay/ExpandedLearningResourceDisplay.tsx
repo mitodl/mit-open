@@ -36,6 +36,14 @@ const Container = styled.div<{ isVideo: boolean }>`
   padding: 18px 32px;
   gap: 20px;
   ${({ isVideo }) => (isVideo ? "padding-top: 64px;" : "")}
+  width: 600px;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    width: 550px;
+  }
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    width: auto;
+  }
+}
 `
 
 const Date = styled.div`
@@ -54,10 +62,6 @@ const Date = styled.div`
     color: ${theme.custom.colors.mitRed};
     ${{ ...theme.typography.button }}
     line-height: ${theme.typography.pxToRem(20)};
-    :hover {
-      padding-left: 11.5px;
-      padding-right: 11.5px;
-    }
     svg {
       color: ${theme.custom.colors.mitRed};
     }
@@ -90,6 +94,7 @@ const SkeletonImage = styled(Skeleton)`
 const CallToAction = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
 `
 
 const StyledButton = styled(ButtonLink)`
@@ -196,13 +201,13 @@ const ImageDisplay: React.FC<{
       />
     )
   } else {
-    return <SkeletonImage variant="rectangular" height={280} />
+    return <SkeletonImage variant="rectangular" height={220} />
   }
 }
 
 const ResourceTitle = ({ resource }: { resource?: LearningResource }) => {
   if (!resource) {
-    return <Skeleton variant="text" width="66%" />
+    return <Skeleton variant="text" height={20} width="66%" />
   }
   return (
     <Typography variant="h5" component="h2">
@@ -215,6 +220,7 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
   if (!resource) {
     return (
       <>
+        <Skeleton variant="text" width="100%" />
         <Skeleton variant="text" width="100%" />
         <Skeleton variant="text" width="100%" />
         <Skeleton variant="text" width="100%" />
@@ -299,14 +305,14 @@ const ExpandedLearningResourceDisplay: React.FC<
 
   const onDateChange = (event: SelectChangeEvent) => {
     const run = resource?.runs?.find(
-      (run) => run.id === (event.target.value as unknown as number),
+      (run) => run.id === Number(event.target.value),
     )
     if (run) setSelectedRun(run)
   }
 
   const DateSection = () => {
     if (!resource) {
-      return <Skeleton variant="text" />
+      return <Skeleton height={40} style={{ marginTop: 0, width: "60%" }} />
     }
 
     if (multipleRuns) {
@@ -356,11 +362,17 @@ const ExpandedLearningResourceDisplay: React.FC<
             <StyledButton size="large" href={resource.url!}>
               Take {getReadableResourceType(resource?.resource_type)}
             </StyledButton>
-          ) : null}
-          <Platform>
-            <OnPlatform>on</OnPlatform>
-            <StyledPlatformLogo platformCode={resource?.platform?.code} />
-          </Platform>
+          ) : (
+            <Skeleton height={70} width="50%" />
+          )}
+          {resource ? (
+            <Platform>
+              <OnPlatform>on</OnPlatform>
+              <StyledPlatformLogo platformCode={resource?.platform?.code} />
+            </Platform>
+          ) : (
+            <Skeleton height={50} width="25%" />
+          )}
         </CallToAction>
       ) : null}
       <DetailSection>

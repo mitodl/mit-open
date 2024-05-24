@@ -54,13 +54,7 @@ const meta: Meta<typeof ExpandedLearningResourceDisplay> = {
   render: (args) => {
     return (
       <BrowserRouter>
-        <Drawer
-          open={true}
-          anchor="right"
-          PaperProps={{
-            sx: { width: "485px" },
-          }}
-        >
+        <Drawer open={true} anchor="right">
           <ExpandedLearningResourceDisplay {...args} />
         </Drawer>
       </BrowserRouter>
@@ -87,5 +81,11 @@ export const Program: Story = {
 export const Video: Story = {
   args: {
     resource: makeResource({ resource_type: LRT.Video }),
+  },
+}
+
+export const Loading: Story = {
+  args: {
+    resource: undefined,
   },
 }
