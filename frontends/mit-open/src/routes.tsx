@@ -25,15 +25,30 @@ import LearningPathDetailsPage from "./pages/ListDetailsPage/LearningPathDetails
 import LearningResourceDrawer from "./page-components/LearningResourceDrawer/LearningResourceDrawer"
 import DepartmentListingPage from "./pages/DepartmentListingPage/DepartmentListingPage"
 import TopicsListingPage from "./pages/TopicListingPage/TopicsListingPage"
+import { styled } from "ol-components"
+
+const PageWrapper = styled.div({
+  height: "calc(100vh - 80px)",
+  display: "flex",
+  flexDirection: "column",
+})
+
+const PageWrapperInner = styled.div({
+  flex: "1",
+})
 
 const routes: RouteObject[] = [
   {
     element: (
       <>
-        <Header />
-        <Outlet />
+        <PageWrapper>
+          <Header />
+          <PageWrapperInner>
+            <Outlet />
+          </PageWrapperInner>
+          <Footer />
+        </PageWrapper>
         <LearningResourceDrawer />
-        <Footer />
       </>
     ),
     errorElement: <ErrorPage />,
