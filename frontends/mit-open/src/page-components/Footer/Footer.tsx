@@ -67,7 +67,12 @@ const FooterLinkContainer = styled.div({
 
 const FooterLink = styled.a(({ theme }) => ({
   color: theme.custom.colors.black,
+  textDecoration: "none",
   textAlign: "center",
+  "&:hover": {
+    color: theme.custom.colors.red,
+    textDecoration: "none",
+  },
   ...theme.typography.body2,
 }))
 
