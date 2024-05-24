@@ -119,7 +119,7 @@ const StoryImage = styled.img`
   background-position: center;
   width: 100%;
   object-fit: cover;
-  height: 171px;
+  height: 172px;
   border-radius:;
 `
 
