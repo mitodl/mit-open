@@ -36,6 +36,11 @@ const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
   },
 ]
 
+/**
+ * Display upcoming courses.
+ *
+ * This is currently unused but we are keeping around for the moment.
+ */
 const UpcomingCoursesSection: React.FC = () => {
   return (
     <Section>
