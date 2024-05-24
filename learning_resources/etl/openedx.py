@@ -16,6 +16,7 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import COMMON_HEADERS
 from learning_resources.etl.utils import (
+    clean_data,
     extract_valid_department_from_id,
     generate_course_numbers_json,
     parse_certification,
@@ -262,8 +263,8 @@ def _transform_course(config, course):
         "offered_by": {"code": config.offered_by},
         "title": course.get("title"),
         "departments": extract_valid_department_from_id(course.get("key")),
-        "description": course.get("short_description"),
-        "full_description": course.get("full_description"),
+        "description": clean_data(course.get("short_description")),
+        "full_description": clean_data(course.get("full_description")),
         "last_modified": last_modified,
         "image": _transform_image(course.get("image")),
         "url": marketing_url

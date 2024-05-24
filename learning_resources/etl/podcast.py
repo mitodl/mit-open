@@ -13,7 +13,7 @@ from requests.exceptions import HTTPError
 
 from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import generate_readable_id
+from learning_resources.etl.utils import clean_data, generate_readable_id
 from learning_resources.models import PodcastEpisode
 from main.utils import now_in_utc
 
@@ -149,8 +149,7 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
         "resource_type": LearningResourceType.podcast_episode.name,
         "title": rss_data.title.text,
         "offered_by": offered_by,
-        "description": rss_data.description.text,
-        "full_description": rss_data.description.text,
+        "description": clean_data(rss_data.description.text),
         "url": rss_data.enclosure["url"],
         "image": {
             "url": (
@@ -206,14 +205,14 @@ def transform(extracted_podcasts):
             google_podcasts_url = config_data.get("google_podcasts_url")
             title = config_data.get("podcast_title", rss_data.channel.title.text)
             podcast_id = generate_readable_id(title[:95])
+
             yield {
                 "readable_id": podcast_id,
                 "title": title,
                 "etl_source": ETLSource.podcast.name,
                 "resource_type": LearningResourceType.podcast.name,
                 "offered_by": offered_by,
-                "description": rss_data.channel.description.text,
-                "full_description": rss_data.channel.description.text,
+                "description": clean_data(rss_data.channel.description.text),
                 "image": {"url": rss_data.channel.find("itunes:image")["href"]},
                 "published": True,
                 "url": config_data["website"],

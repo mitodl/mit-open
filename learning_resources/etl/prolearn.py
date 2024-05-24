@@ -10,7 +10,7 @@ import requests
 from django.conf import settings
 
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import transform_format, transform_topics
+from learning_resources.etl.utils import clean_data, transform_format, transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
 from main.utils import now_in_utc
 
@@ -244,6 +244,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
             transformed_program = {
                 "readable_id": f'prolearn-{platform}-{program["nid"]}',
                 "title": program["title"],
+                "description": clean_data(program["body"]),
                 "offered_by": {"name": offered_by.name} if offered_by else None,
                 "platform": platform,
                 "etl_source": ETLSource.prolearn.name,
@@ -300,7 +301,7 @@ def _transform_runs(resource: dict) -> list[dict]:
                     "run_id": f'{resource["nid"]}_{start_value}',
                     "title": resource["title"],
                     "image": parse_image(resource),
-                    "description": resource["body"],
+                    "description": clean_data(resource["body"]),
                     "start_date": start_date,
                     "end_date": parse_date(end_value),
                     "published": True,
@@ -335,7 +336,7 @@ def _transform_course(
             "title": course["title"],
             "url": parse_url(course),
             "image": parse_image(course),
-            "description": course["body"],
+            "description": clean_data(course["body"]),
             "course": {
                 "course_numbers": [],
             },
