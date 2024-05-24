@@ -1,10 +1,12 @@
 """API for general search-related functionality"""
 
+import logging
 import re
 from collections import Counter
 
 from opensearch_dsl import Search
 from opensearch_dsl.query import MoreLikeThis, Percolate
+from opensearchpy.exceptions import NotFoundError
 
 from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
 from learning_resources.models import LearningResource
@@ -31,6 +33,8 @@ from learning_resources_search.utils import (
     adjust_search_for_percolator,
     document_percolated_actions,
 )
+
+log = logging.getLogger(__name__)
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
@@ -494,10 +498,14 @@ def percolate_matches_for_document(document_id):
     resource = LearningResource.objects.get(id=document_id)
     index = get_default_alias_name(resource.resource_type)
     search = Search()
-    results = search.query(
-        Percolate(field="query", index=index, id=str(document_id))
-    ).execute()
-    percolate_ids = [result.id for result in results.hits]
+    percolate_ids = []
+    try:
+        results = search.query(
+            Percolate(field="query", index=index, id=str(document_id))
+        ).execute()
+        percolate_ids = [result.id for result in results.hits]
+    except NotFoundError:
+        log.info("document %s not found in index", document_id)
     percolated_queries = PercolateQuery.objects.filter(id__in=percolate_ids)
     if len(percolate_ids) > 0:
         document_percolated_actions(resource, percolated_queries)
