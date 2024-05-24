@@ -200,7 +200,9 @@ def test_learning_resource_filter_certification(offers_certification, client):
 def test_learning_resource_filter_free(client):
     """Test that the free filter works"""
 
-    free_course = LearningResourceFactory.create(is_course=True, runs=[])
+    free_course = LearningResourceFactory.create(
+        is_course=True, runs=[], professional=False
+    )
     LearningResourceRunFactory.create(learning_resource=free_course, prices=[0.00])
 
     paid_course = LearningResourceFactory.create(is_course=True, runs=[])
@@ -208,13 +210,20 @@ def test_learning_resource_filter_free(client):
         learning_resource=paid_course, prices=[50.00, 100.00]
     )
 
-    free2pay_course = LearningResourceFactory(is_course=True, runs=[])
+    free2pay_course = LearningResourceFactory(
+        is_course=True, runs=[], professional=False
+    )
     LearningResourceRunFactory.create(
         learning_resource=free2pay_course, prices=[0.00, 100.00]
     )
 
+    priceless_pro_course = LearningResourceFactory(
+        is_course=True, runs=[], professional=True
+    )
+    LearningResourceRunFactory.create(learning_resource=priceless_pro_course, prices=[])
+
     always_free_podcast_episode = LearningResourceFactory.create(
-        is_podcast_episode=True
+        is_podcast_episode=True, professional=False
     )
 
     results = client.get(f"{RESOURCE_API_URL}?free=true").json()["results"]
@@ -222,8 +231,9 @@ def test_learning_resource_filter_free(client):
     for resource in [free_course, free2pay_course, always_free_podcast_episode]:
         assert resource.id in [result["id"] for result in results]
     results = client.get(f"{RESOURCE_API_URL}?free=false").json()["results"]
-    assert len(results) == 1
-    assert results[0]["id"] == paid_course.id
+    assert len(results) == 2
+    for resource in [paid_course, priceless_pro_course]:
+        assert resource.id in [result["id"] for result in results]
 
 
 @pytest.mark.parametrize(
