@@ -64,9 +64,19 @@ class LearningResourceTopic(TimestampedModel):
 class LearningResourceOfferor(TimestampedModel):
     """Represents who is offering a learning resource"""
 
+    # Old fields
     code = models.CharField(max_length=12, primary_key=True)
     name = models.CharField(max_length=256, unique=True)
     professional = models.BooleanField(default=False)
+
+    # New fields
+    offerings = ArrayField(models.CharField(max_length=128), default=list)
+    audience = ArrayField(models.CharField(max_length=128), default=list)
+    formats = ArrayField(models.CharField(max_length=128), default=list)
+    fee = ArrayField(models.CharField(max_length=128), default=list)
+    certifications = ArrayField(models.CharField(max_length=128), default=list)
+    content_types = ArrayField(models.CharField(max_length=128), default=list)
+    more_information = models.URLField(blank=True)
 
     def __str__(self):
         return f"{self.code}: {self.name}"
@@ -136,7 +146,7 @@ class LearningResourceInstructor(TimestampedModel):
     full_name = models.CharField(max_length=256, null=True, blank=True, unique=True)
 
     class Meta:
-        ordering = ["last_name"]
+        ordering = ["last_name", "first_name"]
 
     def __str__(self):
         return self.full_name or f"{self.first_name} {self.last_name}"

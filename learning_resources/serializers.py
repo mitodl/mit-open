@@ -93,7 +93,7 @@ class LearningResourceTypeField(serializers.ReadOnlyField):
 
 
 class LearningResourceOfferorSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResourceOfferor"""
+    """Serializer for LearningResourceOfferor with basic details"""
 
     channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
 
@@ -105,6 +105,14 @@ class LearningResourceOfferorSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LearningResourceOfferor
         fields = ("code", "name", "channel_url")
+
+
+class LearningResourceOfferorDetailSerializer(LearningResourceOfferorSerializer):
+    """Serializer for LearningResourceOfferor with all details"""
+
+    class Meta:
+        model = models.LearningResourceOfferor
+        exclude = COMMON_IGNORED_FIELDS
 
 
 @extend_schema_field({"type": "array", "items": {"type": "string"}})

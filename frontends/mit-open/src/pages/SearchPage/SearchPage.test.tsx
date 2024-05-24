@@ -10,7 +10,7 @@ import SearchPage from "./SearchPage"
 import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
 import type {
   LearningResourceSearchResponse,
-  PaginatedLearningResourceOfferorList,
+  PaginatedLearningResourceOfferorDetailList,
 } from "api"
 import invariant from "tiny-invariant"
 import { Permissions } from "@/common/permissions"
@@ -20,7 +20,7 @@ const setMockApiResponses = ({
   offerors,
 }: {
   search?: Partial<LearningResourceSearchResponse>
-  offerors?: PaginatedLearningResourceOfferorList
+  offerors?: PaginatedLearningResourceOfferorDetailList
 }) => {
   setMockResponse.get(urls.userMe.get(), {
     [Permissions.Authenticated]: false,
@@ -210,8 +210,11 @@ describe("SearchPage", () => {
       })
       const apiSearchParams = getLastApiSearchParams()
       expect(apiSearchParams.getAll("aggregations").sort()).toEqual([
+        "certification",
+        "free",
         "learning_format",
         "offered_by",
+        "professional",
         "resource_type",
         "topic",
       ])

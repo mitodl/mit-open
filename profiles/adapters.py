@@ -161,7 +161,7 @@ class SCIMProfile(SCIMUser):
                 self.obj.name = self.display_name
                 self.obj.save()
                 logger.info("User saved. User id %i", self.obj.id)
-        except Exception as e:  # noqa: BLE001
+        except Exception as e:
             raise self.reformat_exception(e) from e
 
     def delete(self):

@@ -72,26 +72,32 @@ oll_etl = compose(
 
 
 prolearn_programs_etl = compose(
-    load_programs(ETLSource.prolearn.name),
+    load_programs(
+        ETLSource.prolearn.name,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+    ),
     prolearn.transform_programs,
     prolearn.extract_programs,
 )
 
 
 prolearn_courses_etl = compose(
-    load_courses(ETLSource.prolearn.name),
+    load_courses(ETLSource.prolearn.name, config=CourseLoaderConfig(prune=True)),
     prolearn.transform_courses,
     prolearn.extract_courses,
 )
 
 
 xpro_programs_etl = compose(
-    load_programs(ETLSource.xpro.name),
+    load_programs(
+        ETLSource.xpro.name,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+    ),
     xpro.transform_programs,
     xpro.extract_programs,
 )
 xpro_courses_etl = compose(
-    load_courses(ETLSource.xpro.name),
+    load_courses(ETLSource.xpro.name, config=CourseLoaderConfig(prune=True)),
     xpro.transform_courses,
     xpro.extract_courses,
 )
@@ -145,7 +151,10 @@ def ocw_courses_etl(
             log.exception("Error encountered parsing OCW json for %s", url_path)
             exceptions.append(url_path)
     if exceptions:
-        raise ExtractException("Some OCW urls raised errors: %s" % ",".join(exceptions))
+        message = "Some OCW urls raised errors: {exception}".format(
+            exception=",".join(exceptions)
+        )
+        raise ExtractException(message)
 
 
 youtube_etl = compose(loaders.load_video_channels, youtube.transform, youtube.extract)

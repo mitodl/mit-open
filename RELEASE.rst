@@ -1,6 +1,39 @@
 Release Notes
 =============
 
+Version 0.10.1 (Released May 24, 2024)
+--------------
+
+- Homepage News and Events section (#945)
+- side nav updates (#951)
+- Remove 3 offerors and provide featured resources from all remaining ones (#943)
+- Additional offeror details (#923)
+
+Version 0.10.0 (Released May 23, 2024)
+--------------
+
+- Update dependency django-ipware to v7 (#935)
+- fix install and storybook (#942)
+- Fixes button styles to match design (#941)
+- header updates (#910)
+- Update dependency django-imagekit to v5 (#934)
+- [pre-commit.ci] pre-commit autoupdate (#938)
+- Work on onboarding updates to profile API (#907)
+- Fix several ETL bugs (#939)
+- Add Free, Certification, and Professional Facets to Search UI (#917)
+- use docker profiles, mount root to watch (#936)
+- serve static react app for django 40x (#911)
+- Update postgres Docker tag to v12.19 (#931)
+- Update opensearchproject/opensearch Docker tag to v2.14.0 (#930)
+- Update mcr.microsoft.com/playwright Docker tag to v1.44.0 (#929)
+- Update dependency drf-nested-routers to ^0.94.0 (#928)
+- Update Node.js to v20.13.1 (#926)
+- Update codecov/codecov-action action to v4.4.0 (#927)
+- Update dependency ruff to v0.4.4 (#925)
+- Update dependency Django to v4.2.13 (#924)
+- Browse by Topics section for the home page (#901)
+- Fix schema for news_events feed items (#919)
+
 Version 0.9.14 (Released May 20, 2024)
 --------------
 

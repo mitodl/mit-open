@@ -11,6 +11,12 @@ describe("NavDrawer", () => {
           title: "TEST",
           items: [
             {
+              title: "Link and description with icon",
+              icon: "/path/to/image.svg",
+              description: "This item has a link, description and icon",
+              href: "https://mit.edu",
+            },
+            {
               title: "Link and description",
               description: "This item has a link and a description",
               href: "https://mit.edu",
@@ -34,11 +40,13 @@ describe("NavDrawer", () => {
       wrapper: ThemeProvider,
     })
     const links = screen.getAllByTestId("nav-link")
+    const icons = screen.getAllByTestId("nav-link-icon")
     const titles = screen.getAllByTestId("nav-link-text")
     const descriptions = screen.getAllByTestId("nav-link-description")
-    expect(links).toHaveLength(2)
-    expect(titles).toHaveLength(4)
-    expect(descriptions).toHaveLength(2)
+    expect(links).toHaveLength(3)
+    expect(icons).toHaveLength(1)
+    expect(titles).toHaveLength(5)
+    expect(descriptions).toHaveLength(3)
     let linksComingSoon = 0
     Array.prototype.forEach.call(titles, (title) => {
       if (title.textContent?.includes("(Coming Soon)")) {

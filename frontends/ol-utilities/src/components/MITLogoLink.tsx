@@ -1,7 +1,8 @@
 import React from "react"
 
 const PUBLIC_URL = process.env.PUBLIC_URL || ""
-const MIT_LOGO_URL = `${PUBLIC_URL}/static/images/mit-logo-transparent.svg`
+const HOME_URL = `${PUBLIC_URL}/`
+const MIT_LOGO_URL = `${PUBLIC_URL}/static/images/mit-logo-transparent4.svg`
 
 interface Props {
   className?: string
@@ -9,8 +10,8 @@ interface Props {
 
 const MITLogoLink: React.FC<Props> = ({ className }) => (
   <a
-    href="https://www.mit.edu/"
-    title="Link to MIT Homepage"
+    href={HOME_URL}
+    title="Link to Homepage"
     className={className}
     // eslint-disable-next-line react/no-unknown-property
     appzi-screenshot-exclude="true"

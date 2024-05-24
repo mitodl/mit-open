@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 const Bar = styled(AppBar)`
   background-color: ${({ theme }) => theme.custom.colors.white};
   color: ${({ theme }) => theme.typography.body1.color};
-  min-height: 55px;
+  min-height: 80px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 10px rgba(120 169 197 / 15%);

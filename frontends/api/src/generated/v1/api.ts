@@ -1372,7 +1372,7 @@ export interface LearningResourceInstructorRequest {
   full_name?: string | null
 }
 /**
- * Serializer for LearningResourceOfferor
+ * Serializer for LearningResourceOfferor with basic details
  * @export
  * @interface LearningResourceOfferor
  */
@@ -1397,7 +1397,80 @@ export interface LearningResourceOfferor {
   channel_url: string | null
 }
 /**
- * Serializer for LearningResourceOfferor
+ * Serializer for LearningResourceOfferor with all details
+ * @export
+ * @interface LearningResourceOfferorDetail
+ */
+export interface LearningResourceOfferorDetail {
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  code: string
+  /**
+   * Get the channel url for the offeror if it exists
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  channel_url: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  name: string
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningResourceOfferorDetail
+   */
+  professional?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  offerings?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  audience?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  formats?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  fee?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  certifications?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningResourceOfferorDetail
+   */
+  content_types?: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  more_information?: string
+}
+/**
+ * Serializer for LearningResourceOfferor with basic details
  * @export
  * @interface LearningResourceOfferorRequest
  */
@@ -1971,7 +2044,7 @@ export interface MicroUserListRelationship {
   child: number
 }
 /**
- * * `mitx` - MITx * `ocw` - OCW * `bootcamps` - Bootcamps * `xpro` - xPRO * `csail` - CSAIL * `mitpe` - Professional Education * `see` - Sloan Executive Education * `scc` - Schwarzman College of Computing * `ctl` - Center for Transportation & Logistics
+ * * `mitx` - MITx * `ocw` - OCW * `bootcamps` - Bootcamps * `xpro` - xPRO * `mitpe` - Professional Education * `see` - Sloan Executive Education
  * @export
  * @enum {string}
  */
@@ -1981,11 +2054,8 @@ export const OfferedByEnum = {
   Ocw: "ocw",
   Bootcamps: "bootcamps",
   Xpro: "xpro",
-  Csail: "csail",
   Mitpe: "mitpe",
   See: "see",
-  Scc: "scc",
-  Ctl: "ctl",
 } as const
 
 export type OfferedByEnum = (typeof OfferedByEnum)[keyof typeof OfferedByEnum]
@@ -2241,33 +2311,33 @@ export interface PaginatedLearningResourceList {
 /**
  *
  * @export
- * @interface PaginatedLearningResourceOfferorList
+ * @interface PaginatedLearningResourceOfferorDetailList
  */
-export interface PaginatedLearningResourceOfferorList {
+export interface PaginatedLearningResourceOfferorDetailList {
   /**
    *
    * @type {number}
-   * @memberof PaginatedLearningResourceOfferorList
+   * @memberof PaginatedLearningResourceOfferorDetailList
    */
   count: number
   /**
    *
    * @type {string}
-   * @memberof PaginatedLearningResourceOfferorList
+   * @memberof PaginatedLearningResourceOfferorDetailList
    */
   next?: string | null
   /**
    *
    * @type {string}
-   * @memberof PaginatedLearningResourceOfferorList
+   * @memberof PaginatedLearningResourceOfferorDetailList
    */
   previous?: string | null
   /**
    *
-   * @type {Array<LearningResourceOfferor>}
-   * @memberof PaginatedLearningResourceOfferorList
+   * @type {Array<LearningResourceOfferorDetail>}
+   * @memberof PaginatedLearningResourceOfferorDetailList
    */
-  results: Array<LearningResourceOfferor>
+  results: Array<LearningResourceOfferorDetail>
 }
 /**
  *
@@ -2841,7 +2911,7 @@ export interface PercolateQuerySubscriptionRequestRequest {
    */
   limit?: number
   /**
-   * The organization that offers the learning resource               * `mitx` - MITx * `ocw` - OCW * `bootcamps` - Bootcamps * `xpro` - xPRO * `csail` - CSAIL * `mitpe` - Professional Education * `see` - Sloan Executive Education * `scc` - Schwarzman College of Computing * `ctl` - Center for Transportation & Logistics
+   * The organization that offers the learning resource               * `mitx` - MITx * `ocw` - OCW * `bootcamps` - Bootcamps * `xpro` - xPRO * `mitpe` - Professional Education * `see` - Sloan Executive Education
    * @type {Array<OfferedByEnum>}
    * @memberof PercolateQuerySubscriptionRequestRequest
    */
@@ -5623,7 +5693,7 @@ export const ContentFileSearchApiAxiosParamCreator = function (
      * @param {Array<string>} [content_feature_type] The feature type of the content file. Possible options are at api/v1/course_features/
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<ContentFileSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<ContentFileSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<ContentFileSearchRetrievePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {string} [q] The search text
@@ -5745,7 +5815,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
      * @param {Array<string>} [content_feature_type] The feature type of the content file. Possible options are at api/v1/course_features/
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<ContentFileSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<ContentFileSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<ContentFileSearchRetrievePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {string} [q] The search text
@@ -5886,8 +5956,8 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>}
+   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'mitpe' | 'see'>}
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly offered_by?: Array<ContentFileSearchRetrieveOfferedByEnum>
@@ -6000,11 +6070,8 @@ export const ContentFileSearchRetrieveOfferedByEnum = {
   Ocw: "ocw",
   Bootcamps: "bootcamps",
   Xpro: "xpro",
-  Csail: "csail",
   Mitpe: "mitpe",
   See: "see",
-  Scc: "scc",
-  Ctl: "ctl",
 } as const
 export type ContentFileSearchRetrieveOfferedByEnum =
   (typeof ContentFileSearchRetrieveOfferedByEnum)[keyof typeof ContentFileSearchRetrieveOfferedByEnum]
@@ -6059,7 +6126,7 @@ export const ContentfilesApiAxiosParamCreator = function (
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<string>} [content_feature_type] Multiple values may be separated by commas.
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<ContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<ContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ContentfilesListPlatformEnum>} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {Array<number>} [resource_id] Multiple values may be separated by commas.
@@ -6221,7 +6288,7 @@ export const ContentfilesApiFp = function (configuration?: Configuration) {
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<string>} [content_feature_type] Multiple values may be separated by commas.
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<ContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<ContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ContentfilesListPlatformEnum>} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {Array<number>} [resource_id] Multiple values may be separated by commas.
@@ -6389,8 +6456,8 @@ export interface ContentfilesApiContentfilesListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof ContentfilesApiContentfilesList
    */
   readonly offered_by?: Array<ContentfilesListOfferedByEnum>
@@ -6506,12 +6573,9 @@ export class ContentfilesApi extends BaseAPI {
  */
 export const ContentfilesListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -6870,7 +6934,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<string>} [content_feature_type] Multiple values may be separated by commas.
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<CoursesContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<CoursesContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesContentfilesListPlatformEnum>} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {Array<number>} [resource_id] Multiple values may be separated by commas.
@@ -7027,7 +7091,7 @@ export const CoursesApiAxiosParamCreator = function (
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<CoursesListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<CoursesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<CoursesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -7212,7 +7276,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<string>} [content_feature_type] Multiple values may be separated by commas.
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<CoursesContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<CoursesContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesContentfilesListPlatformEnum>} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {Array<number>} [resource_id] Multiple values may be separated by commas.
@@ -7302,7 +7366,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<CoursesListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<CoursesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<CoursesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<CoursesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -7529,8 +7593,8 @@ export interface CoursesApiCoursesContentfilesListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof CoursesApiCoursesContentfilesList
    */
   readonly offered_by?: Array<CoursesContentfilesListOfferedByEnum>
@@ -7641,8 +7705,8 @@ export interface CoursesApiCoursesListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof CoursesApiCoursesList
    */
   readonly offered_by?: Array<CoursesListOfferedByEnum>
@@ -7823,12 +7887,9 @@ export class CoursesApi extends BaseAPI {
  */
 export const CoursesContentfilesListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -7922,12 +7983,9 @@ export type CoursesListLevelEnum =
  */
 export const CoursesListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -8326,7 +8384,7 @@ export const FeaturedApiAxiosParamCreator = function (
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<FeaturedListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<FeaturedListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<FeaturedListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<FeaturedListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -8515,7 +8573,7 @@ export const FeaturedApiFp = function (configuration?: Configuration) {
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<FeaturedListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<FeaturedListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<FeaturedListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<FeaturedListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -8727,8 +8785,8 @@ export interface FeaturedApiFeaturedListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof FeaturedApiFeaturedList
    */
   readonly offered_by?: Array<FeaturedListOfferedByEnum>
@@ -8919,12 +8977,9 @@ export type FeaturedListLevelEnum =
  */
 export const FeaturedListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -9005,7 +9060,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<string>} [content_feature_type] Multiple values may be separated by commas.
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<LearningResourcesContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesContentfilesListPlatformEnum>} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {Array<number>} [resource_id] Multiple values may be separated by commas.
@@ -9288,7 +9343,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<LearningResourcesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -9474,7 +9529,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<string>} [content_feature_type] Multiple values may be separated by commas.
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<LearningResourcesContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesContentfilesListOfferedByEnum>} [offered_by] The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesContentfilesListPlatformEnum>} [platform] The platform on which learning resources the content file belongs to is offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {Array<number>} [resource_id] Multiple values may be separated by commas.
@@ -9647,7 +9702,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<LearningResourcesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningResourcesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -9920,8 +9975,8 @@ export interface LearningResourcesApiLearningResourcesContentfilesListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource the content file belongs to  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof LearningResourcesApiLearningResourcesContentfilesList
    */
   readonly offered_by?: Array<LearningResourcesContentfilesListOfferedByEnum>
@@ -10088,8 +10143,8 @@ export interface LearningResourcesApiLearningResourcesListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof LearningResourcesApiLearningResourcesList
    */
   readonly offered_by?: Array<LearningResourcesListOfferedByEnum>
@@ -10314,12 +10369,9 @@ export class LearningResourcesApi extends BaseAPI {
  */
 export const LearningResourcesContentfilesListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -10413,12 +10465,9 @@ export type LearningResourcesListLevelEnum =
  */
 export const LearningResourcesListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -10505,7 +10554,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesSearchRetrieveLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesSearchRetrieveLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<LearningResourcesSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesSearchRetrievePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean | null} [professional]
@@ -10659,7 +10708,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<LearningResourcesSearchRetrieveLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesSearchRetrieveLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<LearningResourcesSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesSearchRetrievePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean | null} [professional]
@@ -10850,8 +10899,8 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   readonly limit?: number
 
   /**
-   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>}
+   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'mitpe' | 'see'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly offered_by?: Array<LearningResourcesSearchRetrieveOfferedByEnum>
@@ -11044,11 +11093,8 @@ export const LearningResourcesSearchRetrieveOfferedByEnum = {
   Ocw: "ocw",
   Bootcamps: "bootcamps",
   Xpro: "xpro",
-  Csail: "csail",
   Mitpe: "mitpe",
   See: "see",
-  Scc: "scc",
-  Ctl: "ctl",
 } as const
 export type LearningResourcesSearchRetrieveOfferedByEnum =
   (typeof LearningResourcesSearchRetrieveOfferedByEnum)[keyof typeof LearningResourcesSearchRetrieveOfferedByEnum]
@@ -11133,7 +11179,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionCheckListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionCheckListPlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean | null} [professional]
@@ -11280,7 +11326,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<LearningResourcesUserSubscriptionListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesUserSubscriptionListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionListPlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean | null} [professional]
@@ -11421,7 +11467,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean | null} [professional]
@@ -11641,7 +11687,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionCheckListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionCheckListPlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean | null} [professional]
@@ -11726,7 +11772,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<LearningResourcesUserSubscriptionListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesUserSubscriptionListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionListPlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean | null} [professional]
@@ -11808,7 +11854,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
-     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreatePlatformEnum>} [platform] The platform on which the learning resource is offered               * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean | null} [professional]
@@ -12122,8 +12168,8 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly limit?: number
 
   /**
-   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>}
+   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'mitpe' | 'see'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly offered_by?: Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>
@@ -12255,8 +12301,8 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly limit?: number
 
   /**
-   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>}
+   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'mitpe' | 'see'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
    */
   readonly offered_by?: Array<LearningResourcesUserSubscriptionListOfferedByEnum>
@@ -12381,8 +12427,8 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly limit?: number
 
   /**
-   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'csail' | 'mitpe' | 'see' | 'scc' | 'ctl'>}
+   * The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'mitx' | 'ocw' | 'bootcamps' | 'xpro' | 'mitpe' | 'see'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
   readonly offered_by?: Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>
@@ -12698,11 +12744,8 @@ export const LearningResourcesUserSubscriptionCheckListOfferedByEnum = {
   Ocw: "ocw",
   Bootcamps: "bootcamps",
   Xpro: "xpro",
-  Csail: "csail",
   Mitpe: "mitpe",
   See: "see",
-  Scc: "scc",
-  Ctl: "ctl",
 } as const
 export type LearningResourcesUserSubscriptionCheckListOfferedByEnum =
   (typeof LearningResourcesUserSubscriptionCheckListOfferedByEnum)[keyof typeof LearningResourcesUserSubscriptionCheckListOfferedByEnum]
@@ -12869,11 +12912,8 @@ export const LearningResourcesUserSubscriptionListOfferedByEnum = {
   Ocw: "ocw",
   Bootcamps: "bootcamps",
   Xpro: "xpro",
-  Csail: "csail",
   Mitpe: "mitpe",
   See: "see",
-  Scc: "scc",
-  Ctl: "ctl",
 } as const
 export type LearningResourcesUserSubscriptionListOfferedByEnum =
   (typeof LearningResourcesUserSubscriptionListOfferedByEnum)[keyof typeof LearningResourcesUserSubscriptionListOfferedByEnum]
@@ -13033,11 +13073,8 @@ export const LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum = {
   Ocw: "ocw",
   Bootcamps: "bootcamps",
   Xpro: "xpro",
-  Csail: "csail",
   Mitpe: "mitpe",
   See: "see",
-  Scc: "scc",
-  Ctl: "ctl",
 } as const
 export type LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum =
   (typeof LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum]
@@ -13545,7 +13582,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningpathsListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<LearningpathsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningpathsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningpathsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -14038,7 +14075,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningpathsListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<LearningpathsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<LearningpathsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<LearningpathsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -14593,8 +14630,8 @@ export interface LearningpathsApiLearningpathsListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof LearningpathsApiLearningpathsList
    */
   readonly offered_by?: Array<LearningpathsListOfferedByEnum>
@@ -14972,12 +15009,9 @@ export type LearningpathsListLevelEnum =
  */
 export const LearningpathsListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -15175,7 +15209,7 @@ export const OfferorsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<PaginatedLearningResourceOfferorList>
+      ) => AxiosPromise<PaginatedLearningResourceOfferorDetailList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.offerorsList(
         limit,
@@ -15207,7 +15241,7 @@ export const OfferorsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<LearningResourceOfferor>
+      ) => AxiosPromise<LearningResourceOfferorDetail>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.offerorsRetrieve(code, options)
@@ -15246,7 +15280,7 @@ export const OfferorsApiFactory = function (
     offerorsList(
       requestParameters: OfferorsApiOfferorsListRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedLearningResourceOfferorList> {
+    ): AxiosPromise<PaginatedLearningResourceOfferorDetailList> {
       return localVarFp
         .offerorsList(
           requestParameters.limit,
@@ -15265,7 +15299,7 @@ export const OfferorsApiFactory = function (
     offerorsRetrieve(
       requestParameters: OfferorsApiOfferorsRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LearningResourceOfferor> {
+    ): AxiosPromise<LearningResourceOfferorDetail> {
       return localVarFp
         .offerorsRetrieve(requestParameters.code, options)
         .then((request) => request(axios, basePath))
@@ -15674,7 +15708,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<PodcastEpisodesListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<PodcastEpisodesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<PodcastEpisodesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<PodcastEpisodesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -15864,7 +15898,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<PodcastEpisodesListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<PodcastEpisodesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<PodcastEpisodesListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<PodcastEpisodesListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -16080,8 +16114,8 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof PodcastEpisodesApiPodcastEpisodesList
    */
   readonly offered_by?: Array<PodcastEpisodesListOfferedByEnum>
@@ -16272,12 +16306,9 @@ export type PodcastEpisodesListLevelEnum =
  */
 export const PodcastEpisodesListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -16487,7 +16518,7 @@ export const PodcastsApiAxiosParamCreator = function (
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<PodcastsListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<PodcastsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<PodcastsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<PodcastsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -16752,7 +16783,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<PodcastsListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<PodcastsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<PodcastsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<PodcastsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -17060,8 +17091,8 @@ export interface PodcastsApiPodcastsListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof PodcastsApiPodcastsList
    */
   readonly offered_by?: Array<PodcastsListOfferedByEnum>
@@ -17296,12 +17327,9 @@ export type PodcastsListLevelEnum =
  */
 export const PodcastsListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -17545,7 +17573,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<ProgramsListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<ProgramsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<ProgramsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ProgramsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -17734,7 +17762,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<ProgramsListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<ProgramsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<ProgramsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<ProgramsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -17946,8 +17974,8 @@ export interface ProgramsApiProgramsListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof ProgramsApiProgramsList
    */
   readonly offered_by?: Array<ProgramsListOfferedByEnum>
@@ -18138,12 +18166,9 @@ export type ProgramsListLevelEnum =
  */
 export const ProgramsListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -20500,7 +20525,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<VideoPlaylistsListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<VideoPlaylistsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<VideoPlaylistsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideoPlaylistsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -20769,7 +20794,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<VideoPlaylistsListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<VideoPlaylistsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<VideoPlaylistsListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideoPlaylistsListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -21079,8 +21104,8 @@ export interface VideoPlaylistsApiVideoPlaylistsListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof VideoPlaylistsApiVideoPlaylistsList
    */
   readonly offered_by?: Array<VideoPlaylistsListOfferedByEnum>
@@ -21315,12 +21340,9 @@ export type VideoPlaylistsListLevelEnum =
  */
 export const VideoPlaylistsListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const
@@ -21405,7 +21427,7 @@ export const VideosApiAxiosParamCreator = function (
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<VideosListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<VideosListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<VideosListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideosListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -21594,7 +21616,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
      * @param {Array<Array<string>>} [learning_format] The learning format of course/program resources  * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<VideosListLevelEnum>} [level] The academic level of the resources  * &#x60;undergraduate&#x60; - Undergraduate * &#x60;graduate&#x60; - Graduate * &#x60;high_school&#x60; - High School * &#x60;noncredit&#x60; - Non-Credit * &#x60;advanced&#x60; - Advanced * &#x60;intermediate&#x60; - Intermediate * &#x60;introductory&#x60; - Introductory
      * @param {number} [limit] Number of results to return per page.
-     * @param {Array<VideosListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
+     * @param {Array<VideosListOfferedByEnum>} [offered_by] The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results.
      * @param {Array<VideosListPlatformEnum>} [platform] The platform on which learning resources are offered  * &#x60;edx&#x60; - edX * &#x60;ocw&#x60; - OCW * &#x60;oll&#x60; - Open Learning Library * &#x60;mitxonline&#x60; - MITx Online * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics * &#x60;whu&#x60; - WHU * &#x60;susskind&#x60; - Susskind * &#x60;globalalumni&#x60; - Global Alumni * &#x60;simplilearn&#x60; - Simplilearn * &#x60;emeritus&#x60; - Emeritus * &#x60;podcast&#x60; - Podcast * &#x60;youtube&#x60; - YouTube
      * @param {boolean} [professional]
@@ -21805,8 +21827,8 @@ export interface VideosApiVideosListRequest {
   readonly limit?: number
 
   /**
-   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;csail&#x60; - CSAIL * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education * &#x60;scc&#x60; - Schwarzman College of Computing * &#x60;ctl&#x60; - Center for Transportation &amp; Logistics
-   * @type {Array<'bootcamps' | 'csail' | 'ctl' | 'mitpe' | 'mitx' | 'ocw' | 'scc' | 'see' | 'xpro'>}
+   * The organization that offers a learning resource  * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - OCW * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - xPRO * &#x60;mitpe&#x60; - Professional Education * &#x60;see&#x60; - Sloan Executive Education
+   * @type {Array<'bootcamps' | 'mitpe' | 'mitx' | 'ocw' | 'see' | 'xpro'>}
    * @memberof VideosApiVideosList
    */
   readonly offered_by?: Array<VideosListOfferedByEnum>
@@ -21997,12 +22019,9 @@ export type VideosListLevelEnum =
  */
 export const VideosListOfferedByEnum = {
   Bootcamps: "bootcamps",
-  Csail: "csail",
-  Ctl: "ctl",
   Mitpe: "mitpe",
   Mitx: "mitx",
   Ocw: "ocw",
-  Scc: "scc",
   See: "see",
   Xpro: "xpro",
 } as const

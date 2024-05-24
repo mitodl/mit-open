@@ -897,6 +897,9 @@ components:
       - quote
       - title
       - updated_on
+    BlankEnum:
+      enum:
+      - ''
     CKEditorSettings:
       type: object
       description: Serializer for CKEditor settings
@@ -908,6 +911,16 @@ components:
           readOnly: true
       required:
       - token
+    CertificateDesiredEnum:
+      enum:
+      - 'yes'
+      - 'no'
+      - not-sure-yet
+      type: string
+      description: |-
+        * `yes` - Yes
+        * `no` - No
+        * `not-sure-yet` - Not Sure Yet
     ChannelDepartmentDetail:
       type: object
       description: Serializer for the ChannelDepartmentDetail model
@@ -928,16 +941,11 @@ components:
       description: Serializer for the ChannelOfferorDetail model
       properties:
         offeror:
-          type: string
-          nullable: true
-    ChannelOfferorDetailRequest:
-      type: object
-      description: Serializer for the ChannelOfferorDetail model
-      properties:
-        offeror:
-          type: string
-          minLength: 1
-          nullable: true
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferorDetail'
+          readOnly: true
+      required:
+      - offeror
     ChannelTopicDetail:
       type: object
       description: Serializer for the ChannelTopicDetail model
@@ -964,6 +972,30 @@ components:
         * `department` - Department
         * `offeror` - Offeror
         * `pathway` - Pathway
+    CourseFormatEnum:
+      enum:
+      - online
+      - in-person
+      - hybrid
+      type: string
+      description: |-
+        * `online` - Online
+        * `in-person` - In-Person
+        * `hybrid` - Hybrid
+    CurrentEducationEnum:
+      enum:
+      - no-formal
+      - primary
+      - secondary-or-high-school
+      - ged
+      - vocational-qualification
+      type: string
+      description: |-
+        * `no-formal` - No Formal Education
+        * `primary` - Primary Education
+        * `secondary-or-high-school` - Secondary Education or High School
+        * `ged` - GED
+        * `vocational-qualification` - Vocational Qualification
     DepartmentChannel:
       type: object
       description: Serializer for Channel model of type department
@@ -1303,10 +1335,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
           nullable: true
-        offeror_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
-          nullable: true
       required:
       - channel_type
       - name
@@ -1337,6 +1365,56 @@ components:
         email:
           type: string
           description: Get the email from the associated user
+    GoalsEnum:
+      enum:
+      - career-growth
+      - supplemental-learning
+      - just-to-learn
+      type: string
+      description: |-
+        * `career-growth` - Career Growth
+        * `supplemental-learning` - Supplemental Learning
+        * `just-to-learn` - Just to Learn
+    InterestsEnum:
+      enum:
+      - computer-science
+      - business
+      - engineering
+      - leadership
+      - organized-behavior
+      - management
+      - electrical-engineering
+      - information-technology
+      - biology
+      - earth-science
+      - environmental-engineering
+      - health-and-medicine
+      - probability-and-stats
+      - economics
+      - history
+      - mathematics
+      - mechanical-engineering
+      - other
+      type: string
+      description: |-
+        * `computer-science` - Computer Science
+        * `business` - Business
+        * `engineering` - Engineering
+        * `leadership` - Leadership
+        * `organized-behavior` - Organized Behavior
+        * `management` - Management
+        * `electrical-engineering` - Electrical Engineering
+        * `information-technology` - Information Technology
+        * `biology` - Biology
+        * `earth-science` - Earth Science
+        * `environmental-engineering` - Environmental Engineering
+        * `health-and-medicine` - Health & Medicine
+        * `probability-and-stats` - Probability & Stats
+        * `economics` - Economics
+        * `history` - History
+        * `mathematics` - Mathematics
+        * `mechanical-engineering` - Mechanical Engineering
+        * `other` - Other
     LearningPathPreview:
       type: object
       description: Serializer for a minimal preview of Learning Paths
@@ -1355,6 +1433,118 @@ components:
       required:
       - id
       - title
+    LearningResourceOfferorDetail:
+      type: object
+      description: Serializer for LearningResourceOfferor with all details
+      properties:
+        code:
+          type: string
+          maxLength: 12
+        channel_url:
+          type: string
+          description: Get the channel url for the offeror if it exists
+          readOnly: true
+          nullable: true
+        name:
+          type: string
+          maxLength: 256
+        professional:
+          type: boolean
+        offerings:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        audience:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        formats:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        fee:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        certifications:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        content_types:
+          type: array
+          items:
+            type: string
+            maxLength: 128
+        more_information:
+          type: string
+          format: uri
+          maxLength: 200
+      required:
+      - channel_url
+      - code
+      - name
+    LearningResourceOfferorDetailRequest:
+      type: object
+      description: Serializer for LearningResourceOfferor with all details
+      properties:
+        code:
+          type: string
+          minLength: 1
+          maxLength: 12
+        name:
+          type: string
+          minLength: 1
+          maxLength: 256
+        professional:
+          type: boolean
+        offerings:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        audience:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        formats:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        fee:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        certifications:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        content_types:
+          type: array
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+        more_information:
+          type: string
+          format: uri
+          maxLength: 200
+      required:
+      - code
+      - name
     NewsFeedItem:
       type: object
       description: Serializer for News FeedItem
@@ -1656,10 +1846,6 @@ components:
           allOf:
           - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
           nullable: true
-        offeror_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelOfferorDetailRequest'
-          nullable: true
     PatchedProfileRequest:
       type: object
       description: Serializer for Profile
@@ -1682,18 +1868,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 1024
-        image_file:
-          type: string
-          format: binary
-          nullable: true
-        image_small_file:
-          type: string
-          format: binary
-          nullable: true
-        image_medium_file:
-          type: string
-          format: binary
-          nullable: true
         email_optin:
           type: boolean
           writeOnly: true
@@ -1710,6 +1884,30 @@ components:
         location:
           writeOnly: true
           nullable: true
+        interests:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterestsEnum'
+        goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/GoalsEnum'
+        current_education:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentEducationEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        certificate_desired:
+          oneOf:
+          - $ref: '#/components/schemas/CertificateDesiredEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        time_commitment:
+          oneOf:
+          - $ref: '#/components/schemas/TimeCommitmentEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        course_format:
+          oneOf:
+          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/BlankEnum'
     PatchedUserRequest:
       type: object
       description: Serializer for User
@@ -1855,14 +2053,17 @@ components:
         image_file:
           type: string
           format: uri
+          readOnly: true
           nullable: true
         image_small_file:
           type: string
           format: uri
+          readOnly: true
           nullable: true
         image_medium_file:
           type: string
           format: uri
+          readOnly: true
           nullable: true
         profile_image_small:
           type: string
@@ -1887,7 +2088,34 @@ components:
           type: string
           description: Custom getter for location text
           readOnly: true
+        interests:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterestsEnum'
+        goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/GoalsEnum'
+        current_education:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentEducationEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        certificate_desired:
+          oneOf:
+          - $ref: '#/components/schemas/CertificateDesiredEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        time_commitment:
+          oneOf:
+          - $ref: '#/components/schemas/TimeCommitmentEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        course_format:
+          oneOf:
+          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/BlankEnum'
       required:
+      - image_file
+      - image_medium_file
+      - image_small_file
       - placename
       - profile_image_medium
       - profile_image_small
@@ -1914,18 +2142,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 1024
-        image_file:
-          type: string
-          format: binary
-          nullable: true
-        image_small_file:
-          type: string
-          format: binary
-          nullable: true
-        image_medium_file:
-          type: string
-          format: binary
-          nullable: true
         email_optin:
           type: boolean
           writeOnly: true
@@ -1942,6 +2158,30 @@ components:
         location:
           writeOnly: true
           nullable: true
+        interests:
+          type: array
+          items:
+            $ref: '#/components/schemas/InterestsEnum'
+        goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/GoalsEnum'
+        current_education:
+          oneOf:
+          - $ref: '#/components/schemas/CurrentEducationEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        certificate_desired:
+          oneOf:
+          - $ref: '#/components/schemas/CertificateDesiredEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        time_commitment:
+          oneOf:
+          - $ref: '#/components/schemas/TimeCommitmentEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        course_format:
+          oneOf:
+          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/BlankEnum'
     ProgramCertificate:
       type: object
       description: Serializer for Program Certificates
@@ -2070,6 +2310,20 @@ components:
       required:
       - field_channel
       - parent_field
+    TimeCommitmentEnum:
+      enum:
+      - 0-to-5-hours
+      - 5-to-10-hours
+      - 10-to-20-hours
+      - 20-to-30-hours
+      - 30-plus-hours
+      type: string
+      description: |-
+        * `0-to-5-hours` - <5 hours/week
+        * `5-to-10-hours` - 5-10 hours/week
+        * `10-to-20-hours` - 10-20 hours/week
+        * `20-to-30-hours` - 20-30 hours/week
+        * `30-plus-hours` - 30+ hours/week
     TopicChannel:
       type: object
       description: Serializer for Channel model of type topic

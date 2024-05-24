@@ -5,7 +5,6 @@ Tests for serializers for profiles REST APIS
 
 import factory
 import pytest
-from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.exceptions import ValidationError
 
 from profiles.factories import UserWebsiteFactory
@@ -50,6 +49,12 @@ def test_serialize_user(user):
             "headline": profile.headline,
             "username": profile.user.username,
             "placename": profile.location["value"],
+            "interests": profile.interests,
+            "goals": profile.goals,
+            "current_education": profile.current_education,
+            "certificate_desired": profile.certificate_desired,
+            "time_commitment": profile.time_commitment,
+            "course_format": profile.course_format,
         },
     }
 
@@ -85,6 +90,12 @@ def test_serialize_create_user(db, mocker):
             "profile_image_small": "image_small",
             "profile_image_medium": "image_medium",
             "username": user.username,
+            "interests": user.profile.interests,
+            "goals": user.profile.goals,
+            "current_education": user.profile.current_education,
+            "certificate_desired": user.profile.certificate_desired,
+            "time_commitment": user.profile.time_commitment,
+            "course_format": user.profile.course_format,
         }
     )
     assert UserSerializer(user).data == {
@@ -171,10 +182,6 @@ def test_location_validation(user, data, is_valid):
         ("bio", "bio_value"),
         ("headline", "headline_value"),
         ("location", {"value": "Hobbiton, The Shire, Middle-Earth"}),
-        (
-            "image_file",
-            SimpleUploadedFile("small.gif", small_gif, content_type="image/gif"),
-        ),
     ],
 )
 def test_update_profile(mocker, user, key, value):
@@ -193,7 +200,6 @@ def test_update_profile(mocker, user, key, value):
 
     for prop in (
         "name",
-        "image_file",
         "email_optin",
         "toc_optin",
         "bio",
@@ -203,8 +209,6 @@ def test_update_profile(mocker, user, key, value):
         if prop == key:
             if isinstance(value, bool):
                 assert getattr(profile2, prop) is value
-            elif key == "image_file":
-                assert getattr(profile2, prop).read() == small_gif
             else:
                 assert getattr(profile2, prop) == value
         else:
