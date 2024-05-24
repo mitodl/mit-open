@@ -1,4 +1,4 @@
-import { styled } from "ol-components"
+import { Container, styled } from "ol-components"
 import { MITLogoLink } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React, { FunctionComponent } from "react"
@@ -19,7 +19,6 @@ const FooterContainerInner = styled.div({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  width: "1272px",
   padding: "32px 0",
 })
 
@@ -108,41 +107,49 @@ const FooterCopyright = styled.span(({ theme }) => ({
 const Footer: FunctionComponent = () => {
   return (
     <FooterContainer>
-      <FooterContainerInner>
-        <FooterContent>
-          <FooterLeftContainer>
-            <FooterLogo
-              href="https://mit.edu/"
-              src="/static/images/mit-logo-transparent5.svg"
-            />
-            <FooterAddress>
-              Massachusetts Institute of Technology
-              <br />
-              77 Massachusetts Avenue
-              <br />
-              Cambridge, MA 02139
-            </FooterAddress>
-          </FooterLeftContainer>
-          <FooterRightContainer>
-            <FooterLinksContainer>
-              <FooterLinkComponent text="Home" href={HOME_URL} />
-              <FooterLinkComponent text="About Us" href={urls.ABOUT} />
-              <FooterLinkComponent
-                text="Accessibility"
-                href={urls.ACCESSIBILITY}
+      <Container>
+        <FooterContainerInner>
+          <FooterContent>
+            <FooterLeftContainer>
+              <FooterLogo
+                href="https://mit.edu/"
+                src="/static/images/mit-logo-transparent5.svg"
               />
-              <FooterLinkComponent text="Privacy Policy" href={urls.PRIVACY} />
-              <FooterLinkComponent text="Terms of Service" href={urls.TERMS} />
-              <FooterLinkComponent text="Contact Us" href={urls.CONTACT} />
-            </FooterLinksContainer>
-            <FooterCopyrightContainer>
-              <FooterCopyright>
-                © 2024 Massachusetts Institute of Technology
-              </FooterCopyright>
-            </FooterCopyrightContainer>
-          </FooterRightContainer>
-        </FooterContent>
-      </FooterContainerInner>
+              <FooterAddress>
+                Massachusetts Institute of Technology
+                <br />
+                77 Massachusetts Avenue
+                <br />
+                Cambridge, MA 02139
+              </FooterAddress>
+            </FooterLeftContainer>
+            <FooterRightContainer>
+              <FooterLinksContainer>
+                <FooterLinkComponent text="Home" href={HOME_URL} />
+                <FooterLinkComponent text="About Us" href={urls.ABOUT} />
+                <FooterLinkComponent
+                  text="Accessibility"
+                  href={urls.ACCESSIBILITY}
+                />
+                <FooterLinkComponent
+                  text="Privacy Policy"
+                  href={urls.PRIVACY}
+                />
+                <FooterLinkComponent
+                  text="Terms of Service"
+                  href={urls.TERMS}
+                />
+                <FooterLinkComponent text="Contact Us" href={urls.CONTACT} />
+              </FooterLinksContainer>
+              <FooterCopyrightContainer>
+                <FooterCopyright>
+                  © 2024 Massachusetts Institute of Technology
+                </FooterCopyright>
+              </FooterCopyrightContainer>
+            </FooterRightContainer>
+          </FooterContent>
+        </FooterContainerInner>
+      </Container>
     </FooterContainer>
   )
 }
