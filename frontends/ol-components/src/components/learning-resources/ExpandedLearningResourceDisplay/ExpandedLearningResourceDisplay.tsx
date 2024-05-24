@@ -1,10 +1,7 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import type {
   LearningResource,
-  CourseResource,
-  VideoResource,
   LearningResourceTopic,
-  LearningResourceImage,
   LearningResourceRun,
 } from "api"
 import {
@@ -33,17 +30,46 @@ import {
   RiGlobalLine,
 } from "@remixicon/react"
 
-const Container = styled.div`
+const Container = styled.div<{ isVideo: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 18px 32px;
   gap: 20px;
+  ${({ isVideo }) => (isVideo ? "padding-top: 64px;" : "")}
 `
 
-const Date = styled.p`
+const Date = styled.div`
+  display: flex;
+  justify-content: start;
+  align-self: stretch;
+  align-items: center;
   ${{ ...theme.typography.body2 }}
   color: ${theme.custom.colors.black};
   margin: 0;
+
+  .MuiInputBase-root {
+    margin-bottom: 0;
+    border-color: ${theme.custom.colors.mitRed};
+    border-width: 1.5px;
+    color: ${theme.custom.colors.mitRed};
+    ${{ ...theme.typography.button }}
+    line-height: ${theme.typography.pxToRem(20)};
+    :hover {
+      padding-left: 11.5px;
+      padding-right: 11.5px;
+    }
+    svg {
+      color: ${theme.custom.colors.mitRed};
+    }
+  }
+`
+
+const DateSingle = styled(Date)`
+  margin-top: 10px;
+`
+
+const NoDateSpacer = styled.div`
+  height: 34px;
 `
 
 const DateLabel = styled.span`
@@ -54,6 +80,10 @@ const DateLabel = styled.span`
 
 const Image = styled.img<{ aspectRatio: number }>`
   aspect-ratio: ${({ aspectRatio }) => aspectRatio};
+  border-radius: 8px;
+`
+
+const SkeletonImage = styled(Skeleton)`
   border-radius: 8px;
 `
 
@@ -73,10 +103,17 @@ const Platform = styled.div`
   gap: 16px;
 `
 
+const DetailSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
 const Description = styled.p`
   ${{ ...theme.typography.body2 }}
   color: ${theme.custom.colors.darkGray2};
-  margin: ${theme.typography.pxToRem(8)} 0;
+  margin: 0;
+  white-space: pre-line;
 `
 
 const StyledPlatformLogo = styled(PlatformLogo)`
@@ -138,31 +175,28 @@ type ExpandedLearningResourceDisplayProps = {
   imgConfig: EmbedlyConfig
 }
 
-type ResourceDisplayProps<R extends LearningResource> =
-  ExpandedLearningResourceDisplayProps & {
-    resource: R
-  }
-
 const ImageDisplay: React.FC<{
-  image?: LearningResourceImage | null
+  resource?: LearningResource
   config: EmbedlyConfig
-}> = ({ image, config }) => {
-  if (image) {
+}> = ({ resource, config }) => {
+  if (resource?.resource_type === "video" && resource?.url) {
+    return (
+      <EmbedlyCard
+        aspectRatio={config.width / config.height}
+        url={resource?.url}
+        embedlyKey={config.key}
+      />
+    )
+  } else if (resource?.image) {
     return (
       <Image
-        src={resourceThumbnailSrc(image, config)}
+        src={resourceThumbnailSrc(resource?.image, config)}
         aspectRatio={config.width / config.height}
-        alt={image.alt ?? ""}
+        alt={resource?.image.alt ?? ""}
       />
     )
   } else {
-    return (
-      <Skeleton
-        variant="rectangular"
-        height={config.height}
-        width={config.width}
-      />
-    )
+    return <SkeletonImage variant="rectangular" height={280} />
   }
 }
 
@@ -250,73 +284,29 @@ const InfoSection = ({ run }: { run?: LearningResourceRun }) => {
   )
 }
 
-const DisplayTemplate: React.FC<
-  ExpandedLearningResourceDisplayProps & {
-    media?: React.ReactNode
-  }
-> = ({ resource, imgConfig, media }) => {
-  return (
-    <Container>
-      <Typography variant="subtitle1">
-        {resource ? (
-          getReadableResourceType(resource.resource_type)
-        ) : (
-          <Skeleton variant="text" width="50%" />
-        )}
-      </Typography>
-      {media ?? <ImageDisplay image={resource?.image} config={imgConfig} />}
-      <ResourceTitle resource={resource} />
-      <ResourceDescription resource={resource} />
-      {resource?.topics ? <TopicsSection topics={resource.topics} /> : null}
-    </Container>
-  )
-}
-
-const VideoDisplay: React.FC<ResourceDisplayProps<VideoResource>> = ({
-  resource,
-  imgConfig,
-}) => {
-  return (
-    <DisplayTemplate
-      resource={resource}
-      imgConfig={imgConfig}
-      media={
-        resource?.url ? (
-          <EmbedlyCard
-            aspectRatio={imgConfig.width / imgConfig.height}
-            url={resource.url}
-            embedlyKey={imgConfig.key}
-          />
-        ) : undefined
-      }
-    />
-  )
-}
-
-const Course: React.FC<ResourceDisplayProps<CourseResource>> = ({
-  resource,
-  imgConfig,
-}) => {
+const ExpandedLearningResourceDisplay: React.FC<
+  ExpandedLearningResourceDisplayProps
+> = ({ resource, imgConfig }) => {
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
-  console.log("selectedRun", selectedRun)
+
+  const multipleRuns = resource?.runs && resource.runs.length > 1
+
+  useEffect(() => {
+    if (resource && multipleRuns) {
+      setSelectedRun(resource!.runs![0])
+    }
+  }, [resource, multipleRuns])
 
   const onDateChange = (event: SelectChangeEvent) => {
-    console.log("event", event.target.value)
-    setSelectedRun(
-      resource.runs?.find(
-        (run) => run.id === (event.target.value as unknown as number),
-      ),
+    const run = resource?.runs?.find(
+      (run) => run.id === (event.target.value as unknown as number),
     )
+    if (run) setSelectedRun(run)
   }
 
   const DateSection = () => {
     if (!resource) {
       return <Skeleton variant="text" />
-    }
-    const multipleRuns = resource.runs && resource.runs.length > 1
-
-    const onClick = (event: React.MouseEvent<HTMLElement>) => {
-      event.stopPropagation()
     }
 
     if (multipleRuns) {
@@ -324,10 +314,9 @@ const Course: React.FC<ResourceDisplayProps<CourseResource>> = ({
         <Date>
           <DateLabel>Start Date:</DateLabel>
           <SelectField
-            label=""
+            label={null}
             value={selectedRun?.id as unknown as string}
             onChange={onDateChange}
-            onClick={onClick}
           >
             {resource.runs!.map((run) => (
               <MenuItem key={run.id} value={run.id}>
@@ -339,49 +328,49 @@ const Course: React.FC<ResourceDisplayProps<CourseResource>> = ({
       )
     }
 
+    if (!resource.next_start_date) {
+      return <NoDateSpacer />
+    }
+
     return (
-      <Date>
-        <DateLabel>As taught in:</DateLabel>
+      <DateSingle>
+        <DateLabel>
+          {resource?.resource_type === "course"
+            ? "As taught in:"
+            : "Start Date:"}
+        </DateLabel>
         {formatDate(resource.next_start_date!, "MMMM DD, YYYY")}
-      </Date>
+      </DateSingle>
     )
   }
 
+  const isVideo = resource && resource.resource_type === "video"
+
   return (
-    <Container>
-      <DateSection />
-      <ImageDisplay image={resource?.image} config={imgConfig} />
-      <CallToAction>
-        {resource ? (
-          <StyledButton size="large" href={resource.url!}>
-            Take Course
-          </StyledButton>
-        ) : null}
-        <Platform>
-          <OnPlatform>on</OnPlatform>
-          <StyledPlatformLogo platformCode={resource?.platform?.code} />
-        </Platform>
-      </CallToAction>
-      <div>
+    <Container isVideo={!!isVideo}>
+      {!isVideo ? <DateSection /> : null}
+      <ImageDisplay resource={resource} config={imgConfig} />
+      {!isVideo ? (
+        <CallToAction>
+          {resource ? (
+            <StyledButton size="large" href={resource.url!}>
+              Take {getReadableResourceType(resource?.resource_type)}
+            </StyledButton>
+          ) : null}
+          <Platform>
+            <OnPlatform>on</OnPlatform>
+            <StyledPlatformLogo platformCode={resource?.platform?.code} />
+          </Platform>
+        </CallToAction>
+      ) : null}
+      <DetailSection>
         <ResourceTitle resource={resource} />
         <ResourceDescription resource={resource} />
-      </div>
+      </DetailSection>
       {resource?.topics ? <TopicsSection topics={resource.topics} /> : null}
       <InfoSection run={selectedRun} />
     </Container>
   )
-}
-
-const ExpandedLearningResourceDisplay: React.FC<
-  ExpandedLearningResourceDisplayProps
-> = ({ resource, imgConfig }) => {
-  if (resource?.resource_type === "course") {
-    return <Course resource={resource} imgConfig={imgConfig} />
-  }
-  if (resource?.resource_type === "video") {
-    return <VideoDisplay resource={resource} imgConfig={imgConfig} />
-  }
-  return <DisplayTemplate resource={resource} imgConfig={imgConfig} />
 }
 
 export { ExpandedLearningResourceDisplay }

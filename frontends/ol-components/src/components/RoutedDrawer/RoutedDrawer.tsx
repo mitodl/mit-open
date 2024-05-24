@@ -1,17 +1,24 @@
 import React, { useCallback, useEffect, useMemo } from "react"
 import Drawer from "@mui/material/Drawer"
+import styled from "@emotion/styled"
 import type { DrawerProps } from "@mui/material/Drawer"
-import ClickAwayListener from "@mui/material/ClickAwayListener"
 import { ActionButton } from "../Button/Button"
-import { RiCloseLine } from "@remixicon/react"
+import { RiCloseLargeLine } from "@remixicon/react"
 import { useSearchParams } from "react-router-dom"
 import { useToggle } from "ol-utilities"
 
 const closeSx: React.CSSProperties = {
   position: "absolute",
   top: "18px",
-  right: "32px",
+  right: "22px",
 }
+
+const CloseIcon = styled(RiCloseLargeLine)`
+  &&& {
+    width: 18px;
+    height: 18px;
+  }
+`
 
 type ChildParams<K extends string, R extends K> = Record<K, string | null> &
   Record<R, string>
@@ -63,34 +70,32 @@ const RoutedDrawer = <K extends string, R extends K = K>(
   }, [setSearchParams, params])
 
   return (
-    <ClickAwayListener onClickAway={setOpen.off}>
-      <Drawer
-        open={open}
-        onTransitionExited={removeUrlParams}
-        onClose={setOpen.off}
-        {...others}
-      >
-        {
-          <>
-            {requiredArePresent &&
-              children?.({
-                params: childParams as Record<K, string>,
-                closeDrawer: setOpen.off,
-              })}
-            <ActionButton
-              style={closeSx}
-              variant="text"
-              color="secondary"
-              size="medium"
-              onClick={setOpen.off}
-              aria-label="Close"
-            >
-              <RiCloseLine />
-            </ActionButton>
-          </>
-        }
-      </Drawer>
-    </ClickAwayListener>
+    <Drawer
+      open={open}
+      onTransitionExited={removeUrlParams}
+      onClose={setOpen.off}
+      {...others}
+    >
+      {
+        <>
+          {requiredArePresent &&
+            children?.({
+              params: childParams as Record<K, string>,
+              closeDrawer: setOpen.off,
+            })}
+          <ActionButton
+            style={closeSx}
+            variant="text"
+            color="secondary"
+            size="medium"
+            onClick={setOpen.off}
+            aria-label="Close"
+          >
+            <CloseIcon />
+          </ActionButton>
+        </>
+      }
+    </Drawer>
   )
 }
 
