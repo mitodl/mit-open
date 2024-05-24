@@ -537,6 +537,12 @@ export interface CourseResource {
    */
   learning_format: Array<CourseResourceLearningFormatInner>
   /**
+   * Return true if the resource is free/has a free option
+   * @type {boolean}
+   * @memberof CourseResource
+   */
+  free: boolean
+  /**
    *
    * @type {CourseResourceResourceTypeEnum}
    * @memberof CourseResource
@@ -954,6 +960,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   learning_format: Array<CourseResourceLearningFormatInner>
+  /**
+   * Return true if the resource is free/has a free option
+   * @type {boolean}
+   * @memberof LearningPathResource
+   */
+  free: boolean
   /**
    *
    * @type {LearningPathResourceResourceTypeEnum}
@@ -3240,6 +3252,12 @@ export interface PodcastEpisodeResource {
    */
   learning_format: Array<CourseResourceLearningFormatInner>
   /**
+   * Return true if the resource is free/has a free option
+   * @type {boolean}
+   * @memberof PodcastEpisodeResource
+   */
+  free: boolean
+  /**
    *
    * @type {PodcastEpisodeResourceResourceTypeEnum}
    * @memberof PodcastEpisodeResource
@@ -3508,6 +3526,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   learning_format: Array<CourseResourceLearningFormatInner>
+  /**
+   * Return true if the resource is free/has a free option
+   * @type {boolean}
+   * @memberof PodcastResource
+   */
+  free: boolean
   /**
    *
    * @type {PodcastResourceResourceTypeEnum}
@@ -4004,6 +4028,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   learning_format: Array<CourseResourceLearningFormatInner>
+  /**
+   * Return true if the resource is free/has a free option
+   * @type {boolean}
+   * @memberof ProgramResource
+   */
+  free: boolean
   /**
    *
    * @type {ProgramResourceResourceTypeEnum}
@@ -4560,6 +4590,12 @@ export interface VideoPlaylistResource {
    */
   learning_format: Array<CourseResourceLearningFormatInner>
   /**
+   * Return true if the resource is free/has a free option
+   * @type {boolean}
+   * @memberof VideoPlaylistResource
+   */
+  free: boolean
+  /**
    *
    * @type {VideoPlaylistResourceResourceTypeEnum}
    * @memberof VideoPlaylistResource
@@ -4822,6 +4858,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   learning_format: Array<CourseResourceLearningFormatInner>
+  /**
+   * Return true if the resource is free/has a free option
+   * @type {boolean}
+   * @memberof VideoResource
+   */
+  free: boolean
   /**
    *
    * @type {VideoResourceResourceTypeEnum}

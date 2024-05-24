@@ -66,7 +66,7 @@ def offeror_featured_lists():
                 offered_by=offeror,
                 is_course=True,
                 certification=bool(random.getrandbits(1)),
-                professional=bool(random.getrandbits(1)),
+                professional=offeror.professional,
             )
             if offered_by == OfferedBy.ocw.name:
                 LearningResourceRun.objects.filter(

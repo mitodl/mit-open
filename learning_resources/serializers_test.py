@@ -191,7 +191,6 @@ def test_learning_resource_serializer(  # noqa: PLR0913
 
     assert result == {
         "id": resource.id,
-        "certification": resource.certification,
         "title": resource.title,
         "description": resource.description,
         "full_description": resource.full_description,
@@ -206,6 +205,12 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         ).data,
         "prices": resource.prices,
         "professional": resource.professional,
+        "certification": resource.certification,
+        "free": (
+            not resource.professional
+            and detail_key
+            not in (LearningResourceType.course.name, LearningResourceType.program.name)
+        ),
         "published": resource.published,
         "readable_id": resource.readable_id,
         "course_feature": sorted([tag.name for tag in resource.content_tags.all()]),

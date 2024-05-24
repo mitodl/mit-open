@@ -1,6 +1,7 @@
 """Serializers for learning_resources"""
 
 import logging
+from decimal import Decimal
 from uuid import uuid4
 
 from django.contrib.auth.models import User
@@ -430,6 +431,20 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     learning_format = serializers.ListField(
         child=LearningResourceFormatSerializer(), read_only=True
     )
+    free = serializers.SerializerMethodField()
+
+    def get_free(self, instance) -> bool:
+        """Return true if the resource is free/has a free option"""
+        if instance.resource_type in [
+            LearningResourceType.course.name,
+            LearningResourceType.program.name,
+        ]:
+            prices = instance.prices
+            return not instance.professional and (
+                Decimal(0.00) in prices or not prices or prices == []
+            )
+        else:
+            return True
 
     @extend_schema_field(LearningResourceImageSerializer(allow_null=True))
     def get_image(self, instance) -> dict:
@@ -510,7 +525,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     class Meta:
         model = models.LearningResource
-        read_only_fields = ["professional", "views"]
+        read_only_fields = ["free", "certification", "professional", "views"]
         exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 

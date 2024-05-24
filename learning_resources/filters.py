@@ -114,7 +114,7 @@ class LearningResourceFilter(FilterSet):
             | Q(runs__prices__isnull=True)
             | Q(runs__prices=[])
             | Q(runs__prices__contains=[Decimal(0.00)])
-        )
+        ) & Q(professional=False)
         if value:
             # Free resources
             return queryset.filter(free_filter)
