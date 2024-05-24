@@ -5,6 +5,7 @@ from collections import OrderedDict
 import pytest
 from celery.exceptions import Retry
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from opensearchpy.exceptions import ConnectionTimeout, RequestError
 
@@ -55,6 +56,7 @@ from main.factories import UserFactory
 from main.test_utils import assert_not_raises
 
 pytestmark = pytest.mark.django_db
+User = get_user_model()
 
 
 @pytest.fixture()
@@ -620,12 +622,11 @@ def test_send_subscription_emails(mocked_api, mocker, mocked_celery):
     with pytest.raises(mocked_celery.replace_exception_class):
         send_subscription_emails(PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
 
-    task_args = mocked_celery.group.call_args[0][0][0]["args"]
-
+    task_args = mocked_celery.group.call_args[0][0][0]["args"][0][0]
     template_data = task_args[1]
-    assert user.id in task_args[0]
+    assert user.id == task_args[0]
     for topic in topics:
-        assert topic in template_data[user.id]
+        assert topic in template_data
 
 
 @pytest.mark.django_db()
@@ -674,11 +675,15 @@ def test_send_multiple_subscription_emails(mocked_api, mocker, mocked_celery):
         send_subscription_emails.apply((PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,))
 
     task_args = mocked_celery.group.call_args[0][0][0]["args"]
+
+    user_ids = [arg[0] for arg in task_args[0]]
+    for user in User.objects.all():
+        assert user.id in user_ids
     assert len(task_args[0]) == 3
 
-    template_data = task_args[1]
-    for user_id in template_data:
-        assert len([topic for topic in topics if topic in template_data[user_id]]) > 0
+    template_data = task_args[0][0][1]
+
+    assert len([topic for topic in topics if topic in template_data]) > 0
 
 
 def test_infer_percolate_group(mocked_api):
@@ -789,9 +794,9 @@ def test_digest_email_template(mocked_api, mocker, mocked_celery):
     percolate_matches_for_document_mock.side_effect = get_percolator
     with pytest.raises(mocked_celery.replace_exception_class):
         send_subscription_emails.apply([PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE])
-    task_args = mocked_celery.group.call_args[0][0][0]["args"]
+    task_args = mocked_celery.group.call_args[0][0][0]["args"][0][0]
 
     template_data = task_args[1]
-    assert user.id in task_args[0]
+    assert user.id == task_args[0]
     for topic in topics:
-        assert topic in template_data[user.id]
+        assert topic in template_data
