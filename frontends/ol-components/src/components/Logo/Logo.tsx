@@ -1,6 +1,6 @@
 import React from "react"
 
-const PLATFORMS = [
+export const PLATFORMS = [
   {
     code: "ocw",
     name: "OCW",

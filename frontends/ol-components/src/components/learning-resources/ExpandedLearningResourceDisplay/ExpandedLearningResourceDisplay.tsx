@@ -19,6 +19,7 @@ import {
   theme,
   ButtonLink,
   PlatformLogo,
+  PLATFORMS,
   SelectField,
   MenuItem,
   SelectChangeEvent,
@@ -62,6 +63,9 @@ const Date = styled.div`
     color: ${theme.custom.colors.mitRed};
     ${{ ...theme.typography.button }}
     line-height: ${theme.typography.pxToRem(20)};
+    label {
+      display: none;
+    }
     svg {
       color: ${theme.custom.colors.mitRed};
     }
@@ -351,6 +355,9 @@ const ExpandedLearningResourceDisplay: React.FC<
   }
 
   const isVideo = resource && resource.resource_type === "video"
+  const platformImage = PLATFORMS.find(
+    (platform) => platform.code === resource?.platform?.code,
+  )?.image
 
   return (
     <Container isVideo={!!isVideo}>
@@ -360,16 +367,19 @@ const ExpandedLearningResourceDisplay: React.FC<
         <CallToAction>
           {resource ? (
             <StyledButton size="large" href={resource.url!}>
-              Take {getReadableResourceType(resource?.resource_type)}
+              {resource?.resource_type !== "podcast" ? "Take" : "Listen to"}{" "}
+              {getReadableResourceType(resource?.resource_type)}
             </StyledButton>
           ) : (
             <Skeleton height={70} width="50%" />
           )}
           {resource ? (
-            <Platform>
-              <OnPlatform>on</OnPlatform>
-              <StyledPlatformLogo platformCode={resource?.platform?.code} />
-            </Platform>
+            platformImage ? (
+              <Platform>
+                <OnPlatform>on</OnPlatform>
+                <StyledPlatformLogo platformCode={resource?.platform?.code} />
+              </Platform>
+            ) : null
           ) : (
             <Skeleton height={50} width="25%" />
           )}

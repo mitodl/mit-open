@@ -9,7 +9,7 @@ import { useToggle } from "ol-utilities"
 
 const closeSx: React.CSSProperties = {
   position: "absolute",
-  top: "18px",
+  top: "16px",
   right: "22px",
 }
 
