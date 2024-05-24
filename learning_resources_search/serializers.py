@@ -1,7 +1,7 @@
 """Serializers for opensearch data"""
 
 import logging
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 from typing import TypedDict
 
 from django.conf import settings
@@ -133,6 +133,17 @@ class ArrayWrappedBoolean(serializers.BooleanField):
             return data
         else:
             return [data]
+
+
+class DisplayChoiceField(serializers.ChoiceField):
+    def __init__(self, *args, **kwargs):
+        choices = kwargs.get("choices")
+        self._choices = OrderedDict(choices)
+        super().__init__(*args, **kwargs)
+
+    def to_representation(self, obj):
+        """Use while retrieving value for the field."""
+        return self._choices[obj]
 
 
 CONTENT_FILE_SORTBY_OPTIONS = [
@@ -465,14 +476,26 @@ class ContentFileSearchResponseSerializer(SearchResponseSerializer):
         return super().get_results()
 
 
-class UserPercolateQueryRequestSerializer(SearchResponseSerializer):
+class PercolateQuerySubscriptionRequestSerializer(
+    LearningResourcesSearchRequestSerializer
+):
     """
-    SearchResponseSerializer with OpenAPI annotations for Content Files search
+    PercolateQuerySubscriptionRequestSerializer with
+    OpenAPI annotations for Percolate Subscription requests
     """
 
-    @extend_schema_field(PercolateQuerySerializer(many=True))
-    def get_results():
-        return super().get_results()
+    source_type = DisplayChoiceField(
+        required=False,
+        choices=[(choice, choice) for choice in PercolateQuery.SOURCE_TYPES],
+        help_text="The subscription type",
+        default=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+    )
+
+    def get_search_request_data(self):
+        search_data = self.data.copy()
+        if "source_type" in search_data:
+            search_data.pop("source_type")
+        return search_data
 
 
 def serialize_content_file_for_update(content_file_obj):

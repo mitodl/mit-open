@@ -1,8 +1,11 @@
 """Search task tests"""
 
+from collections import OrderedDict
+
 import pytest
 from celery.exceptions import Retry
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from opensearchpy.exceptions import ConnectionTimeout, RequestError
 
@@ -10,9 +13,12 @@ from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES, ETLSourc
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
+    LearningResourceDepartmentFactory,
     LearningResourceFactory,
+    LearningResourceOfferorFactory,
     ProgramFactory,
 )
+from learning_resources.models import LearningResource
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
@@ -22,11 +28,16 @@ from learning_resources_search.constants import (
     IndexestoUpdate,
 )
 from learning_resources_search.exceptions import ReindexError, RetryError
+from learning_resources_search.factories import PercolateQueryFactory
+from learning_resources_search.models import PercolateQuery
 from learning_resources_search.serializers import (
     serialize_content_file_for_update,
     serialize_learning_resource_for_update,
 )
 from learning_resources_search.tasks import (
+    _get_percolated_rows,
+    _group_percolated_rows,
+    _infer_percolate_group,
     bulk_deindex_learning_resources,
     deindex_document,
     deindex_run_content_files,
@@ -34,15 +45,18 @@ from learning_resources_search.tasks import (
     index_course_content_files,
     index_learning_resources,
     index_run_content_files,
+    send_subscription_emails,
     start_recreate_index,
     start_update_index,
     upsert_content_file,
     upsert_learning_resource,
     wrap_retry_exception,
 )
+from main.factories import UserFactory
 from main.test_utils import assert_not_raises
 
 pytestmark = pytest.mark.django_db
+User = get_user_model()
 
 
 @pytest.fixture()
@@ -561,3 +575,228 @@ def test_delete_run_content_files(mocker, with_error, unpublished_only):
     assert result == (
         "deindex_run_content_files threw an error" if with_error else None
     )
+
+
+@pytest.mark.django_db()
+def test_send_subscription_emails(mocked_api, mocker, mocked_celery):
+    """
+    Test that a subscribed user receives
+    emails with percolate matches
+    """
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+        "Systems Engineering",
+    ]
+
+    LearningResource.objects.all().delete()
+    LearningResourceFactory.create_batch(len(topics), is_course=True)
+    user = UserFactory.create()
+    queries = []
+    query_ids = []
+    user_documents = dict.fromkeys(topics, [])
+    for topic in topics:
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topic]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        query.save()
+
+        queries.append(query)
+        query_ids.append(query.id)
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        query_id = query_ids.pop()
+        pq = PercolateQuery.objects.filter(id=query_id).first()
+        og_query = OrderedDict(pq.original_query)
+        ptopic = og_query["topic"][0]
+        user_documents[ptopic].append(LearningResource.objects.get(id=res))
+        return PercolateQuery.objects.filter(id=query_id)
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+    with pytest.raises(mocked_celery.replace_exception_class):
+        send_subscription_emails(PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
+
+    task_args = mocked_celery.group.call_args[0][0][0]["args"][0][0]
+    template_data = task_args[1]
+    assert user.id == task_args[0]
+    for topic in topics:
+        assert topic in template_data
+
+
+@pytest.mark.django_db()
+def test_send_multiple_subscription_emails(mocked_api, mocker, mocked_celery):
+    """
+    Test that subscription email with
+    multiple users and percolate matches
+    """
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+        "Systems Engineering",
+    ]
+
+    LearningResource.objects.all().delete()
+    LearningResourceFactory.create_batch(len(topics), is_course=True)
+
+    queries = []
+    query_ids = []
+    user_documents = dict.fromkeys(topics, [])
+    for topic in topics:
+        user = UserFactory.create()
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topic]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        query.save()
+        queries.append(query)
+        query_ids.append(query.id)
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        query_id = query_ids.pop()
+        pq = PercolateQuery.objects.filter(id=query_id).first()
+        og_query = OrderedDict(pq.original_query)
+        ptopic = og_query["topic"][0]
+        user_documents[ptopic].append(LearningResource.objects.get(id=res))
+        return PercolateQuery.objects.filter(id=query_id)
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+    with pytest.raises(mocked_celery.replace_exception_class):
+        send_subscription_emails.apply((PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,))
+
+    task_args = mocked_celery.group.call_args[0][0][0]["args"]
+
+    user_ids = [arg[0] for arg in task_args[0]]
+    for user in User.objects.all():
+        assert user.id in user_ids
+    assert len(task_args[0]) == 3
+
+    template_data = task_args[0][0][1]
+
+    assert len([topic for topic in topics if topic in template_data]) > 0
+
+
+def test_infer_percolate_group(mocked_api):
+    """
+    Test that the the email template groups can be inferred from queries
+    """
+    topic = "Mechanical Engineering"
+    topic_query = PercolateQueryFactory.create()
+    topic_query.original_query["topic"] = [topic]
+    topic_query.save()
+    assert _infer_percolate_group(topic_query) == topic
+    department = LearningResourceDepartmentFactory.create()
+    department_query = PercolateQueryFactory.create()
+    department_query.original_query["topic"] = []
+    department_query.original_query["department"] = [department.department_id]
+    department_query.save()
+    assert _infer_percolate_group(department_query) == department.name
+    offerer = LearningResourceOfferorFactory.create()
+    offerer_query = PercolateQueryFactory.create()
+    offerer_query.original_query["topic"] = []
+    offerer_query.original_query["offered_by"] = [offerer.code]
+    offerer_query.save()
+    assert _infer_percolate_group(offerer_query) == offerer.name
+
+
+def test_email_grouping_function(mocked_api, mocker):
+    """
+    Test that template data for digest emails are grouped correctly
+    """
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+        "Systems Engineering",
+    ]
+
+    LearningResource.objects.all().delete()
+    new_resources = LearningResourceFactory.create_batch(len(topics), is_course=True)
+
+    queries = []
+    query_ids = []
+    user_ids = []
+    user_documents = dict.fromkeys(topics, [])
+    for topic in topics:
+        user = UserFactory.create()
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topic]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        user_ids.append(user.id)
+        query.save()
+        queries.append(query)
+        query_ids.append(query.id)
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        query_id = query_ids.pop()
+        pq = PercolateQuery.objects.filter(id=query_id).first()
+        og_query = OrderedDict(pq.original_query)
+        ptopic = og_query["topic"][0]
+        user_documents[ptopic].append(LearningResource.objects.get(id=res))
+        return PercolateQuery.objects.filter(id=query_id)
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+    rows = _get_percolated_rows(new_resources, PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE)
+    template_data = _group_percolated_rows(rows)
+    assert len(template_data) == len(topics)
+    assert len(template_data[user_ids[0]]) == 1
+
+
+def test_digest_email_template(mocked_api, mocker, mocked_celery):
+    """
+    Test that email digest for percolated matches contains the
+    correct total and that the topic groups appear in the email
+    """
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+        "Systems Engineering",
+    ]
+
+    LearningResource.objects.all().delete()
+    LearningResourceFactory.create_batch(len(topics), is_course=True)
+
+    queries = []
+    query_ids = []
+
+    user = UserFactory.create()
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topics.pop()]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        query.save()
+        queries.append(query)
+        query_ids.append(query.id)
+        return PercolateQuery.objects.filter(id=query.id)
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+    with pytest.raises(mocked_celery.replace_exception_class):
+        send_subscription_emails.apply([PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE])
+    task_args = mocked_celery.group.call_args[0][0][0]["args"][0][0]
+
+    template_data = task_args[1]
+    assert user.id == task_args[0]
+    for topic in topics:
+        assert topic in template_data

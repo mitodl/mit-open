@@ -6,6 +6,7 @@ import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionTo
 import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
+import { SourceTypeEnum } from "api"
 
 export const FieldTitleRow = styled.div`
   display: flex;
@@ -73,7 +74,10 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
 
                 <FieldControls>
                   {field.data?.search_filter ? (
-                    <SearchSubscriptionToggle searchParams={urlParams} />
+                    <SearchSubscriptionToggle
+                      sourceType={SourceTypeEnum.ChannelSubscriptionType}
+                      searchParams={urlParams}
+                    />
                   ) : null}
                   {field.data?.is_moderator ? (
                     <FieldMenu

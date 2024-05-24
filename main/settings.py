@@ -339,6 +339,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontends/mit-open/public")]  # noqa
 # Important to define this so DEBUG works properly
 INTERNAL_IPS = (get_string("HOST_IP", "127.0.0.1"),)
 
+NOTIFICATION_ATTEMPT_RATE_LIMIT = "600/m"
+
+NOTIFICATION_ATTEMPT_CHUNK_SIZE = 100
+
 # Configure e-mail settings
 EMAIL_BACKEND = get_string(
     "MITOPEN_EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"

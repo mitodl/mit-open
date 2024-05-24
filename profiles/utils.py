@@ -9,8 +9,11 @@ from urllib.parse import quote, urljoin
 from xml.sax.saxutils import escape as xml_escape
 
 import requests
+from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.files.temp import NamedTemporaryFile
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 from PIL import Image
 
 from main.utils import generate_filepath
@@ -371,3 +374,43 @@ def fetch_program_letter_template_data(letter):
         if response_json and response_json.get("meta", {}).get("total_count", 0) > 0:
             return response_json["items"][0]
     return None
+
+
+def send_template_email(recipients, subject, template, context):
+    """
+    Send an html email using a provided template
+    Args:
+        recipients(str[]): Emails to send to
+        subject(str): Subject line
+        template(str): Path to an html template
+        context(dict): context vars used in rendering the template
+    """
+    if not context:
+        context = {}
+    html_content = render_to_string(template, context)
+    return send_email(recipients, subject, html_content, text_only=False)
+
+
+def send_email(recipients, subject, content, text_only):
+    """
+    Send an email
+    Args:
+        recipients(str[]): Emails to send to
+        subject(str): Subject line
+        content(str): The html or plain text content of the email.
+        text_only(bool): If True html from the 'content' arg
+        will be stripped and sent as plaint text
+    """
+    if text_only:
+        text_content = content
+    else:
+        soup = BeautifulSoup(content, "html5lib")
+        for link in soup.find_all("a"):
+            link.replace_with(link.attrs["href"])
+        text_content = soup.get_text().strip()
+    msg = EmailMultiAlternatives(
+        subject, text_content, settings.DEFAULT_FROM_EMAIL, recipients
+    )
+    if not text_only:
+        msg.attach_alternative(content, "text/html")
+    return msg.send()

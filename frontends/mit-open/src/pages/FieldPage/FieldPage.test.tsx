@@ -49,10 +49,11 @@ const setupApis = (
     field,
   )
   const urlParams = new URLSearchParams(fieldPatch?.search_filter)
-  const subscribeParams: Record<string, string[]> = {}
+  const subscribeParams: Record<string, string[] | string> = {}
   for (const [key, value] of urlParams.entries()) {
     subscribeParams[key] = value.split(",")
   }
+  subscribeParams["source_type"] = "channel_subscription_type"
   const subscribeResponse = userIsSubscribed
     ? factories.percolateQueries.percolateQueryList({ count: 1 }).results
     : factories.percolateQueries.percolateQueryList({ count: 0 }).results
@@ -70,7 +71,12 @@ const setupApis = (
     )
   }
 
-  setMockResponse.get(`${urls.userSubscription.check()}`, subscribeResponse)
+  setMockResponse.get(
+    `${urls.userSubscription.check({
+      source_type: "channel_subscription_type",
+    })}`,
+    subscribeResponse,
+  )
 
   const widgetsList = makeWidgetListResponse()
   setMockResponse.get(

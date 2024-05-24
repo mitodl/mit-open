@@ -1,10 +1,12 @@
 """API for general search-related functionality"""
 
+import logging
 import re
 from collections import Counter
 
 from opensearch_dsl import Search
 from opensearch_dsl.query import MoreLikeThis, Percolate
+from opensearchpy.exceptions import NotFoundError
 
 from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
 from learning_resources.models import LearningResource
@@ -31,6 +33,8 @@ from learning_resources_search.utils import (
     adjust_search_for_percolator,
     document_percolated_actions,
 )
+
+log = logging.getLogger(__name__)
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
@@ -494,16 +498,18 @@ def percolate_matches_for_document(document_id):
     resource = LearningResource.objects.get(id=document_id)
     index = get_default_alias_name(resource.resource_type)
     search = Search()
-    results = search.query(
-        Percolate(field="query", index=index, id=str(document_id))
-    ).execute()
-    percolate_ids = [result.id for result in results.hits]
-
+    percolate_ids = []
+    try:
+        results = search.query(
+            Percolate(field="query", index=index, id=str(document_id))
+        ).execute()
+        percolate_ids = [result.id for result in results.hits]
+    except NotFoundError:
+        log.info("document %s not found in index", document_id)
+    percolated_queries = PercolateQuery.objects.filter(id__in=percolate_ids)
     if len(percolate_ids) > 0:
-        document_percolated_actions(
-            resource,
-            PercolateQuery.objects.filter(id__in=percolate_ids),
-        )
+        document_percolated_actions(resource, percolated_queries)
+    return percolated_queries
 
 
 def construct_search(search_params):
@@ -596,9 +602,9 @@ def execute_learn_search(search_params):
     return search.execute().to_dict()
 
 
-def subscribe_user_to_search_query(user, search_params):
-    from learning_resources_search.models import PercolateQuery
-
+def subscribe_user_to_search_query(
+    user, search_params, source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE
+):
     """
     Subscribe a user to a search query
 
@@ -613,7 +619,7 @@ def subscribe_user_to_search_query(user, search_params):
     """
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
     percolate_query, _ = PercolateQuery.objects.get_or_create(
-        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        source_type=source_type,
         original_query=adjusted_original_query,
         query=adjust_query_for_percolator(adjusted_original_query),
     )
@@ -622,9 +628,9 @@ def subscribe_user_to_search_query(user, search_params):
     return percolate_query
 
 
-def unsubscribe_user_from_search_query(user, search_params):
-    from learning_resources_search.models import PercolateQuery
-
+def unsubscribe_user_from_search_query(
+    user, search_params, source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE
+):
     """
     Unsubscribe a user to a search query
 
@@ -640,7 +646,7 @@ def unsubscribe_user_from_search_query(user, search_params):
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
 
     percolate_query = PercolateQuery.objects.filter(
-        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        source_type=source_type,
         original_query=adjusted_original_query,
         query=adjust_query_for_percolator(adjusted_original_query),
     ).first()
@@ -663,9 +669,9 @@ def unsubscribe_user_from_percolate_query(user, percolate_query):
     return percolate_query
 
 
-def user_subscribed_to_query(user, search_params):
-    from learning_resources_search.models import PercolateQuery
-
+def user_subscribed_to_query(
+    user, search_params, source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE
+):
     """
     Check if a user is subscribed to a search query
 
@@ -680,7 +686,7 @@ def user_subscribed_to_query(user, search_params):
     """
     adjusted_original_query = adjust_original_query_for_percolate(search_params)
     percolate_query = PercolateQuery.objects.filter(
-        source_type=PercolateQuery.SEARCH_SUBSCRIPTION_TYPE,
+        source_type=source_type,
         original_query=adjusted_original_query,
     ).first()
     return (
