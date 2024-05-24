@@ -138,6 +138,8 @@ def _infer_search_url(percolate_query):
     """
     original_query = OrderedDict(percolate_query.original_query)
     query_string_params = {k: v for k, v in original_query.items() if v}
+    if "endpoint" in query_string_params:
+        query_string_params.pop("endpoint")
     query_string = urlencode(query_string_params, doseq=True)
     return f"{settings.SITE_BASE_URL}/search?{query_string}"
 
