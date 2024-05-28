@@ -4,6 +4,7 @@ import type {
   LearningResourceTopic,
   LearningResourceRun,
 } from "api"
+import { ResourceTypeEnum, PlatformEnum } from "api"
 import {
   formatDate,
   resourceThumbnailSrc,
@@ -11,7 +12,6 @@ import {
 } from "ol-utilities"
 import type { EmbedlyConfig } from "ol-utilities"
 import styled from "@emotion/styled"
-import Chip from "@mui/material/Chip"
 import { EmbedlyCard } from "../../EmbedlyCard/EmbedlyCard"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
@@ -23,6 +23,8 @@ import {
   SelectField,
   MenuItem,
   SelectChangeEvent,
+  ChipLink,
+  Chip,
 } from "ol-components"
 import {
   RiMoneyDollarCircleFill,
@@ -241,17 +243,28 @@ const TopicsSection: React.FC<{ topics: LearningResourceTopic[] }> = ({
 }) => {
   return (
     <Topics>
-      <Typography variant="subtitle2">Topics</Typography>
+      <Typography variant="subtitle2" component="h3">
+        Topics
+      </Typography>
       <TopicsList>
-        {topics.map((topic) => (
-          <Chip
-            size="medium"
-            key={topic.id}
-            component="li"
-            label={topic.name}
-            variant="outlined"
-          />
-        ))}
+        {topics.map((topic) =>
+          topic.channel_url ? (
+            <ChipLink
+              key={topic.id}
+              size="medium"
+              label={topic.name}
+              href={topic.channel_url}
+              variant="outlined"
+            />
+          ) : (
+            <Chip
+              key={topic.id}
+              size="medium"
+              label={topic.name}
+              variant="outlined"
+            />
+          ),
+        )}
       </TopicsList>
     </Topics>
   )
@@ -263,7 +276,9 @@ const InfoSection = ({ run }: { run?: LearningResourceRun }) => {
   }
   return (
     <InfoItems>
-      <Typography variant="subtitle2">Info</Typography>
+      <Typography variant="subtitle2" component="h3">
+        Info
+      </Typography>
       <InfoItem>
         <RiMoneyDollarCircleFill />
         <InfoLabel>Cost:</InfoLabel>
@@ -292,6 +307,14 @@ const InfoSection = ({ run }: { run?: LearningResourceRun }) => {
       </InfoItem>
     </InfoItems>
   )
+}
+
+const getCtaPrefix = (type: ResourceTypeEnum) => {
+  if (type === ResourceTypeEnum.Podcast) {
+    return "Listen to"
+  } else {
+    return "Take"
+  }
 }
 
 const ExpandedLearningResourceDisplay: React.FC<
@@ -354,7 +377,7 @@ const ExpandedLearningResourceDisplay: React.FC<
     )
   }
 
-  const isVideo = resource && resource.resource_type === "video"
+  const isVideo = resource && resource.resource_type === ResourceTypeEnum.Video
   const platformImage = PLATFORMS.find(
     (platform) => platform.code === resource?.platform?.code,
   )?.image
@@ -367,8 +390,8 @@ const ExpandedLearningResourceDisplay: React.FC<
         <CallToAction>
           {resource ? (
             <StyledButton size="large" href={resource.url!}>
-              {resource?.resource_type !== "podcast" ? "Take" : "Listen to"}{" "}
-              {getReadableResourceType(resource?.resource_type)}
+              {getCtaPrefix(resource.resource_type)}{" "}
+              {getReadableResourceType(resource.resource_type)}
             </StyledButton>
           ) : (
             <Skeleton height={70} width="50%" />
@@ -377,7 +400,9 @@ const ExpandedLearningResourceDisplay: React.FC<
             platformImage ? (
               <Platform>
                 <OnPlatform>on</OnPlatform>
-                <StyledPlatformLogo platformCode={resource?.platform?.code} />
+                <StyledPlatformLogo
+                  platformCode={resource?.platform?.code as PlatformEnum}
+                />
               </Platform>
             ) : null
           ) : (

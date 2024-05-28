@@ -1,5 +1,6 @@
 import React from "react"
-import { render, screen } from "@testing-library/react"
+import { BrowserRouter } from "react-router-dom"
+import { render, screen, within } from "@testing-library/react"
 import { ExpandedLearningResourceDisplay } from "./ExpandedLearningResourceDisplay"
 import type { ExpandedLearningResourceDisplayProps } from "./ExpandedLearningResourceDisplay"
 import { ResourceTypeEnum } from "api"
@@ -7,6 +8,7 @@ import { factories } from "api/test-utils"
 import { ThemeProvider } from "../../ThemeProvider/ThemeProvider"
 import { getReadableResourceType } from "ol-utilities"
 import invariant from "tiny-invariant"
+import type { LearningResource } from "api"
 
 type DisplayProps = ExpandedLearningResourceDisplayProps
 const IMG_CONFIG: DisplayProps["imgConfig"] = {
@@ -15,37 +17,30 @@ const IMG_CONFIG: DisplayProps["imgConfig"] = {
   height: 200,
 }
 
-const setup = (props: Omit<DisplayProps, "imgConfig">) => {
+const setup = (resource: LearningResource) => {
   return render(
-    <ThemeProvider>
-      <ExpandedLearningResourceDisplay imgConfig={IMG_CONFIG} {...props} />
-    </ThemeProvider>,
+    <BrowserRouter>
+      <ExpandedLearningResourceDisplay
+        resource={resource}
+        imgConfig={IMG_CONFIG}
+      />
+    </BrowserRouter>,
+    { wrapper: ThemeProvider },
   )
 }
 
 describe("ExpandedLearningResourceDisplay", () => {
-  it.each(Object.values(ResourceTypeEnum))(
-    "Renders title and resource type",
-    (resourceType) => {
-      const resource = factories.learningResources.resource({
-        resource_type: resourceType,
-      })
-
-      setup({ resource })
-      screen.getByText(getReadableResourceType(resource.resource_type))
-      screen.getByRole("heading", { name: resource.title })
-    },
-  )
-
   it.each(
     Object.values(ResourceTypeEnum).filter(
       (type) => type !== ResourceTypeEnum.Video,
     ),
-  )("Displays an image for type=$resourceType", (resourceType) => {
+  )('Renders image, title and link for resource type "%s"', (resourceType) => {
     const resource = factories.learningResources.resource({
       resource_type: resourceType,
     })
-    setup({ resource })
+
+    setup(resource)
+
     const images = screen.getAllByRole("img")
     const image = images.find((img) =>
       img
@@ -55,17 +50,98 @@ describe("ExpandedLearningResourceDisplay", () => {
     expect(image).toBeInTheDocument()
     invariant(image)
     expect(image).toHaveAttribute("alt", resource.image?.alt ?? "")
+
+    screen.getByRole("heading", { name: resource.title })
+
+    const linkName =
+      resource.resource_type === ResourceTypeEnum.Podcast
+        ? `Listen to ${getReadableResourceType(resource.resource_type)}`
+        : `Take ${getReadableResourceType(resource.resource_type)}`
+
+    if (linkName) {
+      const link = screen.getByRole("link", {
+        name: linkName,
+      }) as HTMLAnchorElement
+      expect(link.href).toBe(`${resource.url}/`)
+    }
   })
 
-  it("Renders a video for videos", () => {
-    const video = factories.learningResources.resource({
+  it(`Renders card and title for resource type "${ResourceTypeEnum.Video}"`, () => {
+    const resource = factories.learningResources.resource({
       resource_type: ResourceTypeEnum.Video,
     })
 
-    setup({ resource: video })
+    setup(resource)
     // eslint-disable-next-line testing-library/no-node-access
     const embedlyCard = document.querySelector(".embedly-card")
     invariant(embedlyCard)
-    expect(embedlyCard).toHaveAttribute("href", video.url)
+    expect(embedlyCard).toHaveAttribute("href", resource.url)
+
+    screen.getByRole("heading", { name: resource.title })
+  })
+
+  it.each(
+    Object.values(ResourceTypeEnum).filter(
+      (type) => type !== ResourceTypeEnum.Video,
+    ),
+  )('Renders topic section for resource type "%s"', (resourceType) => {
+    const resource = factories.learningResources.resource({
+      resource_type: resourceType,
+    })
+
+    setup(resource)
+
+    const section = screen
+      .getByRole("heading", { name: "Topics" })!
+      // eslint-disable-next-line testing-library/no-node-access
+      .closest("section")!
+
+    const links = within(section).getAllByRole("link")
+
+    resource.topics!.forEach((topic, index) => {
+      expect(links[index]).toHaveAttribute("href", topic.channel_url)
+      expect(links[index]).toHaveTextContent(topic.name)
+    })
+  })
+
+  it.each(
+    Object.values(ResourceTypeEnum).filter(
+      (type) => type !== ResourceTypeEnum.Video,
+    ),
+  )('Renders info section for resource type "%s"', (resourceType) => {
+    const resource = factories.learningResources.resource({
+      resource_type: resourceType,
+    })
+
+    setup(resource)
+
+    const run = resource.runs![0]
+
+    if (run) {
+      const section = screen
+        .getByRole("heading", { name: "Info" })!
+        // eslint-disable-next-line testing-library/no-node-access
+        .closest("section")!
+
+      const price = run.prices?.[0]
+      if (price) {
+        within(section).getByText(price)
+      }
+
+      const level = run.level?.[0]
+      if (level) {
+        within(section).getByText(level.name)
+      }
+
+      if (run.instructors?.length) {
+        within(section!).getByText(
+          run.instructors.map(({ full_name: name }) => name).join(", "),
+        )
+      }
+
+      if (run.languages?.length) {
+        within(section!).getByText(run.languages.join(", "))
+      }
+    }
   })
 })
