@@ -54,13 +54,11 @@ const Carousel: React.FC<CarouselProps> = ({
   const canPageDown = index !== 0
 
   const pageDown = () => {
-    console.log("ref is", ref)
     ref && ref.current && ref.current.goBack()
     setIndex(index - pageSize)
   }
 
   const pageUp = () => {
-    console.log("ref is", ref)
     ref && ref.current && ref.current.goForward()
     setIndex(index + pageSize)
   }
