@@ -7,14 +7,21 @@ from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.db.models import JSONField
+from django.db.models.functions import Lower
 
 from learning_resources import constants
 from learning_resources.constants import (
+    LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     PrivacyLevel,
 )
 from main.models import TimestampedModel
+
+
+def default_learning_format():
+    """Return the default learning format list"""
+    return [LearningResourceFormat.online.name]
 
 
 class LearningResourcePlatform(TimestampedModel):
@@ -35,18 +42,41 @@ class LearningResourceTopic(TimestampedModel):
     Topics for all learning resources (e.g. "History")
     """
 
-    name = models.CharField(max_length=128, unique=True)
+    name = models.CharField(max_length=128)
+    parent = models.ForeignKey(
+        "LearningResourceTopic",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+    )
 
     def __str__(self):
+        """Return the topic name."""
+
         return self.name
+
+    class Meta:
+        """Meta options for LearningResourceTopic"""
+
+        constraints = [models.UniqueConstraint(Lower("name"), name="unique_lower_name")]
 
 
 class LearningResourceOfferor(TimestampedModel):
     """Represents who is offering a learning resource"""
 
+    # Old fields
     code = models.CharField(max_length=12, primary_key=True)
     name = models.CharField(max_length=256, unique=True)
     professional = models.BooleanField(default=False)
+
+    # New fields
+    offerings = ArrayField(models.CharField(max_length=128), default=list)
+    audience = ArrayField(models.CharField(max_length=128), default=list)
+    formats = ArrayField(models.CharField(max_length=128), default=list)
+    fee = ArrayField(models.CharField(max_length=128), default=list)
+    certifications = ArrayField(models.CharField(max_length=128), default=list)
+    content_types = ArrayField(models.CharField(max_length=128), default=list)
+    more_information = models.URLField(blank=True)
 
     def __str__(self):
         return f"{self.code}: {self.name}"
@@ -116,7 +146,7 @@ class LearningResourceInstructor(TimestampedModel):
     full_name = models.CharField(max_length=256, null=True, blank=True, unique=True)
 
     class Meta:
-        ordering = ["last_name"]
+        ordering = ["last_name", "first_name"]
 
     def __str__(self):
         return self.full_name or f"{self.first_name} {self.last_name}"
@@ -129,6 +159,7 @@ class LearningResource(TimestampedModel):
         "topics",
         "offered_by",
         "departments",
+        "departments__school",
         "content_tags",
         "runs",
         "runs__instructors",
@@ -164,7 +195,7 @@ class LearningResource(TimestampedModel):
     )
     learning_format = ArrayField(
         models.CharField(max_length=24, db_index=True),
-        default=list,
+        default=default_learning_format,
     )
     platform = models.ForeignKey(
         LearningResourcePlatform,
@@ -175,6 +206,7 @@ class LearningResource(TimestampedModel):
     departments = models.ManyToManyField(
         LearningResourceDepartment,
     )
+    certification = models.BooleanField(default=False)
     resource_type = models.CharField(
         max_length=24,
         db_index=True,
@@ -213,25 +245,6 @@ class LearningResource(TimestampedModel):
             )
         else:
             return [Decimal(0.00)]
-
-    @property
-    def certification(self) -> bool:
-        """Returns the certification for the learning resource"""
-        return bool(
-            self.professional
-            or (
-                self.offered_by
-                and self.offered_by.name == constants.OfferedBy.mitx.value
-                and (
-                    any(
-                        availability != constants.AvailabilityType.archived.value
-                        for availability in self.runs.values_list(
-                            "availability", flat=True
-                        )
-                    )
-                )
-            )
-        )
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)

@@ -1,4 +1,4 @@
-import { screen, within, user, waitFor, renderTestApp } from "@/test-utils"
+import { screen, within, waitFor, renderTestApp } from "@/test-utils"
 import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
 import type { LearningResourceSearchResponse } from "api"
 import invariant from "tiny-invariant"
@@ -14,7 +14,23 @@ const setMockApiResponses = ({
   fieldPatch?: Partial<FieldChannel>
 }) => {
   const field = factories.fields.field(fieldPatch)
+  const urlParams = new URLSearchParams(fieldPatch?.search_filter)
+  const subscribeParams: Record<string, string[] | string> = {}
+  for (const [key, value] of urlParams.entries()) {
+    subscribeParams[key] = value.split(",")
+  }
+  subscribeParams["source_type"] = "channel_subscription_type"
+  if (fieldPatch?.search_filter) {
+    setMockResponse.get(
+      `${urls.userSubscription.check(subscribeParams)}`,
+      factories.percolateQueries,
+    )
+  }
 
+  setMockResponse.get(
+    urls.userSubscription.check({ source_type: "channel_subscription_type" }),
+    factories.percolateQueries,
+  )
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
     field,
@@ -103,7 +119,7 @@ describe("FieldSearch", () => {
       expected: { offered_by: "ocw", topic: "physics" },
     },
     {
-      searchFilter: "offered_by=ocw,xpro",
+      searchFilter: "offered_by=ocw",
       url: "?offered_by=xpro&topic=physics",
       expected: { offered_by: "xpro", topic: "physics" },
     },
@@ -152,27 +168,15 @@ describe("FieldSearch", () => {
   test.each([
     {
       fieldType: ChannelTypeEnum.Topic,
-      displayedFacets: [
-        "Resource Type",
-        "Offered By",
-        "Department",
-        "Level",
-        "Certification",
-      ],
+      displayedFacets: ["Resource Type", "Offered By", "Department", "Format"],
     },
     {
       fieldType: ChannelTypeEnum.Department,
-      displayedFacets: [
-        "Resource Type",
-        "Offered By",
-        "Topic",
-        "Level",
-        "Certification",
-      ],
+      displayedFacets: ["Resource Type", "Offered By", "Topic", "Format"],
     },
     {
       fieldType: ChannelTypeEnum.Offeror,
-      displayedFacets: ["Resource Type", "Topic", "Platform", "Certification"],
+      displayedFacets: ["Resource Type", "Topic", "Platform", "Format"],
     },
     {
       fieldType: ChannelTypeEnum.Pathway,
@@ -197,6 +201,7 @@ describe("FieldSearch", () => {
               platform: [{ key: "ocw", doc_count: 100 }],
               offered_by: [{ key: "ocw", doc_count: 100 }],
               certification: [{ key: "true", doc_count: 100 }],
+              learning_format: [{ key: "online", doc_count: 100 }],
             },
             suggestions: [],
           },
@@ -211,180 +216,19 @@ describe("FieldSearch", () => {
         expect(makeRequest.mock.calls.length > 0).toBe(true)
       })
 
-      for (const dropdownName of [
+      for (const facetName of [
         "Department",
-        "Level",
-        "Learning Resource",
-        "Level",
         "Offered By",
         "Platforn",
         "Topic",
-        "Certification",
+        "Format",
       ]) {
-        if (dropdownName in displayedFacets) {
-          await screen.findByText(dropdownName)
+        if ((displayedFacets as string[]).includes(facetName as string)) {
+          await screen.findByText(facetName)
         } else {
-          expect(screen.queryByText(dropdownName)).toBeNull()
+          expect(screen.queryByText(facetName)).toBeNull()
         }
       }
     },
   )
-
-  test("Multi-select facets should be displayed and toggleable", async () => {
-    const { field } = setMockApiResponses({
-      fieldPatch: {
-        channel_type: ChannelTypeEnum.Department,
-        search_filter: "offered_by=ocw",
-      },
-      search: {
-        count: 700,
-        metadata: {
-          aggregations: {
-            resource_type: [
-              { key: "course", doc_count: 100 },
-              { key: "program", doc_count: 100 },
-            ],
-          },
-          suggestions: [],
-        },
-        results: [],
-      },
-    })
-    setMockResponse.get(urls.userMe.get(), {})
-
-    const { location } = renderTestApp({
-      url: `/c/${field.channel_type}/${field.name}/`,
-    })
-    expect(location.current.search).toBe("")
-
-    let resourceTypeDropdown = await screen.findByText("Resource Type")
-
-    await user.click(resourceTypeDropdown)
-
-    let courseSelect = await screen.findByRole("option", {
-      name: /Course/i,
-    })
-
-    expect(courseSelect).toHaveAttribute("aria-selected", "false")
-
-    await user.click(courseSelect)
-
-    expect(location.current.search).toBe("?resource_type=course")
-
-    resourceTypeDropdown = await screen.findByText("Resource Type")
-
-    await user.click(resourceTypeDropdown)
-
-    courseSelect = await screen.findByRole("option", {
-      name: /Course/i,
-    })
-
-    expect(courseSelect).toHaveAttribute("aria-selected", "true")
-
-    await user.click(courseSelect)
-
-    expect(location.current.search).toBe("")
-
-    courseSelect = await screen.findByText("Course")
-
-    expect(courseSelect).toHaveAttribute("aria-selected", "false")
-  })
-
-  test("Boolean facets should be displayed and toggleable", async () => {
-    const { field } = setMockApiResponses({
-      fieldPatch: {
-        channel_type: ChannelTypeEnum.Department,
-        search_filter: "offered_by=ocw",
-      },
-      search: {
-        count: 700,
-        metadata: {
-          aggregations: {
-            certification: [
-              { key: "true", doc_count: 100 },
-              { key: "false", doc_count: 100 },
-            ],
-          },
-          suggestions: [],
-        },
-        results: [],
-      },
-    })
-
-    setMockResponse.get(urls.userMe.get(), {})
-
-    const { location } = renderTestApp({
-      url: `/c/${field.channel_type}/${field.name}/`,
-    })
-    expect(location.current.search).toBe("")
-    await waitFor(() => {
-      expect(makeRequest.mock.calls.length > 0).toBe(true)
-    })
-
-    let certificationDropdown = await screen.findByText("Certification")
-
-    await user.click(certificationDropdown)
-
-    let noneSelect = await screen.findByRole("option", {
-      name: "no selection",
-    })
-
-    expect(noneSelect).toHaveAttribute("aria-selected", "true")
-
-    let trueSelect = await screen.findByRole("option", {
-      name: /true/i,
-    })
-
-    expect(trueSelect).toHaveAttribute("aria-selected", "false")
-
-    await user.click(trueSelect)
-
-    expect(location.current.search).toBe("?certification=true")
-
-    certificationDropdown = await screen.findByText("Certification")
-
-    await user.click(certificationDropdown)
-
-    trueSelect = await screen.findByRole("option", {
-      name: /true/i,
-    })
-
-    expect(trueSelect).toHaveAttribute("aria-selected", "true")
-
-    let falseSelect = await screen.findByRole("option", {
-      name: /false/i,
-    })
-
-    expect(falseSelect).toHaveAttribute("aria-selected", "false")
-
-    await user.click(falseSelect)
-
-    expect(location.current.search).toBe("?certification=false")
-
-    certificationDropdown = await screen.findByText("Certification")
-
-    await user.click(certificationDropdown)
-
-    falseSelect = await screen.findByRole("option", {
-      name: /false/i,
-    })
-
-    expect(falseSelect).toHaveAttribute("aria-selected", "true")
-
-    trueSelect = await screen.findByRole("option", {
-      name: /true/i,
-    })
-
-    expect(trueSelect).toHaveAttribute("aria-selected", "false")
-
-    noneSelect = await screen.findByRole("option", {
-      name: /no selection/i,
-    })
-
-    expect(noneSelect).toHaveAttribute("aria-selected", "false")
-
-    await user.click(noneSelect)
-
-    expect(location.current.search).toBe("")
-  }, 10000)
 })

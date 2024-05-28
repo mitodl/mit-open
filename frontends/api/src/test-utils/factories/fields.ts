@@ -8,6 +8,7 @@ import {
   PathwayChannel,
   TopicChannel,
 } from "../../generated/v0"
+import { offeror } from "./learningResources"
 import { mergeOverrides } from "./"
 const channelType = () =>
   faker.helpers.arrayElement(Object.values(ChannelTypeEnum))
@@ -67,7 +68,7 @@ const offerorChannel: PartialFactory<OfferorChannel> = (overrides = {}) => {
     { channel_type: ChannelTypeEnum.Offeror },
     {
       offeror_detail: {
-        offeror: faker.lorem.slug(),
+        offeror: offeror(),
       },
     },
     overrides,

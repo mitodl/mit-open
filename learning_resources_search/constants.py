@@ -360,5 +360,4 @@ SOURCE_EXCLUDED_FIELDS = [
     "course.course_numbers.sort_coursenum",
     "course.course_numbers.primary",
     "resource_relations",
-    "free",
 ]

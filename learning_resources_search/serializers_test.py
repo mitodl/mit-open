@@ -1,5 +1,6 @@
 """Tests for opensearch serializers"""
 
+from decimal import Decimal
 from types import SimpleNamespace
 
 import factory
@@ -14,6 +15,7 @@ from rest_framework.test import APIRequestFactory
 from learning_resources import factories
 from learning_resources.constants import DEPARTMENTS, LearningResourceType
 from learning_resources.etl.constants import CourseNumberType
+from learning_resources.factories import LearningResourceRunFactory
 from learning_resources.models import LearningResource
 from learning_resources.serializers import LearningResourceSerializer
 from learning_resources_search import serializers
@@ -66,18 +68,24 @@ def test_serialize_bulk_learning_resources(mocker):
     "resource_type",
     set(LearningResourceType.names()) - {LearningResourceType.course.name},
 )
-def test_serialize_learning_resource_for_bulk(resource_type):
+@pytest.mark.parametrize("is_professional", [True, False])
+@pytest.mark.parametrize("no_price", [True, False])
+def test_serialize_learning_resource_for_bulk(resource_type, is_professional, no_price):
     """
     Test that serialize_program_for_bulk yields a valid LearningResourceSerializer for resource types other than "course"
     The "course" resource type is tested by `test_serialize_course_numbers_for_bulk` below.
     """
-    resource = factories.LearningResourceFactory.create(resource_type=resource_type)
-    free_dict = (
-        {"free": False}
-        if resource_type
-        in [LearningResourceType.program.name, LearningResourceType.course.name]
-        else {}
+    resource = factories.LearningResourceFactory.create(
+        resource_type=resource_type, professional=is_professional, runs=[]
     )
+    LearningResourceRunFactory.create(
+        learning_resource=resource, prices=[Decimal(0.00 if no_price else 1.00)]
+    )
+    free_dict = {
+        "free": resource_type
+        not in [LearningResourceType.program.name, LearningResourceType.course.name]
+        or (no_price and not is_professional)
+    }
     assert serializers.serialize_learning_resource_for_bulk(resource) == {
         "_id": resource.id,
         "resource_relations": {"name": "resource"},

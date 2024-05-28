@@ -7,7 +7,7 @@ describe("cloudServicesConfig", () => {
   test("tokenUrl queries correct API", async () => {
     const cloud = getCloudServicesConfig()
     const mockGet = axios.get as jest.Mock
-    mockGet.mockResolvedValue({ data: "the-cool-token" })
+    mockGet.mockResolvedValue({ data: { token: "the-cool-token" } })
     const token = await cloud.tokenUrl()
     expect(token).toBe("the-cool-token")
   })

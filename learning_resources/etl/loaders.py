@@ -43,6 +43,7 @@ from learning_resources.models import (
     VideoPlaylist,
 )
 from learning_resources.utils import (
+    add_parent_topics_to_learning_resource,
     bulk_resources_unpublished_actions,
     load_course_blocklist,
     load_course_duplicates,
@@ -51,7 +52,6 @@ from learning_resources.utils import (
     resource_unpublished_actions,
     resource_upserted_actions,
     similar_topics_action,
-    topic_upserted_actions,
 )
 
 log = logging.getLogger()
@@ -74,17 +74,22 @@ def update_index(learning_resource, newly_created):
 
 
 def load_topics(resource, topics_data):
-    """Load the topics for a resource into the database"""
+    """
+    Load the topics for a resource into the database.
+
+    Topics must exist; if they don't, then we skip them.
+    """
+
     if topics_data is not None:
         topics = []
 
         for topic_data in topics_data:
-            topic, created = LearningResourceTopic.objects.get_or_create(
+            topic = LearningResourceTopic.objects.filter(
                 name=topic_data["name"]
+            ).first()
+            topics.append(topic) if topic else log.warning(
+                "Skipped adding topic %s to resource %s", topic_data["name"], resource
             )
-            if created:
-                topic_upserted_actions(topic)
-            topics.append(topic)
 
         resource.topics.set(topics)
         resource.save()
@@ -341,7 +346,6 @@ def load_course(
         for course_run_data in runs_data:
             load_run(learning_resource, course_run_data)
 
-        unpublished_runs = []
         if config.prune:
             # mark runs no longer included here as unpublished
             for run in learning_resource.runs.exclude(
@@ -349,7 +353,6 @@ def load_course(
             ).filter(published=True):
                 run.published = False
                 run.save()
-                unpublished_runs.append(run.id)
 
         load_next_start_date(learning_resource)
         load_topics(learning_resource, topics_data)
@@ -357,6 +360,7 @@ def load_course(
         load_image(learning_resource, image_data)
         load_departments(learning_resource, department_data)
         load_content_tags(learning_resource, content_tags_data)
+        add_parent_topics_to_learning_resource(learning_resource)
 
         update_index(learning_resource, created)
     return learning_resource
@@ -472,7 +476,6 @@ def load_program(
         for run_data in runs_data:
             load_run(learning_resource, run_data)
 
-        unpublished_runs = []
         if config.prune:
             # mark runs no longer included here as unpublished
             for run in learning_resource.runs.exclude(
@@ -480,7 +483,6 @@ def load_program(
             ).filter(published=True):
                 run.published = False
                 run.save()
-                unpublished_runs.append(run.id)
 
         load_next_start_date(learning_resource)
 

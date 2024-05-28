@@ -19,8 +19,11 @@ const mergeOverrides = <T>(
   )
 
 export { mergeOverrides }
-export * as learningResources from "./learningResources"
-export * as userLists from "./userLists"
+
 export * as articles from "./articles"
-export * as letters from "./programLetters"
 export * as fields from "./fields"
+export * as learningResources from "./learningResources"
+export * as newsEvents from "./newsEvents"
+export * as percolateQueries from "./percolateQueries"
+export * as letters from "./programLetters"
+export * as userLists from "./userLists"

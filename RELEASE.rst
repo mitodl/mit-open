@@ -1,6 +1,112 @@
 Release Notes
 =============
 
+Version 0.10.1 (Released May 24, 2024)
+--------------
+
+- Homepage News and Events section (#945)
+- side nav updates (#951)
+- Remove 3 offerors and provide featured resources from all remaining ones (#943)
+- Additional offeror details (#923)
+
+Version 0.10.0 (Released May 23, 2024)
+--------------
+
+- Update dependency django-ipware to v7 (#935)
+- fix install and storybook (#942)
+- Fixes button styles to match design (#941)
+- header updates (#910)
+- Update dependency django-imagekit to v5 (#934)
+- [pre-commit.ci] pre-commit autoupdate (#938)
+- Work on onboarding updates to profile API (#907)
+- Fix several ETL bugs (#939)
+- Add Free, Certification, and Professional Facets to Search UI (#917)
+- use docker profiles, mount root to watch (#936)
+- serve static react app for django 40x (#911)
+- Update postgres Docker tag to v12.19 (#931)
+- Update opensearchproject/opensearch Docker tag to v2.14.0 (#930)
+- Update mcr.microsoft.com/playwright Docker tag to v1.44.0 (#929)
+- Update dependency drf-nested-routers to ^0.94.0 (#928)
+- Update Node.js to v20.13.1 (#926)
+- Update codecov/codecov-action action to v4.4.0 (#927)
+- Update dependency ruff to v0.4.4 (#925)
+- Update dependency Django to v4.2.13 (#924)
+- Browse by Topics section for the home page (#901)
+- Fix schema for news_events feed items (#919)
+
+Version 0.9.14 (Released May 20, 2024)
+--------------
+
+- Fix schema issue that was breaking redoc (#920)
+- Fix flaky python test (#912)
+- adding fix for program letter route in nginx (#914)
+- Give video/podcast/learning_path resources a default learning format of ["online"] (#892)
+- Fix schema generation errors (#895)
+- Button Updates (#915)
+- Pin actions/upload-artifact action to 6546280 (#868)
+- Use our ActionButton, no more MUI IconButton (#909)
+- Update Python to v3.12.3 (#349)
+- Update Yarn to v4.2.2 (#897)
+- Update dependency django-cors-headers to v4 (#840)
+- Handle nulls in attestation cover field (#906)
+- navigation menu (#890)
+
+Version 0.9.13 (Released May 16, 2024)
+--------------
+
+- Adds learner testimonials support (#891)
+- Null start dates for OCW course runs (#899)
+- Featured API endpoint (#887)
+
+Version 0.9.12 (Released May 14, 2024)
+--------------
+
+- use neue-haas-grotesk font (#889)
+- Shanbady/add subscribe button to pages (#878)
+- bump course-search-utils (#900)
+- Replace react-dotdotdot with CSS (#896)
+- Switch django migrations to release phase (#898)
+- Do not show unpublished runs in learning resource serializer data (#894)
+- Fix some n+1 query warnings (#884)
+
+Version 0.9.11 (Released May 13, 2024)
+--------------
+
+- add format facet (#888)
+- Free everything (#885)
+- Add nesting learning resource topics (#844)
+
+Version 0.9.10 (Released May 09, 2024)
+--------------
+
+- search dropdown (#875)
+- Add certificate as a real database field to LearningResource (#862)
+- allow Button to hold a ref (#883)
+- Display loading view for search page (#881)
+
+Version 0.9.9 (Released May 09, 2024)
+-------------
+
+- fix spacing between department groups (#880)
+- #4053 Alert UI component (#861)
+
+Version 0.9.8 (Released May 08, 2024)
+-------------
+
+- Departments Listing Page (#865)
+- only show clear all if it would do something (#877)
+- create exported components bundle (#867)
+- Update Yarn to v4.2.1 (#872)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.21 (#871)
+- Update dependency ruff to v0.4.3 (#870)
+- Update codecov/codecov-action action to v4.3.1 (#869)
+
+Version 0.9.7 (Released May 06, 2024)
+-------------
+
+- Api sort fixes (#846)
+- configure api BASE_PATH (#863)
+
 Version 0.9.6 (Released May 03, 2024)
 -------------
 

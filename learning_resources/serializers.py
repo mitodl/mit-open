@@ -1,6 +1,7 @@
 """Serializers for learning_resources"""
 
 import logging
+from decimal import Decimal
 from uuid import uuid4
 
 from django.contrib.auth.models import User
@@ -19,6 +20,7 @@ from learning_resources.constants import (
     LevelType,
 )
 from learning_resources.etl.loaders import update_index
+from learning_resources.models import LearningResource, LearningResourceRelationship
 from main.serializers import COMMON_IGNORED_FIELDS, WriteableSerializerMethodField
 
 log = logging.getLogger(__name__)
@@ -47,8 +49,10 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
         return channel.channel_url if channel else None
 
     class Meta:
+        """Meta options for the serializer."""
+
         model = models.LearningResourceTopic
-        fields = ["id", "name", "channel_url"]
+        fields = ["id", "name", "parent", "channel_url"]
 
 
 class WriteableTopicsMixin(serializers.Serializer):
@@ -90,7 +94,7 @@ class LearningResourceTypeField(serializers.ReadOnlyField):
 
 
 class LearningResourceOfferorSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResourceOfferor"""
+    """Serializer for LearningResourceOfferor with basic details"""
 
     channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
 
@@ -104,13 +108,21 @@ class LearningResourceOfferorSerializer(serializers.ModelSerializer):
         fields = ("code", "name", "channel_url")
 
 
+class LearningResourceOfferorDetailSerializer(LearningResourceOfferorSerializer):
+    """Serializer for LearningResourceOfferor with all details"""
+
+    class Meta:
+        model = models.LearningResourceOfferor
+        exclude = COMMON_IGNORED_FIELDS
+
+
 @extend_schema_field({"type": "array", "items": {"type": "string"}})
 class LearningResourceContentTagField(serializers.Field):
     """Serializer for LearningResourceContentTag"""
 
     def to_representation(self, value):
         """Serialize content tags as a list of names"""
-        return [tag.name for tag in value.all()]
+        return sorted([tag.name for tag in value.all()])
 
 
 class LearningResourcePlatformSerializer(serializers.ModelSerializer):
@@ -266,9 +278,20 @@ class ProgramSerializer(serializers.ModelSerializer):
     )
     def get_courses(self, obj):
         """Get the learning resource courses for a program"""
-
+        ids = (
+            LearningResourceRelationship.objects.filter(
+                parent_id=obj.learning_resource.id, child__published=True
+            )
+            .values_list("child_id", flat=True)
+            .distinct()
+        )
         return CourseResourceSerializer(
-            [rel.child for rel in obj.courses.filter(child__published=True)], many=True
+            list(
+                LearningResource.objects.filter(id__in=ids)
+                .select_related(*LearningResource.related_selects)
+                .prefetch_related(*LearningResource.prefetches)
+            ),
+            many=True,
         ).data
 
     class Meta:
@@ -408,6 +431,20 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     learning_format = serializers.ListField(
         child=LearningResourceFormatSerializer(), read_only=True
     )
+    free = serializers.SerializerMethodField()
+
+    def get_free(self, instance) -> bool:
+        """Return true if the resource is free/has a free option"""
+        if instance.resource_type in [
+            LearningResourceType.course.name,
+            LearningResourceType.program.name,
+        ]:
+            prices = instance.prices
+            return not instance.professional and (
+                Decimal(0.00) in prices or not prices or prices == []
+            )
+        else:
+            return True
 
     @extend_schema_field(LearningResourceImageSerializer(allow_null=True))
     def get_image(self, instance) -> dict:
@@ -448,8 +485,9 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
             )
         ):
             return MicroLearningPathRelationshipSerializer(
-                instance.parents.filter(
-                    relation_type=constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+                LearningResourceRelationship.objects.filter(
+                    child=instance,
+                    relation_type=constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,
                 ),
                 many=True,
             ).data
@@ -479,9 +517,15 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
             learning_resource=instance
         ).count()
 
+    def to_representation(self, instance):
+        """Filter out unpublished runs"""
+        data = super().to_representation(instance)
+        data["runs"] = [run for run in data["runs"] if run["published"]]
+        return data
+
     class Meta:
         model = models.LearningResource
-        read_only_fields = ["professional", "views"]
+        read_only_fields = ["free", "certification", "professional", "views"]
         exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 

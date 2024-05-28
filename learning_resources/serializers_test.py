@@ -18,6 +18,8 @@ from learning_resources.constants import (
     LearningResourceType,
     PlatformType,
 )
+from learning_resources.factories import LearningResourceFactory
+from learning_resources.serializers import LearningResourceSerializer
 from main.test_utils import assert_json_equal, drf_datetime
 
 pytestmark = pytest.mark.django_db
@@ -60,7 +62,6 @@ def test_serialize_program_to_json():
     )
 
     serializer = serializers.ProgramSerializer(instance=program)
-
     assert_json_equal(
         serializer.data,
         {
@@ -190,7 +191,6 @@ def test_learning_resource_serializer(  # noqa: PLR0913
 
     assert result == {
         "id": resource.id,
-        "certification": resource.certification,
         "title": resource.title,
         "description": resource.description,
         "full_description": resource.full_description,
@@ -205,9 +205,15 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         ).data,
         "prices": resource.prices,
         "professional": resource.professional,
+        "certification": resource.certification,
+        "free": (
+            not resource.professional
+            and detail_key
+            not in (LearningResourceType.course.name, LearningResourceType.program.name)
+        ),
         "published": resource.published,
         "readable_id": resource.readable_id,
-        "course_feature": [tag.name for tag in resource.content_tags.all()],
+        "course_feature": sorted([tag.name for tag in resource.content_tags.all()]),
         "resource_type": resource.resource_type,
         "url": resource.url,
         "user_list_parents": [],
@@ -246,6 +252,19 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         ],
         "next_start_date": resource.next_start_date,
     }
+
+
+def test_learning_resource_serializer_published_runs_only():
+    """Only published runs should be in the serializer"""
+    resource = LearningResourceFactory.create(is_course=True)
+    assert resource.runs.count() == 2
+    assert len(LearningResourceSerializer(resource).data["runs"]) == 2
+    unpublished_run = resource.runs.last()
+    unpublished_run.published = False
+    unpublished_run.save()
+    updated_data = LearningResourceSerializer(resource).data
+    assert len(updated_data["runs"]) == 1
+    assert updated_data["runs"][0]["id"] != unpublished_run.id
 
 
 @pytest.mark.parametrize("has_context", [True, False])
@@ -495,6 +514,7 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                 {
                     "name": topic.name,
                     "id": topic.id,
+                    "parent": topic.parent,
                     "channel_url": urljoin(
                         settings.SITE_BASE_URL,
                         f"/c/topic/{FieldChannel.objects.get(topic_detail__topic=topic).name}/"
@@ -524,8 +544,8 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                 coursenum["value"]
                 for coursenum in content_file.run.learning_resource.course.course_numbers
             ],
-            "content_feature_type": [
-                tag.name for tag in content_file.content_tags.all()
-            ],
+            "content_feature_type": sorted(
+                [tag.name for tag in content_file.content_tags.all()]
+            ),
         },
     )

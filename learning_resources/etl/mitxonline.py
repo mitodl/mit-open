@@ -10,11 +10,17 @@ import requests
 from dateutil.parser import parse
 from django.conf import settings
 
-from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.constants import (
+    AvailabilityType,
+    LearningResourceType,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     extract_valid_department_from_id,
     generate_course_numbers_json,
+    parse_certification,
     transform_topics,
 )
 
@@ -144,6 +150,9 @@ def _transform_run(course_run: dict, course: dict) -> dict:
             {"full_name": instructor["name"]}
             for instructor in parse_page_attribute(course, "instructors", is_list=True)
         ],
+        "availability": AvailabilityType.current.value
+        if parse_page_attribute(course, "page_url")
+        else AvailabilityType.archived.value,
     }
 
 
@@ -157,6 +166,7 @@ def _transform_course(course):
     Returns:
         dict: normalized course data
     """  # noqa: D401
+    runs = [_transform_run(course_run, course) for course_run in course["courseruns"]]
     return {
         "readable_id": course["readable_id"],
         "platform": PlatformType.mitxonline.name,
@@ -166,9 +176,7 @@ def _transform_course(course):
         "offered_by": copy.deepcopy(OFFERED_BY),
         "topics": transform_topics(course.get("topics", [])),
         "departments": extract_valid_department_from_id(course["readable_id"]),
-        "runs": [
-            _transform_run(course_run, course) for course_run in course["courseruns"]
-        ],
+        "runs": runs,
         "course": {
             "course_numbers": generate_course_numbers_json(
                 course["readable_id"], is_ocw=False
@@ -178,6 +186,7 @@ def _transform_course(course):
             parse_page_attribute(course, "page_url")
         ),  # a course is only considered published if it has a page url
         "professional": False,
+        "certification": parse_certification(OFFERED_BY["code"], runs),
         "image": _transform_image(course),
         "url": parse_page_attribute(course, "page_url", is_url=True),
         "description": parse_page_attribute(course, "description"),
@@ -214,6 +223,7 @@ def transform_programs(programs):
             "departments": extract_valid_department_from_id(program["readable_id"]),
             "platform": PlatformType.mitxonline.name,
             "professional": False,
+            "certification": bool(parse_page_attribute(program, "page_url")),
             "topics": transform_topics(program.get("topics", [])),
             "description": parse_page_attribute(program, "description"),
             "url": parse_page_attribute(program, "page_url", is_url=True),
@@ -240,6 +250,9 @@ def transform_programs(programs):
                     "image": _transform_image(program),
                     "description": parse_page_attribute(program, "description"),
                     "prices": parse_program_prices(program),
+                    "availability": AvailabilityType.current.value
+                    if parse_page_attribute(program, "page_url")
+                    else AvailabilityType.archived.value,
                 }
             ],
             "courses": [

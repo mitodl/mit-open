@@ -2,7 +2,6 @@
 
 # pylint: disable=redefined-outer-name, unused-argument, too-many-arguments
 import json
-from os.path import basename, splitext
 
 import pytest
 from django.conf import settings
@@ -14,7 +13,7 @@ from learning_resources_search.serializers_test import get_request_object
 from profiles.factories import ProgramCertificateFactory, ProgramLetterFactory
 from profiles.models import ProgramLetter
 from profiles.serializers import ProgramCertificateSerializer, ProgramLetterSerializer
-from profiles.utils import DEFAULT_PROFILE_IMAGE, make_temp_image_file
+from profiles.utils import DEFAULT_PROFILE_IMAGE
 
 pytestmark = [pytest.mark.django_db]
 
@@ -51,6 +50,12 @@ def test_list_users(staff_client, staff_user):
                 "headline": profile.headline,
                 "username": staff_user.username,
                 "placename": profile.location.get("value", ""),
+                "interests": profile.interests,
+                "goals": profile.goals,
+                "current_education": profile.current_education,
+                "certificate_desired": profile.certificate_desired,
+                "time_commitment": profile.time_commitment,
+                "course_format": profile.course_format,
             },
         }
     ]
@@ -100,6 +105,12 @@ def test_create_user(staff_client, staff_user, email_optin, toc_optin):  # pylin
             "username": user.username,
             "profile_image_small": "image_small",
             "profile_image_medium": "image_medium",
+            "interests": user.profile.interests,
+            "goals": user.profile.goals,
+            "current_education": user.profile.current_education,
+            "certificate_desired": user.profile.certificate_desired,
+            "time_commitment": user.profile.time_commitment,
+            "course_format": user.profile.course_format,
         }
     )
     assert resp.json()["profile"] == payload["profile"]
@@ -137,6 +148,12 @@ def test_get_user(staff_client, user):
             "headline": profile.headline,
             "username": profile.user.username,
             "placename": profile.location.get("value", ""),
+            "interests": profile.interests,
+            "goals": profile.goals,
+            "current_education": profile.current_education,
+            "certificate_desired": profile.certificate_desired,
+            "time_commitment": profile.time_commitment,
+            "course_format": profile.course_format,
         },
     }
 
@@ -167,6 +184,12 @@ def test_get_profile(logged_in, user, user_client):
         "username": profile.user.username,
         "placename": profile.location.get("value", ""),
         "user_websites": [],
+        "interests": profile.interests,
+        "goals": profile.goals,
+        "current_education": profile.current_education,
+        "certificate_desired": profile.certificate_desired,
+        "time_commitment": profile.time_commitment,
+        "course_format": profile.course_format,
     }
 
 
@@ -213,6 +236,12 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
             "headline": profile.headline,
             "username": profile.user.username,
             "placename": profile.location.get("value", ""),
+            "interests": profile.interests,
+            "goals": profile.goals,
+            "current_education": profile.current_education,
+            "certificate_desired": profile.certificate_desired,
+            "time_commitment": profile.time_commitment,
+            "course_format": profile.course_format,
         },
     }
     user.refresh_from_db()
@@ -242,32 +271,19 @@ def test_patch_profile_by_user(client, logged_in_profile):
     )
     # create a dummy image file in memory for upload
     location_json = {"value": "Boston"}
-    with make_temp_image_file(width=250, height=250) as image_file:
-        # format patch using multipart upload
-        resp = client.patch(
-            url,
-            data={
-                "bio": "updated_bio_value",
-                "image_file": image_file,
-                "location": json.dumps(location_json),
-            },
-            format="multipart",
-        )
-    filename, ext = splitext(image_file.name)  # noqa: PTH122
+    resp = client.patch(
+        url,
+        data={
+            "bio": "updated_bio_value",
+            "location": json.dumps(location_json),
+        },
+        format="multipart",
+    )
     assert resp.status_code == 200
     assert resp.json()["bio"] == "updated_bio_value"
     assert resp.json()["placename"] == "Boston"
-    assert basename(filename) in resp.json()["image_file"]  # noqa: PTH119
-    assert resp.json()["image_file"].endswith(ext)
-    assert resp.json()["image_small_file"].endswith(".jpg")
 
     logged_in_profile.refresh_from_db()
-    assert logged_in_profile.image_file.height == 250
-    assert logged_in_profile.image_file.width == 250
-    assert logged_in_profile.image_small_file.height == 64
-    assert logged_in_profile.image_small_file.width == 64
-    assert logged_in_profile.image_medium_file.height == 128
-    assert logged_in_profile.image_medium_file.width == 128
     assert logged_in_profile.location == location_json
 
 
@@ -342,6 +358,12 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
                 "headline": profile.headline,
                 "username": profile.user.username,
                 "placename": profile.location.get("value", ""),
+                "interests": profile.interests,
+                "goals": profile.goals,
+                "current_education": profile.current_education,
+                "certificate_desired": profile.certificate_desired,
+                "time_commitment": profile.time_commitment,
+                "course_format": profile.course_format,
             },
         }
 
@@ -365,7 +387,10 @@ def test_letter_intercept_view_generates_program_letter(
         assert ProgramLetter.objects.filter(user=user).count() == 0
 
         response = client.get(
-            reverse("profile:program-letter-intercept", args=[micromasters_program_id])
+            reverse(
+                "profile:program-letter-intercept",
+                kwargs={"program_id": micromasters_program_id},
+            )
         )
         assert ProgramLetter.objects.filter(user=user).count() == 1
         letter_id = ProgramLetter.objects.get(user=user, certificate=cert).id
@@ -376,13 +401,16 @@ def test_letter_intercept_view_generates_program_letter(
         )
         ProgramLetterFactory(user=user, certificate=cert)
         response = client.get(
-            reverse("profile:program-letter-intercept", args=[micromasters_program_id])
+            reverse(
+                "profile:program-letter-intercept",
+                kwargs={"program_id": micromasters_program_id},
+            )
         )
         assert response.status_code == 302
 
 
 @pytest.mark.parametrize("is_anonymous", [True, False])
-def test_program_letter_api_view(mocker, client, user, is_anonymous, settings):
+def test_program_letter_api_view(mocker, client, rf, user, is_anonymous, settings):  # noqa: PLR0913
     """
     Test that the program letter display page is viewable by
     all users logged in or not
@@ -411,10 +439,16 @@ def test_program_letter_api_view(mocker, client, user, is_anonymous, settings):
         user_email=user.email, micromasters_program_id=micromasters_program_id
     )
     program_letter = ProgramLetterFactory(user=user, certificate=cert)
-    response = client.get(
-        reverse("lr:v1:program_letters_api-detail", args=[program_letter.id])
+    letter_url = reverse(
+        "profile:v1:program_letters_api-detail", args=[program_letter.id]
     )
-    assert response.data == ProgramLetterSerializer(instance=program_letter).data
+    response = client.get(letter_url)
+    assert (
+        response.data
+        == ProgramLetterSerializer(
+            instance=program_letter, context={"request": rf.get(letter_url)}
+        ).data
+    )
 
 
 @pytest.mark.parametrize("is_anonymous", [True, False])
@@ -427,7 +461,7 @@ def test_program_letter_api_view_returns_404_for_invalid_id(
     """
     response = client.get(
         reverse(
-            "lr:v1:program_letters_api-detail",
+            "profile:v1:program_letters_api-detail",
             args=["5de96fc0-449e-4668-be89-a119dbdcab799999"],
         )
     )

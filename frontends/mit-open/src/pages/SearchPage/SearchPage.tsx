@@ -7,11 +7,15 @@ import {
   Card,
   CardContent,
   Grid,
-  Stack,
   Button,
   Typography,
+  PlainList,
+  Skeleton,
+  SimpleSelect,
+  truncateText,
+  css,
 } from "ol-components"
-import { MetaTags } from "ol-utilities"
+import { MetaTags, capitalize } from "ol-utilities"
 
 import { ResourceTypeEnum } from "api"
 import type {
@@ -32,7 +36,6 @@ import {
 import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
-import CardRowList from "@/components/CardRowList/CardRowList"
 import TuneIcon from "@mui/icons-material/Tune"
 
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
@@ -44,28 +47,86 @@ const getFacetManifest = (
 ): FacetManifest => {
   return [
     {
+      type: "group",
+      facets: [
+        {
+          value: true,
+          name: "free",
+          label: "Free",
+        },
+        {
+          value: true,
+          name: "certification",
+          label: "With Certificate",
+        },
+        {
+          value: true,
+          name: "professional",
+          label: "Professional",
+        },
+      ],
+    },
+    {
       name: "topic",
       title: "Topics",
-      useFilterableFacet: true,
+      type: "filterable",
       expandedOnLoad: true,
     },
     {
       name: "offered_by",
       title: "Offered By",
-      useFilterableFacet: false,
+      type: "static",
       expandedOnLoad: true,
       labelFunction: (key) => offerors[key]?.name ?? key,
     },
+    {
+      name: "learning_format",
+      title: "Format",
+      type: "static",
+      expandedOnLoad: true,
+      labelFunction: (key) =>
+        key
+          .split("_")
+          .map((word) => capitalize(word))
+          .join("-"),
+    },
   ]
 }
-const FACET_NAMES = getFacetManifest({}).map(
-  (f) => f.name,
-) as UseResourceSearchParamsProps["facets"]
+
+const FACET_NAMES = getFacetManifest({}).flatMap((config) => {
+  if (config.type === "group") {
+    return config.facets.map((f) => f.name)
+  }
+  return config.name
+}) as UseResourceSearchParamsProps["facets"]
 
 const AGGREGATIONS: LRSearchRequest["aggregations"] = [
   "resource_type",
+  "learning_format",
   "topic",
   "offered_by",
+  "certification",
+  "free",
+  "professional",
+]
+
+export const SORT_OPTIONS = [
+  {
+    label: "Relevance",
+    key: "",
+  },
+  {
+    label: "New",
+    key: "new",
+  },
+  {
+    label: "Popular",
+    key: "-views",
+  },
+  {
+    label: "Upcoming",
+    key: "upcoming",
+  },
 ]
 
 const ColoredHeader = styled.div`
@@ -79,7 +140,32 @@ const SearchField = styled(SearchInput)`
   width: 100%;
 `
 
-const FacetStyles = styled.div`
+export const StyledDropdown = styled(SimpleSelect)`
+  margin: 8px;
+  margin-top: 22px;
+  min-width: 180px;
+  border-radius: 24px;
+  background: ${({ theme }) => theme.custom.colors.white};
+`
+
+export const StyledResourceTabs = styled(ResourceTypeTabs.TabList)`
+  margin-top: 20px;
+
+  div div button {
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: none;
+  }
+`
+
+export const SortContainer = styled.div`
+  ${({ theme }) => theme.breakpoints.up("sm")} {
+    float: right;
+    padding-right: 12px;
+  }
+`
+export const FacetStyles = styled.div`
   * {
     color: ${({ theme }) => theme.palette.secondary.main};
   }
@@ -91,8 +177,7 @@ const FacetStyles = styled.div`
   }
 
   .filter-section-button {
-    font-size: ${({ theme }) => theme.typography.subtitle1.fontSize};
-    font-weight: 600;
+    ${({ theme }) => css({ ...theme.typography.subtitle1 })};
     padding-left: 0;
     background-color: transparent;
     display: flex;
@@ -100,6 +185,17 @@ const FacetStyles = styled.div`
     width: 100%;
     border: none;
     cursor: pointer;
+  }
+
+  .facet-label {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+
+    label {
+      ${truncateText(1)};
+    }
   }
 
   .facets {
@@ -167,13 +263,6 @@ const FacetStyles = styled.div`
     }
   }
 
-  .facet-label {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-  }
-
   input.facet-filter {
     background-color: initial;
     border-radius: 0;
@@ -185,7 +274,7 @@ const FacetStyles = styled.div`
   }
 `
 
-const FilterTitle = styled.div`
+export const FilterTitle = styled.div`
   margin-right: 1rem;
   display: flex;
   align-items: center;
@@ -195,16 +284,22 @@ const FilterTitle = styled.div`
   }
 `
 
-const FacetsTitleContainer = styled.div`
+export const FacetsTitleContainer = styled.div`
   display: flex;
-  flex-direction: column;
-  height: 48px;
-  justify-content: end;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  min-height: 40px;
+  padding-top: 8px;
 `
 
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: end;
+`
+
+const StyledSkeleton = styled(Skeleton)`
+  border-radius: 4px;
 `
 
 const PAGE_SIZE = 10
@@ -215,7 +310,7 @@ export const getLastPage = (count: number): number => {
   return pages > MAX_PAGE ? MAX_PAGE : pages
 }
 
-const TABS: TabConfig[] = [
+export const TABS: TabConfig[] = [
   {
     label: "Courses",
     resource_type: ResourceTypeEnum.Course,
@@ -225,11 +320,15 @@ const TABS: TabConfig[] = [
     resource_type: ResourceTypeEnum.Program,
   },
   {
+    label: "Videos",
+    resource_type: ResourceTypeEnum.Video,
+  },
+  {
     label: "Podcasts",
     resource_type: ResourceTypeEnum.Podcast,
   },
 ]
-const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
+export const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
 
 const useFacetManifest = () => {
   const offerorsQuery = useOfferorsList()
@@ -256,30 +355,33 @@ const SearchPage: React.FC = () => {
     },
     [setSearchParams],
   )
-
   const facetManifest = useFacetManifest()
   const onFacetsChange = useCallback(() => {
     setPage(1)
   }, [setPage])
+
   const {
     params,
+    hasFacets,
     clearAllFacets,
     patchParams,
     toggleParamValue,
     currentText,
     setCurrentText,
     setCurrentTextAndQuery,
+    setParamValue,
   } = useResourceSearchParams({
     searchParams,
     setSearchParams,
     facets: FACET_NAMES,
     onFacetsChange,
   })
+
   const page = +(searchParams.get("page") ?? "1")
 
   const resourceType = params.resource_type
 
-  const { data } = useLearningResourcesSearch(
+  const { data, isLoading } = useLearningResourcesSearch(
     {
       ...(params as LRSearchRequest),
       aggregations: AGGREGATIONS,
@@ -320,45 +422,64 @@ const SearchPage: React.FC = () => {
           <ResourceTypeTabs.Context resourceType={params.resource_type?.[0]}>
             <GridColumn variant="sidebar-2-wide-main">
               <FacetsTitleContainer>
-                <Stack
-                  direction="row"
-                  alignItems="baseline"
-                  justifyContent="space-between"
-                >
-                  <FilterTitle>
-                    <Typography variant="h5">Filters </Typography>
-                    <TuneIcon fontSize="inherit" />
-                  </FilterTitle>
+                <FilterTitle>
+                  <Typography variant="h5">Filters</Typography>
+                  <TuneIcon fontSize="inherit" />
+                </FilterTitle>
+                {hasFacets ? (
                   <Button
                     variant="text"
                     color="secondary"
+                    size="small"
                     onClick={clearAllFacets}
                   >
                     Clear all
                   </Button>
-                </Stack>
+                ) : null}
               </FacetsTitleContainer>
               <FacetStyles>
                 <AvailableFacets
-                  facetMap={facetManifest}
+                  facetManifest={facetManifest}
                   activeFacets={params}
                   onFacetChange={toggleParamValue}
-                  facetOptions={(name) =>
-                    data?.metadata.aggregations?.[name] ?? []
-                  }
+                  facetOptions={data?.metadata.aggregations ?? {}}
                 />
               </FacetStyles>
             </GridColumn>
             <GridColumn variant="main-2-wide-main">
-              <ResourceTypeTabs.TabList
+              <SortContainer>
+                <StyledDropdown
+                  initialValue={params.sortby || ""}
+                  isMultiple={false}
+                  onChange={(e) => setParamValue("sortby", e.target.value)}
+                  options={SORT_OPTIONS}
+                  renderValue={(value) => {
+                    const opt = SORT_OPTIONS.find(
+                      (option) => option.key === value,
+                    )
+                    return `Sort by: ${opt?.label}`
+                  }}
+                />
+              </SortContainer>
+              <StyledResourceTabs
                 patchParams={patchParams}
                 tabs={TABS}
                 aggregations={data?.metadata.aggregations}
                 onTabChange={() => setPage(1)}
               />
               <ResourceTypeTabs.TabPanels tabs={TABS}>
-                {data && data.count > 0 ? (
-                  <CardRowList marginTop={false}>
+                {isLoading ? (
+                  <PlainList itemSpacing={3}>
+                    {Array(PAGE_SIZE)
+                      .fill(null)
+                      .map((a, index) => (
+                        <li key={index}>
+                          <StyledSkeleton variant="rectangular" height={162} />
+                        </li>
+                      ))}
+                  </PlainList>
+                ) : data && data.count > 0 ? (
+                  <PlainList itemSpacing={3}>
                     {data.results.map((resource) => (
                       <li key={resource.id}>
                         <LearningResourceCard
@@ -367,7 +488,7 @@ const SearchPage: React.FC = () => {
                         />
                       </li>
                     ))}
-                  </CardRowList>
+                  </PlainList>
                 ) : (
                   <Card>
                     <CardContent>No results found for your query.</CardContent>

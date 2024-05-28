@@ -144,7 +144,9 @@ def test_xpro_programs_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_programs.assert_called_once_with(
-        ETLSource.xpro.name, mock_transform.return_value
+        ETLSource.xpro.name,
+        mock_transform.return_value,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
     )
 
     assert result == mock_load_programs.return_value
@@ -165,6 +167,7 @@ def test_xpro_courses_etl():
     mock_load_courses.assert_called_once_with(
         ETLSource.xpro.name,
         mock_transform.return_value,
+        config=CourseLoaderConfig(prune=True),
     )
 
     assert result == mock_load_courses.return_value
@@ -265,7 +268,9 @@ def test_ocw_courses_etl_exception(settings, mocker):
             force_overwrite=True,
             start_timestamp=datetime(2020, 12, 15, tzinfo=UTC),
         )
-    assert str(ex.value) == "Some OCW urls raised errors: %s" % ",".join(url_paths)
+    assert str(ex.value) == "Some OCW urls raised errors: {exception}".format(
+        exception=",".join(url_paths)
+    )
     for path in url_paths:
         mock_log.assert_any_call("Error encountered parsing OCW json for %s", path)
 
@@ -310,7 +315,9 @@ def test_prolearn_programs_etl():
     mock_extract.assert_called_once_with()
     mock_transform.assert_called_once_with(mock_extract.return_value)
     mock_load_programs.assert_called_once_with(
-        ETLSource.prolearn.name, mock_transform.return_value
+        ETLSource.prolearn.name,
+        mock_transform.return_value,
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
     )
 
     assert result == mock_load_programs.return_value
@@ -331,6 +338,7 @@ def test_prolearn_courses_etl():
     mock_load_courses.assert_called_once_with(
         ETLSource.prolearn.name,
         mock_transform.return_value,
+        config=CourseLoaderConfig(prune=True),
     )
 
     assert result == mock_load_courses.return_value

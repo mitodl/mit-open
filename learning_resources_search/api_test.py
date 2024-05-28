@@ -9,6 +9,7 @@ from opensearch_dsl.query import Percolate
 from learning_resources.factories import LearningResourceFactory
 from learning_resources_search.api import (
     Search,
+    construct_search,
     execute_learn_search,
     generate_aggregation_clause,
     generate_aggregation_clauses,
@@ -1427,7 +1428,6 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                 "course.course_numbers.sort_coursenum",
                 "course.course_numbers.primary",
                 "resource_relations",
-                "free",
             ]
         },
     }
@@ -1630,7 +1630,6 @@ def test_execute_learn_search_for_content_file_query(opensearch):
                 "course.course_numbers.sort_coursenum",
                 "course.course_numbers.primary",
                 "resource_relations",
-                "free",
             ]
         },
     }
@@ -1754,3 +1753,25 @@ def test_document_percolation(opensearch, mocker):
         lr.id,
         list(PercolateQuery.objects.filter(id__in=[p["id"] for p in percolate_hits])),
     )
+
+
+@pytest.mark.parametrize(
+    ("sortby", "q", "result"),
+    [
+        ("-views", None, [{"views": {"order": "desc"}}]),
+        ("-views", "text", [{"views": {"order": "desc"}}]),
+        (None, None, [{"created_on": {"order": "desc"}}]),
+        (None, "text", None),
+    ],
+)
+def test_default_sort(sortby, q, result):
+    search_params = {
+        "aggregations": [],
+        "q": q,
+        "limit": 1,
+        "offset": 1,
+        "sortby": sortby,
+        "endpoint": LEARNING_RESOURCE,
+    }
+
+    assert construct_search(search_params).to_dict().get("sort") == result

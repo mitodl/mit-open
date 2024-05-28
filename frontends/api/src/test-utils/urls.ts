@@ -5,14 +5,20 @@
  * mocking requests during tests.
  */
 
+import type { NewsEventsApiNewsEventsListRequest } from "../generated/v0"
 import type {
   LearningResourcesApi as LRApi,
+  FeaturedApi,
   TopicsApi,
   LearningpathsApi,
   ArticlesApi,
   UserlistsApi,
   OfferorsApi,
   PlatformsApi,
+  LearningResourcesUserSubscriptionApi as SubscriptionApi,
+  DepartmentsApi,
+  SchoolsApi,
+  LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LearningResourcesSearchRequest,
 } from "../generated/v1"
 import type { BaseAPI } from "../generated/v1/base"
 
@@ -23,6 +29,19 @@ import type { BaseAPI } from "../generated/v1/base"
 const query = (params: any) => {
   if (!params || Object.keys(params).length === 0) return ""
   return `?${new URLSearchParams(params).toString()}`
+}
+
+const queryify = (params: unknown) => {
+  if (!params || Object.keys(params).length === 0) return ""
+  const query = new URLSearchParams()
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) {
+      value.forEach((v) => query.append(key, String(v)))
+    } else {
+      query.append(key, String(value))
+    }
+  }
+  return `?${query.toString()}`
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -36,6 +55,8 @@ const learningResources = {
     `/api/v1/learning_resources/${query(params)}`,
   details: (params: Params<LRApi, "learningResourcesRetrieve">) =>
     `/api/v1/learning_resources/${params.id}/`,
+  featured: (params?: Params<FeaturedApi, "featuredList">) =>
+    `/api/v1/featured/${query(params)}`,
 }
 
 const offerors = {
@@ -51,6 +72,16 @@ const platforms = {
 const topics = {
   list: (params?: Params<TopicsApi, "topicsList">) =>
     `/api/v1/topics/${query(params)}`,
+}
+
+const departments = {
+  list: (params?: Params<DepartmentsApi, "departmentsList">) =>
+    `/api/v1/departments/${query(params)}`,
+}
+
+const schools = {
+  list: (params?: Params<SchoolsApi, "schoolsList">) =>
+    `/api/v1/schools/${query(params)}`,
 }
 
 const learningPaths = {
@@ -93,6 +124,21 @@ const articles = {
   details: (id: number) => `/api/v1/articles/${id}/`,
 }
 
+const userSubscription = {
+  list: (
+    params?: Params<SubscriptionApi, "learningResourcesUserSubscriptionList">,
+  ) => `/api/v1/learning_resources_user_subscription/${query(params)}`,
+  check: (
+    params?: Params<
+      SubscriptionApi,
+      "learningResourcesUserSubscriptionCheckList"
+    >,
+  ) => `/api/v1/learning_resources_user_subscription/check/${query(params)}`,
+  delete: (id: number) =>
+    `/api/v1/learning_resources_user_subscription/${id}/unsubscribe/`,
+  post: () => "/api/v1/learning_resources_user_subscription/subscribe/",
+}
+
 const fields = {
   details: (channelType: string, name: string) =>
     `/api/v0/channels/type/${channelType}/${name}/`,
@@ -108,11 +154,17 @@ const programLetters = {
 }
 
 const search = {
-  resources: () => "/api/v1/learning_resources_search/",
+  resources: (params?: LearningResourcesSearchRequest) =>
+    `/api/v1/learning_resources_search/${queryify(params)}`,
 }
 
 const userMe = {
   get: () => "/api/v0/users/me/",
+}
+
+const newsEvents = {
+  list: (params?: NewsEventsApiNewsEventsListRequest) =>
+    `/api/v0/news_events/${query(params)}`,
 }
 
 export {
@@ -128,4 +180,8 @@ export {
   offerors,
   userMe,
   platforms,
+  userSubscription,
+  schools,
+  departments,
+  newsEvents,
 }

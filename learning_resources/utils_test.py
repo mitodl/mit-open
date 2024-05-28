@@ -3,7 +3,6 @@ Test learning_resources utils
 """
 
 import json
-from datetime import UTC, datetime
 from pathlib import Path
 
 import pytest
@@ -15,8 +14,16 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
 )
 from learning_resources.etl.utils import get_content_type
-from learning_resources.factories import CourseFactory, LearningResourceRunFactory
-from learning_resources.models import LearningResourcePlatform
+from learning_resources.factories import (
+    CourseFactory,
+    LearningResourceRunFactory,
+    LearningResourceTopicFactory,
+)
+from learning_resources.models import LearningResourcePlatform, LearningResourceTopic
+from learning_resources.utils import (
+    add_parent_topics_to_learning_resource,
+    upsert_topic_data,
+)
 
 pytestmark = pytest.mark.django_db
 
@@ -46,32 +53,6 @@ def fixture_test_instructors_data():
     """
     with open("./test_json/test_instructors_data.json") as test_data:  # noqa: PTH123
         return json.load(test_data)["instructors"]
-
-
-@pytest.mark.parametrize(
-    ("semester", "year", "expected"),
-    [
-        ("Spring", 2020, "2020-01-01"),
-        ("Fall", 2020, "2020-09-01"),
-        ("fall", 2020, "2020-09-01"),
-        ("summer", 2021, "2021-06-01"),
-        ("Summer", 2021, "2021-06-01"),
-        ("spring", None, None),
-        (None, 2020, "2020-01-01"),
-        ("something", 2020, "2020-01-01"),
-        ("January IAP", 2018, "2018-01-01"),
-    ],
-)
-def test_semester_year_to_date(semester, year, expected):
-    """
-    Test that a correct rough date is returned for semester and year
-    """
-    if expected is None:
-        assert utils.semester_year_to_date(semester, year) is None
-    else:
-        assert utils.semester_year_to_date(semester, year) == datetime.strptime(
-            expected, "%Y-%m-%d"
-        ).replace(tzinfo=UTC)
 
 
 @pytest.mark.parametrize("url", [None, "http://test.me"])
@@ -271,3 +252,56 @@ def test_resource_run_delete_actions(mock_plugin_manager, fixture_resource_run):
     mock_plugin_manager.hook.resource_run_delete.assert_called_once_with(
         run=fixture_resource_run
     )
+
+
+def test_upsert_topic_data(mocker):
+    """
+    upsert_topic_data should properly process the OCW JSON file, and trigger the
+    topic_upserted_actions hook when it does.
+    """
+
+    test_file_location = "test_json/ocw-course-site-config.json"
+    mock_pluggy = mocker.patch("learning_resources.utils.topic_upserted_actions")
+
+    with Path.open(Path(test_file_location)) as ocw_config:
+        ocw_config_json = ocw_config.read()
+
+    ocw_config = json.loads(ocw_config_json)["collections"][0]["files"][0]["fields"][0][
+        "options_map"
+    ]
+
+    def _walk_ocw_config(config_point):
+        """Walk the test OCW config file."""
+
+        item_count = len(config_point)
+
+        for item in config_point:
+            if isinstance(item, dict):
+                item_count += _walk_ocw_config(item)
+
+        return item_count
+
+    item_count = _walk_ocw_config(ocw_config)
+
+    assert LearningResourceTopic.objects.count() == 0
+
+    upsert_topic_data(test_file_location)
+
+    assert mock_pluggy.called
+    assert LearningResourceTopic.objects.count() > item_count
+
+
+def test_add_parent_topics_to_learning_resource(fixture_resource):
+    """Ensure the parent topics get added to the resource."""
+
+    main_topic = LearningResourceTopicFactory.create()
+    sub_topic = LearningResourceTopicFactory.create(parent=main_topic)
+
+    fixture_resource.topics.add(sub_topic)
+    fixture_resource.save()
+
+    add_parent_topics_to_learning_resource(fixture_resource)
+
+    fixture_resource.refresh_from_db()
+
+    assert fixture_resource.topics.filter(pk=main_topic.id).exists()

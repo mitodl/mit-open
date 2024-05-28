@@ -183,6 +183,7 @@ class LearningResourceFactory(DjangoModelFactory):
     url = factory.Faker("url")
     languages = factory.List(random.choices(["en", "es"]))  # noqa: S311
     last_modified = factory.Faker("date_time", tzinfo=UTC)
+    created_on = factory.Faker("date_time", tzinfo=UTC)
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
     offered_by = factory.SubFactory(LearningResourceOfferorFactory)
@@ -418,6 +419,7 @@ class CourseFactory(DjangoModelFactory):
     class Params:
         is_unpublished = factory.Trait(learning_resource__published=False)
         is_professional = factory.Trait(learning_resource__professional=True)
+        has_certification = factory.Trait(learning_resource__certification=True)
 
 
 class LearningResourceRunFactory(DjangoModelFactory):

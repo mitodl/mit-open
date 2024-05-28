@@ -57,6 +57,10 @@ const Input = styled(InputBase)(({
       "&.MuiInputBase-adornedEnd": {
         marginRight: `-${buttonPadding.medium}px`,
       },
+      "&:hover:not(.Mui-disabled), &.Mui-focused": {
+        paddingLeft: "11px",
+        paddingRight: "11px",
+      },
     },
     size === "medium" &&
       !multiline && {
@@ -74,6 +78,10 @@ const Input = styled(InputBase)(({
       "&.MuiInputBase-adornedEnd": {
         marginRight: `-${buttonPadding.hero}px`,
       },
+      "&:hover:not(.Mui-disabled), &.Mui-focused": {
+        paddingLeft: "15px",
+        paddingRight: "15px",
+      },
     },
     size === "hero" &&
       !multiline && {
@@ -84,9 +92,7 @@ const Input = styled(InputBase)(({
 
 const AdornmentButtonStyled = styled("button")(({ theme }) => ({
   // font
-  lineHeight: 1,
-  fontFamily: theme.typography.fontFamily,
-  fontWeight: 500,
+  ...theme.typography.button,
   // display
   display: "flex",
   justifyContent: "center",

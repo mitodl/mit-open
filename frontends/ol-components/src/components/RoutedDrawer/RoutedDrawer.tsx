@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo } from "react"
 import Drawer from "@mui/material/Drawer"
 import type { DrawerProps } from "@mui/material/Drawer"
-import IconButton from "@mui/material/IconButton"
-import CloseIcon from "@mui/icons-material/Close"
+import ClickAwayListener from "@mui/material/ClickAwayListener"
+import { ActionButton } from "../Button/Button"
+import { RiCloseLine } from "@remixicon/react"
 import { useSearchParams } from "react-router-dom"
 import { useToggle } from "ol-utilities"
 
@@ -62,30 +63,34 @@ const RoutedDrawer = <K extends string, R extends K = K>(
   }, [setSearchParams, params])
 
   return (
-    <Drawer
-      open={open}
-      onTransitionExited={removeUrlParams}
-      onClose={setOpen.off}
-      {...others}
-    >
-      {
-        <>
-          {requiredArePresent &&
-            children?.({
-              params: childParams as Record<K, string>,
-              closeDrawer: setOpen.off,
-            })}
-          <IconButton
-            sx={closeSx}
-            size="small"
-            onClick={setOpen.off}
-            aria-label="Close"
-          >
-            <CloseIcon fontSize="large" />
-          </IconButton>
-        </>
-      }
-    </Drawer>
+    <ClickAwayListener onClickAway={setOpen.off}>
+      <Drawer
+        open={open}
+        onTransitionExited={removeUrlParams}
+        onClose={setOpen.off}
+        {...others}
+      >
+        {
+          <>
+            {requiredArePresent &&
+              children?.({
+                params: childParams as Record<K, string>,
+                closeDrawer: setOpen.off,
+              })}
+            <ActionButton
+              style={closeSx}
+              variant="text"
+              color="secondary"
+              size="small"
+              onClick={setOpen.off}
+              aria-label="Close"
+            >
+              <RiCloseLine />
+            </ActionButton>
+          </>
+        }
+      </Drawer>
+    </ClickAwayListener>
   )
 }
 

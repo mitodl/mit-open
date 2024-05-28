@@ -46,7 +46,7 @@ class ChannelPlugin:
         Delete the topic and any existing channel for that topic
 
         Args:
-            offeror(LearningResourceOfferor): The offeror to delete
+            topic(LearningResourceTopic): The topic to delete
 
         """
         FieldChannel.objects.filter(topic_detail__topic=topic).delete()

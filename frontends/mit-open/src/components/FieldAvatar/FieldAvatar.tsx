@@ -44,11 +44,11 @@ const IMG_SIZES = {
   medium: "57px",
   large: "90px",
 }
-const FONT_SIZES = {
-  small: "15px",
-  medium: "32px",
-  large: "50px",
-}
+const FONT_STYLES = {
+  small: "subtitle1",
+  medium: "h3",
+  large: "h2",
+} as const
 
 type AvatarStyleProps = Required<Pick<AvatarProps, "imageSize">>
 const AvatarContainer = styled.div<AvatarStyleProps>`
@@ -69,11 +69,12 @@ const AvatarImg = styled.img<AvatarStyleProps>`
   width: ${({ imageSize }) => IMG_SIZES[imageSize]};
   height: ${({ imageSize }) => IMG_SIZES[imageSize]};
 `
-const AvatarInitials = styled(AvatarImg.withComponent("div"))`
-  font-size: ${({ imageSize = "medium" }) => FONT_SIZES[imageSize]};
-  font-weight: 600;
-  color: white;
-`
+const AvatarInitials = styled(AvatarImg.withComponent("div"))(
+  ({ theme, imageSize = "medium" }) => ({
+    ...theme.typography[FONT_STYLES[imageSize]],
+    color: "white",
+  }),
+)
 
 const FieldAvatar: React.FC<AvatarProps> = (props) => {
   const { field, formImageUrl, imageSize = "medium" } = props

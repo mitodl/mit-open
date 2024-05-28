@@ -5,7 +5,7 @@ from ipaddress import ip_address
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.safestring import mark_safe
-from ipware.utils import is_private_ip
+from python_ipware import IpWare
 
 from main.models import TimestampedModel
 
@@ -40,11 +40,13 @@ class BlockedIPRange(TimestampedModel):
     ip_end = models.GenericIPAddressField(null=False, blank=False)
 
     def clean(self):
+        ipw = IpWare()
         for ip in (self.ip_start, self.ip_end):
             if ip is None:
                 msg = "IP cannot be null"
                 raise ValidationError(msg, code="invalid")
-            if is_private_ip(ip):
+            ipw_ip = ipw.parse_ip_address(ip)
+            if ipw_ip.is_private:
                 msg = f"IP {ip} is not routable"
                 raise ValidationError(msg, code="invalid")
         if ip_address(self.ip_start) > ip_address(self.ip_end):

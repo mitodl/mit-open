@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.9.6"
+VERSION = "0.10.1"
 
 log = logging.getLogger()
 
@@ -71,18 +71,6 @@ if not SITE_BASE_URL:
     raise ImproperlyConfigured(msg)
 MITOPEN_TITLE = get_string("MITOPEN_TITLE", "MIT Open")
 
-WEBPACK_LOADER = {
-    "DEFAULT": {
-        "CACHE": not DEBUG,
-        "BUNDLE_DIR_NAME": "mit-open/",
-        "STATS_FILE": os.path.join(  # noqa: PTH118
-            BASE_DIR, "webpack-stats/mit-open.json"
-        ),
-        "POLL_INTERVAL": 0.1,
-        "TIMEOUT": None,
-        "IGNORE": [r".+\.hot-update\.+", r".+\.js\.map"],
-    },
-}
 
 # Application definition
 
@@ -100,7 +88,6 @@ INSTALLED_APPS = (
     "server_status",
     "rest_framework",
     "corsheaders",
-    "webpack_loader",
     "anymail",
     "hijack",
     "hijack.contrib.admin",
@@ -121,6 +108,7 @@ INSTALLED_APPS = (
     "articles",
     "oauth2_provider",
     "news_events",
+    "testimonials",
 )
 
 SCIM_SERVICE_PROVIDER = {
@@ -165,6 +153,8 @@ CORS_ALLOWED_ORIGINS = get_list_of_str("CORS_ALLOWED_ORIGINS", [])
 CORS_ALLOWED_ORIGIN_REGEXES = get_list_of_str("CORS_ALLOWED_ORIGIN_REGEXES", [])
 CORS_ALLOW_CREDENTIALS = True
 
+CSRF_TRUSTED_ORIGINS = get_list_of_str("CSRF_TRUSTED_ORIGINS", [])
+
 # enable the nplusone profiler only in debug mode
 if DEBUG:
     INSTALLED_APPS += ("nplusone.ext.django",)
@@ -187,7 +177,10 @@ ROOT_URLCONF = "main.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR + "/templates/"],
+        "DIRS": [
+            BASE_DIR + "/templates/",
+            BASE_DIR + "/frontends/mit-open/build",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -342,16 +335,13 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = "staticfiles"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontends/mit-open/public")]  # noqa: PTH118
-for name, path in [
-    ("mit-open", os.path.join(BASE_DIR, "frontends/mit-open/build")),  # noqa: PTH118
-]:
-    if os.path.exists(path):  # noqa: PTH110
-        STATICFILES_DIRS.append((name, path))
-    else:
-        log.warning("Static file directory was missing: %s", path)
 
 # Important to define this so DEBUG works properly
 INTERNAL_IPS = (get_string("HOST_IP", "127.0.0.1"),)
+
+NOTIFICATION_ATTEMPT_RATE_LIMIT = "600/m"
+
+NOTIFICATION_ATTEMPT_CHUNK_SIZE = 100
 
 # Configure e-mail settings
 EMAIL_BACKEND = get_string(

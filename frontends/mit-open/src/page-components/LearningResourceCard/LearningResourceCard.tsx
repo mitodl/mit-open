@@ -4,7 +4,7 @@ import * as NiceModal from "@ebay/nice-modal-react"
 import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import type { LearningResourceCardTemplateProps } from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import { imgConfigs } from "@/common/constants"
-import { IconButton } from "ol-components"
+import { ActionButton } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
 import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
@@ -62,22 +62,26 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       footerActionSlot={
         <div>
           {user?.is_authenticated && user?.is_learning_path_editor && (
-            <IconButton
-              size="small"
+            <ActionButton
+              variant="text"
+              edge="rounded"
+              color="secondary"
               aria-label="Add to Learning Path"
               onClick={showAddToLearningPathDialog}
             >
               <PlaylistAddIcon />
-            </IconButton>
+            </ActionButton>
           )}
           {user?.is_authenticated && (
-            <IconButton
-              size="small"
+            <ActionButton
+              variant="text"
+              edge="rounded"
+              color="secondary"
               aria-label="Add to User List"
               onClick={showAddToUserListDialog}
             >
               <BookmarkBorderIcon />
-            </IconButton>
+            </ActionButton>
           )}
         </div>
       }

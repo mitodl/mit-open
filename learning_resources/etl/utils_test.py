@@ -13,16 +13,22 @@ from lxml import etree
 from learning_resources.constants import (
     CONTENT_TYPE_FILE,
     CONTENT_TYPE_VERTICAL,
+    AvailabilityType,
     LearningResourceFormat,
+    LearningResourceType,
+    OfferedBy,
     PlatformType,
 )
 from learning_resources.etl import utils
+from learning_resources.etl.utils import parse_certification
 from learning_resources.factories import (
     ContentFileFactory,
     LearningResourceFactory,
+    LearningResourceOfferorFactory,
     LearningResourceRunFactory,
     LearningResourceTopicFactory,
 )
+from learning_resources.serializers import LearningResourceSerializer
 
 pytestmark = pytest.mark.django_db
 
@@ -369,7 +375,61 @@ def test_parse_format(original, expected):
     assert utils.transform_format(original) == [expected]
 
 
-def test_parse_bad_format():
-    """An exception should be raised for bad formats"""
-    with pytest.raises(KeyError):
-        utils.transform_format("bad_format")
+def test_parse_bad_format(mocker):
+    """An exception log should be called for invalid formats"""
+    mock_log = mocker.patch("learning_resources.etl.utils.log.exception")
+    assert utils.transform_format("bad_format") == [LearningResourceFormat.online.name]
+    mock_log.assert_called_once_with("Invalid format %s", "bad_format")
+
+
+@pytest.mark.parametrize(
+    ("offered_by", "availability", "has_cert"),
+    [
+        [  # noqa: PT007
+            OfferedBy.ocw.name,
+            AvailabilityType.archived.value,
+            False,
+        ],
+        [  # noqa: PT007
+            OfferedBy.ocw.name,
+            AvailabilityType.current.value,
+            False,
+        ],
+        [  # noqa: PT007
+            OfferedBy.mitx.name,
+            AvailabilityType.archived.value,
+            False,
+        ],
+        [  # noqa: PT007
+            OfferedBy.mitx.name,
+            AvailabilityType.current.value,
+            True,
+        ],
+        [  # noqa: PT007
+            OfferedBy.mitx.name,
+            AvailabilityType.upcoming.value,
+            True,
+        ],
+    ],
+)
+def test_parse_certification(offered_by, availability, has_cert):
+    """The parse_certification function should return the expected bool value"""
+    offered_by_obj = LearningResourceOfferorFactory.create(code=offered_by)
+
+    resource = LearningResourceRunFactory.create(
+        availability=availability,
+        learning_resource=LearningResourceFactory.create(
+            published=True,
+            resource_type=LearningResourceType.podcast.name,
+            offered_by=offered_by_obj,
+        ),
+    ).learning_resource
+    assert resource.runs.first().availability == availability
+    assert resource.runs.count() == 1
+    assert (
+        parse_certification(
+            offered_by_obj.code,
+            LearningResourceSerializer(instance=resource).data["runs"],
+        )
+        == has_cert
+    )

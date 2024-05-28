@@ -21,7 +21,6 @@ from learning_resources.models import ContentFile
 from learning_resources.utils import (
     get_s3_object_and_read,
     safe_load_json,
-    semester_year_to_date,
 )
 from main.utils import now_in_utc
 
@@ -217,9 +216,6 @@ def test_transform_course(  # noqa: PLR0913
         assert transformed_json["runs"][0]["level"] == ["undergraduate", "high_school"]
         assert transformed_json["runs"][0]["semester"] == (term if term else None)
         assert transformed_json["runs"][0]["year"] == (year if year else None)
-        assert transformed_json["runs"][0]["start_date"] == semester_year_to_date(
-            term or None, year or None
-        )
         assert (
             transformed_json["image"]["url"]
             == "http://test.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg"

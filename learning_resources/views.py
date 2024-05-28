@@ -10,6 +10,7 @@ from django.db.models import Count, F, Q, QuerySet
 from django.http import HttpResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
+from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import views, viewsets
@@ -20,6 +21,8 @@ from rest_framework.response import Response
 from rest_framework_nested.viewsets import NestedViewSetMixin
 
 from authentication.decorators import blocked_ip_exempt
+from channels.constants import ChannelType
+from channels.models import FieldChannel
 from learning_resources import permissions
 from learning_resources.constants import (
     LearningResourceType,
@@ -31,6 +34,7 @@ from learning_resources.exceptions import WebhookException
 from learning_resources.filters import (
     ContentFileFilter,
     LearningResourceFilter,
+    TopicFilter,
 )
 from learning_resources.models import (
     ContentFile,
@@ -58,7 +62,7 @@ from learning_resources.serializers import (
     LearningPathResourceSerializer,
     LearningResourceContentTagSerializer,
     LearningResourceDepartmentSerializer,
-    LearningResourceOfferorSerializer,
+    LearningResourceOfferorDetailSerializer,
     LearningResourcePlatformSerializer,
     LearningResourceRelationshipSerializer,
     LearningResourceSchoolSerializer,
@@ -428,6 +432,8 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceTopicSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TopicFilter
 
 
 @extend_schema_view(
@@ -680,8 +686,6 @@ class ContentTagViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceContentTagSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
-    lookup_url_kwarg = "id"
-    lookup_field = "id_iexact"
 
 
 @extend_schema_view(
@@ -741,7 +745,7 @@ class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     """
 
     queryset = LearningResourceOfferor.objects.all().order_by("code")
-    serializer_class = LearningResourceOfferorSerializer
+    serializer_class = LearningResourceOfferorDetailSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
     lookup_field = "code"
@@ -803,3 +807,44 @@ class VideoPlaylistViewSet(BaseLearningResourceViewSet):
         return self._get_base_queryset(
             resource_type=LearningResourceType.video_playlist.name
         ).filter(published=True)
+
+
+@extend_schema_view(
+    list=extend_schema(
+        description="Get a paginated list of featured resources",
+    ),
+    retrieve=extend_schema(
+        description="Retrieve a single featured resource",
+    ),
+)
+class FeaturedViewSet(
+    BaseLearningResourceViewSet,
+):
+    """
+    Viewset for Featured Resources
+    """
+
+    lookup_url_kwarg = "id"
+    resource_type_name_plural = "Featured Resources"
+    serializer_class = LearningResourceSerializer
+
+    def get_queryset(self) -> QuerySet:
+        """
+        Generate a QuerySet for fetching featured LearningResource objects
+
+        Returns:
+            QuerySet of LearningResource objects that are in
+            featured learning paths from certain offerors
+        """
+        featured_list_ids = FieldChannel.objects.filter(
+            channel_type=ChannelType.offeror.name
+        ).values_list("featured_list", flat=True)
+
+        return (
+            self._get_base_queryset()
+            .filter(parents__parent_id__in=featured_list_ids)
+            .filter(published=True)
+            .annotate(position=F("parents__position"))
+            .order_by("position")
+            .distinct()
+        )

@@ -27,6 +27,7 @@ import type {
   UserListRelationshipRequest,
   MicroUserListRelationship,
   PlatformsApiPlatformsListRequest,
+  FeaturedApiFeaturedListRequest as FeaturedListParams,
 } from "../../generated/v1"
 import learningResources, {
   invalidateResourceQueries,
@@ -46,6 +47,10 @@ const useLearningResourcesList = (
 
 const useLearningResourcesDetail = (id: number) => {
   return useQuery(learningResources.detail(id))
+}
+
+const useFeaturedLearningResourcesList = (params: FeaturedListParams = {}) => {
+  return useQuery(learningResources.featured(params))
 }
 
 const useLearningResourceTopics = (
@@ -414,8 +419,13 @@ const usePlatformsList = (
   })
 }
 
+const useSchoolsList = () => {
+  return useQuery(learningResources.schools())
+}
+
 export {
   useLearningResourcesList,
+  useFeaturedLearningResourcesList,
   useLearningResourcesDetail,
   useLearningResourceTopics,
   useLearningPathsList,
@@ -440,4 +450,5 @@ export {
   useOfferorsList,
   useListItemMove,
   usePlatformsList,
+  useSchoolsList,
 }

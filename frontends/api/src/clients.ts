@@ -8,9 +8,17 @@ import {
   ProgramLettersApi,
   LearningResourcesSearchApi,
   PlatformsApi,
+  LearningResourcesUserSubscriptionApi,
+  SchoolsApi,
+  FeaturedApi,
 } from "./generated/v1/api"
 
-import { ChannelsApi, WidgetListsApi, UsersApi } from "./generated/v0/api"
+import {
+  ChannelsApi,
+  WidgetListsApi,
+  UsersApi,
+  NewsEventsApi,
+} from "./generated/v0/api"
 
 import axiosInstance from "./axios"
 
@@ -26,6 +34,8 @@ const learningResourcesSearchApi = new LearningResourcesSearchApi(
   BASE_PATH,
   axiosInstance,
 )
+
+const featuredApi = new FeaturedApi(undefined, BASE_PATH, axiosInstance)
 
 const learningpathsApi = new LearningpathsApi(
   undefined,
@@ -53,7 +63,17 @@ const channelsApi = new ChannelsApi(undefined, BASE_PATH, axiosInstance)
 
 const widgetListsApi = new WidgetListsApi(undefined, BASE_PATH, axiosInstance)
 
+const searchSubscriptionApi = new LearningResourcesUserSubscriptionApi(
+  undefined,
+  BASE_PATH,
+  axiosInstance,
+)
+
 const usersApi = new UsersApi(undefined, BASE_PATH, axiosInstance)
+
+const schoolsApi = new SchoolsApi(undefined, BASE_PATH, axiosInstance)
+
+const newsEventsApi = new NewsEventsApi(undefined, BASE_PATH, axiosInstance)
 
 export {
   learningResourcesApi,
@@ -68,4 +88,8 @@ export {
   widgetListsApi,
   usersApi,
   platformsApi,
+  searchSubscriptionApi,
+  schoolsApi,
+  newsEventsApi,
+  featuredApi,
 }

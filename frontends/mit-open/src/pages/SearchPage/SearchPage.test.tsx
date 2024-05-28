@@ -10,7 +10,7 @@ import SearchPage from "./SearchPage"
 import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
 import type {
   LearningResourceSearchResponse,
-  PaginatedLearningResourceOfferorList,
+  PaginatedLearningResourceOfferorDetailList,
 } from "api"
 import invariant from "tiny-invariant"
 import { Permissions } from "@/common/permissions"
@@ -20,7 +20,7 @@ const setMockApiResponses = ({
   offerors,
 }: {
   search?: Partial<LearningResourceSearchResponse>
-  offerors?: PaginatedLearningResourceOfferorList
+  offerors?: PaginatedLearningResourceOfferorDetailList
 }) => {
   setMockResponse.get(urls.userMe.get(), {
     [Permissions.Authenticated]: false,
@@ -167,6 +167,7 @@ describe("SearchPage", () => {
       "All",
       "Courses",
       "Programs",
+      "Videos",
       "Podcasts",
     ])
     // eventually (after API response) result counts show
@@ -175,6 +176,7 @@ describe("SearchPage", () => {
         "All (300)",
         "Courses (100)",
         "Programs (0)",
+        "Videos (0)",
         "Podcasts (200)",
       ])
     })
@@ -210,7 +212,11 @@ describe("SearchPage", () => {
       })
       const apiSearchParams = getLastApiSearchParams()
       expect(apiSearchParams.getAll("aggregations").sort()).toEqual([
+        "certification",
+        "free",
+        "learning_format",
         "offered_by",
+        "professional",
         "resource_type",
         "topic",
       ])
@@ -246,11 +252,13 @@ describe("SearchPage", () => {
     expect(chemistry).toBeChecked()
     // clear all
     await user.click(clearAll)
+    expect(clearAll).not.toBeVisible()
     expect(location.current.search).toBe("")
     expect(physics).not.toBeChecked()
     expect(chemistry).not.toBeChecked()
     // toggle physics
     await user.click(physics)
+    await screen.findByRole("button", { name: /clear all/i }) // Clear All shows again
     expect(physics).toBeChecked()
     expect(location.current.search).toBe("?topic=Physics")
   })
@@ -299,6 +307,42 @@ test("Facet 'Offered By' uses API response for names", async () => {
   expect(offeror0).toBeVisible()
   expect(offeror1).toBeVisible()
   expect(offeror2).toBeVisible()
+})
+
+test("Set sort", async () => {
+  setMockApiResponses({ search: { count: 137 } })
+
+  const { location } = renderWithProviders(<SearchPage />)
+
+  let sortDropdown = await screen.findByText("Sort by: Relevance")
+
+  await user.click(sortDropdown)
+
+  const noneSelect = await screen.findByRole("option", {
+    name: "Relevance",
+  })
+
+  expect(noneSelect).toHaveAttribute("aria-selected", "true")
+
+  let popularitySelect = await screen.findByRole("option", {
+    name: /Popular/i,
+  })
+
+  expect(popularitySelect).toHaveAttribute("aria-selected", "false")
+
+  await user.click(popularitySelect)
+
+  expect(location.current.search).toBe("?sortby=-views")
+
+  sortDropdown = await screen.findByText("Sort by: Popular")
+
+  await user.click(sortDropdown)
+
+  popularitySelect = await screen.findByRole("option", {
+    name: /Popular/i,
+  })
+
+  expect(popularitySelect).toHaveAttribute("aria-selected", "true")
 })
 
 test("Clearing text updates URL", async () => {

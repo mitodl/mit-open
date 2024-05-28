@@ -2,9 +2,11 @@ import React from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
 import { BannerPage, styled, Container, Typography } from "ol-components"
+import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
+import { SourceTypeEnum } from "api"
 
 export const FieldTitleRow = styled.div`
   display: flex;
@@ -46,6 +48,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   name,
 }) => {
   const field = useChannelDetail(String(channelType), String(name))
+  const urlParams = new URLSearchParams(field.data?.search_filter)
 
   return (
     <BannerPage
@@ -68,7 +71,14 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     {field.data.title}
                   </Link>
                 </Typography>
+
                 <FieldControls>
+                  {field.data?.search_filter ? (
+                    <SearchSubscriptionToggle
+                      sourceType={SourceTypeEnum.ChannelSubscriptionType}
+                      searchParams={urlParams}
+                    />
+                  ) : null}
                   {field.data?.is_moderator ? (
                     <FieldMenu
                       channelType={String(channelType)}

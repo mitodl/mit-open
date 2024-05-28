@@ -17,6 +17,10 @@ class LearningResourceTopicAdmin(admin.ModelAdmin):
     """Topic Admin"""
 
     model = models.LearningResourceTopic
+    list_display = (
+        "name",
+        "parent",
+    )
     search_fields = ("name",)
 
 
@@ -74,6 +78,13 @@ class LearningResourceRunInline(TabularInline):
         "year",
         "published",
     )
+
+
+class LearningResourceContentTagAdmin(admin.ModelAdmin):
+    """LearningResourceContentTag admin"""
+
+    model = models.LearningResourceContentTag
+    search_fields = ("name",)
 
 
 class LearningResourceViewEventAdmin(admin.ModelAdmin):
@@ -213,5 +224,6 @@ admin.site.register(models.LearningResourceDepartment, LearningResourceDepartmen
 admin.site.register(models.LearningResourcePlatform, LearningResourcePlatformAdmin)
 admin.site.register(models.LearningResourceOfferor, LearningResourceOfferorAdmin)
 admin.site.register(models.LearningResourceViewEvent, LearningResourceViewEventAdmin)
+admin.site.register(models.LearningResourceContentTag, LearningResourceContentTagAdmin)
 admin.site.register(models.UserList, UserListAdmin)
 admin.site.register(models.VideoChannel, VideoChannelAdmin)

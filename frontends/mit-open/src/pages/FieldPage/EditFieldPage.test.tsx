@@ -1,6 +1,6 @@
 import { renderTestApp, screen } from "../../test-utils"
 import { fields as factory } from "api/test-utils/factories"
-import { setMockResponse, urls as apiUrls } from "api/test-utils"
+import { setMockResponse, urls as apiUrls, factories } from "api/test-utils"
 import { makeFieldEditPath } from "@/common/urls"
 
 describe("EditFieldPage", () => {
@@ -10,6 +10,13 @@ describe("EditFieldPage", () => {
       apiUrls.fields.details(field.channel_type, field.name),
       field,
     )
+    setMockResponse.get(
+      apiUrls.userSubscription.check({
+        source_type: "channel_subscription_type",
+      }),
+      factories.percolateQueries,
+    )
+
     return field
   }
 
@@ -26,6 +33,12 @@ describe("EditFieldPage", () => {
   it("Displays message and no tabs for non-moderators", async () => {
     const field = factory.field({ is_moderator: false })
     setMockResponse.get(apiUrls.userMe.get(), {})
+    setMockResponse.get(
+      apiUrls.userSubscription.check({
+        source_type: "channel_subscription_type",
+      }),
+      factories.percolateQueries,
+    )
     setMockResponse.get(
       apiUrls.fields.details(field.channel_type, field.name),
       field,

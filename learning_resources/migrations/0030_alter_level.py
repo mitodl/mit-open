@@ -13,7 +13,7 @@ def level_to_array(apps, schema_editor):
         str_level = ",".join(
             [f'"{val.strip()}"' for val in run.level.split(",") if val.strip()]
         )
-        run.level = "{%s}" % (str_level)
+        run.level = f"{{{str_level}}}"
         run.save()
 
 

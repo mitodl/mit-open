@@ -1,4 +1,4 @@
-FROM python:3.11.5
+FROM python:3.12.3
 LABEL maintainer "ODL DevOps <mitx-devops@mit.edu>"
 
 # Add package files, install updated node and pip
@@ -51,7 +51,6 @@ USER root
 COPY . /src
 WORKDIR /src
 RUN mkdir /src/staticfiles
-RUN chown -R mitodl:mitodl /src
 
 RUN apt-get clean && apt-get purge
 

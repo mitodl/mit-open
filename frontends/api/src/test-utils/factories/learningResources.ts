@@ -4,25 +4,27 @@ import type { Factory, PartialFactory } from "ol-test-utilities"
 import { makePaginatedFactory } from "ol-test-utilities"
 import type {
   CourseNumber,
-  LearningResource,
-  LearningResourceImage,
-  LearningResourceDepartment,
-  LearningResourceOfferor,
-  LearningResourcePlatform,
-  LearningResourceRun,
-  LearningResourceInstructor,
-  LearningResourceTopic,
+  CourseResource,
   LearningPathRelationship,
   LearningPathResource,
+  LearningResource,
+  LearningResourceBaseDepartment,
+  LearningResourceBaseSchool,
+  LearningResourceDepartment,
+  LearningResourceImage,
+  LearningResourceInstructor,
+  LearningResourceOfferorDetail,
+  LearningResourcePlatform,
+  LearningResourceRun,
+  LearningResourceSchool,
+  LearningResourceTopic,
   MicroLearningPathRelationship,
-  ProgramResource,
-  CourseResource,
+  PaginatedLearningPathRelationshipList,
   PodcastResource,
   PodcastEpisodeResource,
-  PaginatedLearningPathRelationshipList,
-  VideoResource,
+  ProgramResource,
   VideoPlaylistResource,
-  LearningResourceBaseSchool,
+  VideoResource,
 } from "api"
 import { ResourceTypeEnum, LearningResourceRunLevelInnerCodeEnum } from "api"
 import { mergeOverrides } from "./index"
@@ -75,17 +77,40 @@ const learningResourceBaseSchool: Factory<LearningResourceBaseSchool> = (
   }
 }
 
+const learningResourceBaseDepartment: Factory<
+  LearningResourceBaseDepartment
+> = (overrides = {}) => {
+  return {
+    department_id: faker.helpers.unique(faker.lorem.words),
+    name: faker.helpers.unique(faker.lorem.words),
+    channel_url: faker.internet.url(),
+    ...overrides,
+  }
+}
+
 const learningResourceDepartment: Factory<LearningResourceDepartment> = (
   overrides = {},
 ) => {
   return {
-    department_id: faker.helpers.unique(faker.lorem.words),
-    name: faker.lorem.word(),
-    channel_url: faker.internet.url(),
+    ...learningResourceBaseDepartment(),
     school: maybe(learningResourceBaseSchool) ?? null,
     ...overrides,
   }
 }
+const departments = makePaginatedFactory(learningResourceDepartment)
+
+const learnigResourceSchool: Factory<LearningResourceSchool> = (
+  overrides = {},
+) => {
+  return {
+    id: faker.helpers.unique(faker.datatype.number),
+    name: faker.lorem.word(),
+    url: faker.internet.url(),
+    departments: repeat(learningResourceBaseDepartment),
+    ...overrides,
+  }
+}
+const schools = makePaginatedFactory(learnigResourceSchool)
 
 const learningResourcePlatform: Factory<LearningResourcePlatform> = (
   overrides = {},
@@ -97,13 +122,20 @@ const learningResourcePlatform: Factory<LearningResourcePlatform> = (
   }
 }
 
-const learningResourceOfferor: Factory<LearningResourceOfferor> = (
+const learningResourceOfferor: Factory<LearningResourceOfferorDetail> = (
   overrides = {},
 ) => {
   return {
     code: faker.helpers.unique(faker.lorem.words),
     name: faker.helpers.unique(faker.lorem.words),
     channel_url: faker.internet.url(),
+    offerings: repeat(faker.lorem.word),
+    audience: repeat(faker.lorem.word),
+    formats: repeat(faker.lorem.word),
+    fee: repeat(faker.lorem.word),
+    certifications: repeat(faker.lorem.word),
+    content_types: repeat(faker.lorem.word),
+    more_information: faker.internet.url(),
     ...overrides,
   }
 }
@@ -144,7 +176,8 @@ const learningResourceTopic: Factory<LearningResourceTopic> = (
   const topic: LearningResourceTopic = {
     id: faker.helpers.unique(faker.datatype.number),
     name: faker.helpers.unique(faker.lorem.words),
-    channel_url: faker.internet.url(),
+    channel_url: `${faker.internet.url()}${faker.system.directoryPath()}`,
+    parent: null,
     ...overrides,
   }
   return topic
@@ -406,7 +439,9 @@ export {
   learningResourceRun as run,
   learningResourceImage as image,
   learningResourceDepartment as department,
+  departments,
   learningResourceTopics as topics,
+  learningResourceOfferor as offeror,
   learningResourceOfferors as offerors,
   learningResourcePlatforms as platforms,
   learningPath,
@@ -426,4 +461,6 @@ export {
   videos,
   videoPlaylist,
   videoPlaylists,
+  learnigResourceSchool as school,
+  schools,
 }

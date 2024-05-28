@@ -14,30 +14,28 @@ def test_get_ckeditor(client, user, settings):
     settings.CKEDITOR_SECRET_KEY = "super secret"  # noqa: S105
     settings.CKEDITOR_ENVIRONMENT_ID = "environment"
     client.force_login(user)
-    resp = client.get(reverse("ckeditor:v0:ckeditor-token"))
+    resp = client.get(reverse("ckeditor:v0:ckeditor-settings"))
     assert resp.status_code == status.HTTP_200_OK
     jwt_body = jwt.decode(
-        resp.content, settings.CKEDITOR_SECRET_KEY, algorithms=["HS256"]
+        resp.json()["token"], settings.CKEDITOR_SECRET_KEY, algorithms=["HS256"]
     )
     assert jwt_body["iss"] == settings.CKEDITOR_ENVIRONMENT_ID
     assert jwt_body["iat"] <= math.floor(time())
 
 
 @pytest.mark.parametrize(
-    ("secret_key", "env_id", "exp_status"),
+    ("secret_key", "env_id"),
     [
-        (None, None, status.HTTP_503_SERVICE_UNAVAILABLE),
-        ("secret", None, status.HTTP_503_SERVICE_UNAVAILABLE),
-        (None, "env", status.HTTP_503_SERVICE_UNAVAILABLE),
-        ("secret", "env", status.HTTP_200_OK),
+        (None, None),
+        ("secret", None),
+        (None, "env_id"),
     ],
 )
-def test_get_ckeditor_status(  # noqa: PLR0913
-    client, user, settings, secret_key, env_id, exp_status
-):  # pylint: disable=too-many-arguments
+def test_get_ckeditor_not_configured(client, user, settings, secret_key, env_id):  # pylint: disable=too-many-arguments
     """Test that we return the status we expect"""
     settings.CKEDITOR_SECRET_KEY = secret_key
     settings.CKEDITOR_ENVIRONMENT_ID = env_id
     client.force_login(user)
-    resp = client.get(reverse("ckeditor:v0:ckeditor-token"))
-    assert resp.status_code == exp_status
+    resp = client.get(reverse("ckeditor:v0:ckeditor-settings"))
+    assert resp.status_code == status.HTTP_200_OK
+    assert resp.json()["token"] is None

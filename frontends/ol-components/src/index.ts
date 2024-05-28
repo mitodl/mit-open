@@ -9,8 +9,6 @@
  *  - we don't need to implement ref-forwarding, which is important for some
  *    functionality.
  */
-export { default as Alert } from "@mui/material/Alert"
-export type { AlertProps } from "@mui/material/Alert"
 
 export { default as Avatar } from "@mui/material/Avatar"
 export type { AvatarProps } from "@mui/material/Avatar"
@@ -21,8 +19,14 @@ export type { BadgeProps } from "@mui/material/Badge"
 export { default as AppBar } from "@mui/material/AppBar"
 export type { AppBarProps } from "@mui/material/AppBar"
 
-export { Button } from "./components/Button/Button"
-export type { ButtonProps } from "./components/Button/Button"
+export {
+  Button,
+  ActionButton,
+  ActionButtonLink,
+  ButtonLink,
+} from "./components/Button/Button"
+
+export type { ButtonProps, ButtonLinkProps } from "./components/Button/Button"
 
 export { default as Card } from "@mui/material/Card"
 export type { CardProps } from "@mui/material/Card"
@@ -39,6 +43,9 @@ export type { CheckboxProps } from "@mui/material/Checkbox"
 export { default as Chip } from "@mui/material/Chip"
 export type { ChipProps } from "@mui/material/Chip"
 
+export { default as ClickAwayListener } from "@mui/material/ClickAwayListener"
+export type { ClickAwayListenerProps } from "@mui/material/ClickAwayListener"
+
 export { default as Container } from "@mui/material/Container"
 export type { ContainerProps } from "@mui/material/Container"
 
@@ -54,16 +61,19 @@ export type { DialogTitleProps } from "@mui/material/DialogTitle"
 export { default as Divider } from "@mui/material/Divider"
 export type { DividerProps } from "@mui/material/Divider"
 
+export { default as Drawer } from "@mui/material/Drawer"
+export type { DrawerProps } from "@mui/material/Drawer"
+
 export { default as Grid } from "@mui/material/Grid"
 export type { GridProps } from "@mui/material/Grid"
-export { default as IconButton } from "@mui/material/IconButton"
-export type { IconButtonProps } from "@mui/material/IconButton"
 export { default as InputLabel } from "@mui/material/InputLabel"
 
 export { default as List } from "@mui/material/List"
 export type { ListProps } from "@mui/material/List"
 export { default as ListItem } from "@mui/material/ListItem"
 export type { ListItemProps } from "@mui/material/ListItem"
+export { ListItemLink } from "./components/Lists/ListItemLink"
+export type { ListItemLinkProps } from "./components/Lists/ListItemLink"
 export { default as ListItemButton } from "@mui/material/ListItemButton"
 export type { ListItemButtonProps } from "@mui/material/ListItemButton"
 export { default as ListItemText } from "@mui/material/ListItemText"
@@ -110,20 +120,24 @@ export { default as Typography } from "@mui/material/Typography"
 export type { TypographyProps } from "@mui/material/Typography"
 
 export { default as Menu } from "@mui/material/Menu"
+export type { MenuProps } from "@mui/material/Menu"
 export { default as MenuItem } from "@mui/material/MenuItem"
 
+export * from "./components/Alert/Alert"
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
-export * from "./components/ButtonLink/ButtonLink"
 export * from "./components/Chips/ChipLink"
 export * from "./components/EmbedlyCard/EmbedlyCard"
 export * from "./components/FormDialog/FormDialog"
 export * from "./components/RoutedDrawer/RoutedDrawer"
+export * from "./components/NavDrawer/NavDrawer"
 export * from "./components/SearchInput/SearchInput"
 export * from "./components/SimpleMenu/SimpleMenu"
 export * from "./components/SortableList/SortableList"
 export * from "./components/ShareTooltip/ShareTooltip"
 export * from "./components/Carousel/Carousel"
+export * from "./components/PlainList/PlainList"
+export * from "./components/TruncateText/TruncateText"
 export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/RadioChoiceField/RadioChoiceField"
@@ -131,6 +145,12 @@ export * from "./components/RadioChoiceField/RadioChoiceField"
 export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
 export { TextField } from "./components/TextField/TextField"
+export { SimpleSelect } from "./components/SimpleSelect/SimpleSelect"
+export type {
+  SimpleSelectProps,
+  SimpleSelectOptionProps,
+} from "./components/SimpleSelect/SimpleSelect"
+
 export type { TextFieldProps } from "./components/TextField/TextField"
 export { Select, SelectField } from "./components/SelectField/SelectField"
 export type {

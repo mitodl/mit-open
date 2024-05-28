@@ -124,6 +124,7 @@ def _transform_learning_resource_course(course):
                 course["readable_id"], is_ocw=False
             ),
         },
+        "certification": True,
     }
 
 
@@ -183,6 +184,7 @@ def transform_programs(programs):
                 }
             ],
             "courses": transform_courses(program["courses"]),
+            "certification": True,
         }
         for program in programs
     ]

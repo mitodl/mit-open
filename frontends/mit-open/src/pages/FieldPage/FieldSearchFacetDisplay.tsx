@@ -8,8 +8,20 @@ import type {
   BooleanFacetKey,
 } from "@mitodl/course-search-utils"
 import { BOOLEAN_FACET_NAMES } from "@mitodl/course-search-utils"
-import { FormControl, Select, MenuItem } from "ol-components"
+import { Skeleton, styled } from "ol-components"
+import { StyledDropdown } from "../SearchPage/SearchPage"
+
 export type KeyWithLabel = { key: string; label: string }
+
+const StyledSkeleton = styled(Skeleton)`
+  display: inline-flex;
+  position: relative;
+  transform: none;
+  width: 138px;
+  height: 40px;
+  margin: 8px 10px;
+  border-radius: 4px;
+`
 
 export type SingleFacetOptions = {
   name: string
@@ -20,7 +32,8 @@ export type SingleFacetOptions = {
 export type FacetManifest = SingleFacetOptions[]
 
 interface FacetDisplayProps {
-  facetMap: FacetManifest
+  facetManifest: FacetManifest
+  isLoading?: boolean
   /**
    * Returns the aggregation options for a given group.
    *
@@ -62,7 +75,8 @@ const filteredResultsWithLabels = (
 const AvailableFacetsDropdowns: React.FC<
   Omit<FacetDisplayProps, "clearAllFilters">
 > = ({
-  facetMap,
+  facetManifest,
+  isLoading,
   facetOptions,
   activeFacets,
   onFacetChange,
@@ -70,12 +84,16 @@ const AvailableFacetsDropdowns: React.FC<
 }) => {
   return (
     <>
-      {facetMap.map((facetSetting) => {
+      {facetManifest.map((facetSetting, index) => {
         const facetItems = filteredResultsWithLabels(
           facetOptions(facetSetting.name) || [],
           facetSetting.labelFunction || null,
           constantSearchParams[facetSetting.name as FacetKey] || null,
         )
+
+        if (isLoading) {
+          return <StyledSkeleton key={index} />
+        }
 
         const isMultiple = BOOLEAN_FACET_NAMES.includes(facetSetting.name)
           ? false
@@ -94,45 +112,22 @@ const AvailableFacetsDropdowns: React.FC<
           displayValue = activeFacets[facetSetting.name as FacetKey] || []
         }
 
+        if (!isMultiple) {
+          facetItems.unshift({ key: "", label: "no selection" })
+        }
+
         return (
-          facetItems.length > 0 && (
-            <FormControl key={facetSetting.name}>
-              <Select
-                multiple={isMultiple}
-                displayEmpty
-                value={displayValue}
-                renderValue={() => {
-                  return facetSetting.title
-                }}
-                onChange={(e) =>
-                  onFacetChange(facetSetting.name, e.target.value)
-                }
-                sx={{ m: 1, minWidth: 140 }}
-              >
-                {!isMultiple ? (
-                  <MenuItem
-                    value=""
-                    key={facetSetting.name.concat(":", "unselect")}
-                  >
-                    no selection
-                  </MenuItem>
-                ) : (
-                  ""
-                )}
-                {filteredResultsWithLabels(
-                  facetOptions(facetSetting.name) || [],
-                  facetSetting.labelFunction || null,
-                  constantSearchParams[facetSetting.name as FacetKey] || null,
-                ).map((facet) => (
-                  <MenuItem
-                    value={facet.key}
-                    key={facetSetting.name.concat(":", facet.key)}
-                  >
-                    {facet.label}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+          facetItems.length && (
+            <StyledDropdown
+              key={facetSetting.name}
+              initialValue={displayValue}
+              isMultiple={isMultiple}
+              onChange={(e) => onFacetChange(facetSetting.name, e.target.value)}
+              renderValue={() => {
+                return facetSetting.title
+              }}
+              options={facetItems}
+            />
           )
         )
       })}

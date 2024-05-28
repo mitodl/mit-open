@@ -1,0 +1,178 @@
+{% extends "email/email_base.html" %}
+{% load humanize %}
+
+{% block content %}
+
+<!-- 1 Column Text : BEGIN -->
+
+<tr>
+  <td
+    style="
+      padding: 5px 20px 0;
+      font-family: sans-serif;
+      font-size: 15px;
+      line-height: 20px;
+      color: #555555;
+    "
+  >
+    <h4
+      style="
+        margin: 0 0 10px;
+        font-size: 16px;
+        line-height: 20px;
+        color: #858080;
+        font-weight: bold;
+      "
+    >
+      {{total_count}}
+      new course{{ total_count|pluralize:'s' }}
+      in MIT Open that match{{ total_count|pluralize:'es,' }}
+      your preferences
+    </h4>
+  </td>
+</tr>
+{% for resource_group, items in documents.items %}
+<tr>
+  <td style="background-color: #ffffff">
+    <table
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      width="100%"
+    >
+      <tr>
+        <td
+          style="
+            padding: 5px 20px 0;
+            font-family: sans-serif;
+            font-size: 15px;
+            line-height: 20px;
+            color: #555555;
+          "
+        >
+          <h1
+            style="
+              margin: 0 0 10px;
+              font-size: 25px;
+              line-height: 30px;
+              color: #03152d;
+              font-weight: bold;
+            "
+          >
+            {{resource_group}}
+          </h1>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<!-- 1 Column Text : END -->
+
+{% for item in items %}
+
+<!-- 1 Column Text + Button : BEGIN -->
+<tr>
+  <td style="background-color: #ffffff">
+    <table
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      width="100%"
+    >
+      <tr>
+        <td
+          style="
+            padding: 10px 20px;
+            font-family: sans-serif;
+            font-size: 15px;
+            line-height: 20px;
+            color: #555555;
+          "
+        >
+          <h2
+            style="
+              margin: 0 0 10px;
+              font-family: sans-serif;
+              font-size: 25px;
+              line-height: 25px;
+              color: #03152d;
+              font-weight: bold;
+            "
+          >
+            <a
+              href="{{item.resource_url}}"
+              style="
+                margin: 0 0 10px 0;
+                font-family: sans-serif;
+                font-size: 18px;
+                line-height: 22px;
+                color: #03152d;
+                font-weight: bold;
+              "
+            >
+              {{item.resource_title|safe}}
+            </a>
+          </h2>
+          <p style="margin: 0 0 10px">
+            <!--
+            NOTE: this next line is intentionally long so it renders
+            correctly in plaintext -->
+          </p>
+        </td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<!-- 1 Column Text + Button : END -->
+
+{% endfor %}
+<tr>
+  <td style="padding: 10px 20px">
+    <!-- Button : BEGIN -->
+    <table
+      align="left"
+      role="presentation"
+      cellspacing="0"
+      cellpadding="0"
+      border="0"
+      style="margin: auto"
+    >
+      <tr>
+        <td
+          class="button-td button-td-primary"
+          style="border-radius: 4px; background: #a31f34"
+        >
+          <a
+            class="button-a button-a-primary"
+            href="{{ items.0.search_url }}"
+            style="
+              background: #ffffff;
+              border: 1px solid #a31f34;
+              font-family: sans-serif;
+              font-size: 15px;
+              line-height: 15px;
+              text-decoration: none;
+              padding: 13px 17px;
+              color: #a31f34;
+              display: block;
+              border-radius: 4px;
+            "
+            >View More</a
+          >
+        </td>
+      </tr>
+    </table>
+    <!-- Button : END -->
+  </td>
+</tr>
+<tr>
+  <td style="padding: 10px 20px">
+    <p style="border-top: thin solid"></p>
+  </td>
+</tr>
+
+{% endfor %}
+
+{% endblock %}
