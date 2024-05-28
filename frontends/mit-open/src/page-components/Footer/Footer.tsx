@@ -15,54 +15,87 @@ const FooterContainer = styled.div(({ theme }) => ({
   borderTop: `1px solid ${theme.custom.colors.darkGray2}`,
 }))
 
-const FooterContainerInner = styled.div({
+const FooterContainerInner = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
   padding: "32px 0",
-})
+  [theme.breakpoints.down("sm")]: {
+    padding: "26px 16px",
+    alignSelf: "stretch",
+  },
+}))
 
-const FooterContent = styled.div({
+const FooterContent = styled.div(({ theme }) => ({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "flex-start",
   alignSelf: "stretch",
-})
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+    gap: "16px",
+  },
+}))
 
-const FooterLeftContainer = styled.div({
+const FooterLeftContainer = styled.div(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "30px",
-})
+  [theme.breakpoints.down("sm")]: {
+    alignSelf: "stretch",
+    gap: "16px",
+  },
+}))
 
-const FooterLogo = styled(MITLogoLink)({
-  width: "94px",
-})
+const FooterLogo = styled(MITLogoLink)(({ theme }) => ({
+  width: "95.405px",
+  height: "47px",
+  [theme.breakpoints.down("sm")]: {
+    width: "80px",
+    height: "39.411px",
+  },
+}))
 
 const FooterAddress = styled.address(({ theme }) => ({
   color: theme.custom.colors.black,
   ...theme.typography.body2,
+  [theme.breakpoints.down("sm")]: {
+    flex: "1 0 0",
+  },
 }))
 
-const FooterRightContainer = styled.div({
+const FooterRightContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-end",
   justifyContent: "center",
   gap: "32px",
-})
+  [theme.breakpoints.down("sm")]: {
+    alignItems: "flex-start",
+    alignSelf: "stretch",
+    gap: "16px",
+  },
+}))
 
-const FooterLinksContainer = styled.div({
+const FooterLinksContainer = styled.div(({ theme }) => ({
   display: "flex",
   alignItems: "flex-start",
   gap: "16px",
-})
+  [theme.breakpoints.down("sm")]: {
+    alignContent: "flex-start",
+    flexWrap: "wrap",
+    gap: "16px",
+  },
+}))
 
-const FooterLinkContainer = styled.div({
+const FooterLinkContainer = styled.div(({ theme }) => ({
   display: "flex",
   padding: "0 16px",
   alignItems: "flex-start",
-})
+  [theme.breakpoints.down("sm")]: {
+    padding: "0",
+  },
+}))
 
 const FooterLink = styled.a(({ theme }) => ({
   color: theme.custom.colors.black,
@@ -91,13 +124,16 @@ const FooterLinkComponent: FunctionComponent<FooterLinkComponentProps> = (
   )
 }
 
-const FooterCopyrightContainer = styled.div({
+const FooterCopyrightContainer = styled.div(({ theme }) => ({
   display: "flex",
   alignItems: "flex-end",
   justifyContent: "center",
   padding: "0 16px",
   gap: "10px",
-})
+  [theme.breakpoints.down("sm")]: {
+    padding: "0",
+  },
+}))
 
 const FooterCopyright = styled.span(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
