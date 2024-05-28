@@ -19,7 +19,7 @@
   "devDependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@faker-js/faker": "^7.3.0",
+    "@faker-js/faker": "^8.0.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@storybook/addon-essentials": "^8.0.9",
     "@storybook/addon-interactions": "^8.0.9",
@@ -76,7 +76,8 @@
     "react-router": "^6.22.2",
     "react-router-dom": "^6.22.2",
     "tiny-invariant": "^1.3.1",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "enforce-unique": "^1.3.0"
   },
   "engines": {
     "node": "^20",

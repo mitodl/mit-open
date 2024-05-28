@@ -155,7 +155,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
   "AddToListDialog",
   (listType: string) => {
     test("List is checked iff resource is in list", async () => {
-      const index = faker.datatype.number({ min: 0, max: 2 })
+      const index = faker.number.int({ min: 0, max: 2 })
       if (listType === ListType.LearningPath) {
         setupLearningPaths({ inLists: [index] })
       } else if (listType === ListType.UserList) {
@@ -222,7 +222,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
     })
 
     test("Clicking a checked list removes item from that list", async () => {
-      const index = faker.datatype.number({ min: 0, max: 2 })
+      const index = faker.number.int({ min: 0, max: 2 })
       let title = ""
       let removalUrl = ""
       if (listType === ListType.LearningPath) {

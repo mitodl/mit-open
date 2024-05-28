@@ -36,7 +36,7 @@ const getPrevPageButton = () => screen.getByRole("button", { name: "Previous" })
 
 describe("Carousel", () => {
   it("passes pageSize to NukaCarousel", async () => {
-    const pageSize = faker.datatype.number({ min: 2, max: 4 })
+    const pageSize = faker.number.int({ min: 2, max: 4 })
     setupCarousel({ pageSize })
     expect(NukaCarousel).toHaveBeenCalledWith(
       expect.objectContaining({ slidesToShow: pageSize }),
@@ -45,7 +45,7 @@ describe("Carousel", () => {
   })
 
   it("passes animationDuration to NukaCarousel", async () => {
-    const animationDuration = faker.datatype.number()
+    const animationDuration = faker.number.int()
     setupCarousel({ animationDuration })
     expect(NukaCarousel).toHaveBeenCalledWith(
       expect.objectContaining({ speed: animationDuration }),

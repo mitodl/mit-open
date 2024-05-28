@@ -118,7 +118,7 @@ describe("ListDetailsPage", () => {
       canReorder: false,
     },
     {
-      itemCount: faker.datatype.number({ min: 1, max: 10 }),
+      itemCount: faker.number.int({ min: 1, max: 10 }),
       canReorder: true,
     },
   ])(

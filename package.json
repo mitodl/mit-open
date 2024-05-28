@@ -23,5 +23,8 @@
   "packageManager": "yarn@4.2.2",
   "devDependencies": {
     "syncpack": "^12.3.2"
+  },
+  "dependencies": {
+    "enforce-unique": "^1.3.0"
   }
 }

@@ -126,7 +126,7 @@ describe("useLearningResourceTopics", () => {
 
 describe("useInfiniteLearningPathItems", () => {
   it("Calls the correct API and can fetch next page", async () => {
-    const parentId = faker.datatype.number()
+    const parentId = faker.number.int()
     const url1 = urls.learningPaths.resources({
       learning_resource_id: parentId,
     })
