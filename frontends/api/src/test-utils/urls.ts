@@ -8,6 +8,7 @@
 import type { NewsEventsApiNewsEventsListRequest } from "../generated/v0"
 import type {
   LearningResourcesApi as LRApi,
+  FeaturedApi,
   TopicsApi,
   LearningpathsApi,
   ArticlesApi,
@@ -54,6 +55,8 @@ const learningResources = {
     `/api/v1/learning_resources/${query(params)}`,
   details: (params: Params<LRApi, "learningResourcesRetrieve">) =>
     `/api/v1/learning_resources/${params.id}/`,
+  featured: (params?: Params<FeaturedApi, "featuredList">) =>
+    `/api/v1/featured/${query(params)}`,
 }
 
 const offerors = {

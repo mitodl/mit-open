@@ -11,7 +11,9 @@ describe("EditFieldPage", () => {
       field,
     )
     setMockResponse.get(
-      apiUrls.userSubscription.check(),
+      apiUrls.userSubscription.check({
+        source_type: "channel_subscription_type",
+      }),
       factories.percolateQueries,
     )
 
@@ -32,7 +34,9 @@ describe("EditFieldPage", () => {
     const field = factory.field({ is_moderator: false })
     setMockResponse.get(apiUrls.userMe.get(), {})
     setMockResponse.get(
-      apiUrls.userSubscription.check(),
+      apiUrls.userSubscription.check({
+        source_type: "channel_subscription_type",
+      }),
       factories.percolateQueries,
     )
     setMockResponse.get(

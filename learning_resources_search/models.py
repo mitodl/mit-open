@@ -11,9 +11,11 @@ class PercolateQuery(TimestampedModel):
     """An opensearch query used in percolate"""
 
     SEARCH_SUBSCRIPTION_TYPE = "search_subscription_type"
+    CHANNEL_SUBSCRIPTION_TYPE = "channel_subscription_type"
 
     SOURCE_TYPES = [
         SEARCH_SUBSCRIPTION_TYPE,
+        CHANNEL_SUBSCRIPTION_TYPE,
     ]
 
     original_query = JSONField()

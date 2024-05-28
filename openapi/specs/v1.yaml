@@ -3158,6 +3158,20 @@ paths:
           * `-views` - Popularity descending
           * `upcoming` - Next start date ascending
       - in: query
+        name: source_type
+        schema:
+          enum:
+          - search_subscription_type
+          - channel_subscription_type
+          type: string
+          default: search_subscription_type
+          minLength: 1
+        description: |-
+          The subscription type
+
+          * `search_subscription_type` - search_subscription_type
+          * `channel_subscription_type` - channel_subscription_type
+      - in: query
         name: topic
         schema:
           type: array
@@ -3540,6 +3554,20 @@ paths:
           * `-views` - Popularity descending
           * `upcoming` - Next start date ascending
       - in: query
+        name: source_type
+        schema:
+          enum:
+          - search_subscription_type
+          - channel_subscription_type
+          type: string
+          default: search_subscription_type
+          minLength: 1
+        description: |-
+          The subscription type
+
+          * `search_subscription_type` - search_subscription_type
+          * `channel_subscription_type` - channel_subscription_type
+      - in: query
         name: topic
         schema:
           type: array
@@ -3553,13 +3581,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/LearningResourcesSearchRequestRequest'
+              $ref: '#/components/schemas/PercolateQuerySubscriptionRequestRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/LearningResourcesSearchRequestRequest'
+              $ref: '#/components/schemas/PercolateQuerySubscriptionRequestRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/LearningResourcesSearchRequestRequest'
+              $ref: '#/components/schemas/PercolateQuerySubscriptionRequestRequest'
       responses:
         '200':
           content:
@@ -6927,6 +6955,10 @@ components:
             - code
             - name
           readOnly: true
+        free:
+          type: boolean
+          description: Return true if the resource is free/has a free option
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/CourseResourceResourceTypeEnum'
@@ -6977,6 +7009,7 @@ components:
       - course
       - course_feature
       - departments
+      - free
       - id
       - image
       - learning_format
@@ -7270,6 +7303,10 @@ components:
             - code
             - name
           readOnly: true
+        free:
+          type: boolean
+          description: Return true if the resource is free/has a free option
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/LearningPathResourceResourceTypeEnum'
@@ -7318,6 +7355,7 @@ components:
       - certification
       - course_feature
       - departments
+      - free
       - id
       - image
       - learning_format
@@ -8064,151 +8102,6 @@ components:
       - channel_url
       - id
       - name
-    LearningResourcesSearchRequestRequest:
-      type: object
-      properties:
-        q:
-          type: string
-          minLength: 1
-          description: The search text
-        offset:
-          type: integer
-          description: The initial index from which to return the results
-        limit:
-          type: integer
-          description: Number of results to return per page
-        offered_by:
-          type: array
-          items:
-            $ref: '#/components/schemas/OfferedByEnum'
-          description: "The organization that offers the learning resource       \
-            \      \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n\
-            * `xpro` - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-            \ Education"
-        platform:
-          type: array
-          items:
-            $ref: '#/components/schemas/PlatformEnum'
-          description: "The platform on which the learning resource is offered   \
-            \          \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-            * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-            * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan\
-            \ Executive Education\n* `scc` - Schwarzman College of Computing\n* `ctl`\
-            \ - Center for Transportation & Logistics\n* `whu` - WHU\n* `susskind`\
-            \ - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n\
-            * `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
-        topic:
-          type: array
-          items:
-            type: string
-            minLength: 1
-          description: The topic name. To see a list of options go to api/v1/topics/
-        id:
-          type: array
-          items:
-            type: integer
-          description: The id value for the learning resource
-        sortby:
-          allOf:
-          - $ref: '#/components/schemas/SortbyEnum'
-          description: |-
-            If the parameter starts with '-' the sort is in descending order
-
-            * `id` - Object ID ascending
-            * `-id` - Object ID descending
-            * `readable_id` - Readable ID ascending
-            * `-readable_id` - Readable ID descending
-            * `last_modified` - Last Modified Date ascending
-            * `-last_modified` - Last Modified Date descending
-            * `new` - Newest resources first
-            * `start_date` - Start Date ascending
-            * `-start_date` - Start Date descending
-            * `mitcoursenumber` - MIT course number ascending
-            * `-mitcoursenumber` - MIT course number descending
-            * `views` - Popularity ascending
-            * `-views` - Popularity descending
-            * `upcoming` - Next start date ascending
-        resource_type:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningResourcesSearchRequestResourceTypeEnum'
-          description: "The type of learning resource             \n\n* `course` -\
-            \ course\n* `program` - program\n* `learning_path` - learning path\n*\
-            \ `podcast` - podcast\n* `podcast_episode` - podcast episode\n* `video`\
-            \ - video\n* `video_playlist` - video playlist"
-        free:
-          type: boolean
-          nullable: true
-        professional:
-          type: boolean
-          nullable: true
-        certification:
-          type: boolean
-          nullable: true
-          description: True if the learning resource offers a certificate
-        department:
-          type: array
-          items:
-            $ref: '#/components/schemas/DepartmentEnum'
-          description: "The department that offers the learning resource         \
-            \    \n\n* `1` - Civil and Environmental Engineering\n* `2` - Mechanical\
-            \ Engineering\n* `3` - Materials Science and Engineering\n* `4` - Architecture\n\
-            * `5` - Chemistry\n* `6` - Electrical Engineering and Computer Science\n\
-            * `7` - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n\
-            * `10` - Chemical Engineering\n* `11` - Urban Studies and Planning\n*\
-            \ `12` - Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n\
-            * `15` - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-            * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological\
-            \ Engineering\n* `21A` - Anthropology\n* `21G` - Global Studies and Languages\n\
-            * `21H` - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n\
-            * `22` - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-            * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-            \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-            \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS`\
-            \ - Institute for Data, Systems, and Society\n* `MAS` - Media Arts and\
-            \ Sciences\n* `PE` - Athletics, Physical Education and Recreation\n* `RES`\
-            \ - Supplemental Resources\n* `STS` - Science, Technology, and Society\n\
-            * `WGS` - Women's and Gender Studies"
-        level:
-          type: array
-          items:
-            $ref: '#/components/schemas/LevelEnum'
-        course_feature:
-          type: array
-          items:
-            type: string
-            minLength: 1
-          description: The course feature. Possible options are at api/v1/course_features/
-        aggregations:
-          type: array
-          items:
-            $ref: '#/components/schemas/AggregationsEnum'
-          description: Show resource counts by category
-        learning_format:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningFormatEnum'
-          description: "The format(s) in which the learning resource is offered  \
-            \           \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
-            \ - In person"
-    LearningResourcesSearchRequestResourceTypeEnum:
-      enum:
-      - course
-      - program
-      - learning_path
-      - podcast
-      - podcast_episode
-      - video
-      - video_playlist
-      type: string
-      description: |-
-        * `course` - course
-        * `program` - program
-        * `learning_path` - learning path
-        * `podcast` - podcast
-        * `podcast_episode` - podcast episode
-        * `video` - video
-        * `video_playlist` - video playlist
     LevelEnum:
       enum:
       - undergraduate
@@ -8854,6 +8747,163 @@ components:
       - query
       - source_type
       - users
+    PercolateQuerySubscriptionRequestRequest:
+      type: object
+      description: |-
+        PercolateQuerySubscriptionRequestSerializer with
+        OpenAPI annotations for Percolate Subscription requests
+      properties:
+        q:
+          type: string
+          minLength: 1
+          description: The search text
+        offset:
+          type: integer
+          description: The initial index from which to return the results
+        limit:
+          type: integer
+          description: Number of results to return per page
+        offered_by:
+          type: array
+          items:
+            $ref: '#/components/schemas/OfferedByEnum'
+          description: "The organization that offers the learning resource       \
+            \      \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n\
+            * `xpro` - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
+            \ Education"
+        platform:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlatformEnum'
+          description: "The platform on which the learning resource is offered   \
+            \          \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
+            * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
+            * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan\
+            \ Executive Education\n* `scc` - Schwarzman College of Computing\n* `ctl`\
+            \ - Center for Transportation & Logistics\n* `whu` - WHU\n* `susskind`\
+            \ - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n\
+            * `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+        topic:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          description: The topic name. To see a list of options go to api/v1/topics/
+        id:
+          type: array
+          items:
+            type: integer
+          description: The id value for the learning resource
+        sortby:
+          allOf:
+          - $ref: '#/components/schemas/SortbyEnum'
+          description: |-
+            If the parameter starts with '-' the sort is in descending order
+
+            * `id` - Object ID ascending
+            * `-id` - Object ID descending
+            * `readable_id` - Readable ID ascending
+            * `-readable_id` - Readable ID descending
+            * `last_modified` - Last Modified Date ascending
+            * `-last_modified` - Last Modified Date descending
+            * `new` - Newest resources first
+            * `start_date` - Start Date ascending
+            * `-start_date` - Start Date descending
+            * `mitcoursenumber` - MIT course number ascending
+            * `-mitcoursenumber` - MIT course number descending
+            * `views` - Popularity ascending
+            * `-views` - Popularity descending
+            * `upcoming` - Next start date ascending
+        resource_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/PercolateQuerySubscriptionRequestResourceTypeEnum'
+          description: "The type of learning resource             \n\n* `course` -\
+            \ course\n* `program` - program\n* `learning_path` - learning path\n*\
+            \ `podcast` - podcast\n* `podcast_episode` - podcast episode\n* `video`\
+            \ - video\n* `video_playlist` - video playlist"
+        free:
+          type: boolean
+          nullable: true
+        professional:
+          type: boolean
+          nullable: true
+        certification:
+          type: boolean
+          nullable: true
+          description: True if the learning resource offers a certificate
+        department:
+          type: array
+          items:
+            $ref: '#/components/schemas/DepartmentEnum'
+          description: "The department that offers the learning resource         \
+            \    \n\n* `1` - Civil and Environmental Engineering\n* `2` - Mechanical\
+            \ Engineering\n* `3` - Materials Science and Engineering\n* `4` - Architecture\n\
+            * `5` - Chemistry\n* `6` - Electrical Engineering and Computer Science\n\
+            * `7` - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n\
+            * `10` - Chemical Engineering\n* `11` - Urban Studies and Planning\n*\
+            \ `12` - Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n\
+            * `15` - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
+            * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological\
+            \ Engineering\n* `21A` - Anthropology\n* `21G` - Global Studies and Languages\n\
+            * `21H` - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n\
+            * `22` - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
+            * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
+            \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
+            \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS`\
+            \ - Institute for Data, Systems, and Society\n* `MAS` - Media Arts and\
+            \ Sciences\n* `PE` - Athletics, Physical Education and Recreation\n* `RES`\
+            \ - Supplemental Resources\n* `STS` - Science, Technology, and Society\n\
+            * `WGS` - Women's and Gender Studies"
+        level:
+          type: array
+          items:
+            $ref: '#/components/schemas/LevelEnum'
+        course_feature:
+          type: array
+          items:
+            type: string
+            minLength: 1
+          description: The course feature. Possible options are at api/v1/course_features/
+        aggregations:
+          type: array
+          items:
+            $ref: '#/components/schemas/AggregationsEnum'
+          description: Show resource counts by category
+        learning_format:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningFormatEnum'
+          description: "The format(s) in which the learning resource is offered  \
+            \           \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
+            \ - In person"
+        source_type:
+          allOf:
+          - $ref: '#/components/schemas/SourceTypeEnum'
+          default: search_subscription_type
+          description: |-
+            The subscription type
+
+            * `search_subscription_type` - search_subscription_type
+            * `channel_subscription_type` - channel_subscription_type
+    PercolateQuerySubscriptionRequestResourceTypeEnum:
+      enum:
+      - course
+      - program
+      - learning_path
+      - podcast
+      - podcast_episode
+      - video
+      - video_playlist
+      type: string
+      description: |-
+        * `course` - course
+        * `program` - program
+        * `learning_path` - learning path
+        * `podcast` - podcast
+        * `podcast_episode` - podcast episode
+        * `video` - video
+        * `video_playlist` - video playlist
     PlatformEnum:
       enum:
       - edx
@@ -9051,6 +9101,10 @@ components:
             - code
             - name
           readOnly: true
+        free:
+          type: boolean
+          description: Return true if the resource is free/has a free option
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastEpisodeResourceResourceTypeEnum'
@@ -9100,6 +9154,7 @@ components:
       - certification
       - course_feature
       - departments
+      - free
       - id
       - image
       - learning_format
@@ -9275,6 +9330,10 @@ components:
             - code
             - name
           readOnly: true
+        free:
+          type: boolean
+          description: Return true if the resource is free/has a free option
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastResourceResourceTypeEnum'
@@ -9324,6 +9383,7 @@ components:
       - certification
       - course_feature
       - departments
+      - free
       - id
       - image
       - learning_format
@@ -9641,6 +9701,10 @@ components:
             - code
             - name
           readOnly: true
+        free:
+          type: boolean
+          description: Return true if the resource is free/has a free option
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/ProgramResourceResourceTypeEnum'
@@ -9690,6 +9754,7 @@ components:
       - certification
       - course_feature
       - departments
+      - free
       - id
       - image
       - learning_format
@@ -9822,8 +9887,11 @@ components:
     SourceTypeEnum:
       enum:
       - search_subscription_type
+      - channel_subscription_type
       type: string
-      description: '* `search_subscription_type` - search_subscription_type'
+      description: |-
+        * `search_subscription_type` - search_subscription_type
+        * `channel_subscription_type` - channel_subscription_type
     UserList:
       type: object
       description: Simplified serializer for UserList model.
@@ -10066,6 +10134,10 @@ components:
             - code
             - name
           readOnly: true
+        free:
+          type: boolean
+          description: Return true if the resource is free/has a free option
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoPlaylistResourceResourceTypeEnum'
@@ -10115,6 +10187,7 @@ components:
       - certification
       - course_feature
       - departments
+      - free
       - id
       - image
       - learning_format
@@ -10280,6 +10353,10 @@ components:
             - code
             - name
           readOnly: true
+        free:
+          type: boolean
+          description: Return true if the resource is free/has a free option
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoResourceResourceTypeEnum'
@@ -10329,6 +10406,7 @@ components:
       - certification
       - course_feature
       - departments
+      - free
       - id
       - image
       - learning_format

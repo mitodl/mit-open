@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.10.1 (Released May 24, 2024)
+--------------
+
+- Homepage News and Events section (#945)
+- side nav updates (#951)
+- Remove 3 offerors and provide featured resources from all remaining ones (#943)
+- Additional offeror details (#923)
+
 Version 0.10.0 (Released May 23, 2024)
 --------------
 

@@ -2,8 +2,6 @@ import { assertInstanceOf } from "ol-utilities"
 import { urls, factories } from "api/test-utils"
 import type { FieldChannel } from "api/v0"
 import type { LearningResourceSearchResponse } from "api"
-
-import WidgetList from "./WidgetsList"
 import {
   renderTestApp,
   screen,
@@ -12,18 +10,7 @@ import {
   user,
   waitFor,
 } from "../../test-utils"
-import { makeWidgetListResponse } from "ol-widgets/src/factories"
-import { makeFieldViewPath } from "@/common/urls"
 import FieldSearch from "./FieldSearch"
-
-jest.mock("./WidgetsList", () => {
-  const actual = jest.requireActual("./WidgetsList")
-  return {
-    __esModule: true,
-    default: jest.fn(actual.default),
-  }
-})
-const mockWidgetList = jest.mocked(WidgetList)
 
 jest.mock("./FieldSearch", () => {
   const actual = jest.requireActual("./FieldSearch")
@@ -49,10 +36,11 @@ const setupApis = (
     field,
   )
   const urlParams = new URLSearchParams(fieldPatch?.search_filter)
-  const subscribeParams: Record<string, string[]> = {}
+  const subscribeParams: Record<string, string[] | string> = {}
   for (const [key, value] of urlParams.entries()) {
     subscribeParams[key] = value.split(",")
   }
+  subscribeParams["source_type"] = "channel_subscription_type"
   const subscribeResponse = userIsSubscribed
     ? factories.percolateQueries.percolateQueryList({ count: 1 }).results
     : factories.percolateQueries.percolateQueryList({ count: 0 }).results
@@ -70,12 +58,11 @@ const setupApis = (
     )
   }
 
-  setMockResponse.get(`${urls.userSubscription.check()}`, subscribeResponse)
-
-  const widgetsList = makeWidgetListResponse()
   setMockResponse.get(
-    urls.widgetLists.details(field.widget_list || -1),
-    widgetsList,
+    `${urls.userSubscription.check({
+      source_type: "channel_subscription_type",
+    })}`,
+    subscribeResponse,
   )
 
   setMockResponse.get(
@@ -102,7 +89,6 @@ const setupApis = (
 
   return {
     field,
-    widgets: widgetsList.widgets,
   }
 }
 
@@ -150,59 +136,6 @@ describe("FieldPage", () => {
 
     expect(mockedFieldSearch).toHaveBeenCalledTimes(0)
   })
-
-  it.each([
-    {
-      getUrl: (field: FieldChannel) => `/c/${field.channel_type}/${field.name}`,
-      isEditing: false,
-      urlDesc: "/c/:channelType/:name/",
-    },
-    {
-      getUrl: (field: FieldChannel) =>
-        `/c/${field.channel_type}/${field.name}/manage/widgets/`,
-      isEditing: true,
-      urlDesc: "/c/:channelType/:name/manage/widgets/",
-    },
-  ])(
-    "Renders readonly WidgetList at $urlDesc",
-    async ({ getUrl, isEditing }) => {
-      const { field, widgets } = setupApis()
-      const url = getUrl(field)
-      renderTestApp({ url })
-
-      // below we check the FC was called correctly
-      // but let's check that it is still visible, too.
-      await screen.findByText(widgets[0].title)
-      expect(field.widget_list).toEqual(expect.any(Number))
-
-      const expectedProps = expect.objectContaining({
-        widgetListId: field.widget_list,
-        isEditing: isEditing,
-      })
-      const expectedContext = expect.anything()
-      expect(mockWidgetList).toHaveBeenLastCalledWith(
-        expectedProps,
-        expectedContext,
-      )
-    },
-  )
-
-  it.each([{ btnName: "Done" }, { btnName: "Cancel" }])(
-    "When managing widgets, $text returns to field page",
-    async ({ btnName }) => {
-      const { field } = setupApis()
-      const url = `/c/${field.channel_type}/${field.name}/manage/widgets/`
-      const { location } = renderTestApp({ url })
-      // click done without an edit
-      await user.click(await screen.findByRole("button", { name: btnName }))
-
-      await waitFor(() => {
-        expect(location.current.pathname).toBe(
-          makeFieldViewPath(field.channel_type, field.name),
-        )
-      })
-    },
-  )
 
   it("Displays the unsubscribe toggle if the user is authenticated and subscribed", async () => {
     const { field } = setupApis({ search_filter: "q=ocw" }, {}, true, true)

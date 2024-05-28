@@ -2,6 +2,8 @@
 Django settings for celery.
 """
 
+import json
+
 from celery.schedules import crontab
 
 from main.envs import get_bool, get_int, get_string
@@ -109,7 +111,15 @@ CELERY_BEAT_SCHEDULE = {
             "NEWS_EVENTS_OL_EVENTS_SCHEDULE_SECONDS", 60 * 60 * 3
         ),  # default is every 3 hours
     },
+    "send-subscription-emails-every-1-days": {
+        "task": "learning_resources_search.tasks.send_subscription_emails",
+        "schedule": crontab(minute=30, hour=18),  # 2:30pm EST
+        "kwargs": json.dumps(
+            {"period": "daily", "subscription_type": "channel_subscription_type"}
+        ),
+    },
 }
+
 
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"

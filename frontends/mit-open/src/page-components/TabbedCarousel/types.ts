@@ -1,6 +1,7 @@
 import type {
   LearningResourcesApiLearningResourcesListRequest as LRListRequest,
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as SearchRequest,
+  FeaturedApiFeaturedListRequest as FeaturedListParams,
 } from "api"
 
 interface ResourceDataSource {
@@ -13,10 +14,20 @@ interface SearchDataSource {
   params: SearchRequest
 }
 
+interface FeaturedDataSource {
+  type: "lr_featured"
+  params: FeaturedListParams
+}
+
 type TabConfig = {
   label: React.ReactNode
   pageSize: number
-  data: ResourceDataSource | SearchDataSource
+  data: ResourceDataSource | SearchDataSource | FeaturedDataSource
 }
 
-export type { TabConfig, ResourceDataSource, SearchDataSource }
+export type {
+  TabConfig,
+  ResourceDataSource,
+  SearchDataSource,
+  FeaturedDataSource,
+}

@@ -20,6 +20,7 @@ import UserListDetailsPage from "./pages/ListDetailsPage/UserListDetailsPage"
 import LearningPathDetailsPage from "./pages/ListDetailsPage/LearningPathDetailsPage"
 import LearningResourceDrawer from "./page-components/LearningResourceDrawer/LearningResourceDrawer"
 import DepartmentListingPage from "./pages/DepartmentListingPage/DepartmentListingPage"
+import TopicsListingPage from "./pages/TopicListingPage/TopicsListingPage"
 
 const routes: RouteObject[] = [
   {
@@ -80,6 +81,10 @@ const routes: RouteObject[] = [
       {
         path: urls.DEPARTMENTS,
         element: <DepartmentListingPage />,
+      },
+      {
+        path: urls.TOPICS,
+        element: <TopicsListingPage />,
       },
       {
         path: urls.FIELD_VIEW,

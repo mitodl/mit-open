@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.10.0"
+VERSION = "0.10.1"
 
 log = logging.getLogger()
 
@@ -338,6 +338,10 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontends/mit-open/public")]  # noqa
 
 # Important to define this so DEBUG works properly
 INTERNAL_IPS = (get_string("HOST_IP", "127.0.0.1"),)
+
+NOTIFICATION_ATTEMPT_RATE_LIMIT = "600/m"
+
+NOTIFICATION_ATTEMPT_CHUNK_SIZE = 100
 
 # Configure e-mail settings
 EMAIL_BACKEND = get_string(

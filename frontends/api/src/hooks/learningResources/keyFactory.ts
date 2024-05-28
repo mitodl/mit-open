@@ -8,6 +8,7 @@ import {
   offerorsApi,
   platformsApi,
   schoolsApi,
+  featuredApi,
 } from "../../clients"
 import axiosInstance from "../../axios"
 import type {
@@ -25,6 +26,7 @@ import type {
   UserList,
   OfferorsApiOfferorsListRequest,
   PlatformsApiPlatformsListRequest,
+  FeaturedApiFeaturedListRequest as FeaturedListParams,
 } from "../../generated/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
@@ -42,6 +44,10 @@ const learningResources = createQueryKeys("learningResources", {
       learningResourcesApi
         .learningResourcesList(params)
         .then((res) => res.data),
+  }),
+  featured: (params: FeaturedListParams) => ({
+    queryKey: [params],
+    queryFn: () => featuredApi.featuredList(params).then((res) => res.data),
   }),
   topics: (params: TopicsListRequest) => ({
     queryKey: [params],
@@ -186,6 +192,7 @@ const invalidateResourceQueries = (
     learningResources.list._def,
     learningResources.learningpaths._ctx.list._def,
     learningResources.userlists._ctx.list._def,
+    learningResources.featured._def,
   ]
   lists.forEach((queryKey) => {
     queryClient.invalidateQueries({

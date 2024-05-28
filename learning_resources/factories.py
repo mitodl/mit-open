@@ -145,7 +145,10 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
 
     code = FuzzyChoice([offeror.name for offeror in constants.OfferedBy])
     name = factory.LazyAttribute(lambda o: constants.OfferedBy[o.code].value)
-    professional = Faker("boolean")
+    professional = factory.LazyAttribute(
+        lambda o: o.code
+        not in (constants.OfferedBy.mitx.name, constants.OfferedBy.ocw.name)
+    )
 
     class Meta:
         model = models.LearningResourceOfferor
@@ -183,6 +186,7 @@ class LearningResourceFactory(DjangoModelFactory):
     url = factory.Faker("url")
     languages = factory.List(random.choices(["en", "es"]))  # noqa: S311
     last_modified = factory.Faker("date_time", tzinfo=UTC)
+    created_on = factory.Faker("date_time", tzinfo=UTC)
     image = factory.SubFactory(LearningResourceImageFactory)
     platform = factory.SubFactory(LearningResourcePlatformFactory)
     offered_by = factory.SubFactory(LearningResourceOfferorFactory)
@@ -191,6 +195,15 @@ class LearningResourceFactory(DjangoModelFactory):
     content_tags = factory.PostGeneration(_post_gen_tags)
     published = True
     learning_format = factory.List(random.choices(LearningResourceFormat.names()))  # noqa: S311
+    professional = factory.LazyAttribute(
+        lambda o: o.resource_type
+        in (
+            constants.LearningResourceType.course.name,
+            constants.LearningResourceType.program.name,
+        )
+        and o.offered_by.professional
+    )
+    certification = factory.LazyAttribute(lambda o: o.professional)
 
     course = factory.Maybe(
         "create_course",

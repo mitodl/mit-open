@@ -1772,9 +1772,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-dev-translations@npm:^39.3.0, @ckeditor/ckeditor5-dev-translations@npm:^39.8.0":
-  version: 39.8.0
-  resolution: "@ckeditor/ckeditor5-dev-translations@npm:39.8.0"
+"@ckeditor/ckeditor5-dev-translations@npm:^40.0.0, @ckeditor/ckeditor5-dev-translations@npm:^40.2.0":
+  version: 40.2.0
+  resolution: "@ckeditor/ckeditor5-dev-translations@npm:40.2.0"
   dependencies:
     "@babel/parser": "npm:^7.18.9"
     "@babel/traverse": "npm:^7.18.9"
@@ -1782,15 +1782,15 @@ __metadata:
     pofile: "npm:^1.0.9"
     rimraf: "npm:^3.0.2"
     webpack-sources: "npm:^2.0.1"
-  checksum: 10/54c3ae3f3fe03ab137d672e52b45fa9a2b86d9241111e04cb6da89551abf4cc2aff7e01ce374a6f1e834c80331020bc55e0fb19690f57775717f8cbaf7be23cc
+  checksum: 10/47f61d2445b5557b097bd83cc07a917063af8040130077148f874e67101435c46790d0a92dfd4b123cc385c61b1b36a96902e979e81a6018b8b436dab0dace55
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-dev-utils@npm:^39.3.0":
-  version: 39.8.0
-  resolution: "@ckeditor/ckeditor5-dev-utils@npm:39.8.0"
+"@ckeditor/ckeditor5-dev-utils@npm:^40.0.0":
+  version: 40.2.0
+  resolution: "@ckeditor/ckeditor5-dev-utils@npm:40.2.0"
   dependencies:
-    "@ckeditor/ckeditor5-dev-translations": "npm:^39.8.0"
+    "@ckeditor/ckeditor5-dev-translations": "npm:^40.2.0"
     chalk: "npm:^3.0.0"
     cli-cursor: "npm:^3.1.0"
     cli-spinners: "npm:^2.6.1"
@@ -1812,7 +1812,7 @@ __metadata:
     style-loader: "npm:^2.0.0"
     terser-webpack-plugin: "npm:^4.2.3"
     through2: "npm:^3.0.1"
-  checksum: 10/76b5828050d2ffa108a8cdceb201eac4459ee51f7cfd78fcb2f375364d0be0f4e09eed9b1e0e11e067c563a4a563869bb9a7f969de94775329f8e961ba568e89
+  checksum: 10/5a8529a4dd0a73f986f20cafaec2a083510ebd256a06099f6d67d2c239ecd89c14e3a00d4709b78dbddf2dde1c81e953257ea7cab96c9aa811116fbc363bcf88
   languageName: node
   linkType: hard
 
@@ -17392,6 +17392,7 @@ __metadata:
     webpack-dev-server: "npm:^5.0.4"
     webpack-hot-middleware: "npm:^2.26.1"
     webpack-merge: "npm:^5.10.0"
+    yaml: "npm:^2.4.2"
     yup: "npm:^1.2.0"
   languageName: unknown
   linkType: soft
@@ -17967,8 +17968,8 @@ __metadata:
     "@ckeditor/ckeditor5-block-quote": "npm:^41.0.0"
     "@ckeditor/ckeditor5-cloud-services": "npm:^41.0.0"
     "@ckeditor/ckeditor5-core": "npm:^41.0.0"
-    "@ckeditor/ckeditor5-dev-translations": "npm:^39.3.0"
-    "@ckeditor/ckeditor5-dev-utils": "npm:^39.3.0"
+    "@ckeditor/ckeditor5-dev-translations": "npm:^40.0.0"
+    "@ckeditor/ckeditor5-dev-utils": "npm:^40.0.0"
     "@ckeditor/ckeditor5-easy-image": "npm:^41.0.0"
     "@ckeditor/ckeditor5-editor-classic": "npm:^41.0.0"
     "@ckeditor/ckeditor5-essentials": "npm:^41.0.0"
@@ -25628,7 +25629,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yaml@npm:^2.0.0, yaml@npm:^2.3.4":
+"yaml@npm:^2.0.0, yaml@npm:^2.3.4, yaml@npm:^2.4.2":
   version: 2.4.2
   resolution: "yaml@npm:2.4.2"
   bin:

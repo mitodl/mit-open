@@ -15,7 +15,6 @@ type SearchChip = {
   label: string
   href: string
   variant?: ChipLinkProps["variant"]
-  color?: ChipLinkProps["color"]
 }
 
 const SEARCH_CHIPS: SearchChip[] = [
@@ -31,7 +30,6 @@ const SEARCH_CHIPS: SearchChip[] = [
     label: "Explore All",
     href: "/search",
     variant: "filled",
-    color: "primary",
   },
 ]
 

@@ -1,7 +1,11 @@
 """Indexing tasks"""
 
+import datetime
+import itertools
 import logging
+from collections import OrderedDict
 from contextlib import contextmanager
+from urllib.parse import urlencode
 
 import celery
 from celery.exceptions import Ignore
@@ -15,6 +19,8 @@ from learning_resources.models import (
     ContentFile,
     Course,
     LearningResource,
+    LearningResourceDepartment,
+    LearningResourceOfferor,
 )
 from learning_resources.utils import load_course_blocklist
 from learning_resources_search import indexing_api as api
@@ -44,7 +50,8 @@ from learning_resources_search.serializers import (
     serialize_percolate_query_for_update,
 )
 from main.celery import app
-from main.utils import chunks, merge_strings
+from main.utils import chunks, merge_strings, now_in_utc
+from profiles.utils import send_template_email
 
 User = get_user_model()
 log = logging.getLogger(__name__)
@@ -106,6 +113,112 @@ def upsert_learning_resource(learning_resource_id):
         resource_obj.resource_type,
         retry_on_conflict=settings.INDEXING_ERROR_RETRIES,
     )
+
+
+def _infer_percolate_group(percolate_query):
+    """
+    Infer the heading name for the percolate query to be
+    grouped under in the email
+    """
+    group_keys = ["department", "topic", "offered_by"]
+    original_query = OrderedDict(percolate_query.original_query)
+    for key, val in original_query.items():
+        if key in group_keys and val:
+            if key == "department":
+                return LearningResourceDepartment.objects.get(department_id=val[0]).name
+            elif key == "offered_by":
+                return LearningResourceOfferor.objects.get(code=val[0]).name
+            return val[0]
+    return None
+
+
+def _infer_search_url(percolate_query):
+    """
+    Infer the search URL for the percolate query
+    """
+    original_query = OrderedDict(percolate_query.original_query)
+    query_string_params = {k: v for k, v in original_query.items() if v}
+    if "endpoint" in query_string_params:
+        query_string_params.pop("endpoint")
+    query_string = urlencode(query_string_params, doseq=True)
+    return f"{settings.SITE_BASE_URL}/search?{query_string}"
+
+
+def _group_percolated_rows(rows):
+    def key_func(x):
+        return (x["user_id"], x["group"])
+
+    grouped_data = {}
+    for key, group in itertools.groupby(rows, key_func):
+        context = list(group)
+        user_id = key[0]
+        group_name = key[1]
+        if key[0] not in grouped_data:
+            grouped_data[user_id] = {group_name: []}
+        if group_name not in grouped_data[user_id]:
+            grouped_data[user_id][group_name] = []
+        for ctx in context:
+            if ctx["user_id"] == user_id:
+                grouped_data[user_id][group_name].append(ctx)
+    return grouped_data
+
+
+def _get_percolated_rows(resources, subscription_type):
+    """
+    Get percolated rows for a list of learning resources and subscription type
+    """
+    rows = []
+    all_users = set()
+    # percolate each new learning resource to get matching queries
+    for resource in resources:
+        percolated = percolate_matches_for_document(resource.id).filter(
+            source_type=subscription_type
+        )
+        if percolated.count() > 0:
+            percolated_users = set(percolated.values_list("users", flat=True))
+            all_users.update(percolated_users)
+            query = percolated.first()
+            rows.extend(
+                [
+                    {
+                        "resource_url": resource.url,
+                        "resource_title": resource.title,
+                        "user_id": user,
+                        "group": _infer_percolate_group(query),
+                        "search_url": _infer_search_url(query),
+                    }
+                    for user in percolated_users
+                ]
+            )
+
+    return rows
+
+
+@app.task(bind=True)
+def send_subscription_emails(self, subscription_type, period="daily"):
+    """
+    Send subscription emails by percolating matched documents
+    """
+    delta = datetime.timedelta(days=1)
+    if period == "weekly":
+        delta = datetime.timedelta(days=7)
+    since = now_in_utc() - delta
+    new_learning_resources = LearningResource.objects.filter(
+        published=True, created_on__gt=since
+    )
+    rows = _get_percolated_rows(new_learning_resources, subscription_type)
+    template_data = _group_percolated_rows(rows)
+
+    email_tasks = celery.group(
+        [
+            attempt_send_digest_email_batch.si(user_template_items)
+            for user_template_items in chunks(
+                template_data.items(),
+                chunk_size=settings.NOTIFICATION_ATTEMPT_CHUNK_SIZE,
+            )
+        ]
+    )
+    raise self.replace(email_tasks)
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
@@ -596,3 +709,26 @@ def finish_recreate_index(results, backing_indices):
         except RequestError as ex:
             raise RetryError(str(ex)) from ex
     log.info("recreate_index has finished successfully!")
+
+
+@app.task(
+    acks_late=True,
+    reject_on_worker_lost=True,
+    rate_limit=settings.NOTIFICATION_ATTEMPT_RATE_LIMIT,
+)
+def attempt_send_digest_email_batch(user_template_items):
+    for user_id, template_data in user_template_items:
+        log.info("Sending email to user %s", user_id)
+        user = User.objects.get(id=user_id)
+        total_count = sum([len(template_data[group]) for group in template_data])
+        subject = f"{settings.MITOPEN_TITLE} New Learning Resources for You"
+        send_template_email(
+            [user.email],
+            subject,
+            "email/subscribed_channel_digest.html",
+            context={
+                "documents": template_data,
+                "total_count": total_count,
+                "subject": subject,
+            },
+        )
