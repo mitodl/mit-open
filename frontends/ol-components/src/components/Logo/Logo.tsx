@@ -1,100 +1,101 @@
 import React from "react"
+import { PlatformEnum } from "api"
 
 export const PLATFORMS = [
   {
-    code: "ocw",
+    code: PlatformEnum.Ocw,
     name: "OCW",
     image: "mit-ocw-logo-square.png",
   },
   {
-    code: "edx",
+    code: PlatformEnum.Edx,
     name: "edX",
     image: "edx_logo.png",
   },
   {
-    code: "mitxonline",
+    code: PlatformEnum.Mitxonline,
     name: "MITx Online",
     image: "mitx-online-logo.png",
   },
   {
-    code: "bootcamps",
+    code: PlatformEnum.Bootcamps,
     name: "Bootcamps",
     image: null,
   },
   {
-    code: "xpro",
+    code: PlatformEnum.Xpro,
     name: "xPRO",
     image: "mit-xpro-logo.png",
   },
   {
-    code: "podcast",
+    code: PlatformEnum.Podcast,
     name: "Podcast",
     image: null,
   },
   {
-    code: "csail",
+    code: PlatformEnum.Csail,
     name: "CSAIL",
     image: "csail-logo.png",
   },
   {
-    code: "mitpe",
+    code: PlatformEnum.Mitpe,
     name: "MIT Professional Education",
     image: null,
   },
   {
-    code: "see",
+    code: PlatformEnum.See,
     name: "Sloan Executive Education",
     image: "sloan-logo.png",
   },
   {
-    code: "scc",
+    code: PlatformEnum.Scc,
     name: "Schwarzman College of Computing",
     image: null,
   },
   {
-    code: "ctl",
+    code: PlatformEnum.Ctl,
     name: "Center for Transportation & Logistics",
     image: null,
   },
   {
-    code: "emeritus",
+    code: PlatformEnum.Emeritus,
     name: "Emeritus",
     image: null,
   },
   {
-    code: "simplilearn",
+    code: PlatformEnum.Simplilearn,
     name: "Simplilearn",
     image: null,
   },
   {
-    code: "globalalumni",
+    code: PlatformEnum.Globalalumni,
     name: "Global Alumni",
     image: null,
   },
   {
-    code: "susskind",
+    code: PlatformEnum.Susskind,
     name: "Susskind",
     image: null,
   },
   {
-    code: "whu",
+    code: PlatformEnum.Whu,
     name: "WHU",
     image: null,
   },
   {
-    code: "oll",
+    code: PlatformEnum.Oll,
     name: "Open Learning Library",
     image: "oll_logo.png",
   },
   {
-    code: "youtube",
+    code: PlatformEnum.Youtube,
     name: "YouTube",
     image: null,
   },
 ]
 
 export const PlatformLogo: React.FC<{
-  platformCode?: string
+  platformCode?: PlatformEnum
   className?: string
 }> = ({ platformCode, className }) => {
   const platform = PLATFORMS.find((platform) => platform.code === platformCode)
