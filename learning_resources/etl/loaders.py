@@ -93,6 +93,8 @@ def load_topics(resource, topics_data):
 
         resource.topics.set(topics)
         resource.save()
+        add_parent_topics_to_learning_resource(resource)
+
     return resource.topics.all()
 
 
@@ -360,7 +362,6 @@ def load_course(
         load_image(learning_resource, image_data)
         load_departments(learning_resource, department_data)
         load_content_tags(learning_resource, content_tags_data)
-        add_parent_topics_to_learning_resource(learning_resource)
 
         update_index(learning_resource, created)
     return learning_resource
