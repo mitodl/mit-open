@@ -94,7 +94,7 @@ jobs:
           MITOPEN_COOKIE_NAME: cookie_monster
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@6d798873df2b1b8e5846dba6fb86631229fbcb17 # v4.4.0
+        uses: codecov/codecov-action@125fc84a9a348dbcf27191600683ec096ec9021c # v4.4.1
         with:
           file: ./coverage.xml
 
@@ -146,7 +146,7 @@ jobs:
           path: frontends/mit-open/build
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@6d798873df2b1b8e5846dba6fb86631229fbcb17 # v4.4.0
+        uses: codecov/codecov-action@125fc84a9a348dbcf27191600683ec096ec9021c # v4.4.1
         with:
           file: coverage/lcov.info
 
