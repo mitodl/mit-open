@@ -12,18 +12,25 @@ const Section = styled.section`
   }
 `
 
-const SORT_AND_PAGE: FeaturedListParams = {
+const COMMON_PARAMS: FeaturedListParams = {
   resource_type: ["course"],
   limit: 12,
-  sortby: "upcoming",
 }
 const FEATURED_RESOURCES_CAROUSEL: TabbedCarouselProps["config"] = [
+  {
+    label: "All",
+    pageSize: 4,
+    data: {
+      type: "lr_featured",
+      params: { ...COMMON_PARAMS },
+    },
+  },
   {
     label: "Free",
     pageSize: 4,
     data: {
       type: "resources",
-      params: { ...SORT_AND_PAGE, free: true },
+      params: { ...COMMON_PARAMS, free: true },
     },
   },
   {
@@ -31,7 +38,7 @@ const FEATURED_RESOURCES_CAROUSEL: TabbedCarouselProps["config"] = [
     pageSize: 4,
     data: {
       type: "resources",
-      params: { ...SORT_AND_PAGE, certification: true },
+      params: { ...COMMON_PARAMS, certification: true },
     },
   },
   {
@@ -39,7 +46,7 @@ const FEATURED_RESOURCES_CAROUSEL: TabbedCarouselProps["config"] = [
     pageSize: 4,
     data: {
       type: "resources",
-      params: { ...SORT_AND_PAGE, professional: true },
+      params: { ...COMMON_PARAMS, professional: true },
     },
   },
 ]
