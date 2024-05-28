@@ -17,7 +17,6 @@ from subprocess import check_call
 from tempfile import TemporaryDirectory
 
 import boto3
-import markdown2
 import rapidjson
 import requests
 from django.conf import settings
@@ -696,15 +695,10 @@ def parse_certification(offeror, runs_data):
     )
 
 
-def clean_data(data: str, *, remove_markdown=False, remove_hugo_tags=False) -> str:
-    """Remove unwanted html tags, markdown, hugo codes from text"""
-    if not data:
-        return None
-    if remove_hugo_tags:
-        # Remove hugo codes, replace with nothing
-        data = re.sub(r"{{<.*?>}}", "", data)
-    if remove_markdown:
-        # Convert markdown to html
-        data = markdown2.markdown(data)
-    # Remove unwanted html tags
-    return nh3.clean(data, tags=ALLOWED_HTML_TAGS, attributes=ALLOWED_HTML_ATTRIBUTES)
+def clean_data(data: str) -> str:
+    """Remove unwanted html tags from text"""
+    if data:
+        return nh3.clean(
+            data, tags=ALLOWED_HTML_TAGS, attributes=ALLOWED_HTML_ATTRIBUTES
+        )
+    return ""

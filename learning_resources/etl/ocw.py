@@ -240,11 +240,7 @@ def transform_run(course_data: dict) -> dict:
         "run_id": course_data["run_id"],
         "published": True,
         "instructors": parse_instructors(course_data.get("instructors", [])),
-        "description": clean_data(
-            course_data.get("course_description"),
-            remove_markdown=True,
-            remove_hugo_tags=True,
-        ),
+        "description": clean_data(course_data.get("course_description")),
         "year": year,
         "semester": semester,
         "availability": AvailabilityType.current.value,
@@ -335,11 +331,7 @@ def transform_course(course_data: dict) -> dict:
                 .get("image-alt")
             ),
         },
-        "description": clean_data(
-            course_data["course_description"],
-            remove_markdown=True,
-            remove_hugo_tags=True,
-        ),
+        "description": clean_data(course_data["course_description"]),
         "url": course_data.get("url"),
         "last_modified": course_data.get("last_modified"),
         "published": True,

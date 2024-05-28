@@ -83,7 +83,6 @@ RESOURCE_FORMAT_MAPPING = {
 
 
 ALLOWED_HTML_TAGS = {
-    "a",
     "b",
     "blockquote",
     "br",

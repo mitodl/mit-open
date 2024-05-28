@@ -24,7 +24,7 @@ from learning_resources.etl.prolearn import (
     transform_programs,
     update_format,
 )
-from learning_resources.etl.utils import transform_format
+from learning_resources.etl.utils import clean_data, transform_format
 from learning_resources.factories import (
     LearningResourceOfferorFactory,
     LearningResourcePlatformFactory,
@@ -133,6 +133,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
         {
             "readable_id": f"prolearn-{PlatformType.csail.name}-{program['nid']}",
             "title": program["title"],
+            "description": clean_data(program["body"]),
             "url": (
                 program["course_link"]
                 or program["course_application_url"]
@@ -150,7 +151,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                     "run_id": f"{program['nid']}_{start_val}",
                     "title": program["title"],
                     "image": parse_image(program),
-                    "description": program["body"],
+                    "description": clean_data(program["body"]),
                     "start_date": parse_date(start_val),
                     "end_date": parse_date(end_val),
                     "published": True,
@@ -203,7 +204,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "etl_source": ETLSource.prolearn.name,
             "title": course["title"],
             "image": parse_image(course),
-            "description": course["body"],
+            "description": clean_data(course["body"]),
             "published": True,
             "professional": True,
             "certification": True,
@@ -220,7 +221,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                     "run_id": f"{course['nid']}_{start_val}",
                     "title": course["title"],
                     "image": parse_image(course),
-                    "description": course["body"],
+                    "description": clean_data(course["body"]),
                     "start_date": parse_date(start_val),
                     "end_date": parse_date(end_val),
                     "published": True,

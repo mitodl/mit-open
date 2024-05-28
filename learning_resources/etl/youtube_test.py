@@ -16,6 +16,7 @@ from learning_resources.constants import LearningResourceType, OfferedBy, Platfo
 from learning_resources.etl import youtube
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.exceptions import ExtractException
+from learning_resources.etl.utils import clean_data
 from learning_resources.factories import VideoFactory
 
 
@@ -205,8 +206,7 @@ def extracted_and_transformed_values(youtube_api_responses):
                             "resource_type": LearningResourceType.video.name,
                             "platform": PlatformType.youtube.name,
                             "etl_source": ETLSource.youtube.name,
-                            "full_description": video["snippet"]["description"],
-                            "description": video["snippet"]["description"],
+                            "description": clean_data(video["snippet"]["description"]),
                             "image": {
                                 "url": video["snippet"]["thumbnails"]["high"]["url"],
                             },

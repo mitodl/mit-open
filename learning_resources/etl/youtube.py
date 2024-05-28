@@ -444,7 +444,6 @@ def transform_playlist(
     return {
         "playlist_id": playlist_data["id"],
         "title": playlist_data["snippet"]["title"],
-        "description": clean_data(playlist_data["snippet"]["description"]),
         "published": True,
         "platform": PlatformType.youtube.name,
         "etl_source": ETLSource.youtube.name,

@@ -142,9 +142,6 @@ def test_transform(mock_github_client, title, topics, offered_by):
             "etl_source": ETLSource.podcast.name,
             "title": expected_title,
             "offered_by": expected_offered_by,
-            "full_description": (
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            ),
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             "image": {"url": "apicture.jpg"},
             "published": True,
@@ -163,10 +160,6 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "title": "Episode1",
                     "offered_by": expected_offered_by,
                     "description": (
-                        "SMorbi id consequat nisl. Morbi leo elit, vulputate nec"
-                        " aliquam molestie, ullamcorper sit amet tortor"
-                    ),
-                    "full_description": (
                         "SMorbi id consequat nisl. Morbi leo elit, vulputate nec"
                         " aliquam molestie, ullamcorper sit amet tortor"
                     ),
@@ -190,10 +183,6 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "title": "Episode2",
                     "offered_by": expected_offered_by,
                     "description": (
-                        "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit"
-                        " felis ut varius facilisis."
-                    ),
-                    "full_description": (
                         "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit"
                         " felis ut varius facilisis."
                     ),
