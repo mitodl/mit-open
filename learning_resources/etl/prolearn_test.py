@@ -149,9 +149,17 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                 {
                     "run_id": f"{program['nid']}_{start_val}",
                     "title": program["title"],
-                    "prices": parse_price(program),
+                    "image": parse_image(program),
+                    "description": program["body"],
                     "start_date": parse_date(start_val),
                     "end_date": parse_date(end_val),
+                    "published": True,
+                    "prices": parse_price(program),
+                    "url": (
+                        program["course_link"]
+                        or program["course_application_url"]
+                        or urljoin(PROLEARN_BASE_URL, program["url"])
+                    ),
                 }
                 for (start_val, end_val) in zip(
                     program["start_value"], program["end_value"]
@@ -178,7 +186,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             ],
             "unique_field": UNIQUE_FIELD,
         }
-        for program in extracted_data
+        for program in extracted_data[1:]
     ]
     assert_json_equal(expected, result)
 
@@ -220,7 +228,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                     "url": (
                         course["course_link"]
                         or course["course_application_url"]
-                        or course["url"]
+                        or urljoin(PROLEARN_BASE_URL, course["url"])
                     ),
                 }
                 for (start_val, end_val) in zip(
@@ -230,7 +238,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "course": {"course_numbers": []},
             "unique_field": UNIQUE_FIELD,
         }
-        for course in extracted_data
+        for course in extracted_data[2:]
     ]
     assert_json_equal(expected, result)
 
