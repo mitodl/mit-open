@@ -87,7 +87,6 @@ const LearningResourceCardStyled = styled(
   max-width: calc(
     ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
   );
-
   margin: 6px 26px 6px 0;
 `
 
