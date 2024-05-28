@@ -1,7 +1,7 @@
 import React from "react"
 import { Container, styled } from "ol-components"
 import HeroSearch from "./HeroSearch"
-import UpcomingCoursesSection from "./UpcomingCoursesSection"
+import FeaturedResourcesSection from "./FeaturedResourcesSection"
 import MediaSection from "./MediaSection"
 import BrowseTopicsSection from "./BrowseTopicsSection"
 import NewsEventsSection from "./NewsEventsSection"
@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
           <HeroSearch />
         </Container>
       </FullWidthBackground>
-      <UpcomingCoursesSection />
+      <FeaturedResourcesSection />
       <MediaSection />
       <BrowseTopicsSection />
       <NewsEventsSection />

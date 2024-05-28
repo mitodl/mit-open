@@ -35,6 +35,10 @@ const setup = () => {
     expect.stringContaining(urls.learningResources.list()),
     resources,
   )
+  setMockResponse.get(
+    expect.stringContaining(urls.learningResources.featured()),
+    resources,
+  )
 
   setMockResponse.get(
     urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
@@ -100,9 +104,10 @@ describe("Home Page Carousel", () => {
       results: [],
     })
     setup()
-    const [upcoming, media] = screen.getAllByRole("tablist")
-    within(upcoming).getByRole("tab", { name: "All" })
-    within(upcoming).getByRole("tab", { name: "Professional" })
+    const [featured, media] = screen.getAllByRole("tablist")
+    within(featured).getByRole("tab", { name: "Free" })
+    within(featured).getByRole("tab", { name: "Certificate" })
+    within(featured).getByRole("tab", { name: "Professional" })
     within(media).getByRole("tab", { name: "All" })
     within(media).getByRole("tab", { name: "Videos" })
     within(media).getByRole("tab", { name: "Podcasts" })
