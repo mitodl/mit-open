@@ -1772,7 +1772,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-dev-translations@npm:^39.3.0, @ckeditor/ckeditor5-dev-translations@npm:^39.8.0":
+"@ckeditor/ckeditor5-dev-translations@npm:^39.8.0":
   version: 39.8.0
   resolution: "@ckeditor/ckeditor5-dev-translations@npm:39.8.0"
   dependencies:
@@ -1783,6 +1783,20 @@ __metadata:
     rimraf: "npm:^3.0.2"
     webpack-sources: "npm:^2.0.1"
   checksum: 10/54c3ae3f3fe03ab137d672e52b45fa9a2b86d9241111e04cb6da89551abf4cc2aff7e01ce374a6f1e834c80331020bc55e0fb19690f57775717f8cbaf7be23cc
+  languageName: node
+  linkType: hard
+
+"@ckeditor/ckeditor5-dev-translations@npm:^40.0.0":
+  version: 40.2.0
+  resolution: "@ckeditor/ckeditor5-dev-translations@npm:40.2.0"
+  dependencies:
+    "@babel/parser": "npm:^7.18.9"
+    "@babel/traverse": "npm:^7.18.9"
+    chalk: "npm:^4.0.0"
+    pofile: "npm:^1.0.9"
+    rimraf: "npm:^3.0.2"
+    webpack-sources: "npm:^2.0.1"
+  checksum: 10/47f61d2445b5557b097bd83cc07a917063af8040130077148f874e67101435c46790d0a92dfd4b123cc385c61b1b36a96902e979e81a6018b8b436dab0dace55
   languageName: node
   linkType: hard
 
@@ -17967,7 +17981,7 @@ __metadata:
     "@ckeditor/ckeditor5-block-quote": "npm:^41.0.0"
     "@ckeditor/ckeditor5-cloud-services": "npm:^41.0.0"
     "@ckeditor/ckeditor5-core": "npm:^41.0.0"
-    "@ckeditor/ckeditor5-dev-translations": "npm:^39.3.0"
+    "@ckeditor/ckeditor5-dev-translations": "npm:^40.0.0"
     "@ckeditor/ckeditor5-dev-utils": "npm:^39.3.0"
     "@ckeditor/ckeditor5-easy-image": "npm:^41.0.0"
     "@ckeditor/ckeditor5-editor-classic": "npm:^41.0.0"
