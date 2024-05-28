@@ -1,6 +1,24 @@
 Release Notes
 =============
 
+Version 0.10.2
+--------------
+
+- Update dependency @ckeditor/ckeditor5-dev-utils to v40 (#933)
+- Topics Listing Page (#946)
+- Do not ingest prolearn courses/programs from the past (#955)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v40 (#932)
+- add All tab (#966)
+- fix flaky test (#965)
+- [pre-commit.ci] pre-commit autoupdate (#963)
+- Update codecov/codecov-action action to v4.4.1 (#962)
+- Featured Courses Carousel (#959)
+- horizontal facets (#949)
+- workflow changes to publish static assets to s3 (#922)
+- daily subscription email to subscribers (#937)
+- Filtering by free=true should exclude all professional courses (#948)
+- Fix flaky test (#954)
+
 Version 0.10.1 (Released May 24, 2024)
 --------------
 
