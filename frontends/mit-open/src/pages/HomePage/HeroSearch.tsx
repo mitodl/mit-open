@@ -1,10 +1,10 @@
 import React, { useState, useCallback } from "react"
 import { useNavigate } from "react-router"
 import {
+  Container,
   Typography,
   SearchInput,
   SearchInputProps,
-  Stack,
   styled,
   ChipLink,
   useMuiBreakpointAtLeast,
@@ -19,22 +19,35 @@ type SearchChip = {
 
 const SEARCH_CHIPS: SearchChip[] = [
   {
-    label: "AI Courses",
+    label: "New",
     href: "/search?topic=Artificial+Intelligence&resource_type=course",
+    variant: "outlined",
   },
   {
-    label: "Engineering Courses",
+    label: "Popular",
     href: "/search?topic=Engineering&resource_type=course",
   },
   {
-    label: "Explore All",
+    label: "Upcoming",
     href: "/search",
-    variant: "filled",
+  },
+  {
+    label: "Free",
+    href: "/search",
+  },
+  {
+    label: "With Certificate",
+    href: "/search",
   },
 ]
 
+const HeroContainer = styled(Container)({
+  display: "flex",
+  flexDirection: "row",
+})
+
 const ImageContainer = styled.div`
-  flex: 1;
+  width: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -47,20 +60,69 @@ const ImageContainer = styled.div`
   }
 `
 
-const SearchContainer = styled.div`
+const SquaredChip = styled(ChipLink, {
+  shouldForwardProp: (propName) => propName !== "noBorder",
+})<{ noBorder?: boolean }>(({ noBorder, theme }) => [
+  {
+    borderRadius: "4px",
+    [theme.breakpoints.down("sm")]: {
+      flex: 1,
+      height: "32px",
+    },
+  },
+  noBorder && {
+    "&:not(:hover)": {
+      borderColor: "white",
+    },
+  },
+])
+
+const ControlsContainer = styled.div(({ theme }) => ({
+  marginTop: "24px",
+  display: "flex",
+  width: "100%",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  justifyContent: "center",
+  gap: "20px",
+  padding: "24px",
+  backgroundColor: theme.custom.colors.white,
+  borderRadius: "8px",
+  boxShadow:
+    "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
+}))
+const LinksContainer = styled.div({
+  width: "100%",
+  display: "flex",
+  flexDirection: "row",
+  flexWrap: "wrap",
+  gap: "12px",
+  justifyContent: "space-between",
+})
+const TrenderingContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  [theme.breakpoints.down("sm")]: {
+    gap: "8px",
+  },
+}))
+const BrowseContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  gap: "8px",
+
+  [theme.breakpoints.down("sm")]: {
+    flex: 1,
+  },
+}))
+
+const TitleAndControls = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    min-height: 272px;
-  }
-`
-
-const SearchInputStyled = styled(SearchInput)`
-  margin-top: 20px;
-  margin-bottom: 20px;
 `
 
 const HeroSearch: React.FC = () => {
@@ -80,12 +142,9 @@ const HeroSearch: React.FC = () => {
     [navigate],
   )
   const isMobile = !useMuiBreakpointAtLeast("sm")
-  const placeholder = isMobile
-    ? "Search subject, dept, professor, or course"
-    : "Search for non-degree subject, dept, professor, or course"
   return (
-    <Stack direction="row">
-      <SearchContainer>
+    <HeroContainer>
+      <TitleAndControls>
         <Typography
           typography={{ xs: "h3", md: "h1" }}
           sx={{ paddingBottom: 1 }}
@@ -93,28 +152,53 @@ const HeroSearch: React.FC = () => {
           Learn with MIT
         </Typography>
         <Typography>A place for all non-degree learning.</Typography>
-        <SearchInputStyled
-          placeholder={placeholder}
-          size={isMobile ? "medium" : "hero"}
-          fullWidth
-          value={searchText}
-          onChange={onSearchChange}
-          onClear={onSearchClear}
-          onSubmit={onSearchSubmit}
-        />
-        <Typography variant="subtitle1" sx={{ marginBottom: 1 }}>
-          Popular Searches
-        </Typography>
-        <Stack direction="row" columnGap={1} flexWrap="wrap" rowGap={1}>
-          {SEARCH_CHIPS.map(({ label, ...others }, index) => (
-            <ChipLink key={index} size="medium" label={label} {...others} />
-          ))}
-        </Stack>
-      </SearchContainer>
+        <ControlsContainer>
+          <SearchInput
+            placeholder="Search for courses, programs, learning, and teaching materials"
+            size={isMobile ? "medium" : "hero"}
+            fullWidth
+            value={searchText}
+            onChange={onSearchChange}
+            onClear={onSearchClear}
+            onSubmit={onSearchSubmit}
+          />
+          <LinksContainer>
+            <TrenderingContainer>
+              <Typography typography={{ xs: "subtitle4", md: "subtitle3" }}>
+                Trending
+              </Typography>
+              {SEARCH_CHIPS.map((chip) => (
+                <SquaredChip
+                  noBorder
+                  key={chip.label}
+                  variant={chip.variant}
+                  size="medium"
+                  label={chip.label}
+                  href={chip.href}
+                />
+              ))}
+            </TrenderingContainer>
+            <BrowseContainer>
+              <SquaredChip
+                variant="outlined"
+                size="medium"
+                label="AI Courses"
+                href="/search?topic=Artificial+Intelligence&resource_type=course"
+              />
+              <SquaredChip
+                variant="filled"
+                size="medium"
+                label="Engineering Courses"
+                href="/search?topic=Engineering&resource_type=course"
+              />
+            </BrowseContainer>
+          </LinksContainer>
+        </ControlsContainer>
+      </TitleAndControls>
       <ImageContainer>
-        <img src="/static/images/hero_woman.svg" />
+        <img src="/static/images/person_with_headphones.jpg" />
       </ImageContainer>
-    </Stack>
+    </HeroContainer>
   )
 }
 
