@@ -1771,21 +1771,8 @@ __metadata:
   checksum: 10/dab958664ffbfdc3da76d3ac00d0409dc2ff768eb5e758ea8c9e9ceee6ea1c893574e327cc195eadb84cc57fe5ea70e9553b0f4407e3741553c790698cda49c5
   languageName: node
   linkType: hard
-"@ckeditor/ckeditor5-dev-translations@npm:^39.8.0":
-  version: 39.8.0
-  resolution: "@ckeditor/ckeditor5-dev-translations@npm:39.8.0"
-  dependencies:
-    "@babel/parser": "npm:^7.18.9"
-    "@babel/traverse": "npm:^7.18.9"
-    chalk: "npm:^4.0.0"
-    pofile: "npm:^1.0.9"
-    rimraf: "npm:^3.0.2"
-    webpack-sources: "npm:^2.0.1"
-  checksum: 10/54c3ae3f3fe03ab137d672e52b45fa9a2b86d9241111e04cb6da89551abf4cc2aff7e01ce374a6f1e834c80331020bc55e0fb19690f57775717f8cbaf7be23cc
-  languageName: node
-  linkType: hard
 
-"@ckeditor/ckeditor5-dev-translations@npm:^40.2.0":
+"@ckeditor/ckeditor5-dev-translations@npm:^40.0.0, @ckeditor/ckeditor5-dev-translations@npm:^40.2.0":
   version: 40.2.0
   resolution: "@ckeditor/ckeditor5-dev-translations@npm:40.2.0"
   dependencies:
