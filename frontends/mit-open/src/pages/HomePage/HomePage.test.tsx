@@ -105,6 +105,7 @@ describe("Home Page Carousel", () => {
     })
     setup()
     const [featured, media] = screen.getAllByRole("tablist")
+    within(featured).getByRole("tab", { name: "All" })
     within(featured).getByRole("tab", { name: "Free" })
     within(featured).getByRole("tab", { name: "Certificate" })
     within(featured).getByRole("tab", { name: "Professional" })

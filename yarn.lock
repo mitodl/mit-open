@@ -1771,8 +1771,7 @@ __metadata:
   checksum: 10/dab958664ffbfdc3da76d3ac00d0409dc2ff768eb5e758ea8c9e9ceee6ea1c893574e327cc195eadb84cc57fe5ea70e9553b0f4407e3741553c790698cda49c5
   languageName: node
   linkType: hard
-
-"@ckeditor/ckeditor5-dev-translations@npm:^39.3.0":
+"@ckeditor/ckeditor5-dev-translations@npm:^39.8.0":
   version: 39.8.0
   resolution: "@ckeditor/ckeditor5-dev-translations@npm:39.8.0"
   dependencies:
@@ -17981,7 +17980,7 @@ __metadata:
     "@ckeditor/ckeditor5-block-quote": "npm:^41.0.0"
     "@ckeditor/ckeditor5-cloud-services": "npm:^41.0.0"
     "@ckeditor/ckeditor5-core": "npm:^41.0.0"
-    "@ckeditor/ckeditor5-dev-translations": "npm:^39.3.0"
+    "@ckeditor/ckeditor5-dev-translations": "npm:^40.0.0"
     "@ckeditor/ckeditor5-dev-utils": "npm:^40.0.0"
     "@ckeditor/ckeditor5-easy-image": "npm:^41.0.0"
     "@ckeditor/ckeditor5-editor-classic": "npm:^41.0.0"
