@@ -251,7 +251,7 @@ const RootTopicList = styled(PlainList)(({ theme }) => ({
   },
 }))
 
-const DepartmentListingPage: React.FC = () => {
+const ToopicsListingPage: React.FC = () => {
   const topicsQuery = useLearningResourceTopics()
   const courseQuery = useLearningResourcesSearch({
     resource_type: ["course"],
@@ -312,4 +312,4 @@ const DepartmentListingPage: React.FC = () => {
   )
 }
 
-export default DepartmentListingPage
+export default ToopicsListingPage
