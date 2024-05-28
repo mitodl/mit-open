@@ -20,7 +20,7 @@ const FooterContainerInner = styled.div(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   padding: "32px 0",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     padding: "26px 16px",
     alignSelf: "stretch",
   },
@@ -31,7 +31,7 @@ const FooterContent = styled.div(({ theme }) => ({
   justifyContent: "space-between",
   alignItems: "flex-start",
   alignSelf: "stretch",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     flexDirection: "column",
     gap: "16px",
   },
@@ -41,7 +41,7 @@ const FooterLeftContainer = styled.div(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   gap: "30px",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     alignSelf: "stretch",
     gap: "16px",
   },
@@ -50,7 +50,7 @@ const FooterLeftContainer = styled.div(({ theme }) => ({
 const FooterLogo = styled(MITLogoLink)(({ theme }) => ({
   width: "95.405px",
   height: "47px",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     width: "80px",
     height: "39.411px",
   },
@@ -59,7 +59,7 @@ const FooterLogo = styled(MITLogoLink)(({ theme }) => ({
 const FooterAddress = styled.address(({ theme }) => ({
   color: theme.custom.colors.black,
   ...theme.typography.body2,
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     flex: "1 0 0",
   },
 }))
@@ -70,7 +70,7 @@ const FooterRightContainer = styled.div(({ theme }) => ({
   alignItems: "flex-end",
   justifyContent: "center",
   gap: "32px",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     alignItems: "flex-start",
     alignSelf: "stretch",
     gap: "16px",
@@ -81,7 +81,7 @@ const FooterLinksContainer = styled.div(({ theme }) => ({
   display: "flex",
   alignItems: "flex-start",
   gap: "16px",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     alignContent: "flex-start",
     flexWrap: "wrap",
     gap: "16px",
@@ -92,7 +92,7 @@ const FooterLinkContainer = styled.div(({ theme }) => ({
   display: "flex",
   padding: "0 16px",
   alignItems: "flex-start",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     padding: "0",
   },
 }))
@@ -130,7 +130,7 @@ const FooterCopyrightContainer = styled.div(({ theme }) => ({
   justifyContent: "center",
   padding: "0 16px",
   gap: "10px",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     padding: "0",
   },
 }))
