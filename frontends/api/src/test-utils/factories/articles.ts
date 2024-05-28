@@ -4,7 +4,7 @@ import type { Factory } from "ol-test-utilities"
 import type { Article } from "../../generated/v1"
 
 const article: Factory<Article> = (overrides = {}) => ({
-  id: faker.datatype.number(),
+  id: faker.number.int(),
   title: faker.lorem.sentence(),
   html: faker.lorem.paragraph(),
   ...overrides,

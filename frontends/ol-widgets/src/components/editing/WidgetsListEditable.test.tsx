@@ -79,7 +79,7 @@ describe("WidgetsListEditable", () => {
 
   test("Expanding and collpasing", async () => {
     const { getWidgetEls, getHeader } = renderWidgetsList()
-    const i = faker.datatype.number({ min: 0, max: 2 })
+    const i = faker.number.int({ min: 0, max: 2 })
 
     const getVisibility = () =>
       getWidgetEls().map((el) => {
@@ -110,7 +110,7 @@ describe("WidgetsListEditable", () => {
 
   test("Deleting a widget", async () => {
     const { widgets, getWidgetEls, getHeader, spies } = renderWidgetsList()
-    const i = faker.datatype.number({ min: 0, max: 2 })
+    const i = faker.number.int({ min: 0, max: 2 })
     await user.click(getBtn(btnLabel.delete, getWidgetEls()[i]))
     expect(getWidgetEls().length).toBe(2)
     await user.click(getBtn("Done", getHeader()))
@@ -196,7 +196,7 @@ describe("WidgetsListEditable", () => {
    */
   test("Updating a widget", async () => {
     const { widgets, getWidgetEls, getHeader, spies } = renderWidgetsList()
-    const i = faker.datatype.number({ min: 0, max: 2 })
+    const i = faker.number.int({ min: 0, max: 2 })
     await user.click(getBtn(btnLabel.edit, getWidgetEls()[i]))
 
     // There is a dialog

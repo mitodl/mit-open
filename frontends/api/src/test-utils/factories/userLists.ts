@@ -8,16 +8,20 @@ import {
 } from "api"
 import { resource as learningResource } from "./learningResources"
 import { faker } from "@faker-js/faker/locale/en"
+import { UniqueEnforcer } from "enforce-unique"
+
+const uniqueEnforcerWords = new UniqueEnforcer()
+const uniqueEnforcerId = new UniqueEnforcer()
 
 const userList: Factory<UserList> = (overrides = {}) => {
   const list: UserList = {
-    id: faker.helpers.unique(faker.datatype.number),
-    title: faker.helpers.unique(faker.lorem.words),
-    description: faker.helpers.unique(faker.lorem.paragraph),
+    id: uniqueEnforcerId.enforce(() => faker.number.int()),
+    title: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
+    description: uniqueEnforcerWords.enforce(() => faker.lorem.paragraph()),
     privacy_level: faker.helpers.arrayElement(Object.values(PrivacyLevelEnum)),
     item_count: 4,
     image: {},
-    author: faker.helpers.unique(faker.datatype.number),
+    author: uniqueEnforcerId.enforce(() => faker.number.int()),
     ...overrides,
   }
   return list
@@ -28,9 +32,9 @@ const microUserListRelationship: Factory<MicroUserListRelationship> = (
   overrides = {},
 ) => {
   return {
-    id: faker.helpers.unique(faker.datatype.number),
-    child: faker.helpers.unique(faker.datatype.number),
-    parent: faker.helpers.unique(faker.datatype.number),
+    id: uniqueEnforcerId.enforce(() => faker.number.int()),
+    child: uniqueEnforcerId.enforce(() => faker.number.int()),
+    parent: uniqueEnforcerId.enforce(() => faker.number.int()),
     ...overrides,
   }
 }
@@ -45,7 +49,7 @@ const userListRelationship: Factory<UserListRelationship> = (
   })
   return {
     ...micro,
-    position: faker.datatype.number(),
+    position: faker.number.int(),
     resource,
     ...overrides,
   }

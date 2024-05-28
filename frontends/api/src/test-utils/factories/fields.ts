@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en"
 import { makePaginatedFactory, type PartialFactory } from "ol-test-utilities"
+import { UniqueEnforcer } from "enforce-unique"
 import {
   ChannelTypeEnum,
   DepartmentChannel,
@@ -55,7 +56,7 @@ const topicChannel: PartialFactory<TopicChannel> = (overrides = {}) => {
     { channel_type: ChannelTypeEnum.Topic },
     {
       topic_detail: {
-        topic: faker.datatype.number(),
+        topic: faker.number.int(),
       },
     },
     overrides,
@@ -82,27 +83,30 @@ const pathwayChannel: PartialFactory<PathwayChannel> = (overrides = {}) => {
     overrides,
   )
 }
+const uniqueEnforcerSlug = new UniqueEnforcer()
 
 const _fieldShared = (): Partial<Omit<FieldChannel, "channel_type">> => {
   return {
-    name: faker.helpers.unique(faker.lorem.slug),
+    name: uniqueEnforcerSlug.enforce(() => {
+      return faker.lorem.slug()
+    }),
     about: faker.lorem.paragraph(),
-    title: faker.lorem.words(faker.datatype.number({ min: 1, max: 4 })),
+    title: faker.lorem.words(faker.number.int({ min: 1, max: 4 })),
     public_description: faker.lorem.paragraph(),
     banner: new URL(faker.internet.url()).toString(),
     avatar_small: new URL(faker.internet.url()).toString(),
     avatar_medium: new URL(faker.internet.url()).toString(),
     avatar: new URL(faker.internet.url()).toString(),
     is_moderator: faker.datatype.boolean(),
-    widget_list: faker.datatype.number(),
+    widget_list: faker.number.int(),
     subfields: [],
     featured_list: null,
     lists: [],
     updated_on: faker.date.recent().toString(),
     created_on: faker.date.recent().toString(),
-    id: faker.datatype.number(),
+    id: faker.number.int(),
     ga_tracking_id: faker.lorem.slug(),
-    configuration: faker.datatype.json(),
+    configuration: {},
     search_filter: faker.helpers.mustache("{key}={value}", {
       key: faker.lorem.slug(),
       value: faker.lorem.slug(),

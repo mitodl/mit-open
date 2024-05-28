@@ -34,7 +34,7 @@
     "validator": "^13.11.0"
   },
   "devDependencies": {
-    "@faker-js/faker": "^7.3.0",
+    "@faker-js/faker": "^8.0.0",
     "@storybook/addon-actions": "^8.0.9",
     "@storybook/addon-essentials": "^8.0.9",
     "@storybook/addon-interactions": "^8.0.9",
