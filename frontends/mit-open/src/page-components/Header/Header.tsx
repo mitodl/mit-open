@@ -15,6 +15,7 @@ import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
 import {
   DEPARTMENTS,
+  TOPICS,
   RESOURCE_DRAWER_QUERY_PARAM,
   SEARCH,
   querifiedSearchUrl,
@@ -180,6 +181,7 @@ const navData: NavData = {
         {
           title: "By Topic",
           icon: "/static/images/navdrawer/topics.svg",
+          href: TOPICS,
         },
         {
           title: "By Departments",

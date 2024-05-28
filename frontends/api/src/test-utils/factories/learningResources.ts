@@ -440,6 +440,7 @@ export {
   learningResourceImage as image,
   learningResourceDepartment as department,
   departments,
+  learningResourceTopic as topic,
   learningResourceTopics as topics,
   learningResourceOfferor as offeror,
   learningResourceOfferors as offerors,

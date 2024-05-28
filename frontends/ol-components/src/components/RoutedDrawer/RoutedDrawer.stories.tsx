@@ -12,7 +12,6 @@ const Content = styled.div({
   width: 400,
   padding: 80,
   color: theme.palette.primary.main,
-  backgroundColor: theme.custom.oldBackgroundColor,
   borderShadow: theme.custom.shadow,
 })
 

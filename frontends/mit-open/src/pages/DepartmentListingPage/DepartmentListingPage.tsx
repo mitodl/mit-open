@@ -9,6 +9,7 @@ import {
   ListItemLink,
   ListItemText,
   Grid,
+  Banner,
 } from "ol-components"
 import { MetaTags, pluralize } from "ol-utilities"
 import type {
@@ -38,21 +39,8 @@ const SCHOOL_ICONS: Record<string, React.ReactNode> = {
   "https://computing.mit.edu/": <RiUserSearchLine />,
 }
 
-const FullWidthBackground = styled.div`
-  background-image: url("/static/images/background_steps.jpeg");
-  background-size: cover;
-  padding-top: 48px;
-  padding-bottom: 48px;
-  color: ${({ theme }) => theme.custom.colors.white};
-`
-
 const Page = styled.div(({ theme }) => ({
   backgroundColor: theme.custom.colors.white,
-}))
-
-const HeaderDesription = styled(Typography)(({ theme }) => ({
-  maxWidth: "700px",
-  marginTop: theme.spacing(1),
 }))
 
 const SchoolTitle = styled.h2(({ theme }) => {
@@ -228,17 +216,12 @@ const DepartmentListingPage: React.FC = () => {
       <MetaTags>
         <title>MIT Open | Departments</title>
       </MetaTags>
-      <FullWidthBackground>
-        <Container>
-          <Typography variant="subtitle3">MIT / Departments</Typography>
-          <Typography variant="h1">Departments</Typography>
-          <HeaderDesription>
-            At MIT, academic departments span a wide range of disciplines, from
-            science and engineering to humanities. Select a department below to
-            explore all of its online course offerings.
-          </HeaderDesription>
-        </Container>
-      </FullWidthBackground>
+      <Banner
+        backgroundUrl="/static/images/background_steps.jpeg"
+        title="Departments"
+        description="At MIT, academic departments span a wide range of disciplines, from science and engineering to humanities. Select a department below to explore all of its online course offerings."
+        navText="MIT / Departments"
+      />
       <Container>
         <Grid container>
           <Grid item xs={0} sm={1}></Grid>
