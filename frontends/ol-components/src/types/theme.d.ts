@@ -10,7 +10,6 @@ export interface ColorGroup {
 }
 
 interface CustomTheme {
-  oldBackgroundColor: string
   transitionDuration: string
   shadow: string
   colors: {
@@ -81,6 +80,14 @@ declare module "@mui/material/Chip" {
     large: true
     medium: true
     small: false
+  }
+
+  interface ChipPropsVariantOverrides {
+    filled: true
+    outlined: true
+    outlinedWhite: true
+    dark: true
+    gray: true
   }
 }
 

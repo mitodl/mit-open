@@ -17,11 +17,16 @@
     "watch:rc": "yarn workspace mit-open run watch:rc",
     "style-lint": "yarn workspace frontends run style-lint",
     "test": "yarn workspace frontends global:test",
+    "test-watch": "yarn workspace frontends test-watch",
+    "storybook": "yarn workspace frontends storybook",
     "lint-check": "yarn workspace frontends run lint-check",
     "typecheck": "yarn workspace frontends run typecheck"
   },
   "packageManager": "yarn@4.2.2",
   "devDependencies": {
     "syncpack": "^12.3.2"
+  },
+  "dependencies": {
+    "enforce-unique": "^1.3.0"
   }
 }

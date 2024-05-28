@@ -65,8 +65,6 @@ def offeror_featured_lists():
             resource = LearningResourceFactory.create(
                 offered_by=offeror,
                 is_course=True,
-                certification=bool(random.getrandbits(1)),
-                professional=offeror.professional,
             )
             if offered_by == OfferedBy.ocw.name:
                 LearningResourceRun.objects.filter(

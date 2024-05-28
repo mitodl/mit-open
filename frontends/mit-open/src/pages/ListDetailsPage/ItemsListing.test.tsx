@@ -80,13 +80,13 @@ describe.each([ListType.LearningPath, ListType.UserList])(
       { listType: ListType.LearningPath, count: 0, hasEmptyMessage: true },
       {
         listType: ListType.LearningPath,
-        count: faker.datatype.number({ min: 1, max: 5 }),
+        count: faker.number.int({ min: 1, max: 5 }),
         hasEmptyMessage: false,
       },
       { listType: ListType.LearningPath, count: 0, hasEmptyMessage: true },
       {
         listType: ListType.UserList,
-        count: faker.datatype.number({ min: 1, max: 5 }),
+        count: faker.number.int({ min: 1, max: 5 }),
         hasEmptyMessage: false,
       },
     ])(
@@ -97,7 +97,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
         const paginatedRelationships = getPaginatedRelationships(
           listType,
           count,
-          faker.datatype.number(),
+          faker.number.int(),
         )
         renderWithProviders(
           <ItemsListing
@@ -130,8 +130,8 @@ describe.each([ListType.LearningPath, ListType.UserList])(
         const emptyMessage = faker.lorem.sentence()
         const paginatedRelationships = getPaginatedRelationships(
           listType,
-          faker.datatype.number({ min: 2, max: 4 }),
-          faker.datatype.number(),
+          faker.number.int({ min: 2, max: 4 }),
+          faker.number.int(),
         )
         const items =
           paginatedRelationships.results as LearningResourceListItem[]
@@ -163,7 +163,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
     const setup = (props: Partial<ItemsListingProps> = {}) => {
       const listType = props.listType || ""
       const emptyMessage = faker.lorem.sentence()
-      const parentId = faker.datatype.number()
+      const parentId = faker.number.int()
       const paginatedRelationships = getPaginatedRelationships(
         listType,
         5,

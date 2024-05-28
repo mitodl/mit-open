@@ -167,6 +167,7 @@ describe("SearchPage", () => {
       "All",
       "Courses",
       "Programs",
+      "Videos",
       "Podcasts",
     ])
     // eventually (after API response) result counts show
@@ -175,6 +176,7 @@ describe("SearchPage", () => {
         "All (300)",
         "Courses (100)",
         "Programs (0)",
+        "Videos (0)",
         "Podcasts (200)",
       ])
     })

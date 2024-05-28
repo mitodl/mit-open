@@ -73,7 +73,7 @@ const widgetSpecMakers = {
 }
 
 const makeRichTextWidget: Factory<RichTextWidgetInstance> = (overrides) => ({
-  id: faker.datatype.number(),
+  id: faker.number.int(),
   title: faker.lorem.sentence(3),
   widget_type: WidgetTypes.RichText,
   configuration: {
@@ -85,7 +85,7 @@ const makeRichTextWidget: Factory<RichTextWidgetInstance> = (overrides) => ({
 const makeEmbeddedUrlWidget: Factory<EmbeddedUrlWidgetInstance> = (
   overrides,
 ) => ({
-  id: faker.datatype.number(),
+  id: faker.number.int(),
   title: faker.lorem.sentence(3),
   widget_type: WidgetTypes.EmbeddedUrl,
   configuration: {
@@ -104,10 +104,10 @@ const makeWidgetListResponse: Factory<
   WidgetListResponse,
   { count?: number }
 > = (overrides, options = {}) => {
-  const count = options.count ?? faker.datatype.number({ min: 2, max: 4 })
+  const count = options.count ?? faker.number.int({ min: 2, max: 4 })
   const specMakers = Object.values(widgetSpecMakers)
   return {
-    id: faker.datatype.number(),
+    id: faker.number.int(),
     available_widgets: specMakers.map((f) => f()),
     widgets: times(count, () => makeWidget()),
     ...overrides,

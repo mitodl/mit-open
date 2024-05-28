@@ -8,7 +8,7 @@ const pageCss = css`
   }
 
   body {
-    background-color: ${theme.custom.oldBackgroundColor};
+    background-color: ${theme.custom.colors.lightGray1};
     margin: 0;
     padding: 0;
   }

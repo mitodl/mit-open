@@ -75,7 +75,7 @@ describe("ManageWidgetDialog (Editing)", () => {
   })
 
   it("passes classes to relevant elements", async () => {
-    const fakerClassName = () => faker.helpers.unique(faker.lorem.slug)
+    const fakerClassName = () => faker.lorem.slug()
     const classes = {
       label: fakerClassName(),
       field: fakerClassName(),

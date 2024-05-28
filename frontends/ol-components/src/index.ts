@@ -19,6 +19,9 @@ export type { BadgeProps } from "@mui/material/Badge"
 export { default as AppBar } from "@mui/material/AppBar"
 export type { AppBarProps } from "@mui/material/AppBar"
 
+export { Banner } from "./components/Banner/Banner"
+export type { BannerProps } from "./components/Banner/Banner"
+
 export {
   Button,
   ActionButton,
@@ -158,6 +161,9 @@ export type {
   SelectProps,
   SelectFieldProps,
 } from "./components/SelectField/SelectField"
+
+export { Link, linkStyles } from "./components/Link/Link"
+export type { LinkProps } from "./components/Link/Link"
 
 export * from "./components/learning-resources/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay"
 

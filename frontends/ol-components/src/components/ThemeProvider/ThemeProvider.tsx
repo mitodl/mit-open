@@ -3,7 +3,7 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles"
-import type { ThemeOptions } from "@mui/material/styles"
+import type { ThemeOptions, Theme } from "@mui/material/styles"
 import type {} from "@mui/lab/themeAugmentation"
 import * as typography from "./typography"
 import * as buttons from "./buttons"
@@ -19,7 +19,6 @@ const shadow = {
 
 // To replace ../scss/theme.scss for #236 as we refactor it out
 const custom: ThemeOptions["custom"] = {
-  oldBackgroundColor: "#edeff5",
   transitionDuration: "300ms",
   shadow: `${shadow.shadowOffsetX} ${shadow.shadowOffsetY} ${shadow.shadowBlurRadius} ${shadow.shadowColor}`,
   colors,
@@ -92,7 +91,5 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
 }
 
-export type Theme = typeof themeOptions
-
 export { ThemeProvider }
-export type { ThemeProviderProps }
+export type { ThemeProviderProps, Theme }

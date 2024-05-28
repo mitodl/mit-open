@@ -75,14 +75,14 @@ const getFacetManifest = (
     {
       name: "offered_by",
       title: "Offered By",
-      type: "filterable",
+      type: "static",
       expandedOnLoad: true,
       labelFunction: (key) => offerors[key]?.name ?? key,
     },
     {
       name: "learning_format",
       title: "Format",
-      type: "filterable",
+      type: "static",
       expandedOnLoad: true,
       labelFunction: (key) =>
         key
@@ -110,7 +110,7 @@ const AGGREGATIONS: LRSearchRequest["aggregations"] = [
   "professional",
 ]
 
-const SORT_OPTIONS = [
+export const SORT_OPTIONS = [
   {
     label: "Relevance",
     key: "",
@@ -142,16 +142,30 @@ const SearchField = styled(SearchInput)`
 
 export const StyledDropdown = styled(SimpleSelect)`
   margin: 8px;
-  min-width: 140px;
+  margin-top: 22px;
+  min-width: 180px;
+  border-radius: 24px;
+  background: ${({ theme }) => theme.custom.colors.white};
 `
 
-const SortContainer = styled.div`
+export const StyledResourceTabs = styled(ResourceTypeTabs.TabList)`
+  margin-top: 20px;
+
+  div div button {
+    text-align: center;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: none;
+  }
+`
+
+export const SortContainer = styled.div`
   ${({ theme }) => theme.breakpoints.up("sm")} {
     float: right;
     padding-right: 12px;
   }
 `
-const FacetStyles = styled.div`
+export const FacetStyles = styled.div`
   * {
     color: ${({ theme }) => theme.palette.secondary.main};
   }
@@ -260,7 +274,7 @@ const FacetStyles = styled.div`
   }
 `
 
-const FilterTitle = styled.div`
+export const FilterTitle = styled.div`
   margin-right: 1rem;
   display: flex;
   align-items: center;
@@ -270,7 +284,7 @@ const FilterTitle = styled.div`
   }
 `
 
-const FacetsTitleContainer = styled.div`
+export const FacetsTitleContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -296,7 +310,7 @@ export const getLastPage = (count: number): number => {
   return pages > MAX_PAGE ? MAX_PAGE : pages
 }
 
-const TABS: TabConfig[] = [
+export const TABS: TabConfig[] = [
   {
     label: "Courses",
     resource_type: ResourceTypeEnum.Course,
@@ -306,11 +320,15 @@ const TABS: TabConfig[] = [
     resource_type: ResourceTypeEnum.Program,
   },
   {
+    label: "Videos",
+    resource_type: ResourceTypeEnum.Video,
+  },
+  {
     label: "Podcasts",
     resource_type: ResourceTypeEnum.Podcast,
   },
 ]
-const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
+export const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
 
 const useFacetManifest = () => {
   const offerorsQuery = useOfferorsList()
@@ -443,7 +461,7 @@ const SearchPage: React.FC = () => {
                   }}
                 />
               </SortContainer>
-              <ResourceTypeTabs.TabList
+              <StyledResourceTabs
                 patchParams={patchParams}
                 tabs={TABS}
                 aggregations={data?.metadata.aggregations}

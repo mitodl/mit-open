@@ -47,12 +47,14 @@ type ResourceTypeTabsProps = {
     resource_type: ResourceTypeEnum[]
   }) => void
   onTabChange?: (tab: ResourceTypeEnum | "all") => void
+  className?: string
 }
 const ResourceTypeTabList: React.FC<ResourceTypeTabsProps> = ({
   tabs,
   aggregations,
   patchParams,
   onTabChange,
+  className,
 }) => {
   const counts = resourceTypeCounts(aggregations)
   const allCount = counts
@@ -60,6 +62,7 @@ const ResourceTypeTabList: React.FC<ResourceTypeTabsProps> = ({
     : undefined
   return (
     <TabList
+      className={className}
       onChange={(_e, value) => {
         patchParams({ resource_type: value === "all" ? [] : [value] })
         onTabChange?.(value)

@@ -6,7 +6,7 @@ import type { ChipProps } from "@mui/material/Chip"
 
 type ChipLinkProps = { href: string } & Pick<
   ChipProps<typeof Link>,
-  "color" | "label" | "disabled" | "className" | "variant" | "size" | "icon"
+  "label" | "disabled" | "className" | "variant" | "size" | "icon"
 >
 
 /**
@@ -17,7 +17,6 @@ type ChipLinkProps = { href: string } & Pick<
 const ChipLink = React.forwardRef<HTMLAnchorElement, ChipLinkProps>(
   ({ href, ...others }, ref) => (
     <Chip
-      variant="outlined"
       {...others}
       ref={ref}
       // Use React Router's Link
