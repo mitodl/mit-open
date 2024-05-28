@@ -701,10 +701,10 @@ def clean_data(data: str, *, remove_markdown=False, remove_hugo_tags=False) -> s
     if not data:
         return None
     if remove_hugo_tags:
-        # Remove hugo codes
+        # Remove hugo codes, replace with nothing
         data = re.sub(r"{{<.*?>}}", "", data)
     if remove_markdown:
-        # Convert markdown to html, then remove any enclosing <p> tags
-        data = markdown2.markdown(data).lstrip("<p>").rstrip("</p>")
+        # Convert markdown to html
+        data = markdown2.markdown(data)
     # Remove unwanted html tags
     return nh3.clean(data, tags=ALLOWED_HTML_TAGS, attributes=ALLOWED_HTML_ATTRIBUTES)
