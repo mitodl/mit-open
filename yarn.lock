@@ -17763,13 +17763,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuka-carousel@npm:^7.0.0":
-  version: 7.0.0
-  resolution: "nuka-carousel@npm:7.0.0"
+"nuka-carousel@npm:^8.0.0":
+  version: 8.0.1
+  resolution: "nuka-carousel@npm:8.0.1"
   peerDependencies:
     react: ">=18.0.0"
     react-dom: ">=18.0.0"
-  checksum: 10/9aef6ed80ee594b60c0dc117a0e53cc93e78e0b0e549a3cca69a1a60c6f6b0c9211697b01d334051334efb6fa5c680b1489276157276473f247717897cce624e
+  checksum: 10/bf779fc9a85902b1f8af38ab937e460e0e976da06c5b97295e4e234661e34336627c124e06f158cfe85825629fbb958d51a487636cb18476b1b4e5ddf028503a
   languageName: node
   linkType: hard
 
@@ -18033,7 +18033,7 @@ __metadata:
     api: "workspace:*"
     lodash: "npm:^4.17.21"
     material-ui-popup-state: "npm:^5.1.0"
-    nuka-carousel: "npm:^7.0.0"
+    nuka-carousel: "npm:^8.0.0"
     ol-test-utilities: "npm:0.0.0"
     ol-utilities: "npm:0.0.0"
     prop-types: "npm:^15.8.1"

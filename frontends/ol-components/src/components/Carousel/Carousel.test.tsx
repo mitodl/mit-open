@@ -1,11 +1,9 @@
 /* eslint-disable testing-library/no-node-access */
 import React from "react"
-import { faker } from "@faker-js/faker/locale/en"
 import { render, screen } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { Carousel } from "./Carousel"
 import type { CarouselProps } from "./Carousel"
-import TrueNukaCarousel from "nuka-carousel"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 jest.mock("nuka-carousel", () => {
@@ -16,8 +14,6 @@ jest.mock("nuka-carousel", () => {
     __esModule: true,
   }
 })
-
-const NukaCarousel = jest.mocked(TrueNukaCarousel)
 
 const setupCarousel = (props?: Partial<CarouselProps>) =>
   render(
@@ -35,24 +31,6 @@ const getNextPageButton = () => screen.getByRole("button", { name: "Next" })
 const getPrevPageButton = () => screen.getByRole("button", { name: "Previous" })
 
 describe("Carousel", () => {
-  it("passes pageSize to NukaCarousel", async () => {
-    const pageSize = faker.number.int({ min: 2, max: 4 })
-    setupCarousel({ pageSize })
-    expect(NukaCarousel).toHaveBeenCalledWith(
-      expect.objectContaining({ slidesToShow: pageSize }),
-      expect.anything(),
-    )
-  })
-
-  it("passes animationDuration to NukaCarousel", async () => {
-    const animationDuration = faker.number.int()
-    setupCarousel({ animationDuration })
-    expect(NukaCarousel).toHaveBeenCalledWith(
-      expect.objectContaining({ speed: animationDuration }),
-      expect.anything(),
-    )
-  })
-
   it("Flips pages with Next and Prev buttons", async () => {
     setupCarousel()
 
@@ -60,47 +38,29 @@ describe("Carousel", () => {
     const next = getNextPageButton()
 
     // first page: items 0, 1 of 0, 1, 2, 3, 4
-    expect(NukaCarousel).toHaveBeenLastCalledWith(
-      expect.objectContaining({ slideIndex: 0 }),
-      expect.anything(),
-    )
     expect(prev).toBeDisabled()
     expect(next).not.toBeDisabled()
 
     // second page: items 2, 3 of 0, 1, 2, 3, 4
     await user.click(next)
-    expect(NukaCarousel).toHaveBeenLastCalledWith(
-      expect.objectContaining({ slideIndex: 2 }),
-      expect.anything(),
-    )
     expect(prev).not.toBeDisabled()
     expect(next).not.toBeDisabled()
 
     // second page: items 4 of 0, 1, 2, 3, 4
     await user.click(next)
-    expect(NukaCarousel).toHaveBeenLastCalledWith(
-      expect.objectContaining({ slideIndex: 4 }),
-      expect.anything(),
-    )
 
     expect(prev).not.toBeDisabled()
     expect(next).toBeDisabled()
 
     // second page: items 2, 3 of 0, 1, 2, 3, 4
     await user.click(prev)
-    expect(NukaCarousel).toHaveBeenLastCalledWith(
-      expect.objectContaining({ slideIndex: 2 }),
-      expect.anything(),
-    )
+
     expect(prev).not.toBeDisabled()
     expect(next).not.toBeDisabled()
 
     // second page: items 2, 3 of 0, 1, 2, 3, 4
     await user.click(prev)
-    expect(NukaCarousel).toHaveBeenLastCalledWith(
-      expect.objectContaining({ slideIndex: 0 }),
-      expect.anything(),
-    )
+
     expect(prev).toBeDisabled()
     expect(next).not.toBeDisabled()
   })

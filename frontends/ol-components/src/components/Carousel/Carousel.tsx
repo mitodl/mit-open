@@ -1,6 +1,5 @@
-import React, { ElementType, useCallback, useState } from "react"
-import NukaCarousel from "nuka-carousel"
-import { clamp } from "lodash"
+import React, { ElementType, useState, useRef } from "react"
+import { Carousel as NukaCarousel, SlideHandle } from "nuka-carousel"
 import type { CarouselProps as NukaCarouselProps } from "nuka-carousel"
 import styled from "@emotion/styled"
 import { ActionButton } from "../Button/Button"
@@ -16,88 +15,62 @@ type CarouselProps = {
    * Animation duration in milliseconds.
    */
   animationDuration?: number
-  cellSpacing?: NukaCarouselProps["cellSpacing"]
+  cellSpacing?: number
+}
+
+type NukaCarouselStyledProps = NukaCarouselProps & {
+  cellSpacing?: number
+  animationDuration?: number
 }
 
 const DEFAULT_CAROUSEL_SPACING = 24
+const DEFAULT_ANIMATION_DURATION = 800
 
-const NukaCarouselStyled = styled(NukaCarousel)(
-  ({ cellSpacing = DEFAULT_CAROUSEL_SPACING }) => ({
-    /*
-      We want the carousel cards to:
-        1. be spaced,
-        2. have shadows (possibly), and
-        3. be left-aligned (left edge of left-most card aligned with rest of page content)
-
-      The card container has `overflow: hidden` to prevent seeing the offscreen
-      cards. Consequently, if the leftmost card is at the left edge of the carousel
-      container, then its shadow gets cut off and looks weird.
-
-      So instead:
-        1. Use the default NukaCarousel behavior where there is half a cellSpacing
-          of padding on the left and right of each slide
-        2. translate the contents leftwards by half a cellSpacing so that they
-          appear left-aligned
-        3. Increase the width to 100% + cellSpacing so that the right-most card
-          is right-aligned
-        4. Apply positive-padding, negative-margin to the top and bottom to allow
-          vertical shadows.
-
-      NOTE: This will not work if the horizontal shadow exceeds half the
-      cellspacing. In that case, the horizontal shadow will be cut off.
-      */
-    transform: `translateX(-${cellSpacing * 0.5}px)`,
-    width: `calc(100% + ${cellSpacing}px) !important`,
-    /**
-     * These values are a bit arbitrary. They just need to exceed the vertical
-     * shadow.
-     */
-    paddingBottom: "6px",
-    marginBottom: "-6px",
-    paddingTop: "6px",
-    marginTop: "-6px",
-  }),
-)
-
-const defaultAnimationDuration = 800
+const NukaCarouselStyled = styled(NukaCarousel)<NukaCarouselStyledProps>`
+  .nuka-slide-container {
+    transform: translateX(-${(props) => (props.cellSpacing || 0) * 0.5}px);
+    transition-duration: ${(props) => props.animationDuration || 0};
+    padding-bottom: 6px;
+    margin-bottom: -6px;
+    padding-top: 6px;
+    margin-top: -6px;
+  }
+`
 
 const Carousel: React.FC<CarouselProps> = ({
   children,
   className,
   cellSpacing = DEFAULT_CAROUSEL_SPACING,
+  animationDuration = DEFAULT_ANIMATION_DURATION,
   pageSize,
-  animationDuration = defaultAnimationDuration,
   as: ContainerComponent = "div",
 }) => {
+  const ref = useRef<SlideHandle>(null)
+
   const [index, setIndex] = useState(0)
   const childCount = React.Children.count(children)
   const canPageUp = index + pageSize < childCount
   const canPageDown = index !== 0
 
-  const pageDown = useCallback(() => {
-    setIndex((currentIndex) =>
-      clamp(currentIndex - pageSize, 0, childCount - 1),
-    )
-  }, [pageSize, childCount])
-  const pageUp = useCallback(() => {
-    setIndex((currentIndex) =>
-      clamp(currentIndex + pageSize, 0, childCount - 1),
-    )
-  }, [pageSize, childCount])
-  const handleBeforeSlide: NonNullable<NukaCarouselProps["beforeSlide"]> =
-    useCallback((_currentIndex, endIndex) => {
-      setIndex(endIndex)
-    }, [])
+  const pageDown = () => {
+    ref && ref.current && ref.current.goBack()
+    setIndex(index - pageSize)
+  }
+
+  const pageUp = () => {
+    ref && ref.current && ref.current.goForward()
+    setIndex(index + pageSize)
+  }
 
   return (
     <ContainerComponent id="hello" className={className}>
       <NukaCarouselStyled
-        slideIndex={index}
-        slidesToShow={pageSize}
-        beforeSlide={handleBeforeSlide}
-        withoutControls={true}
+        showArrows={false}
+        showDots={false}
+        autoplay={false}
         cellSpacing={cellSpacing}
-        speed={animationDuration}
+        animationDuration={animationDuration}
+        ref={ref}
       >
         {children}
       </NukaCarouselStyled>

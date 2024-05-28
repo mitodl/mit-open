@@ -20,7 +20,7 @@
     "@types/tinycolor2": "^1.4.6",
     "lodash": "^4.17.21",
     "material-ui-popup-state": "^5.1.0",
-    "nuka-carousel": "^7.0.0",
+    "nuka-carousel": "^8.0.0",
     "ol-test-utilities": "0.0.0",
     "ol-utilities": "0.0.0",
     "rc-tooltip": "^6.1.2",
