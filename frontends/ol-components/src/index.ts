@@ -166,7 +166,7 @@ export type {
 export { Link, linkStyles } from "./components/Link/Link"
 export type { LinkProps } from "./components/Link/Link"
 
-export * from "./components/learning-resources/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay"
+export * from "./components/LearningResourceExpanded/LearningResourceExpanded"
 
 export * from "./hooks/useBreakpoint"
 

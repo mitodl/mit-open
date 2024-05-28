@@ -12,7 +12,7 @@ import {
 } from "ol-utilities"
 import type { EmbedlyConfig } from "ol-utilities"
 import styled from "@emotion/styled"
-import { EmbedlyCard } from "../../EmbedlyCard/EmbedlyCard"
+import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
 import {
@@ -181,7 +181,7 @@ const InfoValue = styled.div`
   color: ${theme.custom.colors.black};
 `
 
-type ExpandedLearningResourceDisplayProps = {
+type LearningResourceExpandedProps = {
   resource?: LearningResource
   imgConfig: EmbedlyConfig
 }
@@ -317,9 +317,10 @@ const getCtaPrefix = (type: ResourceTypeEnum) => {
   }
 }
 
-const ExpandedLearningResourceDisplay: React.FC<
-  ExpandedLearningResourceDisplayProps
-> = ({ resource, imgConfig }) => {
+const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
+  resource,
+  imgConfig,
+}) => {
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
 
   const multipleRuns = resource?.runs && resource.runs.length > 1
@@ -420,5 +421,5 @@ const ExpandedLearningResourceDisplay: React.FC<
   )
 }
 
-export { ExpandedLearningResourceDisplay }
-export type { ExpandedLearningResourceDisplayProps }
+export { LearningResourceExpanded }
+export type { LearningResourceExpandedProps }

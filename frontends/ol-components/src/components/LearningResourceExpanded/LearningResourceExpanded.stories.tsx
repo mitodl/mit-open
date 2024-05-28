@@ -1,6 +1,6 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { ExpandedLearningResourceDisplay } from "./ExpandedLearningResourceDisplay"
+import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import { factories } from "api/test-utils"
 import { ResourceTypeEnum as LRT } from "api"
 import invariant from "tiny-invariant"
@@ -17,9 +17,9 @@ const makeResource: typeof _makeResource = (overrides) => {
   return resource
 }
 
-const meta: Meta<typeof ExpandedLearningResourceDisplay> = {
-  title: "ol-components/ExpandedLearningResourceDisplay",
-  component: ExpandedLearningResourceDisplay,
+const meta: Meta<typeof LearningResourceExpanded> = {
+  title: "ol-components/LearningResourceExpanded",
+  component: LearningResourceExpanded,
   args: {
     imgConfig: {
       key: process.env.EMBEDLY_KEY!,
@@ -55,7 +55,7 @@ const meta: Meta<typeof ExpandedLearningResourceDisplay> = {
     return (
       <BrowserRouter>
         <Drawer open={true} anchor="right">
-          <ExpandedLearningResourceDisplay {...args} />
+          <LearningResourceExpanded {...args} />
         </Drawer>
       </BrowserRouter>
     )
@@ -64,7 +64,7 @@ const meta: Meta<typeof ExpandedLearningResourceDisplay> = {
 
 export default meta
 
-type Story = StoryObj<typeof ExpandedLearningResourceDisplay>
+type Story = StoryObj<typeof LearningResourceExpanded>
 
 export const Course: Story = {
   args: {

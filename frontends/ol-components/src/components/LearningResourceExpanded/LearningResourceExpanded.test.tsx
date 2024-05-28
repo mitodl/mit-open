@@ -1,17 +1,16 @@
 import React from "react"
 import { BrowserRouter } from "react-router-dom"
 import { render, screen, within } from "@testing-library/react"
-import { ExpandedLearningResourceDisplay } from "./ExpandedLearningResourceDisplay"
-import type { ExpandedLearningResourceDisplayProps } from "./ExpandedLearningResourceDisplay"
+import { LearningResourceExpanded } from "./LearningResourceExpanded"
+import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
 import { ResourceTypeEnum } from "api"
 import { factories } from "api/test-utils"
-import { ThemeProvider } from "../../ThemeProvider/ThemeProvider"
+import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import { getReadableResourceType } from "ol-utilities"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
 
-type DisplayProps = ExpandedLearningResourceDisplayProps
-const IMG_CONFIG: DisplayProps["imgConfig"] = {
+const IMG_CONFIG: LearningResourceExpandedProps["imgConfig"] = {
   key: "fake-key",
   width: 385,
   height: 200,
@@ -20,16 +19,13 @@ const IMG_CONFIG: DisplayProps["imgConfig"] = {
 const setup = (resource: LearningResource) => {
   return render(
     <BrowserRouter>
-      <ExpandedLearningResourceDisplay
-        resource={resource}
-        imgConfig={IMG_CONFIG}
-      />
+      <LearningResourceExpanded resource={resource} imgConfig={IMG_CONFIG} />
     </BrowserRouter>,
     { wrapper: ThemeProvider },
   )
 }
 
-describe("ExpandedLearningResourceDisplay", () => {
+describe("Learning Resource Expanded", () => {
   it.each(
     Object.values(ResourceTypeEnum).filter(
       (type) => type !== ResourceTypeEnum.Video,
