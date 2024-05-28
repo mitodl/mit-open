@@ -34,7 +34,7 @@ import {
 const Container = styled.div<{ isVideo: boolean }>`
   display: flex;
   flex-direction: column;
-  padding: 18px 32px;
+  padding: 18px 32px 160px 32px;
   gap: 20px;
   ${({ isVideo }) => (isVideo ? "padding-top: 64px;" : "")}
   width: 600px;
