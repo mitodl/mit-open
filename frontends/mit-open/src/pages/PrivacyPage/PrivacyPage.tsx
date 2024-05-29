@@ -64,6 +64,10 @@ const BodyText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.black,
 }))
 
+const UnorderedList = styled.ul(({ theme }) => ({
+  ...theme.typography.body3,
+}))
+
 const PrivacyPage: React.FC = () => {
   return (
     <Container>
@@ -95,29 +99,26 @@ const PrivacyPage: React.FC = () => {
             We collect, use, store, and transfer different kinds of personal
             information about you, which we have grouped together as follows:
           </BodyText>
-          <BodyText variant="body3">
-            <ul>
-              <li>
-                Biographic information - name, gender, date of birth, email
-                address, country of residence, employer, title/position,
-                household income, CV, company size, job function, industry,
-                university name, enrollment status, anticipated degree,
-                anticipated date of graduation, pre-retirement career, year of
-                retirement, and other demographic info
-              </li>
-              <li>
-                Demographics and Interests - Affinity categories, Product
-                Purchase Interests, and Other Categories of interest
-              </li>
-              <li>
-                Contact information - home and business addresses, phone
-                numbers, email addresses, phone numbers, and social media
-                information
-              </li>
-              <li>IP addresses</li>
-              <li>Course progress and performance</li>
-            </ul>
-          </BodyText>
+          <UnorderedList>
+            <li>
+              Biographic information - name, gender, date of birth, email
+              address, country of residence, employer, title/position, household
+              income, CV, company size, job function, industry, university name,
+              enrollment status, anticipated degree, anticipated date of
+              graduation, pre-retirement career, year of retirement, and other
+              demographic info
+            </li>
+            <li>
+              Demographics and Interests - Affinity categories, Product Purchase
+              Interests, and Other Categories of interest
+            </li>
+            <li>
+              Contact information - home and business addresses, phone numbers,
+              email addresses, phone numbers, and social media information
+            </li>
+            <li>IP addresses</li>
+            <li>Course progress and performance</li>
+          </UnorderedList>
           <BodyText variant="h5">
             How we collect personal information about you
           </BodyText>
@@ -166,72 +167,69 @@ const PrivacyPage: React.FC = () => {
             and/or (3) with your explicit consent, where applicable. Examples of
             the ways in which we use your personal information are as follows:
           </BodyText>
-          <BodyText variant="body3">
-            <ul>
-              <li>
-                To enable us to provide, administer, and improve our courses.
-              </li>
-              <li>
-                To help us improve MITx Online offerings, both individually
-                (e.g., by course staff when working with a student) and in
-                aggregate, and to individualize the experience and to evaluate
-                the access and use of the Site and the impact of MIT Open on the
-                worldwide educational community.
-              </li>
-              <li>
-                For purposes of scientific research, particularly, for example,
-                in the areas of cognitive science and education.
-              </li>
-              <li>
-                For the purpose for which you specifically provided the
-                information, for example, to respond to a specific inquiry or
-                provide you with access to the specific course content and/or
-                services you select.
-              </li>
-              <li>
-                To track both individual and aggregate attendance, progress, and
-                completion of an online course and to analyze statistics on
-                student performance and how students learn.
-              </li>
-              <li>
-                To monitor and detect violations of the Honor Code and the Terms
-                of Service, as well as other misuses and potential misuses of
-                the Site.
-              </li>
-              <li>
-                To publish information, but not Personal Information, gathered
-                about MITx Online's access, use, impact, and student
-                performance.
-              </li>
-              <li>
-                To send you updates about online courses offered by MITx Online
-                or other events, to send you communications about products or
-                services of MITx Online Digital Programs, affiliates, or
-                selected business partners that may be of interest to you, or to
-                send you email messages about Site maintenance or updates.
-              </li>
-              <li>
-                To archive this information and/or use it for future
-                communications with you.
-              </li>
-              <li>
-                To maintain and improve the functioning and security of the Site
-                and our software, systems, and network.
-              </li>
-              <li>
-                For purposes described elsewhere in this Privacy Policy
-                (including, e.g., sharing with third parties).
-              </li>
-              <li>
-                As otherwise described to you at the point of collection or
-                pursuant to your consent.
-              </li>
-              <li>
-                To authenticate your identity when you register for a course.
-              </li>
-              <li>To process refunds, as applicable.</li>
-            </ul>
-          </BodyText>
+          <UnorderedList>
+            <li>
+              To enable us to provide, administer, and improve our courses.
+            </li>
+            <li>
+              To help us improve MITx Online offerings, both individually (e.g.,
+              by course staff when working with a student) and in aggregate, and
+              to individualize the experience and to evaluate the access and use
+              of the Site and the impact of MIT Open on the worldwide
+              educational community.
+            </li>
+            <li>
+              For purposes of scientific research, particularly, for example, in
+              the areas of cognitive science and education.
+            </li>
+            <li>
+              For the purpose for which you specifically provided the
+              information, for example, to respond to a specific inquiry or
+              provide you with access to the specific course content and/or
+              services you select.
+            </li>
+            <li>
+              To track both individual and aggregate attendance, progress, and
+              completion of an online course and to analyze statistics on
+              student performance and how students learn.
+            </li>
+            <li>
+              To monitor and detect violations of the Honor Code and the Terms
+              of Service, as well as other misuses and potential misuses of the
+              Site.
+            </li>
+            <li>
+              To publish information, but not Personal Information, gathered
+              about MITx Online's access, use, impact, and student performance.
+            </li>
+            <li>
+              To send you updates about online courses offered by MITx Online or
+              other events, to send you communications about products or
+              services of MITx Online Digital Programs, affiliates, or selected
+              business partners that may be of interest to you, or to send you
+              email messages about Site maintenance or updates.
+            </li>
+            <li>
+              To archive this information and/or use it for future
+              communications with you.
+            </li>
+            <li>
+              To maintain and improve the functioning and security of the Site
+              and our software, systems, and network.
+            </li>
+            <li>
+              For purposes described elsewhere in this Privacy Policy
+              (including, e.g., sharing with third parties).
+            </li>
+            <li>
+              As otherwise described to you at the point of collection or
+              pursuant to your consent.
+            </li>
+            <li>
+              To authenticate your identity when you register for a course.
+            </li>
+            <li>To process refunds, as applicable.</li>
+          </UnorderedList>
           <BodyText variant="body3">
             If you have concerns about any of these purposes, or how we
             communicate with you, please contact us at
@@ -240,69 +238,65 @@ const PrivacyPage: React.FC = () => {
             obligations).
           </BodyText>
           <BodyText variant="h5">How we use your personal information</BodyText>
-          <BodyText variant="body3">
-            <ul>
-              <li>
-                With service providers or contractors that perform certain
-                functions on our behalf, including processing information that
-                you provide to us on the Site, processing purchases via
-                third-party providers and other transactions through the Site,
-                operating the Site or portions of it, providing or administering
-                courses, or in connection with other aspects of MITx Online
-                services.
-              </li>
-              <li>
-                With other visitors to the Site, to the extent that you submit
-                comments, course work, or other information or content
-                (collectively, "Postings") to a portion of the Site designed for
-                public communications; and with other members of an MITx Online
-                class of which you are a member, to the extent you submit
-                Postings to a portion of the Site designed for viewing by those
-                class members. We may provide your Postings to students who
-                later enroll in the same classes as you within the context of
-                the forums, the courseware, or otherwise. If we do re-post your
-                Postings originally made to non-public portions of the Site, we
-                will post them without your real name and email (except with
-                your express permission), but we may use your username without
-                your consent.
-              </li>
-              <li>
-                For purposes of scientific research, particularly, for example,
-                in the areas of cognitive science and education. However, we
-                will only share Personal Information about you for this purpose
-                to the extent that doing so complies with applicable law and is
-                limited to the Personal Information required to fulfill the
-                purposes stated at the time of collection.
-              </li>
-              <li>
-                To provide opportunities for you to communicate with other users
-                who may have similar interests or educational goals. For
-                instance, we may recommend specific study partners or connect
-                potential student mentees and mentors. In such cases, we may use
-                all information collected about you to determine who might be
-                interested in communicating with you, but we will only provide
-                other users your username, and not disclose your real name or
-                email address, except with your express permission.
-              </li>
-              <li>
-                To respond to subpoenas, court orders, or other legal processes;
-                to investigate, prevent, or take action regarding illegal
-                activities, suspected fraud, or security or technical issues, or
-                to enforce our Terms of Service or this Privacy Policy; as
-                otherwise may be required by applicable law; or to protect our
-                rights, property, or safety or those of others.
-              </li>
-              <li>
-                As otherwise described to you at the point of collection or
-                pursuant to your consent.
-              </li>
-              <li>
-                To support integration with third party services. For example,
-                videos and other content may be hosted on YouTube and other
-                websites not controlled by us.
-              </li>
-            </ul>
-          </BodyText>
+          <UnorderedList>
+            <li>
+              With service providers or contractors that perform certain
+              functions on our behalf, including processing information that you
+              provide to us on the Site, processing purchases via third-party
+              providers and other transactions through the Site, operating the
+              Site or portions of it, providing or administering courses, or in
+              connection with other aspects of MITx Online services.
+            </li>
+            <li>
+              With other visitors to the Site, to the extent that you submit
+              comments, course work, or other information or content
+              (collectively, "Postings") to a portion of the Site designed for
+              public communications; and with other members of an MITx Online
+              class of which you are a member, to the extent you submit Postings
+              to a portion of the Site designed for viewing by those class
+              members. We may provide your Postings to students who later enroll
+              in the same classes as you within the context of the forums, the
+              courseware, or otherwise. If we do re-post your Postings
+              originally made to non-public portions of the Site, we will post
+              them without your real name and email (except with your express
+              permission), but we may use your username without your consent.
+            </li>
+            <li>
+              For purposes of scientific research, particularly, for example, in
+              the areas of cognitive science and education. However, we will
+              only share Personal Information about you for this purpose to the
+              extent that doing so complies with applicable law and is limited
+              to the Personal Information required to fulfill the purposes
+              stated at the time of collection.
+            </li>
+            <li>
+              To provide opportunities for you to communicate with other users
+              who may have similar interests or educational goals. For instance,
+              we may recommend specific study partners or connect potential
+              student mentees and mentors. In such cases, we may use all
+              information collected about you to determine who might be
+              interested in communicating with you, but we will only provide
+              other users your username, and not disclose your real name or
+              email address, except with your express permission.
+            </li>
+            <li>
+              To respond to subpoenas, court orders, or other legal processes;
+              to investigate, prevent, or take action regarding illegal
+              activities, suspected fraud, or security or technical issues, or
+              to enforce our Terms of Service or this Privacy Policy; as
+              otherwise may be required by applicable law; or to protect our
+              rights, property, or safety or those of others.
+            </li>
+            <li>
+              As otherwise described to you at the point of collection or
+              pursuant to your consent.
+            </li>
+            <li>
+              To support integration with third party services. For example,
+              videos and other content may be hosted on YouTube and other
+              websites not controlled by us.
+            </li>
+          </UnorderedList>
           <BodyText variant="body3">
             In cases where we share or disclose your Personal Information: (1)
             the third party recipients are required to handle the Personal
