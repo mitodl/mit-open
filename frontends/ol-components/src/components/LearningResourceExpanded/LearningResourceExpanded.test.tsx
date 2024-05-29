@@ -120,6 +120,7 @@ describe("Learning Resource Expanded", () => {
         .closest("section")!
 
       const price = run.prices?.[0]
+
       const displayPrice =
         parseFloat(price!) === 0 ? "Free" : price ? `$${price}` : "-"
       if (price) {
@@ -131,10 +132,11 @@ describe("Learning Resource Expanded", () => {
         within(section).getByText(level.name)
       }
 
-      if (run.instructors?.length) {
-        within(section!).getByText(
-          run.instructors.map(({ full_name: name }) => name).join(", "),
-        )
+      const instructors = run.instructors
+        ?.filter((instructor) => instructor.full_name)
+        .map(({ full_name: name }) => name)
+      if (instructors?.length) {
+        within(section!).getByText(instructors.join(", "))
       }
 
       if (run.languages?.length) {
@@ -143,13 +145,26 @@ describe("Learning Resource Expanded", () => {
     }
   })
 
-  test("Renders price as free for OCW courses", () => {
+  test("Renders taught in date and price free for OCW courses", () => {
     const resource = factories.learningResources.resource({
       resource_type: ResourceTypeEnum.Course,
       platform: { code: PlatformEnum.Ocw },
+      runs: [
+        factories.learningResources.run({
+          semester: "Fall",
+          year: 2002,
+        }),
+      ],
     })
 
     setup(resource)
+
+    const dateSection = screen
+      .getByText("As taught in:")!
+      // eslint-disable-next-line testing-library/no-node-access
+      .closest("div")!
+
+    within(dateSection).getByText("Fall 2002")
 
     const section = screen
       .getByRole("heading", { name: "Info" })!

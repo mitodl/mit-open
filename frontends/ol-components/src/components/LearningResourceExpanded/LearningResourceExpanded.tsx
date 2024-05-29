@@ -89,15 +89,15 @@ const DateLabel = styled.span`
   margin-right: 16px;
 `
 
-const Image = styled.img<{ aspectRatio: number }>`
-  aspect-ratio: ${({ aspectRatio }) => aspectRatio};
+const Image = styled.img<{ aspect: number }>`
+  aspect-ratio: ${({ aspect }) => aspect};
   border-radius: 8px;
   width: 100%;
 `
 
-const SkeletonImage = styled(Skeleton)<{ aspectRatio: number }>`
+const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   border-radius: 8px;
-  padding-bottom: ${({ aspectRatio }) => 100 / aspectRatio}%;
+  padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
 
 const CallToAction = styled.div`
@@ -120,7 +120,7 @@ const Platform = styled.div`
   gap: 16px;
 `
 
-const DetailSection = styled.section`
+const Detail = styled.section`
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -192,7 +192,7 @@ type LearningResourceExpandedProps = {
   imgConfig: EmbedlyConfig
 }
 
-const ImageDisplay: React.FC<{
+const ImageSection: React.FC<{
   resource?: LearningResource
   config: EmbedlyConfig
 }> = ({ resource, config }) => {
@@ -208,7 +208,7 @@ const ImageDisplay: React.FC<{
     return (
       <Image
         src={resourceThumbnailSrc(resource?.image, config)}
-        aspectRatio={config.width / config.height}
+        aspect={config.width / config.height}
         alt={resource?.image.alt ?? ""}
       />
     )
@@ -216,7 +216,7 @@ const ImageDisplay: React.FC<{
     return (
       <SkeletonImage
         variant="rectangular"
-        aspectRatio={config.width / config.height}
+        aspect={config.width / config.height}
       />
     )
   }
@@ -255,6 +255,15 @@ const CallToActionSection = ({ resource }: { resource?: LearningResource }) => {
         <Skeleton height={50} width="25%" />
       )}
     </CallToAction>
+  )
+}
+
+const DetailSection = ({ resource }: { resource?: LearningResource }) => {
+  return (
+    <Detail>
+      <ResourceTitle resource={resource} />
+      <ResourceDescription resource={resource} />
+    </Detail>
   )
 }
 
@@ -361,7 +370,10 @@ const InfoSection = ({
         <InfoLabel>Instructors:</InfoLabel>
         <InfoValue>
           {run.instructors?.length
-            ? run.instructors.map(({ full_name: name }) => name).join(", ")
+            ? run.instructors
+                .filter((instructor) => instructor.full_name)
+                .map(({ full_name: name }) => name)
+                .join(", ")
             : "-"}
         </InfoValue>
       </InfoItem>
@@ -413,7 +425,12 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       return <Skeleton height={40} style={{ marginTop: 0, width: "60%" }} />
     }
 
-    if (multipleRuns) {
+    if (
+      [ResourceTypeEnum.Course, ResourceTypeEnum.Program].includes(
+        resource.resource_type as "course" | "program",
+      ) &&
+      multipleRuns
+    ) {
       return (
         <Date>
           <DateLabel>Start Date:</DateLabel>
@@ -432,18 +449,22 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       )
     }
 
-    if (!resource.next_start_date) {
+    const isOcw =
+      resource.resource_type === ResourceTypeEnum.Course &&
+      resource.platform?.code === PlatformEnum.Ocw
+
+    const nextStart = resource.next_start_date || selectedRun?.start_date
+
+    if (!isOcw && !nextStart && !(selectedRun?.semester && selectedRun?.year)) {
       return <NoDateSpacer />
     }
 
     return (
       <DateSingle>
-        <DateLabel>
-          {resource?.resource_type === "course"
-            ? "As taught in:"
-            : "Start Date:"}
-        </DateLabel>
-        {formatDate(resource.next_start_date!, "MMMM DD, YYYY")}
+        <DateLabel>{isOcw ? "As taught in:" : "Start Date:"}</DateLabel>
+        {isOcw
+          ? `${selectedRun?.semester} ${selectedRun?.year}`
+          : formatDate(nextStart!, "MMMM DD, YYYY")}
       </DateSingle>
     )
   }
@@ -453,12 +474,9 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   return (
     <Container padTop={isVideo}>
       <DateSection hide={isVideo} />
-      <ImageDisplay resource={resource} config={imgConfig} />
+      <ImageSection resource={resource} config={imgConfig} />
       <CallToActionSection resource={resource} />
-      <DetailSection>
-        <ResourceTitle resource={resource} />
-        <ResourceDescription resource={resource} />
-      </DetailSection>
+      <DetailSection resource={resource} />
       <TopicsSection topics={resource?.topics} />
       <InfoSection
         run={selectedRun}
