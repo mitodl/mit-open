@@ -143,9 +143,12 @@ const TitleAndControls = styled.div(({ theme }) => ({
   },
 }))
 
-const Emphasized = styled.span({
-  textDecoration: "underline",
-})
+const Emphasized = styled.span(({ theme }) => ({
+  fontWeight: theme.typography.subtitle1.fontWeight,
+  ":hover": {
+    textDecoration: "underline",
+  },
+}))
 
 const HeroSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("")
