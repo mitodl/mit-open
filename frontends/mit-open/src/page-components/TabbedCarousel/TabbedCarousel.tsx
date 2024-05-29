@@ -157,6 +157,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
                       key={resource.id}
                       variant="column"
                       resource={resource}
+                      cardsPerPage={pageSize}
                     />
                   ))}
                 </CarouselStyled>

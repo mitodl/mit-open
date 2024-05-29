@@ -1,14 +1,26 @@
 import React from "react"
 import { Container, Typography, styled, theme, Carousel } from "ol-components"
+import { pxToRem } from "../../../../ol-components/src/components/ThemeProvider/typography"
 import { useTestimonialList } from "api/hooks/testimonials"
 import { Attestation } from "api/v0"
 import { RiArrowDropRightLine, RiArrowDropLeftLine } from "@remixicon/react"
+
+const testimonialsTheme = {
+  ...theme,
+  custom: {
+    ...theme.custom,
+    quoteLeader: {
+      fontSize: pxToRem(80),
+      lineHeight: pxToRem(120),
+    },
+  },
+}
 
 const Section = styled.section`
   background-color: ${theme.custom.colors.mitRed};
   color: ${theme.custom.colors.white};
   overflow: auto;
-  padding: 80px 0;
+  padding: 80px 80px;
   ${({ theme }) => theme.breakpoints.down("md")} {
     padding: 40px 0;
   }
@@ -18,11 +30,12 @@ const Section = styled.section`
   }
   h3 {
     margin-top: 8px;
-    ${({ theme }) => theme.typography.body1}
+    ${({ theme }) => theme["typography"]["body1"]}
+    margin-bottom: 60px;
   }
 `
 
-type TestimonialsCarouselProps = {
+type TestimonialsDataCarouselProps = {
   children: ({
     resources,
     isLoading,
@@ -32,37 +45,137 @@ type TestimonialsCarouselProps = {
   }) => React.ReactNode
 }
 
-const TestimonialsCarousel: React.FC<TestimonialsCarouselProps> = ({
+const TestimonialsDataCarousel: React.FC<TestimonialsDataCarouselProps> = ({
   children,
 }) => {
   const { data, isLoading } = useTestimonialList()
   return children({ resources: data?.results ?? [], isLoading })
 }
 
+const TestimonialsDataCarouselStyled = styled(TestimonialsDataCarousel)`
+  width: 948px;
+  height: 416px;
+`
+
+const TestimonialsCarouselStyled = styled(Carousel)`
+  .nuka-overflow {
+    width: auto;
+  }
+  .nuka-wrapper {
+    margin: 0 246px;
+  }
+`
+
+const RoughTestimonialCard = styled.div`
+  min-width: 948px;
+  max-width: 948px;
+  height: 326px;
+  background-color: ${theme.custom.colors.white};
+  color: ${theme.custom.colors.black};
+  display: flex;
+  border-radius: 8px;
+  margin: 0 24px 26px 0;
+`
+
+const RoughTestimonialCardImage = styled.div`
+  width: 300px;
+  height: 326px;
+  img {
+    width: 300px;
+    height: 326px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+`
+
+const RoughTestimonialCardQuote = styled.div`
+  width: 648px;
+  height: 326px;
+  background-color: ${theme.custom.colors.white};
+  color: ${theme.custom.colors.black};
+  padding: 0 32px 32px 32px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 8px;
+  div.testimonial-quote-opener {
+    color: ${theme.custom.colors.mitRed};
+    font-style: normal;
+    height: 70px;
+    width: 100%;
+    ${() => testimonialsTheme.custom.quoteLeader}
+  }
+`
+
+const TestimonialFadeRight = styled.div`
+  width: 246px;
+  height: 414px;
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  background: linear-gradient(
+    90deg,
+    rgba(117, 0, 20, 0) 0%,
+    rgba(117, 0, 20, 0.95) 100%
+  );
+`
+
+const TestimonialFadeLeft = styled.div`
+  width: 246px;
+  height: 414px;
+  position: absolute;
+  left: 0px;
+  background: linear-gradient(
+    270deg,
+    rgba(117, 0, 20, 0) 0%,
+    rgba(117, 0, 20, 0.95) 100%
+  );
+`
+
 const TestimonialsSection: React.FC = () => {
   return (
     <Section>
-      <Container>
+      <Container id="hamster-noises">
         <Typography variant="h2">From our Community</Typography>
         <Typography variant="h3">
           Here's what other subscribers had to say about MIT Open
         </Typography>
-        <TestimonialsCarousel>
+        <TestimonialsDataCarouselStyled>
           {({ resources }) => (
-            <Carousel
-              pageSize={1}
-              pageLeftIcon={<RiArrowDropLeftLine />}
-              pageRightIcon={<RiArrowDropRightLine />}
-              buttonAlignment="center"
-              buttonVariant="inverted"
-              buttonSize="large"
-            >
-              {resources.map((resource) => (
-                <div key={resource.id}>{resource.quote}</div>
-              ))}
-            </Carousel>
+            <>
+              <TestimonialsCarouselStyled
+                pageSize={1}
+                pageLeftIcon={<RiArrowDropLeftLine />}
+                pageRightIcon={<RiArrowDropRightLine />}
+                buttonAlignment="center"
+                buttonVariant="inverted"
+                buttonSize="large"
+                wrapMode="wrap"
+                scrollDistance={"screen"}
+              >
+                <TestimonialFadeLeft />
+                {resources.map((resource) => (
+                  <RoughTestimonialCard
+                    key={`a-${resource.id}`}
+                    id={`testimonial-card-${resource.id}`}
+                  >
+                    <RoughTestimonialCardImage>
+                      <img src={resource.avatar} />
+                    </RoughTestimonialCardImage>
+                    <RoughTestimonialCardQuote>
+                      <div className="testimonial-quote-opener">&ldquo;</div>
+                      <Typography variant="h4">{resource.quote}</Typography>
+                    </RoughTestimonialCardQuote>
+                  </RoughTestimonialCard>
+                ))}
+                <TestimonialFadeRight />
+              </TestimonialsCarouselStyled>
+            </>
           )}
-        </TestimonialsCarousel>
+        </TestimonialsDataCarouselStyled>
       </Container>
     </Section>
   )
