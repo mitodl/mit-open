@@ -45,6 +45,9 @@ const Input = styled(InputBase)(({
         opacity: "0.3",
         color: theme.custom.colors.black,
       },
+      "input:placeholder-shown": {
+        textOverflow: "ellipsis",
+      },
     },
     size === "medium" && {
       ...theme.typography.body2,
