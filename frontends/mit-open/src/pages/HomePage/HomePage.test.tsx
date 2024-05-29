@@ -81,6 +81,7 @@ describe("Home Page Hero", () => {
       results: [],
     })
     setupAPIs()
+    renderWithProviders(<HomePage />)
     const expected = [
       { label: "New", href: "/search?sortby=new" },
       { label: "Popular", href: "/search?sortby=views" },
