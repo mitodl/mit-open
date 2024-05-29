@@ -179,7 +179,8 @@ const Footer: FunctionComponent = () => {
               </FooterLinksContainer>
               <FooterCopyrightContainer>
                 <FooterCopyright>
-                  © 2024 Massachusetts Institute of Technology
+                  &copy; {new Date().getFullYear()} Massachusetts Institute of
+                  Technology
                 </FooterCopyright>
               </FooterCopyrightContainer>
             </FooterRightContainer>

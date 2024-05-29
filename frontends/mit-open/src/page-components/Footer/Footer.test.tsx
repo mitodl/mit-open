@@ -27,7 +27,7 @@ describe("Footer", () => {
     const address = screen.getByTestId("footer-address")
     const links = screen.getAllByRole("link")
     const copyright = screen.getByText(
-      "© 2024 Massachusetts Institute of Technology",
+      `© ${new Date().getFullYear()} Massachusetts Institute of Technology`,
     )
 
     expect(footer).toBeInTheDocument()
