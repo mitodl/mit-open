@@ -142,7 +142,7 @@ const FooterCopyright = styled.span(({ theme }) => ({
 
 const Footer: FunctionComponent = () => {
   return (
-    <FooterContainer>
+    <FooterContainer role="contentinfo">
       <Container>
         <FooterContainerInner>
           <FooterContent>
@@ -151,7 +151,7 @@ const Footer: FunctionComponent = () => {
                 href="https://mit.edu/"
                 src="/static/images/mit-logo-transparent5.svg"
               />
-              <FooterAddress>
+              <FooterAddress data-testid="footer-address">
                 Massachusetts Institute of Technology
                 <br />
                 77 Massachusetts Avenue
