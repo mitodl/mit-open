@@ -355,13 +355,13 @@ const InfoSection = ({
             ? "Free"
             : price
               ? `$${price}`
-              : "-"}
+              : null}
         </InfoValue>
       </InfoItem>
       <InfoItem>
         <RiBarChartFill />
         <InfoLabel>Level:</InfoLabel>
-        <InfoValue>{run.level?.[0]?.name || "-"}</InfoValue>
+        <InfoValue>{run.level?.[0]?.name || null}</InfoValue>
       </InfoItem>
       <InfoItem>
         <RiGraduationCapFill />
@@ -372,7 +372,7 @@ const InfoSection = ({
                 .filter((instructor) => instructor.full_name)
                 .map(({ full_name: name }) => name)
                 .join(", ")
-            : "-"}
+            : null}
         </InfoValue>
       </InfoItem>
       <InfoItem>
@@ -383,7 +383,7 @@ const InfoSection = ({
             ? run.languages
                 .map((language) => ISO6391.getName(language.substring(0, 2)))
                 .join(", ")
-            : "-"}
+            : null}
         </InfoValue>
       </InfoItem>
     </InfoItems>
