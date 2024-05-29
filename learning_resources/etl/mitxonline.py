@@ -18,6 +18,7 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
+    clean_data,
     extract_valid_department_from_id,
     generate_course_numbers_json,
     parse_certification,
@@ -137,7 +138,7 @@ def _transform_run(course_run: dict, course: dict) -> dict:
         "enrollment_end": _parse_datetime(course_run.get("enrollment_end")),
         "url": parse_page_attribute(course, "page_url", is_url=True),
         "published": bool(parse_page_attribute(course, "page_url")),
-        "description": parse_page_attribute(course_run, "description"),
+        "description": clean_data(parse_page_attribute(course_run, "description")),
         "image": _transform_image(course_run),
         "prices": [
             price
@@ -189,7 +190,7 @@ def _transform_course(course):
         "certification": parse_certification(OFFERED_BY["code"], runs),
         "image": _transform_image(course),
         "url": parse_page_attribute(course, "page_url", is_url=True),
-        "description": parse_page_attribute(course, "description"),
+        "description": clean_data(parse_page_attribute(course, "description")),
     }
 
 
@@ -225,7 +226,7 @@ def transform_programs(programs):
             "professional": False,
             "certification": bool(parse_page_attribute(program, "page_url")),
             "topics": transform_topics(program.get("topics", [])),
-            "description": parse_page_attribute(program, "description"),
+            "description": clean_data(parse_page_attribute(program, "description")),
             "url": parse_page_attribute(program, "page_url", is_url=True),
             "image": _transform_image(program),
             "published": bool(
@@ -248,7 +249,9 @@ def transform_programs(programs):
                     ),  # program only considered published if it has a product/price
                     "url": parse_page_attribute(program, "page_url", is_url=True),
                     "image": _transform_image(program),
-                    "description": parse_page_attribute(program, "description"),
+                    "description": clean_data(
+                        parse_page_attribute(program, "description")
+                    ),
                     "prices": parse_program_prices(program),
                     "availability": AvailabilityType.current.value
                     if parse_page_attribute(program, "page_url")

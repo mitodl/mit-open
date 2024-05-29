@@ -30,6 +30,7 @@ from learning_resources.etl.mitxonline import (
 )
 from learning_resources.etl.utils import (
     UCC_TOPIC_MAPPINGS,
+    clean_data,
     extract_valid_department_from_id,
     parse_certification,
 )
@@ -121,7 +122,9 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
             "image": _transform_image(program_data),
-            "description": program_data.get("page", {}).get("description", None),
+            "description": clean_data(
+                program_data.get("page", {}).get("description", None)
+            ),
             "published": bool(
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
@@ -148,7 +151,7 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                     "prices": parse_program_prices(program_data),
                     "image": _transform_image(program_data),
                     "title": program_data["title"],
-                    "description": program_data.get("description", None),
+                    "description": clean_data(program_data.get("description", None)),
                     "url": parse_page_attribute(program_data, "page_url", is_url=True),
                     "availability": AvailabilityType.current.value
                     if parse_page_attribute(program_data, "page_url")
@@ -168,7 +171,9 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                     ),
                     "title": course_data["title"],
                     "image": _transform_image(course_data),
-                    "description": course_data.get("page", {}).get("description", None),
+                    "description": clean_data(
+                        course_data.get("page", {}).get("description", None)
+                    ),
                     "published": bool(
                         course_data.get("page", {}).get("page_url", None)
                     ),
@@ -252,7 +257,9 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             "departments": extract_valid_department_from_id(course_data["readable_id"]),
             "title": course_data["title"],
             "image": _transform_image(course_data),
-            "description": course_data.get("page", {}).get("description", None),
+            "description": clean_data(
+                course_data.get("page", {}).get("description", None)
+            ),
             "offered_by": OFFERED_BY,
             "published": course_data.get("page", {}).get("page_url", None) is not None,
             "professional": False,
@@ -293,8 +300,8 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                         if course_data.get("page", {}).get("page_url")
                         else None
                     ),
-                    "description": course_run_data.get("page", {}).get(
-                        "description", None
+                    "description": clean_data(
+                        course_run_data.get("page", {}).get("description", None)
                     ),
                     "start_date": any_instance_of(datetime, type(None)),
                     "end_date": any_instance_of(datetime, type(None)),

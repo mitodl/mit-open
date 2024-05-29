@@ -80,3 +80,33 @@ RESOURCE_FORMAT_MAPPING = {
         for value in LearningResourceFormat.values()
     },
 }
+
+
+ALLOWED_HTML_TAGS = {
+    "b",
+    "blockquote",
+    "br",
+    "caption",
+    "center",
+    "cite",
+    "code",
+    "div",
+    "em",
+    "hr",
+    "i",
+    "li",
+    "ol",
+    "p",
+    "pre",
+    "q",
+    "small",
+    "span",
+    "strike",
+    "strong",
+    "sub",
+    "sup",
+    "u",
+    "ul",
+}
+
+ALLOWED_HTML_ATTRIBUTES = {}
