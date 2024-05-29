@@ -3,13 +3,16 @@ import { MetaTags } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React from "react"
 
-const PageContainer = styled.div({
+const PageContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
   alignSelf: "stretch",
   padding: "40px 84px 80px 84px",
-})
+  [theme.breakpoints.down("md")]: {
+    padding: "40px 24px 80px 24px",
+  },
+}))
 
 const BannerContainer = styled.div({
   display: "flex",
