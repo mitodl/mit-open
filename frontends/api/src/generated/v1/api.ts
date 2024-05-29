@@ -1539,6 +1539,12 @@ export interface LearningResourceOfferorDetail {
    * @memberof LearningResourceOfferorDetail
    */
   more_information?: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  description?: string
 }
 /**
  * Serializer for LearningResourceOfferor with basic details

@@ -981,6 +981,12 @@ export interface LearningResourceOfferorDetail {
    * @memberof LearningResourceOfferorDetail
    */
   more_information?: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  description?: string
 }
 /**
  * Serializer for LearningResourceOfferor with all details
@@ -1048,6 +1054,12 @@ export interface LearningResourceOfferorDetailRequest {
    * @memberof LearningResourceOfferorDetailRequest
    */
   more_information?: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  description?: string
 }
 /**
  * Serializer for News FeedItem
