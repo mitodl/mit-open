@@ -4,6 +4,49 @@ import "cross-fetch/polyfill"
 import { configure } from "@testing-library/react"
 import { resetAllWhenMocks } from "jest-when"
 
+// Pulled from the docs - see https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
+
+Object.defineProperty(window, "matchMedia", {
+  writable: true,
+  value: jest.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null,
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+})
+
+/*
+ * This used to live in ol-ckeditor but we also need it now for NukaCarousel,
+ * so it's now here so it's available across the board.
+ */
+class FakeResizeObserver {
+  observe() {
+    /** pass */
+  }
+  unobserve() {
+    /** pass */
+  }
+  disconnect() {
+    /** pass */
+  }
+}
+const polyfillResizeObserver = () => {
+  if (window.ResizeObserver !== undefined) {
+    /**
+     * If this throws... I guess our test env supports it natively now.
+     * Welcome to the future!
+     */
+    throw new Error("ResizeObserver is already defined.")
+  }
+  window.ResizeObserver = FakeResizeObserver
+}
+polyfillResizeObserver()
+
 failOnConsole()
 
 configure({

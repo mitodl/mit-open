@@ -33,7 +33,7 @@ const spyULCardTemplate = jest.mocked(UserListCardTemplate)
  * Set up the mock API responses for lists pages.
  */
 const setup = ({
-  listsCount = faker.datatype.number({ min: 2, max: 5 }),
+  listsCount = faker.number.int({ min: 2, max: 5 }),
   user = { is_learning_path_editor: false },
 }: {
   user?: Partial<User>

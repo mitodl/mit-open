@@ -4,9 +4,9 @@ import type { EmbedlyConfig } from "../learning-resources/learning-resources"
 
 export const makeImgConfig: Factory<EmbedlyConfig> = (overrides) => {
   const imgConfig = {
-    width: faker.datatype.number(),
-    height: faker.datatype.number(),
-    key: faker.datatype.uuid(),
+    width: faker.number.int(),
+    height: faker.number.int(),
+    key: faker.string.uuid(),
   }
   return {
     ...imgConfig,
