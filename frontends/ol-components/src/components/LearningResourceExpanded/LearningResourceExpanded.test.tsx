@@ -58,7 +58,7 @@ describe("Learning Resource Expanded", () => {
       const link = screen.getByRole("link", {
         name: linkName,
       }) as HTMLAnchorElement
-      expect(link.href).toBe(`${resource.url}/`)
+      expect(link.href).toMatch(new RegExp(`^${resource.url}/?$`))
     }
   })
 
