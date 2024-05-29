@@ -78,6 +78,7 @@ class LearningResourceOfferor(TimestampedModel):
     certifications = ArrayField(models.CharField(max_length=128), default=list)
     content_types = ArrayField(models.CharField(max_length=128), default=list)
     more_information = models.URLField(blank=True)
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.code}: {self.name}"
