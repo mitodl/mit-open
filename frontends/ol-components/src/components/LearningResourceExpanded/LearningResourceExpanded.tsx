@@ -33,12 +33,12 @@ import {
   RiGlobalLine,
 } from "@remixicon/react"
 
-const Container = styled.div<{ isVideo: boolean }>`
+const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 18px 32px 160px;
   gap: 20px;
-  ${({ isVideo }) => (isVideo ? "padding-top: 64px;" : "")}
+  ${({ padTop }) => (padTop ? "padding-top: 64px;" : "")}
   width: 600px;
   ${({ theme }) => theme.breakpoints.down("md")} {
     width: 550px;
@@ -222,6 +222,42 @@ const ImageDisplay: React.FC<{
   }
 }
 
+const CallToActionSection = ({ resource }: { resource?: LearningResource }) => {
+  const isVideo = resource?.resource_type === ResourceTypeEnum.Video
+  if (isVideo) {
+    return null
+  }
+
+  const platformImage = PLATFORMS.find(
+    (platform) => platform.code === resource?.platform?.code,
+  )?.image
+
+  return (
+    <CallToAction>
+      {resource ? (
+        <StyledButton size="large" href={resource.url!}>
+          {getCtaPrefix(resource.resource_type)}{" "}
+          {getReadableResourceType(resource.resource_type)}
+        </StyledButton>
+      ) : (
+        <Skeleton height={70} width="50%" />
+      )}
+      {resource ? (
+        platformImage ? (
+          <Platform>
+            <OnPlatform>on</OnPlatform>
+            <StyledPlatformLogo
+              platformCode={resource?.platform?.code as PlatformEnum}
+            />
+          </Platform>
+        ) : null
+      ) : (
+        <Skeleton height={50} width="25%" />
+      )}
+    </CallToAction>
+  )
+}
+
 const ResourceTitle = ({ resource }: { resource?: LearningResource }) => {
   if (!resource) {
     return <Skeleton variant="text" height={20} width="66%" />
@@ -253,9 +289,12 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
   )
 }
 
-const TopicsSection: React.FC<{ topics: LearningResourceTopic[] }> = ({
+const TopicsSection: React.FC<{ topics?: LearningResourceTopic[] }> = ({
   topics,
 }) => {
+  if (!topics) {
+    return null
+  }
   return (
     <Topics>
       <Typography variant="subtitle2" component="h3">
@@ -285,10 +324,17 @@ const TopicsSection: React.FC<{ topics: LearningResourceTopic[] }> = ({
   )
 }
 
-const InfoSection = ({ run }: { run?: LearningResourceRun }) => {
+const InfoSection = ({
+  run,
+  platformCode,
+}: {
+  run?: LearningResourceRun
+  platformCode?: PlatformEnum
+}) => {
   if (!run) {
     return null
   }
+  const price = platformCode === PlatformEnum.Ocw ? "Free" : run.prices?.[0]
   return (
     <InfoItems>
       <Typography variant="subtitle2" component="h3">
@@ -297,7 +343,13 @@ const InfoSection = ({ run }: { run?: LearningResourceRun }) => {
       <InfoItem>
         <RiMoneyDollarCircleFill />
         <InfoLabel>Cost:</InfoLabel>
-        <InfoValue>{run.prices?.[0] || "-"}</InfoValue>
+        <InfoValue>
+          {parseFloat(price!) === 0 || price === "Free"
+            ? "Free"
+            : price
+              ? `$${price}`
+              : "-"}
+        </InfoValue>
       </InfoItem>
       <InfoItem>
         <RiBarChartFill />
@@ -341,10 +393,10 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   const multipleRuns = resource?.runs && resource.runs.length > 1
 
   useEffect(() => {
-    if (resource && multipleRuns) {
+    if (resource) {
       setSelectedRun(resource!.runs![0])
     }
-  }, [resource, multipleRuns])
+  }, [resource])
 
   const onDateChange = (event: SelectChangeEvent) => {
     const run = resource?.runs?.find(
@@ -353,7 +405,10 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     if (run) setSelectedRun(run)
   }
 
-  const DateSection = () => {
+  const DateSection = ({ hide }: { hide?: boolean }) => {
+    if (hide) {
+      return null
+    }
     if (!resource) {
       return <Skeleton height={40} style={{ marginTop: 0, width: "60%" }} />
     }
@@ -394,44 +449,21 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   }
 
   const isVideo = resource && resource.resource_type === ResourceTypeEnum.Video
-  const platformImage = PLATFORMS.find(
-    (platform) => platform.code === resource?.platform?.code,
-  )?.image
 
   return (
-    <Container isVideo={!!isVideo}>
-      {!isVideo ? <DateSection /> : null}
+    <Container padTop={isVideo}>
+      <DateSection hide={isVideo} />
       <ImageDisplay resource={resource} config={imgConfig} />
-      {!isVideo ? (
-        <CallToAction>
-          {resource ? (
-            <StyledButton size="large" href={resource.url!}>
-              {getCtaPrefix(resource.resource_type)}{" "}
-              {getReadableResourceType(resource.resource_type)}
-            </StyledButton>
-          ) : (
-            <Skeleton height={70} width="50%" />
-          )}
-          {resource ? (
-            platformImage ? (
-              <Platform>
-                <OnPlatform>on</OnPlatform>
-                <StyledPlatformLogo
-                  platformCode={resource?.platform?.code as PlatformEnum}
-                />
-              </Platform>
-            ) : null
-          ) : (
-            <Skeleton height={50} width="25%" />
-          )}
-        </CallToAction>
-      ) : null}
+      <CallToActionSection resource={resource} />
       <DetailSection>
         <ResourceTitle resource={resource} />
         <ResourceDescription resource={resource} />
       </DetailSection>
-      {resource?.topics ? <TopicsSection topics={resource.topics} /> : null}
-      <InfoSection run={selectedRun} />
+      <TopicsSection topics={resource?.topics} />
+      <InfoSection
+        run={selectedRun}
+        platformCode={resource?.platform?.code as PlatformEnum}
+      />
     </Container>
   )
 }

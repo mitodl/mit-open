@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom"
 import { render, screen, within } from "@testing-library/react"
 import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
-import { ResourceTypeEnum } from "api"
+import { ResourceTypeEnum, PlatformEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import { getReadableResourceType } from "ol-utilities"
@@ -26,7 +26,7 @@ const setup = (resource: LearningResource) => {
 }
 
 describe("Learning Resource Expanded", () => {
-  it.each(
+  test.each(
     Object.values(ResourceTypeEnum).filter(
       (type) => type !== ResourceTypeEnum.Video,
     ),
@@ -62,7 +62,7 @@ describe("Learning Resource Expanded", () => {
     }
   })
 
-  it(`Renders card and title for resource type "${ResourceTypeEnum.Video}"`, () => {
+  test(`Renders card and title for resource type "${ResourceTypeEnum.Video}"`, () => {
     const resource = factories.learningResources.resource({
       resource_type: ResourceTypeEnum.Video,
     })
@@ -76,7 +76,7 @@ describe("Learning Resource Expanded", () => {
     screen.getByRole("heading", { name: resource.title })
   })
 
-  it.each(
+  test.each(
     Object.values(ResourceTypeEnum).filter(
       (type) => type !== ResourceTypeEnum.Video,
     ),
@@ -100,7 +100,7 @@ describe("Learning Resource Expanded", () => {
     })
   })
 
-  it.each(
+  test.each(
     Object.values(ResourceTypeEnum).filter(
       (type) => type !== ResourceTypeEnum.Video,
     ),
@@ -120,8 +120,10 @@ describe("Learning Resource Expanded", () => {
         .closest("section")!
 
       const price = run.prices?.[0]
+      const displayPrice =
+        parseFloat(price!) === 0 ? "Free" : price ? `$${price}` : "-"
       if (price) {
-        within(section).getByText(price)
+        within(section).getByText(displayPrice)
       }
 
       const level = run.level?.[0]
@@ -139,5 +141,21 @@ describe("Learning Resource Expanded", () => {
         within(section!).getByText(run.languages.join(", "))
       }
     }
+  })
+
+  test("Renders price as free for OCW courses", () => {
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.Course,
+      platform: { code: PlatformEnum.Ocw },
+    })
+
+    setup(resource)
+
+    const section = screen
+      .getByRole("heading", { name: "Info" })!
+      // eslint-disable-next-line testing-library/no-node-access
+      .closest("section")!
+
+    within(section).getByText("Free")
   })
 })
