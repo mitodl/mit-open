@@ -11,9 +11,13 @@ import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
 import DashboardPage from "@/pages/DashboardPage/DashboardPage"
+import AboutPage from "@/pages/AboutPage/AboutPage"
+import PrivacyPage from "@/pages/PrivacyPage/PrivacyPage"
+import TermsPage from "@/pages/TermsPage/TermsPage"
 import ErrorPage from "@/pages/ErrorPage/ErrorPage"
 import * as urls from "@/common/urls"
 import Header from "@/page-components/Header/Header"
+import Footer from "@/page-components/Footer/Footer"
 import { Permissions } from "@/common/permissions"
 import SearchPage from "./pages/SearchPage/SearchPage"
 import UserListDetailsPage from "./pages/ListDetailsPage/UserListDetailsPage"
@@ -21,13 +25,29 @@ import LearningPathDetailsPage from "./pages/ListDetailsPage/LearningPathDetails
 import LearningResourceDrawer from "./page-components/LearningResourceDrawer/LearningResourceDrawer"
 import DepartmentListingPage from "./pages/DepartmentListingPage/DepartmentListingPage"
 import TopicsListingPage from "./pages/TopicListingPage/TopicsListingPage"
+import { styled } from "ol-components"
+
+const PageWrapper = styled.div({
+  height: "calc(100vh - 80px)",
+  display: "flex",
+  flexDirection: "column",
+})
+
+const PageWrapperInner = styled.div({
+  flex: "1",
+})
 
 const routes: RouteObject[] = [
   {
     element: (
       <>
-        <Header />
-        <Outlet />
+        <PageWrapper>
+          <Header />
+          <PageWrapperInner>
+            <Outlet />
+          </PageWrapperInner>
+          <Footer />
+        </PageWrapper>
         <LearningResourceDrawer />
       </>
     ),
@@ -69,6 +89,18 @@ const routes: RouteObject[] = [
             <DashboardPage />
           </RestrictedRoute>
         ),
+      },
+      {
+        path: urls.ABOUT,
+        element: <AboutPage />,
+      },
+      {
+        path: urls.PRIVACY,
+        element: <PrivacyPage />,
+      },
+      {
+        path: urls.TERMS,
+        element: <TermsPage />,
       },
       {
         path: urls.PROGRAMLETTER_VIEW,

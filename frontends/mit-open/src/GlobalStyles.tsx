@@ -18,7 +18,7 @@ const pageCss = css`
   }
 
   #app-container {
-    height: 100vh;
+    height: calc(100vh - 80px);
     margin-top: 80px;
     ${theme.breakpoints.down("sm")} {
       margin-top: 60px;
