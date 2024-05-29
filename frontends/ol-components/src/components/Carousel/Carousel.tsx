@@ -9,7 +9,12 @@ import type { ButtonStyleProps } from "../Button/Button"
 
 type CarouselButtonAlignment = "left" | "center" | "right"
 
-type CarouselProps = {
+type NukaCarouselStyledProps = NukaCarouselProps & {
+  cellSpacing?: number
+  animationDuration?: number
+}
+
+type CarouselProps = NukaCarouselStyledProps & {
   children: React.ReactNode
   as?: ElementType
   className?: string
@@ -19,17 +24,11 @@ type CarouselProps = {
    */
   animationDuration?: number
   cellSpacing?: number
-}
-
-type NukaCarouselStyledProps = NukaCarouselProps & {
-  cellSpacing?: number
-  animationDuration?: number
-  cellSpacing?: NukaCarouselProps["cellSpacing"]
   buttonAlignment?: CarouselButtonAlignment
   buttonVariant?: ButtonStyleProps["variant"]
   buttonSize?: ButtonStyleProps["size"]
-  pageLeftIcon?: ReactElement
-  pageRightIcon?: ReactElement
+  pageLeftIcon?: React.ReactNode
+  pageRightIcon?: React.ReactNode
 }
 
 const DEFAULT_CAROUSEL_SPACING = 24
@@ -57,13 +56,14 @@ const Carousel: React.FC<CarouselProps> = ({
   buttonAlignment = "right",
   buttonVariant = "filled",
   buttonSize = "small",
+  wrapMode = "nowrap",
 }) => {
   const ref = useRef<SlideHandle>(null)
 
   const [index, setIndex] = useState(0)
   const childCount = React.Children.count(children)
-  const canPageUp = index + pageSize < childCount
-  const canPageDown = index !== 0
+  const canPageUp = wrapMode === "wrap" || index + pageSize < childCount
+  const canPageDown = wrapMode === "wrap" || index !== 0
 
   const pageDown = () => {
     ref && ref.current && ref.current.goBack()
@@ -72,7 +72,9 @@ const Carousel: React.FC<CarouselProps> = ({
 
   const pageUp = () => {
     ref && ref.current && ref.current.goForward()
-    setIndex(index + pageSize)
+    const newIdx = index + pageSize
+
+    setIndex(newIdx)
   }
 
   return (
@@ -84,6 +86,7 @@ const Carousel: React.FC<CarouselProps> = ({
         cellSpacing={cellSpacing}
         animationDuration={animationDuration}
         ref={ref}
+        wrapMode={wrapMode}
       >
         {children}
       </NukaCarouselStyled>
