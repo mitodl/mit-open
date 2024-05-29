@@ -63,15 +63,19 @@ const ImageContainer = styled.div(({ theme }) => ({
 }))
 
 const SquaredChip = styled(ChipLink, {
-  shouldForwardProp: (propName) => propName !== "noBorder",
-})<{ noBorder?: boolean }>(({ noBorder, theme }) => [
+  shouldForwardProp: (propName) => !["noBorder", "grow"].includes(propName),
+})<{ noBorder?: boolean; grow?: boolean }>(({ noBorder, theme, grow }) => [
   {
     borderRadius: "4px",
     [theme.breakpoints.down("sm")]: {
+      ...theme.typography.body4,
+      padding: "4px 0px",
+    },
+  },
+  grow && {
+    [theme.breakpoints.down("sm")]: {
       flex: 1,
       height: "32px",
-      padding: "4px 0px",
-      ...theme.typography.body4,
     },
   },
   noBorder && {
@@ -94,15 +98,21 @@ const ControlsContainer = styled.div(({ theme }) => ({
   borderRadius: "8px",
   boxShadow:
     "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
+  [theme.breakpoints.down("sm")]: {
+    padding: "12px",
+  },
 }))
-const LinksContainer = styled.div({
+const LinksContainer = styled.div(({ theme }) => ({
   width: "100%",
   display: "flex",
   flexDirection: "row",
   flexWrap: "wrap",
   gap: "12px",
   justifyContent: "space-between",
-})
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+  },
+}))
 const TrenderingContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
@@ -207,12 +217,14 @@ const HeroSearch: React.FC = () => {
             </TrenderingContainer>
             <BrowseContainer>
               <SquaredChip
+                grow
                 variant="outlined"
                 size="medium"
                 label="Browse by Topics"
                 href="/topics/"
               />
               <SquaredChip
+                grow
                 variant="filled"
                 size="medium"
                 label="Explore All"
