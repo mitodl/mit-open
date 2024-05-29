@@ -1,11 +1,10 @@
 import React from "react"
-import { Container, styled, Typography } from "ol-components"
+import { styled, Typography } from "ol-components"
 import TabbedCarousel from "@/page-components/TabbedCarousel/TabbedCarousel"
 import type { TabbedCarouselProps } from "@/page-components/TabbedCarousel/TabbedCarousel"
 import type { FeaturedApiFeaturedListRequest as FeaturedListParams } from "api"
 
 const Section = styled.section`
-  padding: 80px 0;
   overflow: auto;
   ${({ theme }) => theme.breakpoints.down("md")} {
     padding: 40px 0;
@@ -54,10 +53,8 @@ const FEATURED_RESOURCES_CAROUSEL: TabbedCarouselProps["config"] = [
 const FeaturedResourcesSection: React.FC = () => {
   return (
     <Section>
-      <Container>
-        <Typography variant="h2">Featured Courses</Typography>
-        <TabbedCarousel config={FEATURED_RESOURCES_CAROUSEL} />
-      </Container>
+      <Typography variant="h2">Featured Courses</Typography>
+      <TabbedCarousel config={FEATURED_RESOURCES_CAROUSEL} />
     </Section>
   )
 }

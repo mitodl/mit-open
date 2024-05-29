@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react"
 import { useNavigate } from "react-router"
 import {
-  Container,
   Typography,
   SearchInput,
   SearchInputProps,
@@ -20,45 +19,47 @@ type SearchChip = {
 const SEARCH_CHIPS: SearchChip[] = [
   {
     label: "New",
-    href: "/search?topic=Artificial+Intelligence&resource_type=course",
+    href: "/search?sortby=new",
     variant: "outlined",
   },
   {
     label: "Popular",
-    href: "/search?topic=Engineering&resource_type=course",
+    href: "/search?sortby=views",
   },
   {
     label: "Upcoming",
-    href: "/search",
+    href: "/search?sortby=upcoming",
   },
   {
     label: "Free",
-    href: "/search",
+    href: "/search?free=true",
   },
   {
     label: "With Certificate",
-    href: "/search",
+    href: "/search?certification=true",
   },
 ]
 
-const HeroContainer = styled(Container)({
+const HeroWrapper = styled.div({
   display: "flex",
   flexDirection: "row",
 })
 
-const ImageContainer = styled.div`
-  width: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    display: none;
-  }
-
-  img {
-    max-width: 100%;
-  }
-`
+const ImageContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  justifyContent: "center",
+  marginLeft: "24px",
+  maxWidth: "400px",
+  flex: 1,
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+  img: {
+    width: "100%",
+  },
+}))
 
 const SquaredChip = styled(ChipLink, {
   shouldForwardProp: (propName) => propName !== "noBorder",
@@ -68,6 +69,8 @@ const SquaredChip = styled(ChipLink, {
     [theme.breakpoints.down("sm")]: {
       flex: 1,
       height: "32px",
+      padding: "4px 0px",
+      ...theme.typography.body4,
     },
   },
   noBorder && {
@@ -103,6 +106,7 @@ const TrenderingContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
+  flexWrap: "wrap",
   [theme.breakpoints.down("sm")]: {
     gap: "8px",
   },
@@ -117,13 +121,26 @@ const BrowseContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const TitleAndControls = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-`
+const TitleAndControls = styled.div(({ theme }) => ({
+  // flex: 1;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: flex-start;
+  // justify-content: center;
+  // margin-top: 120px;
+  // margin-bottom: 120px;
+  flex: 1,
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  justifyContent: "center",
+  marginTop: "120px",
+  marginBottom: "120px",
+  [theme.breakpoints.down("md")]: {
+    marginTop: "32px",
+    marginBottom: "32px",
+  },
+}))
 
 const HeroSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("")
@@ -143,7 +160,7 @@ const HeroSearch: React.FC = () => {
   )
   const isMobile = !useMuiBreakpointAtLeast("sm")
   return (
-    <HeroContainer>
+    <HeroWrapper>
       <TitleAndControls>
         <Typography
           typography={{ xs: "h3", md: "h1" }}
@@ -182,23 +199,23 @@ const HeroSearch: React.FC = () => {
               <SquaredChip
                 variant="outlined"
                 size="medium"
-                label="AI Courses"
-                href="/search?topic=Artificial+Intelligence&resource_type=course"
+                label="Browse by Topics"
+                href="/topics/"
               />
               <SquaredChip
                 variant="filled"
                 size="medium"
-                label="Engineering Courses"
-                href="/search?topic=Engineering&resource_type=course"
+                label="Explore All"
+                href="/search/"
               />
             </BrowseContainer>
           </LinksContainer>
         </ControlsContainer>
       </TitleAndControls>
       <ImageContainer>
-        <img src="/static/images/person_with_headphones.jpg" />
+        <img alt="" src="/static/images/person_with_headphones.png" />
       </ImageContainer>
-    </HeroContainer>
+    </HeroWrapper>
   )
 }
 
