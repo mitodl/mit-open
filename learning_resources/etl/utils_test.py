@@ -447,6 +447,14 @@ def test_parse_certification(offered_by, availability, has_cert):
             "<p><style type='text/css'> <!--/*--><![CDATA[/* ><!--*/ <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}--> /*--><!]]>*/ </style>What a mess</p>",
             "<p>What a mess</p>",
         ),
+        (
+            "<script type='javascript'>alert('xss');</script><style>\nh1 {color:red;}\np {color:blue;}\n</style><p>Some text</p>",
+            "<p>Some text</p>",
+        ),
+        (
+            "<p><img src='' onerror='alert(\"xss!\")'/>Hello, world!</p>",
+            "<p>Hello, world!</p>",
+        ),
         (None, ""),
         ("", ""),
     ],
