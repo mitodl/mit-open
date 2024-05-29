@@ -40,10 +40,11 @@ const SEARCH_CHIPS: SearchChip[] = [
   },
 ]
 
-const HeroWrapper = styled.div({
+const HeroWrapper = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
-})
+  color: theme.custom.colors.darkGray1,
+}))
 
 const ImageContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -142,6 +143,10 @@ const TitleAndControls = styled.div(({ theme }) => ({
   },
 }))
 
+const Emphasized = styled.span({
+  textDecoration: "underline",
+})
+
 const HeroSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("")
   const onSearchClear = useCallback(() => setSearchText(""), [])
@@ -168,7 +173,9 @@ const HeroSearch: React.FC = () => {
         >
           Learn with MIT
         </Typography>
-        <Typography>A place for all non-degree learning.</Typography>
+        <Typography>
+          Explore MIT's <Emphasized>Non-Degree Education</Emphasized>
+        </Typography>
         <ControlsContainer>
           <SearchInput
             placeholder="Search for courses, programs, learning, and teaching materials"
