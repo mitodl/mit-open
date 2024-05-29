@@ -348,7 +348,7 @@ const InfoSection = ({
       </Typography>
       <InfoItem>
         <RiMoneyDollarCircleFill />
-        <InfoLabel>Cost:</InfoLabel>
+        <InfoLabel>Price:</InfoLabel>
         <InfoValue>
           {parseFloat(price!) === 0 || price === "Free"
             ? "Free"
