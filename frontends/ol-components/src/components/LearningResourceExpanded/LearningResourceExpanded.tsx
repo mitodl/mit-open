@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import ISO6391 from "iso-639-1"
 import type {
   LearningResource,
   LearningResourceTopic,
@@ -340,6 +341,7 @@ const InfoSection = ({
   if (!run) {
     return null
   }
+
   const price = platformCode === PlatformEnum.Ocw ? "Free" : run.prices?.[0]
   return (
     <InfoItems>
@@ -378,7 +380,11 @@ const InfoSection = ({
         <RiGlobalLine />
         <InfoLabel>Languages:</InfoLabel>
         <InfoValue>
-          {run.languages?.length ? run.languages.join(", ") : "-"}
+          {run.languages?.length
+            ? run.languages
+                .map((language) => ISO6391.getName(language.substring(0, 2)))
+                .join(", ")
+            : "-"}
         </InfoValue>
       </InfoItem>
     </InfoItems>

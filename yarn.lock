@@ -14193,7 +14193,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"iso-639-1@npm:^3.1.0":
+"iso-639-1@npm:^3.1.0, iso-639-1@npm:^3.1.2":
   version: 3.1.2
   resolution: "iso-639-1@npm:3.1.2"
   checksum: 10/8e305c787ed914dcc45a077c85e03903184f0d38bf473259a09c12f62f33febd8139dd6a98e5acac3799ee729bbec57ab220bfe464cbb6ba9987465a933f82c8
@@ -18031,6 +18031,7 @@ __metadata:
     "@testing-library/user-event": "npm:14.5.2"
     "@types/tinycolor2": "npm:^1.4.6"
     api: "workspace:*"
+    iso-639-1: "npm:^3.1.2"
     lodash: "npm:^4.17.21"
     material-ui-popup-state: "npm:^5.1.0"
     nuka-carousel: "npm:^8.0.0"

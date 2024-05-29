@@ -138,10 +138,6 @@ describe("Learning Resource Expanded", () => {
       if (instructors?.length) {
         within(section!).getByText(instructors.join(", "))
       }
-
-      if (run.languages?.length) {
-        within(section!).getByText(run.languages.join(", "))
-      }
     }
   })
 
@@ -172,5 +168,25 @@ describe("Learning Resource Expanded", () => {
       .closest("section")!
 
     within(section).getByText("Free")
+  })
+
+  test("Renders languages correcttly", () => {
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [
+        factories.learningResources.run({
+          languages: ["en-us", "es-es", "fr-fr"],
+        }),
+      ],
+    })
+
+    setup(resource)
+
+    const section = screen
+      .getByRole("heading", { name: "Info" })!
+      // eslint-disable-next-line testing-library/no-node-access
+      .closest("section")!
+
+    within(section).getByText("English, Spanish, French")
   })
 })
