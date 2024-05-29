@@ -68,7 +68,9 @@ def test_serialize_program_to_json():
             "courses": [
                 # this is currently messy because program.courses is a list of LearningResourceRelationships
                 serializers.CourseResourceSerializer(instance=course_rel.child).data
-                for course_rel in program.courses.filter(child__published=True)
+                for course_rel in program.courses.filter(
+                    child__published=True
+                ).order_by("child__next_start_date", "child__id")
             ]
         },
     )

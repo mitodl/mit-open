@@ -290,6 +290,7 @@ class ProgramSerializer(serializers.ModelSerializer):
                 LearningResource.objects.filter(id__in=ids)
                 .select_related(*LearningResource.related_selects)
                 .prefetch_related(*LearningResource.prefetches)
+                .order_by("next_start_date", "id")
             ),
             many=True,
         ).data
