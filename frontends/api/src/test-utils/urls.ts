@@ -5,7 +5,10 @@
  * mocking requests during tests.
  */
 
-import type { NewsEventsApiNewsEventsListRequest, TestimonialsApi } from "../generated/v0"
+import type {
+  NewsEventsApiNewsEventsListRequest,
+  TestimonialsApi,
+} from "../generated/v0"
 import type {
   LearningResourcesApi as LRApi,
   FeaturedApi,
