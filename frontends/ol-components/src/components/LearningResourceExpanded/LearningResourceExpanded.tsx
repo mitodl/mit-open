@@ -46,7 +46,6 @@ const Container = styled.div<{ isVideo: boolean }>`
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: auto;
   }
-}
 `
 
 const Date = styled.div`
@@ -91,10 +90,12 @@ const DateLabel = styled.span`
 const Image = styled.img<{ aspectRatio: number }>`
   aspect-ratio: ${({ aspectRatio }) => aspectRatio};
   border-radius: 8px;
+  width: 100%;
 `
 
-const SkeletonImage = styled(Skeleton)`
+const SkeletonImage = styled(Skeleton)<{ aspectRatio: number }>`
   border-radius: 8px;
+  padding-bottom: ${({ aspectRatio }) => 100 / aspectRatio}%;
 `
 
 const CallToAction = styled.div`
@@ -105,6 +106,9 @@ const CallToAction = styled.div`
 
 const StyledButton = styled(ButtonLink)`
   width: 220px;
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    width: 182px;
+  }
 `
 
 const Platform = styled.div`
@@ -207,7 +211,12 @@ const ImageDisplay: React.FC<{
       />
     )
   } else {
-    return <SkeletonImage variant="rectangular" height={220} />
+    return (
+      <SkeletonImage
+        variant="rectangular"
+        aspectRatio={config.width / config.height}
+      />
+    )
   }
 }
 
@@ -235,7 +244,11 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
       </>
     )
   }
-  return <Description>{resource.description}</Description>
+  return (
+    <Description
+      dangerouslySetInnerHTML={{ __html: resource.description || "" }}
+    />
+  )
 }
 
 const TopicsSection: React.FC<{ topics: LearningResourceTopic[] }> = ({
