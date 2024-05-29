@@ -1,4 +1,4 @@
-import { Banner, Typography, styled } from "ol-components"
+import { Banner, Container, Typography, styled } from "ol-components"
 import React from "react"
 
 const OFFERORS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
@@ -6,23 +6,13 @@ const OFFERORS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const Page = styled.div({})
 
 const PageContent = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
   padding: "40px 10px 0px 10px",
   gap: "80px",
 })
 
-const ContentHeader = styled.div({
-  display: "block",
-  maxWidth: "1280px",
-  width: "100%",
-  padding: "0px 24px",
-})
-
 const ContentHeaderText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.black,
-  width: "1000px",
+  maxWidth: "1000px",
   ...theme.typography.subtitle1,
 }))
 
@@ -35,16 +25,16 @@ const OfferorsPage: React.FC = () => {
         description="Extending MIT's knowledge to the world"
         backgroundUrl={OFFERORS_BANNER_IMAGE}
       />
-      <PageContent>
-        <ContentHeader>
+      <Container>
+        <PageContent>
           <ContentHeaderText>
             MIT is dedicated to advancing knowledge beyond students enrolled in
             MIT's campus programs. Several divisions within MIT offer
             educational opportunities accessible to learners worldwide, catering
             to a diverse range of needs.
           </ContentHeaderText>
-        </ContentHeader>
-      </PageContent>
+        </PageContent>
+      </Container>
     </Page>
   )
 }
