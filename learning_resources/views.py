@@ -836,11 +836,9 @@ class FeaturedViewSet(
             QuerySet of LearningResource objects that are in
             featured learning paths from certain offerors
         """
-        featured_list_ids = (
-            FieldChannel.objects.filter(channel_type=ChannelType.offeror.name)
-            .values_list("featured_list", flat=True)
-            .order_by("?")
-        )
+        featured_list_ids = FieldChannel.objects.filter(
+            channel_type=ChannelType.offeror.name
+        ).values_list("featured_list", flat=True)
 
         return (
             self._get_base_queryset()
