@@ -68,7 +68,7 @@ describe("Learning Resource Expanded", () => {
     })
 
     setup(resource)
-    // eslint-disable-next-line testing-library/no-node-access
+
     const embedlyCard = document.querySelector(".embedly-card")
     invariant(embedlyCard)
     expect(embedlyCard).toHaveAttribute("href", resource.url)
@@ -89,7 +89,6 @@ describe("Learning Resource Expanded", () => {
 
     const section = screen
       .getByRole("heading", { name: "Topics" })!
-      // eslint-disable-next-line testing-library/no-node-access
       .closest("section")!
 
     const links = within(section).getAllByRole("link")
@@ -116,7 +115,6 @@ describe("Learning Resource Expanded", () => {
     if (run) {
       const section = screen
         .getByRole("heading", { name: "Info" })!
-        // eslint-disable-next-line testing-library/no-node-access
         .closest("section")!
 
       const price = run.prices?.[0]
@@ -155,16 +153,12 @@ describe("Learning Resource Expanded", () => {
 
     setup(resource)
 
-    const dateSection = screen
-      .getByText("As taught in:")!
-      // eslint-disable-next-line testing-library/no-node-access
-      .closest("div")!
+    const dateSection = screen.getByText("As taught in:")!.closest("div")!
 
     within(dateSection).getByText("Fall 2002")
 
     const section = screen
       .getByRole("heading", { name: "Info" })!
-      // eslint-disable-next-line testing-library/no-node-access
       .closest("section")!
 
     within(section).getByText("Free")
@@ -184,7 +178,6 @@ describe("Learning Resource Expanded", () => {
 
     const section = screen
       .getByRole("heading", { name: "Info" })!
-      // eslint-disable-next-line testing-library/no-node-access
       .closest("section")!
 
     within(section).getByText("English, Spanish, French")
