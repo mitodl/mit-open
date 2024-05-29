@@ -10,6 +10,7 @@ import {
   within,
   waitFor,
 } from "../../test-utils"
+import type { FeaturedApiFeaturedListRequest as FeaturedRequest } from "api"
 import invariant from "tiny-invariant"
 
 const assertLinksTo = (
@@ -29,8 +30,11 @@ const assertLinksTo = (
   expect(searchParams).toEqual(search)
 }
 
-const setup = () => {
+const setupAPIs = () => {
+  setMockResponse.get(urls.userMe.get(), {})
+
   const resources = learningResources.resources({ count: 4 })
+
   setMockResponse.get(
     expect.stringContaining(urls.learningResources.list()),
     resources,
@@ -49,17 +53,17 @@ const setup = () => {
     {},
   )
 
-  return renderWithProviders(<HomePage />)
+  setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
+    results: [],
+  })
 }
 
 describe("Home Page Hero", () => {
   test("Submitting search goes to search page", async () => {
     setMockResponse.get(urls.userMe.get(), {})
-    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
-      results: [],
-    })
 
-    const { location } = setup()
+    setupAPIs()
+    const { location } = renderWithProviders(<HomePage />)
     const searchbox = screen.getByRole("textbox", { name: /search for/i })
     await user.click(searchbox)
     await user.paste("physics")
@@ -73,10 +77,8 @@ describe("Home Page Hero", () => {
   })
 
   test("Displays popular searches", () => {
-    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
-      results: [],
-    })
-    setup()
+    setupAPIs()
+    renderWithProviders(<HomePage />)
     const aiCourses = screen.getByRole<HTMLAnchorElement>("link", {
       name: /ai courses/i,
     })
@@ -99,11 +101,49 @@ describe("Home Page Hero", () => {
 })
 
 describe("Home Page Carousel", () => {
+  test.each<{ tab: string; params: FeaturedRequest }>([
+    {
+      tab: "All",
+      params: { limit: 12, resource_type: ["course"] },
+    },
+    {
+      tab: "Free",
+      params: { limit: 12, resource_type: ["course"], free: true },
+    },
+    {
+      tab: "Certificate",
+      params: { resource_type: ["course"], limit: 12, certification: true },
+    },
+    {
+      tab: "Professional",
+      params: { resource_type: ["course"], limit: 12, professional: true },
+    },
+  ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
+    const resources = learningResources.resources({ count: 12 })
+    setupAPIs()
+
+    // The "All" tab is initially visible, so it needs a response.
+    setMockResponse.get(
+      urls.learningResources.featured({ limit: 12, resource_type: ["course"] }),
+      learningResources.resources({ count: 0 }),
+    )
+    // This is for the clicked tab (which might be "All")
+    // We will check that its response is visible as cards.
+    setMockResponse.get(
+      urls.learningResources.featured({ ...params }),
+      resources,
+    )
+
+    renderWithProviders(<HomePage />)
+    const [featuredTabs] = screen.getAllByRole("tablist")
+    await user.click(within(featuredTabs).getByRole("tab", { name: tab }))
+    const [featuredPanel] = screen.getAllByRole("tabpanel")
+    await within(featuredPanel).findByText(resources.results[0].title)
+  })
+
   test("Tabbed Carousel sanity check", () => {
-    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
-      results: [],
-    })
-    setup()
+    setupAPIs()
+    renderWithProviders(<HomePage />)
     const [featured, media] = screen.getAllByRole("tablist")
     within(featured).getByRole("tab", { name: "All" })
     within(featured).getByRole("tab", { name: "Free" })
@@ -117,11 +157,11 @@ describe("Home Page Carousel", () => {
 
 describe("Home Page Browse by Topics", () => {
   test("Displays topics links", async () => {
+    setupAPIs()
     const response = learningResources.topics({ count: 3 })
     setMockResponse.get(urls.topics.list({ is_toplevel: true }), response)
     setMockResponse.get(urls.userMe.get(), {})
-
-    setup()
+    renderWithProviders(<HomePage />)
 
     await waitFor(() => {
       const section = screen
