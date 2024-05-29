@@ -15,17 +15,14 @@ import styled from "@emotion/styled"
 import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
-import {
-  theme,
-  ButtonLink,
-  PlatformLogo,
-  PLATFORMS,
-  SelectField,
-  MenuItem,
-  SelectChangeEvent,
-  ChipLink,
-  Chip,
-} from "ol-components"
+import { theme } from "../ThemeProvider/ThemeProvider"
+import { ButtonLink } from "../Button/Button"
+import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
+import { SelectField } from "../SelectField/SelectField"
+import MenuItem from "@mui/material/MenuItem"
+import type { SelectChangeEvent } from "@mui/material/Select"
+import { ChipLink } from "../Chips/ChipLink"
+import Chip from "@mui/material/Chip"
 import {
   RiMoneyDollarCircleFill,
   RiBarChartFill,

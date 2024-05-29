@@ -4,7 +4,7 @@ import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import { factories } from "api/test-utils"
 import { ResourceTypeEnum as LRT } from "api"
 import invariant from "tiny-invariant"
-import { Drawer } from "ol-components"
+import Drawer from "@mui/material/Drawer"
 import { BrowserRouter } from "react-router-dom"
 
 const _makeResource = factories.learningResources.resource
