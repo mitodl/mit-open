@@ -84,7 +84,7 @@ describe("Home Page Hero", () => {
     renderWithProviders(<HomePage />)
     const expected = [
       { label: "New", href: "/search?sortby=new" },
-      { label: "Popular", href: "/search?sortby=views" },
+      { label: "Popular", href: "/search?sortby=-views" },
       { label: "Upcoming", href: "/search?sortby=upcoming" },
       { label: "Free", href: "/search?free=true" },
       { label: "With Certificate", href: "/search?certification=true" },

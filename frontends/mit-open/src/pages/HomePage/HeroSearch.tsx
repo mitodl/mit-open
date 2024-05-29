@@ -24,7 +24,7 @@ const SEARCH_CHIPS: SearchChip[] = [
   },
   {
     label: "Popular",
-    href: "/search?sortby=views",
+    href: "/search?sortby=-views",
   },
   {
     label: "Upcoming",
