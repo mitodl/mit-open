@@ -74,6 +74,8 @@ export const PRIVACY = "/privacy/"
 
 export const TERMS = "/terms/"
 
+export const OFFERORS = "/offerors/"
+
 export const CONTACT = "mailto:odl-discussions-support@mit.edu"
 
 export const RESOURCE_DRAWER_QUERY_PARAM = "resource"
