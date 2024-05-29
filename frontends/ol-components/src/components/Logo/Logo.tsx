@@ -13,7 +13,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.Edx]: {
     name: "edX",
-    image: "edx_logo.png",
+    image: "edx_logo.svg",
   },
   [PlatformEnum.Mitxonline]: {
     name: "MITx Online",
