@@ -836,15 +836,17 @@ class FeaturedViewSet(
             QuerySet of LearningResource objects that are in
             featured learning paths from certain offerors
         """
-        featured_list_ids = FieldChannel.objects.filter(
-            channel_type=ChannelType.offeror.name
-        ).values_list("featured_list", flat=True)
+        featured_list_ids = (
+            FieldChannel.objects.filter(channel_type=ChannelType.offeror.name)
+            .values_list("featured_list", flat=True)
+            .order_by("?")
+        )
 
         return (
             self._get_base_queryset()
             .filter(parents__parent_id__in=featured_list_ids)
             .filter(published=True)
             .annotate(position=F("parents__position"))
-            .order_by("position")
+            .order_by("position", "?")
             .distinct()
         )
