@@ -226,9 +226,8 @@ const CallToActionSection = ({ resource }: { resource?: LearningResource }) => {
     return null
   }
 
-  const platformImage = PLATFORMS.find(
-    (platform) => platform.code === resource?.platform?.code,
-  )?.image
+  const platformImage =
+    PLATFORMS[resource?.platform?.code as PlatformEnum]?.image
 
   return (
     <CallToAction>
