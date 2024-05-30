@@ -7,6 +7,9 @@ import {
   RiBarChartFill,
   RiGraduationCapFill,
   RiGlobalLine,
+  RiTimeLine,
+  RiCalendarLine,
+  RiBookReadFill,
 } from "@remixicon/react"
 import {
   LearningResource,
@@ -16,6 +19,7 @@ import {
 } from "api"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import Typography from "@mui/material/Typography"
+import { displayDuration } from "ol-utilities"
 
 const InfoItems = styled.section`
   display: flex;
@@ -51,24 +55,17 @@ const InfoValue = styled.div`
 type InfoSelector = (
   resource: LearningResource,
   run?: LearningResourceRun,
-) => string | null
+) => string | number | null
 
-type InfoMap = Record<
-  ResourceTypeEnum,
-  { label: string; Icon: RemixiconComponentType; selector: InfoSelector }[]
->
+type InfoItemConfig = {
+  label: string
+  Icon: RemixiconComponentType
+  selector: InfoSelector
+}[]
 
-const InfoTypeEnum = {
-  Price: "price",
-  Level: "level",
-  Instructors: "instructors",
-  Languages: "languages",
-  Duration: "duration",
-}
-
-const INFO_TYPES = {
-  [InfoTypeEnum.Price]: {
-    label: "Price",
+const INFO_ITEMS: InfoItemConfig = [
+  {
+    label: "Price:",
     Icon: RiMoneyDollarCircleFill,
     selector: (resource: LearningResource, run?: LearningResourceRun) => {
       if (!resource || !run) {
@@ -85,16 +82,16 @@ const INFO_TYPES = {
     },
   },
 
-  [InfoTypeEnum.Level]: {
-    label: "Level",
+  {
+    label: "Level:",
     Icon: RiBarChartFill,
     selector: (resource: LearningResource, run?: LearningResourceRun) => {
       return run?.level?.[0]?.name || null
     },
   },
 
-  [InfoTypeEnum.Instructors]: {
-    label: "Instructors",
+  {
+    label: "Instructors:",
     Icon: RiGraduationCapFill,
     selector: (resource: LearningResource, run?: LearningResourceRun) => {
       return (
@@ -106,8 +103,8 @@ const INFO_TYPES = {
     },
   },
 
-  [InfoTypeEnum.Languages]: {
-    label: "Languages",
+  {
+    label: "Languages:",
     Icon: RiGlobalLine,
     selector: (resource: LearningResource, run?: LearningResourceRun) => {
       return run?.languages?.length
@@ -118,45 +115,57 @@ const INFO_TYPES = {
     },
   },
 
-  [InfoTypeEnum.Duration]: {
-    label: "Duration",
-    Icon: RiGlobalLine,
+  {
+    label: "Duration:",
+    Icon: RiTimeLine,
     selector: (resource: LearningResource) => {
+      let duration
       if (resource.resource_type === ResourceTypeEnum.Video) {
-        return resource.video.duration || null
+        duration = resource.video.duration
       }
       if (resource.resource_type === ResourceTypeEnum.PodcastEpisode) {
-        return resource.podcast_episode.duration || null
+        duration = resource.podcast_episode.duration
+      }
+      if (!duration) {
+        return null
+      }
+      return displayDuration(duration)
+    },
+  },
+
+  {
+    label: "Offered By:",
+    Icon: RiBarChartFill,
+    selector: (resource: LearningResource) => {
+      return resource.offered_by?.name || null
+    },
+  },
+
+  {
+    label: "Date Posted:",
+    Icon: RiCalendarLine,
+    selector: () => {
+      // TODO Not seeing any value for this in the API schema for VideoResource. Last modified date is closest available, though likely relates to the data record
+      return null
+    },
+  },
+
+  {
+    label: "Number of Courses:",
+    Icon: RiBookReadFill,
+    selector: (resource: LearningResource) => {
+      if (resource.resource_type === ResourceTypeEnum.Program) {
+        return resource.program?.courses?.length || null
       }
       return null
     },
   },
-}
-
-const INFO_MAP: InfoMap = {
-  [ResourceTypeEnum.Course]: [
-    INFO_TYPES[InfoTypeEnum.Price],
-    INFO_TYPES[InfoTypeEnum.Level],
-    INFO_TYPES[InfoTypeEnum.Instructors],
-    INFO_TYPES[InfoTypeEnum.Languages],
-  ],
-  [ResourceTypeEnum.Program]: [
-    INFO_TYPES[InfoTypeEnum.Price],
-    INFO_TYPES[InfoTypeEnum.Level],
-    INFO_TYPES[InfoTypeEnum.Instructors],
-    INFO_TYPES[InfoTypeEnum.Languages],
-  ],
-  [ResourceTypeEnum.Video]: [INFO_TYPES[InfoTypeEnum.Duration]],
-  [ResourceTypeEnum.PodcastEpisode]: [],
-  [ResourceTypeEnum.Podcast]: [INFO_TYPES[InfoTypeEnum.Duration]],
-  [ResourceTypeEnum.VideoPlaylist]: [],
-  [ResourceTypeEnum.LearningPath]: [],
-}
+]
 
 type InfoItemProps = {
   label: string
   Icon: RemixiconComponentType
-  value: string | null
+  value: string | number | null
 }
 
 const InfoItem = ({ label, Icon, value }: InfoItemProps) => {
@@ -179,17 +188,15 @@ const InfoSection = ({
   resource?: LearningResource
   run?: LearningResourceRun
 }) => {
-  if (!resource || !run) {
+  if (!resource) {
     return null
   }
 
-  const infoItems = INFO_MAP[resource.resource_type as ResourceTypeEnum]
-    .map(({ label, Icon, selector }) => ({
-      label,
-      Icon,
-      value: selector(resource, run),
-    }))
-    .filter(({ value }) => !!value)
+  const infoItems = INFO_ITEMS.map(({ label, Icon, selector }) => ({
+    label,
+    Icon,
+    value: selector(resource, run),
+  })).filter(({ value }) => value !== null && value !== "")
 
   if (infoItems.length === 0) {
     return null
