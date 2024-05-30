@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react"
-import ISO6391 from "iso-639-1"
-import type {
-  LearningResource,
-  LearningResourceTopic,
-  LearningResourceRun,
-} from "api"
+import styled from "@emotion/styled"
+import Skeleton from "@mui/material/Skeleton"
+import Typography from "@mui/material/Typography"
+import { ButtonLink } from "../Button/Button"
+import MenuItem from "@mui/material/MenuItem"
+import Chip from "@mui/material/Chip"
+import type { LearningResource, LearningResourceTopic } from "api"
 import { ResourceTypeEnum, PlatformEnum } from "api"
 import {
   formatDate,
@@ -12,25 +13,13 @@ import {
   getReadableResourceType,
 } from "ol-utilities"
 import type { EmbedlyConfig } from "ol-utilities"
-import styled from "@emotion/styled"
-import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
-import Skeleton from "@mui/material/Skeleton"
-import Typography from "@mui/material/Typography"
-import { theme } from "../ThemeProvider/ThemeProvider"
-import { ButtonLink } from "../Button/Button"
-import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
-import { SelectField } from "../SelectField/SelectField"
-import MenuItem from "@mui/material/MenuItem"
 import type { SelectChangeEvent } from "@mui/material/Select"
+import { theme } from "../ThemeProvider/ThemeProvider"
+import { SelectField } from "../SelectField/SelectField"
+import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
+import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
 import { ChipLink } from "../Chips/ChipLink"
-import Chip from "@mui/material/Chip"
-import {
-  RemixiconComponentType,
-  RiMoneyDollarCircleFill,
-  RiBarChartFill,
-  RiGraduationCapFill,
-  RiGlobalLine,
-} from "@remixicon/react"
+import InfoSection from "./InfoSection"
 
 const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
@@ -154,37 +143,6 @@ const TopicsList = styled.ul`
   padding: 0;
   margin: 0;
   gap: 8px;
-`
-
-const InfoItems = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-`
-
-const InfoItemContainer = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  align-self: stretch;
-  ${{ ...theme.typography.body2 }}
-  color: ${theme.custom.colors.silverGrayDark};
-
-  svg {
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-  }
-`
-
-const InfoLabel = styled.div`
-  width: 85px;
-  flex-shrink: 0;
-`
-
-const InfoValue = styled.div`
-  ${{ ...theme.typography.body2 }}
-  color: ${theme.custom.colors.black};
 `
 
 type LearningResourceExpandedProps = {
@@ -343,90 +301,6 @@ const TopicsSection: React.FC<{ topics?: LearningResourceTopic[] }> = ({
   )
 }
 
-const InfoItem = ({
-  label,
-  Icon,
-  value,
-}: {
-  label: string
-  Icon: RemixiconComponentType
-  value: string | null
-}) => {
-  if (!value) {
-    return null
-  }
-  return (
-    <InfoItemContainer>
-      <Icon />
-      <InfoLabel>{label}</InfoLabel>
-      <InfoValue>{value}</InfoValue>
-    </InfoItemContainer>
-  )
-}
-
-const InfoSection = ({
-  run,
-  platformCode,
-}: {
-  run?: LearningResourceRun
-  platformCode?: PlatformEnum
-}) => {
-  if (!run) {
-    return null
-  }
-
-  const price = run.prices?.[0]
-  const displayPrice =
-    platformCode === PlatformEnum.Ocw || parseFloat(price!) === 0
-      ? "Free"
-      : price
-        ? `$${price}`
-        : null
-
-  const level = run.level?.[0]?.name || null
-
-  const instructors = run.instructors?.length
-    ? run.instructors
-        .filter((instructor) => instructor.full_name)
-        .map(({ full_name: name }) => name)
-        .join(", ")
-    : null
-
-  const languages = run.languages?.length
-    ? run.languages
-        .map((language) => ISO6391.getName(language.substring(0, 2)))
-        .join(", ")
-    : null
-
-  if (
-    [displayPrice, level, instructors, languages].every(
-      (element) => element === null,
-    )
-  ) {
-    return null
-  }
-
-  return (
-    <InfoItems>
-      <Typography variant="subtitle2" component="h3">
-        Info
-      </Typography>
-      <InfoItem
-        label="Price:"
-        Icon={RiMoneyDollarCircleFill}
-        value={displayPrice}
-      />
-      <InfoItem label="Level:" Icon={RiBarChartFill} value={level} />
-      <InfoItem
-        label="Instructors:"
-        Icon={RiGraduationCapFill}
-        value={instructors}
-      />
-      <InfoItem label="Languages:" Icon={RiGlobalLine} value={languages} />
-    </InfoItems>
-  )
-}
-
 const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   resource,
   imgConfig,
@@ -512,10 +386,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       <CallToActionSection resource={resource} hide={isVideo} />
       <DetailSection resource={resource} />
       <TopicsSection topics={resource?.topics} />
-      <InfoSection
-        run={selectedRun}
-        platformCode={resource?.platform?.code as PlatformEnum}
-      />
+      <InfoSection resource={resource} run={selectedRun} />
     </Container>
   )
 }
