@@ -58,6 +58,7 @@ const Carousel: React.FC<CarouselProps> = ({
   buttonVariant = "filled",
   buttonSize = "small",
   wrapMode = "nowrap",
+  scrollDistance = "slide",
 }) => {
   const ref = useRef<SlideHandle>(null)
 
@@ -88,6 +89,7 @@ const Carousel: React.FC<CarouselProps> = ({
         animationDuration={animationDuration}
         ref={ref}
         wrapMode={wrapMode}
+        scrollDistance={scrollDistance}
       >
         {children}
       </NukaCarouselStyled>
