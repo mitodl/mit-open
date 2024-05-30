@@ -133,13 +133,6 @@ const BrowseContainer = styled.div(({ theme }) => ({
 }))
 
 const TitleAndControls = styled.div(({ theme }) => ({
-  // flex: 1;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: flex-start;
-  // justify-content: center;
-  // margin-top: 120px;
-  // margin-bottom: 120px;
   flex: 1,
   display: "flex",
   flexDirection: "column",
