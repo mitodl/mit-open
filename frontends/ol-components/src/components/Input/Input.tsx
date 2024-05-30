@@ -31,7 +31,7 @@ const Input = styled(InputBase)(({
       borderWidth: "1px",
       borderStyle: "solid",
       "&:hover:not(.Mui-disabled)": {
-        borderWidth: "2px",
+        borderColor: theme.custom.colors.black,
       },
       "&.Mui-focused": {
         borderWidth: "2px",
@@ -53,13 +53,15 @@ const Input = styled(InputBase)(({
       borderRadius: "4px",
       "&.MuiInputBase-adornedStart": {
         paddingLeft: `${12 - buttonPadding.medium}px`,
+        "&.Mui-focused": {
+          paddingLeft: `${11 - buttonPadding.medium}px`,
+        },
       },
       "&.MuiInputBase-adornedEnd": {
         paddingRight: `${12 - buttonPadding.medium}px`,
-      },
-      "&:hover:not(.Mui-disabled), &.Mui-focused": {
-        paddingLeft: "11px",
-        paddingRight: "11px",
+        "&.Mui-focused": {
+          paddingRight: `${11 - buttonPadding.medium}px`,
+        },
       },
     },
     size === "medium" &&
@@ -74,13 +76,15 @@ const Input = styled(InputBase)(({
 
       "&.MuiInputBase-adornedStart": {
         paddingLeft: `${16 - buttonPadding.hero}px`,
+        "&.Mui-focused": {
+          paddingLeft: `${15 - buttonPadding.hero}px`,
+        },
       },
       "&.MuiInputBase-adornedEnd": {
         paddingRight: `${16 - buttonPadding.hero}px`,
-      },
-      "&:hover:not(.Mui-disabled), &.Mui-focused": {
-        paddingLeft: "15px",
-        paddingRight: "15px",
+        "&.Mui-focused": {
+          paddingRight: `${15 - buttonPadding.hero}px`,
+        },
       },
     },
     size === "hero" &&
