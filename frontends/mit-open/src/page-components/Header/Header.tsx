@@ -200,26 +200,17 @@ const navData: NavData = {
         {
           title: "New",
           icon: "/static/images/navdrawer/new.svg",
-          href: querifiedSearchUrl({
-            resource_type: "course",
-            sortby: "new",
-          }),
+          href: querifiedSearchUrl({ sortby: "new" }),
         },
         {
           title: "Upcoming",
           icon: "/static/images/navdrawer/free.svg",
-          href: querifiedSearchUrl({
-            resource_type: "course",
-            sortby: "upcoming",
-          }),
+          href: querifiedSearchUrl({ sortby: "upcoming" }),
         },
         {
           title: "Popular",
           icon: "/static/images/navdrawer/popular.svg",
-          href: querifiedSearchUrl({
-            resource_type: "course",
-            sortby: "popular",
-          }),
+          href: querifiedSearchUrl({ sortby: "popular" }),
         },
         {
           title: "Free",

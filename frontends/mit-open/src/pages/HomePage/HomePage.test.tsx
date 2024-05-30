@@ -77,26 +77,24 @@ describe("Home Page Hero", () => {
   })
 
   test("Displays popular searches", () => {
+    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
+      results: [],
+    })
     setupAPIs()
     renderWithProviders(<HomePage />)
-    const aiCourses = screen.getByRole<HTMLAnchorElement>("link", {
-      name: /ai courses/i,
+    const expected = [
+      { label: "New", href: "/search?sortby=new" },
+      { label: "Popular", href: "/search?sortby=-views" },
+      { label: "Upcoming", href: "/search?sortby=upcoming" },
+      { label: "Free", href: "/search?free=true" },
+      { label: "With Certificate", href: "/search?certification=true" },
+      { label: "Browse by Topics", href: "/topics/" },
+      { label: "Explore All", href: "/search/" },
+    ]
+    expected.forEach(({ label, href }) => {
+      const link = screen.getByRole<HTMLAnchorElement>("link", { name: label })
+      expect(link).toHaveAttribute("href", href)
     })
-    const engineeringCourses = screen.getByRole<HTMLAnchorElement>("link", {
-      name: /engineering courses/i,
-    })
-    const all = screen.getByRole<HTMLAnchorElement>("link", {
-      name: /explore all/i,
-    })
-    assertLinksTo(aiCourses, {
-      pathname: "/search",
-      search: { topic: "Artificial Intelligence", resource_type: "course" },
-    })
-    assertLinksTo(engineeringCourses, {
-      pathname: "/search",
-      search: { topic: "Engineering", resource_type: "course" },
-    })
-    assertLinksTo(all, { pathname: "/search" })
   })
 })
 
