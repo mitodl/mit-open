@@ -194,7 +194,10 @@ const HeroSearch: React.FC = () => {
           />
           <LinksContainer>
             <TrenderingContainer>
-              <Typography typography={{ xs: "subtitle4", md: "subtitle3" }}>
+              <Typography
+                sx={{ marginRight: "8px" }}
+                typography={{ xs: "subtitle4", md: "subtitle3" }}
+              >
                 Trending
               </Typography>
               {SEARCH_CHIPS.map((chip) => (
