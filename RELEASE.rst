@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.10.2
+Version 0.10.2 (Released May 30, 2024)
 --------------
 
 - Update dependency @ckeditor/ckeditor5-dev-utils to v40 (#933)
