@@ -20,14 +20,16 @@ const Section = styled.section`
   background-color: ${theme.custom.colors.mitRed};
   color: ${theme.custom.colors.white};
   overflow: auto;
-  padding: 80px 80px;
+  padding: 80px 0;
   ${({ theme }) => theme.breakpoints.down("md")} {
     padding: 40px 0;
   }
+
   h2,
   h3 {
     text-align: center;
   }
+
   h3 {
     margin-top: 8px;
     ${({ theme }) => theme.typography.body1}
@@ -61,9 +63,11 @@ const TestimonialsCarouselStyled = styled(Carousel)`
   .nuka-overflow {
     width: auto;
   }
+
   .nuka-wrapper {
     margin: 0 120px;
   }
+
   .nuka-wrapper .testimonial-card:last-child {
     margin-right: 474px;
   }
@@ -83,6 +87,7 @@ const TestimonialCard = styled.div`
 const TestimonialCardImage = styled.div`
   width: 300px;
   height: 326px;
+
   img {
     width: 300px;
     height: 326px;
@@ -97,7 +102,7 @@ const TestimonialCardQuote = styled.div`
   height: 326px;
   background-color: ${theme.custom.colors.white};
   color: ${theme.custom.colors.black};
-  padding: 0 32px 32px 32px;
+  padding: 0 32px 32px;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
@@ -105,6 +110,7 @@ const TestimonialCardQuote = styled.div`
   align-self: stretch;
   border-radius: 8px;
   display: flex;
+
   div.testimonial-quote-opener {
     color: ${theme.custom.colors.mitRed};
     font-style: normal;
@@ -112,9 +118,11 @@ const TestimonialCardQuote = styled.div`
     width: 100%;
     ${() => testimonialsTheme.custom.quoteLeader}
   }
+
   h4 {
     flex-grow: 1;
   }
+
   div.testimonial-quote-closer {
     text-align: right;
     width: 100%;
@@ -125,12 +133,12 @@ const TestimonialFadeRight = styled.div`
   width: 246px;
   height: 414px;
   position: absolute;
-  right: 0px;
-  bottom: 0px;
+  right: 0;
+  bottom: 0;
   background: linear-gradient(
     90deg,
-    rgba(117, 0, 20, 0) 0%,
-    rgba(117, 0, 20, 0.95) 100%
+    rgb(117 0 20 / 0%) 0%,
+    rgb(117 0 20 / 95%) 100%
   );
 `
 
@@ -138,11 +146,11 @@ const TestimonialFadeLeft = styled.div`
   width: 246px;
   height: 414px;
   position: absolute;
-  left: 0px;
+  left: 0;
   background: linear-gradient(
     270deg,
-    rgba(117, 0, 20, 0) 0%,
-    rgba(117, 0, 20, 0.95) 100%
+    rgb(117 0 20 / 0%) 0%,
+    rgb(117 0 20 / 95%) 100%
   );
 `
 
