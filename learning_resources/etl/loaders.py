@@ -303,16 +303,10 @@ def load_course(
             return None
 
         if deduplicated_course_id and readable_id != deduplicated_course_id:
-            log.error(
-                f"{readable_id} does not match deduplicated ID {deduplicated_course_id}"  # noqa: G004
-            )
             duplicate_resource = LearningResource.objects.filter(
                 platform=platform, readable_id=readable_id
             ).first()
             if duplicate_resource:
-                log.error(
-                    "Ubnpublishing duplicate resource with readable_id %s", readable_id
-                )
                 duplicate_resource.published = False
                 duplicate_resource.save()
                 resource_unpublished_actions(duplicate_resource)
