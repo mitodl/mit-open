@@ -119,17 +119,15 @@ const INFO_ITEMS: InfoItemConfig = [
     label: "Duration:",
     Icon: RiTimeLine,
     selector: (resource: LearningResource) => {
-      let duration
       if (resource.resource_type === ResourceTypeEnum.Video) {
-        duration = resource.video.duration
+        return resource.video.duration
+          ? formatDurationClockTime(resource.video.duration)
+          : null
       }
       if (resource.resource_type === ResourceTypeEnum.PodcastEpisode) {
-        duration = resource.podcast_episode.duration
+        return resource.podcast_episode.duration || null
       }
-      if (!duration) {
-        return null
-      }
-      return formatDurationClockTime(duration)
+      return null
     },
   },
 
