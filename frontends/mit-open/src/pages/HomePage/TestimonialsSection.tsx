@@ -1,6 +1,12 @@
 import React from "react"
-import { Container, Typography, styled, theme, Carousel } from "ol-components"
-import { pxToRem } from "../../../../ol-components/src/components/ThemeProvider/typography"
+import {
+  Container,
+  Typography,
+  styled,
+  theme,
+  Carousel,
+  pxToRem,
+} from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
 import { Attestation } from "api/v0"
 import { RiArrowDropRightLine, RiArrowDropLeftLine } from "@remixicon/react"
@@ -16,26 +22,23 @@ const testimonialsTheme = {
   },
 }
 
-const Section = styled.section`
-  background-color: ${theme.custom.colors.mitRed};
-  color: ${theme.custom.colors.white};
-  overflow: auto;
-  padding: 80px 0;
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    padding: 40px 0;
-  }
-
-  h2,
-  h3 {
-    text-align: center;
-  }
-
-  h3 {
-    margin-top: 8px;
-    ${({ theme }) => theme.typography.body1}
-    margin-bottom: 60px;
-  }
-`
+const Section = styled.section(({ theme }) => ({
+  backgroundColor: theme.custom.colors.mitRed,
+  color: theme.custom.colors.white,
+  overflow: "auto",
+  padding: "80px 0",
+  [theme.breakpoints.down("md")]: {
+    padding: "40px 0",
+  },
+  ["h2, h3"]: {
+    textAlign: "center",
+  },
+  ["h3"]: {
+    marginTop: "8px",
+    marginBottom: "60px",
+    ...theme.typography.body1,
+  },
+}))
 
 type TestimonialsDataCarouselProps = {
   children: ({
@@ -54,105 +57,96 @@ const TestimonialsDataCarousel: React.FC<TestimonialsDataCarouselProps> = ({
   return children({ resources: data?.results ?? [], isLoading })
 }
 
-const TestimonialsDataCarouselStyled = styled(TestimonialsDataCarousel)`
-  width: 948px;
-  height: 416px;
-`
+const TestimonialsDataCarouselStyled = styled(TestimonialsDataCarousel)({
+  width: "948px",
+  height: "416px",
+})
 
-const TestimonialsCarouselStyled = styled(Carousel)`
-  .nuka-overflow {
-    width: auto;
-  }
+const TestimonialsCarouselStyled = styled(Carousel)({
+  [".nuka-overflow"]: {
+    width: "auto",
+  },
+  [".nuka-wrapper"]: {
+    margin: "0 120px",
+  },
+  [".nuka-wrapper .testimonial-card:last-child"]: {
+    marginRight: "474px",
+  },
+})
 
-  .nuka-wrapper {
-    margin: 0 120px;
-  }
+const TestimonialCard = styled.div({
+  minWidth: "948px",
+  maxWidth: "948px",
+  height: "326px",
+  backgroundColor: theme.custom.colors.white,
+  color: theme.custom.colors.black,
+  display: "flex",
+  borderRadius: "8px",
+  margin: "0 0 26px 24px",
+})
 
-  .nuka-wrapper .testimonial-card:last-child {
-    margin-right: 474px;
-  }
-`
+const TestimonialCardImage = styled.div({
+  width: "300px",
+  height: "326px",
+  ["img"]: {
+    width: "300px",
+    height: "326px",
+    objectFit: "cover",
+    borderTopLeftRadius: "8px",
+    borderBottomLeftRadius: "8px",
+  },
+})
 
-const TestimonialCard = styled.div`
-  min-width: 948px;
-  max-width: 948px;
-  height: 326px;
-  background-color: ${theme.custom.colors.white};
-  color: ${theme.custom.colors.black};
-  display: flex;
-  border-radius: 8px;
-  margin: 0 0 26px 24px;
-`
+const TestimonialCardQuote = styled.div({
+  width: "648px",
+  height: "326px",
+  backgroundColor: theme.custom.colors.white,
+  color: theme.custom.colors.black,
+  padding: "0 32px 32px",
+  flexDirection: "column",
+  justifyContent: "space-between",
+  alignItems: "flex-start",
+  flex: "1 0 0",
+  alignSelf: "stretch",
+  borderRadius: "8px",
+  display: "flex",
 
-const TestimonialCardImage = styled.div`
-  width: 300px;
-  height: 326px;
+  ["div.testimonial-quote-opener"]: {
+    color: theme.custom.colors.mitRed,
+    fontStyle: "normal",
+    height: "70px",
+    width: "100%",
+    ...testimonialsTheme.custom.quoteLeader,
+  },
 
-  img {
-    width: 300px;
-    height: 326px;
-    object-fit: cover;
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-  }
-`
+  ["h4"]: {
+    flexGrow: "1",
+  },
 
-const TestimonialCardQuote = styled.div`
-  width: 648px;
-  height: 326px;
-  background-color: ${theme.custom.colors.white};
-  color: ${theme.custom.colors.black};
-  padding: 0 32px 32px;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex: 1 0 0;
-  align-self: stretch;
-  border-radius: 8px;
-  display: flex;
+  ["div.testimonial-quote-closer"]: {
+    textAlign: "right",
+    width: "100%",
+  },
+})
 
-  div.testimonial-quote-opener {
-    color: ${theme.custom.colors.mitRed};
-    font-style: normal;
-    height: 70px;
-    width: 100%;
-    ${() => testimonialsTheme.custom.quoteLeader}
-  }
+const TestimonialFadeRight = styled.div({
+  width: "246px",
+  height: "414px",
+  position: "absolute",
+  right: "0",
+  bottom: "0",
+  background:
+    "linear-gradient(90deg,rgb(117 0 20 / 0%) 0%,rgb(117 0 20 / 95%) 100%)",
+})
 
-  h4 {
-    flex-grow: 1;
-  }
-
-  div.testimonial-quote-closer {
-    text-align: right;
-    width: 100%;
-  }
-`
-
-const TestimonialFadeRight = styled.div`
-  width: 246px;
-  height: 414px;
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    90deg,
-    rgb(117 0 20 / 0%) 0%,
-    rgb(117 0 20 / 95%) 100%
-  );
-`
-
-const TestimonialFadeLeft = styled.div`
-  width: 246px;
-  height: 414px;
-  position: absolute;
-  left: 0;
-  background: linear-gradient(
-    270deg,
-    rgb(117 0 20 / 0%) 0%,
-    rgb(117 0 20 / 95%) 100%
-  );
-`
+const TestimonialFadeLeft = styled.div({
+  width: "246px",
+  height: "414px",
+  position: "absolute",
+  left: "0",
+  background:
+    "linear-gradient(270deg,rgb(117 0 20 / 0%) 0%,rgb(117 0 20 / 95%) 100%)",
+})
 
 const TestimonialsSection: React.FC = () => {
   return (
