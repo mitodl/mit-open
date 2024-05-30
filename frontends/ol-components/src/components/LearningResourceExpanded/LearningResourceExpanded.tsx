@@ -25,6 +25,7 @@ import type { SelectChangeEvent } from "@mui/material/Select"
 import { ChipLink } from "../Chips/ChipLink"
 import Chip from "@mui/material/Chip"
 import {
+  RemixiconComponentType,
   RiMoneyDollarCircleFill,
   RiBarChartFill,
   RiGraduationCapFill,
@@ -105,6 +106,7 @@ const CallToAction = styled.div`
 `
 
 const StyledButton = styled(ButtonLink)`
+  text-align: center;
   width: 220px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: 182px;
@@ -160,7 +162,7 @@ const InfoItems = styled.section`
   gap: 16px;
 `
 
-const InfoItem = styled.div`
+const InfoItemContainer = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 16px;
@@ -220,37 +222,48 @@ const ImageSection: React.FC<{
   }
 }
 
-const CallToActionSection = ({ resource }: { resource?: LearningResource }) => {
-  const isVideo = resource?.resource_type === ResourceTypeEnum.Video
-  if (isVideo) {
+const CallToActionSection = ({
+  resource,
+  hide,
+}: {
+  resource?: LearningResource
+  hide?: boolean
+}) => {
+  if (hide) {
     return null
+  }
+
+  if (!resource) {
+    return (
+      <CallToAction>
+        <Skeleton height={70} width="50%" />
+        <Skeleton height={50} width="25%" />
+      </CallToAction>
+    )
   }
 
   const platformImage =
     PLATFORMS[resource?.platform?.code as PlatformEnum]?.image
 
+  const { resource_type: type, url, platform } = resource!
+
+  const buttonPrefix =
+    type === ResourceTypeEnum.Podcast ||
+    type === ResourceTypeEnum.PodcastEpisode
+      ? "Listen to"
+      : "Take"
+
   return (
     <CallToAction>
-      {resource ? (
-        <StyledButton size="large" href={resource.url!}>
-          {getCtaPrefix(resource.resource_type)}{" "}
-          {getReadableResourceType(resource.resource_type)}
-        </StyledButton>
-      ) : (
-        <Skeleton height={70} width="50%" />
-      )}
-      {resource ? (
-        platformImage ? (
-          <Platform>
-            <OnPlatform>on</OnPlatform>
-            <StyledPlatformLogo
-              platformCode={resource?.platform?.code as PlatformEnum}
-            />
-          </Platform>
-        ) : null
-      ) : (
-        <Skeleton height={50} width="25%" />
-      )}
+      <StyledButton size="large" href={url!}>
+        {`${buttonPrefix} ${getReadableResourceType(type)}`}
+      </StyledButton>
+      {platformImage ? (
+        <Platform>
+          <OnPlatform>on</OnPlatform>
+          <StyledPlatformLogo platformCode={platform?.code as PlatformEnum} />
+        </Platform>
+      ) : null}
     </CallToAction>
   )
 }
@@ -330,6 +343,27 @@ const TopicsSection: React.FC<{ topics?: LearningResourceTopic[] }> = ({
   )
 }
 
+const InfoItem = ({
+  label,
+  Icon,
+  value,
+}: {
+  label: string
+  Icon: RemixiconComponentType
+  value: string | null
+}) => {
+  if (!value) {
+    return null
+  }
+  return (
+    <InfoItemContainer>
+      <Icon />
+      <InfoLabel>{label}</InfoLabel>
+      <InfoValue>{value}</InfoValue>
+    </InfoItemContainer>
+  )
+}
+
 const InfoSection = ({
   run,
   platformCode,
@@ -341,61 +375,56 @@ const InfoSection = ({
     return null
   }
 
-  const price = platformCode === PlatformEnum.Ocw ? "Free" : run.prices?.[0]
+  const price = run.prices?.[0]
+  const displayPrice =
+    platformCode === PlatformEnum.Ocw || parseFloat(price!) === 0
+      ? "Free"
+      : price
+        ? `$${price}`
+        : null
+
+  const level = run.level?.[0]?.name || null
+
+  const instructors = run.instructors?.length
+    ? run.instructors
+        .filter((instructor) => instructor.full_name)
+        .map(({ full_name: name }) => name)
+        .join(", ")
+    : null
+
+  const languages = run.languages?.length
+    ? run.languages
+        .map((language) => ISO6391.getName(language.substring(0, 2)))
+        .join(", ")
+    : null
+
+  if (
+    [displayPrice, level, instructors, languages].every(
+      (element) => element === null,
+    )
+  ) {
+    return null
+  }
+
   return (
     <InfoItems>
       <Typography variant="subtitle2" component="h3">
         Info
       </Typography>
-      <InfoItem>
-        <RiMoneyDollarCircleFill />
-        <InfoLabel>Price:</InfoLabel>
-        <InfoValue>
-          {parseFloat(price!) === 0 || price === "Free"
-            ? "Free"
-            : price
-              ? `$${price}`
-              : null}
-        </InfoValue>
-      </InfoItem>
-      <InfoItem>
-        <RiBarChartFill />
-        <InfoLabel>Level:</InfoLabel>
-        <InfoValue>{run.level?.[0]?.name || null}</InfoValue>
-      </InfoItem>
-      <InfoItem>
-        <RiGraduationCapFill />
-        <InfoLabel>Instructors:</InfoLabel>
-        <InfoValue>
-          {run.instructors?.length
-            ? run.instructors
-                .filter((instructor) => instructor.full_name)
-                .map(({ full_name: name }) => name)
-                .join(", ")
-            : null}
-        </InfoValue>
-      </InfoItem>
-      <InfoItem>
-        <RiGlobalLine />
-        <InfoLabel>Languages:</InfoLabel>
-        <InfoValue>
-          {run.languages?.length
-            ? run.languages
-                .map((language) => ISO6391.getName(language.substring(0, 2)))
-                .join(", ")
-            : null}
-        </InfoValue>
-      </InfoItem>
+      <InfoItem
+        label="Price:"
+        Icon={RiMoneyDollarCircleFill}
+        value={displayPrice}
+      />
+      <InfoItem label="Level:" Icon={RiBarChartFill} value={level} />
+      <InfoItem
+        label="Instructors:"
+        Icon={RiGraduationCapFill}
+        value={instructors}
+      />
+      <InfoItem label="Languages:" Icon={RiGlobalLine} value={languages} />
     </InfoItems>
   )
-}
-
-const getCtaPrefix = (type: ResourceTypeEnum) => {
-  if (type === ResourceTypeEnum.Podcast) {
-    return "Listen to"
-  } else {
-    return "Take"
-  }
 }
 
 const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
@@ -441,7 +470,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
             value={selectedRun?.id as unknown as string}
             onChange={onDateChange}
           >
-            {resource.runs!.map((run) => (
+            {resource.runs?.map((run) => (
               <MenuItem key={run.id} value={run.id}>
                 {formatDate(run.start_date!, "MMMM DD, YYYY")}
               </MenuItem>
@@ -471,13 +500,16 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     )
   }
 
-  const isVideo = resource && resource.resource_type === ResourceTypeEnum.Video
+  const isVideo =
+    resource &&
+    (resource.resource_type === ResourceTypeEnum.Video ||
+      resource.resource_type === ResourceTypeEnum.VideoPlaylist)
 
   return (
     <Container padTop={isVideo}>
       <DateSection hide={isVideo} />
       <ImageSection resource={resource} config={imgConfig} />
-      <CallToActionSection resource={resource} />
+      <CallToActionSection resource={resource} hide={isVideo} />
       <DetailSection resource={resource} />
       <TopicsSection topics={resource?.topics} />
       <InfoSection

@@ -68,7 +68,29 @@ type Story = StoryObj<typeof LearningResourceExpanded>
 
 export const Course: Story = {
   args: {
-    resource: makeResource({ resource_type: LRT.Course }),
+    resource: makeResource({
+      resource_type: LRT.Course,
+      runs: [factories.learningResources.run()],
+    }),
+  },
+}
+
+export const CourseMultipleRuns: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: LRT.Course,
+      runs: [
+        factories.learningResources.run(),
+        factories.learningResources.run(),
+        factories.learningResources.run(),
+      ],
+    }),
+  },
+}
+
+export const LearningPath: Story = {
+  args: {
+    resource: makeResource({ resource_type: LRT.LearningPath }),
   },
 }
 
@@ -78,9 +100,32 @@ export const Program: Story = {
   },
 }
 
+export const Podcast: Story = {
+  args: {
+    resource: makeResource({ resource_type: LRT.Podcast }),
+  },
+}
+
+export const PodcastEpisode: Story = {
+  args: {
+    resource: makeResource({ resource_type: LRT.PodcastEpisode }),
+  },
+}
+
 export const Video: Story = {
   args: {
-    resource: makeResource({ resource_type: LRT.Video }),
+    resource: makeResource({
+      resource_type: LRT.Video,
+      url: "https://www.youtube.com/watch?v=4A9bGL-_ilA",
+    }),
+  },
+}
+
+export const VideoPlaylist: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: LRT.VideoPlaylist,
+    }),
   },
 }
 
