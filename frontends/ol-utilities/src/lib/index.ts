@@ -3,6 +3,5 @@ export {
   capitalize,
   emptyOrNil,
   formatDurationClockTime,
-  displayDuration,
   pluralize,
 } from "./utils"

@@ -17,9 +17,9 @@ import {
   ResourceTypeEnum,
   PlatformEnum,
 } from "api"
+import { formatDurationClockTime } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import Typography from "@mui/material/Typography"
-import { displayDuration } from "ol-utilities"
 
 const InfoItems = styled.section`
   display: flex;
@@ -129,7 +129,7 @@ const INFO_ITEMS: InfoItemConfig = [
       if (!duration) {
         return null
       }
-      return displayDuration(duration)
+      return formatDurationClockTime(duration)
     },
   },
 

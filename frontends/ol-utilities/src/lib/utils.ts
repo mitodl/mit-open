@@ -53,10 +53,6 @@ export const formatDurationClockTime = (value: string) => {
   return values.join(":")
 }
 
-export const displayDuration = (value: string) => {
-  return moment.duration(value).humanize()
-}
-
 /**
  * Append an 's' to the end of a string if the count is not 1. Optionally,
  * provide a custom plural string.

@@ -167,7 +167,7 @@ describe("Learning Resource Expanded", () => {
     within(section).getByText("Free")
   })
 
-  test("Renders languages correcttly", () => {
+  test("Renders info section languages correctly", () => {
     const resource = factories.learningResources.resource({
       resource_type: ResourceTypeEnum.Course,
       runs: [
@@ -184,5 +184,20 @@ describe("Learning Resource Expanded", () => {
       .closest("section")!
 
     within(section).getByText("English, Spanish, French")
+  })
+
+  test("Renders info section video duration correctly", () => {
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.Video,
+      video: { duration: "PT1H13M44S" },
+    })
+
+    setup(resource)
+
+    const section = screen
+      .getByRole("heading", { name: "Info" })!
+      .closest("section")!
+
+    within(section).getByText("1:13:44")
   })
 })
