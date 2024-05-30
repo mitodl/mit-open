@@ -342,6 +342,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
           <SelectField
             label={null}
             value={selectedRun?.id as unknown as string}
+            defaultValue=""
             onChange={onDateChange}
           >
             {resource.runs?.map((run) => (
