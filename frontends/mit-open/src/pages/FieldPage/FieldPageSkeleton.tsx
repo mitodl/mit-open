@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
 import { BannerPage, styled, Container, Typography } from "ol-components"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
+import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
 import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
@@ -71,6 +72,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     {field.data.title}
                   </Link>
                 </Typography>
+                <ChannelDetails variant="row" className="channel-details" />
 
                 <FieldControls>
                   {field.data?.search_filter ? (

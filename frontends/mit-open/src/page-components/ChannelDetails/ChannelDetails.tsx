@@ -1,7 +1,7 @@
 import React from "react"
 import invariant from "tiny-invariant"
 import CardTemplate from "../CardTemplate/CardTemplate"
-import styled from "styled-components"
+import { styled } from "ol-components"
 type CardVariant = "column" | "row" | "row-reverse"
 type ChannelDetailsProps = {
   variant: CardVariant
@@ -25,5 +25,5 @@ const ChannelDetails = ({ variant, className }: ChannelDetailsProps) => {
   )
 }
 
-export default ChannelDetails
+export { ChannelDetails }
 export type { ChannelDetailsProps }
