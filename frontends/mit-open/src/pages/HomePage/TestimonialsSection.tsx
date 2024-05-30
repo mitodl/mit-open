@@ -30,7 +30,7 @@ const Section = styled.section`
   }
   h3 {
     margin-top: 8px;
-    ${({ theme }) => theme["typography"]["body1"]}
+    ${({ theme }) => theme.typography.body1}
     margin-bottom: 60px;
   }
 `
@@ -62,7 +62,10 @@ const TestimonialsCarouselStyled = styled(Carousel)`
     width: auto;
   }
   .nuka-wrapper {
-    margin: 0 246px;
+    margin: 0 120px;
+  }
+  .nuka-wrapper .testimonial-card:last-child {
+    margin-right: 474px;
   }
 `
 
@@ -74,7 +77,7 @@ const RoughTestimonialCard = styled.div`
   color: ${theme.custom.colors.black};
   display: flex;
   border-radius: 8px;
-  margin: 0 24px 26px 0;
+  margin: 0 0 26px 24px;
 `
 
 const RoughTestimonialCardImage = styled.div`
@@ -101,12 +104,20 @@ const RoughTestimonialCardQuote = styled.div`
   flex: 1 0 0;
   align-self: stretch;
   border-radius: 8px;
+  display: flex;
   div.testimonial-quote-opener {
     color: ${theme.custom.colors.mitRed};
     font-style: normal;
     height: 70px;
     width: 100%;
     ${() => testimonialsTheme.custom.quoteLeader}
+  }
+  h4 {
+    flex-grow: 1;
+  }
+  div.testimonial-quote-closer {
+    text-align: right;
+    width: 100%;
   }
 `
 
@@ -154,13 +165,14 @@ const TestimonialsSection: React.FC = () => {
                 buttonVariant="inverted"
                 buttonSize="large"
                 wrapMode="wrap"
-                scrollDistance={"screen"}
+                scrollDistance={948}
               >
                 <TestimonialFadeLeft />
                 {resources.map((resource) => (
                   <RoughTestimonialCard
                     key={`a-${resource.id}`}
                     id={`testimonial-card-${resource.id}`}
+                    className="testimonial-card"
                   >
                     <RoughTestimonialCardImage>
                       <img src={resource.avatar} />
@@ -168,6 +180,12 @@ const TestimonialsSection: React.FC = () => {
                     <RoughTestimonialCardQuote>
                       <div className="testimonial-quote-opener">&ldquo;</div>
                       <Typography variant="h4">{resource.quote}</Typography>
+                      <div className="testimonial-quote-closer">
+                        <Typography variant="h5">
+                          {resource.attestant_name}
+                        </Typography>
+                        {resource.title}
+                      </div>
                     </RoughTestimonialCardQuote>
                   </RoughTestimonialCard>
                 ))}
