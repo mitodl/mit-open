@@ -28,7 +28,9 @@ const setup = (resource: LearningResource) => {
 describe("Learning Resource Expanded", () => {
   test.each(
     Object.values(ResourceTypeEnum).filter(
-      (type) => type !== ResourceTypeEnum.Video,
+      (type) =>
+        type !== ResourceTypeEnum.Video &&
+        type !== ResourceTypeEnum.VideoPlaylist,
     ),
   )('Renders image, title and link for resource type "%s"', (resourceType) => {
     const resource = factories.learningResources.resource({
@@ -50,7 +52,8 @@ describe("Learning Resource Expanded", () => {
     screen.getByRole("heading", { name: resource.title })
 
     const linkName =
-      resource.resource_type === ResourceTypeEnum.Podcast
+      resource.resource_type === ResourceTypeEnum.Podcast ||
+      resource.resource_type === ResourceTypeEnum.PodcastEpisode
         ? `Listen to ${getReadableResourceType(resource.resource_type)}`
         : `Take ${getReadableResourceType(resource.resource_type)}`
 
