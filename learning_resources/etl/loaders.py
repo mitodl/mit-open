@@ -276,7 +276,10 @@ def load_course(
     content_tags_data = resource_data.pop("content_tags", [])
     resource_data.setdefault("learning_format", [LearningResourceFormat.online.name])
 
+    unique_field_name = resource_data.pop("unique_field", READABLE_ID_FIELD)
+    unique_field_value = resource_data.get(unique_field_name)
     readable_id = resource_data.pop("readable_id")
+
     if readable_id in blocklist or not runs_data:
         resource_data["published"] = False
 
@@ -299,17 +302,20 @@ def load_course(
             )
             return None
 
-        if readable_id != deduplicated_course_id:
+        if deduplicated_course_id and readable_id != deduplicated_course_id:
+            log.error(
+                f"{readable_id} does not match deduplicated ID {deduplicated_course_id}"  # noqa: G004
+            )
             duplicate_resource = LearningResource.objects.filter(
                 platform=platform, readable_id=readable_id
             ).first()
             if duplicate_resource:
+                log.error(
+                    "Ubnpublishing duplicate resource with readable_id %s", readable_id
+                )
                 duplicate_resource.published = False
                 duplicate_resource.save()
                 resource_unpublished_actions(duplicate_resource)
-
-        unique_field_name = resource_data.pop("unique_field", READABLE_ID_FIELD)
-        unique_field_value = resource_data.get(unique_field_name)
 
         log.info(
             "Loading course: %s:%s=%s",
@@ -363,7 +369,7 @@ def load_course(
         load_departments(learning_resource, department_data)
         load_content_tags(learning_resource, content_tags_data)
 
-        update_index(learning_resource, created)
+    update_index(learning_resource, created)
     return learning_resource
 
 
@@ -652,38 +658,37 @@ def load_podcast(podcast_data: dict) -> LearningResource:
             ),
             defaults=podcast_data,
         )
+        Podcast.objects.update_or_create(
+            learning_resource=learning_resource, defaults=podcast_model_data
+        )
         load_image(learning_resource, image_data)
         load_topics(learning_resource, topics_data)
         load_offered_by(learning_resource, offered_by_data)
         load_departments(learning_resource, departments_data)
 
-        Podcast.objects.update_or_create(
-            learning_resource=learning_resource, defaults=podcast_model_data
+    episode_ids = []
+    if learning_resource.published:
+        for episode_data in episodes_data:
+            episode = load_podcast_episode(episode_data)
+            episode_ids.append(episode.id)
+
+        unpublished_episode_ids = (
+            learning_resource.children.filter(
+                relation_type=LearningResourceRelationTypes.PODCAST_EPISODES.value,
+            )
+            .exclude(child__id__in=episode_ids)
+            .values_list("child__id", flat=True)
         )
-
-        episode_ids = []
-        if learning_resource.published:
-            for episode_data in episodes_data:
-                episode = load_podcast_episode(episode_data)
-                episode_ids.append(episode.id)
-
-            unpublished_episode_ids = (
-                learning_resource.children.filter(
-                    relation_type=LearningResourceRelationTypes.PODCAST_EPISODES.value,
-                )
-                .exclude(child__id__in=episode_ids)
-                .values_list("child__id", flat=True)
-            )
-            LearningResource.objects.filter(id__in=unpublished_episode_ids).update(
-                published=False
-            )
-            episode_ids.extend(unpublished_episode_ids)
-            learning_resource.resources.set(
-                episode_ids,
-                through_defaults={
-                    "relation_type": LearningResourceRelationTypes.PODCAST_EPISODES,
-                },
-            )
+        LearningResource.objects.filter(id__in=unpublished_episode_ids).update(
+            published=False
+        )
+        episode_ids.extend(unpublished_episode_ids)
+        learning_resource.resources.set(
+            episode_ids,
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.PODCAST_EPISODES,
+            },
+        )
 
     update_index(learning_resource, created)
 
@@ -810,17 +815,18 @@ def load_playlist(video_channel: VideoChannel, playlist_data: dict) -> LearningR
             defaults={"channel": video_channel},
         )
         load_offered_by(playlist_resource, offered_bys_data)
-        video_resources = load_videos(videos_data)
-        load_topics(playlist_resource, most_common_topics(video_resources))
-        playlist_resource.resources.clear()
-        for idx, video in enumerate(video_resources):
-            playlist_resource.resources.add(
-                video,
-                through_defaults={
-                    "relation_type": LearningResourceRelationTypes.PLAYLIST_VIDEOS,
-                    "position": idx,
-                },
-            )
+
+    video_resources = load_videos(videos_data)
+    load_topics(playlist_resource, most_common_topics(video_resources))
+    playlist_resource.resources.clear()
+    for idx, video in enumerate(video_resources):
+        playlist_resource.resources.add(
+            video,
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.PLAYLIST_VIDEOS,
+                "position": idx,
+            },
+        )
     update_index(playlist_resource, created)
 
     return playlist_resource
@@ -872,11 +878,10 @@ def load_video_channel(video_channel_data: dict) -> VideoChannel:
     channel_id = video_channel_data.pop("channel_id")
     playlists_data = video_channel_data.pop("playlists", [])
 
-    with transaction.atomic():
-        video_channel, _ = VideoChannel.objects.select_for_update().update_or_create(
-            channel_id=channel_id, defaults=video_channel_data
-        )
-        load_playlists(video_channel, playlists_data)
+    video_channel, _ = VideoChannel.objects.select_for_update().update_or_create(
+        channel_id=channel_id, defaults=video_channel_data
+    )
+    load_playlists(video_channel, playlists_data)
 
     return video_channel
 
