@@ -69,7 +69,7 @@ const TestimonialsCarouselStyled = styled(Carousel)`
   }
 `
 
-const RoughTestimonialCard = styled.div`
+const TestimonialCard = styled.div`
   min-width: 948px;
   max-width: 948px;
   height: 326px;
@@ -80,7 +80,7 @@ const RoughTestimonialCard = styled.div`
   margin: 0 0 26px 24px;
 `
 
-const RoughTestimonialCardImage = styled.div`
+const TestimonialCardImage = styled.div`
   width: 300px;
   height: 326px;
   img {
@@ -92,7 +92,7 @@ const RoughTestimonialCardImage = styled.div`
   }
 `
 
-const RoughTestimonialCardQuote = styled.div`
+const TestimonialCardQuote = styled.div`
   width: 648px;
   height: 326px;
   background-color: ${theme.custom.colors.white};
@@ -169,15 +169,15 @@ const TestimonialsSection: React.FC = () => {
               >
                 <TestimonialFadeLeft />
                 {resources.map((resource) => (
-                  <RoughTestimonialCard
+                  <TestimonialCard
                     key={`a-${resource.id}`}
                     id={`testimonial-card-${resource.id}`}
                     className="testimonial-card"
                   >
-                    <RoughTestimonialCardImage>
+                    <TestimonialCardImage>
                       <img src={resource.avatar} />
-                    </RoughTestimonialCardImage>
-                    <RoughTestimonialCardQuote>
+                    </TestimonialCardImage>
+                    <TestimonialCardQuote>
                       <div className="testimonial-quote-opener">&ldquo;</div>
                       <Typography variant="h4">{resource.quote}</Typography>
                       <div className="testimonial-quote-closer">
@@ -186,8 +186,8 @@ const TestimonialsSection: React.FC = () => {
                         </Typography>
                         {resource.title}
                       </div>
-                    </RoughTestimonialCardQuote>
-                  </RoughTestimonialCard>
+                    </TestimonialCardQuote>
+                  </TestimonialCard>
                 ))}
                 <TestimonialFadeRight />
               </TestimonialsCarouselStyled>
