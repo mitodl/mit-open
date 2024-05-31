@@ -1,34 +1,12 @@
 import React, { useCallback, useMemo } from "react"
-import {
-  styled,
-  Pagination,
-  Card,
-  CardContent,
-  PlainList,
-  Skeleton,
-  Container,
-  Typography,
-  Button,
-} from "ol-components"
 
-import TuneIcon from "@mui/icons-material/Tune"
 import { capitalize } from "ol-utilities"
 
-import {
-  LearningResourcePlatform,
-  LearningResourceOfferor,
-  LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
-} from "api"
+import { LearningResourcePlatform, LearningResourceOfferor } from "api"
 import { ChannelTypeEnum } from "api/v0"
-import {
-  useLearningResourcesSearch,
-  usePlatformsList,
-  useOfferorsList,
-} from "api/hooks/learningResources"
+import { usePlatformsList, useOfferorsList } from "api/hooks/learningResources"
 
-import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import {
-  AvailableFacets,
   useResourceSearchParams,
   UseResourceSearchParamsProps,
   getDepartmentName,
@@ -40,20 +18,9 @@ import type {
   FacetManifest,
 } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
+import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
+
 import _ from "lodash"
-import {
-  getLastPage,
-  TABS,
-  SORT_OPTIONS,
-  FacetsTitleContainer,
-  FilterTitle,
-  FacetStyles,
-  SortContainer,
-  StyledDropdown,
-  StyledResourceTabs,
-} from "../SearchPage/SearchPage"
-import { ResourceTypeTabs } from "../SearchPage/ResourceTypeTabs"
 
 const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Topic]: [
@@ -148,17 +115,6 @@ const getFacetManifest = (
   ) as FacetManifest
 }
 
-const PaginationContainer = styled.div`
-  display: flex;
-  justify-content: end;
-`
-
-const StyledSkeleton = styled(Skeleton)`
-  border-radius: 4px;
-`
-
-const PAGE_SIZE = 10
-
 interface FeildSearchProps {
   constantSearchParams: Facets & BooleanFacets
   channelType: ChannelTypeEnum
@@ -180,6 +136,12 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
 
   const [searchParams, setSearchParams] = useSearchParams()
 
+  const facetManifest = useMemo(
+    () =>
+      getFacetManifest(channelType, offerors, platforms, constantSearchParams),
+    [platforms, offerors, channelType, constantSearchParams],
+  )
+
   const setPage = useCallback(
     (newPage: number) => {
       setSearchParams((current) => {
@@ -198,12 +160,6 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
   const onFacetsChange = useCallback(() => {
     setPage(1)
   }, [setPage])
-
-  const facetManifest = useMemo(
-    () =>
-      getFacetManifest(channelType, offerors, platforms, constantSearchParams),
-    [platforms, offerors, channelType, constantSearchParams],
-  )
 
   const facetNames = Array.from(
     new Set(
@@ -230,112 +186,22 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
     facets: facetNames,
     onFacetsChange,
   })
-
-  const allParams = useMemo(() => {
-    return { ...constantSearchParams, ...params }
-  }, [params, constantSearchParams])
-
   const page = +(searchParams.get("page") ?? "1")
 
-  const { data, isLoading } = useLearningResourcesSearch(
-    {
-      ...(allParams as LRSearchRequest),
-      aggregations: facetNames as LRSearchRequest["aggregations"],
-      offset: (page - 1) * PAGE_SIZE,
-    },
-    { keepPreviousData: true },
-  )
-
   return (
-    <Container>
-      <GridContainer>
-        <ResourceTypeTabs.Context resourceType={params.resource_type?.[0]}>
-          <GridColumn variant="sidebar-2-wide-main">
-            <FacetsTitleContainer>
-              <FilterTitle>
-                <Typography variant="h5">Filters</Typography>
-                <TuneIcon fontSize="inherit" />
-              </FilterTitle>
-              {hasFacets ? (
-                <Button
-                  variant="text"
-                  color="secondary"
-                  size="small"
-                  onClick={clearAllFacets}
-                >
-                  Clear all
-                </Button>
-              ) : null}
-            </FacetsTitleContainer>
-            <FacetStyles>
-              <AvailableFacets
-                facetManifest={facetManifest}
-                activeFacets={params}
-                onFacetChange={toggleParamValue}
-                facetOptions={data?.metadata.aggregations ?? {}}
-              />
-            </FacetStyles>
-          </GridColumn>
-          <GridColumn variant="main-2-wide-main">
-            <SortContainer>
-              <StyledDropdown
-                initialValue={params.sortby || ""}
-                isMultiple={false}
-                onChange={(e) => setParamValue("sortby", e.target.value)}
-                options={SORT_OPTIONS}
-                renderValue={(value) => {
-                  const opt = SORT_OPTIONS.find(
-                    (option) => option.key === value,
-                  )
-                  return `Sort by: ${opt?.label}`
-                }}
-              />
-            </SortContainer>
-            <StyledResourceTabs
-              patchParams={patchParams}
-              tabs={TABS}
-              aggregations={data?.metadata.aggregations}
-              onTabChange={() => setPage(1)}
-            />
-            <ResourceTypeTabs.TabPanels tabs={TABS}>
-              {isLoading ? (
-                <PlainList itemSpacing={3}>
-                  {Array(PAGE_SIZE)
-                    .fill(null)
-                    .map((a, index) => (
-                      <li key={index}>
-                        <StyledSkeleton variant="rectangular" height={162} />
-                      </li>
-                    ))}
-                </PlainList>
-              ) : data && data.count > 0 ? (
-                <PlainList itemSpacing={3}>
-                  {data.results.map((resource) => (
-                    <li key={resource.id}>
-                      <LearningResourceCard
-                        variant="row-reverse"
-                        resource={resource}
-                      />
-                    </li>
-                  ))}
-                </PlainList>
-              ) : (
-                <Card>
-                  <CardContent>No results found for your query.</CardContent>
-                </Card>
-              )}
-              <PaginationContainer>
-                <Pagination
-                  count={getLastPage(data?.count ?? 0)}
-                  page={page}
-                  onChange={(_, newPage) => setPage(newPage)}
-                />
-              </PaginationContainer>
-            </ResourceTypeTabs.TabPanels>
-          </GridColumn>
-        </ResourceTypeTabs.Context>
-      </GridContainer>
-    </Container>
+    <SearchDisplay
+      page={page}
+      requestParams={params}
+      setPage={setPage}
+      facetManifest={facetManifest}
+      facetNames={facetNames}
+      constantSearchParams={constantSearchParams}
+      hasFacets={hasFacets}
+      setParamValue={setParamValue}
+      clearAllFacets={clearAllFacets}
+      toggleParamValue={toggleParamValue}
+      patchParams={patchParams}
+    />
   )
 }
 
