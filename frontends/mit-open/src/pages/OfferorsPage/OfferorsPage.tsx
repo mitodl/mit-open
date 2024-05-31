@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   Container,
+  Grid,
   Typography,
   styled,
 } from "ol-components"
@@ -47,7 +48,9 @@ const sortOfferors = (
   })
 }
 
-const Page = styled.div({})
+const Page = styled.div({
+  paddingBottom: "80px",
+})
 
 const PageContent = styled.div({
   display: "flex",
@@ -70,32 +73,36 @@ const PageHeaderText = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle1,
 }))
 
-const OfferorSection = styled.div({
+const UnitContainer = styled.div({
   display: "flex",
-  width: "1056px",
   flexDirection: "column",
   alignItems: "center",
   gap: "32px",
 })
 
-const OfferorContent = styled.div({
+const UnitTitleContainer = styled.div({
+  display: "flex",
+  justifyContent: "flex-start",
+  alignItems: "center",
+  gap: "8px",
+  paddingBottom: "16px",
+})
+
+const UnitTitle = styled(Typography)(({ theme }) => ({
+  color: theme.custom.colors.darkGray2,
+  ...theme.typography.h4,
+}))
+
+const UnitDescriptionContainer = styled.div({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
-  alignSelf: "stretch",
-  gap: "32px",
+  paddingBottom: "8px",
 })
 
-const SectionTitleContainer = styled.div({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  gap: "8px",
-})
-
-const SectionTitle = styled(Typography)(({ theme }) => ({
+const UnitDescription = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
-  ...theme.typography.h4,
+  ...theme.typography.body2,
 }))
 
 const AcademicIcon = styled(RiBookOpenLine)({
@@ -108,20 +115,11 @@ const ProfessionalIcon = styled(RiSuitcaseLine)({
   height: "32px",
 })
 
-const CardContainer = styled.div({
-  display: "flex",
-  alignItems: "flex-start",
-  alignContent: "flex-start",
-  alignSelf: "stretch",
-  flexWrap: "wrap",
-  gap: "24px",
-})
-
 const OfferorCard = styled(Card)({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  width: "516px",
+  height: "100%",
 })
 
 const LogoContainer = styled.div({
@@ -149,6 +147,40 @@ const offerorLogos = {
   [OfferedByEnum.See]: "/static/images/offeror_logos/see.svg",
 }
 
+interface UnitSectionProps {
+  icon: React.ReactNode
+  title: string
+  description: string
+  offerors: LearningResourceOfferorDetail[] | undefined
+  courseCounts: Record<string, number>
+  programCounts: Record<string, number>
+}
+
+const UnitSection: React.FC<UnitSectionProps> = (props) => {
+  const { icon, title, description, offerors, courseCounts, programCounts } =
+    props
+  return (
+    <UnitContainer>
+      <Grid container spacing={3} justifyContent="center">
+        <Grid item xs={12} md={10} width="1056px">
+          <UnitTitleContainer>
+            {icon}
+            <UnitTitle>{title}</UnitTitle>
+          </UnitTitleContainer>
+          <UnitDescriptionContainer>
+            <UnitDescription>{description}</UnitDescription>
+          </UnitDescriptionContainer>
+        </Grid>
+        <OfferorCards
+          offerors={offerors}
+          courseCounts={courseCounts}
+          programCounts={programCounts}
+        />
+      </Grid>
+    </UnitContainer>
+  )
+}
+
 interface OfferorCardsProps {
   offerors: LearningResourceOfferorDetail[] | undefined
   courseCounts: Record<string, number>
@@ -158,27 +190,29 @@ interface OfferorCardsProps {
 const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
   const { offerors, courseCounts, programCounts } = props
   return (
-    <CardContainer>
+    <>
       {offerors?.map((offeror) => {
         const courseCount = courseCounts[offeror.code] || 0
         const programCount = programCounts[offeror.code] || 0
         const logo = offerorLogos[offeror.code as OfferedByEnum]
         return offeror.value_prop ? (
-          <OfferorCard>
-            <CardContent>
-              <LogoContainer>
-                <OfferorLogo src={logo} alt={offeror.name} />
-              </LogoContainer>
-              <Typography>{offeror.value_prop}</Typography>
-              <Typography>
-                {courseCount > 0 ? `Courses: ${courseCount}` : ""}{" "}
-                {programCount > 0 ? `Programs: ${programCount}` : ""}
-              </Typography>
-            </CardContent>
-          </OfferorCard>
+          <Grid item xs={12} md={5}>
+            <OfferorCard>
+              <CardContent>
+                <LogoContainer>
+                  <OfferorLogo src={logo} alt={offeror.name} />
+                </LogoContainer>
+                <Typography>{offeror.value_prop}</Typography>
+                <Typography>
+                  {courseCount > 0 ? `Courses: ${courseCount}` : ""}{" "}
+                  {programCount > 0 ? `Programs: ${programCount}` : ""}
+                </Typography>
+              </CardContent>
+            </OfferorCard>
+          </Grid>
         ) : null
       })}
-    </CardContainer>
+    </>
   )
 }
 
@@ -210,6 +244,25 @@ const OfferorsPage: React.FC = () => {
     programCounts,
   )
 
+  const units = [
+    {
+      key: "academic",
+      icon: <AcademicIcon />,
+      title: "Academic Offerors",
+      description:
+        "MIT's Academic courses, programs and materials mirror MIT curriculum and residential programs, making these available to a global audience. Approved by faculty committees, academic content furnishes a comprehensive foundation of knowledge, skills, and abilities for students pursuing their academic objectives. Renowned for their rigor and challenge, MIT's academic offerings deliver an experience on par with the campus environment.",
+      offerors: academicOfferors,
+    },
+    {
+      key: "professional",
+      icon: <ProfessionalIcon />,
+      title: "Professional Offerors",
+      description:
+        "MIT's Professional courses and programs are tailored for working professionals seeking essential practical skills across various industries. Led by MIT faculty and maintaining challenging standards, Professional courses and programs prioritize real-world applications, emphasize practical skills and are directly relevant to today's workforce.",
+      offerors: professionalOfferors,
+    },
+  ]
+
   return (
     <Page>
       <Banner
@@ -228,32 +281,17 @@ const OfferorsPage: React.FC = () => {
               catering to a diverse range of needs.
             </PageHeaderText>
           </PageHeaderContainer>
-          <OfferorSection>
-            <OfferorContent>
-              <SectionTitleContainer>
-                <AcademicIcon />
-                <SectionTitle>Academic Offerors</SectionTitle>
-              </SectionTitleContainer>
-              <OfferorCards
-                offerors={academicOfferors}
-                courseCounts={courseCounts}
-                programCounts={programCounts}
-              />
-            </OfferorContent>
-          </OfferorSection>
-          <OfferorSection>
-            <OfferorContent>
-              <SectionTitleContainer>
-                <ProfessionalIcon />
-                <SectionTitle>Professional Offerors</SectionTitle>
-              </SectionTitleContainer>
-              <OfferorCards
-                offerors={professionalOfferors}
-                courseCounts={courseCounts}
-                programCounts={programCounts}
-              />
-            </OfferorContent>
-          </OfferorSection>
+          {units.map((unit) => (
+            <UnitSection
+              key={unit.key}
+              icon={unit.icon}
+              title={unit.title}
+              description={unit.description}
+              offerors={unit.offerors}
+              courseCounts={courseCounts}
+              programCounts={programCounts}
+            />
+          ))}
         </PageContent>
       </Container>
     </Page>
