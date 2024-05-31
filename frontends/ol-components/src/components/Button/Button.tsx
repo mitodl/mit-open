@@ -103,6 +103,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     },
     variant === "tertiary" && {
       color: colors.darkGray2,
+      border: "none",
       backgroundColor: colors.lightGray2,
       ":hover:not(:disabled)": {
         backgroundColor: colors.white,
