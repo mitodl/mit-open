@@ -99,7 +99,7 @@ const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
 const SearchButton: FunctionComponent = () => {
   return (
     <ActionButtonLink
-      edge="rounded"
+      edge="circular"
       variant="text"
       nativeAnchor={true}
       href={SEARCH}

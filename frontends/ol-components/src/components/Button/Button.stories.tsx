@@ -112,13 +112,13 @@ export const EdgeStory: Story = {
   },
   render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button {...args} edge="rounded">
+      <Button {...args} edge="circular">
         rounded
       </Button>
       <Button {...args} edge="circular">
         circular
       </Button>
-      <Button {...args} variant="secondary" edge="rounded">
+      <Button {...args} variant="secondary" edge="circular">
         rounded
       </Button>
       <Button {...args} variant="secondary" edge="circular">

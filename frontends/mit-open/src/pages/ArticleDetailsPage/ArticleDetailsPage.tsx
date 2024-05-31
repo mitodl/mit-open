@@ -45,7 +45,7 @@ const ArticlesDetailPage: React.FC = () => {
                   alignItems="center"
                   display="flex"
                 >
-                  <ButtonLink variant="outlined" href={articlesEditView(id)}>
+                  <ButtonLink variant="secondary" href={articlesEditView(id)}>
                     Edit
                   </ButtonLink>
                 </Grid>

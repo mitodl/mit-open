@@ -134,7 +134,7 @@ const LearningPathListingPage: React.FC = () => {
                 display="flex"
               >
                 {canEdit ? (
-                  <Button variant="filled" onClick={handleCreate}>
+                  <Button variant="primary" onClick={handleCreate}>
                     Create new list
                   </Button>
                 ) : null}
