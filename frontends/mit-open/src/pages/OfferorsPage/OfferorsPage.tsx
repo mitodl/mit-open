@@ -136,11 +136,11 @@ const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
       {offerors?.map((offeror) => {
         const courseCount = courseCounts[offeror.code] || 0
         const programCount = programCounts[offeror.code] || 0
-        return offeror.description ? (
+        return offeror.value_prop ? (
           <OfferorCard>
             <CardContent>
               <Typography variant="h5">{offeror.name}</Typography>
-              <Typography>{offeror.description}</Typography>
+              <Typography>{offeror.value_prop}</Typography>
               <Typography>
                 {courseCount > 0 ? `Courses: ${courseCount}` : ""}{" "}
                 {programCount > 0 ? `Programs: ${programCount}` : ""}

@@ -986,7 +986,7 @@ export interface LearningResourceOfferorDetail {
    * @type {string}
    * @memberof LearningResourceOfferorDetail
    */
-  description?: string
+  value_prop?: string
 }
 /**
  * Serializer for LearningResourceOfferor with all details
@@ -1059,7 +1059,7 @@ export interface LearningResourceOfferorDetailRequest {
    * @type {string}
    * @memberof LearningResourceOfferorDetailRequest
    */
-  description?: string
+  value_prop?: string
 }
 /**
  * Serializer for News FeedItem

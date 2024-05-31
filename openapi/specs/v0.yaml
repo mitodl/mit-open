@@ -1484,7 +1484,7 @@ components:
           type: string
           format: uri
           maxLength: 200
-        description:
+        value_prop:
           type: string
       required:
       - channel_url
@@ -1544,7 +1544,7 @@ components:
           type: string
           format: uri
           maxLength: 200
-        description:
+        value_prop:
           type: string
       required:
       - code
