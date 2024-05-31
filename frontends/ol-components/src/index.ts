@@ -109,6 +109,8 @@ export { default as Radio } from "@mui/material/Radio"
 export type { RadioProps } from "@mui/material/Radio"
 export { default as RadioGroup } from "@mui/material/RadioGroup"
 export type { RadioGroupProps } from "@mui/material/RadioGroup"
+export { default as ToggleButton } from "@mui/material/ToggleButton"
+export { default as ToggleButtonGroup } from "@mui/material/ToggleButtonGroup"
 
 // Mui Custom Form Inputs
 export { default as FormControl } from "@mui/material/FormControl"
@@ -123,6 +125,8 @@ export { default as Pagination } from "@mui/material/Pagination"
 export type { PaginationProps } from "@mui/material/Pagination"
 export { default as Typography } from "@mui/material/Typography"
 export type { TypographyProps } from "@mui/material/Typography"
+
+export { default as Collapse } from "@mui/material/Collapse"
 
 export { default as Menu } from "@mui/material/Menu"
 export type { MenuProps } from "@mui/material/Menu"
