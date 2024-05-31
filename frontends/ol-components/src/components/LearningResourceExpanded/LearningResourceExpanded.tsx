@@ -269,7 +269,7 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
 const TopicsSection: React.FC<{ topics?: LearningResourceTopic[] }> = ({
   topics,
 }) => {
-  if (!topics) {
+  if (!topics?.length) {
     return null
   }
   return (
