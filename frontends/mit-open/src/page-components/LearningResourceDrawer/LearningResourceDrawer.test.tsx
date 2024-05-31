@@ -10,16 +10,14 @@ import LearningResourceDrawer, {
   useOpenLearningResourceDrawer,
 } from "./LearningResourceDrawer"
 import { urls, factories, setMockResponse } from "api/test-utils"
-import { ExpandedLearningResourceDisplay } from "ol-components"
+import { LearningResourceExpanded } from "ol-components"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 
 jest.mock("ol-components", () => {
   const actual = jest.requireActual("ol-components")
   return {
     ...actual,
-    ExpandedLearningResourceDisplay: jest.fn(
-      actual.ExpandedLearningResourceDisplay,
-    ),
+    LearningResourceExpanded: jest.fn(actual.LearningResourceExpanded),
   }
 })
 
@@ -53,9 +51,9 @@ describe("LearningResourceDrawer", () => {
       renderWithProviders(<LearningResourceDrawer />, {
         url: `?dog=woof&${RESOURCE_DRAWER_QUERY_PARAM}=${resource.id}`,
       })
-      expect(ExpandedLearningResourceDisplay).toHaveBeenCalled()
+      expect(LearningResourceExpanded).toHaveBeenCalled()
       await waitFor(() => {
-        expectProps(ExpandedLearningResourceDisplay, { resource })
+        expectProps(LearningResourceExpanded, { resource })
       })
       await screen.findByRole("heading", { name: resource.title })
       if (enablePostHog) {
@@ -70,7 +68,7 @@ describe("LearningResourceDrawer", () => {
     renderWithProviders(<LearningResourceDrawer />, {
       url: "?dog=woof",
     })
-    expect(ExpandedLearningResourceDisplay).not.toHaveBeenCalled()
+    expect(LearningResourceExpanded).not.toHaveBeenCalled()
   })
 
   test("useOpenLearningResourceDrawer sets correct parameter", () => {

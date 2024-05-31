@@ -19,7 +19,6 @@ describe("Widgets", () => {
     const { container } = render(
       <Widget className="some-class other-class" widget={widget} />,
     )
-    // eslint-disable-next-line testing-library/no-node-access
     const widgetEl = container.firstChild
     expect(widgetEl).toHaveClass("some-class")
     expect(widgetEl).toHaveClass("other-class")
