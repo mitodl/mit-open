@@ -32,7 +32,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Build frontend
-        run: NODE_ENV=production yarn build
+        run: EMBEDLY_KEY=${{ secrets.EMBEDLY_KEY_PROD }} NODE_ENV=production yarn build
 
       - name: Upload frontend build to s3
         uses: jakejarvis/s3-sync-action@master
