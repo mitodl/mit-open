@@ -81,10 +81,10 @@ interface BannerPageProps extends ImgProps {
 
 const BannerPageHeaderFlex = styled.header`
   min-height: ${BANNER_HEIGHT};
+  ${({ theme }) => `background-color: ${theme.custom.colors.darkGray1};`}
   ${({ theme }) => theme.breakpoints.down("sm")} {
     min-height: ${SM_BANNER_HEIGHT};
   }
-
   display: flex;
   flex-direction: column;
   justify-content: center;
