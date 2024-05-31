@@ -48,7 +48,6 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
 }) => {
   const field = useChannelDetail(String(channelType), String(name))
   const urlParams = new URLSearchParams(field.data?.search_filter)
-
   return (
     <BannerPage
       src={field.data?.banner ?? ""}
@@ -84,7 +83,11 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                 </Box>
 
                 <Box display="flex" alignItems="end" sx={{ gridRow: "span 2" }}>
-                  <ChannelDetails field={field.data} />
+                  {channelType === "offeror" ? (
+                    <ChannelDetails field={field.data} />
+                  ) : (
+                    <></>
+                  )}
                 </Box>
                 <Box
                   display="flex"

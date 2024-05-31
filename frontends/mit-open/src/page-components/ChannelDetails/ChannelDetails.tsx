@@ -110,8 +110,10 @@ const getChannelDetails = (field) => {
   const dataKey = `${channelType}_detail`
   return field[dataKey][channelType]
 }
-
-const ChannelDetailsCard = styled(Box)<{ theme }>({
+const InfoLabel = styled(Typography)(({ theme }) => ({
+  color: theme.custom.colors.mitRed,
+}))
+const ChannelDetailsCard = styled(Box)({
   border: "1px solid #ccc",
   borderRadius: "8px",
   padding: "16px",
@@ -154,15 +156,15 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
 
     return (
       <Box key={value.title} sx={{ margin: "10px" }}>
-        <Typography
-          lineHeight="1"
+        <InfoLabel
+          lineHeight="1.5"
           fontSize="inherit"
           variant="h5"
           component="h5"
           gutterBottom
         >
           {value.title}
-        </Typography>
+        </InfoLabel>
         <Typography
           lineHeight="1"
           fontSize="inherit"
