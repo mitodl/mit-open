@@ -13,19 +13,27 @@ from rest_framework.utils.urls import replace_query_param
 
 from learning_resources.constants import (
     DEPARTMENTS,
+    GROUP_STAFF_LISTS_EDITORS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
     CertificationType,
     LearningResourceFormat,
+    LearningResourceRelationTypes,
     LearningResourceType,
     LevelType,
     OfferedBy,
     PlatformType,
 )
-from learning_resources.models import LearningResource
+from learning_resources.models import (
+    LearningResource,
+    LearningResourceRelationship,
+    UserListRelationship,
+)
 from learning_resources.serializers import (
     ContentFileSerializer,
     CourseNumberSerializer,
     LearningResourceSerializer,
+    MicroLearningPathRelationshipSerializer,
+    MicroUserListRelationshipSerializer,
 )
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
@@ -451,8 +459,58 @@ class SearchResponseSerializer(serializers.Serializer):
     def get_count(self, instance) -> int:
         return instance.get("hits", {}).get("total", {}).get("value")
 
+    def update_list_parents(self, hits):
+        """Fill in user_list_parents and learning_path_parents for users"""
+
+        request = self.context.get("request")
+        if request and request.user and request.user.is_authenticated:
+            learning_path_parents_dict = {}
+            user_list_parents_dict = {}
+            hit_ids = [hit.get("_id") for hit in hits]
+
+            # Get user_list_parents for all returned resources
+            user_list_parents = UserListRelationship.objects.filter(
+                parent__author=request.user, child_id__in=hit_ids
+            ).values("id", "child_id", "parent_id")
+            for parent in user_list_parents:
+                user_list_parents_dict.setdefault(str(parent["child_id"]), []).append(
+                    parent
+                )
+
+            if (
+                request.user.is_staff
+                or request.user.is_superuser
+                or request.user.groups.filter(name=GROUP_STAFF_LISTS_EDITORS).first()
+                is not None
+            ):
+                # Get learning path parents for all returned resources
+                learning_path_parents = LearningResourceRelationship.objects.filter(
+                    child__id__in=hit_ids,
+                    relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,
+                ).values("id", "child_id", "parent_id")
+                for parent in learning_path_parents:
+                    learning_path_parents_dict.setdefault(
+                        str(parent["child_id"]), []
+                    ).append(parent)
+
+            for hit in hits:
+                if hit["_id"] in learning_path_parents_dict:
+                    hit["_source"]["learning_path_parents"] = (
+                        MicroLearningPathRelationshipSerializer(
+                            instance=learning_path_parents_dict[hit["_id"]], many=True
+                        ).data
+                    )
+
+                if hit["_id"] in user_list_parents_dict:
+                    hit["_source"]["user_list_parents"] = (
+                        MicroUserListRelationshipSerializer(
+                            instance=user_list_parents_dict[hit["_id"]], many=True
+                        ).data
+                    )
+
     def get_results(self, instance):
         hits = instance.get("hits", {}).get("hits", [])
+        self.update_list_parents(hits)
         return (hit.get("_source") for hit in hits)
 
     def get_metadata(self, instance) -> SearchResponseMetadata:
