@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from "react"
 import type { LearningResource } from "api"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import {
   SortableItem,
   SortableList,
@@ -11,7 +10,9 @@ import {
   styled,
   PlainList,
 } from "ol-components"
+import { LearningResourceCard } from "@/page-components/LearningResourceCard/LearningResourceCard"
 import { useListItemMove } from "api/hooks/learningResources"
+import { useOpenLearningResourceDrawer } from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 const EmptyMessage = styled.p({
   fontStyle: "italic",
@@ -45,6 +46,7 @@ const ItemsListingViewOnly: React.FC<{
             <LearningResourceCard
               variant="row-reverse"
               resource={item.resource}
+              onActivate={useOpenLearningResourceDrawer}
             />
           </li>
         )
@@ -76,6 +78,7 @@ const ItemsListingSortable: React.FC<{
         suppressImage
         variant="row-reverse"
         resource={item.resource}
+        onActivate={useOpenLearningResourceDrawer}
       />
     )
   }, [])
@@ -122,6 +125,7 @@ const ItemsListingSortable: React.FC<{
                       suppressImage
                       variant="row-reverse"
                       resource={item.resource}
+                      onActivate={useOpenLearningResourceDrawer}
                     />
                   </div>
                 )

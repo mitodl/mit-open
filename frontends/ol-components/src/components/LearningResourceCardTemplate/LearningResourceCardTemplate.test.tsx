@@ -1,7 +1,7 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import { assertInstanceOf, resourceThumbnailSrc } from "ol-utilities"
-import LearningResourceCardTemplate from "./LearningResourceCardTemplate"
+import { LearningResourceCardTemplate } from "./LearningResourceCardTemplate"
 import { makeImgConfig } from "ol-utilities/test-utils/factories"
 import { allowConsoleErrors } from "ol-test-utilities"
 import user from "@testing-library/user-event"

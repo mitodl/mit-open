@@ -15,13 +15,13 @@ jest.mock("axios", () => {
   }
 })
 
-jest.mock("@/page-components/LearningResourceCard/LearningResourceCard", () => {
-  const actual = jest.requireActual(
-    "@/page-components/LearningResourceCard/LearningResourceCard",
-  )
-  return {
-    __esModule: true,
-    ...actual,
-    default: jest.fn(actual.default),
-  }
-})
+// jest.mock("@/page-components/LearningResourceCard/LearningResourceCard", () => {
+//   const actual = jest.requireActual(
+//     "@/page-components/LearningResourceCard/LearningResourceCard",
+//   )
+//   return {
+//     __esModule: true,
+//     ...actual,
+//     default: jest.fn(actual.default),
+//   }
+// })

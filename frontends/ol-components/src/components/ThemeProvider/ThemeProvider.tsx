@@ -91,5 +91,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
 }
 
+export * from "./images"
+
 export { ThemeProvider }
 export type { ThemeProviderProps, Theme }

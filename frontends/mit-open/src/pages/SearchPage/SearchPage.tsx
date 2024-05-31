@@ -15,6 +15,7 @@ import {
   truncateText,
   css,
 } from "ol-components"
+import { LearningResourceCard } from "@/page-components/LearningResourceCard/LearningResourceCard"
 import { MetaTags, capitalize } from "ol-utilities"
 
 import { ResourceTypeEnum } from "api"
@@ -35,12 +36,12 @@ import {
 } from "@mitodl/course-search-utils"
 import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import TuneIcon from "@mui/icons-material/Tune"
 
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
 import type { TabConfig } from "./ResourceTypeTabs"
 import _ from "lodash"
+import { useOpenLearningResourceDrawer } from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 const getFacetManifest = (
   offerors: Record<string, LearningResourceOfferor>,
@@ -485,6 +486,7 @@ const SearchPage: React.FC = () => {
                         <LearningResourceCard
                           variant="row-reverse"
                           resource={resource}
+                          onActivate={useOpenLearningResourceDrawer}
                         />
                       </li>
                     ))}

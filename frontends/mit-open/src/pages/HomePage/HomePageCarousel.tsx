@@ -1,8 +1,13 @@
 import React from "react"
 import { UseQueryResult } from "@tanstack/react-query"
-import { Carousel, useMuiBreakpointAtLeast, styled } from "ol-components"
+import {
+  Carousel,
+  LearningResourceCard,
+  useMuiBreakpointAtLeast,
+  styled,
+} from "ol-components"
 import type { PaginatedLearningResourceList } from "api"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
+import { useOpenLearningResourceDrawer } from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 interface HomePageCarouselProps {
   query: UseQueryResult<PaginatedLearningResourceList>
@@ -25,7 +30,12 @@ const HomePageCarousel: React.FC<HomePageCarouselProps> = ({ query }) => {
       cellSpacing={0} // we'll handle it with css
     >
       {query.data?.results?.map((resource) => (
-        <CarouselCard key={resource.id} resource={resource} variant="column" />
+        <CarouselCard
+          key={resource.id}
+          resource={resource}
+          variant="column"
+          onActivate={useOpenLearningResourceDrawer}
+        />
       ))}
     </Carousel>
   )

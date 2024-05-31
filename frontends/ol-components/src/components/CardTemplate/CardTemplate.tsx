@@ -1,12 +1,10 @@
 import React from "react"
 import invariant from "tiny-invariant"
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  styled,
-  TruncateText,
-} from "ol-components"
+import styled from "@emotion/styled"
+import Card from "@mui/material/Card"
+import CardContent from "@mui/material/CardContent"
+import CardMedia from "@mui/material/CardMedia"
+import { TruncateText } from "../TruncateText/TruncateText"
 import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
 import {
   DEFAULT_RESOURCE_IMG,
@@ -246,5 +244,5 @@ const CardTemplate = ({
   )
 }
 
-export default CardTemplate
+export { CardTemplate }
 export type { CardTemplateProps }

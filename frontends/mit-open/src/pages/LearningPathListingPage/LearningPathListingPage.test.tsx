@@ -2,7 +2,7 @@ import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { factories, urls } from "api/test-utils"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
+import { LearningResourceCardTemplate } from "ol-components"
 import LearningPathListingPage from "./LearningPathListingPage"
 import {
   screen,

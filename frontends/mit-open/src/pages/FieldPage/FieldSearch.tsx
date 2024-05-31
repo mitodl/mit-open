@@ -11,6 +11,8 @@ import {
   Button,
 } from "ol-components"
 
+import { LearningResourceCard } from "@/page-components/LearningResourceCard/LearningResourceCard"
+
 import TuneIcon from "@mui/icons-material/Tune"
 import { capitalize } from "ol-utilities"
 
@@ -40,7 +42,6 @@ import type {
   FacetManifest,
 } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import _ from "lodash"
 import {
   getLastPage,
@@ -54,6 +55,7 @@ import {
   StyledResourceTabs,
 } from "../SearchPage/SearchPage"
 import { ResourceTypeTabs } from "../SearchPage/ResourceTypeTabs"
+import { useOpenLearningResourceDrawer } from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Topic]: [
@@ -315,6 +317,7 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
                       <LearningResourceCard
                         variant="row-reverse"
                         resource={resource}
+                        onActivate={useOpenLearningResourceDrawer}
                       />
                     </li>
                   ))}

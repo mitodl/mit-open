@@ -1,21 +1,26 @@
 import React, { useCallback } from "react"
 import * as NiceModal from "@ebay/nice-modal-react"
-
-import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
-import type { LearningResourceCardTemplateProps } from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
-import { imgConfigs } from "@/common/constants"
-import { ActionButton } from "ol-components"
+import {
+  LearningResourceCardTemplate,
+  ActionButton,
+  imgConfigs,
+} from "ol-components"
+import type { LearningResourceCardTemplateProps } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
-import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "@/page-components/AddToListDialog/AddToListDialog"
 import { LearningResource } from "api"
 import { useUserMe } from "api/hooks/user"
-import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
 type LearningResourceCardProps = Pick<
   LearningResourceCardTemplateProps<LearningResource>,
   "variant" | "resource" | "className" | "sortable" | "suppressImage"
->
+> & {
+  onActivate: (resource: LearningResource) => void
+}
 
 /**
  * Our standard LearningResourceCard component for MIT Open.
@@ -33,6 +38,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   className,
   sortable,
   suppressImage,
+  onActivate,
 }) => {
   const showAddToLearningPathDialog = useCallback(() => {
     NiceModal.show(AddToLearningPathDialog, { resourceId: resource.id })
@@ -44,7 +50,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   }, [resource])
 
   const { isLoading, data: user } = useUserMe()
-  const openLRDrawer = useOpenLearningResourceDrawer()
+  // const openLRDrawer = useOpenLearningResourceDrawer()
 
   if (isLoading) {
     return null
@@ -58,7 +64,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       className={className}
       resource={resource}
       imgConfig={imgConfigs[variant]}
-      onActivate={(r) => openLRDrawer(r.id)}
+      onActivate={onActivate}
       footerActionSlot={
         <div>
           {user?.is_authenticated && user?.is_learning_path_editor && (
@@ -89,5 +95,5 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   )
 }
 
-export default LearningResourceCard
+export { LearningResourceCard }
 export type { LearningResourceCardProps }

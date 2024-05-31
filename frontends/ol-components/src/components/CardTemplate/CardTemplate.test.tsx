@@ -1,6 +1,6 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
-import CardTemplate from "./CardTemplate"
+import { CardTemplate } from "./CardTemplate"
 import { DEFAULT_RESOURCE_IMG } from "ol-utilities"
 import { makeImgConfig } from "ol-utilities/test-utils/factories"
 

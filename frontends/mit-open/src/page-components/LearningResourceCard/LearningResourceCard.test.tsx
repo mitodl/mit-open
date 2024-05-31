@@ -2,11 +2,15 @@ import React from "react"
 import * as NiceModal from "@ebay/nice-modal-react"
 import { renderWithProviders, user, screen } from "../../test-utils"
 import type { User } from "../../test-utils"
-import LearningResourceCard from "./LearningResourceCard"
+import { LearningResourceCard } from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"
-import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "@/page-components/AddToListDialog/AddToListDialog"
 import * as factories from "api/test-utils/factories"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
+import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
 jest.mock("@ebay/nice-modal-react", () => {
   const actual = jest.requireActual("@ebay/nice-modal-react")
@@ -26,7 +30,12 @@ describe("LearningResourceCard", () => {
   const setup = ({ user, props = {} }: SetupOptions = {}) => {
     const { resource = makeResource(), variant = "column" } = props
     const { view, location } = renderWithProviders(
-      <LearningResourceCard {...props} resource={resource} variant={variant} />,
+      <LearningResourceCard
+        {...props}
+        resource={resource}
+        variant={variant}
+        onActivate={useOpenLearningResourceDrawer}
+      />,
       { user },
     )
     return { resource, view, location }

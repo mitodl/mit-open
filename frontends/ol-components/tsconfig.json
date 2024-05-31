@@ -4,5 +4,10 @@
     "outDir": "./build",
     "rootDir": "./src"
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+  "include": [
+    "./src/**/*.ts",
+    "./src/**/*.tsx",
+    "../mit-open/src/page-components/AddToListDialog/AddToListDialog.tsx",
+    "../mit-open/src/page-components/AddToListDialog/AddToListDialog.test.tsx"
+  ]
 }

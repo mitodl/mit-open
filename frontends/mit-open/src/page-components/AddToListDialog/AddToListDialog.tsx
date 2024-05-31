@@ -33,7 +33,7 @@ import {
   useUserListRelationshipCreate,
   useUserListRelationshipDestroy,
 } from "api/hooks/learningResources"
-import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { manageListDialogs } from "../ManageListDialogs/ManageListDialogs"
 import { ListType } from "api/constants"
 
 const useLearningPathRequestRecord = () => {

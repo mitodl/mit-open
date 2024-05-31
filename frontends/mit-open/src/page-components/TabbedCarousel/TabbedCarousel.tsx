@@ -19,8 +19,9 @@ import type {
   FeaturedDataSource,
 } from "./types"
 import { LearningResource } from "api"
-import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
+import { LearningResourceCard } from "../LearningResourceCard/LearningResourceCard"
 import type { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
+import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
 type LearningResourceCardStyledProps = LearningResourceCardProps & {
   cardsPerPage: number
@@ -139,6 +140,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
                     variant="column"
                     resource={resource}
                     cardsPerPage={pageSize}
+                    onActivate={useOpenLearningResourceDrawer}
                   />
                 ))}
               </CarouselStyled>

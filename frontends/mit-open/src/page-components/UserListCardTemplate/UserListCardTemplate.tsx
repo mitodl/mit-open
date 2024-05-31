@@ -1,8 +1,7 @@
 import React, { useCallback } from "react"
-import CardTemplate from "../CardTemplate/CardTemplate"
+import { CardTemplate, TypeRow } from "ol-components"
 import { UserList } from "api"
 import { EmbedlyConfig, pluralize } from "ol-utilities"
-import { TypeRow } from "../LearningResourceCardTemplate/LearningResourceCardTemplate"
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard = (userList: UserList) => void

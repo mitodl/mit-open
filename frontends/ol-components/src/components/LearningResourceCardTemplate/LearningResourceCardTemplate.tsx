@@ -1,7 +1,8 @@
 import React, { useCallback } from "react"
 import { ResourceTypeEnum } from "api"
 import type { LearningResource } from "api"
-import { Chip, styled } from "ol-components"
+import styled from "@emotion/styled"
+import Chip from "@mui/material/Chip"
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
 import {
   formatDate,
@@ -11,7 +12,7 @@ import {
   DEFAULT_RESOURCE_IMG,
 } from "ol-utilities"
 import type { EmbedlyConfig } from "ol-utilities"
-import CardTemplate from "../CardTemplate/CardTemplate"
+import { CardTemplate } from "../CardTemplate/CardTemplate"
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard<R extends LearningResource> = (resource: R) => void
@@ -162,6 +163,6 @@ const LearningResourceCardTemplate = <R extends LearningResource>({
   )
 }
 
-export default LearningResourceCardTemplate
+export { LearningResourceCardTemplate }
 export { TypeRow }
 export type { LearningResourceCardTemplateProps }
