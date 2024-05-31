@@ -15,6 +15,7 @@ import React from "react"
 import {
   LearningResourceOfferorDetail,
   LearningResourceSearchResponse,
+  OfferedByEnum,
 } from "api"
 
 const OFFERORS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
@@ -123,6 +124,31 @@ const OfferorCard = styled(Card)({
   width: "516px",
 })
 
+const LogoContainer = styled.div({
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  alignSelf: "stretch",
+  height: "128px",
+})
+
+const OfferorLogo = styled.img({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "50px",
+})
+
+const offerorLogos = {
+  [OfferedByEnum.Mitx]: "/static/images/offeror_logos/mitx.svg",
+  [OfferedByEnum.Ocw]: "/static/images/offeror_logos/ocw.svg",
+  [OfferedByEnum.Bootcamps]: "/static/images/offeror_logos/bootcamps.svg",
+  [OfferedByEnum.Xpro]: "/static/images/offeror_logos/xpro.svg",
+  [OfferedByEnum.Mitpe]: "/static/images/offeror_logos/mitpe.svg",
+  [OfferedByEnum.See]: "/static/images/offeror_logos/see.svg",
+}
+
 interface OfferorCardsProps {
   offerors: LearningResourceOfferorDetail[] | undefined
   courseCounts: Record<string, number>
@@ -136,10 +162,13 @@ const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
       {offerors?.map((offeror) => {
         const courseCount = courseCounts[offeror.code] || 0
         const programCount = programCounts[offeror.code] || 0
+        const logo = offerorLogos[offeror.code as OfferedByEnum]
         return offeror.value_prop ? (
           <OfferorCard>
             <CardContent>
-              <Typography variant="h5">{offeror.name}</Typography>
+              <LogoContainer>
+                <OfferorLogo src={logo} alt={offeror.name} />
+              </LogoContainer>
               <Typography>{offeror.value_prop}</Typography>
               <Typography>
                 {courseCount > 0 ? `Courses: ${courseCount}` : ""}{" "}
