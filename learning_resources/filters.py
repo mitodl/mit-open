@@ -14,6 +14,7 @@ from django_filters import (
 from learning_resources.constants import (
     DEPARTMENTS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    CertificationType,
     LearningResourceFormat,
     LearningResourceType,
     LevelType,
@@ -105,6 +106,13 @@ class LearningResourceFilter(FilterSet):
         label="The learning format of course/program resources",
         method="filter_format",
         choices=LearningResourceFormat.as_list(),
+    )
+
+    certification_type = MultipleChoiceFilter(
+        label="The type of certification offered",
+        choices=CertificationType.as_tuple(),
+        field_name="certification_type",
+        lookup_expr="iexact",
     )
 
     def filter_free(self, queryset, _, value):

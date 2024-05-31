@@ -13,6 +13,7 @@ from channels.factories import (
 from channels.models import FieldChannel
 from learning_resources import factories, serializers, utils
 from learning_resources.constants import (
+    CertificationType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -208,6 +209,10 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "prices": resource.prices,
         "professional": resource.professional,
         "certification": resource.certification,
+        "certification_type": {
+            "code": resource.certification_type,
+            "name": CertificationType[resource.certification_type].value,
+        },
         "free": (
             not resource.professional
             and detail_key
