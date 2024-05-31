@@ -199,6 +199,7 @@ def send_subscription_emails(self, subscription_type, period="daily"):
     """
     Send subscription emails by percolating matched documents
     """
+    log.info("Sending %s subscription emails for %s", period, subscription_type)
     delta = datetime.timedelta(days=1)
     if period == "weekly":
         delta = datetime.timedelta(days=7)
