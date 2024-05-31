@@ -30,14 +30,6 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   ],
   [ChannelTypeEnum.Pathway]: [],
 }
-/*
-offerings
-audience
-formats
-content_types
-certifications
-more_information
-*/
 
 const getFacetManifest = (channelType: ChannelTypeEnum): FacetManifest => {
   return [
@@ -178,7 +170,7 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
           color="text.secondary"
           gutterBottom
         >
-          {label}
+          {Array.isArray(label) ? label.join(" | ") : label}
         </Typography>
       </Box>
     )
