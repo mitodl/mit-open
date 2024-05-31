@@ -11,17 +11,6 @@ import { useTestimonialList } from "api/hooks/testimonials"
 import { Attestation } from "api/v0"
 import { RiArrowDropRightLine, RiArrowDropLeftLine } from "@remixicon/react"
 
-const testimonialsTheme = {
-  ...theme,
-  custom: {
-    ...theme.custom,
-    quoteLeader: {
-      fontSize: pxToRem(80),
-      lineHeight: pxToRem(120),
-    },
-  },
-}
-
 const Section = styled.section(({ theme }) => ({
   backgroundColor: theme.custom.colors.mitRed,
   color: theme.custom.colors.white,
@@ -60,17 +49,50 @@ const TestimonialsDataCarousel: React.FC<TestimonialsDataCarouselProps> = ({
 const TestimonialsDataCarouselStyled = styled(TestimonialsDataCarousel)({
   width: "948px",
   height: "416px",
+  [theme.breakpoints.down("md")]: {
+    width: "311px",
+    height: "659px",
+    margin: "0 auto",
+  },
 })
 
 const TestimonialsCarouselStyled = styled(Carousel)({
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+    height: "483px",
+    [".nuka-slide-container"]: {
+      transform: "translateX(0)",
+    },
+  },
   [".nuka-overflow"]: {
-    width: "auto",
+    margin: "0 auto",
+    [theme.breakpoints.down("md")]: {
+      width: "311px",
+    },
   },
   [".nuka-wrapper"]: {
-    margin: "0 120px",
+    width: "948px",
+    margin: "0 auto",
+    [theme.breakpoints.down("md")]: {
+      width: "311px",
+    },
   },
-  [".nuka-wrapper .testimonial-card:last-child"]: {
-    marginRight: "474px",
+})
+
+const TestimonialCardContainer = styled.div({
+  minWidth: "948px",
+  maxWidth: "948px",
+  margin: "0 0 26px 24px",
+  ["&:first"]: {
+    marginLeft: "0",
+  },
+  ["&:last"]: {
+    marginRight: "0",
+  },
+  [theme.breakpoints.down("md")]: {
+    minWidth: "311px",
+    maxWidth: "311px",
+    margin: "0",
   },
 })
 
@@ -83,6 +105,13 @@ const TestimonialCard = styled.div({
   display: "flex",
   borderRadius: "8px",
   margin: "0 0 26px 24px",
+  [theme.breakpoints.down("md")]: {
+    minWidth: "311px",
+    maxWidth: "311px",
+    height: "411px",
+    flexDirection: "column",
+    margin: "0",
+  },
 })
 
 const TestimonialCardImage = styled.div({
@@ -94,6 +123,18 @@ const TestimonialCardImage = styled.div({
     objectFit: "cover",
     borderTopLeftRadius: "8px",
     borderBottomLeftRadius: "8px",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+      height: "190px",
+      borderTopRightRadius: "8px",
+      borderBottomLeftRaidus: "0",
+    },
+  },
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+    height: "190px",
+    borderRadius: "8px 0 8px 0",
+    backgroundColor: theme.custom.colors.darkBlue,
   },
 })
 
@@ -110,17 +151,35 @@ const TestimonialCardQuote = styled.div({
   alignSelf: "stretch",
   borderRadius: "8px",
   display: "flex",
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+    height: "161px",
+    borderRadius: "0 8px 0 8px",
+    marginTop: "16px",
+    marginBottom: "16px",
+    padding: "0 16px",
+  },
 
   ["div.testimonial-quote-opener"]: {
     color: theme.custom.colors.mitRed,
     fontStyle: "normal",
-    height: "70px",
+    height: pxToRem(80),
     width: "100%",
-    ...testimonialsTheme.custom.quoteLeader,
+    fontSize: pxToRem(80),
+    lineHeight: pxToRem(120),
+    [theme.breakpoints.down("md")]: {
+      fontSize: pxToRem(80),
+      height: pxToRem(50),
+      lineHeight: "normal",
+    },
   },
 
   ["h4"]: {
     flexGrow: "1",
+    [theme.breakpoints.down("md")]: {
+      width: "100%",
+      ...theme.typography.subtitle1,
+    },
   },
 
   ["div.testimonial-quote-closer"]: {
@@ -130,22 +189,37 @@ const TestimonialCardQuote = styled.div({
 })
 
 const TestimonialFadeRight = styled.div({
-  width: "246px",
+  width: "972px",
   height: "414px",
   position: "absolute",
   right: "0",
   bottom: "0",
-  background:
-    "linear-gradient(90deg,rgb(117 0 20 / 0%) 0%,rgb(117 0 20 / 95%) 100%)",
+  ["div"]: {
+    marginLeft: "auto",
+    height: "414px",
+    width: "246px",
+    background:
+      "linear-gradient(90deg,rgb(117 0 20 / 0%) 0%,rgb(117 0 20 / 95%) 100%)",
+  },
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
 })
 
 const TestimonialFadeLeft = styled.div({
-  width: "246px",
+  width: "972px",
   height: "414px",
   position: "absolute",
   left: "0",
-  background:
-    "linear-gradient(270deg,rgb(117 0 20 / 0%) 0%,rgb(117 0 20 / 95%) 100%)",
+  ["div"]: {
+    height: "414px",
+    width: "246px",
+    background:
+      "linear-gradient(270deg,rgb(117 0 20 / 0%) 0%,rgb(117 0 20 / 95%) 100%)",
+  },
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
 })
 
 const TestimonialsSection: React.FC = () => {
@@ -167,31 +241,37 @@ const TestimonialsSection: React.FC = () => {
                 buttonVariant="inverted"
                 buttonSize="large"
                 wrapMode="wrap"
-                scrollDistance={948}
+                scrollDistance={"slide"}
               >
-                <TestimonialFadeLeft />
+                <TestimonialFadeLeft>
+                  <div></div>
+                </TestimonialFadeLeft>
                 {resources.map((resource) => (
-                  <TestimonialCard
-                    key={`a-${resource.id}`}
-                    id={`testimonial-card-${resource.id}`}
-                    className="testimonial-card"
-                  >
-                    <TestimonialCardImage>
-                      <img src={resource.avatar} />
-                    </TestimonialCardImage>
-                    <TestimonialCardQuote>
-                      <div className="testimonial-quote-opener">&ldquo;</div>
-                      <Typography variant="h4">{resource.quote}</Typography>
-                      <div className="testimonial-quote-closer">
-                        <Typography variant="h5">
-                          {resource.attestant_name}
-                        </Typography>
-                        {resource.title}
-                      </div>
-                    </TestimonialCardQuote>
-                  </TestimonialCard>
+                  <TestimonialCardContainer key={`container-${resource.id}`}>
+                    <TestimonialCard
+                      key={`a-${resource.id}`}
+                      id={`testimonial-card-${resource.id}`}
+                      className="testimonial-card"
+                    >
+                      <TestimonialCardImage>
+                        <img src={resource.avatar} />
+                      </TestimonialCardImage>
+                      <TestimonialCardQuote>
+                        <div className="testimonial-quote-opener">&ldquo;</div>
+                        <Typography variant="h4">{resource.quote}</Typography>
+                        <div className="testimonial-quote-closer">
+                          <Typography variant="h5">
+                            {resource.attestant_name}
+                          </Typography>
+                          {resource.title}
+                        </div>
+                      </TestimonialCardQuote>
+                    </TestimonialCard>
+                  </TestimonialCardContainer>
                 ))}
-                <TestimonialFadeRight />
+                <TestimonialFadeRight>
+                  <div></div>
+                </TestimonialFadeRight>
               </TestimonialsCarouselStyled>
             </>
           )}
