@@ -8,7 +8,12 @@ import requests
 from dateutil.parser import parse
 from django.conf import settings
 
-from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.constants import (
+    CertificationType,
+    LearningResourceType,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     clean_data,
@@ -126,6 +131,7 @@ def _transform_learning_resource_course(course):
             ),
         },
         "certification": True,
+        "certification_type": CertificationType.professional.name,
     }
 
 
@@ -186,6 +192,7 @@ def transform_programs(programs):
             ],
             "courses": transform_courses(program["courses"]),
             "certification": True,
+            "certification_type": CertificationType.professional.name,
         }
         for program in programs
     ]

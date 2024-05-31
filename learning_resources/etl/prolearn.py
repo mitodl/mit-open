@@ -9,6 +9,7 @@ from urllib.parse import urljoin, urlparse
 import requests
 from django.conf import settings
 
+from learning_resources.constants import CertificationType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import clean_data, transform_format, transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
@@ -252,6 +253,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                 "image": parse_image(program),
                 "professional": True,
                 "certification": True,
+                "certification_type": CertificationType.professional.name,
                 "learning_format": transform_format(program["format_name"]),
                 "runs": runs,
                 "topics": parse_topic(program),
@@ -262,6 +264,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                         "platform": platform,
                         "etl_source": ETLSource.prolearn.name,
                         "certification": True,
+                        "certification_type": CertificationType.professional.name,
                         "professional": True,
                         "runs": [
                             {
@@ -333,6 +336,7 @@ def _transform_course(
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
             "certification": True,
+            "certification_type": CertificationType.professional.name,
             "title": course["title"],
             "url": parse_url(course),
             "image": parse_image(course),

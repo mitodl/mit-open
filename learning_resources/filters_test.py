@@ -7,6 +7,7 @@ from django.utils.http import urlencode
 
 from learning_resources.constants import (
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    CertificationType,
     LearningResourceFormat,
     LearningResourceType,
     LevelType,
@@ -54,12 +55,16 @@ def mock_courses():
         platform=PlatformType.mitxonline.name,
         department="8",
         offered_by=OfferedBy.mitx.name,
+        is_professional=False,
+        has_certification=True,
     ).learning_resource
 
     mitpe_course = CourseFactory.create(
         platform=PlatformType.mitpe.name,
         department="9",
         offered_by=OfferedBy.mitpe.name,
+        is_professional=True,
+        has_certification=True,
     ).learning_resource
 
     return SimpleNamespace(
@@ -195,6 +200,43 @@ def test_learning_resource_filter_certification(offers_certification, client):
     assert results[0]["id"] == (
         certified_course.id if offers_certification else uncertified_course.id
     )
+
+
+@pytest.mark.parametrize(
+    "multifilter", ["offered_by={}&offered_by={}", "offered_by={},{}"]
+)
+def test_learning_resource_filter_certification_type(mock_courses, client, multifilter):
+    """Test that the certification_type filter works"""
+
+    assert mock_courses.mitpe_course.offered_by.professional is True
+    assert mock_courses.mitpe_course.certification is True
+    assert mock_courses.mitx_course.professional is False
+    assert mock_courses.mitx_course.certification is True
+    assert mock_courses.ocw_course.certification is False
+    assert mock_courses.ocw_course.professional is False
+
+    pro_results = client.get(
+        f"{RESOURCE_API_URL}?certification_type={CertificationType.professional.name}"
+    ).json()["results"]
+    assert len(pro_results) == 1
+    assert pro_results[0]["readable_id"] == mock_courses.mitpe_course.readable_id
+
+    completion_results = client.get(
+        f"{RESOURCE_API_URL}?certification_type={CertificationType.completion.name}"
+    ).json()["results"]
+    assert len(completion_results) == 1
+    assert completion_results[0]["readable_id"] == mock_courses.mitx_course.readable_id
+
+    none_results = client.get(
+        f"{RESOURCE_API_URL}?certification_type={CertificationType.none.name}"
+    ).json()["results"]
+    assert len(none_results) == 1
+    assert none_results[0]["readable_id"] == mock_courses.ocw_course.readable_id
+
+    micromaster_results = client.get(
+        f"{RESOURCE_API_URL}?certification_type={CertificationType.micromasters.name}"
+    ).json()["results"]
+    assert len(micromaster_results) == 0
 
 
 def test_learning_resource_filter_free(client):

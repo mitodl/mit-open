@@ -14,6 +14,7 @@ from rest_framework.utils.urls import replace_query_param
 from learning_resources.constants import (
     DEPARTMENTS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    CertificationType,
     LearningResourceFormat,
     LearningResourceType,
     LevelType,
@@ -156,6 +157,7 @@ CONTENT_FILE_SORTBY_OPTIONS = [
 LEARNING_RESOURCE_AGGREGATIONS = [
     "resource_type",
     "certification",
+    "certification_type",
     "offered_by",
     "platform",
     "topic",
@@ -250,6 +252,17 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         allow_null=True,
         default=None,
         help_text="True if the learning resource offers a certificate",
+    )
+    certification_choices = CertificationType.as_tuple()
+    certification_type = StringArrayField(
+        required=False,
+        child=serializers.ChoiceField(
+            choices=certification_choices,
+        ),
+        help_text=(
+            f"The type of certificate \
+            \n\n{build_choice_description_list(certification_choices)}"
+        ),
     )
     department_choices = list(DEPARTMENTS.items())
     department = StringArrayField(

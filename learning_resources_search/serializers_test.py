@@ -13,7 +13,11 @@ from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
 
 from learning_resources import factories
-from learning_resources.constants import DEPARTMENTS, LearningResourceType
+from learning_resources.constants import (
+    DEPARTMENTS,
+    CertificationType,
+    LearningResourceType,
+)
 from learning_resources.etl.constants import CourseNumberType
 from learning_resources.factories import LearningResourceRunFactory
 from learning_resources.models import LearningResource
@@ -212,6 +216,7 @@ def test_learning_resources_search_request_serializer():
         "sortby": "-start_date",
         "professional": "true",
         "certification": "false",
+        "certification_type": CertificationType.none.name,
         "free": True,
         "offered_by": "xpro,ocw",
         "platform": "xpro,edx,ocw",
@@ -230,6 +235,7 @@ def test_learning_resources_search_request_serializer():
         "sortby": "-start_date",
         "professional": [True],
         "certification": [False],
+        "certification_type": [CertificationType.none.name],
         "free": [True],
         "offered_by": ["xpro", "ocw"],
         "platform": ["xpro", "edx", "ocw"],
