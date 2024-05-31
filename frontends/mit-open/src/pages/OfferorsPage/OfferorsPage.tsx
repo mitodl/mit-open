@@ -123,6 +123,36 @@ const OfferorCard = styled(Card)({
   width: "516px",
 })
 
+interface OfferorCardsProps {
+  offerors: LearningResourceOfferorDetail[] | undefined
+  courseCounts: Record<string, number>
+  programCounts: Record<string, number>
+}
+
+const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
+  const { offerors, courseCounts, programCounts } = props
+  return (
+    <CardContainer>
+      {offerors?.map((offeror) => {
+        const courseCount = courseCounts[offeror.code] || 0
+        const programCount = programCounts[offeror.code] || 0
+        return offeror.description ? (
+          <OfferorCard>
+            <CardContent>
+              <Typography variant="h5">{offeror.name}</Typography>
+              <Typography>{offeror.description}</Typography>
+              <Typography>
+                {courseCount > 0 ? `Courses: ${courseCount}` : ""}{" "}
+                {programCount > 0 ? `Programs: ${programCount}` : ""}
+              </Typography>
+            </CardContent>
+          </OfferorCard>
+        ) : null
+      })}
+    </CardContainer>
+  )
+}
+
 const OfferorsPage: React.FC = () => {
   const offerorsQuery = useOfferorsList()
   const offerors = offerorsQuery.data?.results
@@ -175,24 +205,11 @@ const OfferorsPage: React.FC = () => {
                 <AcademicIcon />
                 <SectionTitle>Academic Offerors</SectionTitle>
               </SectionTitleContainer>
-              <CardContainer>
-                {academicOfferors
-                  ? academicOfferors.map((offeror) => {
-                      return offeror.description ? (
-                        <OfferorCard>
-                          <CardContent>
-                            <Typography variant="h5">{offeror.name}</Typography>
-                            <Typography>{offeror.description}</Typography>
-                            <Typography>
-                              Courses: {courseCounts[offeror.code] || 0}{" "}
-                              Programs: {programCounts[offeror.code] || 0}
-                            </Typography>
-                          </CardContent>
-                        </OfferorCard>
-                      ) : null
-                    })
-                  : null}
-              </CardContainer>
+              <OfferorCards
+                offerors={academicOfferors}
+                courseCounts={courseCounts}
+                programCounts={programCounts}
+              />
             </OfferorContent>
           </OfferorSection>
           <OfferorSection>
@@ -201,24 +218,11 @@ const OfferorsPage: React.FC = () => {
                 <ProfessionalIcon />
                 <SectionTitle>Professional Offerors</SectionTitle>
               </SectionTitleContainer>
-              <CardContainer>
-                {professionalOfferors
-                  ? professionalOfferors.map((offeror) => {
-                      return offeror.description ? (
-                        <OfferorCard>
-                          <CardContent>
-                            <Typography variant="h5">{offeror.name}</Typography>
-                            <Typography>{offeror.description}</Typography>
-                            <Typography>
-                              Courses: {courseCounts[offeror.code] || 0}{" "}
-                              Programs: {programCounts[offeror.code] || 0}
-                            </Typography>
-                          </CardContent>
-                        </OfferorCard>
-                      ) : null
-                    })
-                  : null}
-              </CardContainer>
+              <OfferorCards
+                offerors={professionalOfferors}
+                courseCounts={courseCounts}
+                programCounts={programCounts}
+              />
             </OfferorContent>
           </OfferorSection>
         </PageContent>
