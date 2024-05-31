@@ -27,7 +27,11 @@ import type {
   VideoPlaylistResource,
   VideoResource,
 } from "api"
-import { ResourceTypeEnum, LearningResourceRunLevelInnerCodeEnum } from "api"
+import {
+  ResourceTypeEnum,
+  LearningResourceRunLevelInnerCodeEnum,
+  PlatformEnum,
+} from "api"
 import { mergeOverrides } from "./index"
 
 const uniqueEnforcerId = new UniqueEnforcer()
@@ -44,7 +48,14 @@ const repeat = <T>(cb: () => T, { min = 2, max = 4 }: RepeatOptins = {}) => {
 }
 
 const language = () =>
-  faker.helpers.arrayElement(["en", "es", "ar", "zh", "fr", "pt"])
+  faker.helpers.arrayElement([
+    "en-us",
+    "es-es",
+    "ar-ar",
+    "zh-cn",
+    "fr-fr",
+    "pt-pt",
+  ])
 
 const learningResourceImage: Factory<LearningResourceImage> = (
   overrides = {},
@@ -119,7 +130,13 @@ const learningResourcePlatform: Factory<LearningResourcePlatform> = (
   overrides = {},
 ) => {
   return {
-    code: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
+    code: faker.helpers.arrayElement(
+      Object.values([
+        PlatformEnum.Edx,
+        PlatformEnum.Mitxonline,
+        PlatformEnum.Xpro,
+      ]),
+    ),
     name: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
     ...overrides,
   }
@@ -392,6 +409,7 @@ const podcastEpisode: LearningResourceFactory<PodcastEpisodeResource> = (
     {
       podcast_episode: {
         id: uniqueEnforcerId.enforce(() => faker.number.int()),
+        duration: faker.helpers.arrayElement(["PT1H13M44S", "PT2H30M", "PT1M"]),
       },
     },
     overrides,

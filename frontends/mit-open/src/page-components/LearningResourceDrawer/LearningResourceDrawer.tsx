@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { RoutedDrawer, ExpandedLearningResourceDisplay } from "ol-components"
+import { RoutedDrawer, LearningResourceExpanded } from "ol-components"
 import type { RoutedDrawerProps } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
 import { imgConfigs } from "@/common/constants"
@@ -43,7 +43,7 @@ const DrawerContent: React.FC<{
   useCapturePageView(Number(resourceId))
 
   return (
-    <ExpandedLearningResourceDisplay
+    <LearningResourceExpanded
       imgConfig={imgConfigs.large}
       resource={resource.data}
     />
@@ -52,8 +52,12 @@ const DrawerContent: React.FC<{
 
 const PAPER_PROPS: RoutedDrawerProps["PaperProps"] = {
   sx: {
-    padding: "1rem",
-    maxWidth: (theme) => `${theme.breakpoints.values.sm}px`,
+    maxWidth: (theme) => theme.breakpoints.values.sm,
+    minWidth: (theme) => ({
+      [theme.breakpoints.down("sm")]: {
+        minWidth: "100%",
+      },
+    }),
   },
 }
 

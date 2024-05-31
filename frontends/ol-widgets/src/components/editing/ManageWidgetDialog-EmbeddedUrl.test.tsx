@@ -18,7 +18,7 @@ const getErrorFor = (el: HTMLElement) => {
       "The specified element does not have an associated errormessage.",
     )
   }
-  // eslint-disable-next-line testing-library/no-node-access
+
   const errEl = document.getElementById(errId)
   assertInstanceOf(errEl, HTMLElement)
   return errEl
