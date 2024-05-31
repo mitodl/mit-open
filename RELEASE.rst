@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 0.11.1
+--------------
+
+- Adding the EMBEDLY_KEY to the populated envvars for building the release static assets. (#987)
+- Error if using npm to install (#986)
+- Fix celerybeat schedule (#985)
+- Lock file maintenance (#982)
+- extract images for news articles (#973)
+
 Version 0.11.0 (Released May 30, 2024)
 --------------
 
