@@ -261,6 +261,10 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
   }
   return (
     <Description
+      /**
+       * Resource descriptions can contain HTML. They are santiized on the
+       * backend during ETL. This is safe to render.
+       */
       dangerouslySetInnerHTML={{ __html: resource.description || "" }}
     />
   )
