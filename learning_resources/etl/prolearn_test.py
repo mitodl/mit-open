@@ -7,7 +7,12 @@ from urllib.parse import urljoin, urlparse
 
 import pytest
 
-from learning_resources.constants import LearningResourceFormat, OfferedBy, PlatformType
+from learning_resources.constants import (
+    CertificationType,
+    LearningResourceFormat,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.prolearn import (
     PROLEARN_BASE_URL,
@@ -146,6 +151,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             "professional": True,
             "learning_format": transform_format(program["format_name"]),
             "certification": True,
+            "certification_type": CertificationType.professional.name,
             "runs": [
                 {
                     "run_id": f"{program['nid']}_{start_val}",
@@ -175,6 +181,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                     "offered_by": None,
                     "professional": True,
                     "certification": True,
+                    "certification_type": CertificationType.professional.name,
                     "etl_source": ETLSource.prolearn.name,
                     "runs": [
                         {
@@ -208,6 +215,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "published": True,
             "professional": True,
             "certification": True,
+            "certification_type": CertificationType.professional.name,
             "learning_format": transform_format(course["format_name"]),
             "topics": parse_topic(course),
             "url": course["course_link"]

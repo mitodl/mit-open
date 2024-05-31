@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 
 import pytest
 
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import CertificationType, LearningResourceType
 from learning_resources.etl.constants import COMMON_HEADERS, CourseNumberType
 from learning_resources.etl.openedx import (
     OpenEdxConfiguration,
@@ -157,6 +157,7 @@ def test_transform_course(  # noqa: PLR0913
             "url": "http://localhost/fake-alt-url/this_course",
             "published": True,
             "certification": False,
+            "certification_type": CertificationType.none.name,
             "runs": (
                 []
                 if is_course_run_deleted or not has_runs

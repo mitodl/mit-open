@@ -40,7 +40,7 @@ import {
 } from "./base"
 
 /**
- * * `resource_type` - resource_type * `certification` - certification * `offered_by` - offered_by * `platform` - platform * `topic` - topic * `department` - department * `level` - level * `course_feature` - course_feature * `professional` - professional * `free` - free * `learning_format` - learning_format
+ * * `resource_type` - resource_type * `certification` - certification * `certification_type` - certification_type * `offered_by` - offered_by * `platform` - platform * `topic` - topic * `department` - department * `level` - level * `course_feature` - course_feature * `professional` - professional * `free` - free * `learning_format` - learning_format
  * @export
  * @enum {string}
  */
@@ -48,6 +48,7 @@ import {
 export const AggregationsEnum = {
   ResourceType: "resource_type",
   Certification: "certification",
+  CertificationType: "certification_type",
   OfferedBy: "offered_by",
   Platform: "platform",
   Topic: "topic",
@@ -106,6 +107,22 @@ export interface ArticleRequest {
    */
   title: string
 }
+/**
+ * * `micromasters` - Micromasters Credential * `professional` - Professional Certificate * `completion` - Certificate of Completion * `none` - No Certificate
+ * @export
+ * @enum {string}
+ */
+
+export const CertificationTypeEnum = {
+  Micromasters: "micromasters",
+  Professional: "professional",
+  Completion: "completion",
+  None: "none",
+} as const
+
+export type CertificationTypeEnum =
+  (typeof CertificationTypeEnum)[keyof typeof CertificationTypeEnum]
+
 /**
  * Serializer class for course run ContentFiles
  * @export
@@ -495,6 +512,12 @@ export interface CourseResource {
    */
   certification: boolean
   /**
+   *
+   * @type {CourseResourceCertificationType}
+   * @memberof CourseResource
+   */
+  certification_type: CourseResourceCertificationType
+  /**
    * Returns the prices for the learning resource
    * @type {Array<number>}
    * @memberof CourseResource
@@ -615,6 +638,36 @@ export interface CourseResource {
    */
   next_start_date?: string | null
 }
+
+/**
+ *
+ * @export
+ * @interface CourseResourceCertificationType
+ */
+export interface CourseResourceCertificationType {
+  /**
+   *
+   * @type {string}
+   * @memberof CourseResourceCertificationType
+   */
+  code: CourseResourceCertificationTypeCodeEnum
+  /**
+   *
+   * @type {string}
+   * @memberof CourseResourceCertificationType
+   */
+  name: string
+}
+
+export const CourseResourceCertificationTypeCodeEnum = {
+  Micromasters: "micromasters",
+  Professional: "professional",
+  Completion: "completion",
+  None: "none",
+} as const
+
+export type CourseResourceCertificationTypeCodeEnum =
+  (typeof CourseResourceCertificationTypeCodeEnum)[keyof typeof CourseResourceCertificationTypeCodeEnum]
 
 /**
  *
@@ -918,6 +971,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   certification: boolean
+  /**
+   *
+   * @type {CourseResourceCertificationType}
+   * @memberof LearningPathResource
+   */
+  certification_type: CourseResourceCertificationType
   /**
    * Returns the prices for the learning resource
    * @type {Array<number>}
@@ -2977,6 +3036,12 @@ export interface PercolateQuerySubscriptionRequestRequest {
    */
   certification?: boolean | null
   /**
+   * The type of certificate               * `micromasters` - Micromasters Credential * `professional` - Professional Certificate * `completion` - Certificate of Completion * `none` - No Certificate
+   * @type {Array<CertificationTypeEnum>}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  certification_type?: Array<CertificationTypeEnum>
+  /**
    * The department that offers the learning resource               * `1` - Civil and Environmental Engineering * `2` - Mechanical Engineering * `3` - Materials Science and Engineering * `4` - Architecture * `5` - Chemistry * `6` - Electrical Engineering and Computer Science * `7` - Biology * `8` - Physics * `9` - Brain and Cognitive Sciences * `10` - Chemical Engineering * `11` - Urban Studies and Planning * `12` - Earth, Atmospheric, and Planetary Sciences * `14` - Economics * `15` - Sloan School of Management * `16` - Aeronautics and Astronautics * `17` - Political Science * `18` - Mathematics * `20` - Biological Engineering * `21A` - Anthropology * `21G` - Global Studies and Languages * `21H` - History * `21L` - Literature * `21M` - Music and Theater Arts * `22` - Nuclear Science and Engineering * `24` - Linguistics and Philosophy * `CC` - Concourse * `CMS-W` - Comparative Media Studies/Writing * `EC` - Edgerton Center * `ES` - Experimental Study Group * `ESD` - Engineering Systems Division * `HST` - Health Sciences and Technology * `IDS` - Institute for Data, Systems, and Society * `MAS` - Media Arts and Sciences * `PE` - Athletics, Physical Education and Recreation * `RES` - Supplemental Resources * `STS` - Science, Technology, and Society * `WGS` - Women\'s and Gender Studies
    * @type {Array<DepartmentEnum>}
    * @memberof PercolateQuerySubscriptionRequestRequest
@@ -3215,6 +3280,12 @@ export interface PodcastEpisodeResource {
    * @memberof PodcastEpisodeResource
    */
   certification: boolean
+  /**
+   *
+   * @type {CourseResourceCertificationType}
+   * @memberof PodcastEpisodeResource
+   */
+  certification_type: CourseResourceCertificationType
   /**
    * Returns the prices for the learning resource
    * @type {Array<number>}
@@ -3490,6 +3561,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   certification: boolean
+  /**
+   *
+   * @type {CourseResourceCertificationType}
+   * @memberof PodcastResource
+   */
+  certification_type: CourseResourceCertificationType
   /**
    * Returns the prices for the learning resource
    * @type {Array<number>}
@@ -3992,6 +4069,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   certification: boolean
+  /**
+   *
+   * @type {CourseResourceCertificationType}
+   * @memberof ProgramResource
+   */
+  certification_type: CourseResourceCertificationType
   /**
    * Returns the prices for the learning resource
    * @type {Array<number>}
@@ -4555,6 +4638,12 @@ export interface VideoPlaylistResource {
    */
   certification: boolean
   /**
+   *
+   * @type {CourseResourceCertificationType}
+   * @memberof VideoPlaylistResource
+   */
+  certification_type: CourseResourceCertificationType
+  /**
    * Returns the prices for the learning resource
    * @type {Array<number>}
    * @memberof VideoPlaylistResource
@@ -4823,6 +4912,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   certification: boolean
+  /**
+   *
+   * @type {CourseResourceCertificationType}
+   * @memberof VideoResource
+   */
+  certification_type: CourseResourceCertificationType
   /**
    * Returns the prices for the learning resource
    * @type {Array<number>}
@@ -7127,6 +7222,7 @@ export const CoursesApiAxiosParamCreator = function (
      * Get a paginated list of courses
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<CoursesListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<CoursesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -7146,6 +7242,7 @@ export const CoursesApiAxiosParamCreator = function (
      */
     coursesList: async (
       certification?: boolean,
+      certification_type?: Array<CoursesListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<CoursesListDepartmentEnum>,
       free?: boolean,
@@ -7180,6 +7277,10 @@ export const CoursesApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -7402,6 +7503,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      * Get a paginated list of courses
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<CoursesListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<CoursesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -7421,6 +7523,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
      */
     async coursesList(
       certification?: boolean,
+      certification_type?: Array<CoursesListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<CoursesListDepartmentEnum>,
       free?: boolean,
@@ -7444,6 +7547,7 @@ export const CoursesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.coursesList(
         certification,
+        certification_type,
         course_feature,
         department,
         free,
@@ -7571,6 +7675,7 @@ export const CoursesApiFactory = function (
       return localVarFp
         .coursesList(
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -7703,6 +7808,13 @@ export interface CoursesApiCoursesListRequest {
    * @memberof CoursesApiCoursesList
    */
   readonly certification?: boolean
+
+  /**
+   * The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'completion' | 'micromasters' | 'none' | 'professional'>}
+   * @memberof CoursesApiCoursesList
+   */
+  readonly certification_type?: Array<CoursesListCertificationTypeEnum>
 
   /**
    * Multiple values may be separated by commas.
@@ -7887,6 +7999,7 @@ export class CoursesApi extends BaseAPI {
     return CoursesApiFp(this.configuration)
       .coursesList(
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -7962,6 +8075,17 @@ export const CoursesContentfilesListPlatformEnum = {
 } as const
 export type CoursesContentfilesListPlatformEnum =
   (typeof CoursesContentfilesListPlatformEnum)[keyof typeof CoursesContentfilesListPlatformEnum]
+/**
+ * @export
+ */
+export const CoursesListCertificationTypeEnum = {
+  Completion: "completion",
+  Micromasters: "micromasters",
+  None: "none",
+  Professional: "professional",
+} as const
+export type CoursesListCertificationTypeEnum =
+  (typeof CoursesListCertificationTypeEnum)[keyof typeof CoursesListCertificationTypeEnum]
 /**
  * @export
  */
@@ -8420,6 +8544,7 @@ export const FeaturedApiAxiosParamCreator = function (
      * Get a paginated list of featured resources
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<FeaturedListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<FeaturedListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -8439,6 +8564,7 @@ export const FeaturedApiAxiosParamCreator = function (
      */
     featuredList: async (
       certification?: boolean,
+      certification_type?: Array<FeaturedListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<FeaturedListDepartmentEnum>,
       free?: boolean,
@@ -8473,6 +8599,10 @@ export const FeaturedApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -8609,6 +8739,7 @@ export const FeaturedApiFp = function (configuration?: Configuration) {
      * Get a paginated list of featured resources
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<FeaturedListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<FeaturedListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -8628,6 +8759,7 @@ export const FeaturedApiFp = function (configuration?: Configuration) {
      */
     async featuredList(
       certification?: boolean,
+      certification_type?: Array<FeaturedListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<FeaturedListDepartmentEnum>,
       free?: boolean,
@@ -8651,6 +8783,7 @@ export const FeaturedApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.featuredList(
         certification,
+        certification_type,
         course_feature,
         department,
         free,
@@ -8735,6 +8868,7 @@ export const FeaturedApiFactory = function (
       return localVarFp
         .featuredList(
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -8783,6 +8917,13 @@ export interface FeaturedApiFeaturedListRequest {
    * @memberof FeaturedApiFeaturedList
    */
   readonly certification?: boolean
+
+  /**
+   * The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'completion' | 'micromasters' | 'none' | 'professional'>}
+   * @memberof FeaturedApiFeaturedList
+   */
+  readonly certification_type?: Array<FeaturedListCertificationTypeEnum>
 
   /**
    * Multiple values may be separated by commas.
@@ -8919,6 +9060,7 @@ export class FeaturedApi extends BaseAPI {
     return FeaturedApiFp(this.configuration)
       .featuredList(
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -8956,6 +9098,17 @@ export class FeaturedApi extends BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const FeaturedListCertificationTypeEnum = {
+  Completion: "completion",
+  Micromasters: "micromasters",
+  None: "none",
+  Professional: "professional",
+} as const
+export type FeaturedListCertificationTypeEnum =
+  (typeof FeaturedListCertificationTypeEnum)[keyof typeof FeaturedListCertificationTypeEnum]
 /**
  * @export
  */
@@ -9379,6 +9532,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * Get a paginated list of learning resources.
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<LearningResourcesListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -9398,6 +9552,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
      */
     learningResourcesList: async (
       certification?: boolean,
+      certification_type?: Array<LearningResourcesListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesListDepartmentEnum>,
       free?: boolean,
@@ -9432,6 +9587,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -9738,6 +9897,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * Get a paginated list of learning resources.
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<LearningResourcesListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningResourcesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -9757,6 +9917,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      */
     async learningResourcesList(
       certification?: boolean,
+      certification_type?: Array<LearningResourcesListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesListDepartmentEnum>,
       free?: boolean,
@@ -9781,6 +9942,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesList(
           certification,
+          certification_type,
           course_feature,
           department,
           free,
@@ -9953,6 +10115,7 @@ export const LearningResourcesApiFactory = function (
       return localVarFp
         .learningResourcesList(
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -10141,6 +10304,13 @@ export interface LearningResourcesApiLearningResourcesListRequest {
    * @memberof LearningResourcesApiLearningResourcesList
    */
   readonly certification?: boolean
+
+  /**
+   * The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'completion' | 'micromasters' | 'none' | 'professional'>}
+   * @memberof LearningResourcesApiLearningResourcesList
+   */
+  readonly certification_type?: Array<LearningResourcesListCertificationTypeEnum>
 
   /**
    * Multiple values may be separated by commas.
@@ -10369,6 +10539,7 @@ export class LearningResourcesApi extends BaseAPI {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesList(
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -10444,6 +10615,17 @@ export const LearningResourcesContentfilesListPlatformEnum = {
 } as const
 export type LearningResourcesContentfilesListPlatformEnum =
   (typeof LearningResourcesContentfilesListPlatformEnum)[keyof typeof LearningResourcesContentfilesListPlatformEnum]
+/**
+ * @export
+ */
+export const LearningResourcesListCertificationTypeEnum = {
+  Completion: "completion",
+  Micromasters: "micromasters",
+  None: "none",
+  Professional: "professional",
+} as const
+export type LearningResourcesListCertificationTypeEnum =
+  (typeof LearningResourcesListCertificationTypeEnum)[keyof typeof LearningResourcesListCertificationTypeEnum]
 /**
  * @export
  */
@@ -10589,6 +10771,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @summary Search
      * @param {Array<LearningResourcesSearchRetrieveAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
+     * @param {Array<LearningResourcesSearchRetrieveCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesSearchRetrieveDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
@@ -10610,6 +10793,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
     learningResourcesSearchRetrieve: async (
       aggregations?: Array<LearningResourcesSearchRetrieveAggregationsEnum>,
       certification?: boolean | null,
+      certification_type?: Array<LearningResourcesSearchRetrieveCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesSearchRetrieveDepartmentEnum>,
       free?: boolean | null,
@@ -10649,6 +10833,10 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -10743,6 +10931,7 @@ export const LearningResourcesSearchApiFp = function (
      * @summary Search
      * @param {Array<LearningResourcesSearchRetrieveAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
+     * @param {Array<LearningResourcesSearchRetrieveCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesSearchRetrieveDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
@@ -10764,6 +10953,7 @@ export const LearningResourcesSearchApiFp = function (
     async learningResourcesSearchRetrieve(
       aggregations?: Array<LearningResourcesSearchRetrieveAggregationsEnum>,
       certification?: boolean | null,
+      certification_type?: Array<LearningResourcesSearchRetrieveCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesSearchRetrieveDepartmentEnum>,
       free?: boolean | null,
@@ -10790,6 +10980,7 @@ export const LearningResourcesSearchApiFp = function (
         await localVarAxiosParamCreator.learningResourcesSearchRetrieve(
           aggregations,
           certification,
+          certification_type,
           course_feature,
           department,
           free,
@@ -10849,6 +11040,7 @@ export const LearningResourcesSearchApiFactory = function (
         .learningResourcesSearchRetrieve(
           requestParameters.aggregations,
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -10879,7 +11071,7 @@ export const LearningResourcesSearchApiFactory = function (
 export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
+   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly aggregations?: Array<LearningResourcesSearchRetrieveAggregationsEnum>
@@ -10890,6 +11082,13 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly certification?: boolean | null
+
+  /**
+   * The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'micromasters' | 'professional' | 'completion' | 'none'>}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly certification_type?: Array<LearningResourcesSearchRetrieveCertificationTypeEnum>
 
   /**
    * The course feature. Possible options are at api/v1/course_features/
@@ -11020,6 +11219,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
       .learningResourcesSearchRetrieve(
         requestParameters.aggregations,
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -11047,6 +11247,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
 export const LearningResourcesSearchRetrieveAggregationsEnum = {
   ResourceType: "resource_type",
   Certification: "certification",
+  CertificationType: "certification_type",
   OfferedBy: "offered_by",
   Platform: "platform",
   Topic: "topic",
@@ -11059,6 +11260,17 @@ export const LearningResourcesSearchRetrieveAggregationsEnum = {
 } as const
 export type LearningResourcesSearchRetrieveAggregationsEnum =
   (typeof LearningResourcesSearchRetrieveAggregationsEnum)[keyof typeof LearningResourcesSearchRetrieveAggregationsEnum]
+/**
+ * @export
+ */
+export const LearningResourcesSearchRetrieveCertificationTypeEnum = {
+  Micromasters: "micromasters",
+  Professional: "professional",
+  Completion: "completion",
+  None: "none",
+} as const
+export type LearningResourcesSearchRetrieveCertificationTypeEnum =
+  (typeof LearningResourcesSearchRetrieveCertificationTypeEnum)[keyof typeof LearningResourcesSearchRetrieveCertificationTypeEnum]
 /**
  * @export
  */
@@ -11214,6 +11426,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @summary Check if a user is subscribed to a specific query
      * @param {Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
+     * @param {Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
@@ -11236,6 +11449,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
     learningResourcesUserSubscriptionCheckList: async (
       aggregations?: Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>,
       certification?: boolean | null,
+      certification_type?: Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>,
       free?: boolean | null,
@@ -11276,6 +11490,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -11361,6 +11579,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @summary List subscribed queries
      * @param {Array<LearningResourcesUserSubscriptionListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
+     * @param {Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
@@ -11382,6 +11601,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
     learningResourcesUserSubscriptionList: async (
       aggregations?: Array<LearningResourcesUserSubscriptionListAggregationsEnum>,
       certification?: boolean | null,
+      certification_type?: Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionListDepartmentEnum>,
       free?: boolean | null,
@@ -11421,6 +11641,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -11502,6 +11726,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @summary Subscribe user to query
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
@@ -11525,6 +11750,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
     learningResourcesUserSubscriptionSubscribeCreate: async (
       aggregations?: Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>,
       certification?: boolean | null,
+      certification_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
       free?: boolean | null,
@@ -11566,6 +11792,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -11722,6 +11952,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @summary Check if a user is subscribed to a specific query
      * @param {Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
+     * @param {Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
@@ -11744,6 +11975,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
     async learningResourcesUserSubscriptionCheckList(
       aggregations?: Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>,
       certification?: boolean | null,
+      certification_type?: Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>,
       free?: boolean | null,
@@ -11771,6 +12003,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
         await localVarAxiosParamCreator.learningResourcesUserSubscriptionCheckList(
           aggregations,
           certification,
+          certification_type,
           course_feature,
           department,
           free,
@@ -11807,6 +12040,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @summary List subscribed queries
      * @param {Array<LearningResourcesUserSubscriptionListAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
+     * @param {Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
@@ -11828,6 +12062,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
     async learningResourcesUserSubscriptionList(
       aggregations?: Array<LearningResourcesUserSubscriptionListAggregationsEnum>,
       certification?: boolean | null,
+      certification_type?: Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionListDepartmentEnum>,
       free?: boolean | null,
@@ -11854,6 +12089,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
         await localVarAxiosParamCreator.learningResourcesUserSubscriptionList(
           aggregations,
           certification,
+          certification_type,
           course_feature,
           department,
           free,
@@ -11889,6 +12125,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @summary Subscribe user to query
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {boolean | null} [certification] True if the learning resource offers a certificate
+     * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
@@ -11912,6 +12149,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
     async learningResourcesUserSubscriptionSubscribeCreate(
       aggregations?: Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>,
       certification?: boolean | null,
+      certification_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
       free?: boolean | null,
@@ -11937,6 +12175,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
         await localVarAxiosParamCreator.learningResourcesUserSubscriptionSubscribeCreate(
           aggregations,
           certification,
+          certification_type,
           course_feature,
           department,
           free,
@@ -12029,6 +12268,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
         .learningResourcesUserSubscriptionCheckList(
           requestParameters.aggregations,
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -12064,6 +12304,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
         .learningResourcesUserSubscriptionList(
           requestParameters.aggregations,
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -12098,6 +12339,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
         .learningResourcesUserSubscriptionSubscribeCreate(
           requestParameters.aggregations,
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -12148,7 +12390,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
 export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckListRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
+   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly aggregations?: Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>
@@ -12159,6 +12401,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly certification?: boolean | null
+
+  /**
+   * The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'micromasters' | 'professional' | 'completion' | 'none'>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly certification_type?: Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>
 
   /**
    * The course feature. Possible options are at api/v1/course_features/
@@ -12281,7 +12530,7 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
 export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionListRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
+   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
    */
   readonly aggregations?: Array<LearningResourcesUserSubscriptionListAggregationsEnum>
@@ -12292,6 +12541,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
    */
   readonly certification?: boolean | null
+
+  /**
+   * The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'micromasters' | 'professional' | 'completion' | 'none'>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly certification_type?: Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>
 
   /**
    * The course feature. Possible options are at api/v1/course_features/
@@ -12407,7 +12663,7 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
 export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreateRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'resource_type' | 'certification' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
+   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
   readonly aggregations?: Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>
@@ -12418,6 +12674,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
   readonly certification?: boolean | null
+
+  /**
+   * The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'micromasters' | 'professional' | 'completion' | 'none'>}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly certification_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>
 
   /**
    * The course feature. Possible options are at api/v1/course_features/
@@ -12576,6 +12839,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
       .learningResourcesUserSubscriptionCheckList(
         requestParameters.aggregations,
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -12613,6 +12877,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
       .learningResourcesUserSubscriptionList(
         requestParameters.aggregations,
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -12649,6 +12914,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
       .learningResourcesUserSubscriptionSubscribeCreate(
         requestParameters.aggregations,
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -12698,6 +12964,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
 export const LearningResourcesUserSubscriptionCheckListAggregationsEnum = {
   ResourceType: "resource_type",
   Certification: "certification",
+  CertificationType: "certification_type",
   OfferedBy: "offered_by",
   Platform: "platform",
   Topic: "topic",
@@ -12710,6 +12977,17 @@ export const LearningResourcesUserSubscriptionCheckListAggregationsEnum = {
 } as const
 export type LearningResourcesUserSubscriptionCheckListAggregationsEnum =
   (typeof LearningResourcesUserSubscriptionCheckListAggregationsEnum)[keyof typeof LearningResourcesUserSubscriptionCheckListAggregationsEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionCheckListCertificationTypeEnum = {
+  Micromasters: "micromasters",
+  Professional: "professional",
+  Completion: "completion",
+  None: "none",
+} as const
+export type LearningResourcesUserSubscriptionCheckListCertificationTypeEnum =
+  (typeof LearningResourcesUserSubscriptionCheckListCertificationTypeEnum)[keyof typeof LearningResourcesUserSubscriptionCheckListCertificationTypeEnum]
 /**
  * @export
  */
@@ -12866,6 +13144,7 @@ export type LearningResourcesUserSubscriptionCheckListSourceTypeEnum =
 export const LearningResourcesUserSubscriptionListAggregationsEnum = {
   ResourceType: "resource_type",
   Certification: "certification",
+  CertificationType: "certification_type",
   OfferedBy: "offered_by",
   Platform: "platform",
   Topic: "topic",
@@ -12878,6 +13157,17 @@ export const LearningResourcesUserSubscriptionListAggregationsEnum = {
 } as const
 export type LearningResourcesUserSubscriptionListAggregationsEnum =
   (typeof LearningResourcesUserSubscriptionListAggregationsEnum)[keyof typeof LearningResourcesUserSubscriptionListAggregationsEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionListCertificationTypeEnum = {
+  Micromasters: "micromasters",
+  Professional: "professional",
+  Completion: "completion",
+  None: "none",
+} as const
+export type LearningResourcesUserSubscriptionListCertificationTypeEnum =
+  (typeof LearningResourcesUserSubscriptionListCertificationTypeEnum)[keyof typeof LearningResourcesUserSubscriptionListCertificationTypeEnum]
 /**
  * @export
  */
@@ -13026,6 +13316,7 @@ export const LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum =
   {
     ResourceType: "resource_type",
     Certification: "certification",
+    CertificationType: "certification_type",
     OfferedBy: "offered_by",
     Platform: "platform",
     Topic: "topic",
@@ -13038,6 +13329,18 @@ export const LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum =
   } as const
 export type LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum =
   (typeof LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum =
+  {
+    Micromasters: "micromasters",
+    Professional: "professional",
+    Completion: "completion",
+    None: "none",
+  } as const
+export type LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum]
 /**
  * @export
  */
@@ -13618,6 +13921,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      * Get a paginated list of learning paths
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<LearningpathsListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningpathsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -13637,6 +13941,7 @@ export const LearningpathsApiAxiosParamCreator = function (
      */
     learningpathsList: async (
       certification?: boolean,
+      certification_type?: Array<LearningpathsListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningpathsListDepartmentEnum>,
       free?: boolean,
@@ -13671,6 +13976,10 @@ export const LearningpathsApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -14111,6 +14420,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      * Get a paginated list of learning paths
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<LearningpathsListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<LearningpathsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -14130,6 +14440,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
      */
     async learningpathsList(
       certification?: boolean,
+      certification_type?: Array<LearningpathsListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningpathsListDepartmentEnum>,
       free?: boolean,
@@ -14154,6 +14465,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningpathsList(
           certification,
+          certification_type,
           course_feature,
           department,
           free,
@@ -14407,6 +14719,7 @@ export const LearningpathsApiFactory = function (
       return localVarFp
         .learningpathsList(
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -14628,6 +14941,13 @@ export interface LearningpathsApiLearningpathsListRequest {
    * @memberof LearningpathsApiLearningpathsList
    */
   readonly certification?: boolean
+
+  /**
+   * The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'completion' | 'micromasters' | 'none' | 'professional'>}
+   * @memberof LearningpathsApiLearningpathsList
+   */
+  readonly certification_type?: Array<LearningpathsListCertificationTypeEnum>
 
   /**
    * Multiple values may be separated by commas.
@@ -14930,6 +15250,7 @@ export class LearningpathsApi extends BaseAPI {
     return LearningpathsApiFp(this.configuration)
       .learningpathsList(
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -14988,6 +15309,17 @@ export class LearningpathsApi extends BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const LearningpathsListCertificationTypeEnum = {
+  Completion: "completion",
+  Micromasters: "micromasters",
+  None: "none",
+  Professional: "professional",
+} as const
+export type LearningpathsListCertificationTypeEnum =
+  (typeof LearningpathsListCertificationTypeEnum)[keyof typeof LearningpathsListCertificationTypeEnum]
 /**
  * @export
  */
@@ -15744,6 +16076,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      * Get a paginated list of podcast episodes
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<PodcastEpisodesListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<PodcastEpisodesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -15763,6 +16096,7 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
      */
     podcastEpisodesList: async (
       certification?: boolean,
+      certification_type?: Array<PodcastEpisodesListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<PodcastEpisodesListDepartmentEnum>,
       free?: boolean,
@@ -15797,6 +16131,10 @@ export const PodcastEpisodesApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -15934,6 +16272,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      * Get a paginated list of podcast episodes
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<PodcastEpisodesListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<PodcastEpisodesListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -15953,6 +16292,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
      */
     async podcastEpisodesList(
       certification?: boolean,
+      certification_type?: Array<PodcastEpisodesListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<PodcastEpisodesListDepartmentEnum>,
       free?: boolean,
@@ -15977,6 +16317,7 @@ export const PodcastEpisodesApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.podcastEpisodesList(
           certification,
+          certification_type,
           course_feature,
           department,
           free,
@@ -16064,6 +16405,7 @@ export const PodcastEpisodesApiFactory = function (
       return localVarFp
         .podcastEpisodesList(
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -16112,6 +16454,13 @@ export interface PodcastEpisodesApiPodcastEpisodesListRequest {
    * @memberof PodcastEpisodesApiPodcastEpisodesList
    */
   readonly certification?: boolean
+
+  /**
+   * The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'completion' | 'micromasters' | 'none' | 'professional'>}
+   * @memberof PodcastEpisodesApiPodcastEpisodesList
+   */
+  readonly certification_type?: Array<PodcastEpisodesListCertificationTypeEnum>
 
   /**
    * Multiple values may be separated by commas.
@@ -16248,6 +16597,7 @@ export class PodcastEpisodesApi extends BaseAPI {
     return PodcastEpisodesApiFp(this.configuration)
       .podcastEpisodesList(
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -16285,6 +16635,17 @@ export class PodcastEpisodesApi extends BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const PodcastEpisodesListCertificationTypeEnum = {
+  Completion: "completion",
+  Micromasters: "micromasters",
+  None: "none",
+  Professional: "professional",
+} as const
+export type PodcastEpisodesListCertificationTypeEnum =
+  (typeof PodcastEpisodesListCertificationTypeEnum)[keyof typeof PodcastEpisodesListCertificationTypeEnum]
 /**
  * @export
  */
@@ -16554,6 +16915,7 @@ export const PodcastsApiAxiosParamCreator = function (
      * Get a paginated list of podcasts
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<PodcastsListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<PodcastsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -16573,6 +16935,7 @@ export const PodcastsApiAxiosParamCreator = function (
      */
     podcastsList: async (
       certification?: boolean,
+      certification_type?: Array<PodcastsListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<PodcastsListDepartmentEnum>,
       free?: boolean,
@@ -16607,6 +16970,10 @@ export const PodcastsApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -16819,6 +17186,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      * Get a paginated list of podcasts
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<PodcastsListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<PodcastsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -16838,6 +17206,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
      */
     async podcastsList(
       certification?: boolean,
+      certification_type?: Array<PodcastsListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<PodcastsListDepartmentEnum>,
       free?: boolean,
@@ -16861,6 +17230,7 @@ export const PodcastsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.podcastsList(
         certification,
+        certification_type,
         course_feature,
         department,
         free,
@@ -16985,6 +17355,7 @@ export const PodcastsApiFactory = function (
       return localVarFp
         .podcastsList(
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -17089,6 +17460,13 @@ export interface PodcastsApiPodcastsListRequest {
    * @memberof PodcastsApiPodcastsList
    */
   readonly certification?: boolean
+
+  /**
+   * The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'completion' | 'micromasters' | 'none' | 'professional'>}
+   * @memberof PodcastsApiPodcastsList
+   */
+  readonly certification_type?: Array<PodcastsListCertificationTypeEnum>
 
   /**
    * Multiple values may be separated by commas.
@@ -17269,6 +17647,7 @@ export class PodcastsApi extends BaseAPI {
     return PodcastsApiFp(this.configuration)
       .podcastsList(
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -17306,6 +17685,17 @@ export class PodcastsApi extends BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const PodcastsListCertificationTypeEnum = {
+  Completion: "completion",
+  Micromasters: "micromasters",
+  None: "none",
+  Professional: "professional",
+} as const
+export type PodcastsListCertificationTypeEnum =
+  (typeof PodcastsListCertificationTypeEnum)[keyof typeof PodcastsListCertificationTypeEnum]
 /**
  * @export
  */
@@ -17609,6 +17999,7 @@ export const ProgramsApiAxiosParamCreator = function (
      * Get a paginated list of programs
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<ProgramsListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<ProgramsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -17628,6 +18019,7 @@ export const ProgramsApiAxiosParamCreator = function (
      */
     programsList: async (
       certification?: boolean,
+      certification_type?: Array<ProgramsListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<ProgramsListDepartmentEnum>,
       free?: boolean,
@@ -17662,6 +18054,10 @@ export const ProgramsApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -17798,6 +18194,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      * Get a paginated list of programs
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<ProgramsListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<ProgramsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -17817,6 +18214,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
      */
     async programsList(
       certification?: boolean,
+      certification_type?: Array<ProgramsListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<ProgramsListDepartmentEnum>,
       free?: boolean,
@@ -17840,6 +18238,7 @@ export const ProgramsApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.programsList(
         certification,
+        certification_type,
         course_feature,
         department,
         free,
@@ -17924,6 +18323,7 @@ export const ProgramsApiFactory = function (
       return localVarFp
         .programsList(
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -17972,6 +18372,13 @@ export interface ProgramsApiProgramsListRequest {
    * @memberof ProgramsApiProgramsList
    */
   readonly certification?: boolean
+
+  /**
+   * The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'completion' | 'micromasters' | 'none' | 'professional'>}
+   * @memberof ProgramsApiProgramsList
+   */
+  readonly certification_type?: Array<ProgramsListCertificationTypeEnum>
 
   /**
    * Multiple values may be separated by commas.
@@ -18108,6 +18515,7 @@ export class ProgramsApi extends BaseAPI {
     return ProgramsApiFp(this.configuration)
       .programsList(
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -18145,6 +18553,17 @@ export class ProgramsApi extends BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const ProgramsListCertificationTypeEnum = {
+  Completion: "completion",
+  Micromasters: "micromasters",
+  None: "none",
+  Professional: "professional",
+} as const
+export type ProgramsListCertificationTypeEnum =
+  (typeof ProgramsListCertificationTypeEnum)[keyof typeof ProgramsListCertificationTypeEnum]
 /**
  * @export
  */
@@ -20561,6 +20980,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
      * Get a paginated list of video playlists
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<VideoPlaylistsListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -20580,6 +21000,7 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
      */
     videoPlaylistsList: async (
       certification?: boolean,
+      certification_type?: Array<VideoPlaylistsListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<VideoPlaylistsListDepartmentEnum>,
       free?: boolean,
@@ -20614,6 +21035,10 @@ export const VideoPlaylistsApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -20830,6 +21255,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
      * Get a paginated list of video playlists
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<VideoPlaylistsListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<VideoPlaylistsListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -20849,6 +21275,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
      */
     async videoPlaylistsList(
       certification?: boolean,
+      certification_type?: Array<VideoPlaylistsListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<VideoPlaylistsListDepartmentEnum>,
       free?: boolean,
@@ -20873,6 +21300,7 @@ export const VideoPlaylistsApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.videoPlaylistsList(
           certification,
+          certification_type,
           course_feature,
           department,
           free,
@@ -20998,6 +21426,7 @@ export const VideoPlaylistsApiFactory = function (
       return localVarFp
         .videoPlaylistsList(
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -21102,6 +21531,13 @@ export interface VideoPlaylistsApiVideoPlaylistsListRequest {
    * @memberof VideoPlaylistsApiVideoPlaylistsList
    */
   readonly certification?: boolean
+
+  /**
+   * The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'completion' | 'micromasters' | 'none' | 'professional'>}
+   * @memberof VideoPlaylistsApiVideoPlaylistsList
+   */
+  readonly certification_type?: Array<VideoPlaylistsListCertificationTypeEnum>
 
   /**
    * Multiple values may be separated by commas.
@@ -21282,6 +21718,7 @@ export class VideoPlaylistsApi extends BaseAPI {
     return VideoPlaylistsApiFp(this.configuration)
       .videoPlaylistsList(
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -21319,6 +21756,17 @@ export class VideoPlaylistsApi extends BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const VideoPlaylistsListCertificationTypeEnum = {
+  Completion: "completion",
+  Micromasters: "micromasters",
+  None: "none",
+  Professional: "professional",
+} as const
+export type VideoPlaylistsListCertificationTypeEnum =
+  (typeof VideoPlaylistsListCertificationTypeEnum)[keyof typeof VideoPlaylistsListCertificationTypeEnum]
 /**
  * @export
  */
@@ -21463,6 +21911,7 @@ export const VideosApiAxiosParamCreator = function (
      * Get a paginated list of videos
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<VideosListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<VideosListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -21482,6 +21931,7 @@ export const VideosApiAxiosParamCreator = function (
      */
     videosList: async (
       certification?: boolean,
+      certification_type?: Array<VideosListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<VideosListDepartmentEnum>,
       free?: boolean,
@@ -21516,6 +21966,10 @@ export const VideosApiAxiosParamCreator = function (
 
       if (certification !== undefined) {
         localVarQueryParameter["certification"] = certification
+      }
+
+      if (certification_type) {
+        localVarQueryParameter["certification_type"] = certification_type
       }
 
       if (course_feature) {
@@ -21652,6 +22106,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
      * Get a paginated list of videos
      * @summary List
      * @param {boolean} [certification]
+     * @param {Array<VideosListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
      * @param {Array<VideosListDepartmentEnum>} [department] The department that offers learning resources  * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean} [free] The course/program is offered for free
@@ -21671,6 +22126,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
      */
     async videosList(
       certification?: boolean,
+      certification_type?: Array<VideosListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<VideosListDepartmentEnum>,
       free?: boolean,
@@ -21694,6 +22150,7 @@ export const VideosApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.videosList(
         certification,
+        certification_type,
         course_feature,
         department,
         free,
@@ -21777,6 +22234,7 @@ export const VideosApiFactory = function (
       return localVarFp
         .videosList(
           requestParameters.certification,
+          requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
           requestParameters.free,
@@ -21825,6 +22283,13 @@ export interface VideosApiVideosListRequest {
    * @memberof VideosApiVideosList
    */
   readonly certification?: boolean
+
+  /**
+   * The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
+   * @type {Array<'completion' | 'micromasters' | 'none' | 'professional'>}
+   * @memberof VideosApiVideosList
+   */
+  readonly certification_type?: Array<VideosListCertificationTypeEnum>
 
   /**
    * Multiple values may be separated by commas.
@@ -21961,6 +22426,7 @@ export class VideosApi extends BaseAPI {
     return VideosApiFp(this.configuration)
       .videosList(
         requestParameters.certification,
+        requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
         requestParameters.free,
@@ -21998,6 +22464,17 @@ export class VideosApi extends BaseAPI {
   }
 }
 
+/**
+ * @export
+ */
+export const VideosListCertificationTypeEnum = {
+  Completion: "completion",
+  Micromasters: "micromasters",
+  None: "none",
+  Professional: "professional",
+} as const
+export type VideosListCertificationTypeEnum =
+  (typeof VideosListCertificationTypeEnum)[keyof typeof VideosListCertificationTypeEnum]
 /**
  * @export
  */

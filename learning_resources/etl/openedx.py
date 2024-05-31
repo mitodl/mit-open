@@ -12,6 +12,7 @@ from dateutil.parser import parse
 from toolz import compose
 
 from learning_resources.constants import (
+    CertificationType,
     LearningResourceType,
 )
 from learning_resources.etl.constants import COMMON_HEADERS
@@ -255,6 +256,7 @@ def _transform_course(config, course):
         for course_run in course.get("course_runs", [])
         if _filter_course_run(course_run)
     ]
+    has_certification = parse_certification(config.offered_by, runs)
     return {
         "readable_id": course.get("key"),
         "etl_source": config.etl_source,
@@ -279,7 +281,10 @@ def _transform_course(config, course):
         "published": any(
             run["status"] == "published" for run in course.get("course_runs", [])
         ),
-        "certification": parse_certification(config.offered_by, runs),
+        "certification": has_certification,
+        "certification_type": CertificationType.completion.name
+        if has_certification
+        else CertificationType.none.name,
     }
 
 

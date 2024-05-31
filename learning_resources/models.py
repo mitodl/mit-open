@@ -11,6 +11,7 @@ from django.db.models.functions import Lower
 
 from learning_resources import constants
 from learning_resources.constants import (
+    CertificationType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -207,6 +208,11 @@ class LearningResource(TimestampedModel):
         LearningResourceDepartment,
     )
     certification = models.BooleanField(default=False)
+    certification_type = models.CharField(
+        choices=CertificationType.as_tuple(),
+        max_length=24,
+        default=CertificationType.none.name,
+    )
     resource_type = models.CharField(
         max_length=24,
         db_index=True,

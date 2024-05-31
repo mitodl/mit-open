@@ -258,6 +258,17 @@ class LevelType(ExtendedEnum):
 
 
 class LearningResourceFormat(ExtendedEnum):
+    """Enum for resource formats"""
+
     online = "Online"
     hybrid = "Hybrid"
     in_person = "In person"
+
+
+class CertificationType(ExtendedEnum):
+    """Enum for resource certification types"""
+
+    micromasters = "Micromasters Credential"
+    professional = "Professional Certificate"
+    completion = "Certificate of Completion"
+    none = "No Certificate"

@@ -5,7 +5,12 @@ import logging
 import requests
 from django.conf import settings
 
-from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.constants import (
+    CertificationType,
+    LearningResourceType,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.etl.constants import COMMON_HEADERS, ETLSource
 from learning_resources.models import LearningResource
 
@@ -69,6 +74,8 @@ def transform(programs_data):
                     "offered_by": OFFERED_BY,
                     "url": program.get("programpage_url"),
                     "image": _transform_image(program),
+                    "certification": True,
+                    "certification_type": CertificationType.micromasters.name,
                     "runs": [
                         {
                             "run_id": f"{READABLE_ID_PREFIX}{program['id']}",

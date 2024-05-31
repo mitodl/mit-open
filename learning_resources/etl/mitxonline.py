@@ -12,6 +12,7 @@ from django.conf import settings
 
 from learning_resources.constants import (
     AvailabilityType,
+    CertificationType,
     LearningResourceType,
     OfferedBy,
     PlatformType,
@@ -168,6 +169,7 @@ def _transform_course(course):
         dict: normalized course data
     """  # noqa: D401
     runs = [_transform_run(course_run, course) for course_run in course["courseruns"]]
+    has_certification = parse_certification(OFFERED_BY["code"], runs)
     return {
         "readable_id": course["readable_id"],
         "platform": PlatformType.mitxonline.name,
@@ -187,7 +189,10 @@ def _transform_course(course):
             parse_page_attribute(course, "page_url")
         ),  # a course is only considered published if it has a page url
         "professional": False,
-        "certification": parse_certification(OFFERED_BY["code"], runs),
+        "certification": has_certification,
+        "certification_type": CertificationType.completion.name
+        if has_certification
+        else CertificationType.none.name,
         "image": _transform_image(course),
         "url": parse_page_attribute(course, "page_url", is_url=True),
         "description": clean_data(parse_page_attribute(course, "description")),
@@ -225,6 +230,9 @@ def transform_programs(programs):
             "platform": PlatformType.mitxonline.name,
             "professional": False,
             "certification": bool(parse_page_attribute(program, "page_url")),
+            "certification_type": CertificationType.completion.name
+            if bool(parse_page_attribute(program, "page_url"))
+            else CertificationType.none.name,
             "topics": transform_topics(program.get("topics", [])),
             "description": clean_data(parse_page_attribute(program, "description")),
             "url": parse_page_attribute(program, "page_url", is_url=True),
