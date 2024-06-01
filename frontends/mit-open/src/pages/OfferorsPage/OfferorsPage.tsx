@@ -4,10 +4,10 @@ import {
 } from "api/hooks/learningResources"
 import {
   Banner,
+  Box,
   Card,
   CardContent,
   Container,
-  Grid,
   Typography,
   styled,
 } from "ol-components"
@@ -55,6 +55,7 @@ const Page = styled.div({
 const PageContent = styled.div({
   display: "flex",
   flexDirection: "column",
+  alignItems: "center",
   padding: "40px 10px 0px 10px",
   gap: "80px",
 })
@@ -77,6 +78,7 @@ const UnitContainer = styled.div({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+  width: "1056px",
   gap: "32px",
 })
 
@@ -115,18 +117,28 @@ const ProfessionalIcon = styled(RiSuitcaseLine)({
   height: "32px",
 })
 
+const GridContainer = styled(Box)({
+  display: "grid",
+  gap: "25px",
+  gridTemplateColumns: "repeat(2, 1fr)",
+})
+
 const OfferorCard = styled(Card)({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  height: "100%",
+})
+
+const OfferorCardContent = styled(CardContent)({
+  display: "flex",
+  flexDirection: "column",
+  flexGrow: 1,
 })
 
 const LogoContainer = styled.div({
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  alignSelf: "stretch",
   height: "128px",
 })
 
@@ -137,6 +149,33 @@ const OfferorLogo = styled.img({
   alignItems: "center",
   height: "50px",
 })
+
+const ValuePropContainer = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  justifyContent: "flex-start",
+  flexGrow: 1,
+  paddingBottom: "16px",
+})
+
+const ValuePropText = styled(Typography)(({ theme }) => ({
+  alignSelf: "stretch",
+  color: theme.custom.colors.darkGray2,
+  ...theme.typography.body2,
+}))
+
+const CountsTextContainer = styled.div({
+  display: "flex",
+  justifyContent: "flex-end",
+  gap: "10px",
+})
+
+const CountsText = styled(Typography)(({ theme }) => ({
+  textAlign: "center",
+  color: theme.custom.colors.silverGrayDark,
+  ...theme.typography.body3,
+}))
 
 const offerorLogos = {
   [OfferedByEnum.Mitx]: "/static/images/offeror_logos/mitx.svg",
@@ -161,22 +200,22 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
     props
   return (
     <UnitContainer>
-      <Grid container spacing={3} justifyContent="center">
-        <Grid item xs={12} md={10} width="1056px">
-          <UnitTitleContainer>
-            {icon}
-            <UnitTitle>{title}</UnitTitle>
-          </UnitTitleContainer>
-          <UnitDescriptionContainer>
-            <UnitDescription>{description}</UnitDescription>
-          </UnitDescriptionContainer>
-        </Grid>
+      <Box>
+        <UnitTitleContainer>
+          {icon}
+          <UnitTitle>{title}</UnitTitle>
+        </UnitTitleContainer>
+        <UnitDescriptionContainer>
+          <UnitDescription>{description}</UnitDescription>
+        </UnitDescriptionContainer>
+      </Box>
+      <GridContainer>
         <OfferorCards
           offerors={offerors}
           courseCounts={courseCounts}
           programCounts={programCounts}
         />
-      </Grid>
+      </GridContainer>
     </UnitContainer>
   )
 }
@@ -196,20 +235,24 @@ const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
         const programCount = programCounts[offeror.code] || 0
         const logo = offerorLogos[offeror.code as OfferedByEnum]
         return offeror.value_prop ? (
-          <Grid item xs={12} md={5}>
-            <OfferorCard>
-              <CardContent>
-                <LogoContainer>
-                  <OfferorLogo src={logo} alt={offeror.name} />
-                </LogoContainer>
-                <Typography>{offeror.value_prop}</Typography>
-                <Typography>
-                  {courseCount > 0 ? `Courses: ${courseCount}` : ""}{" "}
+          <OfferorCard>
+            <OfferorCardContent>
+              <LogoContainer>
+                <OfferorLogo src={logo} alt={offeror.name} />
+              </LogoContainer>
+              <ValuePropContainer>
+                <ValuePropText>{offeror.value_prop}</ValuePropText>
+              </ValuePropContainer>
+              <CountsTextContainer>
+                <CountsText>
+                  {courseCount > 0 ? `Courses: ${courseCount}` : ""}
+                </CountsText>
+                <CountsText>
                   {programCount > 0 ? `Programs: ${programCount}` : ""}
-                </Typography>
-              </CardContent>
-            </OfferorCard>
-          </Grid>
+                </CountsText>
+              </CountsTextContainer>
+            </OfferorCardContent>
+          </OfferorCard>
         ) : null
       })}
     </>

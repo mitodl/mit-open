@@ -31,6 +31,8 @@ export {
 
 export type { ButtonProps, ButtonLinkProps } from "./components/Button/Button"
 
+export { default as Box } from "@mui/material/Box"
+export type { BoxProps } from "@mui/material/Box"
 export { default as Card } from "@mui/material/Card"
 export type { CardProps } from "@mui/material/Card"
 export { default as CardActions } from "@mui/material/CardActions"
