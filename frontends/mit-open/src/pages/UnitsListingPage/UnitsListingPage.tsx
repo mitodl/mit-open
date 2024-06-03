@@ -72,7 +72,7 @@ const PageHeaderContainer = styled.div(({ theme }) => ({
   flexDirection: "column",
   alignItems: "flex-start",
   gap: "24px",
-  width: DESKTOP_WIDTH,
+  maxWidth: DESKTOP_WIDTH,
   [theme.breakpoints.down("md")]: {
     width: "auto",
   },
@@ -88,7 +88,7 @@ const UnitContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  width: DESKTOP_WIDTH,
+  maxWidth: DESKTOP_WIDTH,
   gap: "32px",
   [theme.breakpoints.down("md")]: {
     width: "auto",
