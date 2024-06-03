@@ -140,10 +140,11 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
   )
 
   const body = facetManifest.map((value) => {
-    const label = value.labelFunction
-      ? value.labelFunction(channelDetails[value.name], channelTitle)
-      : channelDetails[value.name]
     if (channelDetails[value.name]) {
+      const label = value.labelFunction
+        ? value.labelFunction(channelDetails[value.name], channelTitle)
+        : channelDetails[value.name]
+
       return (
         <Box key={value.title} sx={{ margin: "10px" }}>
           <InfoLabel

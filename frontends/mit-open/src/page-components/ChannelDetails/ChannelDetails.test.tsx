@@ -1,12 +1,34 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
-import ChannelDetails from "./ChannelDetails"
+import { ChannelDetails } from "./ChannelDetails"
+import { BrowserRouter } from "react-router-dom"
+import { urls } from "api/test-utils"
+import { setMockResponse } from "../../test-utils"
+import { fields as factory } from "api/test-utils/factories"
+import { ThemeProvider } from "ol-components"
 
 describe("ChannelDetails", () => {
-  it("renders title and cover image", () => {
-    const title = "Test Title"
-    render(<ChannelDetails />)
-    const heading = screen.getByRole("heading", { name: title })
-    expect(heading).toHaveAccessibleName(title)
+  it("Includes channel detail info panel", async () => {
+    const field = factory.field({
+      title: "Test Title",
+      channel_type: "offeror",
+    })
+    console.log(field.offeror_detail.offeror)
+    setMockResponse.get(
+      urls.fields.details(field.channel_type, field.name),
+      field,
+    )
+
+    render(
+      <BrowserRouter>
+        <ChannelDetails field={field} />
+      </BrowserRouter>,
+      { wrapper: ThemeProvider },
+    )
+    screen.getByText(field.offeror_detail.offeror.offerings.join(" | "))
+    screen.getByText(field.offeror_detail.offeror.audience.join(" | "))
+    screen.getByText(field.offeror_detail.offeror.formats.join(" | "))
+    screen.getByText(field.offeror_detail.offeror.certifications.join(" | "))
+    screen.getByText(field.offeror_detail.offeror.content_types.join(" | "))
   })
 })
