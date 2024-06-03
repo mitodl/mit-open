@@ -24,8 +24,11 @@ describe("ChannelDetails", () => {
       { wrapper: ThemeProvider },
     )
     const fieldData = field as unknown as Record<string, unknown>
-    const offerorDetail = fieldData as unknown as Record<string, unknown>
-    const offeror = offerorDetail as unknown as Record<string, unknown>
+    const offerorDetail = fieldData.offeror_detail as unknown as Record<
+      string,
+      unknown
+    >
+    const offeror = offerorDetail.offeror as unknown as Record<string, unknown>
     const offerings = offeror.offerings as string[]
     const audience = offeror.audience as string[]
     const formats = offeror.formats as string[]
