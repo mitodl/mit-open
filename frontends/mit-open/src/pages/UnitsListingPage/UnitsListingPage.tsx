@@ -19,7 +19,7 @@ import {
   OfferedByEnum,
 } from "api"
 
-const OFFERORS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
+const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
 
 const aggregateByUnits = (
@@ -134,13 +134,13 @@ const GridContainer = styled(Box)(({ theme }) => ({
   },
 }))
 
-const OfferorCard = styled(Card)({
+const UnitCard = styled(Card)({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
 })
 
-const OfferorCardContent = styled(CardContent)({
+const UnitCardContent = styled(CardContent)({
   display: "flex",
   flexDirection: "column",
   flexGrow: 1,
@@ -153,7 +153,7 @@ const LogoContainer = styled.div({
   height: "128px",
 })
 
-const OfferorLogo = styled.img({
+const UnitLogo = styled.img({
   display: "flex",
   flexDirection: "column",
   justifyContent: "center",
@@ -189,13 +189,13 @@ const CountsText = styled(Typography)(({ theme }) => ({
   ...theme.typography.body3,
 }))
 
-const offerorLogos = {
-  [OfferedByEnum.Mitx]: "/static/images/offeror_logos/mitx.svg",
-  [OfferedByEnum.Ocw]: "/static/images/offeror_logos/ocw.svg",
-  [OfferedByEnum.Bootcamps]: "/static/images/offeror_logos/bootcamps.svg",
-  [OfferedByEnum.Xpro]: "/static/images/offeror_logos/xpro.svg",
-  [OfferedByEnum.Mitpe]: "/static/images/offeror_logos/mitpe.svg",
-  [OfferedByEnum.See]: "/static/images/offeror_logos/see.svg",
+const unitLogos = {
+  [OfferedByEnum.Mitx]: "/static/images/unit_logos/mitx.svg",
+  [OfferedByEnum.Ocw]: "/static/images/unit_logos/ocw.svg",
+  [OfferedByEnum.Bootcamps]: "/static/images/unit_logos/bootcamps.svg",
+  [OfferedByEnum.Xpro]: "/static/images/unit_logos/xpro.svg",
+  [OfferedByEnum.Mitpe]: "/static/images/unit_logos/mitpe.svg",
+  [OfferedByEnum.See]: "/static/images/unit_logos/see.svg",
 }
 
 interface UnitSectionProps {
@@ -221,7 +221,7 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
         </UnitDescriptionContainer>
       </Box>
       <GridContainer>
-        <OfferorCards
+        <UnitCards
           units={units}
           courseCounts={courseCounts}
           programCounts={programCounts}
@@ -231,28 +231,28 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
   )
 }
 
-interface OfferorCardsProps {
+interface UnitCardsProps {
   units: LearningResourceOfferorDetail[] | undefined
   courseCounts: Record<string, number>
   programCounts: Record<string, number>
 }
 
-const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
+const UnitCards: React.FC<UnitCardsProps> = (props) => {
   const { units, courseCounts, programCounts } = props
   return (
     <>
-      {units?.map((offeror) => {
-        const courseCount = courseCounts[offeror.code] || 0
-        const programCount = programCounts[offeror.code] || 0
-        const logo = offerorLogos[offeror.code as OfferedByEnum]
-        return offeror.value_prop ? (
-          <OfferorCard>
-            <OfferorCardContent>
+      {units?.map((unit) => {
+        const courseCount = courseCounts[unit.code] || 0
+        const programCount = programCounts[unit.code] || 0
+        const logo = unitLogos[unit.code as OfferedByEnum]
+        return unit.value_prop ? (
+          <UnitCard>
+            <UnitCardContent>
               <LogoContainer>
-                <OfferorLogo src={logo} alt={offeror.name} />
+                <UnitLogo src={logo} alt={unit.name} />
               </LogoContainer>
               <ValuePropContainer>
-                <ValuePropText>{offeror.value_prop}</ValuePropText>
+                <ValuePropText>{unit.value_prop}</ValuePropText>
               </ValuePropContainer>
               <CountsTextContainer>
                 <CountsText>
@@ -262,8 +262,8 @@ const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
                   {programCount > 0 ? `Programs: ${programCount}` : ""}
                 </CountsText>
               </CountsTextContainer>
-            </OfferorCardContent>
-          </OfferorCard>
+            </UnitCardContent>
+          </UnitCard>
         ) : null
       })}
     </>
@@ -288,12 +288,12 @@ const UnitsListingPage: React.FC = () => {
     ? aggregateByUnits(programQuery.data)
     : {}
   const academicUnits = sortUnits(
-    units?.filter((offeror) => offeror.professional === false),
+    units?.filter((unit) => unit.professional === false),
     courseCounts,
     programCounts,
   )
   const professionalUnits = sortUnits(
-    units?.filter((offeror) => offeror.professional === true),
+    units?.filter((unit) => unit.professional === true),
     courseCounts,
     programCounts,
   )
@@ -323,7 +323,7 @@ const UnitsListingPage: React.FC = () => {
         navText="Home / MIT Units"
         title="Academic & Professional Learning"
         description="Extending MIT's knowledge to the world"
-        backgroundUrl={OFFERORS_BANNER_IMAGE}
+        backgroundUrl={UNITS_BANNER_IMAGE}
       />
       <Container>
         <PageContent>
