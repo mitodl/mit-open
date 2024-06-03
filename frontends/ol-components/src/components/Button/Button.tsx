@@ -4,34 +4,32 @@ import { pxToRem } from "../ThemeProvider/typography"
 import tinycolor from "tinycolor2"
 import { Link } from "react-router-dom"
 
-type ButtonVariant = "outlined" | "filled" | "text"
+type ButtonVariant = "primary" | "secondary" | "tertiary" | "text"
 type ButtonSize = "small" | "medium" | "large"
-type ButtonEdge = "rounded" | "sharp"
-type ButtonColor = "primary" | "secondary"
+type ButtonEdge = "circular" | "rounded"
 
 type ButtonStyleProps = {
   variant?: ButtonVariant
   size?: ButtonSize
   edge?: ButtonEdge
-  color?: ButtonColor
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
 }
 
 const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
   {
-    variant: "filled",
+    variant: "primary",
     size: "medium",
-    edge: "sharp",
-    color: "primary",
+    edge: "rounded",
   }
 
 const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
-  const { color, size, variant, edge, theme } = {
+  const { size, variant, edge, theme } = {
     ...defaultProps,
     ...props,
   }
-  const { palette, typography } = theme
+  const { typography } = theme
+  const { colors } = theme.custom
   return [
     {
       color: theme.palette.text.primary,
@@ -64,41 +62,62 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       ...typography.buttonSmall,
     },
     // variant
-    variant === "filled" && {
-      backgroundColor: palette[color].main,
-      color: palette[color].contrastText,
+    variant === "primary" && {
+      backgroundColor: colors.mitRed,
+      color: colors.white,
       border: "none",
       ":hover:not(:disabled)": {
-        backgroundColor: palette[color].active,
+        backgroundColor: colors.red,
       },
       ":disabled": {
-        background: palette.action.disabled,
+        backgroundColor: colors.silverGray,
       },
     },
-    (variant === "outlined" || variant === "text") && {
+    (variant === "secondary" || variant === "text") && {
       backgroundColor: "transparent",
       borderColor: "currentcolor",
-      borderStyle: variant === "outlined" ? "solid" : "none",
+      borderStyle: variant === "secondary" ? "solid" : "none",
       borderWidth: {
         small: "1px",
         medium: "1.5px",
         large: "2px",
       }[size],
-      color: palette[color].main,
+    },
+    variant === "secondary" && {
+      color: colors.red,
       ":hover:not(:disabled)": {
-        backgroundColor: tinycolor(palette[color].main)
-          .setAlpha(0.06)
-          .toString(),
+        backgroundColor: tinycolor(colors.brightRed).setAlpha(0.06).toString(),
       },
       ":disabled": {
-        color: palette.action.disabled,
+        color: colors.silverGray,
+      },
+    },
+    variant === "text" && {
+      color: colors.darkGray2,
+      ":hover:not(:disabled)": {
+        backgroundColor: tinycolor(colors.darkGray1).setAlpha(0.06).toString(),
+      },
+      ":disabled": {
+        color: colors.silverGray,
+      },
+    },
+    variant === "tertiary" && {
+      color: colors.darkGray2,
+      border: "none",
+      backgroundColor: colors.lightGray2,
+      ":hover:not(:disabled)": {
+        backgroundColor: colors.white,
+      },
+      ":disabled": {
+        backgroundColor: colors.lightGray2,
+        color: colors.silverGrayLight,
       },
     },
     // edge
-    edge === "sharp" && {
+    edge === "rounded" && {
       borderRadius: "4px",
     },
-    edge === "rounded" && {
+    edge === "circular" && {
       // Pill-shaped buttons... Overlapping border radius get clipped to pill.
       borderRadius: "100vh",
     },
@@ -220,10 +239,9 @@ const ButtonLink: React.FC<ButtonLinkProps> = ({
 const ActionButtonDefaultProps: Required<
   Omit<ButtonStyleProps, "startIcon" | "endIcon">
 > = {
-  variant: "filled",
+  variant: "primary",
   size: "medium",
-  edge: "sharp",
-  color: "primary",
+  edge: "rounded",
 }
 
 type ActionButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &

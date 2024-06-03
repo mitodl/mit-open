@@ -159,7 +159,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
           <FlexContainer className="login-button-desktop">
             <ButtonLink
               data-testid="login-button-desktop"
-              edge="rounded"
+              edge="circular"
               size="small"
               nativeAnchor={true}
               href={loginUrl}
@@ -174,7 +174,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
           <FlexContainer className="login-button-mobile">
             <ActionButtonLink
               data-testid="login-button-mobile"
-              edge="rounded"
+              edge="circular"
               variant="text"
               nativeAnchor={true}
               href={loginUrl}
