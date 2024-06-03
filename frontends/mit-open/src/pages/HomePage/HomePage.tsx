@@ -6,6 +6,7 @@ import MediaSection from "./MediaSection"
 import BrowseTopicsSection from "./BrowseTopicsSection"
 import NewsEventsSection from "./NewsEventsSection"
 import TestimonialsSection from "./TestimonialsSection"
+import TestimonialCard from "@/page-components/TestimonialCard/TestimonialCard"
 
 const FullWidthBackground = styled.div({
   background: "linear-gradient(0deg, #FFF 0%, #E7EBEE 100%);",
@@ -20,6 +21,7 @@ const HomePage: React.FC = () => {
           <FeaturedResourcesSection />
         </Container>
       </FullWidthBackground>
+      <TestimonialCard />
       <MediaSection />
       <BrowseTopicsSection />
       <TestimonialsSection />
