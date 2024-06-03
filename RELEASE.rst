@@ -1,6 +1,25 @@
 Release Notes
 =============
 
+Version 0.12.0
+--------------
+
+- Sortby parameter for news_events (#989)
+- Reduce functions occurring under atomic transactions; fix dedupe comparison in load_course function (#984)
+- Update nginx Docker tag to v1.27.0 (#996)
+- Update Node.js to v20.14.0 (#995)
+- Update dependency ruff to v0.4.7 (#993)
+- Update mcr.microsoft.com/playwright Docker tag to v1.44.1 (#994)
+- More code sharing between search and field pages (#980)
+- Certification types for learning resources (#977)
+- Revert "Error if using npm to install (#986)" (#990)
+- Learning resource drawer design updates (#958)
+- Adding the EMBEDLY_KEY to the populated envvars for building the release static assets. (#987)
+- Error if using npm to install (#986)
+- Fix celerybeat schedule (#985)
+- Lock file maintenance (#982)
+- extract images for news articles (#973)
+
 Version 0.11.0 (Released May 30, 2024)
 --------------
 
