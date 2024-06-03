@@ -32,7 +32,7 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Pathway]: [],
 }
 
-const getFacetManifest = (channelType: ChannelTypeEnum): FacetManifest => {
+const getFacetManifest = (channelType: ChannelTypeEnum) => {
   return [
     {
       type: "group",
@@ -108,13 +108,14 @@ const getFacetManifest = (channelType: ChannelTypeEnum): FacetManifest => {
     },
   ].filter((facetSetting) =>
     (FACETS_BY_CHANNEL_TYPE[channelType] || []).includes(facetSetting.name),
-  ) as FacetManifest
+  )
 }
 
-const getChannelDetails = (field) => {
+const getChannelDetails = (field: FieldChannel) => {
   const channelType = field.channel_type
   const dataKey = `${channelType}_detail`
-  return field[dataKey][channelType]
+  const fieldData = field as Record<string, string[] | string>
+  return fieldData[dataKey][channelType]
 }
 const InfoLabel = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.mitRed,
@@ -141,7 +142,7 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
 
   const body = facetManifest.map((value) => {
     if (channelDetails[value.name]) {
-      const label = value.labelFunction
+      const label = value?.labelFunction
         ? value.labelFunction(channelDetails[value.name], channelTitle)
         : channelDetails[value.name]
 
@@ -151,7 +152,6 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
             lineHeight="1.5"
             fontSize="inherit"
             variant="h5"
-            component="h5"
             gutterBottom
           >
             {value.title}:
@@ -168,6 +168,7 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
         </Box>
       )
     }
+    return <></>
   })
   return <ChannelDetailsCard>{body}</ChannelDetailsCard>
 }

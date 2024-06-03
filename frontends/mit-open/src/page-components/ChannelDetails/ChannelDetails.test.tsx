@@ -13,22 +13,25 @@ describe("ChannelDetails", () => {
       title: "Test Title",
       channel_type: "offeror",
     })
-    console.log(field.offeror_detail.offeror)
     setMockResponse.get(
       urls.fields.details(field.channel_type, field.name),
       field,
     )
-
     render(
       <BrowserRouter>
         <ChannelDetails field={field} />
       </BrowserRouter>,
       { wrapper: ThemeProvider },
     )
-    screen.getByText(field.offeror_detail.offeror.offerings.join(" | "))
-    screen.getByText(field.offeror_detail.offeror.audience.join(" | "))
-    screen.getByText(field.offeror_detail.offeror.formats.join(" | "))
-    screen.getByText(field.offeror_detail.offeror.certifications.join(" | "))
-    screen.getByText(field.offeror_detail.offeror.content_types.join(" | "))
+    const fieldData = field as Record<string, string[] | string>
+    screen.getByText(fieldData?.offeror_detail.offeror.offerings.join(" | "))
+    screen.getByText(fieldData?.offeror_detail.offeror.audience.join(" | "))
+    screen.getByText(fieldData?.offeror_detail.offeror.formats.join(" | "))
+    screen.getByText(
+      fieldData?.offeror_detail.offeror.certifications.join(" | "),
+    )
+    screen.getByText(
+      fieldData?.offeror_detail.offeror.content_types.join(" | "),
+    )
   })
 })
