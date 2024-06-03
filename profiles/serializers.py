@@ -13,7 +13,9 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from authentication import api as auth_api
+from learning_resources.models import LearningResourceTopic
 from learning_resources.permissions import is_admin_user, is_learning_path_editor
+from learning_resources.serializers import LearningResourceTopicSerializer
 from profiles.api import get_site_type_from_url
 from profiles.models import (
     PERSONAL_SITE_TYPE,
@@ -34,6 +36,41 @@ from profiles.utils import (
 User = get_user_model()
 
 
+class TopicInterestsField(serializers.Field):
+    """
+    Serializer field for topic interests
+    """
+
+    def to_representation(self, value):
+        """Serialize the topic_interests"""
+        return LearningResourceTopicSerializer(value, many=True).data
+
+    def to_internal_value(self, data):
+        """Validate the topic_interests"""
+        topic_ids = data
+
+        if not topic_ids:
+            return []
+
+        if not isinstance(topic_ids, list) or not all(
+            isinstance(topic_id, int) for topic_id in topic_ids
+        ):
+            msg = "Should be a list of topic integer ids"
+            raise serializers.ValidationError(msg)
+
+        topics = LearningResourceTopic.objects.filter(parent=None, id__in=topic_ids)
+
+        valid_ids = {topic.id for topic in topics}
+        missing_ids = set(topic_ids) - valid_ids
+
+        if missing_ids:
+            missing = ",".join(map(str, missing_ids))
+            message = f"Invalid id(s): {missing}"
+            raise serializers.ValidationError(message)
+
+        return topics
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     """Serializer for Profile"""
 
@@ -43,6 +80,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     profile_image_medium = serializers.SerializerMethodField(read_only=True)
     profile_image_small = serializers.SerializerMethodField(read_only=True)
     placename = serializers.SerializerMethodField(read_only=True)
+
+    topic_interests = TopicInterestsField(default=list)
 
     def get_username(self, obj) -> str:
         """Custom getter for the username"""  # noqa: D401
@@ -74,6 +113,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         """Update the profile and related docs in OpenSearch"""
         with transaction.atomic():
+            topic_interests = validated_data.pop("topic_interests", None)
+
+            if topic_interests is not None:
+                instance.topic_interests.set(topic_interests)
+
             for attr, value in validated_data.items():
                 setattr(instance, attr, value)
 
@@ -112,12 +156,12 @@ class ProfileSerializer(serializers.ModelSerializer):
             "username",
             "placename",
             "location",
-            "interests",
+            "topic_interests",
             "goals",
             "current_education",
             "certificate_desired",
             "time_commitment",
-            "course_format",
+            "learning_format",
         )
         read_only_fields = (
             "image_file_small",
