@@ -114,8 +114,12 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
 const getChannelDetails = (field: FieldChannel) => {
   const channelType = field.channel_type
   const dataKey = `${channelType}_detail`
-  const fieldData = field as Record<string, string[] | string>
-  return fieldData[dataKey][channelType]
+  const fieldData = field as unknown as Record<string, string[] | string>
+  const data = fieldData[dataKey] as unknown as Record<
+    string,
+    string[] | string
+  >
+  return data[channelType]
 }
 const InfoLabel = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.mitRed,
@@ -141,10 +145,13 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
   )
 
   const body = facetManifest.map((value) => {
-    if (channelDetails[value.name]) {
+    const detailValue = (
+      channelDetails as { [key: string]: string[] | string }
+    )[value.name]
+    if (detailValue) {
       const label = value?.labelFunction
-        ? value.labelFunction(channelDetails[value.name], channelTitle)
-        : channelDetails[value.name]
+        ? value.labelFunction(detailValue, channelTitle)
+        : detailValue
 
       return (
         <Box key={value.title} sx={{ margin: "10px" }}>

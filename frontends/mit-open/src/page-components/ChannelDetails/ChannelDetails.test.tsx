@@ -23,15 +23,18 @@ describe("ChannelDetails", () => {
       </BrowserRouter>,
       { wrapper: ThemeProvider },
     )
-    const fieldData = field as Record<string, string[] | string>
-    screen.getByText(fieldData?.offeror_detail.offeror.offerings.join(" | "))
-    screen.getByText(fieldData?.offeror_detail.offeror.audience.join(" | "))
-    screen.getByText(fieldData?.offeror_detail.offeror.formats.join(" | "))
-    screen.getByText(
-      fieldData?.offeror_detail.offeror.certifications.join(" | "),
-    )
-    screen.getByText(
-      fieldData?.offeror_detail.offeror.content_types.join(" | "),
-    )
+    const fieldData = field as unknown as Record<string, unknown>
+    const offerorDetail = fieldData as unknown as Record<string, unknown>
+    const offeror = offerorDetail as unknown as Record<string, unknown>
+    const offerings = offeror.offerings as string[]
+    const audience = offeror.audience as string[]
+    const formats = offeror.formats as string[]
+    const contentTypes = offeror.content_types as string[]
+    const certifications = offeror.certifications as string[]
+    screen.getByText(offerings.join(" | "))
+    screen.getByText(audience.join(" | "))
+    screen.getByText(formats.join(" | "))
+    screen.getByText(certifications.join(" | "))
+    screen.getByText(contentTypes.join(" | "))
   })
 })
