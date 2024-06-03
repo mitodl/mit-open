@@ -270,7 +270,7 @@ const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
   )
 }
 
-const UnitsPage: React.FC = () => {
+const UnitsListingPage: React.FC = () => {
   const unitsQuery = useOfferorsList()
   const units = unitsQuery.data?.results
   const courseQuery = useLearningResourcesSearch({
@@ -352,4 +352,4 @@ const UnitsPage: React.FC = () => {
   )
 }
 
-export default UnitsPage
+export default UnitsListingPage
