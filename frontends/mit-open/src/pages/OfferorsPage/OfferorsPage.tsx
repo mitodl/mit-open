@@ -65,7 +65,7 @@ const PageHeaderContainer = styled.div({
   flexDirection: "column",
   alignItems: "flex-start",
   gap: "24px",
-  width: "1272px",
+  width: "1056px",
 })
 
 const PageHeaderText = styled(Typography)(({ theme }) => ({
