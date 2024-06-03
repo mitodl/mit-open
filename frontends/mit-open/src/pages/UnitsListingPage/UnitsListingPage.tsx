@@ -18,6 +18,7 @@ import {
   LearningResourceSearchResponse,
   OfferedByEnum,
 } from "api"
+import { MetaTags } from "ol-utilities"
 
 const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
@@ -48,6 +49,10 @@ const sortUnits = (
     return totalB - totalA
   })
 }
+
+const Page = styled.div(({ theme }) => ({
+  backgroundColor: theme.custom.colors.white,
+}))
 
 const PageContent = styled.div(({ theme }) => ({
   display: "flex",
@@ -318,7 +323,10 @@ const UnitsListingPage: React.FC = () => {
   ]
 
   return (
-    <div>
+    <Page>
+      <MetaTags>
+        <title>MIT Open | Units</title>
+      </MetaTags>
       <Banner
         navText="Home / MIT Units"
         title="Academic & Professional Learning"
@@ -348,7 +356,7 @@ const UnitsListingPage: React.FC = () => {
           ))}
         </PageContent>
       </Container>
-    </div>
+    </Page>
   )
 }
 
