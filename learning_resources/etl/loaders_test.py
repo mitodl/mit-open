@@ -505,6 +505,8 @@ def test_load_duplicate_course(
 
     if course_id_is_duplicate and duplicate_course_exists:
         mock_upsert_tasks.deindex_learning_resource.assert_called()
+    else:
+        mock_upsert_tasks.deindex_learning_resource.assert_not_called()
     if course.learning_resource.id:
         if course_exists:
             mock_upsert_tasks.upsert_learning_resource.assert_called_with(

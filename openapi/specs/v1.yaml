@@ -523,6 +523,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -1085,6 +1105,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -1439,6 +1479,26 @@ paths:
         name: certification
         schema:
           type: boolean
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
       - in: query
         name: course_feature
         schema:
@@ -2023,6 +2083,7 @@ paths:
             enum:
             - resource_type
             - certification
+            - certification_type
             - offered_by
             - platform
             - topic
@@ -2036,6 +2097,7 @@ paths:
             description: |-
               * `resource_type` - resource_type
               * `certification` - certification
+              * `certification_type` - certification_type
               * `offered_by` - offered_by
               * `platform` - platform
               * `topic` - topic
@@ -2052,6 +2114,25 @@ paths:
           type: boolean
           nullable: true
         description: True if the learning resource offers a certificate
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            enum:
+            - micromasters
+            - professional
+            - completion
+            - none
+            type: string
+            description: |-
+              * `micromasters` - Micromasters Credential
+              * `professional` - Professional Certificate
+              * `completion` - Certificate of Completion
+              * `none` - No Certificate
+        description: "The type of certificate             \n\n* `micromasters` - Micromasters\
+          \ Credential\n* `professional` - Professional Certificate\n* `completion`\
+          \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
         name: course_feature
         schema:
@@ -2403,6 +2484,7 @@ paths:
             enum:
             - resource_type
             - certification
+            - certification_type
             - offered_by
             - platform
             - topic
@@ -2416,6 +2498,7 @@ paths:
             description: |-
               * `resource_type` - resource_type
               * `certification` - certification
+              * `certification_type` - certification_type
               * `offered_by` - offered_by
               * `platform` - platform
               * `topic` - topic
@@ -2432,6 +2515,25 @@ paths:
           type: boolean
           nullable: true
         description: True if the learning resource offers a certificate
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            enum:
+            - micromasters
+            - professional
+            - completion
+            - none
+            type: string
+            description: |-
+              * `micromasters` - Micromasters Credential
+              * `professional` - Professional Certificate
+              * `completion` - Certificate of Completion
+              * `none` - No Certificate
+        description: "The type of certificate             \n\n* `micromasters` - Micromasters\
+          \ Credential\n* `professional` - Professional Certificate\n* `completion`\
+          \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
         name: course_feature
         schema:
@@ -2808,6 +2910,7 @@ paths:
             enum:
             - resource_type
             - certification
+            - certification_type
             - offered_by
             - platform
             - topic
@@ -2821,6 +2924,7 @@ paths:
             description: |-
               * `resource_type` - resource_type
               * `certification` - certification
+              * `certification_type` - certification_type
               * `offered_by` - offered_by
               * `platform` - platform
               * `topic` - topic
@@ -2837,6 +2941,25 @@ paths:
           type: boolean
           nullable: true
         description: True if the learning resource offers a certificate
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            enum:
+            - micromasters
+            - professional
+            - completion
+            - none
+            type: string
+            description: |-
+              * `micromasters` - Micromasters Credential
+              * `professional` - Professional Certificate
+              * `completion` - Certificate of Completion
+              * `none` - No Certificate
+        description: "The type of certificate             \n\n* `micromasters` - Micromasters\
+          \ Credential\n* `professional` - Professional Certificate\n* `completion`\
+          \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
         name: course_feature
         schema:
@@ -3204,6 +3327,7 @@ paths:
             enum:
             - resource_type
             - certification
+            - certification_type
             - offered_by
             - platform
             - topic
@@ -3217,6 +3341,7 @@ paths:
             description: |-
               * `resource_type` - resource_type
               * `certification` - certification
+              * `certification_type` - certification_type
               * `offered_by` - offered_by
               * `platform` - platform
               * `topic` - topic
@@ -3233,6 +3358,25 @@ paths:
           type: boolean
           nullable: true
         description: True if the learning resource offers a certificate
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            enum:
+            - micromasters
+            - professional
+            - completion
+            - none
+            type: string
+            description: |-
+              * `micromasters` - Micromasters Credential
+              * `professional` - Professional Certificate
+              * `completion` - Certificate of Completion
+              * `none` - No Certificate
+        description: "The type of certificate             \n\n* `micromasters` - Micromasters\
+          \ Credential\n* `professional` - Professional Certificate\n* `completion`\
+          \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
         name: course_feature
         schema:
@@ -3605,6 +3749,26 @@ paths:
         name: certification
         schema:
           type: boolean
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
       - in: query
         name: course_feature
         schema:
@@ -4286,6 +4450,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -4640,6 +4824,26 @@ paths:
         name: certification
         schema:
           type: boolean
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
       - in: query
         name: course_feature
         schema:
@@ -5082,6 +5286,26 @@ paths:
         name: certification
         schema:
           type: boolean
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
       - in: query
         name: course_feature
         schema:
@@ -5828,6 +6052,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -6249,6 +6493,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -6599,6 +6863,7 @@ components:
       enum:
       - resource_type
       - certification
+      - certification_type
       - offered_by
       - platform
       - topic
@@ -6612,6 +6877,7 @@ components:
       description: |-
         * `resource_type` - resource_type
         * `certification` - certification
+        * `certification_type` - certification_type
         * `offered_by` - offered_by
         * `platform` - platform
         * `topic` - topic
@@ -6650,6 +6916,18 @@ components:
       required:
       - html
       - title
+    CertificationTypeEnum:
+      enum:
+      - micromasters
+      - professional
+      - completion
+      - none
+      type: string
+      description: |-
+        * `micromasters` - Micromasters Credential
+        * `professional` - Professional Certificate
+        * `completion` - Certificate of Completion
+        * `none` - No Certificate
     ContentFile:
       type: object
       description: Serializer class for course run ContentFiles
@@ -6905,6 +7183,21 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
@@ -7006,6 +7299,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course
       - course_feature
       - departments
@@ -7253,6 +7547,21 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
@@ -7353,6 +7662,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -7692,6 +8002,8 @@ components:
           type: string
           format: uri
           maxLength: 200
+        value_prop:
+          type: string
       required:
       - channel_url
       - code
@@ -8832,6 +9144,13 @@ components:
           type: boolean
           nullable: true
           description: True if the learning resource offers a certificate
+        certification_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificationTypeEnum'
+          description: "The type of certificate             \n\n* `micromasters` -\
+            \ Micromasters Credential\n* `professional` - Professional Certificate\n\
+            * `completion` - Certificate of Completion\n* `none` - No Certificate"
         department:
           type: array
           items:
@@ -9051,6 +9370,21 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
@@ -9152,6 +9486,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -9280,6 +9615,21 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
@@ -9381,6 +9731,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -9651,6 +10002,21 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
@@ -9752,6 +10118,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -10084,6 +10451,21 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
@@ -10185,6 +10567,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -10303,6 +10686,21 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
@@ -10404,6 +10802,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free

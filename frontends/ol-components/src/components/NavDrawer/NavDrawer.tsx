@@ -184,6 +184,7 @@ const NavDrawer = (props: NavDrawerProps) => {
         sx: {
           boxShadow: "0px 6px 24px 0px rgba(37, 38, 43, 0.10)",
           zIndex: (theme) => theme.zIndex.appBar - 1,
+          overscrollBehavior: "contain",
         },
       }}
       {...props}

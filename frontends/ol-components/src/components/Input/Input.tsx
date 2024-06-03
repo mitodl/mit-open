@@ -52,10 +52,10 @@ const Input = styled(InputBase)(({
       paddingRight: "12px",
       borderRadius: "4px",
       "&.MuiInputBase-adornedStart": {
-        marginLeft: `-${buttonPadding.medium}px`,
+        paddingLeft: `${12 - buttonPadding.medium}px`,
       },
       "&.MuiInputBase-adornedEnd": {
-        marginRight: `-${buttonPadding.medium}px`,
+        paddingRight: `${12 - buttonPadding.medium}px`,
       },
       "&:hover:not(.Mui-disabled), &.Mui-focused": {
         paddingLeft: "11px",
@@ -73,10 +73,10 @@ const Input = styled(InputBase)(({
       borderRadius: "8px",
 
       "&.MuiInputBase-adornedStart": {
-        marginLeft: `-${buttonPadding.hero}px`,
+        paddingLeft: `${16 - buttonPadding.hero}px`,
       },
       "&.MuiInputBase-adornedEnd": {
-        marginRight: `-${buttonPadding.hero}px`,
+        paddingRight: `${16 - buttonPadding.hero}px`,
       },
       "&:hover:not(.Mui-disabled), &.Mui-focused": {
         paddingLeft: "15px",

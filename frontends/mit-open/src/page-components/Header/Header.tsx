@@ -18,6 +18,7 @@ import {
   TOPICS,
   RESOURCE_DRAWER_QUERY_PARAM,
   SEARCH,
+  UNITS,
   querifiedSearchUrl,
 } from "@/common/urls"
 import { useSearchParams } from "react-router-dom"
@@ -99,7 +100,7 @@ const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
 const SearchButton: FunctionComponent = () => {
   return (
     <ActionButtonLink
-      edge="rounded"
+      edge="circular"
       variant="text"
       nativeAnchor={true}
       href={SEARCH}
@@ -191,6 +192,7 @@ const navData: NavData = {
         {
           title: "By Provider",
           icon: "/static/images/navdrawer/provider.svg",
+          href: UNITS,
         },
       ],
     },
@@ -200,26 +202,17 @@ const navData: NavData = {
         {
           title: "New",
           icon: "/static/images/navdrawer/new.svg",
-          href: querifiedSearchUrl({
-            resource_type: "course",
-            sortby: "new",
-          }),
+          href: querifiedSearchUrl({ sortby: "new" }),
         },
         {
           title: "Upcoming",
           icon: "/static/images/navdrawer/free.svg",
-          href: querifiedSearchUrl({
-            resource_type: "course",
-            sortby: "upcoming",
-          }),
+          href: querifiedSearchUrl({ sortby: "upcoming" }),
         },
         {
           title: "Popular",
           icon: "/static/images/navdrawer/popular.svg",
-          href: querifiedSearchUrl({
-            resource_type: "course",
-            sortby: "popular",
-          }),
+          href: querifiedSearchUrl({ sortby: "popular" }),
         },
         {
           title: "Free",

@@ -90,11 +90,11 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
       <DialogContent>{children}</DialogContent>
       {showFooter && (
         <DialogActions>
-          <Button variant="outlined" onClick={onClose}>
+          <Button variant="secondary" onClick={onClose}>
             {cancelText}
           </Button>
           <Button
-            variant="filled"
+            variant="primary"
             onClick={handleConfirm}
             disabled={confirming}
           >

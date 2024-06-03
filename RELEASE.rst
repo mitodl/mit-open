@@ -1,6 +1,39 @@
 Release Notes
 =============
 
+Version 0.11.0 (Released May 30, 2024)
+--------------
+
+- remove package-lock.json (#978)
+- Randomize featured api order by offeror, keep sorting by position (#971)
+- Updated hero page (#969)
+- Fix flaky test by specifying a sort of program courses in serializer (#972)
+- Clean up resource descriptions (#957)
+- Fix Featured API requests (#970)
+- add the footer & privacy, terms and about us pages (#956)
+- Adding call to update program topics during ETL loads (#952)
+- Upgrade NukaCarousel to v8 (#960)
+- Fix detect-secrets baseline file (#967)
+- Update dependency @faker-js/faker to v8 (#797)
+
+Version 0.10.2 (Released May 30, 2024)
+--------------
+
+- Update dependency @ckeditor/ckeditor5-dev-utils to v40 (#933)
+- Topics Listing Page (#946)
+- Do not ingest prolearn courses/programs from the past (#955)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v40 (#932)
+- add All tab (#966)
+- fix flaky test (#965)
+- [pre-commit.ci] pre-commit autoupdate (#963)
+- Update codecov/codecov-action action to v4.4.1 (#962)
+- Featured Courses Carousel (#959)
+- horizontal facets (#949)
+- workflow changes to publish static assets to s3 (#922)
+- daily subscription email to subscribers (#937)
+- Filtering by free=true should exclude all professional courses (#948)
+- Fix flaky test (#954)
+
 Version 0.10.1 (Released May 24, 2024)
 --------------
 

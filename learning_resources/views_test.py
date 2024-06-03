@@ -916,19 +916,28 @@ def test_popular_sort(client, resource_type):
 def test_featured_view(client, offeror_featured_lists):
     """The featured api endpoint should return resources in expected order"""
     url = reverse("lr:v1:featured_api-list")
-    resp = client.get(f"{url}?limit=12")
-    assert resp.data.get("count") == 18
-    assert len(resp.data.get("results")) == 12
-    # Should get 1st resource from every featured list, then 2nd, etc.
-    for idx, resource in enumerate(resp.data.get("results")):
-        position = int(idx / 6)  # 6 offerors: 0,0,0,0,0,0,1,1,1,1,1,1
-        offeror = LearningResourceOfferor.objects.get(
-            code=resource["offered_by"]["code"]
-        )
-        featured_list = FieldChannel.objects.get(
-            offeror_detail__offeror=offeror
-        ).featured_list
-        assert featured_list.children.all()[position].child.id == resource["id"]
+    resp_1 = client.get(f"{url}?limit=12")
+    assert resp_1.data.get("count") == 18
+    assert len(resp_1.data.get("results")) == 12
+
+    # Second request should return same resources in different order
+    resp_2 = client.get(f"{url}?limit=12")
+    resp_1_ids = [resource["id"] for resource in resp_1.data.get("results")]
+    resp_2_ids = [resource["id"] for resource in resp_2.data.get("results")]
+    assert resp_1_ids != resp_2_ids
+    assert sorted(resp_1_ids) == sorted(resp_2_ids)
+
+    for resp in [resp_1, resp_2]:
+        # Should get 1st resource from every featured list, then 2nd, etc.
+        for idx, resource in enumerate(resp.data.get("results")):
+            position = int(idx / 6)  # 6 offerors: 0,0,0,0,0,0,1,1,1,1,1,1
+            offeror = LearningResourceOfferor.objects.get(
+                code=resource["offered_by"]["code"]
+            )
+            featured_list = FieldChannel.objects.get(
+                offeror_detail__offeror=offeror
+            ).featured_list
+            assert featured_list.children.all()[position].child.id == resource["id"]
 
 
 @pytest.mark.parametrize("parameter", ["certification", "free", "professional"])

@@ -981,6 +981,12 @@ export interface LearningResourceOfferorDetail {
    * @memberof LearningResourceOfferorDetail
    */
   more_information?: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  value_prop?: string
 }
 /**
  * Serializer for LearningResourceOfferor with all details
@@ -1048,6 +1054,12 @@ export interface LearningResourceOfferorDetailRequest {
    * @memberof LearningResourceOfferorDetailRequest
    */
   more_information?: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  value_prop?: string
 }
 /**
  * Serializer for News FeedItem
@@ -4055,6 +4067,7 @@ export const NewsEventsApiAxiosParamCreator = function (
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4062,6 +4075,7 @@ export const NewsEventsApiAxiosParamCreator = function (
       feed_type?: Array<NewsEventsListFeedTypeEnum>,
       limit?: number,
       offset?: number,
+      sortby?: NewsEventsListSortbyEnum,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v0/news_events/`
@@ -4090,6 +4104,10 @@ export const NewsEventsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -4167,6 +4185,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4174,6 +4193,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
       feed_type?: Array<NewsEventsListFeedTypeEnum>,
       limit?: number,
       offset?: number,
+      sortby?: NewsEventsListSortbyEnum,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -4185,6 +4205,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
         feed_type,
         limit,
         offset,
+        sortby,
         options,
       )
       const index = configuration?.serverIndex ?? 0
@@ -4252,6 +4273,7 @@ export const NewsEventsApiFactory = function (
           requestParameters.feed_type,
           requestParameters.limit,
           requestParameters.offset,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -4299,6 +4321,13 @@ export interface NewsEventsApiNewsEventsListRequest {
    * @memberof NewsEventsApiNewsEventsList
    */
   readonly offset?: number
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+   * @type {'-created' | '-event_date' | '-id' | 'created' | 'event_date' | 'id'}
+   * @memberof NewsEventsApiNewsEventsList
+   */
+  readonly sortby?: NewsEventsListSortbyEnum
 }
 
 /**
@@ -4338,6 +4367,7 @@ export class NewsEventsApi extends BaseAPI {
         requestParameters.feed_type,
         requestParameters.limit,
         requestParameters.offset,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -4369,6 +4399,19 @@ export const NewsEventsListFeedTypeEnum = {
 } as const
 export type NewsEventsListFeedTypeEnum =
   (typeof NewsEventsListFeedTypeEnum)[keyof typeof NewsEventsListFeedTypeEnum]
+/**
+ * @export
+ */
+export const NewsEventsListSortbyEnum = {
+  Created: "-created",
+  EventDate: "-event_date",
+  Id: "-id",
+  Created2: "created",
+  EventDate2: "event_date",
+  Id2: "id",
+} as const
+export type NewsEventsListSortbyEnum =
+  (typeof NewsEventsListSortbyEnum)[keyof typeof NewsEventsListSortbyEnum]
 
 /**
  * NewsEventsSourcesApi - axios parameter creator

@@ -58,7 +58,7 @@ services:
   nginx:
     profiles:
       - backend
-    image: nginx:1.26.0
+    image: nginx:1.27.0
     ports:
       - "8063:8063"
     links:
@@ -94,7 +94,7 @@ services:
     profiles:
       - frontend
     working_dir: /src
-    image: node:20.13
+    image: node:20.14
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |

@@ -298,6 +298,26 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created
+          - -event_date
+          - -id
+          - created
+          - event_date
+          - id
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `event_date` - Event date ascending
+          * `-event_date` - Event date  descending
+          * `created` - Creation date ascending
+          * `-created` - Creation date descending
       tags:
       - news_events
       responses:
@@ -1484,6 +1504,8 @@ components:
           type: string
           format: uri
           maxLength: 200
+        value_prop:
+          type: string
       required:
       - channel_url
       - code
@@ -1542,6 +1564,8 @@ components:
           type: string
           format: uri
           maxLength: 200
+        value_prop:
+          type: string
       required:
       - code
       - name

@@ -16,7 +16,6 @@ const queryAllByTerm = (
       exact ? el.textContent === term : el.textContent?.includes(term),
     )
     .map((n) => {
-      // eslint-disable-next-line testing-library/no-node-access
       const dd = n.nextSibling
       if (dd instanceof HTMLElement && dd.tagName === "DD") return dd
       throw new Error("Expected node to be an <dd> HTMLElement.")
@@ -66,7 +65,6 @@ const getDescriptionsFor = (el: HTMLElement) => {
     )
   }
   const errEls = errIds.map((id) => {
-    // eslint-disable-next-line testing-library/no-node-access
     const errEl = document.getElementById(id)
     invariant(errEl instanceof HTMLElement, `No element found with id: ${id}`)
     return errEl

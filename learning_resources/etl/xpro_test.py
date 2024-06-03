@@ -8,7 +8,11 @@ from itertools import chain
 
 import pytest
 
-from learning_resources.constants import LearningResourceType, PlatformType
+from learning_resources.constants import (
+    CertificationType,
+    LearningResourceType,
+    PlatformType,
+)
 from learning_resources.etl import xpro
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS, transform_format
@@ -182,10 +186,12 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                         ]
                     },
                     "certification": True,
+                    "certification_type": CertificationType.professional.name,
                 }
                 for course_data in program_data["courses"]
             ],
             "certification": True,
+            "certification_type": CertificationType.professional.name,
         }
         for program_data in mock_xpro_programs_data
     ]
@@ -254,6 +260,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                 ]
             },
             "certification": True,
+            "certification_type": CertificationType.professional.name,
         }
         for course_data in mock_xpro_courses_data
     ]

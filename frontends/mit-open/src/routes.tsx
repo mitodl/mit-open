@@ -25,6 +25,7 @@ import LearningPathDetailsPage from "./pages/ListDetailsPage/LearningPathDetails
 import LearningResourceDrawer from "./page-components/LearningResourceDrawer/LearningResourceDrawer"
 import DepartmentListingPage from "./pages/DepartmentListingPage/DepartmentListingPage"
 import TopicsListingPage from "./pages/TopicListingPage/TopicsListingPage"
+import UnitsListingPage from "./pages/UnitsListingPage/UnitsListingPage"
 import { styled } from "ol-components"
 
 const PageWrapper = styled.div({
@@ -117,6 +118,10 @@ const routes: RouteObject[] = [
       {
         path: urls.TOPICS,
         element: <TopicsListingPage />,
+      },
+      {
+        path: urls.UNITS,
+        element: <UnitsListingPage />,
       },
       {
         path: urls.FIELD_VIEW,

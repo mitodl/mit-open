@@ -213,7 +213,6 @@ describe("SortableItem", () => {
     ({ tag }) => {
       const view = render(<SortableItem Component={tag} id="1" />)
 
-      // eslint-disable-next-line testing-library/no-node-access
       const el = view.container.firstChild as HTMLElement
       expect(el.tagName).toBe(tag.toUpperCase())
     },

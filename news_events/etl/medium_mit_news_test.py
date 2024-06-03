@@ -54,6 +54,9 @@ def test_transform(mocker, medium_mit_rss_data):
         assert item["title"] == feed_items[idx]["title"]
         assert item["url"] == feed_items[idx]["link"]
         assert item["guid"] == feed_items[idx]["id"]
+        if item["image"]:
+            assert item["image"]["url"] in feed_items[idx]["content"][0]["value"]
+            assert item["image"]["alt"] in feed_items[idx]["content"][0]["value"]
         assert item["detail"]["publish_date"] == stringify_time_struct(
             feed_items[idx]["published_parsed"]
         )

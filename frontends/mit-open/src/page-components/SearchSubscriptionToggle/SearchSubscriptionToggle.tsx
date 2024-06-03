@@ -59,7 +59,7 @@ const SearchSubscriptionToggle = ({
     return (
       <SimpleMenu
         trigger={
-          <Button variant="filled" endIcon={<ExpandMoreSharpIcon />}>
+          <Button variant="primary" endIcon={<ExpandMoreSharpIcon />}>
             Subscribed
           </Button>
         }
@@ -69,7 +69,7 @@ const SearchSubscriptionToggle = ({
   }
   return (
     <Button
-      variant="filled"
+      variant="primary"
       disabled={subscriptionCreate.isLoading}
       onClick={() =>
         subscriptionCreate.mutateAsync({

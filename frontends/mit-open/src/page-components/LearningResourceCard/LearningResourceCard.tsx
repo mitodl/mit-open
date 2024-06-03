@@ -64,7 +64,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
           {user?.is_authenticated && user?.is_learning_path_editor && (
             <ActionButton
               variant="text"
-              edge="rounded"
+              edge="circular"
               color="secondary"
               aria-label="Add to Learning Path"
               onClick={showAddToLearningPathDialog}
@@ -75,7 +75,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
           {user?.is_authenticated && (
             <ActionButton
               variant="text"
-              edge="rounded"
+              edge="circular"
               color="secondary"
               aria-label="Add to User List"
               onClick={showAddToUserListDialog}
