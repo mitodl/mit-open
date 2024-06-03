@@ -1,0 +1,107 @@
+import React, {
+  FC,
+  ReactNode,
+  Children,
+  ImgHTMLAttributes,
+  isValidElement,
+} from "react"
+import styled from "@emotion/styled"
+import { theme } from "../ThemeProvider/ThemeProvider"
+
+const Container = styled.div`
+  border-radius: 8px;
+  border: 1px solid ${theme.custom.colors.lightGray2};
+  background: ${theme.custom.colors.white};
+  box-shadow:
+    0 2px 4px 0 rgb(37 38 43 / 10%),
+    0 2px 4px 0 rgb(37 38 43 / 10%);
+  overflow: hidden;
+
+  :hover {
+    text-decoration: none;
+    color: ${theme.custom.colors.mitRed};
+    border-color: ${theme.custom.colors.silverGrayLight};
+
+    > p {
+      color: ${theme.custom.colors.mitRed};
+      text-decoration: underline;
+    }
+  }
+`
+
+// const Container = styled(Card)<{ mobile: boolean }>`
+//   display: flex;
+//   flex-direction: column;
+//   flex-shrink: 0;
+//   overflow: hidden;
+//   ${({ mobile }) => (mobile ? "width: 274px" : "")}
+// `
+
+const Image = styled.img`
+  display: block;
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-background-position: center;
+  background-position: center;
+  width: 100%;
+  object-fit: cover;
+  height: 172px;
+  border-radius:;
+`
+
+const Title = styled.p`
+  ${{ ...theme.typography.subtitle1 }}
+  text-overflow: ellipsis;
+  height: ${theme.typography.pxToRem(40)};
+  overflow: hidden;
+  margin: 16px;
+
+  @supports (-webkit-line-clamp: 2) {
+    white-space: initial;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+`
+
+const Footer = styled.span`
+  ${{
+    ...theme.typography.body3,
+    color: theme.custom.colors.silverGrayDark,
+  }}
+
+  margin: 0 16px 16px;
+`
+
+type Card = FC<{ children: ReactNode[]; className?: string }> & {
+  Image: FC<ImgHTMLAttributes<HTMLImageElement>>
+  Title: FC<{ children: ReactNode }>
+  Footer: FC<{ children: ReactNode }>
+}
+
+const Card: Card = ({ children, className }) => {
+  let imageProps, title, footer
+
+  Children.forEach(children, (child) => {
+    if (!isValidElement(child)) return
+    if (child.type === Image) imageProps = child.props
+    else if (child.type === Title) title = child
+    else if (child.type === Footer) footer = child
+  })
+
+  return (
+    <Container className={className}>
+      {imageProps && (
+        <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
+      )}
+      {title && <Title>{title}</Title>}
+      {footer && <Footer>{footer}</Footer>}
+    </Container>
+  )
+}
+
+Card.Title = Title
+Card.Image = Image
+Card.Footer = Footer
+
+export { Card }

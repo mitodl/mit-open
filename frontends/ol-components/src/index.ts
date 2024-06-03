@@ -132,6 +132,9 @@ export * from "./components/BannerPage/BannerPage"
 export * from "./components/Chips/ChipLink"
 export * from "./components/EmbedlyCard/EmbedlyCard"
 export * from "./components/FormDialog/FormDialog"
+export * from "./components/LearningResourceCard/LearningResourceCard"
+export * from "./components/LearningResourceExpanded/LearningResourceExpanded"
+export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/Logo/Logo"
 export * from "./components/RoutedDrawer/RoutedDrawer"
 export * from "./components/NavDrawer/NavDrawer"
@@ -143,7 +146,6 @@ export * from "./components/Carousel/Carousel"
 export * from "./components/PlainList/PlainList"
 export * from "./components/TruncateText/TruncateText"
 export * from "./components/ThemeProvider/ThemeProvider"
-export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/RadioChoiceField/RadioChoiceField"
 
 export { Input, AdornmentButton } from "./components/Input/Input"
@@ -165,8 +167,6 @@ export type {
 
 export { Link, linkStyles } from "./components/Link/Link"
 export type { LinkProps } from "./components/Link/Link"
-
-export * from "./components/LearningResourceExpanded/LearningResourceExpanded"
 
 export * from "./hooks/useBreakpoint"
 

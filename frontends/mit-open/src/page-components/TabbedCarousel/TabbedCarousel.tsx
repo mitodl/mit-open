@@ -11,6 +11,7 @@ import {
   TabList,
   Carousel,
   styled,
+  LearningResourceCard,
 } from "ol-components"
 import type {
   TabConfig,
@@ -19,12 +20,12 @@ import type {
   FeaturedDataSource,
 } from "./types"
 import { LearningResource } from "api"
-import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
-import type { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
+// import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
+// import type { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
 
-type LearningResourceCardStyledProps = LearningResourceCardProps & {
-  cardsPerPage: number
-}
+// type LearningResourceCardStyledProps = LearningResourceCardProps & {
+//   cardsPerPage: number
+// }
 
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   dataConfig: T
@@ -96,9 +97,9 @@ const CarouselStyled = styled(Carousel)`
   }
 `
 
-const LearningResourceCardStyled = styled(
-  LearningResourceCard,
-)<LearningResourceCardStyledProps>`
+const LearningResourceCardStyled = styled(LearningResourceCard)<{
+  cardsPerPage: number
+}>`
   min-width: calc(
     ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
   );
