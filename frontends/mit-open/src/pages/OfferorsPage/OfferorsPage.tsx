@@ -20,6 +20,7 @@ import {
 } from "api"
 
 const OFFERORS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
+const DESKTOP_WIDTH = "1056px"
 
 const aggregateByOfferors = (
   data: LearningResourceSearchResponse,
@@ -48,25 +49,28 @@ const sortOfferors = (
   })
 }
 
-const Page = styled.div({
-  paddingBottom: "80px",
-})
-
-const PageContent = styled.div({
+const PageContent = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  padding: "40px 10px 0px 10px",
+  padding: "40px 10px 80px 10px",
   gap: "80px",
-})
+  [theme.breakpoints.down("md")]: {
+    padding: "40px 0px 30px 0px",
+    gap: "40px",
+  },
+}))
 
-const PageHeaderContainer = styled.div({
+const PageHeaderContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
   gap: "24px",
-  width: "1056px",
-})
+  width: DESKTOP_WIDTH,
+  [theme.breakpoints.down("md")]: {
+    width: "auto",
+  },
+}))
 
 const PageHeaderText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.black,
@@ -74,13 +78,17 @@ const PageHeaderText = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle1,
 }))
 
-const UnitContainer = styled.div({
+const UnitContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
-  width: "1056px",
+  width: DESKTOP_WIDTH,
   gap: "32px",
-})
+  [theme.breakpoints.down("md")]: {
+    width: "auto",
+    padding: "0 16px",
+  },
+}))
 
 const UnitTitleContainer = styled.div({
   display: "flex",
@@ -117,11 +125,14 @@ const ProfessionalIcon = styled(RiSuitcaseLine)({
   height: "32px",
 })
 
-const GridContainer = styled(Box)({
+const GridContainer = styled(Box)(({ theme }) => ({
   display: "grid",
   gap: "25px",
   gridTemplateColumns: "repeat(2, 1fr)",
-})
+  [theme.breakpoints.down("md")]: {
+    gridTemplateColumns: "1fr",
+  },
+}))
 
 const OfferorCard = styled(Card)({
   display: "flex",
@@ -148,6 +159,7 @@ const OfferorLogo = styled.img({
   justifyContent: "center",
   alignItems: "center",
   height: "50px",
+  maxWidth: "100%",
 })
 
 const ValuePropContainer = styled.div({
@@ -307,7 +319,7 @@ const OfferorsPage: React.FC = () => {
   ]
 
   return (
-    <Page>
+    <div>
       <Banner
         navText="Home / MIT Units"
         title="Academic & Professional Learning"
@@ -337,7 +349,7 @@ const OfferorsPage: React.FC = () => {
           ))}
         </PageContent>
       </Container>
-    </Page>
+    </div>
   )
 }
 
