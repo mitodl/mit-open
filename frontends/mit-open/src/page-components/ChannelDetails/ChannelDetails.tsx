@@ -146,7 +146,7 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
 
   const body = facetManifest.map((value) => {
     const detailValue = (
-      channelDetails as { [key: string]: string[] | string }
+      channelDetails as unknown as { [key: string]: string }
     )[value.name]
     if (detailValue) {
       const label = value?.labelFunction
