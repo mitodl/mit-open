@@ -8,7 +8,7 @@ import React, {
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 
-const Container = styled.div`
+const cardStyles = `
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
@@ -16,7 +16,14 @@ const Container = styled.div`
     0 2px 4px 0 rgb(37 38 43 / 10%),
     0 2px 4px 0 rgb(37 38 43 / 10%);
   overflow: hidden;
+`
 
+const Container = styled.div`
+  ${cardStyles}
+`
+
+const LinkContainer = styled.a`
+  ${cardStyles}
   :hover {
     text-decoration: none;
     color: ${theme.custom.colors.mitRed};
@@ -64,7 +71,7 @@ const Title = styled.p`
   }
 `
 
-const Footer = styled.span`
+const Footer = styled.p`
   ${{
     ...theme.typography.body3,
     color: theme.custom.colors.silverGrayDark,
@@ -73,30 +80,38 @@ const Footer = styled.span`
   margin: 0 16px 16px;
 `
 
-type Card = FC<{ children: ReactNode[]; className?: string }> & {
+type CardProps = {
+  children: ReactNode[]
+  className?: string
+  link?: boolean
+  href?: string
+}
+type Card = FC<CardProps> & {
   Image: FC<ImgHTMLAttributes<HTMLImageElement>>
   Title: FC<{ children: ReactNode }>
   Footer: FC<{ children: ReactNode }>
 }
 
-const Card: Card = ({ children, className }) => {
+const Card: Card = ({ link, href, children, className }) => {
+  const _Container = link ? LinkContainer : Container
+
   let imageProps, title, footer
 
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return
     if (child.type === Image) imageProps = child.props
-    else if (child.type === Title) title = child
-    else if (child.type === Footer) footer = child
+    else if (child.type === Title) title = child.props.children
+    else if (child.type === Footer) footer = child.props.children
   })
 
   return (
-    <Container className={className}>
+    <_Container className={className} href={href}>
       {imageProps && (
         <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
       )}
       {title && <Title>{title}</Title>}
       {footer && <Footer>{footer}</Footer>}
-    </Container>
+    </_Container>
   )
 }
 
@@ -104,4 +119,4 @@ Card.Title = Title
 Card.Image = Image
 Card.Footer = Footer
 
-export { Card }
+export { Card, Container as CardContainer, LinkContainer as CardLinkContainer }

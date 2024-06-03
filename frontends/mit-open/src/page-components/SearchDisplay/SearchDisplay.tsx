@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import {
   styled,
   Pagination,
-  Card,
+  MuiCard,
   CardContent,
   PlainList,
   Skeleton,
@@ -364,9 +364,9 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   ))}
                 </PlainList>
               ) : (
-                <Card>
+                <MuiCard>
                   <CardContent>No results found for your query.</CardContent>
-                </Card>
+                </MuiCard>
               )}
               <PaginationContainer>
                 <Pagination

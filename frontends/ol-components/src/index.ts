@@ -31,8 +31,8 @@ export {
 
 export type { ButtonProps, ButtonLinkProps } from "./components/Button/Button"
 
-export { default as Card } from "@mui/material/Card"
-export type { CardProps } from "@mui/material/Card"
+export { default as MuiCard } from "@mui/material/Card"
+export type { CardProps as MuiCardProps } from "@mui/material/Card"
 export { default as CardActions } from "@mui/material/CardActions"
 export type { CardActionsProps } from "@mui/material/CardActions"
 export { default as CardContent } from "@mui/material/CardContent"
@@ -129,6 +129,7 @@ export { default as MenuItem } from "@mui/material/MenuItem"
 export * from "./components/Alert/Alert"
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
+export * from "./components/Card/Card"
 export * from "./components/Chips/ChipLink"
 export * from "./components/EmbedlyCard/EmbedlyCard"
 export * from "./components/FormDialog/FormDialog"

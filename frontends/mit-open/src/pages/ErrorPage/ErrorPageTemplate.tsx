@@ -1,7 +1,7 @@
 import React from "react"
 import {
   Container,
-  Card,
+  MuiCard,
   CardContent,
   CardActions,
   ButtonLink,
@@ -20,7 +20,7 @@ const ErrorPageTemplate: React.FC<ErrorPageTemplateProps> = ({
 }) => {
   return (
     <Container maxWidth="sm">
-      <Card sx={{ marginTop: "1rem" }}>
+      <MuiCard sx={{ marginTop: "1rem" }}>
         <MetaTags>
           <meta name="robots" content="noindex,noarchive" />
           <title>{title}</title>
@@ -31,7 +31,7 @@ const ErrorPageTemplate: React.FC<ErrorPageTemplateProps> = ({
             Home
           </ButtonLink>
         </CardActions>
-      </Card>
+      </MuiCard>
     </Container>
   )
 }
