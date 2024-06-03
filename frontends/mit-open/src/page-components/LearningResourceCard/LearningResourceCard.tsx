@@ -7,7 +7,10 @@ import { imgConfigs } from "@/common/constants"
 import { ActionButton } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
-import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "../Dialogs/AddToListDialog"
 import { LearningResource } from "api"
 import { useUserMe } from "api/hooks/user"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
@@ -43,8 +46,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return
   }, [resource])
 
-  const { isLoading, data: user } = useUserMe()
   const openLRDrawer = useOpenLearningResourceDrawer()
+  const { isLoading, data: user } = useUserMe()
 
   if (isLoading) {
     return null
