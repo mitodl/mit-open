@@ -204,6 +204,7 @@ const unitLogos = {
 }
 
 interface UnitSectionProps {
+  id: string
   icon: React.ReactNode
   title: string
   description: string
@@ -213,9 +214,10 @@ interface UnitSectionProps {
 }
 
 const UnitSection: React.FC<UnitSectionProps> = (props) => {
-  const { icon, title, description, units, courseCounts, programCounts } = props
+  const { id, icon, title, description, units, courseCounts, programCounts } =
+    props
   return (
-    <UnitContainer>
+    <UnitContainer data-testid={`UnitSection-${id}`}>
       <Box>
         <UnitTitleContainer>
           {icon}
@@ -249,7 +251,9 @@ const UnitCards: React.FC<UnitCardsProps> = (props) => {
       {units?.map((unit) => {
         const courseCount = courseCounts[unit.code] || 0
         const programCount = programCounts[unit.code] || 0
-        const logo = unitLogos[unit.code as OfferedByEnum]
+        const logo =
+          unitLogos[unit.code as OfferedByEnum] ||
+          `/static/images/unit_logos/${unit.code}.svg`
         return unit.value_prop ? (
           <UnitCard>
             <UnitCardContent>
@@ -260,10 +264,10 @@ const UnitCards: React.FC<UnitCardsProps> = (props) => {
                 <ValuePropText>{unit.value_prop}</ValuePropText>
               </ValuePropContainer>
               <CountsTextContainer>
-                <CountsText>
+                <CountsText data-testid={`course-count-${unit.code}`}>
                   {courseCount > 0 ? `Courses: ${courseCount}` : ""}
                 </CountsText>
-                <CountsText>
+                <CountsText data-testid={`program-count-${unit.code}`}>
                   {programCount > 0 ? `Programs: ${programCount}` : ""}
                 </CountsText>
               </CountsTextContainer>
@@ -305,7 +309,7 @@ const UnitsListingPage: React.FC = () => {
 
   const unitData = [
     {
-      key: "academic",
+      id: "academic",
       icon: <AcademicIcon />,
       title: "Academic Units",
       description:
@@ -313,7 +317,7 @@ const UnitsListingPage: React.FC = () => {
       units: academicUnits,
     },
     {
-      key: "professional",
+      id: "professional",
       icon: <ProfessionalIcon />,
       title: "Professional Units",
       description:
@@ -345,7 +349,8 @@ const UnitsListingPage: React.FC = () => {
           </PageHeaderContainer>
           {unitData.map((unit) => (
             <UnitSection
-              key={unit.key}
+              key={unit.id}
+              id={unit.id}
               icon={unit.icon}
               title={unit.title}
               description={unit.description}
