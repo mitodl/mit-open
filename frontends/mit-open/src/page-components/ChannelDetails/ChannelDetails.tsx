@@ -2,6 +2,7 @@ import React, { useMemo } from "react"
 import { styled, Typography, Box } from "ol-components"
 import { capitalize } from "ol-utilities"
 import { ChannelTypeEnum, FieldChannel } from "api/v0"
+import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 
 type ChannelDetailsProps = {
   field: FieldChannel
@@ -78,6 +79,11 @@ const getFacetManifest = (channelType: ChannelTypeEnum): FacetManifest => {
     {
       name: "more_information",
       title: "More Information",
+      labelFunction: (key: string, channelTitle: string) => (
+        <a href={key}>
+          {channelTitle} website <OpenInNewIcon fontSize="inherit" />
+        </a>
+      ),
     },
     {
       name: "platform",
@@ -125,59 +131,43 @@ const ChannelDetailsCard = styled(Box)({
 
 const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
   const { field } = props
-  console.log("FIELD", field)
-  console.log("FIELD", field.channel_type)
   const channelDetails = getChannelDetails(field)
   const channelType = field.channel_type
-
+  const channelTitle = field.title
   const facetManifest = useMemo(
     () => getFacetManifest(channelType),
     [channelType],
   )
 
-  const facetNames = Array.from(
-    new Set(
-      facetManifest.flatMap((facet) => {
-        if (facet.type === "group") {
-          return facet.facets.map((subfacet) => subfacet.name)
-        } else {
-          return [facet.name]
-        }
-      }),
-    ),
-  )
-  console.log("facetNames", facetNames)
-  console.log("facetManifest", facetManifest)
-
   const body = facetManifest.map((value) => {
     const label = value.labelFunction
-      ? value.labelFunction(value.name)
+      ? value.labelFunction(channelDetails[value.name], channelTitle)
       : channelDetails[value.name]
-
-    return (
-      <Box key={value.title} sx={{ margin: "10px" }}>
-        <InfoLabel
-          lineHeight="1.5"
-          fontSize="inherit"
-          variant="h5"
-          component="h5"
-          gutterBottom
-        >
-          {value.title}
-        </InfoLabel>
-        <Typography
-          lineHeight="1"
-          fontSize="inherit"
-          variant="body1"
-          color="text.secondary"
-          gutterBottom
-        >
-          {Array.isArray(label) ? label.join(" | ") : label}
-        </Typography>
-      </Box>
-    )
+    if (channelDetails[value.name]) {
+      return (
+        <Box key={value.title} sx={{ margin: "10px" }}>
+          <InfoLabel
+            lineHeight="1.5"
+            fontSize="inherit"
+            variant="h5"
+            component="h5"
+            gutterBottom
+          >
+            {value.title}:
+          </InfoLabel>
+          <Typography
+            lineHeight="1"
+            fontSize="inherit"
+            variant="body1"
+            color="text.secondary"
+            gutterBottom
+          >
+            {Array.isArray(label) ? label.join(" | ") : label}
+          </Typography>
+        </Box>
+      )
+    }
   })
-  console.log("testing 2", body)
   return <ChannelDetailsCard>{body}</ChannelDetailsCard>
 }
 

@@ -60,14 +60,14 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
               <Box
                 sx={{
                   display: "grid",
-                  columnGap: 1,
                   gridTemplateColumns: "repeat(5, 1fr)",
+                  gap: 5,
                 }}
               >
                 <Box
                   display="flex"
                   alignItems="center"
-                  sx={{ gridColumn: "span 4" }}
+                  sx={{ gridColumn: "span 4", gridRow: 1 }}
                 >
                   <FieldAvatar field={field.data} imageSize="medium" />
                   <Typography variant="h3" component="h1">
@@ -81,25 +81,20 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     </Link>
                   </Typography>
                 </Box>
-
-                <Box display="flex" alignItems="end" sx={{ gridRow: "span 2" }}>
-                  {channelType === "offeror" ? (
-                    <ChannelDetails field={field.data} />
-                  ) : (
-                    <></>
-                  )}
-                </Box>
-                <Box
-                  display="flex"
-                  sx={{
-                    flexShrink: 1,
-                    alignSelf: "center",
-                    alignContent: "flex-end",
-                  }}
-                >
-                  <FieldControls
-                    sx={{ alignContent: "flex-end", justifyContent: "center" }}
+                {channelType === "offeror" ? (
+                  <Box
+                    display="flex"
+                    alignContent="flex-end"
+                    alignItems="end"
+                    sx={{ gridRow: "span 2" }}
                   >
+                    <ChannelDetails field={field.data} />
+                  </Box>
+                ) : (
+                  <Box></Box>
+                )}
+                <Box>
+                  <FieldControls>
                     {field.data?.search_filter ? (
                       <SearchSubscriptionToggle
                         sourceType={SourceTypeEnum.ChannelSubscriptionType}
