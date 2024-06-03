@@ -73,14 +73,20 @@ const PageHeaderContainer = styled.div(({ theme }) => ({
   alignItems: "flex-start",
   gap: "24px",
   maxWidth: DESKTOP_WIDTH,
+  width: "100%",
   [theme.breakpoints.down("md")]: {
     width: "auto",
   },
 }))
 
+const PageHeaderContainerInner = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  maxWidth: "1000px",
+})
+
 const PageHeaderText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.black,
-  maxWidth: "1000px",
   ...theme.typography.subtitle1,
 }))
 
@@ -371,12 +377,14 @@ const UnitsListingPage: React.FC = () => {
       <Container>
         <PageContent>
           <PageHeaderContainer>
-            <PageHeaderText>
-              MIT is dedicated to advancing knowledge beyond students enrolled
-              in MIT's campus programs. Several units within MIT offer
-              educational opportunities accessible to learners worldwide,
-              catering to a diverse range of needs.
-            </PageHeaderText>
+            <PageHeaderContainerInner>
+              <PageHeaderText>
+                MIT is dedicated to advancing knowledge beyond students enrolled
+                in MIT's campus programs. Several units within MIT offer
+                educational opportunities accessible to learners worldwide,
+                catering to a diverse range of needs.
+              </PageHeaderText>
+            </PageHeaderContainerInner>
           </PageHeaderContainer>
           {unitData.map((unit) => (
             <UnitSection
