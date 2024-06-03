@@ -4,7 +4,6 @@ import {
 } from "api/hooks/learningResources"
 import {
   Banner,
-  Box,
   Card,
   CardContent,
   Container,
@@ -137,7 +136,7 @@ const ProfessionalIcon = styled(RiSuitcaseLine)({
   height: "32px",
 })
 
-const GridContainer = styled(Box)(({ theme }) => ({
+const GridContainer = styled.div(({ theme }) => ({
   display: "grid",
   gap: "25px",
   gridTemplateColumns: "repeat(2, 1fr)",
@@ -234,7 +233,7 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
   } = props
   return (
     <UnitContainer data-testid={`UnitSection-${id}`}>
-      <Box>
+      <div>
         <UnitTitleContainer>
           {icon}
           <UnitTitle>{title}</UnitTitle>
@@ -242,7 +241,7 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
         <UnitDescriptionContainer>
           <UnitDescription>{description}</UnitDescription>
         </UnitDescriptionContainer>
-      </Box>
+      </div>
       <GridContainer>
         {isLoading ? (
           Array(4)
