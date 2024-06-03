@@ -22,7 +22,7 @@ import {
 const OFFERORS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
 
-const aggregateByOfferors = (
+const aggregateByUnits = (
   data: LearningResourceSearchResponse,
 ): Record<string, number> => {
   const buckets = data.metadata.aggregations["offered_by"] ?? []
@@ -33,12 +33,12 @@ const aggregateByOfferors = (
   )
 }
 
-const sortOfferors = (
-  offerors: Array<LearningResourceOfferorDetail> | undefined,
+const sortUnits = (
+  units: Array<LearningResourceOfferorDetail> | undefined,
   courseCounts: Record<string, number>,
   programCounts: Record<string, number>,
 ) => {
-  return offerors?.sort((a, b) => {
+  return units?.sort((a, b) => {
     const courseCountA = courseCounts[a.code] || 0
     const programCountA = programCounts[a.code] || 0
     const courseCountB = courseCounts[b.code] || 0
@@ -202,14 +202,13 @@ interface UnitSectionProps {
   icon: React.ReactNode
   title: string
   description: string
-  offerors: LearningResourceOfferorDetail[] | undefined
+  units: LearningResourceOfferorDetail[] | undefined
   courseCounts: Record<string, number>
   programCounts: Record<string, number>
 }
 
 const UnitSection: React.FC<UnitSectionProps> = (props) => {
-  const { icon, title, description, offerors, courseCounts, programCounts } =
-    props
+  const { icon, title, description, units, courseCounts, programCounts } = props
   return (
     <UnitContainer>
       <Box>
@@ -223,7 +222,7 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
       </Box>
       <GridContainer>
         <OfferorCards
-          offerors={offerors}
+          units={units}
           courseCounts={courseCounts}
           programCounts={programCounts}
         />
@@ -233,16 +232,16 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
 }
 
 interface OfferorCardsProps {
-  offerors: LearningResourceOfferorDetail[] | undefined
+  units: LearningResourceOfferorDetail[] | undefined
   courseCounts: Record<string, number>
   programCounts: Record<string, number>
 }
 
 const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
-  const { offerors, courseCounts, programCounts } = props
+  const { units, courseCounts, programCounts } = props
   return (
     <>
-      {offerors?.map((offeror) => {
+      {units?.map((offeror) => {
         const courseCount = courseCounts[offeror.code] || 0
         const programCount = programCounts[offeror.code] || 0
         const logo = offerorLogos[offeror.code as OfferedByEnum]
@@ -271,9 +270,9 @@ const OfferorCards: React.FC<OfferorCardsProps> = (props) => {
   )
 }
 
-const OfferorsPage: React.FC = () => {
-  const offerorsQuery = useOfferorsList()
-  const offerors = offerorsQuery.data?.results
+const UnitsPage: React.FC = () => {
+  const unitsQuery = useOfferorsList()
+  const units = unitsQuery.data?.results
   const courseQuery = useLearningResourcesSearch({
     resource_type: ["course"],
     aggregations: ["offered_by"],
@@ -283,38 +282,38 @@ const OfferorsPage: React.FC = () => {
     aggregations: ["offered_by"],
   })
   const courseCounts = courseQuery.data
-    ? aggregateByOfferors(courseQuery.data)
+    ? aggregateByUnits(courseQuery.data)
     : {}
   const programCounts = programQuery.data
-    ? aggregateByOfferors(programQuery.data)
+    ? aggregateByUnits(programQuery.data)
     : {}
-  const academicOfferors = sortOfferors(
-    offerors?.filter((offeror) => offeror.professional === false),
+  const academicUnits = sortUnits(
+    units?.filter((offeror) => offeror.professional === false),
     courseCounts,
     programCounts,
   )
-  const professionalOfferors = sortOfferors(
-    offerors?.filter((offeror) => offeror.professional === true),
+  const professionalUnits = sortUnits(
+    units?.filter((offeror) => offeror.professional === true),
     courseCounts,
     programCounts,
   )
 
-  const units = [
+  const unitData = [
     {
       key: "academic",
       icon: <AcademicIcon />,
-      title: "Academic Offerors",
+      title: "Academic Units",
       description:
         "MIT's Academic courses, programs and materials mirror MIT curriculum and residential programs, making these available to a global audience. Approved by faculty committees, academic content furnishes a comprehensive foundation of knowledge, skills, and abilities for students pursuing their academic objectives. Renowned for their rigor and challenge, MIT's academic offerings deliver an experience on par with the campus environment.",
-      offerors: academicOfferors,
+      units: academicUnits,
     },
     {
       key: "professional",
       icon: <ProfessionalIcon />,
-      title: "Professional Offerors",
+      title: "Professional Units",
       description:
         "MIT's Professional courses and programs are tailored for working professionals seeking essential practical skills across various industries. Led by MIT faculty and maintaining challenging standards, Professional courses and programs prioritize real-world applications, emphasize practical skills and are directly relevant to today's workforce.",
-      offerors: professionalOfferors,
+      units: professionalUnits,
     },
   ]
 
@@ -331,18 +330,18 @@ const OfferorsPage: React.FC = () => {
           <PageHeaderContainer>
             <PageHeaderText>
               MIT is dedicated to advancing knowledge beyond students enrolled
-              in MIT's campus programs. Several divisions within MIT offer
+              in MIT's campus programs. Several units within MIT offer
               educational opportunities accessible to learners worldwide,
               catering to a diverse range of needs.
             </PageHeaderText>
           </PageHeaderContainer>
-          {units.map((unit) => (
+          {unitData.map((unit) => (
             <UnitSection
               key={unit.key}
               icon={unit.icon}
               title={unit.title}
               description={unit.description}
-              offerors={unit.offerors}
+              units={unit.units}
               courseCounts={courseCounts}
               programCounts={programCounts}
             />
@@ -353,4 +352,4 @@ const OfferorsPage: React.FC = () => {
   )
 }
 
-export default OfferorsPage
+export default UnitsPage

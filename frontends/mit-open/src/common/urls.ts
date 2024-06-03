@@ -74,7 +74,7 @@ export const PRIVACY = "/privacy/"
 
 export const TERMS = "/terms/"
 
-export const OFFERORS = "/offerors/"
+export const UNITS = "/units/"
 
 export const CONTACT = "mailto:odl-discussions-support@mit.edu"
 
