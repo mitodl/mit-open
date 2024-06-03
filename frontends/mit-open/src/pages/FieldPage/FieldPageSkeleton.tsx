@@ -13,7 +13,7 @@ import { SourceTypeEnum } from "api"
 export const FieldTitleRow = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: start;
+  align-items: center;
 
   h1 a {
     margin-left: 1em;
@@ -59,6 +59,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
             {field.data && (
               <Box
                 flexDirection="row"
+                alignItems="start"
                 sx={{
                   m: 1,
                   display: "flex",
@@ -72,7 +73,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   display="flex"
                   flexDirection="row"
                   alignItems="center"
-                  sx={{ flexGrow: 1, width: "100%", flexShrink: 0, order: 1 }}
+                  sx={{ flexGrow: 1, width: "70%", flexShrink: 0, order: 1 }}
                 >
                   <FieldAvatar field={field.data} imageSize="medium" />
                   <Typography variant="h3" component="h1">
@@ -88,10 +89,10 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                 </Box>
                 {channelType === "offeror" ? (
                   <Box
-                    flexDirection="row"
+                    flexDirection="column"
                     justifyContent="end"
                     display="flex"
-                    sx={{ order: 3, flexGrow: 1, flexShrink: 1 }}
+                    sx={{ order: 2, flexGrow: 0, flexShrink: 0 }}
                   >
                     <ChannelDetails field={field.data} />
                   </Box>
@@ -99,10 +100,10 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   <Box></Box>
                 )}
                 <Box
-                  flexDirection="column"
+                  flexDirection="row"
                   display="flex"
-                  alignItems="flex-start"
-                  sx={{ flexShrink: 1, flexGrow: 1, order: 2, width: "60%" }}
+                  alignItems="start"
+                  sx={{ flexShrink: 1, flexGrow: 1, order: 3, width: "70%" }}
                 >
                   <FieldControls>
                     {field.data?.search_filter ? (
