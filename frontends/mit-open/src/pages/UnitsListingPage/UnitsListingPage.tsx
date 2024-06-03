@@ -8,6 +8,7 @@ import {
   Card,
   CardContent,
   Container,
+  Skeleton,
   Typography,
   styled,
 } from "ol-components"
@@ -211,11 +212,20 @@ interface UnitSectionProps {
   units: LearningResourceOfferorDetail[] | undefined
   courseCounts: Record<string, number>
   programCounts: Record<string, number>
+  isLoading?: boolean
 }
 
 const UnitSection: React.FC<UnitSectionProps> = (props) => {
-  const { id, icon, title, description, units, courseCounts, programCounts } =
-    props
+  const {
+    id,
+    icon,
+    title,
+    description,
+    units,
+    courseCounts,
+    programCounts,
+    isLoading,
+  } = props
   return (
     <UnitContainer data-testid={`UnitSection-${id}`}>
       <Box>
@@ -228,11 +238,17 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
         </UnitDescriptionContainer>
       </Box>
       <GridContainer>
-        <UnitCards
-          units={units}
-          courseCounts={courseCounts}
-          programCounts={programCounts}
-        />
+        {isLoading ? (
+          Array(4)
+            .fill(null)
+            .map((_null, i) => <UnitCardLoading key={`irrelevant-${i}`} />)
+        ) : (
+          <UnitCards
+            units={units}
+            courseCounts={courseCounts}
+            programCounts={programCounts}
+          />
+        )}
       </GridContainer>
     </UnitContainer>
   )
@@ -276,6 +292,21 @@ const UnitCards: React.FC<UnitCardsProps> = (props) => {
         ) : null
       })}
     </>
+  )
+}
+
+const UnitCardLoading = () => {
+  return (
+    <UnitCard>
+      <UnitCardContent>
+        <LogoContainer>
+          <Skeleton variant="rectangular" width={500} height={50} />
+        </LogoContainer>
+        <ValuePropContainer>
+          <Skeleton variant="text" width={500} height={200} />
+        </ValuePropContainer>
+      </UnitCardContent>
+    </UnitCard>
   )
 }
 
@@ -357,6 +388,7 @@ const UnitsListingPage: React.FC = () => {
               units={unit.units}
               courseCounts={courseCounts}
               programCounts={programCounts}
+              isLoading={unitsQuery.isLoading}
             />
           ))}
         </PageContent>
