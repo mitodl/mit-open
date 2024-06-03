@@ -58,16 +58,21 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
           <FieldTitleRow>
             {field.data && (
               <Box
+                flexDirection="row"
                 sx={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(5, 1fr)",
-                  gap: 5,
+                  m: 1,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  width: "100%",
+                  flexShrink: 1,
+                  flexGrow: 0,
                 }}
               >
                 <Box
                   display="flex"
+                  flexDirection="row"
                   alignItems="center"
-                  sx={{ gridColumn: "span 4", gridRow: 1 }}
+                  sx={{ flexGrow: 1, width: "100%", flexShrink: 0, order: 1 }}
                 >
                   <FieldAvatar field={field.data} imageSize="medium" />
                   <Typography variant="h3" component="h1">
@@ -83,17 +88,22 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                 </Box>
                 {channelType === "offeror" ? (
                   <Box
+                    flexDirection="row"
+                    justifyContent="end"
                     display="flex"
-                    alignContent="flex-end"
-                    alignItems="end"
-                    sx={{ gridRow: "span 2" }}
+                    sx={{ order: 3, flexGrow: 1, flexShrink: 1 }}
                   >
                     <ChannelDetails field={field.data} />
                   </Box>
                 ) : (
                   <Box></Box>
                 )}
-                <Box>
+                <Box
+                  flexDirection="column"
+                  display="flex"
+                  alignItems="flex-start"
+                  sx={{ flexShrink: 1, flexGrow: 1, order: 2, width: "60%" }}
+                >
                   <FieldControls>
                     {field.data?.search_filter ? (
                       <SearchSubscriptionToggle

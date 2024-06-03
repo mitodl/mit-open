@@ -127,9 +127,10 @@ const InfoLabel = styled(Typography)(({ theme }) => ({
 const ChannelDetailsCard = styled(Box)({
   border: "1px solid #ccc",
   borderRadius: "8px",
-  padding: "16px",
+
   backgroundColor: "white",
-  width: "300px",
+  minWidth: "300px",
+  width: "100%",
   fontSize: "0.5em",
   lineHeight: "0.5em",
 })
