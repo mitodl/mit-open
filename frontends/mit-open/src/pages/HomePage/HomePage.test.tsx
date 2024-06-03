@@ -45,11 +45,15 @@ const setupAPIs = () => {
   )
 
   setMockResponse.get(
-    urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
+    urls.newsEvents.list({ feed_type: ["news"], limit: 6, sortby: "-created" }),
     {},
   )
   setMockResponse.get(
-    urls.newsEvents.list({ feed_type: ["events"], limit: 5 }),
+    urls.newsEvents.list({
+      feed_type: ["events"],
+      limit: 5,
+      sortby: "event_date",
+    }),
     {},
   )
 
@@ -186,13 +190,21 @@ describe("Home Page News and Events", () => {
   test("Displays News section", async () => {
     const news = newsEvents.newsItems({ count: 6 })
     setMockResponse.get(
-      urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
+      urls.newsEvents.list({
+        feed_type: ["news"],
+        limit: 6,
+        sortby: "-created",
+      }),
       news,
     )
 
     const events = newsEvents.eventItems({ count: 5 })
     setMockResponse.get(
-      urls.newsEvents.list({ feed_type: ["events"], limit: 5 }),
+      urls.newsEvents.list({
+        feed_type: ["events"],
+        limit: 5,
+        sortby: "event_date",
+      }),
       events,
     )
 
@@ -229,13 +241,21 @@ describe("Home Page News and Events", () => {
   test("Displays Events section", async () => {
     const news = newsEvents.newsItems({ count: 6 })
     setMockResponse.get(
-      urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
+      urls.newsEvents.list({
+        feed_type: ["news"],
+        limit: 6,
+        sortby: "-created",
+      }),
       news,
     )
 
     const events = newsEvents.eventItems({ count: 5 })
     setMockResponse.get(
-      urls.newsEvents.list({ feed_type: ["events"], limit: 5 }),
+      urls.newsEvents.list({
+        feed_type: ["events"],
+        limit: 5,
+        sortby: "event_date",
+      }),
       events,
     )
 
