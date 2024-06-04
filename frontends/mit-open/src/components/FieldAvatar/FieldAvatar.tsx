@@ -45,7 +45,6 @@ const IMG_SIZES = {
   small: "22px",
   medium: "57px",
   large: "90px",
-  extraLarge: "165px",
 }
 const FONT_STYLES = {
   small: "subtitle1",
@@ -58,8 +57,8 @@ const AvatarContainer = styled.div<AvatarStyleProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: ${({ imageSize }) => IMG_SIZES[imageSize]};
-  height: auto;
+  height: ${({ imageSize }) => IMG_SIZES[imageSize]};
+  width: auto;
 `
 const AvatarImg = styled.img<AvatarStyleProps>`
   display: flex;
@@ -70,8 +69,8 @@ const AvatarImg = styled.img<AvatarStyleProps>`
   min-width: 0;
   ${({ imageVariant }) =>
     imageVariant === "inverted" ? "filter: invert(1);" : ""}
-  width: ${({ imageSize }) => IMG_SIZES[imageSize]};
-  height: auto;
+  height: ${({ imageSize }) => IMG_SIZES[imageSize]};
+  width: auto;
 `
 const AvatarInitials = styled(AvatarImg.withComponent("div"))(
   ({ theme, imageSize = "medium" }) => ({

@@ -43,7 +43,7 @@ const NAV_PATH = {
 
 const NavText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.lightGray2,
-  marginBottom: "30px",
+  marginBottom: "10px",
   ".current": {
     color: theme.custom.colors.silverGrayLight,
   },
@@ -65,13 +65,16 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
 
   return (
     <BannerPage
-      src={displayConfiguration?.banner_background ?? ""}
+      src={
+        displayConfiguration?.banner_background ??
+        "/static/images/background_steps.jpeg"
+      }
       alt=""
       omitBackground={field.isLoading}
       bannerContent={
         <Container sx={{ my: 2 }}>
           <NavText variant="subtitle3">
-            MIT / {NAV_PATH[channelType]} /{" "}
+            Home / {NAV_PATH[channelType]} /{" "}
             <span className="current">{field.data?.title}</span>
           </NavText>
           <FieldTitleRow>
@@ -98,16 +101,16 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     display="flex"
                     flexDirection="row"
                     alignItems="center"
-                    sx={{ flexGrow: 1, flexShrink: 0, order: 1 }}
+                    sx={{ flexGrow: 1, flexShrink: 0, order: 1, mt: 3 }}
                   >
                     {displayConfiguration?.logo ? (
                       <FieldAvatar
                         imageVariant="inverted"
                         formImageUrl={displayConfiguration?.logo}
-                        imageSize="extraLarge"
+                        imageSize="medium"
                       />
                     ) : (
-                      <Typography variant="h3" component="h1">
+                      <Typography variant="h3">
                         <Link
                           to={routes.makeFieldViewPath(
                             field.data.channel_type,
