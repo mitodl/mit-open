@@ -26,7 +26,7 @@ def get_most_recent_course_archives(
     Args:
         etl_source(str): The edx ETL source
         s3_prefix(str): The prefix for S3 object keys
-        override_base_prefix(bool): If true, override the default prefix of "20"
+        override_base_prefix(bool): Override the default prefix of "20"
 
     Returns:
         list of str: edx archive S3 keys
@@ -80,10 +80,7 @@ def get_most_recent_course_archives(
 
 
 def sync_edx_course_files(
-    etl_source: str,
-    ids: list[int],
-    keys: list[str],
-    s3_prefix: str | None = None,
+    etl_source: str, ids: list[int], keys: list[str], s3_prefix: str | None = None
 ):
     """
     Sync all edx course run files for a list of course ids to database
@@ -117,7 +114,10 @@ def sync_edx_course_files(
         elif etl_source == ETLSource.oll.name:
             # Additional processing of run ids and tarfile names,
             # because oll data is structured differently
-            run_id = rf"{run_id.strip("_OLL").replace('-', '.').replace('_', '.')}"  # noqa: B005
+            run_id = rf"{run_id.strip("_OLL").replace(
+                '-', '.'
+            ).replace('_', '.').replace('+', '.')}"  # noqa: B005
+            runs = runs.filter(run_id__iregex=run_id)
         else:
             runs = runs.filter(run_id=run_id)
         log.info("There are %d runs for %s", runs.count(), run_id)

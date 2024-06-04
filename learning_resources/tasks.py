@@ -117,7 +117,6 @@ def get_content_tasks(
     archive_keys = get_most_recent_course_archives(
         etl_source, s3_prefix=s3_prefix, override_base_prefix=override_base_prefix
     )
-    log.info("Found %d %s course archives", len(archive_keys), archive_keys)
     return celery.group(
         [
             get_content_files.si(ids, etl_source, archive_keys, s3_prefix=s3_prefix)

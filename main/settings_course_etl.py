@@ -63,11 +63,9 @@ OLL_API_CLIENT_ID = get_string("OLL_API_CLIENT_ID", None)
 OLL_API_CLIENT_SECRET = get_string("OLL_API_CLIENT_SECRET", None)
 OLL_BASE_URL = get_string("OLL_BASE_URL", None)
 OLL_ALT_URL = get_string("OLL_ALT_URL", None)
-OLL_LEARNING_COURSE_BUCKET_NAME = get_string(
-    "OLL_LEARNING_COURSE_BUCKET_NAME", "open-learning-library/courses"
-)
+OLL_LEARNING_COURSE_BUCKET_NAME = get_string("OLL_LEARNING_COURSE_BUCKET_NAME", None)
 OLL_LEARNING_COURSE_BUCKET_PREFIX = get_string(
-    "OLL_LEARNING_COURSE_BUCKET_PREFIX", None
+    "OLL_LEARNING_COURSE_BUCKET_PREFIX", "open-learning-library/courses"
 )
 # More MIT URLs
 SEE_BASE_URL = get_string("SEE_BASE_URL", None)
