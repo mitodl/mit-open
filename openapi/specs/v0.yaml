@@ -992,16 +992,6 @@ components:
         * `department` - Department
         * `offeror` - Offeror
         * `pathway` - Pathway
-    CourseFormatEnum:
-      enum:
-      - online
-      - in-person
-      - hybrid
-      type: string
-      description: |-
-        * `online` - Online
-        * `in-person` - In-Person
-        * `hybrid` - Hybrid
     CurrentEducationEnum:
       enum:
       - no-formal
@@ -1395,46 +1385,16 @@ components:
         * `career-growth` - Career Growth
         * `supplemental-learning` - Supplemental Learning
         * `just-to-learn` - Just to Learn
-    InterestsEnum:
+    LearningFormatEnum:
       enum:
-      - computer-science
-      - business
-      - engineering
-      - leadership
-      - organized-behavior
-      - management
-      - electrical-engineering
-      - information-technology
-      - biology
-      - earth-science
-      - environmental-engineering
-      - health-and-medicine
-      - probability-and-stats
-      - economics
-      - history
-      - mathematics
-      - mechanical-engineering
-      - other
+      - online
+      - hybrid
+      - in_person
       type: string
       description: |-
-        * `computer-science` - Computer Science
-        * `business` - Business
-        * `engineering` - Engineering
-        * `leadership` - Leadership
-        * `organized-behavior` - Organized Behavior
-        * `management` - Management
-        * `electrical-engineering` - Electrical Engineering
-        * `information-technology` - Information Technology
-        * `biology` - Biology
-        * `earth-science` - Earth Science
-        * `environmental-engineering` - Environmental Engineering
-        * `health-and-medicine` - Health & Medicine
-        * `probability-and-stats` - Probability & Stats
-        * `economics` - Economics
-        * `history` - History
-        * `mathematics` - Mathematics
-        * `mechanical-engineering` - Mechanical Engineering
-        * `other` - Other
+        * `online` - Online
+        * `hybrid` - Hybrid
+        * `in_person` - In person
     LearningPathPreview:
       type: object
       description: Serializer for a minimal preview of Learning Paths
@@ -1568,6 +1528,28 @@ components:
           type: string
       required:
       - code
+      - name
+    LearningResourceTopic:
+      type: object
+      description: Serializer for LearningResourceTopic model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+        parent:
+          type: integer
+          nullable: true
+        channel_url:
+          type: string
+          description: Get the channel url for the topic if it exists
+          readOnly: true
+          nullable: true
+      required:
+      - channel_url
+      - id
       - name
     NewsFeedItem:
       type: object
@@ -1908,10 +1890,10 @@ components:
         location:
           writeOnly: true
           nullable: true
-        interests:
+        topic_interests:
           type: array
           items:
-            $ref: '#/components/schemas/InterestsEnum'
+            type: integer
         goals:
           type: array
           items:
@@ -1928,9 +1910,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
-        course_format:
+        learning_format:
           oneOf:
-          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/LearningFormatEnum'
           - $ref: '#/components/schemas/BlankEnum'
     PatchedUserRequest:
       type: object
@@ -2112,10 +2094,10 @@ components:
           type: string
           description: Custom getter for location text
           readOnly: true
-        interests:
+        topic_interests:
           type: array
           items:
-            $ref: '#/components/schemas/InterestsEnum'
+            $ref: '#/components/schemas/LearningResourceTopic'
         goals:
           type: array
           items:
@@ -2132,9 +2114,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
-        course_format:
+        learning_format:
           oneOf:
-          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/LearningFormatEnum'
           - $ref: '#/components/schemas/BlankEnum'
       required:
       - image_file
@@ -2182,10 +2164,10 @@ components:
         location:
           writeOnly: true
           nullable: true
-        interests:
+        topic_interests:
           type: array
           items:
-            $ref: '#/components/schemas/InterestsEnum'
+            type: integer
         goals:
           type: array
           items:
@@ -2202,9 +2184,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
-        course_format:
+        learning_format:
           oneOf:
-          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/LearningFormatEnum'
           - $ref: '#/components/schemas/BlankEnum'
     ProgramCertificate:
       type: object

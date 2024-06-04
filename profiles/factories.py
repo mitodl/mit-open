@@ -1,7 +1,7 @@
 """Factories for making test data"""
 
 from factory import Faker, Sequence, SubFactory
-from factory.django import DjangoModelFactory, ImageField
+from factory.django import DjangoModelFactory
 from faker.providers import BaseProvider
 
 from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebsite
@@ -31,13 +31,13 @@ class ProfileFactory(DjangoModelFactory):
 
     name = Faker("name")
 
-    image = Faker("file_path", extension="jpg")
-    image_small = Faker("file_path", extension="jpg")
-    image_medium = Faker("file_path", extension="jpg")
+    image = None
+    image_small = None
+    image_medium = None
 
-    image_file = ImageField()
-    image_small_file = ImageField()
-    image_medium_file = ImageField()
+    image_file = None
+    image_small_file = None
+    image_medium_file = None
 
     email_optin = Faker("boolean")
 
