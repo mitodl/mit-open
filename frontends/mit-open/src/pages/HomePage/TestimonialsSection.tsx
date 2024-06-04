@@ -1,15 +1,8 @@
 import React from "react"
-import {
-  Container,
-  Typography,
-  styled,
-  theme,
-  Carousel,
-  pxToRem,
-} from "ol-components"
+import { Container, Typography, styled, theme, pxToRem } from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
-import { Attestation } from "api/v0"
 import { RiArrowDropRightLine, RiArrowDropLeftLine } from "@remixicon/react"
+import useEmblaCarousel from "embla-carousel-react"
 
 const Section = styled.section(({ theme }) => ({
   backgroundColor: theme.custom.colors.mitRed,
@@ -29,85 +22,19 @@ const Section = styled.section(({ theme }) => ({
   },
 }))
 
-type TestimonialsDataCarouselProps = {
-  children: ({
-    resources,
-    isLoading,
-  }: {
-    resources: Attestation[]
-    isLoading: boolean
-  }) => React.ReactNode
-}
-
-const TestimonialsDataCarousel: React.FC<TestimonialsDataCarouselProps> = ({
-  children,
-}) => {
-  const { data, isLoading } = useTestimonialList()
-  return children({ resources: data?.results ?? [], isLoading })
-}
-
-const TestimonialsDataCarouselStyled = styled(TestimonialsDataCarousel)({
-  width: "948px",
-  height: "416px",
-  [theme.breakpoints.down("md")]: {
-    width: "311px",
-    height: "659px",
-    margin: "0 auto",
-  },
-})
-
-const TestimonialsCarouselStyled = styled(Carousel)({
-  [theme.breakpoints.down("md")]: {
-    width: "100%",
-    height: "483px",
-    [".nuka-slide-container"]: {
-      transform: "translateX(0)",
-    },
-  },
-  [".nuka-overflow"]: {
-    margin: "0 auto",
-    [theme.breakpoints.down("md")]: {
-      width: "311px",
-    },
-  },
-  [".nuka-wrapper"]: {
-    width: "948px",
-    margin: "0 auto",
-    [theme.breakpoints.down("md")]: {
-      width: "311px",
-    },
-  },
-})
-
 const TestimonialCardContainer = styled.div({
-  minWidth: "948px",
-  maxWidth: "948px",
-  margin: "0 0 26px 24px",
-  ["&:first"]: {
-    marginLeft: "0",
-  },
-  ["&:last"]: {
-    marginRight: "0",
-  },
-  [theme.breakpoints.down("md")]: {
-    minWidth: "311px",
-    maxWidth: "311px",
-    margin: "0",
-  },
+  flex: "0 0 50%",
+  marginLeft: "28px",
+  backgroundColor: theme.custom.colors.white,
 })
 
 const TestimonialCard = styled.div({
-  minWidth: "948px",
-  maxWidth: "948px",
   height: "326px",
-  backgroundColor: theme.custom.colors.white,
+
   color: theme.custom.colors.black,
   display: "flex",
   borderRadius: "8px",
-  margin: "0 0 26px 24px",
   [theme.breakpoints.down("md")]: {
-    minWidth: "311px",
-    maxWidth: "311px",
     height: "411px",
     flexDirection: "column",
     margin: "0",
@@ -141,7 +68,6 @@ const TestimonialCardImage = styled.div({
 const TestimonialCardQuote = styled.div({
   width: "648px",
   height: "326px",
-  backgroundColor: theme.custom.colors.white,
   color: theme.custom.colors.black,
   padding: "0 32px 32px",
   flexDirection: "column",
@@ -160,7 +86,7 @@ const TestimonialCardQuote = styled.div({
     padding: "0 16px",
   },
 
-  ["div.testimonial-quote-opener"]: {
+  "div.testimonial-quote-opener": {
     color: theme.custom.colors.mitRed,
     fontStyle: "normal",
     height: pxToRem(80),
@@ -188,94 +114,67 @@ const TestimonialCardQuote = styled.div({
   },
 })
 
-const TestimonialFadeRight = styled.div({
-  width: "972px",
-  height: "414px",
-  position: "absolute",
-  right: "0",
-  bottom: "0",
-  ["div"]: {
-    marginLeft: "auto",
-    height: "414px",
-    width: "246px",
-    background:
-      "linear-gradient(90deg,rgb(117 0 20 / 0%) 0%,rgb(117 0 20 / 95%) 100%)",
-  },
-  [theme.breakpoints.down("md")]: {
-    display: "none",
-  },
+const Embla = styled.div({
+  maxWidth: "100%",
+  margin: "auto",
+  "--slide-spacing": "1rem",
+  "--slide-size": "50%",
 })
-
-const TestimonialFadeLeft = styled.div({
-  width: "972px",
-  height: "414px",
-  position: "absolute",
-  left: "0",
-  ["div"]: {
-    height: "414px",
-    width: "246px",
-    background:
-      "linear-gradient(270deg,rgb(117 0 20 / 0%) 0%,rgb(117 0 20 / 95%) 100%)",
-  },
-  [theme.breakpoints.down("md")]: {
-    display: "none",
-  },
+const EmblaViewport = styled.div({
+  overflow: "hidden",
 })
+const EmblaContainer = styled.div({
+  display: "flex",
+  backfaceVisibility: "hidden",
+  touchAction: "pan-y pinch-zoom",
+  marginLeft: "calc(var(--slide-spacing) * -1)",
+})
+const EmblaCarousel = ({}) => {
+  const [viewportRef, embla] = useEmblaCarousel({ loop: true })
+  const { data, isLoading } = useTestimonialList()
+  if (!data) return null
+  return (
+    <Embla>
+      <EmblaViewport ref={viewportRef}>
+        <EmblaContainer>
+          {data?.results.map((resource) => (
+            <TestimonialCardContainer key={`container-${resource.id}`}>
+              <TestimonialCard
+                key={`a-${resource.id}`}
+                id={`testimonial-card-${resource.id}`}
+                className="testimonial-card"
+              >
+                <TestimonialCardImage>
+                  <img src={resource.avatar} />
+                </TestimonialCardImage>
+                <TestimonialCardQuote>
+                  <div className="testimonial-quote-opener">&ldquo;</div>
+                  <Typography variant="h4">{resource.quote}</Typography>
+                  <div className="testimonial-quote-closer">
+                    <Typography variant="h5">
+                      {resource.attestant_name}
+                    </Typography>
+                    {resource.title}
+                  </div>
+                </TestimonialCardQuote>
+              </TestimonialCard>
+            </TestimonialCardContainer>
+          ))}
+        </EmblaContainer>
+      </EmblaViewport>
+    </Embla>
+  )
+}
 
 const TestimonialsSection: React.FC = () => {
   return (
     <Section>
-      <Container id="hamster-noises">
+      <Container>
         <Typography variant="h2">From our Community</Typography>
         <Typography variant="h3">
           Here's what other subscribers had to say about MIT Open
         </Typography>
-        <TestimonialsDataCarouselStyled>
-          {({ resources }) => (
-            <>
-              <TestimonialsCarouselStyled
-                pageSize={1}
-                pageLeftIcon={<RiArrowDropLeftLine />}
-                pageRightIcon={<RiArrowDropRightLine />}
-                buttonAlignment="center"
-                buttonVariant="inverted"
-                buttonSize="large"
-                wrapMode="wrap"
-                scrollDistance={"slide"}
-              >
-                <TestimonialFadeLeft>
-                  <div></div>
-                </TestimonialFadeLeft>
-                {resources.map((resource) => (
-                  <TestimonialCardContainer key={`container-${resource.id}`}>
-                    <TestimonialCard
-                      key={`a-${resource.id}`}
-                      id={`testimonial-card-${resource.id}`}
-                      className="testimonial-card"
-                    >
-                      <TestimonialCardImage>
-                        <img src={resource.avatar} />
-                      </TestimonialCardImage>
-                      <TestimonialCardQuote>
-                        <div className="testimonial-quote-opener">&ldquo;</div>
-                        <Typography variant="h4">{resource.quote}</Typography>
-                        <div className="testimonial-quote-closer">
-                          <Typography variant="h5">
-                            {resource.attestant_name}
-                          </Typography>
-                          {resource.title}
-                        </div>
-                      </TestimonialCardQuote>
-                    </TestimonialCard>
-                  </TestimonialCardContainer>
-                ))}
-                <TestimonialFadeRight>
-                  <div></div>
-                </TestimonialFadeRight>
-              </TestimonialsCarouselStyled>
-            </>
-          )}
-        </TestimonialsDataCarouselStyled>
+        <EmblaCarousel />
       </Container>
     </Section>
   )
