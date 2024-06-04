@@ -101,7 +101,11 @@ def get_content_files(
 
 
 def get_content_tasks(
-    etl_source: str, chunk_size: int | None = None, s3_prefix: str | None = None
+    etl_source: str,
+    *,
+    chunk_size: int | None = None,
+    s3_prefix: str | None = None,
+    override_base_prefix: bool = False,
 ) -> celery.group:
     """
     Return a list of grouped celery tasks for indexing edx content
@@ -110,7 +114,10 @@ def get_content_tasks(
         chunk_size = settings.LEARNING_COURSE_ITERATOR_CHUNK_SIZE
 
     blocklisted_ids = load_course_blocklist()
-    archive_keys = get_most_recent_course_archives(etl_source, s3_prefix=s3_prefix)
+    archive_keys = get_most_recent_course_archives(
+        etl_source, s3_prefix=s3_prefix, override_base_prefix=override_base_prefix
+    )
+    log.info("Found %d %s course archives", len(archive_keys), archive_keys)
     return celery.group(
         [
             get_content_files.si(ids, etl_source, archive_keys, s3_prefix=s3_prefix)
@@ -133,7 +140,7 @@ def import_all_mit_edx_files(self, chunk_size=None):
     raise self.replace(
         get_content_tasks(
             ETLSource.mit_edx.name,
-            chunk_size,
+            chunk_size=chunk_size,
             s3_prefix=settings.EDX_LEARNING_COURSE_BUCKET_PREFIX,
         )
     )
@@ -145,8 +152,9 @@ def import_all_oll_files(self, chunk_size=None):
     raise self.replace(
         get_content_tasks(
             ETLSource.oll.name,
-            chunk_size,
-            s3_prefix=settings.EDX_LEARNING_COURSE_BUCKET_PREFIX,
+            chunk_size=chunk_size,
+            s3_prefix=settings.OLL_LEARNING_COURSE_BUCKET_PREFIX,
+            override_base_prefix=True,
         )
     )
 
@@ -157,7 +165,7 @@ def import_all_mitxonline_files(self, chunk_size=None):
     raise self.replace(
         get_content_tasks(
             ETLSource.mitxonline.name,
-            chunk_size,
+            chunk_size=chunk_size,
         )
     )
 
@@ -169,7 +177,7 @@ def import_all_xpro_files(self, chunk_size=None):
     raise self.replace(
         get_content_tasks(
             ETLSource.xpro.name,
-            chunk_size,
+            chunk_size=chunk_size,
         )
     )
 
