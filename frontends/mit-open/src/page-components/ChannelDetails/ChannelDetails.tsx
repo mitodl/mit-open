@@ -170,7 +170,7 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
         </Box>
       )
     }
-    return <></>
+    return <div key={value.title}></div>
   })
   return <ChannelDetailsCard>{body}</ChannelDetailsCard>
 }
