@@ -6,6 +6,7 @@ import {
   theme,
   pxToRem,
   ActionButton,
+  TruncateText,
 } from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
 import { RiArrowDropRightLine, RiArrowDropLeftLine } from "@remixicon/react"
@@ -178,7 +179,9 @@ const SlickCarousel = () => {
               </TestimonialCardImage>
               <TestimonialCardQuote>
                 <div className="testimonial-quote-opener">&ldquo;</div>
-                <Typography variant="h4">{resource.quote}</Typography>
+                <Typography variant="h4">
+                  <TruncateText lineClamp={5}>{resource.quote}</TruncateText>
+                </Typography>
                 <div className="testimonial-quote-closer">
                   <Typography variant="h5">
                     {resource.attestant_name}
