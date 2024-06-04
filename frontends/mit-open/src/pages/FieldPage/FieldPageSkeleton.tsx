@@ -28,6 +28,7 @@ export const FieldControls = styled.div`
   position: relative;
   min-height: 38px;
   display: flex;
+  margin-bottom: 1em;
 `
 
 interface FieldSkeletonProps {
@@ -71,55 +72,63 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
               >
                 <Box
                   display="flex"
-                  flexDirection="row"
+                  flexDirection="column"
                   alignItems="center"
                   sx={{ flexGrow: 1, width: "70%", flexShrink: 0, order: 1 }}
                 >
-                  <FieldAvatar field={field.data} imageSize="medium" />
-                  <Typography variant="h3" component="h1">
-                    <Link
-                      to={routes.makeFieldViewPath(
-                        field.data.channel_type,
-                        field.data.name,
-                      )}
-                    >
-                      {field.data.title}
-                    </Link>
-                  </Typography>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    sx={{ flexGrow: 1, width: "100%", flexShrink: 0, order: 1 }}
+                  >
+                    <FieldAvatar field={field.data} imageSize="medium" />
+                    <Typography variant="h3" component="h1">
+                      <Link
+                        to={routes.makeFieldViewPath(
+                          field.data.channel_type,
+                          field.data.name,
+                        )}
+                      >
+                        {field.data.title}
+                      </Link>
+                    </Typography>
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    sx={{ flexGrow: 1, width: "100%", flexShrink: 0, order: 2 }}
+                  >
+                    <FieldControls>
+                      {field.data?.search_filter ? (
+                        <SearchSubscriptionToggle
+                          sourceType={SourceTypeEnum.ChannelSubscriptionType}
+                          searchParams={urlParams}
+                        />
+                      ) : null}
+                      {field.data?.is_moderator ? (
+                        <FieldMenu
+                          channelType={String(channelType)}
+                          name={String(name)}
+                        />
+                      ) : null}
+                    </FieldControls>
+                  </Box>
                 </Box>
                 {channelType === "offeror" ? (
                   <Box
-                    flexDirection="column"
-                    justifyContent="end"
+                    flexDirection="row"
+                    alignItems="end"
+                    alignSelf="center"
                     display="flex"
-                    sx={{ order: 2, flexGrow: 0, flexShrink: 0 }}
+                    sx={{ order: 2, flexGrow: 0, flexShrink: 1 }}
                   >
                     <ChannelDetails field={field.data} />
                   </Box>
                 ) : (
                   <Box></Box>
                 )}
-                <Box
-                  flexDirection="row"
-                  display="flex"
-                  alignItems="start"
-                  sx={{ flexShrink: 1, flexGrow: 1, order: 3, width: "70%" }}
-                >
-                  <FieldControls>
-                    {field.data?.search_filter ? (
-                      <SearchSubscriptionToggle
-                        sourceType={SourceTypeEnum.ChannelSubscriptionType}
-                        searchParams={urlParams}
-                      />
-                    ) : null}
-                    {field.data?.is_moderator ? (
-                      <FieldMenu
-                        channelType={String(channelType)}
-                        name={String(name)}
-                      />
-                    ) : null}
-                  </FieldControls>
-                </Box>
               </Box>
             )}
           </FieldTitleRow>

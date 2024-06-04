@@ -21,7 +21,10 @@ interface ImgProps {
  */
 const BannerContainer = styled.div`
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
   z-index: -1;
 `
 
@@ -33,16 +36,14 @@ const imageStylesheet = `
 const StyledImage = styled.img`
   ${imageStylesheet}
   object-fit: cover;
-  height: ${BANNER_HEIGHT};
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    height: ${SM_BANNER_HEIGHT};
-  }
+  height: 100%;
 `
 
 const PlaceholderDiv = styled.div`
   ${imageStylesheet}
   background-color: ${BACKGROUND_FALLBACK_COLOR};
   min-height: ${BANNER_HEIGHT};
+  height: 100%;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     min-height: ${SM_BANNER_HEIGHT};
   }
@@ -81,11 +82,11 @@ interface BannerPageProps extends ImgProps {
 
 const BannerPageHeaderFlex = styled.header`
   min-height: ${BANNER_HEIGHT};
-  ${({ theme }) => `background-color: ${theme.custom.colors.darkGray1};`}
+  height: 100%;
+  position: relative;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     min-height: ${SM_BANNER_HEIGHT};
   }
-
   display: flex;
   flex-direction: column;
   justify-content: center;
