@@ -36,7 +36,7 @@ const LinkContainer = styled.a`
   }
 `
 
-const Content = styled.div``
+const Content = () => <></>
 
 // const Container = styled(Card)<{ mobile: boolean }>`
 //   display: flex;
@@ -46,6 +46,14 @@ const Content = styled.div``
 //   ${({ mobile }) => (mobile ? "width: 274px" : "")}
 // `
 
+const Info = styled.div`
+  ${{ ...theme.typography.subtitle3 }}
+  color: ${theme.custom.colors.silverGrayDark};
+  display: flex;
+  justify-content: space-between;
+  margin: 16px 16px 8px;
+`
+
 const Image = styled.img`
   display: block;
   background-size: cover;
@@ -53,9 +61,8 @@ const Image = styled.img`
   -webkit-background-position: center;
   background-position: center;
   width: 100%;
-  object-fit: cover;
   height: 172px;
-  border-radius:;
+  background-color: ${theme.custom.colors.lightGray1};
 `
 
 const Title = styled.p`
@@ -63,7 +70,7 @@ const Title = styled.p`
   text-overflow: ellipsis;
   height: ${theme.typography.pxToRem(60)};
   overflow: hidden;
-  margin: 16px;
+  margin: 8px 16px 16px 16px;
 
   @supports (-webkit-line-clamp: 3) {
     white-space: initial;
@@ -107,6 +114,7 @@ type CardProps = {
 type Card = FC<CardProps> & {
   Content: FC<{ children: ReactNode }>
   Image: FC<ImgHTMLAttributes<HTMLImageElement>>
+  Info: FC<{ children: ReactNode }>
   Title: FC<{ children: ReactNode }>
   Footer: FC<{ children: ReactNode }>
   Actions: FC<{ children: ReactNode }>
@@ -121,12 +129,13 @@ const Card: Card = ({ link, href, children, className }) => {
   //   </Container>
   // }
 
-  let content, imageProps, title, footer, actions
+  let content, imageProps, info, title, footer, actions
 
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return
     if (child.type === Content) content = child.props.children
-    if (child.type === Image) imageProps = child.props
+    else if (child.type === Image) imageProps = child.props
+    else if (child.type === Info) info = child.props.children
     else if (child.type === Title) title = child.props.children
     else if (child.type === Footer) footer = child.props.children
     else if (child.type === Actions) actions = child.props.children
@@ -141,6 +150,7 @@ const Card: Card = ({ link, href, children, className }) => {
       {imageProps && (
         <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
       )}
+      {info && <Info>{info}</Info>}
       {title && <Title>{title}</Title>}
       <Bottom>
         {footer && <Footer>{footer}</Footer>}
@@ -152,6 +162,7 @@ const Card: Card = ({ link, href, children, className }) => {
 
 Card.Content = Content
 Card.Image = Image
+Card.Info = Info
 Card.Title = Title
 Card.Footer = Footer
 Card.Actions = Actions

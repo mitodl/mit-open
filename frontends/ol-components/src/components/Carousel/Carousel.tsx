@@ -28,7 +28,6 @@ const DEFAULT_ANIMATION_DURATION = 800
 
 const NukaCarouselStyled = styled(NukaCarousel)<NukaCarouselStyledProps>`
   .nuka-slide-container {
-    transform: translateX(-${(props) => (props.cellSpacing || 0) * 0.5}px);
     transition-duration: ${(props) => props.animationDuration || 0};
     padding-bottom: 6px;
     margin-bottom: -6px;

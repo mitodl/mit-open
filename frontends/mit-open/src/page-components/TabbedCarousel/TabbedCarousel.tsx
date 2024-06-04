@@ -28,23 +28,14 @@ import {
 } from "../Dialogs/AddToListDialog"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
-// import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
-// import type { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
-
-// type LearningResourceCardStyledProps = LearningResourceCardProps & {
-//   cardsPerPage: number
-// }
-
 const LearningResourceCardStyled = styled(LearningResourceCard)<{
   cardsPerPage: number
 }>`
-  min-width: calc(
-    ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
-  );
-  max-width: calc(
-    ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
-  );
-  margin: 6px 26px 6px 0;
+  ${({ cardsPerPage }) => `
+    min-width: calc(${100 / cardsPerPage}% - ${((cardsPerPage - 1) / cardsPerPage) * 24}px);
+    max-width: calc(${100 / cardsPerPage}% - ${((cardsPerPage - 1) / cardsPerPage) * 24}px);
+  `}
+  margin: 6px 24px 6px 0;
 `
 
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {

@@ -1,16 +1,17 @@
 import React from "react"
 import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
-import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
+import { RiMenuAddLine, RiBookmarkLine, RiAwardFill } from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
-import { findBestRun, formatDate } from "ol-utilities"
+import { findBestRun, formatDate, getReadableResourceType } from "ol-utilities"
 import { Card } from "../Card/Card"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
+import { theme } from "../ThemeProvider/ThemeProvider"
 
 const EllipsisTitle = styled(TruncateText)({
-  fontWeight: "bold",
+  ...theme.typography.subtitle1,
   margin: 0,
 })
 
@@ -54,6 +55,21 @@ const Title = ({
     </EllipsisTitle>
   )
 }
+
+const Certificate = styled.div`
+  border-radius: 4px;
+  background-color: ${theme.custom.colors.lightGray1};
+  padding: 2px 4px;
+  color: ${theme.custom.colors.silverGrayDark};
+  ${{ ...theme.typography.subtitle4 }}
+  svg {
+    width: 12px;
+    height: 12px;
+  }
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`
 
 const Footer: React.FC<{ resource: LearningResource }> = ({ resource }) => {
   const isOcw =
@@ -121,8 +137,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       <Card className={className}>
         <Card.Content>
           <SkeletonImage variant="rectangular" aspect={width / height} />
-          <Skeleton height={25} width="65%" sx={{ margin: "25px 16px 0" }} />
-          <Skeleton height={25} width="80%" sx={{ margin: "0 16px 40px" }} />
+          <Skeleton height={25} width="65%" sx={{ margin: "23px 16px 0" }} />
+          <Skeleton height={25} width="80%" sx={{ margin: "0 16px 35px" }} />
           <Skeleton height={25} width="30%" sx={{ margin: "0 16px 16px" }} />
         </Card.Content>
       </Card>
@@ -134,6 +150,15 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   return (
     <Card className={className}>
       <Card.Image src={resource.image?.url} alt={resource.image!.alt!} />
+      <Card.Info>
+        <span>{getReadableResourceType(resource.resource_type)}</span>
+        {resource.certification && (
+          <Certificate>
+            <RiAwardFill />
+            Certificate
+          </Certificate>
+        )}
+      </Card.Info>
       <Card.Title>
         <Title resource={resource} onActivate={onActivate} />
       </Card.Title>
