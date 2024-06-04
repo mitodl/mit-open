@@ -1,11 +1,13 @@
 import React from "react"
 import styled from "@emotion/styled"
+import Skeleton from "@mui/material/Skeleton"
+import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
+import { findBestRun, formatDate } from "ol-utilities"
 import { Card } from "../Card/Card"
 import { TruncateText } from "../TruncateText/TruncateText"
-import { findBestRun, formatDate } from "ol-utilities"
 import { ActionButton } from "../Button/Button"
-import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
+import { imgConfigs } from "../../constants/imgConfigs"
 
 const EllipsisTitle = styled(TruncateText)({
   fontWeight: "bold",
@@ -25,6 +27,10 @@ const TitleButton = styled.button`
     text-decoration: underline;
     cursor: pointer;
   }
+`
+
+const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
+  padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
 
 type ResourceIdCallback = (resourceId: number) => void
@@ -81,11 +87,12 @@ const Footer: React.FC<{ resource: LearningResource }> = ({ resource }) => {
 
 interface LearningResourceCardProps {
   // variant: CardVariant
-  resource: LearningResource
-  sortable?: boolean
+  isLoading?: boolean
+  resource?: LearningResource | null
+  // sortable?: boolean
   className?: string
 
-  onActivate: ResourceIdCallback
+  onActivate?: ResourceIdCallback
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
   // /**
@@ -101,12 +108,29 @@ interface LearningResourceCardProps {
 }
 
 const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
+  isLoading,
   resource,
   className,
   onActivate,
   onAddToLearningPathClick,
   onAddToUserListClick,
 }) => {
+  if (isLoading) {
+    const { width, height } = imgConfigs["column"]
+    return (
+      <Card className={className}>
+        <Card.Content>
+          <SkeletonImage variant="rectangular" aspect={width / height} />
+          <Skeleton height={25} width="65%" sx={{ margin: "25px 16px 0" }} />
+          <Skeleton height={25} width="80%" sx={{ margin: "0 16px 40px" }} />
+          <Skeleton height={25} width="30%" sx={{ margin: "0 16px 16px" }} />
+        </Card.Content>
+      </Card>
+    )
+  }
+  if (!resource) {
+    return null
+  }
   return (
     <Card className={className}>
       <Card.Image src={resource.image?.url} alt={resource.image!.alt!} />

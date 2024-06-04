@@ -149,6 +149,8 @@ export * from "./components/TruncateText/TruncateText"
 export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/RadioChoiceField/RadioChoiceField"
 
+export * from "./constants/imgConfigs"
+
 export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
 export { TextField } from "./components/TextField/TextField"

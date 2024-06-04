@@ -35,17 +35,6 @@ import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/Learnin
 //   cardsPerPage: number
 // }
 
-const CarouselStyled = styled(Carousel)`
-  .slider-list {
-    /**
-    Prevent shift while loading.
-    This is a bit arbitrary and would be better handled by placeholder "skeleton"
-    cards.
-    */
-    min-height: 354px;
-  }
-`
-
 const LearningResourceCardStyled = styled(LearningResourceCard)<{
   cardsPerPage: number
 }>`
@@ -158,20 +147,35 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
       {config.map(({ data, pageSize }, index) => (
         <TabPanel key={index} value={index.toString()}>
           <DataPanel dataConfig={data}>
-            {({ resources }) => (
-              <CarouselStyled pageSize={pageSize}>
-                {resources.map((resource) => (
-                  <LearningResourceCardStyled
-                    key={resource.id}
-                    resource={resource}
-                    cardsPerPage={pageSize}
-                    onActivate={openLRDrawer}
-                    onAddToLearningPathClick={showAddToLearningPathDialog}
-                    onAddToUserListClick={showAddToUserListDialog}
-                  />
-                ))}
-              </CarouselStyled>
-            )}
+            {({ resources, isLoading }) => {
+              if (isLoading) {
+                return (
+                  <Carousel pageSize={pageSize}>
+                    {Array.from({ length: pageSize }, (_, i) => (
+                      <LearningResourceCardStyled
+                        key={i}
+                        isLoading
+                        cardsPerPage={pageSize}
+                      />
+                    ))}
+                  </Carousel>
+                )
+              }
+              return (
+                <Carousel pageSize={pageSize}>
+                  {resources.map((resource) => (
+                    <LearningResourceCardStyled
+                      key={resource.id}
+                      resource={resource}
+                      cardsPerPage={pageSize}
+                      onActivate={openLRDrawer}
+                      onAddToLearningPathClick={showAddToLearningPathDialog}
+                      onAddToUserListClick={showAddToUserListDialog}
+                    />
+                  ))}
+                </Carousel>
+              )
+            }}
           </DataPanel>
         </TabPanel>
       ))}

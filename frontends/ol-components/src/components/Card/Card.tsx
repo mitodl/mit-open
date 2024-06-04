@@ -36,6 +36,8 @@ const LinkContainer = styled.a`
   }
 `
 
+const Content = styled.div``
+
 // const Container = styled(Card)<{ mobile: boolean }>`
 //   display: flex;
 //   flex-direction: column;
@@ -96,12 +98,14 @@ const Actions = styled.div`
 `
 
 type CardProps = {
-  children: ReactNode[]
+  // isLoading: boolean
+  children: ReactNode[] | ReactNode
   className?: string
   link?: boolean
   href?: string
 }
 type Card = FC<CardProps> & {
+  Content: FC<{ children: ReactNode }>
   Image: FC<ImgHTMLAttributes<HTMLImageElement>>
   Title: FC<{ children: ReactNode }>
   Footer: FC<{ children: ReactNode }>
@@ -111,15 +115,26 @@ type Card = FC<CardProps> & {
 const Card: Card = ({ link, href, children, className }) => {
   const _Container = link ? LinkContainer : Container
 
-  let imageProps, title, footer, actions
+  // if (isLoading) {
+  //   return <Container className={className}>
+
+  //   </Container>
+  // }
+
+  let content, imageProps, title, footer, actions
 
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return
+    if (child.type === Content) content = child.props.children
     if (child.type === Image) imageProps = child.props
     else if (child.type === Title) title = child.props.children
     else if (child.type === Footer) footer = child.props.children
     else if (child.type === Actions) actions = child.props.children
   })
+
+  if (content) {
+    return <Container className={className}>{content}</Container>
+  }
 
   return (
     <_Container className={className} href={href}>
@@ -135,8 +150,9 @@ const Card: Card = ({ link, href, children, className }) => {
   )
 }
 
-Card.Title = Title
+Card.Content = Content
 Card.Image = Image
+Card.Title = Title
 Card.Footer = Footer
 Card.Actions = Actions
 

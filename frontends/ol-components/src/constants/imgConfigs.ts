@@ -18,8 +18,8 @@ const imgConfigs = {
   },
   column: {
     key: APP_SETTINGS.embedlyKey,
-    width: 220,
-    height: 170,
+    width: 302,
+    height: 182,
   },
   large: {
     key: APP_SETTINGS.embedlyKey,

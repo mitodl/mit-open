@@ -11,6 +11,7 @@ import {
   styled,
   Typography,
   PlainList,
+  imgConfigs,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
@@ -25,7 +26,6 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
 import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 
-import { imgConfigs } from "@/common/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import * as urls from "@/common/urls"
 import { useUserMe } from "api/hooks/user"

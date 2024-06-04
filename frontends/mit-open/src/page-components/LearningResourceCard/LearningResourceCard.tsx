@@ -3,8 +3,7 @@ import * as NiceModal from "@ebay/nice-modal-react"
 
 import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import type { LearningResourceCardTemplateProps } from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
-import { imgConfigs } from "@/common/constants"
-import { ActionButton } from "ol-components"
+import { ActionButton, imgConfigs } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
 import {
