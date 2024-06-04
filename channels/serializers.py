@@ -297,6 +297,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
     pathway_detail = ChannelPathwayDetailSerializer(
         allow_null=True, many=False, required=False
     )
+    configuration = serializers.JSONField(read_only=True)
 
     class Meta:
         model = FieldChannel
