@@ -1,6 +1,6 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
-import { AddToUserListDialogInner } from "@/page-components/Dialogs/AddToListDialog"
+import { AddToUserListDialogInner } from "@/page-components/LearningResourceCard/AddToListDialog"
 import NiceModal from "@ebay/nice-modal-react"
 import { createQueryClient } from "@/services/react-query/react-query"
 import ExportedComponentProviders from "@/ExportedComponentProviders"

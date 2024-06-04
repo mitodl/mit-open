@@ -165,9 +165,9 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
                     key={resource.id}
                     resource={resource}
                     cardsPerPage={pageSize}
-                    openLearningResourceDrawer={openLRDrawer}
-                    showAddToLearningPathDialog={showAddToLearningPathDialog}
-                    showAddToUserListDialog={showAddToUserListDialog}
+                    onActivate={openLRDrawer}
+                    onAddToLearningPathClick={showAddToLearningPathDialog}
+                    onAddToUserListClick={showAddToUserListDialog}
                   />
                 ))}
               </CarouselStyled>

@@ -102,6 +102,10 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       // Pill-shaped buttons... Overlapping border radius get clipped to pill.
       borderRadius: "100vh",
     },
+    color === "secondary" && {
+      color: theme.custom.colors.silverGray,
+      borderColor: theme.custom.colors.silverGray,
+    },
   ]
 })
 

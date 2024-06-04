@@ -1,8 +1,11 @@
 import React from "react"
 import styled from "@emotion/styled"
-import { LearningResource } from "api"
+import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
 import { Card } from "../Card/Card"
 import { TruncateText } from "../TruncateText/TruncateText"
+import { findBestRun, formatDate } from "ol-utilities"
+import { ActionButton } from "../Button/Button"
+import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
 
 const EllipsisTitle = styled(TruncateText)({
   fontWeight: "bold",
@@ -46,15 +49,45 @@ const Title = ({
   )
 }
 
+const Footer: React.FC<{ resource: LearningResource }> = ({ resource }) => {
+  const isOcw =
+    resource.resource_type === ResourceTypeEnum.Course &&
+    resource.platform?.code === PlatformEnum.Ocw
+
+  let startDate = resource.next_start_date
+
+  if (!startDate) {
+    const bestRun = findBestRun(resource.runs ?? [])
+
+    if (isOcw && bestRun?.semester && bestRun?.year) {
+      return (
+        <>
+          As taught in: <span>{`${bestRun?.semester} ${bestRun?.year}`}</span>
+        </>
+      )
+    }
+
+    startDate = bestRun?.start_date
+  }
+
+  if (!startDate) return null
+
+  return (
+    <>
+      Starts: <span>{formatDate(startDate, "MMMM DD, YYYY")}</span>
+    </>
+  )
+}
+
 interface LearningResourceCardProps {
   // variant: CardVariant
   resource: LearningResource
   sortable?: boolean
   className?: string
 
-  openLearningResourceDrawer: ResourceIdCallback
-  showAddToLearningPathDialog?: ResourceIdCallback
-  showAddToUserListDialog?: ResourceIdCallback
+  onActivate: ResourceIdCallback
+  onAddToLearningPathClick?: ResourceIdCallback | null
+  onAddToUserListClick?: ResourceIdCallback | null
   // /**
   //  * Config used to generate embedly urls.
   //  */
@@ -70,17 +103,45 @@ interface LearningResourceCardProps {
 const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   resource,
   className,
-  openLearningResourceDrawer,
-  // showAddToLearningPathDialog,
-  // showAddToUserListDialog,
+  onActivate,
+  onAddToLearningPathClick,
+  onAddToUserListClick,
 }) => {
   return (
     <Card className={className}>
       <Card.Image src={resource.image?.url} alt={resource.image!.alt!} />
       <Card.Title>
-        <Title resource={resource} onActivate={openLearningResourceDrawer} />
+        <Title resource={resource} onActivate={onActivate} />
       </Card.Title>
-      <Card.Footer>Published: {resource.published}</Card.Footer>
+      <Card.Actions>
+        {onAddToLearningPathClick && (
+          <ActionButton
+            variant="outlined"
+            edge="rounded"
+            color="secondary"
+            size="small"
+            aria-label="Add to Learning Path"
+            onClick={() => onAddToLearningPathClick(resource.id)}
+          >
+            <RiMenuAddLine />
+          </ActionButton>
+        )}
+        {onAddToUserListClick && (
+          <ActionButton
+            variant="outlined"
+            edge="rounded"
+            color="secondary"
+            size="small"
+            aria-label="Add to User List"
+            onClick={() => onAddToUserListClick(resource.id)}
+          >
+            <RiBookmarkLine />
+          </ActionButton>
+        )}
+      </Card.Actions>
+      <Card.Footer>
+        <Footer resource={resource} />
+      </Card.Footer>
     </Card>
   )
 }

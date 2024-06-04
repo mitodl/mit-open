@@ -59,25 +59,40 @@ const Image = styled.img`
 const Title = styled.p`
   ${{ ...theme.typography.subtitle1 }}
   text-overflow: ellipsis;
-  height: ${theme.typography.pxToRem(40)};
+  height: ${theme.typography.pxToRem(60)};
   overflow: hidden;
   margin: 16px;
 
-  @supports (-webkit-line-clamp: 2) {
+  @supports (-webkit-line-clamp: 3) {
     white-space: initial;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
   }
 `
 
-const Footer = styled.p`
+const Footer = styled.span`
   ${{
     ...theme.typography.body3,
     color: theme.custom.colors.silverGrayDark,
   }}
 
-  margin: 0 16px 16px;
+  display: block;
+  span {
+    color: ${theme.custom.colors.black};
+  }
+`
+
+const Bottom = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin: 0 16px 16px 16px;
+`
+
+const Actions = styled.div`
+  display: flex;
+  gap: 8px;
 `
 
 type CardProps = {
@@ -90,18 +105,20 @@ type Card = FC<CardProps> & {
   Image: FC<ImgHTMLAttributes<HTMLImageElement>>
   Title: FC<{ children: ReactNode }>
   Footer: FC<{ children: ReactNode }>
+  Actions: FC<{ children: ReactNode }>
 }
 
 const Card: Card = ({ link, href, children, className }) => {
   const _Container = link ? LinkContainer : Container
 
-  let imageProps, title, footer
+  let imageProps, title, footer, actions
 
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return
     if (child.type === Image) imageProps = child.props
     else if (child.type === Title) title = child.props.children
     else if (child.type === Footer) footer = child.props.children
+    else if (child.type === Actions) actions = child.props.children
   })
 
   return (
@@ -110,7 +127,10 @@ const Card: Card = ({ link, href, children, className }) => {
         <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
       )}
       {title && <Title>{title}</Title>}
-      {footer && <Footer>{footer}</Footer>}
+      <Bottom>
+        {footer && <Footer>{footer}</Footer>}
+        {actions && <Actions>{actions}</Actions>}
+      </Bottom>
     </_Container>
   )
 }
@@ -118,5 +138,6 @@ const Card: Card = ({ link, href, children, className }) => {
 Card.Title = Title
 Card.Image = Image
 Card.Footer = Footer
+Card.Actions = Actions
 
 export { Card, Container as CardContainer, LinkContainer as CardLinkContainer }

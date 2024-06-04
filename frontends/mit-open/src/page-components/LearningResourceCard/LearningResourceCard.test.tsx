@@ -4,10 +4,7 @@ import { renderWithProviders, user, screen } from "../../test-utils"
 import type { User } from "../../test-utils"
 import LearningResourceCard from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"
-import {
-  AddToLearningPathDialog,
-  AddToUserListDialog,
-} from "../Dialogs/AddToListDialog"
+import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
 import * as factories from "api/test-utils/factories"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 
