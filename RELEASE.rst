@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.12.0
+Version 0.12.0 (Released June 04, 2024)
 --------------
 
 - Sortby parameter for news_events (#989)
