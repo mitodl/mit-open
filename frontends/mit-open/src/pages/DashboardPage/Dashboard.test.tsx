@@ -17,10 +17,10 @@ describe("DashboardPage", () => {
       url: "/dashboard",
     })
     await waitFor(() => {
-      expect(document.title).toBe("Dashboard")
+      expect(document.title).toBe("User Home")
     })
     screen.getByRole("heading", {
-      name: "Dashboard",
+      name: "Your MIT Learning Journey",
     })
   })
 })

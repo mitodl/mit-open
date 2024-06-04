@@ -269,7 +269,7 @@ const DashboardPage: React.FC = () => {
               <Grid item>
                 <TabPanel value="home">
                   <Typography variant="h3">
-                    Your MIT Learning journey
+                    Your MIT Learning Journey
                   </Typography>
                   <Typography variant="body1">Coming soon...</Typography>
                 </TabPanel>
