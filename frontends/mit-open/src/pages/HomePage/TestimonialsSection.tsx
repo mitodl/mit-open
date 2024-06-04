@@ -1,8 +1,15 @@
 import React from "react"
-import { Container, Typography, styled, theme, pxToRem } from "ol-components"
+import {
+  Container,
+  Typography,
+  styled,
+  theme,
+  pxToRem,
+  ActionButton,
+} from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
 import { RiArrowDropRightLine, RiArrowDropLeftLine } from "@remixicon/react"
-import useEmblaCarousel from "embla-carousel-react"
+import Slider from "react-slick"
 
 const Section = styled.section(({ theme }) => ({
   backgroundColor: theme.custom.colors.mitRed,
@@ -23,14 +30,12 @@ const Section = styled.section(({ theme }) => ({
 }))
 
 const TestimonialCardContainer = styled.div({
-  flex: "0 0 50%",
-  marginLeft: "28px",
-  backgroundColor: theme.custom.colors.white,
+  padding: "0px 28px",
 })
 
 const TestimonialCard = styled.div({
   height: "326px",
-
+  backgroundColor: theme.custom.colors.white,
   color: theme.custom.colors.black,
   display: "flex",
   borderRadius: "8px",
@@ -42,10 +47,8 @@ const TestimonialCard = styled.div({
 })
 
 const TestimonialCardImage = styled.div({
-  width: "300px",
   height: "326px",
-  ["img"]: {
-    width: "300px",
+  img: {
     height: "326px",
     objectFit: "cover",
     borderTopLeftRadius: "8px",
@@ -66,7 +69,6 @@ const TestimonialCardImage = styled.div({
 })
 
 const TestimonialCardQuote = styled.div({
-  width: "648px",
   height: "326px",
   color: theme.custom.colors.black,
   padding: "0 32px 32px",
@@ -114,55 +116,91 @@ const TestimonialCardQuote = styled.div({
   },
 })
 
-const Embla = styled.div({
-  maxWidth: "100%",
-  margin: "auto",
-  "--slide-spacing": "1rem",
-  "--slide-size": "50%",
+const OverlayContainer = styled.div({
+  position: "relative",
 })
-const EmblaViewport = styled.div({
-  overflow: "hidden",
+
+const TestimonialFadeLeft = styled.div({
+  position: "absolute",
+  top: "0",
+  bottom: "0",
+  left: "0",
+  width: "15%",
+  background:
+    "linear-gradient(270deg,rgb(117 0 20 / 0%) 0%,rgb(117 0 20 / 100%) 100%)",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
 })
-const EmblaContainer = styled.div({
+const TestimonialFadeRight = styled.div({
+  position: "absolute",
+  top: "0",
+  bottom: "0",
+  right: "0",
+  width: "15%",
+  background:
+    "linear-gradient(270deg, rgb(117 0 20 / 100%) 0%,rgb(117 0 20 / 0%) 100%)",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+})
+
+const ButtonsContainer = styled.div({
   display: "flex",
-  backfaceVisibility: "hidden",
-  touchAction: "pan-y pinch-zoom",
-  marginLeft: "calc(var(--slide-spacing) * -1)",
+  justifyContent: "center",
+  margin: "32px auto",
 })
-const EmblaCarousel = ({}) => {
-  const [viewportRef, embla] = useEmblaCarousel({ loop: true })
-  const { data, isLoading } = useTestimonialList()
+
+const SlickCarousel = () => {
+  const { data } = useTestimonialList()
+  const [slick, setSlick] = React.useState<Slider | null>(null)
+
   if (!data) return null
   return (
-    <Embla>
-      <EmblaViewport ref={viewportRef}>
-        <EmblaContainer>
-          {data?.results.map((resource) => (
-            <TestimonialCardContainer key={`container-${resource.id}`}>
-              <TestimonialCard
-                key={`a-${resource.id}`}
-                id={`testimonial-card-${resource.id}`}
-                className="testimonial-card"
-              >
-                <TestimonialCardImage>
-                  <img src={resource.avatar} />
-                </TestimonialCardImage>
-                <TestimonialCardQuote>
-                  <div className="testimonial-quote-opener">&ldquo;</div>
-                  <Typography variant="h4">{resource.quote}</Typography>
-                  <div className="testimonial-quote-closer">
-                    <Typography variant="h5">
-                      {resource.attestant_name}
-                    </Typography>
-                    {resource.title}
-                  </div>
-                </TestimonialCardQuote>
-              </TestimonialCard>
-            </TestimonialCardContainer>
-          ))}
-        </EmblaContainer>
-      </EmblaViewport>
-    </Embla>
+    <OverlayContainer>
+      <Slider
+        ref={setSlick}
+        infinite
+        centerMode
+        slidesToShow={1}
+        centerPadding="15%"
+        arrows={false}
+      >
+        {data?.results.map((resource) => (
+          <TestimonialCardContainer key={`container-${resource.id}`}>
+            <TestimonialCard
+              key={`a-${resource.id}`}
+              id={`testimonial-card-${resource.id}`}
+              className="testimonial-card"
+            >
+              <TestimonialCardImage>
+                <img src={resource.avatar} />
+              </TestimonialCardImage>
+              <TestimonialCardQuote>
+                <div className="testimonial-quote-opener">&ldquo;</div>
+                <Typography variant="h4">{resource.quote}</Typography>
+                <div className="testimonial-quote-closer">
+                  <Typography variant="h5">
+                    {resource.attestant_name}
+                  </Typography>
+                  {resource.title}
+                </div>
+              </TestimonialCardQuote>
+            </TestimonialCard>
+          </TestimonialCardContainer>
+        ))}
+      </Slider>
+      <TestimonialFadeLeft />
+      <TestimonialFadeRight />
+      <ButtonsContainer>
+        <ActionButton variant="inverted" onClick={slick?.slickPrev}>
+          <RiArrowDropLeftLine />
+        </ActionButton>
+        <ActionButton variant="inverted" onClick={slick?.slickNext}>
+          <RiArrowDropRightLine />
+        </ActionButton>
+      </ButtonsContainer>
+    </OverlayContainer>
   )
 }
 
@@ -174,8 +212,8 @@ const TestimonialsSection: React.FC = () => {
         <Typography variant="h3">
           Here's what other subscribers had to say about MIT Open
         </Typography>
-        <EmblaCarousel />
       </Container>
+      <SlickCarousel />
     </Section>
   )
 }
