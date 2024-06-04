@@ -66,7 +66,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   display: "flex",
                   flexWrap: "wrap",
                   width: "100%",
-                  flexShrink: 1,
+                  flexShrink: 0,
                   flexGrow: 0,
                 }}
               >
@@ -74,7 +74,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   display="flex"
                   flexDirection="column"
                   alignItems="center"
-                  sx={{ flexGrow: 1, width: "70%", flexShrink: 0, order: 1 }}
+                  sx={{ flexGrow: 1, flexShrink: 0, order: 1 }}
                 >
                   <Box
                     display="flex"
@@ -122,7 +122,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     alignItems="end"
                     alignSelf="center"
                     display="flex"
-                    sx={{ order: 2, flexGrow: 0, flexShrink: 1 }}
+                    sx={{ order: 2, flexGrow: 1, flexShrink: 0 }}
                   >
                     <ChannelDetails field={field.data} />
                   </Box>

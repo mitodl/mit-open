@@ -124,16 +124,18 @@ const getChannelDetails = (field: FieldChannel) => {
 const InfoLabel = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.mitRed,
 }))
-const ChannelDetailsCard = styled(Box)({
+const ChannelDetailsCard = styled(Box)(({ theme }) => ({
   border: "1px solid #ccc",
   borderRadius: "8px",
-
   backgroundColor: "white",
   minWidth: "300px",
-  width: "100%",
+  width: "50%",
   fontSize: "0.5em",
   lineHeight: "0.5em",
-})
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
+}))
 
 const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
   const { field } = props
