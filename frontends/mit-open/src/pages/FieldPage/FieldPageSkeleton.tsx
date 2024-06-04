@@ -55,7 +55,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
       alt=""
       omitBackground={field.isLoading}
       bannerContent={
-        <Container sx={{ my: 1 }}>
+        <Container sx={{ my: 2 }}>
           <FieldTitleRow>
             {field.data && (
               <Box
