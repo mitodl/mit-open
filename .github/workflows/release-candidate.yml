@@ -32,7 +32,11 @@ jobs:
         run: yarn install --immutable
 
       - name: Build frontend
-        run: EMBEDLY_KEY=${{ secrets.EMBEDLY_KEY_RC }} NODE_ENV=production yarn build
+        run: NODE_ENV=production yarn build
+        env:
+          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
+          MITOPEN_AXIOS_WITH_CREDENTIALS: true
+          MITOPEN_AXIOS_BASE_PATH: https://api.mitopen-rc.odl.mit.edu
 
       - name: Upload frontend build to s3
         uses: jakejarvis/s3-sync-action@master
