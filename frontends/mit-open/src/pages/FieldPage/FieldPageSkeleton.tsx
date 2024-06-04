@@ -16,8 +16,6 @@ export const FieldTitleRow = styled.div`
   align-items: center;
 
   h1 a {
-    margin-left: 1em;
-
     &:hover {
       text-decoration: none;
     }
@@ -49,9 +47,10 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
 }) => {
   const field = useChannelDetail(String(channelType), String(name))
   const urlParams = new URLSearchParams(field.data?.search_filter)
+  const displayConfiguration = field.data?.configuration
   return (
     <BannerPage
-      src={field.data?.banner ?? ""}
+      src={displayConfiguration?.banner_background ?? ""}
       alt=""
       omitBackground={field.isLoading}
       bannerContent={
@@ -65,39 +64,90 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   display: "flex",
                   flexWrap: "wrap",
                   width: "100%",
-                  flexShrink: 0,
+                  color: "white",
+                  flexShrink: 1,
                   flexGrow: 0,
                 }}
               >
                 <Box
                   display="flex"
                   flexDirection="column"
-                  alignItems="center"
-                  sx={{ flexGrow: 24, flexShrink: 0, order: 1 }}
+                  alignItems="start"
+                  sx={{ flexGrow: 24, flexShrink: 0, order: 1, width: "60%" }}
                 >
                   <Box
                     display="flex"
                     flexDirection="row"
                     alignItems="center"
-                    sx={{ flexGrow: 1, width: "100%", flexShrink: 0, order: 1 }}
+                    sx={{ flexGrow: 1, flexShrink: 0, order: 1 }}
                   >
-                    <FieldAvatar field={field.data} imageSize="medium" />
-                    <Typography variant="h3" component="h1">
-                      <Link
-                        to={routes.makeFieldViewPath(
-                          field.data.channel_type,
-                          field.data.name,
-                        )}
-                      >
-                        {field.data.title}
-                      </Link>
+                    {displayConfiguration?.logo ? (
+                      <FieldAvatar
+                        imageVariant="inverted"
+                        formImageUrl={displayConfiguration?.logo}
+                        imageSize="extraLarge"
+                      />
+                    ) : (
+                      <Typography variant="h3" component="h1">
+                        <Link
+                          to={routes.makeFieldViewPath(
+                            field.data.channel_type,
+                            field.data.name,
+                          )}
+                        >
+                          {field.data.title}
+                        </Link>
+                      </Typography>
+                    )}
+                  </Box>
+                  {displayConfiguration.heading ? (
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      alignItems="center"
+                      sx={{
+                        flexGrow: 0,
+                        flexShrink: 0,
+                        order: 2,
+                        width: "90%",
+                        mt: 3,
+                      }}
+                    >
+                      <Typography variant="h4">
+                        {displayConfiguration.heading}
+                      </Typography>
+                    </Box>
+                  ) : (
+                    <></>
+                  )}
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    sx={{
+                      flexGrow: 0,
+                      flexShrink: 0,
+                      order: 2,
+                      width: "90%",
+                      mt: 3,
+                    }}
+                  >
+                    <Typography variant="body2">
+                      {displayConfiguration.sub_heading}
                     </Typography>
                   </Box>
+
                   <Box
                     display="flex"
                     flexDirection="row"
                     alignItems="end"
-                    sx={{ flexGrow: 0, width: "100%", flexShrink: 1, order: 2 }}
+                    sx={{
+                      flexGrow: 0,
+                      width: "100%",
+                      flexShrink: 1,
+                      order: 3,
+                      mt: 3,
+                    }}
                   >
                     <FieldControls>
                       {field.data?.search_filter ? (
