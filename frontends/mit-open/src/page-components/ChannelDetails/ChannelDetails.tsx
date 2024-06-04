@@ -125,13 +125,10 @@ const InfoLabel = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.mitRed,
 }))
 const ChannelDetailsCard = styled(Box)(({ theme }) => ({
-  border: "1px solid #ccc",
-  borderRadius: "8px",
+  borderRadius: "12px",
   backgroundColor: "white",
   minWidth: "300px",
   width: "50%",
-  fontSize: "0.5em",
-  lineHeight: "0.5em",
   [theme.breakpoints.down("md")]: {
     width: "100%",
   },
@@ -158,21 +155,10 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
 
       return (
         <Box key={value.title} sx={{ margin: "10px" }}>
-          <InfoLabel
-            lineHeight="1.5"
-            fontSize="inherit"
-            variant="h5"
-            gutterBottom
-          >
+          <InfoLabel variant="subtitle2" gutterBottom>
             {value.title}:
           </InfoLabel>
-          <Typography
-            lineHeight="1"
-            fontSize="inherit"
-            variant="body1"
-            color="text.secondary"
-            gutterBottom
-          >
+          <Typography variant="body3" color="text.secondary" gutterBottom>
             {Array.isArray(label) ? label.join(" | ") : label}
           </Typography>
         </Box>

@@ -55,7 +55,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
       alt=""
       omitBackground={field.isLoading}
       bannerContent={
-        <Container sx={{ py: 1 }}>
+        <Container sx={{ my: 1 }}>
           <FieldTitleRow>
             {field.data && (
               <Box
@@ -97,8 +97,8 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   <Box
                     display="flex"
                     flexDirection="row"
-                    alignItems="center"
-                    sx={{ flexGrow: 1, width: "100%", flexShrink: 0, order: 2 }}
+                    alignItems="end"
+                    sx={{ flexGrow: 0, width: "100%", flexShrink: 1, order: 2 }}
                   >
                     <FieldControls>
                       {field.data?.search_filter ? (
@@ -122,7 +122,12 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     alignItems="end"
                     alignSelf="center"
                     display="flex"
-                    sx={{ order: 2, flexGrow: 0, flexShrink: 0 }}
+                    sx={{
+                      order: 2,
+                      flexGrow: 0,
+                      flexShrink: 0,
+                      width: { md: "300px", xs: "100%" },
+                    }}
                   >
                     <ChannelDetails field={field.data} />
                   </Box>
