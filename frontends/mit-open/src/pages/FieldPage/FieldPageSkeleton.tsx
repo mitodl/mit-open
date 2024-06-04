@@ -122,7 +122,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     alignItems="end"
                     alignSelf="center"
                     display="flex"
-                    sx={{ order: 2, flexGrow: 1, flexShrink: 0 }}
+                    sx={{ order: 2, flexGrow: 0, flexShrink: 0 }}
                   >
                     <ChannelDetails field={field.data} />
                   </Box>
