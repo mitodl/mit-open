@@ -35,6 +35,20 @@ interface FieldSkeletonProps {
   name: string
 }
 
+const NAV_PATH = {
+  topic: "Topics",
+  department: "Departments",
+  offeror: "MIT Units",
+}
+
+const NavText = styled(Typography)(({ theme }) => ({
+  color: theme.custom.colors.lightGray2,
+  marginBottom: "30px",
+  ".current": {
+    color: theme.custom.colors.silverGrayLight,
+  },
+}))
+
 /**
  * Common structure for field-oriented pages.
  *
@@ -48,6 +62,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   const field = useChannelDetail(String(channelType), String(name))
   const urlParams = new URLSearchParams(field.data?.search_filter)
   const displayConfiguration = field.data?.configuration
+
   return (
     <BannerPage
       src={displayConfiguration?.banner_background ?? ""}
@@ -55,6 +70,10 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
       omitBackground={field.isLoading}
       bannerContent={
         <Container sx={{ my: 2 }}>
+          <NavText variant="subtitle3">
+            MIT / {NAV_PATH[channelType]} /{" "}
+            <span className="current">{field.data?.title}</span>
+          </NavText>
           <FieldTitleRow>
             {field.data && (
               <Box
@@ -110,7 +129,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         flexShrink: 0,
                         order: 2,
                         width: "90%",
-                        mt: 3,
+                        my: 2,
                       }}
                     >
                       <Typography variant="h4">
@@ -129,7 +148,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       flexShrink: 0,
                       order: 2,
                       width: "90%",
-                      mt: 3,
+                      my: 2,
                     }}
                   >
                     <Typography variant="body2">
@@ -146,7 +165,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       width: "100%",
                       flexShrink: 1,
                       order: 3,
-                      mt: 3,
+                      my: 2,
                     }}
                   >
                     <FieldControls>
