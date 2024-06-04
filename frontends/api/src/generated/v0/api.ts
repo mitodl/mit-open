@@ -116,7 +116,13 @@ export interface Attestation {
    * @type {Array<number>}
    * @memberof Attestation
    */
-  channels: Array<number>
+  channels?: Array<number>
+  /**
+   * The offerors that this attestation can appear on
+   * @type {Array<string>}
+   * @memberof Attestation
+   */
+  offerors?: Array<string>
 }
 /**
  *
@@ -5402,6 +5408,7 @@ export const TestimonialsApiAxiosParamCreator = function (
      * @summary List
      * @param {Array<number>} [channels] The channels the attestation is for
      * @param {number} [limit] Number of results to return per page.
+     * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
      * @param {boolean} [published] Only return published testimonials
      * @param {*} [options] Override http request option.
@@ -5410,6 +5417,7 @@ export const TestimonialsApiAxiosParamCreator = function (
     testimonialsList: async (
       channels?: Array<number>,
       limit?: number,
+      offerors?: Array<string>,
       offset?: number,
       published?: boolean,
       options: RawAxiosRequestConfig = {},
@@ -5436,6 +5444,10 @@ export const TestimonialsApiAxiosParamCreator = function (
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (offerors) {
+        localVarQueryParameter["offerors"] = offerors
       }
 
       if (offset !== undefined) {
@@ -5522,6 +5534,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
      * @summary List
      * @param {Array<number>} [channels] The channels the attestation is for
      * @param {number} [limit] Number of results to return per page.
+     * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
      * @param {boolean} [published] Only return published testimonials
      * @param {*} [options] Override http request option.
@@ -5530,6 +5543,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
     async testimonialsList(
       channels?: Array<number>,
       limit?: number,
+      offerors?: Array<string>,
       offset?: number,
       published?: boolean,
       options?: RawAxiosRequestConfig,
@@ -5543,6 +5557,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.testimonialsList(
           channels,
           limit,
+          offerors,
           offset,
           published,
           options,
@@ -5613,6 +5628,7 @@ export const TestimonialsApiFactory = function (
         .testimonialsList(
           requestParameters.channels,
           requestParameters.limit,
+          requestParameters.offerors,
           requestParameters.offset,
           requestParameters.published,
           options,
@@ -5656,6 +5672,13 @@ export interface TestimonialsApiTestimonialsListRequest {
    * @memberof TestimonialsApiTestimonialsList
    */
   readonly limit?: number
+
+  /**
+   * The offerors the attestation is for
+   * @type {Array<string>}
+   * @memberof TestimonialsApiTestimonialsList
+   */
+  readonly offerors?: Array<string>
 
   /**
    * The initial index from which to return the results.
@@ -5709,6 +5732,7 @@ export class TestimonialsApi extends BaseAPI {
       .testimonialsList(
         requestParameters.channels,
         requestParameters.limit,
+        requestParameters.offerors,
         requestParameters.offset,
         requestParameters.published,
         options,
