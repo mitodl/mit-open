@@ -73,7 +73,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   display="flex"
                   flexDirection="column"
                   alignItems="center"
-                  sx={{ flexGrow: 4, flexShrink: 0, order: 1 }}
+                  sx={{ flexGrow: 24, flexShrink: 0, order: 1 }}
                 >
                   <Box
                     display="flex"
