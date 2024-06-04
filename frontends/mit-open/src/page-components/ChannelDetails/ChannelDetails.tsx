@@ -154,7 +154,7 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
         : detailValue
 
       return (
-        <Box key={value.title} sx={{ margin: "10px" }}>
+        <Box key={value.title}>
           <InfoLabel variant="subtitle2" gutterBottom>
             {value.title}:
           </InfoLabel>
