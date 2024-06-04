@@ -129,6 +129,9 @@ const ChannelDetailsCard = styled(Box)(({ theme }) => ({
   backgroundColor: "white",
   minWidth: "300px",
   padding: "32px",
+  display: "flex",
+  flexDirection: "column",
+  gap: "16px",
   [theme.breakpoints.down("md")]: {
     width: "100%",
   },
@@ -155,10 +158,13 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
 
       return (
         <Box key={value.title}>
-          <InfoLabel variant="subtitle2" gutterBottom>
+          <InfoLabel
+            variant="subtitle2"
+            sx={{ marginBottom: (theme) => theme.typography.pxToRem(4) }}
+          >
             {value.title}:
           </InfoLabel>
-          <Typography variant="body3" color="text.secondary" gutterBottom>
+          <Typography variant="body3" color="text.secondary">
             {Array.isArray(label) ? label.join(" | ") : label}
           </Typography>
         </Box>
