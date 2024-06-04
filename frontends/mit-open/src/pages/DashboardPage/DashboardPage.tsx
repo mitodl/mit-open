@@ -17,10 +17,19 @@ import {
   styled,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
-import React from "react"
+import React, { useCallback, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 import { useLocation } from "react-router"
+import { UserListGrid } from "../UserListListingPage/UserListListingPage"
+import { UserList } from "api"
+import { ListDetailsComponent } from "../ListDetailsPage/ListDetailsPage"
+import { ListType } from "api/constants"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import {
+  useInfiniteUserListItems,
+  useUserListsDetail,
+} from "api/hooks/learningResources"
 
 const Background = styled.div(({ theme }) => ({
   backgroundColor: theme.custom.colors.lightGray1,
@@ -94,14 +103,15 @@ const TabsContainer = styled(Tabs)(({ theme }) => ({
   },
   a: {
     padding: "0",
+    opacity: "1",
   },
   "&:hover": {
     a: {
       textDecoration: "none",
     },
   },
-  ".tab-selected": {
-    ".user-menu-link-icon, .user-menu-link-text, a": {
+  ".user-menu-tab-selected": {
+    ".user-menu-link-icon, .user-menu-link-text": {
       color: theme.custom.colors.mitRed,
     },
   },
@@ -118,7 +128,7 @@ const TabContainer = styled.div(({ theme }) => ({
   width: "300px",
   borderBottom: `1px solid ${theme.custom.colors.lightGray1}`,
   "&:hover": {
-    ".user-menu-link-icon, .user-menu-link-text, a": {
+    ".user-menu-link-icon, .user-menu-link-text": {
       color: theme.custom.colors.mitRed,
     },
   },
@@ -138,17 +148,21 @@ interface UserMenuTabProps {
   text: string
   value: string
   currentValue: string
+  onClick?: () => void
 }
 
 const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
-  const { icon, text, value, currentValue } = props
+  const { icon, text, value, currentValue, onClick } = props
   const selected = value === currentValue
   return (
     <Tab
       component={Link}
       to={`#${value}`}
       label={
-        <TabContainer className={selected ? "user-menu-tab-selected" : ""}>
+        <TabContainer
+          onClick={onClick}
+          className={selected ? "user-menu-tab-selected" : ""}
+        >
           <LinkIconContainer className="user-menu-link-icon">
             {icon}
           </LinkIconContainer>
@@ -171,10 +185,42 @@ const keyFromHash = (hash: string) => {
   return match ?? "home"
 }
 
+interface UserListDetailsTabProps {
+  userListId: number
+}
+
+const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
+  const { userListId } = props
+  const pathQuery = useUserListsDetail(userListId)
+  const itemsQuery = useInfiniteUserListItems({ userlist_id: userListId })
+  const items = useMemo(() => {
+    const pages = itemsQuery.data?.pages
+    return pages?.flatMap((p) => p.results ?? []) ?? []
+  }, [itemsQuery.data])
+  return (
+    <ListDetailsComponent
+      listType={ListType.UserList}
+      title={pathQuery?.data?.title}
+      description={pathQuery.data?.description}
+      items={items}
+      isLoading={itemsQuery.isLoading}
+      isFetching={itemsQuery.isFetching}
+      handleEdit={() => manageListDialogs.upsertUserList(pathQuery.data)}
+    />
+  )
+}
+
 const DashboardPage: React.FC = () => {
   const { isLoading, data: user } = useUserMe()
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
+  const [userListAction, setUserListAction] = useState("list")
+  const [userListId, setUserListId] = useState(0)
+
+  const handleActivateUserList = useCallback((userList: UserList) => {
+    setUserListId(userList.id)
+    setUserListAction("detail")
+  }, [])
 
   return (
     <Background>
@@ -190,13 +236,11 @@ const DashboardPage: React.FC = () => {
                   <ProfilePhotoContainer>
                     <UserIcon />
                     <UserNameContainer>
-                      <UserNameText>
-                        {isLoading ? (
-                          <Skeleton variant="text" width={128} height={32} />
-                        ) : (
-                          <Typography>{`${user?.first_name} ${user?.last_name}`}</Typography>
-                        )}
-                      </UserNameText>
+                      {isLoading ? (
+                        <Skeleton variant="text" width={128} height={32} />
+                      ) : (
+                        <UserNameText>{`${user?.first_name} ${user?.last_name}`}</UserNameText>
+                      )}
                     </UserNameContainer>
                   </ProfilePhotoContainer>
                   <TabsContainer value={tabValue} orientation="vertical">
@@ -211,6 +255,7 @@ const DashboardPage: React.FC = () => {
                       text="My Lists"
                       value={TabValues.MY_LISTS}
                       currentValue={tabValue}
+                      onClick={() => setUserListAction("list")}
                     />
                     <UserMenuTab
                       icon={<RiEditFill />}
@@ -228,8 +273,21 @@ const DashboardPage: React.FC = () => {
                   </Typography>
                   <Typography variant="body1">Coming soon...</Typography>
                 </TabPanel>
-                <TabPanel value={TabValues.MY_LISTS}>Lists go here</TabPanel>
-                <TabPanel value={TabValues.PROFILE}>Profile goes here</TabPanel>
+                <TabPanel value={TabValues.MY_LISTS}>
+                  {userListAction === "list" ? (
+                    <div id="user-list-listing">
+                      <UserListGrid onActivate={handleActivateUserList} />
+                    </div>
+                  ) : (
+                    <div id="user-list-detail">
+                      <UserListDetailsTab userListId={userListId} />
+                    </div>
+                  )}
+                </TabPanel>
+                <TabPanel value={TabValues.PROFILE}>
+                  <Typography variant="h3">Profile</Typography>
+                  <Typography variant="body1">Coming soon...</Typography>
+                </TabPanel>
               </Grid>
             </TabContext>
           </DashboardGrid>

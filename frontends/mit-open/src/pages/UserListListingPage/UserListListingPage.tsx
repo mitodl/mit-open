@@ -90,9 +90,61 @@ const ListCard: React.FC<ListCardProps> = ({ list, onActivate }) => {
   )
 }
 
-const UserListListingPage: React.FC = () => {
-  const listingQuery = useUserListList()
+type UserListGridProps = {
+  onActivate: (userList: UserList) => void
+}
 
+const UserListGrid: React.FC<UserListGridProps> = (props) => {
+  const { onActivate } = props
+  const listingQuery = useUserListList()
+  const handleCreate = useCallback(() => {
+    manageListDialogs.upsertUserList()
+  }, [])
+
+  return (
+    <GridContainer>
+      <GridColumn variant="single-full">
+        <ListHeaderGrid container justifyContent="space-between">
+          <Grid item>
+            <Typography variant="h3" component="h1">
+              User Lists
+            </Typography>
+          </Grid>
+          <Grid
+            item
+            justifyContent="flex-end"
+            alignItems="center"
+            display="flex"
+          >
+            <Button variant="primary" onClick={handleCreate}>
+              Create new list
+            </Button>
+          </Grid>
+        </ListHeaderGrid>
+        <section>
+          <LoadingSpinner loading={listingQuery.isLoading} />
+          {listingQuery.data && (
+            <PlainList itemSpacing={3}>
+              {listingQuery.data.results?.map((list) => {
+                return (
+                  <li key={list.id}>
+                    <ListCard
+                      list={list}
+                      onActivate={onActivate}
+                      canEdit={true}
+                    />
+                  </li>
+                )
+              })}
+            </PlainList>
+          )}
+        </section>
+      </GridColumn>
+    </GridContainer>
+  )
+}
+
+const UserListListingPage: React.FC = () => {
   const navigate = useNavigate()
   const handleActivate = useCallback(
     (userList: UserList) => {
@@ -101,10 +153,6 @@ const UserListListingPage: React.FC = () => {
     },
     [navigate],
   )
-  const handleCreate = useCallback(() => {
-    manageListDialogs.upsertUserList()
-  }, [])
-
   return (
     <BannerPage
       src="/static/images/course_search_banner.png"
@@ -115,48 +163,10 @@ const UserListListingPage: React.FC = () => {
         <title>User Lists</title>
       </MetaTags>
       <Container maxWidth="sm">
-        <GridContainer>
-          <GridColumn variant="single-full">
-            <ListHeaderGrid container justifyContent="space-between">
-              <Grid item>
-                <Typography variant="h3" component="h1">
-                  User Lists
-                </Typography>
-              </Grid>
-              <Grid
-                item
-                justifyContent="flex-end"
-                alignItems="center"
-                display="flex"
-              >
-                <Button variant="primary" onClick={handleCreate}>
-                  Create new list
-                </Button>
-              </Grid>
-            </ListHeaderGrid>
-            <section>
-              <LoadingSpinner loading={listingQuery.isLoading} />
-              {listingQuery.data && (
-                <PlainList itemSpacing={3}>
-                  {listingQuery.data.results?.map((list) => {
-                    return (
-                      <li key={list.id}>
-                        <ListCard
-                          list={list}
-                          onActivate={handleActivate}
-                          canEdit={true}
-                        />
-                      </li>
-                    )
-                  })}
-                </PlainList>
-              )}
-            </section>
-          </GridColumn>
-        </GridContainer>
+        <UserListGrid onActivate={handleActivate} />
       </Container>
     </BannerPage>
   )
 }
 
-export default UserListListingPage
+export { UserListGrid, UserListListingPage }

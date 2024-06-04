@@ -8,7 +8,7 @@ import {
 } from "api/hooks/learningResources"
 
 import { ListType } from "api/constants"
-import ListDetailsPage from "./ListDetailsPage"
+import { ListDetailsPage } from "./ListDetailsPage"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 type RouteParams = {
