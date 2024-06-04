@@ -87,6 +87,7 @@ const BannerPageHeaderFlex = styled.header`
   ${({ theme }) => theme.breakpoints.down("sm")} {
     min-height: ${SM_BANNER_HEIGHT};
   }
+
   display: flex;
   flex-direction: column;
   justify-content: center;
