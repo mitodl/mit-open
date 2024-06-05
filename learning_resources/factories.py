@@ -203,7 +203,20 @@ class LearningResourceFactory(DjangoModelFactory):
         )
         and o.offered_by.professional
     )
-    certification = factory.LazyAttribute(lambda o: o.professional)
+    certification = factory.LazyAttribute(
+        lambda o: (
+            o.professional
+            or (o.offered_by and o.offered_by.code == constants.OfferedBy.mitx.name)
+        )
+        is True
+    )
+    certification_type = factory.LazyAttribute(
+        lambda o: constants.CertificationType.professional.name
+        if o.professional
+        else constants.CertificationType.completion.name
+        if o.certification
+        else constants.CertificationType.none.name
+    )
 
     course = factory.Maybe(
         "create_course",

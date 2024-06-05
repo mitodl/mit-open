@@ -60,6 +60,7 @@ class FilterConfig:
 LEARNING_RESOURCE_SEARCH_FILTERS = {
     "resource_type": FilterConfig("resource_type"),
     "certification": FilterConfig("certification"),
+    "certification_type": FilterConfig("certification_type.code"),
     "professional": FilterConfig("professional"),
     "free": FilterConfig("free"),
     "id": FilterConfig("id", case_sensitive=True),
@@ -101,6 +102,13 @@ LEARNING_RESOURCE_MAP = {
     "resource_relations": {"type": "join", "relations": {"resource": "content_file"}},
     "id": {"type": "long"},
     "certification": {"type": "boolean"},
+    "certification_type": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
     "free": {"type": "boolean"},
     "learning_format": {
         "type": "nested",

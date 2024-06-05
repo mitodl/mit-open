@@ -15,6 +15,7 @@ from rest_framework.exceptions import ValidationError
 from channels.models import FieldChannel
 from learning_resources import constants, models
 from learning_resources.constants import (
+    CertificationType,
     LearningResourceFormat,
     LearningResourceType,
     LevelType,
@@ -114,6 +115,24 @@ class LearningResourceOfferorDetailSerializer(LearningResourceOfferorSerializer)
     class Meta:
         model = models.LearningResourceOfferor
         exclude = COMMON_IGNORED_FIELDS
+
+
+@extend_schema_field(
+    {
+        "type": "object",
+        "properties": {
+            "code": {"enum": CertificationType.names()},
+            "name": {"type": "string"},
+        },
+        "required": ["code", "name"],
+    }
+)
+class CertificateTypeField(serializers.Field):
+    """Serializer for LearningResource.certification_type"""
+
+    def to_representation(self, value):
+        """Serialize certification type as a dict"""
+        return {"code": value, "name": CertificationType[value].value}
 
 
 @extend_schema_field({"type": "array", "items": {"type": "string"}})
@@ -422,7 +441,8 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     departments = LearningResourceDepartmentSerializer(
         read_only=True, allow_null=True, many=True
     )
-    certification = serializers.ReadOnlyField()
+    certification = serializers.ReadOnlyField(read_only=True)
+    certification_type = CertificateTypeField(read_only=True)
     prices = serializers.ReadOnlyField()
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     image = serializers.SerializerMethodField()
@@ -526,7 +546,13 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     class Meta:
         model = models.LearningResource
-        read_only_fields = ["free", "certification", "professional", "views"]
+        read_only_fields = [
+            "free",
+            "certification",
+            "certification_type",
+            "professional",
+            "views",
+        ]
         exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 

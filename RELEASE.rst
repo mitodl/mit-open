@@ -1,6 +1,21 @@
 Release Notes
 =============
 
+Version 0.11.0 (Released May 30, 2024)
+--------------
+
+- remove package-lock.json (#978)
+- Randomize featured api order by offeror, keep sorting by position (#971)
+- Updated hero page (#969)
+- Fix flaky test by specifying a sort of program courses in serializer (#972)
+- Clean up resource descriptions (#957)
+- Fix Featured API requests (#970)
+- add the footer & privacy, terms and about us pages (#956)
+- Adding call to update program topics during ETL loads (#952)
+- Upgrade NukaCarousel to v8 (#960)
+- Fix detect-secrets baseline file (#967)
+- Update dependency @faker-js/faker to v8 (#797)
+
 Version 0.10.2 (Released May 30, 2024)
 --------------
 

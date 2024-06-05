@@ -112,6 +112,9 @@ module.exports = {
       files: ["./**/*.test.{ts,tsx}"],
       plugins: ["testing-library"],
       extends: ["plugin:testing-library/react"],
+      rules: {
+        "testing-library/no-node-access": "off",
+      },
     },
   ],
 }

@@ -136,6 +136,7 @@ export * from "./components/BannerPage/BannerPage"
 export * from "./components/Chips/ChipLink"
 export * from "./components/EmbedlyCard/EmbedlyCard"
 export * from "./components/FormDialog/FormDialog"
+export * from "./components/Logo/Logo"
 export * from "./components/RoutedDrawer/RoutedDrawer"
 export * from "./components/NavDrawer/NavDrawer"
 export * from "./components/SearchInput/SearchInput"
@@ -169,7 +170,7 @@ export type {
 export { Link, linkStyles } from "./components/Link/Link"
 export type { LinkProps } from "./components/Link/Link"
 
-export * from "./components/learning-resources/ExpandedLearningResourceDisplay/ExpandedLearningResourceDisplay"
+export * from "./components/LearningResourceExpanded/LearningResourceExpanded"
 
 export * from "./hooks/useBreakpoint"
 

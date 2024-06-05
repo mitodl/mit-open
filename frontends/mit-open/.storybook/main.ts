@@ -1,4 +1,7 @@
-import { join, dirname } from "path"
+import { resolve, join, dirname } from "path"
+import * as dotenv from "dotenv"
+
+dotenv.config({ path: resolve(__dirname, "../../../.env") })
 
 /**
  * This function is used to resolve the absolute path of a package.

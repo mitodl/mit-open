@@ -12,6 +12,7 @@ import pytest
 
 from learning_resources.constants import (
     AvailabilityType,
+    CertificationType,
     LearningResourceType,
     PlatformType,
 )
@@ -121,6 +122,9 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
             "certification": bool(
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
+            "certification_type": CertificationType.completion.name
+            if program_data.get("page", {}).get("page_url", None) is not None
+            else CertificationType.none.name,
             "image": _transform_image(program_data),
             "description": clean_data(
                 program_data.get("page", {}).get("description", None)
@@ -178,6 +182,7 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                         course_data.get("page", {}).get("page_url", None)
                     ),
                     "certification": True,
+                    "certification_type": CertificationType.completion.name,
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
                     "topics": [
                         {"name": topic_name}
@@ -270,6 +275,15 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                     for course_run in course_data["courseruns"]
                 ],
             ),
+            "certification_type": CertificationType.completion.name
+            if parse_certification(
+                "mitx",
+                [
+                    _transform_run(course_run, course_data)
+                    for course_run in course_data["courseruns"]
+                ],
+            )
+            else CertificationType.none.name,
             "topics": [
                 {"name": topic_name}
                 for topic_name in chain.from_iterable(

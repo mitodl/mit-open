@@ -16,7 +16,7 @@ services:
       retries: 2
 
   nginx:
-    image: nginx:1.26.0
+    image: nginx:1.27.0
     ports:
       - 8063:8063
     links:
