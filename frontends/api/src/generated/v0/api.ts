@@ -779,12 +779,6 @@ export interface FieldChannelCreateRequest {
   search_filter?: string
   /**
    *
-   * @type {any}
-   * @memberof FieldChannelCreateRequest
-   */
-  configuration?: any | null
-  /**
-   *
    * @type {ChannelTopicDetailRequest}
    * @memberof FieldChannelCreateRequest
    */
@@ -1491,12 +1485,6 @@ export interface PatchedFieldChannelWriteRequest {
    * @memberof PatchedFieldChannelWriteRequest
    */
   search_filter?: string
-  /**
-   *
-   * @type {any}
-   * @memberof PatchedFieldChannelWriteRequest
-   */
-  configuration?: any | null
   /**
    *
    * @type {ChannelTopicDetailRequest}
