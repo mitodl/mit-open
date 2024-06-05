@@ -459,39 +459,23 @@ class SearchResponseSerializer(serializers.Serializer):
     def get_count(self, instance) -> int:
         return instance.get("hits", {}).get("total", {}).get("value")
 
-    def update_list_parents(self, hits):
-        """Fill in user_list_parents and learning_path_parents for users"""
+    def update_path_parents(self, hits):
+        """Fill in learning_path_parents for path editors"""
 
         request = self.context.get("request")
         if request and request.user and request.user.is_authenticated:
             learning_path_parents_dict = {}
-            user_list_parents_dict = {}
             hit_ids = [hit.get("_id") for hit in hits]
 
-            # Get user_list_parents for all returned resources
-            user_list_parents = UserListRelationship.objects.filter(
-                parent__author=request.user, child_id__in=hit_ids
+            # Get learning path parents for all returned resources
+            learning_path_parents = LearningResourceRelationship.objects.filter(
+                child__id__in=hit_ids,
+                relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,
             ).values("id", "child_id", "parent_id")
-            for parent in user_list_parents:
-                user_list_parents_dict.setdefault(str(parent["child_id"]), []).append(
-                    parent
-                )
-
-            if (
-                request.user.is_staff
-                or request.user.is_superuser
-                or request.user.groups.filter(name=GROUP_STAFF_LISTS_EDITORS).first()
-                is not None
-            ):
-                # Get learning path parents for all returned resources
-                learning_path_parents = LearningResourceRelationship.objects.filter(
-                    child__id__in=hit_ids,
-                    relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,
-                ).values("id", "child_id", "parent_id")
-                for parent in learning_path_parents:
-                    learning_path_parents_dict.setdefault(
-                        str(parent["child_id"]), []
-                    ).append(parent)
+            for parent in learning_path_parents:
+                learning_path_parents_dict.setdefault(
+                    str(parent["child_id"]), []
+                ).append(parent)
 
             for hit in hits:
                 if hit["_id"] in learning_path_parents_dict:
@@ -501,16 +485,40 @@ class SearchResponseSerializer(serializers.Serializer):
                         ).data
                     )
 
-                if hit["_id"] in user_list_parents_dict:
-                    hit["_source"]["user_list_parents"] = (
-                        MicroUserListRelationshipSerializer(
-                            instance=user_list_parents_dict[hit["_id"]], many=True
-                        ).data
-                    )
+    def update_list_parents(self, hits, user):
+        """Fill in user_list_parents for users"""
+        user_list_parents_dict = {}
+        hit_ids = [hit.get("_id") for hit in hits]
+
+        # Get user_list_parents for all returned resources
+        user_list_parents = UserListRelationship.objects.filter(
+            parent__author=user, child_id__in=hit_ids
+        ).values("id", "child_id", "parent_id")
+        for parent in user_list_parents:
+            user_list_parents_dict.setdefault(str(parent["child_id"]), []).append(
+                parent
+            )
+
+        for hit in hits:
+            if hit["_id"] in user_list_parents_dict:
+                hit["_source"]["user_list_parents"] = (
+                    MicroUserListRelationshipSerializer(
+                        instance=user_list_parents_dict[hit["_id"]], many=True
+                    ).data
+                )
 
     def get_results(self, instance):
         hits = instance.get("hits", {}).get("hits", [])
-        self.update_list_parents(hits)
+        request = self.context.get("request")
+        if request and request.user and request.user.is_authenticated:
+            self.update_list_parents(hits, request.user)
+            if (
+                request.user.is_staff
+                or request.user.is_superuser
+                or request.user.groups.filter(name=GROUP_STAFF_LISTS_EDITORS).first()
+                is not None
+            ):
+                self.update_path_parents(hits)
         return (hit.get("_source") for hit in hits)
 
     def get_metadata(self, instance) -> SearchResponseMetadata:
