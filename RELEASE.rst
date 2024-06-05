@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 0.12.1 (Released June 05, 2024)
+--------------
+
+- Update profile fields to align to LR data (#1003)
+- Shanbady/additional details on offeror channel pages (#975)
+- Configure JS bundles to use a separate API domain for backend (#1002)
+- units page (#974)
+- Add "tertiary" button and align button terminology with Figma (#991)
+
 Version 0.12.0 (Released June 04, 2024)
 --------------
 
