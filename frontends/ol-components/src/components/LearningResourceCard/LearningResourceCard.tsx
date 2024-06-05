@@ -5,27 +5,21 @@ import { RiMenuAddLine, RiBookmarkLine, RiAwardFill } from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
 import { findBestRun, formatDate, getReadableResourceType } from "ol-utilities"
 import { Card } from "../Card/Card"
+import type { Size } from "../Card/Card"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
 
 const EllipsisTitle = styled(TruncateText)({
-  ...theme.typography.subtitle1,
   margin: 0,
 })
 
-const TitleButton = styled.button`
-  border: none;
-  background-color: white;
-  color: inherit;
+const TitleButton = styled.a`
   display: block;
   text-align: left;
-  padding: 0;
-  margin: 0;
 
   &:hover {
-    text-decoration: underline;
     cursor: pointer;
   }
 `
@@ -52,21 +46,20 @@ const Info = ({ resource }: { resource: LearningResource }) => {
 
 const Title = ({
   resource,
+  size,
   onActivate,
 }: {
   resource: LearningResource
+  size?: Size
   onActivate?: ResourceIdCallback
 }) => {
+  const lines = size === "small" ? 2 : 3
   return onActivate ? (
     <TitleButton onClick={() => onActivate(resource.id)}>
-      <EllipsisTitle as="h3" lineClamp={3}>
-        {resource.title}
-      </EllipsisTitle>
+      <EllipsisTitle lineClamp={lines}>{resource.title}</EllipsisTitle>
     </TitleButton>
   ) : (
-    <EllipsisTitle as="h3" lineClamp={3}>
-      {resource.title}
-    </EllipsisTitle>
+    <EllipsisTitle lineClamp={lines}>{resource.title}</EllipsisTitle>
   )
 }
 
@@ -87,7 +80,10 @@ const Certificate = styled.div`
   gap: 4px;
 `
 
-const Footer: React.FC<{ resource: LearningResource }> = ({ resource }) => {
+const Footer: React.FC<{ resource: LearningResource; size?: Size }> = ({
+  resource,
+  size,
+}) => {
   const isOcw =
     resource.resource_type === ResourceTypeEnum.Course &&
     resource.platform?.code === PlatformEnum.Ocw
@@ -100,11 +96,11 @@ const Footer: React.FC<{ resource: LearningResource }> = ({ resource }) => {
     if (isOcw && bestRun?.semester && bestRun?.year) {
       return (
         <>
-          As taught in: <span>{`${bestRun?.semester} ${bestRun?.year}`}</span>
+          {size === "medium" ? "As taught in:" : ""}{" "}
+          <span>{`${bestRun?.semester} ${bestRun?.year}`}</span>
         </>
       )
     }
-
     startDate = bestRun?.start_date
   }
 
@@ -112,7 +108,8 @@ const Footer: React.FC<{ resource: LearningResource }> = ({ resource }) => {
 
   return (
     <>
-      Starts: <span>{formatDate(startDate, "MMMM DD, YYYY")}</span>
+      {size === "medium" ? "Starts:" : ""}{" "}
+      <span>{formatDate(startDate, "MMMM DD, YYYY")}</span>
     </>
   )
 }
@@ -121,6 +118,7 @@ interface LearningResourceCardProps {
   isLoading?: boolean
   resource?: LearningResource | null
   className?: string
+  size?: Size
   onActivate?: ResourceIdCallback
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
@@ -130,6 +128,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   isLoading,
   resource,
   className,
+  size,
   onActivate,
   onAddToLearningPathClick,
   onAddToUserListClick,
@@ -137,7 +136,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   if (isLoading) {
     const { width, height } = imgConfigs["column"]
     return (
-      <Card className={className}>
+      <Card className={className} size={size}>
         <Card.Content>
           <SkeletonImage variant="rectangular" aspect={width / height} />
           <Skeleton height={25} width="65%" sx={{ margin: "23px 16px 0" }} />
@@ -151,13 +150,13 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return null
   }
   return (
-    <Card className={className}>
+    <Card className={className} size={size}>
       <Card.Image src={resource.image?.url} alt={resource.image!.alt!} />
       <Card.Info>
         <Info resource={resource} />
       </Card.Info>
       <Card.Title>
-        <Title resource={resource} onActivate={onActivate} />
+        <Title resource={resource} onActivate={onActivate} size={size} />
       </Card.Title>
       <Card.Actions>
         {onAddToLearningPathClick && (
@@ -186,7 +185,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
         )}
       </Card.Actions>
       <Card.Footer>
-        <Footer resource={resource} />
+        <Footer resource={resource} size={size} />
       </Card.Footer>
     </Card>
   )

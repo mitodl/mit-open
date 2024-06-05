@@ -7,6 +7,9 @@ import React, {
 } from "react"
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
+import { pxToRem } from "../ThemeProvider/typography"
+
+export type Size = "small" | "medium"
 
 const cardStyles = `
   border-radius: 8px;
@@ -18,8 +21,17 @@ const cardStyles = `
   overflow: hidden;
 `
 
-const Container = styled.div`
+const Container = styled.div<{ size: Size }>`
   ${cardStyles}
+  ${({ size }) => {
+    let width
+    if (size === "medium") width = 302
+    if (size === "small") width = 194
+    return `
+      min-width: ${width}px;
+      max-width: ${width}px;
+    `
+  }}
 `
 
 const LinkContainer = styled.a`
@@ -38,55 +50,54 @@ const LinkContainer = styled.a`
 
 const Content = () => <></>
 
-// const Container = styled(Card)<{ mobile: boolean }>`
-//   display: flex;
-//   flex-direction: column;
-//   flex-shrink: 0;
-//   overflow: hidden;
-//   ${({ mobile }) => (mobile ? "width: 274px" : "")}
-// `
-
-const Info = styled.div`
-  ${{ ...theme.typography.subtitle3 }}
-  color: ${theme.custom.colors.silverGrayDark};
-  display: flex;
-  justify-content: space-between;
-  margin: 16px 16px 8px;
+const Body = styled.div`
+  margin: 16px;
 `
 
-const Image = styled.img`
+const Image = styled.img<{ size?: Size }>`
   display: block;
   background-size: cover;
   background-repeat: no-repeat;
   -webkit-background-position: center;
   background-position: center;
   width: 100%;
-  height: 172px;
+  height: ${({ size }) => (size === "small" ? 120 : 170)}px;
   background-color: ${theme.custom.colors.lightGray1};
 `
 
-const Title = styled.div`
-  ${{ ...theme.typography.subtitle1 }}
-  text-overflow: ellipsis;
-  height: ${theme.typography.pxToRem(60)};
-  overflow: hidden;
-  margin: 8px 16px 16px;
+const Info = styled.div<{ size?: Size }>`
+  ${{ ...theme.typography.subtitle3 }}
+  color: ${theme.custom.colors.silverGrayDark};
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: ${({ size }) => (size === "small" ? 4 : 8)}px;
+`
 
-  @supports (-webkit-line-clamp: 3) {
+const Title = styled.h3<{ size?: Size }>`
+  text-overflow: ellipsis;
+  height: ${({ size }) => theme.typography.pxToRem(size === "small" ? 36 : 60)};
+  overflow: hidden;
+  margin: 0;
+
+  ${({ size }) =>
+    size === "small"
+      ? { ...theme.typography.subtitle2 }
+      : { ...theme.typography.subtitle1 }}
+  @supports (-webkit-line-clamp: ${({ size }) => (size === "small" ? 2 : 3)}) {
     white-space: initial;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: ${({ size }) => (size === "small" ? 2 : 3)};
     -webkit-box-orient: vertical;
   }
 `
 
 const Footer = styled.span`
+  display: block;
+  height: ${pxToRem(16)};
   ${{
     ...theme.typography.body3,
     color: theme.custom.colors.silverGrayDark,
   }}
-
-  display: block;
 
   span {
     color: ${theme.custom.colors.black};
@@ -98,6 +109,7 @@ const Bottom = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   margin: 0 16px 16px;
+  height: 32px;
 `
 
 const Actions = styled.div`
@@ -106,29 +118,23 @@ const Actions = styled.div`
 `
 
 type CardProps = {
-  // isLoading: boolean
   children: ReactNode[] | ReactNode
   className?: string
+  size?: Size
   link?: boolean
   href?: string
 }
 type Card = FC<CardProps> & {
   Content: FC<{ children: ReactNode }>
-  Image: FC<ImgHTMLAttributes<HTMLImageElement>>
+  Image: FC<ImgHTMLAttributes<HTMLImageElement> | { size?: Size }>
   Info: FC<{ children: ReactNode }>
-  Title: FC<{ children: ReactNode }>
+  Title: FC<{ children: ReactNode; size?: Size }>
   Footer: FC<{ children: ReactNode }>
   Actions: FC<{ children: ReactNode }>
 }
 
-const Card: Card = ({ link, href, children, className }) => {
+const Card: Card = ({ children, className, size = "medium", link, href }) => {
   const _Container = link ? LinkContainer : Container
-
-  // if (isLoading) {
-  //   return <Container className={className}>
-
-  //   </Container>
-  // }
 
   let content, imageProps, info, title, footer, actions
 
@@ -143,18 +149,27 @@ const Card: Card = ({ link, href, children, className }) => {
   })
 
   if (content) {
-    return <Container className={className}>{content}</Container>
+    return (
+      <Container className={className} size={size}>
+        {content}
+      </Container>
+    )
   }
 
   return (
-    <_Container className={className} href={href}>
+    <_Container className={className} href={href} size={size}>
       {imageProps && (
-        <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
+        <Image
+          size={size}
+          {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)}
+        />
       )}
-      {info && <Info>{info}</Info>}
-      {title && <Title>{title}</Title>}
+      <Body>
+        {info && <Info size={size}>{info}</Info>}
+        <Title size={size}>{title}</Title>
+      </Body>
       <Bottom>
-        {footer && <Footer>{footer}</Footer>}
+        <Footer>{footer}</Footer>
         {actions && <Actions>{actions}</Actions>}
       </Bottom>
     </_Container>

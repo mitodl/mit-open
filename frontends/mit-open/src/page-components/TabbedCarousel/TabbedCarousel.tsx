@@ -135,7 +135,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
           <Tab key={index} label={label} value={index.toString()} />
         ))}
       </TabList>
-      {config.map(({ data, pageSize }, index) => (
+      {config.map(({ data, pageSize, size }, index) => (
         <TabPanel key={index} value={index.toString()}>
           <DataPanel dataConfig={data}>
             {({ resources, isLoading }) => {
@@ -146,6 +146,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
                       <LearningResourceCardStyled
                         key={i}
                         isLoading
+                        size={size}
                         cardsPerPage={pageSize}
                       />
                     ))}
@@ -158,6 +159,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
                     <LearningResourceCardStyled
                       key={resource.id}
                       resource={resource}
+                      size={size}
                       cardsPerPage={pageSize}
                       onActivate={openLRDrawer}
                       onAddToLearningPathClick={showAddToLearningPathDialog}

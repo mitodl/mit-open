@@ -17,6 +17,7 @@ const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
   {
     label: "All",
     pageSize: 6,
+    size: "small",
     data: {
       type: "resources",
       params: { resource_type: ["video", "podcast"], limit: 12 },
@@ -25,6 +26,7 @@ const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
   {
     label: "Videos",
     pageSize: 6,
+    size: "small",
     data: {
       type: "resources",
       params: { resource_type: ["video"], limit: 12 },
@@ -33,6 +35,7 @@ const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
   {
     label: "Podcasts",
     pageSize: 6,
+    size: "small",
     data: {
       type: "resources",
       params: { resource_type: ["podcast"], limit: 12 },

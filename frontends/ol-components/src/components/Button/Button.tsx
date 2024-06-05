@@ -124,6 +124,9 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     color === "secondary" && {
       color: theme.custom.colors.silverGray,
       borderColor: theme.custom.colors.silverGray,
+      ":hover:not(:disabled)": {
+        backgroundColor: theme.custom.colors.lightGray1,
+      },
     },
   ]
 })
