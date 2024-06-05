@@ -1,11 +1,13 @@
 import React from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
-import { BannerPage, styled, Container, Typography } from "ol-components"
+import { BannerPage, styled, Container, Typography, Box } from "ol-components"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
+import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
 import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
+
 import { SourceTypeEnum } from "api"
 
 export const FieldTitleRow = styled.div`
@@ -24,11 +26,9 @@ export const FieldTitleRow = styled.div`
 
 export const FieldControls = styled.div`
   position: relative;
-  flex-grow: 0.95;
-  justify-content: flex-end;
   min-height: 38px;
   display: flex;
-  align-items: center;
+  margin-bottom: 1em;
 `
 
 interface FieldSkeletonProps {
@@ -49,44 +49,91 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
 }) => {
   const field = useChannelDetail(String(channelType), String(name))
   const urlParams = new URLSearchParams(field.data?.search_filter)
-
   return (
     <BannerPage
       src={field.data?.banner ?? ""}
       alt=""
       omitBackground={field.isLoading}
       bannerContent={
-        <Container>
+        <Container sx={{ my: 2 }}>
           <FieldTitleRow>
             {field.data && (
-              <>
-                <FieldAvatar field={field.data} imageSize="medium" />
-                <Typography variant="h3" component="h1">
-                  <Link
-                    to={routes.makeFieldViewPath(
-                      field.data.channel_type,
-                      field.data.name,
-                    )}
+              <Box
+                flexDirection="row"
+                alignItems="start"
+                sx={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  width: "100%",
+                  flexShrink: 0,
+                  flexGrow: 0,
+                }}
+              >
+                <Box
+                  display="flex"
+                  flexDirection="column"
+                  alignItems="center"
+                  sx={{ flexGrow: 24, flexShrink: 0, order: 1 }}
+                >
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    sx={{ flexGrow: 1, width: "100%", flexShrink: 0, order: 1 }}
                   >
-                    {field.data.title}
-                  </Link>
-                </Typography>
-
-                <FieldControls>
-                  {field.data?.search_filter ? (
-                    <SearchSubscriptionToggle
-                      sourceType={SourceTypeEnum.ChannelSubscriptionType}
-                      searchParams={urlParams}
-                    />
-                  ) : null}
-                  {field.data?.is_moderator ? (
-                    <FieldMenu
-                      channelType={String(channelType)}
-                      name={String(name)}
-                    />
-                  ) : null}
-                </FieldControls>
-              </>
+                    <FieldAvatar field={field.data} imageSize="medium" />
+                    <Typography variant="h3" component="h1">
+                      <Link
+                        to={routes.makeFieldViewPath(
+                          field.data.channel_type,
+                          field.data.name,
+                        )}
+                      >
+                        {field.data.title}
+                      </Link>
+                    </Typography>
+                  </Box>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="end"
+                    sx={{ flexGrow: 0, width: "100%", flexShrink: 1, order: 2 }}
+                  >
+                    <FieldControls>
+                      {field.data?.search_filter ? (
+                        <SearchSubscriptionToggle
+                          sourceType={SourceTypeEnum.ChannelSubscriptionType}
+                          searchParams={urlParams}
+                        />
+                      ) : null}
+                      {field.data?.is_moderator ? (
+                        <FieldMenu
+                          channelType={String(channelType)}
+                          name={String(name)}
+                        />
+                      ) : null}
+                    </FieldControls>
+                  </Box>
+                </Box>
+                {channelType === "offeror" ? (
+                  <Box
+                    flexDirection="row"
+                    alignItems="end"
+                    alignSelf="center"
+                    display="flex"
+                    sx={{
+                      order: 2,
+                      flexGrow: 1,
+                      flexShrink: 0,
+                      width: { md: "300px", xs: "100%" },
+                    }}
+                  >
+                    <ChannelDetails field={field.data} />
+                  </Box>
+                ) : (
+                  <Box></Box>
+                )}
+              </Box>
             )}
           </FieldTitleRow>
         </Container>

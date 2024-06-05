@@ -8,6 +8,7 @@ from django_filters import (
 )
 
 from channels.models import FieldChannel
+from learning_resources.models import LearningResourceOfferor
 from main.utils import now_in_utc
 
 
@@ -17,6 +18,10 @@ class AttestationFilter(FilterSet):
     channels = ModelMultipleChoiceFilter(
         label="The channels the attestation is for",
         queryset=FieldChannel.objects.all(),
+    )
+    offerors = ModelMultipleChoiceFilter(
+        label="The offerors the attestation is for",
+        queryset=LearningResourceOfferor.objects.all(),
     )
     published = BooleanFilter(
         label="Only return published testimonials", method="filter_published"

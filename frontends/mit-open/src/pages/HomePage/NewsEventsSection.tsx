@@ -187,11 +187,13 @@ const NewsEventsSection: React.FC = () => {
   const { data: news } = useNewsEventsList({
     feed_type: [NewsEventsListFeedTypeEnum.News],
     limit: 6,
+    sortby: "-created",
   })
 
   const { data: events } = useNewsEventsList({
     feed_type: [NewsEventsListFeedTypeEnum.Events],
     limit: 5,
+    sortby: "event_date",
   })
 
   const isAboveLg = useMuiBreakpointAtLeast("lg")

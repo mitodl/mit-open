@@ -23,6 +23,13 @@ class Attestation(TimestampedModel):
         "channels.FieldChannel",
         related_name="+",
         help_text="Channels that the testimonial belongs to",
+        blank=True,
+    )
+    offerors = models.ManyToManyField(
+        "learning_resources.LearningResourceOfferor",
+        related_name="+",
+        help_text="The offerors that this attestation can appear on",
+        blank=True,
     )
     publish_date = models.DateTimeField(
         null=True, blank=True, help_text="The datetime to show the testimonial"

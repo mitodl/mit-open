@@ -116,7 +116,13 @@ export interface Attestation {
    * @type {Array<number>}
    * @memberof Attestation
    */
-  channels: Array<number>
+  channels?: Array<number>
+  /**
+   * The offerors that this attestation can appear on
+   * @type {Array<string>}
+   * @memberof Attestation
+   */
+  offerors?: Array<string>
 }
 /**
  *
@@ -238,21 +244,6 @@ export const ChannelTypeEnum = {
 
 export type ChannelTypeEnum =
   (typeof ChannelTypeEnum)[keyof typeof ChannelTypeEnum]
-
-/**
- * * `online` - Online * `in-person` - In-Person * `hybrid` - Hybrid
- * @export
- * @enum {string}
- */
-
-export const CourseFormatEnum = {
-  Online: "online",
-  InPerson: "in-person",
-  Hybrid: "hybrid",
-} as const
-
-export type CourseFormatEnum =
-  (typeof CourseFormatEnum)[keyof typeof CourseFormatEnum]
 
 /**
  * * `no-formal` - No Formal Education * `primary` - Primary Education * `secondary-or-high-school` - Secondary Education or High School * `ged` - GED * `vocational-qualification` - Vocational Qualification
@@ -856,33 +847,19 @@ export const GoalsEnum = {
 export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
 
 /**
- * * `computer-science` - Computer Science * `business` - Business * `engineering` - Engineering * `leadership` - Leadership * `organized-behavior` - Organized Behavior * `management` - Management * `electrical-engineering` - Electrical Engineering * `information-technology` - Information Technology * `biology` - Biology * `earth-science` - Earth Science * `environmental-engineering` - Environmental Engineering * `health-and-medicine` - Health & Medicine * `probability-and-stats` - Probability & Stats * `economics` - Economics * `history` - History * `mathematics` - Mathematics * `mechanical-engineering` - Mechanical Engineering * `other` - Other
+ * * `online` - Online * `hybrid` - Hybrid * `in_person` - In person
  * @export
  * @enum {string}
  */
 
-export const InterestsEnum = {
-  ComputerScience: "computer-science",
-  Business: "business",
-  Engineering: "engineering",
-  Leadership: "leadership",
-  OrganizedBehavior: "organized-behavior",
-  Management: "management",
-  ElectricalEngineering: "electrical-engineering",
-  InformationTechnology: "information-technology",
-  Biology: "biology",
-  EarthScience: "earth-science",
-  EnvironmentalEngineering: "environmental-engineering",
-  HealthAndMedicine: "health-and-medicine",
-  ProbabilityAndStats: "probability-and-stats",
-  Economics: "economics",
-  History: "history",
-  Mathematics: "mathematics",
-  MechanicalEngineering: "mechanical-engineering",
-  Other: "other",
+export const LearningFormatEnum = {
+  Online: "online",
+  Hybrid: "hybrid",
+  InPerson: "in_person",
 } as const
 
-export type InterestsEnum = (typeof InterestsEnum)[keyof typeof InterestsEnum]
+export type LearningFormatEnum =
+  (typeof LearningFormatEnum)[keyof typeof LearningFormatEnum]
 
 /**
  * Serializer for a minimal preview of Learning Paths
@@ -981,6 +958,12 @@ export interface LearningResourceOfferorDetail {
    * @memberof LearningResourceOfferorDetail
    */
   more_information?: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  value_prop?: string
 }
 /**
  * Serializer for LearningResourceOfferor with all details
@@ -1048,6 +1031,43 @@ export interface LearningResourceOfferorDetailRequest {
    * @memberof LearningResourceOfferorDetailRequest
    */
   more_information?: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  value_prop?: string
+}
+/**
+ * Serializer for LearningResourceTopic model
+ * @export
+ * @interface LearningResourceTopic
+ */
+export interface LearningResourceTopic {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceTopic
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceTopic
+   */
+  name: string
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceTopic
+   */
+  parent?: number | null
+  /**
+   * Get the channel url for the topic if it exists
+   * @type {string}
+   * @memberof LearningResourceTopic
+   */
+  channel_url: string | null
 }
 /**
  * Serializer for News FeedItem
@@ -1561,10 +1581,10 @@ export interface PatchedProfileRequest {
   location?: any | null
   /**
    *
-   * @type {Array<InterestsEnum>}
+   * @type {Array<number>}
    * @memberof PatchedProfileRequest
    */
-  interests?: Array<InterestsEnum>
+  topic_interests?: Array<number>
   /**
    *
    * @type {Array<GoalsEnum>}
@@ -1591,10 +1611,10 @@ export interface PatchedProfileRequest {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestCourseFormat}
+   * @type {PatchedProfileRequestLearningFormat}
    * @memberof PatchedProfileRequest
    */
-  course_format?: PatchedProfileRequestCourseFormat
+  learning_format?: PatchedProfileRequestLearningFormat
 }
 /**
  * @type PatchedProfileRequestCertificateDesired
@@ -1605,18 +1625,18 @@ export type PatchedProfileRequestCertificateDesired =
   | CertificateDesiredEnum
 
 /**
- * @type PatchedProfileRequestCourseFormat
- * @export
- */
-export type PatchedProfileRequestCourseFormat = BlankEnum | CourseFormatEnum
-
-/**
  * @type PatchedProfileRequestCurrentEducation
  * @export
  */
 export type PatchedProfileRequestCurrentEducation =
   | BlankEnum
   | CurrentEducationEnum
+
+/**
+ * @type PatchedProfileRequestLearningFormat
+ * @export
+ */
+export type PatchedProfileRequestLearningFormat = BlankEnum | LearningFormatEnum
 
 /**
  * @type PatchedProfileRequestTimeCommitment
@@ -1889,10 +1909,10 @@ export interface Profile {
   placename: string
   /**
    *
-   * @type {Array<InterestsEnum>}
+   * @type {Array<LearningResourceTopic>}
    * @memberof Profile
    */
-  interests?: Array<InterestsEnum>
+  topic_interests?: Array<LearningResourceTopic>
   /**
    *
    * @type {Array<GoalsEnum>}
@@ -1919,10 +1939,10 @@ export interface Profile {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestCourseFormat}
+   * @type {PatchedProfileRequestLearningFormat}
    * @memberof Profile
    */
-  course_format?: PatchedProfileRequestCourseFormat
+  learning_format?: PatchedProfileRequestLearningFormat
 }
 /**
  * Serializer for Profile
@@ -1986,10 +2006,10 @@ export interface ProfileRequest {
   location?: any | null
   /**
    *
-   * @type {Array<InterestsEnum>}
+   * @type {Array<number>}
    * @memberof ProfileRequest
    */
-  interests?: Array<InterestsEnum>
+  topic_interests?: Array<number>
   /**
    *
    * @type {Array<GoalsEnum>}
@@ -2016,10 +2036,10 @@ export interface ProfileRequest {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestCourseFormat}
+   * @type {PatchedProfileRequestLearningFormat}
    * @memberof ProfileRequest
    */
-  course_format?: PatchedProfileRequestCourseFormat
+  learning_format?: PatchedProfileRequestLearningFormat
 }
 /**
  * Serializer for Program Certificates
@@ -4055,6 +4075,7 @@ export const NewsEventsApiAxiosParamCreator = function (
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4062,6 +4083,7 @@ export const NewsEventsApiAxiosParamCreator = function (
       feed_type?: Array<NewsEventsListFeedTypeEnum>,
       limit?: number,
       offset?: number,
+      sortby?: NewsEventsListSortbyEnum,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v0/news_events/`
@@ -4090,6 +4112,10 @@ export const NewsEventsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -4167,6 +4193,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4174,6 +4201,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
       feed_type?: Array<NewsEventsListFeedTypeEnum>,
       limit?: number,
       offset?: number,
+      sortby?: NewsEventsListSortbyEnum,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -4185,6 +4213,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
         feed_type,
         limit,
         offset,
+        sortby,
         options,
       )
       const index = configuration?.serverIndex ?? 0
@@ -4252,6 +4281,7 @@ export const NewsEventsApiFactory = function (
           requestParameters.feed_type,
           requestParameters.limit,
           requestParameters.offset,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -4299,6 +4329,13 @@ export interface NewsEventsApiNewsEventsListRequest {
    * @memberof NewsEventsApiNewsEventsList
    */
   readonly offset?: number
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+   * @type {'-created' | '-event_date' | '-id' | 'created' | 'event_date' | 'id'}
+   * @memberof NewsEventsApiNewsEventsList
+   */
+  readonly sortby?: NewsEventsListSortbyEnum
 }
 
 /**
@@ -4338,6 +4375,7 @@ export class NewsEventsApi extends BaseAPI {
         requestParameters.feed_type,
         requestParameters.limit,
         requestParameters.offset,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -4369,6 +4407,19 @@ export const NewsEventsListFeedTypeEnum = {
 } as const
 export type NewsEventsListFeedTypeEnum =
   (typeof NewsEventsListFeedTypeEnum)[keyof typeof NewsEventsListFeedTypeEnum]
+/**
+ * @export
+ */
+export const NewsEventsListSortbyEnum = {
+  Created: "-created",
+  EventDate: "-event_date",
+  Id: "-id",
+  Created2: "created",
+  EventDate2: "event_date",
+  Id2: "id",
+} as const
+export type NewsEventsListSortbyEnum =
+  (typeof NewsEventsListSortbyEnum)[keyof typeof NewsEventsListSortbyEnum]
 
 /**
  * NewsEventsSourcesApi - axios parameter creator
@@ -5359,6 +5410,7 @@ export const TestimonialsApiAxiosParamCreator = function (
      * @summary List
      * @param {Array<number>} [channels] The channels the attestation is for
      * @param {number} [limit] Number of results to return per page.
+     * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
      * @param {boolean} [published] Only return published testimonials
      * @param {*} [options] Override http request option.
@@ -5367,6 +5419,7 @@ export const TestimonialsApiAxiosParamCreator = function (
     testimonialsList: async (
       channels?: Array<number>,
       limit?: number,
+      offerors?: Array<string>,
       offset?: number,
       published?: boolean,
       options: RawAxiosRequestConfig = {},
@@ -5393,6 +5446,10 @@ export const TestimonialsApiAxiosParamCreator = function (
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (offerors) {
+        localVarQueryParameter["offerors"] = offerors
       }
 
       if (offset !== undefined) {
@@ -5479,6 +5536,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
      * @summary List
      * @param {Array<number>} [channels] The channels the attestation is for
      * @param {number} [limit] Number of results to return per page.
+     * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
      * @param {boolean} [published] Only return published testimonials
      * @param {*} [options] Override http request option.
@@ -5487,6 +5545,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
     async testimonialsList(
       channels?: Array<number>,
       limit?: number,
+      offerors?: Array<string>,
       offset?: number,
       published?: boolean,
       options?: RawAxiosRequestConfig,
@@ -5500,6 +5559,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.testimonialsList(
           channels,
           limit,
+          offerors,
           offset,
           published,
           options,
@@ -5570,6 +5630,7 @@ export const TestimonialsApiFactory = function (
         .testimonialsList(
           requestParameters.channels,
           requestParameters.limit,
+          requestParameters.offerors,
           requestParameters.offset,
           requestParameters.published,
           options,
@@ -5613,6 +5674,13 @@ export interface TestimonialsApiTestimonialsListRequest {
    * @memberof TestimonialsApiTestimonialsList
    */
   readonly limit?: number
+
+  /**
+   * The offerors the attestation is for
+   * @type {Array<string>}
+   * @memberof TestimonialsApiTestimonialsList
+   */
+  readonly offerors?: Array<string>
 
   /**
    * The initial index from which to return the results.
@@ -5666,6 +5734,7 @@ export class TestimonialsApi extends BaseAPI {
       .testimonialsList(
         requestParameters.channels,
         requestParameters.limit,
+        requestParameters.offerors,
         requestParameters.offset,
         requestParameters.published,
         options,

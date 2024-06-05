@@ -7,10 +7,12 @@ from profiles.models import Profile
 
 class ProfileForm(forms.ModelForm):
     name = forms.CharField(required=False)
-    interests = forms.MultipleChoiceField(
-        choices=Profile.Interest.choices, required=False
-    )
     goals = forms.MultipleChoiceField(choices=Profile.Goal.choices, required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields["topic_interests"].required = False
 
     class Meta:
         model = Profile
@@ -22,10 +24,10 @@ class ProfileForm(forms.ModelForm):
             "location",
             "email_optin",
             "toc_optin",
-            "interests",
+            "topic_interests",
             "goals",
             "certificate_desired",
             "current_education",
             "time_commitment",
-            "course_format",
+            "learning_format",
         ]

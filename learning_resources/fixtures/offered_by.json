@@ -14,6 +14,7 @@
         "Micromasters Credential"
       ],
       "content_types": ["Academic", "Professional"],
+      "value_prop": "For learners around the globe, MITx provides interactive online courses designed and taught by MIT faculty. Learn for free or pay to join the certificate track where successful learners can earn a  certificate. MicroMasters programs offer digital credentials from MIT which can fast-track advanced degrees at MIT or other schools.",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
@@ -31,6 +32,7 @@
       "certifications": ["No Certificates"],
       "content_types": ["Academic"],
       "more_information": "https://ocw.mit.edu",
+      "value_prop": "For millions of learners and educators around the world, OpenCourseware shares free open educational resources from across the entire MIT curriculum. With no sign-up needed, and materials always free for online access and downloading to take with you anywhere, you’re empowered for self-paced learning and adapting these materials in the ways that suit you best.",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
@@ -65,6 +67,7 @@
       "certifications": ["Executive Certificates", "Professional Certificates"],
       "content_types": ["Professional"],
       "more_information": "https://xpro.mit.edu/",
+      "value_prop": "For technical professionals looking to enhance their skills, MIT xPRO offers courses tailored to address the challenges of  dynamic working environments. Developed by renowned experts and utilizing cutting-edge research in learning neuroscience, MIT xPRO programs prioritize real-world application. Professionals can build and apply skills directly on the job, fostering technical expertise and leadership acumen.",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
@@ -86,6 +89,7 @@
       "certifications": ["(tbd)"],
       "content_types": ["Academic"],
       "more_information": "https://professional.mit.edu/",
+      "value_prop": "Whether online, on campus, or at your company site, MIT Professional Education offers several programs to fit your career goals and organization needs. With over 50 courses across more than 12 topic categories, and some now offered in Spanish, our programs are geared towards engineering and technology professionals across the globe.",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }
@@ -113,6 +117,7 @@
       "certifications": ["Executive Certificates", "Professional Certificates"],
       "content_types": ["Professional"],
       "more_information": "https://executive.mit.edu",
+      "value_prop": "MIT Sloan Executive Education helps leaders at every level rethink the way they do business, advance their careers, and drive organizational success. At the intersection of management and technology, MIT Sloan provides firsthand learning, proven frameworks with immediate applicability, and unique opportunities for networking and collaboration.",
       "created_on": "2023-08-08T14:27:25.128989+00:00",
       "updated_on": "2023-08-08T14:27:25.128989+00:00"
     }

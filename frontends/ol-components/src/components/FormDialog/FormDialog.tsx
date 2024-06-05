@@ -162,11 +162,11 @@ const FormDialog: React.FC<FormDialogProps> = ({
       </div>
       <DialogContent dividers={true}>{children}</DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={onClose} {...cancelButtonProps}>
+        <Button variant="secondary" onClick={onClose} {...cancelButtonProps}>
           {cancelButtonContent}
         </Button>
         <Button
-          variant="filled"
+          variant="primary"
           type="submit"
           disabled={isSubmitting}
           {...submitButtonProps}

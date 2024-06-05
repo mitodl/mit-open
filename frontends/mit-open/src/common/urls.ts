@@ -36,8 +36,8 @@ export const makeFieldEditPath = (channelType: string, name: string) =>
 export const makeFieldManageWidgetsPath = (channelType: string, name: string) =>
   generatePath(FIELD_EDIT_WIDGETS, { channelType, name })
 
-export const LOGIN = "/login/ol-oidc/"
-export const LOGOUT = "/logout/"
+export const LOGIN = `${APP_SETTINGS.axios_base_path}/login/ol-oidc/`
+export const LOGOUT = `${APP_SETTINGS.axios_base_path}/logout/`
 
 /**
  * Returns the URL to the login page, with a `next` parameter to redirect back
@@ -73,6 +73,8 @@ export const ACCESSIBILITY = "https://accessibility.mit.edu/"
 export const PRIVACY = "/privacy/"
 
 export const TERMS = "/terms/"
+
+export const UNITS = "/units/"
 
 export const CONTACT = "mailto:odl-discussions-support@mit.edu"
 

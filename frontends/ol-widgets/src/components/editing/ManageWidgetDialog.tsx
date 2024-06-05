@@ -205,10 +205,10 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
                 })}
               </DialogContent>
               <DialogActions>
-                <Button variant="outlined" onClick={onCancel}>
+                <Button variant="secondary" onClick={onCancel}>
                   Cancel
                 </Button>
-                <Button type="submit" variant="filled">
+                <Button type="submit" variant="primary">
                   Submit
                 </Button>
               </DialogActions>
@@ -293,10 +293,10 @@ const DialogContentAdding: React.FC<WidgetAddingProps> = ({
               </Field>
             </DialogContent>
             <DialogActions>
-              <Button variant="outlined" onClick={onCancel}>
+              <Button variant="secondary" onClick={onCancel}>
                 Cancel
               </Button>
-              <Button type="submit" variant="filled">
+              <Button type="submit" variant="primary">
                 Next
               </Button>
             </DialogActions>

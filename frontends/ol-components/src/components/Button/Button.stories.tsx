@@ -49,11 +49,14 @@ export const VariantStory: Story = {
   },
   render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button {...args} variant="filled">
-        Filled
+      <Button {...args} variant="primary">
+        Primary
       </Button>
-      <Button {...args} variant="outlined">
-        Outlined
+      <Button {...args} variant="secondary">
+        Secondary
+      </Button>
+      <Button {...args} variant="tertiary">
+        Tertiary
       </Button>
       <Button {...args} variant="text">
         Text
@@ -87,36 +90,17 @@ export const DisabledStory: Story = {
   },
   render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button {...args} disabled variant="filled">
-        Filled
+      <Button {...args} disabled variant="primary">
+        Primary
       </Button>
-      <Button {...args} disabled variant="outlined">
-        Outlined
+      <Button {...args} disabled variant="secondary">
+        Secondary
+      </Button>
+      <Button {...args} variant="tertiary">
+        Tertiary
       </Button>
       <Button {...args} disabled variant="text">
         Text
-      </Button>
-    </Stack>
-  ),
-}
-
-export const ColorStory: Story = {
-  argTypes: {
-    color: { table: { disable: true } },
-  },
-  render: (args) => (
-    <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button {...args} color="primary">
-        Primary
-      </Button>
-      <Button {...args} color="primary" variant="outlined">
-        Primary
-      </Button>
-      <Button {...args} color="secondary">
-        Secondary
-      </Button>
-      <Button {...args} color="secondary" variant="outlined">
-        Secondary
       </Button>
     </Stack>
   ),
@@ -128,17 +112,17 @@ export const EdgeStory: Story = {
   },
   render: (args) => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button {...args} edge="sharp">
-        Sharp
+      <Button {...args} edge="circular">
+        rounded
       </Button>
-      <Button {...args} edge="rounded">
-        Rounded
+      <Button {...args} edge="circular">
+        circular
       </Button>
-      <Button {...args} variant="outlined" edge="sharp">
-        Sharp
+      <Button {...args} variant="secondary" edge="circular">
+        rounded
       </Button>
-      <Button {...args} variant="outlined" edge="rounded">
-        Rounded
+      <Button {...args} variant="secondary" edge="circular">
+        circular
       </Button>
     </Stack>
   ),
@@ -172,10 +156,10 @@ export const IconOnlyStory: Story = {
       <ActionButton {...args}>
         <RiArrowRightLine />
       </ActionButton>
-      <ActionButton {...args} variant="outlined">
+      <ActionButton {...args} variant="secondary">
         <RiDeleteBinLine />
       </ActionButton>
-      <ActionButton {...args} variant="outlined" edge="rounded">
+      <ActionButton {...args} variant="secondary" edge="circular">
         <RiEditLine />
       </ActionButton>
     </Stack>
@@ -183,8 +167,8 @@ export const IconOnlyStory: Story = {
 }
 
 const SIZES = ["small", "medium", "large"] as const
-const EDGES = ["sharp", "rounded"] as const
-const VARIANTS = ["filled", "outlined", "text"] as const
+const EDGES = ["rounded", "circular"] as const
+const VARIANTS = ["primary", "secondary", "tertiary", "text"] as const
 const EXTRA_PROPS = [
   {},
   { startIcon: <RiArrowLeftLine /> },
@@ -195,10 +179,10 @@ export const LinkStory: Story = {
   decorators: [withRouter],
   render: () => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <ButtonLink href="" variant="filled">
+      <ButtonLink href="" variant="primary">
         Link
       </ButtonLink>
-      <ButtonLink href="" variant="outlined">
+      <ButtonLink href="" variant="secondary">
         Link
       </ButtonLink>
       <ButtonLink href="" variant="text">
@@ -239,7 +223,6 @@ export const ButtonsShowcase: Story = {
   ),
 }
 
-const COLORS = ["primary", "secondary"] as const
 const ICONS = [
   {
     component: <RiArrowLeftLine />,
@@ -262,33 +245,30 @@ export const ActionButtonsShowcase: Story = {
   render: () => (
     <>
       {VARIANTS.flatMap((variant) =>
-        EDGES.flatMap((edge) =>
-          COLORS.flatMap((color) => (
-            <Stack
-              direction="row"
-              gap={2}
-              key={`${variant}-${edge}-${color}`}
-              alignItems="center"
-              sx={{ my: 2 }}
-            >
-              {SIZES.map((size) => (
-                <React.Fragment key={size}>
-                  {ICONS.map((icon) => (
-                    <ActionButton
-                      key={icon.key}
-                      variant={variant}
-                      edge={edge}
-                      size={size}
-                      color={color}
-                    >
-                      {icon.component}
-                    </ActionButton>
-                  ))}
-                </React.Fragment>
-              ))}
-            </Stack>
-          )),
-        ),
+        EDGES.flatMap((edge) => (
+          <Stack
+            direction="row"
+            gap={2}
+            key={`${variant}-${edge}`}
+            alignItems="center"
+            sx={{ my: 2 }}
+          >
+            {SIZES.map((size) => (
+              <React.Fragment key={size}>
+                {ICONS.map((icon) => (
+                  <ActionButton
+                    key={icon.key}
+                    variant={variant}
+                    edge={edge}
+                    size={size}
+                  >
+                    {icon.component}
+                  </ActionButton>
+                ))}
+              </React.Fragment>
+            ))}
+          </Stack>
+        )),
       )}
     </>
   ),

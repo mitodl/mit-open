@@ -18,6 +18,7 @@ import {
   TOPICS,
   RESOURCE_DRAWER_QUERY_PARAM,
   SEARCH,
+  UNITS,
   querifiedSearchUrl,
 } from "@/common/urls"
 import { useSearchParams } from "react-router-dom"
@@ -99,7 +100,7 @@ const StyledSearchIcon = styled(RiSearch2Line)(({ theme }) => ({
 const SearchButton: FunctionComponent = () => {
   return (
     <ActionButtonLink
-      edge="rounded"
+      edge="circular"
       variant="text"
       nativeAnchor={true}
       href={SEARCH}
@@ -191,6 +192,7 @@ const navData: NavData = {
         {
           title: "By Provider",
           icon: "/static/images/navdrawer/provider.svg",
+          href: UNITS,
         },
       ],
     },
