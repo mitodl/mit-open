@@ -7,6 +7,7 @@ import {
   Card,
   CardContent,
   Container,
+  Link,
   Skeleton,
   Typography,
   styled,
@@ -19,6 +20,7 @@ import {
   OfferedByEnum,
 } from "api"
 import { MetaTags } from "ol-utilities"
+import { useChannelDetail } from "api/hooks/fields"
 
 const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
@@ -145,10 +147,20 @@ const GridContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const UnitCard = styled(Card)({
+const UnitCardContainer = styled(Card)({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+})
+
+const UnitCardLink = styled(Link)({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  flexGrow: 1,
+  "&:hover": {
+    textDecoration: "none",
+  },
 })
 
 const UnitCardContent = styled(CardContent)({
@@ -276,33 +288,60 @@ const UnitCards: React.FC<UnitCardsProps> = (props) => {
           unitLogos[unit.code as OfferedByEnum] ||
           `/static/images/unit_logos/${unit.code}.svg`
         return unit.value_prop ? (
-          <UnitCard>
-            <UnitCardContent>
-              <LogoContainer>
-                <UnitLogo src={logo} alt={unit.name} />
-              </LogoContainer>
-              <ValuePropContainer>
-                <ValuePropText>{unit.value_prop}</ValuePropText>
-              </ValuePropContainer>
-              <CountsTextContainer>
-                <CountsText data-testid={`course-count-${unit.code}`}>
-                  {courseCount > 0 ? `Courses: ${courseCount}` : ""}
-                </CountsText>
-                <CountsText data-testid={`program-count-${unit.code}`}>
-                  {programCount > 0 ? `Programs: ${programCount}` : ""}
-                </CountsText>
-              </CountsTextContainer>
-            </UnitCardContent>
-          </UnitCard>
+          <UnitCard
+            key={unit.code}
+            unit={unit}
+            logo={logo}
+            courseCount={courseCount}
+            programCount={programCount}
+          />
         ) : null
       })}
     </>
   )
 }
 
+interface UnitCardProps {
+  unit: LearningResourceOfferorDetail
+  logo: string
+  courseCount: number
+  programCount: number
+}
+
+const UnitCard: React.FC<UnitCardProps> = (props) => {
+  const { unit, logo, courseCount, programCount } = props
+  const channelDetailQuery = useChannelDetail("offeror", unit.code)
+  const channelDetail = channelDetailQuery.data
+  const unitUrl = channelDetail?.channel_url
+  return channelDetailQuery.isLoading ? (
+    <UnitCardLoading />
+  ) : (
+    <UnitCardContainer>
+      <UnitCardLink href={unitUrl}>
+        <UnitCardContent>
+          <LogoContainer>
+            <UnitLogo src={logo} alt={unit.name} />
+          </LogoContainer>
+          <ValuePropContainer>
+            <ValuePropText>{unit.value_prop}</ValuePropText>
+          </ValuePropContainer>
+          <CountsTextContainer>
+            <CountsText data-testid={`course-count-${unit.code}`}>
+              {courseCount > 0 ? `Courses: ${courseCount}` : ""}
+            </CountsText>
+            <CountsText data-testid={`program-count-${unit.code}`}>
+              {programCount > 0 ? `Programs: ${programCount}` : ""}
+            </CountsText>
+          </CountsTextContainer>
+        </UnitCardContent>
+      </UnitCardLink>
+    </UnitCardContainer>
+  )
+}
+
 const UnitCardLoading = () => {
   return (
-    <UnitCard>
+    <UnitCardContainer>
       <UnitCardContent>
         <LogoContainer>
           <Skeleton variant="rectangular" width={500} height={50} />
@@ -311,7 +350,7 @@ const UnitCardLoading = () => {
           <Skeleton variant="text" width={500} height={200} />
         </ValuePropContainer>
       </UnitCardContent>
-    </UnitCard>
+    </UnitCardContainer>
   )
 }
 

@@ -106,6 +106,12 @@ describe("DepartmentListingPage", () => {
       makeSearchResponse(programCounts),
     )
 
+    units.forEach((unit) => {
+      setMockResponse.get(urls.fields.details("offeror", unit.code), {
+        channel_url: `/units/${unit.code}`,
+      })
+    })
+
     return {
       units,
       courseCounts,
@@ -132,10 +138,14 @@ describe("DepartmentListingPage", () => {
         const section = unit.professional
           ? professionalSection
           : academicSection
+        const channelLink = await within(section).findByRole("link", {
+          name: unit.name,
+        })
         const logoImage = await within(section).findByAltText(unit.name)
         const valuePropText = await within(section).findByText(
           unit.value_prop ? unit.value_prop : "",
         )
+        expect(channelLink).toHaveAttribute("href", `/units/${unit.code}`)
         expect(logoImage).toHaveAttribute(
           "src",
           `/static/images/units/${unit.code}.svg`,
