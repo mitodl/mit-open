@@ -34,8 +34,7 @@ interface FieldSkeletonProps {
   channelType: string
   name: string
 }
-
-const NAV_PATH = {
+const NAV_PATH: { [key: string]: string } = {
   topic: "Topics",
   department: "Departments",
   offeror: "MIT Units",
@@ -108,6 +107,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         imageVariant="inverted"
                         formImageUrl={displayConfiguration?.logo}
                         imageSize="medium"
+                        field={field.data}
                       />
                     ) : (
                       <Typography variant="h3">

@@ -52,7 +52,9 @@ const FONT_STYLES = {
   large: "h2",
 } as const
 
-type AvatarStyleProps = Required<Pick<AvatarProps, "imageSize", "imageVariant">>
+type AvatarStyleProps = Required<
+  Pick<AvatarProps, "imageSize" | "imageVariant">
+>
 const AvatarContainer = styled.div<AvatarStyleProps>`
   display: flex;
   flex-direction: row;
@@ -90,9 +92,9 @@ const FieldAvatar: React.FC<AvatarProps> = (props) => {
   const imageUrl = formImageUrl || getImage(field, imageSize)
 
   return (
-    <AvatarContainer imageSize={imageSize}>
+    <AvatarContainer imageSize={imageSize} imageVariant={imageVariant}>
       {!imageUrl ? (
-        <AvatarInitials imageSize={imageSize}>
+        <AvatarInitials imageSize={imageSize} imageVariant={imageVariant}>
           {initials(field.title)}
         </AvatarInitials>
       ) : (
