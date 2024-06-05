@@ -4,6 +4,10 @@ import type {
   FeaturedApiFeaturedListRequest as FeaturedListParams,
 } from "api"
 
+type CardProps = {
+  size?: "small" | "medium"
+}
+
 interface ResourceDataSource {
   type: "resources"
   params: LRListRequest
@@ -19,11 +23,12 @@ interface FeaturedDataSource {
   params: FeaturedListParams
 }
 
-type TabConfig = {
+type DataSource = ResourceDataSource | SearchDataSource | FeaturedDataSource
+
+type TabConfig<D extends DataSource = DataSource> = {
   label: React.ReactNode
-  pageSize: number
-  size?: "small" | "medium"
-  data: ResourceDataSource | SearchDataSource | FeaturedDataSource
+  cardProps?: CardProps
+  data: D
 }
 
 export type {
@@ -31,4 +36,5 @@ export type {
   ResourceDataSource,
   SearchDataSource,
   FeaturedDataSource,
+  DataSource,
 }

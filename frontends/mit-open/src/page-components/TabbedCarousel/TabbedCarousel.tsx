@@ -6,15 +6,16 @@ import {
   useLearningResourcesSearch,
 } from "api/hooks/learningResources"
 import {
-  Tab,
+  TabButton,
   TabPanel,
   TabContext,
-  TabList,
-  Carousel,
+  TabButtonList,
   styled,
   LearningResourceCard,
   Typography,
 } from "ol-components"
+import type { Theme } from "ol-components"
+import { Carousel } from "./Carousel"
 import type {
   TabConfig,
   ResourceDataSource,
@@ -32,13 +33,6 @@ import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/Learnin
 type CardStyleProps = {
   cardsPerPage: number
 }
-const LearningResourceCardStyled = styled(LearningResourceCard)<CardStyleProps>`
-  ${({ cardsPerPage }) => `
-    min-width: calc(${100 / cardsPerPage}% - ${((cardsPerPage - 1) / cardsPerPage) * 24}px);
-    max-width: calc(${100 / cardsPerPage}% - ${((cardsPerPage - 1) / cardsPerPage) * 24}px);
-  `}
-  margin: 6px 24px 6px 0;
-`
 
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   dataConfig: T
@@ -104,17 +98,86 @@ type TabbedCarouselProps = {
   title: string
 }
 
-const HeaderRow = styled.div({
+const HeaderRow = styled.div(({ theme }) => ({
   display: "flex",
-  justifyContent: "space-between",
+  flexWrap: "wrap",
   alignItems: "center",
+  gap: "16px",
   marginBottom: "16px",
+  [theme.breakpoints.down("sm")]: {
+    alignItems: "flex-start",
+    flexDirection: "column",
+  },
+}))
+const ControlsContainer = styled.div({
+  display: "flex",
+  flex: 1,
+  minWidth: "0px",
+  maxWidth: "100%",
+  justifyContent: "space-between",
 })
+
+const StyledTabPanel = styled(TabPanel)({
+  paddingTop: "0px",
+  paddingLeft: "0px",
+  paddingRight: "0px",
+})
+
 const ButtonsContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  gap: "8px",
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
 }))
+
+const TabsList = styled(TabButtonList)({
+  ".MuiTabScrollButton-root.Mui-disabled": {
+    display: "none",
+  },
+})
+
+type ContentProps = {
+  resources: LearningResource[]
+  isLoading?: boolean
+  tabConfig: TabConfig
+}
+
+type CarouselContentProps = {
+  config: TabConfig[]
+  children: (props: ContentProps) => React.ReactNode
+}
+const CarouselContent: React.FC<CarouselContentProps> = ({
+  config,
+  children,
+}) => {
+  if (config.length === 1) {
+    return (
+      <DataPanel dataConfig={config[0].data}>
+        {({ resources, isLoading }) =>
+          children({ resources, isLoading, tabConfig: config[0] })
+        }
+      </DataPanel>
+    )
+  }
+  return (
+    <>
+      {config.map((tabConfig, index) => (
+        <StyledTabPanel key={index} value={index.toString()}>
+          <DataPanel dataConfig={tabConfig.data}>
+            {({ resources, isLoading }) =>
+              children({
+                resources,
+                isLoading,
+                tabConfig,
+              })
+            }
+          </DataPanel>
+        </StyledTabPanel>
+      ))}
+    </>
+  )
+}
 
 /**
  * A tabbed carousel that fetches resources based on the configuration provided.
@@ -124,7 +187,7 @@ const ButtonsContainer = styled.div(({ theme }) => ({
  *
  * For now, this is a carousel of learning resource cards, to be moved out if/when it is needed for other items.
  */
-const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
+const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
   const { data: user } = useUserMe()
   const [tab, setTab] = React.useState("0")
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
@@ -148,58 +211,42 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
     <section>
       <TabContext value={tab}>
         <HeaderRow>
-          <Typography sx={{ flexShrink: 2 }} variant="h3">
-            {title}
-          </Typography>
-          <ButtonsContainer ref={setRef}></ButtonsContainer>
+          <Typography variant="h3">{title}</Typography>
+          <ControlsContainer>
+            {config.length === 1 ? null : (
+              <TabsList onChange={(e, newValue) => setTab(newValue)}>
+                {config.map(({ label }, index) => (
+                  <TabButton
+                    key={index}
+                    label={label}
+                    value={index.toString()}
+                  />
+                ))}
+              </TabsList>
+            )}
+            <ButtonsContainer ref={setRef} />
+          </ControlsContainer>
         </HeaderRow>
-        <TabList
-          variant="scrollable"
-          scrollButtons="auto"
-          allowScrollButtonsMobile
-          onChange={(e, newValue) => setTab(newValue)}
-        >
-          {config.map(({ label }, index) => (
-            <Tab key={index} label={label} value={index.toString()} />
-          ))}
-        </TabList>
-        {config.map(({ data, pageSize, size }, index) => (
-          <TabPanel key={index} value={index.toString()}>
-            <DataPanel dataConfig={data}>
-              {({ resources, isLoading }) => {
-                if (isLoading) {
-                  return (
-                    <Carousel arrowsContainer={ref} pageSize={pageSize}>
-                      {Array.from({ length: pageSize }, (_, i) => (
-                        <LearningResourceCardStyled
-                          key={i}
-                          isLoading
-                          size={size}
-                          cardsPerPage={pageSize}
-                        />
-                      ))}
-                    </Carousel>
-                  )
-                }
-                return (
-                  <Carousel pageSize={pageSize}>
-                    {resources.map((resource) => (
-                      <LearningResourceCardStyled
-                        key={resource.id}
-                        resource={resource}
-                        size={size}
-                        cardsPerPage={pageSize}
-                        onActivate={openLRDrawer}
-                        onAddToLearningPathClick={showAddToLearningPathDialog}
-                        onAddToUserListClick={showAddToUserListDialog}
-                      />
-                    ))}
-                  </Carousel>
-                )
-              }}
-            </DataPanel>
-          </TabPanel>
-        ))}
+        <CarouselContent config={config}>
+          {({ resources, isLoading, tabConfig }) => (
+            <Carousel arrowsContainer={ref}>
+              {isLoading
+                ? Array.from({ length: 6 }).map((_, index) => (
+                    <LearningResourceCard key={index} resource={null} />
+                  ))
+                : resources.map((resource) => (
+                    <LearningResourceCard
+                      key={resource.id}
+                      resource={resource}
+                      {...tabConfig.cardProps}
+                      onAddToLearningPathClick={showAddToLearningPathDialog}
+                      onAddToUserListClick={showAddToUserListDialog}
+                      onActivate={() => openLRDrawer(resource.id)}
+                    />
+                  ))}
+            </Carousel>
+          )}
+        </CarouselContent>
       </TabContext>
     </section>
   )
@@ -207,3 +254,4 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
 
 export default TabbedCarousel
 export type { TabbedCarouselProps }
+export type { TabConfig }

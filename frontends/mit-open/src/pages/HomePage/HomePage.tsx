@@ -19,7 +19,9 @@ const HomePage: React.FC = () => {
           <FeaturedResourcesSection />
         </Container>
       </FullWidthBackground>
-      <MediaSection />
+      <Container sx={{ marginTop: "24px" }}>
+        <MediaSection />
+      </Container>
       <BrowseTopicsSection />
       <NewsEventsSection />
     </>

@@ -1,47 +1,43 @@
 import React from "react"
 import TabbedCarousel from "@/page-components/TabbedCarousel/TabbedCarousel"
-import type { TabbedCarouselProps } from "@/page-components/TabbedCarousel/TabbedCarousel"
+import type { TabConfig } from "@/page-components/TabbedCarousel/TabbedCarousel"
 import type { FeaturedApiFeaturedListRequest as FeaturedListParams } from "api"
 
-const COMMON_PARAMS: FeaturedListParams = {
+const COMMON_DATA_PARAMS: FeaturedListParams = {
   resource_type: ["course"],
   limit: 12,
 }
-const FEATURED_RESOURCES_CAROUSEL: TabbedCarouselProps["config"] = [
+const FEATURED_RESOURCES_CAROUSEL: TabConfig[] = [
   {
     label: "All",
-    pageSize: 4,
-    size: "medium",
+    cardProps: { size: "medium" },
     data: {
       type: "lr_featured",
-      params: { ...COMMON_PARAMS },
+      params: { ...COMMON_DATA_PARAMS },
     },
   },
   {
     label: "Free",
-    pageSize: 4,
-    size: "medium",
+    cardProps: { size: "medium" },
     data: {
       type: "lr_featured",
-      params: { ...COMMON_PARAMS, free: true },
+      params: { ...COMMON_DATA_PARAMS, free: true },
     },
   },
   {
     label: "Certificate",
-    pageSize: 4,
-    size: "medium",
+    cardProps: { size: "medium" },
     data: {
       type: "lr_featured",
-      params: { ...COMMON_PARAMS, certification: true },
+      params: { ...COMMON_DATA_PARAMS, certification: true },
     },
   },
   {
-    label: "Professional",
-    pageSize: 4,
-    size: "medium",
+    label: "Professional and Executive Education",
+    cardProps: { size: "medium" },
     data: {
       type: "lr_featured",
-      params: { ...COMMON_PARAMS, professional: true },
+      params: { ...COMMON_DATA_PARAMS, professional: true },
     },
   },
 ]
