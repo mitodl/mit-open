@@ -4055,11 +4055,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:^3.1.0":
-  version: 3.1.0
-  resolution: "@mitodl/course-search-utils@npm:3.1.0"
+"@mitodl/course-search-utils@npm:^3.1.1":
+  version: 3.1.1
+  resolution: "@mitodl/course-search-utils@npm:3.1.1"
   dependencies:
-    "@mitodl/open-api-axios": "npm:^2024.5.6"
+    "@mitodl/open-api-axios": "npm:^2024.6.4"
     axios: "npm:^1.6.7"
     fuse.js: "npm:^7.0.0"
     query-string: "npm:^6.13.1"
@@ -4076,17 +4076,17 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 10/98c745b0bc2da1177fcf7acb414a63c162d9b4512e11e97aa4d3276e30a9b95d2d89bbf121135773ad08af0fc56a3c574530168a41e311d238fd2ee2ef850517
+  checksum: 10/2909f335ae042fbdb86009646d22fa9b788b9116b783ac3cbe9fc5ae757f04f8badb3eea9cacf56e829dfcfd9ff69a0a990f3407211fa7ebd8904819b558b4f6
   languageName: node
   linkType: hard
 
-"@mitodl/open-api-axios@npm:^2024.5.6":
-  version: 2024.5.24
-  resolution: "@mitodl/open-api-axios@npm:2024.5.24"
+"@mitodl/open-api-axios@npm:^2024.6.4":
+  version: 2024.6.5
+  resolution: "@mitodl/open-api-axios@npm:2024.6.5"
   dependencies:
     "@types/node": "npm:^20.11.19"
     axios: "npm:^1.6.5"
-  checksum: 10/b6db36425e1ed0ef3cfa980499d8695a2d00c91c462c82003998d207a392f989edcd16c58cbce64e004540abe50ce893d8ff2b04063ef87e59943391fb9347a9
+  checksum: 10/fdb0fe1970fb16b32193c5f896130e2ccf2418b0f4a21704cee051ff9d18497263383890d979581479d5b3e45bd2a05e2132d791c9f6c00d4d6bd36add2b240a
   languageName: node
   linkType: hard
 
@@ -18272,7 +18272,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^8.0.0"
-    "@mitodl/course-search-utils": "npm:^3.1.0"
+    "@mitodl/course-search-utils": "npm:^3.1.1"
     "@mui/icons-material": "npm:^5.15.15"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@remixicon/react": "npm:^4.2.0"

@@ -168,15 +168,15 @@ describe("FieldSearch", () => {
   test.each([
     {
       fieldType: ChannelTypeEnum.Topic,
-      displayedFacets: ["Resource Type", "Offered By", "Department", "Format"],
+      displayedFacets: ["Certificates", "Offered By", "Department", "Format"],
     },
     {
       fieldType: ChannelTypeEnum.Department,
-      displayedFacets: ["Resource Type", "Offered By", "Topic", "Format"],
+      displayedFacets: ["Certificates", "Offered By", "Topics", "Format"],
     },
     {
       fieldType: ChannelTypeEnum.Offeror,
-      displayedFacets: ["Resource Type", "Topic", "Platform", "Format"],
+      displayedFacets: ["Certificates", "Department", "Topics", "Format"],
     },
     {
       fieldType: ChannelTypeEnum.Pathway,
@@ -202,6 +202,7 @@ describe("FieldSearch", () => {
               offered_by: [{ key: "ocw", doc_count: 100 }],
               certification: [{ key: "true", doc_count: 100 }],
               learning_format: [{ key: "online", doc_count: 100 }],
+              certification_type: [{ key: "micromasters", doc_count: 100 }],
             },
             suggestions: [],
           },
@@ -217,10 +218,10 @@ describe("FieldSearch", () => {
       })
 
       for (const facetName of [
+        "Certificates",
         "Department",
         "Offered By",
-        "Platforn",
-        "Topic",
+        "Topics",
         "Format",
       ]) {
         if ((displayedFacets as string[]).includes(facetName as string)) {
