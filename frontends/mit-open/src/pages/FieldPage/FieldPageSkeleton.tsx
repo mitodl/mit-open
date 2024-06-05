@@ -76,7 +76,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
             Home / {NAV_PATH[channelType]} /{" "}
             <span className="current">{field.data?.title}</span>
           </NavText>
-          <FieldTitleRow>
+          <FieldTitleRow data-testid="banner">
             {field.data && (
               <Box
                 flexDirection="row"
@@ -110,7 +110,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         field={field.data}
                       />
                     ) : (
-                      <Typography variant="h3">
+                      <Typography variant="h3" data-testid="header">
                         <Link
                           to={routes.makeFieldViewPath(
                             field.data.channel_type,

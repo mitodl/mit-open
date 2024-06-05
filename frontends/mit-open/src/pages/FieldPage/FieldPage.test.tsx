@@ -97,20 +97,13 @@ describe("FieldPage", () => {
     const { field } = setupApis()
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
 
-    const title = await screen.findByText(field.title)
-    const header = title.closest("header")
+    const title = await screen.findAllByText(field.title)
+    const header = title[0].closest("header")
     assertInstanceOf(header, HTMLElement)
     const images = within(header).getAllByRole("img") as HTMLImageElement[]
 
-    expect(images[0].src).toBe(field.banner)
-    expect(images).toEqual([
-      /**
-       * Unless it is meaningful, the alt text should be an empty string, and
-       * the channel header already has a title.
-       */
-      expect.objectContaining({ src: field.banner, alt: "" }),
-      expect.objectContaining({ src: field.avatar_medium, alt: "" }),
-    ])
+    expect(images[0].src).toContain(field.configuration.banner_background)
+    expect(images[1].src).toContain(field.configuration.logo)
   })
 
   it("Displays the field search if search_filter is not undefined", async () => {

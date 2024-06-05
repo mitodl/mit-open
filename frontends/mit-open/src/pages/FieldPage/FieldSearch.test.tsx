@@ -104,7 +104,7 @@ describe("FieldSearch", () => {
     })
     setMockResponse.get(urls.userMe.get(), {})
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findByText(field.title)
+    await screen.findAllByText(field.title)
     const tabpanel = await screen.findByRole("tabpanel")
     const headings = await within(tabpanel).findAllByRole("heading")
     expect(headings.map((h) => h.textContent)).toEqual(
