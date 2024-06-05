@@ -16,6 +16,7 @@ const config: Config.InitialOptions = {
   globals: {
     APP_SETTINGS: {
       embedlyKey: "embedly_key",
+      axios_base_path: "https://api.mitopen-test.odl.mit.edu",
     },
   },
 }
