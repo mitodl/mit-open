@@ -19,12 +19,11 @@ const field: PartialFactory<FieldChannel> = (overrides = {}) => {
     {
       channel_type: channelType(),
       configuration: {
-        banner_background: "/static/images/unit_banners/mitpe.jpg",
-        heading: "test",
-        logo: "/static/test.svg",
+        banner_background: "/static/images/test.jpg",
+        heading: "this is a test heading",
+        logo: "/static/images/test.svg",
         name: "test",
-        sub_heading: "test",
-        subheader: "test",
+        sub_heading: "this is a subheading",
       },
     },
     overrides,

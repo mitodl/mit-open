@@ -130,6 +130,22 @@ describe("FieldPage", () => {
     expect(mockedFieldSearch).toHaveBeenCalledTimes(0)
   })
 
+  it("Includes heading and subheading in banner", async () => {
+    const { field } = setupApis()
+    field.search_filter = undefined
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findByText(field.title)
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(field.configuration.sub_heading),
+      ).toBeInTheDocument()
+    })
+    await waitFor(() => {
+      expect(screen.getByText(field.configuration.heading)).toBeInTheDocument()
+    })
+  })
+
   it("Displays the unsubscribe toggle if the user is authenticated and subscribed", async () => {
     const { field } = setupApis({ search_filter: "q=ocw" }, {}, true, true)
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
