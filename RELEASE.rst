@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 0.12.2
+--------------
+
+- [pre-commit.ci] pre-commit autoupdate (#1004)
+- Add onboarding ux (#964)
+- Style tab components to match figma (#1012)
+- Toggle Professional (#1005)
+- Absolute URL to backend for login routes (#1011)
+- Add nullalbe offerors and channels to the testimonials model/API (#1006)
+
 Version 0.12.1 (Released June 05, 2024)
 --------------
 
