@@ -127,7 +127,7 @@ def sync_edx_course_files(
             continue
         with TemporaryDirectory() as export_tempdir:
             course_tarpath = Path(export_tempdir, key.split("/")[-1])
-            log.info("course tarpath is %s", course_tarpath)
+            log.info("course tarpath for run %s is %s", run.run_id, course_tarpath)
             bucket.download_file(key, course_tarpath)
             checksum = calc_checksum(course_tarpath)
             if run.checksum == checksum:
