@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.12.1
+Version 0.12.1 (Released June 05, 2024)
 --------------
 
 - Update profile fields to align to LR data (#1003)
