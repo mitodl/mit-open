@@ -37,6 +37,8 @@ import LearningResourceCard from "@/page-components/LearningResourceCard/Learnin
 import _ from "lodash"
 
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
+import ProfessionalToggle from "./ProfessionalToggle"
+
 import type { TabConfig } from "./ResourceTypeTabs"
 
 export const StyledDropdown = styled(SimpleSelect)`
@@ -187,9 +189,13 @@ export const FacetsTitleContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: baseline;
-  min-height: 40px;
-  padding-top: 8px;
+  min-height: 65px;
+  align-items: end;
+  padding-bottom: 10px;
+  padding-top: 20px;
+  ${({ theme }) => theme.breakpoints.up("sm")} {
+    min-height: 83px;
+  }
 `
 
 const PaginationContainer = styled.div`
@@ -287,7 +293,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     },
     { keepPreviousData: true },
   )
-
   return (
     <Container>
       <GridContainer>
@@ -312,6 +317,10 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               ) : null}
             </FacetsTitleContainer>
             <FacetStyles>
+              <ProfessionalToggle
+                professionalSetting={requestParams.professional}
+                setParamValue={setParamValue}
+              ></ProfessionalToggle>
               <AvailableFacets
                 facetManifest={facetManifest}
                 activeFacets={requestParams}

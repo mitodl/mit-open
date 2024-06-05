@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from "react"
 import { styled, Container, SearchInput, Grid } from "ol-components"
 import { MetaTags, capitalize } from "ol-utilities"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
-
 import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
 
@@ -39,16 +38,6 @@ const getFacetManifest = (
           value: true,
           name: "free",
           label: "Free",
-        },
-        {
-          value: true,
-          name: "certification",
-          label: "With Certificate",
-        },
-        {
-          value: true,
-          name: "professional",
-          label: "Professional",
         },
       ],
     },
