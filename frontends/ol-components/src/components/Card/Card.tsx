@@ -65,7 +65,7 @@ const Image = styled.img`
   background-color: ${theme.custom.colors.lightGray1};
 `
 
-const Title = styled.p`
+const Title = styled.div`
   ${{ ...theme.typography.subtitle1 }}
   text-overflow: ellipsis;
   height: ${theme.typography.pxToRem(60)};

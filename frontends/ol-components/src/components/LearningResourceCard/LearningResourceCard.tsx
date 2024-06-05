@@ -36,6 +36,20 @@ const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
 
 type ResourceIdCallback = (resourceId: number) => void
 
+const Info = ({ resource }: { resource: LearningResource }) => {
+  return (
+    <>
+      <span>{getReadableResourceType(resource.resource_type)}</span>
+      {resource.certification && (
+        <Certificate>
+          <RiAwardFill />
+          Certificate
+        </Certificate>
+      )}
+    </>
+  )
+}
+
 const Title = ({
   resource,
   onActivate,
@@ -138,13 +152,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     <Card className={className}>
       <Card.Image src={resource.image?.url} alt={resource.image!.alt!} />
       <Card.Info>
-        <span>{getReadableResourceType(resource.resource_type)}</span>
-        {resource.certification && (
-          <Certificate>
-            <RiAwardFill />
-            Certificate
-          </Certificate>
-        )}
+        <Info resource={resource} />
       </Card.Info>
       <Card.Title>
         <Title resource={resource} onActivate={onActivate} />
