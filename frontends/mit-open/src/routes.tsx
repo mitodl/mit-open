@@ -26,6 +26,8 @@ import LearningResourceDrawer from "./page-components/LearningResourceDrawer/Lea
 import DepartmentListingPage from "./pages/DepartmentListingPage/DepartmentListingPage"
 import TopicsListingPage from "./pages/TopicListingPage/TopicsListingPage"
 import UnitsListingPage from "./pages/UnitsListingPage/UnitsListingPage"
+import OnboardingPage from "./pages/OnboardingPage/OnboardingPage"
+
 import { styled } from "ol-components"
 
 const PageWrapper = styled.div({
@@ -58,6 +60,14 @@ const routes: RouteObject[] = [
       {
         path: urls.HOME,
         element: <HomePage />,
+      },
+      {
+        path: urls.ONBOARDING,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <OnboardingPage />
+          </RestrictedRoute>
+        ),
       },
       {
         path: urls.LEARNINGPATH_LISTING,

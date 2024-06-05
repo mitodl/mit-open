@@ -165,6 +165,10 @@ const search = {
 const userMe = {
   get: () => `${API_BASE_URL}/api/v0/users/me/`,
 }
+const profileMe = {
+  get: () => "/api/v0/profiles/me/",
+  patch: () => "/api/v0/profiles/me/",
+}
 
 const newsEvents = {
   list: (params?: NewsEventsApiNewsEventsListRequest) =>
@@ -183,6 +187,7 @@ export {
   widgetLists,
   offerors,
   userMe,
+  profileMe,
   platforms,
   userSubscription,
   schools,

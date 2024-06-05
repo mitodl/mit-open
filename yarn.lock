@@ -13187,6 +13187,7 @@ __metadata:
     eslint-plugin-testing-library: "npm:^6.2.0"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.5.0"
+    jest-extended: "npm:^4.0.2"
     jest-fail-on-console: "npm:^3.2.0"
     jest-watch-typeahead: "npm:^2.2.2"
     jest-when: "npm:^3.6.0"
@@ -13196,7 +13197,7 @@ __metadata:
     stylelint: "npm:^15.2.0"
     stylelint-config-standard-scss: "npm:^7.0.1"
     ts-node: "npm:^10.9.2"
-    type-fest: "npm:^4.14.0"
+    type-fest: "npm:^4.18.3"
     typescript: "npm:^5.4.3"
   languageName: unknown
   linkType: soft
@@ -15444,7 +15445,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-diff@npm:^29.7.0":
+"jest-diff@npm:^29.0.0, jest-diff@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest-diff@npm:29.7.0"
   dependencies:
@@ -15564,6 +15565,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jest-extended@npm:^4.0.2":
+  version: 4.0.2
+  resolution: "jest-extended@npm:4.0.2"
+  dependencies:
+    jest-diff: "npm:^29.0.0"
+    jest-get-type: "npm:^29.0.0"
+  peerDependencies:
+    jest: ">=27.2.5"
+  peerDependenciesMeta:
+    jest:
+      optional: true
+  checksum: 10/6633c425636751462b0f2106915c6ed91ab07a0e55d28477ae2405361e0a05f617f4dae60b0d4332096e2757644a2a6c5d40e618be6a6c0d47a0325f7e696ce6
+  languageName: node
+  linkType: hard
+
 "jest-fail-on-console@npm:^3.2.0":
   version: 3.3.0
   resolution: "jest-fail-on-console@npm:3.3.0"
@@ -15578,7 +15594,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-get-type@npm:^29.6.3":
+"jest-get-type@npm:^29.0.0, jest-get-type@npm:^29.6.3":
   version: 29.6.3
   resolution: "jest-get-type@npm:29.6.3"
   checksum: 10/88ac9102d4679d768accae29f1e75f592b760b44277df288ad76ce5bf038c3f5ce3719dea8aa0f035dac30e9eb034b848ce716b9183ad7cc222d029f03e92205
@@ -24775,7 +24791,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"type-fest@npm:^4.14.0":
+"type-fest@npm:^4.18.3":
   version: 4.18.3
   resolution: "type-fest@npm:4.18.3"
   checksum: 10/eb750920d0ef3639177f581edd6489d972c5c5827abb602a9c9662889aad148a7d558257e36c563f1beb81a2e417faec52ecec9799b28531d8335856f91e6dff

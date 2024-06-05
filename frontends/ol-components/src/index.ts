@@ -140,6 +140,13 @@ export { default as Menu } from "@mui/material/Menu"
 export type { MenuProps } from "@mui/material/Menu"
 export { default as MenuItem } from "@mui/material/MenuItem"
 
+export { default as Stepper } from "@mui/material/Stepper"
+export { default as Step } from "@mui/material/Step"
+export { default as StepLabel } from "@mui/material/StepLabel"
+export type { StepIconProps } from "@mui/material/StepIcon"
+
+export { default as CircularProgress } from "@mui/material/CircularProgress"
+
 export * from "./components/Alert/Alert"
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
@@ -159,6 +166,7 @@ export * from "./components/TruncateText/TruncateText"
 export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/RadioChoiceField/RadioChoiceField"
+export * from "./components/ChoiceBox/ChoiceBox"
 
 export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"

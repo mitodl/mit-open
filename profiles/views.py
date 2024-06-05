@@ -68,7 +68,15 @@ class ProfileViewSet(
     )
     lookup_field = "user__username"
 
+    def get_object(self):
+        """Get the profile"""
+        if self.kwargs["user__username"] == "me":
+            return self.request.user.profile
+        else:
+            return super().get_object()
+
     def get_serializer_context(self):
+        """Get the serializer context"""
         return {"include_user_websites": True}
 
 
