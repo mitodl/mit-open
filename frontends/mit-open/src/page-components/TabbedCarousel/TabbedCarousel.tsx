@@ -193,6 +193,7 @@ const TabsList = styled(TabButtonList)({
 type ContentProps = {
   resources: LearningResource[]
   isLoading?: boolean
+  tabConfig: TabConfig
 }
 
 type CarouselContentProps = {
@@ -206,7 +207,9 @@ const CarouselContent: React.FC<CarouselContentProps> = ({
   if (config.length === 1) {
     return (
       <DataPanel dataConfig={config[0].data}>
-        {({ resources, isLoading }) => children({ resources, isLoading })}
+        {({ resources, isLoading }) =>
+          children({ resources, isLoading, tabConfig: config[0] })
+        }
       </DataPanel>
     )
   }
@@ -219,6 +222,7 @@ const CarouselContent: React.FC<CarouselContentProps> = ({
               children({
                 resources,
                 isLoading,
+                tabConfig,
               })
             }
           </DataPanel>
@@ -258,20 +262,20 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
           </ControlsContainer>
         </HeaderRow>
         <CarouselContent config={config}>
-          {({ resources, isLoading }) => (
+          {({ resources, isLoading, tabConfig }) => (
             <CarouselStyled arrowsContainer={ref}>
               {
                 // Show skeleton cards while loading
                 isLoading
                   ? Array.from({ length: 6 }).map((_, index) => (
-                      <SkeletonCard key={index} />
+                      <SkeletonCard key={index} {...tabConfig.cardProps} />
                     ))
                   : resources.map((resource) => (
                       <LearningResourceCardStyled
                         key={resource.id}
                         variant="column"
                         resource={resource}
-                        {...config[0].cardProps}
+                        {...tabConfig.cardProps}
                       />
                     ))
               }
