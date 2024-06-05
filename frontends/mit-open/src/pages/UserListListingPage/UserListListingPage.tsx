@@ -90,12 +90,15 @@ const ListCard: React.FC<ListCardProps> = ({ list, onActivate }) => {
   )
 }
 
-type UserListGridProps = {
+type UserListListingComponentProps = {
+  title?: string
   onActivate: (userList: UserList) => void
 }
 
-const UserListGrid: React.FC<UserListGridProps> = (props) => {
-  const { onActivate } = props
+const UserListListingComponent: React.FC<UserListListingComponentProps> = (
+  props,
+) => {
+  const { title, onActivate } = props
   const listingQuery = useUserListList()
   const handleCreate = useCallback(() => {
     manageListDialogs.upsertUserList()
@@ -107,7 +110,7 @@ const UserListGrid: React.FC<UserListGridProps> = (props) => {
         <ListHeaderGrid container justifyContent="space-between">
           <Grid item>
             <Typography variant="h3" component="h1">
-              User Lists
+              {title}
             </Typography>
           </Grid>
           <Grid
@@ -163,10 +166,13 @@ const UserListListingPage: React.FC = () => {
         <title>User Lists</title>
       </MetaTags>
       <Container maxWidth="sm">
-        <UserListGrid onActivate={handleActivate} />
+        <UserListListingComponent
+          title="User Lists"
+          onActivate={handleActivate}
+        />
       </Container>
     </BannerPage>
   )
 }
 
-export { UserListGrid, UserListListingPage }
+export { UserListListingComponent, UserListListingPage }
