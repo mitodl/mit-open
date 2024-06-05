@@ -55,6 +55,13 @@ jobs:
           heroku_app_name: "mitopen-production"
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           branch: release
+
+      - name: Purge Fastly cache
+        uses: jcoene/fastly-purge-action@master
+        with:
+          api_key: "${{ secrets.FASTLY_API_KEY_PRODUCTION }}"
+          service_id: "${{ secrets.FASTLY_SERVICE_ID_PRODUCTION }}"
+
   # runs ONLY on a failure of the CI workflow
   on-failure:
     runs-on: ubuntu-latest
