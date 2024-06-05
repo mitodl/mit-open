@@ -52,7 +52,7 @@ const FONT_STYLES = {
   large: "h2",
 } as const
 
-type AvatarStyleProps = Required<Pick<AvatarProps, "imageSize">>
+type AvatarStyleProps = Required<Pick<AvatarProps, "imageSize", "imageVariant">>
 const AvatarContainer = styled.div<AvatarStyleProps>`
   display: flex;
   flex-direction: row;
