@@ -72,7 +72,7 @@
     "ol-widgets": "0.0.0",
     "posthog-js": "^1.128.2",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react-dom": "^18.3.1",
     "react-helmet-async": "^2.0.3",
     "react-infinite-scroller": "^1.2.6",
     "react-router": "^6.22.2",
