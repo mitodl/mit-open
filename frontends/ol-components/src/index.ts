@@ -90,9 +90,12 @@ export type { SkeletonProps } from "@mui/material/Skeleton"
 export { default as Stack } from "@mui/material/Stack"
 export type { StackProps } from "@mui/material/Stack"
 
-export { default as Tab } from "@mui/material/Tab"
 export type { TabProps } from "@mui/material/Tab"
-export { default as TabList } from "@mui/lab/TabList"
+export {
+  TabButton,
+  TabButtonLink,
+  TabButtonList,
+} from "./components/TabButtons/TabButtonList"
 export type { TabListProps } from "@mui/lab/TabList"
 export { default as TabContext } from "@mui/lab/TabContext"
 export type { TabContextProps } from "@mui/lab/TabContext"
