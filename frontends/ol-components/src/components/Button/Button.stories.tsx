@@ -25,6 +25,18 @@ const meta: Meta<typeof Button> = {
   title: "smoot-design/Button",
   component: Button,
   argTypes: {
+    variant: {
+      options: ["primary", "secondary", "tertiary", "text"],
+      control: { type: "select" },
+    },
+    size: {
+      options: ["small", "medium", "large"],
+      control: { type: "select" },
+    },
+    edge: {
+      options: ["circular", "rounded"],
+      control: { type: "select" },
+    },
     startIcon: {
       options: Object.keys(icons),
       mapping: icons,
@@ -42,6 +54,14 @@ const meta: Meta<typeof Button> = {
 export default meta
 
 type Story = StoryObj<typeof Button>
+
+export const Simple: Story = {
+  args: {
+    variant: "primary",
+    color: "action",
+  },
+  render: (args) => <Button {...args}>Button</Button>,
+}
 
 export const VariantStory: Story = {
   argTypes: {

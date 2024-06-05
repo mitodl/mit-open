@@ -102,25 +102,12 @@ const Footer: React.FC<{ resource: LearningResource }> = ({ resource }) => {
 }
 
 interface LearningResourceCardProps {
-  // variant: CardVariant
   isLoading?: boolean
   resource?: LearningResource | null
-  // sortable?: boolean
   className?: string
-
   onActivate?: ResourceIdCallback
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
-  // /**
-  //  * Config used to generate embedly urls.
-  //  */
-  // imgConfig: EmbedlyConfig
-  // onActivate?: OnActivateCard<R>
-  // /**
-  //  * Suppress the image.
-  //  */
-  // suppressImage?: boolean
-  // footerActionSlot?: React.ReactNode
 }
 
 const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
@@ -165,8 +152,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       <Card.Actions>
         {onAddToLearningPathClick && (
           <ActionButton
-            variant="outlined"
-            edge="rounded"
+            variant="secondary"
+            edge="circular"
             color="secondary"
             size="small"
             aria-label="Add to Learning Path"
@@ -177,8 +164,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
         )}
         {onAddToUserListClick && (
           <ActionButton
-            variant="outlined"
-            edge="rounded"
+            variant="secondary"
+            edge="circular"
             color="secondary"
             size="small"
             aria-label="Add to User List"

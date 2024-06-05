@@ -24,7 +24,7 @@ const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
   }
 
 const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
-  const { size, variant, edge, theme } = {
+  const { size, variant, edge, theme, color } = {
     ...defaultProps,
     ...props,
   }
