@@ -539,6 +539,15 @@ paths:
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offerors
+        schema:
+          type: array
+          items:
+            type: string
+        description: The offerors the attestation is for
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -905,12 +914,16 @@ components:
           items:
             type: integer
           description: Channels that the testimonial belongs to
+        offerors:
+          type: array
+          items:
+            type: string
+          description: The offerors that this attestation can appear on
       required:
       - attestant_name
       - avatar
       - avatar_medium
       - avatar_small
-      - channels
       - cover
       - created_on
       - id
