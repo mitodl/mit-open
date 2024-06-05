@@ -3,6 +3,9 @@ import "@testing-library/jest-dom"
 import "cross-fetch/polyfill"
 import { configure } from "@testing-library/react"
 import { resetAllWhenMocks } from "jest-when"
+import * as matchers from "jest-extended"
+
+expect.extend(matchers)
 
 // Pulled from the docs - see https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
 
