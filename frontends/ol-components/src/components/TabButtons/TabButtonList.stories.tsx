@@ -33,18 +33,11 @@ const meta: Meta<StoryProps> = {
     },
   },
   args: {
-    count: 8,
+    count: 4,
     variant: "scrollable",
     allowScrollButtonsMobile: true,
     scrollButtons: "auto",
   },
-}
-
-export default meta
-
-type Story = StoryObj<StoryProps>
-
-export const ButtonTabs: Story = {
   render: ({ count, ...others }) => {
     const [value, setValue] = React.useState("tab1")
     return (
@@ -66,8 +59,12 @@ export const ButtonTabs: Story = {
                 ))}
             </TabButtonList>
 
-            <Stack direction="row" justifyContent="end" spacing={3}>
-              <Button>Extra Content</Button>
+            <Stack
+              direction="row"
+              justifyContent="end"
+              sx={{ paddingLeft: "16px" }}
+            >
+              <Button>Other UI</Button>
             </Stack>
           </Stack>
           {Array(count)
@@ -84,6 +81,17 @@ export const ButtonTabs: Story = {
   },
 }
 
+export default meta
+
+type Story = StoryObj<StoryProps>
+
+export const ButtonTabs: Story = {}
+export const ManyButtonTabs: Story = {
+  args: {
+    count: 12,
+  },
+}
+
 export const LinkTabs: Story = {
   decorators: [withRouter],
   parameters: {
@@ -95,7 +103,6 @@ export const LinkTabs: Story = {
   },
   render: () => {
     const location = useLocation()
-    console.log(location)
     return (
       <div>
         Current Location:

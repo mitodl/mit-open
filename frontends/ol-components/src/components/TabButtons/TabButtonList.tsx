@@ -9,7 +9,14 @@ import type { ButtonLinkProps, ButtonProps } from "../Button/Button"
 import { css } from "@emotion/react"
 import type { Theme } from "@mui/material/styles"
 
-const TabButtonList: React.FC<TabListProps> = styled(MuiTabList)([
+const defaultTabListProps = {
+  variant: "scrollable",
+  allowScrollButtonsMobile: true,
+  scrollButtons: "auto",
+} as const
+const TabButtonList: React.FC<TabListProps> = styled((props: TabListProps) => (
+  <MuiTabList {...defaultTabListProps} {...props} />
+))([
   {
     minHeight: "unset",
     ".MuiTabs-indicator": {
