@@ -55,7 +55,7 @@ const Carousel: React.FC<CarouselProps> = ({
   pageRightIcon = <RiArrowRightLine />,
   pageLeftIcon = <RiArrowLeftLine />,
   buttonAlignment = "right",
-  buttonVariant = "filled",
+  buttonVariant = "primary",
   buttonSize = "small",
   wrapMode = "nowrap",
   scrollDistance = "slide",
@@ -100,7 +100,7 @@ const Carousel: React.FC<CarouselProps> = ({
         marginTop={3}
       >
         <ActionButton
-          size="small"
+          size={buttonSize}
           edge="circular"
           onClick={pageDown}
           disabled={!canPageDown}
@@ -110,7 +110,7 @@ const Carousel: React.FC<CarouselProps> = ({
           {pageLeftIcon}
         </ActionButton>
         <ActionButton
-          size="small"
+          size={buttonSize}
           edge="circular"
           onClick={pageUp}
           disabled={!canPageUp}
