@@ -24,6 +24,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate OLL course run files"""
+        if not (
+            settings.OLL_LEARNING_COURSE_BUCKET_NAME
+            and settings.OLL_LEARNING_COURSE_BUCKET_PREFIX
+        ):
+            self.stderr.write("OLL contentfile settings not configured, skipping")
+            return
         chunk_size = options["chunk_size"]
         task = import_all_oll_files.delay(chunk_size=chunk_size)
         self.stdout.write(f"Started task {task} to get OLL course run file data")
