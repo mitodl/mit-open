@@ -2,9 +2,7 @@ import React from "react"
 import { createPortal } from "react-dom"
 import { Carousel as NukaCarousel, useCarousel } from "nuka-carousel"
 import type { CarouselProps as NukaCarouselProps } from "nuka-carousel"
-import styled from "@emotion/styled"
-import { ActionButton } from "../Button/Button"
-import Stack from "@mui/material/Stack"
+import { styled, ActionButton } from "ol-components"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 
 type CarouselProps = {
@@ -35,7 +33,7 @@ const ArrowControls = () => {
   const canPageDown = currentPage > 0
   const canPageUp = currentPage < totalPages - 1
   return (
-    <Stack direction="row" spacing={1}>
+    <>
       <ActionButton
         size="small"
         edge="rounded"
@@ -56,7 +54,7 @@ const ArrowControls = () => {
       >
         <RiArrowRightLine />
       </ActionButton>
-    </Stack>
+    </>
   )
 }
 
@@ -72,13 +70,11 @@ const Carousel: React.FC<CarouselProps> = ({
       showDots={false}
       autoplay={false}
       animationDuration={animationDuration}
-      showArrows
+      showArrows={!!arrowsContainer}
       arrows={
-        arrowsContainer ? (
-          createPortal(<ArrowControls />, arrowsContainer)
-        ) : (
-          <ArrowControls />
-        )
+        arrowsContainer
+          ? createPortal(<ArrowControls />, arrowsContainer)
+          : null
       }
     >
       {children}

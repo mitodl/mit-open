@@ -18286,6 +18286,7 @@ __metadata:
     html-webpack-plugin: "npm:^5.6.0"
     lodash: "npm:^4.17.21"
     mini-css-extract-plugin: "npm:^2.6.1"
+    nuka-carousel: "npm:^8.0.1"
     ol-ckeditor: "npm:0.0.0"
     ol-components: "npm:0.0.0"
     ol-test-utilities: "npm:0.0.0"
@@ -18671,7 +18672,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nuka-carousel@npm:^8.0.0":
+"nuka-carousel@npm:^8.0.0, nuka-carousel@npm:^8.0.1":
   version: 8.0.1
   resolution: "nuka-carousel@npm:8.0.1"
   peerDependencies:

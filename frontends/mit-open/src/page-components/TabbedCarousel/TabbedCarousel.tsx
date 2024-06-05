@@ -5,14 +5,16 @@ import {
   useLearningResourcesSearch,
 } from "api/hooks/learningResources"
 import {
-  Tab,
+  TabButton,
   TabPanel,
   TabContext,
-  TabList,
-  Carousel,
+  TabButtonList,
   styled,
   Typography,
+  Skeleton,
 } from "ol-components"
+import type { Theme } from "ol-components"
+import { Carousel } from "./Carousel"
 import type {
   TabConfig,
   ResourceDataSource,
@@ -21,11 +23,6 @@ import type {
 } from "./types"
 import { LearningResource } from "api"
 import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
-import type { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
-
-type LearningResourceCardStyledProps = LearningResourceCardProps & {
-  cardsPerPage: number
-}
 
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   dataConfig: T
@@ -87,7 +84,7 @@ const DataPanel: React.FC<DataPanelProps> = ({ dataConfig, children }) => {
 }
 
 const CarouselStyled = styled(Carousel)`
-  .slider-list {
+  .nuka-wrapper {
     /**
     Prevent shift while loading.
     This is a bit arbitrary and would be better handled by placeholder "skeleton"
@@ -97,34 +94,139 @@ const CarouselStyled = styled(Carousel)`
   }
 `
 
-const LearningResourceCardStyled = styled(
-  LearningResourceCard,
-)<LearningResourceCardStyledProps>`
-  min-width: calc(
-    ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
-  );
-  max-width: calc(
-    ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
-  );
-  margin: 6px 26px 6px 0;
-`
+const CardStyles = ({
+  theme,
+  size,
+}: {
+  theme: Theme
+  size?: "small" | "medium"
+}) => [
+  {
+    borderRadius: "8px",
+    border: `1px solid ${theme.custom.colors.silverGray}`,
+    boxShadow: "none",
+  },
+  size === "small" && {
+    minWidth: "192px",
+    maxWidth: "192px",
+  },
+  size === "medium" && {
+    minWidth: "300px",
+    maxWidth: "300px",
+  },
+]
+
+const LearningResourceCardStyled = styled(LearningResourceCard)<{
+  size?: "small" | "medium"
+}>(({ theme, size = "medium" }) => CardStyles({ theme, size }))
+
+const SkeletonCardUnstyled: React.FC<{ className?: string }> = ({
+  className,
+}) => (
+  <div className={className}>
+    <Skeleton variant="rectangular" width="100%" height="50%" />
+    <div>
+      {" "}
+      <Skeleton variant="text" width="30%" />
+      <Typography variant="h3">
+        <Skeleton width="75%" />
+      </Typography>
+      <Skeleton variant="text" />
+      <Skeleton variant="text" width="75%" />
+    </div>
+    <div>
+      <Skeleton variant="text" width="50%" />
+    </div>
+  </div>
+)
+const SkeletonCard = styled(SkeletonCardUnstyled)<{
+  size?: "small" | "medium"
+}>(({ theme, size = "medium" }) => [
+  ...CardStyles({ theme, size }),
+  { display: "flex", flexDirection: "column", justifyContent: "space-between" },
+])
 
 type TabbedCarouselProps = {
   config: TabConfig[]
   title: string
 }
 
-const HeaderRow = styled.div({
+const HeaderRow = styled.div(({ theme }) => ({
   display: "flex",
-  justifyContent: "space-between",
+  flexWrap: "wrap",
   alignItems: "center",
+  gap: "16px",
   marginBottom: "16px",
+  [theme.breakpoints.down("sm")]: {
+    alignItems: "flex-start",
+    flexDirection: "column",
+  },
+}))
+const ControlsContainer = styled.div({
+  display: "flex",
+  flex: 1,
+  minWidth: "0px",
+  maxWidth: "100%",
+  justifyContent: "space-between",
 })
+
+const StyledTabPanel = styled(TabPanel)({
+  paddingTop: "0px",
+  paddingLeft: "0px",
+  paddingRight: "0px",
+})
+
 const ButtonsContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  gap: "8px",
   [theme.breakpoints.down("sm")]: {
     display: "none",
   },
 }))
+
+const TabsList = styled(TabButtonList)({
+  ".MuiTabScrollButton-root.Mui-disabled": {
+    display: "none",
+  },
+})
+
+type ContentProps = {
+  resources: LearningResource[]
+  isLoading?: boolean
+}
+
+type CarouselContentProps = {
+  config: TabConfig[]
+  children: (props: ContentProps) => React.ReactNode
+}
+const CarouselContent: React.FC<CarouselContentProps> = ({
+  config,
+  children,
+}) => {
+  if (config.length === 1) {
+    return (
+      <DataPanel dataConfig={config[0].data}>
+        {({ resources, isLoading }) => children({ resources, isLoading })}
+      </DataPanel>
+    )
+  }
+  return (
+    <>
+      {config.map((tabConfig, index) => (
+        <StyledTabPanel key={index} value={index.toString()}>
+          <DataPanel dataConfig={tabConfig.data}>
+            {({ resources, isLoading }) =>
+              children({
+                resources,
+                isLoading,
+              })
+            }
+          </DataPanel>
+        </StyledTabPanel>
+      ))}
+    </>
+  )
+}
 
 /**
  * A tabbed carousel that fetches resources based on the configuration provided.
@@ -139,39 +241,43 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
     <section>
       <TabContext value={tab}>
         <HeaderRow>
-          <Typography sx={{ flexShrink: 2 }} variant="h3">
-            {title}
-          </Typography>
-          <ButtonsContainer ref={setRef}></ButtonsContainer>
+          <Typography variant="h3">{title}</Typography>
+          <ControlsContainer>
+            {config.length === 1 ? null : (
+              <TabsList onChange={(e, newValue) => setTab(newValue)}>
+                {config.map(({ label }, index) => (
+                  <TabButton
+                    key={index}
+                    label={label}
+                    value={index.toString()}
+                  />
+                ))}
+              </TabsList>
+            )}
+            <ButtonsContainer ref={setRef} />
+          </ControlsContainer>
         </HeaderRow>
-        <TabList
-          variant="scrollable"
-          scrollButtons="auto"
-          allowScrollButtonsMobile
-          onChange={(e, newValue) => setTab(newValue)}
-        >
-          {config.map(({ label }, index) => (
-            <Tab key={index} label={label} value={index.toString()} />
-          ))}
-        </TabList>
-        {config.map(({ data, pageSize }, index) => (
-          <TabPanel key={index} value={index.toString()}>
-            <DataPanel dataConfig={data}>
-              {({ resources }) => (
-                <CarouselStyled pageSize={pageSize} arrowsContainer={ref}>
-                  {resources.map((resource) => (
-                    <LearningResourceCardStyled
-                      key={resource.id}
-                      variant="column"
-                      resource={resource}
-                      cardsPerPage={pageSize}
-                    />
-                  ))}
-                </CarouselStyled>
-              )}
-            </DataPanel>
-          </TabPanel>
-        ))}
+        <CarouselContent config={config}>
+          {({ resources, isLoading }) => (
+            <CarouselStyled arrowsContainer={ref}>
+              {
+                // Show skeleton cards while loading
+                isLoading
+                  ? Array.from({ length: 6 }).map((_, index) => (
+                      <SkeletonCard key={index} />
+                    ))
+                  : resources.map((resource) => (
+                      <LearningResourceCardStyled
+                        key={resource.id}
+                        variant="column"
+                        resource={resource}
+                        {...config[0].cardProps}
+                      />
+                    ))
+              }
+            </CarouselStyled>
+          )}
+        </CarouselContent>
       </TabContext>
     </section>
   )
@@ -179,3 +285,4 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
 
 export default TabbedCarousel
 export type { TabbedCarouselProps }
+export type { TabConfig }
