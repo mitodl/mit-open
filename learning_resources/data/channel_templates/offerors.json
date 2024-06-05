@@ -1,0 +1,44 @@
+{
+  "mitx": {
+    "name": "MITx",
+    "heading": "Enabling learners everywhere, from the curious to the professional, to learn for free or join the paid certificate track.",
+    "sub_heading": "For learners around the globe, MITx provides interactive online courses designed and taught by MIT faculty. Learn for free or pay to join the certificate track where successful learners can earn a  certificate. MicroMasters programs offer digital credentials from MIT which can fast-track advanced degrees at MIT or other schools.",
+    "logo": "/static/images/unit_logos/mitx.svg",
+    "banner_background": "/static/images/unit_banners/mitx.jpg"
+  },
+  "ocw": {
+    "name": "OCW",
+    "logo": "/static/images/unit_logos/ocw.svg",
+    "banner_background": "/static/images/unit_banners/ocw.jpg",
+    "heading": "Free open online resources from over 2,500 MIT courses for self-paced learning and classroom teaching.",
+    "sub_heading": "For millions of learners and educators around the world, OpenCourseware shares free open educational resources from across the entire MIT curriculum. With no sign-up needed, and materials always free for online access and downloading to take with you anywhere, you’re empowered for self-paced learning and adapting these materials in the ways that suit you best."
+  },
+  "bootcamps": {
+    "name": "Bootcamps",
+    "logo": "/static/images/unit_logos/bootcamps.svg",
+    "heading": "Immersing innovators and entrepreneurs, in selective, transformational learning-by-doing experiences",
+    "banner_background": "/static/images/unit_banners/bootcamps.jpg",
+    "sub_heading": "For a global community of innovators and entrepreneurs, MIT Bootcamps provide intensive learning-by-doing experiences, virtually or in person to help participants advance a new venture while receiving real-time feedback. Bootcamps are immersive and participants work alongside MIT-trained coaches and other  entrepreneurs selected from around the world."
+  },
+  "xpro": {
+    "name": "xPRO",
+    "logo": "/static/images/unit_logos/xpro.svg",
+    "banner_background": "/static/images/unit_banners/xpro.jpg",
+    "heading": "Developing the workforce of tomorrow with a balance of technical and leadership excellence.",
+    "sub_heading": "For technical professionals looking to enhance their skills, MIT xPRO offers courses tailored to address the challenges of  dynamic working environments. Developed by renowned experts and utilizing cutting-edge research in learning neuroscience, MIT xPRO programs prioritize real-world application. Professionals can build and apply skills directly on the job, fostering technical expertise and leadership acumen."
+  },
+  "mitpe": {
+    "name": "Professional Education",
+    "logo": "/static/images/unit_logos/mitpe.svg",
+    "banner_background": "/static/images/unit_banners/mitpe.jpg",
+    "heading": "Immersing innovators and entrepreneurs, in selective, transformational learning-by-doing experiences",
+    "sub_heading": "Whether online, on campus, or at your company site, MIT Professional Education offers several programs to fit your career goals and organization needs. With over 50 courses across more than 12 topic categories, and some now offered in Spanish, our programs are geared towards engineering and technology professionals across the globe."
+  },
+  "see": {
+    "name": "Sloan Executive Education",
+    "logo": "/static/images/unit_logos/see.svg",
+    "banner_background": "/static/images/unit_banners/see.jpg",
+    "heading": "Providing business professionals with critical skills, tools, and frameworks to master their toughest challenges and drive organizational success.",
+    "sub_heading": "MIT Sloan Executive Education helps leaders at every level rethink the way they do business, advance their careers, and drive organizational success. At the intersection of management and technology, MIT Sloan provides firsthand learning, proven frameworks with immediate applicability, and unique opportunities for networking and collaboration."
+  }
+}
