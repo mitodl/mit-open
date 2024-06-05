@@ -1824,6 +1824,31 @@ export type PathwayChannelTypeEnum =
   (typeof PathwayChannelTypeEnum)[keyof typeof PathwayChannelTypeEnum]
 
 /**
+ * Serializer for profile search preference filters
+ * @export
+ * @interface PreferencesSearch
+ */
+export interface PreferencesSearch {
+  /**
+   *
+   * @type {boolean}
+   * @memberof PreferencesSearch
+   */
+  certification?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PreferencesSearch
+   */
+  topics?: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof PreferencesSearch
+   */
+  learning_format?: string
+}
+/**
  * Serializer for Profile
  * @export
  * @interface Profile
@@ -1943,6 +1968,12 @@ export interface Profile {
    * @memberof Profile
    */
   learning_format?: PatchedProfileRequestLearningFormat
+  /**
+   *
+   * @type {PreferencesSearch}
+   * @memberof Profile
+   */
+  preference_search_filters: PreferencesSearch
 }
 /**
  * Serializer for Profile

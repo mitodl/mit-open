@@ -71,6 +71,14 @@ class TopicInterestsField(serializers.Field):
         return topics
 
 
+class PreferencesSearchSerializer(serializers.Serializer):
+    """Serializer for profile search preference filters"""
+
+    certification = serializers.BooleanField(required=False)
+    topics = serializers.ListField(child=serializers.CharField(), required=False)
+    learning_format = serializers.CharField(required=False)
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     """Serializer for Profile"""
 
@@ -80,8 +88,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     profile_image_medium = serializers.SerializerMethodField(read_only=True)
     profile_image_small = serializers.SerializerMethodField(read_only=True)
     placename = serializers.SerializerMethodField(read_only=True)
-
     topic_interests = TopicInterestsField(default=list)
+    preference_search_filters = serializers.SerializerMethodField()
 
     def get_username(self, obj) -> str:
         """Custom getter for the username"""  # noqa: D401
@@ -100,6 +108,23 @@ class ProfileSerializer(serializers.ModelSerializer):
         if obj.location:
             return obj.location.get("value", "")
         return ""
+
+    @extend_schema_field(PreferencesSearchSerializer)
+    def get_preference_search_filters(self, obj) -> dict:
+        """Get search filters based on profile preferences."""
+        filters = {}
+        if (
+            obj.certificate_desired
+            and obj.certificate_desired != Profile.CertificateDesired.NOT_SURE_YET.value
+        ):
+            filters["certification"] = (
+                obj.certificate_desired == Profile.CertificateDesired.YES.value
+            )
+        if obj.topic_interests and obj.topic_interests.count() > 0:
+            filters["topics"] = obj.topic_interests.values_list("name", flat=True)
+        if obj.learning_format:
+            filters["learning_format"] = obj.learning_format
+        return PreferencesSearchSerializer(instance=filters).data
 
     def validate_location(self, location):
         """
@@ -162,6 +187,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "certificate_desired",
             "time_commitment",
             "learning_format",
+            "preference_search_filters",
         )
         read_only_fields = (
             "image_file_small",
@@ -170,6 +196,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "profile_image_medium",
             "username",
             "placename",
+            "preference_search_filters",
         )
         extra_kwargs = {"location": {"write_only": True}}
 
