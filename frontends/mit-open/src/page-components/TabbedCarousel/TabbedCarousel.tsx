@@ -13,6 +13,7 @@ import {
   Carousel,
   styled,
   LearningResourceCard,
+  Typography,
 } from "ol-components"
 import type {
   TabConfig,
@@ -28,9 +29,10 @@ import {
 } from "../Dialogs/AddToListDialog"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
-const LearningResourceCardStyled = styled(LearningResourceCard)<{
+type CardStyleProps = {
   cardsPerPage: number
-}>`
+}
+const LearningResourceCardStyled = styled(LearningResourceCard)<CardStyleProps>`
   ${({ cardsPerPage }) => `
     min-width: calc(${100 / cardsPerPage}% - ${((cardsPerPage - 1) / cardsPerPage) * 24}px);
     max-width: calc(${100 / cardsPerPage}% - ${((cardsPerPage - 1) / cardsPerPage) * 24}px);
@@ -99,7 +101,20 @@ const DataPanel: React.FC<DataPanelProps> = ({ dataConfig, children }) => {
 
 type TabbedCarouselProps = {
   config: TabConfig[]
+  title: string
 }
+
+const HeaderRow = styled.div({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  marginBottom: "16px",
+})
+const ButtonsContainer = styled.div(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
+}))
 
 /**
  * A tabbed carousel that fetches resources based on the configuration provided.
@@ -112,6 +127,7 @@ type TabbedCarouselProps = {
 const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
   const { data: user } = useUserMe()
   const [tab, setTab] = React.useState("0")
+  const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
 
   const showAddToLearningPathDialog =
     user?.is_authenticated && user?.is_learning_path_editor
@@ -129,50 +145,63 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
   const openLRDrawer = useOpenLearningResourceDrawer()
 
   return (
-    <TabContext value={tab}>
-      <TabList onChange={(e, newValue) => setTab(newValue)}>
-        {config.map(({ label }, index) => (
-          <Tab key={index} label={label} value={index.toString()} />
-        ))}
-      </TabList>
-      {config.map(({ data, pageSize, size }, index) => (
-        <TabPanel key={index} value={index.toString()}>
-          <DataPanel dataConfig={data}>
-            {({ resources, isLoading }) => {
-              if (isLoading) {
+    <section>
+      <TabContext value={tab}>
+        <HeaderRow>
+          <Typography sx={{ flexShrink: 2 }} variant="h3">
+            {title}
+          </Typography>
+          <ButtonsContainer ref={setRef}></ButtonsContainer>
+        </HeaderRow>
+        <TabList
+          variant="scrollable"
+          scrollButtons="auto"
+          allowScrollButtonsMobile
+          onChange={(e, newValue) => setTab(newValue)}
+        >
+          {config.map(({ label }, index) => (
+            <Tab key={index} label={label} value={index.toString()} />
+          ))}
+        </TabList>
+        {config.map(({ data, pageSize, size }, index) => (
+          <TabPanel key={index} value={index.toString()}>
+            <DataPanel dataConfig={data}>
+              {({ resources, isLoading }) => {
+                if (isLoading) {
+                  return (
+                    <Carousel arrowsContainer={ref} pageSize={pageSize}>
+                      {Array.from({ length: pageSize }, (_, i) => (
+                        <LearningResourceCardStyled
+                          key={i}
+                          isLoading
+                          size={size}
+                          cardsPerPage={pageSize}
+                        />
+                      ))}
+                    </Carousel>
+                  )
+                }
                 return (
                   <Carousel pageSize={pageSize}>
-                    {Array.from({ length: pageSize }, (_, i) => (
+                    {resources.map((resource) => (
                       <LearningResourceCardStyled
-                        key={i}
-                        isLoading
+                        key={resource.id}
+                        resource={resource}
                         size={size}
                         cardsPerPage={pageSize}
+                        onActivate={openLRDrawer}
+                        onAddToLearningPathClick={showAddToLearningPathDialog}
+                        onAddToUserListClick={showAddToUserListDialog}
                       />
                     ))}
                   </Carousel>
                 )
-              }
-              return (
-                <Carousel pageSize={pageSize}>
-                  {resources.map((resource) => (
-                    <LearningResourceCardStyled
-                      key={resource.id}
-                      resource={resource}
-                      size={size}
-                      cardsPerPage={pageSize}
-                      onActivate={openLRDrawer}
-                      onAddToLearningPathClick={showAddToLearningPathDialog}
-                      onAddToUserListClick={showAddToUserListDialog}
-                    />
-                  ))}
-                </Carousel>
-              )
-            }}
-          </DataPanel>
-        </TabPanel>
-      ))}
-    </TabContext>
+              }}
+            </DataPanel>
+          </TabPanel>
+        ))}
+      </TabContext>
+    </section>
   )
 }
 

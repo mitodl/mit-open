@@ -1,4 +1,5 @@
 import React, { ElementType, useState, useRef } from "react"
+import { createPortal } from "react-dom"
 import { Carousel as NukaCarousel, SlideHandle } from "nuka-carousel"
 import type { CarouselProps as NukaCarouselProps } from "nuka-carousel"
 import styled from "@emotion/styled"
@@ -16,6 +17,7 @@ type CarouselProps = {
    */
   animationDuration?: number
   cellSpacing?: number
+  arrowsContainer?: HTMLElement | null
 }
 
 type NukaCarouselStyledProps = NukaCarouselProps & {
@@ -43,6 +45,7 @@ const Carousel: React.FC<CarouselProps> = ({
   animationDuration = DEFAULT_ANIMATION_DURATION,
   pageSize,
   as: ContainerComponent = "div",
+  arrowsContainer,
 }) => {
   const ref = useRef<SlideHandle>(null)
 
@@ -61,6 +64,29 @@ const Carousel: React.FC<CarouselProps> = ({
     setIndex(index + pageSize)
   }
 
+  const buttons = (
+    <Stack direction="row" justifyContent="end" spacing={3}>
+      <ActionButton
+        size="small"
+        edge="circular"
+        onClick={pageDown}
+        disabled={!canPageDown}
+        aria-label="Previous"
+      >
+        <RiArrowLeftLine />
+      </ActionButton>
+      <ActionButton
+        size="small"
+        edge="circular"
+        onClick={pageUp}
+        disabled={!canPageUp}
+        aria-label="Next"
+      >
+        <RiArrowRightLine />
+      </ActionButton>
+    </Stack>
+  )
+
   return (
     <ContainerComponent id="hello" className={className}>
       <NukaCarouselStyled
@@ -73,26 +99,7 @@ const Carousel: React.FC<CarouselProps> = ({
       >
         {children}
       </NukaCarouselStyled>
-      <Stack direction="row" justifyContent="end" spacing={3} marginTop={3}>
-        <ActionButton
-          size="small"
-          edge="circular"
-          onClick={pageDown}
-          disabled={!canPageDown}
-          aria-label="Previous"
-        >
-          <RiArrowLeftLine />
-        </ActionButton>
-        <ActionButton
-          size="small"
-          edge="circular"
-          onClick={pageUp}
-          disabled={!canPageUp}
-          aria-label="Next"
-        >
-          <RiArrowRightLine />
-        </ActionButton>
-      </Stack>
+      {arrowsContainer ? createPortal(buttons, arrowsContainer) : buttons}
     </ContainerComponent>
   )
 }
