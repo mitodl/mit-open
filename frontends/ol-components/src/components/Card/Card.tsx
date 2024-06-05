@@ -70,7 +70,7 @@ const Title = styled.div`
   text-overflow: ellipsis;
   height: ${theme.typography.pxToRem(60)};
   overflow: hidden;
-  margin: 8px 16px 16px 16px;
+  margin: 8px 16px 16px;
 
   @supports (-webkit-line-clamp: 3) {
     white-space: initial;
@@ -87,6 +87,7 @@ const Footer = styled.span`
   }}
 
   display: block;
+
   span {
     color: ${theme.custom.colors.black};
   }
@@ -96,7 +97,7 @@ const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin: 0 16px 16px 16px;
+  margin: 0 16px 16px;
 `
 
 const Actions = styled.div`

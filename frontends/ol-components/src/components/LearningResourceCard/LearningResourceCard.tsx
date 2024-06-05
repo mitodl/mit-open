@@ -75,11 +75,13 @@ const Certificate = styled.div`
   background-color: ${theme.custom.colors.lightGray1};
   padding: 2px 4px;
   color: ${theme.custom.colors.silverGrayDark};
+
   ${{ ...theme.typography.subtitle4 }}
   svg {
     width: 12px;
     height: 12px;
   }
+
   display: flex;
   align-items: center;
   gap: 4px;
