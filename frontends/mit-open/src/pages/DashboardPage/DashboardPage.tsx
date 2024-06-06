@@ -285,37 +285,39 @@ const DashboardPage: React.FC = () => {
 
   const desktopMenu = (
     <ProfileSidebar>
-      <ProfilePhotoContainer>
-        <UserIcon />
-        <UserNameContainer>
-          {isLoading ? (
-            <Skeleton variant="text" width={128} height={32} />
-          ) : (
-            <UserNameText>{`${user?.first_name} ${user?.last_name}`}</UserNameText>
-          )}
-        </UserNameContainer>
-      </ProfilePhotoContainer>
-      <TabsContainer value={tabValue} orientation="vertical">
-        <UserMenuTab
-          icon={<RiLayoutMasonryFill />}
-          text="Home"
-          value={TabValues.HOME}
-          currentValue={tabValue}
-        />
-        <UserMenuTab
-          icon={<RiBookmarkFill />}
-          text="My Lists"
-          value={TabValues.MY_LISTS}
-          currentValue={tabValue}
-          onClick={() => setUserListAction("list")}
-        />
-        <UserMenuTab
-          icon={<RiEditFill />}
-          text="Profile"
-          value={TabValues.PROFILE}
-          currentValue={tabValue}
-        />
-      </TabsContainer>
+      <Card.Content>
+        <ProfilePhotoContainer>
+          <UserIcon />
+          <UserNameContainer>
+            {isLoading ? (
+              <Skeleton variant="text" width={128} height={32} />
+            ) : (
+              <UserNameText>{`${user?.first_name} ${user?.last_name}`}</UserNameText>
+            )}
+          </UserNameContainer>
+        </ProfilePhotoContainer>
+        <TabsContainer value={tabValue} orientation="vertical">
+          <UserMenuTab
+            icon={<RiLayoutMasonryFill />}
+            text="Home"
+            value={TabValues.HOME}
+            currentValue={tabValue}
+          />
+          <UserMenuTab
+            icon={<RiBookmarkFill />}
+            text="My Lists"
+            value={TabValues.MY_LISTS}
+            currentValue={tabValue}
+            onClick={() => setUserListAction("list")}
+          />
+          <UserMenuTab
+            icon={<RiEditFill />}
+            text="Profile"
+            value={TabValues.PROFILE}
+            currentValue={tabValue}
+          />
+        </TabsContainer>
+      </Card.Content>
     </ProfileSidebar>
   )
 
