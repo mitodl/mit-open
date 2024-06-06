@@ -15,7 +15,7 @@ const EllipsisTitle = styled(TruncateText)({
   margin: 0,
 })
 
-const TitleButton = styled.a`
+const TitleLink = styled.a`
   display: block;
   text-align: left;
 
@@ -55,9 +55,9 @@ const Title = ({
 }) => {
   const lines = size === "small" ? 2 : 3
   return onActivate ? (
-    <TitleButton onClick={() => onActivate(resource.id)}>
+    <TitleLink onClick={() => onActivate(resource.id)} role="link">
       <EllipsisTitle lineClamp={lines}>{resource.title}</EllipsisTitle>
-    </TitleButton>
+    </TitleLink>
   ) : (
     <EllipsisTitle lineClamp={lines}>{resource.title}</EllipsisTitle>
   )
@@ -128,7 +128,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   isLoading,
   resource,
   className,
-  size,
+  size = "medium",
   onActivate,
   onAddToLearningPathClick,
   onAddToUserListClick,

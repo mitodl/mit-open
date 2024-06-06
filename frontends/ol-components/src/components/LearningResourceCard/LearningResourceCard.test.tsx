@@ -81,7 +81,7 @@ describe("Learning Resource Card", () => {
       { wrapper: ThemeProvider },
     )
 
-    const heading = screen.getByRole("heading", { name: resource.title })
+    const heading = screen.getByRole("link", { name: resource.title })
     await heading.click()
 
     const addToLearningPathButton = screen.getByLabelText(
