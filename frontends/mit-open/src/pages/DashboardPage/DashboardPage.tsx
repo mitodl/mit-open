@@ -342,47 +342,12 @@ const DashboardPage: React.FC = () => {
     </TabButtonListStyled>
   )
 
-  const headerTabPanels = [
-    <TabPanelStyled key={TabValues.HOME} value={TabValues.HOME}>
-      <TitleText role="heading">Your MIT Learning Journey</TitleText>
-      <SubTitleText>
-        A customized course list based on your preferences.
-      </SubTitleText>
-    </TabPanelStyled>,
-    <TabPanelStyled key={TabValues.MY_LISTS} value={TabValues.MY_LISTS}>
-      <TitleText role="heading">My Lists</TitleText>
-    </TabPanelStyled>,
-    <TabPanelStyled key={TabValues.PROFILE} value={TabValues.PROFILE}>
-      <TitleText role="heading">Profile</TitleText>
-    </TabPanelStyled>,
-  ]
-
   const contentComingSoon = (
     <>
       <br />
       <Typography variant="body1">Coming soon...</Typography>
     </>
   )
-
-  const contentTabPanels = [
-    <TabPanelStyled key={TabValues.HOME} value={TabValues.HOME}>
-      {contentComingSoon}
-    </TabPanelStyled>,
-    <TabPanelStyled key={TabValues.MY_LISTS} value={TabValues.MY_LISTS}>
-      {userListAction === "list" ? (
-        <div id="user-list-listing">
-          <UserListListingComponent onActivate={handleActivateUserList} />
-        </div>
-      ) : (
-        <div id="user-list-detail">
-          <UserListDetailsTab userListId={userListId} />
-        </div>
-      )}
-    </TabPanelStyled>,
-    <TabPanelStyled key={TabValues.PROFILE} value={TabValues.PROFILE}>
-      {contentComingSoon}
-    </TabPanelStyled>,
-  ]
 
   return (
     <Background>
@@ -393,16 +358,41 @@ const DashboardPage: React.FC = () => {
           </MetaTags>
           <DashboardGrid container>
             <TabContext value={tabValue}>
-              <Grid item sm={12} md={3}>
-                <MobileOnly>
-                  {headerTabPanels}
-                  {mobileMenu}
-                </MobileOnly>
+              <Grid item md={12}>
+                <MobileOnly>{mobileMenu}</MobileOnly>
                 <DesktopOnly>{desktopMenu}</DesktopOnly>
               </Grid>
-              <Grid item sm={12} md={9}>
-                <DesktopOnly>{headerTabPanels}</DesktopOnly>
-                {contentTabPanels}
+              <Grid item md={12}>
+                <TabPanelStyled value={TabValues.HOME}>
+                  <TitleText role="heading">
+                    Your MIT Learning Journey
+                  </TitleText>
+                  <SubTitleText>
+                    A customized course list based on your preferences.
+                  </SubTitleText>
+                  {contentComingSoon}
+                </TabPanelStyled>
+                <TabPanelStyled value={TabValues.MY_LISTS}>
+                  {userListAction === "list" ? (
+                    <div id="user-list-listing">
+                      <UserListListingComponent
+                        title="My Lists"
+                        onActivate={handleActivateUserList}
+                      />
+                    </div>
+                  ) : (
+                    <div id="user-list-detail">
+                      <UserListDetailsTab userListId={userListId} />
+                    </div>
+                  )}
+                </TabPanelStyled>
+                <TabPanelStyled
+                  key={TabValues.PROFILE}
+                  value={TabValues.PROFILE}
+                >
+                  <TitleText role="heading">Profile</TitleText>
+                  {contentComingSoon}
+                </TabPanelStyled>
               </Grid>
             </TabContext>
           </DashboardGrid>

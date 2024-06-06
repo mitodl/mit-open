@@ -19,7 +19,7 @@ describe("DashboardPage", () => {
     await waitFor(() => {
       expect(document.title).toBe("User Home")
     })
-    screen.getAllByRole("heading", {
+    screen.getByRole("heading", {
       name: "Your MIT Learning Journey",
     })
   })
