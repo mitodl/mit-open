@@ -1,6 +1,6 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
-import { Divider, Card, CardContent, CardActions } from "ol-components"
+import { Divider, MuiCard, CardContent, CardActions } from "ol-components"
 import IconEdit from "@mui/icons-material/Edit"
 import IconDelete from "@mui/icons-material/Delete"
 import IconDrag from "@mui/icons-material/DragHandle"
@@ -72,7 +72,7 @@ const WidgetTemplate: React.FC<WidgetTemplateProps> = ({
   }
 
   return (
-    <Card
+    <MuiCard
       className={classNames("ol-widget", className, {
         "ol-widget-collapsed": !isOpen,
       })}
@@ -123,7 +123,7 @@ const WidgetTemplate: React.FC<WidgetTemplateProps> = ({
           </CardActions>
         </>
       )}
-    </Card>
+    </MuiCard>
   )
 }
 
