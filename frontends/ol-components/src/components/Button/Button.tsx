@@ -208,7 +208,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 type ButtonLinkProps = ButtonStyleProps &
   React.ComponentProps<"a"> & {
-    href: string
+    href?: string
     /**
      * If true, the component will render a native anchor element rather than
      * a react router Link.
@@ -223,25 +223,22 @@ type ButtonLinkProps = ButtonStyleProps &
     nativeAnchor?: boolean
   }
 
-const ButtonLink: React.FC<ButtonLinkProps> = ({
-  children,
-  href,
-  nativeAnchor,
-  ...props
-}) => {
-  if (nativeAnchor) {
+const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
+  ({ children, href = "", nativeAnchor, ...props }, ref) => {
+    if (nativeAnchor) {
+      return (
+        <AnchorStyled href={href} {...props} ref={ref}>
+          <ButtonInner {...props}>{children}</ButtonInner>
+        </AnchorStyled>
+      )
+    }
     return (
-      <AnchorStyled href={href} {...props}>
+      <LinkStyled to={href} {...props} ref={ref}>
         <ButtonInner {...props}>{children}</ButtonInner>
-      </AnchorStyled>
+      </LinkStyled>
     )
-  }
-  return (
-    <LinkStyled to={href} {...props}>
-      <ButtonInner {...props}>{children}</ButtonInner>
-    </LinkStyled>
-  )
-}
+  },
+)
 
 const ActionButtonDefaultProps: Required<
   Omit<ButtonStyleProps, "startIcon" | "endIcon">

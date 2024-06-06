@@ -345,6 +345,29 @@ test("Set sort", async () => {
   expect(popularitySelect).toHaveAttribute("aria-selected", "true")
 })
 
+test("The professional toggle updates the professional setting", async () => {
+  setMockApiResponses({ search: { count: 137 } })
+  const { location } = renderWithProviders(<SearchPage />)
+  const professionalToggle = await screen.getAllByText("Professional")[0]
+  await user.click(professionalToggle)
+  await waitFor(() => {
+    const params = new URLSearchParams(location.current.search)
+    expect(params.get("professional")).toBe("true")
+  })
+  const academicToggle = await screen.getAllByText("Academic")[0]
+  await user.click(academicToggle)
+  await waitFor(() => {
+    const params = new URLSearchParams(location.current.search)
+    expect(params.get("professional")).toBe("false")
+  })
+  const viewAllToggle = await screen.getAllByText("All")[0]
+  await user.click(viewAllToggle)
+  await waitFor(() => {
+    const params = new URLSearchParams(location.current.search)
+    expect(params.get("professional")).toBe(null)
+  })
+})
+
 test("Clearing text updates URL", async () => {
   setMockApiResponses({})
   const { location } = renderWithProviders(<SearchPage />, { url: "?q=meow" })

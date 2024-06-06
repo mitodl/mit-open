@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.12.0"
+VERSION = "0.12.1"
 
 log = logging.getLogger()
 
@@ -248,6 +248,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
+SOCIAL_AUTH_NEW_USER_LOGIN_REDIRECT_URL = "/onboarding"
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
 SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
     *get_list_of_str(
@@ -293,6 +294,8 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.user.user_details",
     # Create a favorites list for new users
     "authentication.pipeline.user.user_created_actions",
+    # redirect new users to onboarding
+    "authentication.pipeline.user.user_onboarding",
 )
 
 SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT = get_string(
