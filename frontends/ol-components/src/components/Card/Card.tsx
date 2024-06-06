@@ -21,7 +21,7 @@ const cardStyles = `
   overflow: hidden;
 `
 
-const Container = styled.div<{ size: Size }>`
+const Container = styled.div<{ size?: Size }>`
   ${cardStyles}
   ${({ size }) => {
     let width
@@ -137,7 +137,7 @@ type Card = FC<CardProps> & {
   Actions: FC<{ children: ReactNode }>
 }
 
-const Card: Card = ({ children, className, size = "medium", link, href }) => {
+const Card: Card = ({ children, className, size, link, href }) => {
   const _Container = link ? LinkContainer : Container
 
   let content, imageProps, info, title, footer, actions

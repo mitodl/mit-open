@@ -3,11 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { Card } from "./Card"
 import { ActionButton } from "../Button/Button"
 import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
-import styled from "@emotion/styled"
-
-const StyledCard = styled(Card)`
-  width: 300px;
-`
 
 const meta: Meta<typeof Card> = {
   title: "ol-components/Card",
@@ -18,7 +13,7 @@ const meta: Meta<typeof Card> = {
     },
   },
   render: (args) => (
-    <StyledCard {...args}>
+    <Card {...args}>
       <Card.Image src="https://openlearninglibrary.mit.edu/asset-v1:MITx+11.154x+3T2018+type@asset+block@course_image.jpg" />
       <Card.Info>Info</Card.Info>
       <Card.Title>
@@ -45,7 +40,7 @@ const meta: Meta<typeof Card> = {
         </ActionButton>
       </Card.Actions>
       <Card.Footer>Footer</Card.Footer>
-    </StyledCard>
+    </Card>
   ),
 }
 
@@ -65,8 +60,13 @@ export const Small: Story = {
   },
 }
 
+export const NoSize: Story = {
+  args: {},
+}
+
 export const LinkCard: Story = {
   args: {
     link: true,
+    size: "medium",
   },
 }
