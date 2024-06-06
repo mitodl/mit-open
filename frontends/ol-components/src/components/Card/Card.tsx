@@ -37,6 +37,7 @@ const Container = styled.div<{ size: Size }>`
 const LinkContainer = styled.a`
   ${cardStyles}
   display: block;
+
   :hover {
     text-decoration: none;
     color: ${theme.custom.colors.mitRed};
