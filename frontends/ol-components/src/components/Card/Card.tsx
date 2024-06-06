@@ -25,8 +25,8 @@ const Container = styled.div<{ size?: Size }>`
   ${cardStyles}
   ${({ size }) => {
     let width
-    if (size === "medium") width = 302
-    if (size === "small") width = 194
+    if (size === "medium") width = 300
+    if (size === "small") width = 192
     return `
       min-width: ${width}px;
       max-width: ${width}px;
