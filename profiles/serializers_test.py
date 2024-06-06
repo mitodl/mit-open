@@ -187,6 +187,7 @@ def test_location_validation(user, data, is_valid):
     assert serializer.is_valid(raise_exception=False) is is_valid
 
 
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
     ("key", "value"),
     [
@@ -194,16 +195,21 @@ def test_location_validation(user, data, is_valid):
         ("bio", "bio_value"),
         ("headline", "headline_value"),
         ("location", {"value": "Hobbiton, The Shire, Middle-Earth"}),
+        ("learning_format", LearningResourceFormat.hybrid.name),
+        ("certificate_desired", Profile.CertificateDesired.YES.value),
     ],
 )
 def test_update_profile(mocker, user, key, value):
     """
     Test updating a profile via the ProfileSerializer
     """
+    topic_ids = [topic.id for topic in LearningResourceTopicFactory.create_batch(2)]
     profile = user.profile
 
     serializer = ProfileSerializer(
-        instance=user.profile, data={key: value}, partial=True
+        instance=user.profile,
+        data={key: value, "topic_interests": topic_ids},
+        partial=True,
     )
     serializer.is_valid(raise_exception=True)
     serializer.save()
@@ -217,6 +223,9 @@ def test_update_profile(mocker, user, key, value):
         "bio",
         "headline",
         "location",
+        "learning_format",
+        "certificate_desired",
+        "topic_interests",
     ):
         if prop == key:
             if isinstance(value, bool):
