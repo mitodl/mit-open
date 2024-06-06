@@ -33,7 +33,7 @@ EXCLUDE_REGEX = r"PROCTORED EXAM"
 OFFERED_BY = {"code": OfferedBy.mitx.name}
 
 
-def _fetch_data(url, params):
+def _fetch_data(url, params=None):
     if not params:
         params = {}
     while url:
