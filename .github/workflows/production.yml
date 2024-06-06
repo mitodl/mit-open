@@ -38,6 +38,9 @@ jobs:
           MITOPEN_AXIOS_WITH_CREDENTIALS: true
           MITOPEN_AXIOS_BASE_PATH: https://api.mitopen.odl.mit.edu
 
+      - name: Write commit SHA to file
+        run: echo $GITHUB_SHA > frontends/mit-open/build/static/hash.txt
+
       - name: Upload frontend build to s3
         uses: jakejarvis/s3-sync-action@master
         with:
