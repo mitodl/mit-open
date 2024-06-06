@@ -4,7 +4,7 @@ import {
 } from "api/hooks/learningResources"
 import {
   Banner,
-  Card,
+  MuiCard,
   CardContent,
   Container,
   Link,
@@ -147,7 +147,7 @@ const GridContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const UnitCardContainer = styled(Card)({
+const UnitCardContainer = styled(MuiCard)({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",

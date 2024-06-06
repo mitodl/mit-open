@@ -22,6 +22,7 @@ interface FeaturedDataSource {
 type TabConfig = {
   label: React.ReactNode
   pageSize: number
+  size?: "small" | "medium"
   data: ResourceDataSource | SearchDataSource | FeaturedDataSource
 }
 

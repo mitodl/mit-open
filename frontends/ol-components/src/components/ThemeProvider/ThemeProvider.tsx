@@ -51,7 +51,7 @@ const themeOptions: ThemeOptions = {
       contrastText: colors.white,
     },
     secondary: {
-      light: colors.lightGray2,
+      light: colors.darkGray2,
       active: colors.silverGrayDark,
       main: colors.black,
       contrastText: colors.white,

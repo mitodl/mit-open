@@ -1,8 +1,11 @@
 import React, { useEffect } from "react"
-import { RoutedDrawer, LearningResourceExpanded } from "ol-components"
+import {
+  RoutedDrawer,
+  LearningResourceExpanded,
+  imgConfigs,
+} from "ol-components"
 import type { RoutedDrawerProps } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import { imgConfigs } from "@/common/constants"
 import { useSearchParams } from "react-router-dom"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { usePostHog } from "posthog-js/react"

@@ -19,6 +19,7 @@ const FEATURED_RESOURCES_CAROUSEL: TabbedCarouselProps["config"] = [
   {
     label: "All",
     pageSize: 4,
+    size: "medium",
     data: {
       type: "lr_featured",
       params: { ...COMMON_PARAMS },
@@ -27,6 +28,7 @@ const FEATURED_RESOURCES_CAROUSEL: TabbedCarouselProps["config"] = [
   {
     label: "Free",
     pageSize: 4,
+    size: "medium",
     data: {
       type: "lr_featured",
       params: { ...COMMON_PARAMS, free: true },
@@ -35,6 +37,7 @@ const FEATURED_RESOURCES_CAROUSEL: TabbedCarouselProps["config"] = [
   {
     label: "Certificate",
     pageSize: 4,
+    size: "medium",
     data: {
       type: "lr_featured",
       params: { ...COMMON_PARAMS, certification: true },
@@ -43,6 +46,7 @@ const FEATURED_RESOURCES_CAROUSEL: TabbedCarouselProps["config"] = [
   {
     label: "Professional",
     pageSize: 4,
+    size: "medium",
     data: {
       type: "lr_featured",
       params: { ...COMMON_PARAMS, professional: true },

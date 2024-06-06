@@ -11,6 +11,7 @@ import {
   ActionButton,
   Typography,
   PlainList,
+  imgConfigs,
 } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
@@ -25,7 +26,6 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserListCardTemplate"
 import { useNavigate } from "react-router"
 import * as urls from "@/common/urls"
-import { imgConfigs } from "@/common/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 const ListHeaderGrid = styled(Grid)`

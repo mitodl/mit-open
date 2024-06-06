@@ -3,11 +3,13 @@ import * as NiceModal from "@ebay/nice-modal-react"
 
 import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import type { LearningResourceCardTemplateProps } from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
-import { imgConfigs } from "@/common/constants"
-import { ActionButton } from "ol-components"
+import { ActionButton, imgConfigs } from "ol-components"
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
-import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "../Dialogs/AddToListDialog"
 import { LearningResource } from "api"
 import { useUserMe } from "api/hooks/user"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
@@ -43,8 +45,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return
   }, [resource])
 
-  const { isLoading, data: user } = useUserMe()
   const openLRDrawer = useOpenLearningResourceDrawer()
+  const { isLoading, data: user } = useUserMe()
 
   if (isLoading) {
     return null

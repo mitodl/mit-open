@@ -24,7 +24,7 @@ const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
   }
 
 const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
-  const { size, variant, edge, theme } = {
+  const { size, variant, edge, theme, color } = {
     ...defaultProps,
     ...props,
   }
@@ -120,6 +120,13 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     edge === "circular" && {
       // Pill-shaped buttons... Overlapping border radius get clipped to pill.
       borderRadius: "100vh",
+    },
+    color === "secondary" && {
+      color: theme.custom.colors.silverGray,
+      borderColor: theme.custom.colors.silverGray,
+      ":hover:not(:disabled)": {
+        backgroundColor: theme.custom.colors.lightGray1,
+      },
     },
   ]
 })

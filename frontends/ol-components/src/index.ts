@@ -31,8 +31,8 @@ export {
 
 export type { ButtonProps, ButtonLinkProps } from "./components/Button/Button"
 
-export { default as Card } from "@mui/material/Card"
-export type { CardProps } from "@mui/material/Card"
+export { default as MuiCard } from "@mui/material/Card"
+export type { CardProps as MuiCardProps } from "@mui/material/Card"
 export { default as Box } from "@mui/material/Box"
 export type { BoxProps } from "@mui/material/Box"
 export { default as CardActions } from "@mui/material/CardActions"
@@ -150,9 +150,13 @@ export { default as CircularProgress } from "@mui/material/CircularProgress"
 export * from "./components/Alert/Alert"
 export * from "./components/BasicDialog/BasicDialog"
 export * from "./components/BannerPage/BannerPage"
+export * from "./components/Card/Card"
 export * from "./components/Chips/ChipLink"
 export * from "./components/EmbedlyCard/EmbedlyCard"
 export * from "./components/FormDialog/FormDialog"
+export * from "./components/LearningResourceCard/LearningResourceCard"
+export * from "./components/LearningResourceExpanded/LearningResourceExpanded"
+export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/Logo/Logo"
 export * from "./components/RoutedDrawer/RoutedDrawer"
 export * from "./components/NavDrawer/NavDrawer"
@@ -164,9 +168,10 @@ export * from "./components/Carousel/Carousel"
 export * from "./components/PlainList/PlainList"
 export * from "./components/TruncateText/TruncateText"
 export * from "./components/ThemeProvider/ThemeProvider"
-export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/RadioChoiceField/RadioChoiceField"
 export * from "./components/ChoiceBox/ChoiceBox"
+
+export * from "./constants/imgConfigs"
 
 export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
@@ -187,8 +192,6 @@ export type {
 
 export { Link, linkStyles } from "./components/Link/Link"
 export type { LinkProps } from "./components/Link/Link"
-
-export * from "./components/LearningResourceExpanded/LearningResourceExpanded"
 
 export * from "./hooks/useBreakpoint"
 

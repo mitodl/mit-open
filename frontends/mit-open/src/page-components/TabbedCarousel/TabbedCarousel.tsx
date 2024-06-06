@@ -1,4 +1,5 @@
 import React from "react"
+import * as NiceModal from "@ebay/nice-modal-react"
 import {
   useFeaturedLearningResourcesList,
   useLearningResourcesList,
@@ -11,6 +12,7 @@ import {
   TabList,
   Carousel,
   styled,
+  LearningResourceCard,
 } from "ol-components"
 import type {
   TabConfig,
@@ -19,12 +21,22 @@ import type {
   FeaturedDataSource,
 } from "./types"
 import { LearningResource } from "api"
-import LearningResourceCard from "../LearningResourceCard/LearningResourceCard"
-import type { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
+import { useUserMe } from "api/hooks/user"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "../Dialogs/AddToListDialog"
+import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
-type LearningResourceCardStyledProps = LearningResourceCardProps & {
+const LearningResourceCardStyled = styled(LearningResourceCard)<{
   cardsPerPage: number
-}
+}>`
+  ${({ cardsPerPage }) => `
+    min-width: calc(${100 / cardsPerPage}% - ${((cardsPerPage - 1) / cardsPerPage) * 24}px);
+    max-width: calc(${100 / cardsPerPage}% - ${((cardsPerPage - 1) / cardsPerPage) * 24}px);
+  `}
+  margin: 6px 24px 6px 0;
+`
 
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   dataConfig: T
@@ -85,29 +97,6 @@ const DataPanel: React.FC<DataPanelProps> = ({ dataConfig, children }) => {
   }
 }
 
-const CarouselStyled = styled(Carousel)`
-  .slider-list {
-    /**
-    Prevent shift while loading.
-    This is a bit arbitrary and would be better handled by placeholder "skeleton"
-    cards.
-    */
-    min-height: 354px;
-  }
-`
-
-const LearningResourceCardStyled = styled(
-  LearningResourceCard,
-)<LearningResourceCardStyledProps>`
-  min-width: calc(
-    ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
-  );
-  max-width: calc(
-    ${(props) => Number(100 / props.cardsPerPage).toPrecision(2)}% - 24px
-  );
-  margin: 6px 26px 6px 0;
-`
-
 type TabbedCarouselProps = {
   config: TabConfig[]
 }
@@ -117,9 +106,27 @@ type TabbedCarouselProps = {
  *  - each TabConfig generates a tab + tabpanel that pulls data from an API based
  *    on the config
  *  - data is lazily when the tabpanel first becomes visible
+ *
+ * For now, this is a carousel of learning resource cards, to be moved out if/when it is needed for other items.
  */
 const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
+  const { data: user } = useUserMe()
   const [tab, setTab] = React.useState("0")
+
+  const showAddToLearningPathDialog =
+    user?.is_authenticated && user?.is_learning_path_editor
+      ? (resourceId: number) => {
+          NiceModal.show(AddToLearningPathDialog, { resourceId })
+        }
+      : null
+
+  const showAddToUserListDialog = user?.is_authenticated
+    ? (resourceId: number) => {
+        NiceModal.show(AddToUserListDialog, { resourceId })
+      }
+    : null
+
+  const openLRDrawer = useOpenLearningResourceDrawer()
 
   return (
     <TabContext value={tab}>
@@ -128,21 +135,40 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config }) => {
           <Tab key={index} label={label} value={index.toString()} />
         ))}
       </TabList>
-      {config.map(({ data, pageSize }, index) => (
+      {config.map(({ data, pageSize, size }, index) => (
         <TabPanel key={index} value={index.toString()}>
           <DataPanel dataConfig={data}>
-            {({ resources }) => (
-              <CarouselStyled pageSize={pageSize}>
-                {resources.map((resource) => (
-                  <LearningResourceCardStyled
-                    key={resource.id}
-                    variant="column"
-                    resource={resource}
-                    cardsPerPage={pageSize}
-                  />
-                ))}
-              </CarouselStyled>
-            )}
+            {({ resources, isLoading }) => {
+              if (isLoading) {
+                return (
+                  <Carousel pageSize={pageSize}>
+                    {Array.from({ length: pageSize }, (_, i) => (
+                      <LearningResourceCardStyled
+                        key={i}
+                        isLoading
+                        size={size}
+                        cardsPerPage={pageSize}
+                      />
+                    ))}
+                  </Carousel>
+                )
+              }
+              return (
+                <Carousel pageSize={pageSize}>
+                  {resources.map((resource) => (
+                    <LearningResourceCardStyled
+                      key={resource.id}
+                      resource={resource}
+                      size={size}
+                      cardsPerPage={pageSize}
+                      onActivate={openLRDrawer}
+                      onAddToLearningPathClick={showAddToLearningPathDialog}
+                      onAddToUserListClick={showAddToUserListDialog}
+                    />
+                  ))}
+                </Carousel>
+              )
+            }}
           </DataPanel>
         </TabPanel>
       ))}

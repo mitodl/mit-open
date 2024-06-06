@@ -6,6 +6,8 @@ import {
   Typography,
   Grid,
   useMuiBreakpointAtLeast,
+  Card,
+  CardLinkContainer,
 } from "ol-components"
 import {
   useNewsEventsList,
@@ -75,26 +77,6 @@ const EventsContainer = styled.section`
   align-self: stretch;
 `
 
-const Card = styled.a`
-  border-radius: 8px;
-  border: 1px solid ${theme.custom.colors.lightGray2};
-  background: ${theme.custom.colors.white};
-  box-shadow:
-    0 2px 4px 0 rgb(37 38 43 / 10%),
-    0 2px 4px 0 rgb(37 38 43 / 10%);
-
-  :hover {
-    text-decoration: none;
-    color: ${theme.custom.colors.mitRed};
-    border-color: ${theme.custom.colors.silverGrayLight};
-
-    > p {
-      color: ${theme.custom.colors.mitRed};
-      text-decoration: underline;
-    }
-  }
-`
-
 const StoryCard = styled(Card)<{ mobile: boolean }>`
   display: flex;
   flex-direction: column;
@@ -111,42 +93,6 @@ const StoriesSlider = styled.div`
   padding: 0 16px 24px;
 `
 
-const StoryImage = styled.img`
-  display: block;
-  background-size: cover;
-  background-repeat: no-repeat;
-  -webkit-background-position: center;
-  background-position: center;
-  width: 100%;
-  object-fit: cover;
-  height: 172px;
-  border-radius:;
-`
-
-const StoryTitle = styled.p`
-  ${{ ...theme.typography.subtitle1 }}
-  text-overflow: ellipsis;
-  height: ${theme.typography.pxToRem(40)};
-  overflow: hidden;
-  margin: 16px;
-
-  @supports (-webkit-line-clamp: 2) {
-    white-space: initial;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-`
-
-const StoryPublished = styled.span`
-  ${{
-    ...theme.typography.body3,
-    color: theme.custom.colors.silverGrayDark,
-  }}
-
-  margin: 0 16px 16px;
-`
-
 const Events = styled.div`
   display: flex;
   flex-direction: column;
@@ -159,7 +105,7 @@ const MobileEvents = styled(Events)`
   padding: 0 16px;
 `
 
-const EventCard = styled(Card)`
+const EventCard = styled(CardLinkContainer)`
   display: flex;
   align-items: center;
   gap: 16px;
@@ -167,6 +113,7 @@ const EventCard = styled(Card)`
   align-self: stretch;
   padding: 16px;
   justify-content: space-between;
+  overflow: visible;
 `
 
 const EventDate = styled.div`
@@ -226,12 +173,12 @@ const Story: React.FC<{ item: NewsFeedItem; mobile: boolean }> = ({
   mobile,
 }) => {
   return (
-    <StoryCard mobile={mobile} href={item.url}>
-      <StoryImage src={item.image?.url} alt={item.image?.alt} />
-      <StoryTitle>{item.title}</StoryTitle>
-      <StoryPublished>
+    <StoryCard mobile={mobile} href={item.url} link>
+      <Card.Image src={item.image?.url} alt={item.image?.alt} />
+      <Card.Title>{item.title}</Card.Title>
+      <Card.Footer>
         Published: {formatDate(item.news_details?.publish_date)}
-      </StoryPublished>
+      </Card.Footer>
     </StoryCard>
   )
 }
