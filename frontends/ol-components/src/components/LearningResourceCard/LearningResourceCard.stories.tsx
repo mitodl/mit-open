@@ -49,6 +49,10 @@ const meta: Meta<typeof LearningResourceCard> = {
         }),
       },
     },
+    size: {
+      options: ["small", "medium"],
+      control: { type: "select" },
+    },
     onActivate: {
       action: "click-activate",
     },
@@ -62,6 +66,7 @@ const meta: Meta<typeof LearningResourceCard> = {
   render: ({
     resource,
     isLoading,
+    size,
     onActivate,
     onAddToLearningPathClick,
     onAddToUserListClick,
@@ -69,6 +74,7 @@ const meta: Meta<typeof LearningResourceCard> = {
     <LearningResourceCardStyled
       resource={resource}
       isLoading={isLoading}
+      size={size}
       onActivate={onActivate}
       onAddToLearningPathClick={onAddToLearningPathClick}
       onAddToUserListClick={onAddToUserListClick}
@@ -104,12 +110,14 @@ export const Program: Story = {
 export const Podcast: Story = {
   args: {
     resource: makeResource({ resource_type: ResourceTypeEnum.Podcast }),
+    size: "small",
   },
 }
 
 export const PodcastEpisode: Story = {
   args: {
     resource: makeResource({ resource_type: ResourceTypeEnum.PodcastEpisode }),
+    size: "small",
   },
 }
 
@@ -119,6 +127,7 @@ export const Video: Story = {
       resource_type: ResourceTypeEnum.Video,
       url: "https://www.youtube.com/watch?v=4A9bGL-_ilA",
     }),
+    size: "small",
   },
 }
 
@@ -127,6 +136,7 @@ export const VideoPlaylist: Story = {
     resource: makeResource({
       resource_type: ResourceTypeEnum.VideoPlaylist,
     }),
+    size: "small",
   },
 }
 
