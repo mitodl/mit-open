@@ -263,7 +263,7 @@ def test_serialize_profile_preference_search_filters(
 
     search_filters = ProfileSerializer(profile).data["preference_search_filters"]
     assert search_filters.get("certification", None) == cert_filter
-    assert search_filters.get("topics", None) == (topics if topics else None)
+    assert search_filters.get("topic", None) == (topics if topics else None)
     assert search_filters.get("learning_format", None) == (
         lr_format if lr_format else None
     )

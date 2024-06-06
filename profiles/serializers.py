@@ -75,7 +75,7 @@ class PreferencesSearchSerializer(serializers.Serializer):
     """Serializer for profile search preference filters"""
 
     certification = serializers.BooleanField(required=False)
-    topics = serializers.ListField(child=serializers.CharField(), required=False)
+    topic = serializers.ListField(child=serializers.CharField(), required=False)
     learning_format = serializers.CharField(required=False)
 
 
@@ -121,7 +121,7 @@ class ProfileSerializer(serializers.ModelSerializer):
                 obj.certificate_desired == Profile.CertificateDesired.YES.value
             )
         if obj.topic_interests and obj.topic_interests.count() > 0:
-            filters["topics"] = obj.topic_interests.values_list("name", flat=True)
+            filters["topic"] = obj.topic_interests.values_list("name", flat=True)
         if obj.learning_format:
             filters["learning_format"] = obj.learning_format
         return PreferencesSearchSerializer(instance=filters).data
