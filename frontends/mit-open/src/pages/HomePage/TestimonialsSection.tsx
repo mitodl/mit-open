@@ -20,10 +20,10 @@ const Section = styled.section(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     padding: "40px 0",
   },
-  ["h2, h3"]: {
+  "h2, h3": {
     textAlign: "center",
   },
-  ["h3"]: {
+  h3: {
     marginTop: "8px",
     marginBottom: "60px",
     ...theme.typography.body1,
@@ -31,18 +31,16 @@ const Section = styled.section(({ theme }) => ({
 }))
 
 const TestimonialCardContainer = styled.div({
-  padding: "0px 28px",
+  width: "100%",
 })
 
 const TestimonialCard = styled.div({
-  minWidth: "948px",
-  maxWidth: "948px",
   height: "326px",
   backgroundColor: theme.custom.colors.white,
   color: theme.custom.colors.black,
   display: "flex",
   borderRadius: "8px",
-  margin: "0 0 26px 24px",
+  margin: "0 0 50px 24px",
   [theme.breakpoints.down("md")]: {
     minWidth: "311px",
     maxWidth: "311px",
@@ -152,10 +150,18 @@ const TestimonialFadeRight = styled.div({
   },
 })
 
+const RiArrowDropLeftLineStyled = styled(RiArrowDropLeftLine)({
+  fontSize: "10rem",
+})
+const RiArrowDropRightLineStyled = styled(RiArrowDropRightLine)({
+  fontSize: "10rem",
+})
+
 const ButtonsContainer = styled.div({
   display: "flex",
   justifyContent: "center",
-  margin: "32px auto",
+  margin: "0 auto",
+  gap: "16px",
 })
 
 const SlickCarousel = () => {
@@ -174,7 +180,10 @@ const SlickCarousel = () => {
         arrows={false}
       >
         {data?.results.map((resource) => (
-          <TestimonialCardContainer key={`container-${resource.id}`}>
+          <TestimonialCardContainer
+            className="testimonial-card-container"
+            key={`container-${resource.id}`}
+          >
             <TestimonialCard
               key={`a-${resource.id}`}
               id={`testimonial-card-${resource.id}`}
@@ -203,10 +212,10 @@ const SlickCarousel = () => {
       <TestimonialFadeRight />
       <ButtonsContainer>
         <ActionButton variant="inverted" onClick={slick?.slickPrev}>
-          <RiArrowDropLeftLine />
+          <RiArrowDropLeftLineStyled />
         </ActionButton>
         <ActionButton variant="inverted" onClick={slick?.slickNext}>
-          <RiArrowDropRightLine />
+          <RiArrowDropRightLineStyled />
         </ActionButton>
       </ButtonsContainer>
     </OverlayContainer>
