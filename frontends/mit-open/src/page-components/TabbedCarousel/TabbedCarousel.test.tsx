@@ -26,7 +26,6 @@ describe("TabbedCarousel", () => {
     const config: TabbedCarouselProps["config"] = [
       {
         label: "Resources",
-        pageSize: 4,
         data: {
           type: "resources",
           params: { resource_type: ["video", "podcast"] },
@@ -34,7 +33,6 @@ describe("TabbedCarousel", () => {
       },
       {
         label: "Search",
-        pageSize: 4,
         data: {
           type: "lr_search",
           params: { professional: true },
@@ -44,7 +42,7 @@ describe("TabbedCarousel", () => {
 
     setMockResponse.get(urls.userMe.get(), {})
     const { list, search } = setupApis()
-    renderWithProviders(<TabbedCarousel config={config} />)
+    renderWithProviders(<TabbedCarousel title="My Carousel" config={config} />)
     const tabs = screen.getAllByRole("tab")
     expect(tabs).toHaveLength(2)
     expect(tabs[0]).toHaveTextContent("Resources")
@@ -63,7 +61,6 @@ describe("TabbedCarousel", () => {
     const config: TabbedCarouselProps["config"] = [
       {
         label: "Resources",
-        pageSize: 4,
         data: {
           type: "resources",
           params: { resource_type: ["course", "program"], professional: true },
@@ -72,7 +69,7 @@ describe("TabbedCarousel", () => {
     ]
     setMockResponse.get(urls.userMe.get(), {})
     setupApis()
-    renderWithProviders(<TabbedCarousel config={config} />)
+    renderWithProviders(<TabbedCarousel title="My Carousel" config={config} />)
     await waitFor(() => {
       expect(makeRequest.mock.calls.length > 0).toBe(true)
     })
