@@ -38,6 +38,13 @@ jobs:
           MITOPEN_AXIOS_WITH_CREDENTIALS: true
           MITOPEN_AXIOS_BASE_PATH: https://api.mitopen.odl.mit.edu
 
+      - uses: akhileshns/heroku-deploy@581dd286c962b6972d427fcf8980f60755c15520
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "mitopen-production"
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          branch: release
+
       - name: Write commit SHA to file
         run: echo $GITHUB_SHA > frontends/mit-open/build/static/hash.txt
 
@@ -51,13 +58,6 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_PROD }}
           SOURCE_DIR: "frontends/mit-open/build" # optional: defaults to entire repository
           DEST_DIR: "frontend" # This dir will get cluttered but it is okay for now
-
-      - uses: akhileshns/heroku-deploy@581dd286c962b6972d427fcf8980f60755c15520
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "mitopen-production"
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          branch: release
 
       - name: Purge Fastly cache
         uses: jcoene/fastly-purge-action@master
