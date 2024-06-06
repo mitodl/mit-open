@@ -64,3 +64,9 @@ export const Small: Story = {
     size: "small",
   },
 }
+
+export const LinkCard: Story = {
+  args: {
+    link: true,
+  },
+}

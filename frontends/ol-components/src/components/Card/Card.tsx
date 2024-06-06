@@ -36,11 +36,14 @@ const Container = styled.div<{ size: Size }>`
 
 const LinkContainer = styled.a`
   ${cardStyles}
+  display: block;
   :hover {
     text-decoration: none;
     color: ${theme.custom.colors.mitRed};
     border-color: ${theme.custom.colors.silverGrayLight};
+    cursor: pointer;
 
+    h3,
     > p {
       color: ${theme.custom.colors.mitRed};
       text-decoration: underline;
