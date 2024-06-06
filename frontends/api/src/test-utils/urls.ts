@@ -167,7 +167,7 @@ const programLetters = {
 
 const testimonials = {
   list: (params?: Paramsv0<TestimonialsApi, "testimonialsList">) =>
-    `/api/v0/testimonials/${query(params)}`,
+    `${API_BASE_URL}/api/v0/testimonials/${query(params)}`,
   details: (id: number) => `/api/v0/testimonials/${id}/`,
 }
 

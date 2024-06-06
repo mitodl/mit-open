@@ -1,7 +1,6 @@
 import React from "react"
 import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
-import { colors } from "../ThemeProvider/colors"
 import tinycolor from "tinycolor2"
 import { Link } from "react-router-dom"
 

@@ -61,7 +61,7 @@ const setupAPIs = () => {
     results: [],
   })
 
-  setMockResponse.get(urls.testimonials.list({}), {
+  setMockResponse.get(expect.stringContaining(urls.testimonials.list({})), {
     results: [],
   })
 }
