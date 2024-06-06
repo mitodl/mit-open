@@ -117,7 +117,7 @@ describe("Home Page Carousel", () => {
       params: { resource_type: ["course"], limit: 12, certification: true },
     },
     {
-      tab: "Professional",
+      tab: "Professional and Executive Education",
       params: { resource_type: ["course"], limit: 12, professional: true },
     },
   ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
@@ -150,7 +150,9 @@ describe("Home Page Carousel", () => {
     within(featured).getByRole("tab", { name: "All" })
     within(featured).getByRole("tab", { name: "Free" })
     within(featured).getByRole("tab", { name: "Certificate" })
-    within(featured).getByRole("tab", { name: "Professional" })
+    within(featured).getByRole("tab", {
+      name: "Professional and Executive Education",
+    })
     within(media).getByRole("tab", { name: "All" })
     within(media).getByRole("tab", { name: "Videos" })
     within(media).getByRole("tab", { name: "Podcasts" })
