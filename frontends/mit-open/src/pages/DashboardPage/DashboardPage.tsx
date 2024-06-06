@@ -221,6 +221,7 @@ const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
     <Tab
       component={Link}
       to={`#${value}`}
+      data-testid={`desktop-tab-${value}`}
       label={
         <TabContainer
           onClick={onClick}
@@ -240,6 +241,12 @@ enum TabValues {
   HOME = "home",
   MY_LISTS = "my-lists",
   PROFILE = "profile",
+}
+
+const TabLabels = {
+  [TabValues.HOME.toString()]: "Home",
+  [TabValues.MY_LISTS.toString()]: "My Lists",
+  [TabValues.PROFILE.toString()]: "Profile",
 }
 
 const keyFromHash = (hash: string) => {
@@ -298,23 +305,27 @@ const DashboardPage: React.FC = () => {
             )}
           </UserNameContainer>
         </ProfilePhotoContainer>
-        <TabsContainer value={tabValue} orientation="vertical">
+        <TabsContainer
+          value={tabValue}
+          orientation="vertical"
+          data-testid="desktop-tab-list"
+        >
           <UserMenuTab
             icon={<RiLayoutMasonryFill />}
-            text="Home"
+            text={TabLabels[TabValues.HOME]}
             value={TabValues.HOME}
             currentValue={tabValue}
           />
           <UserMenuTab
             icon={<RiBookmarkFill />}
-            text="My Lists"
+            text={TabLabels[TabValues.MY_LISTS]}
             value={TabValues.MY_LISTS}
             currentValue={tabValue}
             onClick={() => setUserListAction("list")}
           />
           <UserMenuTab
             icon={<RiEditFill />}
-            text="Profile"
+            text={TabLabels[TabValues.PROFILE]}
             value={TabValues.PROFILE}
             currentValue={tabValue}
           />
@@ -324,19 +335,22 @@ const DashboardPage: React.FC = () => {
   )
 
   const mobileMenu = (
-    <TabButtonList>
+    <TabButtonList data-testid="mobile-tab-list">
       <TabButtonLink
+        data-testid={`mobile-tab-${TabValues.HOME}`}
         value={TabValues.HOME}
         href={`#${TabValues.HOME}`}
         label="Home"
       />
       <TabButtonLink
+        data-testid={`mobile-tab-${TabValues.MY_LISTS}`}
         value={TabValues.MY_LISTS}
         href={`#${TabValues.MY_LISTS}`}
         label="My Lists"
         onClick={() => setUserListAction("list")}
       />
       <TabButtonLink
+        data-testid={`mobile-tab-${TabValues.PROFILE}`}
         value={TabValues.PROFILE}
         href={`#${TabValues.PROFILE}`}
         label="Profile"
@@ -404,4 +418,4 @@ const DashboardPage: React.FC = () => {
   )
 }
 
-export default DashboardPage
+export { DashboardPage, TabLabels as DashboardTabLabels }
