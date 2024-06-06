@@ -32,6 +32,9 @@ const Section = styled.section(({ theme }) => ({
 
 const TestimonialCardContainer = styled.div({
   width: "100%",
+  [theme.breakpoints.down("md")]: {
+    padding: "0 10%",
+  },
 })
 
 const TestimonialCard = styled.div({
@@ -42,8 +45,6 @@ const TestimonialCard = styled.div({
   borderRadius: "8px",
   margin: "0 0 50px 24px",
   [theme.breakpoints.down("md")]: {
-    minWidth: "311px",
-    maxWidth: "311px",
     height: "411px",
     flexDirection: "column",
     margin: "0",
@@ -61,7 +62,7 @@ const TestimonialCardImage = styled.div({
       width: "100%",
       height: "190px",
       borderTopRightRadius: "8px",
-      borderBottomLeftRaidus: "0",
+      borderBottomLeftRadius: "0px",
     },
   },
   [theme.breakpoints.down("md")]: {
@@ -93,7 +94,7 @@ const TestimonialCardQuote = styled.div({
     padding: "0 16px",
   },
 
-  ["div.testimonial-quote-opener"]: {
+  "div.testimonial-quote-opener": {
     color: theme.custom.colors.mitRed,
     fontStyle: "normal",
     height: pxToRem(80),
@@ -107,7 +108,7 @@ const TestimonialCardQuote = styled.div({
     },
   },
 
-  ["h4"]: {
+  h4: {
     flexGrow: "1",
     [theme.breakpoints.down("md")]: {
       width: "100%",
@@ -115,7 +116,7 @@ const TestimonialCardQuote = styled.div({
     },
   },
 
-  ["div.testimonial-quote-closer"]: {
+  "div.testimonial-quote-closer": {
     textAlign: "right",
     width: "100%",
   },
@@ -162,6 +163,9 @@ const ButtonsContainer = styled.div({
   justifyContent: "center",
   margin: "0 auto",
   gap: "16px",
+  [theme.breakpoints.down("md")]: {
+    marginTop: "20px",
+  },
 })
 
 const SlickCarousel = () => {
@@ -169,16 +173,27 @@ const SlickCarousel = () => {
   const [slick, setSlick] = React.useState<Slider | null>(null)
 
   if (!data) return null
+
+  const settings = {
+    ref: setSlick,
+    infinite: true,
+    slidesToShow: 1,
+    centerPadding: "15%",
+    centerMode: true,
+    arrows: false,
+    responsive: [
+      {
+        breakpoint: theme.breakpoints.values["md"],
+        settings: {
+          centerMode: false,
+        },
+      },
+    ],
+  }
+
   return (
     <OverlayContainer>
-      <Slider
-        ref={setSlick}
-        infinite
-        centerMode
-        slidesToShow={1}
-        centerPadding="15%"
-        arrows={false}
-      >
+      <Slider {...settings}>
         {data?.results.map((resource) => (
           <TestimonialCardContainer
             className="testimonial-card-container"
