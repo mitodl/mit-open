@@ -1,5 +1,6 @@
 """Tests for opensearch serializers"""
 
+from copy import deepcopy
 from decimal import Decimal
 from types import SimpleNamespace
 
@@ -19,9 +20,19 @@ from learning_resources.constants import (
     LearningResourceType,
 )
 from learning_resources.etl.constants import CourseNumberType
-from learning_resources.factories import LearningResourceRunFactory
+from learning_resources.factories import (
+    CourseFactory,
+    LearningPathRelationshipFactory,
+    LearningResourceRunFactory,
+    UserListFactory,
+    UserListRelationshipFactory,
+)
 from learning_resources.models import LearningResource
-from learning_resources.serializers import LearningResourceSerializer
+from learning_resources.serializers import (
+    LearningResourceSerializer,
+    MicroLearningPathRelationshipSerializer,
+    MicroUserListRelationshipSerializer,
+)
 from learning_resources_search import serializers
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.factories import PercolateQueryFactory
@@ -33,289 +44,7 @@ from learning_resources_search.serializers import (
     extract_values,
     serialize_percolate_query,
 )
-
-
-@pytest.fixture()
-def learning_resources_search_view():
-    """Fixture with relevant properties for testing the search view"""
-    return SimpleNamespace(url=reverse("lr_search:v1:learning_resources_search"))
-
-
-def get_request_object(url):
-    """Build and return a django request object"""
-    request_factory = APIRequestFactory()
-    api_request = request_factory.get(url, {"q": "test"})
-    return Request(api_request)
-
-
-@pytest.mark.django_db()
-def test_serialize_bulk_learning_resources(mocker):
-    """
-    Test that serialize_bulk_learning_resource calls serialize_learning_resource_for_bulk for
-    every existing learning resource
-    """
-    mock_serialize_program = mocker.patch(
-        "learning_resources_search.serializers.serialize_learning_resource_for_bulk"
-    )
-    resources = factories.LearningResourceFactory.create_batch(5)
-    list(
-        serializers.serialize_bulk_learning_resources(
-            [resource.id for resource in LearningResource.objects.all()]
-        )
-    )
-    for resource in resources:
-        mock_serialize_program.assert_any_call(resource)
-
-
-@pytest.mark.django_db()
-@pytest.mark.parametrize(
-    "resource_type",
-    set(LearningResourceType.names()) - {LearningResourceType.course.name},
-)
-@pytest.mark.parametrize("is_professional", [True, False])
-@pytest.mark.parametrize("no_price", [True, False])
-def test_serialize_learning_resource_for_bulk(resource_type, is_professional, no_price):
-    """
-    Test that serialize_program_for_bulk yields a valid LearningResourceSerializer for resource types other than "course"
-    The "course" resource type is tested by `test_serialize_course_numbers_for_bulk` below.
-    """
-    resource = factories.LearningResourceFactory.create(
-        resource_type=resource_type, professional=is_professional, runs=[]
-    )
-    LearningResourceRunFactory.create(
-        learning_resource=resource, prices=[Decimal(0.00 if no_price else 1.00)]
-    )
-    free_dict = {
-        "free": resource_type
-        not in [LearningResourceType.program.name, LearningResourceType.course.name]
-        or (no_price and not is_professional)
-    }
-    assert serializers.serialize_learning_resource_for_bulk(resource) == {
-        "_id": resource.id,
-        "resource_relations": {"name": "resource"},
-        "created_on": resource.created_on,
-        **free_dict,
-        **LearningResourceSerializer(resource).data,
-    }
-
-
-@pytest.mark.django_db()
-@pytest.mark.parametrize(
-    ("readable_id", "sort_course_num"), [("1", "01"), ("15", "15"), ("CMS-W", "CMS-W")]
-)
-@pytest.mark.parametrize(
-    ("extra_num", "sorted_extra_num"), [("2", "02"), ("16", "16"), ("CC", "CC")]
-)
-def test_serialize_course_numbers_for_bulk(
-    readable_id, sort_course_num, extra_num, sorted_extra_num
-):
-    """
-    Test that serialize_course_for_bulk yields a valid LearningResourceSerializer
-    """
-    course_numbers = [
-        {
-            "value": readable_id,
-            "listing_type": CourseNumberType.primary.value,
-            "department": {
-                "department_id": readable_id,
-                "name": DEPARTMENTS[readable_id],
-            },
-            "primary": True,
-            "sort_coursenum": sort_course_num,
-        },
-        {
-            "value": extra_num,
-            "listing_type": CourseNumberType.cross_listed.value,
-            "department": {"department_id": extra_num, "name": DEPARTMENTS[extra_num]},
-            "primary": False,
-            "sort_coursenum": sorted_extra_num,
-        },
-    ]
-    resource = factories.CourseFactory.create(
-        course_numbers=course_numbers
-    ).learning_resource
-    assert resource.course.course_numbers == course_numbers
-    expected_data = {
-        "_id": resource.id,
-        "resource_relations": {"name": "resource"},
-        "created_on": resource.created_on,
-        "free": False,
-        **LearningResourceSerializer(resource).data,
-    }
-    expected_data["course"]["course_numbers"][0] = {
-        **expected_data["course"]["course_numbers"][0],
-        "primary": True,
-        "sort_coursenum": sort_course_num,
-    }
-    expected_data["course"]["course_numbers"][1] = {
-        **expected_data["course"]["course_numbers"][1],
-        "primary": False,
-        "sort_coursenum": sorted_extra_num,
-    }
-
-    assert serializers.serialize_learning_resource_for_bulk(resource) == expected_data
-
-
-@pytest.mark.django_db()
-def test_serialize_bulk_learning_resources_for_deletion():
-    """
-    Test that serialize_bulk_learning_resources_for_deletion yields correct data
-    """
-    resource = factories.LearningResourceFactory.create()
-    assert list(
-        serializers.serialize_bulk_learning_resources_for_deletion([resource.id])
-    ) == [{"_id": resource.id, "_op_type": "delete"}]
-
-
-@pytest.mark.django_db()
-def test_serialize_content_file_for_bulk():
-    """
-    Test that serialize_content_file_for_bulk yields correct data
-    """
-    content_file = factories.ContentFileFactory.create()
-    assert serializers.serialize_content_file_for_bulk(content_file) == {
-        "_id": gen_content_file_id(content_file.id),
-        "resource_relations": {
-            "name": "content_file",
-            "parent": content_file.run.learning_resource_id,
-        },
-        **ContentFileSerializer(content_file).data,
-    }
-
-
-@pytest.mark.django_db()
-def test_serialize_content_file_for_bulk_deletion():
-    """
-    Test that serialize_content_file_for_bulk_deletio yields correct data
-    """
-    content_file = factories.ContentFileFactory.create()
-    assert serializers.serialize_content_file_for_bulk_deletion(content_file) == {
-        "_id": gen_content_file_id(content_file.id),
-        "_op_type": "delete",
-    }
-
-
-def test_extract_values():
-    """
-    extract_values should return the correct match from a dict
-    """
-    test_json = {
-        "a": {"b": {"c": [{"d": [1, 2, 3]}, {"d": [4, 5], "e": "f", "b": "g"}]}}
-    }
-    assert extract_values(test_json, "b") == [test_json["a"]["b"], "g"]
-    assert extract_values(test_json, "d") == [[1, 2, 3], [4, 5]]
-    assert extract_values(test_json, "e") == ["f"]
-
-
-def test_learning_resources_search_request_serializer():
-    data = {
-        "q": "text",
-        "offset": 1,
-        "limit": 1,
-        "id": "1",
-        "sortby": "-start_date",
-        "professional": "true",
-        "certification": "false",
-        "certification_type": CertificationType.none.name,
-        "free": True,
-        "offered_by": "xpro,ocw",
-        "platform": "xpro,edx,ocw",
-        "topic": "Math",
-        "department": "18,5",
-        "level": "high_school,undergraduate",
-        "course_feature": "Lecture Videos",
-        "aggregations": "resource_type,platform,level",
-    }
-
-    cleaned = {
-        "q": "text",
-        "offset": 1,
-        "limit": 1,
-        "id": [1],
-        "sortby": "-start_date",
-        "professional": [True],
-        "certification": [False],
-        "certification_type": [CertificationType.none.name],
-        "free": [True],
-        "offered_by": ["xpro", "ocw"],
-        "platform": ["xpro", "edx", "ocw"],
-        "topic": ["Math"],
-        "department": ["18", "5"],
-        "level": ["high_school", "undergraduate"],
-        "course_feature": ["Lecture Videos"],
-        "aggregations": ["resource_type", "platform", "level"],
-    }
-
-    request_data = QueryDict("", mutable=True)
-    request_data.update(data)
-
-    serialized = LearningResourcesSearchRequestSerializer(data=request_data)
-    assert serialized.is_valid() is True
-    assert serialized.data == cleaned
-
-
-def test_content_file_search_request_serializer():
-    data = {
-        "q": "text",
-        "offset": 1,
-        "limit": 1,
-        "id": "1",
-        "sortby": "-id",
-        "topic": "Math",
-        "aggregations": "topic",
-        "content_feature_type": "Assignment",
-        "run_id": "1,2",
-        "resource_id": "1,2,3",
-        "offered_by": "xpro,ocw",
-        "platform": "xpro,edx,ocw",
-    }
-
-    cleaned = {
-        "q": "text",
-        "offset": 1,
-        "limit": 1,
-        "id": [1],
-        "sortby": "-id",
-        "topic": ["Math"],
-        "aggregations": ["topic"],
-        "content_feature_type": ["Assignment"],
-        "run_id": [1, 2],
-        "resource_id": [1, 2, 3],
-        "offered_by": ["xpro", "ocw"],
-        "platform": ["xpro", "edx", "ocw"],
-    }
-
-    request_data = QueryDict("", mutable=True)
-    request_data.update(data)
-
-    serialized = ContentFileSearchRequestSerializer(data=request_data)
-    assert serialized.is_valid() is True
-    assert serialized.data == cleaned
-
-
-@pytest.mark.parametrize(
-    ("parameter", "value"),
-    [
-        ("resource_type", "course,program,spaceship"),
-        ("platform", "xpro,spaceship"),
-        ("offered_by", "spaceship"),
-        ("aggregations", "spaceship"),
-    ],
-)
-def test_learning_resources_search_request_serializer_invalid(parameter, value):
-    data = {
-        parameter: value,
-    }
-
-    request_data = QueryDict("", mutable=True)
-    request_data.update(data)
-
-    serialized = LearningResourcesSearchRequestSerializer(data=request_data)
-    assert serialized.is_valid() is False
-    assert list(serialized.errors[parameter].values()) == [
-        ['"spaceship" is not a valid choice.']
-    ]
-
+from main.factories import UserFactory
 
 response_test_raw_data_1 = {
     "took": 8,
@@ -801,6 +530,288 @@ response_test_response_2 = {
 }
 
 
+@pytest.fixture()
+def learning_resources_search_view():
+    """Fixture with relevant properties for testing the search view"""
+    return SimpleNamespace(url=reverse("lr_search:v1:learning_resources_search"))
+
+
+def get_request_object(url):
+    """Build and return a django request object"""
+    request_factory = APIRequestFactory()
+    api_request = request_factory.get(url, {"q": "test"})
+    return Request(api_request)
+
+
+@pytest.mark.django_db()
+def test_serialize_bulk_learning_resources(mocker):
+    """
+    Test that serialize_bulk_learning_resource calls serialize_learning_resource_for_bulk for
+    every existing learning resource
+    """
+    mock_serialize_program = mocker.patch(
+        "learning_resources_search.serializers.serialize_learning_resource_for_bulk"
+    )
+    resources = factories.LearningResourceFactory.create_batch(5)
+    list(
+        serializers.serialize_bulk_learning_resources(
+            [resource.id for resource in LearningResource.objects.all()]
+        )
+    )
+    for resource in resources:
+        mock_serialize_program.assert_any_call(resource)
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize(
+    "resource_type",
+    set(LearningResourceType.names()) - {LearningResourceType.course.name},
+)
+@pytest.mark.parametrize("is_professional", [True, False])
+@pytest.mark.parametrize("no_price", [True, False])
+def test_serialize_learning_resource_for_bulk(resource_type, is_professional, no_price):
+    """
+    Test that serialize_program_for_bulk yields a valid LearningResourceSerializer for resource types other than "course"
+    The "course" resource type is tested by `test_serialize_course_numbers_for_bulk` below.
+    """
+    resource = factories.LearningResourceFactory.create(
+        resource_type=resource_type, professional=is_professional, runs=[]
+    )
+    LearningResourceRunFactory.create(
+        learning_resource=resource, prices=[Decimal(0.00 if no_price else 1.00)]
+    )
+    free_dict = {
+        "free": resource_type
+        not in [LearningResourceType.program.name, LearningResourceType.course.name]
+        or (no_price and not is_professional)
+    }
+    assert serializers.serialize_learning_resource_for_bulk(resource) == {
+        "_id": resource.id,
+        "resource_relations": {"name": "resource"},
+        "created_on": resource.created_on,
+        **free_dict,
+        **LearningResourceSerializer(resource).data,
+    }
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize(
+    ("readable_id", "sort_course_num"), [("1", "01"), ("15", "15"), ("CMS-W", "CMS-W")]
+)
+@pytest.mark.parametrize(
+    ("extra_num", "sorted_extra_num"), [("2", "02"), ("16", "16"), ("CC", "CC")]
+)
+def test_serialize_course_numbers_for_bulk(
+    readable_id, sort_course_num, extra_num, sorted_extra_num
+):
+    """
+    Test that serialize_course_for_bulk yields a valid LearningResourceSerializer
+    """
+    course_numbers = [
+        {
+            "value": readable_id,
+            "listing_type": CourseNumberType.primary.value,
+            "department": {
+                "department_id": readable_id,
+                "name": DEPARTMENTS[readable_id],
+            },
+            "primary": True,
+            "sort_coursenum": sort_course_num,
+        },
+        {
+            "value": extra_num,
+            "listing_type": CourseNumberType.cross_listed.value,
+            "department": {"department_id": extra_num, "name": DEPARTMENTS[extra_num]},
+            "primary": False,
+            "sort_coursenum": sorted_extra_num,
+        },
+    ]
+    resource = factories.CourseFactory.create(
+        course_numbers=course_numbers
+    ).learning_resource
+    assert resource.course.course_numbers == course_numbers
+    expected_data = {
+        "_id": resource.id,
+        "resource_relations": {"name": "resource"},
+        "created_on": resource.created_on,
+        "free": False,
+        **LearningResourceSerializer(resource).data,
+    }
+    expected_data["course"]["course_numbers"][0] = {
+        **expected_data["course"]["course_numbers"][0],
+        "primary": True,
+        "sort_coursenum": sort_course_num,
+    }
+    expected_data["course"]["course_numbers"][1] = {
+        **expected_data["course"]["course_numbers"][1],
+        "primary": False,
+        "sort_coursenum": sorted_extra_num,
+    }
+
+    assert serializers.serialize_learning_resource_for_bulk(resource) == expected_data
+
+
+@pytest.mark.django_db()
+def test_serialize_bulk_learning_resources_for_deletion():
+    """
+    Test that serialize_bulk_learning_resources_for_deletion yields correct data
+    """
+    resource = factories.LearningResourceFactory.create()
+    assert list(
+        serializers.serialize_bulk_learning_resources_for_deletion([resource.id])
+    ) == [{"_id": resource.id, "_op_type": "delete"}]
+
+
+@pytest.mark.django_db()
+def test_serialize_content_file_for_bulk():
+    """
+    Test that serialize_content_file_for_bulk yields correct data
+    """
+    content_file = factories.ContentFileFactory.create()
+    assert serializers.serialize_content_file_for_bulk(content_file) == {
+        "_id": gen_content_file_id(content_file.id),
+        "resource_relations": {
+            "name": "content_file",
+            "parent": content_file.run.learning_resource_id,
+        },
+        **ContentFileSerializer(content_file).data,
+    }
+
+
+@pytest.mark.django_db()
+def test_serialize_content_file_for_bulk_deletion():
+    """
+    Test that serialize_content_file_for_bulk_deletio yields correct data
+    """
+    content_file = factories.ContentFileFactory.create()
+    assert serializers.serialize_content_file_for_bulk_deletion(content_file) == {
+        "_id": gen_content_file_id(content_file.id),
+        "_op_type": "delete",
+    }
+
+
+def test_extract_values():
+    """
+    extract_values should return the correct match from a dict
+    """
+    test_json = {
+        "a": {"b": {"c": [{"d": [1, 2, 3]}, {"d": [4, 5], "e": "f", "b": "g"}]}}
+    }
+    assert extract_values(test_json, "b") == [test_json["a"]["b"], "g"]
+    assert extract_values(test_json, "d") == [[1, 2, 3], [4, 5]]
+    assert extract_values(test_json, "e") == ["f"]
+
+
+def test_learning_resources_search_request_serializer():
+    data = {
+        "q": "text",
+        "offset": 1,
+        "limit": 1,
+        "id": "1",
+        "sortby": "-start_date",
+        "professional": "true",
+        "certification": "false",
+        "certification_type": CertificationType.none.name,
+        "free": True,
+        "offered_by": "xpro,ocw",
+        "platform": "xpro,edx,ocw",
+        "topic": "Math",
+        "department": "18,5",
+        "level": "high_school,undergraduate",
+        "course_feature": "Lecture Videos",
+        "aggregations": "resource_type,platform,level",
+    }
+
+    cleaned = {
+        "q": "text",
+        "offset": 1,
+        "limit": 1,
+        "id": [1],
+        "sortby": "-start_date",
+        "professional": [True],
+        "certification": [False],
+        "certification_type": [CertificationType.none.name],
+        "free": [True],
+        "offered_by": ["xpro", "ocw"],
+        "platform": ["xpro", "edx", "ocw"],
+        "topic": ["Math"],
+        "department": ["18", "5"],
+        "level": ["high_school", "undergraduate"],
+        "course_feature": ["Lecture Videos"],
+        "aggregations": ["resource_type", "platform", "level"],
+    }
+
+    request_data = QueryDict("", mutable=True)
+    request_data.update(data)
+
+    serialized = LearningResourcesSearchRequestSerializer(data=request_data)
+    assert serialized.is_valid() is True
+    assert serialized.data == cleaned
+
+
+def test_content_file_search_request_serializer():
+    data = {
+        "q": "text",
+        "offset": 1,
+        "limit": 1,
+        "id": "1",
+        "sortby": "-id",
+        "topic": "Math",
+        "aggregations": "topic",
+        "content_feature_type": "Assignment",
+        "run_id": "1,2",
+        "resource_id": "1,2,3",
+        "offered_by": "xpro,ocw",
+        "platform": "xpro,edx,ocw",
+    }
+
+    cleaned = {
+        "q": "text",
+        "offset": 1,
+        "limit": 1,
+        "id": [1],
+        "sortby": "-id",
+        "topic": ["Math"],
+        "aggregations": ["topic"],
+        "content_feature_type": ["Assignment"],
+        "run_id": [1, 2],
+        "resource_id": [1, 2, 3],
+        "offered_by": ["xpro", "ocw"],
+        "platform": ["xpro", "edx", "ocw"],
+    }
+
+    request_data = QueryDict("", mutable=True)
+    request_data.update(data)
+
+    serialized = ContentFileSearchRequestSerializer(data=request_data)
+    assert serialized.is_valid() is True
+    assert serialized.data == cleaned
+
+
+@pytest.mark.parametrize(
+    ("parameter", "value"),
+    [
+        ("resource_type", "course,program,spaceship"),
+        ("platform", "xpro,spaceship"),
+        ("offered_by", "spaceship"),
+        ("aggregations", "spaceship"),
+    ],
+)
+def test_learning_resources_search_request_serializer_invalid(parameter, value):
+    data = {
+        parameter: value,
+    }
+
+    request_data = QueryDict("", mutable=True)
+    request_data.update(data)
+
+    serialized = LearningResourcesSearchRequestSerializer(data=request_data)
+    assert serialized.is_valid() is False
+    assert list(serialized.errors[parameter].values()) == [
+        ['"spaceship" is not a valid choice.']
+    ]
+
+
 @pytest.mark.parametrize(
     ("raw_data", "response"),
     [
@@ -817,6 +828,63 @@ def test_learning_resources_search_response_serializer(
     """
     settings.OPENSEARCH_MAX_SUGGEST_HITS = 10
     request = get_request_object(learning_resources_search_view.url)
+    assert JSONRenderer().render(
+        SearchResponseSerializer(raw_data, context={"request": request}).data
+    ) == JSONRenderer().render(response)
+
+
+@pytest.mark.parametrize(
+    ("is_authenticated", "is_admin", "in_path", "in_list"),
+    [
+        (True, True, True, False),
+        (True, False, False, True),
+        (True, False, True, True),
+        (True, True, False, False),
+        (False, False, False, False),
+    ],
+)
+@pytest.mark.django_db()
+def test_learning_resources_search_response_serializer_user_parents(  # noqa: PLR0913
+    settings,
+    learning_resources_search_view,
+    is_authenticated,
+    is_admin,
+    in_path,
+    in_list,
+):
+    """
+    Test that the search response serializer processes
+    inserts learningpath/userlist parents into results as expected
+    """
+
+    course = CourseFactory.create().learning_resource
+    user = UserFactory.create(is_superuser=is_admin)
+    lp_item = LearningPathRelationshipFactory.create(child=course) if in_path else None
+    ul = UserListFactory.create(author=user)
+    ul_item = (
+        UserListRelationshipFactory.create(parent=ul, child=course) if in_list else None
+    )
+
+    settings.OPENSEARCH_MAX_SUGGEST_HITS = 10
+    raw_data = deepcopy(response_test_raw_data_2)
+    raw_data["hits"]["hits"][0]["_id"] = f"{course.id}"
+    raw_data["hits"]["hits"][0]["_source"]["id"] = course.id
+
+    response = deepcopy(response_test_response_2)
+    response["results"][0]["id"] = course.id
+    request = get_request_object(learning_resources_search_view.url)
+
+    if is_authenticated:
+        request.user = user
+        if in_path and is_admin:
+            response["results"][0]["learning_path_parents"] = [
+                MicroLearningPathRelationshipSerializer(instance=lp_item).data
+            ]
+        if in_list:
+            response["results"][0]["user_list_parents"] = [
+                MicroUserListRelationshipSerializer(instance=ul_item).data
+            ]
+
     assert JSONRenderer().render(
         SearchResponseSerializer(raw_data, context={"request": request}).data
     ) == JSONRenderer().render(response)
