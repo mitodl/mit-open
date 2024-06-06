@@ -17,7 +17,6 @@ import {
   Tabs,
   Typography,
   styled,
-  theme,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import React, { useCallback, useMemo, useState } from "react"
@@ -42,17 +41,17 @@ import {
  *
  * **/
 
-const MobileOnly = styled.div({
+const MobileOnly = styled.div(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
     display: "none",
   },
-})
+}))
 
-const DesktopOnly = styled.div({
+const DesktopOnly = styled.div(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     display: "none",
   },
-})
+}))
 
 const Background = styled.div(({ theme }) => ({
   backgroundColor: theme.custom.colors.lightGray1,
@@ -65,7 +64,7 @@ const Background = styled.div(({ theme }) => ({
   },
 }))
 
-const Page = styled.div({
+const Page = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
@@ -73,12 +72,19 @@ const Page = styled.div({
   gap: "80px",
   height: "100%",
   [theme.breakpoints.down("md")]: {
+    padding: "0",
+    gap: "24px",
+  },
+}))
+
+const DashboardContainer = styled(Container)(({ theme }) => ({
+  [theme.breakpoints.down("md")]: {
     padding: "28px 16px",
     gap: "24px",
   },
-})
+}))
 
-const DashboardGrid = styled(Grid)({
+const DashboardGrid = styled(Grid)(({ theme }) => ({
   display: "grid",
   gridTemplateColumns: "300px 1fr",
   gap: "48px",
@@ -86,7 +92,7 @@ const DashboardGrid = styled(Grid)({
     gridTemplateColumns: "1fr",
     gap: "24px",
   },
-})
+}))
 
 const ProfileSidebar = styled(Card)(({ theme }) => ({
   position: "fixed",
@@ -182,10 +188,6 @@ const LinkText = styled(Typography)(({ theme }) => ({
 
 const TabPanelStyled = styled(TabPanel)({
   padding: "0",
-})
-
-const TabButtonListStyled = styled(TabButtonList)({
-  paddingTop: "24px",
 })
 
 const TitleText = styled(Typography)(({ theme }) => ({
@@ -322,7 +324,7 @@ const DashboardPage: React.FC = () => {
   )
 
   const mobileMenu = (
-    <TabButtonListStyled>
+    <TabButtonList>
       <TabButtonLink
         value={TabValues.HOME}
         href={`#${TabValues.HOME}`}
@@ -339,7 +341,7 @@ const DashboardPage: React.FC = () => {
         href={`#${TabValues.PROFILE}`}
         label="Profile"
       />
-    </TabButtonListStyled>
+    </TabButtonList>
   )
 
   const contentComingSoon = (
@@ -352,7 +354,7 @@ const DashboardPage: React.FC = () => {
   return (
     <Background>
       <Page>
-        <Container>
+        <DashboardContainer>
           <MetaTags>
             <title>User Home</title>
           </MetaTags>
@@ -396,7 +398,7 @@ const DashboardPage: React.FC = () => {
               </Grid>
             </TabContext>
           </DashboardGrid>
-        </Container>
+        </DashboardContainer>
       </Page>
     </Background>
   )
