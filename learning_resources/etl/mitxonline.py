@@ -95,7 +95,7 @@ def extract_programs():
             for response in _fetch_data(settings.MITX_ONLINE_PROGRAMS_API_URL)
         ]
     else:
-        log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
+        log.warning("Missing required setting MITX_ONLINE_PROGRAMS_API_URL")
     return programs
 
 
