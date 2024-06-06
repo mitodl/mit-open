@@ -212,7 +212,8 @@ describe("SearchPage", () => {
       })
       const apiSearchParams = getLastApiSearchParams()
       expect(apiSearchParams.getAll("aggregations").sort()).toEqual([
-        "certification",
+        "certification_type",
+        "department",
         "free",
         "learning_format",
         "offered_by",
@@ -244,7 +245,15 @@ describe("SearchPage", () => {
     const { location } = renderWithProviders(<SearchPage />, {
       url: "?topic=Physics&topic=Chemistry",
     })
+
     const clearAll = await screen.findByRole("button", { name: /clear all/i })
+
+    const showFacetButton = await screen.findByRole("button", {
+      name: /Topics/i,
+    })
+
+    await user.click(showFacetButton)
+
     const physics = await screen.findByRole("checkbox", { name: "Physics" })
     const chemistry = await screen.findByRole("checkbox", { name: "Chemistry" })
     // initial
@@ -295,6 +304,12 @@ test("Facet 'Offered By' uses API response for names", async () => {
     },
   })
   renderWithProviders(<SearchPage />)
+  const showFacetButton = await screen.findByRole("button", {
+    name: /Offered By/i,
+  })
+
+  await user.click(showFacetButton)
+
   const offeror0 = await screen.findByRole("checkbox", {
     name: offerors.results[0].name,
   })

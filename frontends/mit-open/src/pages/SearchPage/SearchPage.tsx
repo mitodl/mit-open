@@ -9,6 +9,8 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import {
   useResourceSearchParams,
   UseResourceSearchParamsProps,
+  getCertificationTypeName,
+  getDepartmentName,
 } from "@mitodl/course-search-utils"
 import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
@@ -27,12 +29,13 @@ const SearchField = styled(SearchInput)`
   width: 100%;
 `
 
-const getFacetManifest = (
+export const getFacetManifest = (
   offerors: Record<string, LearningResourceOfferor>,
-): FacetManifest => {
+) => {
   return [
     {
       type: "group",
+      name: "free",
       facets: [
         {
           value: true,
@@ -42,24 +45,38 @@ const getFacetManifest = (
       ],
     },
     {
+      name: "certification_type",
+      title: "Certificates",
+      type: "static",
+      expandedOnLoad: true,
+      labelFunction: (key: string) => getCertificationTypeName(key) || key,
+    },
+    {
       name: "topic",
       title: "Topics",
       type: "filterable",
-      expandedOnLoad: true,
+      expandedOnLoad: false,
+    },
+    {
+      name: "department",
+      title: "Department",
+      type: "filterable",
+      expandedOnLoad: false,
+      labelFunction: (key: string) => getDepartmentName(key) || key,
     },
     {
       name: "offered_by",
       title: "Offered By",
       type: "static",
-      expandedOnLoad: true,
-      labelFunction: (key) => offerors[key]?.name ?? key,
+      expandedOnLoad: false,
+      labelFunction: (key: string) => offerors[key]?.name ?? key,
     },
     {
       name: "learning_format",
       title: "Format",
       type: "static",
-      expandedOnLoad: true,
-      labelFunction: (key) =>
+      expandedOnLoad: false,
+      labelFunction: (key: string) =>
         key
           .split("_")
           .map((word) => capitalize(word))
@@ -70,10 +87,11 @@ const getFacetManifest = (
 
 const facetNames = [
   "resource_type",
+  "certification_type",
   "learning_format",
+  "department",
   "topic",
   "offered_by",
-  "certification",
   "free",
   "professional",
 ] as UseResourceSearchParamsProps["facets"]
@@ -91,7 +109,6 @@ const useFacetManifest = () => {
 
 const SearchPage: React.FC = () => {
   const facetManifest = useFacetManifest()
-
   const [searchParams, setSearchParams] = useSearchParams()
 
   const setPage = useCallback(
@@ -160,7 +177,7 @@ const SearchPage: React.FC = () => {
         page={page}
         requestParams={params}
         setPage={setPage}
-        facetManifest={facetManifest}
+        facetManifest={facetManifest as FacetManifest}
         facetNames={facetNames}
         constantSearchParams={constantSearchParams}
         hasFacets={hasFacets}
