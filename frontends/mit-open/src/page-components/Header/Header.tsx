@@ -25,7 +25,7 @@ import { useSearchParams } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 
 const Bar = styled(AppBar)(({ theme }) => ({
-  height: "80px",
+  height: "60px",
   padding: "0 8px",
   backgroundColor: theme.custom.colors.white,
   color: theme.custom.colors.darkGray1,
@@ -33,7 +33,6 @@ const Bar = styled(AppBar)(({ theme }) => ({
   flexDirection: "column",
   boxShadow: "0 2px 10px rgba(120 169 197 / 15%)",
   [theme.breakpoints.down("sm")]: {
-    height: "60px",
     padding: "0",
   },
 }))

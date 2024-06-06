@@ -77,12 +77,11 @@ describe("SearchPage", () => {
       },
     })
     renderWithProviders(<SearchPage />)
+
     const tabpanel = await screen.findByRole("tabpanel")
-    const headings = await within(tabpanel).findAllByRole("heading")
-    expect(headings.length).toBe(10)
-    expect(headings.map((h) => h.textContent)).toEqual(
-      resources.map((r) => r.title),
-    )
+    for (const resource of resources) {
+      await within(tabpanel).findByText(resource.title)
+    }
   })
 
   test.each([
@@ -172,12 +171,14 @@ describe("SearchPage", () => {
     ])
     // eventually (after API response) result counts show
     await waitFor(() => {
-      expect(tabs.map((tab) => tab.textContent)).toEqual([
-        "All (300)",
-        "Courses (100)",
-        "Programs (0)",
-        "Videos (0)",
-        "Podcasts (200)",
+      expect(
+        tabs.map((tab) => (tab.textContent || "").replace(/\s/g, "")),
+      ).toEqual([
+        "All(300)",
+        "Courses(100)",
+        "Programs(0)",
+        "Videos(0)",
+        "Podcasts(200)",
       ])
     })
   })
@@ -247,12 +248,6 @@ describe("SearchPage", () => {
     })
 
     const clearAll = await screen.findByRole("button", { name: /clear all/i })
-
-    const showFacetButton = await screen.findByRole("button", {
-      name: /Topics/i,
-    })
-
-    await user.click(showFacetButton)
 
     const physics = await screen.findByRole("checkbox", { name: "Physics" })
     const chemistry = await screen.findByRole("checkbox", { name: "Chemistry" })
@@ -329,12 +324,13 @@ test("Set sort", async () => {
 
   const { location } = renderWithProviders(<SearchPage />)
 
-  let sortDropdown = await screen.findByText("Sort by: Relevance")
+  let sortDropdowns = await screen.findAllByText("Sort by: Best Match")
+  let sortDropdown = sortDropdowns[0]
 
   await user.click(sortDropdown)
 
   const noneSelect = await screen.findByRole("option", {
-    name: "Relevance",
+    name: "Best Match",
   })
 
   expect(noneSelect).toHaveAttribute("aria-selected", "true")
@@ -349,7 +345,8 @@ test("Set sort", async () => {
 
   expect(location.current.search).toBe("?sortby=-views")
 
-  sortDropdown = await screen.findByText("Sort by: Popular")
+  sortDropdowns = await screen.findAllByText("Sort by: Popular")
+  sortDropdown = sortDropdowns[0]
 
   await user.click(sortDropdown)
 

@@ -116,12 +116,11 @@ describe("FieldSearch", () => {
     })
     setMockResponse.get(urls.userMe.get(), {})
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findAllByText(field.title)
+    await screen.findByText(field.title)
     const tabpanel = await screen.findByRole("tabpanel")
-    const headings = await within(tabpanel).findAllByRole("heading")
-    expect(headings.map((h) => h.textContent)).toEqual(
-      resources.map((r) => r.title),
-    )
+    for (const resource of resources) {
+      await within(tabpanel).findByText(resource.title)
+    }
   }, 10000)
 
   test.each([
@@ -180,15 +179,15 @@ describe("FieldSearch", () => {
   test.each([
     {
       fieldType: ChannelTypeEnum.Topic,
-      displayedFacets: ["Certificates", "Offered By", "Department", "Format"],
+      displayedFacets: ["Certificate", "Offered By", "Department", "Format"],
     },
     {
       fieldType: ChannelTypeEnum.Department,
-      displayedFacets: ["Certificates", "Offered By", "Topics", "Format"],
+      displayedFacets: ["Certificate", "Offered By", "Topic", "Format"],
     },
     {
       fieldType: ChannelTypeEnum.Unit,
-      displayedFacets: ["Certificates", "Department", "Topics", "Format"],
+      displayedFacets: ["Certificate", "Department", "Topic", "Format"],
     },
     {
       fieldType: ChannelTypeEnum.Pathway,
@@ -230,10 +229,10 @@ describe("FieldSearch", () => {
       })
 
       for (const facetName of [
-        "Certificates",
+        "Certificate",
         "Department",
         "Offered By",
-        "Topics",
+        "Topic",
         "Format",
       ]) {
         if ((displayedFacets as string[]).includes(facetName as string)) {

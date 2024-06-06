@@ -2,6 +2,7 @@ import React, { useMemo } from "react"
 import {
   styled,
   Pagination,
+  PaginationItem,
   MuiCard,
   CardContent,
   PlainList,
@@ -12,9 +13,17 @@ import {
   truncateText,
   css,
   LearningResourceListCard,
+  Drawer,
 } from "ol-components"
-import TuneIcon from "@mui/icons-material/Tune"
 import * as NiceModal from "@ebay/nice-modal-react"
+
+import {
+  RiCloseLine,
+  RiArrowLeftLine,
+  RiArrowRightLine,
+  RiEqualizerLine,
+} from "@remixicon/react"
+
 import {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
   ResourceTypeEnum,
@@ -43,70 +52,137 @@ import {
 import { useResourceDrawerHref } from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 export const StyledDropdown = styled(SimpleSelect)`
-  margin: 8px;
-  margin-top: 22px;
-  min-width: 180px;
-  border-radius: 24px;
+  margin-left: 8px;
+  margin-right: 0;
+  margin-top: 0;
+  min-width: 160px;
+  height: 32px;
   background: ${({ theme }) => theme.custom.colors.white};
+
+  svg {
+    width: 0.75em;
+    height: 0.75em;
+  }
+
+  div {
+    min-height: 0 px;
+    padding-right: 1px !important;
+    font-size: 12px !important;
+  }
 `
 
 export const StyledResourceTabs = styled(ResourceTypeTabs.TabList)`
-  margin-top: 20px;
+  margin-top: 0 px;
+`
 
-  div div button {
-    text-align: center;
-    font-size: 14px;
-    line-height: 20px;
-    text-transform: none;
+export const DesktopSortContainer = styled.div`
+  float: right;
+
+  div {
+    height: 32px;
+    bottom: 1px;
+  }
+
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    display: none;
+  }
+`
+export const MobileSortContainer = styled.div`
+  float: right;
+  ${({ theme }) => theme.breakpoints.up("md")} {
+    display: none;
+  }
+
+  div {
+    height: 32px;
+    bottom: -2px;
   }
 `
 
-export const SortContainer = styled.div`
-  ${({ theme }) => theme.breakpoints.up("sm")} {
-    float: right;
-    padding-right: 12px;
-  }
-`
 export const FacetStyles = styled.div`
   * {
     color: ${({ theme }) => theme.palette.secondary.main};
   }
 
-  margin-top: 8px;
+  div.facets:last-child {
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom: solid 1px ${({ theme }) => theme.custom.colors.lightGray2};
+  }
 
-  input[type="checkbox"] {
-    accent-color: ${({ theme }) => theme.palette.primary.main};
+  div.facets:not(.multi-facet-group) {
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+  }
+
+  div.facets:not(.multi-facet-group) + div.facets:not(.multi-facet-group) {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+
+  input[type="text"] {
+    border: solid 1px ${({ theme }) => theme.custom.colors.lightGray2};
+    margin-bottom: 16px;
+    margin-top: 12px;
+    border-radius: 4px;
+
+    &:focus-visible {
+      outline: solid 2px ${({ theme }) => theme.custom.colors.darkGray2};
+    }
   }
 
   .filter-section-button {
-    ${({ theme }) => css({ ...theme.typography.subtitle1 })};
+    ${({ theme }) => css({ ...theme.typography.subtitle2 })}
+    color: ${({ theme }) => theme.custom.colors.darkGray2};
     padding-left: 0;
     background-color: transparent;
     display: flex;
-    justify-content: space-between;
     width: 100%;
     border: none;
     cursor: pointer;
+    justify-content: space-between;
+
+    i {
+      color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+    }
   }
 
   .facet-label {
+    font-size: 14px;
+    justify-content: space-between;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     width: 100%;
 
     label {
       ${truncateText(1)};
+      color: ${({ theme }) => theme.custom.colors.silverGray};
     }
+  }
+
+  .facet-visible {
+    margin-top: 4.5px;
+    margin-bottom: 4.5px;
+  }
+
+  .facet-visible:last-child {
+    margin-bottom: 8px;
+  }
+
+  .facet-list {
+    margin-bottom: 8px;
   }
 
   .facets {
     box-sizing: border-box;
     background-color: ${({ theme }) => theme.custom.colors.white};
-    border-radius: 4px;
-    padding: 1rem;
-    margin-top: 0.25rem;
-    margin-bottom: 0.25rem;
+    border: solid 1px ${({ theme }) => theme.custom.colors.lightGray2};
+    border-bottom: none;
+    padding: 16px;
+    padding-left: 24px;
+    padding-right: 24px;
+    margin-top: 0;
+    margin-bottom: 0;
 
     .facet-visible {
       display: flex;
@@ -121,18 +197,35 @@ export const FacetStyles = styled.div`
       }
 
       input[type="checkbox"] {
+        appearance: none;
+        display: flex;
+        place-content: center;
+        font-size: 2rem;
+        padding: 0.1rem;
+        border: 1px solid ${({ theme }) => theme.custom.colors.silverGrayLight};
+        border-radius: 4px;
         margin-left: 4px;
         margin-right: 10px;
+        accent-color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+        height: 20px;
+        width: 24px;
+      }
+
+      input[type="checkbox"]:checked {
+        appearance: auto;
       }
 
       .facet-count {
-        color: ${({ theme }) => theme.palette.text.secondary};
+        font-size: 12px;
+        padding-left: 3px;
+        color: ${({ theme }) => theme.custom.colors.silverGray};
+        float: right;
       }
     }
 
     .facet-more-less {
       cursor: pointer;
-      color: ${({ theme }) => theme.palette.secondary.main};
+      color: ${({ theme }) => theme.palette.text.secondary};
       font-size: ${({ theme }) => theme.typography.body2.fontSize};
       text-align: right;
     }
@@ -161,48 +254,172 @@ export const FacetStyles = styled.div`
         border: none;
         background: none;
         padding: 0;
+
+        span {
+          color: ${({ theme }) => theme.palette.text.secondary};
+        }
       }
     }
   }
 
   input.facet-filter {
     background-color: initial;
-    border-radius: 0;
-    border: 1px solid ${({ theme }) => theme.custom.colors.silverGrayLight};
     padding: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
     width: 100%;
   }
+
+  .multi-facet-group {
+    background: none;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    border-bottom: solid 1px ${({ theme }) => theme.custom.colors.lightGray2};
+    padding-bottom: 12px;
+    padding-top: 10px;
+
+    .facet-visible {
+      .facet-label {
+        label,
+        .facet-count {
+          color: black;
+        }
+      }
+
+      margin-bottom: 0;
+    }
+  }
 `
 
 export const FilterTitle = styled.div`
+  svg {
+    margin-left: 8px;
+  }
+
   margin-right: 1rem;
   display: flex;
   align-items: center;
-
-  .MuiSvgIcon-root {
-    margin-left: 0.5rem;
-  }
+  margin-bottom: 8px;
+  color: ${({ theme }) => theme.custom.colors.darkGray2};
 `
 
 export const FacetsTitleContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  min-height: 65px;
+  min-height: 40px;
   align-items: end;
-  padding-bottom: 10px;
-  padding-top: 20px;
-  ${({ theme }) => theme.breakpoints.up("sm")} {
-    min-height: 83px;
-  }
 `
 
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: end;
   margin-top: 16px;
+  margin-bottom: 16px;
+
+  ul li button.Mui-selected {
+    ${({ theme }) => css({ ...theme.typography.subtitle1 })}
+    background-color: inherit;
+  }
+
+  ul li button svg {
+    background-color: ${({ theme }) => theme.custom.colors.lightGray2};
+    border-radius: 4px;
+    width: 1.5em;
+    height: 1.5em;
+    padding: 0.25em;
+  }
+`
+
+const StyledResultsContainer = styled.div`
+  margin-top: 16px;
+
+  ul > li + li {
+    margin-top: 8px;
+  }
+`
+
+const DesktopFiltersColumn = styled(GridColumn)`
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    display: none;
+  }
+
+  padding-left: 0 !important;
+  padding-right: 18px !important;
+  padding-bottom: 25px;
+`
+
+const StyledMainColumn = styled(GridColumn)`
+  ${({ theme }) => theme.breakpoints.up("md")} {
+    padding-left: 6px !important;
+    padding-right: 0 !important;
+  }
+
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    padding-left: 0 !important;
+  }
+`
+
+const MobileFilter = styled.div`
+  ${({ theme }) => theme.breakpoints.up("md")} {
+    display: none;
+  }
+
+  color: ${({ theme }) => theme.custom.colors.darkGray2};
+  margin-top: 20px;
+
+  button {
+    svg {
+      margin-left: 8px;
+    }
+
+    margin-bottom: 10px;
+  }
+`
+
+const StyledDrawer = styled(Drawer)`
+  .MuiPaper-root {
+    max-width: 332px;
+    width: 85%;
+    padding: 16px;
+    background-color: ${({ theme }) => theme.custom.colors.lightGray1};
+  }
+`
+
+const MobileClearAllButton = styled(Button)`
+  background-color: white;
+  padding: 12px;
+  border-radius: 4px;
+`
+
+const MobileDrawerCloseButton = styled(Button)`
+  svg {
+    height: 1.5em;
+    width: 1.5em;
+  }
+
+  padding-right: 0;
+`
+
+const MobileFacetsTitleContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  min-height: 45px;
+  align-items: end;
+
+  div div {
+    float: left;
+    margin-right: 10px;
+    padding: 10px;
+  }
+`
+
+const StyledGridContainer = styled(GridContainer)`
+  max-width: 1272px !important;
+  margin-left: 0 !important;
+  width: 100% !important;
 `
 
 const PAGE_SIZE = 10
@@ -235,7 +452,7 @@ export const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
 
 export const SORT_OPTIONS = [
   {
-    label: "Relevance",
+    label: "Best Match",
     key: "",
   },
   {
@@ -308,18 +525,55 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
         NiceModal.show(AddToUserListDialog, { resourceId })
       }
     : null
+  const [mobileDrawerOpen, setMobileDrawerOpen] = React.useState(false)
+
+  const toggleMobileDrawer = (newOpen: boolean) => () => {
+    setMobileDrawerOpen(newOpen)
+  }
+
+  const filterContents = (
+    <>
+      <FacetStyles>
+        <ProfessionalToggle
+          professionalSetting={requestParams.professional}
+          setParamValue={setParamValue}
+        ></ProfessionalToggle>
+        <AvailableFacets
+          facetManifest={facetManifest}
+          activeFacets={requestParams}
+          onFacetChange={toggleParamValue}
+          facetOptions={data?.metadata.aggregations ?? {}}
+        />
+      </FacetStyles>
+    </>
+  )
+
+  const sortDropdown = (
+    <StyledDropdown
+      initialValue={requestParams.sortby || ""}
+      isMultiple={false}
+      onChange={(e) => setParamValue("sortby", e.target.value)}
+      options={SORT_OPTIONS}
+      className="sort-dropdown"
+      sx={{ fontSize: "small" }}
+      renderValue={(value) => {
+        const opt = SORT_OPTIONS.find((option) => option.key === value)
+        return `Sort by: ${opt?.label}`
+      }}
+    />
+  )
 
   return (
     <Container>
-      <GridContainer>
+      <StyledGridContainer>
         <ResourceTypeTabs.Context
           resourceType={requestParams.resource_type?.[0]}
         >
-          <GridColumn variant="sidebar-2-wide-main">
+          <DesktopFiltersColumn variant="sidebar-2">
             <FacetsTitleContainer>
               <FilterTitle>
-                <Typography variant="h5">Filters</Typography>
-                <TuneIcon fontSize="inherit" />
+                <Typography variant="subtitle1">Filter</Typography>
+                <RiEqualizerLine fontSize="medium" />
               </FilterTitle>
               {hasFacets ? (
                 <Button
@@ -332,34 +586,11 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 </Button>
               ) : null}
             </FacetsTitleContainer>
-            <FacetStyles>
-              <ProfessionalToggle
-                professionalSetting={requestParams.professional}
-                setParamValue={setParamValue}
-              ></ProfessionalToggle>
-              <AvailableFacets
-                facetManifest={facetManifest}
-                activeFacets={requestParams}
-                onFacetChange={toggleParamValue}
-                facetOptions={data?.metadata.aggregations ?? {}}
-              />
-            </FacetStyles>
-          </GridColumn>
-          <GridColumn variant="main-2-wide-main">
-            <SortContainer>
-              <StyledDropdown
-                initialValue={requestParams.sortby || ""}
-                isMultiple={false}
-                onChange={(e) => setParamValue("sortby", e.target.value)}
-                options={SORT_OPTIONS}
-                renderValue={(value) => {
-                  const opt = SORT_OPTIONS.find(
-                    (option) => option.key === value,
-                  )
-                  return `Sort by: ${opt?.label}`
-                }}
-              />
-            </SortContainer>
+
+            {filterContents}
+          </DesktopFiltersColumn>
+          <StyledMainColumn variant="main-2">
+            <DesktopSortContainer>{sortDropdown}</DesktopSortContainer>
             <StyledResourceTabs
               patchParams={patchParams}
               tabs={TABS}
@@ -367,45 +598,96 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               onTabChange={() => setPage(1)}
             />
             <ResourceTypeTabs.TabPanels tabs={TABS}>
-              {isLoading ? (
-                <PlainList itemSpacing={3}>
-                  {Array(PAGE_SIZE)
-                    .fill(null)
-                    .map((a, index) => (
-                      <li key={index}>
-                        <LearningResourceListCard isLoading={isLoading} />
+              <MobileFilter>
+                <Button variant="text" onClick={toggleMobileDrawer(true)}>
+                  <Typography variant="subtitle1">Filter</Typography>
+                  <RiEqualizerLine fontSize="medium" />
+                </Button>
+
+                <StyledDrawer
+                  anchor="left"
+                  open={mobileDrawerOpen}
+                  onClose={toggleMobileDrawer(false)}
+                >
+                  <MobileFacetsTitleContainer>
+                    <div>
+                      <div>
+                        <Typography variant="subtitle3">Filter</Typography>
+                      </div>
+                      {hasFacets ? (
+                        <MobileClearAllButton
+                          variant="text"
+                          size="small"
+                          onClick={clearAllFacets}
+                        >
+                          Clear all
+                        </MobileClearAllButton>
+                      ) : null}
+                    </div>
+                    <MobileDrawerCloseButton
+                      size="large"
+                      variant="text"
+                      aria-label="Close"
+                      onClick={toggleMobileDrawer(false)}
+                    >
+                      <RiCloseLine fontSize="inherit" />
+                    </MobileDrawerCloseButton>
+                  </MobileFacetsTitleContainer>
+                  {filterContents}
+                </StyledDrawer>
+                <MobileSortContainer>{sortDropdown}</MobileSortContainer>
+              </MobileFilter>
+
+              <StyledResultsContainer>
+                {isLoading ? (
+                  <PlainList itemSpacing={1.5}>
+                    {Array(PAGE_SIZE)
+                      .fill(null)
+                      .map((a, index) => (
+                        <li key={index}>
+                          <LearningResourceListCard isLoading={isLoading} />
+                        </li>
+                      ))}
+                  </PlainList>
+                ) : data && data.count > 0 ? (
+                  <PlainList itemSpacing={1.5}>
+                    {data.results.map((resource) => (
+                      <li key={resource.id}>
+                        <LearningResourceListCard
+                          resource={resource}
+                          href={getDrawerHref(resource.id)}
+                          onAddToLearningPathClick={showAddToLearningPathDialog}
+                          onAddToUserListClick={showAddToUserListDialog}
+                        />
                       </li>
                     ))}
-                </PlainList>
-              ) : data && data.count > 0 ? (
-                <PlainList itemSpacing={3}>
-                  {data.results.map((resource) => (
-                    <li key={resource.id}>
-                      <LearningResourceListCard
-                        resource={resource}
-                        href={getDrawerHref(resource.id)}
-                        onAddToLearningPathClick={showAddToLearningPathDialog}
-                        onAddToUserListClick={showAddToUserListDialog}
-                      />
-                    </li>
-                  ))}
-                </PlainList>
-              ) : (
-                <MuiCard>
-                  <CardContent>No results found for your query.</CardContent>
-                </MuiCard>
-              )}
+                  </PlainList>
+                ) : (
+                  <MuiCard>
+                    <CardContent>No results found for your query.</CardContent>
+                  </MuiCard>
+                )}
+              </StyledResultsContainer>
               <PaginationContainer>
                 <Pagination
                   count={getLastPage(data?.count ?? 0)}
                   page={page}
                   onChange={(_, newPage) => setPage(newPage)}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      slots={{
+                        previous: RiArrowLeftLine,
+                        next: RiArrowRightLine,
+                      }}
+                      {...item}
+                    />
+                  )}
                 />
               </PaginationContainer>
             </ResourceTypeTabs.TabPanels>
-          </GridColumn>
+          </StyledMainColumn>
         </ResourceTypeTabs.Context>
-      </GridContainer>
+      </StyledGridContainer>
     </Container>
   )
 }

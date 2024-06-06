@@ -18,10 +18,32 @@ import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import _ from "lodash"
 
 const ColoredHeader = styled.div`
-  background-color: #394357;
-  height: 150px;
+  ${({ theme }) => theme.breakpoints.up("md")} {
+    height: 165px;
+  }
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    height: 75px;
+  }
+
   display: flex;
   align-items: center;
+  background: #eb01a5;
+  background: linear-gradient(
+    0deg,
+    ${({ theme }) => theme.custom.colors.lightGray1} 0%,
+    ${({ theme }) => theme.custom.colors.lightGray2} 100%
+  );
+`
+
+const BackgroundImage = styled.img`
+  position: absolute;
+  float: left;
+  width: 35%;
+  top: 60px;
+  left: 0;
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    display: none;
+  }
 `
 
 const SearchField = styled(SearchInput)`
@@ -46,23 +68,27 @@ export const getFacetManifest = (
     },
     {
       name: "certification_type",
-      title: "Certificates",
+      title: "Certificate",
       type: "static",
       expandedOnLoad: true,
       labelFunction: (key: string) => getCertificationTypeName(key) || key,
     },
     {
       name: "topic",
-      title: "Topics",
+      title: "Topic",
       type: "filterable",
-      expandedOnLoad: false,
+      expandedOnLoad: true,
     },
     {
-      name: "department",
-      title: "Department",
-      type: "filterable",
-      expandedOnLoad: false,
-      labelFunction: (key: string) => getDepartmentName(key) || key,
+      name: "learning_format",
+      title: "Format",
+      type: "static",
+      expandedOnLoad: true,
+      labelFunction: (key: string) =>
+        key
+          .split("_")
+          .map((word) => capitalize(word))
+          .join("-"),
     },
     {
       name: "offered_by",
@@ -72,15 +98,11 @@ export const getFacetManifest = (
       labelFunction: (key: string) => offerors[key]?.name ?? key,
     },
     {
-      name: "learning_format",
-      title: "Format",
-      type: "static",
+      name: "department",
+      title: "Department",
+      type: "filterable",
       expandedOnLoad: false,
-      labelFunction: (key: string) =>
-        key
-          .split("_")
-          .map((word) => capitalize(word))
-          .join("-"),
+      labelFunction: (key: string) => getDepartmentName(key) || key,
     },
   ]
 }
@@ -154,6 +176,7 @@ const SearchPage: React.FC = () => {
         <title>Search</title>
       </MetaTags>
       <ColoredHeader>
+        <BackgroundImage src="/static/images/search_page_vector.png" />
         <Container>
           <GridContainer>
             <GridColumn variant="sidebar-2-wide-main"></GridColumn>
