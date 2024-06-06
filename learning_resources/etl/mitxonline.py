@@ -37,7 +37,9 @@ def _fetch_data(url, params):
     if not params:
         params = {}
     while url:
-        response = requests.get(url, params=params, timeout=200).json()
+        response = requests.get(
+            url, params=params, timeout=settings.REQUESTS_TIMEOUT
+        ).json()
         results = response["results"]
         yield results
         url = response.get("next")
