@@ -1,6 +1,23 @@
 Release Notes
 =============
 
+Version 0.12.2
+--------------
+
+- Purge the fastly cache on deploy (#1021)
+- Write the commit hash to the frontend build for doof (#1023)
+- Point the webpack dev server proxy to the new API subdomain (#1022)
+- Learning Resource Card (#1015)
+- certification_type (#1018)
+- Insert learning_path_parents/user_list_parents values into search results (#992)
+- Add channel links to unit cards (#1016)
+- [pre-commit.ci] pre-commit autoupdate (#1004)
+- Add onboarding ux (#964)
+- Style tab components to match figma (#1012)
+- Toggle Professional (#1005)
+- Absolute URL to backend for login routes (#1011)
+- Add nullalbe offerors and channels to the testimonials model/API (#1006)
+
 Version 0.12.1 (Released June 05, 2024)
 --------------
 
