@@ -2056,7 +2056,7 @@ components:
       properties:
         certification:
           type: boolean
-        topics:
+        topic:
           type: array
           items:
             type: string

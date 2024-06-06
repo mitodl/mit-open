@@ -1840,7 +1840,7 @@ export interface PreferencesSearch {
    * @type {Array<string>}
    * @memberof PreferencesSearch
    */
-  topics?: Array<string>
+  topic?: Array<string>
   /**
    *
    * @type {string}
