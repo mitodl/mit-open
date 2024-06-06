@@ -149,7 +149,7 @@ const OnboardingPage: React.FC = () => {
 
   const handleUpdate: StepUpdateFunc = (newUpdates) => {
     if (!isMatch(updates, newUpdates)) {
-      setUpdates(updates)
+      setUpdates(newUpdates)
       setisStepValid(
         Object.values(newUpdates).every((value) => !isEmpty(value)),
       )
