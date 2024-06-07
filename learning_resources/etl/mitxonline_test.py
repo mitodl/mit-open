@@ -113,13 +113,7 @@ def test_mitxonline_transform_programs(
 
     mocker.patch(
         "learning_resources.etl.mitxonline._fetch_data",
-        return_value=[
-            [
-                result
-                for result in mock_mitxonline_courses_data["results"]
-                if "PROCTORED EXAM" not in result["title"]
-            ]
-        ],
+        return_value=mock_mitxonline_courses_data["results"],
     )
 
     result = transform_programs(mock_mitxonline_programs_data["results"])
@@ -450,7 +444,7 @@ def test_program_run_start_date_value(  # noqa: PLR0913
 ):
     mocker.patch(
         "learning_resources.etl.mitxonline._fetch_data",
-        return_value=[mock_mitxonline_courses_data["results"]],
+        return_value=mock_mitxonline_courses_data["results"],
     )
 
     """Test that the start date value is correctly determined for program runs"""

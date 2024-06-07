@@ -96,6 +96,7 @@ def extract_programs():
         ]
     else:
         log.warning("Missing required setting MITX_ONLINE_PROGRAMS_API_URL")
+
     return programs
 
 
@@ -109,6 +110,7 @@ def extract_courses():
         ]
     else:
         log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
+
     return courses
 
 
@@ -239,16 +241,14 @@ def transform_courses(courses):
 
 
 def _fetch_courses_by_ids(course_ids):
-    courses = []
     if settings.MITX_ONLINE_COURSES_API_URL:
-        [
-            courses.extend(response)
-            for response in _fetch_data(
+        return list(
+            _fetch_data(
                 settings.MITX_ONLINE_COURSES_API_URL,
                 params={"id": ",".join([str(courseid) for courseid in course_ids])},
             )
-        ]
-        return courses
+        )
+
     log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
     return []
 
@@ -304,11 +304,13 @@ def transform_programs(programs):
                     else AvailabilityType.archived.value,
                 }
             ],
-            "courses": [
-                _transform_course(course)
-                for course in _fetch_courses_by_ids(program["courses"])
-                if not re.search(EXCLUDE_REGEX, course["title"], re.IGNORECASE)
-            ],
+            "courses": transform_courses(
+                [
+                    course
+                    for course in _fetch_courses_by_ids(program["courses"])
+                    if not re.search(EXCLUDE_REGEX, course["title"], re.IGNORECASE)
+                ]
+            ),
         }
         for program in programs
     ]
