@@ -112,7 +112,7 @@ def test_mitxonline_transform_programs(
     """Test that mitxonline program data is correctly transformed into our normalized structure"""
 
     mocker.patch(
-        "learning_resources.etl.mitxonline._fetch_courses_data",
+        "learning_resources.etl.mitxonline._fetch_courses_by_ids",
         return_value=transform_courses(
             sorted(mock_mitxonline_courses_data["results"], key=lambda x: x["id"])
         ),
@@ -444,7 +444,7 @@ def test_program_run_start_date_value(  # noqa: PLR0913
     expected_dt,
 ):
     mocker.patch(
-        "learning_resources.etl.mitxonline._fetch_courses_data",
+        "learning_resources.etl.mitxonline._fetch_courses_by_ids",
         return_value=mock_mitxonline_courses_data["results"],
     )
 
