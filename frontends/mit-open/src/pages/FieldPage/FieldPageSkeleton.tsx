@@ -158,16 +158,61 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       {displayConfiguration.sub_heading}
                     </Typography>
                   </Box>
-
+                  {channelType === "offeror" ? (
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      alignItems="end"
+                      sx={{
+                        flexGrow: 0,
+                        width: "100%",
+                        flexShrink: 1,
+                        order: 3,
+                        my: 2,
+                      }}
+                    >
+                      <FieldControls>
+                        {field.data?.search_filter ? (
+                          <SearchSubscriptionToggle
+                            sourceType={SourceTypeEnum.ChannelSubscriptionType}
+                            searchParams={urlParams}
+                          />
+                        ) : null}
+                        {field.data?.is_moderator ? (
+                          <FieldMenu
+                            channelType={String(channelType)}
+                            name={String(name)}
+                          />
+                        ) : null}
+                      </FieldControls>
+                    </Box>
+                  ) : null}
+                </Box>
+                {channelType === "offeror" ? (
+                  <Box
+                    flexDirection="row"
+                    alignItems="end"
+                    alignSelf="center"
+                    display="flex"
+                    sx={{
+                      order: 2,
+                      flexGrow: 1,
+                      flexShrink: 0,
+                      width: { md: "300px", xs: "100%" },
+                    }}
+                  >
+                    <ChannelDetails field={field.data} />
+                  </Box>
+                ) : (
                   <Box
                     display="flex"
                     flexDirection="row"
                     alignItems="end"
                     sx={{
-                      flexGrow: 0,
-                      width: "100%",
+                      flexGrow: 1,
+                      width: "10%",
                       flexShrink: 1,
-                      order: 3,
+                      order: 2,
                       my: 2,
                     }}
                   >
@@ -186,24 +231,6 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       ) : null}
                     </FieldControls>
                   </Box>
-                </Box>
-                {channelType === "offeror" ? (
-                  <Box
-                    flexDirection="row"
-                    alignItems="end"
-                    alignSelf="center"
-                    display="flex"
-                    sx={{
-                      order: 2,
-                      flexGrow: 1,
-                      flexShrink: 0,
-                      width: { md: "300px", xs: "100%" },
-                    }}
-                  >
-                    <ChannelDetails field={field.data} />
-                  </Box>
-                ) : (
-                  <Box></Box>
                 )}
               </Box>
             )}
