@@ -60,6 +60,10 @@ const setupAPIs = () => {
   setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
     results: [],
   })
+
+  setMockResponse.get(expect.stringContaining(urls.testimonials.list({})), {
+    results: [],
+  })
 }
 
 describe("Home Page Hero", () => {

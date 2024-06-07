@@ -3,6 +3,8 @@ import type {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as SearchRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
 } from "api"
+import type { CarouselButtonAlignment, ButtonStyleProps } from "ol-components"
+import { ReactElement } from "react"
 
 interface ResourceDataSource {
   type: "resources"
@@ -24,6 +26,12 @@ type TabConfig = {
   pageSize: number
   size?: "small" | "medium"
   data: ResourceDataSource | SearchDataSource | FeaturedDataSource
+  // These don't belong here.
+  pageLeftIcon?: ReactElement
+  pageRightIcon?: ReactElement
+  buttonAlignment?: CarouselButtonAlignment
+  buttonVariant?: ButtonStyleProps["variant"]
+  buttonSize?: ButtonStyleProps["size"]
 }
 
 export type {

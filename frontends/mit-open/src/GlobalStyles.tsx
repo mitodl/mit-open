@@ -1,5 +1,7 @@
 import React from "react"
 import { Global, css, theme } from "ol-components"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 const pageCss = css`
   html {

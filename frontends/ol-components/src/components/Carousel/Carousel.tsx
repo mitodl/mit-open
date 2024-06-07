@@ -5,8 +5,16 @@ import styled from "@emotion/styled"
 import { ActionButton } from "../Button/Button"
 import Stack from "@mui/material/Stack"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
+import type { ButtonStyleProps } from "../Button/Button"
 
-type CarouselProps = {
+type CarouselButtonAlignment = "left" | "center" | "right"
+
+type NukaCarouselStyledProps = NukaCarouselProps & {
+  cellSpacing?: number
+  animationDuration?: number
+}
+
+type CarouselProps = NukaCarouselStyledProps & {
   children: React.ReactNode
   as?: ElementType
   className?: string
@@ -16,11 +24,11 @@ type CarouselProps = {
    */
   animationDuration?: number
   cellSpacing?: number
-}
-
-type NukaCarouselStyledProps = NukaCarouselProps & {
-  cellSpacing?: number
-  animationDuration?: number
+  buttonAlignment?: CarouselButtonAlignment
+  buttonVariant?: ButtonStyleProps["variant"]
+  buttonSize?: ButtonStyleProps["size"]
+  pageLeftIcon?: React.ReactNode
+  pageRightIcon?: React.ReactNode
 }
 
 const DEFAULT_CAROUSEL_SPACING = 24
@@ -43,13 +51,20 @@ const Carousel: React.FC<CarouselProps> = ({
   animationDuration = DEFAULT_ANIMATION_DURATION,
   pageSize,
   as: ContainerComponent = "div",
+  pageRightIcon = <RiArrowRightLine />,
+  pageLeftIcon = <RiArrowLeftLine />,
+  buttonAlignment = "right",
+  buttonVariant = "primary",
+  buttonSize = "small",
+  wrapMode = "nowrap",
+  scrollDistance = "slide",
 }) => {
   const ref = useRef<SlideHandle>(null)
 
   const [index, setIndex] = useState(0)
   const childCount = React.Children.count(children)
-  const canPageUp = index + pageSize < childCount
-  const canPageDown = index !== 0
+  const canPageUp = wrapMode === "wrap" || index + pageSize < childCount
+  const canPageDown = wrapMode === "wrap" || index !== 0
 
   const pageDown = () => {
     ref && ref.current && ref.current.goBack()
@@ -58,7 +73,9 @@ const Carousel: React.FC<CarouselProps> = ({
 
   const pageUp = () => {
     ref && ref.current && ref.current.goForward()
-    setIndex(index + pageSize)
+    const newIdx = index + pageSize
+
+    setIndex(newIdx)
   }
 
   return (
@@ -70,27 +87,36 @@ const Carousel: React.FC<CarouselProps> = ({
         cellSpacing={cellSpacing}
         animationDuration={animationDuration}
         ref={ref}
+        wrapMode={wrapMode}
+        scrollDistance={scrollDistance}
       >
         {children}
       </NukaCarouselStyled>
-      <Stack direction="row" justifyContent="end" spacing={3} marginTop={3}>
+      <Stack
+        direction="row"
+        justifyContent={buttonAlignment || "center"}
+        spacing={3}
+        marginTop={3}
+      >
         <ActionButton
-          size="small"
+          size={buttonSize}
           edge="circular"
           onClick={pageDown}
           disabled={!canPageDown}
           aria-label="Previous"
+          variant={buttonVariant}
         >
-          <RiArrowLeftLine />
+          {pageLeftIcon}
         </ActionButton>
         <ActionButton
-          size="small"
+          size={buttonSize}
           edge="circular"
           onClick={pageUp}
           disabled={!canPageUp}
           aria-label="Next"
+          variant={buttonVariant}
         >
-          <RiArrowRightLine />
+          {pageRightIcon}
         </ActionButton>
       </Stack>
     </ContainerComponent>
@@ -98,4 +124,4 @@ const Carousel: React.FC<CarouselProps> = ({
 }
 
 export { Carousel }
-export type { CarouselProps }
+export type { CarouselProps, CarouselButtonAlignment }
