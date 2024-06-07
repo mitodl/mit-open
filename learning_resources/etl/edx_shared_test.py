@@ -18,18 +18,21 @@ pytestmark = pytest.mark.django_db
 
 
 @pytest.mark.parametrize(
-    ("platform", "s3_prefix"),
+    ("source", "platform", "s3_prefix"),
     [
-        (PlatformType.mitxonline.name, "courses"),
-        (PlatformType.xpro.name, "courses"),
-        (PlatformType.edx.name, "simeon-mitx-course-tarballs"),
+        (ETLSource.mitxonline.name, PlatformType.mitxonline.name, "courses"),
+        (ETLSource.xpro.name, PlatformType.xpro.name, "courses"),
+        (ETLSource.mit_edx.name, PlatformType.edx.name, "simeon-mitx-course-tarballs"),
+        (ETLSource.oll.name, PlatformType.edx.name, "open-learning-library/courses"),
     ],
 )
 @pytest.mark.parametrize("published", [True, False])
 def test_sync_edx_course_files(  # noqa: PLR0913
     mock_mitxonline_learning_bucket,
     mock_xpro_learning_bucket,
+    mock_oll_learning_bucket,
     mocker,
+    source,
     platform,
     s3_prefix,
     published,
@@ -50,14 +53,20 @@ def test_sync_edx_course_files(  # noqa: PLR0913
     course_ids = []
     bucket = (
         mock_mitxonline_learning_bucket
-        if platform == PlatformType.mitxonline.name
+        if source == ETLSource.mitxonline.name
         else mock_xpro_learning_bucket
+        if source == ETLSource.xpro.name
+        else mock_oll_learning_bucket
     ).bucket
     mocker.patch(
         "learning_resources.etl.edx_shared.get_learning_course_bucket",
         return_value=bucket,
     )
-    keys = [f"20220101/{s3_prefix}/{run_id}.tar.gz" for run_id in run_ids]
+    keys = (
+        [f"20220101/{s3_prefix}/{run_id}.tar.gz" for run_id in run_ids]
+        if source != ETLSource.oll.name
+        else [f"{s3_prefix}/20220101/{run_id}_OLL.tar.gz" for run_id in run_ids]
+    )
     for idx, run_id in enumerate(run_ids):
         with Path.open(Path(f"test_json/{run_id}.tar.gz"), "rb") as infile:
             bucket.put_object(
@@ -68,18 +77,16 @@ def test_sync_edx_course_files(  # noqa: PLR0913
         run = LearningResourceRunFactory.create(
             run_id=run_id,
             learning_resource=CourseFactory.create(
-                platform=platform, etl_source=platform
+                platform=platform, etl_source=source
             ).learning_resource,
             published=published,
         )
         course_ids.append(run.learning_resource.id)
-    sync_edx_course_files(platform, course_ids, keys, s3_prefix)
+    sync_edx_course_files(source, course_ids, keys, s3_prefix)
     assert mock_transform.call_count == (2 if published else 0)
     assert mock_load_content_files.call_count == (2 if published else 0)
     if published:
-        assert (
-            str(mock_transform.call_args[0][0]).endswith(f"{run_ids[1]}.tar.gz") is True
-        )
+        assert (run_ids[1] in str(mock_transform.call_args[0][0])) is True
         for run_id in run_ids:
             mock_load_content_files.assert_any_call(
                 LearningResourceRun.objects.get(run_id=run_id), fake_data
