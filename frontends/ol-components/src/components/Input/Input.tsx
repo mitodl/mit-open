@@ -32,11 +32,11 @@ const Input = styled(InputBase)(({
       borderWidth: "1px",
       borderStyle: "solid",
       "&:hover:not(.Mui-disabled)": {
-        borderColor: theme.custom.colors.black,
+        borderColor: theme.custom.colors.darkGray2,
       },
       "&.Mui-focused": {
         borderWidth: "2px",
-        color: theme.custom.colors.black,
+        color: theme.custom.colors.darkGray2,
         borderColor: "currentcolor",
       },
       "&.Mui-error": {

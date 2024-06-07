@@ -44,7 +44,7 @@ const HeroWrapper = styled.div(({ theme }) => ({
   flexDirection: "row",
   alignItems: "center",
   gap: "51px",
-  color: theme.custom.colors.darkGray1,
+  color: theme.custom.colors.darkGray2,
 }))
 
 const TitleAndControls = styled.div({
