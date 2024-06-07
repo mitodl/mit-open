@@ -1,95 +1,160 @@
 import React from "react"
-import { render, screen } from "@testing-library/react"
-import user from "@testing-library/user-event"
 import { Carousel } from "./Carousel"
-import type { CarouselProps } from "./Carousel"
+import { render, screen, fireEvent, waitFor } from "@testing-library/react"
+import user from "@testing-library/user-event"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
+import { faker } from "@faker-js/faker/locale/en"
 
-jest.mock("nuka-carousel", () => {
-  const actual = jest.requireActual("nuka-carousel")
-  return {
-    ...actual,
-    default: jest.fn(() => <div />),
-    __esModule: true,
-  }
-})
+const mockWidths = ({
+  slide,
+  gap,
+  list,
+}: {
+  slide: number
+  gap: number
+  list: number
+}) => {
+  const left = faker.number.int({ min: 0, max: 1000 })
+  jest
+    .spyOn(Element.prototype, "getBoundingClientRect")
+    .mockImplementation(function (this: Element) {
+      if (this.classList.contains("slick-list")) {
+        return {
+          x: left,
+          width: list,
+        } as DOMRect
+      } else if (this.classList.contains("slick-slide")) {
+        const index = Number((this as HTMLElement).dataset.index)
+        return {
+          x: left + slide * index + gap * (index - 1),
+          width: slide,
+        } as DOMRect
+      }
+      throw new Error("Unexpected call to getBoundingClientRect")
+    })
+}
 
-const setupCarousel = (props?: Partial<CarouselProps>) =>
-  render(
-    <Carousel pageSize={2} {...props}>
-      <div>Child 1</div>
-      <div>Child 2</div>
-      <div>Child 3</div>
-      <div>Child 4</div>
-      <div>Child 5</div>
-    </Carousel>,
-    { wrapper: ThemeProvider },
-  )
-
-const getNextPageButton = () => screen.getByRole("button", { name: "Next" })
-const getPrevPageButton = () => screen.getByRole("button", { name: "Previous" })
+const getVisibleSlides = () => {
+  return document.querySelectorAll('.slick-slide:not([aria-hidden="true"])')
+}
+const getCurrentSlide = () => {
+  return document.querySelector(".slick-slide.slick-current")
+}
 
 describe("Carousel", () => {
-  it("Flips pages with Next and Prev buttons", async () => {
-    setupCarousel()
+  test("Shows correct number of slides at different widths", async () => {
+    const slide = 150
+    const gap = 20
+    const fits3 = 3 * slide + 2 * gap
 
-    const prev = getPrevPageButton()
-    const next = getNextPageButton()
+    mockWidths({ slide, gap, list: fits3 })
+    render(
+      <Carousel>
+        {Array.from({ length: 10 }).map((_, i) => (
+          <div key={i}>Slide {i}</div>
+        ))}
+      </Carousel>,
+      { wrapper: ThemeProvider },
+    )
 
-    // first page: items 0, 1 of 0, 1, 2, 3, 4
-    expect(prev).toBeDisabled()
-    expect(next).not.toBeDisabled()
+    expect(getVisibleSlides()).toHaveLength(3)
 
-    // second page: items 2, 3 of 0, 1, 2, 3, 4
-    await user.click(next)
-    expect(prev).not.toBeDisabled()
-    expect(next).not.toBeDisabled()
+    mockWidths({ slide, gap, list: fits3 - 10 })
+    fireEvent(window, new Event("resize"))
+    await waitFor(() => expect(getVisibleSlides()).toHaveLength(2))
 
-    // second page: items 4 of 0, 1, 2, 3, 4
-    await user.click(next)
+    mockWidths({ slide, gap, list: fits3 + 50 })
+    fireEvent(window, new Event("resize"))
+    await waitFor(() => expect(getVisibleSlides()).toHaveLength(3))
 
-    expect(prev).not.toBeDisabled()
-    expect(next).toBeDisabled()
+    mockWidths({ slide, gap, list: fits3 + 170 })
+    fireEvent(window, new Event("resize"))
+    await waitFor(() => expect(getVisibleSlides()).toHaveLength(4))
 
-    // second page: items 2, 3 of 0, 1, 2, 3, 4
-    await user.click(prev)
-
-    expect(prev).not.toBeDisabled()
-    expect(next).not.toBeDisabled()
-
-    // second page: items 2, 3 of 0, 1, 2, 3, 4
-    await user.click(prev)
-
-    expect(prev).toBeDisabled()
-    expect(next).not.toBeDisabled()
+    mockWidths({ slide, gap, list: fits3 + 3 * 170 - 10 })
+    fireEvent(window, new Event("resize"))
+    await waitFor(() => expect(getVisibleSlides()).toHaveLength(5))
   })
 
-  it.each([
-    {
-      componnent: undefined,
-      tagName: "DIV",
-    },
-    {
-      componnent: "div" as const,
-      tagName: "DIV",
-    },
-    {
-      componnent: "section" as const,
-      tagName: "SECTION",
-    },
+  test.each([
+    { initialIndex: 2, finalIndex: 5, nextDisabled: false },
+    { initialIndex: 4, finalIndex: 7, nextDisabled: true },
   ])(
-    "renders a container determined by `props.as`",
-    ({ componnent, tagName }) => {
-      const { container } = setupCarousel({ as: componnent })
-      const root = container.firstChild as HTMLElement
-      expect(root.tagName).toBe(tagName)
+    "Pages up correctly",
+    async ({ initialIndex, finalIndex, nextDisabled }) => {
+      const slide = 150
+      const gap = 20
+      const fits3 = 3 * slide + 2 * gap
+
+      mockWidths({ slide, gap, list: fits3 })
+      render(
+        <Carousel initialSlide={initialIndex}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <div key={i}>Slide {i}</div>
+          ))}
+        </Carousel>,
+        { wrapper: ThemeProvider },
+      )
+
+      const next = screen.getByRole<HTMLButtonElement>("button", {
+        name: "Next",
+      })
+      await user.click(next)
+      expect(getCurrentSlide()).toHaveTextContent(`Slide ${finalIndex}`)
+      expect(!!next.disabled).toBe(nextDisabled)
     },
   )
 
-  it("Renders the container with the given className", () => {
-    const { container } = setupCarousel({ className: "best-class ever" })
+  test.each([
+    { initialIndex: 2, finalIndex: 0, prevDisabled: true },
+    { initialIndex: 4, finalIndex: 1, prevDisabled: false },
+  ])(
+    "Pages up correctly",
+    async ({ initialIndex, finalIndex, prevDisabled }) => {
+      const slide = 150
+      const gap = 20
+      const fits3 = 3 * slide + 2 * gap
 
-    expect(container.firstChild).toHaveClass("best-class")
-    expect(container.firstChild).toHaveClass("ever")
+      mockWidths({ slide, gap, list: fits3 })
+      render(
+        <Carousel initialSlide={initialIndex}>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <div key={i}>Slide {i}</div>
+          ))}
+        </Carousel>,
+        { wrapper: ThemeProvider },
+      )
+
+      const prev = screen.getByRole<HTMLButtonElement>("button", {
+        name: "Previous",
+      })
+      await user.click(prev)
+      expect(getCurrentSlide()).toHaveTextContent(`Slide ${finalIndex}`)
+      expect(!!prev.disabled).toBe(prevDisabled)
+    },
+  )
+
+  test("Rendering arrows in a separate container", () => {
+    const WithArrowsContainer = () => {
+      const [ref, setRef] = React.useState<HTMLElement | null>(null)
+      return (
+        <div>
+          <Carousel arrowsContainer={ref}>
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i}>Slide {i}</div>
+            ))}
+          </Carousel>
+          <div data-testid="arrows-container" ref={setRef} />
+        </div>
+      )
+    }
+    render(<WithArrowsContainer />, {
+      wrapper: ThemeProvider,
+    })
+    const container = screen.getByTestId("arrows-container")
+    const next = screen.getByRole("button", { name: "Next" })
+    const prev = screen.getByRole("button", { name: "Previous" })
+    expect(container.contains(next)).toBe(true)
+    expect(container.contains(prev)).toBe(true)
   })
 })

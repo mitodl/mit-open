@@ -117,11 +117,16 @@ describe("Home Page Carousel", () => {
       params: { limit: 12, resource_type: ["course"], free: true },
     },
     {
-      tab: "Certificate",
-      params: { resource_type: ["course"], limit: 12, certification: true },
+      tab: "With Certificate",
+      params: {
+        resource_type: ["course"],
+        limit: 12,
+        certification: true,
+        professional: false,
+      },
     },
     {
-      tab: "Professional",
+      tab: "Professional and Executive Learning",
       params: { resource_type: ["course"], limit: 12, professional: true },
     },
   ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
@@ -153,8 +158,10 @@ describe("Home Page Carousel", () => {
     const [featured, media] = screen.getAllByRole("tablist")
     within(featured).getByRole("tab", { name: "All" })
     within(featured).getByRole("tab", { name: "Free" })
-    within(featured).getByRole("tab", { name: "Certificate" })
-    within(featured).getByRole("tab", { name: "Professional" })
+    within(featured).getByRole("tab", { name: "With Certificate" })
+    within(featured).getByRole("tab", {
+      name: "Professional and Executive Learning",
+    })
     within(media).getByRole("tab", { name: "All" })
     within(media).getByRole("tab", { name: "Videos" })
     within(media).getByRole("tab", { name: "Podcasts" })

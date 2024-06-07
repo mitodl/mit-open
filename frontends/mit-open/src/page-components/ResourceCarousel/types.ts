@@ -3,8 +3,10 @@ import type {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as SearchRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
 } from "api"
-import type { CarouselButtonAlignment, ButtonStyleProps } from "ol-components"
-import { ReactElement } from "react"
+
+type CardProps = {
+  size?: "small" | "medium"
+}
 
 interface ResourceDataSource {
   type: "resources"
@@ -21,17 +23,12 @@ interface FeaturedDataSource {
   params: FeaturedListParams
 }
 
-type TabConfig = {
+type DataSource = ResourceDataSource | SearchDataSource | FeaturedDataSource
+
+type TabConfig<D extends DataSource = DataSource> = {
   label: React.ReactNode
-  pageSize: number
-  size?: "small" | "medium"
-  data: ResourceDataSource | SearchDataSource | FeaturedDataSource
-  // These don't belong here.
-  pageLeftIcon?: ReactElement
-  pageRightIcon?: ReactElement
-  buttonAlignment?: CarouselButtonAlignment
-  buttonVariant?: ButtonStyleProps["variant"]
-  buttonSize?: ButtonStyleProps["size"]
+  cardProps?: CardProps
+  data: D
 }
 
 export type {
@@ -39,4 +36,5 @@ export type {
   ResourceDataSource,
   SearchDataSource,
   FeaturedDataSource,
+  DataSource,
 }
