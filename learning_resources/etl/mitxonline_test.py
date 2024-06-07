@@ -107,10 +107,11 @@ def test_mitxonline_extract_courses_disabled(settings):
 
 
 def test_mitxonline_transform_programs(
-    mock_mitxonline_programs_data, mock_mitxonline_courses_data, mocker
+    mock_mitxonline_programs_data, mock_mitxonline_courses_data, mocker, settings
 ):
     """Test that mitxonline program data is correctly transformed into our normalized structure"""
-
+    settings.MITX_ONLINE_PROGRAMS_API_URL = "http://localhost/test/programs/api"
+    settings.MITX_ONLINE_COURSES_API_URL = "http://localhost/test/courses/api"
     mocker.patch(
         "learning_resources.etl.mitxonline._fetch_data",
         return_value=mock_mitxonline_courses_data["results"],
