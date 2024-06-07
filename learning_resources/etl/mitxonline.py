@@ -33,6 +33,19 @@ EXCLUDE_REGEX = r"PROCTORED EXAM"
 OFFERED_BY = {"code": OfferedBy.mitx.name}
 
 
+def _fetch_data(url, params=None):
+    if not params:
+        params = {}
+    while url:
+        response = requests.get(
+            url, params=params, timeout=settings.REQUESTS_TIMEOUT
+        ).json()
+        results = response["results"]
+
+        yield from results
+        url = response.get("next")
+
+
 def _parse_datetime(value):
     """
     Parses an MITx Online datetime string
@@ -77,16 +90,20 @@ def parse_page_attribute(
 def extract_programs():
     """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_PROGRAMS_API_URL:
-        return requests.get(settings.MITX_ONLINE_PROGRAMS_API_URL).json()  # noqa: S113
-    log.warning("Missing required setting MITX_ONLINE_PROGRAMS_API_URL")
+        return list(_fetch_data(settings.MITX_ONLINE_PROGRAMS_API_URL))
+    else:
+        log.warning("Missing required setting MITX_ONLINE_PROGRAMS_API_URL")
+
     return []
 
 
 def extract_courses():
     """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_COURSES_API_URL:
-        return requests.get(settings.MITX_ONLINE_COURSES_API_URL).json()  # noqa: S113
-    log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
+        return list(_fetch_data(settings.MITX_ONLINE_COURSES_API_URL))
+    else:
+        log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
+
     return []
 
 
@@ -216,9 +233,23 @@ def transform_courses(courses):
     ]
 
 
+def _fetch_courses_by_ids(course_ids):
+    if settings.MITX_ONLINE_COURSES_API_URL:
+        return list(
+            _fetch_data(
+                settings.MITX_ONLINE_COURSES_API_URL,
+                params={"id": ",".join([str(courseid) for courseid in course_ids])},
+            )
+        )
+
+    log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
+    return []
+
+
 def transform_programs(programs):
     """Transform the MITX Online catalog data"""
     # normalize the MITx Online data
+
     return [
         {
             "readable_id": program["readable_id"],
@@ -266,11 +297,13 @@ def transform_programs(programs):
                     else AvailabilityType.archived.value,
                 }
             ],
-            "courses": [
-                _transform_course(course)
-                for course in program["courses"]
-                if not re.search(EXCLUDE_REGEX, course["title"], re.IGNORECASE)
-            ],
+            "courses": transform_courses(
+                [
+                    course
+                    for course in _fetch_courses_by_ids(program["courses"])
+                    if not re.search(EXCLUDE_REGEX, course["title"], re.IGNORECASE)
+                ]
+            ),
         }
         for program in programs
     ]

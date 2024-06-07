@@ -1,240 +1,1095 @@
-[
-  {
-    "title": "Data, Economics and Development Policy",
-    "readable_id": "program-v1:MITx+DEDP",
-    "id": 1,
-    "courses": [
-      {
-        "id": 1,
-        "title": "Microeconomics",
-        "readable_id": "course-v1:MITxT+14.100x",
-        "page": {
-          "feature_image_src": "/media/original_images/14.100x.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
-          "page_url": "/courses/course-v1:MITxT+14.100x/",
-          "financial_assistance_form_url": ""
-        },
-        "courseruns": [
-          {
-            "title": "Microeconomics",
-            "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T23:30:00Z",
-            "enrollment_start": "2022-07-06T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
-            "expiration_date": null,
-            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.100x+3T2022/course/",
-            "courseware_id": "course-v1:MITxT+14.100x+3T2022",
-            "run_tag": "3T2022",
-            "id": 35,
-            "products": [
-              {
-                "id": 22,
-                "description": "course-v1:MITxT+14.100x+3T2022",
-                "is_active": true,
-                "product_flexible_price": {
-                  "amount": null,
-                  "automatic": false,
-                  "discount_type": null,
-                  "redemption_type": null,
-                  "max_redemptions": null,
-                  "discount_code": "",
-                  "payment_type": null,
-                  "activation_date": null,
-                  "expiration_date": null
+{
+  "count": 9,
+  "next": null,
+  "previous": null,
+  "results": [
+    {
+      "title": "18.03x Differential Equations",
+      "readable_id": "program-v1:MITxT+18.03x",
+      "id": 5,
+      "courses": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+      "requirements": {
+        "required": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+        "electives": []
+      },
+      "req_tree": [
+        {
+          "data": {
+            "node_type": "program_root",
+            "operator": null,
+            "operator_value": null,
+            "program": 5,
+            "course": null,
+            "title": "",
+            "elective_flag": false
+          },
+          "id": 36,
+          "children": [
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "all_of",
+                "operator_value": null,
+                "program": 5,
+                "course": null,
+                "title": "Required Courses",
+                "elective_flag": false
+              },
+              "id": 37,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 5,
+                    "course": 62,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 38
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 5,
+                    "course": 95,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 39
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 5,
+                    "course": 74,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 40
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 5,
+                    "course": 79,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 41
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 5,
+                    "course": 94,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 42
                 }
-              }
-            ]
-          }
-        ],
-        "next_run_id": 35,
-        "topics": [],
-        "feature_image_src": "/media/original_images/14.100x.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
-        "page_url": "/courses/course-v1:MITxT+14.100x/",
-        "financial_assistance_form_url": ""
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "feature_image_src": "/static/images/mit-dome.png",
+        "page_url": "/programs/program-v1:MITxT+18.03x/",
+        "financial_assistance_form_url": "",
+        "description": "<p data-block-key=\"38wzq\">Scientists and engineers understand the world through differential equations. You can too.</p>",
+        "live": false,
+        "length": "14 weeks",
+        "effort": "7 hrs/wk",
+        "price": "$175"
       },
-      {
-        "id": 2,
-        "title": "Designing and Running Randomized Evaluations",
-        "readable_id": "course-v1:MITxT+JPAL102x",
-        "page": {
-          "feature_image_src": "/media/original_images/JPAL102x.jpg?v=bf1f606cd8105828ceb9529ba5592d507d3b8d58",
-          "page_url": "/courses/course-v1:MITxT+JPAL102x/",
-          "financial_assistance_form_url": ""
-        },
-        "courseruns": [
-          {
-            "title": "Designing and Running Randomized Evaluations",
-            "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T15:00:00Z",
-            "enrollment_start": "2022-03-08T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
-            "expiration_date": null,
-            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+JPAL102x+3T2022/course/",
-            "courseware_id": "course-v1:MITxT+JPAL102x+3T2022",
-            "run_tag": "3T2022",
-            "id": 22,
-            "products": []
-          }
-        ],
-        "next_run_id": 22,
-        "topics": [],
-        "feature_image_src": "/media/original_images/JPAL102x.jpg?v=bf1f606cd8105828ceb9529ba5592d507d3b8d58",
-        "page_url": "/courses/course-v1:MITxT+JPAL102x/",
-        "financial_assistance_form_url": ""
+      "program_type": "Series",
+      "departments": ["Mathematics"],
+      "live": true,
+      "topics": []
+    },
+    {
+      "title": "Analysis of Transport Phenomena",
+      "readable_id": "program-v1:MITxT+10.50x",
+      "id": 9,
+      "courses": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+      "requirements": {
+        "required": [44, 45, 46, 47, 48, 49, 50, 51, 52],
+        "electives": []
       },
-      {
-        "id": 3,
-        "title": "Data Analysis for Social Scientists",
-        "readable_id": "course-v1:MITxT+14.310x",
-        "page": {
-          "feature_image_src": "/media/original_images/14.310x.max-800x600.jpg?v=9db950769510bfdc810f3a84699f139c26d0ffb4",
-          "page_url": "/courses/course-v1:MITxT+14.310x/",
-          "financial_assistance_form_url": ""
-        },
-        "courseruns": [
-          {
-            "title": "Data Analysis for Social Scientists",
-            "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T15:00:00Z",
-            "enrollment_start": "2022-07-06T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
-            "expiration_date": null,
-            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.310x+3T2022/course/",
-            "courseware_id": "course-v1:MITxT+14.310x+3T2022",
-            "run_tag": "3T2022",
-            "id": 36,
-            "products": []
-          }
-        ],
-        "next_run_id": 36,
-        "topics": [],
-        "feature_image_src": "/media/original_images/14.310x.max-800x600.jpg?v=9db950769510bfdc810f3a84699f139c26d0ffb4",
-        "page_url": "/courses/course-v1:MITxT+14.310x/",
-        "financial_assistance_form_url": ""
+      "req_tree": [
+        {
+          "data": {
+            "node_type": "program_root",
+            "operator": null,
+            "operator_value": null,
+            "program": 9,
+            "course": null,
+            "title": "",
+            "elective_flag": false
+          },
+          "id": 59,
+          "children": [
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "all_of",
+                "operator_value": null,
+                "program": 9,
+                "course": null,
+                "title": "Required Courses",
+                "elective_flag": false
+              },
+              "id": 60,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 9,
+                    "course": 44,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 61
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 9,
+                    "course": 45,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 62
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 9,
+                    "course": 46,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 63
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 9,
+                    "course": 47,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 64
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 9,
+                    "course": 48,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 65
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 9,
+                    "course": 49,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 66
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 9,
+                    "course": 50,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 67
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 9,
+                    "course": 51,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 68
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 9,
+                    "course": 52,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 69
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "feature_image_src": "/static/images/mit-dome.png",
+        "page_url": "/programs/program-v1:MITxT+10.50x/",
+        "financial_assistance_form_url": "",
+        "description": "<p data-block-key=\"us5gu\">Graduate-level introduction to mathematical modeling</p>",
+        "live": true,
+        "length": "Modules vary in length from 2-9 weeks",
+        "effort": "10-12 hours per week",
+        "price": "varies from $29-$129"
       },
-      {
-        "id": 4,
-        "title": "The Challenges of Global Poverty",
-        "readable_id": "course-v1:MITxT+14.73x",
-        "page": {
-          "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
-          "page_url": "/courses/course-v1:MITxT+14.73x/",
-          "financial_assistance_form_url": ""
-        },
-        "courseruns": [
-          {
-            "title": "The Challenges of Global Poverty",
-            "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T15:00:00Z",
-            "enrollment_start": "2022-03-08T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
-            "expiration_date": null,
-            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.73x+3T2022/course/",
-            "courseware_id": "course-v1:MITxT+14.73x+3T2022",
-            "run_tag": "3T2022",
-            "id": 21,
-            "products": []
-          }
-        ],
-        "next_run_id": 21,
-        "topics": [],
-        "feature_image_src": "/media/original_images/14.73x.jpg?v=b7ce961774d5d79edb9b0e22135f5b5b8ca006dc",
-        "page_url": "/courses/course-v1:MITxT+14.73x/",
-        "financial_assistance_form_url": ""
+      "program_type": "Series",
+      "departments": ["Chemical Engineering"],
+      "live": true,
+      "topics": []
+    },
+    {
+      "title": "Data, Economics, and Design of Policy",
+      "readable_id": "program-v1:MITx+DEDP+2T2023",
+      "id": 3,
+      "courses": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+      "requirements": {
+        "required": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+        "electives": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96]
       },
-      {
-        "id": 5,
-        "title": "Foundations of Development Policy",
-        "readable_id": "course-v1:MITxT+14.740x",
-        "page": {
-          "feature_image_src": "/media/original_images/14.740x.jpg?v=ce04d2d27a6d4b2f20d60f48e3c437726d02dc08",
-          "page_url": "/courses/course-v1:MITxT+14.740x/",
-          "financial_assistance_form_url": ""
-        },
-        "courseruns": [
-          {
-            "title": "Foundations of Development Policy",
-            "start_date": "2023-01-31T15:00:00Z",
-            "end_date": "2023-04-19T15:00:00Z",
-            "enrollment_start": "2022-07-06T23:59:00Z",
-            "enrollment_end": "2023-03-07T23:59:00Z",
-            "expiration_date": null,
-            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.740x+1T2023/course/",
-            "courseware_id": "course-v1:MITxT+14.740x+1T2023",
-            "run_tag": "1T2023",
-            "id": 37,
-            "products": []
-          }
-        ],
-        "next_run_id": 37,
-        "topics": [],
-        "feature_image_src": "/media/original_images/14.740x.jpg?v=ce04d2d27a6d4b2f20d60f48e3c437726d02dc08",
-        "page_url": "/courses/course-v1:MITxT+14.740x/",
-        "financial_assistance_form_url": ""
+      "req_tree": [
+        {
+          "data": {
+            "node_type": "program_root",
+            "operator": null,
+            "operator_value": null,
+            "program": 3,
+            "course": null,
+            "title": "",
+            "elective_flag": false
+          },
+          "id": 21,
+          "children": [
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "all_of",
+                "operator_value": null,
+                "program": 3,
+                "course": null,
+                "title": "Required Courses",
+                "elective_flag": false
+              },
+              "id": 22,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 3,
+                    "course": 1,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 23
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 3,
+                    "course": 2,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 24
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 3,
+                    "course": 3,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 25
+                }
+              ]
+            },
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "min_number_of",
+                "operator_value": "2",
+                "program": 3,
+                "course": null,
+                "title": "Elective Courses",
+                "elective_flag": true
+              },
+              "id": 26,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 3,
+                    "course": 5,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 27
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 3,
+                    "course": 6,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 28
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 3,
+                    "course": 1,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 29
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 3,
+                    "course": 16,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 30
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "feature_image_src": "/static/images/mit-dome.png",
+        "page_url": "/programs/program-v1:MITx+DEDP+2T2023/",
+        "financial_assistance_form_url": "",
+        "description": "<p data-block-key=\"n8d75\">Data, Economics and Development Public Policy description</p>",
+        "live": true,
+        "length": "1",
+        "effort": null,
+        "price": "0"
       },
-      {
-        "id": 6,
-        "title": "Political Economy and Economic Development",
-        "readable_id": "course-v1:MITxT+14.750x",
-        "page": {
-          "feature_image_src": "/media/original_images/14.750x.jpg?v=444c4611e9d1bccef38b160d01d2015d4a601d72",
-          "page_url": "/courses/course-v1:MITxT+14.750x/",
-          "financial_assistance_form_url": ""
+      "program_type": "MicroMasters®",
+      "departments": ["Economics"],
+      "live": false,
+      "topics": [
+        {
+          "name": "Economics"
         },
-        "courseruns": [
-          {
-            "title": "Political Economy and Economic Development",
-            "start_date": "2022-09-06T15:00:00Z",
-            "end_date": "2022-11-22T15:00:00Z",
-            "enrollment_start": "2021-11-02T23:59:00Z",
-            "enrollment_end": "2022-10-11T23:59:00Z",
-            "expiration_date": null,
-            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.750x+3T2022/course/",
-            "courseware_id": "course-v1:MITxT+14.750x+3T2022",
-            "run_tag": "3T2022",
-            "id": 10,
-            "products": []
-          }
-        ],
-        "next_run_id": 10,
-        "topics": [],
-        "feature_image_src": "/media/original_images/14.750x.jpg?v=444c4611e9d1bccef38b160d01d2015d4a601d72",
-        "page_url": "/courses/course-v1:MITxT+14.750x/",
-        "financial_assistance_form_url": ""
+        {
+          "name": "Policy and Administration"
+        },
+        {
+          "name": "Social Sciences"
+        }
+      ]
+    },
+    {
+      "title": "Data, Economics, and Design of Policy: International Development",
+      "readable_id": "program-v1:MITx+DEDP",
+      "id": 1,
+      "courses": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+      "requirements": {
+        "required": [1, 2, 3],
+        "electives": [5, 6, 4]
       },
-      {
-        "id": 16,
-        "title": "Good Economics for Hard Times",
-        "readable_id": "course-v1:MITxT+14.009x",
-        "page": {
-          "feature_image_src": "/media/original_images/14.009x_-_course_image_-_SMALL.jpg?v=52e6adb90be9d738874676756fe22cd1ad9e1965",
-          "page_url": "/courses/course-v1:MITxT+14.009x/",
-          "financial_assistance_form_url": ""
+      "req_tree": [
+        {
+          "data": {
+            "node_type": "program_root",
+            "operator": null,
+            "operator_value": null,
+            "program": 1,
+            "course": null,
+            "title": "",
+            "elective_flag": false
+          },
+          "id": 1,
+          "children": [
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "all_of",
+                "operator_value": null,
+                "program": 1,
+                "course": null,
+                "title": "Required Courses",
+                "elective_flag": false
+              },
+              "id": 2,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 1,
+                    "course": 1,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 4
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 1,
+                    "course": 2,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 5
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 1,
+                    "course": 3,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 6
+                }
+              ]
+            },
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "min_number_of",
+                "operator_value": "2",
+                "program": 1,
+                "course": null,
+                "title": "Elective Courses",
+                "elective_flag": true
+              },
+              "id": 3,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 1,
+                    "course": 5,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 7
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 1,
+                    "course": 6,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 8
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 1,
+                    "course": 4,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 20
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "feature_image_src": "/media/original_images/InternationalDevelopment-track_image_1134.jpg?v=32d70d0ad6a7b87b4cfbc4717e20177d601afb42",
+        "page_url": "/programs/program-v1:MITx+DEDP/",
+        "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+        "description": "<p data-block-key=\"s6wzo\">Grapple with some of the world’s most pressing problems from a rigorous, data-driven perspective developed by Nobel prize winners Esther Duflo and Abhijit Banerjee. Complete three core courses and two out of three electives plus proctored exams to earn your credential. You may then apply to the Master’s degree offered by MIT’s #1 world-ranked Economics Department.</p>",
+        "live": true,
+        "length": "3 terms (12 months)",
+        "effort": "12-14 hours per week",
+        "price": "$250 - $1000"
+      },
+      "program_type": "MicroMasters®",
+      "departments": ["Economics"],
+      "live": true,
+      "topics": [
+        {
+          "name": "Economics"
         },
-        "courseruns": [
-          {
-            "title": "Good Economics for Hard Times",
-            "start_date": "2023-05-30T15:00:00Z",
-            "end_date": "2023-08-16T15:00:00Z",
-            "enrollment_start": "2022-07-06T23:59:00Z",
-            "enrollment_end": "2023-07-04T23:59:00Z",
-            "expiration_date": null,
-            "courseware_url": "https://courses.mitxonline.mit.edu/courses/course-v1:MITxT+14.009x+2T2023/course/",
-            "courseware_id": "course-v1:MITxT+14.009x+2T2023",
-            "run_tag": "2T2023",
-            "id": 38,
-            "products": []
-          }
-        ],
-        "next_run_id": 38,
-        "topics": [],
-        "feature_image_src": "/media/original_images/14.009x_-_course_image_-_SMALL.jpg?v=52e6adb90be9d738874676756fe22cd1ad9e1965",
-        "page_url": "/courses/course-v1:MITxT+14.009x/",
-        "financial_assistance_form_url": ""
-      }
-    ],
-    "start_date": "2021-10-05T15:00:00Z",
-    "end_date": "2023-08-16T15:00:00Z",
-    "enrollment_start": "2021-10-05T15:00:00Z",
-    "topics": []
-  }
-]
+        {
+          "name": "Policy and Administration"
+        },
+        {
+          "name": "Social Sciences"
+        }
+      ]
+    },
+    {
+      "title": "Data, Economics, and Design of Policy: Public Policy",
+      "readable_id": "program-v1:MITx+DEDP-Public-Policy",
+      "id": 2,
+      "courses": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+      "requirements": {
+        "required": [1, 2, 3],
+        "electives": [16, 68]
+      },
+      "req_tree": [
+        {
+          "data": {
+            "node_type": "program_root",
+            "operator": null,
+            "operator_value": null,
+            "program": 2,
+            "course": null,
+            "title": "",
+            "elective_flag": false
+          },
+          "id": 12,
+          "children": [
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "all_of",
+                "operator_value": null,
+                "program": 2,
+                "course": null,
+                "title": "Core: Complete all",
+                "elective_flag": false
+              },
+              "id": 13,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 2,
+                    "course": 1,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 14
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 2,
+                    "course": 2,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 15
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 2,
+                    "course": 3,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 16
+                }
+              ]
+            },
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "min_number_of",
+                "operator_value": "2",
+                "program": 2,
+                "course": null,
+                "title": "Public Policy Electives",
+                "elective_flag": true
+              },
+              "id": 17,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 2,
+                    "course": 16,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 18
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 2,
+                    "course": 68,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 19
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "feature_image_src": "/media/original_images/PublicPolicy-track_image_1134.jpg?v=38dd4da1307b5f85d96d20dffece2c0c25902295",
+        "page_url": "/programs/program-v1:MITx+DEDP-Public-Policy/",
+        "financial_assistance_form_url": "/programs/program-v1:MITx+DEDP/dedp-micromasters-program-financial-assistance-form/",
+        "description": "<p data-block-key=\"kkj7y\">Learn to evaluate the effectiveness of policies that tackle issues facing the US and other high-income economies. This program covers local issues such as minimum wage and employment, food stamps and consumer welfare, and economics of risk and safety regulation, as well as global issues such as trade, climate change, and immigration that are at the forefront of public policy debates.</p>",
+        "live": true,
+        "length": "3 terms (12 months)",
+        "effort": "12-14 hours per week",
+        "price": "$250 - $1000"
+      },
+      "program_type": "MicroMasters®",
+      "departments": ["Economics"],
+      "live": true,
+      "topics": []
+    },
+    {
+      "title": "Differential Calculus",
+      "readable_id": "program-v1:MITxT+18.01x",
+      "id": 6,
+      "courses": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+      "requirements": {
+        "required": [61, 69, 80],
+        "electives": []
+      },
+      "req_tree": [
+        {
+          "data": {
+            "node_type": "program_root",
+            "operator": null,
+            "operator_value": null,
+            "program": 6,
+            "course": null,
+            "title": "",
+            "elective_flag": false
+          },
+          "id": 43,
+          "children": [
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "all_of",
+                "operator_value": null,
+                "program": 6,
+                "course": null,
+                "title": "Required Courses",
+                "elective_flag": false
+              },
+              "id": 44,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 6,
+                    "course": 61,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 45
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 6,
+                    "course": 69,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 46
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 6,
+                    "course": 80,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 47
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "feature_image_src": "/static/images/mit-dome.png",
+        "page_url": "/programs/program-v1:MITxT+18.01x/",
+        "financial_assistance_form_url": "",
+        "description": "<p data-block-key=\"z30uy\">Discover the derivative---what it is, how to compute it, and when to apply it in solving real world problems. Part 1 of 3.</p>",
+        "live": true,
+        "length": "11 weeks",
+        "effort": "6-10 hrs/wk",
+        "price": "$175"
+      },
+      "program_type": "Series",
+      "departments": ["Mathematics"],
+      "live": true,
+      "topics": []
+    },
+    {
+      "title": "Introductory Electricity and Magnetics",
+      "readable_id": "program-v1:MITxT+8.02x",
+      "id": 7,
+      "courses": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+      "requirements": {
+        "required": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+        "electives": []
+      },
+      "req_tree": [
+        {
+          "data": {
+            "node_type": "program_root",
+            "operator": null,
+            "operator_value": null,
+            "program": 7,
+            "course": null,
+            "title": "",
+            "elective_flag": false
+          },
+          "id": 48,
+          "children": [
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "all_of",
+                "operator_value": null,
+                "program": 7,
+                "course": null,
+                "title": "Required Courses",
+                "elective_flag": false
+              },
+              "id": 49,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 7,
+                    "course": 59,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 50
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 7,
+                    "course": 57,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 51
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 7,
+                    "course": 56,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 52
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "feature_image_src": "/static/images/mit-dome.png",
+        "page_url": "/programs/program-v1:MITxT+8.02x/",
+        "financial_assistance_form_url": "",
+        "description": "<p data-block-key=\"fwblk\">Learn how charges interact with each other and create electric fields and electric potential landscapes. This introductory Electromagnetism physics course requires the use of calculus. </p>",
+        "live": false,
+        "length": "5 weeks",
+        "effort": "8-14 hrs/wk",
+        "price": "$149"
+      },
+      "program_type": "Series",
+      "departments": ["Materials Science and Engineering"],
+      "live": true,
+      "topics": []
+    },
+    {
+      "title": "xMinor in Materials for Electronic, Optical, and Magnetic Devices",
+      "readable_id": "program-v1:MITxT+3.DMSE",
+      "id": 4,
+      "courses": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+      "requirements": {
+        "required": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+        "electives": []
+      },
+      "req_tree": [
+        {
+          "data": {
+            "node_type": "program_root",
+            "operator": null,
+            "operator_value": null,
+            "program": 4,
+            "course": null,
+            "title": "",
+            "elective_flag": false
+          },
+          "id": 31,
+          "children": [
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "all_of",
+                "operator_value": null,
+                "program": 4,
+                "course": null,
+                "title": "Required Courses",
+                "elective_flag": false
+              },
+              "id": 32,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 4,
+                    "course": 28,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 33
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 4,
+                    "course": 29,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 34
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 4,
+                    "course": 30,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 35
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "feature_image_src": "/media/original_images/program_image_fullsize.jpeg?v=889d845ede39b9b93be80ed3f9e394f9894b3b70",
+        "page_url": "/programs/program-v1:MITxT+3.DMSE/",
+        "financial_assistance_form_url": "",
+        "description": "<p data-block-key=\"epxow\">Discover the science and engineering behind the materials and devices that power our modern world.</p>",
+        "live": false,
+        "length": "Approximately 16 weeks (150 hours) per course",
+        "effort": "8-12 hours per week",
+        "price": "$150 per course"
+      },
+      "program_type": "Series",
+      "departments": ["Materials Science and Engineering"],
+      "live": true,
+      "topics": []
+    },
+    {
+      "title": "xSeries in Introduction to Mechanics",
+      "readable_id": "program-v1:MITxT+8.01x",
+      "id": 8,
+      "courses": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+      "requirements": {
+        "required": [13, 47, 50, 52, 49, 45, 44, 51, 46, 48, 54, 96],
+        "electives": []
+      },
+      "req_tree": [
+        {
+          "data": {
+            "node_type": "program_root",
+            "operator": null,
+            "operator_value": null,
+            "program": 8,
+            "course": null,
+            "title": "",
+            "elective_flag": false
+          },
+          "id": 53,
+          "children": [
+            {
+              "data": {
+                "node_type": "operator",
+                "operator": "all_of",
+                "operator_value": null,
+                "program": 8,
+                "course": null,
+                "title": "Required Courses",
+                "elective_flag": false
+              },
+              "id": 54,
+              "children": [
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 8,
+                    "course": 23,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 55
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 8,
+                    "course": 31,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 56
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 8,
+                    "course": 32,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 57
+                },
+                {
+                  "data": {
+                    "node_type": "course",
+                    "operator": null,
+                    "operator_value": null,
+                    "program": 8,
+                    "course": 33,
+                    "title": null,
+                    "elective_flag": false
+                  },
+                  "id": 58
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "page": {
+        "feature_image_src": "/media/original_images/8.01.1x_Image_2022_MITxO.png?v=593cb814d4e22283198eceb20855662bf41704d8",
+        "page_url": "/programs/program-v1:MITxT+8.01x/",
+        "financial_assistance_form_url": "",
+        "description": "<p data-block-key=\"t73r0\">Learn physics just like an MIT freshman with this calculus-based online series that explores kinematics, momentum, rotational dynamics, and simple harmonic motion.</p>",
+        "live": true,
+        "length": "5 weeks",
+        "effort": "10-12 hrs/week",
+        "price": "$149"
+      },
+      "program_type": "Series",
+      "departments": [],
+      "live": true,
+      "topics": []
+    }
+  ]
+}
