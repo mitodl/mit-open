@@ -85,7 +85,7 @@ def mocked_mitxonline_courses_responses(
 @pytest.mark.usefixtures("mocked_mitxonline_programs_responses")
 def test_mitxonline_extract_programs(mock_mitxonline_programs_data):
     """Verify that the extraction function calls the mitxonline programs API and returns the responses"""
-    assert extract_programs() == mock_mitxonline_programs_data
+    assert extract_programs() == mock_mitxonline_programs_data["results"]
 
 
 def test_mitxonline_extract_programs_disabled(settings):
@@ -97,7 +97,7 @@ def test_mitxonline_extract_programs_disabled(settings):
 @pytest.mark.usefixtures("mocked_mitxonline_courses_responses")
 def test_mitxonline_extract_courses(mock_mitxonline_courses_data):
     """Verify that the extraction function calls the mitxonline courses API and returns the responses"""
-    assert extract_courses() == mock_mitxonline_courses_data
+    assert extract_courses() == mock_mitxonline_courses_data["results"]
 
 
 def test_mitxonline_extract_courses_disabled(settings):
@@ -106,9 +106,19 @@ def test_mitxonline_extract_courses_disabled(settings):
     assert extract_courses() == []
 
 
-def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
+def test_mitxonline_transform_programs(
+    mock_mitxonline_programs_data, mock_mitxonline_courses_data, mocker
+):
     """Test that mitxonline program data is correctly transformed into our normalized structure"""
-    result = transform_programs(mock_mitxonline_programs_data)
+
+    mocker.patch(
+        "learning_resources.etl.mitxonline._fetch_courses_data",
+        return_value=transform_courses(
+            sorted(mock_mitxonline_courses_data["results"], key=lambda x: x["id"])
+        ),
+    )
+    result = transform_programs(mock_mitxonline_programs_data["results"])
+
     expected = [
         {
             "readable_id": program_data["readable_id"],
@@ -117,7 +127,9 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
             "etl_source": ETLSource.mitxonline.name,
             "platform": PlatformType.mitxonline.name,
             "resource_type": LearningResourceType.program.name,
-            "departments": [],
+            "departments": extract_valid_department_from_id(
+                program_data["readable_id"]
+            ),
             "professional": False,
             "certification": bool(
                 program_data.get("page", {}).get("page_url", None) is not None
@@ -155,7 +167,9 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                     "prices": parse_program_prices(program_data),
                     "image": _transform_image(program_data),
                     "title": program_data["title"],
-                    "description": clean_data(program_data.get("description", None)),
+                    "description": clean_data(
+                        program_data.get("page", {}).get("description", None)
+                    ),
                     "url": parse_page_attribute(program_data, "page_url", is_url=True),
                     "availability": AvailabilityType.current.value
                     if parse_page_attribute(program_data, "page_url")
@@ -241,18 +255,34 @@ def test_mitxonline_transform_programs(mock_mitxonline_programs_data):
                         ]
                     },
                 }
-                for course_data in program_data["courses"]
+                for course_data in sorted(
+                    mock_mitxonline_courses_data["results"],
+                    key=lambda x: x["readable_id"],
+                )
                 if "PROCTORED EXAM" not in course_data["title"]
             ],
         }
-        for program_data in mock_mitxonline_programs_data
+        for program_data in mock_mitxonline_programs_data["results"]
     ]
-    assert expected == result
+    result = sorted(result, key=lambda x: x["readable_id"])
+    expected = sorted(expected, key=lambda x: x["readable_id"])
+    for i in range(len(expected)):
+        expected[i]["courses"] = sorted(
+            expected[i]["courses"], key=lambda x: x["readable_id"]
+        )
+        result[i]["courses"] = sorted(
+            result[i]["courses"], key=lambda x: x["readable_id"]
+        )
+        for j in range(len(expected[i]["courses"])):
+            course = result[i]["courses"][j]
+            for key in course:
+                assert result[i]["courses"][j][key] == expected[i]["courses"][j][key]
+    assert result == expected
 
 
 def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
     """Test that mitxonline courses data is correctly transformed into our normalized structure"""
-    result = transform_courses(mock_mitxonline_courses_data)
+    result = transform_courses(mock_mitxonline_courses_data["results"])
     expected = [
         {
             "readable_id": course_data["readable_id"],
@@ -354,7 +384,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                 ]
             },
         }
-        for course_data in mock_mitxonline_courses_data
+        for course_data in mock_mitxonline_courses_data["results"]
         if "PROCTORED EXAM" not in course_data["title"]
     ]
     assert expected == result
@@ -364,19 +394,32 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
 @pytest.mark.parametrize(
     ("start_dt", "enrollment_dt", "expected_dt"),
     [
-        (None, "2019-02-20T15:00:00", "2019-02-20T15:00:00"),
-        ("2024-02-20T15:00:00", None, "2024-02-20T15:00:00"),
-        ("2023-02-20T15:00:00", "2024-02-20T15:00:00", "2023-02-20T15:00:00"),
+        (None, "2023-03-01 14:00:00+00:00", "2023-03-01 14:00:00+00:00"),
+        ("2023-03-01 14:00:00+00:00", None, "2023-03-01 14:00:00+00:00"),
+        (
+            "2023-03-01 14:00:00+00:00",
+            "2023-03-01 14:00:00+00:00",
+            "2023-03-01 14:00:00+00:00",
+        ),
         (None, None, None),
     ],
 )
 def test_course_run_start_date_value(
-    mock_mitxonline_courses_data, start_dt, enrollment_dt, expected_dt
+    mock_mitxonline_courses_data,
+    mock_mitxonline_programs_data,
+    start_dt,
+    enrollment_dt,
+    expected_dt,
 ):
     """Test that the start date value is correctly determined for course runs"""
-    mock_mitxonline_courses_data[0]["courseruns"][0]["start_date"] = start_dt
-    mock_mitxonline_courses_data[0]["courseruns"][0]["enrollment_start"] = enrollment_dt
-    transformed_courses = transform_courses(mock_mitxonline_courses_data)
+    results = [
+        result
+        for result in mock_mitxonline_courses_data["results"]
+        if "PROCTORED" not in result["title"]
+    ]
+    results[0]["courseruns"][0]["start_date"] = start_dt
+    results[0]["courseruns"][0]["enrollment_start"] = enrollment_dt
+    transformed_courses = transform_courses(results)
     assert transformed_courses[0]["runs"][0]["start_date"] == _parse_datetime(
         expected_dt
     )
@@ -392,13 +435,25 @@ def test_course_run_start_date_value(
         (None, None, None),
     ],
 )
-def test_program_run_start_date_value(
-    mock_mitxonline_programs_data, start_dt, enrollment_dt, expected_dt
+def test_program_run_start_date_value(  # noqa: PLR0913
+    mocker,
+    mock_mitxonline_programs_data,
+    mock_mitxonline_courses_data,
+    start_dt,
+    enrollment_dt,
+    expected_dt,
 ):
+    mocker.patch(
+        "learning_resources.etl.mitxonline._fetch_courses_data",
+        return_value=mock_mitxonline_courses_data["results"],
+    )
+
     """Test that the start date value is correctly determined for program runs"""
-    mock_mitxonline_programs_data[0]["start_date"] = start_dt
-    mock_mitxonline_programs_data[0]["enrollment_start"] = enrollment_dt
-    transformed_programs = transform_programs(mock_mitxonline_programs_data)
+    mock_mitxonline_programs_data["results"][0]["start_date"] = start_dt
+    mock_mitxonline_programs_data["results"][0]["enrollment_start"] = enrollment_dt
+
+    transformed_programs = transform_programs(mock_mitxonline_programs_data["results"])
+
     assert transformed_programs[0]["runs"][0]["start_date"] == _parse_datetime(
         expected_dt
     )

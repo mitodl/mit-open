@@ -242,12 +242,13 @@ def _fetch_courses_data(course_ids):
     courses = []
     if settings.MITX_ONLINE_COURSES_API_URL:
         [
-            courses.extend(response)
+            courses.extend(_transform_course(response))
             for response in _fetch_data(
-                settings.MITX_ONLINE_COURSES_API_URL, params={"id[]": course_ids}
+                settings.MITX_ONLINE_COURSES_API_URL,
+                params={"id": ",".join([str(courseid) for courseid in course_ids])},
             )
         ]
-        return transform_courses(courses)
+        return courses
     log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
     return []
 
