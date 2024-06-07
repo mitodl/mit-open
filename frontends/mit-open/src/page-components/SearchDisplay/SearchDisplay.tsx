@@ -5,7 +5,6 @@ import {
   MuiCard,
   CardContent,
   PlainList,
-  Skeleton,
   Container,
   Typography,
   Button,
@@ -203,10 +202,6 @@ const PaginationContainer = styled.div`
   justify-content: end;
 `
 
-const StyledSkeleton = styled(Skeleton)`
-  border-radius: 4px;
-`
-
 const PAGE_SIZE = 10
 const MAX_PAGE = 50
 
@@ -357,7 +352,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                     .fill(null)
                     .map((a, index) => (
                       <li key={index}>
-                        <StyledSkeleton variant="rectangular" height={162} />
+                        <LearningResourceListCard isLoading={isLoading} />
                       </li>
                     ))}
                 </PlainList>

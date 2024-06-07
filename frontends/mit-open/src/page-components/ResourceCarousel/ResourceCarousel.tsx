@@ -27,15 +27,7 @@ import {
   AddToLearningPathDialog,
   AddToUserListDialog,
 } from "../Dialogs/AddToListDialog"
-import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
-const LearningResourceCardStyled = styled(LearningResourceCard)({
-  boxShadow: "none",
-  ":hover": {
-    boxShadow:
-      "0 2px 4px 0 rgb(37 38 43 / 10%), 0 2px 4px 0 rgb(37 38 43 / 10%)",
-  },
-})
 const StyledCarousel = styled(Carousel)({
   /**
    * Our cards have a hover shadow that gets clipped by the carousel container.
@@ -241,8 +233,6 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
       }
     : null
 
-  const openLRDrawer = useOpenLearningResourceDrawer()
-
   return (
     <MobileOverflow className={className}>
       <TabContext value={tab}>
@@ -270,20 +260,15 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
             <StyledCarousel arrowsContainer={ref}>
               {isLoading
                 ? Array.from({ length: 6 }).map((_, index) => (
-                    <LearningResourceCardStyled
-                      isLoading
-                      key={index}
-                      resource={null}
-                    />
+                    <LearningResourceCard isLoading key={index} />
                   ))
                 : resources.map((resource) => (
-                    <LearningResourceCardStyled
+                    <LearningResourceCard
                       key={resource.id}
                       resource={resource}
                       {...tabConfig.cardProps}
                       onAddToLearningPathClick={showAddToLearningPathDialog}
                       onAddToUserListClick={showAddToUserListDialog}
-                      onActivate={() => openLRDrawer(resource.id)}
                     />
                   ))}
             </StyledCarousel>

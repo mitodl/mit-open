@@ -52,37 +52,66 @@ const Certificate = styled.div`
   gap: 4px;
 `
 
-const Footer: React.FC<{ resource: LearningResource; size?: Size }> = ({
-  resource,
-  size,
-}) => {
-  const isOcw =
-    resource.resource_type === ResourceTypeEnum.Course &&
-    resource.platform?.code === PlatformEnum.Ocw
+const BorderSeparate = styled.div`
+  div {
+    display: inline;
+  }
+  div + div {
+    margin-left: 8px;
+    padding-left: 8px;
+    border-left: 1px solid ${theme.custom.colors.lightGray2};
+  }
+`
 
+const isOcw = (resource: LearningResource) =>
+  resource.resource_type === ResourceTypeEnum.Course &&
+  resource.platform?.code === PlatformEnum.Ocw
+
+const getStartDate = (resource: LearningResource) => {
   let startDate = resource.next_start_date
 
   if (!startDate) {
     const bestRun = findBestRun(resource.runs ?? [])
 
-    if (isOcw && bestRun?.semester && bestRun?.year) {
-      return (
-        <>
-          {size === "medium" ? "As taught in:" : ""}{" "}
-          <span>{`${bestRun?.semester} ${bestRun?.year}`}</span>
-        </>
-      )
+    if (isOcw(resource) && bestRun?.semester && bestRun?.year) {
+      return `${bestRun?.semester} ${bestRun?.year}`
     }
     startDate = bestRun?.start_date
   }
 
   if (!startDate) return null
 
+  return formatDate(startDate, "MMMM DD, YYYY")
+}
+
+const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
+  resource,
+  size,
+}) => {
+  const startDate = getStartDate(resource)
+
+  if (!startDate) return null
+
+  const label = isOcw(resource)
+    ? size === "medium"
+      ? "As taught in:"
+      : ""
+    : "Starts:"
+
   return (
-    <>
-      {size === "medium" ? "Starts:" : ""}{" "}
-      <span>{formatDate(startDate, "MMMM DD, YYYY")}</span>
-    </>
+    <div>
+      {label} <span>{formatDate(startDate, "MMMM DD, YYYY")}</span>
+    </div>
+  )
+}
+
+const Format = ({ resource }: { resource: LearningResource }) => {
+  const format = resource.learning_format?.[0]?.name
+  if (!format) return null
+  return (
+    <div>
+      Format: <span>{format}</span>
+    </div>
   )
 }
 
@@ -90,7 +119,6 @@ interface LearningResourceListCardProps {
   isLoading?: boolean
   resource?: LearningResource | null
   className?: string
-  size?: Size
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
 }
@@ -99,14 +127,13 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   isLoading,
   resource,
   className,
-  size = "medium",
   onAddToLearningPathClick,
   onAddToUserListClick,
 }) => {
   if (isLoading) {
     const { width, height } = imgConfigs["column"]
     return (
-      <ListCard className={className} size={size}>
+      <ListCard className={className}>
         <ListCard.Content>
           <SkeletonImage variant="rectangular" aspect={width / height} />
           <Skeleton height={25} width="65%" sx={{ margin: "23px 16px 0" }} />
@@ -120,11 +147,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
     return null
   }
   return (
-    <ListCard
-      href={`?resource=${resource.id}`}
-      className={className}
-      size={size}
-    >
+    <ListCard href={`?resource=${resource.id}`} className={className}>
       <ListCard.Image
         src={resource.image?.url}
         alt={resource.image?.alt as string}
@@ -133,9 +156,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
         <Info resource={resource} />
       </ListCard.Info>
       <ListCard.Title>
-        <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>
-          {resource.title}
-        </EllipsisTitle>
+        <EllipsisTitle lineClamp={2}>{resource.title}</EllipsisTitle>
       </ListCard.Title>
       <ListCard.Actions>
         {onAddToLearningPathClick && (
@@ -164,7 +185,10 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
         )}
       </ListCard.Actions>
       <ListCard.Footer>
-        <Footer resource={resource} size={size} />
+        <BorderSeparate>
+          <StartDate resource={resource} />
+          <Format resource={resource} />
+        </BorderSeparate>
       </ListCard.Footer>
     </ListCard>
   )

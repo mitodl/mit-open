@@ -52,36 +52,44 @@ const Certificate = styled.div`
   gap: 4px;
 `
 
-const Footer: React.FC<{ resource: LearningResource; size?: Size }> = ({
-  resource,
-  size,
-}) => {
-  const isOcw =
-    resource.resource_type === ResourceTypeEnum.Course &&
-    resource.platform?.code === PlatformEnum.Ocw
+const isOcw = (resource: LearningResource) =>
+  resource.resource_type === ResourceTypeEnum.Course &&
+  resource.platform?.code === PlatformEnum.Ocw
 
+const getStartDate = (resource: LearningResource) => {
   let startDate = resource.next_start_date
 
   if (!startDate) {
     const bestRun = findBestRun(resource.runs ?? [])
 
-    if (isOcw && bestRun?.semester && bestRun?.year) {
-      return (
-        <>
-          {size === "medium" ? "As taught in:" : ""}{" "}
-          <span>{`${bestRun?.semester} ${bestRun?.year}`}</span>
-        </>
-      )
+    if (isOcw(resource) && bestRun?.semester && bestRun?.year) {
+      return `${bestRun?.semester} ${bestRun?.year}`
     }
     startDate = bestRun?.start_date
   }
 
   if (!startDate) return null
 
+  return formatDate(startDate, "MMMM DD, YYYY")
+}
+
+const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
+  resource,
+  size,
+}) => {
+  const startDate = getStartDate(resource)
+
+  if (!startDate) return null
+
+  const label = isOcw(resource)
+    ? size === "medium"
+      ? "As taught in:"
+      : ""
+    : "Starts:"
+
   return (
     <>
-      {size === "medium" ? "Starts:" : ""}{" "}
-      <span>{formatDate(startDate, "MMMM DD, YYYY")}</span>
+      {label} <span>{formatDate(startDate, "MMMM DD, YYYY")}</span>
     </>
   )
 }
@@ -160,7 +168,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
         )}
       </Card.Actions>
       <Card.Footer>
-        <Footer resource={resource} size={size} />
+        <StartDate resource={resource} size={size} />
       </Card.Footer>
     </Card>
   )
