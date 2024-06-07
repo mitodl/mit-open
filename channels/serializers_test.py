@@ -143,7 +143,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "channel_type": ChannelType.unit.name,
         "offeror_detail": {
             "offeror": LearningResourceOfferorDetailSerializer(
-                instance=channel.offeror_detail.unit
+                instance=channel.offeror_detail.offeror
             ).data,
         },
     }
