@@ -6,6 +6,7 @@ import {
   useLearningResourcesSearch,
 } from "api/hooks/learningResources"
 import {
+  Carousel,
   TabButton,
   TabPanel,
   TabContext,
@@ -14,8 +15,6 @@ import {
   LearningResourceCard,
   Typography,
 } from "ol-components"
-import type { Theme } from "ol-components"
-import { Carousel } from "./Carousel"
 import type {
   TabConfig,
   ResourceDataSource,
@@ -30,9 +29,23 @@ import {
 } from "../Dialogs/AddToListDialog"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
-type CardStyleProps = {
-  cardsPerPage: number
-}
+const LearningResourceCardStyled = styled(LearningResourceCard)({
+  ":hover": {
+    boxShadow:
+      "0 2px 4px 0 rgb(37 38 43 / 10%), 0 2px 4px 0 rgb(37 38 43 / 10%)",
+  },
+})
+const StyledCarousel = styled(Carousel)({
+  width: "calc(100% + 4px)",
+  ".slick-track": {
+    display: "flex",
+    gap: "20px",
+    marginBottom: "4px",
+  },
+  ".slick-slide": {
+    paddingLeft: "4px",
+  },
+})
 
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   dataConfig: T
@@ -103,7 +116,7 @@ const HeaderRow = styled.div(({ theme }) => ({
   flexWrap: "wrap",
   alignItems: "center",
   gap: "16px",
-  marginBottom: "16px",
+  marginBottom: "24px",
   [theme.breakpoints.down("sm")]: {
     alignItems: "flex-start",
     flexDirection: "column",
@@ -229,13 +242,17 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
         </HeaderRow>
         <CarouselContent config={config}>
           {({ resources, isLoading, tabConfig }) => (
-            <Carousel arrowsContainer={ref}>
+            <StyledCarousel arrowsContainer={ref}>
               {isLoading
                 ? Array.from({ length: 6 }).map((_, index) => (
-                    <LearningResourceCard key={index} resource={null} />
+                    <LearningResourceCardStyled
+                      isLoading
+                      key={index}
+                      resource={null}
+                    />
                   ))
                 : resources.map((resource) => (
-                    <LearningResourceCard
+                    <LearningResourceCardStyled
                       key={resource.id}
                       resource={resource}
                       {...tabConfig.cardProps}
@@ -244,7 +261,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
                       onActivate={() => openLRDrawer(resource.id)}
                     />
                   ))}
-            </Carousel>
+            </StyledCarousel>
           )}
         </CarouselContent>
       </TabContext>
