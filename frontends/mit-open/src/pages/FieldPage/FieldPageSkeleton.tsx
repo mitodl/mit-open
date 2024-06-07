@@ -71,7 +71,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
       alt=""
       omitBackground={field.isLoading}
       bannerContent={
-        <Container sx={{ my: 2 }}>
+        <Container sx={{ my: 2, py: "48px" }}>
           <NavText variant="subtitle3">
             Home / {NAV_PATH[channelType]} /{" "}
             <span className="current">{field.data?.title}</span>
