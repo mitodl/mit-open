@@ -7,7 +7,6 @@ import {
   Grid,
   useMuiBreakpointAtLeast,
   Card,
-  CardLinkContainer,
 } from "ol-components"
 import {
   useNewsEventsList,
@@ -105,7 +104,7 @@ const MobileEvents = styled(Events)`
   padding: 0 16px;
 `
 
-const EventCard = styled(CardLinkContainer)`
+const EventCard = styled(Card)`
   display: flex;
   align-items: center;
   gap: 16px;
@@ -208,22 +207,24 @@ const NewsEventsSection: React.FC = () => {
   const EventCards =
     events!.results?.map((item) => (
       <EventCard key={item.id} href={item.url}>
-        <EventDate>
-          <EventDay>
-            {formatDate(
-              (item as EventFeedItem).event_details?.event_datetime,
-              "D",
-            )}
-          </EventDay>
-          <EventMonth>
-            {formatDate(
-              (item as EventFeedItem).event_details?.event_datetime,
-              "MMM",
-            )}
-          </EventMonth>
-        </EventDate>
-        <EventTitle>{item.title}</EventTitle>
-        <Chevron />
+        <Card.Content>
+          <EventDate>
+            <EventDay>
+              {formatDate(
+                (item as EventFeedItem).event_details?.event_datetime,
+                "D",
+              )}
+            </EventDay>
+            <EventMonth>
+              {formatDate(
+                (item as EventFeedItem).event_details?.event_datetime,
+                "MMM",
+              )}
+            </EventMonth>
+          </EventDate>
+          <EventTitle>{item.title}</EventTitle>
+          <Chevron />
+        </Card.Content>
       </EventCard>
     )) || []
 

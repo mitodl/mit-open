@@ -8,47 +8,35 @@ import React, {
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { pxToRem } from "../ThemeProvider/typography"
+import { Link } from "react-router-dom"
 
 export type Size = "small" | "medium"
 
-const cardStyles = `
+const getWidthCss = ({ size }: { size?: Size }) => {
+  let width
+  if (size === "medium") width = 300
+  if (size === "small") width = 192
+  return `
+    min-width: ${width}px;
+    max-width: ${width}px;
+  `
+}
+
+const Container = styled(Link)`
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
-  box-shadow:
-    0 2px 4px 0 rgb(37 38 43 / 10%),
-    0 2px 4px 0 rgb(37 38 43 / 10%);
   overflow: hidden;
-`
-
-const Container = styled.div<{ size?: Size }>`
-  ${cardStyles}
-  ${({ size }) => {
-    let width
-    if (size === "medium") width = 300
-    if (size === "small") width = 192
-    return `
-      min-width: ${width}px;
-      max-width: ${width}px;
-    `
-  }}
-`
-
-const LinkContainer = styled.a`
-  ${cardStyles}
+  ${getWidthCss}
   display: block;
 
   :hover {
     text-decoration: none;
-    color: ${theme.custom.colors.mitRed};
     border-color: ${theme.custom.colors.silverGrayLight};
+    box-shadow:
+      0 2px 4px 0 rgb(37 38 43 / 10%),
+      0 2px 4px 0 rgb(37 38 43 / 10%);
     cursor: pointer;
-
-    h3,
-    > p {
-      color: ${theme.custom.colors.mitRed};
-      text-decoration: underline;
-    }
   }
 `
 
@@ -137,9 +125,7 @@ type Card = FC<CardProps> & {
   Actions: FC<{ children: ReactNode }>
 }
 
-const Card: Card = ({ children, className, size, link, href }) => {
-  const _Container = link ? LinkContainer : Container
-
+const Card: Card = ({ children, className, size, href }) => {
   let content, imageProps, info, title, footer, actions
 
   Children.forEach(children, (child) => {
@@ -154,14 +140,14 @@ const Card: Card = ({ children, className, size, link, href }) => {
 
   if (content) {
     return (
-      <Container className={className} size={size}>
+      <Container className={className} to={href!} size={size}>
         {content}
       </Container>
     )
   }
 
   return (
-    <_Container className={className} href={href} size={size}>
+    <Container className={className} to={href!} size={size}>
       {imageProps && (
         <Image
           size={size}
@@ -176,7 +162,7 @@ const Card: Card = ({ children, className, size, link, href }) => {
         <Footer>{footer}</Footer>
         {actions && <Actions>{actions}</Actions>}
       </Bottom>
-    </_Container>
+    </Container>
   )
 }
 
@@ -187,4 +173,4 @@ Card.Title = Title
 Card.Footer = Footer
 Card.Actions = Actions
 
-export { Card, Container as CardContainer, LinkContainer as CardLinkContainer }
+export { Card, Container as CardContainer }

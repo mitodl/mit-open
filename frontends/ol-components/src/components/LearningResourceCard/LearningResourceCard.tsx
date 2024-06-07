@@ -129,7 +129,6 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   resource,
   className,
   size = "medium",
-  onActivate,
   onAddToLearningPathClick,
   onAddToUserListClick,
 }) => {
@@ -150,13 +149,13 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return null
   }
   return (
-    <Card className={className} size={size}>
+    <Card href={`?resource=${resource.id}`} className={className} size={size}>
       <Card.Image src={resource.image?.url} alt={resource.image!.alt!} />
       <Card.Info>
         <Info resource={resource} />
       </Card.Info>
       <Card.Title>
-        <Title resource={resource} onActivate={onActivate} size={size} />
+        <Title resource={resource} size={size} />
       </Card.Title>
       <Card.Actions>
         {onAddToLearningPathClick && (
