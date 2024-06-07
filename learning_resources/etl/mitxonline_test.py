@@ -113,8 +113,15 @@ def test_mitxonline_transform_programs(
 
     mocker.patch(
         "learning_resources.etl.mitxonline._fetch_data",
-        return_value=[mock_mitxonline_courses_data["results"]],
+        return_value=[
+            [
+                result
+                for result in mock_mitxonline_courses_data["results"]
+                if "PROCTORED EXAM" not in result["title"]
+            ]
+        ],
     )
+
     result = transform_programs(mock_mitxonline_programs_data["results"])
 
     expected = [
@@ -271,7 +278,10 @@ def test_mitxonline_transform_programs(
         result[i]["courses"] = sorted(
             result[i]["courses"], key=lambda x: x["readable_id"]
         )
-
+        for j in range(len(result[i]["courses"])):
+            course = result[i]["courses"][j]
+            for key in course:
+                assert result[i]["courses"][j][key] == expected[i]["courses"][j][key]
     assert result == expected
 
 
