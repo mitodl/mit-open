@@ -1,10 +1,10 @@
 import React from "react"
 import { Container } from "ol-components"
-import TabbedCarousel, {
-  TabbedCarouselProps,
-} from "@/page-components/TabbedCarousel/TabbedCarousel"
+import ResourceCarousel, {
+  ResourceCarouselProps,
+} from "@/page-components/ResourceCarousel/ResourceCarousel"
 
-const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
+const UPCOMING_COURSES_CAROUSEL: ResourceCarouselProps["config"] = [
   {
     label: "All",
     cardProps: { size: "medium" },
@@ -36,7 +36,7 @@ const UPCOMING_COURSES_CAROUSEL: TabbedCarouselProps["config"] = [
 const UpcomingCoursesSection: React.FC = () => {
   return (
     <Container>
-      <TabbedCarousel
+      <ResourceCarousel
         title="Upcoming Courses"
         config={UPCOMING_COURSES_CAROUSEL}
       />

@@ -1,6 +1,6 @@
 import React from "react"
-import TabbedCarousel from "@/page-components/TabbedCarousel/TabbedCarousel"
-import type { TabConfig } from "@/page-components/TabbedCarousel/TabbedCarousel"
+import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
+import type { TabConfig } from "@/page-components/ResourceCarousel/ResourceCarousel"
 import type { FeaturedApiFeaturedListRequest as FeaturedListParams } from "api"
 
 const COMMON_DATA_PARAMS: FeaturedListParams = {
@@ -44,7 +44,7 @@ const FEATURED_RESOURCES_CAROUSEL: TabConfig[] = [
 
 const FeaturedResourcesSection: React.FC = () => {
   return (
-    <TabbedCarousel
+    <ResourceCarousel
       title="Featured Courses"
       config={FEATURED_RESOURCES_CAROUSEL}
     />

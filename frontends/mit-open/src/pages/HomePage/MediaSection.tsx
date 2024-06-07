@@ -1,9 +1,9 @@
 import React from "react"
-import TabbedCarousel, {
-  TabbedCarouselProps,
-} from "@/page-components/TabbedCarousel/TabbedCarousel"
+import ResourceCarousel, {
+  ResourceCarouselProps,
+} from "@/page-components/ResourceCarousel/ResourceCarousel"
 
-const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
+const MEDIA_CAROUSEL: ResourceCarouselProps["config"] = [
   {
     label: "All",
     cardProps: { size: "small" },
@@ -31,7 +31,7 @@ const MEDIA_CAROUSEL: TabbedCarouselProps["config"] = [
 ]
 
 const MediaSection: React.FC = () => {
-  return <TabbedCarousel title="Media" config={MEDIA_CAROUSEL} />
+  return <ResourceCarousel title="Media" config={MEDIA_CAROUSEL} />
 }
 
 export default MediaSection

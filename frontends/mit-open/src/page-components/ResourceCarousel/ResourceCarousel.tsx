@@ -113,7 +113,7 @@ const DataPanel: React.FC<DataPanelProps> = ({ dataConfig, children }) => {
   }
 }
 
-type TabbedCarouselProps = {
+type ResourceCarouselProps = {
   config: TabConfig[]
   title: string
 }
@@ -215,8 +215,14 @@ const MobileOverflow = styled.div(({ theme }) => ({
  *  - data is lazily when the tabpanel first becomes visible
  *
  * For now, this is a carousel of learning resource cards, to be moved out if/when it is needed for other items.
+ *
+ * If there is only one tab, the carousel will not have tabs, and will just show
+ * the content.
  */
-const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
+const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
+  config,
+  title,
+}) => {
   const { data: user } = useUserMe()
   const [tab, setTab] = React.useState("0")
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
@@ -287,6 +293,6 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
   )
 }
 
-export default TabbedCarousel
-export type { TabbedCarouselProps }
+export default ResourceCarousel
+export type { ResourceCarouselProps }
 export type { TabConfig }
