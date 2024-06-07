@@ -18,6 +18,13 @@ const field: PartialFactory<FieldChannel> = (overrides = {}) => {
   overrides = mergeOverrides(
     {
       channel_type: channelType(),
+      configuration: {
+        banner_background: "/static/images/test.jpg",
+        heading: "this is a test heading",
+        logo: "/static/images/test.svg",
+        name: "test",
+        sub_heading: "this is a subheading",
+      },
     },
     overrides,
   )
@@ -42,6 +49,16 @@ const departmentChannel: PartialFactory<DepartmentChannel> = (
     _fieldShared(),
     { channel_type: ChannelTypeEnum.Department },
     {
+      configuration: {
+        banner_background: "/static/images/unit_banners/mitpe.jpg",
+        heading: "test",
+        logo: "/static/test.svg",
+        name: "test",
+        sub_heading: "test",
+        subheader: "test",
+      },
+    },
+    {
       department_detail: {
         department: faker.lorem.slug(),
       },
@@ -55,6 +72,16 @@ const topicChannel: PartialFactory<TopicChannel> = (overrides = {}) => {
     _fieldShared(),
     { channel_type: ChannelTypeEnum.Topic },
     {
+      configuration: {
+        banner_background: "/static/images/unit_banners/mitpe.jpg",
+        heading: "test",
+        logo: "/static/test.svg",
+        name: "test",
+        sub_heading: "test",
+        subheader: "test",
+      },
+    },
+    {
       topic_detail: {
         topic: faker.number.int(),
       },
@@ -67,6 +94,16 @@ const offerorChannel: PartialFactory<OfferorChannel> = (overrides = {}) => {
   return mergeOverrides<OfferorChannel>(
     _fieldShared(),
     { channel_type: ChannelTypeEnum.Offeror },
+    {
+      configuration: {
+        banner_background: "/static/images/unit_banners/mitpe.jpg",
+        heading: "test",
+        logo: "/static/test.svg",
+        name: "test",
+        sub_heading: "test",
+        subheader: "test",
+      },
+    },
     {
       offeror_detail: {
         offeror: offeror(),

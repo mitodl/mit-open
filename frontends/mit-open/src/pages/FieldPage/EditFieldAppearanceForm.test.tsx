@@ -105,7 +105,7 @@ describe("EditFieldAppearanceForm", () => {
         makeFieldViewPath(newChannelType, field.name),
       )
     })
-    await screen.findByText(newTitle)
-    await screen.findByText(newDesc)
+    await screen.findAllByText(newTitle)
+    await screen.findAllByText(newDesc)
   }, 10000)
 })

@@ -117,13 +117,13 @@ def test_partial_update_field_channel_featured_list_only_learning_path(
 def test_create_field_channel_lists_only_learning_path(admin_client, resource_type):
     """Only learning_paths may be used as one of lists"""
     url = reverse("channels:v0:field_channels_api-list")
-    resoure = LearningResourceFactory.create(resource_type=resource_type.name)
+    resource = LearningResourceFactory.create(resource_type=resource_type.name)
     resource2 = LearningResourceFactory.create(resource_type=resource_type.name)
     status = 201 if resource_type == LearningResourceType.learning_path else 400
     data = {
         "title": "Biology",
         "name": "biology",
-        "lists": [resoure.id, resource2.id],
+        "lists": [resource.id, resource2.id],
         "channel_type": ChannelType.pathway.name,
     }
     response = admin_client.post(url, data=data, content_type="application/json")
@@ -140,9 +140,9 @@ def test_partial_update_field_channel_lists_only_learning_path(
         "channels:v0:field_channels_api-detail",
         kwargs={"id": field_channel.id},
     )
-    resoure = LearningResourceFactory.create(resource_type=resource_type.name)
+    resource = LearningResourceFactory.create(resource_type=resource_type.name)
     status = 200 if resource_type == LearningResourceType.learning_path else 400
-    data = {"lists": [resoure.id]}
+    data = {"lists": [resource.id]}
     response = admin_client.patch(url, data=data, content_type="application/json")
     assert response.status_code == status
 
@@ -394,3 +394,22 @@ def test_no_excess_queries(user_client, django_assert_num_queries, related_count
     )
     with django_assert_num_queries(expected_query_count):
         user_client.get(url)
+
+
+def test_field_channel_configuration_is_not_editable(client, field_channel):
+    """Test that the 'configuration' object is read-only"""
+    url = reverse(
+        "channels:v0:field_channels_api-detail",
+        kwargs={"id": field_channel.id},
+    )
+    data = {"title": "NEW TITLE", "about": {}, "configuration": {"updated_config": 1}}
+    field_user = UserFactory.create()
+    initial_config = {"test": "test"}
+    field_channel.configuration = initial_config
+    field_channel.save()
+    add_user_role(field_channel, FIELD_ROLE_MODERATORS, field_user)
+    client.force_login(field_user)
+    response = client.patch(url, data=data)
+    assert response.status_code == 200
+    field_channel.refresh_from_db()
+    assert field_channel.configuration == initial_config

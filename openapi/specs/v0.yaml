@@ -1348,8 +1348,6 @@ components:
         search_filter:
           type: string
           maxLength: 2048
-        configuration:
-          nullable: true
         topic_detail:
           allOf:
           - $ref: '#/components/schemas/ChannelTopicDetailRequest'
@@ -1855,8 +1853,6 @@ components:
         search_filter:
           type: string
           maxLength: 2048
-        configuration:
-          nullable: true
         topic_detail:
           allOf:
           - $ref: '#/components/schemas/ChannelTopicDetailRequest'

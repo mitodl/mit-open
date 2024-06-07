@@ -1,10 +1,11 @@
 import React from "react"
-
 import type { FieldChannel } from "api/v0"
 import { styled } from "ol-components"
 export const AVATAR_SMALL = "small" as const
 export const AVATAR_MEDIUM = "medium" as const
 export const AVATAR_LARGE = "large" as const
+
+type ImageVariant = "normal" | "inverted"
 
 type ImageSize =
   | typeof AVATAR_SMALL
@@ -17,6 +18,7 @@ type AvatarProps = {
   editable?: boolean
   formImageUrl?: string | null
   name?: string
+  imageVariant?: ImageVariant | null
 }
 
 const initials = (title: string): string => {
@@ -50,13 +52,15 @@ const FONT_STYLES = {
   large: "h2",
 } as const
 
-type AvatarStyleProps = Required<Pick<AvatarProps, "imageSize">>
+type AvatarStyleProps = Required<
+  Pick<AvatarProps, "imageSize" | "imageVariant">
+>
 const AvatarContainer = styled.div<AvatarStyleProps>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: ${({ imageSize }) => IMG_SIZES[imageSize]};
   height: ${({ imageSize }) => IMG_SIZES[imageSize]};
+  width: auto;
 `
 const AvatarImg = styled.img<AvatarStyleProps>`
   display: flex;
@@ -65,9 +69,10 @@ const AvatarImg = styled.img<AvatarStyleProps>`
   justify-content: center;
   min-height: 0;
   min-width: 0;
-  border-radius: 15px;
-  width: ${({ imageSize }) => IMG_SIZES[imageSize]};
+  ${({ imageVariant }) =>
+    imageVariant === "inverted" ? "filter: saturate(0%) invert(100%);" : ""}
   height: ${({ imageSize }) => IMG_SIZES[imageSize]};
+  width: auto;
 `
 const AvatarInitials = styled(AvatarImg.withComponent("div"))(
   ({ theme, imageSize = "medium" }) => ({
@@ -77,18 +82,27 @@ const AvatarInitials = styled(AvatarImg.withComponent("div"))(
 )
 
 const FieldAvatar: React.FC<AvatarProps> = (props) => {
-  const { field, formImageUrl, imageSize = "medium" } = props
+  const {
+    field,
+    formImageUrl,
+    imageSize = "medium",
+    imageVariant = "normal",
+  } = props
 
   const imageUrl = formImageUrl || getImage(field, imageSize)
 
   return (
-    <AvatarContainer imageSize={imageSize}>
+    <AvatarContainer imageSize={imageSize} imageVariant={imageVariant}>
       {!imageUrl ? (
-        <AvatarInitials imageSize={imageSize}>
+        <AvatarInitials imageSize={imageSize} imageVariant={imageVariant}>
           {initials(field.title)}
         </AvatarInitials>
       ) : (
-        <AvatarImg src={imageUrl} imageSize={imageSize} />
+        <AvatarImg
+          src={imageUrl}
+          imageSize={imageSize}
+          imageVariant={imageVariant}
+        />
       )}
     </AvatarContainer>
   )

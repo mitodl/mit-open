@@ -181,7 +181,7 @@ def test_create_field_channel(base_field_data, channel_detail, channel_type):
     assert channel.about == data["about"]
     assert channel.public_description == data["public_description"]
     assert channel.featured_list == paths[0]
-    assert channel.configuration == data["configuration"]
+    assert channel.configuration != data["configuration"]
     assert [
         field_list.field_list.id
         for field_list in channel.lists.all().order_by("position")
