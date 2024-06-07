@@ -89,16 +89,12 @@ def parse_page_attribute(
 
 def extract_programs():
     """Loads the MITx Online catalog data"""  # noqa: D401
-    programs = []
     if settings.MITX_ONLINE_PROGRAMS_API_URL:
-        [
-            programs.append(response)
-            for response in _fetch_data(settings.MITX_ONLINE_PROGRAMS_API_URL)
-        ]
+        return list(_fetch_data(settings.MITX_ONLINE_PROGRAMS_API_URL))
     else:
         log.warning("Missing required setting MITX_ONLINE_PROGRAMS_API_URL")
 
-    return programs
+    return []
 
 
 def extract_courses():

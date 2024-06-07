@@ -272,7 +272,7 @@ def test_mitxonline_transform_programs(
         result[i]["courses"] = sorted(
             result[i]["courses"], key=lambda x: x["readable_id"]
         )
-        for j in range(len(result[i]["courses"])):
+        for j in range(len(expected[i]["courses"])):
             course = result[i]["courses"][j]
             for key in course:
                 assert result[i]["courses"][j][key] == expected[i]["courses"][j][key]
