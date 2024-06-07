@@ -41,7 +41,8 @@ def _fetch_data(url, params=None):
             url, params=params, timeout=settings.REQUESTS_TIMEOUT
         ).json()
         results = response["results"]
-        yield results
+        for result in results:
+            yield from result
         url = response.get("next")
 
 
@@ -91,7 +92,7 @@ def extract_programs():
     programs = []
     if settings.MITX_ONLINE_PROGRAMS_API_URL:
         [
-            programs.extend(response)
+            programs.append(response)
             for response in _fetch_data(settings.MITX_ONLINE_PROGRAMS_API_URL)
         ]
     else:
@@ -102,16 +103,12 @@ def extract_programs():
 
 def extract_courses():
     """Loads the MITx Online catalog data"""  # noqa: D401
-    courses = []
     if settings.MITX_ONLINE_COURSES_API_URL:
-        [
-            courses.extend(response)
-            for response in _fetch_data(settings.MITX_ONLINE_COURSES_API_URL)
-        ]
+        return list(_fetch_data(settings.MITX_ONLINE_COURSES_API_URL))
     else:
         log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
 
-    return courses
+    return []
 
 
 def parse_program_prices(program_data: dict) -> list[float]:
