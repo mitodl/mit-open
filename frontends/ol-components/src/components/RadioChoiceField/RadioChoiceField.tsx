@@ -13,7 +13,7 @@ interface RadioChoiceProps {
 }
 
 interface RadioChoiceFieldProps {
-  label: string // We could make this optional, but we should demand one of (label, aria-label, aria-labelledby)
+  label: React.ReactNode // We could make this optional, but we should demand one of (label, aria-label, aria-labelledby)
   value?: string
   defaultValue?: string
   name: string

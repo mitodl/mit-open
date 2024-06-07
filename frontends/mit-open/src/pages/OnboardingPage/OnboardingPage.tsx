@@ -1,7 +1,7 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
-import isEmpty from "lodash/isEmpty"
-import isMatch from "lodash/isMatch"
+import isEqual from "lodash/isEqual"
+import range from "lodash/range"
 import {
   styled,
   Step,
@@ -12,48 +12,24 @@ import {
   Button,
   LoadingSpinner,
   CircularProgress,
+  Typography,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import { PatchedProfileRequest } from "api/v0"
 
-import LearningFormatStep from "./LearningFormatStep"
-import GoalsStep from "./GoalsStep"
-import TopicInterestsStep from "./TopicInterestsStep"
-import TimeCommitmentStep from "./TimeCommitmentStep"
-import EducationLevelStep from "./EducationLevelStep"
-import CertificateStep from "./CertificateStep"
+import { LearningFormatChoiceBoxField } from "@/page-components/Profile/LearningFormatChoice"
+import { GoalsChoiceBoxField } from "@/page-components/Profile/GoalsChoice"
+import { TopicInterestsChoiceBoxField } from "@/page-components/Profile/TopicInterestsChoice"
+import { TimeCommitmentRadioChoiceBoxField } from "@/page-components/Profile/TimeCommitmentChoice"
+import { EducationLevelSelect } from "@/page-components/Profile/EducationLevelChoice"
+import { CertificateChoiceBoxField } from "@/page-components/Profile/CertificateChoice"
 import { useProfileMeMutation, useProfileMeQuery } from "api/hooks/profile"
-import { DASHBOARD } from "../../common/urls"
+import { DASHBOARD } from "@/common/urls"
 
-import type { StepProps, StepUpdateFunc } from "./types"
+import type { ProfileFieldUpdateFunc } from "@/page-components/Profile/types"
 
-const StepNames = {
-  TopicInterests: "topic_interests",
-  Goals: "goals",
-  Certificate: "certificate",
-  EducationLevel: "education_level",
-  TimeCommitment: "time_commitment",
-  LearningFormat: "course_format",
-}
-
-const STEPS = [
-  StepNames.TopicInterests,
-  StepNames.Goals,
-  StepNames.Certificate,
-  StepNames.EducationLevel,
-  StepNames.TimeCommitment,
-  StepNames.LearningFormat,
-]
-
-const STEP_COMPONENTS: Record<string, React.ComponentType<StepProps>> = {
-  [StepNames.TopicInterests]: TopicInterestsStep,
-  [StepNames.Goals]: GoalsStep,
-  [StepNames.Certificate]: CertificateStep,
-  [StepNames.EducationLevel]: EducationLevelStep,
-  [StepNames.TimeCommitment]: TimeCommitmentStep,
-  [StepNames.LearningFormat]: LearningFormatStep,
-}
+const NUM_STEPS = 6
 
 const FlexContainer = styled(Container)({
   display: "flex",
@@ -71,7 +47,7 @@ const StepContainer = styled(Container)({
   "& .MuiStep-root": {
     padding: 0,
   },
-  // the two following rules work in concert to cetner the <Stepper>
+  // the two following rules work in concert to center the <Stepper>
   // this makes the empty div take up all the left space
   "& > div:first-child": {
     flex: 1,
@@ -123,22 +99,34 @@ function StepIcon(props: StepIconProps) {
   return <StepPill ownerState={props} />
 }
 
+const Title = styled(Typography)(({ theme }) => ({
+  color: theme.custom.colors.black,
+})) as typeof Typography
+
+const Prompt = styled(Typography)(({ theme }) => ({
+  color: theme.custom.colors.silverGrayDark,
+})) as typeof Typography
+
+const Label = styled.div({
+  textAlign: "center",
+  margin: "0 0 40px",
+})
+
 const OnboardingPage: React.FC = () => {
   const [updates, setUpdates] = React.useState<PatchedProfileRequest>({})
-  const profile = useProfileMeQuery()
-  const profileMutation = useProfileMeMutation()
+  const { data: profile, isLoading: isLoadingProfile } = useProfileMeQuery()
+  const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
   const [activeStep, setActiveStep] = React.useState<number>(0)
-  const [isStepValid, setisStepValid] = React.useState(false)
   const navigate = useNavigate()
 
   const handleNext = () => {
     // TODO: handle this error
-    profileMutation.mutateAsync(updates).then(() => {
+    mutateAsync(updates).then(() => {
       setActiveStep((prevActiveStep) => prevActiveStep + 1)
     })
   }
   const handleFinish = () => {
-    profileMutation.mutateAsync(updates).then(() => {
+    mutateAsync(updates).then(() => {
       navigate(DASHBOARD)
     })
   }
@@ -147,18 +135,23 @@ const OnboardingPage: React.FC = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
-  const handleUpdate: StepUpdateFunc = (newUpdates) => {
-    if (!isMatch(updates, newUpdates)) {
-      setUpdates(newUpdates)
-      setisStepValid(
-        Object.values(newUpdates).every((value) => !isEmpty(value)),
-      )
+  const handleUpdate: ProfileFieldUpdateFunc = <
+    T extends keyof PatchedProfileRequest,
+  >(
+    name: T,
+    value: PatchedProfileRequest[T],
+  ) => {
+    if (!isEqual(updates[name], value)) {
+      setUpdates({
+        [name]: value,
+      })
     }
   }
+  if (typeof profile === "undefined") {
+    return null
+  }
 
-  const StepComponent = STEP_COMPONENTS[STEPS[activeStep]]
-
-  return activeStep < STEPS.length ? (
+  return activeStep < NUM_STEPS ? (
     <FlexContainer>
       <MetaTags>
         <title>Onboarding</title>
@@ -166,9 +159,9 @@ const OnboardingPage: React.FC = () => {
       <StepContainer>
         <div />
         <Stepper connector={null}>
-          {STEPS.map((name, index) => (
+          {range(NUM_STEPS).map((index) => (
             <Step
-              key={name}
+              key={index}
               completed={activeStep > index}
               active={activeStep === index}
             >
@@ -177,49 +170,135 @@ const OnboardingPage: React.FC = () => {
           ))}
         </Stepper>
         <StepNumbers>
-          <span className="current-step">{activeStep + 1}</span>/{STEPS.length}
+          <span className="current-step">{activeStep + 1}</span>/{NUM_STEPS}
         </StepNumbers>
       </StepContainer>
-      {profile.isLoading ? <LoadingSpinner loading={true} /> : null}
-      {profile.isSuccess ? (
-        <StepComponent profile={profile.data} onUpdate={handleUpdate} />
-      ) : null}
+      {isLoadingProfile ? (
+        <LoadingSpinner loading={true} />
+      ) : (
+        <>
+          {activeStep === 0 ? (
+            <Container maxWidth="lg">
+              <TopicInterestsChoiceBoxField
+                label={
+                  <Label>
+                    <Title component="h3" variant="h6">
+                      Welcome{profile.name ? `, ${profile.name}` : ""}! What are
+                      you interested in learning about?
+                    </Title>
+                    <Prompt component="p">Select all that apply:</Prompt>
+                  </Label>
+                }
+                value={profile.topic_interests}
+                onUpdate={handleUpdate}
+              />
+            </Container>
+          ) : null}
+          {activeStep === 1 ? (
+            <Container maxWidth="lg">
+              <GoalsChoiceBoxField
+                label={
+                  <Label>
+                    <Title component="h3" variant="h3">
+                      What do you want MIT online education to help you reach?
+                    </Title>
+                    <Prompt component="p">Select all that apply:</Prompt>
+                  </Label>
+                }
+                value={profile.goals}
+                onUpdate={handleUpdate}
+              />
+            </Container>
+          ) : null}
+          {activeStep === 2 ? (
+            <Container maxWidth="md">
+              <CertificateChoiceBoxField
+                label={
+                  <Label>
+                    <Title component="h3" variant="h6">
+                      Are you seeking to receive a certificate?
+                    </Title>
+                    <Prompt>Select one:</Prompt>
+                  </Label>
+                }
+                value={profile.certificate_desired}
+                onUpdate={handleUpdate}
+              />
+            </Container>
+          ) : null}
+          {activeStep === 3 ? (
+            <Container maxWidth="sm">
+              <EducationLevelSelect
+                label={
+                  <Label>
+                    <Title component="h3" variant="h6">
+                      What is your current level of education?
+                    </Title>
+                  </Label>
+                }
+                value={profile.current_education}
+                onUpdate={handleUpdate}
+              />
+            </Container>
+          ) : null}
+          {activeStep === 4 ? (
+            <Container maxWidth="md">
+              <TimeCommitmentRadioChoiceBoxField
+                label={
+                  <Label>
+                    <Title component="h3" variant="h6">
+                      How much time per week do you want to commit to learning?
+                    </Title>
+                    <Prompt>Select one:</Prompt>
+                  </Label>
+                }
+                value={profile.time_commitment}
+                onUpdate={handleUpdate}
+              />
+            </Container>
+          ) : null}
+          {activeStep === 5 ? (
+            <Container maxWidth="md">
+              <LearningFormatChoiceBoxField
+                label={
+                  <Label>
+                    <Title component="h3" variant="h6">
+                      What course format are you interested in?
+                    </Title>
+                    <Prompt>Select one:</Prompt>
+                  </Label>
+                }
+                value={profile.learning_format}
+                onUpdate={handleUpdate}
+              />
+            </Container>
+          ) : null}
+        </>
+      )}
       <NavControls>
         {activeStep > 0 ? (
           <Button
             variant="secondary"
             startIcon={<RiArrowLeftLine />}
             onClick={handleBack}
-            disabled={profileMutation.isLoading}
+            disabled={isSaving}
           >
             Back
           </Button>
         ) : null}
-        {activeStep < STEPS.length - 1 ? (
+        {activeStep < NUM_STEPS - 1 ? (
           <Button
-            endIcon={
-              profileMutation.isLoading ? (
-                <CircularProgress />
-              ) : (
-                <RiArrowRightLine />
-              )
-            }
+            endIcon={isSaving ? <CircularProgress /> : <RiArrowRightLine />}
             onClick={handleNext}
-            disabled={!isStepValid || profileMutation.isLoading}
+            disabled={isSaving}
           >
             Next
           </Button>
         ) : (
           <Button
-            endIcon={
-              profileMutation.isLoading ? (
-                <CircularProgress />
-              ) : (
-                <RiArrowRightLine />
-              )
-            }
+            endIcon={isSaving ? <CircularProgress /> : <RiArrowRightLine />}
             onClick={handleFinish}
-            disabled={!isStepValid || profileMutation.isLoading}
+            disabled={isSaving}
           >
             Finish
           </Button>

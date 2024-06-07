@@ -28,6 +28,7 @@ import { UserList } from "api"
 import { ListDetailsComponent } from "../ListDetailsPage/ListDetailsPage"
 import { ListType } from "api/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { ProfileEditForm } from "./ProfileEditForm"
 import {
   useInfiniteUserListItems,
   useUserListsDetail,
@@ -409,13 +410,6 @@ const DashboardPage: React.FC = () => {
     </TabButtonList>
   )
 
-  const contentComingSoon = (
-    <>
-      <br />
-      <Typography variant="body1">Coming soon...</Typography>
-    </>
-  )
-
   return (
     <Background>
       <Page>
@@ -517,7 +511,13 @@ const DashboardPage: React.FC = () => {
                   value={TabValues.PROFILE}
                 >
                   <TitleText role="heading">Profile</TitleText>
-                  {contentComingSoon}
+                  {isLoadingProfile || typeof profile === "undefined" ? (
+                    <Skeleton variant="text" width={128} height={32} />
+                  ) : (
+                    <div id="user-profile-edit">
+                      <ProfileEditForm profile={profile} />
+                    </div>
+                  )}
                 </TabPanelStyled>
               </DashboardGridItem>
             </DashboardGrid>
