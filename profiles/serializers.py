@@ -89,7 +89,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     profile_image_small = serializers.SerializerMethodField(read_only=True)
     placename = serializers.SerializerMethodField(read_only=True)
     topic_interests = TopicInterestsField(default=list)
-    preference_search_filters = serializers.SerializerMethodField()
+    preference_search_filters = serializers.SerializerMethodField(read_only=True)
 
     def get_username(self, obj) -> str:
         """Custom getter for the username"""  # noqa: D401

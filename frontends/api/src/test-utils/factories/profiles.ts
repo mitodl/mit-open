@@ -17,6 +17,7 @@ const profile: PartialFactory<Profile> = (overrides = {}): Profile => ({
   time_commitment: "",
   learning_format: "",
   certificate_desired: "",
+  preference_search_filters: {},
   ...overrides,
 })
 
