@@ -6,7 +6,6 @@ import {
   SearchInputProps,
   styled,
   ChipLink,
-  useMuiBreakpointAtLeast,
 } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
 
@@ -112,6 +111,7 @@ const ControlsContainer = styled.div(({ theme }) => ({
     "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
   [theme.breakpoints.down("sm")]: {
     padding: "12px",
+    gap: "16px",
   },
 }))
 const LinksContainer = styled.div(({ theme }) => ({
@@ -167,7 +167,6 @@ const HeroSearch: React.FC = () => {
     },
     [navigate],
   )
-  const isMobile = !useMuiBreakpointAtLeast("sm")
   return (
     <HeroWrapper>
       <TitleAndControls>
@@ -183,7 +182,7 @@ const HeroSearch: React.FC = () => {
         <ControlsContainer>
           <SearchInput
             placeholder="Search for courses, programs, learning, and teaching materials"
-            size={isMobile ? "medium" : "hero"}
+            size="hero"
             fullWidth
             value={searchText}
             onChange={onSearchChange}

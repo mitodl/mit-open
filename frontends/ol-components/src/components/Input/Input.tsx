@@ -12,6 +12,7 @@ const defaultProps = {
 const buttonPadding = {
   medium: 4,
   hero: 6,
+  heroMobile: 4,
 }
 
 /**
@@ -50,7 +51,9 @@ const Input = styled(InputBase)(({
       },
     },
     size === "medium" && {
-      ...theme.typography.body2,
+      "& .MuiInputBase-input": {
+        ...theme.typography.body2,
+      },
       paddingLeft: "12px",
       paddingRight: "12px",
       borderRadius: "4px",
@@ -72,11 +75,12 @@ const Input = styled(InputBase)(({
         height: "40px",
       },
     size === "hero" && {
-      ...theme.typography.body1,
+      "& .MuiInputBase-input": {
+        ...theme.typography.body1,
+      },
       paddingLeft: "16px",
       paddingRight: "16px",
       borderRadius: "8px",
-
       "&.MuiInputBase-adornedStart": {
         paddingLeft: `${16 - buttonPadding.hero}px`,
         "&.Mui-focused": {
@@ -89,10 +93,30 @@ const Input = styled(InputBase)(({
           paddingRight: `${15 - buttonPadding.hero}px`,
         },
       },
+      [theme.breakpoints.down("sm")]: {
+        "& .MuiInputBase-input": {
+          ...theme.typography.body4,
+        },
+        "&.MuiInputBase-adornedStart": {
+          paddingLeft: `${12 - buttonPadding.heroMobile}px`,
+          "&.Mui-focused": {
+            paddingLeft: `${11 - buttonPadding.heroMobile}px`,
+          },
+        },
+        "&.MuiInputBase-adornedEnd": {
+          paddingRight: `${12 - buttonPadding.heroMobile}px`,
+          "&.Mui-focused": {
+            paddingRight: `${11 - buttonPadding.heroMobile}px`,
+          },
+        },
+      },
     },
     size === "hero" &&
       !multiline && {
         height: "56px",
+        [theme.breakpoints.down("sm")]: {
+          height: "37px",
+        },
       },
   ]
 })
@@ -130,6 +154,13 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
     height: pxToRem(24 + 2 * buttonPadding.hero),
     ".MuiSvgIcon-root": {
       fontSize: pxToRem(24),
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: pxToRem(16 + 2 * buttonPadding.heroMobile),
+      height: pxToRem(16 + 2 * buttonPadding.heroMobile),
+      ".MuiSvgIcon-root": {
+        fontSize: pxToRem(16),
+      },
     },
   },
 
