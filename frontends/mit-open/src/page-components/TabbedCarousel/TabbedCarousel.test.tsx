@@ -22,7 +22,7 @@ describe("TabbedCarousel", () => {
     return resources
   }
 
-  test("it returns results from the correct endpoint", async () => {
+  it("returns results from the correct endpoint", async () => {
     const config: TabbedCarouselProps["config"] = [
       {
         label: "Resources",
@@ -77,5 +77,25 @@ describe("TabbedCarousel", () => {
     const urlParams = new URLSearchParams(url.split("?")[1])
     expect(urlParams.getAll("resource_type")).toEqual(["course", "program"])
     expect(urlParams.get("professional")).toEqual("true")
+  })
+
+  it("Shows the correct title", () => {
+    const config: TabbedCarouselProps["config"] = [
+      {
+        label: "Resources",
+        data: {
+          type: "resources",
+          params: { resource_type: ["course", "program"], professional: true },
+        },
+      },
+    ]
+    setMockResponse.get(urls.userMe.get(), {})
+    setupApis()
+    renderWithProviders(
+      <TabbedCarousel title="My Favorite Carousel" config={config} />,
+    )
+    expect(
+      screen.getByRole("heading", { name: "My Favorite Carousel" }),
+    ).toBeInTheDocument()
   })
 })
