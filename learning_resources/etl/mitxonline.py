@@ -238,11 +238,11 @@ def transform_courses(courses):
     ]
 
 
-def _fetch_courses_data(course_ids):
+def _fetch_courses_by_ids(course_ids):
     courses = []
     if settings.MITX_ONLINE_COURSES_API_URL:
         [
-            courses.extend(_transform_course(response))
+            courses.extend(response)
             for response in _fetch_data(
                 settings.MITX_ONLINE_COURSES_API_URL,
                 params={"id": ",".join([str(courseid) for courseid in course_ids])},
@@ -305,8 +305,8 @@ def transform_programs(programs):
                 }
             ],
             "courses": [
-                course
-                for course in _fetch_courses_data(program["courses"])
+                _transform_course(course)
+                for course in _fetch_courses_by_ids(program["courses"])
                 if not re.search(EXCLUDE_REGEX, course["title"], re.IGNORECASE)
             ],
         }
