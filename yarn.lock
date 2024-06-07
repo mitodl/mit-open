@@ -2309,9 +2309,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-react@npm:^6.2.0":
-  version: 6.3.0
-  resolution: "@ckeditor/ckeditor5-react@npm:6.3.0"
+"@ckeditor/ckeditor5-react@npm:^7.0.0":
+  version: 7.0.0
+  resolution: "@ckeditor/ckeditor5-react@npm:7.0.0"
   dependencies:
     prop-types: "npm:^15.7.2"
   peerDependencies:
@@ -2321,7 +2321,7 @@ __metadata:
     "@ckeditor/ckeditor5-utils": ">=41.3.1"
     "@ckeditor/ckeditor5-watchdog": ">=41.3.1"
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
-  checksum: 10/ce1a8d905078e5038d55efebafadaa9277149d4a990dc33b54a9c6bfdcfa982d89f5aa4d6331199d09cb3782e665805a408ba265a8b095c9a8138cbfae376d78
+  checksum: 10/e6f4118567a6ee1211d3e28de86d5bff05f6a50bd579a2467f73d909cc2ac5c2b4b7a5702c48a1422a7998ecb1ba2af8f8a719072bf5bc60092bf6578a35773c
   languageName: node
   linkType: hard
 
@@ -18914,7 +18914,7 @@ __metadata:
     "@ckeditor/ckeditor5-markdown-gfm": "npm:^41.0.0"
     "@ckeditor/ckeditor5-media-embed": "npm:^41.0.0"
     "@ckeditor/ckeditor5-paragraph": "npm:^41.0.0"
-    "@ckeditor/ckeditor5-react": "npm:^6.2.0"
+    "@ckeditor/ckeditor5-react": "npm:^7.0.0"
     "@ckeditor/ckeditor5-theme-lark": "npm:^41.0.0"
     "@ckeditor/ckeditor5-ui": "npm:^41.0.0"
     "@testing-library/react": "npm:14.3.1"
