@@ -12,7 +12,8 @@ const FullWidthBackground = styled.div({
 })
 
 const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
-  margin: "80px 0",
+  marginTop: "16px",
+  marginBotto: "80px",
   [theme.breakpoints.down("sm")]: {
     marginTop: "0px",
     marginBottom: "32px",

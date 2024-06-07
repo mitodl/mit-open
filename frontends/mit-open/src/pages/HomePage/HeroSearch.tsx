@@ -43,17 +43,29 @@ const SEARCH_CHIPS: SearchChip[] = [
 const HeroWrapper = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
+  alignItems: "center",
+  gap: "51px",
   color: theme.custom.colors.darkGray1,
 }))
 
+const TitleAndControls = styled.div({
+  flex: "1 1 auto",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  justifyContent: "center",
+  marginTop: "32px",
+  marginBottom: "32px",
+})
+
 const ImageContainer = styled.div(({ theme }) => ({
+  flex: "0 1.33 auto",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
-  marginLeft: "48px",
-  maxWidth: "400px",
-  flex: 1,
+  marginTop: "22px",
+  transform: "translateX(24px)",
   [theme.breakpoints.down("md")]: {
     display: "none",
   },
@@ -129,20 +141,6 @@ const BrowseContainer = styled.div(({ theme }) => ({
 
   [theme.breakpoints.down("sm")]: {
     flex: 1,
-  },
-}))
-
-const TitleAndControls = styled.div(({ theme }) => ({
-  flex: 1,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
-  justifyContent: "center",
-  marginTop: "120px",
-  marginBottom: "120px",
-  [theme.breakpoints.down("md")]: {
-    marginTop: "32px",
-    marginBottom: "32px",
   },
 }))
 
