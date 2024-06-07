@@ -2,8 +2,10 @@
 
 from factory import Faker, Sequence, SubFactory
 from factory.django import DjangoModelFactory
+from factory.fuzzy import FuzzyChoice
 from faker.providers import BaseProvider
 
+from learning_resources.constants import LearningResourceFormat
 from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebsite
 
 
@@ -42,6 +44,11 @@ class ProfileFactory(DjangoModelFactory):
     email_optin = Faker("boolean")
 
     location = Faker("location")
+
+    learning_format = FuzzyChoice(LearningResourceFormat.names())
+    certificate_desired = FuzzyChoice(
+        [Profile.CertificateDesired.YES.value, Profile.CertificateDesired.NO.value]
+    )
 
     class Meta:
         model = Profile

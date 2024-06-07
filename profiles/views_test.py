@@ -136,6 +136,12 @@ def test_get_profile(logged_in, user, user_client):
         "certificate_desired": profile.certificate_desired,
         "time_commitment": profile.time_commitment,
         "learning_format": profile.learning_format,
+        "preference_search_filters": {
+            "learning_format": profile.learning_format,
+            "certification": (
+                profile.certificate_desired == Profile.CertificateDesired.YES.value
+            ),
+        },
     }
 
 
@@ -291,6 +297,9 @@ def test_patch_onboarding_fields(  # noqa: PLR0913
         kwargs={"user__username": logged_in_profile.user.username},
     )
 
+    setattr(logged_in_profile, field, before)
+    logged_in_profile.save()
+    logged_in_profile.refresh_from_db()
     assert getattr(logged_in_profile, field) == before
 
     resp = client.patch(

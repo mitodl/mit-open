@@ -7,6 +7,8 @@ import factory
 import pytest
 from rest_framework.exceptions import ValidationError
 
+from learning_resources.constants import LearningResourceFormat
+from learning_resources.factories import LearningResourceTopicFactory
 from learning_resources.serializers import LearningResourceTopicSerializer
 from profiles.factories import UserWebsiteFactory
 from profiles.models import FACEBOOK_DOMAIN, PERSONAL_SITE_TYPE, Profile
@@ -91,7 +93,7 @@ def test_serialize_create_user(db, mocker):
         "last_name": user.last_name,
         "is_learning_path_editor": False,
         "is_article_editor": False,
-        "profile": profile,
+        "profile": {**profile, "preference_search_filters": {}},
     }
 
 
@@ -185,6 +187,7 @@ def test_location_validation(user, data, is_valid):
     assert serializer.is_valid(raise_exception=False) is is_valid
 
 
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
     ("key", "value"),
     [
@@ -192,16 +195,21 @@ def test_location_validation(user, data, is_valid):
         ("bio", "bio_value"),
         ("headline", "headline_value"),
         ("location", {"value": "Hobbiton, The Shire, Middle-Earth"}),
+        ("learning_format", LearningResourceFormat.hybrid.name),
+        ("certificate_desired", Profile.CertificateDesired.YES.value),
     ],
 )
 def test_update_profile(mocker, user, key, value):
     """
     Test updating a profile via the ProfileSerializer
     """
+    topic_ids = [topic.id for topic in LearningResourceTopicFactory.create_batch(2)]
     profile = user.profile
 
     serializer = ProfileSerializer(
-        instance=user.profile, data={key: value}, partial=True
+        instance=user.profile,
+        data={key: value, "topic_interests": topic_ids},
+        partial=True,
     )
     serializer.is_valid(raise_exception=True)
     serializer.save()
@@ -215,6 +223,9 @@ def test_update_profile(mocker, user, key, value):
         "bio",
         "headline",
         "location",
+        "learning_format",
+        "certificate_desired",
+        "topic_interests",
     ):
         if prop == key:
             if isinstance(value, bool):
@@ -223,6 +234,39 @@ def test_update_profile(mocker, user, key, value):
                 assert getattr(profile2, prop) == value
         else:
             assert getattr(profile2, prop) == getattr(profile, prop)
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize(
+    ("cert_desired", "cert_filter"),
+    [
+        (Profile.CertificateDesired.YES.value, True),
+        (Profile.CertificateDesired.NO.value, False),
+        (Profile.CertificateDesired.NOT_SURE_YET.value, None),
+        ("", None),
+    ],
+)
+@pytest.mark.parametrize("topics", [["Biology", "Chemistry"], []])
+@pytest.mark.parametrize("lr_format", [LearningResourceFormat.hybrid.name, ""])
+def test_serialize_profile_preference_search_filters(
+    user, cert_desired, cert_filter, topics, lr_format
+):
+    """Tests that the ProfileSerializer includes search filters when an option is set via the context"""
+    profile = user.profile
+    profile.certificate_desired = cert_desired
+    profile.learning_format = lr_format
+    if topics:
+        profile.topic_interests.set(
+            [LearningResourceTopicFactory.create(name=topic) for topic in topics]
+        )
+    profile.save()
+
+    search_filters = ProfileSerializer(profile).data["preference_search_filters"]
+    assert search_filters.get("certification", None) == cert_filter
+    assert search_filters.get("topic", None) == (topics if topics else None)
+    assert search_filters.get("learning_format", None) == (
+        lr_format if lr_format else None
+    )
 
 
 def test_serialize_profile_websites(user):
