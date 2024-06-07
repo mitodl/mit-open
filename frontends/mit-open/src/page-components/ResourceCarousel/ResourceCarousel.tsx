@@ -113,11 +113,6 @@ const DataPanel: React.FC<DataPanelProps> = ({ dataConfig, children }) => {
   }
 }
 
-type ResourceCarouselProps = {
-  config: TabConfig[]
-  title: string
-}
-
 const HeaderRow = styled.div(({ theme }) => ({
   display: "flex",
   flexWrap: "wrap",
@@ -208,6 +203,11 @@ const MobileOverflow = styled.div(({ theme }) => ({
   },
 }))
 
+type ResourceCarouselProps = {
+  config: TabConfig[]
+  title: string
+  className?: string
+}
 /**
  * A tabbed carousel that fetches resources based on the configuration provided.
  *  - each TabConfig generates a tab + tabpanel that pulls data from an API based
@@ -222,6 +222,7 @@ const MobileOverflow = styled.div(({ theme }) => ({
 const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   config,
   title,
+  className,
 }) => {
   const { data: user } = useUserMe()
   const [tab, setTab] = React.useState("0")
@@ -243,7 +244,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   const openLRDrawer = useOpenLearningResourceDrawer()
 
   return (
-    <MobileOverflow>
+    <MobileOverflow className={className}>
       <TabContext value={tab}>
         <HeaderRow>
           <Typography variant="h3">{title}</Typography>
