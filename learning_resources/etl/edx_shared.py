@@ -16,6 +16,8 @@ from learning_resources.models import LearningResourceRun
 
 log = logging.getLogger(__name__)
 
+EDX_S3_BASE_PREFIX = "20"
+
 
 def get_most_recent_course_archives(
     etl_source: str, *, s3_prefix: str | None = None, override_base_prefix=False
@@ -51,7 +53,9 @@ def get_most_recent_course_archives(
                         obj
                         for obj in bucket.objects.filter(
                             # Use s3_prefix for OLL, "20" for all others
-                            Prefix=s3_prefix if override_base_prefix else "20"
+                            Prefix=s3_prefix
+                            if override_base_prefix
+                            else EDX_S3_BASE_PREFIX
                         )
                         if re.search(course_tar_regex, obj.key)
                     ],
