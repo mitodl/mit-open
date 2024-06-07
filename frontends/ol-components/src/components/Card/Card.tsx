@@ -15,9 +15,9 @@ const cardStyles = `
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
-  // box-shadow:
-  //   0 2px 4px 0 rgb(37 38 43 / 10%),
-  //   0 2px 4px 0 rgb(37 38 43 / 10%);
+  box-shadow:
+    0 2px 4px 0 rgb(37 38 43 / 10%),
+    0 2px 4px 0 rgb(37 38 43 / 10%);
   overflow: hidden;
 `
 

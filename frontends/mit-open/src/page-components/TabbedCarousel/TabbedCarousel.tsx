@@ -30,13 +30,20 @@ import {
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
 
 const LearningResourceCardStyled = styled(LearningResourceCard)({
+  boxShadow: "none",
   ":hover": {
     boxShadow:
       "0 2px 4px 0 rgb(37 38 43 / 10%), 0 2px 4px 0 rgb(37 38 43 / 10%)",
   },
 })
 const StyledCarousel = styled(Carousel)({
+  /**
+   * Our cards have a hover shadow that gets clipped by the carousel container.
+   * To compensate for this, we add a 4px padding to the left of each slide, and
+   * remove 4px from the gap.
+   */
   width: "calc(100% + 4px)",
+  trannsform: "translateX(-4px)",
   ".slick-track": {
     display: "flex",
     gap: "20px",
@@ -156,14 +163,11 @@ type ContentProps = {
   tabConfig: TabConfig
 }
 
-type CarouselContentProps = {
+type PanelChildrenProps = {
   config: TabConfig[]
   children: (props: ContentProps) => React.ReactNode
 }
-const CarouselContent: React.FC<CarouselContentProps> = ({
-  config,
-  children,
-}) => {
+const PanelChildren: React.FC<PanelChildrenProps> = ({ config, children }) => {
   if (config.length === 1) {
     return (
       <DataPanel dataConfig={config[0].data}>
@@ -191,6 +195,18 @@ const CarouselContent: React.FC<CarouselContentProps> = ({
     </>
   )
 }
+
+const MobileOverflow = styled.div(({ theme }) => ({
+  /**
+   * On mobile screens, the carousel is supposed to overflow the main content
+   * so its right edge is flush with screen.
+   *
+   * The mobile content margin is 16px, so we add that to its width.
+   */
+  [theme.breakpoints.down("sm")]: {
+    width: "calc(100% + 16px)",
+  },
+}))
 
 /**
  * A tabbed carousel that fetches resources based on the configuration provided.
@@ -221,7 +237,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
   const openLRDrawer = useOpenLearningResourceDrawer()
 
   return (
-    <section>
+    <MobileOverflow>
       <TabContext value={tab}>
         <HeaderRow>
           <Typography variant="h3">{title}</Typography>
@@ -242,7 +258,7 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
             <ButtonsContainer ref={setRef} />
           </ControlsContainer>
         </HeaderRow>
-        <CarouselContent config={config}>
+        <PanelChildren config={config}>
           {({ resources, isLoading, tabConfig }) => (
             <StyledCarousel arrowsContainer={ref}>
               {isLoading
@@ -265,9 +281,9 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
                   ))}
             </StyledCarousel>
           )}
-        </CarouselContent>
+        </PanelChildren>
       </TabContext>
-    </section>
+    </MobileOverflow>
   )
 }
 
