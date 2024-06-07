@@ -11,7 +11,7 @@ describe("ChannelDetails", () => {
   it("Includes channel detail info panel", async () => {
     const field = factory.field({
       title: "Test Title",
-      channel_type: "offeror",
+      channel_type: "unit",
     })
     setMockResponse.get(
       urls.fields.details(field.channel_type, field.name),

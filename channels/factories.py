@@ -95,9 +95,9 @@ class FieldChannelFactory(DjangoModelFactory):
         create_department_detail = factory.LazyAttribute(
             lambda c: c.channel_type == ChannelType.department.name
         )
-        is_offeror = factory.Trait(channel_type=ChannelType.offeror.name)
+        is_offeror = factory.Trait(channel_type=ChannelType.unit.name)
         create_offeror_detail = factory.LazyAttribute(
-            lambda c: c.channel_type == ChannelType.offeror.name
+            lambda c: c.channel_type == ChannelType.unit.name
         )
         is_pathway = factory.Trait(channel_type=ChannelType.pathway.name)
         create_pathway_detail = factory.LazyAttribute(

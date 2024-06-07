@@ -18,13 +18,13 @@ paths:
           type: string
           enum:
           - department
-          - offeror
           - pathway
           - topic
+          - unit
         description: |-
           * `topic` - Topic
           * `department` - Department
-          * `offeror` - Offeror
+          * `unit` - Unit
           * `pathway` - Pathway
       - name: limit
         required: false
@@ -992,13 +992,13 @@ components:
       enum:
       - topic
       - department
-      - offeror
+      - unit
       - pathway
       type: string
       description: |-
         * `topic` - Topic
         * `department` - Department
-        * `offeror` - Offeror
+        * `unit` - Unit
         * `pathway` - Pathway
     CurrentEducationEnum:
       enum:
@@ -1292,7 +1292,7 @@ components:
         mapping:
           topic: '#/components/schemas/TopicChannel'
           department: '#/components/schemas/DepartmentChannel'
-          offeror: '#/components/schemas/OfferorChannel'
+          unit: '#/components/schemas/OfferorChannel'
           pathway: '#/components/schemas/PathwayChannel'
     FieldChannelCreateRequest:
       type: object
@@ -1653,9 +1653,9 @@ components:
           readOnly: true
         channel_type:
           type: string
-          default: offeror
+          default: unit
           allOf:
-          - $ref: '#/components/schemas/OfferorChannelTypeEnum'
+          - $ref: '#/components/schemas/UnitChannelTypeEnum'
           readOnly: true
         offeror_detail:
           $ref: '#/components/schemas/ChannelOfferorDetail'
@@ -1704,11 +1704,6 @@ components:
       - subfields
       - title
       - updated_on
-    OfferorChannelTypeEnum:
-      enum:
-      - offeror
-      type: string
-      description: '* `offeror` - Offeror'
     PaginatedAttestationList:
       type: object
       required:
@@ -2460,6 +2455,11 @@ components:
       - topic
       type: string
       description: '* `topic` - Topic'
+    UnitChannelTypeEnum:
+      enum:
+      - unit
+      type: string
+      description: '* `unit` - Unit'
     User:
       type: object
       description: Serializer for User

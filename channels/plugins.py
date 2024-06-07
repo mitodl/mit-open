@@ -114,7 +114,7 @@ class ChannelPlugin:
         if overwrite or not offeror_detail:
             channel, _ = FieldChannel.objects.update_or_create(
                 name=offeror.code,
-                channel_type=ChannelType.offeror.name,
+                channel_type=ChannelType.unit.name,
                 defaults={
                     "title": offeror.name,
                     "search_filter": f"offered_by={offeror.code}",

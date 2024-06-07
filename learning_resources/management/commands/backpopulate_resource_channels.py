@@ -42,7 +42,7 @@ class Command(BaseCommand):
         for channeL_type in [
             ChannelType.topic.name,
             ChannelType.department.name,
-            ChannelType.offeror.name,
+            ChannelType.unit.name,
         ]:
             parser.add_argument(
                 f"--{channeL_type}",
@@ -91,7 +91,7 @@ class Command(BaseCommand):
                 if hook.department_upserted(department=dept, overwrite=overwrite)[0][1]:
                     created += 1
             self.stdout.write(f"Created channels for {created} departments")
-        if options["all"] or options[ChannelType.offeror.name]:
+        if options["all"] or options[ChannelType.unit.name]:
             created = 0
             self.stdout.write("Creating offeror channels")
             for offeror in LearningResourceOfferor.objects.all():

@@ -230,7 +230,7 @@ export interface ChannelTopicDetailRequest {
   topic?: number | null
 }
 /**
- * * `topic` - Topic * `department` - Department * `offeror` - Offeror * `pathway` - Pathway
+ * * `topic` - Topic * `department` - Department * `unit` - Unit * `pathway` - Pathway
  * @export
  * @enum {string}
  */
@@ -238,7 +238,7 @@ export interface ChannelTopicDetailRequest {
 export const ChannelTypeEnum = {
   Topic: "topic",
   Department: "department",
-  Offeror: "offeror",
+  Unit: "unit",
   Pathway: "pathway",
 } as const
 
@@ -692,9 +692,9 @@ export type FeedSourceFeedTypeEnum =
  */
 export type FieldChannel =
   | ({ channel_type: "department" } & DepartmentChannel)
-  | ({ channel_type: "offeror" } & OfferorChannel)
   | ({ channel_type: "pathway" } & PathwayChannel)
   | ({ channel_type: "topic" } & TopicChannel)
+  | ({ channel_type: "unit" } & OfferorChannel)
 
 /**
  * Write serializer for FieldChannel. Uses primary keys for referenced objects during requests, and delegates to FieldChannelSerializer for responses.
@@ -1212,10 +1212,10 @@ export interface OfferorChannel {
   subfields: Array<Subfield>
   /**
    *
-   * @type {OfferorChannelTypeEnum}
+   * @type {UnitChannelTypeEnum}
    * @memberof OfferorChannel
    */
-  channel_type: OfferorChannelTypeEnum
+  channel_type: UnitChannelTypeEnum
   /**
    *
    * @type {ChannelOfferorDetail}
@@ -1283,19 +1283,6 @@ export interface OfferorChannel {
    */
   widget_list?: number | null
 }
-
-/**
- * * `offeror` - Offeror
- * @export
- * @enum {string}
- */
-
-export const OfferorChannelTypeEnum = {
-  Offeror: "offeror",
-} as const
-
-export type OfferorChannelTypeEnum =
-  (typeof OfferorChannelTypeEnum)[keyof typeof OfferorChannelTypeEnum]
 
 /**
  *
@@ -2418,6 +2405,19 @@ export type TopicChannelTypeEnum =
   (typeof TopicChannelTypeEnum)[keyof typeof TopicChannelTypeEnum]
 
 /**
+ * * `unit` - Unit
+ * @export
+ * @enum {string}
+ */
+
+export const UnitChannelTypeEnum = {
+  Unit: "unit",
+} as const
+
+export type UnitChannelTypeEnum =
+  (typeof UnitChannelTypeEnum)[keyof typeof UnitChannelTypeEnum]
+
+/**
  * Serializer for User
  * @export
  * @interface User
@@ -2764,7 +2764,7 @@ export const ChannelsApiAxiosParamCreator = function (
     /**
      * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
-     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;offeror&#x60; - Offeror * &#x60;pathway&#x60; - Pathway
+     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -3197,7 +3197,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     /**
      * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
-     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;offeror&#x60; - Offeror * &#x60;pathway&#x60; - Pathway
+     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -3623,8 +3623,8 @@ export interface ChannelsApiChannelsDestroyRequest {
  */
 export interface ChannelsApiChannelsListRequest {
   /**
-   * * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;offeror&#x60; - Offeror * &#x60;pathway&#x60; - Pathway
-   * @type {'department' | 'offeror' | 'pathway' | 'topic'}
+   * * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
+   * @type {'department' | 'pathway' | 'topic' | 'unit'}
    * @memberof ChannelsApiChannelsList
    */
   readonly channel_type?: ChannelsListChannelTypeEnum
@@ -3943,9 +3943,9 @@ export class ChannelsApi extends BaseAPI {
  */
 export const ChannelsListChannelTypeEnum = {
   Department: "department",
-  Offeror: "offeror",
   Pathway: "pathway",
   Topic: "topic",
+  Unit: "unit",
 } as const
 export type ChannelsListChannelTypeEnum =
   (typeof ChannelsListChannelTypeEnum)[keyof typeof ChannelsListChannelTypeEnum]

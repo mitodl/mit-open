@@ -208,7 +208,7 @@ class ChannelOfferorDetailSerializer(serializers.ModelSerializer):
 class OfferorChannelSerializer(FieldChannelBaseSerializer):
     """Serializer for Channel model of type offeror"""
 
-    channel_type = ChannelTypeConstantField(default=ChannelType.offeror.name)
+    channel_type = ChannelTypeConstantField(default=ChannelType.unit.name)
 
     offeror_detail = ChannelOfferorDetailSerializer()
 
@@ -375,7 +375,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         channel_detail_map = {
             ChannelType.topic.name: ChannelTopicDetail,
             ChannelType.department.name: ChannelDepartmentDetail,
-            ChannelType.offeror.name: ChannelOfferorDetail,
+            ChannelType.unit.name: ChannelOfferorDetail,
             ChannelType.pathway.name: ChannelPathwayDetail,
         }
         channel_type = validated_data.get("channel_type", channel.channel_type)
