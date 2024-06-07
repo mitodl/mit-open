@@ -226,7 +226,9 @@ const TabbedCarousel: React.FC<TabbedCarouselProps> = ({ config, title }) => {
         <HeaderRow>
           <Typography variant="h3">{title}</Typography>
           <ControlsContainer>
-            {config.length === 1 ? null : (
+            {config.length === 1 ? (
+              <div /> // placeholder for spacing
+            ) : (
               <TabsList onChange={(e, newValue) => setTab(newValue)}>
                 {config.map(({ label }, index) => (
                   <TabButton
