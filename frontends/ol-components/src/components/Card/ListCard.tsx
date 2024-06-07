@@ -12,22 +12,12 @@ import { Link } from "react-router-dom"
 
 export type Size = "small" | "medium"
 
-const getWidthCss = ({ size }: { size?: Size }) => {
-  let width
-  if (size === "medium") width = 300
-  if (size === "small") width = 192
-  return `
-    min-width: ${width}px;
-    max-width: ${width}px;
-  `
-}
 
 const Container = styled(Link)`
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   overflow: hidden;
-  ${getWidthCss}
   display: block;
 
   :hover {
@@ -125,7 +115,7 @@ type Card = FC<CardProps> & {
   Actions: FC<{ children: ReactNode }>
 }
 
-const Card: Card = ({ children, className, size, href }) => {
+const ListCard: Card = ({ children, className, size, href }) => {
   let content, imageProps, info, title, footer, actions
 
   Children.forEach(children, (child) => {
@@ -166,11 +156,11 @@ const Card: Card = ({ children, className, size, href }) => {
   )
 }
 
-Card.Content = Content
-Card.Image = Image
-Card.Info = Info
-Card.Title = Title
-Card.Footer = Footer
-Card.Actions = Actions
+ListCard.Content = Content
+ListCard.Image = Image
+ListCard.Info = Info
+ListCard.Title = Title
+ListCard.Footer = Footer
+ListCard.Actions = Actions
 
-export { Card }
+export { ListCard }

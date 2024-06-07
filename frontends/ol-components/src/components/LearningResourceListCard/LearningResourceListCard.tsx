@@ -4,8 +4,8 @@ import Skeleton from "@mui/material/Skeleton"
 import { RiMenuAddLine, RiBookmarkLine, RiAwardFill } from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
 import { findBestRun, formatDate, getReadableResourceType } from "ol-utilities"
-import { Card } from "../Card/Card"
-import type { Size } from "../Card/Card"
+import { ListCard } from "../Card/ListCard"
+import type { Size } from "../Card/ListCard"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
@@ -86,7 +86,7 @@ const Footer: React.FC<{ resource: LearningResource; size?: Size }> = ({
   )
 }
 
-interface LearningResourceCardProps {
+interface LearningResourceListCardProps {
   isLoading?: boolean
   resource?: LearningResource | null
   className?: string
@@ -95,7 +95,7 @@ interface LearningResourceCardProps {
   onAddToUserListClick?: ResourceIdCallback | null
 }
 
-const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
+const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   isLoading,
   resource,
   className,
@@ -106,29 +106,29 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   if (isLoading) {
     const { width, height } = imgConfigs["column"]
     return (
-      <Card className={className} size={size}>
-        <Card.Content>
+      <ListCard className={className} size={size}>
+        <ListCard.Content>
           <SkeletonImage variant="rectangular" aspect={width / height} />
           <Skeleton height={25} width="65%" sx={{ margin: "23px 16px 0" }} />
           <Skeleton height={25} width="80%" sx={{ margin: "0 16px 35px" }} />
           <Skeleton height={25} width="30%" sx={{ margin: "0 16px 16px" }} />
-        </Card.Content>
-      </Card>
+        </ListCard.Content>
+      </ListCard>
     )
   }
   if (!resource) {
     return null
   }
   return (
-    <Card href={`?resource=${resource.id}`} className={className} size={size}>
-      <Card.Image src={resource.image?.url} alt={resource.image?.alt as string} />
-      <Card.Info>
+    <ListCard href={`?resource=${resource.id}`} className={className} size={size}>
+      <ListCard.Image src={resource.image?.url} alt={resource.image?.alt as string} />
+      <ListCard.Info>
         <Info resource={resource} />
-      </Card.Info>
-      <Card.Title>
+      </ListCard.Info>
+      <ListCard.Title>
         <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>{resource.title}</EllipsisTitle>
-      </Card.Title>
-      <Card.Actions>
+      </ListCard.Title>
+      <ListCard.Actions>
         {onAddToLearningPathClick && (
           <ActionButton
             variant="secondary"
@@ -153,12 +153,12 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
             <RiBookmarkLine />
           </ActionButton>
         )}
-      </Card.Actions>
-      <Card.Footer>
+      </ListCard.Actions>
+      <ListCard.Footer>
         <Footer resource={resource} size={size} />
-      </Card.Footer>
-    </Card>
+      </ListCard.Footer>
+    </ListCard>
   )
 }
 
-export { LearningResourceCard }
+export { LearningResourceListCard }

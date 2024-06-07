@@ -12,6 +12,7 @@ import {
   SimpleSelect,
   truncateText,
   css,
+  LearningResourceListCard
 } from "ol-components"
 
 import TuneIcon from "@mui/icons-material/Tune"
@@ -33,7 +34,6 @@ import type {
   BooleanFacets,
   FacetManifest,
 } from "@mitodl/course-search-utils"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import _ from "lodash"
 
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
@@ -365,8 +365,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 <PlainList itemSpacing={3}>
                   {data.results.map((resource) => (
                     <li key={resource.id}>
-                      <LearningResourceCard
-                        variant="row-reverse"
+                      <LearningResourceListCard
                         resource={resource}
                       />
                     </li>
