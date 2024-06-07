@@ -124,6 +124,8 @@ const TestimonialCardQuote = styled.div({
 
 const OverlayContainer = styled.div({
   position: "relative",
+  maxWidth: "1900px",
+  margin: "0 auto",
 })
 
 const TestimonialFadeLeft = styled.div({
