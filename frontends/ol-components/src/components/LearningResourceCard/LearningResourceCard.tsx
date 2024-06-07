@@ -121,12 +121,17 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   }
   return (
     <Card href={`?resource=${resource.id}`} className={className} size={size}>
-      <Card.Image src={resource.image?.url} alt={resource.image?.alt as string} />
+      <Card.Image
+        src={resource.image?.url}
+        alt={resource.image?.alt as string}
+      />
       <Card.Info>
         <Info resource={resource} />
       </Card.Info>
       <Card.Title>
-        <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>{resource.title}</EllipsisTitle>
+        <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>
+          {resource.title}
+        </EllipsisTitle>
       </Card.Title>
       <Card.Actions>
         {onAddToLearningPathClick && (

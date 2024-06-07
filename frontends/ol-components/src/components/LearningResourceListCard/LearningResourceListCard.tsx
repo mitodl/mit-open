@@ -38,13 +38,13 @@ const Info = ({ resource }: { resource: LearningResource }) => {
 const Certificate = styled.div`
   border-radius: 4px;
   background-color: ${theme.custom.colors.lightGray1};
-  padding: 2px 4px;
+  padding: 4px;
   color: ${theme.custom.colors.silverGrayDark};
 
-  ${{ ...theme.typography.subtitle4 }}
+  ${{ ...theme.typography.subtitle3 }}
   svg {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
   }
 
   display: flex;
@@ -120,13 +120,22 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
     return null
   }
   return (
-    <ListCard href={`?resource=${resource.id}`} className={className} size={size}>
-      <ListCard.Image src={resource.image?.url} alt={resource.image?.alt as string} />
+    <ListCard
+      href={`?resource=${resource.id}`}
+      className={className}
+      size={size}
+    >
+      <ListCard.Image
+        src={resource.image?.url}
+        alt={resource.image?.alt as string}
+      />
       <ListCard.Info>
         <Info resource={resource} />
       </ListCard.Info>
       <ListCard.Title>
-        <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>{resource.title}</EllipsisTitle>
+        <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>
+          {resource.title}
+        </EllipsisTitle>
       </ListCard.Title>
       <ListCard.Actions>
         {onAddToLearningPathClick && (

@@ -12,7 +12,7 @@ import {
   SimpleSelect,
   truncateText,
   css,
-  LearningResourceListCard
+  LearningResourceListCard,
 } from "ol-components"
 
 import TuneIcon from "@mui/icons-material/Tune"
@@ -365,9 +365,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 <PlainList itemSpacing={3}>
                   {data.results.map((resource) => (
                     <li key={resource.id}>
-                      <LearningResourceListCard
-                        resource={resource}
-                      />
+                      <LearningResourceListCard resource={resource} />
                     </li>
                   ))}
                 </PlainList>

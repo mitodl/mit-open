@@ -7,18 +7,16 @@ import React, {
 } from "react"
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
-import { pxToRem } from "../ThemeProvider/typography"
 import { Link } from "react-router-dom"
 
 export type Size = "small" | "medium"
-
 
 const Container = styled(Link)`
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   overflow: hidden;
-  display: block;
+  display: flex;
 
   :hover {
     text-decoration: none;
@@ -33,49 +31,51 @@ const Container = styled(Link)`
 const Content = () => <></>
 
 const Body = styled.div`
-  margin: 16px;
+  flex-grow: 1;
+  margin: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `
 
-const Image = styled.img<{ size?: Size }>`
+const Image = styled.img`
   display: block;
   background-size: cover;
   background-repeat: no-repeat;
   -webkit-background-position: center;
   background-position: center;
-  width: 100%;
-  height: ${({ size }) => (size === "small" ? 120 : 170)}px;
+  width: 236px;
+  height: 122px;
+  margin: 24px 24px 24px 0;
+  border-radius: 4px;
   background-color: ${theme.custom.colors.lightGray1};
 `
 
-const Info = styled.div<{ size?: Size }>`
+const Info = styled.div`
   ${{ ...theme.typography.subtitle3 }}
   color: ${theme.custom.colors.silverGrayDark};
   display: flex;
   justify-content: space-between;
-  margin-bottom: ${({ size }) => (size === "small" ? 4 : 8)}px;
+  margin-bottom: 16px;
 `
 
-const Title = styled.h3<{ size?: Size }>`
+const Title = styled.h3`
+  flex-grow: 1;
   text-overflow: ellipsis;
-  height: ${({ size }) => theme.typography.pxToRem(size === "small" ? 36 : 60)};
+  ${{ ...theme.typography.subtitle1 }}
+  height: ${theme.typography.pxToRem(40)};
   overflow: hidden;
   margin: 0;
-
-  ${({ size }) =>
-    size === "small"
-      ? { ...theme.typography.subtitle2 }
-      : { ...theme.typography.subtitle1 }}
-  @supports (-webkit-line-clamp: ${({ size }) => (size === "small" ? 2 : 3)}) {
+  @supports (-webkit-line-clamp: 2) {
     white-space: initial;
     display: -webkit-box;
-    -webkit-line-clamp: ${({ size }) => (size === "small" ? 2 : 3)};
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
 `
 
 const Footer = styled.span`
   display: block;
-  height: ${pxToRem(16)};
   ${{
     ...theme.typography.body3,
     color: theme.custom.colors.silverGrayDark,
@@ -90,7 +90,6 @@ const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin: 0 16px 16px;
   height: 32px;
 `
 
@@ -102,20 +101,18 @@ const Actions = styled.div`
 type CardProps = {
   children: ReactNode[] | ReactNode
   className?: string
-  size?: Size
-  link?: boolean
   href?: string
 }
 type Card = FC<CardProps> & {
   Content: FC<{ children: ReactNode }>
-  Image: FC<ImgHTMLAttributes<HTMLImageElement> | { size?: Size }>
+  Image: FC<ImgHTMLAttributes<HTMLImageElement>>
   Info: FC<{ children: ReactNode }>
-  Title: FC<{ children: ReactNode; size?: Size }>
+  Title: FC<{ children: ReactNode }>
   Footer: FC<{ children: ReactNode }>
   Actions: FC<{ children: ReactNode }>
 }
 
-const ListCard: Card = ({ children, className, size, href }) => {
+const ListCard: Card = ({ children, className, href }) => {
   let content, imageProps, info, title, footer, actions
 
   Children.forEach(children, (child) => {
@@ -130,28 +127,25 @@ const ListCard: Card = ({ children, className, size, href }) => {
 
   if (content) {
     return (
-      <Container className={className} to={href!} size={size}>
+      <Container className={className} to={href!}>
         {content}
       </Container>
     )
   }
 
   return (
-    <Container className={className} to={href!} size={size}>
-      {imageProps && (
-        <Image
-          size={size}
-          {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)}
-        />
-      )}
+    <Container className={className} to={href!}>
       <Body>
-        {info && <Info size={size}>{info}</Info>}
-        <Title size={size}>{title}</Title>
+        <Info>{info}</Info>
+        <Title>{title}</Title>
+        <Bottom>
+          <Footer>{footer}</Footer>
+          {actions && <Actions>{actions}</Actions>}
+        </Bottom>
       </Body>
-      <Bottom>
-        <Footer>{footer}</Footer>
-        {actions && <Actions>{actions}</Actions>}
-      </Bottom>
+      {imageProps && (
+        <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
+      )}
     </Container>
   )
 }

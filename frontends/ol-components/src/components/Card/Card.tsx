@@ -113,7 +113,6 @@ type CardProps = {
   children: ReactNode[] | ReactNode
   className?: string
   size?: Size
-  link?: boolean
   href?: string
 }
 type Card = FC<CardProps> & {
