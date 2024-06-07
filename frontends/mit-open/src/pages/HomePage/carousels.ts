@@ -23,15 +23,19 @@ const FEATURED_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
     },
   },
   {
-    label: "Certificate",
+    label: "With Certificate",
     cardProps: { size: "medium" },
     data: {
       type: "lr_featured",
-      params: { ...FEATURED_COMMON_PARAMS, certification: true },
+      params: {
+        ...FEATURED_COMMON_PARAMS,
+        certification: true,
+        professional: false,
+      },
     },
   },
   {
-    label: "Professional and Executive Education",
+    label: "Professional and Executive Learning",
     cardProps: { size: "medium" },
     data: {
       type: "lr_featured",
