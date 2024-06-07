@@ -41,8 +41,8 @@ def _fetch_data(url, params=None):
             url, params=params, timeout=settings.REQUESTS_TIMEOUT
         ).json()
         results = response["results"]
-        for result in results:
-            yield from result
+
+        yield from results
         url = response.get("next")
 
 
