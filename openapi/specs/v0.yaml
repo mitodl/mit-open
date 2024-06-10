@@ -556,8 +556,6 @@ paths:
           type: integer
       tags:
       - testimonials
-      security:
-      - {}
       responses:
         '200':
           content:
@@ -579,8 +577,6 @@ paths:
         required: true
       tags:
       - testimonials
-      security:
-      - {}
       responses:
         '200':
           content:
