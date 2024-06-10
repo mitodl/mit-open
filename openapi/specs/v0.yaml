@@ -554,13 +554,10 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - in: query
-        name: published
-        schema:
-          type: boolean
-        description: Only return published testimonials
       tags:
       - testimonials
+      security:
+      - {}
       responses:
         '200':
           content:
@@ -582,6 +579,8 @@ paths:
         required: true
       tags:
       - testimonials
+      security:
+      - {}
       responses:
         '200':
           content:
