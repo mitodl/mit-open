@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.13.1
+--------------
+
+- Expose the login/logout redirects as an environment variable (#1046)
+- homepage hero bug fixes (#1034)
+
 Version 0.13.0 (Released June 10, 2024)
 --------------
 
