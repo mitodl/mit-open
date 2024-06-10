@@ -149,37 +149,23 @@ MIDDLEWARE = (
 )
 
 # CORS
-CORS_ALLOWED_ORIGINS = get_list_of_str(
-    "CORS_ALLOWED_ORIGINS",
-    [
-        "http://api.odl.local:8063",
-        "http://od.odl.local:8063",
-        "http://od.odl.local",
-        "http://api.odl.local",
-    ],
-)
+CORS_ALLOWED_ORIGINS = get_list_of_str("CORS_ALLOWED_ORIGINS", [])
 
 
 CORS_ALLOW_CREDENTIALS = get_bool("CORS_ALLOW_CREDENTIALS", True)  # noqa: FBT003
 SECURE_CROSS_ORIGIN_OPENER_POLICY = get_string(
     "SECURE_CROSS_ORIGIN_OPENER_POLICY",
-    None,
+    "same-origin",
 )
 
 CSRF_COOKIE_SECURE = get_bool("CSRF_COOKIE_SECURE", False)  # noqa: FBT003
-SESSION_COOKIE_DOMAIN = get_string("SESSION_COOKIE_DOMAIN", ".odl.local")
-CSRF_COOKIE_DOMAIN = get_string("CSRF_COOKIE_DOMAIN", ".odl.local")
+SESSION_COOKIE_DOMAIN = get_string("SESSION_COOKIE_DOMAIN", None)
+CSRF_COOKIE_DOMAIN = get_string("CSRF_COOKIE_DOMAIN", None)
 
 CSRF_HEADER_NAME = get_string("CSRF_HEADER_NAME", "HTTP_X_CSRFTOKEN")
 
 
-CSRF_TRUSTED_ORIGINS = get_list_of_str(
-    "CSRF_TRUSTED_ORIGINS",
-    [
-        "http://*.odl.local:8063",
-        "http://*.odl.local",
-    ],
-)
+CSRF_TRUSTED_ORIGINS = get_list_of_str("CSRF_TRUSTED_ORIGINS", [])
 
 # enable the nplusone profiler only in debug mode
 if DEBUG:
