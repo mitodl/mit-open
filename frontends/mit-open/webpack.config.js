@@ -139,6 +139,7 @@ module.exports = (env, argv) => {
       }),
       new webpack.EnvironmentPlugin({
         ENVIRONMENT: "production",
+        MITOPEN_AXIOS_BASE_PATH: undefined,
       }),
     ]
       .concat(
