@@ -19,6 +19,7 @@ const containerStyles = `
 const LinkContainer = styled(Link)`
   ${containerStyles}
   display: flex;
+
   :hover {
     text-decoration: none;
     border-color: ${theme.custom.colors.silverGrayLight};
@@ -42,6 +43,7 @@ const Body = styled.div`
   ${theme.breakpoints.down("md")} {
     margin: 12px;
   }
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -75,6 +77,7 @@ const Info = styled.div`
     ${{ ...theme.typography.subtitle4 }}
     margin-bottom: 8px;
   }
+
   color: ${theme.custom.colors.silverGrayDark};
   display: flex;
   justify-content: space-between;
@@ -93,6 +96,7 @@ const Title = styled.h3`
 
   overflow: hidden;
   margin: 0;
+
   @supports (-webkit-line-clamp: 2) {
     white-space: initial;
     display: -webkit-box;

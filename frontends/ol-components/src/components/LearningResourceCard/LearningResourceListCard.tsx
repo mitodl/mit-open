@@ -50,6 +50,7 @@ const Certificate = styled.div`
       height: 12px;
       fill: ${theme.custom.colors.silverGrayDark};
     }
+
     margin: 0 12px 0 auto;
   }
 
@@ -70,6 +71,7 @@ const BorderSeparator = styled.div`
   div {
     display: inline;
   }
+
   div + div {
     margin-left: 8px;
     padding-left: 8px;
@@ -173,9 +175,11 @@ const Loading = styled.div<{ mobile?: boolean }>`
   display: flex;
   padding: 24px;
   justify-content: space-between;
+
   > div {
     width: calc(100% - 236px);
   }
+
   > span {
     flex-grow: 0;
     margin-left: auto;
