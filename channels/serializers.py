@@ -205,8 +205,8 @@ class ChannelUnitDetailSerializer(serializers.ModelSerializer):
         exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
-class OfferorChannelSerializer(FieldChannelBaseSerializer):
-    """Serializer for Channel model of type offeror"""
+class UnitChannelSerializer(FieldChannelBaseSerializer):
+    """Serializer for Channel model of type unit"""
 
     channel_type = ChannelTypeConstantField(default=ChannelType.unit.name)
 
@@ -237,7 +237,7 @@ class FieldChannelSerializer(serializers.Serializer):
         for serializer_cls in (
             TopicChannelSerializer,
             DepartmentChannelSerializer,
-            OfferorChannelSerializer,
+            UnitChannelSerializer,
             PathwayChannelSerializer,
         )
     }
