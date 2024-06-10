@@ -8,11 +8,12 @@ import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarouse
 import * as carousels from "./carousels"
 
 const FullWidthBackground = styled.div({
-  background: "linear-gradient(0deg, #FFF 0%, #E7EBEE 100%);",
+  background: "linear-gradient(0deg, #FFF 0%, #E9ECEF 100%);",
 })
 
 const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
-  margin: "80px 0",
+  marginTop: "16px",
+  marginBotto: "80px",
   [theme.breakpoints.down("sm")]: {
     marginTop: "0px",
     marginBottom: "32px",

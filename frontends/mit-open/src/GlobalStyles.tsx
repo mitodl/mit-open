@@ -29,11 +29,6 @@ const pageCss = css`
 
   a {
     text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-
     color: inherit;
   }
 
