@@ -6,7 +6,6 @@ import {
   SearchInputProps,
   styled,
   ChipLink,
-  useMuiBreakpointAtLeast,
 } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
 
@@ -43,17 +42,29 @@ const SEARCH_CHIPS: SearchChip[] = [
 const HeroWrapper = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
-  color: theme.custom.colors.darkGray1,
+  alignItems: "center",
+  gap: "51px",
+  color: theme.custom.colors.darkGray2,
 }))
 
+const TitleAndControls = styled.div({
+  flex: "1 1 auto",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  justifyContent: "center",
+  marginTop: "32px",
+  marginBottom: "32px",
+})
+
 const ImageContainer = styled.div(({ theme }) => ({
+  flex: "0 1.33 auto",
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   justifyContent: "center",
-  marginLeft: "48px",
-  maxWidth: "400px",
-  flex: 1,
+  marginTop: "22px",
+  transform: "translateX(24px)",
   [theme.breakpoints.down("md")]: {
     display: "none",
   },
@@ -100,6 +111,7 @@ const ControlsContainer = styled.div(({ theme }) => ({
     "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
   [theme.breakpoints.down("sm")]: {
     padding: "12px",
+    gap: "16px",
   },
 }))
 const LinksContainer = styled.div(({ theme }) => ({
@@ -132,20 +144,6 @@ const BrowseContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const TitleAndControls = styled.div(({ theme }) => ({
-  flex: 1,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
-  justifyContent: "center",
-  marginTop: "120px",
-  marginBottom: "120px",
-  [theme.breakpoints.down("md")]: {
-    marginTop: "32px",
-    marginBottom: "32px",
-  },
-}))
-
 const Emphasized = styled.span(({ theme }) => ({
   fontWeight: theme.typography.subtitle1.fontWeight,
   ":hover": {
@@ -169,7 +167,6 @@ const HeroSearch: React.FC = () => {
     },
     [navigate],
   )
-  const isMobile = !useMuiBreakpointAtLeast("sm")
   return (
     <HeroWrapper>
       <TitleAndControls>
@@ -185,7 +182,7 @@ const HeroSearch: React.FC = () => {
         <ControlsContainer>
           <SearchInput
             placeholder="Search for courses, programs, learning, and teaching materials"
-            size={isMobile ? "medium" : "hero"}
+            size="hero"
             fullWidth
             value={searchText}
             onChange={onSearchChange}
