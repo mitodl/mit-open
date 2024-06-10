@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 type ButtonVariant = "primary" | "secondary" | "tertiary" | "text" | "inverted"
 type ButtonSize = "small" | "medium" | "large"
-type ButtonEdge = "circular" | "rounded"
+type ButtonEdge = "circular" | "rounded" | "none"
 
 type ButtonStyleProps = {
   variant?: ButtonVariant
@@ -126,6 +126,12 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     edge === "circular" && {
       // Pill-shaped buttons... Overlapping border radius get clipped to pill.
       borderRadius: "100vh",
+    },
+    edge === "none" && {
+      border: "none",
+      ":hover:not(:disabled)": {
+        backgroundColor: "none",
+      },
     },
     color === "secondary" && {
       color: theme.custom.colors.silverGray,

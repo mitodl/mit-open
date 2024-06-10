@@ -13,16 +13,17 @@ import { ListCard } from "../Card/ListCard"
 import type { Size } from "../Card/ListCard"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton } from "../Button/Button"
-import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
+import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
+
+const IMAGE_SIZES = {
+  mobile: { width: 116, height: 104 },
+  desktop: { width: 236, height: 122 },
+}
 
 const EllipsisTitle = styled(TruncateText)({
   margin: 0,
 })
-
-const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
-  padding-bottom: ${({ aspect }) => 100 / aspect}%;
-`
 
 const Certificate = styled.div`
   border-radius: 4px;
@@ -66,7 +67,7 @@ const Price = styled.div`
   }
 `
 
-const BorderSeparate = styled.div`
+const BorderSeparator = styled.div`
   div {
     display: inline;
   }
@@ -77,14 +78,22 @@ const BorderSeparate = styled.div`
   }
 `
 
+const StyledActionButton = styled(ActionButton)<{ edge: string }>`
+  ${({ edge }) =>
+    edge === "none"
+      ? `
+  width: 16px;
+  height: 16px;`
+      : ""}
+`
+
 type ResourceIdCallback = (resourceId: number) => void
 
-const getEmbedlyUrl = (resource: LearningResource) => {
+const getEmbedlyUrl = (resource: LearningResource, isMobile: boolean) => {
   return resource?.image?.url
     ? embedlyCroppedImage(resource?.image?.url, {
         key: APP_SETTINGS.embedlyKey,
-        width: 236,
-        height: 132,
+        ...IMAGE_SIZES[isMobile ? "mobile" : "desktop"],
       })
     : null
 }
@@ -168,6 +177,54 @@ const Format = ({ resource }: { resource: LearningResource }) => {
   )
 }
 
+const Loading = styled.div<{ mobile?: boolean }>`
+  display: flex;
+  padding: 24px;
+  justify-content: space-between;
+  > div {
+    width: calc(100% - 236px);
+  }
+  > span {
+    flex-grow: 0;
+    margin-left: auto;
+  }
+  ${({ mobile }) =>
+    mobile
+      ? `
+    padding: 0px;
+    > div {
+      padding: 12px;
+    }`
+      : ""}
+`
+
+const LoadingView = ({ isMobile }: { isMobile: boolean }) => {
+  const { width, height } = IMAGE_SIZES[isMobile ? "mobile" : "desktop"]
+  return (
+    <Loading mobile={isMobile}>
+      <div>
+        <Skeleton
+          variant="text"
+          width="15%"
+          style={{ marginBottom: isMobile ? 4 : 10 }}
+        />
+        <Skeleton
+          variant="text"
+          width="75%"
+          style={{ marginBottom: isMobile ? 32 : 51 }}
+        />
+        <Skeleton variant="text" width="20%" />
+      </div>
+      <Skeleton
+        variant="rectangular"
+        width={width}
+        height={height}
+        style={{ borderRadius: 4 }}
+      />
+    </Loading>
+  )
+}
+
 interface LearningResourceListCardProps {
   isLoading?: boolean
   resource?: LearningResource | null
@@ -183,15 +240,13 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   onAddToLearningPathClick,
   onAddToUserListClick,
 }) => {
+  const isMobile = !useMuiBreakpointAtLeast("md")
+
   if (isLoading) {
-    const { width, height } = imgConfigs["column"]
     return (
       <ListCard className={className}>
         <ListCard.Content>
-          <SkeletonImage variant="rectangular" aspect={width / height} />
-          <Skeleton height={25} width="65%" sx={{ margin: "23px 16px 0" }} />
-          <Skeleton height={25} width="80%" sx={{ margin: "0 16px 35px" }} />
-          <Skeleton height={25} width="30%" sx={{ margin: "0 16px 16px" }} />
+          <LoadingView isMobile={isMobile} />
         </ListCard.Content>
       </ListCard>
     )
@@ -203,7 +258,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
     <ListCard href={`?resource=${resource.id}`} className={className}>
       {resource.image && (
         <ListCard.Image
-          src={getEmbedlyUrl(resource)!}
+          src={getEmbedlyUrl(resource, isMobile)!}
           alt={resource.image?.alt as string}
         />
       )}
@@ -215,35 +270,35 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
       </ListCard.Title>
       <ListCard.Actions>
         {onAddToLearningPathClick && (
-          <ActionButton
+          <StyledActionButton
             variant="secondary"
-            edge="circular"
+            edge={isMobile ? "none" : "circular"}
             color="secondary"
             size="small"
             aria-label="Add to Learning Path"
             onClick={() => onAddToLearningPathClick(resource.id)}
           >
             <RiMenuAddLine />
-          </ActionButton>
+          </StyledActionButton>
         )}
         {onAddToUserListClick && (
-          <ActionButton
+          <StyledActionButton
             variant="secondary"
-            edge="circular"
+            edge={isMobile ? "none" : "circular"}
             color="secondary"
             size="small"
             aria-label="Add to User List"
             onClick={() => onAddToUserListClick(resource.id)}
           >
             <RiBookmarkLine />
-          </ActionButton>
+          </StyledActionButton>
         )}
       </ListCard.Actions>
       <ListCard.Footer>
-        <BorderSeparate>
+        <BorderSeparator>
           <StartDate resource={resource} />
           <Format resource={resource} />
-        </BorderSeparate>
+        </BorderSeparator>
       </ListCard.Footer>
     </ListCard>
   )

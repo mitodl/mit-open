@@ -11,13 +11,16 @@ import { Link } from "react-router-dom"
 
 export type Size = "small" | "medium"
 
-const Container = styled(Link)`
+const containerStyles = `
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   overflow: hidden;
-  display: flex;
+`
 
+const LinkContainer = styled(Link)`
+  ${containerStyles}
+  display: flex;
   :hover {
     text-decoration: none;
     border-color: ${theme.custom.colors.silverGrayLight};
@@ -26,6 +29,10 @@ const Container = styled(Link)`
       0 2px 4px 0 rgb(37 38 43 / 10%);
     cursor: pointer;
   }
+`
+
+const Container = styled.div`
+  ${containerStyles}
 `
 
 const Content = () => <></>
@@ -53,7 +60,7 @@ const Image = styled.img`
   margin: 24px 24px 24px 0;
   border-radius: 4px;
   ${theme.breakpoints.down("md")} {
-    width: 161px;
+    width: 111px;
     height: 104px;
     margin: 0;
     border-radius: 0;
@@ -138,6 +145,8 @@ type Card = FC<CardProps> & {
 }
 
 const ListCard: Card = ({ children, className, href }) => {
+  const _Container = href ? LinkContainer : Container
+
   let content, imageProps, info, title, footer, actions
 
   Children.forEach(children, (child) => {
@@ -152,14 +161,14 @@ const ListCard: Card = ({ children, className, href }) => {
 
   if (content) {
     return (
-      <Container className={className} to={href!}>
+      <_Container className={className} to={href!}>
         {content}
-      </Container>
+      </_Container>
     )
   }
 
   return (
-    <Container className={className} to={href!}>
+    <_Container className={className} to={href!}>
       <Body>
         <Info>{info}</Info>
         <Title>{title}</Title>
@@ -171,7 +180,7 @@ const ListCard: Card = ({ children, className, href }) => {
       {imageProps && (
         <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
       )}
-    </Container>
+    </_Container>
   )
 }
 
