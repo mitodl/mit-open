@@ -162,11 +162,11 @@ if DEBUG:
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = get_string("MITOPEN_LOGIN_REDIRECT_URL", "/")
 LOGIN_URL = "/login"
 LOGIN_ERROR_URL = "/login"
 LOGOUT_URL = "/logout"
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = get_string("MITOPEN_LOGOUT_REDIRECT_URL", "/")
 
 MITOPEN_TOS_URL = get_string(
     "MITOPEN_TOS_URL", urljoin(SITE_BASE_URL, "/terms-and-conditions/")
