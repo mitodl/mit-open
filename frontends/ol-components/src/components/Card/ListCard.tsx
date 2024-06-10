@@ -32,7 +32,11 @@ const Content = () => <></>
 
 const Body = styled.div`
   flex-grow: 1;
+  overflow: hidden;
   margin: 24px;
+  ${theme.breakpoints.down("md")} {
+    margin: 12px;
+  }
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -48,16 +52,27 @@ const Image = styled.img`
   height: 122px;
   margin: 24px 24px 24px 0;
   border-radius: 4px;
+  ${theme.breakpoints.down("md")} {
+    width: 161px;
+    height: 104px;
+    margin: 0;
+    border-radius: 0;
+  }
+
   background-color: ${theme.custom.colors.lightGray1};
   flex-shrink: 0;
 `
 
 const Info = styled.div`
   ${{ ...theme.typography.subtitle3 }}
+  margin-bottom: 16px;
+  ${theme.breakpoints.down("md")} {
+    ${{ ...theme.typography.subtitle4 }}
+    margin-bottom: 8px;
+  }
   color: ${theme.custom.colors.silverGrayDark};
   display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
   align-items: center;
 `
 
@@ -66,6 +81,11 @@ const Title = styled.h3`
   text-overflow: ellipsis;
   ${{ ...theme.typography.subtitle1 }}
   height: ${theme.typography.pxToRem(40)};
+  ${theme.breakpoints.down("md")} {
+    ${{ ...theme.typography.body3 }}
+    height: ${theme.typography.pxToRem(32)};
+  }
+
   overflow: hidden;
   margin: 0;
   @supports (-webkit-line-clamp: 2) {
@@ -92,7 +112,10 @@ const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  height: 32px;
+  height: ${theme.typography.pxToRem(32)};
+  ${theme.breakpoints.down("md")} {
+    height: ${theme.typography.pxToRem(18)};
+  }
 `
 
 const Actions = styled.div`

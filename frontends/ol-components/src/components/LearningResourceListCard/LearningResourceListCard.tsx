@@ -29,22 +29,41 @@ const Certificate = styled.div`
   background-color: ${theme.custom.colors.lightGray1};
   padding: 4px;
   color: ${theme.custom.colors.silverGrayDark};
+  gap: 4px;
+  margin: 0 8px 0 auto;
 
   ${{ ...theme.typography.subtitle3 }}
+
   svg {
     width: 16px;
     height: 16px;
   }
 
+  ${theme.breakpoints.down("md")} {
+    ${{ ...theme.typography.body4 }}
+    background: none;
+    color: ${theme.custom.colors.darkGray2};
+    gap: 2px;
+
+    svg {
+      width: 12px;
+      height: 12px;
+      fill: ${theme.custom.colors.silverGrayDark};
+    }
+    margin: 0 12px 0 auto;
+  }
+
   display: flex;
   align-items: center;
-  gap: 4px;
-  margin: 0 8px 0 auto;
 `
 
 const Price = styled.div`
   ${{ ...theme.typography.subtitle2 }}
-  color: ${theme.custom.colors.black};
+  color: ${theme.custom.colors.darkGray2};
+  ${theme.breakpoints.down("md")} {
+    ${{ ...theme.typography.subtitle3 }}
+    color: ${theme.custom.colors.mitRed};
+  }
 `
 
 const BorderSeparate = styled.div`
