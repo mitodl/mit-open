@@ -5,7 +5,7 @@ import {
   ChannelTypeEnum,
   DepartmentChannel,
   FieldChannel,
-  OfferorChannel,
+  UnitChannel,
   PathwayChannel,
   TopicChannel,
 } from "../../generated/v0"
@@ -90,8 +90,8 @@ const topicChannel: PartialFactory<TopicChannel> = (overrides = {}) => {
   )
 }
 
-const unitChannel: PartialFactory<OfferorChannel> = (overrides = {}) => {
-  return mergeOverrides<OfferorChannel>(
+const unitChannel: PartialFactory<UnitChannel> = (overrides = {}) => {
+  return mergeOverrides<UnitChannel>(
     _fieldShared(),
     { channel_type: ChannelTypeEnum.Unit },
     {

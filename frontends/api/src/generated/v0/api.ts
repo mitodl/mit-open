@@ -694,7 +694,7 @@ export type FieldChannel =
   | ({ channel_type: "department" } & DepartmentChannel)
   | ({ channel_type: "pathway" } & PathwayChannel)
   | ({ channel_type: "topic" } & TopicChannel)
-  | ({ channel_type: "unit" } & OfferorChannel)
+  | ({ channel_type: "unit" } & UnitChannel)
 
 /**
  * Write serializer for FieldChannel. Uses primary keys for referenced objects during requests, and delegates to FieldChannelSerializer for responses.
@@ -1143,146 +1143,6 @@ export const NewsFeedItemFeedTypeEnum = {
 
 export type NewsFeedItemFeedTypeEnum =
   (typeof NewsFeedItemFeedTypeEnum)[keyof typeof NewsFeedItemFeedTypeEnum]
-
-/**
- * Serializer for Channel model of type offeror
- * @export
- * @interface OfferorChannel
- */
-export interface OfferorChannel {
-  /**
-   *
-   * @type {number}
-   * @memberof OfferorChannel
-   */
-  id: number
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  avatar?: string | null
-  /**
-   * Get the avatar image small URL
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  avatar_small: string | null
-  /**
-   * Get the avatar image medium URL
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  avatar_medium: string | null
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  banner?: string | null
-  /**
-   * Return true if user is a moderator for the channel
-   * @type {boolean}
-   * @memberof OfferorChannel
-   */
-  is_moderator: boolean
-  /**
-   *
-   * @type {Array<LearningPathPreview>}
-   * @memberof OfferorChannel
-   */
-  lists: Array<LearningPathPreview>
-  /**
-   * Get the URL for the channel
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  channel_url: string
-  /**
-   *
-   * @type {DepartmentChannelFeaturedList}
-   * @memberof OfferorChannel
-   */
-  featured_list: DepartmentChannelFeaturedList | null
-  /**
-   *
-   * @type {Array<Subfield>}
-   * @memberof OfferorChannel
-   */
-  subfields: Array<Subfield>
-  /**
-   *
-   * @type {UnitChannelTypeEnum}
-   * @memberof OfferorChannel
-   */
-  channel_type: UnitChannelTypeEnum
-  /**
-   *
-   * @type {ChannelUnitDetail}
-   * @memberof OfferorChannel
-   */
-  unit_detail: ChannelUnitDetail
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  created_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  updated_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  title: string
-  /**
-   *
-   * @type {any}
-   * @memberof OfferorChannel
-   */
-  about?: any | null
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
-   * @type {any}
-   * @memberof OfferorChannel
-   */
-  configuration?: any | null
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  public_description?: string
-  /**
-   *
-   * @type {number}
-   * @memberof OfferorChannel
-   */
-  widget_list?: number | null
-}
 
 /**
  *
@@ -2403,6 +2263,146 @@ export const TopicChannelTypeEnum = {
 
 export type TopicChannelTypeEnum =
   (typeof TopicChannelTypeEnum)[keyof typeof TopicChannelTypeEnum]
+
+/**
+ * Serializer for Channel model of type offeror
+ * @export
+ * @interface UnitChannel
+ */
+export interface UnitChannel {
+  /**
+   *
+   * @type {number}
+   * @memberof UnitChannel
+   */
+  id: number
+  /**
+   * Get the avatar image URL
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  avatar?: string | null
+  /**
+   * Get the avatar image small URL
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  avatar_small: string | null
+  /**
+   * Get the avatar image medium URL
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  avatar_medium: string | null
+  /**
+   * Get the banner image URL
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  banner?: string | null
+  /**
+   * Return true if user is a moderator for the channel
+   * @type {boolean}
+   * @memberof UnitChannel
+   */
+  is_moderator: boolean
+  /**
+   *
+   * @type {Array<LearningPathPreview>}
+   * @memberof UnitChannel
+   */
+  lists: Array<LearningPathPreview>
+  /**
+   * Get the URL for the channel
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  channel_url: string
+  /**
+   *
+   * @type {DepartmentChannelFeaturedList}
+   * @memberof UnitChannel
+   */
+  featured_list: DepartmentChannelFeaturedList | null
+  /**
+   *
+   * @type {Array<Subfield>}
+   * @memberof UnitChannel
+   */
+  subfields: Array<Subfield>
+  /**
+   *
+   * @type {UnitChannelTypeEnum}
+   * @memberof UnitChannel
+   */
+  channel_type: UnitChannelTypeEnum
+  /**
+   *
+   * @type {ChannelUnitDetail}
+   * @memberof UnitChannel
+   */
+  unit_detail: ChannelUnitDetail
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  updated_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  title: string
+  /**
+   *
+   * @type {any}
+   * @memberof UnitChannel
+   */
+  about?: any | null
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  ga_tracking_id?: string
+  /**
+   *
+   * @type {any}
+   * @memberof UnitChannel
+   */
+  configuration?: any | null
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  search_filter?: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  public_description?: string
+  /**
+   *
+   * @type {number}
+   * @memberof UnitChannel
+   */
+  widget_list?: number | null
+}
 
 /**
  * * `unit` - Unit

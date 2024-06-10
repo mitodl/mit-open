@@ -206,7 +206,7 @@ class ChannelUnitDetailSerializer(serializers.ModelSerializer):
 
 
 class UnitChannelSerializer(FieldChannelBaseSerializer):
-    """Serializer for Channel model of type unit"""
+    """Serializer for Channel model of type offeror"""
 
     channel_type = ChannelTypeConstantField(default=ChannelType.unit.name)
 
