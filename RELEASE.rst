@@ -1,6 +1,39 @@
 Release Notes
 =============
 
+Version 0.13.0
+--------------
+
+- adding configurable csrf settings and including withXSRFToken in axio… (#1042)
+- Fixing authentication issue, and fixing some filtering and test issues (#1039)
+- dashboard menu (#1009)
+- Add a setting for CSRF_COOKIE_DOMAIN (#1032)
+- Add backpopulate command for user profiles (#1030)
+- mitxonline etl v2 api (#1026)
+- Carousel Makeover: New tabs and Fixed Width Cards (#1020)
+- Update dependency @testing-library/react to v16 (#799)
+- Offerer banner UI (#1010)
+- Add learner testimonials homepage UI (#916)
+- Update dependency @ckeditor/ckeditor5-react to v7 (#997)
+- Update dependency django-json-widget to v2 (#998)
+- OLL contentfiles (#1008)
+- Profile-based search filter preferences (#1017)
+- Move Heroku deploy step prior to S3 publish
+- Fix bug with onboarding steps not saving (#1024)
+- Purge the fastly cache on deploy (#1021)
+- Write the commit hash to the frontend build for doof (#1023)
+- Point the webpack dev server proxy to the new API subdomain (#1022)
+- Learning Resource Card (#1015)
+- certification_type (#1018)
+- Insert learning_path_parents/user_list_parents values into search results (#992)
+- Add channel links to unit cards (#1016)
+- [pre-commit.ci] pre-commit autoupdate (#1004)
+- Add onboarding ux (#964)
+- Style tab components to match figma (#1012)
+- Toggle Professional (#1005)
+- Absolute URL to backend for login routes (#1011)
+- Add nullalbe offerors and channels to the testimonials model/API (#1006)
+
 Version 0.12.1 (Released June 05, 2024)
 --------------
 
