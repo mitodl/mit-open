@@ -2,11 +2,11 @@
 
 from django.db.models import Q
 from drf_spectacular.utils import extend_schema, extend_schema_view
-from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
 from learning_resources.views import LargePagination
 from main.filters import MultipleOptionsFilterBackend
+from main.permissions import AnonymousAccessReadonlyPermission
 from main.utils import now_in_utc
 from testimonials.filters import AttestationFilter
 from testimonials.models import Attestation
@@ -35,4 +35,4 @@ class AttestationViewSet(ReadOnlyModelViewSet):
     pagination_class = LargePagination
     filter_backends = [MultipleOptionsFilterBackend]
     filterset_class = AttestationFilter
-    permission_classes = [AllowAny]
+    permission_classes = [AnonymousAccessReadonlyPermission]
