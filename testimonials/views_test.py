@@ -4,6 +4,7 @@ from datetime import timedelta
 
 import pytest
 from django.urls import reverse
+from freezegun import freeze_time
 
 from channels.factories import FieldChannelFactory
 from learning_resources.factories import LearningResourceOfferorFactory
@@ -139,3 +140,31 @@ def test_attestation_published(client):
                 hidden_attestation_batch += 1
 
     assert hidden_attestations_found == 0
+
+
+def test_attestation_order(client):
+    """
+    Test that attestations are displayed in the correct order.
+
+    Attestations should be displayed:
+    - In the order set by the `postition` field
+    - In the case where more than one row has the same position, they should be
+      displayed in order of `updated_on` for that position.
+    """
+
+    attestation_batch = [AttestationFactory.create(position=i) for i in range(1, 6)]
+
+    with freeze_time(now_in_utc() - timedelta(days=7)):
+        attestation_batch.append(AttestationFactory.create(position=3))
+
+    list_url = reverse("testimonials:v0:testimonials_api-list")
+    response = client.get(list_url).json()
+
+    assert response["count"] == len(attestation_batch)
+
+    # idx 2,3 should have position 3
+    assert response["results"][2]["position"] == 3
+    assert response["results"][3]["position"] == 3
+
+    # idx 2 should be the one that we appended separately
+    assert response["results"][2]["updated_on"] > response["results"][3]["updated_on"]

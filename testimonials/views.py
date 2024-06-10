@@ -29,9 +29,13 @@ class AttestationViewSet(ReadOnlyModelViewSet):
     """Viewset for attestations."""
 
     serializer_class = AttestationSerializer
-    queryset = Attestation.objects.filter(
-        Q(publish_date__isnull=True) | Q(publish_date__lte=now_in_utc())
-    ).all()
+    queryset = (
+        Attestation.objects.filter(
+            Q(publish_date__isnull=True) | Q(publish_date__lte=now_in_utc())
+        )
+        .order_by("position", "-updated_on")
+        .all()
+    )
     pagination_class = LargePagination
     filter_backends = [MultipleOptionsFilterBackend]
     filterset_class = AttestationFilter
