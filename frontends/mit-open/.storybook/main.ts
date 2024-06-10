@@ -37,7 +37,7 @@ const config = {
     PUBLIC_URL: process.env.PUBLIC_URL || "",
     EMBEDLY_KEY: process.env.EMBEDLY_KEY || "",
     APP_SETTINGS: {
-      embedlyKey: "fake-embedly-key",
+      embedlyKey: process.env.EMBEDLY_KEY || "",
     },
   }),
 }

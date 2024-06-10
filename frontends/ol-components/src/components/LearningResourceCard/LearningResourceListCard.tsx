@@ -92,7 +92,7 @@ type ResourceIdCallback = (resourceId: number) => void
 const getEmbedlyUrl = (resource: LearningResource, isMobile: boolean) => {
   return resource?.image?.url
     ? embedlyCroppedImage(resource?.image?.url, {
-        key: APP_SETTINGS.embedlyKey,
+        key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
         ...IMAGE_SIZES[isMobile ? "mobile" : "desktop"],
       })
     : null
@@ -211,7 +211,7 @@ const LoadingView = ({ isMobile }: { isMobile: boolean }) => {
         <Skeleton
           variant="text"
           width="75%"
-          style={{ marginBottom: isMobile ? 32 : 51 }}
+          style={{ marginBottom: isMobile ? 16 : 51 }}
         />
         <Skeleton variant="text" width="20%" />
       </div>

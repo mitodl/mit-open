@@ -1,6 +1,6 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { LearningResourceCard } from "./LearningResourceCard"
+import { LearningResourceListCard } from "./LearningResourceListCard"
 import { ResourceTypeEnum } from "api"
 import styled from "@emotion/styled"
 import { factories } from "api/test-utils"
@@ -15,12 +15,10 @@ const makeResource: typeof _makeResource = (overrides) => {
   return resource
 }
 
-const LearningResourceCardStyled = styled(LearningResourceCard)`
-  width: 300px;
-`
+const LearningResourceListCardStyled = styled(LearningResourceListCard)``
 
-const meta: Meta<typeof LearningResourceCard> = {
-  title: "ol-components/LearningResourceCard",
+const meta: Meta<typeof LearningResourceListCard> = {
+  title: "ol-components/LearningResourceListCard",
   argTypes: {
     resource: {
       options: ["Loading", ...Object.values(ResourceTypeEnum)],
@@ -50,10 +48,6 @@ const meta: Meta<typeof LearningResourceCard> = {
         }),
       },
     },
-    size: {
-      options: ["small", "medium"],
-      control: { type: "select" },
-    },
     onAddToLearningPathClick: {
       action: "click-add-to-learning-path",
     },
@@ -64,14 +58,12 @@ const meta: Meta<typeof LearningResourceCard> = {
   render: ({
     resource,
     isLoading,
-    size,
     onAddToLearningPathClick,
     onAddToUserListClick,
   }) => (
-    <LearningResourceCardStyled
+    <LearningResourceListCardStyled
       resource={resource}
       isLoading={isLoading}
-      size={size}
       onAddToLearningPathClick={onAddToLearningPathClick}
       onAddToUserListClick={onAddToUserListClick}
     />
@@ -81,7 +73,7 @@ const meta: Meta<typeof LearningResourceCard> = {
 
 export default meta
 
-type Story = StoryObj<typeof LearningResourceCard>
+type Story = StoryObj<typeof LearningResourceListCard>
 
 export const Course: Story = {
   args: {
@@ -107,14 +99,12 @@ export const Program: Story = {
 export const Podcast: Story = {
   args: {
     resource: makeResource({ resource_type: ResourceTypeEnum.Podcast }),
-    size: "small",
   },
 }
 
 export const PodcastEpisode: Story = {
   args: {
     resource: makeResource({ resource_type: ResourceTypeEnum.PodcastEpisode }),
-    size: "small",
   },
 }
 
@@ -124,7 +114,6 @@ export const Video: Story = {
       resource_type: ResourceTypeEnum.Video,
       url: "https://www.youtube.com/watch?v=4A9bGL-_ilA",
     }),
-    size: "small",
   },
 }
 
@@ -133,7 +122,6 @@ export const VideoPlaylist: Story = {
     resource: makeResource({
       resource_type: ResourceTypeEnum.VideoPlaylist,
     }),
-    size: "small",
   },
 }
 

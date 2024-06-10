@@ -31,7 +31,7 @@ const getEmbedlyUrl = (resource: LearningResource, size: Size) => {
   }
   return resource?.image?.url
     ? embedlyCroppedImage(resource?.image?.url, {
-        key: APP_SETTINGS.embedlyKey,
+        key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
         ...dimensions[size],
       })
     : null
