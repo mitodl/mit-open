@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.0
+Version 0.13.0 (Released June 10, 2024)
 --------------
 
 - adding configurable csrf settings and including withXSRFToken in axio… (#1042)
