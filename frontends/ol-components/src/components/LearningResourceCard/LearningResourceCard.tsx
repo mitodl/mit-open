@@ -3,7 +3,12 @@ import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
 import { RiMenuAddLine, RiBookmarkLine, RiAwardFill } from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
-import { findBestRun, formatDate, getReadableResourceType } from "ol-utilities"
+import {
+  findBestRun,
+  formatDate,
+  getReadableResourceType,
+  embedlyCroppedImage,
+} from "ol-utilities"
 import { Card } from "../Card/Card"
 import type { Size } from "../Card/Card"
 import { TruncateText } from "../TruncateText/TruncateText"
@@ -18,6 +23,19 @@ const EllipsisTitle = styled(TruncateText)({
 const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
+
+const getEmbedlyUrl = (resource: LearningResource, size: Size) => {
+  const dimensions = {
+    small: { width: 190, height: 120 },
+    medium: { width: 298, height: 170 },
+  }
+  return resource?.image?.url
+    ? embedlyCroppedImage(resource?.image?.url, {
+        key: APP_SETTINGS.embedlyKey,
+        ...dimensions[size],
+      })
+    : null
+}
 
 type ResourceIdCallback = (resourceId: number) => void
 
@@ -129,10 +147,12 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   }
   return (
     <Card href={`?resource=${resource.id}`} className={className} size={size}>
-      <Card.Image
-        src={resource.image?.url}
-        alt={resource.image?.alt as string}
-      />
+      {resource.image && (
+        <Card.Image
+          src={getEmbedlyUrl(resource, size)!}
+          alt={resource.image?.alt as string}
+        />
+      )}
       <Card.Info>
         <Info resource={resource} />
       </Card.Info>

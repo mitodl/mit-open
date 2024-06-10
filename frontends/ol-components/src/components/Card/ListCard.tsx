@@ -49,6 +49,7 @@ const Image = styled.img`
   margin: 24px 24px 24px 0;
   border-radius: 4px;
   background-color: ${theme.custom.colors.lightGray1};
+  flex-shrink: 0;
 `
 
 const Info = styled.div`
@@ -57,6 +58,7 @@ const Info = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 16px;
+  align-items: center;
 `
 
 const Title = styled.h3`

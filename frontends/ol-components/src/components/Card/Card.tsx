@@ -48,13 +48,10 @@ const Body = styled.div`
 
 const Image = styled.img<{ size?: Size }>`
   display: block;
-  background-size: cover;
-  background-repeat: no-repeat;
-  -webkit-background-position: center;
-  background-position: center;
   width: 100%;
   height: ${({ size }) => (size === "small" ? 120 : 170)}px;
   background-color: ${theme.custom.colors.lightGray1};
+  object-fit: cover;
 `
 
 const Info = styled.div<{ size?: Size }>`

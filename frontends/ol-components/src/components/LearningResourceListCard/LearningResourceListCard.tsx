@@ -3,7 +3,12 @@ import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
 import { RiMenuAddLine, RiBookmarkLine, RiAwardFill } from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
-import { findBestRun, formatDate, getReadableResourceType } from "ol-utilities"
+import {
+  findBestRun,
+  formatDate,
+  getReadableResourceType,
+  embedlyCroppedImage,
+} from "ol-utilities"
 import { ListCard } from "../Card/ListCard"
 import type { Size } from "../Card/ListCard"
 import { TruncateText } from "../TruncateText/TruncateText"
@@ -18,22 +23,6 @@ const EllipsisTitle = styled(TruncateText)({
 const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
-
-type ResourceIdCallback = (resourceId: number) => void
-
-const Info = ({ resource }: { resource: LearningResource }) => {
-  return (
-    <>
-      <span>{getReadableResourceType(resource.resource_type)}</span>
-      {resource.certification && (
-        <Certificate>
-          <RiAwardFill />
-          Certificate
-        </Certificate>
-      )}
-    </>
-  )
-}
 
 const Certificate = styled.div`
   border-radius: 4px;
@@ -50,6 +39,12 @@ const Certificate = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+  margin: 0 8px 0 auto;
+`
+
+const Price = styled.div`
+  ${{ ...theme.typography.subtitle2 }}
+  color: ${theme.custom.colors.black};
 `
 
 const BorderSeparate = styled.div`
@@ -62,6 +57,45 @@ const BorderSeparate = styled.div`
     border-left: 1px solid ${theme.custom.colors.lightGray2};
   }
 `
+
+type ResourceIdCallback = (resourceId: number) => void
+
+const getEmbedlyUrl = (resource: LearningResource) => {
+  return resource?.image?.url
+    ? embedlyCroppedImage(resource?.image?.url, {
+        key: APP_SETTINGS.embedlyKey,
+        width: 236,
+        height: 132,
+      })
+    : null
+}
+
+const getPrice = (resource: LearningResource) => {
+  if (!resource) {
+    return null
+  }
+  const price = resource.prices?.[0]
+  if (resource.platform?.code === PlatformEnum.Ocw || price === 0) {
+    return "Free"
+  }
+  return price ? `$${price}` : null
+}
+
+const Info = ({ resource }: { resource: LearningResource }) => {
+  const price = getPrice(resource)
+  return (
+    <>
+      <span>{getReadableResourceType(resource.resource_type)}</span>
+      {resource.certification && (
+        <Certificate>
+          <RiAwardFill />
+          Certificate
+        </Certificate>
+      )}
+      {price && <Price>{price}</Price>}
+    </>
+  )
+}
 
 const isOcw = (resource: LearningResource) =>
   resource.resource_type === ResourceTypeEnum.Course &&
@@ -148,10 +182,12 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   }
   return (
     <ListCard href={`?resource=${resource.id}`} className={className}>
-      <ListCard.Image
-        src={resource.image?.url}
-        alt={resource.image?.alt as string}
-      />
+      {resource.image && (
+        <ListCard.Image
+          src={getEmbedlyUrl(resource)!}
+          alt={resource.image?.alt as string}
+        />
+      )}
       <ListCard.Info>
         <Info resource={resource} />
       </ListCard.Info>
