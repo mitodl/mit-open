@@ -10,7 +10,6 @@ import {
   embedlyCroppedImage,
 } from "ol-utilities"
 import { ListCard } from "../Card/ListCard"
-import type { Size } from "../Card/ListCard"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
@@ -146,19 +145,12 @@ const getStartDate = (resource: LearningResource) => {
   return formatDate(startDate, "MMMM DD, YYYY")
 }
 
-const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
-  resource,
-  size,
-}) => {
+const StartDate: React.FC<{ resource: LearningResource }> = ({ resource }) => {
   const startDate = getStartDate(resource)
 
   if (!startDate) return null
 
-  const label = isOcw(resource)
-    ? size === "medium"
-      ? "As taught in:"
-      : ""
-    : "Starts:"
+  const label = isOcw(resource) ? "As taught in:" : "Starts:"
 
   return (
     <div>

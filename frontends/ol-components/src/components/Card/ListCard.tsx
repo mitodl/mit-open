@@ -9,8 +9,6 @@ import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { Link } from "react-router-dom"
 
-export type Size = "small" | "medium"
-
 const containerStyles = `
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
