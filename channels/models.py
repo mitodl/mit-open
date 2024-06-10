@@ -138,14 +138,14 @@ class ChannelDepartmentDetail(TimestampedModel):
     )
 
 
-class ChannelOfferorDetail(TimestampedModel):
-    """Fields specific to offeror channels"""
+class ChannelUnitDetail(TimestampedModel):
+    """Fields specific to unit channels"""
 
     channel = models.OneToOneField(
         FieldChannel,
         primary_key=True,
         on_delete=models.CASCADE,
-        related_name="offeror_detail",
+        related_name="unit_detail",
     )
     offeror = models.ForeignKey(
         LearningResourceOfferor, null=True, on_delete=models.SET_NULL

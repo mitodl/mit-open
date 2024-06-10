@@ -964,16 +964,6 @@ components:
           type: string
           minLength: 1
           nullable: true
-    ChannelOfferorDetail:
-      type: object
-      description: Serializer for the ChannelOfferorDetail model
-      properties:
-        offeror:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceOfferorDetail'
-          readOnly: true
-      required:
-      - offeror
     ChannelTopicDetail:
       type: object
       description: Serializer for the ChannelTopicDetail model
@@ -1000,6 +990,16 @@ components:
         * `department` - Department
         * `unit` - Unit
         * `pathway` - Pathway
+    ChannelUnitDetail:
+      type: object
+      description: Serializer for the ChannelOfferorDetail model
+      properties:
+        offeror:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferorDetail'
+          readOnly: true
+      required:
+      - offeror
     CurrentEducationEnum:
       enum:
       - no-formal
@@ -1657,8 +1657,8 @@ components:
           allOf:
           - $ref: '#/components/schemas/UnitChannelTypeEnum'
           readOnly: true
-        offeror_detail:
-          $ref: '#/components/schemas/ChannelOfferorDetail'
+        unit_detail:
+          $ref: '#/components/schemas/ChannelUnitDetail'
         created_on:
           type: string
           format: date-time
@@ -1700,9 +1700,9 @@ components:
       - is_moderator
       - lists
       - name
-      - offeror_detail
       - subfields
       - title
+      - unit_detail
       - updated_on
     PaginatedAttestationList:
       type: object

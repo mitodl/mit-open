@@ -105,7 +105,7 @@ def test_search_index_plugin_offeror_upserted(overwrite):
     """The plugin function should create an offeror channel"""
     offeror = LearningResourceOfferorFactory.create()
     channel, created = ChannelPlugin().offeror_upserted(offeror, overwrite)
-    assert channel.offeror_detail.offeror == offeror
+    assert channel.unit_detail.offeror == offeror
     assert channel.title == offeror.name
     assert channel.channel_type == ChannelType.unit.name
     assert channel.search_filter == f"offered_by={offeror.code}"
@@ -117,8 +117,8 @@ def test_search_index_plugin_offeror_upserted(overwrite):
 @pytest.mark.django_db()
 def test_search_index_plugin_offeror_delete():
     """The plugin function should delete an offeror and associated channel"""
-    channel = FieldChannelFactory.create(is_offeror=True)
-    offeror = channel.offeror_detail.offeror
+    channel = FieldChannelFactory.create(is_unit=True)
+    offeror = channel.unit_detail.offeror
     assert offeror is not None
     ChannelPlugin().offeror_delete(offeror)
     assert FieldChannel.objects.filter(id=channel.id).exists() is False

@@ -7,8 +7,8 @@ from channels.api import create_field_groups_and_roles
 from channels.constants import ChannelType
 from channels.models import (
     ChannelDepartmentDetail,
-    ChannelOfferorDetail,
     ChannelTopicDetail,
+    ChannelUnitDetail,
     FieldChannel,
     FieldList,
     Subfield,
@@ -53,10 +53,10 @@ class FieldChannelFactory(DjangoModelFactory):
         ),
     )
 
-    offeror_detail = factory.Maybe(
-        "create_offeror_detail",
+    unit_detail = factory.Maybe(
+        "create_unit_detail",
         yes_declaration=factory.RelatedFactory(
-            "channels.factories.ChannelOfferorDetailFactory",
+            "channels.factories.ChannelUnitDetailFactory",
             factory_related_name="channel",
         ),
     )
@@ -95,8 +95,8 @@ class FieldChannelFactory(DjangoModelFactory):
         create_department_detail = factory.LazyAttribute(
             lambda c: c.channel_type == ChannelType.department.name
         )
-        is_offeror = factory.Trait(channel_type=ChannelType.unit.name)
-        create_offeror_detail = factory.LazyAttribute(
+        is_unit = factory.Trait(channel_type=ChannelType.unit.name)
+        create_unit_detail = factory.LazyAttribute(
             lambda c: c.channel_type == ChannelType.unit.name
         )
         is_pathway = factory.Trait(channel_type=ChannelType.pathway.name)
@@ -129,16 +129,16 @@ class ChannelDepartmentDetailFactory(DjangoModelFactory):
         model = ChannelDepartmentDetail
 
 
-class ChannelOfferorDetailFactory(DjangoModelFactory):
-    """Factory for a channels.models.ChannelOfferorDetail object"""
+class ChannelUnitDetailFactory(DjangoModelFactory):
+    """Factory for a channels.models.ChannelUnitDetail object"""
 
     channel = factory.SubFactory(
-        FieldChannelFactory, is_offeror=True, create_offeror_detail=False
+        FieldChannelFactory, is_unit=True, create_unit_detail=False
     )
     offeror = factory.SubFactory(LearningResourceOfferorFactory)
 
     class Meta:
-        model = ChannelOfferorDetail
+        model = ChannelUnitDetail
 
 
 class ChannelPathwayDetailFactory(DjangoModelFactory):
@@ -147,7 +147,7 @@ class ChannelPathwayDetailFactory(DjangoModelFactory):
     channel = factory.SubFactory(FieldChannelFactory, is_pathway=True)
 
     class Meta:
-        model = ChannelOfferorDetail
+        model = ChannelUnitDetail
 
 
 class SubfieldFactory(DjangoModelFactory):

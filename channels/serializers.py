@@ -13,9 +13,9 @@ from channels.api import add_user_role, is_moderator
 from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
 from channels.models import (
     ChannelDepartmentDetail,
-    ChannelOfferorDetail,
     ChannelPathwayDetail,
     ChannelTopicDetail,
+    ChannelUnitDetail,
     FieldChannel,
     FieldList,
     Subfield,
@@ -195,13 +195,13 @@ class DepartmentChannelSerializer(FieldChannelBaseSerializer):
     department_detail = ChannelDepartmentDetailSerializer()
 
 
-class ChannelOfferorDetailSerializer(serializers.ModelSerializer):
+class ChannelUnitDetailSerializer(serializers.ModelSerializer):
     """Serializer for the ChannelOfferorDetail model"""
 
     offeror = LearningResourceOfferorDetailSerializer(read_only=True)
 
     class Meta:
-        model = ChannelOfferorDetail
+        model = ChannelUnitDetail
         exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
@@ -210,7 +210,7 @@ class OfferorChannelSerializer(FieldChannelBaseSerializer):
 
     channel_type = ChannelTypeConstantField(default=ChannelType.unit.name)
 
-    offeror_detail = ChannelOfferorDetailSerializer()
+    unit_detail = ChannelUnitDetailSerializer()
 
 
 class ChannelPathwayDetailSerializer(serializers.ModelSerializer):
@@ -291,7 +291,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
     department_detail = ChannelDepartmentDetailSerializer(
         allow_null=True, many=False, required=False
     )
-    offeror_detail = ChannelOfferorDetailSerializer(
+    unit_detail = ChannelUnitDetailSerializer(
         allow_null=True, many=False, required=False
     )
     pathway_detail = ChannelPathwayDetailSerializer(
@@ -316,7 +316,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             "configuration",
             "topic_detail",
             "department_detail",
-            "offeror_detail",
+            "unit_detail",
             "pathway_detail",
         )
 
@@ -375,7 +375,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
         channel_detail_map = {
             ChannelType.topic.name: ChannelTopicDetail,
             ChannelType.department.name: ChannelDepartmentDetail,
-            ChannelType.unit.name: ChannelOfferorDetail,
+            ChannelType.unit.name: ChannelUnitDetail,
             ChannelType.pathway.name: ChannelPathwayDetail,
         }
         channel_type = validated_data.get("channel_type", channel.channel_type)
@@ -396,7 +396,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             "lists",
             "topic_detail",
             "department_detail",
-            "offeror_detail",
+            "unit_detail",
             "pathway_detail",
         ):
             base_field_data.pop(key, None)

@@ -65,13 +65,13 @@ class Command(BaseCommand):
         if (
             template_conf
             and FieldChannel.objects.filter(
-                offeror_detail__offeror__code=offeror_code,
-                channel_type="offeror",
+                unit_detail__offeror__code=offeror_code,
+                channel_type="unit",
             ).exists()
         ):
             channel = FieldChannel.objects.get(
-                offeror_detail__offeror__code=offeror_code,
-                channel_type="offeror",
+                unit_detail__offeror__code=offeror_code,
+                channel_type="unit",
             )
             channel.configuration.update(template_conf)
             channel.save()

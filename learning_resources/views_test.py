@@ -935,7 +935,7 @@ def test_featured_view(client, offeror_featured_lists):
                 code=resource["offered_by"]["code"]
             )
             featured_list = FieldChannel.objects.get(
-                offeror_detail__offeror=offeror
+                unit_detail__offeror=offeror
             ).featured_list
             assert featured_list.children.all()[position].child.id == resource["id"]
 

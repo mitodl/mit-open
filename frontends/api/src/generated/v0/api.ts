@@ -191,19 +191,6 @@ export interface ChannelDepartmentDetailRequest {
   department?: string | null
 }
 /**
- * Serializer for the ChannelOfferorDetail model
- * @export
- * @interface ChannelOfferorDetail
- */
-export interface ChannelOfferorDetail {
-  /**
-   *
-   * @type {LearningResourceOfferorDetail}
-   * @memberof ChannelOfferorDetail
-   */
-  offeror: LearningResourceOfferorDetail
-}
-/**
  * Serializer for the ChannelTopicDetail model
  * @export
  * @interface ChannelTopicDetail
@@ -245,6 +232,19 @@ export const ChannelTypeEnum = {
 export type ChannelTypeEnum =
   (typeof ChannelTypeEnum)[keyof typeof ChannelTypeEnum]
 
+/**
+ * Serializer for the ChannelOfferorDetail model
+ * @export
+ * @interface ChannelUnitDetail
+ */
+export interface ChannelUnitDetail {
+  /**
+   *
+   * @type {LearningResourceOfferorDetail}
+   * @memberof ChannelUnitDetail
+   */
+  offeror: LearningResourceOfferorDetail
+}
 /**
  * * `no-formal` - No Formal Education * `primary` - Primary Education * `secondary-or-high-school` - Secondary Education or High School * `ged` - GED * `vocational-qualification` - Vocational Qualification
  * @export
@@ -1218,10 +1218,10 @@ export interface OfferorChannel {
   channel_type: UnitChannelTypeEnum
   /**
    *
-   * @type {ChannelOfferorDetail}
+   * @type {ChannelUnitDetail}
    * @memberof OfferorChannel
    */
-  offeror_detail: ChannelOfferorDetail
+  unit_detail: ChannelUnitDetail
   /**
    *
    * @type {string}

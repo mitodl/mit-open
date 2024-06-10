@@ -10,9 +10,9 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
 from channels.factories import (
     ChannelDepartmentDetailFactory,
-    ChannelOfferorDetailFactory,
     ChannelPathwayDetailFactory,
     ChannelTopicDetailFactory,
+    ChannelUnitDetailFactory,
     FieldChannelFactory,
     FieldListFactory,
     SubfieldFactory,
@@ -20,9 +20,9 @@ from channels.factories import (
 from channels.models import FieldChannelGroupRole
 from channels.serializers import (
     ChannelDepartmentDetailSerializer,
-    ChannelOfferorDetailSerializer,
     ChannelPathwayDetailSerializer,
     ChannelTopicDetailSerializer,
+    ChannelUnitDetailSerializer,
     FieldChannelCreateSerializer,
     FieldChannelSerializer,
     FieldChannelWriteSerializer,
@@ -62,8 +62,8 @@ def channel_detail():
         department=ChannelDepartmentDetailSerializer(
             instance=ChannelDepartmentDetailFactory.build(department=department)
         ).data,
-        offeror=ChannelOfferorDetailSerializer(
-            instance=ChannelOfferorDetailFactory.build(offeror=offeror)
+        unit=ChannelUnitDetailSerializer(
+            instance=ChannelUnitDetailFactory.build(offeror=offeror)
         ).data,
         pathway=ChannelPathwayDetailSerializer(
             instance=ChannelPathwayDetailFactory.build()
@@ -141,9 +141,9 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "configuration": {},
         "search_filter": channel.search_filter,
         "channel_type": ChannelType.unit.name,
-        "offeror_detail": {
+        "unit_detail": {
             "offeror": LearningResourceOfferorDetailSerializer(
-                instance=channel.offeror_detail.offeror
+                instance=channel.unit_detail.offeror
             ).data,
         },
     }
