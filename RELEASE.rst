@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.13.1
+--------------
+
+- Use login redirect URL setting for social auth as well
+- Expose the login/logout redirects as an environment variable (#1046)
+- homepage hero bug fixes (#1034)
+
 Version 0.13.0 (Released June 10, 2024)
 --------------
 
