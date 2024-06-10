@@ -5431,7 +5431,6 @@ export const TestimonialsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {boolean} [published] Only return published testimonials
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5440,7 +5439,6 @@ export const TestimonialsApiAxiosParamCreator = function (
       limit?: number,
       offerors?: Array<string>,
       offset?: number,
-      published?: boolean,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v0/testimonials/`
@@ -5473,10 +5471,6 @@ export const TestimonialsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
-      }
-
-      if (published !== undefined) {
-        localVarQueryParameter["published"] = published
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -5557,7 +5551,6 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {boolean} [published] Only return published testimonials
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5566,7 +5559,6 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
       limit?: number,
       offerors?: Array<string>,
       offset?: number,
-      published?: boolean,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -5580,7 +5572,6 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
           limit,
           offerors,
           offset,
-          published,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -5651,7 +5642,6 @@ export const TestimonialsApiFactory = function (
           requestParameters.limit,
           requestParameters.offerors,
           requestParameters.offset,
-          requestParameters.published,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -5707,13 +5697,6 @@ export interface TestimonialsApiTestimonialsListRequest {
    * @memberof TestimonialsApiTestimonialsList
    */
   readonly offset?: number
-
-  /**
-   * Only return published testimonials
-   * @type {boolean}
-   * @memberof TestimonialsApiTestimonialsList
-   */
-  readonly published?: boolean
 }
 
 /**
@@ -5755,7 +5738,6 @@ export class TestimonialsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offerors,
         requestParameters.offset,
-        requestParameters.published,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
