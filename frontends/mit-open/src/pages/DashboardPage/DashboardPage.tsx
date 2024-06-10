@@ -32,6 +32,9 @@ import {
   useInfiniteUserListItems,
   useUserListsDetail,
 } from "api/hooks/learningResources"
+import { useProfileMeQuery } from "api/hooks/profile"
+import { TOP_PICKS_CAROUSEL } from "./carousels"
+import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 
 /**
  *
@@ -281,7 +284,9 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
 }
 
 const DashboardPage: React.FC = () => {
-  const { isLoading, data: user } = useUserMe()
+  const { isLoading: isLoadingUser, data: user } = useUserMe()
+  const { data: profile } = useProfileMeQuery()
+  console.log(profile)
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
   const [userListAction, setUserListAction] = useState("list")
@@ -298,7 +303,7 @@ const DashboardPage: React.FC = () => {
         <ProfilePhotoContainer>
           <UserIcon />
           <UserNameContainer>
-            {isLoading ? (
+            {isLoadingUser ? (
               <Skeleton variant="text" width={128} height={32} />
             ) : (
               <UserNameText>{`${user?.first_name} ${user?.last_name}`}</UserNameText>
@@ -386,7 +391,12 @@ const DashboardPage: React.FC = () => {
                   <SubTitleText>
                     A customized course list based on your preferences.
                   </SubTitleText>
-                  {contentComingSoon}
+                  <div>
+                    <ResourceCarousel
+                      title="Top Picks for you"
+                      config={TOP_PICKS_CAROUSEL(profile)}
+                    />
+                  </div>
                 </TabPanelStyled>
                 <TabPanelStyled value={TabValues.MY_LISTS}>
                   {userListAction === "list" ? (
