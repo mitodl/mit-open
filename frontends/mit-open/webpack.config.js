@@ -109,6 +109,13 @@ module.exports = (env, argv) => {
             to: "static",
             globOptions: { ignore: ["public/index.html"] },
           },
+          {
+            from: path.resolve(__dirname, "public"),
+            to: path.resolve(__dirname, "build"),
+            globOptions: {
+              ignore: ["**/index.html", "**/images/**"],
+            },
+          },
         ],
       }),
       new BundleTracker({
