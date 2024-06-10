@@ -158,7 +158,7 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = get_string(
     "same-origin",
 )
 
-CSRF_COOKIE_SECURE = get_bool("CSRF_COOKIE_SECURE", False)  # noqa: FBT003
+CSRF_COOKIE_SECURE = get_bool("CSRF_COOKIE_SECURE", True)  # noqa: FBT003
 SESSION_COOKIE_DOMAIN = get_string("SESSION_COOKIE_DOMAIN", None)
 CSRF_COOKIE_DOMAIN = get_string("CSRF_COOKIE_DOMAIN", None)
 
