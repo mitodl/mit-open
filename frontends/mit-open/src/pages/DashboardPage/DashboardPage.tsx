@@ -33,7 +33,7 @@ import {
   useUserListsDetail,
 } from "api/hooks/learningResources"
 import { useProfileMeQuery } from "api/hooks/profile"
-import { TOP_PICKS_CAROUSEL } from "./carousels"
+import { TOPIC_CAROUSEL, TOP_PICKS_CAROUSEL } from "./carousels"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 
 /**
@@ -208,6 +208,11 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
     ...theme.typography.subtitle3,
   },
 }))
+
+const CarouselContainer = styled.div({
+  maxWidth: "928px",
+  padding: "40px 0",
+})
 
 interface UserMenuTabProps {
   icon: React.ReactNode
@@ -391,12 +396,20 @@ const DashboardPage: React.FC = () => {
                   <SubTitleText>
                     A customized course list based on your preferences.
                   </SubTitleText>
-                  <div>
+                  <CarouselContainer>
                     <ResourceCarousel
                       title="Top Picks for you"
                       config={TOP_PICKS_CAROUSEL(profile)}
                     />
-                  </div>
+                  </CarouselContainer>
+                  {profile?.preference_search_filters.topic?.map((topic) => (
+                    <CarouselContainer key={topic}>
+                      <ResourceCarousel
+                        title={`Popular courses in ${topic}`}
+                        config={TOPIC_CAROUSEL(topic)}
+                      />
+                    </CarouselContainer>
+                  ))}
                 </TabPanelStyled>
                 <TabPanelStyled value={TabValues.MY_LISTS}>
                   {userListAction === "list" ? (
