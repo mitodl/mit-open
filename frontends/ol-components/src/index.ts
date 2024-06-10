@@ -94,6 +94,8 @@ export type { SkeletonProps } from "@mui/material/Skeleton"
 export { default as Stack } from "@mui/material/Stack"
 export type { StackProps } from "@mui/material/Stack"
 
+export { default as Tabs } from "@mui/material/Tabs"
+export type { TabsProps } from "@mui/material/Tabs"
 export { default as Tab } from "@mui/material/Tab"
 export type { TabProps } from "@mui/material/Tab"
 
