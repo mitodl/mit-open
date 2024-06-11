@@ -37,7 +37,7 @@ interface FieldSkeletonProps {
 const NAV_PATH: { [key: string]: string } = {
   topic: "Topics",
   department: "Departments",
-  offeror: "MIT Units",
+  unit: "MIT Units",
 }
 
 const NavText = styled(Typography)(({ theme }) => ({
@@ -158,7 +158,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       {displayConfiguration.sub_heading}
                     </Typography>
                   </Box>
-                  {channelType === "offeror" ? (
+                  {channelType === "unit" ? (
                     <Box
                       display="flex"
                       flexDirection="row"
@@ -188,7 +188,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     </Box>
                   ) : null}
                 </Box>
-                {channelType === "offeror" ? (
+                {channelType === "unit" ? (
                   <Box
                     flexDirection="row"
                     alignItems="end"

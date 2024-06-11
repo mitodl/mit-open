@@ -33,7 +33,7 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
     "offered_by",
     "learning_format",
   ],
-  [ChannelTypeEnum.Offeror]: [
+  [ChannelTypeEnum.Unit]: [
     "free",
     "certification_type",
     "topic",

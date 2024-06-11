@@ -27,7 +27,7 @@ class Command(BaseCommand):
             "--all",
             dest="all",
             action="store_true",
-            default=True,
+            default=False,
             help="Create channels for all types",
         )
 
@@ -42,7 +42,7 @@ class Command(BaseCommand):
         for channeL_type in [
             ChannelType.topic.name,
             ChannelType.department.name,
-            ChannelType.offeror.name,
+            ChannelType.unit.name,
         ]:
             parser.add_argument(
                 f"--{channeL_type}",
@@ -65,13 +65,13 @@ class Command(BaseCommand):
         if (
             template_conf
             and FieldChannel.objects.filter(
-                offeror_detail__offeror__code=offeror_code,
-                channel_type="offeror",
+                unit_detail__unit__code=offeror_code,
+                channel_type="unit",
             ).exists()
         ):
             channel = FieldChannel.objects.get(
-                offeror_detail__offeror__code=offeror_code,
-                channel_type="offeror",
+                unit_detail__unit__code=offeror_code,
+                channel_type="unit",
             )
             channel.configuration.update(template_conf)
             channel.save()
@@ -91,7 +91,7 @@ class Command(BaseCommand):
                 if hook.department_upserted(department=dept, overwrite=overwrite)[0][1]:
                     created += 1
             self.stdout.write(f"Created channels for {created} departments")
-        if options["all"] or options[ChannelType.offeror.name]:
+        if options["all"] or options[ChannelType.unit.name]:
             created = 0
             self.stdout.write("Creating offeror channels")
             for offeror in LearningResourceOfferor.objects.all():

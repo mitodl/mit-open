@@ -310,7 +310,7 @@ interface UnitCardProps {
 
 const UnitCard: React.FC<UnitCardProps> = (props) => {
   const { unit, logo, courseCount, programCount } = props
-  const channelDetailQuery = useChannelDetail("offeror", unit.code)
+  const channelDetailQuery = useChannelDetail("unit", unit.code)
   const channelDetail = channelDetailQuery.data
   const unitUrl = channelDetail?.channel_url
   return channelDetailQuery.isLoading ? (
