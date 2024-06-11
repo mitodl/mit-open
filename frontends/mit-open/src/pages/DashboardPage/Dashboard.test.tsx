@@ -5,16 +5,116 @@ import {
   setMockResponse,
   within,
 } from "../../test-utils"
-import { urls } from "api/test-utils"
+import { factories, urls } from "api/test-utils"
 import { Permissions } from "@/common/permissions"
 import { DashboardTabLabels } from "./DashboardPage"
+import { faker } from "@faker-js/faker/locale/en"
+import {
+  CourseResource,
+  LearningResource,
+  LearningResourceSearchResponse,
+  LearningResourcesSearchRetrieveLearningFormatEnum,
+} from "api"
+
+const makeSearchResponse = (
+  results: CourseResource[] | LearningResource[],
+): LearningResourceSearchResponse => {
+  return {
+    metadata: {
+      suggestions: [],
+      aggregations: {},
+    },
+    count: 0,
+    results: results,
+    next: null,
+    previous: null,
+  }
+}
+
+const setupAPIs = () => {
+  const profile = factories.profiles.profile({
+    preference_search_filters: {
+      topic: factories.learningResources
+        .topics({ count: 3 })
+        .results.map((topic) => topic.name),
+      certification: faker.helpers.arrayElement([true, false]),
+      learning_format: faker.helpers.arrayElements([
+        "online",
+        "in-person",
+        "hybrid",
+      ]),
+    },
+  })
+  const certification: boolean | undefined =
+    profile?.preference_search_filters.certification
+  const topics = profile?.preference_search_filters.topic
+  const learningFormat = Object.values(
+    LearningResourcesSearchRetrieveLearningFormatEnum,
+  ).filter((format) =>
+    profile?.preference_search_filters.learning_format?.includes(format),
+  )
+  const courses = factories.learningResources.courses({ count: 20 })
+  const resources = factories.learningResources.resources({ count: 20 })
+
+  setMockResponse.get(urls.userMe.get(), {
+    username: profile.username,
+    [Permissions.Authenticated]: true,
+  })
+  setMockResponse.get(urls.profileMe.get(), profile)
+  setMockResponse.get(
+    expect.stringContaining(
+      urls.search.resources({
+        resource_type: ["course"],
+        limit: 12,
+        sortby: "-views",
+        certification: certification,
+        learning_format: learningFormat,
+        topic: topics,
+      }),
+    ),
+    makeSearchResponse(courses.results),
+  )
+  topics?.forEach((topic) => {
+    setMockResponse.get(
+      expect.stringContaining(
+        urls.search.resources({
+          resource_type: ["course"],
+          limit: 12,
+          sortby: "-views",
+          topic: [topic],
+        }),
+      ),
+      makeSearchResponse(courses.results),
+    )
+  })
+  setMockResponse.get(
+    expect.stringContaining(
+      urls.search.resources({
+        resource_type: ["course"],
+        limit: 12,
+        sortby: "-views",
+        certification: certification,
+      }),
+    ),
+    makeSearchResponse(courses.results),
+  )
+  setMockResponse.get(
+    expect.stringContaining(
+      urls.search.resources({ limit: 12, sortby: "new" }),
+    ),
+    makeSearchResponse([...courses.results, ...resources.results]),
+  )
+  setMockResponse.get(
+    expect.stringContaining(
+      urls.search.resources({ limit: 12, sortby: "-views" }),
+    ),
+    makeSearchResponse([...courses.results, ...resources.results]),
+  )
+}
 
 describe("DashboardPage", () => {
   test("Renders title", async () => {
-    setMockResponse.get(urls.userMe.get(), {
-      [Permissions.Authenticated]: true,
-    })
-
+    setupAPIs()
     renderTestApp({
       url: "/dashboard",
     })
@@ -27,6 +127,7 @@ describe("DashboardPage", () => {
   })
 
   test("Renders user info", async () => {
+    setupAPIs()
     setMockResponse.get(urls.userMe.get(), {
       [Permissions.Authenticated]: true,
       first_name: "User",
@@ -47,10 +148,7 @@ describe("DashboardPage", () => {
   })
 
   test("Renders user menu tabs and panels", async () => {
-    setMockResponse.get(urls.userMe.get(), {
-      [Permissions.Authenticated]: true,
-    })
-
+    setupAPIs()
     renderTestApp({
       url: "/dashboard",
     })
@@ -74,10 +172,7 @@ describe("DashboardPage", () => {
   })
 
   test("Renders the expected tab links", async () => {
-    setMockResponse.get(urls.userMe.get(), {
-      [Permissions.Authenticated]: true,
-    })
-
+    setupAPIs()
     renderTestApp({
       url: "/dashboard",
     })
