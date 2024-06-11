@@ -35,8 +35,9 @@ const imageStylesheet = `
 
 const StyledImage = styled.img`
   ${imageStylesheet}
-  object-fit: cover;
-  height: 100%;
+  position:absolute;
+  height: auto;
+  width: auto;
 `
 
 const PlaceholderDiv = styled.div`
@@ -84,6 +85,7 @@ const BannerPageHeaderFlex = styled.header`
   min-height: ${BANNER_HEIGHT};
   height: 100%;
   position: relative;
+  overflow: hidden;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     min-height: ${SM_BANNER_HEIGHT};
   }

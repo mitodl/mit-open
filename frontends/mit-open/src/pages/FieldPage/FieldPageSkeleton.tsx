@@ -65,7 +65,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
     <BannerPage
       src={
         displayConfiguration?.banner_background ??
-        "/static/images/background_steps.png"
+        "/static/images/background_steps.jpeg"
       }
       alt=""
       omitBackground={field.isLoading}
@@ -167,7 +167,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         width: "100%",
                         flexShrink: 1,
                         order: 3,
-                        my: { xs: "12px" },
+                        my: { xs: "24px" },
                       }}
                     >
                       <FieldControls>
@@ -212,7 +212,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       width: { md: "15%", xs: "100%" },
                       flexShrink: 0,
                       order: 2,
-                      my: { xs: "12px" },
+                      my: { xs: "24px", md: "0px" },
                     }}
                   >
                     <FieldControls>
