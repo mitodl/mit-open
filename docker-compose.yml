@@ -22,6 +22,8 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql
 
   redis:
     profiles:
@@ -104,6 +106,7 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-development}
       PORT: 8062
+      MITOPEN_AXIOS_BASE_PATH: http://od.odl.local:8063
     env_file: .env
     ports:
       - "8062:8062"
@@ -142,3 +145,4 @@ volumes:
   opensearch-data1:
   django_media:
   yarn-cache:
+  pgdata:

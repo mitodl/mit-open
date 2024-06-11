@@ -9,8 +9,10 @@ const _makeResource = factories.learningResources.resource
 
 const makeResource: typeof _makeResource = (overrides) => {
   const resource = _makeResource(overrides)
-  resource.image!.url =
-    "https://ocw.mit.edu/courses/res-hso-001-mit-haystack-observatory-k12-stem-lesson-plans/mitres_hso_001.jpg"
+  if (resource.image) {
+    resource.image.url =
+      "https://ocw.mit.edu/courses/res-hso-001-mit-haystack-observatory-k12-stem-lesson-plans/mitres_hso_001.jpg"
+  }
   return resource
 }
 
@@ -22,9 +24,12 @@ const meta: Meta<typeof LearningResourceCard> = {
   title: "ol-components/LearningResourceCard",
   argTypes: {
     resource: {
-      options: ["Loading", ...Object.values(ResourceTypeEnum)],
+      options: ["Loading", "Without Image", ...Object.values(ResourceTypeEnum)],
       mapping: {
         Loading: undefined,
+        "Without Image": makeResource({
+          image: null,
+        }),
         [ResourceTypeEnum.Course]: makeResource({
           resource_type: ResourceTypeEnum.Course,
         }),

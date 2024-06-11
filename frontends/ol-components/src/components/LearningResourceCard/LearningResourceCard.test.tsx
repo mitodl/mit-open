@@ -1,6 +1,7 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import { LearningResourceCard } from "./LearningResourceCard"
+import { DEFAULT_RESOURCE_IMG } from "ol-utilities"
 import { ResourceTypeEnum, PlatformEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
@@ -117,5 +118,26 @@ describe("Learning Resource Card", () => {
     const badge = screen.queryByText("Certificate")
 
     expect(badge).not.toBeInTheDocument()
+  })
+
+  test.each([
+    { image: null, expected: { src: DEFAULT_RESOURCE_IMG, alt: "" } },
+    {
+      image: { url: "https://example.com/image.jpg", alt: "An image" },
+      expected: { src: "https://example.com/image.jpg", alt: "An image" },
+    },
+    {
+      image: { url: "https://example.com/image.jpg", alt: null },
+      expected: { src: "https://example.com/image.jpg", alt: "" },
+    },
+  ])("Image is displayed if present", ({ expected, image }) => {
+    const resource = factories.learningResources.resource({ image })
+
+    render(<LearningResourceCard resource={resource} />)
+
+    const imageEls = screen.getAllByRole<HTMLImageElement>("img")
+    const matching = imageEls.filter((im) => im.src === expected.src)
+    expect(matching.length).toBe(1)
+    expect(matching[0]).toHaveAttribute("alt", expected.alt)
   })
 })

@@ -122,6 +122,8 @@ jobs:
 
       - name: Webpack build
         run: yarn run build
+        env:
+          MITOPEN_AXIOS_BASE_PATH: https://api.mitopen-test.odl.mit.edu
 
       - name: Lints
         run: yarn run lint-check

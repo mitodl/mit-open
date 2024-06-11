@@ -1,9 +1,10 @@
 import React from "react"
-import { Carousel } from "./Carousel"
+import { Carousel, getSlideInfo } from "./Carousel"
 import { render, screen, fireEvent, waitFor } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import { faker } from "@faker-js/faker/locale/en"
+import invariant from "tiny-invariant"
 
 const mockWidths = ({
   slide,
@@ -157,4 +158,39 @@ describe("Carousel", () => {
     expect(container.contains(next)).toBe(true)
     expect(container.contains(prev)).toBe(true)
   })
+
+  test.each([
+    {
+      sizes: { slide: 20, gap: 10, list: 200 },
+      childCount: 10,
+      expectedPerPage: 7,
+    },
+    {
+      sizes: { slide: 20, gap: 10, list: 2000000 },
+      childCount: 10,
+      expectedPerPage: 10,
+    },
+    {
+      sizes: { slide: 20, gap: 10, list: 2000000 },
+      childCount: 20,
+      expectedPerPage: 20,
+    },
+  ])(
+    "getSlideInfo never returns more slidesPerPage than children",
+    ({ sizes, childCount, expectedPerPage }) => {
+      mockWidths(sizes)
+      render(
+        <Carousel>
+          {Array.from({ length: childCount }).map((_, i) => (
+            <div key={i}>Slide {i}</div>
+          ))}
+        </Carousel>,
+        { wrapper: ThemeProvider },
+      )
+      const slickList = document.querySelector(".slick-list")
+      invariant(slickList instanceof HTMLElement, "slick-list not found")
+      const slideInfo = getSlideInfo(slickList)
+      expect(slideInfo.slidesPerPage).toBe(expectedPerPage)
+    },
+  )
 })

@@ -274,6 +274,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
                       isLoading
                       key={index}
                       resource={null}
+                      {...tabConfig.cardProps}
                     />
                   ))
                 : resources.map((resource) => (

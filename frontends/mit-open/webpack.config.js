@@ -14,8 +14,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
 
-const { NODE_ENV, ENVIRONMENT, PORT, API_BASE_URL, WEBPACK_ANALYZE } =
-  process.env
+const {
+  NODE_ENV,
+  ENVIRONMENT,
+  PORT,
+  MITOPEN_AXIOS_BASE_PATH,
+  API_BASE_URL,
+  WEBPACK_ANALYZE,
+} = process.env
 
 const MITOPEN_FEATURES_PREFIX = "FEATURE_"
 
@@ -109,6 +115,13 @@ module.exports = (env, argv) => {
             to: "static",
             globOptions: { ignore: ["public/index.html"] },
           },
+          {
+            from: path.resolve(__dirname, "public"),
+            to: path.resolve(__dirname, "build"),
+            globOptions: {
+              ignore: ["**/index.html", "**/images/**"],
+            },
+          },
         ],
       }),
       new BundleTracker({
@@ -139,6 +152,7 @@ module.exports = (env, argv) => {
       }),
       new webpack.EnvironmentPlugin({
         ENVIRONMENT: "production",
+        MITOPEN_AXIOS_BASE_PATH: undefined,
       }),
     ]
       .concat(
@@ -215,11 +229,11 @@ module.exports = (env, argv) => {
             "/static/admin",
             "/static/hijack",
           ],
-          target: API_BASE_URL,
+          target: API_BASE_URL || MITOPEN_AXIOS_BASE_PATH,
           changeOrigin: true,
           secure: false,
           headers: {
-            Origin: API_BASE_URL,
+            Origin: API_BASE_URL || MITOPEN_AXIOS_BASE_PATH,
           },
         },
       ],

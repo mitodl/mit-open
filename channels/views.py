@@ -78,7 +78,7 @@ class FieldChannelViewSet(
                 "lists", "subfields", "subfields__field_channel"
             )
             .select_related(
-                "featured_list", "topic_detail", "department_detail", "offeror_detail"
+                "featured_list", "topic_detail", "department_detail", "unit_detail"
             )
             .all()
         )

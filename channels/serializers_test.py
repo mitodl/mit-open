@@ -10,9 +10,9 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
 from channels.factories import (
     ChannelDepartmentDetailFactory,
-    ChannelOfferorDetailFactory,
     ChannelPathwayDetailFactory,
     ChannelTopicDetailFactory,
+    ChannelUnitDetailFactory,
     FieldChannelFactory,
     FieldListFactory,
     SubfieldFactory,
@@ -20,9 +20,9 @@ from channels.factories import (
 from channels.models import FieldChannelGroupRole
 from channels.serializers import (
     ChannelDepartmentDetailSerializer,
-    ChannelOfferorDetailSerializer,
     ChannelPathwayDetailSerializer,
     ChannelTopicDetailSerializer,
+    ChannelUnitDetailSerializer,
     FieldChannelCreateSerializer,
     FieldChannelSerializer,
     FieldChannelWriteSerializer,
@@ -62,8 +62,8 @@ def channel_detail():
         department=ChannelDepartmentDetailSerializer(
             instance=ChannelDepartmentDetailFactory.build(department=department)
         ).data,
-        offeror=ChannelOfferorDetailSerializer(
-            instance=ChannelOfferorDetailFactory.build(offeror=offeror)
+        unit=ChannelUnitDetailSerializer(
+            instance=ChannelUnitDetailFactory.build(unit=offeror)
         ).data,
         pathway=ChannelPathwayDetailSerializer(
             instance=ChannelPathwayDetailFactory.build()
@@ -105,7 +105,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         avatar=mock_image_file("avatar.jpg") if has_avatar else None,
         about={"foo": "bar"} if has_about else None,
         ga_tracking_id=ga_tracking_id,
-        channel_type=ChannelType.offeror.name,
+        channel_type=ChannelType.unit.name,
         search_filter="offered_by=ocw",
     )
 
@@ -140,10 +140,10 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "is_moderator": False,
         "configuration": {},
         "search_filter": channel.search_filter,
-        "channel_type": ChannelType.offeror.name,
-        "offeror_detail": {
-            "offeror": LearningResourceOfferorDetailSerializer(
-                instance=channel.offeror_detail.offeror
+        "channel_type": ChannelType.unit.name,
+        "unit_detail": {
+            "unit": LearningResourceOfferorDetailSerializer(
+                instance=channel.unit_detail.unit
             ).data,
         },
     }
