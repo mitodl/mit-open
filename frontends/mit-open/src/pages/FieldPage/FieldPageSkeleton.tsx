@@ -70,7 +70,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
       alt=""
       omitBackground={field.isLoading}
       bannerContent={
-        <Container sx={{ my: 2, py: "48px" }}>
+        <Container sx={{ my: 2, p: "48px" }}>
           <NavText variant="subtitle3">
             Home / {NAV_PATH[channelType]} /{" "}
             <span className="current">{field.data?.title}</span>
@@ -130,11 +130,10 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         flexGrow: 0,
                         flexShrink: 0,
                         order: 2,
-                        my: 2,
                         width: "60%",
                       }}
                     >
-                      <Typography variant="h4">
+                      <Typography variant="h5">
                         {displayConfiguration.heading}
                       </Typography>
                     </Box>
@@ -153,7 +152,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       my: 2,
                     }}
                   >
-                    <Typography variant="body1">
+                    <Typography variant="body2">
                       {displayConfiguration.sub_heading}
                     </Typography>
                   </Box>
@@ -167,6 +166,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         width: "100%",
                         flexShrink: 1,
                         order: 3,
+                        mb: { xs: "24px" },
                       }}
                     >
                       <FieldControls>
@@ -197,7 +197,6 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       flexGrow: 0,
                       flexShrink: 0,
                       width: { md: "408px", xs: "100%" },
-                      mt: { xs: "24px" },
                     }}
                   >
                     <ChannelDetails field={field.data} />
