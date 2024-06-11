@@ -27,6 +27,7 @@ describe("useTestimonialList", () => {
     async (params) => {
       const data = factory.testimonials({ count: 3 })
       const url = urls.testimonials.list(params)
+
       const { wrapper } = setupReactQueryTest()
       setMockResponse.get(url, data)
       const useTestHook = () => useTestimonialList(params)
