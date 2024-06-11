@@ -8,9 +8,9 @@
     "url": "https://github.com/mitodl/mit-open.git"
   },
   "scripts": {
-    "watch": "API_BASE_URL=http://localhost:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
-    "watch:docker": "API_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
-    "watch:rc": "API_BASE_URL=https://api.mitopen-rc.odl.mit.edu/ NODE_ENV=development ENVIRONMENT=local webpack serve",
+    "watch": "MITOPEN_AXIOS_BASE_PATH=http://od.odl.local:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
+    "watch:docker": "MITOPEN_AXIOS_BASE_PATH=http://od.odl.local:8063 API_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
+    "watch:rc": "MITOPEN_AXIOS_BASE_PATH=http://od.odl.local:8063 API_BASE_URL=https://api.mitopen-rc.odl.mit.edu/ NODE_ENV=development ENVIRONMENT=local webpack serve",
     "build": "webpack --config webpack.config.js --bail",
     "build-exports": "webpack --config webpack.exports.js --bail",
     "storybook": "storybook dev -p 6006",
