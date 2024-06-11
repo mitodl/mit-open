@@ -3,7 +3,7 @@ import styled from "@emotion/styled"
 
 const BANNER_HEIGHT = "200px"
 const SM_BANNER_HEIGHT = "115px"
-const BACKGROUND_FALLBACK_COLOR = "#20316d"
+const BACKGROUND_FALLBACK_COLOR = "#000"
 
 interface ImgProps {
   /**

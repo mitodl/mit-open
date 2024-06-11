@@ -131,7 +131,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         flexGrow: 0,
                         flexShrink: 0,
                         order: 2,
-                        width: "60%",
+                        width: { md: "80%", sm: "100%" },
                         my: 1,
                       }}
                     >
@@ -150,7 +150,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       flexGrow: 0,
                       flexShrink: 0,
                       order: 2,
-                      width: "80%",
+                      width: { md: "80%", sm: "100%" },
                       my: 1,
                     }}
                   >
