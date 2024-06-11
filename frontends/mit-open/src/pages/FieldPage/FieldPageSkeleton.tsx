@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
 import { BannerPage, styled, Container, Typography, Box } from "ol-components"
@@ -7,8 +7,11 @@ import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
 import { useChannelDetail } from "api/hooks/fields"
 import FieldMenu from "@/components/FieldMenu/FieldMenu"
 import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
-
+import ResourceCarousel, {
+  ResourceCarouselProps,
+} from "@/page-components/ResourceCarousel/ResourceCarousel"
 import { SourceTypeEnum } from "api"
+import { getSearchParamMap } from "@/common/utils"
 
 export const FieldTitleRow = styled.div`
   display: flex;
@@ -22,6 +25,13 @@ export const FieldTitleRow = styled.div`
   }
 `
 
+const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
+  margin: "80px 0",
+  [theme.breakpoints.down("sm")]: {
+    marginTop: "0px",
+    marginBottom: "32px",
+  },
+}))
 export const FieldControls = styled.div`
   position: relative;
   min-height: 38px;
@@ -61,6 +71,25 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   const field = useChannelDetail(String(channelType), String(name))
   const urlParams = new URLSearchParams(field.data?.search_filter)
   const displayConfiguration = field.data?.configuration
+  const memoizedUrlParams = useMemo(() => {
+    const urlParams = new URLSearchParams(field.data?.search_filter)
+    return urlParams
+  }, [field.data?.search_filter])
+
+  const urlParamMap: Record<string, string[] | string> = useMemo(() => {
+    return getSearchParamMap(memoizedUrlParams)
+  }, [memoizedUrlParams])
+
+  const FEATURED_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
+    {
+      cardProps: { size: "small" },
+      data: {
+        type: "lr_featured",
+        params: { limit: 12, ...urlParamMap },
+      },
+      label: undefined,
+    },
+  ]
 
   return (
     <BannerPage
@@ -238,6 +267,12 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
         </Container>
       }
     >
+      <Container>
+        <FeaturedCoursesCarousel
+          title="Featured Courses"
+          config={FEATURED_RESOURCES_CAROUSEL}
+        />
+      </Container>
       {children}
     </BannerPage>
   )

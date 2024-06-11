@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-
+import { getSearchParamMap } from "@/common/utils"
 import {
   useSearchSubscriptionCreate,
   useSearchSubscriptionDelete,
@@ -19,17 +19,7 @@ const SearchSubscriptionToggle = ({
   sourceType: SourceTypeEnum
 }) => {
   const subscribeParams: Record<string, string[] | string> = useMemo(() => {
-    const params: Record<string, string[] | string> = {
-      source_type: sourceType,
-    }
-    for (const [key] of searchParams.entries()) {
-      const paramValues = searchParams.getAll(key)
-      const finalparams = paramValues.map((p) => {
-        return p.indexOf(",") !== -1 ? p.split(",") : p
-      })
-      params[key] = finalparams.flat()
-    }
-    return params
+    return { source_type: sourceType, ...getSearchParamMap(searchParams) }
   }, [searchParams, sourceType])
 
   const { data: user } = useUserMe()
