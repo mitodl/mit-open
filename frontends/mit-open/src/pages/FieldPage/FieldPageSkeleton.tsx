@@ -37,7 +37,7 @@ interface FieldSkeletonProps {
 const NAV_PATH: { [key: string]: string } = {
   topic: "Topics",
   department: "Departments",
-  offeror: "MIT Units",
+  unit: "MIT Units",
 }
 
 const NavText = styled(Typography)(({ theme }) => ({
