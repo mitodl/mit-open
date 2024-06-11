@@ -29,6 +29,7 @@ const TopPicksCarouselConfig: TopPicksCarouselConfigProps = (
           certification: certification,
           topic: topics,
           learning_format: learningFormat,
+          sortby: "views",
         },
       },
     },
@@ -48,7 +49,12 @@ const TopicCarouselConfig: TopicCarouselConfigProps = (
       cardProps: { size: "small" },
       data: {
         type: "lr_search",
-        params: { resource_type: ["course"], limit: 12, topic: [topic || ""] },
+        params: {
+          resource_type: ["course"],
+          limit: 12,
+          topic: [topic || ""],
+          sortby: "views",
+        },
       },
     },
   ]
@@ -71,6 +77,7 @@ const CertificationCarouselConfig: CertificationCarouselConfigProps = (
           resource_type: ["course"],
           limit: 12,
           certification: certification,
+          sortby: "views",
         },
       },
     },
