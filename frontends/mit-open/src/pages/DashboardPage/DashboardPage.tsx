@@ -7,7 +7,6 @@ import {
 import {
   Card,
   Container,
-  Grid,
   Skeleton,
   Tab,
   TabButtonLink,
@@ -87,15 +86,22 @@ const DashboardContainer = styled(Container)(({ theme }) => ({
   },
 }))
 
-const DashboardGrid = styled(Grid)(({ theme }) => ({
+const DashboardGrid = styled.div(({ theme }) => ({
   display: "grid",
-  gridTemplateColumns: "300px 1fr",
+  gridTemplateColumns: "300px minmax(0, 1fr)",
   gap: "48px",
   [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
+    gridTemplateColumns: "minmax(0, 1fr)",
     gap: "24px",
   },
 }))
+
+const DashboardGridItem = styled.div({
+  display: "flex",
+  "> *": {
+    minWidth: "0px",
+  },
+})
 
 const ProfileSidebar = styled(Card)(({ theme }) => ({
   position: "fixed",
@@ -210,7 +216,6 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
 }))
 
 const CarouselContainer = styled.div({
-  maxWidth: "928px",
   padding: "40px 0",
 })
 
@@ -382,13 +387,13 @@ const DashboardPage: React.FC = () => {
           <MetaTags>
             <title>User Home</title>
           </MetaTags>
-          <DashboardGrid container>
-            <TabContext value={tabValue}>
-              <Grid item md={12}>
+          <TabContext value={tabValue}>
+            <DashboardGrid>
+              <DashboardGridItem>
                 <MobileOnly>{mobileMenu}</MobileOnly>
                 <DesktopOnly>{desktopMenu}</DesktopOnly>
-              </Grid>
-              <Grid item md={12}>
+              </DashboardGridItem>
+              <DashboardGridItem>
                 <TabPanelStyled value={TabValues.HOME}>
                   <TitleText role="heading">
                     Your MIT Learning Journey
@@ -432,9 +437,9 @@ const DashboardPage: React.FC = () => {
                   <TitleText role="heading">Profile</TitleText>
                   {contentComingSoon}
                 </TabPanelStyled>
-              </Grid>
-            </TabContext>
-          </DashboardGrid>
+              </DashboardGridItem>
+            </DashboardGrid>
+          </TabContext>
         </DashboardContainer>
       </Page>
     </Background>
