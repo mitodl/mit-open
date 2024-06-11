@@ -1,10 +1,20 @@
 import React from "react"
+import { BrowserRouter } from "react-router-dom"
 import { render, screen } from "@testing-library/react"
 import { LearningResourceCard } from "./LearningResourceCard"
-import { DEFAULT_RESOURCE_IMG } from "ol-utilities"
-import { ResourceTypeEnum, PlatformEnum } from "api"
+import { DEFAULT_RESOURCE_IMG, embedlyCroppedImage } from "ol-utilities"
+import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
+
+const setup = (resource: LearningResource) => {
+  return render(
+    <BrowserRouter>
+      <LearningResourceCard resource={resource} />
+    </BrowserRouter>,
+    { wrapper: ThemeProvider },
+  )
+}
 
 describe("Learning Resource Card", () => {
   test("Renders resource type, title and start date", () => {
@@ -13,7 +23,7 @@ describe("Learning Resource Card", () => {
       next_start_date: "2026-01-01",
     })
 
-    render(<LearningResourceCard resource={resource} />)
+    setup(resource)
 
     screen.getByText("Course")
     screen.getByRole("heading", { name: resource.title })
@@ -32,7 +42,7 @@ describe("Learning Resource Card", () => {
       ],
     })
 
-    render(<LearningResourceCard resource={resource} />)
+    setup(resource)
 
     screen.getByText("Starts:")
     screen.getByText("January 01, 2026")
@@ -50,10 +60,10 @@ describe("Learning Resource Card", () => {
       ],
     })
 
-    render(<LearningResourceCard resource={resource} />)
+    setup(resource)
 
-    screen.getByText("As taught in:")
-    screen.getByText("Fall 2002")
+    expect(screen.getByRole("link")).toHaveTextContent("As taught in:")
+    expect(screen.getByRole("link")).toHaveTextContent("Fall 2002")
   })
 
   test("Click to activate and action buttons", async () => {
@@ -68,21 +78,21 @@ describe("Learning Resource Card", () => {
       ],
     })
 
-    const onActivate = jest.fn()
     const onAddToLearningPathClick = jest.fn()
     const onAddToUserListClick = jest.fn()
 
     render(
-      <LearningResourceCard
-        resource={resource}
-        onActivate={onActivate}
-        onAddToLearningPathClick={onAddToLearningPathClick}
-        onAddToUserListClick={onAddToUserListClick}
-      />,
+      <BrowserRouter>
+        <LearningResourceCard
+          resource={resource}
+          onAddToLearningPathClick={onAddToLearningPathClick}
+          onAddToUserListClick={onAddToUserListClick}
+        />
+      </BrowserRouter>,
       { wrapper: ThemeProvider },
     )
 
-    const heading = screen.getByRole("link", { name: resource.title })
+    const heading = screen.getByRole("heading", { name: resource.title })
     await heading.click()
 
     const addToLearningPathButton = screen.getByLabelText(
@@ -93,7 +103,6 @@ describe("Learning Resource Card", () => {
     const addToUserListButton = screen.getByLabelText("Add to User List")
     await addToUserListButton.click()
 
-    expect(onActivate).toHaveBeenCalledWith(resource.id)
     expect(onAddToLearningPathClick).toHaveBeenCalledWith(resource.id)
     expect(onAddToUserListClick).toHaveBeenCalledWith(resource.id)
   })
@@ -103,7 +112,7 @@ describe("Learning Resource Card", () => {
       certification: true,
     })
 
-    render(<LearningResourceCard resource={resource} />)
+    setup(resource)
 
     screen.getByText("Certificate")
   })
@@ -113,7 +122,7 @@ describe("Learning Resource Card", () => {
       certification: false,
     })
 
-    render(<LearningResourceCard resource={resource} />)
+    setup(resource)
 
     const badge = screen.queryByText("Certificate")
 
@@ -133,10 +142,20 @@ describe("Learning Resource Card", () => {
   ])("Image is displayed if present", ({ expected, image }) => {
     const resource = factories.learningResources.resource({ image })
 
-    render(<LearningResourceCard resource={resource} />)
+    setup(resource)
 
     const imageEls = screen.getAllByRole<HTMLImageElement>("img")
-    const matching = imageEls.filter((im) => im.src === expected.src)
+
+    const matching = imageEls.filter((im) =>
+      expected.src === DEFAULT_RESOURCE_IMG
+        ? im.src === DEFAULT_RESOURCE_IMG
+        : im.src ===
+          embedlyCroppedImage(expected.src, {
+            width: 298,
+            height: 170,
+            key: "fake-embedly-key",
+          }),
+    )
     expect(matching.length).toBe(1)
     expect(matching[0]).toHaveAttribute("alt", expected.alt)
   })

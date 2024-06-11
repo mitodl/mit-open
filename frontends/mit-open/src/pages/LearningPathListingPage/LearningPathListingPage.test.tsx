@@ -2,32 +2,15 @@ import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { factories, urls } from "api/test-utils"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import { LearningResourceListCard } from "ol-components"
 import LearningPathListingPage from "./LearningPathListingPage"
 import {
   screen,
   renderWithProviders,
   setMockResponse,
   user,
-  expectProps,
   waitFor,
 } from "../../test-utils"
 import type { User } from "../../types/settings"
-
-jest.mock(
-  "../../page-components/LearningResourceCardTemplate/LearningResourceCardTemplate",
-  () => {
-    const actual = jest.requireActual(
-      "../../page-components/LearningResourceCardTemplate/LearningResourceCardTemplate",
-    )
-    return {
-      __esModule: true,
-      ...actual,
-      default: jest.fn(actual.default),
-    }
-  },
-)
-const spyLRCardTemplate = jest.mocked(LearningResourceListCard)
 
 /**
  * Set up the mock API responses for lists pages.
@@ -67,10 +50,6 @@ describe("LearningPathListingPage", () => {
     // for sanity
     expect(headings.length).toBeGreaterThan(0)
     expect(titles.length).toBe(headings.length)
-
-    paths.results.forEach((resource) => {
-      expectProps(spyLRCardTemplate, { resource })
-    })
   })
 
   it.each([

@@ -169,7 +169,7 @@ const StartDate: React.FC<{ resource: LearningResource }> = ({ resource }) => {
 
   return (
     <div>
-      {label} <span>{formatDate(startDate, "MMMM DD, YYYY")}</span>
+      {label} <span>{startDate}</span>
     </div>
   )
 }
