@@ -82,7 +82,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
 
   const FEATURED_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
     {
-      cardProps: { size: "small" },
+      cardProps: { size: "medium" },
       data: {
         type: "lr_featured",
         params: { limit: 12, ...urlParamMap },
