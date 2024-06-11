@@ -5,6 +5,7 @@ import {
   RiLayoutMasonryFill,
 } from "@remixicon/react"
 import {
+  ButtonLink,
   Card,
   Container,
   Skeleton,
@@ -221,6 +222,26 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
   },
 }))
 
+const HomeHeader = styled.div({
+  display: "flex",
+  alignItems: "center",
+  alignSelf: "stretch",
+})
+
+const HomeHeaderLeft = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  flex: "1 0 0",
+})
+
+const HomeHeaderRight = styled.div(({ theme }) => ({
+  display: "flex",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+}))
+
 const CarouselContainer = styled.div({
   padding: "40px 0",
 })
@@ -403,12 +424,24 @@ const DashboardPage: React.FC = () => {
               </DashboardGridItem>
               <DashboardGridItem>
                 <TabPanelStyled value={TabValues.HOME}>
-                  <TitleText role="heading">
-                    Your MIT Learning Journey
-                  </TitleText>
-                  <SubTitleText>
-                    A customized course list based on your preferences.
-                  </SubTitleText>
+                  <HomeHeader>
+                    <HomeHeaderLeft>
+                      <TitleText role="heading">
+                        Your MIT Learning Journey
+                      </TitleText>
+                      <SubTitleText>
+                        A customized course list based on your preferences.
+                      </SubTitleText>
+                    </HomeHeaderLeft>
+                    <HomeHeaderRight>
+                      <ButtonLink
+                        variant="tertiary"
+                        href={`#${TabValues.PROFILE}`}
+                      >
+                        Edit Profile
+                      </ButtonLink>
+                    </HomeHeaderRight>
+                  </HomeHeader>
                   <CarouselContainer>
                     <ResourceCarousel
                       title="Top Picks for you"
