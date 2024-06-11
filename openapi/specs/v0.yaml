@@ -2052,7 +2052,9 @@ components:
           items:
             type: string
         learning_format:
-          type: string
+          type: array
+          items:
+            type: string
     Profile:
       type: object
       description: Serializer for Profile
