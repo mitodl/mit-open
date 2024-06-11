@@ -8,6 +8,7 @@ import {
   setMockResponse,
   within,
   user,
+  act,
   waitFor,
 } from "../../test-utils"
 import FieldSearch from "./FieldSearch"
@@ -114,7 +115,19 @@ describe("FieldPage", () => {
     expect(images[0].src).toContain(field.configuration.banner_background)
     expect(images[1].src).toContain(field.configuration.logo)
   })
+  it("Displays a featured carousel if the channel type is 'offeror'", async () => {
+    const { field } = setupApis({
+      search_filter: "offeror=ocw",
+      channel_type: "offeror",
+    })
 
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findAllByText(field.title)
+    const carousel = await screen.findByText("Featured Courses")
+    act(() => {
+      expect(carousel).toBeInTheDocument()
+    })
+  })
   it("Displays the field search if search_filter is not undefined", async () => {
     const { field } = setupApis({ search_filter: "platform=ocw" })
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
