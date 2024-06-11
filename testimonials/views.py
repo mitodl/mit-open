@@ -121,6 +121,8 @@ class FeaturedAttestationViewSet(AttestationViewSet):
 
             randomized_results.append(random_attestation)
 
+        shuffle(randomized_results)
+
         return randomized_results
 
     @extend_schema(
