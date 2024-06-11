@@ -64,6 +64,20 @@ export const getSlideInfo = (
   const gap = Math.abs(adjRect.x - currentRect.x) - itemWidth
   const fractional =
     Math.round(containerRect.width + gap) / Math.round(itemWidth + gap)
+
+  /**
+   * Never allow more slides per page than children.
+   *
+   * If the parent container width is unconstrained, allowing more sliders per
+   * page than children can cause the carousel to
+   * 1. determine slides per page
+   * 2. increase the content width
+   * 3. ...which increases parent width (if it is unconstrained)
+   * 4. which changes slides per page... ad infinitum.
+   *
+   * Capping slidesPerPage at the number of slides prevents this, and there's
+   * never any reason to show more slides than there are.
+   */
   const slidesPerPage = Math.min(Math.floor(fractional), slides.length)
   return { currentIndex, slidesPerPage }
 }
