@@ -115,10 +115,10 @@ describe("FieldPage", () => {
     expect(images[0].src).toContain(field.configuration.banner_background)
     expect(images[1].src).toContain(field.configuration.logo)
   })
-  it("Displays a featured carousel if the channel type is 'offeror'", async () => {
+  it("Displays a featured carousel if the channel type is 'unit'", async () => {
     const { field } = setupApis({
-      search_filter: "offeror=ocw",
-      channel_type: "offeror",
+      search_filter: "unit=ocw",
+      channel_type: "unit",
     })
 
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
