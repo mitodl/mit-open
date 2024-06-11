@@ -94,13 +94,19 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   display="flex"
                   flexDirection="column"
                   alignItems="start"
-                  sx={{ flexGrow: 1, flexShrink: 0, order: 1, width: "50%" }}
+                  sx={{
+                    flexGrow: 1,
+                    flexShrink: 0,
+                    order: 1,
+                    width: "50%",
+                    gap: "6px",
+                  }}
                 >
                   <Box
                     display="flex"
                     flexDirection="row"
                     alignItems="center"
-                    sx={{ flexGrow: 1, flexShrink: 0, order: 1 }}
+                    sx={{ flexGrow: 1, flexShrink: 0, order: 1, py: "24px" }}
                   >
                     {displayConfiguration?.logo ? (
                       <FieldAvatar
@@ -135,7 +141,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         my: 1,
                       }}
                     >
-                      <Typography variant="h5">
+                      <Typography variant="h4">
                         {displayConfiguration.heading}
                       </Typography>
                     </Box>
