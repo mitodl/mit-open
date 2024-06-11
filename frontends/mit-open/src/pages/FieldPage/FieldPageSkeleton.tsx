@@ -93,13 +93,13 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   display="flex"
                   flexDirection="column"
                   alignItems="start"
-                  sx={{ flexGrow: 24, flexShrink: 0, order: 1, width: "60%" }}
+                  sx={{ flexGrow: 1, flexShrink: 0, order: 1, width: "50%" }}
                 >
                   <Box
                     display="flex"
                     flexDirection="row"
                     alignItems="center"
-                    sx={{ flexGrow: 1, flexShrink: 0, order: 1, mt: 3 }}
+                    sx={{ flexGrow: 1, flexShrink: 0, order: 1, my: "24px" }}
                   >
                     {displayConfiguration?.logo ? (
                       <FieldAvatar
@@ -130,8 +130,8 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         flexGrow: 0,
                         flexShrink: 0,
                         order: 2,
-                        width: "90%",
                         my: 2,
+                        width: "60%",
                       }}
                     >
                       <Typography variant="h4">
@@ -149,7 +149,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       flexGrow: 0,
                       flexShrink: 0,
                       order: 2,
-                      width: "60%",
+                      width: "80%",
                       my: 2,
                     }}
                   >
@@ -194,9 +194,10 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     display="flex"
                     sx={{
                       order: 2,
-                      flexGrow: 1,
+                      flexGrow: 0,
                       flexShrink: 0,
-                      width: { md: "300px", xs: "100%" },
+                      width: { md: "408px", xs: "100%" },
+                      mt: { xs: "24px" },
                     }}
                   >
                     <ChannelDetails field={field.data} />
