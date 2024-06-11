@@ -106,7 +106,7 @@ const unitChannel: PartialFactory<UnitChannel> = (overrides = {}) => {
     },
     {
       unit_detail: {
-        offeror: offeror(),
+        unit: offeror(),
       },
     },
     overrides,
