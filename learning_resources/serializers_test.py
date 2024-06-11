@@ -469,7 +469,7 @@ def test_content_file_serializer(settings, expected_types, has_channels):
             ChannelDepartmentDetailFactory.create(department=department)
             for department in course.learning_resource.departments.all()
         ]
-        ChannelUnitDetailFactory.create(offeror=course.learning_resource.offered_by)
+        ChannelUnitDetailFactory.create(unit=course.learning_resource.offered_by)
 
     serialized = serializers.ContentFileSerializer(content_file).data
 
@@ -488,7 +488,7 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                 "code": content_file.run.learning_resource.offered_by.code,
                 "channel_url": urljoin(
                     settings.SITE_BASE_URL,
-                    f"/c/unit/{FieldChannel.objects.get(unit_detail__offeror=content_file.run.learning_resource.offered_by).name}/",
+                    f"/c/unit/{FieldChannel.objects.get(unit_detail__unit=content_file.run.learning_resource.offered_by).name}/",
                 )
                 if has_channels
                 else None,

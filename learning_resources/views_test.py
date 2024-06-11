@@ -77,7 +77,7 @@ def offeror_featured_lists():
                     "position": i,
                 },
             )
-        channel = ChannelUnitDetailFactory.create(offeror=offeror).channel
+        channel = ChannelUnitDetailFactory.create(unit=offeror).channel
         channel.featured_list = featured_path
         channel.save()
 
@@ -935,7 +935,7 @@ def test_featured_view(client, offeror_featured_lists):
                 code=resource["offered_by"]["code"]
             )
             featured_list = FieldChannel.objects.get(
-                unit_detail__offeror=offeror
+                unit_detail__unit=offeror
             ).featured_list
             assert featured_list.children.all()[position].child.id == resource["id"]
 
