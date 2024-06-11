@@ -41,7 +41,7 @@ const NAV_PATH: { [key: string]: string } = {
 
 const NavText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.lightGray2,
-  marginBottom: "10px",
+  marginBottom: "16px",
   ".current": {
     color: theme.custom.colors.silverGrayLight,
   },
