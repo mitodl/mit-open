@@ -101,7 +101,7 @@ class LearningResourceOfferorSerializer(serializers.ModelSerializer):
 
     def get_channel_url(self, instance: models.LearningResourceOfferor) -> str or None:
         """Get the channel url for the offeror if it exists"""
-        channel = FieldChannel.objects.filter(unit_detail__offeror=instance).first()
+        channel = FieldChannel.objects.filter(unit_detail__unit=instance).first()
         return channel.channel_url if channel else None
 
     class Meta:

@@ -110,7 +110,7 @@ class ChannelPlugin:
         Returns:
             tuple(FieldChannel, bool): Channel and "upserted" boolean
         """
-        unit_detail = ChannelUnitDetail.objects.filter(offeror=offeror).first()
+        unit_detail = ChannelUnitDetail.objects.filter(unit=offeror).first()
         if overwrite or not unit_detail:
             channel, _ = FieldChannel.objects.update_or_create(
                 name=offeror.code,
@@ -120,7 +120,7 @@ class ChannelPlugin:
                     "search_filter": f"offered_by={offeror.code}",
                 },
             )
-            ChannelUnitDetail.objects.update_or_create(channel=channel, offeror=offeror)
+            ChannelUnitDetail.objects.update_or_create(channel=channel, unit=offeror)
             return channel, True
         return unit_detail.channel, False
 
@@ -133,5 +133,5 @@ class ChannelPlugin:
             offeror(LearningResourceOfferor): The offeror to delete
 
         """
-        FieldChannel.objects.filter(unit_detail__offeror=offeror).delete()
+        FieldChannel.objects.filter(unit_detail__unit=offeror).delete()
         offeror.delete()

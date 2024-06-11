@@ -63,7 +63,7 @@ def channel_detail():
             instance=ChannelDepartmentDetailFactory.build(department=department)
         ).data,
         unit=ChannelUnitDetailSerializer(
-            instance=ChannelUnitDetailFactory.build(offeror=offeror)
+            instance=ChannelUnitDetailFactory.build(unit=offeror)
         ).data,
         pathway=ChannelPathwayDetailSerializer(
             instance=ChannelPathwayDetailFactory.build()
@@ -142,8 +142,8 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
         "search_filter": channel.search_filter,
         "channel_type": ChannelType.unit.name,
         "unit_detail": {
-            "offeror": LearningResourceOfferorDetailSerializer(
-                instance=channel.unit_detail.offeror
+            "unit": LearningResourceOfferorDetailSerializer(
+                instance=channel.unit_detail.unit
             ).data,
         },
     }

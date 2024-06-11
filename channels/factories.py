@@ -135,7 +135,7 @@ class ChannelUnitDetailFactory(DjangoModelFactory):
     channel = factory.SubFactory(
         FieldChannelFactory, is_unit=True, create_unit_detail=False
     )
-    offeror = factory.SubFactory(LearningResourceOfferorFactory)
+    unit = factory.SubFactory(LearningResourceOfferorFactory)
 
     class Meta:
         model = ChannelUnitDetail

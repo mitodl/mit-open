@@ -28,4 +28,9 @@ class Migration(migrations.Migration):
                 to="channels.fieldchannel",
             ),
         ),
+        migrations.RenameField(
+            model_name="channelunitdetail",
+            old_name="offeror",
+            new_name="unit",
+        ),
     ]

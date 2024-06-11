@@ -147,7 +147,7 @@ class ChannelUnitDetail(TimestampedModel):
         on_delete=models.CASCADE,
         related_name="unit_detail",
     )
-    offeror = models.ForeignKey(
+    unit = models.ForeignKey(
         LearningResourceOfferor, null=True, on_delete=models.SET_NULL
     )
 

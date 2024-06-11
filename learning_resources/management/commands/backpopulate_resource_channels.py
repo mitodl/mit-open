@@ -27,7 +27,7 @@ class Command(BaseCommand):
             "--all",
             dest="all",
             action="store_true",
-            default=True,
+            default=False,
             help="Create channels for all types",
         )
 
@@ -65,12 +65,12 @@ class Command(BaseCommand):
         if (
             template_conf
             and FieldChannel.objects.filter(
-                unit_detail__offeror__code=offeror_code,
+                unit_detail__unit__code=offeror_code,
                 channel_type="unit",
             ).exists()
         ):
             channel = FieldChannel.objects.get(
-                unit_detail__offeror__code=offeror_code,
+                unit_detail__unit__code=offeror_code,
                 channel_type="unit",
             )
             channel.configuration.update(template_conf)

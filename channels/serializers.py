@@ -198,7 +198,7 @@ class DepartmentChannelSerializer(FieldChannelBaseSerializer):
 class ChannelUnitDetailSerializer(serializers.ModelSerializer):
     """Serializer for the ChannelOfferorDetail model"""
 
-    offeror = LearningResourceOfferorDetailSerializer(read_only=True)
+    unit = LearningResourceOfferorDetailSerializer(read_only=True)
 
     class Meta:
         model = ChannelUnitDetail
