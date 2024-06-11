@@ -442,33 +442,36 @@ const DashboardPage: React.FC = () => {
                       </ButtonLink>
                     </HomeHeaderRight>
                   </HomeHeader>
-                  <CarouselContainer>
+                  <CarouselContainer data-testid="top-picks-carousel">
                     <ResourceCarousel
-                      title="Top Picks for you"
+                      title="Top picks for you"
                       config={TopPicksCarouselConfig(profile)}
                     />
                   </CarouselContainer>
                   {topics?.map((topic) => (
-                    <CarouselContainer key={topic}>
+                    <CarouselContainer
+                      key={topic}
+                      data-testid={`topic-carousel-${topic}`}
+                    >
                       <ResourceCarousel
                         title={`Popular courses in ${topic}`}
                         config={TopicCarouselConfig(topic)}
                       />
                     </CarouselContainer>
                   ))}
-                  <CarouselContainer>
+                  <CarouselContainer data-testid="certification-carousel">
                     <ResourceCarousel
                       title={`Courses ${certification ? "with" : "without"} Certificates`}
                       config={CertificationCarouselConfig(certification)}
                     />
                   </CarouselContainer>
-                  <CarouselContainer>
+                  <CarouselContainer data-testid="new-learning-resources-carousel">
                     <ResourceCarousel
                       title="New"
                       config={NEW_LEARNING_RESOURCES_CAROUSEL}
                     />
                   </CarouselContainer>
-                  <CarouselContainer>
+                  <CarouselContainer data-testid="popular-learning-resources-carousel">
                     <ResourceCarousel
                       title="Popular"
                       config={POPULAR_LEARNING_RESOURCES_CAROUSEL}

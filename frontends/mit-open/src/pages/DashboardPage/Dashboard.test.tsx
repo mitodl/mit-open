@@ -11,6 +11,7 @@ import { DashboardPage, DashboardTabLabels } from "./DashboardPage"
 import { faker } from "@faker-js/faker/locale/en"
 import {
   CourseResource,
+  CourseResourceLearningFormatInner,
   LearningResource,
   LearningResourcesSearchRetrieveLearningFormatEnum,
 } from "api"
@@ -58,7 +59,36 @@ describe("DashboardPage", () => {
     ).filter((format) =>
       profile?.preference_search_filters.learning_format?.includes(format),
     )
-    const courses = factories.learningResources.courses({ count: 20 })
+
+    const topPicks = factories.learningResources.courses({ count: 10 })
+    topPicks.results.map((course) => {
+      ;(course.topics = topics?.map((topic) =>
+        factories.learningResources.topic({ name: topic }),
+      )),
+        (course.certification = certification || false),
+        (course.learning_format = learningFormat.map(
+          (format) => format as unknown as CourseResourceLearningFormatInner,
+        ))
+    })
+    const topicsCourses: CourseResource[] = []
+    topics?.forEach((topic) => {
+      const topicCourses = factories.learningResources.courses({ count: 10 })
+      topicCourses.results.map((course) => {
+        course.topics = [factories.learningResources.topic({ name: topic })]
+      })
+      topicsCourses.push(...topicCourses.results)
+    })
+    const certificationCourses = factories.learningResources.courses({
+      count: 10,
+    })
+    certificationCourses.results.map((course) => {
+      course.certification = certification || false
+    })
+    const courses = [
+      ...topPicks.results,
+      ...topicsCourses,
+      ...certificationCourses.results,
+    ]
     const resources = factories.learningResources.resources({ count: 20 })
 
     setMockResponse.get(urls.userMe.get(), {
@@ -77,7 +107,7 @@ describe("DashboardPage", () => {
           topic: topics,
         }),
       ),
-      makeSearchResponse(courses.results),
+      makeSearchResponse(topPicks.results),
     )
     topics?.forEach((topic) => {
       setMockResponse.get(
@@ -89,7 +119,9 @@ describe("DashboardPage", () => {
             topic: [topic],
           }),
         ),
-        makeSearchResponse(courses.results),
+        makeSearchResponse(
+          topicsCourses.filter((course) => course.topics?.[0].name === topic),
+        ),
       )
     })
     setMockResponse.get(
@@ -101,19 +133,19 @@ describe("DashboardPage", () => {
           sortby: "-views",
         }),
       ),
-      makeSearchResponse(courses.results),
+      makeSearchResponse(certificationCourses.results),
     )
     setMockResponse.get(
       expect.stringContaining(
         urls.search.resources({ limit: 12, sortby: "new" }),
       ),
-      makeSearchResponse([...courses.results, ...resources.results]),
+      makeSearchResponse([...courses, ...resources.results]),
     )
     setMockResponse.get(
       expect.stringContaining(
         urls.search.resources({ limit: 12, sortby: "-views" }),
       ),
-      makeSearchResponse([...courses.results, ...resources.results]),
+      makeSearchResponse([...courses, ...resources.results]),
     )
     setMockResponse.get(
       expect.stringContaining(
@@ -123,8 +155,16 @@ describe("DashboardPage", () => {
           sortby: "-views",
         }),
       ),
-      makeSearchResponse(courses.results),
+      makeSearchResponse(courses),
     )
+    return {
+      profile,
+      topPicks,
+      topicsCourses,
+      certificationCourses,
+      courses,
+      resources,
+    }
   }
 
   test("Renders title", async () => {
@@ -182,13 +222,87 @@ describe("DashboardPage", () => {
   test("Renders the expected tab links", async () => {
     setupAPIs()
     renderWithProviders(<DashboardPage />)
-    Object.keys(DashboardTabLabels).forEach(async (key) => {
-      const desktopTab = await screen.findByTestId(`desktop-tab-${key}`)
-      const mobileTab = await screen.findByTestId(`mobile-tab-${key}`)
+    Object.keys(DashboardTabLabels).forEach((key) => {
+      const desktopTab = screen.getByTestId(`desktop-tab-${key}`)
+      const mobileTab = screen.getByTestId(`mobile-tab-${key}`)
       expect(desktopTab).toBeInTheDocument()
       expect(mobileTab).toBeInTheDocument()
-      expect(desktopTab).toHaveAttribute("href", `/dashboard#${key}`)
-      expect(mobileTab).toHaveAttribute("href", `/dashboard#${key}`)
+      expect(desktopTab).toHaveAttribute("href", `/#${key}`)
+      expect(mobileTab).toHaveAttribute("href", `/#${key}`)
+    })
+  })
+
+  test("Renders the expected carousels on the home page", async () => {
+    const {
+      profile,
+      topPicks,
+      topicsCourses,
+      certificationCourses,
+      courses,
+      resources,
+    } = setupAPIs()
+    const all = [...courses, ...resources.results]
+    renderWithProviders(<DashboardPage />)
+
+    const topPicksTitle = await screen.findByText("Top picks for you")
+    expect(topPicksTitle).toBeInTheDocument()
+    const topPicksCarousel = await screen.findByTestId("top-picks-carousel")
+    topPicks.results.forEach(async (course) => {
+      const courseTitle = await within(topPicksCarousel).findByText(
+        course.title,
+      )
+      expect(courseTitle).toBeInTheDocument()
+    })
+
+    profile.preference_search_filters.topic?.forEach(async (topic) => {
+      const topicTitle = await screen.findByText(`Popular courses in ${topic}`)
+      expect(topicTitle).toBeInTheDocument()
+      const topicCarousel = await screen.findByTestId(`topic-carousel-${topic}`)
+      topicsCourses
+        .filter((course) => course.topics?.[0].name === topic)
+        .forEach(async (course) => {
+          const courseTitle = await within(topicCarousel).findByText(
+            course.title,
+          )
+          expect(courseTitle).toBeInTheDocument()
+        })
+    })
+
+    const certificationText = `Courses ${profile.preference_search_filters.certification ? "with" : "without"} Certificates`
+    const certificationTitle = await screen.findByText(certificationText)
+    expect(certificationTitle).toBeInTheDocument()
+    const certificationCarousel = await screen.findByTestId(
+      "certification-carousel",
+    )
+    certificationCourses.results.forEach(async (course) => {
+      const courseTitle = await within(certificationCarousel).findByText(
+        course.title,
+      )
+      expect(courseTitle).toBeInTheDocument()
+    })
+
+    const newTitle = await screen.findByText("New")
+    expect(newTitle).toBeInTheDocument()
+    const newCarousel = await screen.findByTestId(
+      "new-learning-resources-carousel",
+    )
+    all.forEach(async (learningResource) => {
+      const courseTitle = await within(newCarousel).findByText(
+        learningResource.title,
+      )
+      expect(courseTitle).toBeInTheDocument()
+    })
+
+    const popularTitle = await screen.findByText("Popular")
+    expect(popularTitle).toBeInTheDocument()
+    const popularCarousel = await screen.findByTestId(
+      "popular-learning-resources-carousel",
+    )
+    all.forEach(async (learningResource) => {
+      const courseTitle = await within(popularCarousel).findByText(
+        learningResource.title,
+      )
+      expect(courseTitle).toBeInTheDocument()
     })
   })
 })
