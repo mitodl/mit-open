@@ -33,11 +33,11 @@ import {
 } from "api/hooks/learningResources"
 import { useProfileMeQuery } from "api/hooks/profile"
 import {
-  CERTIFICATION_CAROUSEL,
+  TopPicksCarouselConfig,
+  TopicCarouselConfig,
+  CertificationCarouselConfig,
   NEW_LEARNING_RESOURCES_CAROUSEL,
   POPULAR_LEARNING_RESOURCES_CAROUSEL,
-  TOPIC_CAROUSEL,
-  TOP_PICKS_CAROUSEL,
 } from "./carousels"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 
@@ -412,21 +412,21 @@ const DashboardPage: React.FC = () => {
                   <CarouselContainer>
                     <ResourceCarousel
                       title="Top Picks for you"
-                      config={TOP_PICKS_CAROUSEL(profile)}
+                      config={TopPicksCarouselConfig(profile)}
                     />
                   </CarouselContainer>
                   {topics?.map((topic) => (
                     <CarouselContainer key={topic}>
                       <ResourceCarousel
                         title={`Popular courses in ${topic}`}
-                        config={TOPIC_CAROUSEL(topic)}
+                        config={TopicCarouselConfig(topic)}
                       />
                     </CarouselContainer>
                   ))}
                   <CarouselContainer>
                     <ResourceCarousel
                       title={`Courses ${certification ? "with" : "without"} Certificates`}
-                      config={CERTIFICATION_CAROUSEL(certification)}
+                      config={CertificationCarouselConfig(certification)}
                     />
                   </CarouselContainer>
                   <CarouselContainer>

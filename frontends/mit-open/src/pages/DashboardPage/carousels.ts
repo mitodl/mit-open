@@ -6,7 +6,7 @@ type TopPicksCarouselConfigProps = (
   profile: Profile | undefined,
 ) => ResourceCarouselProps["config"]
 
-const TOP_PICKS_CAROUSEL: TopPicksCarouselConfigProps = (
+const TopPicksCarouselConfig: TopPicksCarouselConfigProps = (
   profile: Profile | undefined,
 ) => {
   const certification: boolean | undefined =
@@ -39,7 +39,7 @@ type TopicCarouselConfigProps = (
   topic: string | undefined,
 ) => ResourceCarouselProps["config"]
 
-const TOPIC_CAROUSEL: TopicCarouselConfigProps = (
+const TopicCarouselConfig: TopicCarouselConfigProps = (
   topic: string | undefined,
 ) => {
   return [
@@ -58,7 +58,7 @@ type CertificationCarouselConfigProps = (
   certification: boolean | undefined,
 ) => ResourceCarouselProps["config"]
 
-const CERTIFICATION_CAROUSEL: CertificationCarouselConfigProps = (
+const CertificationCarouselConfig: CertificationCarouselConfigProps = (
   certification: boolean | undefined,
 ) => {
   return [
@@ -100,9 +100,9 @@ const POPULAR_LEARNING_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
 ]
 
 export {
-  TOP_PICKS_CAROUSEL,
-  TOPIC_CAROUSEL,
-  CERTIFICATION_CAROUSEL,
+  TopPicksCarouselConfig,
+  TopicCarouselConfig,
+  CertificationCarouselConfig,
   NEW_LEARNING_RESOURCES_CAROUSEL,
   POPULAR_LEARNING_RESOURCES_CAROUSEL,
 }
