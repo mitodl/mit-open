@@ -168,3 +168,60 @@ def test_attestation_order(client):
 
     # idx 2 should be the one that we appended separately
     assert response["results"][2]["updated_on"] > response["results"][3]["updated_on"]
+
+
+def test_featured_attestations(client):
+    """
+    Test that the featured attestation output is correct.
+
+    This makes a batch of attestations all in position 1, divides them up among
+    a set of offerors, then hits the API to make sure we only see some of the
+    attestations. We should see one each for each offeror.
+
+    This also makes sure the count is right since we also have a special
+    paginator to ensure that's the case.
+    """
+
+    # We're going to use ocw, see, mitx for these, for no particular reason.
+
+    mitx_offeror = LearningResourceOfferorFactory(code="mitx")
+    mitx_batch = [AttestationFactory.create(position=1) for i in range(1, 5)]
+    [batch_item.offerors.add(mitx_offeror) for batch_item in mitx_batch]
+    mitx_ids = [batch_item.id for batch_item in mitx_batch]
+
+    ocw_offeror = LearningResourceOfferorFactory(code="ocw")
+    ocw_batch = [AttestationFactory.create(position=1) for i in range(1, 5)]
+    [batch_item.offerors.add(ocw_offeror) for batch_item in ocw_batch]
+    ocw_ids = [batch_item.id for batch_item in ocw_batch]
+
+    see_offeror = LearningResourceOfferorFactory(code="see")
+    see_batch = [AttestationFactory.create(position=1) for i in range(1, 5)]
+    [batch_item.offerors.add(see_offeror) for batch_item in see_batch]
+    see_ids = [batch_item.id for batch_item in see_batch]
+
+    list_url = reverse("testimonials:v0:featured_testimonials_api-list")
+    response = client.get(list_url).json()
+
+    assert len(response["results"]) == 3
+    assert response["count"] == 3
+
+    found_mitx = found_ocw = found_see = 0
+
+    for attestation in response["results"]:
+        assert attestation["position"] == 1
+
+        if attestation["id"] in mitx_ids:
+            found_mitx += 1
+            continue
+
+        if attestation["id"] in ocw_ids:
+            found_ocw += 1
+            continue
+
+        if attestation["id"] in see_ids:
+            found_see += 1
+            continue
+
+    assert found_mitx == 1
+    assert found_see == 1
+    assert found_ocw == 1
