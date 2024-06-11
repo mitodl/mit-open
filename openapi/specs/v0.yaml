@@ -2355,7 +2355,7 @@ components:
       description: '* `topic` - Topic'
     UnitChannel:
       type: object
-      description: Serializer for Channel model of type offeror
+      description: Serializer for Channel model of type unit
       properties:
         id:
           type: integer

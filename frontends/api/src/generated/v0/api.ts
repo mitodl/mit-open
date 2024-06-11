@@ -2265,7 +2265,7 @@ export type TopicChannelTypeEnum =
   (typeof TopicChannelTypeEnum)[keyof typeof TopicChannelTypeEnum]
 
 /**
- * Serializer for Channel model of type offeror
+ * Serializer for Channel model of type unit
  * @export
  * @interface UnitChannel
  */
