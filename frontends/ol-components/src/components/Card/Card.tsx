@@ -12,11 +12,6 @@ import { Link } from "react-router-dom"
 
 export type Size = "small" | "medium"
 
-// Relative positioned wrapper to position action buttons outside of the child Link (buttons inside anchors is not valid HTML)
-const Wrapper = styled.div`
-  position: relative;
-`
-
 const getWidthCss = ({ size }: { size?: Size }) => {
   let width
   if (size === "medium") width = 300
@@ -27,12 +22,18 @@ const getWidthCss = ({ size }: { size?: Size }) => {
   `
 }
 
+// Relative positioned wrapper to position action buttons outside of the child Link (buttons inside anchors is not valid HTML)
+const Wrapper = styled.div`
+  position: relative;
+  ${getWidthCss}
+`
+
 const Container = styled(Link)`
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   overflow: hidden;
-  ${getWidthCss}
+
   display: block;
   position: relative;
 
@@ -111,12 +112,8 @@ const Actions = styled.div`
   display: flex;
   gap: 8px;
   position: absolute;
-  bottom: 24px;
-  right: 24px;
-  ${theme.breakpoints.down("md")} {
-    bottom: 12px;
-    right: 12px;
-  }
+  bottom: 16px;
+  right: 16px;
 `
 
 type CardProps = {
@@ -149,15 +146,17 @@ const Card: Card = ({ children, className, size, href }) => {
 
   if (content) {
     return (
-      <Container className={className} to={href!} size={size}>
-        {content}
-      </Container>
+      <Wrapper className={className} size={size}>
+        <Container className={className} to={href!}>
+          {content}
+        </Container>
+      </Wrapper>
     )
   }
 
   return (
-    <Wrapper>
-      <Container className={className} to={href!} size={size}>
+    <Wrapper className={className} size={size}>
+      <Container to={href!}>
         {imageProps && (
           <Image
             size={size}

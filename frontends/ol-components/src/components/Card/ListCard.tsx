@@ -182,8 +182,8 @@ const ListCard: Card = ({ children, className, href }) => {
   }
 
   return (
-    <Wrapper>
-      <_Container className={className} to={href!}>
+    <Wrapper className={className}>
+      <_Container to={href!}>
         <Body>
           <Info>{info}</Info>
           <Title>{title}</Title>
