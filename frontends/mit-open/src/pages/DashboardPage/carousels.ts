@@ -54,4 +54,55 @@ const TOPIC_CAROUSEL: TopicCarouselConfigProps = (
   ]
 }
 
-export { TOP_PICKS_CAROUSEL, TOPIC_CAROUSEL }
+type CertificationCarouselConfigProps = (
+  certification: boolean | undefined,
+) => ResourceCarouselProps["config"]
+
+const CERTIFICATION_CAROUSEL: CertificationCarouselConfigProps = (
+  certification: boolean | undefined,
+) => {
+  return [
+    {
+      label: "All",
+      cardProps: { size: "small" },
+      data: {
+        type: "lr_search",
+        params: {
+          resource_type: ["course"],
+          limit: 12,
+          certification: certification,
+        },
+      },
+    },
+  ]
+}
+
+const NEW_LEARNING_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
+  {
+    label: "All",
+    cardProps: { size: "small" },
+    data: {
+      type: "lr_search",
+      params: { limit: 12, sortby: "new" },
+    },
+  },
+]
+
+const POPULAR_LEARNING_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
+  {
+    label: "All",
+    cardProps: { size: "small" },
+    data: {
+      type: "lr_search",
+      params: { limit: 12, sortby: "views" },
+    },
+  },
+]
+
+export {
+  TOP_PICKS_CAROUSEL,
+  TOPIC_CAROUSEL,
+  CERTIFICATION_CAROUSEL,
+  NEW_LEARNING_RESOURCES_CAROUSEL,
+  POPULAR_LEARNING_RESOURCES_CAROUSEL,
+}

@@ -32,7 +32,13 @@ import {
   useUserListsDetail,
 } from "api/hooks/learningResources"
 import { useProfileMeQuery } from "api/hooks/profile"
-import { TOPIC_CAROUSEL, TOP_PICKS_CAROUSEL } from "./carousels"
+import {
+  CERTIFICATION_CAROUSEL,
+  NEW_LEARNING_RESOURCES_CAROUSEL,
+  POPULAR_LEARNING_RESOURCES_CAROUSEL,
+  TOPIC_CAROUSEL,
+  TOP_PICKS_CAROUSEL,
+} from "./carousels"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 
 /**
@@ -296,11 +302,13 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
 const DashboardPage: React.FC = () => {
   const { isLoading: isLoadingUser, data: user } = useUserMe()
   const { data: profile } = useProfileMeQuery()
-  console.log(profile)
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
   const [userListAction, setUserListAction] = useState("list")
   const [userListId, setUserListId] = useState(0)
+
+  const topics = profile?.preference_search_filters.topic
+  const certification = profile?.preference_search_filters.certification
 
   const handleActivateUserList = useCallback((userList: UserList) => {
     setUserListId(userList.id)
@@ -407,7 +415,7 @@ const DashboardPage: React.FC = () => {
                       config={TOP_PICKS_CAROUSEL(profile)}
                     />
                   </CarouselContainer>
-                  {profile?.preference_search_filters.topic?.map((topic) => (
+                  {topics?.map((topic) => (
                     <CarouselContainer key={topic}>
                       <ResourceCarousel
                         title={`Popular courses in ${topic}`}
@@ -415,6 +423,24 @@ const DashboardPage: React.FC = () => {
                       />
                     </CarouselContainer>
                   ))}
+                  <CarouselContainer>
+                    <ResourceCarousel
+                      title={`Courses ${certification ? "with" : "without"} Certificates`}
+                      config={CERTIFICATION_CAROUSEL(certification)}
+                    />
+                  </CarouselContainer>
+                  <CarouselContainer>
+                    <ResourceCarousel
+                      title="New"
+                      config={NEW_LEARNING_RESOURCES_CAROUSEL}
+                    />
+                  </CarouselContainer>
+                  <CarouselContainer>
+                    <ResourceCarousel
+                      title="Popular"
+                      config={POPULAR_LEARNING_RESOURCES_CAROUSEL}
+                    />
+                  </CarouselContainer>
                 </TabPanelStyled>
                 <TabPanelStyled value={TabValues.MY_LISTS}>
                   {userListAction === "list" ? (
