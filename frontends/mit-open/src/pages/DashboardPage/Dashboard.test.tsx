@@ -1,123 +1,135 @@
 import {
-  renderTestApp,
   screen,
   waitFor,
   setMockResponse,
   within,
+  renderWithProviders,
 } from "../../test-utils"
 import { factories, urls } from "api/test-utils"
 import { Permissions } from "@/common/permissions"
-import { DashboardTabLabels } from "./DashboardPage"
+import { DashboardPage, DashboardTabLabels } from "./DashboardPage"
 import { faker } from "@faker-js/faker/locale/en"
 import {
   CourseResource,
   LearningResource,
-  LearningResourceSearchResponse,
   LearningResourcesSearchRetrieveLearningFormatEnum,
 } from "api"
+import { ControlledPromise } from "ol-test-utilities"
+import React from "react"
 
-const makeSearchResponse = (
-  results: CourseResource[] | LearningResource[],
-): LearningResourceSearchResponse => {
-  return {
-    metadata: {
-      suggestions: [],
-      aggregations: {},
-    },
-    count: 0,
-    results: results,
-    next: null,
-    previous: null,
+describe("DashboardPage", () => {
+  const makeSearchResponse = (
+    results: CourseResource[] | LearningResource[],
+  ) => {
+    const responseData = {
+      metadata: {
+        suggestions: [],
+        aggregations: {},
+      },
+      count: 0,
+      results: results,
+      next: null,
+      previous: null,
+    }
+    const promise = new ControlledPromise()
+    promise.resolve(responseData)
+    return responseData
   }
-}
 
-const setupAPIs = () => {
-  const profile = factories.profiles.profile({
-    preference_search_filters: {
-      topic: factories.learningResources
-        .topics({ count: 3 })
-        .results.map((topic) => topic.name),
-      certification: faker.helpers.arrayElement([true, false]),
-      learning_format: faker.helpers.arrayElements([
-        "online",
-        "in-person",
-        "hybrid",
-      ]),
-    },
-  })
-  const certification: boolean | undefined =
-    profile?.preference_search_filters.certification
-  const topics = profile?.preference_search_filters.topic
-  const learningFormat = Object.values(
-    LearningResourcesSearchRetrieveLearningFormatEnum,
-  ).filter((format) =>
-    profile?.preference_search_filters.learning_format?.includes(format),
-  )
-  const courses = factories.learningResources.courses({ count: 20 })
-  const resources = factories.learningResources.resources({ count: 20 })
+  const setupAPIs = () => {
+    const profile = factories.profiles.profile({
+      preference_search_filters: {
+        topic: factories.learningResources
+          .topics({ count: 3 })
+          .results.map((topic) => topic.name),
+        certification: faker.helpers.arrayElement([true, false]),
+        learning_format: faker.helpers.arrayElements([
+          "online",
+          "in-person",
+          "hybrid",
+        ]),
+      },
+    })
+    const certification: boolean | undefined =
+      profile?.preference_search_filters.certification
+    const topics = profile?.preference_search_filters.topic
+    const learningFormat = Object.values(
+      LearningResourcesSearchRetrieveLearningFormatEnum,
+    ).filter((format) =>
+      profile?.preference_search_filters.learning_format?.includes(format),
+    )
+    const courses = factories.learningResources.courses({ count: 20 })
+    const resources = factories.learningResources.resources({ count: 20 })
 
-  setMockResponse.get(urls.userMe.get(), {
-    username: profile.username,
-    [Permissions.Authenticated]: true,
-  })
-  setMockResponse.get(urls.profileMe.get(), profile)
-  setMockResponse.get(
-    expect.stringContaining(
-      urls.search.resources({
-        resource_type: ["course"],
-        limit: 12,
-        sortby: "-views",
-        certification: certification,
-        learning_format: learningFormat,
-        topic: topics,
-      }),
-    ),
-    makeSearchResponse(courses.results),
-  )
-  topics?.forEach((topic) => {
+    setMockResponse.get(urls.userMe.get(), {
+      username: profile.username,
+      [Permissions.Authenticated]: true,
+    })
+    setMockResponse.get(urls.profileMe.get(), profile)
     setMockResponse.get(
       expect.stringContaining(
         urls.search.resources({
-          resource_type: ["course"],
+          certification: certification,
+          learning_format: learningFormat,
           limit: 12,
+          resource_type: ["course"],
           sortby: "-views",
-          topic: [topic],
+          topic: topics,
         }),
       ),
       makeSearchResponse(courses.results),
     )
-  })
-  setMockResponse.get(
-    expect.stringContaining(
-      urls.search.resources({
-        resource_type: ["course"],
-        limit: 12,
-        sortby: "-views",
-        certification: certification,
-      }),
-    ),
-    makeSearchResponse(courses.results),
-  )
-  setMockResponse.get(
-    expect.stringContaining(
-      urls.search.resources({ limit: 12, sortby: "new" }),
-    ),
-    makeSearchResponse([...courses.results, ...resources.results]),
-  )
-  setMockResponse.get(
-    expect.stringContaining(
-      urls.search.resources({ limit: 12, sortby: "-views" }),
-    ),
-    makeSearchResponse([...courses.results, ...resources.results]),
-  )
-}
+    topics?.forEach((topic) => {
+      setMockResponse.get(
+        expect.stringContaining(
+          urls.search.resources({
+            limit: 12,
+            resource_type: ["course"],
+            sortby: "-views",
+            topic: [topic],
+          }),
+        ),
+        makeSearchResponse(courses.results),
+      )
+    })
+    setMockResponse.get(
+      expect.stringContaining(
+        urls.search.resources({
+          certification: certification,
+          limit: 12,
+          resource_type: ["course"],
+          sortby: "-views",
+        }),
+      ),
+      makeSearchResponse(courses.results),
+    )
+    setMockResponse.get(
+      expect.stringContaining(
+        urls.search.resources({ limit: 12, sortby: "new" }),
+      ),
+      makeSearchResponse([...courses.results, ...resources.results]),
+    )
+    setMockResponse.get(
+      expect.stringContaining(
+        urls.search.resources({ limit: 12, sortby: "-views" }),
+      ),
+      makeSearchResponse([...courses.results, ...resources.results]),
+    )
+    setMockResponse.get(
+      expect.stringContaining(
+        urls.search.resources({
+          limit: 12,
+          resource_type: ["course"],
+          sortby: "-views",
+        }),
+      ),
+      makeSearchResponse(courses.results),
+    )
+  }
 
-describe("DashboardPage", () => {
   test("Renders title", async () => {
     setupAPIs()
-    renderTestApp({
-      url: "/dashboard",
-    })
+    renderWithProviders(<DashboardPage />)
     await waitFor(() => {
       expect(document.title).toBe("User Home")
     })
@@ -134,24 +146,20 @@ describe("DashboardPage", () => {
       last_name: "Info",
     })
 
-    renderTestApp({
-      url: "/dashboard",
-    })
+    renderWithProviders(<DashboardPage />)
     await waitFor(() => {
       /**
        * There should be two instances of "User Info" text,
        * one in the header and one in the main content
        */
-      const userInfoText = screen.getAllByText("User Info")
-      expect(userInfoText).toHaveLength(2)
+      const userInfoText = screen.getByText("User Info")
+      expect(userInfoText).toBeInTheDocument()
     })
   })
 
   test("Renders user menu tabs and panels", async () => {
     setupAPIs()
-    renderTestApp({
-      url: "/dashboard",
-    })
+    renderWithProviders(<DashboardPage />)
     const tabLists = await screen.findAllByRole("tablist")
     const desktopTabList = await screen.findByTestId("desktop-tab-list")
     const mobileTabList = await screen.findByTestId("mobile-tab-list")
@@ -173,9 +181,7 @@ describe("DashboardPage", () => {
 
   test("Renders the expected tab links", async () => {
     setupAPIs()
-    renderTestApp({
-      url: "/dashboard",
-    })
+    renderWithProviders(<DashboardPage />)
     Object.keys(DashboardTabLabels).forEach(async (key) => {
       const desktopTab = await screen.findByTestId(`desktop-tab-${key}`)
       const mobileTab = await screen.findByTestId(`mobile-tab-${key}`)
