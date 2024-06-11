@@ -109,7 +109,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         field={field.data}
                       />
                     ) : (
-                      <Typography variant="h3" data-testid="header">
+                      <Typography variant="h1" data-testid="header">
                         <Link
                           to={routes.makeFieldViewPath(
                             field.data.channel_type,
@@ -153,7 +153,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       my: 2,
                     }}
                   >
-                    <Typography variant="body2">
+                    <Typography variant="body1">
                       {displayConfiguration.sub_heading}
                     </Typography>
                   </Box>
