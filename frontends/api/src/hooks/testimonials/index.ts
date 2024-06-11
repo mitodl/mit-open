@@ -1,7 +1,10 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query"
 
-import type { TestimonialsApiTestimonialsListRequest } from "../../generated/v0"
-import testimonials from "./keyFactory"
+import type {
+  TestimonialsApiTestimonialsListRequest,
+  FeaturedTestimonialsApiFeaturedTestimonialsListRequest,
+} from "../../generated/v0"
+import testimonials, { featuredTestimonials } from "./keyFactory"
 
 const useTestimonialList = (
   params: TestimonialsApiTestimonialsListRequest = {},
@@ -23,4 +26,14 @@ const useTestimonialDetail = (id: number | undefined) => {
   })
 }
 
-export { useTestimonialDetail, useTestimonialList }
+const useFeaturedTestimonialList = (
+  params: FeaturedTestimonialsApiFeaturedTestimonialsListRequest = {},
+  opts: Pick<UseQueryOptions, "enabled"> = {},
+) => {
+  return useQuery({
+    ...featuredTestimonials.list(params),
+    ...opts,
+  })
+}
+
+export { useTestimonialDetail, useTestimonialList, useFeaturedTestimonialList }

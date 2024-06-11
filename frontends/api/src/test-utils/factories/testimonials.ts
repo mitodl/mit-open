@@ -16,6 +16,7 @@ const testimonial: Factory<Attestation> = (overrides = {}) => ({
   updated_on: faker.date.past().toISOString(),
   publish_date: null,
   channels: [],
+  offerors: [],
   ...overrides,
 })
 

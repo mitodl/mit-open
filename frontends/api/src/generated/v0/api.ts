@@ -106,6 +106,12 @@ export interface Attestation {
    */
   quote: string
   /**
+   * The position the attestation should occupy
+   * @type {number}
+   * @memberof Attestation
+   */
+  position?: number
+  /**
    * The datetime to show the testimonial
    * @type {string}
    * @memberof Attestation
@@ -4077,6 +4083,360 @@ export class CkeditorApi extends BaseAPI {
   public ckeditorRetrieve(options?: RawAxiosRequestConfig) {
     return CkeditorApiFp(this.configuration)
       .ckeditorRetrieve(options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+}
+
+/**
+ * FeaturedTestimonialsApi - axios parameter creator
+ * @export
+ */
+export const FeaturedTestimonialsApiAxiosParamCreator = function (
+  configuration?: Configuration,
+) {
+  return {
+    /**
+     * List featured testimonials.
+     * @summary List
+     * @param {Array<number>} [channels] The channels the attestation is for
+     * @param {number} [limit] Number of results to return per page.
+     * @param {Array<string>} [offerors] The offerors the attestation is for
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    featuredTestimonialsList: async (
+      channels?: Array<number>,
+      limit?: number,
+      offerors?: Array<string>,
+      offset?: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      const localVarPath = `/api/v0/featured_testimonials/`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (channels) {
+        localVarQueryParameter["channels"] = channels
+      }
+
+      if (limit !== undefined) {
+        localVarQueryParameter["limit"] = limit
+      }
+
+      if (offerors) {
+        localVarQueryParameter["offerors"] = offerors
+      }
+
+      if (offset !== undefined) {
+        localVarQueryParameter["offset"] = offset
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
+     * Retrieve a testimonial.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this attestation.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    featuredTestimonialsRetrieve: async (
+      id: number,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("featuredTestimonialsRetrieve", "id", id)
+      const localVarPath = `/api/v0/featured_testimonials/{id}/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+  }
+}
+
+/**
+ * FeaturedTestimonialsApi - functional programming interface
+ * @export
+ */
+export const FeaturedTestimonialsApiFp = function (
+  configuration?: Configuration,
+) {
+  const localVarAxiosParamCreator =
+    FeaturedTestimonialsApiAxiosParamCreator(configuration)
+  return {
+    /**
+     * List featured testimonials.
+     * @summary List
+     * @param {Array<number>} [channels] The channels the attestation is for
+     * @param {number} [limit] Number of results to return per page.
+     * @param {Array<string>} [offerors] The offerors the attestation is for
+     * @param {number} [offset] The initial index from which to return the results.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async featuredTestimonialsList(
+      channels?: Array<number>,
+      limit?: number,
+      offerors?: Array<string>,
+      offset?: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<PaginatedAttestationList>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.featuredTestimonialsList(
+          channels,
+          limit,
+          offerors,
+          offset,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "FeaturedTestimonialsApi.featuredTestimonialsList"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
+     * Retrieve a testimonial.
+     * @summary Retrieve
+     * @param {number} id A unique integer value identifying this attestation.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async featuredTestimonialsRetrieve(
+      id: number,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Attestation>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.featuredTestimonialsRetrieve(
+          id,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "FeaturedTestimonialsApi.featuredTestimonialsRetrieve"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+  }
+}
+
+/**
+ * FeaturedTestimonialsApi - factory interface
+ * @export
+ */
+export const FeaturedTestimonialsApiFactory = function (
+  configuration?: Configuration,
+  basePath?: string,
+  axios?: AxiosInstance,
+) {
+  const localVarFp = FeaturedTestimonialsApiFp(configuration)
+  return {
+    /**
+     * List featured testimonials.
+     * @summary List
+     * @param {FeaturedTestimonialsApiFeaturedTestimonialsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    featuredTestimonialsList(
+      requestParameters: FeaturedTestimonialsApiFeaturedTestimonialsListRequest = {},
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<PaginatedAttestationList> {
+      return localVarFp
+        .featuredTestimonialsList(
+          requestParameters.channels,
+          requestParameters.limit,
+          requestParameters.offerors,
+          requestParameters.offset,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Retrieve a testimonial.
+     * @summary Retrieve
+     * @param {FeaturedTestimonialsApiFeaturedTestimonialsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    featuredTestimonialsRetrieve(
+      requestParameters: FeaturedTestimonialsApiFeaturedTestimonialsRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Attestation> {
+      return localVarFp
+        .featuredTestimonialsRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+  }
+}
+
+/**
+ * Request parameters for featuredTestimonialsList operation in FeaturedTestimonialsApi.
+ * @export
+ * @interface FeaturedTestimonialsApiFeaturedTestimonialsListRequest
+ */
+export interface FeaturedTestimonialsApiFeaturedTestimonialsListRequest {
+  /**
+   * The channels the attestation is for
+   * @type {Array<number>}
+   * @memberof FeaturedTestimonialsApiFeaturedTestimonialsList
+   */
+  readonly channels?: Array<number>
+
+  /**
+   * Number of results to return per page.
+   * @type {number}
+   * @memberof FeaturedTestimonialsApiFeaturedTestimonialsList
+   */
+  readonly limit?: number
+
+  /**
+   * The offerors the attestation is for
+   * @type {Array<string>}
+   * @memberof FeaturedTestimonialsApiFeaturedTestimonialsList
+   */
+  readonly offerors?: Array<string>
+
+  /**
+   * The initial index from which to return the results.
+   * @type {number}
+   * @memberof FeaturedTestimonialsApiFeaturedTestimonialsList
+   */
+  readonly offset?: number
+}
+
+/**
+ * Request parameters for featuredTestimonialsRetrieve operation in FeaturedTestimonialsApi.
+ * @export
+ * @interface FeaturedTestimonialsApiFeaturedTestimonialsRetrieveRequest
+ */
+export interface FeaturedTestimonialsApiFeaturedTestimonialsRetrieveRequest {
+  /**
+   * A unique integer value identifying this attestation.
+   * @type {number}
+   * @memberof FeaturedTestimonialsApiFeaturedTestimonialsRetrieve
+   */
+  readonly id: number
+}
+
+/**
+ * FeaturedTestimonialsApi - object-oriented interface
+ * @export
+ * @class FeaturedTestimonialsApi
+ * @extends {BaseAPI}
+ */
+export class FeaturedTestimonialsApi extends BaseAPI {
+  /**
+   * List featured testimonials.
+   * @summary List
+   * @param {FeaturedTestimonialsApiFeaturedTestimonialsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FeaturedTestimonialsApi
+   */
+  public featuredTestimonialsList(
+    requestParameters: FeaturedTestimonialsApiFeaturedTestimonialsListRequest = {},
+    options?: RawAxiosRequestConfig,
+  ) {
+    return FeaturedTestimonialsApiFp(this.configuration)
+      .featuredTestimonialsList(
+        requestParameters.channels,
+        requestParameters.limit,
+        requestParameters.offerors,
+        requestParameters.offset,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Retrieve a testimonial.
+   * @summary Retrieve
+   * @param {FeaturedTestimonialsApiFeaturedTestimonialsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof FeaturedTestimonialsApi
+   */
+  public featuredTestimonialsRetrieve(
+    requestParameters: FeaturedTestimonialsApiFeaturedTestimonialsRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return FeaturedTestimonialsApiFp(this.configuration)
+      .featuredTestimonialsRetrieve(requestParameters.id, options)
       .then((request) => request(this.axios, this.basePath))
   }
 }

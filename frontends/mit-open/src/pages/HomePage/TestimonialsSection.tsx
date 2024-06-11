@@ -8,7 +8,7 @@ import {
   ActionButton,
   TruncateText,
 } from "ol-components"
-import { useTestimonialList } from "api/hooks/testimonials"
+import { useFeaturedTestimonialList } from "api/hooks/testimonials"
 import { RiArrowDropRightLine, RiArrowDropLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
 
@@ -171,7 +171,7 @@ const ButtonsContainer = styled.div({
 })
 
 const SlickCarousel = () => {
-  const { data } = useTestimonialList()
+  const { data } = useFeaturedTestimonialList()
   const [slick, setSlick] = React.useState<Slider | null>(null)
 
   if (!data) return null

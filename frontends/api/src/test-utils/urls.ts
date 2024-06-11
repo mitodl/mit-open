@@ -8,6 +8,7 @@
 import type {
   NewsEventsApiNewsEventsListRequest,
   TestimonialsApi,
+  FeaturedTestimonialsApi,
 } from "../generated/v0"
 import type {
   LearningResourcesApi as LRApi,
@@ -170,6 +171,12 @@ const testimonials = {
     `${API_BASE_URL}/api/v0/testimonials/${query(params)}`,
   details: (id: number) => `/api/v0/testimonials/${id}/`,
 }
+const featuredTestimonials = {
+  list: (
+    params?: Paramsv0<FeaturedTestimonialsApi, "featuredTestimonialsList">,
+  ) => `${API_BASE_URL}/api/v0/featured_testimonials/${query(params)}`,
+  details: (id: number) => `/api/v0/featured_testimonials/${id}/`,
+}
 
 const search = {
   resources: (params?: LearningResourcesSearchRequest) =>
@@ -208,4 +215,5 @@ export {
   departments,
   newsEvents,
   testimonials,
+  featuredTestimonials,
 }

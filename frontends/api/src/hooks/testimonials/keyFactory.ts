@@ -1,5 +1,8 @@
-import { testimonialsApi } from "../../clients"
-import type { TestimonialsApiTestimonialsListRequest as TestimonialsListRequest } from "../../generated/v0"
+import { testimonialsApi, featuredTestimonialsApi } from "../../clients"
+import type {
+  TestimonialsApiTestimonialsListRequest as TestimonialsListRequest,
+  FeaturedTestimonialsApiFeaturedTestimonialsListRequest as FeaturedTestimonialsListRequest,
+} from "../../generated/v0"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
 const testimonials = createQueryKeys("testimonials", {
@@ -19,4 +22,24 @@ const testimonials = createQueryKeys("testimonials", {
   }),
 })
 
+const featuredTestimonials = createQueryKeys("featuredTestimonials", {
+  detail: (id: number) => ({
+    queryKey: [id],
+    queryFn: () => {
+      if (id < 0) return Promise.reject("Invalid ID")
+      return featuredTestimonialsApi
+        .featuredTestimonialsRetrieve({ id })
+        .then((res) => res.data)
+    },
+  }),
+  list: (params: FeaturedTestimonialsListRequest) => ({
+    queryKey: [params],
+    queryFn: () =>
+      featuredTestimonialsApi
+        .featuredTestimonialsList(params)
+        .then((res) => res.data),
+  }),
+})
+
 export default testimonials
+export { featuredTestimonials }

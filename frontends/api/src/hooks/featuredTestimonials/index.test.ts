@@ -4,11 +4,7 @@ import { setupReactQueryTest } from "../test-utils"
 import { setMockResponse, urls, makeRequest } from "../../test-utils"
 import { UseQueryResult } from "@tanstack/react-query"
 import { testimonials as factory } from "../../test-utils/factories"
-import {
-  useTestimonialList,
-  useTestimonialDetail,
-  useFeaturedTestimonialList,
-} from "./index"
+import { useTestimonialList, useTestimonialDetail } from "./index"
 
 /**
  * Assert that a react-query hook queries the API with the correct `url`,
@@ -52,19 +48,4 @@ describe("useTestimonialDetail", () => {
 
     assertApiCalled(result, url, "GET", data)
   })
-})
-
-describe("useFeaturedTestimonialList", () => {
-  it.each([undefined, { limit: 5 }, { limit: 5, offset: 10 }])(
-    "Calls the correct API",
-    async (params) => {
-      const data = factory.testimonials({ count: 3 })
-      const url = urls.featuredTestimonials.list(params)
-      const { wrapper } = setupReactQueryTest()
-      setMockResponse.get(url, data)
-      const useTestHook = () => useFeaturedTestimonialList(params)
-      const { result } = renderHook(useTestHook, { wrapper })
-      assertApiCalled(result, url, "GET", data)
-    },
-  )
 })

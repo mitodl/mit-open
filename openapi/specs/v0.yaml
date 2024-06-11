@@ -265,6 +265,72 @@ paths:
               schema:
                 $ref: '#/components/schemas/CKEditorSettings'
           description: ''
+  /api/v0/featured_testimonials/:
+    get:
+      operationId: featured_testimonials_list
+      description: List featured testimonials.
+      summary: List
+      parameters:
+      - in: query
+        name: channels
+        schema:
+          type: array
+          items:
+            type: integer
+        description: The channels the attestation is for
+        explode: true
+        style: form
+      - name: limit
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: offerors
+        schema:
+          type: array
+          items:
+            type: string
+        description: The offerors the attestation is for
+        explode: true
+        style: form
+      - name: offset
+        required: false
+        in: query
+        description: The initial index from which to return the results.
+        schema:
+          type: integer
+      tags:
+      - featured_testimonials
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAttestationList'
+          description: ''
+  /api/v0/featured_testimonials/{id}/:
+    get:
+      operationId: featured_testimonials_retrieve
+      description: Retrieve a testimonial.
+      summary: Retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this attestation.
+        required: true
+      tags:
+      - featured_testimonials
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attestation'
+          description: ''
   /api/v0/news_events/:
     get:
       operationId: news_events_list
@@ -899,6 +965,11 @@ components:
         quote:
           type: string
           description: The testimonial attestation
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The position the attestation should occupy
         publish_date:
           type: string
           format: date-time

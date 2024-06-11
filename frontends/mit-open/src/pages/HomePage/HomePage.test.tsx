@@ -61,9 +61,12 @@ const setupAPIs = () => {
     results: [],
   })
 
-  setMockResponse.get(expect.stringContaining(urls.testimonials.list({})), {
-    results: [],
-  })
+  setMockResponse.get(
+    expect.stringContaining(urls.featuredTestimonials.list({})),
+    {
+      results: [],
+    },
+  )
 }
 
 describe("Home Page Hero", () => {
