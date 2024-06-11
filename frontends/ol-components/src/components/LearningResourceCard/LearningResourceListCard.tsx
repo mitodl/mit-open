@@ -8,6 +8,7 @@ import {
   formatDate,
   getReadableResourceType,
   embedlyCroppedImage,
+  pluralize,
 } from "ol-utilities"
 import { ListCard } from "../Card/ListCard"
 import { TruncateText } from "../TruncateText/TruncateText"
@@ -126,6 +127,18 @@ const Info = ({ resource }: { resource: LearningResource }) => {
   )
 }
 
+const Count = ({ resource }: { resource: LearningResource }) => {
+  if (resource.resource_type !== ResourceTypeEnum.LearningPath) {
+    return null
+  }
+  const count = resource.learning_path.item_count
+  return (
+    <div>
+      <span>{count}</span> {pluralize("item", count)}
+    </div>
+  )
+}
+
 const isOcw = (resource: LearningResource) =>
   resource.resource_type === ResourceTypeEnum.Course &&
   resource.platform?.code === PlatformEnum.Ocw
@@ -225,6 +238,7 @@ interface LearningResourceListCardProps {
   isLoading?: boolean
   resource?: LearningResource | null
   className?: string
+  href?: string
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
 }
@@ -233,6 +247,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   isLoading,
   resource,
   className,
+  href,
   onAddToLearningPathClick,
   onAddToUserListClick,
 }) => {
@@ -251,7 +266,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
     return null
   }
   return (
-    <ListCard href={`?resource=${resource.id}`} className={className}>
+    <ListCard href={href || `?resource=${resource.id}`} className={className}>
       {resource.image && (
         <ListCard.Image
           src={getEmbedlyUrl(resource, isMobile)!}
@@ -292,6 +307,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
       </ListCard.Actions>
       <ListCard.Footer>
         <BorderSeparator>
+          <Count resource={resource} />
           <StartDate resource={resource} />
           <Format resource={resource} />
         </BorderSeparator>

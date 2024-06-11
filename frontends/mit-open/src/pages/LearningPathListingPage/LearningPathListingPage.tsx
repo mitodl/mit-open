@@ -11,6 +11,7 @@ import {
   styled,
   Typography,
   PlainList,
+  LearningResourceListCard,
   imgConfigs,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
@@ -151,6 +152,17 @@ const LearningPathListingPage: React.FC = () => {
                           list={list}
                           onActivate={handleActivate}
                           canEdit={canEdit}
+                        />
+                      </li>
+                    )
+                  })}
+                  {listingQuery.data.results?.map((resource) => {
+                    return (
+                      <li key={resource.id}>
+                        <LearningResourceListCard
+                          resource={resource}
+                          href={urls.learningPathsView(resource.id)}
+                          // canEdit={canEdit}
                         />
                       </li>
                     )
