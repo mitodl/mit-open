@@ -35,6 +35,15 @@ const setupApis = (
     urls.fields.details(field.channel_type, field.name),
     field,
   )
+  setMockResponse.get(
+    urls.learningResources.featured({ limit: 12, platform: ["ocw"] }),
+    factories.learningResources.resources({ count: 0 }),
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({ limit: 12 }),
+    factories.learningResources.resources({ count: 0 }),
+  )
+
   const urlParams = new URLSearchParams(fieldPatch?.search_filter)
   const subscribeParams: Record<string, string[] | string> = {}
   for (const [key, value] of urlParams.entries()) {

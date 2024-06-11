@@ -26,6 +26,14 @@ const setMockApiResponses = ({
       factories.percolateQueries,
     )
   }
+  setMockResponse.get(
+    urls.learningResources.featured({ limit: 12, offered_by: ["ocw"] }),
+    factories.learningResources.resources({ count: 0 }),
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({ limit: 12 }),
+    factories.learningResources.resources({ count: 0 }),
+  )
 
   setMockResponse.get(
     urls.userSubscription.check({ source_type: "channel_subscription_type" }),
