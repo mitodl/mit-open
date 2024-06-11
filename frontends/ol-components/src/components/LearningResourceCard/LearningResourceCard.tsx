@@ -3,7 +3,12 @@ import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
 import { RiMenuAddLine, RiBookmarkLine, RiAwardFill } from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
-import { findBestRun, formatDate, getReadableResourceType } from "ol-utilities"
+import {
+  findBestRun,
+  formatDate,
+  getReadableResourceType,
+  DEFAULT_RESOURCE_IMG,
+} from "ol-utilities"
 import { Card } from "../Card/Card"
 import type { Size } from "../Card/Card"
 import { TruncateText } from "../TruncateText/TruncateText"
@@ -151,7 +156,10 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   }
   return (
     <Card className={className} size={size}>
-      <Card.Image src={resource.image?.url} alt={resource.image!.alt!} />
+      <Card.Image
+        src={resource.image?.url ?? DEFAULT_RESOURCE_IMG}
+        alt={resource.image?.alt ?? ""}
+      />
       <Card.Info>
         <Info resource={resource} />
       </Card.Info>
