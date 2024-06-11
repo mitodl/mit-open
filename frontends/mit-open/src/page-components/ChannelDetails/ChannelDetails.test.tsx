@@ -11,7 +11,7 @@ describe("ChannelDetails", () => {
   it("Includes channel detail info panel", async () => {
     const field = factory.field({
       title: "Test Title",
-      channel_type: "offeror",
+      channel_type: "unit",
     })
     setMockResponse.get(
       urls.fields.details(field.channel_type, field.name),
@@ -24,11 +24,11 @@ describe("ChannelDetails", () => {
       { wrapper: ThemeProvider },
     )
     const fieldData = field as unknown as Record<string, unknown>
-    const offerorDetail = fieldData.offeror_detail as unknown as Record<
+    const unitDetail = fieldData.unit_detail as unknown as Record<
       string,
       unknown
     >
-    const offeror = offerorDetail.offeror as unknown as Record<string, unknown>
+    const offeror = unitDetail.unit as unknown as Record<string, unknown>
     const offerings = offeror.offerings as string[]
     const audience = offeror.audience as string[]
     const formats = offeror.formats as string[]

@@ -183,7 +183,7 @@ describe("FieldSearch", () => {
       displayedFacets: ["Certificates", "Offered By", "Topics", "Format"],
     },
     {
-      fieldType: ChannelTypeEnum.Offeror,
+      fieldType: ChannelTypeEnum.Unit,
       displayedFacets: ["Certificates", "Department", "Topics", "Format"],
     },
     {

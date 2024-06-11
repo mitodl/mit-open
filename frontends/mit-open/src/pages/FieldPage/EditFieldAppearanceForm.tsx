@@ -23,8 +23,8 @@ const CHANNEL_TYPE_CHOICES = [
     className: "radio-option",
   },
   {
-    value: "offeror",
-    label: "Offeror",
+    value: "unit",
+    label: "Unit",
     className: "radio-option",
   },
   {

@@ -5,7 +5,7 @@ import {
   ChannelTypeEnum,
   DepartmentChannel,
   FieldChannel,
-  OfferorChannel,
+  UnitChannel,
   PathwayChannel,
   TopicChannel,
 } from "../../generated/v0"
@@ -33,8 +33,8 @@ const field: PartialFactory<FieldChannel> = (overrides = {}) => {
       return departmentChannel(overrides)
     case ChannelTypeEnum.Topic:
       return topicChannel(overrides)
-    case ChannelTypeEnum.Offeror:
-      return offerorChannel(overrides)
+    case ChannelTypeEnum.Unit:
+      return unitChannel(overrides)
     case ChannelTypeEnum.Pathway:
       return pathwayChannel(overrides)
     default:
@@ -90,10 +90,10 @@ const topicChannel: PartialFactory<TopicChannel> = (overrides = {}) => {
   )
 }
 
-const offerorChannel: PartialFactory<OfferorChannel> = (overrides = {}) => {
-  return mergeOverrides<OfferorChannel>(
+const unitChannel: PartialFactory<UnitChannel> = (overrides = {}) => {
+  return mergeOverrides<UnitChannel>(
     _fieldShared(),
-    { channel_type: ChannelTypeEnum.Offeror },
+    { channel_type: ChannelTypeEnum.Unit },
     {
       configuration: {
         banner_background: "/static/images/unit_banners/mitpe.jpg",
@@ -105,8 +105,8 @@ const offerorChannel: PartialFactory<OfferorChannel> = (overrides = {}) => {
       },
     },
     {
-      offeror_detail: {
-        offeror: offeror(),
+      unit_detail: {
+        unit: offeror(),
       },
     },
     overrides,
