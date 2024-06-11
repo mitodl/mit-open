@@ -131,6 +131,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         flexShrink: 0,
                         order: 2,
                         width: "60%",
+                        my: 1,
                       }}
                     >
                       <Typography variant="h5">
@@ -149,7 +150,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       flexShrink: 0,
                       order: 2,
                       width: "80%",
-                      my: 2,
+                      my: 1,
                     }}
                   >
                     <Typography variant="body1">
@@ -166,7 +167,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         width: "100%",
                         flexShrink: 1,
                         order: 3,
-                        mb: { xs: "24px" },
+                        my: { xs: "24px" },
                       }}
                     >
                       <FieldControls>
@@ -207,10 +208,11 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     flexDirection="row"
                     alignItems="end"
                     sx={{
-                      flexGrow: 1,
+                      flexGrow: 0,
                       width: { md: "15%", xs: "100%" },
                       flexShrink: 0,
                       order: 2,
+                      my: { xs: "24px" },
                     }}
                   >
                     <FieldControls>
