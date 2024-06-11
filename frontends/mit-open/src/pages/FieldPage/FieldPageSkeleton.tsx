@@ -26,7 +26,6 @@ export const FieldControls = styled.div`
   position: relative;
   min-height: 38px;
   display: flex;
-  margin-bottom: 1em;
 `
 
 interface FieldSkeletonProps {
@@ -168,7 +167,6 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         width: "100%",
                         flexShrink: 1,
                         order: 3,
-                        my: 2,
                       }}
                     >
                       <FieldControls>
@@ -213,7 +211,6 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       width: { md: "15%", xs: "100%" },
                       flexShrink: 0,
                       order: 2,
-                      my: 1,
                     }}
                   >
                     <FieldControls>
