@@ -137,7 +137,7 @@ def test_get_profile(logged_in, user, user_client):
         "time_commitment": profile.time_commitment,
         "learning_format": profile.learning_format,
         "preference_search_filters": {
-            "learning_format": profile.learning_format,
+            "learning_format": [profile.learning_format],
             "certification": (
                 profile.certificate_desired == Profile.CertificateDesired.YES.value
             ),
