@@ -34,6 +34,7 @@ class AttestationViewSet(ReadOnlyModelViewSet):
             Q(publish_date__isnull=True) | Q(publish_date__lte=now_in_utc())
         )
         .order_by("position", "-updated_on")
+        .prefetch_related("channels", "offerors")
         .all()
     )
     pagination_class = LargePagination

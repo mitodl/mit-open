@@ -106,6 +106,12 @@ export interface Attestation {
    */
   quote: string
   /**
+   * The position the attestation should occupy
+   * @type {number}
+   * @memberof Attestation
+   */
+  position?: number
+  /**
    * The datetime to show the testimonial
    * @type {string}
    * @memberof Attestation
@@ -5431,6 +5437,7 @@ export const TestimonialsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {number} [position] Only show items that exist at this position
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5439,6 +5446,7 @@ export const TestimonialsApiAxiosParamCreator = function (
       limit?: number,
       offerors?: Array<string>,
       offset?: number,
+      position?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v0/testimonials/`
@@ -5471,6 +5479,10 @@ export const TestimonialsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (position !== undefined) {
+        localVarQueryParameter["position"] = position
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -5551,6 +5563,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {number} [position] Only show items that exist at this position
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -5559,6 +5572,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
       limit?: number,
       offerors?: Array<string>,
       offset?: number,
+      position?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -5572,6 +5586,7 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
           limit,
           offerors,
           offset,
+          position,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -5642,6 +5657,7 @@ export const TestimonialsApiFactory = function (
           requestParameters.limit,
           requestParameters.offerors,
           requestParameters.offset,
+          requestParameters.position,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -5697,6 +5713,13 @@ export interface TestimonialsApiTestimonialsListRequest {
    * @memberof TestimonialsApiTestimonialsList
    */
   readonly offset?: number
+
+  /**
+   * Only show items that exist at this position
+   * @type {number}
+   * @memberof TestimonialsApiTestimonialsList
+   */
+  readonly position?: number
 }
 
 /**
@@ -5738,6 +5761,7 @@ export class TestimonialsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.offerors,
         requestParameters.offset,
+        requestParameters.position,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

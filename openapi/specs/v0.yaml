@@ -554,6 +554,11 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: position
+        schema:
+          type: integer
+        description: Only show items that exist at this position
       tags:
       - testimonials
       responses:
@@ -899,6 +904,11 @@ components:
         quote:
           type: string
           description: The testimonial attestation
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The position the attestation should occupy
         publish_date:
           type: string
           format: date-time
