@@ -65,12 +65,12 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
     <BannerPage
       src={
         displayConfiguration?.banner_background ??
-        "/static/images/background_steps.jpeg"
+        "/static/images/background_steps.png"
       }
       alt=""
       omitBackground={field.isLoading}
       bannerContent={
-        <Container sx={{ my: 2, p: "48px" }}>
+        <Container sx={{ p: "24px" }}>
           <NavText variant="subtitle3">
             Home / {NAV_PATH[channelType]} /{" "}
             <span className="current">{field.data?.title}</span>
@@ -167,7 +167,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         width: "100%",
                         flexShrink: 1,
                         order: 3,
-                        my: { xs: "24px" },
+                        my: { xs: "12px" },
                       }}
                     >
                       <FieldControls>
@@ -212,7 +212,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       width: { md: "15%", xs: "100%" },
                       flexShrink: 0,
                       order: 2,
-                      my: { xs: "24px" },
+                      my: { xs: "12px" },
                     }}
                   >
                     <FieldControls>
