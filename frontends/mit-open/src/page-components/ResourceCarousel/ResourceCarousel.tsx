@@ -260,7 +260,12 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
             <StyledCarousel arrowsContainer={ref}>
               {isLoading
                 ? Array.from({ length: 6 }).map((_, index) => (
-                    <LearningResourceCard isLoading key={index} />
+                    <LearningResourceCard
+                      isLoading
+                      key={index}
+                      resource={null}
+                      {...tabConfig.cardProps}
+                    />
                   ))
                 : resources.map((resource) => (
                     <LearningResourceCard

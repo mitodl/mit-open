@@ -3,6 +3,7 @@ import { createPortal } from "react-dom"
 import Slick from "react-slick"
 import { ActionButton } from "../Button/Button"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
+import styled from "@emotion/styled"
 
 type CarouselProps = {
   children: React.ReactNode
@@ -15,11 +16,20 @@ type CarouselProps = {
   arrowsContainer?: HTMLElement | null
 }
 
+const SlickStyled = styled(Slick)({
+  /**
+   * This is a fallback. The carousel's width should be constrained by it's
+   * parent. But if it's not, this will at least prevent it from resizing itself
+   * beyond the viewport width.
+   */
+  maxWidth: "100vw",
+})
+
 /**
  * Return the current slide and the sliders per paged, based on current element
  * rectangles.
  */
-const getSlideInfo = (
+export const getSlideInfo = (
   container: HTMLElement,
 ): {
   currentIndex: number | undefined
@@ -37,6 +47,7 @@ const getSlideInfo = (
    * slidersPerPage = (containerWidth + gap) / (slideWidth + gap)
    */
   const current = container.querySelector<HTMLElement>(".slick-current")
+  const slides = container.querySelectorAll<HTMLElement>(".slick-slide")
   if (!current) {
     return { currentIndex: undefined, slidesPerPage: undefined }
   }
@@ -53,10 +64,22 @@ const getSlideInfo = (
   const gap = Math.abs(adjRect.x - currentRect.x) - itemWidth
   const fractional =
     Math.round(containerRect.width + gap) / Math.round(itemWidth + gap)
-  return {
-    currentIndex,
-    slidesPerPage: Math.floor(fractional),
-  }
+
+  /**
+   * Never allow more slides per page than children.
+   *
+   * If the parent container width is unconstrained, allowing more sliders per
+   * page than children can cause the carousel to
+   * 1. determine slides per page
+   * 2. increase the content width
+   * 3. ...which increases parent width (if it is unconstrained)
+   * 4. which changes slides per page... ad infinitum.
+   *
+   * Capping slidesPerPage at the number of slides prevents this, and there's
+   * never any reason to show more slides than there are.
+   */
+  const slidesPerPage = Math.min(Math.floor(fractional), slides.length)
+  return { currentIndex, slidesPerPage }
 }
 
 /**
@@ -70,8 +93,10 @@ const getSlideInfo = (
  * Swapping and drag events are supported, and also move the carousel by the
  * page size.
  *
- * NOTE:
- * The children of this carousel should NOT have a `style` prop.
+ * NOTES:
+ * 1. The carousel root (or an ancestor) should have a constrained width.
+ *
+ * 2. The children of this carousel should NOT have a `style` prop.
  * If it does, react-slick will override the style.
  * See also https://github.com/akiran/react-slick/issues/1378
  */
@@ -102,15 +127,14 @@ const Carousel: React.FC<CarouselProps> = ({
       setCurrentIndex(slideInfo.currentIndex)
     }
   }, [slick])
-
-  const nextPage = () => {
+  const nextPage = React.useCallback(() => {
     if (!slick) return
     slick.slickNext()
-  }
-  const prevPage = () => {
+  }, [slick])
+  const prevPage = React.useCallback(() => {
     if (!slick) return
     slick.slickPrev()
-  }
+  }, [slick])
 
   const arrows = (
     <>
@@ -139,7 +163,7 @@ const Carousel: React.FC<CarouselProps> = ({
 
   return (
     <>
-      <Slick
+      <SlickStyled
         className={className}
         ref={setSlick}
         variableWidth
@@ -152,7 +176,7 @@ const Carousel: React.FC<CarouselProps> = ({
         arrows={false}
       >
         {children}
-      </Slick>
+      </SlickStyled>
       {arrowsContainer === undefined ? arrows : null}
       {arrowsContainer ? createPortal(arrows, arrowsContainer) : null}
     </>

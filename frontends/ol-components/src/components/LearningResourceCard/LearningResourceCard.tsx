@@ -8,6 +8,7 @@ import {
   formatDate,
   getReadableResourceType,
   embedlyCroppedImage,
+  DEFAULT_RESOURCE_IMG,
 } from "ol-utilities"
 import { Card } from "../Card/Card"
 import type { Size } from "../Card/Card"
@@ -29,12 +30,10 @@ const getEmbedlyUrl = (resource: LearningResource, size: Size) => {
     small: { width: 190, height: 120 },
     medium: { width: 298, height: 170 },
   }
-  return resource?.image?.url
-    ? embedlyCroppedImage(resource?.image?.url, {
-        key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
-        ...dimensions[size],
-      })
-    : null
+  return embedlyCroppedImage(resource.image!.url!, {
+    key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
+    ...dimensions[size],
+  })
 }
 
 type ResourceIdCallback = (resourceId: number) => void
@@ -147,12 +146,14 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   }
   return (
     <Card href={`?resource=${resource.id}`} className={className} size={size}>
-      {resource.image && (
-        <Card.Image
-          src={getEmbedlyUrl(resource, size)!}
-          alt={resource.image?.alt as string}
-        />
-      )}
+      <Card.Image
+        src={
+          resource.image?.url
+            ? getEmbedlyUrl(resource, size)
+            : DEFAULT_RESOURCE_IMG
+        }
+        alt={resource.image?.alt ?? ""}
+      />
       <Card.Info>
         <Info resource={resource} />
       </Card.Info>

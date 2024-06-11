@@ -6,11 +6,11 @@ import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPat
 import FieldPage from "@/pages/FieldPage/FieldPage"
 import EditFieldPage from "@/pages/FieldPage/EditFieldPage"
 
-import UserListListingPage from "./pages/UserListListingPage/UserListListingPage"
+import { UserListListingPage } from "./pages/UserListListingPage/UserListListingPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
-import DashboardPage from "@/pages/DashboardPage/DashboardPage"
+import { DashboardPage } from "@/pages/DashboardPage/DashboardPage"
 import AboutPage from "@/pages/AboutPage/AboutPage"
 import PrivacyPage from "@/pages/PrivacyPage/PrivacyPage"
 import TermsPage from "@/pages/TermsPage/TermsPage"

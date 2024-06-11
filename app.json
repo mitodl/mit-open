@@ -70,6 +70,10 @@
       "description": "CSAIL courses base URL",
       "required": false
     },
+    "CSRF_COOKIE_DOMAIN": {
+      "description": "The domain to set the CSRF cookie on",
+      "required": false
+    },
     "EDX_API_ACCESS_TOKEN_URL": {
       "description": "URL to retrieve a MITx access token",
       "required": false

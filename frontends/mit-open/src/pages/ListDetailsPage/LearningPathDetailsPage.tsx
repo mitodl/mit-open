@@ -7,7 +7,7 @@ import {
   useLearningPathsDetail,
 } from "api/hooks/learningResources"
 
-import ListDetailsPage from "./ListDetailsPage"
+import { ListDetailsPage } from "./ListDetailsPage"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { ListType } from "api/constants"
 

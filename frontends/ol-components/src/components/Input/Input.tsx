@@ -12,6 +12,7 @@ const defaultProps = {
 const buttonPadding = {
   medium: 4,
   hero: 6,
+  heroMobile: 4,
 }
 
 /**
@@ -31,11 +32,11 @@ const Input = styled(InputBase)(({
       borderWidth: "1px",
       borderStyle: "solid",
       "&:hover:not(.Mui-disabled)": {
-        borderWidth: "2px",
+        borderColor: theme.custom.colors.darkGray2,
       },
       "&.Mui-focused": {
         borderWidth: "2px",
-        color: theme.custom.colors.black,
+        color: theme.custom.colors.darkGray2,
         borderColor: "currentcolor",
       },
       "&.Mui-error": {
@@ -45,21 +46,28 @@ const Input = styled(InputBase)(({
         opacity: "0.3",
         color: theme.custom.colors.black,
       },
+      "& input:placeholder-shown": {
+        textOverflow: "ellipsis",
+      },
     },
     size === "medium" && {
-      ...theme.typography.body2,
+      "& .MuiInputBase-input": {
+        ...theme.typography.body2,
+      },
       paddingLeft: "12px",
       paddingRight: "12px",
       borderRadius: "4px",
       "&.MuiInputBase-adornedStart": {
         paddingLeft: `${12 - buttonPadding.medium}px`,
+        "&.Mui-focused": {
+          paddingLeft: `${11 - buttonPadding.medium}px`,
+        },
       },
       "&.MuiInputBase-adornedEnd": {
         paddingRight: `${12 - buttonPadding.medium}px`,
-      },
-      "&:hover:not(.Mui-disabled), &.Mui-focused": {
-        paddingLeft: "11px",
-        paddingRight: "11px",
+        "&.Mui-focused": {
+          paddingRight: `${11 - buttonPadding.medium}px`,
+        },
       },
     },
     size === "medium" &&
@@ -67,25 +75,48 @@ const Input = styled(InputBase)(({
         height: "40px",
       },
     size === "hero" && {
-      ...theme.typography.body1,
+      "& .MuiInputBase-input": {
+        ...theme.typography.body1,
+      },
       paddingLeft: "16px",
       paddingRight: "16px",
       borderRadius: "8px",
-
       "&.MuiInputBase-adornedStart": {
         paddingLeft: `${16 - buttonPadding.hero}px`,
+        "&.Mui-focused": {
+          paddingLeft: `${15 - buttonPadding.hero}px`,
+        },
       },
       "&.MuiInputBase-adornedEnd": {
         paddingRight: `${16 - buttonPadding.hero}px`,
+        "&.Mui-focused": {
+          paddingRight: `${15 - buttonPadding.hero}px`,
+        },
       },
-      "&:hover:not(.Mui-disabled), &.Mui-focused": {
-        paddingLeft: "15px",
-        paddingRight: "15px",
+      [theme.breakpoints.down("sm")]: {
+        "& .MuiInputBase-input": {
+          ...theme.typography.body4,
+        },
+        "&.MuiInputBase-adornedStart": {
+          paddingLeft: `${12 - buttonPadding.heroMobile}px`,
+          "&.Mui-focused": {
+            paddingLeft: `${11 - buttonPadding.heroMobile}px`,
+          },
+        },
+        "&.MuiInputBase-adornedEnd": {
+          paddingRight: `${12 - buttonPadding.heroMobile}px`,
+          "&.Mui-focused": {
+            paddingRight: `${11 - buttonPadding.heroMobile}px`,
+          },
+        },
       },
     },
     size === "hero" &&
       !multiline && {
         height: "56px",
+        [theme.breakpoints.down("sm")]: {
+          height: "37px",
+        },
       },
   ]
 })
@@ -123,6 +154,13 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
     height: pxToRem(24 + 2 * buttonPadding.hero),
     ".MuiSvgIcon-root": {
       fontSize: pxToRem(24),
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: pxToRem(16 + 2 * buttonPadding.heroMobile),
+      height: pxToRem(16 + 2 * buttonPadding.heroMobile),
+      ".MuiSvgIcon-root": {
+        fontSize: pxToRem(16),
+      },
     },
   },
 

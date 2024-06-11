@@ -76,6 +76,9 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
       style: {
         borderColor: colors.silverGrayLight,
         color: colors.darkGray1,
+        "&.Mui-focusVisible": {
+          backgroundColor: "transparent",
+        },
         "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
           color: colors.darkGray1,
           borderColor: colors.silverGrayDark,
@@ -90,6 +93,9 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
         border: "1px solid",
         borderColor: colors.silverGrayLight,
         color: colors.darkGray1,
+        "&.Mui-focusVisible": {
+          backgroundColor: "white",
+        },
         "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
           color: colors.darkGray1,
           borderColor: colors.silverGrayDark,
@@ -103,6 +109,9 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
         backgroundColor: colors.lightGray2,
         border: "none",
         color: colors.darkGray2,
+        "&.Mui-focusVisible": {
+          backgroundColor: colors.lightGray2,
+        },
         "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
           color: colors.darkGray1,
           backgroundColor: colors.silverGrayLight,
@@ -115,6 +124,9 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
         backgroundColor: colors.silverGrayDark,
         border: "none",
         color: colors.white,
+        "&.Mui-focusVisible": {
+          backgroundColor: colors.silverGrayDark,
+        },
         "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
           backgroundColor: colors.darkGray1,
         },
@@ -126,6 +138,9 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
         backgroundColor: colors.mitRed,
         border: "none",
         color: colors.white,
+        "&.Mui-focusVisible": {
+          backgroundColor: colors.mitRed,
+        },
         "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
           backgroundColor: colors.red,
         },

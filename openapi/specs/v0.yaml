@@ -554,11 +554,6 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
-      - in: query
-        name: published
-        schema:
-          type: boolean
-        description: Only return published testimonials
       tags:
       - testimonials
       responses:
@@ -2057,7 +2052,9 @@ components:
           items:
             type: string
         learning_format:
-          type: string
+          type: array
+          items:
+            type: string
     Profile:
       type: object
       description: Serializer for Profile

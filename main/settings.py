@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.12.1"
+VERSION = "0.13.0"
 
 log = logging.getLogger()
 
@@ -151,7 +151,19 @@ MIDDLEWARE = (
 # CORS
 CORS_ALLOWED_ORIGINS = get_list_of_str("CORS_ALLOWED_ORIGINS", [])
 CORS_ALLOWED_ORIGIN_REGEXES = get_list_of_str("CORS_ALLOWED_ORIGIN_REGEXES", [])
-CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_CREDENTIALS = get_bool("CORS_ALLOW_CREDENTIALS", True)  # noqa: FBT003
+SECURE_CROSS_ORIGIN_OPENER_POLICY = get_string(
+    "SECURE_CROSS_ORIGIN_OPENER_POLICY",
+    "same-origin",
+)
+
+CSRF_COOKIE_SECURE = get_bool("CSRF_COOKIE_SECURE", True)  # noqa: FBT003
+SESSION_COOKIE_DOMAIN = get_string("SESSION_COOKIE_DOMAIN", None)
+CSRF_COOKIE_DOMAIN = get_string("CSRF_COOKIE_DOMAIN", None)
+
+CSRF_HEADER_NAME = get_string("CSRF_HEADER_NAME", "HTTP_X_CSRFTOKEN")
+
 
 CSRF_TRUSTED_ORIGINS = get_list_of_str("CSRF_TRUSTED_ORIGINS", [])
 
@@ -162,11 +174,11 @@ if DEBUG:
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = get_string("MITOPEN_LOGIN_REDIRECT_URL", "/")
 LOGIN_URL = "/login"
 LOGIN_ERROR_URL = "/login"
 LOGOUT_URL = "/logout"
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = get_string("MITOPEN_LOGOUT_REDIRECT_URL", "/")
 
 MITOPEN_TOS_URL = get_string(
     "MITOPEN_TOS_URL", urljoin(SITE_BASE_URL, "/terms-and-conditions/")
@@ -247,7 +259,7 @@ AUTHENTICATION_BACKENDS = (
     "guardian.backends.ObjectPermissionBackend",
 )
 
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_string("MITOPEN_LOGIN_REDIRECT_URL", "/")
 SOCIAL_AUTH_NEW_USER_LOGIN_REDIRECT_URL = "/onboarding"
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
 SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
