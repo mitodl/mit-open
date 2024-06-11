@@ -1,15 +1,9 @@
 import React from "react"
 import { Grid, Container, ChoiceBox } from "ol-components"
-import { LearningFormatEnum } from "api/v0"
+import { LearningFormatEnum, LearningFormatEnumDescriptions } from "api/v0"
 
 import Prompt from "./Prompt"
 import { StepProps } from "./types"
-
-const LABELS: Record<LearningFormatEnum, string> = {
-  [LearningFormatEnum.Online]: "Online",
-  [LearningFormatEnum.InPerson]: "In-Person",
-  [LearningFormatEnum.Hybrid]: "Hybrid",
-}
 
 function LearningFormatStep({ onUpdate, profile }: StepProps) {
   const [learningFormat, setLearningFormat] = React.useState<
@@ -47,7 +41,7 @@ function LearningFormatStep({ onUpdate, profile }: StepProps) {
               <Grid item xs={4} key={index}>
                 <ChoiceBox
                   type="radio"
-                  label={LABELS[value]}
+                  label={LearningFormatEnumDescriptions[value]}
                   value={value}
                   onChange={handleToggle}
                   checked={checked}

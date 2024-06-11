@@ -2,6 +2,7 @@ generatorName: typescript-axios
 outputDir: frontends/api/src/generated/v0
 inputSpec: openapi/specs/v0.yaml
 ignoreFileOverride: frontends/api/.openapi-generator-ignore
+templateDir: scripts/openapi-configs/templates
 additionalProperties:
   paramNaming: original
   useSingleRequestParameter: true

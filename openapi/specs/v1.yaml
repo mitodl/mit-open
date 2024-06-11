@@ -6887,6 +6887,19 @@ components:
         * `professional` - professional
         * `free` - free
         * `learning_format` - learning_format
+      x-enum-descriptions:
+      - resource_type
+      - certification
+      - certification_type
+      - offered_by
+      - platform
+      - topic
+      - department
+      - level
+      - course_feature
+      - professional
+      - free
+      - learning_format
     Article:
       type: object
       description: Serializer for LearningResourceInstructor model
@@ -6928,6 +6941,11 @@ components:
         * `professional` - Professional Certificate
         * `completion` - Certificate of Completion
         * `none` - No Certificate
+      x-enum-descriptions:
+      - Micromasters Credential
+      - Professional Certificate
+      - Certificate of Completion
+      - No Certificate
     ContentFile:
       type: object
       description: Serializer class for course run ContentFiles
@@ -7095,6 +7113,10 @@ components:
         * `page` - page
         * `file` - file
         * `vertical` - vertical
+      x-enum-descriptions:
+      - page
+      - file
+      - vertical
     Course:
       type: object
       description: Serializer for the Course model
@@ -7448,6 +7470,44 @@ components:
         * `RES` - Supplemental Resources
         * `STS` - Science, Technology, and Society
         * `WGS` - Women's and Gender Studies
+      x-enum-descriptions:
+      - Civil and Environmental Engineering
+      - Mechanical Engineering
+      - Materials Science and Engineering
+      - Architecture
+      - Chemistry
+      - Electrical Engineering and Computer Science
+      - Biology
+      - Physics
+      - Brain and Cognitive Sciences
+      - Chemical Engineering
+      - Urban Studies and Planning
+      - Earth, Atmospheric, and Planetary Sciences
+      - Economics
+      - Sloan School of Management
+      - Aeronautics and Astronautics
+      - Political Science
+      - Mathematics
+      - Biological Engineering
+      - Anthropology
+      - Global Studies and Languages
+      - History
+      - Literature
+      - Music and Theater Arts
+      - Nuclear Science and Engineering
+      - Linguistics and Philosophy
+      - Concourse
+      - Comparative Media Studies/Writing
+      - Edgerton Center
+      - Experimental Study Group
+      - Engineering Systems Division
+      - Health Sciences and Technology
+      - Institute for Data, Systems, and Society
+      - Media Arts and Sciences
+      - Athletics, Physical Education and Recreation
+      - Supplemental Resources
+      - Science, Technology, and Society
+      - Women's and Gender Studies
     LearningFormatEnum:
       enum:
       - online
@@ -7458,6 +7518,10 @@ components:
         * `online` - Online
         * `hybrid` - Hybrid
         * `in_person` - In person
+      x-enum-descriptions:
+      - Online
+      - Hybrid
+      - In person
     LearningPath:
       type: object
       description: Serializer for the LearningPath model
@@ -8432,6 +8496,14 @@ components:
         * `advanced` - Advanced
         * `intermediate` - Intermediate
         * `introductory` - Introductory
+      x-enum-descriptions:
+      - Undergraduate
+      - Graduate
+      - High School
+      - Non-Credit
+      - Advanced
+      - Intermediate
+      - Introductory
     MicroLearningPathRelationship:
       type: object
       description: Serializer containing only parent and child ids for a learning
@@ -8486,6 +8558,13 @@ components:
         * `xpro` - xPRO
         * `mitpe` - Professional Education
         * `see` - Sloan Executive Education
+      x-enum-descriptions:
+      - MITx
+      - OCW
+      - Bootcamps
+      - xPRO
+      - Professional Education
+      - Sloan Executive Education
     PaginatedArticleList:
       type: object
       required:
@@ -9223,6 +9302,14 @@ components:
         * `podcast_episode` - podcast episode
         * `video` - video
         * `video_playlist` - video playlist
+      x-enum-descriptions:
+      - course
+      - program
+      - learning path
+      - podcast
+      - podcast episode
+      - video
+      - video playlist
     PlatformEnum:
       enum:
       - edx
@@ -9263,6 +9350,25 @@ components:
         * `emeritus` - Emeritus
         * `podcast` - Podcast
         * `youtube` - YouTube
+      x-enum-descriptions:
+      - edX
+      - OCW
+      - Open Learning Library
+      - MITx Online
+      - Bootcamps
+      - xPRO
+      - CSAIL
+      - Professional Education
+      - Sloan Executive Education
+      - Schwarzman College of Computing
+      - Center for Transportation & Logistics
+      - WHU
+      - Susskind
+      - Global Alumni
+      - Simplilearn
+      - Emeritus
+      - Podcast
+      - YouTube
     Podcast:
       type: object
       description: Serializer for Podcasts
@@ -9810,6 +9916,9 @@ components:
       description: |-
         * `private` - private
         * `unlisted` - unlisted
+      x-enum-descriptions:
+      - private
+      - unlisted
     Program:
       type: object
       description: Serializer for the Program model
@@ -10201,6 +10310,11 @@ components:
         * `LEARNING_PATH_ITEMS` - Learning Path Items
         * `PODCAST_EPISODES` - Podcast Episodes
         * `PLAYLIST_VIDEOS` - Playlist Videos
+      x-enum-descriptions:
+      - Program Courses
+      - Learning Path Items
+      - Podcast Episodes
+      - Playlist Videos
     ResourceTypeEnum:
       enum:
       - course
@@ -10219,6 +10333,14 @@ components:
         * `podcast_episode` - podcast_episode
         * `video` - video
         * `video_playlist` - video_playlist
+      x-enum-descriptions:
+      - course
+      - program
+      - learning_path
+      - podcast
+      - podcast_episode
+      - video
+      - video_playlist
     SortbyEnum:
       enum:
       - id
@@ -10251,6 +10373,21 @@ components:
         * `views` - Popularity ascending
         * `-views` - Popularity descending
         * `upcoming` - Next start date ascending
+      x-enum-descriptions:
+      - Object ID ascending
+      - Object ID descending
+      - Readable ID ascending
+      - Readable ID descending
+      - Last Modified Date ascending
+      - Last Modified Date descending
+      - Newest resources first
+      - Start Date ascending
+      - Start Date descending
+      - MIT course number ascending
+      - MIT course number descending
+      - Popularity ascending
+      - Popularity descending
+      - Next start date ascending
     SourceTypeEnum:
       enum:
       - search_subscription_type
@@ -10259,6 +10396,9 @@ components:
       description: |-
         * `search_subscription_type` - search_subscription_type
         * `channel_subscription_type` - channel_subscription_type
+      x-enum-descriptions:
+      - search_subscription_type
+      - channel_subscription_type
     UserList:
       type: object
       description: Simplified serializer for UserList model.

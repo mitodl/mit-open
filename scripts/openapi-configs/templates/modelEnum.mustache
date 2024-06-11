@@ -1,0 +1,25 @@
+/**
+ * {{{description}}}
+ * @export
+ * @enum {string}
+ */
+{{#isBoolean}}
+export type {{classname}} = {{#allowableValues}}{{#enumVars}}{{{value}}}{{^-last}} | {{/-last}}{{/enumVars}}{{/allowableValues}}
+{{/isBoolean}}
+
+export const {{classname}}Descriptions = {
+{{#allowableValues}}
+    {{#enumVars}}
+    {{{value}}}: "{{{enumDescription}}}",
+    {{/enumVars}}
+{{/allowableValues}}
+} as const;
+
+{{^isBoolean}}
+{{^stringEnums}}
+{{>modelObjectEnum}}
+{{/stringEnums}}
+{{#stringEnums}}
+{{>modelStringEnum}}
+{{/stringEnums}}
+{{/isBoolean}}
