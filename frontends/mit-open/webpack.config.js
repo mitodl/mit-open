@@ -13,15 +13,52 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
+const { cleanEnv, str, bool, port } = require("envalid")
 
 const {
   NODE_ENV,
   ENVIRONMENT,
   PORT,
   MITOPEN_AXIOS_BASE_PATH,
-  API_BASE_URL,
+  API_DEV_PROXY_BASE_URL,
   WEBPACK_ANALYZE,
-} = process.env
+} = cleanEnv(process.env, {
+  ENVIRONMENT: str({
+    choices: ["local", "docker", "production"],
+    default: "production",
+  }),
+  NODE_ENV: str({
+    choices: ["development", "production", "test"],
+    default: "production",
+  }),
+  PORT: port({
+    desc: "Port to run the development server on",
+    default: 8062,
+  }),
+  MITOPEN_AXIOS_BASE_PATH: str({
+    desc: "Base URL for API requests",
+    devDefault: "",
+  }),
+  API_DEV_PROXY_BASE_URL: str({
+    desc: "API base URL to proxy to in development mode",
+    default: "",
+    devDefault: process.env.MITOPEN_BASE_URL,
+  }),
+  WEBPACK_ANALYZE: bool({
+    desc: "Whether to run webpack bundle analyzer",
+    default: false,
+  }),
+})
+
+console.log("env vars:")
+console.log({
+  NODE_ENV,
+  ENVIRONMENT,
+  PORT,
+  MITOPEN_AXIOS_BASE_PATH,
+  API_DEV_PROXY_BASE_URL,
+  WEBPACK_ANALYZE,
+})
 
 const MITOPEN_FEATURES_PREFIX = "FEATURE_"
 
@@ -151,8 +188,9 @@ module.exports = (env, argv) => {
         },
       }),
       new webpack.EnvironmentPlugin({
-        ENVIRONMENT: "production",
-        MITOPEN_AXIOS_BASE_PATH: undefined,
+        // within app, define process.env.VAR_NAME with default from cleanEnv
+        MITOPEN_AXIOS_BASE_PATH,
+        ENVIRONMENT,
       }),
     ]
       .concat(
@@ -203,7 +241,7 @@ module.exports = (env, argv) => {
       emitOnErrors: false,
     },
     devServer: {
-      port: PORT || 8062,
+      port: PORT,
       allowedHosts: "all",
       headers: {
         "Access-Control-Allow-Origin": "*",
@@ -229,11 +267,11 @@ module.exports = (env, argv) => {
             "/static/admin",
             "/static/hijack",
           ],
-          target: API_BASE_URL || MITOPEN_AXIOS_BASE_PATH,
+          target: API_DEV_PROXY_BASE_URL || MITOPEN_AXIOS_BASE_PATH,
           changeOrigin: true,
           secure: false,
           headers: {
-            Origin: API_BASE_URL || MITOPEN_AXIOS_BASE_PATH,
+            Origin: API_DEV_PROXY_BASE_URL || MITOPEN_AXIOS_BASE_PATH,
           },
         },
       ],
