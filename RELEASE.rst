@@ -1,6 +1,20 @@
 Release Notes
 =============
 
+Version 0.13.1 (Released June 11, 2024)
+--------------
+
+- [pre-commit.ci] pre-commit autoupdate (#1055)
+- make slick fail more gracefully when parent width unconstrained (#1060)
+- Copies static assets to root build directory (#1053)
+- Absolute login return URL (#1052)
+- resource card fallback image and alt text fix (#1050)
+- pass cardProps to loading state (#1048)
+- search prefs learning format as list (#1056)
+- Use login redirect URL setting for social auth as well
+- Expose the login/logout redirects as an environment variable (#1046)
+- homepage hero bug fixes (#1034)
+
 Version 0.13.0 (Released June 10, 2024)
 --------------
 
