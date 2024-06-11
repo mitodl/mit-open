@@ -10,6 +10,7 @@ import type { SimpleMenuItem } from "ol-components"
 import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp"
 import { useUserMe } from "api/hooks/user"
 import { SourceTypeEnum } from "api"
+import MailOutlineIcon from "@mui/icons-material/MailOutline"
 
 const SearchSubscriptionToggle = ({
   searchParams,
@@ -71,6 +72,7 @@ const SearchSubscriptionToggle = ({
     <Button
       variant="primary"
       disabled={subscriptionCreate.isLoading}
+      startIcon={<MailOutlineIcon />}
       onClick={() =>
         subscriptionCreate.mutateAsync({
           PercolateQuerySubscriptionRequestRequest: subscribeParams,
