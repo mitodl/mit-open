@@ -1831,10 +1831,10 @@ export interface PreferencesSearch {
   topic?: Array<string>
   /**
    *
-   * @type {string}
+   * @type {Array<string>}
    * @memberof PreferencesSearch
    */
-  learning_format?: string
+  learning_format?: Array<string>
 }
 /**
  * Serializer for Profile
