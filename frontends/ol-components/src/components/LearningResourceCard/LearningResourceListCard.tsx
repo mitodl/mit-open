@@ -241,6 +241,7 @@ interface LearningResourceListCardProps {
   href?: string
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
+  editMenu?: React.ReactNode | null
 }
 
 const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
@@ -250,6 +251,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   href,
   onAddToLearningPathClick,
   onAddToUserListClick,
+  editMenu,
 }) => {
   const isMobile = !useMuiBreakpointAtLeast("md")
 
@@ -304,6 +306,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
             <RiBookmarkLine />
           </StyledActionButton>
         )}
+        {editMenu}
       </ListCard.Actions>
       <ListCard.Footer>
         <BorderSeparator>

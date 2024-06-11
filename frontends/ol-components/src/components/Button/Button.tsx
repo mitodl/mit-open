@@ -130,7 +130,9 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     edge === "none" && {
       border: "none",
       ":hover:not(:disabled)": {
-        backgroundColor: "none",
+        "&&": {
+          backgroundColor: "inherit",
+        },
       },
     },
     color === "secondary" && {

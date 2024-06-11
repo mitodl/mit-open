@@ -2,7 +2,7 @@ import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { factories, urls } from "api/test-utils"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
+import { LearningResourceListCard } from "ol-components"
 import LearningPathListingPage from "./LearningPathListingPage"
 import {
   screen,
@@ -27,7 +27,7 @@ jest.mock(
     }
   },
 )
-const spyLRCardTemplate = jest.mocked(LearningResourceCardTemplate)
+const spyLRCardTemplate = jest.mocked(LearningResourceListCard)
 
 /**
  * Set up the mock API responses for lists pages.

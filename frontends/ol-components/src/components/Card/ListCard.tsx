@@ -9,6 +9,11 @@ import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { Link } from "react-router-dom"
 
+// Relative positioned wrapper to position action buttons outside of the child Link (buttons inside anchors is not valid HTML)
+const Wrapper = styled.div`
+  position: relative;
+`
+
 const containerStyles = `
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
@@ -130,6 +135,13 @@ const Bottom = styled.div`
 const Actions = styled.div`
   display: flex;
   gap: 8px;
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  ${theme.breakpoints.down("md")} {
+    bottom: 12px;
+    right: 12px;
+  }
 `
 
 type CardProps = {
@@ -170,19 +182,21 @@ const ListCard: Card = ({ children, className, href }) => {
   }
 
   return (
-    <_Container className={className} to={href!}>
-      <Body>
-        <Info>{info}</Info>
-        <Title>{title}</Title>
-        <Bottom>
-          <Footer>{footer}</Footer>
-          {actions && <Actions>{actions}</Actions>}
-        </Bottom>
-      </Body>
-      {imageProps && (
-        <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
-      )}
-    </_Container>
+    <Wrapper>
+      <_Container className={className} to={href!}>
+        <Body>
+          <Info>{info}</Info>
+          <Title>{title}</Title>
+          <Bottom>
+            <Footer>{footer}</Footer>
+          </Bottom>
+        </Body>
+        {imageProps && (
+          <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
+        )}
+      </_Container>
+      {actions && <Actions>{actions}</Actions>}
+    </Wrapper>
   )
 }
 

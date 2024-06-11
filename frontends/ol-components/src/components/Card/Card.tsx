@@ -12,6 +12,11 @@ import { Link } from "react-router-dom"
 
 export type Size = "small" | "medium"
 
+// Relative positioned wrapper to position action buttons outside of the child Link (buttons inside anchors is not valid HTML)
+const Wrapper = styled.div`
+  position: relative;
+`
+
 const getWidthCss = ({ size }: { size?: Size }) => {
   let width
   if (size === "medium") width = 300
@@ -29,6 +34,7 @@ const Container = styled(Link)`
   overflow: hidden;
   ${getWidthCss}
   display: block;
+  position: relative;
 
   :hover {
     text-decoration: none;
@@ -104,6 +110,13 @@ const Bottom = styled.div`
 const Actions = styled.div`
   display: flex;
   gap: 8px;
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  ${theme.breakpoints.down("md")} {
+    bottom: 12px;
+    right: 12px;
+  }
 `
 
 type CardProps = {
@@ -143,22 +156,24 @@ const Card: Card = ({ children, className, size, href }) => {
   }
 
   return (
-    <Container className={className} to={href!} size={size}>
-      {imageProps && (
-        <Image
-          size={size}
-          {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)}
-        />
-      )}
-      <Body>
-        {info && <Info size={size}>{info}</Info>}
-        <Title size={size}>{title}</Title>
-      </Body>
-      <Bottom>
-        <Footer>{footer}</Footer>
-        {actions && <Actions>{actions}</Actions>}
-      </Bottom>
-    </Container>
+    <Wrapper>
+      <Container className={className} to={href!} size={size}>
+        {imageProps && (
+          <Image
+            size={size}
+            {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)}
+          />
+        )}
+        <Body>
+          {info && <Info size={size}>{info}</Info>}
+          <Title size={size}>{title}</Title>
+        </Body>
+        <Bottom>
+          <Footer>{footer}</Footer>
+        </Bottom>
+      </Container>
+      {actions && <Actions>{actions}</Actions>}
+    </Wrapper>
   )
 }
 

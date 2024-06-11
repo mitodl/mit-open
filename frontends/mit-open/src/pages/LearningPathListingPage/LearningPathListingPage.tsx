@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from "react"
-import { useNavigate } from "react-router"
 import {
   Button,
   SimpleMenu,
@@ -12,7 +11,7 @@ import {
   Typography,
   PlainList,
   LearningResourceListCard,
-  imgConfigs,
+  useMuiBreakpointAtLeast,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
@@ -25,8 +24,6 @@ import { useLearningPathsList } from "api/hooks/learningResources"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
-import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
-
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import * as urls from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
@@ -36,11 +33,21 @@ const ListHeaderGrid = styled(Grid)`
   margin-bottom: 1rem;
 `
 
+const StyledActionButton = styled(ActionButton)<{ mobile: boolean }>`
+  ${({ mobile }) =>
+    mobile
+      ? `
+  width: 16px;
+  height: 16px;`
+      : ""}
+`
+
 type EditListMenuProps = {
   resource: LearningPathResource
+  isMobile: boolean
 }
 
-const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
+const EditListMenu: React.FC<EditListMenuProps> = ({ resource, isMobile }) => {
   const items: SimpleMenuItem[] = useMemo(
     () => [
       {
@@ -61,49 +68,27 @@ const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
   return (
     <SimpleMenu
       trigger={
-        <ActionButton
-          variant="text"
+        <StyledActionButton
+          variant="secondary"
+          edge="none"
           color="secondary"
           size="small"
+          mobile={isMobile}
           aria-label={`Edit list ${resource.title}`}
         >
           <MoreVertIcon fontSize="inherit" />
-        </ActionButton>
+        </StyledActionButton>
       }
       items={items}
     />
   )
 }
 
-type ListCardProps = {
-  list: LearningPathResource
-  onActivate: (resource: LearningPathResource) => void
-  canEdit: boolean
-}
-const ListCard: React.FC<ListCardProps> = ({ list, onActivate, canEdit }) => {
-  return (
-    <LearningResourceCardTemplate
-      variant="row-reverse"
-      resource={list}
-      imgConfig={imgConfigs["row-reverse-small"]}
-      footerActionSlot={canEdit ? <EditListMenu resource={list} /> : null}
-      onActivate={onActivate}
-    />
-  )
-}
-
 const LearningPathListingPage: React.FC = () => {
+  const isMobile = !useMuiBreakpointAtLeast("md")
   const listingQuery = useLearningPathsList()
   const { data: user } = useUserMe()
 
-  const navigate = useNavigate()
-  const handleActivate = useCallback(
-    (resource: LearningPathResource) => {
-      const path = urls.learningPathsView(resource.id)
-      navigate(path)
-    },
-    [navigate],
-  )
   const handleCreate = useCallback(() => {
     manageListDialogs.upsertLearningPath()
   }, [])
@@ -119,7 +104,7 @@ const LearningPathListingPage: React.FC = () => {
       <MetaTags>
         <title>Learning Paths</title>
       </MetaTags>
-      <Container maxWidth="sm">
+      <Container maxWidth="sm" style={{ paddingBottom: 100 }}>
         <GridContainer>
           <GridColumn variant="single-full">
             <ListHeaderGrid container justifyContent="space-between">
@@ -145,24 +130,20 @@ const LearningPathListingPage: React.FC = () => {
               <LoadingSpinner loading={listingQuery.isLoading} />
               {listingQuery.data && (
                 <PlainList itemSpacing={3}>
-                  {listingQuery.data.results?.map((list) => {
-                    return (
-                      <li key={list.id}>
-                        <ListCard
-                          list={list}
-                          onActivate={handleActivate}
-                          canEdit={canEdit}
-                        />
-                      </li>
-                    )
-                  })}
                   {listingQuery.data.results?.map((resource) => {
                     return (
                       <li key={resource.id}>
                         <LearningResourceListCard
                           resource={resource}
                           href={urls.learningPathsView(resource.id)}
-                          // canEdit={canEdit}
+                          editMenu={
+                            canEdit ? (
+                              <EditListMenu
+                                resource={resource}
+                                isMobile={isMobile}
+                              />
+                            ) : null
+                          }
                         />
                       </li>
                     )
