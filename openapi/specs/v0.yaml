@@ -994,12 +994,12 @@ components:
       type: object
       description: Serializer for the ChannelOfferorDetail model
       properties:
-        offeror:
+        unit:
           allOf:
           - $ref: '#/components/schemas/LearningResourceOfferorDetail'
           readOnly: true
       required:
-      - offeror
+      - unit
     CurrentEducationEnum:
       enum:
       - no-formal

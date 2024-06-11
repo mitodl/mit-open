@@ -243,7 +243,7 @@ export interface ChannelUnitDetail {
    * @type {LearningResourceOfferorDetail}
    * @memberof ChannelUnitDetail
    */
-  offeror: LearningResourceOfferorDetail
+  unit: LearningResourceOfferorDetail
 }
 /**
  * * `no-formal` - No Formal Education * `primary` - Primary Education * `secondary-or-high-school` - Secondary Education or High School * `ged` - GED * `vocational-qualification` - Vocational Qualification
