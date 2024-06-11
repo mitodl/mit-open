@@ -50,16 +50,6 @@ const {
   }),
 })
 
-console.log("env vars:")
-console.log({
-  NODE_ENV,
-  ENVIRONMENT,
-  PORT,
-  MITOPEN_AXIOS_BASE_PATH,
-  API_DEV_PROXY_BASE_URL,
-  WEBPACK_ANALYZE,
-})
-
 const MITOPEN_FEATURES_PREFIX = "FEATURE_"
 
 const getFeatureFlags = () => {
@@ -103,7 +93,7 @@ module.exports = (env, argv) => {
   const config = {
     mode,
     context: __dirname,
-    devtool: "source-map",
+    devtool: isProduction ? "source-map" : "eval-source-map",
     entry: {
       root: "./src/App",
     },
