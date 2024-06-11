@@ -10,7 +10,7 @@ class AttestationAdmin(admin.ModelAdmin):
 
     model = Attestation
     search_fields = ("attestant_name", "title")
-    list_display = ("title", "attestant_name")
+    list_display = ("attestant_name", "title")
 
 
 admin.site.register(Attestation, AttestationAdmin)

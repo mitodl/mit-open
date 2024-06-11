@@ -3,9 +3,14 @@
 from django.urls import include, re_path
 from rest_framework.routers import DefaultRouter
 
-from testimonials.views import AttestationViewSet
+from testimonials.views import AttestationViewSet, FeaturedAttestationViewSet
 
 v0_router = DefaultRouter()
+v0_router.register(
+    r"featured_testimonials",
+    FeaturedAttestationViewSet,
+    basename="featured_testimonials_api",
+)
 v0_router.register(r"testimonials", AttestationViewSet, basename="testimonials_api")
 
 v0_urls = [
