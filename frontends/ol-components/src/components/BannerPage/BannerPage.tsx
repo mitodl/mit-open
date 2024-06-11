@@ -10,51 +10,7 @@ interface ImgProps {
    * The `src` attribute for the banner image.
    */
   src?: string | null
-  /**
-   * The `alt` attribute for the banner image.
-   */
-  alt?: string
 }
-
-/**
- * Prefer direct use of `BannerPage` component.
- */
-const BannerContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-`
-
-const imageStylesheet = `
-  width: 100%;
-  display: block;
-`
-
-const StyledImage = styled.img`
-  ${imageStylesheet}
-  position:absolute;
-  height: auto;
-  width: auto;
-`
-
-const PlaceholderDiv = styled.div`
-  ${imageStylesheet}
-  background-color: ${BACKGROUND_FALLBACK_COLOR};
-  min-height: ${BANNER_HEIGHT};
-  height: 100%;
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    min-height: ${SM_BANNER_HEIGHT};
-  }
-`
-
-/**
- * Prefer direct use of `BannerPage` component.
- */
-const BannerImage = ({ src, alt }: ImgProps) =>
-  src ? <StyledImage src={src} alt={alt || ""} /> : <PlaceholderDiv />
 
 /**
  * Prefer direct use of `BannerPage` component.
@@ -85,7 +41,6 @@ const BannerPageHeaderFlex = styled.header`
   min-height: ${BANNER_HEIGHT};
   height: 100%;
   position: relative;
-  overflow: hidden;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     min-height: ${SM_BANNER_HEIGHT};
   }
@@ -104,16 +59,24 @@ const BannerPage: React.FC<BannerPageProps> = ({
   src,
   bannerContent,
   bannerContainerClass,
-  alt,
   children,
   omitBackground,
+  backgroundSize = "cover",
 }) => {
   return (
     <BannerPageWrapper className={className}>
-      <BannerPageHeaderFlex className={bannerContainerClass}>
-        <BannerContainer>
-          {!omitBackground && <BannerImage src={src} alt={alt} />}
-        </BannerContainer>
+      <BannerPageHeaderFlex
+        className={bannerContainerClass}
+        style={
+          !omitBackground
+            ? {
+                background: `url(${src}) no-repeat top left #000`,
+                backgroundAttachment: "local",
+                backgroundSize: backgroundSize,
+              }
+            : { background: BACKGROUND_FALLBACK_COLOR }
+        }
+      >
         {bannerContent}
       </BannerPageHeaderFlex>
       {children}

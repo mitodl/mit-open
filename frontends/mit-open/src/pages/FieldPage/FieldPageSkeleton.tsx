@@ -69,6 +69,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
       }
       alt=""
       omitBackground={field.isLoading}
+      backgroundSize="1000px"
       bannerContent={
         <Container sx={{ p: "24px" }}>
           <NavText variant="subtitle3">
@@ -99,7 +100,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     display="flex"
                     flexDirection="row"
                     alignItems="center"
-                    sx={{ flexGrow: 1, flexShrink: 0, order: 1, my: "24px" }}
+                    sx={{ flexGrow: 1, flexShrink: 0, order: 1 }}
                   >
                     {displayConfiguration?.logo ? (
                       <FieldAvatar
