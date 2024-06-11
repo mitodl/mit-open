@@ -16,6 +16,15 @@ interface ImgProps {
   alt?: string
 }
 
+const BannerOverlayGradient = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: rgba(0, 0, 0, 0.3);
+`
 /**
  * Prefer direct use of `BannerPage` component.
  */
@@ -25,7 +34,7 @@ const BannerContainer = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: -1;
+  z-index: -2;
 `
 
 const imageStylesheet = `
@@ -109,6 +118,7 @@ const BannerPage: React.FC<BannerPageProps> = ({
   return (
     <BannerPageWrapper className={className}>
       <BannerPageHeaderFlex className={bannerContainerClass}>
+        <BannerOverlayGradient></BannerOverlayGradient>
         <BannerContainer>
           {!omitBackground && <BannerImage src={src} alt={alt} />}
         </BannerContainer>
