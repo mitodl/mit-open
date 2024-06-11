@@ -26,7 +26,7 @@ import type {
 import type { BaseAPI } from "../generated/v1/base"
 import type { BaseAPI as BaseAPIv0 } from "../generated/v0/base"
 
-const { axios_base_path: API_BASE_URL } = APP_SETTINGS
+const API_BASE_URL = process.env.MITOPEN_AXIOS_BASE_PATH
 
 // OpenAPI Generator declares parameters using interfaces, which makes passing
 // them to functions a little annoying.
@@ -168,7 +168,7 @@ const programLetters = {
 const testimonials = {
   list: (params?: Paramsv0<TestimonialsApi, "testimonialsList">) =>
     `${API_BASE_URL}/api/v0/testimonials/${query(params)}`,
-  details: (id: number) => `/api/v0/testimonials/${id}/`,
+  details: (id: number) => `${API_BASE_URL}/api/v0/testimonials/${id}/`,
 }
 
 const search = {
