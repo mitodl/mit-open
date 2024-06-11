@@ -28,7 +28,7 @@ describe("ChannelDetails", () => {
       string,
       unknown
     >
-    const offeror = unitDetail.offeror as unknown as Record<string, unknown>
+    const offeror = unitDetail.unit as unknown as Record<string, unknown>
     const offerings = offeror.offerings as string[]
     const audience = offeror.audience as string[]
     const formats = offeror.formats as string[]
