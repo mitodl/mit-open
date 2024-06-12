@@ -118,15 +118,15 @@ const Bottom = styled.div`
   }
 `
 
-const Actions = styled.div`
+const Actions = styled.div<{ hasImage?: boolean }>`
   display: flex;
   gap: 8px;
   position: absolute;
   bottom: 24px;
-  right: 24px;
+  right: ${({ hasImage }) => (hasImage ? "284px" : "24px")};
   ${theme.breakpoints.down("md")} {
     bottom: 12px;
-    right: 12px;
+    right: ${({ hasImage }) => (hasImage ? "124px" : "12px")};
   }
 `
 
@@ -181,7 +181,7 @@ const ListCard: Card = ({ children, className, href }) => {
           <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
         )}
       </_Container>
-      {actions && <Actions>{actions}</Actions>}
+      {actions && <Actions hasImage={!!imageProps}>{actions}</Actions>}
     </Wrapper>
   )
 }

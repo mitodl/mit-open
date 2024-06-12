@@ -2,7 +2,6 @@ import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { LearningResourceListCard } from "./LearningResourceListCard"
 import { ResourceTypeEnum } from "api"
-import styled from "@emotion/styled"
 import { factories } from "api/test-utils"
 import { withRouter } from "storybook-addon-react-router-v6"
 
@@ -14,8 +13,6 @@ const makeResource: typeof _makeResource = (overrides) => {
     "https://ocw.mit.edu/courses/res-hso-001-mit-haystack-observatory-k12-stem-lesson-plans/mitres_hso_001.jpg"
   return resource
 }
-
-const LearningResourceListCardStyled = styled(LearningResourceListCard)``
 
 const meta: Meta<typeof LearningResourceListCard> = {
   title: "ol-components/LearningResourceListCard",
@@ -61,7 +58,7 @@ const meta: Meta<typeof LearningResourceListCard> = {
     onAddToLearningPathClick,
     onAddToUserListClick,
   }) => (
-    <LearningResourceListCardStyled
+    <LearningResourceListCard
       resource={resource}
       isLoading={isLoading}
       onAddToLearningPathClick={onAddToLearningPathClick}
