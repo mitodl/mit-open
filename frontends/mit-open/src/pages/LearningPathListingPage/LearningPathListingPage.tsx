@@ -104,7 +104,7 @@ const LearningPathListingPage: React.FC = () => {
       <MetaTags>
         <title>Learning Paths</title>
       </MetaTags>
-      <Container maxWidth="sm" style={{ paddingBottom: 100 }}>
+      <Container maxWidth="md" style={{ paddingBottom: 100 }}>
         <GridContainer>
           <GridColumn variant="single-full">
             <ListHeaderGrid container justifyContent="space-between">

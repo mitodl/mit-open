@@ -12,8 +12,12 @@ import { Link } from "react-router-dom"
 
 export type Size = "small" | "medium"
 
-// Relative positioned wrapper to position action buttons outside of the child Link (buttons inside anchors is not valid HTML)
-const Wrapper = styled.div<{ size?: Size }>`
+/*
+ *The relative positioned wrapper allows the action buttons to live adjacent to the
+ * Link container in the DOM structure. They cannot be a descendent of it as
+ * buttons inside anchors are not valid HTML.
+ */
+export const Wrapper = styled.div<{ size?: Size }>`
   position: relative;
   ${({ size }) => {
     let width
@@ -27,18 +31,17 @@ const Wrapper = styled.div<{ size?: Size }>`
   }}
 `
 
-const containerStyles = `
+export const containerStyles = `
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   overflow: hidden;
-
-  display: block;
-  position: relative;
 `
 
 const LinkContainer = styled(Link)`
   ${containerStyles}
+  display: block;
+  position: relative;
 
   :hover {
     text-decoration: none;
@@ -52,6 +55,8 @@ const LinkContainer = styled(Link)`
 
 const Container = styled.div`
   ${containerStyles}
+  display: block;
+  position: relative;
 `
 
 const Content = () => <></>

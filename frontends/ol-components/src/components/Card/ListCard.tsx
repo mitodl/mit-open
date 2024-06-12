@@ -8,18 +8,7 @@ import React, {
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { Link } from "react-router-dom"
-
-// Relative positioned wrapper to position action buttons outside of the child Link (buttons inside anchors is not valid HTML)
-const Wrapper = styled.div`
-  position: relative;
-`
-
-const containerStyles = `
-  border-radius: 8px;
-  border: 1px solid ${theme.custom.colors.lightGray2};
-  background: ${theme.custom.colors.white};
-  overflow: hidden;
-`
+import { Wrapper, containerStyles } from "./Card"
 
 const LinkContainer = styled(Link)`
   ${containerStyles}
@@ -56,14 +45,11 @@ const Body = styled.div`
 
 const Image = styled.img`
   display: block;
-  background-size: cover;
-  background-repeat: no-repeat;
-  -webkit-background-position: center;
-  background-position: center;
   width: 236px;
   height: 122px;
   margin: 24px 24px 24px 0;
   border-radius: 4px;
+  object-fit: cover;
   ${theme.breakpoints.down("md")} {
     width: 111px;
     height: 104px;

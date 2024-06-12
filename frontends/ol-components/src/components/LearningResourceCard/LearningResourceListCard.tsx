@@ -8,6 +8,7 @@ import {
   formatDate,
   getReadableResourceType,
   embedlyCroppedImage,
+  DEFAULT_RESOURCE_IMG,
   pluralize,
 } from "ol-utilities"
 import { ListCard } from "../Card/ListCard"
@@ -91,13 +92,11 @@ const StyledActionButton = styled(ActionButton)<{ edge: string }>`
 
 type ResourceIdCallback = (resourceId: number) => void
 
-const getEmbedlyUrl = (resource: LearningResource, isMobile: boolean) => {
-  return resource?.image?.url
-    ? embedlyCroppedImage(resource?.image?.url, {
-        key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
-        ...IMAGE_SIZES[isMobile ? "mobile" : "desktop"],
-      })
-    : null
+const getEmbedlyUrl = (url: string, isMobile: boolean) => {
+  return embedlyCroppedImage(url, {
+    key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
+    ...IMAGE_SIZES[isMobile ? "mobile" : "desktop"],
+  })
 }
 
 const getPrice = (resource: LearningResource) => {
@@ -269,12 +268,14 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   }
   return (
     <ListCard href={href || `?resource=${resource.id}`} className={className}>
-      {resource.image && (
-        <ListCard.Image
-          src={getEmbedlyUrl(resource, isMobile)!}
-          alt={resource.image?.alt as string}
-        />
-      )}
+      <ListCard.Image
+        src={
+          resource.image?.url
+            ? getEmbedlyUrl(resource.image.url!, isMobile)
+            : DEFAULT_RESOURCE_IMG
+        }
+        alt={resource.image?.alt as string}
+      />
       <ListCard.Info>
         <Info resource={resource} />
       </ListCard.Info>

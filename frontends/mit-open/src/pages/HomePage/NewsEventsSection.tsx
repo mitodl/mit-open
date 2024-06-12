@@ -80,7 +80,6 @@ const StoryCard = styled(Card)<{ mobile: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  overflow: hidden;
   ${({ mobile }) => (mobile ? "width: 274px" : "")}
 `
 
@@ -110,9 +109,12 @@ const EventCard = styled(Card)`
   gap: 16px;
   flex: 1 0 0;
   align-self: stretch;
-  padding: 16px;
   justify-content: space-between;
   overflow: visible;
+
+  > a {
+    padding: 16px;
+  }
 `
 
 const EventDate = styled.div`

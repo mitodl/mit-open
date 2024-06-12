@@ -200,6 +200,7 @@ export const FacetsTitleContainer = styled.div`
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: end;
+  margin-top: 16px;
 `
 
 const PAGE_SIZE = 10
