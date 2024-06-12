@@ -4,6 +4,7 @@ import styled from "@emotion/styled"
 const BANNER_HEIGHT = "200px"
 const SM_BANNER_HEIGHT = "115px"
 const BACKGROUND_FALLBACK_COLOR = "#000"
+const DEFAULT_BACKGROUND_SIZE = "cover"
 
 interface ImgProps {
   /**
@@ -81,7 +82,7 @@ const BannerPage: React.FC<BannerPageProps> = ({
   children,
   omitBackground,
   dim = 0,
-  backgroundSize = "cover",
+  backgroundSize = DEFAULT_BACKGROUND_SIZE,
 }) => {
   return (
     <BannerPageWrapper className={className}>
