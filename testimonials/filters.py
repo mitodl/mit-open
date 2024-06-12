@@ -3,6 +3,7 @@
 from django_filters import (
     FilterSet,
     ModelMultipleChoiceFilter,
+    NumberFilter,
 )
 
 from channels.models import FieldChannel
@@ -19,4 +20,7 @@ class AttestationFilter(FilterSet):
     offerors = ModelMultipleChoiceFilter(
         label="The offerors the attestation is for",
         queryset=LearningResourceOfferor.objects.all(),
+    )
+    position = NumberFilter(
+        label="Only show items that exist at this position",
     )

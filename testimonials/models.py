@@ -19,6 +19,9 @@ class Attestation(TimestampedModel):
     )
     title = models.CharField(max_length=255, help_text="The attestant's title")
     quote = models.TextField(help_text="The testimonial attestation")
+    position = models.IntegerField(
+        help_text="The position the attestation should occupy", default=1
+    )
     channels = models.ManyToManyField(
         "channels.FieldChannel",
         related_name="+",

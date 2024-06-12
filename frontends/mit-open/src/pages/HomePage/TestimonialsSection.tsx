@@ -1,4 +1,5 @@
 import React from "react"
+import _ from "lodash"
 import {
   Container,
   Typography,
@@ -171,10 +172,10 @@ const ButtonsContainer = styled.div({
 })
 
 const SlickCarousel = () => {
-  const { data } = useTestimonialList()
+  const { data } = useTestimonialList({ position: 1 })
   const [slick, setSlick] = React.useState<Slider | null>(null)
 
-  if (!data) return null
+  if (!data || data.results.length === 0) return null
 
   const settings = {
     ref: setSlick,
@@ -196,7 +197,7 @@ const SlickCarousel = () => {
   return (
     <OverlayContainer>
       <Slider {...settings}>
-        {data?.results.map((resource) => (
+        {_.shuffle(data?.results).map((resource) => (
           <TestimonialCardContainer
             className="testimonial-card-container"
             key={`container-${resource.id}`}
