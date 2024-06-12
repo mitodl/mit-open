@@ -128,6 +128,19 @@ describe("FieldPage", () => {
       expect(carousel).toBeInTheDocument()
     })
   })
+  it("Does not display a featured carousel if the channel type is not 'unit'", async () => {
+    const { field } = setupApis({
+      search_filter: "topic=physics",
+      channel_type: "topic",
+    })
+
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findAllByText(field.title)
+    const carousels = screen.queryByText("Featured Courses")
+    act(() => {
+      expect(carousels).toBe(null)
+    })
+  })
   it("Displays the field search if search_filter is not undefined", async () => {
     const { field } = setupApis({ search_filter: "platform=ocw" })
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })

@@ -264,12 +264,14 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
         </Container>
       }
     >
-      <Container>
-        <FeaturedCoursesCarousel
-          title="Featured Courses"
-          config={FEATURED_RESOURCES_CAROUSEL}
-        />
-      </Container>
+      {channelType === "unit" ? (
+        <Container>
+          <FeaturedCoursesCarousel
+            title="Featured Courses"
+            config={FEATURED_RESOURCES_CAROUSEL}
+          />
+        </Container>
+      ) : null}
       {children}
     </BannerPage>
   )
