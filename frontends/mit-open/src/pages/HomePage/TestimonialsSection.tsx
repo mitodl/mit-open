@@ -56,7 +56,9 @@ const TestimonialCardImage = styled.div({
   height: "326px",
   img: {
     height: "326px",
+    width: "300px",
     objectFit: "cover",
+    objectPosition: "center",
     borderTopLeftRadius: "8px",
     borderBottomLeftRadius: "8px",
     [theme.breakpoints.down("md")]: {
@@ -208,7 +210,7 @@ const SlickCarousel = () => {
               className="testimonial-card"
             >
               <TestimonialCardImage>
-                <img src={resource.avatar} />
+                <img src={resource.cover ? resource.cover : resource.avatar} />
               </TestimonialCardImage>
               <TestimonialCardQuote>
                 <div className="testimonial-quote-opener">&ldquo;</div>
