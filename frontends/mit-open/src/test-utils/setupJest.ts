@@ -25,3 +25,5 @@ jest.mock("@/page-components/LearningResourceCard/LearningResourceCard", () => {
     default: jest.fn(actual.default),
   }
 })
+
+window.scrollTo = jest.fn()
