@@ -112,7 +112,6 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
   return (
     <BannerPage
       src="/static/images/course_search_banner.png"
-      alt=""
       className="learningpaths-page"
     >
       <MetaTags>

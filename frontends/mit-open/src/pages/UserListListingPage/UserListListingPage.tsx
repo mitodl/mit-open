@@ -159,7 +159,6 @@ const UserListListingPage: React.FC = () => {
   return (
     <BannerPage
       src="/static/images/course_search_banner.png"
-      alt=""
       className="learningpaths-page"
     >
       <MetaTags>
