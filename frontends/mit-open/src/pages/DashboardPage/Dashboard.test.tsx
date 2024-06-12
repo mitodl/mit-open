@@ -11,7 +11,6 @@ import { DashboardPage, DashboardTabLabels } from "./DashboardPage"
 import { faker } from "@faker-js/faker/locale/en"
 import {
   CourseResource,
-  CourseResourceLearningFormatInner,
   LearningResource,
   LearningResourcesSearchRetrieveLearningFormatEnum,
 } from "api"
@@ -66,8 +65,10 @@ describe("DashboardPage", () => {
         factories.learningResources.topic({ name: topic }),
       )),
         (course.certification = certification || false),
-        (course.learning_format = learningFormat.map(
-          (format) => format as unknown as CourseResourceLearningFormatInner,
+        (course.learning_format = learningFormat.map((format) =>
+          format
+            ? { code: format, name: format }
+            : { code: "online", name: "Online" },
         ))
     })
     const topicsCourses: CourseResource[] = []
