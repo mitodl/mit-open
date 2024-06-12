@@ -20,6 +20,23 @@ const BannerPageWrapper = styled.div`
   width: 100%;
 `
 
+const BannerDimOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`
+
 interface BannerPageProps extends ImgProps {
   omitBackground?: boolean
   className?: string
@@ -41,6 +58,7 @@ const BannerPageHeaderFlex = styled.header`
   min-height: ${BANNER_HEIGHT};
   height: 100%;
   position: relative;
+
   ${({ theme }) => theme.breakpoints.down("sm")} {
     min-height: ${SM_BANNER_HEIGHT};
   }
@@ -48,6 +66,8 @@ const BannerPageHeaderFlex = styled.header`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
+  z-index: -1;
 `
 
 /**
@@ -61,6 +81,7 @@ const BannerPage: React.FC<BannerPageProps> = ({
   bannerContainerClass,
   children,
   omitBackground,
+  dim = 0,
   backgroundSize = "cover",
 }) => {
   return (
@@ -77,6 +98,9 @@ const BannerPage: React.FC<BannerPageProps> = ({
             : { background: BACKGROUND_FALLBACK_COLOR }
         }
       >
+        <BannerDimOverlay
+          style={{ backgroundColor: `rgba(0 0 0 / ${dim}%)` }}
+        />
         {bannerContent}
       </BannerPageHeaderFlex>
       {children}

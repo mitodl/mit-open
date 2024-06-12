@@ -67,9 +67,9 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
         displayConfiguration?.banner_background ??
         "/static/images/background_steps.jpeg"
       }
-      alt=""
       omitBackground={field.isLoading}
       backgroundSize="1000px"
+      dim="30"
       bannerContent={
         <Container sx={{ p: "24px" }}>
           <NavText variant="subtitle3">
