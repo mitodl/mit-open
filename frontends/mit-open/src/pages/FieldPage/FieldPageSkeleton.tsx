@@ -218,7 +218,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       width: { md: "15%", xs: "100%" },
                       flexShrink: 0,
                       order: 2,
-                      my: { xs: "4px", md: "0px" },
+                      my: { md: "0px" },
                     }}
                   >
                     <FieldControls>
