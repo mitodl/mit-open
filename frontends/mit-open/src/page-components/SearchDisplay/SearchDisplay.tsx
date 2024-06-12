@@ -13,15 +13,13 @@ import {
   css,
   LearningResourceListCard,
 } from "ol-components"
-
 import TuneIcon from "@mui/icons-material/Tune"
-
+import * as NiceModal from "@ebay/nice-modal-react"
 import {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
   ResourceTypeEnum,
 } from "api"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
-
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import {
   AvailableFacets,
@@ -34,11 +32,14 @@ import type {
   FacetManifest,
 } from "@mitodl/course-search-utils"
 import _ from "lodash"
-
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
 import ProfessionalToggle from "./ProfessionalToggle"
-
 import type { TabConfig } from "./ResourceTypeTabs"
+import { useUserMe } from "api/hooks/user"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "../Dialogs/AddToListDialog"
 
 export const StyledDropdown = styled(SimpleSelect)`
   margin: 8px;
@@ -289,6 +290,22 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     },
     { keepPreviousData: true },
   )
+
+  const { data: user } = useUserMe()
+
+  const showAddToLearningPathDialog =
+    user?.is_authenticated && user?.is_learning_path_editor
+      ? (resourceId: number) => {
+          NiceModal.show(AddToLearningPathDialog, { resourceId })
+        }
+      : null
+
+  const showAddToUserListDialog = user?.is_authenticated
+    ? (resourceId: number) => {
+        NiceModal.show(AddToUserListDialog, { resourceId })
+      }
+    : null
+
   return (
     <Container>
       <GridContainer>
@@ -361,7 +378,11 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 <PlainList itemSpacing={3}>
                   {data.results.map((resource) => (
                     <li key={resource.id}>
-                      <LearningResourceListCard resource={resource} />
+                      <LearningResourceListCard
+                        resource={resource}
+                        onAddToLearningPathClick={showAddToLearningPathDialog}
+                        onAddToUserListClick={showAddToUserListDialog}
+                      />
                     </li>
                   ))}
                 </PlainList>
