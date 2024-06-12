@@ -136,6 +136,10 @@ export interface Attestation {
  * @enum {string}
  */
 
+export const BlankEnumDescriptions = {
+  "": "",
+} as const
+
 export const BlankEnum = {
   Empty: "",
 } as const
@@ -161,9 +165,24 @@ export interface CKEditorSettings {
  * @enum {string}
  */
 
+export const CertificateDesiredEnumDescriptions = {
+  yes: "Yes",
+  no: "No",
+  "not-sure-yet": "Not Sure Yet",
+} as const
+
 export const CertificateDesiredEnum = {
+  /**
+   * Yes
+   */
   Yes: "yes",
+  /**
+   * No
+   */
   No: "no",
+  /**
+   * Not Sure Yet
+   */
   NotSureYet: "not-sure-yet",
 } as const
 
@@ -228,10 +247,29 @@ export interface ChannelTopicDetailRequest {
  * @enum {string}
  */
 
+export const ChannelTypeEnumDescriptions = {
+  topic: "Topic",
+  department: "Department",
+  unit: "Unit",
+  pathway: "Pathway",
+} as const
+
 export const ChannelTypeEnum = {
+  /**
+   * Topic
+   */
   Topic: "topic",
+  /**
+   * Department
+   */
   Department: "department",
+  /**
+   * Unit
+   */
   Unit: "unit",
+  /**
+   * Pathway
+   */
   Pathway: "pathway",
 } as const
 
@@ -252,17 +290,62 @@ export interface ChannelUnitDetail {
   unit: LearningResourceOfferorDetail
 }
 /**
- * * `no-formal` - No Formal Education * `primary` - Primary Education * `secondary-or-high-school` - Secondary Education or High School * `ged` - GED * `vocational-qualification` - Vocational Qualification
+ * * `` - ---- * `Doctorate` - Doctorate * `Master\'s or professional degree` - Master\'s or professional degree * `Bachelor\'s degree` - Bachelor\'s degree * `Associate degree` - Associate degree * `Secondary/high school` - Secondary/high school * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school * `Elementary/primary school` - Elementary/primary school * `No formal education` - No formal education * `Other education` - Other education
  * @export
  * @enum {string}
  */
 
+export const CurrentEducationEnumDescriptions = {
+  Doctorate: "Doctorate",
+  "Master's or professional degree": "Master's or professional degree",
+  "Bachelor's degree": "Bachelor's degree",
+  "Associate degree": "Associate degree",
+  "Secondary/high school": "Secondary/high school",
+  "Junior secondary/junior high/middle school":
+    "Junior secondary/junior high/middle school",
+  "Elementary/primary school": "Elementary/primary school",
+  "No formal education": "No formal education",
+  "Other education": "Other education",
+} as const
+
 export const CurrentEducationEnum = {
-  NoFormal: "no-formal",
-  Primary: "primary",
-  SecondaryOrHighSchool: "secondary-or-high-school",
-  Ged: "ged",
-  VocationalQualification: "vocational-qualification",
+  /**
+   * Doctorate
+   */
+  Doctorate: "Doctorate",
+  /**
+   * Master&#39;s or professional degree
+   */
+  MastersOrProfessionalDegree: "Master's or professional degree",
+  /**
+   * Bachelor&#39;s degree
+   */
+  BachelorsDegree: "Bachelor's degree",
+  /**
+   * Associate degree
+   */
+  AssociateDegree: "Associate degree",
+  /**
+   * Secondary/high school
+   */
+  SecondaryHighSchool: "Secondary/high school",
+  /**
+   * Junior secondary/junior high/middle school
+   */
+  JuniorSecondaryJuniorHighMiddleSchool:
+    "Junior secondary/junior high/middle school",
+  /**
+   * Elementary/primary school
+   */
+  ElementaryPrimarySchool: "Elementary/primary school",
+  /**
+   * No formal education
+   */
+  NoFormalEducation: "No formal education",
+  /**
+   * Other education
+   */
+  OtherEducation: "Other education",
 } as const
 
 export type CurrentEducationEnum =
@@ -439,7 +522,14 @@ export interface DepartmentChannelFeaturedList {
  * @enum {string}
  */
 
+export const DepartmentChannelTypeEnumDescriptions = {
+  department: "Department",
+} as const
+
 export const DepartmentChannelTypeEnum = {
+  /**
+   * Department
+   */
   Department: "department",
 } as const
 
@@ -519,6 +609,10 @@ export interface EventFeedItem {
  * @export
  * @enum {string}
  */
+
+export const EventFeedItemFeedTypeEnumDescriptions = {
+  events: "",
+} as const
 
 export const EventFeedItemFeedTypeEnum = {
   Events: "events",
@@ -684,8 +778,19 @@ export interface FeedSource {
  * @enum {string}
  */
 
+export const FeedSourceFeedTypeEnumDescriptions = {
+  news: "News",
+  events: "Events",
+} as const
+
 export const FeedSourceFeedTypeEnum = {
+  /**
+   * News
+   */
   News: "news",
+  /**
+   * Events
+   */
   Events: "events",
 } as const
 
@@ -838,9 +943,24 @@ export interface FieldModeratorRequest {
  * @enum {string}
  */
 
+export const GoalsEnumDescriptions = {
+  "career-growth": "Career Growth",
+  "supplemental-learning": "Supplemental Learning",
+  "just-to-learn": "Just to Learn",
+} as const
+
 export const GoalsEnum = {
+  /**
+   * Career Growth
+   */
   CareerGrowth: "career-growth",
+  /**
+   * Supplemental Learning
+   */
   SupplementalLearning: "supplemental-learning",
+  /**
+   * Just to Learn
+   */
   JustToLearn: "just-to-learn",
 } as const
 
@@ -852,9 +972,24 @@ export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
  * @enum {string}
  */
 
+export const LearningFormatEnumDescriptions = {
+  online: "Online",
+  hybrid: "Hybrid",
+  in_person: "In person",
+} as const
+
 export const LearningFormatEnum = {
+  /**
+   * Online
+   */
   Online: "online",
+  /**
+   * Hybrid
+   */
   Hybrid: "hybrid",
+  /**
+   * In person
+   */
   InPerson: "in_person",
 } as const
 
@@ -1142,6 +1277,10 @@ export interface NewsFeedItem {
  * @export
  * @enum {string}
  */
+
+export const NewsFeedItemFeedTypeEnumDescriptions = {
+  news: "",
+} as const
 
 export const NewsFeedItemFeedTypeEnum = {
   News: "news",
@@ -1657,7 +1796,14 @@ export interface PathwayChannel {
  * @enum {string}
  */
 
+export const PathwayChannelTypeEnumDescriptions = {
+  pathway: "Pathway",
+} as const
+
 export const PathwayChannelTypeEnum = {
+  /**
+   * Pathway
+   */
   Pathway: "pathway",
 } as const
 
@@ -2052,8 +2198,19 @@ export interface ProgramCertificate {
  * @enum {string}
  */
 
+export const ResourceTypeEnumDescriptions = {
+  news: "news",
+  events: "events",
+} as const
+
 export const ResourceTypeEnum = {
+  /**
+   * news
+   */
   News: "news",
+  /**
+   * events
+   */
   Events: "events",
 } as const
 
@@ -2066,10 +2223,29 @@ export type ResourceTypeEnum =
  * @enum {string}
  */
 
+export const SiteTypeEnumDescriptions = {
+  facebook: "facebook",
+  linkedin: "linkedin",
+  personal: "personal",
+  twitter: "twitter",
+} as const
+
 export const SiteTypeEnum = {
+  /**
+   * facebook
+   */
   Facebook: "facebook",
+  /**
+   * linkedin
+   */
   Linkedin: "linkedin",
+  /**
+   * personal
+   */
   Personal: "personal",
+  /**
+   * twitter
+   */
   Twitter: "twitter",
 } as const
 
@@ -2106,11 +2282,34 @@ export interface Subfield {
  * @enum {string}
  */
 
+export const TimeCommitmentEnumDescriptions = {
+  "0-to-5-hours": "<5 hours/week",
+  "5-to-10-hours": "5-10 hours/week",
+  "10-to-20-hours": "10-20 hours/week",
+  "20-to-30-hours": "20-30 hours/week",
+  "30-plus-hours": "30+ hours/week",
+} as const
+
 export const TimeCommitmentEnum = {
+  /**
+   * &lt;5 hours/week
+   */
   _0To5Hours: "0-to-5-hours",
+  /**
+   * 5-10 hours/week
+   */
   _5To10Hours: "5-to-10-hours",
+  /**
+   * 10-20 hours/week
+   */
   _10To20Hours: "10-to-20-hours",
+  /**
+   * 20-30 hours/week
+   */
   _20To30Hours: "20-to-30-hours",
+  /**
+   * 30+ hours/week
+   */
   _30PlusHours: "30-plus-hours",
 } as const
 
@@ -2263,7 +2462,14 @@ export interface TopicChannel {
  * @enum {string}
  */
 
+export const TopicChannelTypeEnumDescriptions = {
+  topic: "Topic",
+} as const
+
 export const TopicChannelTypeEnum = {
+  /**
+   * Topic
+   */
   Topic: "topic",
 } as const
 
@@ -2416,7 +2622,14 @@ export interface UnitChannel {
  * @enum {string}
  */
 
+export const UnitChannelTypeEnumDescriptions = {
+  unit: "Unit",
+} as const
+
 export const UnitChannelTypeEnum = {
+  /**
+   * Unit
+   */
   Unit: "unit",
 } as const
 
@@ -2649,10 +2862,29 @@ export interface WidgetListRequest {
  * @enum {string}
  */
 
-export const WidgetTypeEnum = {
+export const WidgetTypeEnumDescriptions = {
   Markdown: "Markdown",
+  URL: "URL",
+  "RSS Feed": "RSS Feed",
+  People: "People",
+} as const
+
+export const WidgetTypeEnum = {
+  /**
+   * Markdown
+   */
+  Markdown: "Markdown",
+  /**
+   * URL
+   */
   Url: "URL",
+  /**
+   * RSS Feed
+   */
   RssFeed: "RSS Feed",
+  /**
+   * People
+   */
   People: "People",
 } as const
 

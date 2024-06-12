@@ -1,15 +1,9 @@
 import React from "react"
 import { Grid, Container, ChoiceBox } from "ol-components"
-import { GoalsEnum } from "api/v0"
+import { GoalsEnum, GoalsEnumDescriptions } from "api/v0"
 
 import Prompt from "./Prompt"
 import type { StepProps } from "./types"
-
-const GoalsLabels: Record<string, string> = {
-  [GoalsEnum.CareerGrowth]: "Career Growth",
-  [GoalsEnum.SupplementalLearning]: "Supplemental Learning",
-  [GoalsEnum.JustToLearn]: "Just To Learn",
-}
 
 const GoalsDescriptions: Record<string, string> = {
   [GoalsEnum.CareerGrowth]:
@@ -56,7 +50,7 @@ function GoalsStep({ profile, onUpdate }: StepProps) {
             return (
               <Grid item xs={4} key={index}>
                 <ChoiceBox
-                  label={GoalsLabels[value]}
+                  label={GoalsEnumDescriptions[value]}
                   description={GoalsDescriptions[value]}
                   value={value}
                   type="checkbox"

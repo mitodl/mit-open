@@ -45,18 +45,69 @@ import {
  * @enum {string}
  */
 
+export const AggregationsEnumDescriptions = {
+  resource_type: "resource_type",
+  certification: "certification",
+  certification_type: "certification_type",
+  offered_by: "offered_by",
+  platform: "platform",
+  topic: "topic",
+  department: "department",
+  level: "level",
+  course_feature: "course_feature",
+  professional: "professional",
+  free: "free",
+  learning_format: "learning_format",
+} as const
+
 export const AggregationsEnum = {
+  /**
+   * resource_type
+   */
   ResourceType: "resource_type",
+  /**
+   * certification
+   */
   Certification: "certification",
+  /**
+   * certification_type
+   */
   CertificationType: "certification_type",
+  /**
+   * offered_by
+   */
   OfferedBy: "offered_by",
+  /**
+   * platform
+   */
   Platform: "platform",
+  /**
+   * topic
+   */
   Topic: "topic",
+  /**
+   * department
+   */
   Department: "department",
+  /**
+   * level
+   */
   Level: "level",
+  /**
+   * course_feature
+   */
   CourseFeature: "course_feature",
+  /**
+   * professional
+   */
   Professional: "professional",
+  /**
+   * free
+   */
   Free: "free",
+  /**
+   * learning_format
+   */
   LearningFormat: "learning_format",
 } as const
 
@@ -113,10 +164,29 @@ export interface ArticleRequest {
  * @enum {string}
  */
 
+export const CertificationTypeEnumDescriptions = {
+  micromasters: "Micromasters Credential",
+  professional: "Professional Certificate",
+  completion: "Certificate of Completion",
+  none: "No Certificate",
+} as const
+
 export const CertificationTypeEnum = {
+  /**
+   * Micromasters Credential
+   */
   Micromasters: "micromasters",
+  /**
+   * Professional Certificate
+   */
   Professional: "professional",
+  /**
+   * Certificate of Completion
+   */
   Completion: "completion",
+  /**
+   * No Certificate
+   */
   None: "none",
 } as const
 
@@ -378,9 +448,24 @@ export interface ContentFileSearchResponseMetadataAggregationsValueInner {
  * @enum {string}
  */
 
+export const ContentTypeEnumDescriptions = {
+  page: "page",
+  file: "file",
+  vertical: "vertical",
+} as const
+
 export const ContentTypeEnum = {
+  /**
+   * page
+   */
   Page: "page",
+  /**
+   * file
+   */
   File: "file",
+  /**
+   * vertical
+   */
   Vertical: "vertical",
 } as const
 
@@ -771,6 +856,10 @@ export interface CourseResourceRequest {
  * @enum {string}
  */
 
+export const CourseResourceResourceTypeEnumDescriptions = {
+  course: "",
+} as const
+
 export const CourseResourceResourceTypeEnum = {
   Course: "course",
 } as const
@@ -784,43 +873,194 @@ export type CourseResourceResourceTypeEnum =
  * @enum {string}
  */
 
+export const DepartmentEnumDescriptions = {
+  "1": "Civil and Environmental Engineering",
+  "2": "Mechanical Engineering",
+  "3": "Materials Science and Engineering",
+  "4": "Architecture",
+  "5": "Chemistry",
+  "6": "Electrical Engineering and Computer Science",
+  "7": "Biology",
+  "8": "Physics",
+  "9": "Brain and Cognitive Sciences",
+  "10": "Chemical Engineering",
+  "11": "Urban Studies and Planning",
+  "12": "Earth, Atmospheric, and Planetary Sciences",
+  "14": "Economics",
+  "15": "Sloan School of Management",
+  "16": "Aeronautics and Astronautics",
+  "17": "Political Science",
+  "18": "Mathematics",
+  "20": "Biological Engineering",
+  "21A": "Anthropology",
+  "21G": "Global Studies and Languages",
+  "21H": "History",
+  "21L": "Literature",
+  "21M": "Music and Theater Arts",
+  "22": "Nuclear Science and Engineering",
+  "24": "Linguistics and Philosophy",
+  CC: "Concourse",
+  "CMS-W": "Comparative Media Studies/Writing",
+  EC: "Edgerton Center",
+  ES: "Experimental Study Group",
+  ESD: "Engineering Systems Division",
+  HST: "Health Sciences and Technology",
+  IDS: "Institute for Data, Systems, and Society",
+  MAS: "Media Arts and Sciences",
+  PE: "Athletics, Physical Education and Recreation",
+  RES: "Supplemental Resources",
+  STS: "Science, Technology, and Society",
+  WGS: "Women's and Gender Studies",
+} as const
+
 export const DepartmentEnum = {
+  /**
+   * Civil and Environmental Engineering
+   */
   _1: "1",
+  /**
+   * Mechanical Engineering
+   */
   _2: "2",
+  /**
+   * Materials Science and Engineering
+   */
   _3: "3",
+  /**
+   * Architecture
+   */
   _4: "4",
+  /**
+   * Chemistry
+   */
   _5: "5",
+  /**
+   * Electrical Engineering and Computer Science
+   */
   _6: "6",
+  /**
+   * Biology
+   */
   _7: "7",
+  /**
+   * Physics
+   */
   _8: "8",
+  /**
+   * Brain and Cognitive Sciences
+   */
   _9: "9",
+  /**
+   * Chemical Engineering
+   */
   _10: "10",
+  /**
+   * Urban Studies and Planning
+   */
   _11: "11",
+  /**
+   * Earth, Atmospheric, and Planetary Sciences
+   */
   _12: "12",
+  /**
+   * Economics
+   */
   _14: "14",
+  /**
+   * Sloan School of Management
+   */
   _15: "15",
+  /**
+   * Aeronautics and Astronautics
+   */
   _16: "16",
+  /**
+   * Political Science
+   */
   _17: "17",
+  /**
+   * Mathematics
+   */
   _18: "18",
+  /**
+   * Biological Engineering
+   */
   _20: "20",
+  /**
+   * Anthropology
+   */
   _21A: "21A",
+  /**
+   * Global Studies and Languages
+   */
   _21G: "21G",
+  /**
+   * History
+   */
   _21H: "21H",
+  /**
+   * Literature
+   */
   _21L: "21L",
+  /**
+   * Music and Theater Arts
+   */
   _21M: "21M",
+  /**
+   * Nuclear Science and Engineering
+   */
   _22: "22",
+  /**
+   * Linguistics and Philosophy
+   */
   _24: "24",
+  /**
+   * Concourse
+   */
   Cc: "CC",
+  /**
+   * Comparative Media Studies/Writing
+   */
   CmsW: "CMS-W",
+  /**
+   * Edgerton Center
+   */
   Ec: "EC",
+  /**
+   * Experimental Study Group
+   */
   Es: "ES",
+  /**
+   * Engineering Systems Division
+   */
   Esd: "ESD",
+  /**
+   * Health Sciences and Technology
+   */
   Hst: "HST",
+  /**
+   * Institute for Data, Systems, and Society
+   */
   Ids: "IDS",
+  /**
+   * Media Arts and Sciences
+   */
   Mas: "MAS",
+  /**
+   * Athletics, Physical Education and Recreation
+   */
   Pe: "PE",
+  /**
+   * Supplemental Resources
+   */
   Res: "RES",
+  /**
+   * Science, Technology, and Society
+   */
   Sts: "STS",
+  /**
+   * Women&#39;s and Gender Studies
+   */
   Wgs: "WGS",
 } as const
 
@@ -833,9 +1073,24 @@ export type DepartmentEnum =
  * @enum {string}
  */
 
+export const LearningFormatEnumDescriptions = {
+  online: "Online",
+  hybrid: "Hybrid",
+  in_person: "In person",
+} as const
+
 export const LearningFormatEnum = {
+  /**
+   * Online
+   */
   Online: "online",
+  /**
+   * Hybrid
+   */
   Hybrid: "hybrid",
+  /**
+   * In person
+   */
   InPerson: "in_person",
 } as const
 
@@ -1171,6 +1426,10 @@ export interface LearningPathResourceRequest {
  * @export
  * @enum {string}
  */
+
+export const LearningPathResourceResourceTypeEnumDescriptions = {
+  learning_path: "",
+} as const
 
 export const LearningPathResourceResourceTypeEnum = {
   LearningPath: "learning_path",
@@ -2058,13 +2317,44 @@ export interface LearningResourceTopic {
  * @enum {string}
  */
 
+export const LevelEnumDescriptions = {
+  undergraduate: "Undergraduate",
+  graduate: "Graduate",
+  high_school: "High School",
+  noncredit: "Non-Credit",
+  advanced: "Advanced",
+  intermediate: "Intermediate",
+  introductory: "Introductory",
+} as const
+
 export const LevelEnum = {
+  /**
+   * Undergraduate
+   */
   Undergraduate: "undergraduate",
+  /**
+   * Graduate
+   */
   Graduate: "graduate",
+  /**
+   * High School
+   */
   HighSchool: "high_school",
+  /**
+   * Non-Credit
+   */
   Noncredit: "noncredit",
+  /**
+   * Advanced
+   */
   Advanced: "advanced",
+  /**
+   * Intermediate
+   */
   Intermediate: "intermediate",
+  /**
+   * Introductory
+   */
   Introductory: "introductory",
 } as const
 
@@ -2126,12 +2416,39 @@ export interface MicroUserListRelationship {
  * @enum {string}
  */
 
+export const OfferedByEnumDescriptions = {
+  mitx: "MITx",
+  ocw: "OCW",
+  bootcamps: "Bootcamps",
+  xpro: "xPRO",
+  mitpe: "Professional Education",
+  see: "Sloan Executive Education",
+} as const
+
 export const OfferedByEnum = {
+  /**
+   * MITx
+   */
   Mitx: "mitx",
+  /**
+   * OCW
+   */
   Ocw: "ocw",
+  /**
+   * Bootcamps
+   */
   Bootcamps: "bootcamps",
+  /**
+   * xPRO
+   */
   Xpro: "xpro",
+  /**
+   * Professional Education
+   */
   Mitpe: "mitpe",
+  /**
+   * Sloan Executive Education
+   */
   See: "see",
 } as const
 
@@ -3091,13 +3408,44 @@ export interface PercolateQuerySubscriptionRequestRequest {
  * @enum {string}
  */
 
+export const PercolateQuerySubscriptionRequestResourceTypeEnumDescriptions = {
+  course: "course",
+  program: "program",
+  learning_path: "learning path",
+  podcast: "podcast",
+  podcast_episode: "podcast episode",
+  video: "video",
+  video_playlist: "video playlist",
+} as const
+
 export const PercolateQuerySubscriptionRequestResourceTypeEnum = {
+  /**
+   * course
+   */
   Course: "course",
+  /**
+   * program
+   */
   Program: "program",
+  /**
+   * learning path
+   */
   LearningPath: "learning_path",
+  /**
+   * podcast
+   */
   Podcast: "podcast",
+  /**
+   * podcast episode
+   */
   PodcastEpisode: "podcast_episode",
+  /**
+   * video
+   */
   Video: "video",
+  /**
+   * video playlist
+   */
   VideoPlaylist: "video_playlist",
 } as const
 
@@ -3110,24 +3458,99 @@ export type PercolateQuerySubscriptionRequestResourceTypeEnum =
  * @enum {string}
  */
 
+export const PlatformEnumDescriptions = {
+  edx: "edX",
+  ocw: "OCW",
+  oll: "Open Learning Library",
+  mitxonline: "MITx Online",
+  bootcamps: "Bootcamps",
+  xpro: "xPRO",
+  csail: "CSAIL",
+  mitpe: "Professional Education",
+  see: "Sloan Executive Education",
+  scc: "Schwarzman College of Computing",
+  ctl: "Center for Transportation & Logistics",
+  whu: "WHU",
+  susskind: "Susskind",
+  globalalumni: "Global Alumni",
+  simplilearn: "Simplilearn",
+  emeritus: "Emeritus",
+  podcast: "Podcast",
+  youtube: "YouTube",
+} as const
+
 export const PlatformEnum = {
+  /**
+   * edX
+   */
   Edx: "edx",
+  /**
+   * OCW
+   */
   Ocw: "ocw",
+  /**
+   * Open Learning Library
+   */
   Oll: "oll",
+  /**
+   * MITx Online
+   */
   Mitxonline: "mitxonline",
+  /**
+   * Bootcamps
+   */
   Bootcamps: "bootcamps",
+  /**
+   * xPRO
+   */
   Xpro: "xpro",
+  /**
+   * CSAIL
+   */
   Csail: "csail",
+  /**
+   * Professional Education
+   */
   Mitpe: "mitpe",
+  /**
+   * Sloan Executive Education
+   */
   See: "see",
+  /**
+   * Schwarzman College of Computing
+   */
   Scc: "scc",
+  /**
+   * Center for Transportation &amp; Logistics
+   */
   Ctl: "ctl",
+  /**
+   * WHU
+   */
   Whu: "whu",
+  /**
+   * Susskind
+   */
   Susskind: "susskind",
+  /**
+   * Global Alumni
+   */
   Globalalumni: "globalalumni",
+  /**
+   * Simplilearn
+   */
   Simplilearn: "simplilearn",
+  /**
+   * Emeritus
+   */
   Emeritus: "emeritus",
+  /**
+   * Podcast
+   */
   Podcast: "podcast",
+  /**
+   * YouTube
+   */
   Youtube: "youtube",
 } as const
 
@@ -3487,6 +3910,10 @@ export interface PodcastEpisodeResourceRequest {
  * @enum {string}
  */
 
+export const PodcastEpisodeResourceResourceTypeEnumDescriptions = {
+  podcast_episode: "",
+} as const
+
 export const PodcastEpisodeResourceResourceTypeEnum = {
   PodcastEpisode: "podcast_episode",
 } as const
@@ -3768,6 +4195,10 @@ export interface PodcastResourceRequest {
  * @enum {string}
  */
 
+export const PodcastResourceResourceTypeEnumDescriptions = {
+  podcast: "",
+} as const
+
 export const PodcastResourceResourceTypeEnum = {
   Podcast: "podcast",
 } as const
@@ -3781,8 +4212,19 @@ export type PodcastResourceResourceTypeEnum =
  * @enum {string}
  */
 
+export const PrivacyLevelEnumDescriptions = {
+  private: "private",
+  unlisted: "unlisted",
+} as const
+
 export const PrivacyLevelEnum = {
+  /**
+   * private
+   */
   Private: "private",
+  /**
+   * unlisted
+   */
   Unlisted: "unlisted",
 } as const
 
@@ -4276,6 +4718,10 @@ export interface ProgramResourceRequest {
  * @enum {string}
  */
 
+export const ProgramResourceResourceTypeEnumDescriptions = {
+  program: "",
+} as const
+
 export const ProgramResourceResourceTypeEnum = {
   Program: "program",
 } as const
@@ -4289,10 +4735,29 @@ export type ProgramResourceResourceTypeEnum =
  * @enum {string}
  */
 
+export const RelationTypeEnumDescriptions = {
+  PROGRAM_COURSES: "Program Courses",
+  LEARNING_PATH_ITEMS: "Learning Path Items",
+  PODCAST_EPISODES: "Podcast Episodes",
+  PLAYLIST_VIDEOS: "Playlist Videos",
+} as const
+
 export const RelationTypeEnum = {
+  /**
+   * Program Courses
+   */
   ProgramCourses: "PROGRAM_COURSES",
+  /**
+   * Learning Path Items
+   */
   LearningPathItems: "LEARNING_PATH_ITEMS",
+  /**
+   * Podcast Episodes
+   */
   PodcastEpisodes: "PODCAST_EPISODES",
+  /**
+   * Playlist Videos
+   */
   PlaylistVideos: "PLAYLIST_VIDEOS",
 } as const
 
@@ -4305,13 +4770,44 @@ export type RelationTypeEnum =
  * @enum {string}
  */
 
+export const ResourceTypeEnumDescriptions = {
+  course: "course",
+  program: "program",
+  learning_path: "learning_path",
+  podcast: "podcast",
+  podcast_episode: "podcast_episode",
+  video: "video",
+  video_playlist: "video_playlist",
+} as const
+
 export const ResourceTypeEnum = {
+  /**
+   * course
+   */
   Course: "course",
+  /**
+   * program
+   */
   Program: "program",
+  /**
+   * learning_path
+   */
   LearningPath: "learning_path",
+  /**
+   * podcast
+   */
   Podcast: "podcast",
+  /**
+   * podcast_episode
+   */
   PodcastEpisode: "podcast_episode",
+  /**
+   * video
+   */
   Video: "video",
+  /**
+   * video_playlist
+   */
   VideoPlaylist: "video_playlist",
 } as const
 
@@ -4324,20 +4820,79 @@ export type ResourceTypeEnum =
  * @enum {string}
  */
 
+export const SortbyEnumDescriptions = {
+  id: "Object ID ascending",
+  "-id": "Object ID descending",
+  readable_id: "Readable ID ascending",
+  "-readable_id": "Readable ID descending",
+  last_modified: "Last Modified Date ascending",
+  "-last_modified": "Last Modified Date descending",
+  new: "Newest resources first",
+  start_date: "Start Date ascending",
+  "-start_date": "Start Date descending",
+  mitcoursenumber: "MIT course number ascending",
+  "-mitcoursenumber": "MIT course number descending",
+  views: "Popularity ascending",
+  "-views": "Popularity descending",
+  upcoming: "Next start date ascending",
+} as const
+
 export const SortbyEnum = {
+  /**
+   * Object ID ascending
+   */
   Id: "id",
+  /**
+   * Object ID descending
+   */
   Id2: "-id",
+  /**
+   * Readable ID ascending
+   */
   ReadableId: "readable_id",
+  /**
+   * Readable ID descending
+   */
   ReadableId2: "-readable_id",
+  /**
+   * Last Modified Date ascending
+   */
   LastModified: "last_modified",
+  /**
+   * Last Modified Date descending
+   */
   LastModified2: "-last_modified",
+  /**
+   * Newest resources first
+   */
   New: "new",
+  /**
+   * Start Date ascending
+   */
   StartDate: "start_date",
+  /**
+   * Start Date descending
+   */
   StartDate2: "-start_date",
+  /**
+   * MIT course number ascending
+   */
   Mitcoursenumber: "mitcoursenumber",
+  /**
+   * MIT course number descending
+   */
   Mitcoursenumber2: "-mitcoursenumber",
+  /**
+   * Popularity ascending
+   */
   Views: "views",
+  /**
+   * Popularity descending
+   */
   Views2: "-views",
+  /**
+   * Next start date ascending
+   */
   Upcoming: "upcoming",
 } as const
 
@@ -4349,8 +4904,19 @@ export type SortbyEnum = (typeof SortbyEnum)[keyof typeof SortbyEnum]
  * @enum {string}
  */
 
+export const SourceTypeEnumDescriptions = {
+  search_subscription_type: "search_subscription_type",
+  channel_subscription_type: "channel_subscription_type",
+} as const
+
 export const SourceTypeEnum = {
+  /**
+   * search_subscription_type
+   */
   SearchSubscriptionType: "search_subscription_type",
+  /**
+   * channel_subscription_type
+   */
   ChannelSubscriptionType: "channel_subscription_type",
 } as const
 
@@ -4844,6 +5410,10 @@ export interface VideoPlaylistResourceRequest {
  * @enum {string}
  */
 
+export const VideoPlaylistResourceResourceTypeEnumDescriptions = {
+  video_playlist: "",
+} as const
+
 export const VideoPlaylistResourceResourceTypeEnum = {
   VideoPlaylist: "video_playlist",
 } as const
@@ -5118,6 +5688,10 @@ export interface VideoResourceRequest {
  * @export
  * @enum {string}
  */
+
+export const VideoResourceResourceTypeEnumDescriptions = {
+  video: "",
+} as const
 
 export const VideoResourceResourceTypeEnum = {
   Video: "video",

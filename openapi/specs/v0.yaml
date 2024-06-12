@@ -959,6 +959,10 @@ components:
         * `yes` - Yes
         * `no` - No
         * `not-sure-yet` - Not Sure Yet
+      x-enum-descriptions:
+      - 'Yes'
+      - 'No'
+      - Not Sure Yet
     ChannelDepartmentDetail:
       type: object
       description: Serializer for the ChannelDepartmentDetail model
@@ -1000,6 +1004,11 @@ components:
         * `department` - Department
         * `unit` - Unit
         * `pathway` - Pathway
+      x-enum-descriptions:
+      - Topic
+      - Department
+      - Unit
+      - Pathway
     ChannelUnitDetail:
       type: object
       description: Serializer for the ChannelOfferorDetail model
@@ -1012,18 +1021,37 @@ components:
       - unit
     CurrentEducationEnum:
       enum:
-      - no-formal
-      - primary
-      - secondary-or-high-school
-      - ged
-      - vocational-qualification
+      - Doctorate
+      - Master's or professional degree
+      - Bachelor's degree
+      - Associate degree
+      - Secondary/high school
+      - Junior secondary/junior high/middle school
+      - Elementary/primary school
+      - No formal education
+      - Other education
       type: string
       description: |-
-        * `no-formal` - No Formal Education
-        * `primary` - Primary Education
-        * `secondary-or-high-school` - Secondary Education or High School
-        * `ged` - GED
-        * `vocational-qualification` - Vocational Qualification
+        * `` - ----
+        * `Doctorate` - Doctorate
+        * `Master's or professional degree` - Master's or professional degree
+        * `Bachelor's degree` - Bachelor's degree
+        * `Associate degree` - Associate degree
+        * `Secondary/high school` - Secondary/high school
+        * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school
+        * `Elementary/primary school` - Elementary/primary school
+        * `No formal education` - No formal education
+        * `Other education` - Other education
+      x-enum-descriptions:
+      - Doctorate
+      - Master's or professional degree
+      - Bachelor's degree
+      - Associate degree
+      - Secondary/high school
+      - Junior secondary/junior high/middle school
+      - Elementary/primary school
+      - No formal education
+      - Other education
     DepartmentChannel:
       type: object
       description: Serializer for Channel model of type department
@@ -1131,6 +1159,8 @@ components:
       - department
       type: string
       description: '* `department` - Department'
+      x-enum-descriptions:
+      - Department
     EventFeedItem:
       type: object
       description: Serializer for News FeedItem
@@ -1291,6 +1321,9 @@ components:
       description: |-
         * `news` - News
         * `events` - Events
+      x-enum-descriptions:
+      - News
+      - Events
     FieldChannel:
       oneOf:
       - $ref: '#/components/schemas/TopicChannel'
@@ -1401,6 +1434,10 @@ components:
         * `career-growth` - Career Growth
         * `supplemental-learning` - Supplemental Learning
         * `just-to-learn` - Just to Learn
+      x-enum-descriptions:
+      - Career Growth
+      - Supplemental Learning
+      - Just to Learn
     LearningFormatEnum:
       enum:
       - online
@@ -1411,6 +1448,10 @@ components:
         * `online` - Online
         * `hybrid` - Hybrid
         * `in_person` - In person
+      x-enum-descriptions:
+      - Online
+      - Hybrid
+      - In person
     LearningPathPreview:
       type: object
       description: Serializer for a minimal preview of Learning Paths
@@ -1944,6 +1985,8 @@ components:
       - pathway
       type: string
       description: '* `pathway` - Pathway'
+      x-enum-descriptions:
+      - Pathway
     PreferencesSearch:
       type: object
       description: Serializer for profile search preference filters
@@ -2213,6 +2256,9 @@ components:
       description: |-
         * `news` - news
         * `events` - events
+      x-enum-descriptions:
+      - news
+      - events
     SiteTypeEnum:
       enum:
       - facebook
@@ -2225,6 +2271,11 @@ components:
         * `linkedin` - linkedin
         * `personal` - personal
         * `twitter` - twitter
+      x-enum-descriptions:
+      - facebook
+      - linkedin
+      - personal
+      - twitter
     Subfield:
       type: object
       description: Serializer for Subfields
@@ -2256,6 +2307,12 @@ components:
         * `10-to-20-hours` - 10-20 hours/week
         * `20-to-30-hours` - 20-30 hours/week
         * `30-plus-hours` - 30+ hours/week
+      x-enum-descriptions:
+      - <5 hours/week
+      - 5-10 hours/week
+      - 10-20 hours/week
+      - 20-30 hours/week
+      - 30+ hours/week
     TopicChannel:
       type: object
       description: Serializer for Channel model of type topic
@@ -2363,6 +2420,8 @@ components:
       - topic
       type: string
       description: '* `topic` - Topic'
+      x-enum-descriptions:
+      - Topic
     UnitChannel:
       type: object
       description: Serializer for Channel model of type unit
@@ -2470,6 +2529,8 @@ components:
       - unit
       type: string
       description: '* `unit` - Unit'
+      x-enum-descriptions:
+      - Unit
     User:
       type: object
       description: Serializer for User
@@ -2625,3 +2686,8 @@ components:
         * `URL` - URL
         * `RSS Feed` - RSS Feed
         * `People` - People
+      x-enum-descriptions:
+      - Markdown
+      - URL
+      - RSS Feed
+      - People
