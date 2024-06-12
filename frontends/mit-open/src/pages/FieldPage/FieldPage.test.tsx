@@ -101,9 +101,11 @@ describe("FieldPage", () => {
     const header = title[0].closest("header")
     assertInstanceOf(header, HTMLElement)
     const images = within(header).getAllByRole("img") as HTMLImageElement[]
-
-    expect(images[0].src).toContain(field.configuration.banner_background)
-    expect(images[1].src).toContain(field.configuration.logo)
+    const headerStyles = getComputedStyle(header)
+    expect(headerStyles.backgroundImage).toContain(
+      field.configuration.banner_background,
+    )
+    expect(images[0].src).toContain(field.configuration.logo)
   })
 
   it("Displays the field search if search_filter is not undefined", async () => {
