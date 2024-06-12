@@ -129,7 +129,6 @@ const HeaderRow = styled.div(({ theme }) => ({
 
 const HeaderText = styled(Typography)(({ theme }) => ({
   paddingRight: "16px",
-  ...theme.typography.h4,
   [theme.breakpoints.down("sm")]: {
     paddingBottom: "16px",
     ...theme.typography.h5,
@@ -262,7 +261,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
     <MobileOverflow className={className}>
       <TabContext value={tab}>
         <HeaderRow>
-          <HeaderText>{title}</HeaderText>
+          <HeaderText variant="h4">{title}</HeaderText>
           {config.length === 1 ? <ButtonsContainer ref={setRef} /> : null}
           {config.length > 1 ? (
             <ControlsContainer>
