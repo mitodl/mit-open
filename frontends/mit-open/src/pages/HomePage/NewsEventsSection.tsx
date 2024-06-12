@@ -172,7 +172,7 @@ const Story: React.FC<{ item: NewsFeedItem; mobile: boolean }> = ({
   mobile,
 }) => {
   return (
-    <StoryCard mobile={mobile} href={item.url} link>
+    <StoryCard mobile={mobile} href={item.url}>
       <Card.Image src={item.image?.url} alt={item.image?.alt} />
       <Card.Title>{item.title}</Card.Title>
       <Card.Footer>
