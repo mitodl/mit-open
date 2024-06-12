@@ -44,7 +44,7 @@ const StyledCarousel = styled(Carousel)({
    * remove 4px from the gap.
    */
   width: "calc(100% + 4px)",
-  trannsform: "translateX(-4px)",
+  transform: "translateX(-4px)",
   ".slick-track": {
     display: "flex",
     gap: "20px",
