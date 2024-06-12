@@ -11,6 +11,10 @@ describe("EditFieldPage", () => {
       field,
     )
     setMockResponse.get(
+      apiUrls.learningResources.featured({ limit: 12 }),
+      factories.learningResources.resources({ count: 0 }),
+    )
+    setMockResponse.get(
       apiUrls.userSubscription.check({
         source_type: "channel_subscription_type",
       }),
@@ -33,6 +37,10 @@ describe("EditFieldPage", () => {
   it("Displays message and no tabs for non-moderators", async () => {
     const field = factory.field({ is_moderator: false })
     setMockResponse.get(apiUrls.userMe.get(), {})
+    setMockResponse.get(
+      apiUrls.learningResources.featured({ limit: 12 }),
+      factories.learningResources.resources({ count: 0 }),
+    )
     setMockResponse.get(
       apiUrls.userSubscription.check({
         source_type: "channel_subscription_type",

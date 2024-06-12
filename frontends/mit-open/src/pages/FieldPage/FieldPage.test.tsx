@@ -8,6 +8,7 @@ import {
   setMockResponse,
   within,
   user,
+  act,
   waitFor,
 } from "../../test-utils"
 import FieldSearch from "./FieldSearch"
@@ -35,6 +36,15 @@ const setupApis = (
     urls.fields.details(field.channel_type, field.name),
     field,
   )
+  setMockResponse.get(
+    urls.learningResources.featured({ limit: 12, platform: ["ocw"] }),
+    factories.learningResources.resources({ count: 0 }),
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({ limit: 12 }),
+    factories.learningResources.resources({ count: 0 }),
+  )
+
   const urlParams = new URLSearchParams(fieldPatch?.search_filter)
   const subscribeParams: Record<string, string[] | string> = {}
   for (const [key, value] of urlParams.entries()) {
@@ -105,7 +115,32 @@ describe("FieldPage", () => {
     expect(images[0].src).toContain(field.configuration.banner_background)
     expect(images[1].src).toContain(field.configuration.logo)
   })
+  it("Displays a featured carousel if the channel type is 'unit'", async () => {
+    const { field } = setupApis({
+      search_filter: "unit=ocw",
+      channel_type: "unit",
+    })
 
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findAllByText(field.title)
+    const carousel = await screen.findByText("Featured Courses")
+    act(() => {
+      expect(carousel).toBeInTheDocument()
+    })
+  })
+  it("Does not display a featured carousel if the channel type is not 'unit'", async () => {
+    const { field } = setupApis({
+      search_filter: "topic=physics",
+      channel_type: "topic",
+    })
+
+    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+    await screen.findAllByText(field.title)
+    const carousels = screen.queryByText("Featured Courses")
+    act(() => {
+      expect(carousels).toBe(null)
+    })
+  })
   it("Displays the field search if search_filter is not undefined", async () => {
     const { field } = setupApis({ search_filter: "platform=ocw" })
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })

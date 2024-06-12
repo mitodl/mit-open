@@ -5,8 +5,8 @@ import {
   user,
   waitFor,
 } from "../../test-utils"
+import { factories, urls, setMockResponse } from "api/test-utils"
 import { fields as factory } from "api/test-utils/factories"
-import { urls, setMockResponse } from "api/test-utils"
 import { makeFieldViewPath, makeFieldEditPath } from "@/common/urls"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import type { FieldChannel } from "api/v0"
@@ -15,6 +15,10 @@ const setupApis = (fieldOverrides: Partial<FieldChannel>) => {
   const field = factory.field({ is_moderator: true, ...fieldOverrides })
   setMockResponse.get(urls.userMe.get(), {})
   field.search_filter = undefined
+  setMockResponse.get(
+    urls.learningResources.featured({ limit: 12 }),
+    factories.learningResources.resources({ count: 0 }),
+  )
 
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
@@ -64,6 +68,7 @@ describe("EditFieldAppearanceForm", () => {
       featured_list: null, // so we don't have to mock userList responses
       lists: [],
     })
+
     const newTitle = "New Title"
     const newDesc = "New Description"
     const newChannelType = "topic"
