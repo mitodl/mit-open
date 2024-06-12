@@ -71,14 +71,11 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   const field = useChannelDetail(String(channelType), String(name))
   const urlParams = new URLSearchParams(field.data?.search_filter)
   const displayConfiguration = field.data?.configuration
-  const memoizedUrlParams = useMemo(() => {
-    const urlParams = new URLSearchParams(field.data?.search_filter)
-    return urlParams
-  }, [field.data?.search_filter])
 
   const urlParamMap: Record<string, string[] | string> = useMemo(() => {
-    return getSearchParamMap(memoizedUrlParams)
-  }, [memoizedUrlParams])
+    const urlParams = new URLSearchParams(field.data?.search_filter)
+    return getSearchParamMap(urlParams)
+  }, [field])
 
   const FEATURED_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
     {
