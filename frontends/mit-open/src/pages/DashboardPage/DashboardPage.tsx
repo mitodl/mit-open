@@ -88,7 +88,7 @@ const Page = styled.div(({ theme }) => ({
 
 const DashboardContainer = styled(Container)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
-    padding: "28px 16px",
+    padding: "24px 16px",
     gap: "24px",
   },
 }))
@@ -222,11 +222,14 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
   },
 }))
 
-const HomeHeader = styled.div({
+const HomeHeader = styled.div(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   alignSelf: "stretch",
-})
+  [theme.breakpoints.down("md")]: {
+    paddingBottom: "8px",
+  },
+}))
 
 const HomeHeaderLeft = styled.div({
   display: "flex",
@@ -242,9 +245,12 @@ const HomeHeaderRight = styled.div(({ theme }) => ({
   },
 }))
 
-const CarouselContainer = styled.div({
+const CarouselContainer = styled.div(({ theme }) => ({
   padding: "40px 0",
-})
+  [theme.breakpoints.down("md")]: {
+    padding: "16px 0",
+  },
+}))
 
 interface UserMenuTabProps {
   icon: React.ReactNode
