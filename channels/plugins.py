@@ -6,8 +6,8 @@ from django.utils.text import slugify
 from channels.constants import ChannelType
 from channels.models import (
     ChannelDepartmentDetail,
-    ChannelOfferorDetail,
     ChannelTopicDetail,
+    ChannelUnitDetail,
     FieldChannel,
 )
 
@@ -110,21 +110,19 @@ class ChannelPlugin:
         Returns:
             tuple(FieldChannel, bool): Channel and "upserted" boolean
         """
-        offeror_detail = ChannelOfferorDetail.objects.filter(offeror=offeror).first()
-        if overwrite or not offeror_detail:
+        unit_detail = ChannelUnitDetail.objects.filter(unit=offeror).first()
+        if overwrite or not unit_detail:
             channel, _ = FieldChannel.objects.update_or_create(
                 name=offeror.code,
-                channel_type=ChannelType.offeror.name,
+                channel_type=ChannelType.unit.name,
                 defaults={
                     "title": offeror.name,
                     "search_filter": f"offered_by={offeror.code}",
                 },
             )
-            ChannelOfferorDetail.objects.update_or_create(
-                channel=channel, offeror=offeror
-            )
+            ChannelUnitDetail.objects.update_or_create(channel=channel, unit=offeror)
             return channel, True
-        return offeror_detail.channel, False
+        return unit_detail.channel, False
 
     @hookimpl
     def offeror_delete(self, offeror):
@@ -135,5 +133,5 @@ class ChannelPlugin:
             offeror(LearningResourceOfferor): The offeror to delete
 
         """
-        FieldChannel.objects.filter(offeror_detail__offeror=offeror).delete()
+        FieldChannel.objects.filter(unit_detail__unit=offeror).delete()
         offeror.delete()

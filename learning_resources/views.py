@@ -849,7 +849,7 @@ class FeaturedViewSet(
             featured learning paths from certain offerors
         """
         featured_list_ids = FieldChannel.objects.filter(
-            channel_type=ChannelType.offeror.name
+            channel_type=ChannelType.unit.name
         ).values_list("featured_list", flat=True)
 
         return (

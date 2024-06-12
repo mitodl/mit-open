@@ -13,5 +13,5 @@ class ChannelType(ExtendedEnum):
 
     topic = "Topic"
     department = "Department"
-    offeror = "Offeror"
+    unit = "Unit"
     pathway = "Pathway"

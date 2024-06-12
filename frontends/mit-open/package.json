@@ -8,9 +8,9 @@
     "url": "https://github.com/mitodl/mit-open.git"
   },
   "scripts": {
-    "watch": "MITOPEN_AXIOS_BASE_PATH=http://od.odl.local:8062 API_BASE_URL=http://od.odl.local:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
-    "watch:docker": "MITOPEN_AXIOS_BASE_PATH=http://od.odl.local:8063 API_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
-    "watch:rc": "MITOPEN_AXIOS_BASE_PATH=http://od.odl.local:8062 API_BASE_URL=https://api.mitopen-rc.odl.mit.edu/ NODE_ENV=development ENVIRONMENT=local webpack serve",
+    "watch": "NODE_ENV=development ENVIRONMENT=local webpack serve",
+    "watch:docker": "API_DEV_PROXY_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
+    "watch:rc": "API_DEV_PROXY_BASE_URL=https://api.mitopen-rc.odl.mit.edu/ NODE_ENV=development ENVIRONMENT=local webpack serve",
     "build": "webpack --config webpack.config.js --bail",
     "build-exports": "webpack --config webpack.exports.js --bail",
     "storybook": "storybook dev -p 6006",
@@ -38,6 +38,7 @@
     "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^6.10.0",
     "dotenv": "^16.4.5",
+    "envalid": "^8.0.0",
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.6.1",
     "ol-test-utilities": "0.0.0",

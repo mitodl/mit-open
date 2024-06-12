@@ -18,13 +18,13 @@ paths:
           type: string
           enum:
           - department
-          - offeror
           - pathway
           - topic
+          - unit
         description: |-
           * `topic` - Topic
           * `department` - Department
-          * `offeror` - Offeror
+          * `unit` - Unit
           * `pathway` - Pathway
       - name: limit
         required: false
@@ -554,6 +554,11 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: position
+        schema:
+          type: integer
+        description: Only show items that exist at this position
       tags:
       - testimonials
       responses:
@@ -899,6 +904,11 @@ components:
         quote:
           type: string
           description: The testimonial attestation
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The position the attestation should occupy
         publish_date:
           type: string
           format: date-time
@@ -964,16 +974,6 @@ components:
           type: string
           minLength: 1
           nullable: true
-    ChannelOfferorDetail:
-      type: object
-      description: Serializer for the ChannelOfferorDetail model
-      properties:
-        offeror:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceOfferorDetail'
-          readOnly: true
-      required:
-      - offeror
     ChannelTopicDetail:
       type: object
       description: Serializer for the ChannelTopicDetail model
@@ -992,14 +992,24 @@ components:
       enum:
       - topic
       - department
-      - offeror
+      - unit
       - pathway
       type: string
       description: |-
         * `topic` - Topic
         * `department` - Department
-        * `offeror` - Offeror
+        * `unit` - Unit
         * `pathway` - Pathway
+    ChannelUnitDetail:
+      type: object
+      description: Serializer for the ChannelOfferorDetail model
+      properties:
+        unit:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferorDetail'
+          readOnly: true
+      required:
+      - unit
     CurrentEducationEnum:
       enum:
       - no-formal
@@ -1285,14 +1295,14 @@ components:
       oneOf:
       - $ref: '#/components/schemas/TopicChannel'
       - $ref: '#/components/schemas/DepartmentChannel'
-      - $ref: '#/components/schemas/OfferorChannel'
+      - $ref: '#/components/schemas/UnitChannel'
       - $ref: '#/components/schemas/PathwayChannel'
       discriminator:
         propertyName: channel_type
         mapping:
           topic: '#/components/schemas/TopicChannel'
           department: '#/components/schemas/DepartmentChannel'
-          offeror: '#/components/schemas/OfferorChannel'
+          unit: '#/components/schemas/UnitChannel'
           pathway: '#/components/schemas/PathwayChannel'
     FieldChannelCreateRequest:
       type: object
@@ -1602,113 +1612,6 @@ components:
       type: string
       enum:
       - news
-    OfferorChannel:
-      type: object
-      description: Serializer for Channel model of type offeror
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        avatar:
-          type: string
-          nullable: true
-          description: Get the avatar image URL
-        avatar_small:
-          type: string
-          nullable: true
-          description: Get the avatar image small URL
-          readOnly: true
-        avatar_medium:
-          type: string
-          nullable: true
-          description: Get the avatar image medium URL
-          readOnly: true
-        banner:
-          type: string
-          nullable: true
-          description: Get the banner image URL
-        is_moderator:
-          type: boolean
-          description: Return true if user is a moderator for the channel
-          readOnly: true
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningPathPreview'
-          readOnly: true
-        channel_url:
-          type: string
-          description: Get the URL for the channel
-          readOnly: true
-        featured_list:
-          allOf:
-          - $ref: '#/components/schemas/LearningPathPreview'
-          readOnly: true
-          nullable: true
-          description: Learning path featured in this field.
-        subfields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subfield'
-          readOnly: true
-        channel_type:
-          type: string
-          default: offeror
-          allOf:
-          - $ref: '#/components/schemas/OfferorChannelTypeEnum'
-          readOnly: true
-        offeror_detail:
-          $ref: '#/components/schemas/ChannelOfferorDetail'
-        created_on:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_on:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-          pattern: ^[A-Za-z0-9_]+$
-          maxLength: 100
-        title:
-          type: string
-          maxLength: 100
-        about:
-          nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
-        configuration:
-          nullable: true
-        search_filter:
-          type: string
-          maxLength: 2048
-        public_description:
-          type: string
-        widget_list:
-          type: integer
-          nullable: true
-      required:
-      - avatar_medium
-      - avatar_small
-      - channel_type
-      - channel_url
-      - created_on
-      - featured_list
-      - id
-      - is_moderator
-      - lists
-      - name
-      - offeror_detail
-      - subfields
-      - title
-      - updated_on
-    OfferorChannelTypeEnum:
-      enum:
-      - offeror
-      type: string
-      description: '* `offeror` - Offeror'
     PaginatedAttestationList:
       type: object
       required:
@@ -2460,6 +2363,113 @@ components:
       - topic
       type: string
       description: '* `topic` - Topic'
+    UnitChannel:
+      type: object
+      description: Serializer for Channel model of type unit
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        avatar:
+          type: string
+          nullable: true
+          description: Get the avatar image URL
+        avatar_small:
+          type: string
+          nullable: true
+          description: Get the avatar image small URL
+          readOnly: true
+        avatar_medium:
+          type: string
+          nullable: true
+          description: Get the avatar image medium URL
+          readOnly: true
+        banner:
+          type: string
+          nullable: true
+          description: Get the banner image URL
+        is_moderator:
+          type: boolean
+          description: Return true if user is a moderator for the channel
+          readOnly: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+        channel_url:
+          type: string
+          description: Get the URL for the channel
+          readOnly: true
+        featured_list:
+          allOf:
+          - $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+          nullable: true
+          description: Learning path featured in this field.
+        subfields:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subfield'
+          readOnly: true
+        channel_type:
+          type: string
+          default: unit
+          allOf:
+          - $ref: '#/components/schemas/UnitChannelTypeEnum'
+          readOnly: true
+        unit_detail:
+          $ref: '#/components/schemas/ChannelUnitDetail'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9_]+$
+          maxLength: 100
+        title:
+          type: string
+          maxLength: 100
+        about:
+          nullable: true
+        ga_tracking_id:
+          type: string
+          maxLength: 24
+        configuration:
+          nullable: true
+        search_filter:
+          type: string
+          maxLength: 2048
+        public_description:
+          type: string
+        widget_list:
+          type: integer
+          nullable: true
+      required:
+      - avatar_medium
+      - avatar_small
+      - channel_type
+      - channel_url
+      - created_on
+      - featured_list
+      - id
+      - is_moderator
+      - lists
+      - name
+      - subfields
+      - title
+      - unit_detail
+      - updated_on
+    UnitChannelTypeEnum:
+      enum:
+      - unit
+      type: string
+      description: '* `unit` - Unit'
     User:
       type: object
       description: Serializer for User

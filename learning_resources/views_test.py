@@ -8,7 +8,7 @@ from _pytest.fixtures import fixture
 from django.utils import timezone
 from rest_framework.reverse import reverse
 
-from channels.factories import ChannelOfferorDetailFactory
+from channels.factories import ChannelUnitDetailFactory
 from channels.models import FieldChannel
 from learning_resources.constants import (
     LearningResourceRelationTypes,
@@ -77,7 +77,7 @@ def offeror_featured_lists():
                     "position": i,
                 },
             )
-        channel = ChannelOfferorDetailFactory.create(offeror=offeror).channel
+        channel = ChannelUnitDetailFactory.create(unit=offeror).channel
         channel.featured_list = featured_path
         channel.save()
 
@@ -935,7 +935,7 @@ def test_featured_view(client, offeror_featured_lists):
                 code=resource["offered_by"]["code"]
             )
             featured_list = FieldChannel.objects.get(
-                offeror_detail__offeror=offeror
+                unit_detail__unit=offeror
             ).featured_list
             assert featured_list.children.all()[position].child.id == resource["id"]
 
