@@ -127,7 +127,11 @@ const DataPanel: React.FC<DataPanelProps> = ({
         // is exhaustive since dataConfig will have type `never`
         throw new Error(`Unknown data type: ${dataConfig.type}`)
     }
-  } else return null
+  } else
+    return children({
+      resources: [],
+      childrenLoading: true,
+    })
 }
 
 const HeaderRow = styled.div(({ theme }) => ({
@@ -215,7 +219,7 @@ const PanelChildren: React.FC<PanelChildrenProps> = ({
     <>
       {config.map((tabConfig, index) => (
         <StyledTabPanel key={index} value={index.toString()}>
-          <DataPanel dataConfig={tabConfig.data}>
+          <DataPanel dataConfig={tabConfig.data} isLoading={isLoading}>
             {({ resources, childrenLoading }) =>
               children({
                 resources,
