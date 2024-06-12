@@ -5,9 +5,9 @@ import {
   RiLayoutMasonryFill,
 } from "@remixicon/react"
 import {
+  ButtonLink,
   Card,
   Container,
-  Grid,
   Skeleton,
   Tab,
   TabButtonLink,
@@ -32,6 +32,15 @@ import {
   useInfiniteUserListItems,
   useUserListsDetail,
 } from "api/hooks/learningResources"
+import { useProfileMeQuery } from "api/hooks/profile"
+import {
+  TopPicksCarouselConfig,
+  TopicCarouselConfig,
+  CertificationCarouselConfig,
+  NEW_LEARNING_RESOURCES_CAROUSEL,
+  POPULAR_LEARNING_RESOURCES_CAROUSEL,
+} from "./carousels"
+import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 
 /**
  *
@@ -79,20 +88,27 @@ const Page = styled.div(({ theme }) => ({
 
 const DashboardContainer = styled(Container)(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
-    padding: "28px 16px",
+    padding: "24px 16px",
     gap: "24px",
   },
 }))
 
-const DashboardGrid = styled(Grid)(({ theme }) => ({
+const DashboardGrid = styled.div(({ theme }) => ({
   display: "grid",
-  gridTemplateColumns: "300px 1fr",
+  gridTemplateColumns: "300px minmax(0, 1fr)",
   gap: "48px",
   [theme.breakpoints.down("md")]: {
-    gridTemplateColumns: "1fr",
+    gridTemplateColumns: "minmax(0, 1fr)",
     gap: "24px",
   },
 }))
+
+const DashboardGridItem = styled.div({
+  display: "flex",
+  "> *": {
+    minWidth: "0px",
+  },
+})
 
 const ProfileSidebar = styled(Card)(({ theme }) => ({
   position: "fixed",
@@ -206,6 +222,36 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
   },
 }))
 
+const HomeHeader = styled.div(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  alignSelf: "stretch",
+  [theme.breakpoints.down("md")]: {
+    paddingBottom: "8px",
+  },
+}))
+
+const HomeHeaderLeft = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "flex-start",
+  flex: "1 0 0",
+})
+
+const HomeHeaderRight = styled.div(({ theme }) => ({
+  display: "flex",
+  [theme.breakpoints.down("md")]: {
+    display: "none",
+  },
+}))
+
+const CarouselContainer = styled.div(({ theme }) => ({
+  padding: "40px 0",
+  [theme.breakpoints.down("md")]: {
+    padding: "16px 0",
+  },
+}))
+
 interface UserMenuTabProps {
   icon: React.ReactNode
   text: string
@@ -281,11 +327,15 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
 }
 
 const DashboardPage: React.FC = () => {
-  const { isLoading, data: user } = useUserMe()
+  const { isLoading: isLoadingUser, data: user } = useUserMe()
+  const { isLoading: isLoadingProfile, data: profile } = useProfileMeQuery()
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
   const [userListAction, setUserListAction] = useState("list")
   const [userListId, setUserListId] = useState(0)
+
+  const topics = profile?.preference_search_filters.topic
+  const certification = profile?.preference_search_filters.certification
 
   const handleActivateUserList = useCallback((userList: UserList) => {
     setUserListId(userList.id)
@@ -298,7 +348,7 @@ const DashboardPage: React.FC = () => {
         <ProfilePhotoContainer>
           <UserIcon />
           <UserNameContainer>
-            {isLoading ? (
+            {isLoadingUser ? (
               <Skeleton variant="text" width={128} height={32} />
             ) : (
               <UserNameText>{`${user?.first_name} ${user?.last_name}`}</UserNameText>
@@ -372,21 +422,70 @@ const DashboardPage: React.FC = () => {
           <MetaTags>
             <title>User Home</title>
           </MetaTags>
-          <DashboardGrid container>
-            <TabContext value={tabValue}>
-              <Grid item md={12}>
+          <TabContext value={tabValue}>
+            <DashboardGrid>
+              <DashboardGridItem>
                 <MobileOnly>{mobileMenu}</MobileOnly>
                 <DesktopOnly>{desktopMenu}</DesktopOnly>
-              </Grid>
-              <Grid item md={12}>
+              </DashboardGridItem>
+              <DashboardGridItem>
                 <TabPanelStyled value={TabValues.HOME}>
-                  <TitleText role="heading">
-                    Your MIT Learning Journey
-                  </TitleText>
-                  <SubTitleText>
-                    A customized course list based on your preferences.
-                  </SubTitleText>
-                  {contentComingSoon}
+                  <HomeHeader>
+                    <HomeHeaderLeft>
+                      <TitleText role="heading">
+                        Your MIT Learning Journey
+                      </TitleText>
+                      <SubTitleText>
+                        A customized course list based on your preferences.
+                      </SubTitleText>
+                    </HomeHeaderLeft>
+                    <HomeHeaderRight>
+                      <ButtonLink
+                        variant="tertiary"
+                        href={`#${TabValues.PROFILE}`}
+                      >
+                        Edit Profile
+                      </ButtonLink>
+                    </HomeHeaderRight>
+                  </HomeHeader>
+                  <CarouselContainer data-testid="top-picks-carousel">
+                    <ResourceCarousel
+                      title="Top picks for you"
+                      isLoading={isLoadingProfile}
+                      config={TopPicksCarouselConfig(profile)}
+                    />
+                  </CarouselContainer>
+                  {topics?.map((topic) => (
+                    <CarouselContainer
+                      key={topic}
+                      data-testid={`topic-carousel-${topic}`}
+                    >
+                      <ResourceCarousel
+                        title={`Popular courses in ${topic}`}
+                        isLoading={isLoadingProfile}
+                        config={TopicCarouselConfig(topic)}
+                      />
+                    </CarouselContainer>
+                  ))}
+                  <CarouselContainer data-testid="certification-carousel">
+                    <ResourceCarousel
+                      title={`Courses ${certification ? "with" : "without"} Certificates`}
+                      isLoading={isLoadingProfile}
+                      config={CertificationCarouselConfig(certification)}
+                    />
+                  </CarouselContainer>
+                  <CarouselContainer data-testid="new-learning-resources-carousel">
+                    <ResourceCarousel
+                      title="New"
+                      config={NEW_LEARNING_RESOURCES_CAROUSEL}
+                    />
+                  </CarouselContainer>
+                  <CarouselContainer data-testid="popular-learning-resources-carousel">
+                    <ResourceCarousel
+                      title="Popular"
+                      config={POPULAR_LEARNING_RESOURCES_CAROUSEL}
+                    />
+                  </CarouselContainer>
                 </TabPanelStyled>
                 <TabPanelStyled value={TabValues.MY_LISTS}>
                   {userListAction === "list" ? (
@@ -409,9 +508,9 @@ const DashboardPage: React.FC = () => {
                   <TitleText role="heading">Profile</TitleText>
                   {contentComingSoon}
                 </TabPanelStyled>
-              </Grid>
-            </TabContext>
-          </DashboardGrid>
+              </DashboardGridItem>
+            </DashboardGrid>
+          </TabContext>
         </DashboardContainer>
       </Page>
     </Background>
