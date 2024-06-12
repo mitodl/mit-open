@@ -36,7 +36,7 @@ const STEPS_DATA: Partial<Profile>[] = [
     time_commitment: TimeCommitmentEnum._0To5Hours,
   },
   {
-    current_education: CurrentEducationEnum.SecondaryOrHighSchool,
+    current_education: CurrentEducationEnum.SecondaryHighSchool,
   },
   {
     learning_format: LearningFormatEnum.Hybrid,

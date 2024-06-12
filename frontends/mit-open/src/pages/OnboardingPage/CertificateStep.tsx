@@ -1,17 +1,14 @@
 import React from "react"
 
 import { Grid, Container, ChoiceBox } from "ol-components"
-import { CertificateDesiredEnum } from "api/v0"
+import {
+  CertificateDesiredEnum,
+  CertificateDesiredEnumDescriptions,
+} from "api/v0"
 
 import { StepProps } from "./types"
 
 import Prompt from "./Prompt"
-
-const LABELS = {
-  [CertificateDesiredEnum.No]: "No",
-  [CertificateDesiredEnum.Yes]: "Yes",
-  [CertificateDesiredEnum.NotSureYet]: "Not sure yet",
-}
 
 function CertificateStep({ profile, onUpdate }: StepProps) {
   const [certificateDesired, setCertificateDesired] = React.useState<
@@ -49,7 +46,7 @@ function CertificateStep({ profile, onUpdate }: StepProps) {
               <Grid item xs={4} key={index}>
                 <ChoiceBox
                   type="radio"
-                  label={LABELS[value]}
+                  label={CertificateDesiredEnumDescriptions[value]}
                   value={value}
                   onChange={handleToggle}
                   checked={checked}

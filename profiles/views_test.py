@@ -271,8 +271,8 @@ def test_patch_topic_interests(client, logged_in_profile):
         (
             "current_education",
             "",
-            Profile.CurrentEducation.GED,
-            Profile.CurrentEducation.GED,
+            Profile.CurrentEducation.MASTERS,
+            Profile.CurrentEducation.MASTERS,
         ),
         (
             "time_commitment",

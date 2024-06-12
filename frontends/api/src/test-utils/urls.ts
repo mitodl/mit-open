@@ -180,8 +180,8 @@ const userMe = {
   get: () => `${API_BASE_URL}/api/v0/users/me/`,
 }
 const profileMe = {
-  get: () => "/api/v0/profiles/me/",
-  patch: () => "/api/v0/profiles/me/",
+  get: () => `${API_BASE_URL}/api/v0/profiles/me/`,
+  patch: () => `${API_BASE_URL}/api/v0/profiles/me/`,
 }
 
 const newsEvents = {

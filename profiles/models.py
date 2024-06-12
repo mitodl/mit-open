@@ -86,17 +86,19 @@ class Profile(AbstractSCIMUserMixin):
     class CurrentEducation(models.TextChoices):
         """User current education choices"""
 
-        NO_FORMAL = "no-formal", "No Formal Education"
-        PRIMARY = "primary", "Primary Education"
-        SECONDARY_OR_HIGH_SCHOOL = (
-            "secondary-or-high-school",
-            "Secondary Education or High School",
+        NO_ANSWER = "", "----"
+        DOCTORATE = "Doctorate", "Doctorate"
+        MASTERS = "Master's or professional degree", "Master's or professional degree"
+        BACHELORS = "Bachelor's degree", "Bachelor's degree"
+        ASSOCIATES = "Associate degree", "Associate degree"
+        SECONDARY = "Secondary/high school", "Secondary/high school"
+        JUNIOR_SECONDARY = (
+            "Junior secondary/junior high/middle school",
+            "Junior secondary/junior high/middle school",
         )
-        GED = "ged", "GED"
-        VOCATIONAL_QUALIFICATION = (
-            "vocational-qualification",
-            "Vocational Qualification",
-        )
+        PRIMARY = "Elementary/primary school", "Elementary/primary school"
+        NO_FORMAL = "No formal education", "No formal education"
+        OTHER = "Other education", "Other education"
 
     class TimeCommitment(models.TextChoices):
         """User time commitment choices"""

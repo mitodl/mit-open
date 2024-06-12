@@ -7,18 +7,9 @@ import {
   Container,
   FormControl,
 } from "ol-components"
-import { CurrentEducationEnum } from "api/v0"
+import { CurrentEducationEnum, CurrentEducationEnumDescriptions } from "api/v0"
 
 import { StepProps } from "./types"
-
-const LABELS = {
-  [CurrentEducationEnum.Ged]: "GED",
-  [CurrentEducationEnum.Primary]: "Primary Education",
-  [CurrentEducationEnum.NoFormal]: "No Formal Education",
-  [CurrentEducationEnum.SecondaryOrHighSchool]:
-    "Secondary Education or High School",
-  [CurrentEducationEnum.VocationalQualification]: "Vocational Qualification",
-}
 
 function EducationLevelStep({ profile, onUpdate }: StepProps) {
   const [educationLevel, setEducationLevel] = React.useState<
@@ -56,7 +47,7 @@ function EducationLevelStep({ profile, onUpdate }: StepProps) {
             {Object.values(CurrentEducationEnum).map((value, index) => {
               return (
                 <MenuItem value={value} key={index}>
-                  {LABELS[value]}
+                  {CurrentEducationEnumDescriptions[value]}
                 </MenuItem>
               )
             })}

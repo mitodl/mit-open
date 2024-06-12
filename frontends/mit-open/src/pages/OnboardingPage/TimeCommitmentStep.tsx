@@ -1,17 +1,9 @@
 import React from "react"
 import { Grid, Container, ChoiceBox } from "ol-components"
-import { TimeCommitmentEnum } from "api/v0"
+import { TimeCommitmentEnum, TimeCommitmentEnumDescriptions } from "api/v0"
 
 import Prompt from "./Prompt"
 import { StepProps } from "./types"
-
-const LABELS: Record<TimeCommitmentEnum, string> = {
-  [TimeCommitmentEnum._0To5Hours]: "< 5 hours/week",
-  [TimeCommitmentEnum._5To10Hours]: "5-10 hours/week",
-  [TimeCommitmentEnum._10To20Hours]: "10-20 hours/week",
-  [TimeCommitmentEnum._20To30Hours]: "20-30 hours/week",
-  [TimeCommitmentEnum._30PlusHours]: "30+ hours/week",
-}
 
 function TimeCommitmentStep({ onUpdate, profile }: StepProps) {
   const [timeCommitment, setTimeCommitment] = React.useState<
@@ -48,7 +40,7 @@ function TimeCommitmentStep({ onUpdate, profile }: StepProps) {
             return (
               <Grid item xs={4} key={index}>
                 <ChoiceBox
-                  label={LABELS[value]}
+                  label={TimeCommitmentEnumDescriptions[value]}
                   value={value}
                   onChange={handleToggle}
                   checked={checked}
