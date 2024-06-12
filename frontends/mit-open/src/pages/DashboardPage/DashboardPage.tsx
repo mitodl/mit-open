@@ -328,7 +328,7 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
 
 const DashboardPage: React.FC = () => {
   const { isLoading: isLoadingUser, data: user } = useUserMe()
-  const { data: profile } = useProfileMeQuery()
+  const { isLoading: isLoadingProfile, data: profile } = useProfileMeQuery()
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
   const [userListAction, setUserListAction] = useState("list")
@@ -451,6 +451,7 @@ const DashboardPage: React.FC = () => {
                   <CarouselContainer data-testid="top-picks-carousel">
                     <ResourceCarousel
                       title="Top picks for you"
+                      isLoading={isLoadingProfile}
                       config={TopPicksCarouselConfig(profile)}
                     />
                   </CarouselContainer>
@@ -461,6 +462,7 @@ const DashboardPage: React.FC = () => {
                     >
                       <ResourceCarousel
                         title={`Popular courses in ${topic}`}
+                        isLoading={isLoadingProfile}
                         config={TopicCarouselConfig(topic)}
                       />
                     </CarouselContainer>
@@ -468,6 +470,7 @@ const DashboardPage: React.FC = () => {
                   <CarouselContainer data-testid="certification-carousel">
                     <ResourceCarousel
                       title={`Courses ${certification ? "with" : "without"} Certificates`}
+                      isLoading={isLoadingProfile}
                       config={CertificationCarouselConfig(certification)}
                     />
                   </CarouselContainer>

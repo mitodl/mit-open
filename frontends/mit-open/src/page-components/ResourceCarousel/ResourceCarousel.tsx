@@ -57,12 +57,13 @@ const StyledCarousel = styled(Carousel)({
 
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   dataConfig: T
+  isLoading?: boolean
   children: ({
     resources,
-    isLoading,
+    childrenLoading,
   }: {
     resources: LearningResource[]
-    isLoading: boolean
+    childrenLoading: boolean
   }) => React.ReactNode
 }
 
@@ -71,7 +72,10 @@ const ResourcesData: React.FC<DataPanelProps<ResourceDataSource>> = ({
   children,
 }) => {
   const { data, isLoading } = useLearningResourcesList(dataConfig.params)
-  return children({ resources: data?.results ?? [], isLoading })
+  return children({
+    resources: data?.results ?? [],
+    childrenLoading: isLoading,
+  })
 }
 
 const SearchData: React.FC<DataPanelProps<SearchDataSource>> = ({
@@ -79,7 +83,10 @@ const SearchData: React.FC<DataPanelProps<SearchDataSource>> = ({
   children,
 }) => {
   const { data, isLoading } = useLearningResourcesSearch(dataConfig.params)
-  return children({ resources: data?.results ?? [], isLoading })
+  return children({
+    resources: data?.results ?? [],
+    childrenLoading: isLoading,
+  })
 }
 
 const FeaturedData: React.FC<DataPanelProps<FeaturedDataSource>> = ({
@@ -89,7 +96,10 @@ const FeaturedData: React.FC<DataPanelProps<FeaturedDataSource>> = ({
   const { data, isLoading } = useFeaturedLearningResourcesList(
     dataConfig.params,
   )
-  return children({ resources: data?.results ?? [], isLoading })
+  return children({
+    resources: data?.results ?? [],
+    childrenLoading: isLoading,
+  })
 }
 
 /**
@@ -99,18 +109,24 @@ const FeaturedData: React.FC<DataPanelProps<FeaturedDataSource>> = ({
  * react-query hook, is used. Since hooks can't be called conditionally within
  * a single component, each type of data is handled in a separate component.
  */
-const DataPanel: React.FC<DataPanelProps> = ({ dataConfig, children }) => {
-  switch (dataConfig.type) {
-    case "resources":
-      return <ResourcesData dataConfig={dataConfig}>{children}</ResourcesData>
-    case "lr_search":
-      return <SearchData dataConfig={dataConfig}>{children}</SearchData>
-    case "lr_featured":
-      return <FeaturedData dataConfig={dataConfig}>{children}</FeaturedData>
-    default:
-      // @ts-expect-error This will always be an error if the switch statement
-      // is exhaustive since dataConfig will have type `never`
-      throw new Error(`Unknown data type: ${dataConfig.type}`)
+const DataPanel: React.FC<DataPanelProps> = ({
+  dataConfig,
+  isLoading,
+  children,
+}) => {
+  if (!isLoading) {
+    switch (dataConfig.type) {
+      case "resources":
+        return <ResourcesData dataConfig={dataConfig}>{children}</ResourcesData>
+      case "lr_search":
+        return <SearchData dataConfig={dataConfig}>{children}</SearchData>
+      case "lr_featured":
+        return <FeaturedData dataConfig={dataConfig}>{children}</FeaturedData>
+      default:
+        // @ts-expect-error This will always be an error if the switch statement
+        // is exhaustive since dataConfig will have type `never`
+        throw new Error(`Unknown data type: ${dataConfig.type}`)
+    }
   }
 }
 
@@ -175,13 +191,22 @@ type ContentProps = {
 type PanelChildrenProps = {
   config: TabConfig[]
   children: (props: ContentProps) => React.ReactNode
+  isLoading?: boolean
 }
-const PanelChildren: React.FC<PanelChildrenProps> = ({ config, children }) => {
+const PanelChildren: React.FC<PanelChildrenProps> = ({
+  config,
+  children,
+  isLoading,
+}) => {
   if (config.length === 1) {
     return (
-      <DataPanel dataConfig={config[0].data}>
-        {({ resources, isLoading }) =>
-          children({ resources, isLoading, tabConfig: config[0] })
+      <DataPanel dataConfig={config[0].data} isLoading={isLoading}>
+        {({ resources, childrenLoading }) =>
+          children({
+            resources,
+            isLoading: childrenLoading || isLoading,
+            tabConfig: config[0],
+          })
         }
       </DataPanel>
     )
@@ -191,10 +216,10 @@ const PanelChildren: React.FC<PanelChildrenProps> = ({ config, children }) => {
       {config.map((tabConfig, index) => (
         <StyledTabPanel key={index} value={index.toString()}>
           <DataPanel dataConfig={tabConfig.data}>
-            {({ resources, isLoading }) =>
+            {({ resources, childrenLoading }) =>
               children({
                 resources,
-                isLoading,
+                isLoading: childrenLoading || isLoading,
                 tabConfig,
               })
             }
@@ -221,6 +246,7 @@ type ResourceCarouselProps = {
   config: TabConfig[]
   title: string
   className?: string
+  isLoading?: boolean
 }
 /**
  * A tabbed carousel that fetches resources based on the configuration provided.
@@ -237,6 +263,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   config,
   title,
   className,
+  isLoading,
 }) => {
   const { data: user } = useUserMe()
   const [tab, setTab] = React.useState("0")
@@ -278,10 +305,10 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
             </ControlsContainer>
           ) : null}
         </HeaderRow>
-        <PanelChildren config={config}>
-          {({ resources, isLoading, tabConfig }) => (
+        <PanelChildren config={config} isLoading={isLoading}>
+          {({ resources, isLoading: childrenLoading, tabConfig }) => (
             <StyledCarousel arrowsContainer={ref}>
-              {isLoading
+              {isLoading || childrenLoading
                 ? Array.from({ length: 6 }).map((_, index) => (
                     <LearningResourceCardStyled
                       isLoading
