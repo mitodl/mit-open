@@ -36,6 +36,7 @@ const LearningResourceCardStyled = styled(LearningResourceCard)({
       "0 2px 4px 0 rgb(37 38 43 / 10%), 0 2px 4px 0 rgb(37 38 43 / 10%)",
   },
 })
+
 const StyledCarousel = styled(Carousel)({
   /**
    * Our cards have a hover shadow that gets clipped by the carousel container.
@@ -117,20 +118,34 @@ const HeaderRow = styled.div(({ theme }) => ({
   display: "flex",
   flexWrap: "wrap",
   alignItems: "center",
-  gap: "16px",
+  justifyContent: "space-between",
   marginBottom: "24px",
   [theme.breakpoints.down("sm")]: {
     alignItems: "flex-start",
     flexDirection: "column",
+    marginBottom: "0px",
   },
 }))
-const ControlsContainer = styled.div({
+
+const HeaderText = styled(Typography)(({ theme }) => ({
+  paddingRight: "16px",
+  ...theme.typography.h4,
+  [theme.breakpoints.down("sm")]: {
+    paddingBottom: "16px",
+    ...theme.typography.h5,
+  },
+}))
+
+const ControlsContainer = styled.div(({ theme }) => ({
   display: "flex",
   flex: 1,
   minWidth: "0px",
   maxWidth: "100%",
   justifyContent: "space-between",
-})
+  [theme.breakpoints.down("sm")]: {
+    paddingBottom: "16px",
+  },
+}))
 
 const StyledTabPanel = styled(TabPanel)({
   paddingTop: "0px",
@@ -247,11 +262,10 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
     <MobileOverflow className={className}>
       <TabContext value={tab}>
         <HeaderRow>
-          <Typography variant="h3">{title}</Typography>
-          <ControlsContainer>
-            {config.length === 1 ? (
-              <div /> // placeholder for spacing
-            ) : (
+          <HeaderText>{title}</HeaderText>
+          {config.length === 1 ? <ButtonsContainer ref={setRef} /> : null}
+          {config.length > 1 ? (
+            <ControlsContainer>
               <TabsList onChange={(e, newValue) => setTab(newValue)}>
                 {config.map(({ label }, index) => (
                   <TabButton
@@ -261,9 +275,9 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
                   />
                 ))}
               </TabsList>
-            )}
-            <ButtonsContainer ref={setRef} />
-          </ControlsContainer>
+              <ButtonsContainer ref={setRef} />
+            </ControlsContainer>
+          ) : null}
         </HeaderRow>
         <PanelChildren config={config}>
           {({ resources, isLoading, tabConfig }) => (
