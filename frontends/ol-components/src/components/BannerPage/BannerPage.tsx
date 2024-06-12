@@ -26,7 +26,6 @@ const BannerDimOverlay = styled.div`
   left: 0;
   content: "";
   display: block;
-  position: absolute;
   width: 100%;
   height: 100%;
   z-index: -1;
