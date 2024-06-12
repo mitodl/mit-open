@@ -19,7 +19,9 @@ touch ./frontends/mit-open/build/index.html
 run_test ./scripts/test/detect_missing_migrations.sh
 run_test ./scripts/test/no_auto_migrations.sh
 run_test ./scripts/test/openapi_spec_check.sh
-run_test pytest
+
+# run tests in parallel - one proc per logical cpu
+run_test pytest -n logical
 
 # shellcheck disable=SC2154
 exit $status
