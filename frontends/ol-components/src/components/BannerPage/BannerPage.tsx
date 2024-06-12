@@ -24,8 +24,6 @@ const BannerDimOverlay = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
   content: "";
   display: block;
   position: absolute;
@@ -52,6 +50,8 @@ interface BannerPageProps extends ImgProps {
    */
   bannerContent?: React.ReactNode
   bannerContainerClass?: string
+  backgroundSize?: string
+  dim?: number
 }
 
 const BannerPageHeaderFlex = styled.header`
