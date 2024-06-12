@@ -91,7 +91,7 @@ const BannerPage: React.FC<BannerPageProps> = ({
           !omitBackground
             ? {
                 background: `url(${src}) no-repeat top left #000`,
-                backgroundAttachment: "local",
+                backgroundAttachment: "fixed",
                 backgroundSize: backgroundSize,
               }
             : { background: BACKGROUND_FALLBACK_COLOR }

@@ -68,7 +68,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
         "/static/images/background_steps.jpeg"
       }
       omitBackground={field.isLoading}
-      backgroundSize="1000px"
+      backgroundSize="2000px auto"
       dim={30}
       bannerContent={
         <Container sx={{ p: "24px" }}>
