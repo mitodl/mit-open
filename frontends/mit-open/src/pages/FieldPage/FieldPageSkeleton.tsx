@@ -99,7 +99,6 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     flexShrink: 0,
                     order: 1,
                     width: "50%",
-                    gap: "6px",
                   }}
                 >
                   <Box
@@ -219,7 +218,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       width: { md: "15%", xs: "100%" },
                       flexShrink: 0,
                       order: 2,
-                      my: { xs: "24px", md: "0px" },
+                      my: { xs: "4px", md: "0px" },
                     }}
                   >
                     <FieldControls>
