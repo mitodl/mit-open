@@ -9,6 +9,7 @@ import type {
   BooleanFacets,
 } from "@mitodl/course-search-utils"
 import { ChannelTypeEnum } from "api/v0"
+import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
 
 type RouteParams = {
   channelType: ChannelTypeEnum
@@ -32,6 +33,9 @@ const FieldPage: React.FC = () => {
     channelType && (
       <FieldPageSkeleton name={name} channelType={channelType}>
         <p>{fieldQuery.data?.public_description}</p>
+        {channelType === "offeror" ? (
+          <TestimonialDisplay offerors={[name]} />
+        ) : null}
         {fieldQuery.data?.search_filter && (
           <FieldSearch
             constantSearchParams={searchParams}
