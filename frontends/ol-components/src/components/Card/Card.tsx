@@ -12,23 +12,22 @@ import { Link } from "react-router-dom"
 
 export type Size = "small" | "medium"
 
-const getWidthCss = ({ size }: { size?: Size }) => {
-  let width
-  if (size === "medium") width = 300
-  if (size === "small") width = 192
-  return `
-    min-width: ${width}px;
-    max-width: ${width}px;
-  `
-}
-
 // Relative positioned wrapper to position action buttons outside of the child Link (buttons inside anchors is not valid HTML)
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ size?: Size }>`
   position: relative;
-  ${getWidthCss}
+  ${({ size }) => {
+    let width
+    if (!size) return ""
+    if (size === "medium") width = 300
+    if (size === "small") width = 192
+    return `
+      min-width: ${width}px;
+      max-width: ${width}px;
+    `
+  }}
 `
 
-const Container = styled(Link)`
+const containerStyles = `
   border-radius: 8px;
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
@@ -36,6 +35,10 @@ const Container = styled(Link)`
 
   display: block;
   position: relative;
+`
+
+const LinkContainer = styled(Link)`
+  ${containerStyles}
 
   :hover {
     text-decoration: none;
@@ -45,6 +48,10 @@ const Container = styled(Link)`
       0 2px 4px 0 rgb(37 38 43 / 10%);
     cursor: pointer;
   }
+`
+
+const Container = styled.div`
+  ${containerStyles}
 `
 
 const Content = () => <></>
@@ -134,6 +141,8 @@ type Card = FC<CardProps> & {
 const Card: Card = ({ children, className, size, href }) => {
   let content, imageProps, info, title, footer, actions
 
+  const _Container = href ? LinkContainer : Container
+
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return
     if (child.type === Content) content = child.props.children
@@ -147,16 +156,16 @@ const Card: Card = ({ children, className, size, href }) => {
   if (content) {
     return (
       <Wrapper className={className} size={size}>
-        <Container className={className} to={href!}>
+        <_Container className={className} to={href!}>
           {content}
-        </Container>
+        </_Container>
       </Wrapper>
     )
   }
 
   return (
     <Wrapper className={className} size={size}>
-      <Container to={href!}>
+      <_Container to={href!}>
         {imageProps && (
           <Image
             size={size}
@@ -170,7 +179,7 @@ const Card: Card = ({ children, className, size, href }) => {
         <Bottom>
           <Footer>{footer}</Footer>
         </Bottom>
-      </Container>
+      </_Container>
       {actions && <Actions>{actions}</Actions>}
     </Wrapper>
   )

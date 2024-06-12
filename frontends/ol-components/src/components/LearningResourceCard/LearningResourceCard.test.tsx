@@ -1,6 +1,6 @@
 import React from "react"
 import { BrowserRouter } from "react-router-dom"
-import { render, screen } from "@testing-library/react"
+import { screen, render, act } from "@testing-library/react"
 import { LearningResourceCard } from "./LearningResourceCard"
 import { DEFAULT_RESOURCE_IMG, embedlyCroppedImage } from "ol-utilities"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
@@ -66,16 +66,31 @@ describe("Learning Resource Card", () => {
     expect(screen.getByRole("link")).toHaveTextContent("Fall 2002")
   })
 
-  test("Click to activate and action buttons", async () => {
+  test("Click to navigate", async () => {
     const resource = factories.learningResources.resource({
       resource_type: ResourceTypeEnum.Course,
       platform: { code: PlatformEnum.Ocw },
-      runs: [
-        factories.learningResources.run({
-          semester: "Fall",
-          year: 2002,
-        }),
-      ],
+    })
+
+    render(
+      <BrowserRouter>
+        <LearningResourceCard resource={resource} />
+      </BrowserRouter>,
+      { wrapper: ThemeProvider },
+    )
+
+    const heading = screen.getByRole("heading", { name: resource.title })
+    await act(async () => {
+      await heading.click()
+    })
+
+    expect(window.location.search).toBe(`?resource=${resource.id}`)
+  })
+
+  test("Click action buttons", async () => {
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.Course,
+      platform: { code: PlatformEnum.Ocw },
     })
 
     const onAddToLearningPathClick = jest.fn()
@@ -92,8 +107,10 @@ describe("Learning Resource Card", () => {
       { wrapper: ThemeProvider },
     )
 
-    const heading = screen.getByRole("heading", { name: resource.title })
-    await heading.click()
+    // const heading = screen.getByRole("heading", { name: resource.title })
+    // act(async () => {
+    //   await heading.click()
+    // })
 
     const addToLearningPathButton = screen.getByLabelText(
       "Add to Learning Path",
