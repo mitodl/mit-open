@@ -30,9 +30,13 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
   }
   const { typography } = theme
   const { colors } = theme.custom
+  const hasBorder = variant === "secondary" || variant === "text"
+  const borderWidthPx = hasBorder ? { small: 1, medium: 1, large: 2 }[size] : 0
+
   return [
     {
       color: theme.palette.text.primary,
+      textAlign: "center",
       // display
       display: "inline-flex",
       justifyContent: "center",
@@ -47,18 +51,15 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     },
     // size
     size === "large" && {
-      padding: "0px 24px",
-      height: `calc(48px - 16px + ${pxToRem(16)})`, // 48px at default base font size
+      padding: `${14 - borderWidthPx}px 24px`,
       ...typography.buttonLarge,
     },
     size === "medium" && {
-      padding: "0px 16px",
-      height: `calc(40px - 14px + ${pxToRem(14)})`, // 40px at default base font size
+      padding: `${11 - borderWidthPx}px 16px`,
       ...typography.button,
     },
     size === "small" && {
-      padding: "0px 12px",
-      height: `calc(32px - 12px + ${pxToRem(12)})`, // 32px at default base font size
+      padding: `${8 - borderWidthPx}px 12px`,
       ...typography.buttonSmall,
     },
     // variant
@@ -73,15 +74,11 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
         backgroundColor: colors.silverGray,
       },
     },
-    (variant === "secondary" || variant === "text") && {
+    hasBorder && {
       backgroundColor: "transparent",
       borderColor: "currentcolor",
       borderStyle: variant === "secondary" ? "solid" : "none",
-      borderWidth: {
-        small: "1px",
-        medium: "1.5px",
-        large: "2px",
-      }[size],
+      borderWidth: `${borderWidthPx}px`,
     },
     variant === "secondary" && {
       color: colors.red,
@@ -147,6 +144,11 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
  */
 const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ({ size, side }) => [
+    {
+      height: "1em",
+      display: "flex",
+      alignItems: "center",
+    },
     side === "start" && {
       marginLeft: "-4px",
       marginRight: "4px",
@@ -269,6 +271,11 @@ const ActionButton = styled(
   const { size = ActionButtonDefaultProps.size } = props
   return {
     padding: 0,
+    height: {
+      small: "32px",
+      medium: "40px",
+      large: "48px",
+    }[size],
     width: {
       small: "32px",
       medium: "40px",

@@ -232,7 +232,7 @@ export const ButtonsShowcase: Story = {
                   size={size}
                   {...extraProps}
                 >
-                  Click me
+                  {args.children}
                 </Button>
               </Grid>
             ))
@@ -241,6 +241,20 @@ export const ButtonsShowcase: Story = {
       )}
     </Grid>
   ),
+  args: {
+    children: "Click me",
+  },
+}
+
+export const WrappingButtonShowcase: Story = {
+  ...ButtonsShowcase,
+  args: {
+    children: (
+      <>
+        The quick <br /> fox
+      </>
+    ),
+  },
 }
 
 const ICONS = [
