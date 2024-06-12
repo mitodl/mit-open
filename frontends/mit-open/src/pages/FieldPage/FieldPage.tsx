@@ -33,7 +33,7 @@ const FieldPage: React.FC = () => {
     channelType && (
       <FieldPageSkeleton name={name} channelType={channelType}>
         <p>{fieldQuery.data?.public_description}</p>
-        {channelType === "offeror" ? (
+        {channelType === "unit" ? (
           <TestimonialDisplay offerors={[name]} />
         ) : null}
         {fieldQuery.data?.search_filter && (
