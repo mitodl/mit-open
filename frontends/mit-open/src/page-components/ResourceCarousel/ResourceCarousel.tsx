@@ -127,7 +127,7 @@ const DataPanel: React.FC<DataPanelProps> = ({
         // is exhaustive since dataConfig will have type `never`
         throw new Error(`Unknown data type: ${dataConfig.type}`)
     }
-  }
+  } else return null
 }
 
 const HeaderRow = styled.div(({ theme }) => ({
