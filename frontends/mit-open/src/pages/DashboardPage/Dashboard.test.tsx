@@ -60,16 +60,16 @@ describe("DashboardPage", () => {
     )
 
     const topPicks = factories.learningResources.courses({ count: 10 })
-    topPicks.results.map((course) => {
-      ;(course.topics = topics?.map((topic) =>
+    topPicks.results.forEach((course) => {
+      course.topics = topics?.map((topic) =>
         factories.learningResources.topic({ name: topic }),
-      )),
-        (course.certification = certification || false),
-        (course.learning_format = learningFormat.map((format) =>
-          format
-            ? { code: format, name: format }
-            : { code: "online", name: "Online" },
-        ))
+      )
+      course.certification = certification || false
+      course.learning_format = learningFormat.map((format) =>
+        format
+          ? { code: format, name: format }
+          : { code: "online", name: "Online" },
+      )
     })
     const topicsCourses: CourseResource[] = []
     topics?.forEach((topic) => {
