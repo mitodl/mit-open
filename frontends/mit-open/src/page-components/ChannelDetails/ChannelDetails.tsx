@@ -127,11 +127,13 @@ const InfoLabel = styled(Typography)(({ theme }) => ({
 const ChannelDetailsCard = styled(Box)(({ theme }) => ({
   borderRadius: "12px",
   backgroundColor: "white",
-  minWidth: "408px",
   padding: "32px",
   display: "flex",
   flexDirection: "column",
   gap: "16px",
+  [theme.breakpoints.up("md")]: {
+    minWidth: "408px",
+  },
   [theme.breakpoints.down("md")]: {
     width: "100%",
   },
