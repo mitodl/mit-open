@@ -50,6 +50,7 @@ const TextContainer = styled.div({
 
 const PersonalizeContent: React.FC = () => {
   const { data: user } = useUserMe()
+  console.log(user)
   const title = user
     ? "Welcome Back to Your Learning Journey"
     : "Personalize Your Journey"

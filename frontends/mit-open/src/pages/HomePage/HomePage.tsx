@@ -11,6 +11,9 @@ import * as carousels from "./carousels"
 const FullWidthBackground = styled.div(({ theme }) => ({
   background: "linear-gradient(0deg, #FFF 0%, #E9ECEF 100%);",
   paddingBottom: "80px",
+  [theme.breakpoints.down("md")]: {
+    paddingBottom: "40px",
+  },
   [theme.breakpoints.down("sm")]: {
     paddingBottom: "32px",
   },
@@ -24,7 +27,7 @@ const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
 }))
 const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
   margin: "80px 0",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     margin: "40px 0",
   },
 }))
