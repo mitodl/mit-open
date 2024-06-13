@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.2
+Version 0.13.2 (Released June 13, 2024)
 --------------
 
 - Update education options and add to schema (#1069)
