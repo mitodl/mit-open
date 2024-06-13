@@ -36,9 +36,10 @@ import { useProfileMeQuery } from "api/hooks/profile"
 import {
   TopPicksCarouselConfig,
   TopicCarouselConfig,
-  CertificationCarouselConfig,
   NEW_LEARNING_RESOURCES_CAROUSEL,
   POPULAR_LEARNING_RESOURCES_CAROUSEL,
+  CERTIFICATE_COURSES_CAROUSEL,
+  FREE_COURSES_CAROUSEL,
 } from "./carousels"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 
@@ -467,13 +468,23 @@ const DashboardPage: React.FC = () => {
                       />
                     </CarouselContainer>
                   ))}
-                  <CarouselContainer data-testid="certification-carousel">
-                    <ResourceCarousel
-                      title={`Courses ${certification ? "with" : "without"} Certificates`}
-                      isLoading={isLoadingProfile}
-                      config={CertificationCarouselConfig(certification)}
-                    />
-                  </CarouselContainer>
+                  {certification === true ? (
+                    <CarouselContainer data-testid="certification-carousel">
+                      <ResourceCarousel
+                        title={"Courses with Certificates"}
+                        isLoading={isLoadingProfile}
+                        config={CERTIFICATE_COURSES_CAROUSEL}
+                      />
+                    </CarouselContainer>
+                  ) : (
+                    <CarouselContainer data-testid="free-carousel">
+                      <ResourceCarousel
+                        title={"Free courses"}
+                        isLoading={isLoadingProfile}
+                        config={FREE_COURSES_CAROUSEL}
+                      />
+                    </CarouselContainer>
+                  )}
                   <CarouselContainer data-testid="new-learning-resources-carousel">
                     <ResourceCarousel
                       title="New"

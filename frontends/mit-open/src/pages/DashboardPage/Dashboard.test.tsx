@@ -85,10 +85,17 @@ describe("DashboardPage", () => {
     certificationCourses.results.map((course) => {
       course.certification = certification || false
     })
+    const freeCourses = factories.learningResources.courses({
+      count: 10,
+    })
+    freeCourses.results.map((course) => {
+      course.free = true
+    })
     const courses = [
       ...topPicks.results,
       ...topicsCourses,
       ...certificationCourses.results,
+      ...freeCourses.results,
     ]
     const resources = factories.learningResources.resources({ count: 20 })
 
@@ -138,6 +145,12 @@ describe("DashboardPage", () => {
     )
     setMockResponse.get(
       expect.stringContaining(
+        urls.search.resources({ free: true, limit: 12, sortby: "new" }),
+      ),
+      makeSearchResponse(freeCourses.results),
+    )
+    setMockResponse.get(
+      expect.stringContaining(
         urls.search.resources({ limit: 12, sortby: "new" }),
       ),
       makeSearchResponse([...courses, ...resources.results]),
@@ -163,6 +176,7 @@ describe("DashboardPage", () => {
       topPicks,
       topicsCourses,
       certificationCourses,
+      freeCourses,
       courses,
       resources,
     }
@@ -239,6 +253,7 @@ describe("DashboardPage", () => {
       topPicks,
       topicsCourses,
       certificationCourses,
+      freeCourses,
       courses,
       resources,
     } = setupAPIs()
@@ -269,18 +284,30 @@ describe("DashboardPage", () => {
         })
     })
 
-    const certificationText = `Courses ${profile.preference_search_filters.certification ? "with" : "without"} Certificates`
-    const certificationTitle = await screen.findByText(certificationText)
-    expect(certificationTitle).toBeInTheDocument()
-    const certificationCarousel = await screen.findByTestId(
-      "certification-carousel",
-    )
-    certificationCourses.results.forEach(async (course) => {
-      const courseTitle = await within(certificationCarousel).findByText(
-        course.title,
+    const certificationDesired = profile.preference_search_filters.certification
+    if (certificationDesired) {
+      const certificationText = "Courses with Certificates"
+      const certificationTitle = await screen.findByText(certificationText)
+      expect(certificationTitle).toBeInTheDocument()
+      const certificationCarousel = await screen.findByTestId(
+        "certification-carousel",
       )
-      expect(courseTitle).toBeInTheDocument()
-    })
+      certificationCourses.results.forEach(async (course) => {
+        const courseTitle = await within(certificationCarousel).findByText(
+          course.title,
+        )
+        expect(courseTitle).toBeInTheDocument()
+      })
+    } else {
+      const freeText = "Free courses"
+      const freeTitle = await screen.findByText(freeText)
+      expect(freeTitle).toBeInTheDocument()
+      const freeCarousel = await screen.findByTestId("free-carousel")
+      freeCourses.results.forEach(async (course) => {
+        const courseTitle = await within(freeCarousel).findByText(course.title)
+        expect(courseTitle).toBeInTheDocument()
+      })
+    }
 
     const newTitle = await screen.findByText("New")
     expect(newTitle).toBeInTheDocument()
