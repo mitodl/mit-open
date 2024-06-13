@@ -46,17 +46,6 @@ const TextContainer = styled.div({
   gap: "20px",
 })
 
-const DesktopLink = styled(ButtonLink)(({ theme }) => ({
-  [theme.breakpoints.down("md")]: {
-    display: "none",
-  },
-}))
-const MobileLink = styled(ButtonLink)(({ theme }) => ({
-  [theme.breakpoints.up("md")]: {
-    display: "none",
-  },
-}))
-
 const PersonalizeContent: React.FC = () => {
   const { data: user } = useUserMe()
   const title = user
@@ -77,12 +66,9 @@ const PersonalizeContent: React.FC = () => {
           {text}
         </Typography>
       </TextContainer>
-      <DesktopLink size="large" href={href}>
+      <ButtonLink size="large" href={href} responsive>
         {linkText}
-      </DesktopLink>
-      <MobileLink size="medium" href={href}>
-        {linkText}
-      </MobileLink>
+      </ButtonLink>
     </ControlsContainer>
   )
 }
