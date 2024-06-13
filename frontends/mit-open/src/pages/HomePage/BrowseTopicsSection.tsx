@@ -6,12 +6,9 @@ import { RiArrowRightLine } from "@remixicon/react"
 import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 
 const Section = styled.section`
-  background:
-    url(/static/images/open-bg-texture-with-gradient.svg) no-repeat 100%,
-    linear-gradient(270deg, rgba(243, 244, 248, 0) 0%, #f3f4f8 100%),
-    linear-gradient(0deg, #ffffff, #ffffff);
-  background-size: auto;
-  background-position: left top;
+  overflow: hidden;
+  position: relative;
+  background-position: right bottom;
   padding: 80px 0;
   ${theme.breakpoints.down("md")} {
     padding: 40px 0;
@@ -35,7 +32,7 @@ const Topics = styled.div`
 
 const TopicBox = styled(Link)`
   flex: 0 1 calc(100% * (1 / 3) - 16px);
-  padding: 28px 30px;
+  padding: 24px;
   ${theme.breakpoints.down("md")} {
     flex: 0 1 100%;
     padding: 18px 15px;
@@ -116,6 +113,16 @@ const BrowseTopicsSection: React.FC = () => {
         <SeeAllButton href="/topics/" edge="circular" size="large">
           See all
         </SeeAllButton>
+        <img
+          style={{
+            background: "#fff",
+            position: "absolute",
+            bottom: "-200px",
+            left: 0,
+            zIndex: -1,
+          }}
+          src="/static/images/open-bg-texture-with-gradient.svg"
+        />
       </Container>
     </Section>
   )
