@@ -96,7 +96,7 @@ export const SizeStory: Story = {
     <Grid container sx={{ my: 2, maxWidth: "600px" }} alignItems="center">
       {RESPONSIVE.flatMap((responsive) => {
         return (
-          <>
+          <React.Fragment key={String(responsive)}>
             <Grid item xs={12}>
               <code>{`responsive={${responsive.toString()}}`}</code>
             </Grid>
@@ -107,14 +107,14 @@ export const SizeStory: Story = {
                 gap={2}
                 display="flex"
                 alignItems="center"
-                key={`${size}-${responsive}`}
+                key={size}
               >
                 <Button {...args} size={size} responsive={responsive}>
                   {capitalize(size)}
                 </Button>
               </Grid>
             ))}
-          </>
+          </React.Fragment>
         )
       })}
     </Grid>
@@ -332,7 +332,7 @@ export const ActionButtonSizeStory: Story = {
     <Grid container sx={{ my: 2, maxWidth: "600px" }} alignItems="center">
       {RESPONSIVE.flatMap((responsive) => {
         return (
-          <>
+          <React.Fragment key={String(responsive)}>
             <Grid item xs={12}>
               <code>{`responsive={${responsive.toString()}}`}</code>
             </Grid>
@@ -343,14 +343,14 @@ export const ActionButtonSizeStory: Story = {
                 gap={2}
                 display="flex"
                 alignItems="center"
-                key={`${size}-${responsive}`}
+                key={size}
               >
                 <ActionButton {...args} size={size} responsive={responsive}>
                   <RiDeleteBinLine />
                 </ActionButton>
               </Grid>
             ))}
-          </>
+          </React.Fragment>
         )
       })}
     </Grid>

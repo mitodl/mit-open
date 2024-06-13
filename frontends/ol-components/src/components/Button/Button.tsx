@@ -208,12 +208,15 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ],
 )
 
-const AnchorStyled = styled(ButtonStyled.withComponent("a"))({
-  ":hover": {
-    textDecoration: "none",
-  },
-})
-const LinkStyled = ButtonStyled.withComponent(Link)
+const LinkStyled = styled(ButtonStyled.withComponent(Link), {
+  /**
+   * There are no extra styles here, emotion seems to forward "responsive"
+   * to the underlying dom node without this.
+   */
+  shouldForwardProp: (prop) => prop !== "responsive",
+})({})
+
+const AnchorStyled = ButtonStyled.withComponent("a")
 
 type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
 
@@ -312,6 +315,7 @@ const actionStyles = (size: ButtonSize) => {
     },
   }
 }
+
 /**
  * A button that should contain a remixicon icon and nothing else.
  * For a variant that functions as a link, see ActionButtonLink.
