@@ -37,7 +37,7 @@ describe("DashboardPage", () => {
   }
 
   const setupAPIs = () => {
-    const profile = factories.profiles.profile({
+    const profile = factories.user.profile({
       preference_search_filters: {
         topic: factories.learningResources
           .topics({ count: 3 })
