@@ -25,7 +25,6 @@ const ImageContainer = styled.img(({ theme }) => ({
   display: "flex",
   flex: 1,
   alignItems: "end",
-  maxHeight: "410px",
   minWidth: "0px",
   [theme.breakpoints.down("sm")]: {
     maxWidth: "100%",
