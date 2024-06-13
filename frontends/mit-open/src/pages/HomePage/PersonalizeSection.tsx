@@ -1,6 +1,7 @@
 import React from "react"
 import { Typography, styled, Container, ButtonLink } from "ol-components"
 import { useUserMe } from "api/hooks/user"
+import * as urls from "@/common/urls"
 
 const FullWidthBackground = styled.div(({ theme }) => ({
   padding: "80px 0",
@@ -50,17 +51,17 @@ const TextContainer = styled.div({
 
 const PersonalizeContent: React.FC = () => {
   const { data: user } = useUserMe()
-  console.log(user)
-  const title = user
+  const authenticated = user?.is_authenticated
+  const title = authenticated
     ? "Welcome Back to Your Learning Journey"
     : "Personalize Your Journey"
-  const text = user
+  const text = authenticated
     ? "We can help find the courses for you. Update your profile to get the best recommendations for you."
     : "We can help find the course for you. Tell us more about yourself to help you get started."
-  const linkText = user
+  const linkText = authenticated
     ? "Update your profile for new recommendations"
     : "Sign Up to Get Started"
-  const href = user ? "/profile" : "/onboarding"
+  const href = authenticated ? urls.DASHBOARD : urls.ONBOARDING
   return (
     <ControlsContainer>
       <TextContainer>
