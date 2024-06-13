@@ -145,7 +145,12 @@ describe("DashboardPage", () => {
     )
     setMockResponse.get(
       expect.stringContaining(
-        urls.search.resources({ free: true, limit: 12, sortby: "new" }),
+        urls.search.resources({
+          free: true,
+          limit: 12,
+          resource_type: ["course"],
+          sortby: "-views",
+        }),
       ),
       makeSearchResponse(freeCourses.results),
     )
