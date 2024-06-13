@@ -12,6 +12,7 @@ import {
 } from "../../test-utils"
 import type { FeaturedApiFeaturedListRequest as FeaturedRequest } from "api"
 import invariant from "tiny-invariant"
+import * as routes from "@/common/urls"
 
 const assertLinksTo = (
   el: HTMLElement,
@@ -322,6 +323,6 @@ describe("Home Page personalize section", () => {
     ).closest("section")
     invariant(personalize)
     const link = within(personalize).getByRole("link")
-    expect(link).toHaveAttribute("href", "/onboarding")
+    expect(link).toHaveAttribute("href", routes.login())
   })
 })
