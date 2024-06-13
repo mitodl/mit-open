@@ -4,10 +4,8 @@ import {
 } from "api/hooks/learningResources"
 import {
   Banner,
-  MuiCard,
-  CardContent,
+  Card,
   Container,
-  Link,
   Skeleton,
   Typography,
   styled,
@@ -149,23 +147,15 @@ const GridContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const UnitCardContainer = styled(MuiCard)({
+const UnitCardContainer = styled.div({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+  padding: "16px",
+  height: "100%",
 })
 
-const UnitCardLink = styled(Link)({
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  flexGrow: 1,
-  "&:hover": {
-    textDecoration: "none",
-  },
-})
-
-const UnitCardContent = styled(CardContent)({
+const UnitCardContent = styled.div({
   display: "flex",
   flexDirection: "column",
   flexGrow: 1,
@@ -318,41 +308,47 @@ const UnitCard: React.FC<UnitCardProps> = (props) => {
   return channelDetailQuery.isLoading ? (
     <UnitCardLoading />
   ) : (
-    <UnitCardContainer>
-      <UnitCardLink href={unitUrl}>
-        <UnitCardContent>
-          <LogoContainer>
-            <UnitLogo src={logo} alt={unit.name} />
-          </LogoContainer>
-          <ValuePropContainer>
-            <ValuePropText>{unit.value_prop}</ValuePropText>
-          </ValuePropContainer>
-          <CountsTextContainer>
-            <CountsText data-testid={`course-count-${unit.code}`}>
-              {courseCount > 0 ? `Courses: ${courseCount}` : ""}
-            </CountsText>
-            <CountsText data-testid={`program-count-${unit.code}`}>
-              {programCount > 0 ? `Programs: ${programCount}` : ""}
-            </CountsText>
-          </CountsTextContainer>
-        </UnitCardContent>
-      </UnitCardLink>
-    </UnitCardContainer>
+    <Card link={true} href={unitUrl}>
+      <Card.Content>
+        <UnitCardContainer>
+          <UnitCardContent>
+            <LogoContainer>
+              <UnitLogo src={logo} alt={unit.name} />
+            </LogoContainer>
+            <ValuePropContainer>
+              <ValuePropText>{unit.value_prop}</ValuePropText>
+            </ValuePropContainer>
+            <CountsTextContainer>
+              <CountsText data-testid={`course-count-${unit.code}`}>
+                {courseCount > 0 ? `Courses: ${courseCount}` : ""}
+              </CountsText>
+              <CountsText data-testid={`program-count-${unit.code}`}>
+                {programCount > 0 ? `Programs: ${programCount}` : ""}
+              </CountsText>
+            </CountsTextContainer>
+          </UnitCardContent>
+        </UnitCardContainer>
+      </Card.Content>
+    </Card>
   )
 }
 
 const UnitCardLoading = () => {
   return (
-    <UnitCardContainer>
-      <UnitCardContent>
-        <LogoContainer>
-          <Skeleton variant="rectangular" width={500} height={50} />
-        </LogoContainer>
-        <ValuePropContainer>
-          <Skeleton variant="text" width={500} height={200} />
-        </ValuePropContainer>
-      </UnitCardContent>
-    </UnitCardContainer>
+    <Card>
+      <Card.Content>
+        <UnitCardContainer>
+          <UnitCardContent>
+            <LogoContainer>
+              <Skeleton variant="rectangular" width={500} height={50} />
+            </LogoContainer>
+            <ValuePropContainer>
+              <Skeleton variant="text" width={500} height={200} />
+            </ValuePropContainer>
+          </UnitCardContent>
+        </UnitCardContainer>
+      </Card.Content>
+    </Card>
   )
 }
 
