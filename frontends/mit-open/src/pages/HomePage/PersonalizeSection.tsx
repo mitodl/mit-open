@@ -4,8 +4,10 @@ import { useUserMe } from "api/hooks/user"
 
 const FullWidthBackground = styled.div(({ theme }) => ({
   padding: "80px 0",
-  background: 'url("/static/images/homepage/personalize-bg.png")',
-  [theme.breakpoints.down("sm")]: {
+  background:
+    'url("/static/images/homepage/personalize-bg.png") center top no-repeat',
+  backgroundSize: "cover",
+  [theme.breakpoints.down("md")]: {
     padding: "40px 0",
   },
 }))
