@@ -115,7 +115,6 @@ const BrowseTopicsSection: React.FC = () => {
         </SeeAllButton>
         <img
           style={{
-            background: "#fff",
             background:
               "linear-gradient(330deg, rgba(243, 244, 248, 0) 0%, #F3F4F8 100%),linear-gradient(0deg, #FFFFFF, #FFFFFF)",
             position: "absolute",
