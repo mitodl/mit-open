@@ -47,59 +47,73 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
     {
       name: "topic",
       title: "Topic",
+      order: 0,
     },
     {
       name: "formats",
       title: "Formats",
+      order: 0,
     },
     {
       name: "fee",
       title: "Fee",
+      order: 0,
     },
     {
       name: "department",
       title: "Department",
+      order: 0,
     },
     {
       name: "offerings",
       title: "Offerings",
+      order: -1,
     },
     {
       name: "level",
       title: "Level",
+      order: 0,
     },
     {
       name: "content_types",
       title: "Type of Content",
+      order: 0,
     },
     {
       name: "audience",
       title: "Audience",
+      order: 0,
     },
     {
       name: "more_information",
       title: "More Information",
+      order: 0,
       labelFunction: (key: string, channelTitle: string) => (
         <a href={key}>
           {channelTitle} website <OpenInNewIcon fontSize="inherit" />
         </a>
       ),
+      order: 1,
     },
     {
       name: "platform",
       title: "Platform",
+      order: 0,
     },
     {
       name: "offered_by",
       title: "Offered By",
+      order: 0,
     },
     {
       name: "certifications",
       title: "Certificate",
+      order: 0,
     },
     {
       name: "learning_format",
       title: "Format",
+      order: 0,
       labelFunction: (key: string) =>
         key
           .split("_")
@@ -144,36 +158,41 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
   const channelDetails = getChannelDetails(field)
   const channelType = field.channel_type
   const channelTitle = field.title
+
   const facetManifest = useMemo(
     () => getFacetManifest(channelType),
     [channelType],
   )
 
-  const body = facetManifest.map((value) => {
-    const detailValue = (
-      channelDetails as unknown as { [key: string]: string }
-    )[value.name]
-    if (detailValue) {
-      const label = value?.labelFunction
-        ? value.labelFunction(detailValue, channelTitle)
-        : detailValue
+  const body = facetManifest
+    .sort((a, b) =>
+      a.order && b.order && a.order > b.order ? 1 : b.order > a.order ? -1 : 0,
+    )
+    .map((value) => {
+      const detailValue = (
+        channelDetails as unknown as { [key: string]: string }
+      )[value.name]
+      if (detailValue) {
+        const label = value?.labelFunction
+          ? value.labelFunction(detailValue, channelTitle)
+          : detailValue
 
-      return (
-        <Box key={value.title}>
-          <InfoLabel
-            variant="subtitle2"
-            sx={{ marginBottom: (theme) => theme.typography.pxToRem(4) }}
-          >
-            {value.title}:
-          </InfoLabel>
-          <Typography variant="body3" color="text.secondary">
-            {Array.isArray(label) ? label.join(" | ") : label}
-          </Typography>
-        </Box>
-      )
-    }
-    return null
-  })
+        return (
+          <Box key={value.title}>
+            <InfoLabel
+              variant="subtitle2"
+              sx={{ marginBottom: (theme) => theme.typography.pxToRem(4) }}
+            >
+              {value.title}:
+            </InfoLabel>
+            <Typography variant="body3" color="text.secondary">
+              {Array.isArray(label) ? label.join(" | ") : label}
+            </Typography>
+          </Box>
+        )
+      }
+      return null
+    })
   return <ChannelDetailsCard>{body}</ChannelDetailsCard>
 }
 
