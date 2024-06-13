@@ -196,6 +196,11 @@ const SlickCarousel = () => {
     ],
   }
 
+  const generateMarketingImageSrc = () => {
+    const idx = Math.floor(Math.random() * 6) + 1
+    return `/images/testimonial_images/testimonial-image-${idx}.png`
+  }
+
   return (
     <OverlayContainer>
       <Slider {...settings}>
@@ -210,7 +215,7 @@ const SlickCarousel = () => {
               className="testimonial-card"
             >
               <TestimonialCardImage>
-                <img src={resource.cover ? resource.cover : resource.avatar} />
+                <img src={generateMarketingImageSrc()} />
               </TestimonialCardImage>
               <TestimonialCardQuote>
                 <div className="testimonial-quote-opener">&ldquo;</div>
