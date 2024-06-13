@@ -6,11 +6,9 @@ import { RiArrowRightLine } from "@remixicon/react"
 import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 
 const Section = styled.section`
-  overflow: hidden;
-  position: relative;
   background: #fff url("/static/images/open-bg-texture-with-gradient.svg")
     no-repeat top left;
-  padding: 80px 0;
+  padding: 120px 0;
   ${theme.breakpoints.down("md")} {
     padding: 40px 0;
   }
