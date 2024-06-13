@@ -88,7 +88,6 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
     {
       name: "more_information",
       title: "More Information",
-      order: 0,
       labelFunction: (key: string, channelTitle: string) => (
         <a href={key}>
           {channelTitle} website <OpenInNewIcon fontSize="inherit" />
