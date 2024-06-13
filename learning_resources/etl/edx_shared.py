@@ -3,6 +3,7 @@
 import logging
 import re
 from pathlib import Path
+from tarfile import ReadError
 from tempfile import TemporaryDirectory
 
 from learning_resources.etl.constants import ETLSource
@@ -133,7 +134,11 @@ def sync_edx_course_files(
             course_tarpath = Path(export_tempdir, key.split("/")[-1])
             log.info("course tarpath for run %s is %s", run.run_id, course_tarpath)
             bucket.download_file(key, course_tarpath)
-            checksum = calc_checksum(course_tarpath)
+            try:
+                checksum = calc_checksum(course_tarpath)
+            except ReadError:
+                log.exception("Error reading tar file %s, skipping", course_tarpath)
+                continue
             if run.checksum == checksum:
                 log.info("Checksums match for %s, skipping", key)
                 continue
