@@ -10,7 +10,7 @@ Use prop `variant="primary" | "secondary" | "tertiary" | "text"` to set the butt
 
 <Canvas of={ButtonStories.VariantStory} />
 
-Use `size="small" | "medium" | "large"` to set the button size:
+Use `size="small" | "medium" | "large"` to set the button size. If a button has `responsive=true` (default: `false`), it will shift its size down one level on `sm` screens.
 
 <Canvas of={ButtonStories.SizeStory} />
 
@@ -37,6 +37,12 @@ To render a link styled as a Buttons, use `ButtonLink`. The underlying component
 Use `<ActionButton />` to render an icon-only button:
 
 <Canvas of={ButtonStories.IconOnlyStory} />
+
+## Action Buttons
+
+Action buttons are simple controls to trigger actions—deletions. Like standard Buttons, they come in three sizes and have a `responsive` prop (default: `false`).
+
+<Canvas of={ButtonStories.ActionButtonSizeStory} />
 
 ## More Examples
 

@@ -3,6 +3,7 @@ import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
 import tinycolor from "tinycolor2"
 import { Link } from "react-router-dom"
+import type { Theme } from "@mui/material/styles"
 
 type ButtonVariant = "primary" | "secondary" | "tertiary" | "text" | "inverted"
 type ButtonSize = "small" | "medium" | "large"
@@ -14,6 +15,14 @@ type ButtonStyleProps = {
   edge?: ButtonEdge
   startIcon?: React.ReactNode
   endIcon?: React.ReactNode
+  /**
+   * If true (default: `false`), the button will become one size smaller at the
+   * `sm` breakpoint.
+   *  - large -> medium
+   *  - medium -> small
+   *  - small -> small
+   */
+  responsive?: boolean
 }
 
 const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
@@ -21,17 +30,48 @@ const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
     variant: "primary",
     size: "medium",
     edge: "rounded",
+    responsive: false,
   }
 
+const borderWidths = {
+  small: 1,
+  medium: 1,
+  large: 2,
+}
+const responsiveSize: Record<ButtonSize, ButtonSize> = {
+  small: "small",
+  medium: "small",
+  large: "medium",
+}
+
+const sizeStyles = (size: ButtonSize, hasBorder: boolean, theme: Theme) => {
+  const paddingAdjust = hasBorder ? borderWidths[size] : 0
+  return [
+    {
+      borderWidth: borderWidths[size],
+    },
+    size === "large" && {
+      padding: `${14 - paddingAdjust}px 24px`,
+      ...theme.typography.buttonLarge,
+    },
+    size === "medium" && {
+      padding: `${11 - paddingAdjust}px 16px`,
+      ...theme.typography.button,
+    },
+    size === "small" && {
+      padding: `${8 - paddingAdjust}px 12px`,
+      ...theme.typography.buttonSmall,
+    },
+  ]
+}
+
 const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
-  const { size, variant, edge, theme, color } = {
+  const { size, variant, edge, theme, color, responsive } = {
     ...defaultProps,
     ...props,
   }
-  const { typography } = theme
   const { colors } = theme.custom
   const hasBorder = variant === "secondary" || variant === "text"
-  const borderWidthPx = hasBorder ? { small: 1, medium: 1, large: 2 }[size] : 0
 
   return [
     {
@@ -49,18 +89,14 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
         cursor: "default",
       },
     },
-    // size
-    size === "large" && {
-      padding: `${14 - borderWidthPx}px 24px`,
-      ...typography.buttonLarge,
-    },
-    size === "medium" && {
-      padding: `${11 - borderWidthPx}px 16px`,
-      ...typography.button,
-    },
-    size === "small" && {
-      padding: `${8 - borderWidthPx}px 12px`,
-      ...typography.buttonSmall,
+    ...sizeStyles(size, hasBorder, theme),
+    // responsive
+    responsive && {
+      [theme.breakpoints.down("sm")]: sizeStyles(
+        responsiveSize[size],
+        hasBorder,
+        theme,
+      ),
     },
     // variant
     variant === "primary" && {
@@ -78,7 +114,6 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       backgroundColor: "transparent",
       borderColor: "currentcolor",
       borderStyle: variant === "secondary" ? "solid" : "none",
-      borderWidth: `${borderWidthPx}px`,
     },
     variant === "secondary" && {
       color: colors.red,
@@ -248,27 +283,10 @@ const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   },
 )
 
-const ActionButtonDefaultProps: Required<
-  Omit<ButtonStyleProps, "startIcon" | "endIcon">
-> = {
-  variant: "primary",
-  size: "medium",
-  edge: "rounded",
-}
-
 type ActionButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
   React.ComponentProps<"button">
 
-/**
- * A button that should contain a remixicon icon and nothing else.
- * For a variant that functions as a link, see ActionButtonLink.
- */
-const ActionButton = styled(
-  React.forwardRef<HTMLButtonElement, ActionButtonProps>((props, ref) => (
-    <ButtonStyled ref={ref} type="button" {...props} />
-  )),
-)((props: ActionButtonProps) => {
-  const { size = ActionButtonDefaultProps.size } = props
+const actionStyles = (size: ButtonSize) => {
   return {
     padding: 0,
     height: {
@@ -293,6 +311,22 @@ const ActionButton = styled(
       ),
     },
   }
+}
+/**
+ * A button that should contain a remixicon icon and nothing else.
+ * For a variant that functions as a link, see ActionButtonLink.
+ */
+const ActionButton = styled(
+  React.forwardRef<HTMLButtonElement, ActionButtonProps>((props, ref) => (
+    <ButtonStyled ref={ref} type="button" {...props} />
+  )),
+)(({ theme, size = defaultProps.size, responsive }) => {
+  return [
+    actionStyles(size),
+    responsive && {
+      [theme.breakpoints.down("sm")]: actionStyles(responsiveSize[size]),
+    },
+  ]
 })
 
 type ActionButtonLinkProps = ActionButtonProps &
