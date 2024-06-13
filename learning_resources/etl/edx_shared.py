@@ -135,6 +135,7 @@ def sync_edx_course_files(
             bucket.download_file(key, course_tarpath)
             checksum = calc_checksum(course_tarpath)
             if run.checksum == checksum:
+                log.info("Checksums match for %s, skipping", key)
                 continue
             try:
                 load_content_files(run, transform_content_files(course_tarpath, run))
