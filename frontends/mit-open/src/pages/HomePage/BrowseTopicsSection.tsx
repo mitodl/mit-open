@@ -7,10 +7,11 @@ import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 
 const Section = styled.section`
   background:
-    linear-gradient(270deg, rgba(243 244 248 / 0%) 0%, rgb(243 244 248) 100%),
-    url("/static/images/open-bg-texture-wgradient.jpg") lightgray 50% / cover
-      no-repeat;
-  background-position: center right;
+    url(/static/images/open-bg-texture-with-gradient.svg) no-repeat 100%,
+    linear-gradient(270deg, rgba(243, 244, 248, 0) 0%, #f3f4f8 100%),
+    linear-gradient(0deg, #ffffff, #ffffff);
+  background-size: auto;
+  background-position: left top;
   padding: 80px 0;
   ${theme.breakpoints.down("md")} {
     padding: 40px 0;
