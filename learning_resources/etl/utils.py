@@ -6,6 +6,7 @@ import logging
 import mimetypes
 import os
 import re
+import tarfile
 import uuid
 from collections import Counter
 from collections.abc import Generator
@@ -509,11 +510,8 @@ def calc_checksum(filename) -> str:
     Returns:
         str: The md5 checksum of the file
     """
-    hash_md5 = md5()  # noqa: S324
-    with Path.open(Path(filename), "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
+    with tarfile.open(filename, "r") as tgz_file:
+        return str(hash(tuple(ti.chksum for ti in tgz_file.getmembers())))
 
 
 def get_content_type(file_type: str) -> str:
