@@ -55,7 +55,7 @@ const sortUnits = (
 }
 
 const Page = styled.div(({ theme }) => ({
-  backgroundColor: theme.custom.colors.white,
+  backgroundColor: theme.custom.colors.lightGray1,
 }))
 
 const PageContent = styled.div(({ theme }) => ({
