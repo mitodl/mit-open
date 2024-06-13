@@ -8,7 +8,8 @@ import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 const Section = styled.section`
   overflow: hidden;
   position: relative;
-  background-position: right bottom;
+  background: #fff url("/static/images/open-bg-texture-with-gradient.svg")
+    no-repeat top left;
   padding: 80px 0;
   ${theme.breakpoints.down("md")} {
     padding: 40px 0;
@@ -21,6 +22,7 @@ const Title = styled(Typography)`
 
 const Topics = styled.div`
   display: flex;
+
   flex-wrap: wrap;
   gap: 16px 24px;
   margin: 40px 0;
@@ -113,17 +115,6 @@ const BrowseTopicsSection: React.FC = () => {
         <SeeAllButton href="/topics/" size="large">
           See all
         </SeeAllButton>
-        <img
-          style={{
-            background:
-              "linear-gradient(330deg, rgba(243, 244, 248, 0) 0%, #F3F4F8 100%),linear-gradient(0deg, #FFFFFF, #FFFFFF)",
-            position: "absolute",
-            bottom: "-200px",
-            left: 0,
-            zIndex: -1,
-          }}
-          src="/static/images/open-bg-texture-with-gradient.svg"
-        />
       </Container>
     </Section>
   )
