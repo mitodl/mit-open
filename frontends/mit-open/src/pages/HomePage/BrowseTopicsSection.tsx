@@ -20,7 +20,6 @@ const Title = styled(Typography)`
 
 const Topics = styled.div`
   display: flex;
-
   flex-wrap: wrap;
   gap: 16px 24px;
   margin: 40px 0;
