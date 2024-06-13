@@ -24,6 +24,7 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Unit]: [
     "offerings",
     "audience",
+    "fee",
     "formats",
     "content_types",
     "certifications",
@@ -141,7 +142,7 @@ const InfoLabel = styled(Typography)(({ theme }) => ({
 const ChannelDetailsCard = styled(Box)(({ theme }) => ({
   borderRadius: "12px",
   backgroundColor: "white",
-  padding: "16px",
+  padding: "36px",
   display: "flex",
   flexDirection: "column",
   gap: "16px",
@@ -166,7 +167,11 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
 
   const body = facetManifest
     .sort((a, b) =>
-      a.order && b.order && a.order > b.order ? 1 : b.order > a.order ? -1 : 0,
+      a?.order && b?.order && a?.order > b?.order
+        ? 1
+        : b?.order > a?.order
+          ? -1
+          : 0,
     )
     .map((value) => {
       const detailValue = (
@@ -183,7 +188,7 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
               variant="subtitle2"
               sx={{ marginBottom: (theme) => theme.typography.pxToRem(4) }}
             >
-              {value.title}:
+              {value.title}
             </InfoLabel>
             <Typography variant="body3" color="text.secondary">
               {Array.isArray(label) ? label.join(" | ") : label}
