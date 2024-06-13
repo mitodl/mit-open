@@ -323,6 +323,11 @@ describe("Home Page personalize section", () => {
     ).closest("section")
     invariant(personalize)
     const link = within(personalize).getByRole("link")
-    expect(link).toHaveAttribute("href", routes.login())
+    expect(link).toHaveAttribute(
+      "href",
+      routes.login({
+        pathname: routes.DASHBOARD,
+      }),
+    )
   })
 })

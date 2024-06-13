@@ -66,7 +66,11 @@ const PersonalizeContent: React.FC = () => {
   const linkText = authenticated
     ? "Update your profile for new recommendations"
     : "Sign Up to Get Started"
-  const href = authenticated ? urls.DASHBOARD : urls.login()
+  const href = authenticated
+    ? urls.DASHBOARD
+    : urls.login({
+        pathname: urls.DASHBOARD,
+      })
   return (
     <ControlsContainer>
       <TextContainer>
