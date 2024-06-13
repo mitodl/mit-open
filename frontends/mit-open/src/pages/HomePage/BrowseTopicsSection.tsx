@@ -116,6 +116,9 @@ const BrowseTopicsSection: React.FC = () => {
         <img
           style={{
             background: "#fff",
+            background:
+              "linear-gradient(270deg, rgba(243, 244, 248, 0) 0%, #F3F4F8 100%),linear-gradient(0deg, #FFFFFF, #FFFFFF)",
+
             position: "absolute",
             bottom: "-200px",
             left: 0,
