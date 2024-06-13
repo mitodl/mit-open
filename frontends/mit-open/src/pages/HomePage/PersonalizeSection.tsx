@@ -18,6 +18,9 @@ const PersonalizeContainer = styled(Container)(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
   gap: "80px",
+  [theme.breakpoints.down("md")]: {
+    gap: "40px",
+  },
   [theme.breakpoints.down("sm")]: {
     gap: "28px",
     flexDirection: "column",
@@ -49,23 +52,28 @@ const TextContainer = styled.div({
   gap: "20px",
 })
 
+const AUTH_TEXT_DATA = {
+  authenticated: {
+    title: "Personalize Your Journey",
+    text: "Find your next course. Check your dashboard for personalized recommendations.",
+    actionText: "Dashboard",
+  },
+  anonymous: {
+    title: "Personalize Your Journey",
+    text: "We can help find the courses for you. Tell us more about yourself to help you get started.",
+    actionText: "Sign Up to Get Started",
+  },
+}
+
 const PersonalizeContent: React.FC = () => {
   const { data: user, isLoading } = useUserMe()
 
   if (isLoading) {
-    return null
+    return <ControlsContainer />
   }
   const authenticated = user?.is_authenticated
-
-  const title = authenticated
-    ? "Welcome Back to Your Learning Journey"
-    : "Personalize Your Journey"
-  const text = authenticated
-    ? "We can help find the courses for you. Update your profile to get the best recommendations for you."
-    : "We can help find the course for you. Tell us more about yourself to help you get started."
-  const linkText = authenticated
-    ? "Update your profile for new recommendations"
-    : "Sign Up to Get Started"
+  const key = authenticated ? "authenticated" : "anonymous"
+  const { title, text, actionText } = AUTH_TEXT_DATA[key]
   const href = authenticated
     ? urls.DASHBOARD
     : urls.login({
@@ -82,7 +90,7 @@ const PersonalizeContent: React.FC = () => {
         </Typography>
       </TextContainer>
       <ButtonLink size="large" href={href} responsive>
-        {linkText}
+        {actionText}
       </ButtonLink>
     </ControlsContainer>
   )
