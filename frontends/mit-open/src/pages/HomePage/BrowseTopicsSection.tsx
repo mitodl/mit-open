@@ -110,15 +110,14 @@ const BrowseTopicsSection: React.FC = () => {
             )
           })}
         </Topics>
-        <SeeAllButton href="/topics/" edge="circular" size="large">
+        <SeeAllButton href="/topics/" size="large" responsive>
           See all
         </SeeAllButton>
         <img
           style={{
             background: "#fff",
             background:
-              "linear-gradient(270deg, rgba(243, 244, 248, 0) 0%, #F3F4F8 100%),linear-gradient(0deg, #FFFFFF, #FFFFFF)",
-
+              "linear-gradient(330deg, rgba(243, 244, 248, 0) 0%, #F3F4F8 100%),linear-gradient(0deg, #FFFFFF, #FFFFFF)",
             position: "absolute",
             bottom: "-200px",
             left: 0,
