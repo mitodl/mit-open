@@ -34,7 +34,7 @@ const ImageContainer = styled.img(({ theme }) => ({
   },
 }))
 
-const ControlsContainer = styled.div(({ theme }) => ({
+const ControlsContainer = styled.section(({ theme }) => ({
   maxWidth: "442px",
   flex: 1,
   color: theme.custom.colors.white,
@@ -50,8 +50,13 @@ const TextContainer = styled.div({
 })
 
 const PersonalizeContent: React.FC = () => {
-  const { data: user } = useUserMe()
+  const { data: user, isLoading } = useUserMe()
+
+  if (isLoading) {
+    return null
+  }
   const authenticated = user?.is_authenticated
+
   const title = authenticated
     ? "Welcome Back to Your Learning Journey"
     : "Personalize Your Journey"
@@ -65,7 +70,9 @@ const PersonalizeContent: React.FC = () => {
   return (
     <ControlsContainer>
       <TextContainer>
-        <Typography typography={{ xs: "h3", md: "h2" }}>{title}</Typography>
+        <Typography component="h2" typography={{ xs: "h3", md: "h2" }}>
+          {title}
+        </Typography>
         <Typography typography={{ xs: "body2", md: "body1" }}>
           {text}
         </Typography>
