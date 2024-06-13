@@ -42,6 +42,9 @@ const NAV_PATH: { [key: string]: string } = {
 const NavText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.lightGray2,
   marginBottom: "16px",
+  [theme.breakpoints.down("md")]: {
+    marginBottom: "32px",
+  },
   ".current": {
     color: theme.custom.colors.silverGrayLight,
   },
@@ -105,7 +108,17 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     display="flex"
                     flexDirection="row"
                     alignItems="center"
-                    sx={{ flexGrow: 1, flexShrink: 0, order: 1, py: "24px" }}
+                    sx={(theme) => ({
+                      flexGrow: 1,
+                      flexShrink: 0,
+                      order: 1,
+                      py: "24px",
+
+                      [theme.breakpoints.down("md")]: {
+                        py: 0,
+                        pb: "8px",
+                      },
+                    })}
                   >
                     {displayConfiguration?.logo ? (
                       <FieldAvatar
