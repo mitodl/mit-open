@@ -274,7 +274,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
             ? getEmbedlyUrl(resource.image.url!, isMobile)
             : DEFAULT_RESOURCE_IMG
         }
-        alt={resource.image?.alt as string}
+        alt={resource.image?.alt ?? ""}
       />
       <ListCard.Info>
         <Info resource={resource} />

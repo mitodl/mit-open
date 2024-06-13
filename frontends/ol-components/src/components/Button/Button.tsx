@@ -135,6 +135,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
         },
       },
     },
+    // color
     color === "secondary" && {
       color: theme.custom.colors.silverGray,
       borderColor: theme.custom.colors.silverGray,

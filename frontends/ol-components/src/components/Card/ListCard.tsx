@@ -106,6 +106,8 @@ const Footer = styled.span`
   span {
     color: ${theme.custom.colors.black};
   }
+
+  white-space: nowrap;
 `
 
 const Bottom = styled.div`
@@ -128,6 +130,8 @@ const Actions = styled.div<{ hasImage?: boolean }>`
     bottom: 12px;
     right: ${({ hasImage }) => (hasImage ? "124px" : "12px")};
   }
+
+  background-color: ${theme.custom.colors.white};
 `
 
 type CardProps = {

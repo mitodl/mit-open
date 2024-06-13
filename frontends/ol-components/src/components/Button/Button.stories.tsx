@@ -34,7 +34,7 @@ const meta: Meta<typeof Button> = {
       control: { type: "select" },
     },
     edge: {
-      options: ["circular", "rounded"],
+      options: ["circular", "rounded", "none"],
       control: { type: "select" },
     },
     startIcon: {
@@ -144,6 +144,9 @@ export const EdgeStory: Story = {
       <Button {...args} variant="secondary" edge="circular">
         circular
       </Button>
+      <Button {...args} variant="secondary" edge="none">
+        none
+      </Button>
     </Stack>
   ),
 }
@@ -187,7 +190,7 @@ export const IconOnlyStory: Story = {
 }
 
 const SIZES = ["small", "medium", "large"] as const
-const EDGES = ["rounded", "circular"] as const
+const EDGES = ["rounded", "circular", "none"] as const
 const VARIANTS = ["primary", "secondary", "tertiary", "text"] as const
 const EXTRA_PROPS = [
   {},
@@ -262,7 +265,7 @@ const ICONS = [
   },
 ]
 export const ActionButtonsShowcase: Story = {
-  render: () => (
+  render: (args) => (
     <>
       {VARIANTS.flatMap((variant) =>
         EDGES.flatMap((edge) => (
@@ -281,6 +284,7 @@ export const ActionButtonsShowcase: Story = {
                     variant={variant}
                     edge={edge}
                     size={size}
+                    {...args}
                   >
                     {icon.component}
                   </ActionButton>
