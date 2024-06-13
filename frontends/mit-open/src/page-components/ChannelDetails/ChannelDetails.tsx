@@ -169,7 +169,7 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
     .sort((a, b) =>
       a?.order && b?.order && a?.order > b?.order
         ? 1
-        : b?.order > a?.order
+        : a?.order && b?.order && b?.order > a?.order
           ? -1
           : 0,
     )
