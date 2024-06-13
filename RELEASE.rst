@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.13.3
+--------------
+
+- Adds ScrollRestoration to the spot in the routes; sets it up so it works only if the path change; adds a mit-open mock for window.scrollTo (#1071)
+- Change LOGIN_REDIRECT_URL and LOGOUT_REDIRECT_URL to use the base URL (#1075)
+- dashboard home (#1062)
+
 Version 0.13.2 (Released June 13, 2024)
 --------------
 
