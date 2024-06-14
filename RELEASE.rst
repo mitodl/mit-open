@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.3
+Version 0.13.3 (Released June 14, 2024)
 --------------
 
 - Adds ScrollRestoration to the spot in the routes; sets it up so it works only if the path change; adds a mit-open mock for window.scrollTo (#1071)
