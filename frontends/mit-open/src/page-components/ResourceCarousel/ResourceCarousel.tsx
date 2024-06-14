@@ -27,15 +27,7 @@ import {
   AddToLearningPathDialog,
   AddToUserListDialog,
 } from "../Dialogs/AddToListDialog"
-import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
-
-const LearningResourceCardStyled = styled(LearningResourceCard)({
-  boxShadow: "none",
-  ":hover": {
-    boxShadow:
-      "0 2px 4px 0 rgb(37 38 43 / 10%), 0 2px 4px 0 rgb(37 38 43 / 10%)",
-  },
-})
+import { useResourceDrawerHref } from "../LearningResourceDrawer/LearningResourceDrawer"
 
 const StyledCarousel = styled(Carousel)({
   /**
@@ -272,6 +264,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   const { data: user } = useUserMe()
   const [tab, setTab] = React.useState("0")
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
+  const getDrawerHref = useResourceDrawerHref()
 
   const showAddToLearningPathDialog =
     user?.is_authenticated && user?.is_learning_path_editor
@@ -285,8 +278,6 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
         NiceModal.show(AddToUserListDialog, { resourceId })
       }
     : null
-
-  const openLRDrawer = useOpenLearningResourceDrawer()
 
   return (
     <MobileOverflow className={className}>
@@ -314,7 +305,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
             <StyledCarousel arrowsContainer={ref}>
               {isLoading || childrenLoading
                 ? Array.from({ length: 6 }).map((_, index) => (
-                    <LearningResourceCardStyled
+                    <LearningResourceCard
                       isLoading
                       key={index}
                       resource={null}
@@ -322,13 +313,13 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
                     />
                   ))
                 : resources.map((resource) => (
-                    <LearningResourceCardStyled
+                    <LearningResourceCard
                       key={resource.id}
                       resource={resource}
                       {...tabConfig.cardProps}
+                      href={getDrawerHref(resource.id)}
                       onAddToLearningPathClick={showAddToLearningPathDialog}
                       onAddToUserListClick={showAddToUserListDialog}
-                      onActivate={() => openLRDrawer(resource.id)}
                     />
                   ))}
             </StyledCarousel>

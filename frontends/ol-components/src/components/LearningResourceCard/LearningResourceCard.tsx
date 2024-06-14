@@ -7,6 +7,7 @@ import {
   findBestRun,
   formatDate,
   getReadableResourceType,
+  embedlyCroppedImage,
   DEFAULT_RESOURCE_IMG,
 } from "ol-utilities"
 import { Card } from "../Card/Card"
@@ -20,18 +21,20 @@ const EllipsisTitle = styled(TruncateText)({
   margin: 0,
 })
 
-const TitleLink = styled.a`
-  display: block;
-  text-align: left;
-
-  &:hover {
-    cursor: pointer;
-  }
-`
-
 const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
+
+const getEmbedlyUrl = (resource: LearningResource, size: Size) => {
+  const dimensions = {
+    small: { width: 190, height: 120 },
+    medium: { width: 298, height: 170 },
+  }
+  return embedlyCroppedImage(resource.image!.url!, {
+    key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
+    ...dimensions[size],
+  })
+}
 
 type ResourceIdCallback = (resourceId: number) => void
 
@@ -46,25 +49,6 @@ const Info = ({ resource }: { resource: LearningResource }) => {
         </Certificate>
       )}
     </>
-  )
-}
-
-const Title = ({
-  resource,
-  size,
-  onActivate,
-}: {
-  resource: LearningResource
-  size?: Size
-  onActivate?: ResourceIdCallback
-}) => {
-  const lines = size === "small" ? 2 : 3
-  return onActivate ? (
-    <TitleLink onClick={() => onActivate(resource.id)} role="link">
-      <EllipsisTitle lineClamp={lines}>{resource.title}</EllipsisTitle>
-    </TitleLink>
-  ) : (
-    <EllipsisTitle lineClamp={lines}>{resource.title}</EllipsisTitle>
   )
 }
 
@@ -85,36 +69,44 @@ const Certificate = styled.div`
   gap: 4px;
 `
 
-const Footer: React.FC<{ resource: LearningResource; size?: Size }> = ({
-  resource,
-  size,
-}) => {
-  const isOcw =
-    resource.resource_type === ResourceTypeEnum.Course &&
-    resource.platform?.code === PlatformEnum.Ocw
+const isOcw = (resource: LearningResource) =>
+  resource.resource_type === ResourceTypeEnum.Course &&
+  resource.platform?.code === PlatformEnum.Ocw
 
+const getStartDate = (resource: LearningResource) => {
   let startDate = resource.next_start_date
 
   if (!startDate) {
     const bestRun = findBestRun(resource.runs ?? [])
 
-    if (isOcw && bestRun?.semester && bestRun?.year) {
-      return (
-        <>
-          {size === "medium" ? "As taught in:" : ""}{" "}
-          <span>{`${bestRun?.semester} ${bestRun?.year}`}</span>
-        </>
-      )
+    if (isOcw(resource) && bestRun?.semester && bestRun?.year) {
+      return `${bestRun?.semester} ${bestRun?.year}`
     }
     startDate = bestRun?.start_date
   }
 
   if (!startDate) return null
 
+  return formatDate(startDate, "MMMM DD, YYYY")
+}
+
+const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
+  resource,
+  size,
+}) => {
+  const startDate = getStartDate(resource)
+
+  if (!startDate) return null
+
+  const label = isOcw(resource)
+    ? size === "medium"
+      ? "As taught in:"
+      : ""
+    : "Starts:"
+
   return (
     <>
-      {size === "medium" ? "Starts:" : ""}{" "}
-      <span>{formatDate(startDate, "MMMM DD, YYYY")}</span>
+      {label} <span>{startDate}</span>
     </>
   )
 }
@@ -124,7 +116,7 @@ interface LearningResourceCardProps {
   resource?: LearningResource | null
   className?: string
   size?: Size
-  onActivate?: ResourceIdCallback
+  href?: string
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
 }
@@ -134,7 +126,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   resource,
   className,
   size = "medium",
-  onActivate,
+  href,
   onAddToLearningPathClick,
   onAddToUserListClick,
 }) => {
@@ -155,16 +147,22 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return null
   }
   return (
-    <Card className={className} size={size}>
+    <Card href={href} className={className} size={size}>
       <Card.Image
-        src={resource.image?.url ?? DEFAULT_RESOURCE_IMG}
+        src={
+          resource.image?.url
+            ? getEmbedlyUrl(resource, size)
+            : DEFAULT_RESOURCE_IMG
+        }
         alt={resource.image?.alt ?? ""}
       />
       <Card.Info>
         <Info resource={resource} />
       </Card.Info>
       <Card.Title>
-        <Title resource={resource} onActivate={onActivate} size={size} />
+        <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>
+          {resource.title}
+        </EllipsisTitle>
       </Card.Title>
       <Card.Actions>
         {onAddToLearningPathClick && (
@@ -193,7 +191,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
         )}
       </Card.Actions>
       <Card.Footer>
-        <Footer resource={resource} size={size} />
+        <StartDate resource={resource} size={size} />
       </Card.Footer>
     </Card>
   )

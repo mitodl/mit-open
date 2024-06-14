@@ -7,7 +7,7 @@ import type { Theme } from "@mui/material/styles"
 
 type ButtonVariant = "primary" | "secondary" | "tertiary" | "text" | "inverted"
 type ButtonSize = "small" | "medium" | "large"
-type ButtonEdge = "circular" | "rounded"
+type ButtonEdge = "circular" | "rounded" | "none"
 
 type ButtonStyleProps = {
   variant?: ButtonVariant
@@ -159,6 +159,15 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       // Pill-shaped buttons... Overlapping border radius get clipped to pill.
       borderRadius: "100vh",
     },
+    edge === "none" && {
+      border: "none",
+      ":hover:not(:disabled)": {
+        "&&": {
+          backgroundColor: "inherit",
+        },
+      },
+    },
+    // color
     color === "secondary" && {
       color: theme.custom.colors.silverGray,
       borderColor: theme.custom.colors.silverGray,

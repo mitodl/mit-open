@@ -7,7 +7,6 @@ import {
   Grid,
   useMuiBreakpointAtLeast,
   Card,
-  CardLinkContainer,
 } from "ol-components"
 import {
   useNewsEventsList,
@@ -81,7 +80,6 @@ const StoryCard = styled(Card)<{ mobile: boolean }>`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  overflow: hidden;
   ${({ mobile }) => (mobile ? "width: 274px" : "")}
 `
 
@@ -105,15 +103,18 @@ const MobileEvents = styled(Events)`
   padding: 0 16px;
 `
 
-const EventCard = styled(CardLinkContainer)`
+const EventCard = styled(Card)`
   display: flex;
   align-items: center;
   gap: 16px;
   flex: 1 0 0;
   align-self: stretch;
-  padding: 16px;
   justify-content: space-between;
   overflow: visible;
+
+  > a {
+    padding: 16px;
+  }
 `
 
 const EventDate = styled.div`
@@ -173,7 +174,7 @@ const Story: React.FC<{ item: NewsFeedItem; mobile: boolean }> = ({
   mobile,
 }) => {
   return (
-    <StoryCard mobile={mobile} href={item.url} link>
+    <StoryCard mobile={mobile} href={item.url}>
       <Card.Image src={item.image?.url} alt={item.image?.alt} />
       <Card.Title>{item.title}</Card.Title>
       <Card.Footer>
@@ -208,22 +209,24 @@ const NewsEventsSection: React.FC = () => {
   const EventCards =
     events!.results?.map((item) => (
       <EventCard key={item.id} href={item.url}>
-        <EventDate>
-          <EventDay>
-            {formatDate(
-              (item as EventFeedItem).event_details?.event_datetime,
-              "D",
-            )}
-          </EventDay>
-          <EventMonth>
-            {formatDate(
-              (item as EventFeedItem).event_details?.event_datetime,
-              "MMM",
-            )}
-          </EventMonth>
-        </EventDate>
-        <EventTitle>{item.title}</EventTitle>
-        <Chevron />
+        <Card.Content>
+          <EventDate>
+            <EventDay>
+              {formatDate(
+                (item as EventFeedItem).event_details?.event_datetime,
+                "D",
+              )}
+            </EventDay>
+            <EventMonth>
+              {formatDate(
+                (item as EventFeedItem).event_details?.event_datetime,
+                "MMM",
+              )}
+            </EventMonth>
+          </EventDate>
+          <EventTitle>{item.title}</EventTitle>
+          <Chevron />
+        </Card.Content>
       </EventCard>
     )) || []
 

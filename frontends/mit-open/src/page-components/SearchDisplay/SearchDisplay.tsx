@@ -5,23 +5,21 @@ import {
   MuiCard,
   CardContent,
   PlainList,
-  Skeleton,
   Container,
   Typography,
   Button,
   SimpleSelect,
   truncateText,
   css,
+  LearningResourceListCard,
 } from "ol-components"
-
 import TuneIcon from "@mui/icons-material/Tune"
-
+import * as NiceModal from "@ebay/nice-modal-react"
 import {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
   ResourceTypeEnum,
 } from "api"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
-
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import {
   AvailableFacets,
@@ -33,13 +31,16 @@ import type {
   BooleanFacets,
   FacetManifest,
 } from "@mitodl/course-search-utils"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import _ from "lodash"
-
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
 import ProfessionalToggle from "./ProfessionalToggle"
-
 import type { TabConfig } from "./ResourceTypeTabs"
+import { useUserMe } from "api/hooks/user"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "../Dialogs/AddToListDialog"
+import { useResourceDrawerHref } from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 export const StyledDropdown = styled(SimpleSelect)`
   margin: 8px;
@@ -201,10 +202,7 @@ export const FacetsTitleContainer = styled.div`
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: end;
-`
-
-const StyledSkeleton = styled(Skeleton)`
-  border-radius: 4px;
+  margin-top: 16px;
 `
 
 const PAGE_SIZE = 10
@@ -293,6 +291,24 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     },
     { keepPreviousData: true },
   )
+
+  const { data: user } = useUserMe()
+
+  const getDrawerHref = useResourceDrawerHref()
+
+  const showAddToLearningPathDialog =
+    user?.is_authenticated && user?.is_learning_path_editor
+      ? (resourceId: number) => {
+          NiceModal.show(AddToLearningPathDialog, { resourceId })
+        }
+      : null
+
+  const showAddToUserListDialog = user?.is_authenticated
+    ? (resourceId: number) => {
+        NiceModal.show(AddToUserListDialog, { resourceId })
+      }
+    : null
+
   return (
     <Container>
       <GridContainer>
@@ -357,7 +373,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                     .fill(null)
                     .map((a, index) => (
                       <li key={index}>
-                        <StyledSkeleton variant="rectangular" height={162} />
+                        <LearningResourceListCard isLoading={isLoading} />
                       </li>
                     ))}
                 </PlainList>
@@ -365,9 +381,11 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 <PlainList itemSpacing={3}>
                   {data.results.map((resource) => (
                     <li key={resource.id}>
-                      <LearningResourceCard
-                        variant="row-reverse"
+                      <LearningResourceListCard
                         resource={resource}
+                        href={getDrawerHref(resource.id)}
+                        onAddToLearningPathClick={showAddToLearningPathDialog}
+                        onAddToUserListClick={showAddToUserListDialog}
                       />
                     </li>
                   ))}

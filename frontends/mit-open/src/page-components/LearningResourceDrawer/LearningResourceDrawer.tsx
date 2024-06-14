@@ -93,5 +93,14 @@ const useOpenLearningResourceDrawer = () => {
   return openLearningResourceDrawer
 }
 
+const useResourceDrawerHref = () => {
+  const [search] = useSearchParams()
+
+  return (id: number) => {
+    search.set(RESOURCE_DRAWER_QUERY_PARAM, id.toString())
+    return `?${search.toString()}`
+  }
+}
+
 export default LearningResourceDrawer
-export { useOpenLearningResourceDrawer }
+export { useOpenLearningResourceDrawer, useResourceDrawerHref }

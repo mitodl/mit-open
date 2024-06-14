@@ -1,7 +1,7 @@
 import React from "react"
 import { BrowserRouter } from "react-router-dom"
 import { screen, render, act } from "@testing-library/react"
-import { LearningResourceCard } from "./LearningResourceCard"
+import { LearningResourceListCard } from "./LearningResourceListCard"
 import { DEFAULT_RESOURCE_IMG, embedlyCroppedImage } from "ol-utilities"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
 import { factories } from "api/test-utils"
@@ -10,7 +10,7 @@ import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 const setup = (resource: LearningResource) => {
   return render(
     <BrowserRouter>
-      <LearningResourceCard
+      <LearningResourceListCard
         resource={resource}
         href={`?resource=${resource.id}`}
       />
@@ -19,7 +19,7 @@ const setup = (resource: LearningResource) => {
   )
 }
 
-describe("Learning Resource Card", () => {
+describe("Learning Resource List Card", () => {
   test("Renders resource type, title and start date", () => {
     const resource = factories.learningResources.resource({
       resource_type: ResourceTypeEnum.Course,
@@ -96,7 +96,7 @@ describe("Learning Resource Card", () => {
 
     render(
       <BrowserRouter>
-        <LearningResourceCard
+        <LearningResourceListCard
           resource={resource}
           onAddToLearningPathClick={onAddToLearningPathClick}
           onAddToUserListClick={onAddToUserListClick}
@@ -161,8 +161,8 @@ describe("Learning Resource Card", () => {
         ? im.src === DEFAULT_RESOURCE_IMG
         : im.src ===
           embedlyCroppedImage(expected.src, {
-            width: 298,
-            height: 170,
+            width: 116,
+            height: 104,
             key: "fake-embedly-key",
           }),
     )

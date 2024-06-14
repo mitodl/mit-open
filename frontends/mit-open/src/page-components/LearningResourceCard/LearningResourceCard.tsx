@@ -1,3 +1,9 @@
+/*
+ * TODO: This has been replaced by the ol-components LearningResourceCard
+ * It is still in use by the LearningPathDetailsPage -> ListDetails -> ItemsListing
+ * though can be removed (and adjacent LearningResourceCardTemplate) once
+ * the sorting functionality has been refactored across
+ */
 import React, { useCallback } from "react"
 import * as NiceModal from "@ebay/nice-modal-react"
 
