@@ -110,7 +110,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
       backgroundSize="2000px auto"
       dim={30}
       bannerContent={
-        <Container sx={{ my: 2, py: "48px" }}>
+        <Container sx={{ pt: "48px", pb: "64px" }}>
           <Breadcrumbs
             variant="dark"
             ancestors={[
