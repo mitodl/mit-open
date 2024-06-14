@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "@emotion/styled"
 import { RiArrowRightSLine } from "@remixicon/react"
-import { Link, LinkColors } from "../Link/Link"
+import { Link } from "../Link/Link"
 import { theme } from "../ThemeProvider/ThemeProvider"
 
 const BreadcrumbsContainer = styled.span({
@@ -48,7 +48,7 @@ type BreadcrumbsProps = {
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
   const { variant, ancestors, current } = props
-  const linkColor = variant === "light" ? LinkColors.black : LinkColors.white
+  const linkColor = variant === "light" ? "black" : "white"
   const _Separator = variant === "light" ? LightSeparator : DarkSeparator
   const _Current = variant === "light" ? LightCurrent : DarkCurrent
   return (

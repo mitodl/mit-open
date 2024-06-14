@@ -4,21 +4,15 @@ import { css } from "@emotion/react"
 import { Link as RouterLink } from "react-router-dom"
 import type { Theme } from "../ThemeProvider/ThemeProvider"
 
-enum LinkColors {
-  black = "black",
-  white = "white",
-  red = "red",
-}
-
 type LinkStyleProps = {
   size?: "small" | "medium" | "large"
-  color?: LinkColors.black | LinkColors.white | LinkColors.red
-  hovercolor?: LinkColors.black | LinkColors.white | LinkColors.red
+  color?: "black" | "white" | "red"
+  hovercolor?: "black" | "white" | "red"
 }
 const DEFAULT_PROPS: Required<LinkStyleProps> = {
   size: "medium",
-  color: LinkColors.black,
-  hovercolor: LinkColors.red,
+  color: "black",
+  hovercolor: "red",
 }
 
 /**
@@ -42,15 +36,15 @@ const linkStyles = (props: LinkStyleProps & { theme: Theme }) => {
     },
     {
       color: {
-        [LinkColors.black]: theme.custom.colors.darkGray2,
-        [LinkColors.white]: theme.custom.colors.white,
-        [LinkColors.red]: theme.custom.colors.red,
+        ["black"]: theme.custom.colors.darkGray2,
+        ["white"]: theme.custom.colors.white,
+        ["red"]: theme.custom.colors.red,
       }[color],
       ":hover": {
         color: {
-          [LinkColors.black]: theme.custom.colors.darkGray2,
-          [LinkColors.white]: theme.custom.colors.white,
-          [LinkColors.red]: theme.custom.colors.lightRed,
+          ["black"]: theme.custom.colors.darkGray2,
+          ["white"]: theme.custom.colors.white,
+          ["red"]: theme.custom.colors.lightRed,
         }[hovercolor],
         textDecoration: "underline",
       },
@@ -76,5 +70,5 @@ const Link = styled((props: LinkProps) => {
   return <RouterLink to={props.href ?? ""} {...props} />
 })<LinkStyleProps>(linkStyles)
 
-export { Link, LinkColors, linkStyles }
+export { Link, linkStyles }
 export type { LinkProps }
