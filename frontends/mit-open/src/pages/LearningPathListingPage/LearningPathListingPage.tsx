@@ -11,7 +11,7 @@ import {
   Typography,
   PlainList,
   LearningResourceListCard,
-  useMuiBreakpointAtLeast,
+  theme,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import EditIcon from "@mui/icons-material/Edit"
@@ -33,21 +33,16 @@ const ListHeaderGrid = styled(Grid)`
   margin-bottom: 1rem;
 `
 
-const StyledActionButton = styled(ActionButton)<{ mobile: boolean }>`
-  ${({ mobile }) =>
-    mobile
-      ? `
-  width: 16px;
-  height: 16px;`
-      : ""}
+const StyledActionButton = styled(ActionButton)`
+  ${theme.breakpoints.down("md")} {
+    width: 16px;
+    height: 16px;
+  }
 `
 
-type EditListMenuProps = {
-  resource: LearningPathResource
-  isMobile: boolean
-}
-
-const EditListMenu: React.FC<EditListMenuProps> = ({ resource, isMobile }) => {
+const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
+  resource,
+}) => {
   const items: SimpleMenuItem[] = useMemo(
     () => [
       {
@@ -73,7 +68,6 @@ const EditListMenu: React.FC<EditListMenuProps> = ({ resource, isMobile }) => {
           edge="none"
           color="secondary"
           size="small"
-          mobile={isMobile}
           aria-label={`Edit list ${resource.title}`}
         >
           <MoreVertIcon fontSize="inherit" />
@@ -85,7 +79,6 @@ const EditListMenu: React.FC<EditListMenuProps> = ({ resource, isMobile }) => {
 }
 
 const LearningPathListingPage: React.FC = () => {
-  const isMobile = !useMuiBreakpointAtLeast("md")
   const listingQuery = useLearningPathsList()
   const { data: user } = useUserMe()
 
@@ -138,10 +131,7 @@ const LearningPathListingPage: React.FC = () => {
                           href={urls.learningPathsView(resource.id)}
                           editMenu={
                             canEdit ? (
-                              <EditListMenu
-                                resource={resource}
-                                isMobile={isMobile}
-                              />
+                              <EditListMenu resource={resource} />
                             ) : null
                           }
                         />
