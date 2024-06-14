@@ -490,10 +490,12 @@ class LearningResourceRunFactory(DjangoModelFactory):
     end_date = factory.LazyAttribute(
         lambda obj: obj.start_date + timedelta(days=90) if obj.start_date else None
     )
-    prices = [
-        decimal.Decimal(random.uniform(100, 200))  # noqa: S311
-        for _ in range(random.randint(1, 3))  # noqa: S311
-    ]
+    prices = sorted(
+        [
+            decimal.Decimal(random.uniform(100, 200))  # noqa: S311
+            for _ in range(random.randint(1, 3))  # noqa: S311
+        ]
+    )
 
     @factory.post_generation
     def instructors(self, create, extracted, **kwargs):  # noqa: ARG002
