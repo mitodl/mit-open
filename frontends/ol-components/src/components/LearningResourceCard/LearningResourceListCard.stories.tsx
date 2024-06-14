@@ -61,6 +61,7 @@ const meta: Meta<typeof LearningResourceListCard> = {
     <LearningResourceListCard
       resource={resource}
       isLoading={isLoading}
+      href={`/?resource=${resource?.id}`}
       onAddToLearningPathClick={onAddToLearningPathClick}
       onAddToUserListClick={onAddToUserListClick}
     />

@@ -262,7 +262,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
     return null
   }
   return (
-    <ListCard href={href || `?resource=${resource.id}`} className={className}>
+    <ListCard href={href} className={className}>
       <ListCard.Image
         src={
           resource.image?.url

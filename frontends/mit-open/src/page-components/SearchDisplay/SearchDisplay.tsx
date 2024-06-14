@@ -40,6 +40,7 @@ import {
   AddToLearningPathDialog,
   AddToUserListDialog,
 } from "../Dialogs/AddToListDialog"
+import { useResourceDrawerHref } from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 export const StyledDropdown = styled(SimpleSelect)`
   margin: 8px;
@@ -293,6 +294,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
 
   const { data: user } = useUserMe()
 
+  const getDrawerHref = useResourceDrawerHref()
+
   const showAddToLearningPathDialog =
     user?.is_authenticated && user?.is_learning_path_editor
       ? (resourceId: number) => {
@@ -380,6 +383,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                     <li key={resource.id}>
                       <LearningResourceListCard
                         resource={resource}
+                        href={getDrawerHref(resource.id)}
                         onAddToLearningPathClick={showAddToLearningPathDialog}
                         onAddToUserListClick={showAddToUserListDialog}
                       />
