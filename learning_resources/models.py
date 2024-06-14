@@ -256,7 +256,7 @@ class LearningResource(TimestampedModel):
             LearningResourceType.program.name,
         ]:
             next_run = self.next_run
-            return next_run.prices if next_run else [Decimal(0.00)]
+            return next_run.prices if next_run else []
         else:
             return [Decimal(0.00)]
 
