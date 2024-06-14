@@ -64,6 +64,10 @@ const NAV_PATH: { [key: string]: { href: string; label: string } } = {
     href: UNITS,
     label: "MIT Units",
   },
+  pathway: {
+    href: "",
+    label: "Pathways",
+  },
 }
 
 /**
