@@ -27,6 +27,7 @@ import {
   AddToLearningPathDialog,
   AddToUserListDialog,
 } from "../Dialogs/AddToListDialog"
+import { useResourceDrawerHref } from "../LearningResourceDrawer/LearningResourceDrawer"
 
 const StyledCarousel = styled(Carousel)({
   /**
@@ -263,6 +264,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   const { data: user } = useUserMe()
   const [tab, setTab] = React.useState("0")
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
+  const getDrawerHref = useResourceDrawerHref()
 
   const showAddToLearningPathDialog =
     user?.is_authenticated && user?.is_learning_path_editor
@@ -315,6 +317,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
                       key={resource.id}
                       resource={resource}
                       {...tabConfig.cardProps}
+                      href={getDrawerHref(resource.id)}
                       onAddToLearningPathClick={showAddToLearningPathDialog}
                       onAddToUserListClick={showAddToUserListDialog}
                     />

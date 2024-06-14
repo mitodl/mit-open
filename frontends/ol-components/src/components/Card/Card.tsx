@@ -148,6 +148,19 @@ const Card: Card = ({ children, className, size, href }) => {
 
   const _Container = href ? LinkContainer : Container
 
+  /*
+   * Allows rendering child elements to specific "slots":
+   *   <Card>
+   *      <Card.Title>
+   *        <Title>The Title</Title>
+   *      <Card.Title>
+   *      <Card.Image src="url" />
+   *   <Card>
+   * Akin to alternative interface:
+   *   <Card title={<Title>The Title</Title>} image={<Image src="url" />} />.
+   *
+   * An RFC here provides rationale: https://github.com/nihgwu/rfcs/blob/neo/slots/text/0000-slots.md
+   */
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return
     if (child.type === Content) content = child.props.children

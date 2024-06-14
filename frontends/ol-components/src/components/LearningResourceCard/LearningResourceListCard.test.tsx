@@ -10,7 +10,10 @@ import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 const setup = (resource: LearningResource) => {
   return render(
     <BrowserRouter>
-      <LearningResourceListCard resource={resource} />
+      <LearningResourceListCard
+        resource={resource}
+        href={`?resource=${resource.id}`}
+      />
     </BrowserRouter>,
     { wrapper: ThemeProvider },
   )
@@ -72,12 +75,7 @@ describe("Learning Resource List Card", () => {
       platform: { code: PlatformEnum.Ocw },
     })
 
-    render(
-      <BrowserRouter>
-        <LearningResourceListCard resource={resource} />
-      </BrowserRouter>,
-      { wrapper: ThemeProvider },
-    )
+    setup(resource)
 
     const heading = screen.getByRole("heading", { name: resource.title })
     await act(async () => {

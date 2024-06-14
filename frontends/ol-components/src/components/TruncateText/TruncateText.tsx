@@ -18,8 +18,8 @@ const truncateText = (lines?: number | "none") =>
     [`@supports (-webkit-line-clamp: ${lines})`]: {
       whiteSpace: "initial",
       display: "-webkit-box",
-      "-webkit-line-clamp": `${lines}`, // cast to any to avoid typechecking error in lines,
-      "-webkit-box-orient": "vertical",
+      WebkitLineClamp: `${lines}`, // cast to any to avoid typechecking error in lines,
+      WebkitBoxOrient: "vertical",
     },
   })
 

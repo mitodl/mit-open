@@ -116,6 +116,7 @@ interface LearningResourceCardProps {
   resource?: LearningResource | null
   className?: string
   size?: Size
+  href?: string
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
 }
@@ -125,6 +126,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   resource,
   className,
   size = "medium",
+  href,
   onAddToLearningPathClick,
   onAddToUserListClick,
 }) => {
@@ -145,7 +147,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return null
   }
   return (
-    <Card href={`?resource=${resource.id}`} className={className} size={size}>
+    <Card href={href} className={className} size={size}>
       <Card.Image
         src={
           resource.image?.url
