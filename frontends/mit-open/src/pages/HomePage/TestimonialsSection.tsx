@@ -41,7 +41,7 @@ const OverlayContainer = styled.div({
 const TestimonialCardContainer = styled.div({
   maxWidth: "1440px",
   [theme.breakpoints.down("md")]: {
-    padding: "0 10%",
+    padding: "0 16px",
   },
 })
 
@@ -115,8 +115,10 @@ const TestimonialCardQuote = styled.div({
     lineHeight: pxToRem(120),
     [theme.breakpoints.down("md")]: {
       fontSize: pxToRem(60),
-      height: pxToRem(50),
+      fontWeight: theme.typography.fontWeightLight,
+      height: pxToRem(20),
       lineHeight: "normal",
+      transform: "translateY(-8px)",
     },
   },
 

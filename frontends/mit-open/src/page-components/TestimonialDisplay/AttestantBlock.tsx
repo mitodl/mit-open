@@ -37,6 +37,10 @@ const AttestantAvatar = styled.div<AttestantBlockChildProps>((props) => {
     {
       marginRight: props.variant === "end" ? "0px" : "12px",
       marginLeft: props.variant === "end" ? "14px" : "0px",
+      [theme.breakpoints.down("md")]: {
+        marginRight: "0",
+        marginLeft: "0",
+      },
       img: {
         objectFit: "cover",
         borderRadius: "50%",
@@ -45,6 +49,9 @@ const AttestantAvatar = styled.div<AttestantBlockChildProps>((props) => {
         height: "40px",
         boxShadow:
           "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
+        [theme.breakpoints.down("md")]: {
+          display: "none",
+        },
       },
     },
   ]
