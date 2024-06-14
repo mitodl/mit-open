@@ -158,7 +158,7 @@ def _transform_run(course_run: dict, course: dict) -> dict:
         "published": bool(parse_page_attribute(course, "page_url")),
         "description": clean_data(parse_page_attribute(course_run, "description")),
         "image": _transform_image(course_run),
-        "prices": list(
+        "prices": sorted(
             {
                 "0.00",
                 *[
