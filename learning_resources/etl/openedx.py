@@ -227,7 +227,9 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "availability": course_run.get("availability"),
         "url": marketing_url
         or "{}{}/course/".format(config.alt_url, course_run.get("key")),
-        "prices": [seat.get("price") for seat in course_run.get("seats")],
+        "prices": sorted(
+            {0.00, *[seat.get("price") for seat in course_run.get("seats")]}
+        ),
         "instructors": [
             {
                 "first_name": person.get("given_name"),

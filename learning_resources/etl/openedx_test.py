@@ -180,7 +180,7 @@ def test_transform_course(  # noqa: PLR0913
                         "languages": ["en-us"],
                         "last_modified": any_instance_of(datetime),
                         "level": ["intermediate"],
-                        "prices": ["150.00", "0.00"],
+                        "prices": ["0.00", "150.00"],
                         "semester": "spring",
                         "description": "short_description",
                         "start_date": expected_dt,

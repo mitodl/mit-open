@@ -223,14 +223,13 @@ def test_mitxonline_transform_programs(
                             "published": bool(
                                 parse_page_attribute(course_data, "page_url")
                             ),
-                            "prices": [
-                                price
-                                for price in [
-                                    product.get("price")
-                                    for product in course_run_data.get("products", [])
-                                ]
-                                if price is not None
-                            ],
+                            "prices": {
+                                0.00,
+                                *[
+                                    seat.get("price")
+                                    for seat in course_run_data.get("seats")
+                                ],
+                            },
                             "instructors": [
                                 {"full_name": instructor["name"]}
                                 for instructor in parse_page_attribute(
