@@ -531,7 +531,7 @@ class SearchResponseSerializer(serializers.Serializer):
 class PercolateQuerySerializer(serializers.ModelSerializer):
     class Meta:
         model = PercolateQuery
-        exclude = COMMON_IGNORED_FIELDS
+        exclude = (*COMMON_IGNORED_FIELDS, "users")
 
 
 class LearningResourceSearchResponseSerializer(SearchResponseSerializer):
