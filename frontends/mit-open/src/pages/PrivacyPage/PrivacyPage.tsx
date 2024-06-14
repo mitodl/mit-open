@@ -1,4 +1,4 @@
-import { Container, Typography, styled } from "ol-components"
+import { Breadcrumbs, Container, Typography, styled } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React from "react"
@@ -28,26 +28,6 @@ const BannerContainerInner = styled.div({
   alignSelf: "stretch",
   justifyContent: "center",
 })
-
-const BreadcrumbsContainer = styled.div({
-  display: "flex",
-  alignItems: "flex-start",
-  gap: "10px",
-})
-
-const Breadcrumbs = styled.span(({ theme }) => ({
-  flex: "1 0 0",
-  color: theme.custom.colors.black,
-  ...theme.typography.subtitle3,
-}))
-
-const HomeLink = styled.a(({ theme }) => ({
-  color: theme.custom.colors.black,
-}))
-
-const TermsLink = styled.a(({ theme }) => ({
-  color: theme.custom.colors.silverGrayDark,
-}))
 
 const Header = styled(Typography)(({ theme }) => ({
   alignSelf: "stretch",
@@ -80,12 +60,11 @@ const PrivacyPage: React.FC = () => {
         </MetaTags>
         <BannerContainer>
           <BannerContainerInner>
-            <BreadcrumbsContainer>
-              <Breadcrumbs>
-                <HomeLink href={urls.HOME}>Home</HomeLink> /{" "}
-                <TermsLink href={urls.PRIVACY}>Privacy Policy</TermsLink>
-              </Breadcrumbs>
-            </BreadcrumbsContainer>
+            <Breadcrumbs
+              variant="light"
+              ancestors={[{ href: urls.HOME, label: "Home" }]}
+              current="Privacy Policy"
+            />
             <Header variant="h3">Privacy Policy</Header>
           </BannerContainerInner>
         </BannerContainer>
