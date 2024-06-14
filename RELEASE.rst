@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.4
+Version 0.13.4 (Released June 14, 2024)
 --------------
 
 - Expose thenew user login url as an environment var (#1086)
