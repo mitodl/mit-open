@@ -8,7 +8,6 @@ const percolateQuery: Factory<PercolateQuery> = (overrides = {}) => {
     id: uniqueEnforcerId.enforce(() => faker.number.int()),
     original_query: {},
     query: {},
-    users: [],
     source_type: SourceTypeEnum.SearchSubscriptionType,
     ...overrides,
   }
