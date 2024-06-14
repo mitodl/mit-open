@@ -56,12 +56,21 @@ const AUTH_TEXT_DATA = {
   authenticated: {
     title: "Personalize Your Journey",
     text: "Find your next course. Check your dashboard for personalized recommendations.",
-    actionText: "Dashboard",
+    linkProps: {
+      children: "Dashboard",
+      href: urls.DASHBOARD,
+    },
   },
   anonymous: {
     title: "Personalize Your Journey",
     text: "We can help find the courses for you. Tell us more about yourself to help you get started.",
-    actionText: "Sign Up to Get Started",
+    linkProps: {
+      children: "Sign Up to Get Started",
+      reloadDocument: true,
+      href: urls.login({
+        pathname: urls.DASHBOARD,
+      }),
+    },
   },
 }
 
@@ -73,12 +82,7 @@ const PersonalizeContent: React.FC = () => {
   }
   const authenticated = user?.is_authenticated
   const key = authenticated ? "authenticated" : "anonymous"
-  const { title, text, actionText } = AUTH_TEXT_DATA[key]
-  const href = authenticated
-    ? urls.DASHBOARD
-    : urls.login({
-        pathname: urls.DASHBOARD,
-      })
+  const { title, text, linkProps } = AUTH_TEXT_DATA[key]
   return (
     <ControlsContainer>
       <TextContainer>
@@ -89,9 +93,7 @@ const PersonalizeContent: React.FC = () => {
           {text}
         </Typography>
       </TextContainer>
-      <ButtonLink size="large" href={href} responsive>
-        {actionText}
-      </ButtonLink>
+      <ButtonLink size="large" responsive {...linkProps} />
     </ControlsContainer>
   )
 }

@@ -216,8 +216,6 @@ const LinkStyled = styled(ButtonStyled.withComponent(Link), {
   shouldForwardProp: (prop) => prop !== "responsive",
 })({})
 
-const AnchorStyled = ButtonStyled.withComponent("a")
-
 type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
 
 const ButtonInner: React.FC<
@@ -256,28 +254,16 @@ type ButtonLinkProps = ButtonStyleProps &
   React.ComponentProps<"a"> & {
     href?: string
     /**
-     * If true, the component will render a native anchor element rather than
-     * a react router Link.
+     * If true, the component will skip client-side routing and reload the
+     * document as if it were `<a href="..." />`.
      *
-     * In general, we want to use Link. It:
-     *  - WILL NOT trigger a full page reload for internal links
-     *  - WILL trigger a full page reload for external links.
-     *
-     * However, there are some rare cases where an internal link might need a
-     * full page reload, e.g., linking to login or logout pages.
+     * See https://reactrouter.com/en/main/components/link
      */
-    nativeAnchor?: boolean
+    reloadDocument?: boolean
   }
 
 const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
-  ({ children, href = "", nativeAnchor, ...props }, ref) => {
-    if (nativeAnchor) {
-      return (
-        <AnchorStyled href={href} {...props} ref={ref}>
-          <ButtonInner {...props}>{children}</ButtonInner>
-        </AnchorStyled>
-      )
-    }
+  ({ children, href = "", ...props }, ref) => {
     return (
       <LinkStyled to={href} {...props} ref={ref}>
         <ButtonInner {...props}>{children}</ButtonInner>
@@ -334,17 +320,12 @@ const ActionButton = styled(
 })
 
 type ActionButtonLinkProps = ActionButtonProps &
-  React.ComponentProps<"a"> & {
-    href: string
-    nativeAnchor?: boolean
-  }
+  React.ComponentProps<"a"> &
+  Pick<ButtonLinkProps, "reloadDocument">
 
 const ActionButtonLink = ActionButton.withComponent(
   React.forwardRef<HTMLAnchorElement, ActionButtonLinkProps>(
-    ({ href, nativeAnchor, ...props }, ref) => {
-      if (nativeAnchor) {
-        return <AnchorStyled ref={ref} href={href} {...props} />
-      }
+    ({ href = "", ...props }, ref) => {
       return <LinkStyled ref={ref} to={href} {...props} />
     },
   ),

@@ -102,7 +102,7 @@ const SearchButton: FunctionComponent = () => {
     <ActionButtonLink
       edge="circular"
       variant="text"
-      nativeAnchor={true}
+      reloadDocument={true}
       href={SEARCH}
     >
       <StyledSearchIcon />
