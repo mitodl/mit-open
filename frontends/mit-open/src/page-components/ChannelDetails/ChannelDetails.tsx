@@ -24,6 +24,7 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Unit]: [
     "offerings",
     "audience",
+    "fee",
     "formats",
     "content_types",
     "certifications",
@@ -47,34 +48,42 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
     {
       name: "topic",
       title: "Topic",
+      order: 0,
     },
     {
       name: "formats",
       title: "Formats",
+      order: 0,
     },
     {
       name: "fee",
       title: "Fee",
+      order: 0,
     },
     {
       name: "department",
       title: "Department",
+      order: 0,
     },
     {
       name: "offerings",
       title: "Offerings",
+      order: -1,
     },
     {
       name: "level",
       title: "Level",
+      order: 0,
     },
     {
       name: "content_types",
       title: "Type of Content",
+      order: 0,
     },
     {
       name: "audience",
       title: "Audience",
+      order: 0,
     },
     {
       name: "more_information",
@@ -84,22 +93,27 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
           {channelTitle} website <OpenInNewIcon fontSize="inherit" />
         </a>
       ),
+      order: 1,
     },
     {
       name: "platform",
       title: "Platform",
+      order: 0,
     },
     {
       name: "offered_by",
       title: "Offered By",
+      order: 0,
     },
     {
       name: "certifications",
       title: "Certificate",
+      order: 0,
     },
     {
       name: "learning_format",
       title: "Format",
+      order: 0,
       labelFunction: (key: string) =>
         key
           .split("_")
@@ -127,12 +141,15 @@ const InfoLabel = styled(Typography)(({ theme }) => ({
 const ChannelDetailsCard = styled(Box)(({ theme }) => ({
   borderRadius: "12px",
   backgroundColor: "white",
-  minWidth: "300px",
-  padding: "32px",
+  padding: "36px",
   display: "flex",
   flexDirection: "column",
   gap: "16px",
+  [theme.breakpoints.up("md")]: {
+    minWidth: "408px",
+  },
   [theme.breakpoints.down("md")]: {
+    padding: "16px",
     width: "100%",
   },
 }))
@@ -142,36 +159,45 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
   const channelDetails = getChannelDetails(field)
   const channelType = field.channel_type
   const channelTitle = field.title
+
   const facetManifest = useMemo(
     () => getFacetManifest(channelType),
     [channelType],
   )
 
-  const body = facetManifest.map((value) => {
-    const detailValue = (
-      channelDetails as unknown as { [key: string]: string }
-    )[value.name]
-    if (detailValue) {
-      const label = value?.labelFunction
-        ? value.labelFunction(detailValue, channelTitle)
-        : detailValue
+  const body = facetManifest
+    .sort((a, b) =>
+      a?.order && b?.order && a?.order > b?.order
+        ? 1
+        : a?.order && b?.order && b?.order > a?.order
+          ? -1
+          : 0,
+    )
+    .map((value) => {
+      const detailValue = (
+        channelDetails as unknown as { [key: string]: string }
+      )[value.name]
+      if (detailValue) {
+        const label = value?.labelFunction
+          ? value.labelFunction(detailValue, channelTitle)
+          : detailValue
 
-      return (
-        <Box key={value.title}>
-          <InfoLabel
-            variant="subtitle2"
-            sx={{ marginBottom: (theme) => theme.typography.pxToRem(4) }}
-          >
-            {value.title}:
-          </InfoLabel>
-          <Typography variant="body3" color="text.secondary">
-            {Array.isArray(label) ? label.join(" | ") : label}
-          </Typography>
-        </Box>
-      )
-    }
-    return null
-  })
+        return (
+          <Box key={value.title}>
+            <InfoLabel
+              variant="subtitle2"
+              sx={{ marginBottom: (theme) => theme.typography.pxToRem(4) }}
+            >
+              {value.title}
+            </InfoLabel>
+            <Typography variant="body3" color="text.secondary">
+              {Array.isArray(label) ? label.join(" | ") : label}
+            </Typography>
+          </Box>
+        )
+      }
+      return null
+    })
   return <ChannelDetailsCard>{body}</ChannelDetailsCard>
 }
 

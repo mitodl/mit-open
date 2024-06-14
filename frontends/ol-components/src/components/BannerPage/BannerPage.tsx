@@ -3,57 +3,15 @@ import styled from "@emotion/styled"
 
 const BANNER_HEIGHT = "200px"
 const SM_BANNER_HEIGHT = "115px"
-const BACKGROUND_FALLBACK_COLOR = "#20316d"
+const BACKGROUND_FALLBACK_COLOR = "#000"
+const DEFAULT_BACKGROUND_SIZE = "cover"
 
 interface ImgProps {
   /**
    * The `src` attribute for the banner image.
    */
   src?: string | null
-  /**
-   * The `alt` attribute for the banner image.
-   */
-  alt?: string
 }
-
-/**
- * Prefer direct use of `BannerPage` component.
- */
-const BannerContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-`
-
-const imageStylesheet = `
-  width: 100%;
-  display: block;
-`
-
-const StyledImage = styled.img`
-  ${imageStylesheet}
-  object-fit: cover;
-  height: 100%;
-`
-
-const PlaceholderDiv = styled.div`
-  ${imageStylesheet}
-  background-color: ${BACKGROUND_FALLBACK_COLOR};
-  min-height: ${BANNER_HEIGHT};
-  height: 100%;
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    min-height: ${SM_BANNER_HEIGHT};
-  }
-`
-
-/**
- * Prefer direct use of `BannerPage` component.
- */
-const BannerImage = ({ src, alt }: ImgProps) =>
-  src ? <StyledImage src={src} alt={alt || ""} /> : <PlaceholderDiv />
 
 /**
  * Prefer direct use of `BannerPage` component.
@@ -78,12 +36,15 @@ interface BannerPageProps extends ImgProps {
    */
   bannerContent?: React.ReactNode
   bannerContainerClass?: string
+  backgroundSize?: string
+  dim?: number
 }
 
 const BannerPageHeaderFlex = styled.header`
   min-height: ${BANNER_HEIGHT};
   height: 100%;
   position: relative;
+
   ${({ theme }) => theme.breakpoints.down("sm")} {
     min-height: ${SM_BANNER_HEIGHT};
   }
@@ -91,6 +52,7 @@ const BannerPageHeaderFlex = styled.header`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
 `
 
 /**
@@ -102,18 +64,29 @@ const BannerPage: React.FC<BannerPageProps> = ({
   src,
   bannerContent,
   bannerContainerClass,
-  alt,
   children,
   omitBackground,
+  dim = 0,
+  backgroundSize = DEFAULT_BACKGROUND_SIZE,
 }) => {
   return (
     <BannerPageWrapper className={className}>
-      <BannerPageHeaderFlex className={bannerContainerClass}>
-        <BannerContainer>
-          {!omitBackground && <BannerImage src={src} alt={alt} />}
-        </BannerContainer>
+      <BannerPageHeaderFlex
+        className={bannerContainerClass}
+        style={
+          !omitBackground
+            ? {
+                background: `url(${src}) no-repeat top left #000`,
+                backgroundAttachment: "fixed",
+                backgroundSize: backgroundSize,
+                backgroundImage: `linear-gradient(rgba(0 0 0 / ${dim}%), rgba(0 0 0 / ${dim}%)), url('${src}')`,
+              }
+            : { background: BACKGROUND_FALLBACK_COLOR }
+        }
+      >
         {bannerContent}
       </BannerPageHeaderFlex>
+
       {children}
     </BannerPageWrapper>
   )

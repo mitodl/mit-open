@@ -24,7 +24,6 @@ const ArticlesDetailPage: React.FC = () => {
   return (
     <BannerPage
       src="/static/images/course_search_banner.png"
-      alt=""
       className="articles-detail-page"
     >
       <MetaTags>

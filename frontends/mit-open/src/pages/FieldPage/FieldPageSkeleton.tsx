@@ -36,7 +36,6 @@ export const FieldControls = styled.div`
   position: relative;
   min-height: 38px;
   display: flex;
-  margin-bottom: 1em;
 `
 
 interface FieldSkeletonProps {
@@ -52,7 +51,10 @@ const NAV_PATH: { [key: string]: string } = {
 
 const NavText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.lightGray2,
-  marginBottom: "10px",
+  marginBottom: "16px",
+  [theme.breakpoints.down("md")]: {
+    marginBottom: "32px",
+  },
   ".current": {
     color: theme.custom.colors.silverGrayLight,
   },
@@ -94,10 +96,11 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
         displayConfiguration?.banner_background ??
         "/static/images/background_steps.jpeg"
       }
-      alt=""
       omitBackground={field.isLoading}
+      backgroundSize="2000px auto"
+      dim={30}
       bannerContent={
-        <Container sx={{ my: 2, py: "48px" }}>
+        <Container sx={{ pt: "48px", pb: "64px" }}>
           <NavText variant="subtitle3">
             Home / {NAV_PATH[channelType]} /{" "}
             <span className="current">{field.data?.title}</span>
@@ -120,13 +123,28 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   display="flex"
                   flexDirection="column"
                   alignItems="start"
-                  sx={{ flexGrow: 24, flexShrink: 0, order: 1, width: "60%" }}
+                  sx={{
+                    flexGrow: 1,
+                    flexShrink: 0,
+                    order: 1,
+                    width: "50%",
+                  }}
                 >
                   <Box
                     display="flex"
                     flexDirection="row"
                     alignItems="center"
-                    sx={{ flexGrow: 1, flexShrink: 0, order: 1, mt: 3 }}
+                    sx={(theme) => ({
+                      flexGrow: 1,
+                      flexShrink: 0,
+                      order: 1,
+                      py: "24px",
+
+                      [theme.breakpoints.down("md")]: {
+                        py: 0,
+                        pb: "8px",
+                      },
+                    })}
                   >
                     {displayConfiguration?.logo ? (
                       <FieldAvatar
@@ -136,7 +154,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         field={field.data}
                       />
                     ) : (
-                      <Typography variant="h3" data-testid="header">
+                      <Typography variant="h1" data-testid="header">
                         <Link
                           to={routes.makeFieldViewPath(
                             field.data.channel_type,
@@ -157,8 +175,8 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         flexGrow: 0,
                         flexShrink: 0,
                         order: 2,
-                        width: "90%",
-                        my: 2,
+                        width: { md: "80%", sm: "100%" },
+                        my: 1,
                       }}
                     >
                       <Typography variant="h4">
@@ -176,11 +194,11 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       flexGrow: 0,
                       flexShrink: 0,
                       order: 2,
-                      width: "60%",
-                      my: 2,
+                      width: { md: "80%", sm: "100%" },
+                      my: 1,
                     }}
                   >
-                    <Typography variant="body2">
+                    <Typography variant="body1">
                       {displayConfiguration.sub_heading}
                     </Typography>
                   </Box>
@@ -194,7 +212,8 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         width: "100%",
                         flexShrink: 1,
                         order: 3,
-                        my: 2,
+                        mt: { xs: "8px" },
+                        mb: { xs: "48px" },
                       }}
                     >
                       <FieldControls>
@@ -222,9 +241,9 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     display="flex"
                     sx={{
                       order: 2,
-                      flexGrow: 1,
+                      flexGrow: 0,
                       flexShrink: 0,
-                      width: { md: "300px", xs: "100%" },
+                      width: { md: "408px", xs: "100%" },
                     }}
                   >
                     <ChannelDetails field={field.data} />
@@ -235,11 +254,12 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                     flexDirection="row"
                     alignItems="end"
                     sx={{
-                      flexGrow: 1,
+                      flexGrow: 0,
                       width: { md: "15%", xs: "100%" },
                       flexShrink: 0,
                       order: 2,
-                      my: 1,
+                      mt: { md: "0px", sm: "8px" },
+                      mb: { md: "0px", sm: "48px" },
                     }}
                   >
                     <FieldControls>
