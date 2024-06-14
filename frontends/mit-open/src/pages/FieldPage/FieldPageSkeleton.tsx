@@ -153,7 +153,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         my: 1,
                       }}
                     >
-                      <Typography variant="h4">
+                      <Typography variant="h5">
                         {displayConfiguration.heading}
                       </Typography>
                     </Box>
@@ -186,7 +186,8 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         width: "100%",
                         flexShrink: 1,
                         order: 3,
-                        my: { xs: "24px" },
+                        mt: { xs: "8px" },
+                        mb: { xs: "48px" },
                       }}
                     >
                       <FieldControls>
@@ -231,7 +232,8 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       width: { md: "15%", xs: "100%" },
                       flexShrink: 0,
                       order: 2,
-                      my: { md: "0px" },
+                      mt: { md: "0px", sm: "8px" },
+                      mb: { md: "0px", sm: "48px" },
                     }}
                   >
                     <FieldControls>
