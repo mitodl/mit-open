@@ -221,7 +221,7 @@ def load_run(
     instructors_data = run_data.pop("instructors", [])
 
     # Make sure any prices are unique and sorted in ascending order
-    run_data["prices"] = sorted(set(run_data.get("prices", [])))
+    run_data["prices"] = sorted(set(run_data.get("prices", [])), key=lambda x: float(x))
 
     with transaction.atomic():
         (
