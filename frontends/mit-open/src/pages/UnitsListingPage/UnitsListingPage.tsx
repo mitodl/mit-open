@@ -91,6 +91,10 @@ const PageHeaderText = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle1,
 }))
 
+const CardStyled = styled(Card)({
+  height: "100%",
+})
+
 const UnitContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -308,7 +312,7 @@ const UnitCard: React.FC<UnitCardProps> = (props) => {
   return channelDetailQuery.isLoading ? (
     <UnitCardLoading />
   ) : (
-    <Card href={unitUrl}>
+    <CardStyled href={unitUrl}>
       <Card.Content>
         <UnitCardContainer>
           <UnitCardContent>
@@ -329,7 +333,7 @@ const UnitCard: React.FC<UnitCardProps> = (props) => {
           </UnitCardContent>
         </UnitCardContainer>
       </Card.Content>
-    </Card>
+    </CardStyled>
   )
 }
 
