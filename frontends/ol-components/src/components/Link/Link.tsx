@@ -47,7 +47,7 @@ const linkStyles = (props: LinkStyleProps & { theme: Theme }) => {
 
 type LinkProps = LinkStyleProps &
   React.ComponentProps<"a"> & {
-    nativeAnchor?: boolean
+    reloadDocument?: boolean
   }
 
 /**
@@ -60,11 +60,7 @@ type LinkProps = LinkStyleProps &
  * For a link styled as a button, use ButtonLink.
  */
 const Link = styled((props: LinkProps) => {
-  if (props.nativeAnchor) {
-    return <a {...props} />
-  } else {
-    return <RouterLink to={props.href ?? ""} {...props} />
-  }
+  return <RouterLink to={props.href ?? ""} {...props} />
 })<LinkStyleProps>(linkStyles)
 
 export { Link, linkStyles }

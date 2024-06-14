@@ -112,7 +112,7 @@ const BrowseTopicsSection: React.FC = () => {
             )
           })}
         </Topics>
-        <SeeAllButton href="/topics/" edge="circular" size="large">
+        <SeeAllButton href="/topics/" edge="rounded" size="large" responsive>
           See all
         </SeeAllButton>
       </Container>

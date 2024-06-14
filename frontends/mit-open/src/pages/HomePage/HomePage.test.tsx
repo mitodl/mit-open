@@ -12,6 +12,7 @@ import {
 } from "../../test-utils"
 import type { FeaturedApiFeaturedListRequest as FeaturedRequest } from "api"
 import invariant from "tiny-invariant"
+import * as routes from "@/common/urls"
 
 const assertLinksTo = (
   el: HTMLElement,
@@ -68,8 +69,6 @@ const setupAPIs = () => {
 
 describe("Home Page Hero", () => {
   test("Submitting search goes to search page", async () => {
-    setMockResponse.get(urls.userMe.get(), {})
-
     setupAPIs()
     const { location } = renderWithProviders(<HomePage />)
     const searchbox = screen.getByRole("textbox", { name: /search for/i })
@@ -295,5 +294,40 @@ describe("Home Page News and Events", () => {
 
     expect(links[4]).toHaveAttribute("href", events.results[4].url)
     within(links[4]).getByText(events.results[4].title)
+  })
+})
+
+describe("Home Page personalize section", () => {
+  test("Links to dashboard when authenticated", async () => {
+    setMockResponse.get(urls.userMe.get(), {})
+    setupAPIs()
+    renderWithProviders(<HomePage />)
+    const personalize = (
+      await screen.findByRole("heading", {
+        name: "Personalize Your Journey",
+      })
+    ).closest("section")
+    invariant(personalize)
+    const link = within(personalize).getByRole("link")
+    expect(link).toHaveAttribute("href", "/dashboard/")
+  })
+
+  test("Links to login when not authenticated", async () => {
+    setupAPIs()
+    setMockResponse.get(urls.userMe.get(), {}, { code: 403 })
+    renderWithProviders(<HomePage />)
+    const personalize = (
+      await screen.findByRole("heading", {
+        name: "Personalize Your Journey",
+      })
+    ).closest("section")
+    invariant(personalize)
+    const link = within(personalize).getByRole("link")
+    expect(link).toHaveAttribute(
+      "href",
+      routes.login({
+        pathname: routes.DASHBOARD,
+      }),
+    )
   })
 })

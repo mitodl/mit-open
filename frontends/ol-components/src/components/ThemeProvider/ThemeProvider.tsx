@@ -69,8 +69,7 @@ const themeOptions: ThemeOptions = {
     MuiTabPanel: {
       styleOverrides: {
         root: {
-          paddingLeft: "0px",
-          paddingRight: "0px",
+          padding: "0px",
         },
       },
     },

@@ -161,7 +161,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               data-testid="login-button-desktop"
               edge="circular"
               size="small"
-              nativeAnchor={true}
+              reloadDocument={true}
               href={loginUrl}
             >
               Sign Up / Login
@@ -176,7 +176,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               data-testid="login-button-mobile"
               edge="circular"
               variant="text"
-              nativeAnchor={true}
+              reloadDocument={true}
               href={loginUrl}
             >
               <UserIcon data-testid="UserIcon" />
