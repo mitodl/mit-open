@@ -122,14 +122,14 @@ const globalSettings: ThemeOptions["typography"] = {
     fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(16),
-    lineHeight: pxToRem(16),
+    lineHeight: pxToRem(20),
   },
   button: {
     fontFamily: "neue-haas-grotesk-text, sans-serif",
     fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(14),
-    lineHeight: pxToRem(14),
+    lineHeight: pxToRem(18),
     textTransform: "none",
   },
   buttonSmall: {
@@ -137,7 +137,7 @@ const globalSettings: ThemeOptions["typography"] = {
     fontWeight: fontWeights.text.medium,
     fontStyle: "normal",
     fontSize: pxToRem(12),
-    lineHeight: pxToRem(12),
+    lineHeight: pxToRem(16),
   },
 }
 const component: NonNullable<ThemeOptions["components"]>["MuiTypography"] = {

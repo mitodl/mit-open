@@ -1,6 +1,23 @@
 Release Notes
 =============
 
+Version 0.13.3 (Released June 14, 2024)
+--------------
+
+- Adds ScrollRestoration to the spot in the routes; sets it up so it works only if the path change; adds a mit-open mock for window.scrollTo (#1071)
+- Change LOGIN_REDIRECT_URL and LOGOUT_REDIRECT_URL to use the base URL (#1075)
+- dashboard home (#1062)
+
+Version 0.13.2 (Released June 13, 2024)
+--------------
+
+- Update education options and add to schema (#1069)
+- local dev: Read `MITOPEN_AXIOS_BASE_PATH` from env (#1065)
+- Add featured courses carousel to unit channel page (#1059)
+- Add ordering to testimonials, adjust view on homepage testimonial carousel (#1067)
+- Change channel type and url from "offeror" to "unit" (#1031)
+- Update dependency ruff to v0.4.8 (#1036)
+
 Version 0.13.1 (Released June 11, 2024)
 --------------
 

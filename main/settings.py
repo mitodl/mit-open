@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.13.1"
+VERSION = "0.13.3"
 
 log = logging.getLogger()
 
@@ -174,11 +174,11 @@ if DEBUG:
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
-LOGIN_REDIRECT_URL = get_string("MITOPEN_LOGIN_REDIRECT_URL", "/")
+LOGIN_REDIRECT_URL = SITE_BASE_URL
 LOGIN_URL = "/login"
 LOGIN_ERROR_URL = "/login"
 LOGOUT_URL = "/logout"
-LOGOUT_REDIRECT_URL = get_string("MITOPEN_LOGOUT_REDIRECT_URL", "/")
+LOGOUT_REDIRECT_URL = SITE_BASE_URL
 
 MITOPEN_TOS_URL = get_string(
     "MITOPEN_TOS_URL", urljoin(SITE_BASE_URL, "/terms-and-conditions/")
@@ -260,7 +260,9 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_string("MITOPEN_LOGIN_REDIRECT_URL", "/")
-SOCIAL_AUTH_NEW_USER_LOGIN_REDIRECT_URL = "/onboarding"
+SOCIAL_AUTH_NEW_USER_LOGIN_REDIRECT_URL = get_string(
+    "MITOPEN_NEW_USER_LOGIN_URL", "/onboarding"
+)
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
 SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
     *get_list_of_str(

@@ -1,5 +1,6 @@
 import React from "react"
 import { RouteObject, Outlet } from "react-router"
+import { ScrollRestoration } from "react-router-dom"
 import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
@@ -47,6 +48,11 @@ const routes: RouteObject[] = [
         <PageWrapper>
           <Header />
           <PageWrapperInner>
+            <ScrollRestoration
+              getKey={(location) => {
+                return location.pathname
+              }}
+            />
             <Outlet />
           </PageWrapperInner>
           <Footer />

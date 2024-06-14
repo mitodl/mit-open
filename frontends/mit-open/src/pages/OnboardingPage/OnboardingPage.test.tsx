@@ -43,7 +43,7 @@ const STEPS_DATA: Partial<Profile>[] = [
   },
 ]
 
-const baseProfile = factories.profiles.profile()
+const baseProfile = factories.user.profile()
 
 const profileForStep = (step: number) => {
   const stepsData = STEPS_DATA.slice(0, step)

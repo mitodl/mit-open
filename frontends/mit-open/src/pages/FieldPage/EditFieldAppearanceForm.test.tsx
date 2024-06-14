@@ -28,6 +28,11 @@ const setupApis = (fieldOverrides: Partial<FieldChannel>) => {
     urls.widgetLists.details(field.widget_list || -1),
     makeWidgetListResponse({}, { count: 0 }),
   )
+
+  setMockResponse.get(expect.stringContaining(urls.testimonials.list({})), {
+    results: [],
+  })
+
   return field
 }
 
