@@ -3272,12 +3272,6 @@ export interface PercolateQuery {
    * @memberof PercolateQuery
    */
   source_type: SourceTypeEnum
-  /**
-   *
-   * @type {Array<number>}
-   * @memberof PercolateQuery
-   */
-  users: Array<number>
 }
 
 /**
