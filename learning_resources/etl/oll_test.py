@@ -23,4 +23,4 @@ def test_oll_transform(oll_course_data):
     for course in results:
         assert len(course["runs"]) == 1
         for run in course["runs"]:
-            assert run["prices"] == []
+            assert run["prices"] == ["0.00"]
