@@ -9,6 +9,7 @@ import {
   linkStyles,
   Banner,
   Skeleton,
+  Breadcrumbs,
 } from "ol-components"
 import { Link } from "react-router-dom"
 import { MetaTags } from "ol-utilities"
@@ -19,6 +20,7 @@ import {
 } from "api/hooks/learningResources"
 import { LearningResourceSearchResponse, LearningResourceTopic } from "api"
 import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
+import { HOME } from "@/common/urls"
 
 const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 
@@ -280,7 +282,13 @@ const ToopicsListingPage: React.FC = () => {
         <title>MIT Open | Topics</title>
       </MetaTags>
       <Banner
-        navText="MIT / Topics"
+        navText={
+          <Breadcrumbs
+            variant="dark"
+            ancestors={[{ href: HOME, label: "Home" }]}
+            current="Topics"
+          />
+        }
         title="Topics"
         description="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam."
         backgroundUrl={TOPICS_BANNER_IMAGE}

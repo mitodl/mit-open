@@ -10,6 +10,7 @@ import {
   ListItemText,
   Grid,
   Banner,
+  Breadcrumbs,
 } from "ol-components"
 import { MetaTags, pluralize } from "ol-utilities"
 import type {
@@ -29,6 +30,7 @@ import {
   RiUserSearchLine,
   RiArrowRightSLine,
 } from "@remixicon/react"
+import { HOME } from "@/common/urls"
 
 const SCHOOL_ICONS: Record<string, React.ReactNode> = {
   "https://sap.mit.edu/": <RiPaletteLine />,
@@ -220,7 +222,13 @@ const DepartmentListingPage: React.FC = () => {
         backgroundUrl="/static/images/background_steps.jpeg"
         title="Departments"
         description="At MIT, academic departments span a wide range of disciplines, from science and engineering to humanities. Select a department below to explore all of its online course offerings."
-        navText="MIT / Departments"
+        navText={
+          <Breadcrumbs
+            variant="dark"
+            ancestors={[{ href: HOME, label: "Home" }]}
+            current="Departments"
+          />
+        }
       />
       <Container>
         <Grid container>
