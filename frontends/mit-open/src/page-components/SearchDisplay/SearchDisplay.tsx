@@ -569,7 +569,10 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
         <ResourceTypeTabs.Context
           resourceType={requestParams.resource_type?.[0]}
         >
-          <DesktopFiltersColumn variant="sidebar-2">
+          <GridColumn
+            variant="sidebar-2-wide-main"
+            data-testid="facets-container"
+          >
             <FacetsTitleContainer>
               <FilterTitle>
                 <Typography variant="subtitle1">Filter</Typography>
