@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.13.5
+--------------
+
+- Shanbady/topic channel page header fixes (#1063)
+- Learning Resource cards, list view (#1054)
+
 Version 0.13.4 (Released June 14, 2024)
 --------------
 
