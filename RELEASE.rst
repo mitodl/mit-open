@@ -1,6 +1,18 @@
 Release Notes
 =============
 
+Version 0.13.4 (Released June 14, 2024)
+--------------
+
+- Expose thenew user login url as an environment var (#1086)
+- Homepage "Personalize" (#1068)
+- Revert "Add flag for Celery to send task state change events"
+- Adds learner testimonials component for interior pages (#1001)
+- Fixing image width and position on the homepage carousel; prefer cover image over avatar if it exists (#1073)
+- Add pytest-xdist and use it for CI builds (#1074)
+- Update names in offerors.json (#1079)
+- Add flag for Celery to send task state change events
+
 Version 0.13.3 (Released June 14, 2024)
 --------------
 
