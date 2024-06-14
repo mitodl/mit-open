@@ -15,6 +15,12 @@ const truncateText = (lines?: number | "none") =>
     overflow: "hidden",
     textOverflow: "ellipsis",
     WebkitLineClamp: lines,
+    [`@supports (-webkit-line-clamp: ${lines})`]: {
+      whiteSpace: "initial",
+      display: "-webkit-box",
+      "-webkit-line-clamp": `${lines}`, // cast to any to avoid typechecking error in lines,
+      "-webkit-box-orient": "vertical",
+    },
   })
 
 /**

@@ -9,6 +9,7 @@ import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { Link } from "react-router-dom"
 import { Wrapper, containerStyles } from "./Card"
+import { TruncateText } from "../TruncateText/TruncateText"
 
 const LinkContainer = styled(Link)`
   ${containerStyles}
@@ -81,19 +82,11 @@ const Title = styled.h3`
   ${{ ...theme.typography.subtitle1 }}
   height: ${theme.typography.pxToRem(40)};
   ${theme.breakpoints.down("md")} {
-    ${{ ...theme.typography.body3 }}
+    ${{ ...theme.typography.subtitle3 }}
     height: ${theme.typography.pxToRem(32)};
   }
 
-  overflow: hidden;
   margin: 0;
-
-  @supports (-webkit-line-clamp: 2) {
-    white-space: initial;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
 `
 
 const Footer = styled.span`
@@ -176,7 +169,9 @@ const ListCard: Card = ({ children, className, href }) => {
       <_Container to={href!}>
         <Body>
           <Info>{info}</Info>
-          <Title>{title}</Title>
+          <Title>
+            <TruncateText lineClamp={2}>{title}</TruncateText>
+          </Title>
           <Bottom>
             <Footer>{footer}</Footer>
           </Bottom>

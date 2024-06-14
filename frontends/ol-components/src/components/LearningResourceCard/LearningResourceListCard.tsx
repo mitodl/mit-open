@@ -12,7 +12,6 @@ import {
   pluralize,
 } from "ol-utilities"
 import { ListCard } from "../Card/ListCard"
-import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
@@ -21,10 +20,6 @@ const IMAGE_SIZES = {
   mobile: { width: 116, height: 104 },
   desktop: { width: 236, height: 122 },
 }
-
-const EllipsisTitle = styled(TruncateText)({
-  margin: 0,
-})
 
 const Certificate = styled.div`
   border-radius: 4px;
@@ -279,9 +274,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
       <ListCard.Info>
         <Info resource={resource} />
       </ListCard.Info>
-      <ListCard.Title>
-        <EllipsisTitle lineClamp={2}>{resource.title}</EllipsisTitle>
-      </ListCard.Title>
+      <ListCard.Title>{resource.title}</ListCard.Title>
       <ListCard.Actions>
         {onAddToLearningPathClick && (
           <StyledActionButton
