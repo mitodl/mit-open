@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en"
 import type { PartialFactory } from "ol-test-utilities"
-import type { Profile } from "../../generated/v0"
+import type { Profile, User } from "../../generated/v0"
 
 const profile: PartialFactory<Profile> = (overrides = {}): Profile => ({
   name: faker.person.fullName(),
@@ -21,4 +21,18 @@ const profile: PartialFactory<Profile> = (overrides = {}): Profile => ({
   ...overrides,
 })
 
-export { profile }
+const user: PartialFactory<User> = (overrides = {}): User => {
+  const result: User = {
+    id: faker.helpers.unique(faker.number.int),
+    first_name: faker.person.firstName(),
+    last_name: faker.person.lastName(),
+    is_article_editor: false,
+    is_learning_path_editor: false,
+    username: faker.internet.userName(),
+    ...overrides,
+    profile: profile(overrides?.profile),
+  }
+  return result
+}
+
+export { profile, user }

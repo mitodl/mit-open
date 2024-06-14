@@ -565,7 +565,7 @@ def test_serialize_bulk_learning_resources(mocker):
 @pytest.mark.django_db()
 @pytest.mark.parametrize(
     "resource_type",
-    set(LearningResourceType.names()) - {LearningResourceType.course.name},
+    sorted(set(LearningResourceType.names()) - {LearningResourceType.course.name}),
 )
 @pytest.mark.parametrize("is_professional", [True, False])
 @pytest.mark.parametrize("no_price", [True, False])

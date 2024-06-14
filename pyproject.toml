@@ -102,6 +102,7 @@ ruff = "^0.4.0"
 safety = "^2.3.4"
 semantic-version = "^2.10.0"
 freezegun = "^1.4.0"
+pytest-xdist = { version = "^3.6.1", extras = ["psutil"] }
 
 
 [build-system]

@@ -12,6 +12,7 @@ import {
 
 import { withRouter } from "storybook-addon-react-router-v6"
 import { fn } from "@storybook/test"
+import { capitalize } from "ol-utilities"
 
 const icons = {
   None: undefined,
@@ -85,22 +86,38 @@ export const VariantStory: Story = {
   ),
 }
 
+const SIZES = ["small", "medium", "large"] as const
+const RESPONSIVE = [true, false]
 export const SizeStory: Story = {
   argTypes: {
     size: { table: { disable: true } },
   },
   render: (args) => (
-    <Stack direction="row" gap={2} sx={{ my: 2 }} alignItems="center">
-      <Button {...args} size="small">
-        Small
-      </Button>
-      <Button {...args} size="medium">
-        Medium
-      </Button>
-      <Button {...args} size="large">
-        Large
-      </Button>
-    </Stack>
+    <Grid container sx={{ my: 2, maxWidth: "600px" }} alignItems="center">
+      {RESPONSIVE.flatMap((responsive) => {
+        return (
+          <React.Fragment key={String(responsive)}>
+            <Grid item xs={12}>
+              <code>{`responsive={${responsive.toString()}}`}</code>
+            </Grid>
+            {SIZES.map((size) => (
+              <Grid
+                item
+                xs={4}
+                gap={2}
+                display="flex"
+                alignItems="center"
+                key={size}
+              >
+                <Button {...args} size={size} responsive={responsive}>
+                  {capitalize(size)}
+                </Button>
+              </Grid>
+            ))}
+          </React.Fragment>
+        )
+      })}
+    </Grid>
   ),
 }
 
@@ -186,7 +203,6 @@ export const IconOnlyStory: Story = {
   ),
 }
 
-const SIZES = ["small", "medium", "large"] as const
 const EDGES = ["rounded", "circular"] as const
 const VARIANTS = ["primary", "secondary", "tertiary", "text"] as const
 const EXTRA_PROPS = [
@@ -232,7 +248,7 @@ export const ButtonsShowcase: Story = {
                   size={size}
                   {...extraProps}
                 >
-                  Click me
+                  {args.children}
                 </Button>
               </Grid>
             ))
@@ -241,6 +257,20 @@ export const ButtonsShowcase: Story = {
       )}
     </Grid>
   ),
+  args: {
+    children: "Click me",
+  },
+}
+
+export const WrappingButtonShowcase: Story = {
+  ...ButtonsShowcase,
+  args: {
+    children: (
+      <>
+        The quick <br /> fox
+      </>
+    ),
+  },
 }
 
 const ICONS = [
@@ -291,5 +321,38 @@ export const ActionButtonsShowcase: Story = {
         )),
       )}
     </>
+  ),
+}
+
+export const ActionButtonSizeStory: Story = {
+  argTypes: {
+    size: { table: { disable: true } },
+  },
+  render: (args) => (
+    <Grid container sx={{ my: 2, maxWidth: "600px" }} alignItems="center">
+      {RESPONSIVE.flatMap((responsive) => {
+        return (
+          <React.Fragment key={String(responsive)}>
+            <Grid item xs={12}>
+              <code>{`responsive={${responsive.toString()}}`}</code>
+            </Grid>
+            {SIZES.map((size) => (
+              <Grid
+                item
+                xs={4}
+                gap={2}
+                display="flex"
+                alignItems="center"
+                key={size}
+              >
+                <ActionButton {...args} size={size} responsive={responsive}>
+                  <RiDeleteBinLine />
+                </ActionButton>
+              </Grid>
+            ))}
+          </React.Fragment>
+        )
+      })}
+    </Grid>
   ),
 }

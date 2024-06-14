@@ -72,6 +72,10 @@ const setMockApiResponses = ({
     ...search,
   })
 
+  setMockResponse.get(expect.stringContaining(urls.testimonials.list({})), {
+    results: [],
+  })
+
   return {
     field,
   }
