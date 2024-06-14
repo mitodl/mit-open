@@ -2,7 +2,7 @@ import React from "react"
 
 import { ActionButton, styled, theme } from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
-import { Attestation } from "api/v0"
+import type { Attestation } from "api/v0"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
 
