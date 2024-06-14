@@ -476,7 +476,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
             constants.AvailabilityType.archived.value,
         )
     )
-    enrollment_start = factory.Faker("date_time", tzinfo=UTC)
+    enrollment_start = factory.Faker("future_datetime", tzinfo=UTC)
     enrollment_end = factory.LazyAttribute(
         lambda obj: (
             (obj.enrollment_start + timedelta(days=45))

@@ -206,7 +206,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "platform": serializers.LearningResourcePlatformSerializer(
             instance=resource.platform
         ).data,
-        "prices": resource.prices,
+        "prices": sorted(resource.prices),
         "professional": resource.professional,
         "certification": resource.certification,
         "certification_type": {
@@ -214,9 +214,14 @@ def test_learning_resource_serializer(  # noqa: PLR0913
             "name": CertificationType[resource.certification_type].value,
         },
         "free": (
-            not resource.professional
-            and detail_key
+            detail_key
             not in (LearningResourceType.course.name, LearningResourceType.program.name)
+            or (
+                not resource.professional
+                and (
+                    not resource.prices or all(price == 0 for price in resource.prices)
+                )
+            )
         ),
         "published": resource.published,
         "readable_id": resource.readable_id,

@@ -6,8 +6,6 @@ import logging
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from django.db.models import Q
-from django.utils import timezone
 
 from learning_resources.constants import (
     LearningResourceFormat,
@@ -115,12 +113,7 @@ def load_departments(
 
 
 def load_next_start_date(resource: LearningResource) -> datetime.time | None:
-    next_upcoming_run = (
-        resource.runs.filter(Q(published=True) & Q(start_date__gt=timezone.now()))
-        .order_by("start_date")
-        .first()
-    )
-
+    next_upcoming_run = resource.next_run
     if next_upcoming_run:
         resource.next_start_date = next_upcoming_run.start_date
     else:
@@ -226,6 +219,9 @@ def load_run(
     run_id = run_data.pop("run_id")
     image_data = run_data.pop("image", None)
     instructors_data = run_data.pop("instructors", [])
+
+    # Make sure any prices are unique and sorted in ascending order
+    run_data["prices"] = sorted(set(run_data.get("prices", [])))
 
     with transaction.atomic():
         (
