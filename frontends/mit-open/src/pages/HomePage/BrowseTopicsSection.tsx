@@ -8,9 +8,12 @@ import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 const Section = styled.section`
   background: #fff url("/static/images/open-bg-texture-with-gradient.svg")
     no-repeat top left;
-  padding: 120px 0;
+  padding: 80px 0;
   ${theme.breakpoints.down("md")} {
     padding: 40px 0;
+  }
+  ${theme.breakpoints.down("sm")} {
+    padding: 32px 0;
   }
 `
 
