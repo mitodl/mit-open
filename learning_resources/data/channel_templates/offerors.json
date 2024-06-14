@@ -7,7 +7,7 @@
     "banner_background": "/static/images/unit_banners/mitx.jpg"
   },
   "ocw": {
-    "name": "OpenCourseWare",
+    "name": "MIT OpenCourseWare",
     "logo": "/static/images/unit_logos/ocw.svg",
     "banner_background": "/static/images/unit_banners/ocw.jpg",
     "heading": "Free open online resources from over 2,500 MIT courses for self-paced learning and classroom teaching.",
