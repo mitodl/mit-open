@@ -153,7 +153,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         my: 1,
                       }}
                     >
-                      <Typography variant="h5">
+                      <Typography variant="h4">
                         {displayConfiguration.heading}
                       </Typography>
                     </Box>
