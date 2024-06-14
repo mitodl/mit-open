@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.5
+Version 0.13.5 (Released June 14, 2024)
 --------------
 
 - Shanbady/topic channel page header fixes (#1063)
