@@ -1,10 +1,11 @@
 import React from "react"
 
-import { ActionButton, styled, theme } from "ol-components"
-import { useTestimonialList } from "api/hooks/testimonials"
-import type { Attestation } from "api/v0"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
+import { ActionButton, styled, theme } from "ol-components"
+import AttestantBlock from "./AttestantBlock"
+import { useTestimonialList } from "api/hooks/testimonials"
+import type { Attestation } from "api/v0"
 
 type TestimonialDisplayProps = {
   channels?: number[]
@@ -54,39 +55,6 @@ const AttestationBlock = styled.div(({ theme }) => ({
   justifyContent: "top",
 }))
 
-const AttestantBlock = styled.div(({ theme }) => ({
-  width: "248px",
-  display: "flex",
-  [theme.breakpoints.down("md")]: {
-    marginTop: "24px",
-  },
-}))
-
-const AttestantAvatar = styled.div({
-  marginRight: "12px",
-  img: {
-    objectFit: "cover",
-    borderRadius: "50%",
-    width: "40px",
-    height: "40px",
-    boxShadow:
-      "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
-  },
-})
-
-const AttestantNameBlock = styled.div(({ theme }) => ({
-  flexGrow: "1",
-  width: "auto",
-  color: theme.custom.colors.lightGray2,
-}))
-
-const AttestantName = styled.div(({ theme }) => ({
-  ...theme.typography.subtitle1,
-  whiteSpace: "nowrap",
-  color: theme.custom.colors.white,
-  lineHeight: "125%",
-}))
-
 const ButtonsContainer = styled.div(({ theme }) => ({
   display: "flex",
   justifyContent: "right",
@@ -108,15 +76,7 @@ const InteriorTestimonialDisplay: React.FC<InternalTestimonialDisplayProps> = ({
   return (
     <QuoteBody>
       <AttestationBlock>{attestation?.quote}</AttestationBlock>
-      <AttestantBlock>
-        <AttestantAvatar>
-          <img src={attestation.avatar_medium} />
-        </AttestantAvatar>
-        <AttestantNameBlock>
-          <AttestantName>{attestation?.attestant_name}</AttestantName>
-          {attestation.title}
-        </AttestantNameBlock>
-      </AttestantBlock>
+      <AttestantBlock attestation={attestation} />
     </QuoteBody>
   )
 }

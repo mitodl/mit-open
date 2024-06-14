@@ -10,8 +10,9 @@ import {
   TruncateText,
 } from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
-import { RiArrowDropRightLine, RiArrowDropLeftLine } from "@remixicon/react"
+import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
+import AttestantBlock from "@/page-components/TestimonialDisplay/AttestantBlock"
 
 const Section = styled.section(({ theme }) => ({
   backgroundColor: theme.custom.colors.mitRed,
@@ -31,8 +32,14 @@ const Section = styled.section(({ theme }) => ({
   },
 }))
 
+const OverlayContainer = styled.div({
+  position: "relative",
+  maxWidth: "1440px",
+  margin: "0 auto",
+})
+
 const TestimonialCardContainer = styled.div({
-  width: "100%",
+  maxWidth: "1440px",
   [theme.breakpoints.down("md")]: {
     padding: "0 10%",
   },
@@ -86,6 +93,7 @@ const TestimonialCardQuote = styled.div({
   alignItems: "flex-start",
   flex: "1 0 0",
   alignSelf: "stretch",
+  alignContent: "center",
   borderRadius: "8px",
   display: "flex",
   [theme.breakpoints.down("md")]: {
@@ -100,12 +108,13 @@ const TestimonialCardQuote = styled.div({
   "div.testimonial-quote-opener": {
     color: theme.custom.colors.mitRed,
     fontStyle: "normal",
-    height: pxToRem(80),
+    fontWeight: theme.typography.fontWeightBold,
+    height: pxToRem(60),
     width: "100%",
-    fontSize: pxToRem(80),
+    fontSize: pxToRem(60),
     lineHeight: pxToRem(120),
     [theme.breakpoints.down("md")]: {
-      fontSize: pxToRem(80),
+      fontSize: pxToRem(60),
       height: pxToRem(50),
       lineHeight: "normal",
     },
@@ -113,6 +122,8 @@ const TestimonialCardQuote = styled.div({
 
   h4: {
     flexGrow: "1",
+    marginTop: "8px",
+    height: "170px",
     [theme.breakpoints.down("md")]: {
       width: "100%",
       ...theme.typography.subtitle1,
@@ -123,12 +134,6 @@ const TestimonialCardQuote = styled.div({
     textAlign: "right",
     width: "100%",
   },
-})
-
-const OverlayContainer = styled.div({
-  position: "relative",
-  maxWidth: "1900px",
-  margin: "0 auto",
 })
 
 const TestimonialFadeLeft = styled.div({
@@ -156,10 +161,10 @@ const TestimonialFadeRight = styled.div({
   },
 })
 
-const RiArrowDropLeftLineStyled = styled(RiArrowDropLeftLine)({
+const RiArrowLeftLineStyled = styled(RiArrowLeftLine)({
   fontSize: "10rem",
 })
-const RiArrowDropRightLineStyled = styled(RiArrowDropRightLine)({
+const RiArrowRightLineStyled = styled(RiArrowRightLine)({
   fontSize: "10rem",
 })
 
@@ -222,12 +227,11 @@ const SlickCarousel = () => {
                 <Typography variant="h4">
                   <TruncateText lineClamp={5}>{resource.quote}</TruncateText>
                 </Typography>
-                <div className="testimonial-quote-closer">
-                  <Typography variant="h5">
-                    {resource.attestant_name}
-                  </Typography>
-                  {resource.title}
-                </div>
+                <AttestantBlock
+                  attestation={resource}
+                  variant="end"
+                  color="dark"
+                />
               </TestimonialCardQuote>
             </TestimonialCard>
           </TestimonialCardContainer>
@@ -237,10 +241,10 @@ const SlickCarousel = () => {
       <TestimonialFadeRight />
       <ButtonsContainer>
         <ActionButton variant="inverted" onClick={slick?.slickPrev}>
-          <RiArrowDropLeftLineStyled />
+          <RiArrowLeftLineStyled />
         </ActionButton>
         <ActionButton variant="inverted" onClick={slick?.slickNext}>
-          <RiArrowDropRightLineStyled />
+          <RiArrowRightLineStyled />
         </ActionButton>
       </ButtonsContainer>
     </OverlayContainer>
