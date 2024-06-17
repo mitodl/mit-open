@@ -148,7 +148,8 @@ const userSubscription = {
     `${API_BASE_URL}/api/v1/learning_resources_user_subscription/check/${query(params)}`,
   delete: (id: number) =>
     `${API_BASE_URL}/api/v1/learning_resources_user_subscription/${id}/unsubscribe/`,
-  post: () => "/api/v1/learning_resources_user_subscription/subscribe/",
+  post: () =>
+    `${API_BASE_URL}/api/v1/learning_resources_user_subscription/subscribe/`,
 }
 
 const fields = {

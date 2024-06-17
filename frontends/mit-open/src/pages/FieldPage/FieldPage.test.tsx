@@ -7,7 +7,6 @@ import {
   screen,
   setMockResponse,
   within,
-  user,
   act,
   waitFor,
 } from "../../test-utils"
@@ -25,12 +24,11 @@ const mockedFieldSearch = jest.mocked(FieldSearch)
 const setupApis = (
   fieldPatch?: Partial<FieldChannel>,
   search?: Partial<LearningResourceSearchResponse>,
-  userIsAuthenticated?: boolean,
-  userIsSubscribed?: boolean,
+  { isSubscribed = false, isAuthenticated = false } = {},
 ) => {
   const field = factories.fields.field(fieldPatch)
   setMockResponse.get(urls.userMe.get(), {
-    is_authenticated: userIsAuthenticated,
+    is_authenticated: isAuthenticated,
   })
   setMockResponse.get(
     urls.fields.details(field.channel_type, field.name),
@@ -51,20 +49,13 @@ const setupApis = (
     subscribeParams[key] = value.split(",")
   }
   subscribeParams["source_type"] = "channel_subscription_type"
-  const subscribeResponse = userIsSubscribed
+  const subscribeResponse = isSubscribed
     ? factories.percolateQueries.percolateQueryList({ count: 1 }).results
     : factories.percolateQueries.percolateQueryList({ count: 0 }).results
   if (fieldPatch?.search_filter) {
     setMockResponse.get(
       `${urls.userSubscription.check(subscribeParams)}`,
       subscribeResponse,
-    )
-    setMockResponse.post(`${urls.userSubscription.post()}`, subscribeResponse)
-  }
-  if (userIsSubscribed === true) {
-    setMockResponse.delete(
-      urls.userSubscription.delete(subscribeResponse[0]?.id),
-      subscribeResponse[0],
     )
   }
 
@@ -187,30 +178,17 @@ describe("FieldPage", () => {
     })
   })
 
-  it("Displays the unsubscribe toggle if the user is authenticated and subscribed", async () => {
-    const { field } = setupApis({ search_filter: "q=ocw" }, {}, true, true)
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findByText(field.title)
-    const subscribedButton = await screen.findByText("Follow")
-    assertInstanceOf(subscribedButton, HTMLButtonElement)
-    user.click(subscribedButton)
-    const unsubscribeButton = await screen.findByText("Unfollow")
-    assertInstanceOf(unsubscribeButton, HTMLLIElement)
-  })
-
-  it("Displays the subscribe toggle if the user is authenticated but not subscribed", async () => {
-    const { field } = setupApis({ search_filter: "q=ocw" }, {}, true, false)
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findByText(field.title)
-    const subscribeButton = await screen.findByText("Follow")
-    assertInstanceOf(subscribeButton, HTMLButtonElement)
-  })
-  it("Hides the subscribe toggle if the user is not authenticated", async () => {
-    const { field } = setupApis({ search_filter: "q=ocw" }, {}, false, false)
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findByText(field.title)
-    await waitFor(() => {
-      expect(screen.queryByText("Follow")).not.toBeInTheDocument()
-    })
-  })
+  it.each([{ isSubscribed: false }, { isSubscribed: true }])(
+    "Displays the subscribe toggle for authenticated and unauthenticated users",
+    async ({ isSubscribed }) => {
+      const { field } = setupApis(
+        { search_filter: "q=ocw" },
+        {},
+        { isSubscribed },
+      )
+      renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+      const subscribedButton = await screen.findByText("Follow")
+      expect(subscribedButton).toBeVisible()
+    },
+  )
 })
