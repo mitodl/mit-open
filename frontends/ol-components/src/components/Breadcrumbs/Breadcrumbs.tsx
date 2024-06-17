@@ -77,3 +77,4 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
 }
 
 export { Breadcrumbs }
+export type { BreadcrumbsProps }
