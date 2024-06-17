@@ -2093,6 +2093,7 @@ paths:
             - professional
             - free
             - learning_format
+            - is_learning_material
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -2107,6 +2108,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `is_learning_material` - is_learning_material
         description: Show resource counts by category
       - in: query
         name: certification
@@ -2254,6 +2256,13 @@ paths:
           items:
             type: integer
         description: The id value for the learning resource
+      - in: query
+        name: is_learning_material
+        schema:
+          type: boolean
+          nullable: true
+        description: True if the learning resource is a podcast, podcast episode,
+          video, video playlist, or learning path
       - in: query
         name: learning_format
         schema:
@@ -2494,6 +2503,7 @@ paths:
             - professional
             - free
             - learning_format
+            - is_learning_material
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -2508,6 +2518,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `is_learning_material` - is_learning_material
         description: Show resource counts by category
       - in: query
         name: certification
@@ -2655,6 +2666,13 @@ paths:
           items:
             type: integer
         description: The id value for the learning resource
+      - in: query
+        name: is_learning_material
+        schema:
+          type: boolean
+          nullable: true
+        description: True if the learning resource is a podcast, podcast episode,
+          video, video playlist, or learning path
       - in: query
         name: learning_format
         schema:
@@ -2920,6 +2938,7 @@ paths:
             - professional
             - free
             - learning_format
+            - is_learning_material
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -2934,6 +2953,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `is_learning_material` - is_learning_material
         description: Show resource counts by category
       - in: query
         name: certification
@@ -3081,6 +3101,13 @@ paths:
           items:
             type: integer
         description: The id value for the learning resource
+      - in: query
+        name: is_learning_material
+        schema:
+          type: boolean
+          nullable: true
+        description: True if the learning resource is a podcast, podcast episode,
+          video, video playlist, or learning path
       - in: query
         name: learning_format
         schema:
@@ -3337,6 +3364,7 @@ paths:
             - professional
             - free
             - learning_format
+            - is_learning_material
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -3351,6 +3379,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `is_learning_material` - is_learning_material
         description: Show resource counts by category
       - in: query
         name: certification
@@ -3498,6 +3527,13 @@ paths:
           items:
             type: integer
         description: The id value for the learning resource
+      - in: query
+        name: is_learning_material
+        schema:
+          type: boolean
+          nullable: true
+        description: True if the learning resource is a podcast, podcast episode,
+          video, video playlist, or learning path
       - in: query
         name: learning_format
         schema:
@@ -6873,6 +6909,7 @@ components:
       - professional
       - free
       - learning_format
+      - is_learning_material
       type: string
       description: |-
         * `resource_type` - resource_type
@@ -6887,6 +6924,7 @@ components:
         * `professional` - professional
         * `free` - free
         * `learning_format` - learning_format
+        * `is_learning_material` - is_learning_material
       x-enum-descriptions:
       - resource_type
       - certification
@@ -6900,6 +6938,7 @@ components:
       - professional
       - free
       - learning_format
+      - is_learning_material
     Article:
       type: object
       description: Serializer for LearningResourceInstructor model
@@ -9218,6 +9257,11 @@ components:
           type: boolean
           nullable: true
           description: True if the learning resource offers a certificate
+        is_learning_material:
+          type: boolean
+          nullable: true
+          description: True if the learning resource is a podcast, podcast episode,
+            video, video playlist, or learning path
         certification_type:
           type: array
           items:
