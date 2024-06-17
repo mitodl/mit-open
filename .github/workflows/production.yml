@@ -62,8 +62,8 @@ jobs:
       - name: Purge Fastly cache
         uses: jcoene/fastly-purge-action@master
         with:
-          api_key: "${{ secrets.FASTLY_API_KEY_PRODUCTION }}"
-          service_id: "${{ secrets.FASTLY_SERVICE_ID_PRODUCTION }}"
+          api_key: "${{ secrets.FASTLY_API_KEY_PROD }}"
+          service_id: "${{ secrets.FASTLY_SERVICE_ID_PROD }}"
 
   # runs ONLY on a failure of the CI workflow
   on-failure:
