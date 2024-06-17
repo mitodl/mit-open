@@ -94,7 +94,7 @@ def extract_programs():
             _fetch_data(
                 settings.MITX_ONLINE_PROGRAMS_API_URL,
                 params={
-                    "courserun_is_enrollable": True,
+                    "page__live": True,
                     "live": True,
                 },
             )
@@ -112,7 +112,7 @@ def extract_courses():
             _fetch_data(
                 settings.MITX_ONLINE_COURSES_API_URL,
                 params={
-                    "courserun_is_enrollable": True,
+                    "page__live": True,
                     "live": True,
                 },
             )
@@ -262,7 +262,7 @@ def _fetch_courses_by_ids(course_ids):
                 settings.MITX_ONLINE_COURSES_API_URL,
                 params={
                     "id": ",".join([str(courseid) for courseid in course_ids]),
-                    "courserun_is_enrollable": True,
+                    "page__live": True,
                     "live": True,
                 },
             )
