@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.6
+Version 0.13.6 (Released June 17, 2024)
 --------------
 
 - update course-search-utils (#1100)
