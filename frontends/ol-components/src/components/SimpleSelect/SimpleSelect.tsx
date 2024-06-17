@@ -2,6 +2,8 @@ import React from "react"
 import { Select } from "../SelectField/SelectField"
 import MenuItem from "@mui/material/MenuItem"
 import type { SelectChangeEvent } from "@mui/material/Select"
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
+import { Theme, SxProps } from "@mui/material/styles"
 
 interface SimpleSelectProps {
   /**
@@ -28,6 +30,10 @@ interface SimpleSelectProps {
    * class name for the dropdown and base for key for dropdown options
    */
   className?: string
+  /**
+   * styles for the dropdown and options
+   */
+  sx?: SxProps<Theme>
 }
 
 interface SimpleSelectOptionProps {
@@ -48,6 +54,7 @@ const SimpleSelect: React.FC<SimpleSelectProps> = ({
   onChange,
   options,
   renderValue,
+  sx,
 }) => {
   return (
     <Select
@@ -57,9 +64,15 @@ const SimpleSelect: React.FC<SimpleSelectProps> = ({
       onChange={onChange}
       className={className}
       renderValue={renderValue}
+      IconComponent={() => <ExpandMoreIcon />}
+      sx={sx}
     >
       {options.map((option) => (
-        <MenuItem value={option.key.toString()} key={option.key.toString()}>
+        <MenuItem
+          value={option.key.toString()}
+          key={option.key.toString()}
+          sx={sx}
+        >
           {option.label}
         </MenuItem>
       ))}

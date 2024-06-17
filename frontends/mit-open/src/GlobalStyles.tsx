@@ -20,11 +20,8 @@ const pageCss = css`
   }
 
   #app-container {
-    height: calc(100vh - 80px);
-    margin-top: 80px;
-    ${theme.breakpoints.down("sm")} {
-      margin-top: 60px;
-    }
+    height: calc(100vh - 60px);
+    margin-top: 60px;
   }
 
   a {

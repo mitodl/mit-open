@@ -9,6 +9,8 @@ import { RiBookOpenLine, RiBriefcase3Line } from "@remixicon/react"
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)`
   width: 100%;
+  height: 40px;
+  border-radius: 4px;
 `
 const StyledButtonGroupContainer = styled.div`
   margin-top: 10px;
@@ -33,10 +35,11 @@ const StyledRiBriefcase3Line = styled(RiBriefcase3Line)`
 `
 
 const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
-  width: "100%",
-  height: "50px",
+  height: "40px",
   backgroundColor: theme.custom.colors.lightGray2,
   color: theme.custom.colors.darkGray2,
+  borderColor: theme.custom.colors.silverGrayLight,
+
   "&.Mui-selected": {
     backgroundColor: theme.custom.colors.white,
     "&:hover": {
@@ -46,20 +49,25 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   "&:hover": {
     backgroundColor: theme.custom.colors.white,
   },
+  ...theme.typography.subtitle3,
 }))
 
 const ViewAllButton = styled(StyledToggleButton)`
   border-right: 2px solid;
   border-color: ${({ theme }) => theme.custom.colors.silverGrayLight};
-  width: 25%;
+  width: 20%;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 `
 const AcademicButton = styled(StyledToggleButton)`
   border-right: 2px solid;
   border-color: ${({ theme }) => theme.custom.colors.silverGrayLight};
-  width: 35%;
+  width: 40%;
 `
 const ProfesionalButton = styled(StyledToggleButton)`
   width: 40%;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
 `
 
 const ProfessionalToggle: React.FC<{

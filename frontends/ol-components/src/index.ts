@@ -139,6 +139,7 @@ export { default as Pagination } from "@mui/material/Pagination"
 export type { PaginationProps } from "@mui/material/Pagination"
 export { default as Typography } from "@mui/material/Typography"
 export type { TypographyProps } from "@mui/material/Typography"
+export { default as PaginationItem } from "@mui/material/PaginationItem"
 
 export { default as Collapse } from "@mui/material/Collapse"
 

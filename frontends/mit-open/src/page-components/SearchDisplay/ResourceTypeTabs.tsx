@@ -1,7 +1,23 @@
 import React from "react"
-import { Tab, TabContext, TabList, TabPanel } from "ol-components"
+import {
+  TabButton,
+  TabContext,
+  TabButtonList,
+  TabPanel,
+  styled,
+} from "ol-components"
 import type { ResourceTypeEnum, LearningResourceSearchResponse } from "api"
 
+const TabsList = styled(TabButtonList)({
+  ".MuiTabScrollButton-root.Mui-disabled": {
+    display: "none",
+  },
+})
+
+const CountSpan = styled.span`
+  min-width: 35px;
+  text-align: left;
+`
 type TabConfig = {
   resource_type: ResourceTypeEnum
   label: string
@@ -22,7 +38,11 @@ const resourceTypeCounts = (aggregations?: Aggregations) => {
 }
 const appendCount = (label: string, count?: number) => {
   if (Number.isFinite(count)) {
-    return `${label} (${count})`
+    return (
+      <>
+        {label}&nbsp;<CountSpan>({count})</CountSpan>
+      </>
+    )
   }
   return label
 }
@@ -61,25 +81,25 @@ const ResourceTypeTabList: React.FC<ResourceTypeTabsProps> = ({
     ? tabs.reduce((acc, tab) => acc + (counts[tab.resource_type] ?? 0), 0)
     : undefined
   return (
-    <TabList
+    <TabsList
       className={className}
       onChange={(_e, value) => {
         patchParams({ resource_type: value === "all" ? [] : [value] })
         onTabChange?.(value)
       }}
     >
-      <Tab value="all" label={appendCount("All", allCount)} />
+      <TabButton value="all" label={appendCount("All", allCount)} />
       {tabs.map((t) => {
         const count = counts ? counts[t.resource_type] ?? 0 : undefined
         return (
-          <Tab
+          <TabButton
             key={t.resource_type}
             value={t.resource_type}
             label={appendCount(t.label, count)}
           />
         )
       })}
-    </TabList>
+    </TabsList>
   )
 }
 
