@@ -73,7 +73,7 @@ const isOcw = (resource: LearningResource) =>
   resource.resource_type === ResourceTypeEnum.Course &&
   resource.platform?.code === PlatformEnum.Ocw
 
-const getStartDate = (resource: LearningResource, size?: Size) => {
+const getStartDate = (resource: LearningResource, size: Size = "medium") => {
   let startDate = resource.next_start_date
 
   if (!startDate) {
