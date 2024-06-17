@@ -205,6 +205,7 @@ const LinkText = styled(Typography)(({ theme }) => ({
 
 const TabPanelStyled = styled(TabPanel)({
   padding: "0",
+  width: "100%",
 })
 
 const TitleText = styled(Typography)(({ theme }) => ({
