@@ -1,6 +1,19 @@
 Release Notes
 =============
 
+Version 0.13.6
+--------------
+
+- update course-search-utils (#1100)
+- fix safari image stretching, cap image width (#1096)
+- excluding users from serializer (#1090)
+- All MITx runs should include a price of $0 (#1094)
+- Search page styling (#1051)
+- fix dashboard home certificate course carousel (#1082)
+- Shanbady/browse by topics UI fix (#1081)
+- Update OCW unit name in offerors.json (#1084)
+- Add -E flag to worker subcommand for sending task events
+
 Version 0.13.5 (Released June 14, 2024)
 --------------
 
