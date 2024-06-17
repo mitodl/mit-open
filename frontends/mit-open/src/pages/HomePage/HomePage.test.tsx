@@ -2,7 +2,11 @@ import React from "react"
 import HomePage from "./HomePage"
 import NewsEventsSection from "./NewsEventsSection"
 import { urls, setMockResponse } from "api/test-utils"
-import { learningResources, newsEvents } from "api/test-utils/factories"
+import {
+  learningResources,
+  newsEvents,
+  testimonials,
+} from "api/test-utils/factories"
 import {
   renderWithProviders,
   screen,
@@ -35,6 +39,7 @@ const setupAPIs = () => {
   setMockResponse.get(urls.userMe.get(), {})
 
   const resources = learningResources.resources({ count: 4 })
+  const attestations = testimonials.testimonials({ count: 3 })
 
   setMockResponse.get(
     expect.stringContaining(urls.learningResources.list()),
@@ -62,9 +67,10 @@ const setupAPIs = () => {
     results: [],
   })
 
-  setMockResponse.get(expect.stringContaining(urls.testimonials.list({})), {
-    results: [],
-  })
+  setMockResponse.get(
+    expect.stringContaining(urls.testimonials.list({})),
+    attestations,
+  )
 }
 
 describe("Home Page Hero", () => {
@@ -329,5 +335,16 @@ describe("Home Page personalize section", () => {
         pathname: routes.DASHBOARD,
       }),
     )
+  })
+
+  describe("Home Page Testimonials", () => {
+    test("Displays testimonials carousel", async () => {
+      setupAPIs()
+      renderWithProviders(<HomePage />)
+
+      await waitFor(() => {
+        screen.getAllByText(/testable title/i)
+      })
+    })
   })
 })
