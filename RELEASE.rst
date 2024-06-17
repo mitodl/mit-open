@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 0.13.6
+--------------
+
+- Search page styling (#1051)
+- fix dashboard home certificate course carousel (#1082)
+- Shanbady/browse by topics UI fix (#1081)
+- Update OCW unit name in offerors.json (#1084)
+- Add -E flag to worker subcommand for sending task events
+
 Version 0.13.5 (Released June 14, 2024)
 --------------
 
