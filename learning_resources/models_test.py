@@ -47,3 +47,4 @@ def test_course_creation():
     assert resource.topics.count() > 0
     assert resource.offered_by is not None
     assert resource.runs.count() == course.runs.count()
+    assert resource.prices == resource.next_run.prices
