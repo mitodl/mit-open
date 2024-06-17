@@ -65,7 +65,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
             >
               {ancestor.label}
             </Link>
-            {!isLast && <_Separator />}
+            {!isLast && <_Separator data-testid="breadcrumb-separator" />}
           </Breadcrumb>
         )
       })}
