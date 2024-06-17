@@ -90,7 +90,15 @@ def parse_page_attribute(
 def extract_programs():
     """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_PROGRAMS_API_URL:
-        return list(_fetch_data(settings.MITX_ONLINE_PROGRAMS_API_URL))
+        return list(
+            _fetch_data(
+                settings.MITX_ONLINE_PROGRAMS_API_URL,
+                params={
+                    "courserun_is_enrollable": True,
+                    "live": True,
+                },
+            )
+        )
     else:
         log.warning("Missing required setting MITX_ONLINE_PROGRAMS_API_URL")
 
@@ -100,7 +108,15 @@ def extract_programs():
 def extract_courses():
     """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_COURSES_API_URL:
-        return list(_fetch_data(settings.MITX_ONLINE_COURSES_API_URL))
+        return list(
+            _fetch_data(
+                settings.MITX_ONLINE_COURSES_API_URL,
+                params={
+                    "courserun_is_enrollable": True,
+                    "live": True,
+                },
+            )
+        )
     else:
         log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
 
@@ -244,7 +260,11 @@ def _fetch_courses_by_ids(course_ids):
         return list(
             _fetch_data(
                 settings.MITX_ONLINE_COURSES_API_URL,
-                params={"id": ",".join([str(courseid) for courseid in course_ids])},
+                params={
+                    "id": ",".join([str(courseid) for courseid in course_ids]),
+                    "courserun_is_enrollable": True,
+                    "live": True,
+                },
             )
         )
 
