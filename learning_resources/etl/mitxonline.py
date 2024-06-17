@@ -158,13 +158,19 @@ def _transform_run(course_run: dict, course: dict) -> dict:
         "published": bool(parse_page_attribute(course, "page_url")),
         "description": clean_data(parse_page_attribute(course_run, "description")),
         "image": _transform_image(course_run),
-        "prices": [
-            price
-            for price in [
-                product.get("price") for product in course_run.get("products", [])
-            ]
-            if price is not None
-        ],
+        "prices": sorted(
+            {
+                "0.00",
+                *[
+                    price
+                    for price in [
+                        product.get("price")
+                        for product in course_run.get("products", [])
+                    ]
+                    if price is not None
+                ],
+            }
+        ),
         "instructors": [
             {"full_name": instructor["name"]}
             for instructor in parse_page_attribute(course, "instructors", is_list=True)
