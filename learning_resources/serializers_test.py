@@ -206,7 +206,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "platform": serializers.LearningResourcePlatformSerializer(
             instance=resource.platform
         ).data,
-        "prices": sorted(resource.prices),
+        "prices": sorted([f"{price:.2f}" for price in resource.prices]),
         "professional": resource.professional,
         "certification": resource.certification,
         "certification_type": {
