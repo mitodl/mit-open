@@ -73,7 +73,7 @@ const isOcw = (resource: LearningResource) =>
   resource.resource_type === ResourceTypeEnum.Course &&
   resource.platform?.code === PlatformEnum.Ocw
 
-const getStartDate = (resource: LearningResource) => {
+const getStartDate = (resource: LearningResource, size?: Size) => {
   let startDate = resource.next_start_date
 
   if (!startDate) {
@@ -87,7 +87,7 @@ const getStartDate = (resource: LearningResource) => {
 
   if (!startDate) return null
 
-  return formatDate(startDate, "MMMM DD, YYYY")
+  return formatDate(startDate, `MMM${size === "medium" ? "M" : ""} DD, YYYY`)
 }
 
 const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
@@ -98,11 +98,8 @@ const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
 
   if (!startDate) return null
 
-  const label = isOcw(resource)
-    ? size === "medium"
-      ? "As taught in:"
-      : ""
-    : "Starts:"
+  const label =
+    size === "medium" ? (isOcw(resource) ? "As taught in:" : "Starts:") : ""
 
   return (
     <>
