@@ -99,7 +99,7 @@ const getPrice = (resource: LearningResource) => {
     return null
   }
   const price = resource.prices?.[0]
-  if (resource.platform?.code === PlatformEnum.Ocw || price === 0) {
+  if (resource.free) {
     return "Free"
   }
   return price ? `$${price}` : null
