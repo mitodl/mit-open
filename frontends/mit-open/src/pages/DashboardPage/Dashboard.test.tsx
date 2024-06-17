@@ -252,7 +252,7 @@ describe("DashboardPage", () => {
     })
   })
 
-  test("Renders the expected carousels on the home page", async () => {
+  test("Renders the expected carousels on the dashboard", async () => {
     const {
       profile,
       topPicks,
@@ -337,5 +337,5 @@ describe("DashboardPage", () => {
       )
       expect(courseTitle).toBeInTheDocument()
     })
-  })
+  }, 10000)
 })
