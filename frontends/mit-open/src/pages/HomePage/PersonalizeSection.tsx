@@ -29,9 +29,16 @@ const PersonalizeContainer = styled(Container)(({ theme }) => ({
 
 const ImageContainer = styled.img(({ theme }) => ({
   display: "flex",
-  flex: 1,
   alignItems: "end",
   minWidth: "0px",
+  maxWidth: "646px",
+  [theme.breakpoints.up("sm")]: {
+    /**
+     * Flex 1, combined with the maxWidth, was causing the image to be stretched
+     * on Safari. We don't need flex 1 on the mobile layout, so omit it there.
+     */
+    flex: 1,
+  },
   [theme.breakpoints.down("sm")]: {
     maxWidth: "100%",
   },
