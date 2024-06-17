@@ -9128,16 +9128,11 @@ components:
         query: {}
         source_type:
           $ref: '#/components/schemas/SourceTypeEnum'
-        users:
-          type: array
-          items:
-            type: integer
       required:
       - id
       - original_query
       - query
       - source_type
-      - users
     PercolateQuerySubscriptionRequestRequest:
       type: object
       description: |-
