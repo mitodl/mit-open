@@ -184,6 +184,8 @@ const SlickCarousel = () => {
   const { data } = useTestimonialList({ position: 1 })
   const [slick, setSlick] = React.useState<Slider | null>(null)
 
+  let lastMarketingImage = ""
+
   if (!data || data.results.length === 0) return null
 
   const settings = {
@@ -204,8 +206,16 @@ const SlickCarousel = () => {
   }
 
   const generateMarketingImageSrc = () => {
-    const idx = Math.floor(Math.random() * 6) + 1
-    return `/images/testimonial_images/testimonial-image-${idx}.png`
+    let imagePath = ""
+
+    do {
+      const idx = Math.floor(Math.random() * 6) + 1
+      imagePath = `/images/testimonial_images/testimonial-image-${idx}.png`
+    } while (lastMarketingImage !== imagePath)
+
+    lastMarketingImage = imagePath
+
+    return imagePath
   }
 
   return (
