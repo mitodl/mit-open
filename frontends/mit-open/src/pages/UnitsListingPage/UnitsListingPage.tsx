@@ -11,6 +11,7 @@ import {
   Skeleton,
   Typography,
   styled,
+  Breadcrumbs,
 } from "ol-components"
 import { RiBookOpenLine, RiSuitcaseLine } from "@remixicon/react"
 import React from "react"
@@ -21,6 +22,7 @@ import {
 } from "api"
 import { MetaTags } from "ol-utilities"
 import { useChannelDetail } from "api/hooks/fields"
+import { HOME } from "@/common/urls"
 
 const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
@@ -407,7 +409,13 @@ const UnitsListingPage: React.FC = () => {
         <title>MIT Open | Units</title>
       </MetaTags>
       <Banner
-        navText="Home / MIT Units"
+        navText={
+          <Breadcrumbs
+            variant="dark"
+            ancestors={[{ href: HOME, label: "Home" }]}
+            current="MIT Units"
+          />
+        }
         title="Academic & Professional Learning"
         description="Extending MIT's knowledge to the world"
         backgroundUrl={UNITS_BANNER_IMAGE}

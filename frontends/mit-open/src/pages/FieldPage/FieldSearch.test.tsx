@@ -228,6 +228,8 @@ describe("FieldSearch", () => {
         expect(makeRequest.mock.calls.length > 0).toBe(true)
       })
 
+      const facetsContainer = screen.getByTestId("facets-container")
+
       for (const facetName of [
         "Certificate",
         "Department",
@@ -236,9 +238,9 @@ describe("FieldSearch", () => {
         "Format",
       ]) {
         if ((displayedFacets as string[]).includes(facetName as string)) {
-          await screen.findByText(facetName)
+          await within(facetsContainer).findByText(facetName)
         } else {
-          expect(screen.queryByText(facetName)).toBeNull()
+          expect(within(facetsContainer).queryByText(facetName)).toBeNull()
         }
       }
     },

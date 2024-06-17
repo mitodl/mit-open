@@ -1,7 +1,14 @@
 import React, { useMemo } from "react"
 import { Link } from "react-router-dom"
 import * as routes from "../../common/urls"
-import { BannerPage, styled, Container, Typography, Box } from "ol-components"
+import {
+  BannerPage,
+  styled,
+  Container,
+  Typography,
+  Box,
+  Breadcrumbs,
+} from "ol-components"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
 import { useChannelDetail } from "api/hooks/fields"
@@ -12,6 +19,7 @@ import ResourceCarousel, {
 } from "@/page-components/ResourceCarousel/ResourceCarousel"
 import { SourceTypeEnum } from "api"
 import { getSearchParamMap } from "@/common/utils"
+import { DEPARTMENTS, HOME, TOPICS, UNITS } from "../../common/urls"
 
 export const FieldTitleRow = styled.div`
   display: flex;
@@ -43,22 +51,24 @@ interface FieldSkeletonProps {
   channelType: string
   name: string
 }
-const NAV_PATH: { [key: string]: string } = {
-  topic: "Topics",
-  department: "Departments",
-  unit: "MIT Units",
+const NAV_PATH: { [key: string]: { href: string; label: string } } = {
+  topic: {
+    href: TOPICS,
+    label: "Topics",
+  },
+  department: {
+    href: DEPARTMENTS,
+    label: "Departments",
+  },
+  unit: {
+    href: UNITS,
+    label: "MIT Units",
+  },
+  pathway: {
+    href: "",
+    label: "Pathways",
+  },
 }
-
-const NavText = styled(Typography)(({ theme }) => ({
-  color: theme.custom.colors.lightGray2,
-  marginBottom: "16px",
-  [theme.breakpoints.down("md")]: {
-    marginBottom: "32px",
-  },
-  ".current": {
-    color: theme.custom.colors.silverGrayLight,
-  },
-}))
 
 /**
  * Common structure for field-oriented pages.
@@ -101,10 +111,17 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
       dim={30}
       bannerContent={
         <Container sx={{ pt: "48px", pb: "64px" }}>
-          <NavText variant="subtitle3">
-            Home / {NAV_PATH[channelType]} /{" "}
-            <span className="current">{field.data?.title}</span>
-          </NavText>
+          <Breadcrumbs
+            variant="dark"
+            ancestors={[
+              { href: HOME, label: "Home" },
+              {
+                href: NAV_PATH[channelType].href,
+                label: NAV_PATH[channelType].label,
+              },
+            ]}
+            current={field.data?.title}
+          />
           <FieldTitleRow data-testid="banner">
             {field.data && (
               <Box

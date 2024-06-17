@@ -6,11 +6,13 @@ import type { Theme } from "../ThemeProvider/ThemeProvider"
 
 type LinkStyleProps = {
   size?: "small" | "medium" | "large"
-  color?: "red" | "black"
+  color?: "black" | "white" | "red"
+  hovercolor?: "black" | "white" | "red"
 }
 const DEFAULT_PROPS: Required<LinkStyleProps> = {
   size: "medium",
   color: "black",
+  hovercolor: "red",
 }
 
 /**
@@ -21,7 +23,7 @@ const DEFAULT_PROPS: Required<LinkStyleProps> = {
  * with `styled`. For example, `styled.span(linkStyles)`.
  */
 const linkStyles = (props: LinkStyleProps & { theme: Theme }) => {
-  const { theme, size, color } = { ...DEFAULT_PROPS, ...props }
+  const { theme, size, color, hovercolor } = { ...DEFAULT_PROPS, ...props }
   return css([
     size === "small" && {
       ...theme.typography.body3,
@@ -34,11 +36,16 @@ const linkStyles = (props: LinkStyleProps & { theme: Theme }) => {
     },
     {
       color: {
-        black: theme.custom.colors.black,
-        red: theme.custom.colors.red,
+        ["black"]: theme.custom.colors.darkGray2,
+        ["white"]: theme.custom.colors.white,
+        ["red"]: theme.custom.colors.red,
       }[color],
       ":hover": {
-        color: theme.custom.colors.lightRed,
+        color: {
+          ["black"]: theme.custom.colors.darkGray2,
+          ["white"]: theme.custom.colors.white,
+          ["red"]: theme.custom.colors.lightRed,
+        }[hovercolor],
         textDecoration: "underline",
       },
     },
