@@ -569,8 +569,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
         <ResourceTypeTabs.Context
           resourceType={requestParams.resource_type?.[0]}
         >
-          <GridColumn
-            variant="sidebar-2-wide-main"
+          <DesktopFiltersColumn
+            variant="sidebar-2"
             data-testid="facets-container"
           >
             <FacetsTitleContainer>
@@ -589,7 +589,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 </Button>
               ) : null}
             </FacetsTitleContainer>
-
             {filterContents}
           </DesktopFiltersColumn>
           <StyledMainColumn variant="main-2">
