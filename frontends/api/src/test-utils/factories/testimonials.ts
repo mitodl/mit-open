@@ -5,7 +5,7 @@ import type { Attestation } from "../../generated/v0"
 
 const testimonial: Factory<Attestation> = (overrides = {}) => ({
   id: faker.number.int(),
-  title: faker.lorem.sentence(),
+  title: "Testable Title",
   quote: faker.lorem.paragraph(),
   attestant_name: faker.person.fullName(),
   avatar: faker.image.url({ width: 500, height: 500 }),
@@ -16,6 +16,7 @@ const testimonial: Factory<Attestation> = (overrides = {}) => ({
   updated_on: faker.date.past().toISOString(),
   publish_date: null,
   channels: [],
+  offerors: ["see"],
   ...overrides,
 })
 
