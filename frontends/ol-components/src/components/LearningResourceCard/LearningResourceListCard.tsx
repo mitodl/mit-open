@@ -94,29 +94,104 @@ const getEmbedlyUrl = (url: string, isMobile: boolean) => {
   })
 }
 
-const getPrice = (resource: LearningResource) => {
-  if (!resource) {
-    return null
-  }
-  const price = resource.prices?.[0]
-  if (resource.platform?.code === PlatformEnum.Ocw || price === 0) {
-    return "Free"
-  }
-  return price ? `$${price}` : null
+type Prices = {
+  course: null | number
+  certificate: null | number
 }
 
+const getPrices = (resource: LearningResource) => {
+  const prices: Prices = {
+    course: null,
+    certificate: null,
+  }
+
+  if (!resource) {
+    return prices
+  }
+
+  const resourcePrices = resource.prices
+
+  if (resourcePrices.length > 1) {
+    /* The resource is free and offers a paid certificate option, e.g.
+     * { prices: [0, 49], free: false, certification: true }
+     */
+    if (resource.certification && !Number(resourcePrices[0])) {
+      return {
+        certificate: resourcePrices[1],
+        course: 0,
+      }
+    }
+
+    /* We are not expecting multiple prices for courses with no certificate option.
+     * For resourses always certificated, there is one price that includes the certificate.
+     */
+  } else if (resourcePrices.length === 1) {
+    if (!Number(resourcePrices[0])) {
+      /* Sometimes price info is missing, but the free flag is reliable.
+       */
+      if (!resource.free) {
+        return {
+          course: +Infinity,
+          certificate: null,
+        }
+      }
+
+      return {
+        course: 0,
+        certificate: null,
+      }
+    } else {
+      /* If the course has no free option, the price of the certificate
+       * is included in the price of the course.
+       */
+      return {
+        course: Number(resourcePrices[0]),
+        certificate: null,
+      }
+    }
+  }
+
+  // if (!price && !resource.free) {
+  //   prices.course = +Infinity
+  //   return prices
+  // }
+  // if (resource.platform?.code === PlatformEnum.Ocw || price === 0) {
+  //   return "Free"
+  // }
+  return prices
+}
+
+const getDisplayPrice = (price: number | null) => {
+  if (price === null) {
+    return null
+  }
+  if (price === 0) {
+    return "Free"
+  }
+  if (price === +Infinity) {
+    return "Paid"
+  }
+  return `$${price}`
+}
+
+/* This displays a single price for courses with no free option
+ * (price includes the certificate). For free courses with the
+ * option of a paid certificate, the certificate price displayed
+ * in the certificate badge alongside the course "Free" price.
+ */
 const Info = ({ resource }: { resource: LearningResource }) => {
-  const price = getPrice(resource)
+  const prices = getPrices(resource)
+  getDisplayPrice(+Infinity)
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
       {resource.certification && (
         <Certificate>
           <RiAwardFill />
-          Certificate
+          Certificate {getDisplayPrice(prices?.certificate)}
         </Certificate>
       )}
-      {price && <Price>{price}</Price>}
+      <Price>{getDisplayPrice(prices?.course)}</Price>
     </>
   )
 }
