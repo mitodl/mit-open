@@ -335,16 +335,16 @@ describe("Home Page personalize section", () => {
         pathname: routes.DASHBOARD,
       }),
     )
-})
+  })
 
-describe("Home Page Testimonials", () => {
-  test("Displays testimonials carousel", async () => {
-    setupAPIs()
-    renderWithProviders(<HomePage />)
+  describe("Home Page Testimonials", () => {
+    test("Displays testimonials carousel", async () => {
+      setupAPIs()
+      renderWithProviders(<HomePage />)
 
-    await waitFor(() => {
-      screen.getAllByText(/testable title/i)
+      await waitFor(() => {
+        screen.getAllByText(/testable title/i)
+      })
     })
   })
-})
 })
