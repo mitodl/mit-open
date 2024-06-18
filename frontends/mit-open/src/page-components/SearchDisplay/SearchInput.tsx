@@ -1,13 +1,16 @@
 import React, { useCallback } from "react"
 
 import ClearIcon from "@mui/icons-material/Clear"
-import { Input, AdornmentButton } from "../Input/Input"
-import type { InputProps } from "../Input/Input"
-import FormGroup from "@mui/material/FormGroup"
-import Button from "@mui/material/Button"
+import {
+  Input,
+  AdornmentButton,
+  FormGroup,
+  Button,
+  styled,
+  css,
+} from "ol-components"
+import type { InputProps } from "ol-components"
 import { RiSearch2Line } from "@remixicon/react"
-import styled from "@emotion/styled"
-import { css } from "@emotion/react"
 
 export interface SearchSubmissionEvent {
   target: {
@@ -45,6 +48,7 @@ const StyledButton = styled(Button)`
 
   ${({ theme }) => theme.breakpoints.up("md")} {
     ${({ theme }) => css({ ...theme.typography.body2 })};
+    min-width: 64px;
     height: 48px;
     padding: 8px 16px;
     border-top-right-radius: 8px;
@@ -138,8 +142,8 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
         }
       />
       <StyledButton
-        variant="contained"
-        disableElevation
+        color="primary"
+        size="medium"
         aria-label="Search"
         className={props.classNameSearch}
         onClick={handleSubmit}
