@@ -48,7 +48,7 @@ class Command(BaseCommand):
 
             # Get the channel for the offeror
             unit_channel = FieldChannel.objects.filter(
-                unit_detail__offeror=offeror
+                unit_detail__unit=offeror
             ).first()
             if not unit_channel:
                 self.stderr.write(
@@ -89,6 +89,6 @@ class Command(BaseCommand):
 
         total_seconds = (now_in_utc() - start).total_seconds()
         self.stdout.write(
-            "Population of offeror channel featured lists finished, "
+            "Population of unit channel featured lists finished, "
             f"took {total_seconds} seconds"
         )
