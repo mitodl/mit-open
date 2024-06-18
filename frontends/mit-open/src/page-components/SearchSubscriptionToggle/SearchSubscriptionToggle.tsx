@@ -38,7 +38,7 @@ const SearchSubscriptionToggle = ({
     return [
       {
         key: "unsubscribe",
-        label: "Unsubscribe",
+        label: "Unfollow",
         onClick: () => unsubscribe(subscriptionId),
       },
     ]
@@ -51,7 +51,7 @@ const SearchSubscriptionToggle = ({
       <SimpleMenu
         trigger={
           <Button variant="primary" endIcon={<ExpandMoreSharpIcon />}>
-            Subscribed
+            Follow
           </Button>
         }
         items={unsubscribeItems}
@@ -69,7 +69,7 @@ const SearchSubscriptionToggle = ({
         })
       }
     >
-      Subscribe
+      Follow
     </Button>
   )
 }

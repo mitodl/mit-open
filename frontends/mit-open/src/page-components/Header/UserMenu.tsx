@@ -110,19 +110,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
       href: urls.DASHBOARD,
     },
     {
-      label: "User Lists",
-      key: "userlists",
-      allow: !!user?.is_authenticated,
-      href: urls.USERLIST_LISTING,
-    },
-    {
       label: "Learning Paths",
       key: "learningpaths",
       allow: !!user?.is_learning_path_editor,
       href: urls.LEARNINGPATH_LISTING,
     },
     {
-      label: "Log out",
+      label: "Log Out",
       key: "logout",
       allow: !!user?.is_authenticated,
       href: urls.LOGOUT,
@@ -163,7 +157,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               reloadDocument={true}
               href={loginUrl}
             >
-              Sign Up / Login
+              Sign Up / Log In
             </ButtonLink>
           </FlexContainer>
         ) : (

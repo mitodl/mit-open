@@ -191,10 +191,10 @@ describe("FieldPage", () => {
     const { field } = setupApis({ search_filter: "q=ocw" }, {}, true, true)
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
     await screen.findByText(field.title)
-    const subscribedButton = await screen.findByText("Subscribed")
+    const subscribedButton = await screen.findByText("Follow")
     assertInstanceOf(subscribedButton, HTMLButtonElement)
     user.click(subscribedButton)
-    const unsubscribeButton = await screen.findByText("Unsubscribe")
+    const unsubscribeButton = await screen.findByText("Unfollow")
     assertInstanceOf(unsubscribeButton, HTMLLIElement)
   })
 
@@ -202,7 +202,7 @@ describe("FieldPage", () => {
     const { field } = setupApis({ search_filter: "q=ocw" }, {}, true, false)
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
     await screen.findByText(field.title)
-    const subscribeButton = await screen.findByText("Subscribe")
+    const subscribeButton = await screen.findByText("Follow")
     assertInstanceOf(subscribeButton, HTMLButtonElement)
   })
   it("Hides the subscribe toggle if the user is not authenticated", async () => {
@@ -210,7 +210,7 @@ describe("FieldPage", () => {
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
     await screen.findByText(field.title)
     await waitFor(() => {
-      expect(screen.queryByText("Subscribe")).not.toBeInTheDocument()
+      expect(screen.queryByText("Follow")).not.toBeInTheDocument()
     })
   })
 })

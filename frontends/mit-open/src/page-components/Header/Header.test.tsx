@@ -98,7 +98,7 @@ describe("UserMenu", () => {
   test("Authenticated users see the Log Out link", async () => {
     const isAuthenticated = true
     const initialUrl = "/foo/bar?cat=meow"
-    const expected = { text: "Log out", url: urlConstants.LOGOUT }
+    const expected = { text: "Log Out", url: urlConstants.LOGOUT }
     setMockResponse.get(urls.userMe.get(), {
       is_authenticated: isAuthenticated,
     })

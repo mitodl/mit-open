@@ -19,7 +19,6 @@ describe("Footer", () => {
       "About Us": urls.ABOUT,
       Accessibility: urls.ACCESSIBILITY,
       "Privacy Policy": urls.PRIVACY,
-      "Terms of Service": urls.TERMS,
       "Contact Us": urls.CONTACT,
     }
     const footer = screen.getByRole("contentinfo")
@@ -35,7 +34,7 @@ describe("Footer", () => {
     expect(address).toHaveTextContent("Massachusetts Institute of Technology")
     expect(address).toHaveTextContent("77 Massachusetts Avenue")
     expect(address).toHaveTextContent("Cambridge, MA 02139")
-    expect(links).toHaveLength(7)
+    expect(links).toHaveLength(6)
     for (const link of links) {
       expect(link).toHaveAttribute(
         "href",
