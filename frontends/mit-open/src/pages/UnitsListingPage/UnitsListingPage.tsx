@@ -405,9 +405,7 @@ const UnitsListingPage: React.FC = () => {
 
   return (
     <Page>
-      <MetaTags>
-        <title>MIT Open | Units</title>
-      </MetaTags>
+      <MetaTags title="Units" />
       <Banner
         navText={
           <Breadcrumbs

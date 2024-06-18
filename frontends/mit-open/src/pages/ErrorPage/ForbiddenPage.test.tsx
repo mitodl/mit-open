@@ -31,7 +31,7 @@ test("The ForbiddenPage loads with meta", async () => {
   })
   renderWithProviders(<ForbiddenPage />)
   await waitFor(() => {
-    expect(document.title).toBe("Not Allowed")
+    expect(document.title).toBe("Not Allowed | MIT Open")
   })
 
   const meta = document.head.querySelector('meta[name="robots"]')

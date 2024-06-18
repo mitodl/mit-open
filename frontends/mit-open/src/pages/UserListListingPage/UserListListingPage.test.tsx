@@ -53,10 +53,10 @@ const setup = ({
 }
 
 describe("UserListListingPage", () => {
-  it("Has title 'User Lists'", async () => {
+  it("Has heading 'User Lists' and correct page title", async () => {
     setup()
     screen.getByRole("heading", { name: "User Lists" })
-    await waitFor(() => expect(document.title).toBe("User Lists"))
+    await waitFor(() => expect(document.title).toBe("My Lists | MIT Open"))
   })
 
   it("Renders a card for each user list", async () => {

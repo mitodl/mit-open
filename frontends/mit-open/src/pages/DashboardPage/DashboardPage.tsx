@@ -414,9 +414,7 @@ const DashboardPage: React.FC = () => {
     <Background>
       <Page>
         <DashboardContainer>
-          <MetaTags>
-            <title>User Home</title>
-          </MetaTags>
+          <MetaTags title="Your MIT Learning Journey" />
           <TabContext value={tabValue}>
             <DashboardGrid>
               <DashboardGridItem>

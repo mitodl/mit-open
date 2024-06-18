@@ -21,9 +21,8 @@ const ErrorPageTemplate: React.FC<ErrorPageTemplateProps> = ({
   return (
     <Container maxWidth="sm">
       <MuiCard sx={{ marginTop: "1rem" }}>
-        <MetaTags>
+        <MetaTags title={title}>
           <meta name="robots" content="noindex,noarchive" />
-          <title>{title}</title>
         </MetaTags>
         <CardContent>{children}</CardContent>
         <CardActions>

@@ -55,9 +55,7 @@ const PrivacyPage: React.FC = () => {
   return (
     <Container>
       <PageContainer>
-        <MetaTags>
-          <title>Privacy Policy</title>
-        </MetaTags>
+        <MetaTags title="Privacy Policy" />
         <BannerContainer>
           <BannerContainerInner>
             <Breadcrumbs

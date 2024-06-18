@@ -2,6 +2,7 @@ import React from "react"
 import { Helmet } from "react-helmet-async"
 
 type MetaTagsProps = {
+  title?: string | string[]
   canonicalLink?: string
   children?: React.ReactNode
 }
@@ -17,14 +18,22 @@ const getCanonicalUrl = (url: string): string => {
 /**
  * Renders a Helmet component to customize meta tags
  */
-const MetaTags: React.FC<MetaTagsProps> = ({ children, canonicalLink }) =>
-  children || canonicalLink ? (
+const MetaTags: React.FC<MetaTagsProps> = ({
+  title,
+  children,
+  canonicalLink,
+}) => {
+  title = title ? (Array.isArray(title) ? title : [title]) : []
+
+  return (
     <Helmet>
+      <title>{[...title, process.env.SITE_NAME].join(" | ")}</title>
       {children}
       {canonicalLink ? (
         <link rel="canonical" href={getCanonicalUrl(canonicalLink)} />
       ) : null}
     </Helmet>
-  ) : null
+  )
+}
 
 export default MetaTags

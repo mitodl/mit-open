@@ -14,9 +14,7 @@ const ArticleUpsertPage: React.FC<ArticleUpsertPageProps> = ({
 }) => {
   return (
     <BannerPage src="/static/images/course_search_banner.png">
-      <MetaTags>
-        <title>{title}</title>
-      </MetaTags>
+      <MetaTags title={title} />
       <Container maxWidth="sm">
         <GridContainer>
           <GridColumn variant="single-full">{children}</GridColumn>

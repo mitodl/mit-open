@@ -82,11 +82,11 @@ describe("DepartmentListingPage", () => {
     }
   }
 
-  it("Has a page title", async () => {
+  it("Has correct page title", async () => {
     setupApis()
     renderWithProviders(<DepartmentListingPage />)
     await waitFor(() => {
-      expect(document.title).toBe("MIT Open | Departments")
+      expect(document.title).toBe("Departments | MIT Open")
     })
     screen.getByRole("heading", { name: "Departments" })
   })

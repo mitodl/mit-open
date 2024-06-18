@@ -278,9 +278,7 @@ const ToopicsListingPage: React.FC = () => {
   }, [topicsQuery.data?.results, courseQuery.data, programQuery.data])
   return (
     <Page>
-      <MetaTags>
-        <title>MIT Open | Topics</title>
-      </MetaTags>
+      <MetaTags title="Topics" />
       <Banner
         navText={
           <Breadcrumbs

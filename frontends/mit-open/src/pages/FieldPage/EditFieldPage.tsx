@@ -38,9 +38,7 @@ const EditFieldPage: React.FC = () => {
       name={field.data?.name}
       channelType={field.data?.channel_type}
     >
-      <MetaTags>
-        <title>Edit {field.data.title} Channel</title>
-      </MetaTags>
+      <MetaTags title={[field.data.title, "Edit"]} />
       {field.data.is_moderator ? (
         <TabContext value={tabValue}>
           <div className="page-subbanner">

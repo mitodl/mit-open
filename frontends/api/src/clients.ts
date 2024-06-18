@@ -24,6 +24,11 @@ import {
 
 import axiosInstance from "./axios"
 
+// const BASE_PATH =
+//   process.env.ENVIRONMENT === "local"
+//     ? ""
+//     : process.env.MITOPEN_AXIOS_BASE_PATH?.replace(/\/+$/, "") ?? ""
+
 const BASE_PATH = process.env.MITOPEN_AXIOS_BASE_PATH?.replace(/\/+$/, "") ?? ""
 
 const learningResourcesApi = new LearningResourcesApi(

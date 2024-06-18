@@ -18,7 +18,7 @@ describe("TermsPage", () => {
       url: commonUrls.TERMS,
     })
     await waitFor(() => {
-      expect(document.title).toBe("Terms of Service")
+      expect(document.title).toBe("Terms of Service | MIT Open")
     })
     screen.getByRole("heading", {
       name: "Terms of Service",

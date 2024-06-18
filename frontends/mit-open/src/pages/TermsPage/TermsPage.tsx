@@ -59,9 +59,7 @@ const TermsPage: React.FC = () => {
   return (
     <Container>
       <PageContainer>
-        <MetaTags>
-          <title>Terms of Service</title>
-        </MetaTags>
+        <MetaTags title="Terms of Service" />
         <BannerContainer>
           <BannerContainerInner>
             <Breadcrumbs

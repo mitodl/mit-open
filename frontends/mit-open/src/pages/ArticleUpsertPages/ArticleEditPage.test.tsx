@@ -41,7 +41,7 @@ describe("ArticleEditPage", () => {
     expect(bodyInput).toBeInstanceOf(HTMLTextAreaElement)
 
     await waitFor(() => {
-      expect(document.title).toBe(`Editing: ${article.title}`)
+      expect(document.title).toBe(`${article.title} | Edit | MIT Open`)
     })
   })
 
