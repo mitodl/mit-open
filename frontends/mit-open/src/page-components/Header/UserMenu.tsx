@@ -27,7 +27,7 @@ const UserMenuContainer = styled.button({
 })
 
 const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
-  paddingRight: "32px",
+  paddingRight: "16px",
   "&:hover": {
     textDecoration: "none",
   },
@@ -159,7 +159,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
           <FlexContainer className="login-button-desktop">
             <ButtonLink
               data-testid="login-button-desktop"
-              edge="circular"
               size="small"
               reloadDocument={true}
               href={loginUrl}
