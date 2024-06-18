@@ -19,7 +19,6 @@ describe("Footer", () => {
       "About Us": urls.ABOUT,
       Accessibility: urls.ACCESSIBILITY,
       "Privacy Policy": urls.PRIVACY,
-      "Terms of Service": urls.TERMS,
       "Contact Us": urls.CONTACT,
     }
     const footer = screen.getByRole("contentinfo")
