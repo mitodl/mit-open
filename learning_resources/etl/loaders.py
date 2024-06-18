@@ -523,7 +523,13 @@ def load_programs(
     if programs and config.prune:
         for learning_resource in LearningResource.objects.filter(
             etl_source=etl_source, resource_type=LearningResourceType.program.name
-        ).exclude(id__in=[learning_resource.id for learning_resource in programs]):
+        ).exclude(
+            id__in=[
+                learning_resource.id
+                for learning_resource in programs
+                if learning_resource is not None
+            ]
+        ):
             learning_resource.published = False
             learning_resource.save()
             resource_unpublished_actions(learning_resource)
