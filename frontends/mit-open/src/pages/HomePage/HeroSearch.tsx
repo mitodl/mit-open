@@ -1,13 +1,8 @@
 import React, { useState, useCallback } from "react"
 import { useNavigate } from "react-router"
-import {
-  Typography,
-  SearchInput,
-  SearchInputProps,
-  styled,
-  ChipLink,
-} from "ol-components"
+import { Typography, styled, ChipLink } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
+import { SearchInput, SearchInputProps } from "./SearchInput"
 
 type SearchChip = {
   label: string
@@ -112,6 +107,11 @@ const ControlsContainer = styled.div(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     padding: "12px",
     gap: "16px",
+  },
+  [theme.breakpoints.up("sm")]: {
+    input: {
+      paddingLeft: "5px",
+    },
   },
 }))
 const LinksContainer = styled.div(({ theme }) => ({
