@@ -255,8 +255,11 @@ class LearningResource(TimestampedModel):
             LearningResourceType.course.name,
             LearningResourceType.program.name,
         ]:
-            next_run = self.next_run
-            return next_run.prices if next_run else []
+            next_run = (
+                self.next_run
+                or self.runs.filter(published=True).order_by("-start_date").first()
+            )
+            return next_run.prices if next_run and next_run.prices else []
         else:
             return [Decimal(0.00)]
 

@@ -40,7 +40,7 @@ import {
 } from "./base"
 
 /**
- * * `resource_type` - resource_type * `certification` - certification * `certification_type` - certification_type * `offered_by` - offered_by * `platform` - platform * `topic` - topic * `department` - department * `level` - level * `course_feature` - course_feature * `professional` - professional * `free` - free * `learning_format` - learning_format
+ * * `resource_type` - resource_type * `certification` - certification * `certification_type` - certification_type * `offered_by` - offered_by * `platform` - platform * `topic` - topic * `department` - department * `level` - level * `course_feature` - course_feature * `professional` - professional * `free` - free * `learning_format` - learning_format * `is_learning_material` - is_learning_material
  * @export
  * @enum {string}
  */
@@ -58,6 +58,7 @@ export const AggregationsEnumDescriptions = {
   professional: "professional",
   free: "free",
   learning_format: "learning_format",
+  is_learning_material: "is_learning_material",
 } as const
 
 export const AggregationsEnum = {
@@ -109,6 +110,10 @@ export const AggregationsEnum = {
    * learning_format
    */
   LearningFormat: "learning_format",
+  /**
+   * is_learning_material
+   */
+  IsLearningMaterial: "is_learning_material",
 } as const
 
 export type AggregationsEnum =
@@ -3352,6 +3357,12 @@ export interface PercolateQuerySubscriptionRequestRequest {
    * @memberof PercolateQuerySubscriptionRequestRequest
    */
   certification?: boolean | null
+  /**
+   * True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
+   * @type {boolean}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  is_learning_material?: boolean | null
   /**
    * The type of certificate               * `micromasters` - Micromasters Credential * `professional` - Professional Certificate * `completion` - Certificate of Completion * `none` - No Certificate
    * @type {Array<CertificationTypeEnum>}
@@ -11350,6 +11361,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesSearchRetrieveDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
+     * @param {boolean | null} [is_learning_material] True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
      * @param {Array<LearningResourcesSearchRetrieveLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesSearchRetrieveLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
@@ -11372,6 +11384,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       department?: Array<LearningResourcesSearchRetrieveDepartmentEnum>,
       free?: boolean | null,
       id?: Array<number>,
+      is_learning_material?: boolean | null,
       learning_format?: Array<LearningResourcesSearchRetrieveLearningFormatEnum>,
       level?: Array<LearningResourcesSearchRetrieveLevelEnum>,
       limit?: number,
@@ -11427,6 +11440,10 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
 
       if (id) {
         localVarQueryParameter["id"] = id
+      }
+
+      if (is_learning_material !== undefined) {
+        localVarQueryParameter["is_learning_material"] = is_learning_material
       }
 
       if (learning_format) {
@@ -11510,6 +11527,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<LearningResourcesSearchRetrieveDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
+     * @param {boolean | null} [is_learning_material] True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
      * @param {Array<LearningResourcesSearchRetrieveLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesSearchRetrieveLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
@@ -11532,6 +11550,7 @@ export const LearningResourcesSearchApiFp = function (
       department?: Array<LearningResourcesSearchRetrieveDepartmentEnum>,
       free?: boolean | null,
       id?: Array<number>,
+      is_learning_material?: boolean | null,
       learning_format?: Array<LearningResourcesSearchRetrieveLearningFormatEnum>,
       level?: Array<LearningResourcesSearchRetrieveLevelEnum>,
       limit?: number,
@@ -11559,6 +11578,7 @@ export const LearningResourcesSearchApiFp = function (
           department,
           free,
           id,
+          is_learning_material,
           learning_format,
           level,
           limit,
@@ -11619,6 +11639,7 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.department,
           requestParameters.free,
           requestParameters.id,
+          requestParameters.is_learning_material,
           requestParameters.learning_format,
           requestParameters.level,
           requestParameters.limit,
@@ -11645,7 +11666,7 @@ export const LearningResourcesSearchApiFactory = function (
 export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
+   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format' | 'is_learning_material'>}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly aggregations?: Array<LearningResourcesSearchRetrieveAggregationsEnum>
@@ -11691,6 +11712,13 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly id?: Array<number>
+
+  /**
+   * True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
+   * @type {boolean}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly is_learning_material?: boolean | null
 
   /**
    * The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -11798,6 +11826,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.department,
         requestParameters.free,
         requestParameters.id,
+        requestParameters.is_learning_material,
         requestParameters.learning_format,
         requestParameters.level,
         requestParameters.limit,
@@ -11831,6 +11860,7 @@ export const LearningResourcesSearchRetrieveAggregationsEnum = {
   Professional: "professional",
   Free: "free",
   LearningFormat: "learning_format",
+  IsLearningMaterial: "is_learning_material",
 } as const
 export type LearningResourcesSearchRetrieveAggregationsEnum =
   (typeof LearningResourcesSearchRetrieveAggregationsEnum)[keyof typeof LearningResourcesSearchRetrieveAggregationsEnum]
@@ -12005,6 +12035,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
+     * @param {boolean | null} [is_learning_material] True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
      * @param {Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionCheckListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
@@ -12028,6 +12059,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       department?: Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>,
       free?: boolean | null,
       id?: Array<number>,
+      is_learning_material?: boolean | null,
       learning_format?: Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionCheckListLevelEnum>,
       limit?: number,
@@ -12084,6 +12116,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (id) {
         localVarQueryParameter["id"] = id
+      }
+
+      if (is_learning_material !== undefined) {
+        localVarQueryParameter["is_learning_material"] = is_learning_material
       }
 
       if (learning_format) {
@@ -12158,6 +12194,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
+     * @param {boolean | null} [is_learning_material] True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
      * @param {Array<LearningResourcesUserSubscriptionListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
@@ -12180,6 +12217,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       department?: Array<LearningResourcesUserSubscriptionListDepartmentEnum>,
       free?: boolean | null,
       id?: Array<number>,
+      is_learning_material?: boolean | null,
       learning_format?: Array<LearningResourcesUserSubscriptionListLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionListLevelEnum>,
       limit?: number,
@@ -12235,6 +12273,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (id) {
         localVarQueryParameter["id"] = id
+      }
+
+      if (is_learning_material !== undefined) {
+        localVarQueryParameter["is_learning_material"] = is_learning_material
       }
 
       if (learning_format) {
@@ -12305,6 +12347,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
+     * @param {boolean | null} [is_learning_material] True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
@@ -12329,6 +12372,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
       free?: boolean | null,
       id?: Array<number>,
+      is_learning_material?: boolean | null,
       learning_format?: Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>,
       limit?: number,
@@ -12386,6 +12430,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (id) {
         localVarQueryParameter["id"] = id
+      }
+
+      if (is_learning_material !== undefined) {
+        localVarQueryParameter["is_learning_material"] = is_learning_material
       }
 
       if (learning_format) {
@@ -12531,6 +12579,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
+     * @param {boolean | null} [is_learning_material] True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
      * @param {Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionCheckListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
@@ -12554,6 +12603,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       department?: Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>,
       free?: boolean | null,
       id?: Array<number>,
+      is_learning_material?: boolean | null,
       learning_format?: Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionCheckListLevelEnum>,
       limit?: number,
@@ -12582,6 +12632,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           department,
           free,
           id,
+          is_learning_material,
           learning_format,
           level,
           limit,
@@ -12619,6 +12670,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
+     * @param {boolean | null} [is_learning_material] True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
      * @param {Array<LearningResourcesUserSubscriptionListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
@@ -12641,6 +12693,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       department?: Array<LearningResourcesUserSubscriptionListDepartmentEnum>,
       free?: boolean | null,
       id?: Array<number>,
+      is_learning_material?: boolean | null,
       learning_format?: Array<LearningResourcesUserSubscriptionListLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionListLevelEnum>,
       limit?: number,
@@ -12668,6 +12721,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           department,
           free,
           id,
+          is_learning_material,
           learning_format,
           level,
           limit,
@@ -12704,6 +12758,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Sloan School of Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Studies and Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Health Sciences and Technology * &#x60;IDS&#x60; - Institute for Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
+     * @param {boolean | null} [is_learning_material] True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
@@ -12728,6 +12783,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
       free?: boolean | null,
       id?: Array<number>,
+      is_learning_material?: boolean | null,
       learning_format?: Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>,
       limit?: number,
@@ -12754,6 +12810,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           department,
           free,
           id,
+          is_learning_material,
           learning_format,
           level,
           limit,
@@ -12847,6 +12904,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.department,
           requestParameters.free,
           requestParameters.id,
+          requestParameters.is_learning_material,
           requestParameters.learning_format,
           requestParameters.level,
           requestParameters.limit,
@@ -12883,6 +12941,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.department,
           requestParameters.free,
           requestParameters.id,
+          requestParameters.is_learning_material,
           requestParameters.learning_format,
           requestParameters.level,
           requestParameters.limit,
@@ -12918,6 +12977,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.department,
           requestParameters.free,
           requestParameters.id,
+          requestParameters.is_learning_material,
           requestParameters.learning_format,
           requestParameters.level,
           requestParameters.limit,
@@ -12964,7 +13024,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
 export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckListRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
+   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format' | 'is_learning_material'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly aggregations?: Array<LearningResourcesUserSubscriptionCheckListAggregationsEnum>
@@ -13010,6 +13070,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly id?: Array<number>
+
+  /**
+   * True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
+   * @type {boolean}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly is_learning_material?: boolean | null
 
   /**
    * The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -13104,7 +13171,7 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
 export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionListRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
+   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format' | 'is_learning_material'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
    */
   readonly aggregations?: Array<LearningResourcesUserSubscriptionListAggregationsEnum>
@@ -13150,6 +13217,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
    */
   readonly id?: Array<number>
+
+  /**
+   * True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
+   * @type {boolean}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly is_learning_material?: boolean | null
 
   /**
    * The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -13237,7 +13311,7 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
 export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreateRequest {
   /**
    * Show resource counts by category
-   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format'>}
+   * @type {Array<'resource_type' | 'certification' | 'certification_type' | 'offered_by' | 'platform' | 'topic' | 'department' | 'level' | 'course_feature' | 'professional' | 'free' | 'learning_format' | 'is_learning_material'>}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
   readonly aggregations?: Array<LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum>
@@ -13283,6 +13357,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
   readonly id?: Array<number>
+
+  /**
+   * True if the learning resource is a podcast, podcast episode, video, video playlist, or learning path
+   * @type {boolean}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly is_learning_material?: boolean | null
 
   /**
    * The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -13418,6 +13499,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.department,
         requestParameters.free,
         requestParameters.id,
+        requestParameters.is_learning_material,
         requestParameters.learning_format,
         requestParameters.level,
         requestParameters.limit,
@@ -13456,6 +13538,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.department,
         requestParameters.free,
         requestParameters.id,
+        requestParameters.is_learning_material,
         requestParameters.learning_format,
         requestParameters.level,
         requestParameters.limit,
@@ -13493,6 +13576,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.department,
         requestParameters.free,
         requestParameters.id,
+        requestParameters.is_learning_material,
         requestParameters.learning_format,
         requestParameters.level,
         requestParameters.limit,
@@ -13548,6 +13632,7 @@ export const LearningResourcesUserSubscriptionCheckListAggregationsEnum = {
   Professional: "professional",
   Free: "free",
   LearningFormat: "learning_format",
+  IsLearningMaterial: "is_learning_material",
 } as const
 export type LearningResourcesUserSubscriptionCheckListAggregationsEnum =
   (typeof LearningResourcesUserSubscriptionCheckListAggregationsEnum)[keyof typeof LearningResourcesUserSubscriptionCheckListAggregationsEnum]
@@ -13728,6 +13813,7 @@ export const LearningResourcesUserSubscriptionListAggregationsEnum = {
   Professional: "professional",
   Free: "free",
   LearningFormat: "learning_format",
+  IsLearningMaterial: "is_learning_material",
 } as const
 export type LearningResourcesUserSubscriptionListAggregationsEnum =
   (typeof LearningResourcesUserSubscriptionListAggregationsEnum)[keyof typeof LearningResourcesUserSubscriptionListAggregationsEnum]
@@ -13900,6 +13986,7 @@ export const LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum =
     Professional: "professional",
     Free: "free",
     LearningFormat: "learning_format",
+    IsLearningMaterial: "is_learning_material",
   } as const
 export type LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum =
   (typeof LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateAggregationsEnum]
