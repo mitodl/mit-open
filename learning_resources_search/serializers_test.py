@@ -142,6 +142,7 @@ response_test_raw_data_1 = {
                     "url": "http://xpro.mit.edu/courses/course-v1:xPRO+MCPO+R1/",
                     "resource_type": "course",
                     "platform": "globalalumni",
+                    "is_learning_material": False,
                 },
             }
         ],
@@ -278,6 +279,7 @@ response_test_response_1 = {
             "url": "http://xpro.mit.edu/courses/course-v1:xPRO+MCPO+R1/",
             "resource_type": "course",
             "platform": "globalalumni",
+            "is_learning_material": False,
         }
     ],
     "metadata": {
@@ -344,6 +346,7 @@ response_test_raw_data_2 = {
                     "last_modified": None,
                     "runs": [],
                     "course_feature": [],
+                    "is_learning_material": True,
                     "user_list_parents": [],
                 },
             }
@@ -507,6 +510,7 @@ response_test_response_2 = {
             "last_modified": None,
             "runs": [],
             "course_feature": [],
+            "is_learning_material": True,
             "user_list_parents": [],
         }
     ],
@@ -589,6 +593,7 @@ def test_serialize_learning_resource_for_bulk(resource_type, is_professional, no
         "_id": resource.id,
         "resource_relations": {"name": "resource"},
         "created_on": resource.created_on,
+        "is_learning_material": resource.resource_type not in ["course", "program"],
         **free_dict,
         **LearningResourceSerializer(resource).data,
     }
@@ -635,6 +640,7 @@ def test_serialize_course_numbers_for_bulk(
         "resource_relations": {"name": "resource"},
         "created_on": resource.created_on,
         "free": False,
+        "is_learning_material": False,
         **LearningResourceSerializer(resource).data,
     }
     expected_data["course"]["course_numbers"][0] = {
@@ -713,6 +719,7 @@ def test_learning_resources_search_request_serializer():
         "certification": "false",
         "certification_type": CertificationType.none.name,
         "free": True,
+        "is_learning_material": True,
         "offered_by": "xpro,ocw",
         "platform": "xpro,edx,ocw",
         "topic": "Math",
@@ -730,6 +737,7 @@ def test_learning_resources_search_request_serializer():
         "sortby": "-start_date",
         "professional": [True],
         "certification": [False],
+        "is_learning_material": [True],
         "certification_type": [CertificationType.none.name],
         "free": [True],
         "offered_by": ["xpro", "ocw"],

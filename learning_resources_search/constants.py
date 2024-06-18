@@ -74,6 +74,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = {
     "platform": FilterConfig("platform.code"),
     "offered_by": FilterConfig("offered_by.code"),
     "learning_format": FilterConfig("learning_format.code"),
+    "is_learning_material": FilterConfig("is_learning_material"),
 }
 
 SEARCH_NESTED_FILTERS = {
@@ -368,4 +369,5 @@ SOURCE_EXCLUDED_FIELDS = [
     "course.course_numbers.sort_coursenum",
     "course.course_numbers.primary",
     "resource_relations",
+    "is_learning_material",
 ]

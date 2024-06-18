@@ -38,6 +38,8 @@ from learning_resources.serializers import (
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
+    COURSE_TYPE,
+    PROGRAM_TYPE,
 )
 from learning_resources_search.models import PercolateQuery
 from learning_resources_search.utils import remove_child_queries
@@ -79,6 +81,8 @@ def serialize_learning_resource_for_update(
     return {
         "resource_relations": {"name": "resource"},
         "created_on": learning_resource_obj.created_on,
+        "is_learning_material": learning_resource_obj.resource_type
+        not in [COURSE_TYPE, PROGRAM_TYPE],
         **serialized_data,
     }
 
@@ -175,6 +179,7 @@ LEARNING_RESOURCE_AGGREGATIONS = [
     "professional",
     "free",
     "learning_format",
+    "is_learning_material",
 ]
 
 CONTENT_FILE_AGGREGATIONS = ["topic", "content_feature_type", "platform", "offered_by"]
@@ -260,6 +265,13 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         allow_null=True,
         default=None,
         help_text="True if the learning resource offers a certificate",
+    )
+    is_learning_material = ArrayWrappedBoolean(
+        required=False,
+        allow_null=True,
+        default=None,
+        help_text="True if the learning resource is a podcast, podcast episode, video, "
+        "video playlist, or learning path",
     )
     certification_choices = CertificationType.as_tuple()
     certification_type = StringArrayField(
