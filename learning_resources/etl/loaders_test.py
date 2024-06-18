@@ -743,11 +743,14 @@ def test_load_courses(mocker, mock_blocklist, mock_duplicates, prune):
 
 def test_load_programs(mocker, mock_blocklist, mock_duplicates):
     """Test that load_programs calls the expected functions"""
-    program_data = [{"courses": [{"platform": "a"}, {}]}]
+    program_data = [{"courses": [{"platform": "a"}, {}], "id": 5}]
+
     mock_load_program = mocker.patch(
-        "learning_resources.etl.loaders.load_program", autospec=True
+        "learning_resources.etl.loaders.load_program",
+        autospec=True,
+        return_value=ProgramFactory.create().learning_resource,
     )
-    load_programs("mitx", program_data)
+    load_programs("mitx", program_data, config=ProgramLoaderConfig(prune=True))
     assert mock_load_program.call_count == len(program_data)
     mock_blocklist.assert_called_once()
     mock_duplicates.assert_called_once_with("mitx")

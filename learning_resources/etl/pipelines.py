@@ -53,7 +53,7 @@ mit_edx_etl = compose(
 mitxonline_programs_etl = compose(
     load_programs(
         ETLSource.mitxonline.name,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True), prune=True),
     ),
     mitxonline.transform_programs,
     mitxonline.extract_programs,
