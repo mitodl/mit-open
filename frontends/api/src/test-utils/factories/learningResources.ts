@@ -224,6 +224,7 @@ const learningResourceCourseNumber: Factory<CourseNumber> = (
 const _learningResourceShared = (): Partial<
   Omit<LearningResource, "resource_type">
 > => {
+  const free = Math.random() < 0.5
   return {
     id: uniqueEnforcerId.enforce(() => faker.number.int()),
     professional: faker.datatype.boolean(),
@@ -233,7 +234,8 @@ const _learningResourceShared = (): Partial<
     image: learningResourceImage(),
     offered_by: maybe(learningResourceOfferor) ?? null,
     platform: maybe(learningResourcePlatform) ?? null,
-    prices: ["0.00"],
+    free,
+    prices: free ? ["0"] : [faker.finance.amount({ min: 0, max: 100 })],
     readable_id: faker.lorem.slug(),
     course_feature: repeat(faker.lorem.word),
     runs: [],

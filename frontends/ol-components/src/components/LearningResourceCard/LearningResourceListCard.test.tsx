@@ -169,4 +169,78 @@ describe("Learning Resource List Card", () => {
     expect(matching.length).toBe(1)
     expect(matching[0]).toHaveAttribute("alt", expected.alt)
   })
+
+  describe("Price display", () => {
+    test('Free course without certificate option displays "Free"', () => {
+      const resource = factories.learningResources.resource({
+        certification: false,
+        free: true,
+        prices: ["0"],
+      })
+      setup(resource)
+      screen.getByText("Free")
+    })
+
+    test('Free course with paid certificate option displays the certificate price and "Free"', () => {
+      const resource = factories.learningResources.resource({
+        certification: true,
+        free: true,
+        prices: ["0", "49"],
+      })
+      setup(resource)
+      screen.getByText("Certificate: $49")
+      screen.getByText("Free")
+    })
+
+    test('Free course with paid certificate option range displays the certificate price range and "Free". Prices are sorted correctly', () => {
+      const resource = factories.learningResources.resource({
+        certification: true,
+        free: true,
+        prices: ["0", "99", "49"],
+      })
+      setup(resource)
+      screen.getByText("Certificate: $49 - $99")
+      screen.getByText("Free")
+    })
+
+    test("Paid course without certificate option displays the course price", () => {
+      const resource = factories.learningResources.resource({
+        certification: false,
+        free: false,
+        prices: ["49"],
+      })
+      setup(resource)
+      screen.getByText("$49")
+    })
+
+    test("Amount with currency subunits are displayed to 2 decimal places", () => {
+      const resource = factories.learningResources.resource({
+        certification: false,
+        free: false,
+        prices: ["49.50"],
+      })
+      setup(resource)
+      screen.getByText("$49.50")
+    })
+
+    test('Free course with empty prices array displays "Free"', () => {
+      const resource = factories.learningResources.resource({
+        certification: false,
+        free: true,
+        prices: [],
+      })
+      setup(resource)
+      screen.getByText("Free")
+    })
+
+    test('Paid course that has zero price (prices not ingested) displays "Paid"', () => {
+      const resource = factories.learningResources.resource({
+        certification: false,
+        free: false,
+        prices: ["0"],
+      })
+      setup(resource)
+      screen.getByText("Paid")
+    })
+  })
 })
