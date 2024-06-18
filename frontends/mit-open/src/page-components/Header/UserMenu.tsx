@@ -159,7 +159,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
           <FlexContainer className="login-button-desktop">
             <ButtonLink
               data-testid="login-button-desktop"
-              edge="circular"
               size="small"
               reloadDocument={true}
               href={loginUrl}
