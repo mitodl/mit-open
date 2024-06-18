@@ -34,7 +34,7 @@ describe("Footer", () => {
     expect(address).toHaveTextContent("Massachusetts Institute of Technology")
     expect(address).toHaveTextContent("77 Massachusetts Avenue")
     expect(address).toHaveTextContent("Cambridge, MA 02139")
-    expect(links).toHaveLength(7)
+    expect(links).toHaveLength(6)
     for (const link of links) {
       expect(link).toHaveAttribute(
         "href",
