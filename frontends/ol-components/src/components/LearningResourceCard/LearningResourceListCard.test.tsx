@@ -192,11 +192,11 @@ describe("Learning Resource List Card", () => {
       screen.getByText("Free")
     })
 
-    test('Free course with paid certificate option range displays the certificate price range and "Free"', () => {
+    test('Free course with paid certificate option range displays the certificate price range and "Free". Prices are sorted correctly', () => {
       const resource = factories.learningResources.resource({
         certification: true,
         free: true,
-        prices: ["0", "49", "99"],
+        prices: ["0", "99", "49"],
       })
       setup(resource)
       screen.getByText("Certificate: $49 - $99")

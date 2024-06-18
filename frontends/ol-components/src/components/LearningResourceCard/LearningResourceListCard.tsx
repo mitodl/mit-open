@@ -109,7 +109,9 @@ const getPrices = (resource: LearningResource) => {
     return prices
   }
 
-  const resourcePrices = resource.prices.map((price) => Number(price)).sort()
+  const resourcePrices = resource.prices
+    .map((price) => Number(price))
+    .sort((a, b) => a - b)
 
   if (resourcePrices.length > 1) {
     /* The resource is free and offers a paid certificate option, e.g.
