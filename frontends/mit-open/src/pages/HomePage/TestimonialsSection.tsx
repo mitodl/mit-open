@@ -14,6 +14,8 @@ import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
 import AttestantBlock from "@/page-components/TestimonialDisplay/AttestantBlock"
 
+const MARKETING_IMAGE_IDX = _.shuffle([1, 2, 3, 4, 5, 6])
+
 const Section = styled.section(({ theme }) => ({
   backgroundColor: theme.custom.colors.mitRed,
   color: theme.custom.colors.white,
@@ -184,8 +186,6 @@ const SlickCarousel = () => {
   const { data } = useTestimonialList({ position: 1 })
   const [slick, setSlick] = React.useState<Slider | null>(null)
 
-  let lastMarketingImage = ""
-
   if (!data || data.results.length === 0) return null
 
   const settings = {
@@ -205,23 +205,10 @@ const SlickCarousel = () => {
     ],
   }
 
-  const generateMarketingImageSrc = () => {
-    let imagePath = ""
-
-    do {
-      const idx = Math.floor(Math.random() * 6) + 1
-      imagePath = `/images/testimonial_images/testimonial-image-${idx}.png`
-    } while (lastMarketingImage !== "" && lastMarketingImage !== imagePath)
-
-    lastMarketingImage = imagePath
-
-    return imagePath
-  }
-
   return (
     <OverlayContainer>
       <Slider {...settings}>
-        {_.shuffle(data?.results).map((resource) => (
+        {_.shuffle(data?.results).map((resource, idx) => (
           <TestimonialCardContainer
             className="testimonial-card-container"
             key={`container-${resource.id}`}
@@ -232,7 +219,9 @@ const SlickCarousel = () => {
               className="testimonial-card"
             >
               <TestimonialCardImage>
-                <img src={generateMarketingImageSrc()} />
+                <img
+                  src={`/images/testimonial_images/testimonial-image-${MARKETING_IMAGE_IDX[idx % 6]}.png`}
+                />
               </TestimonialCardImage>
               <TestimonialCardQuote>
                 <div className="testimonial-quote-opener">&ldquo;</div>
