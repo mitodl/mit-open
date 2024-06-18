@@ -62,6 +62,13 @@ type ResourceCardProps = Omit<
   "href" | "onAddToLearningPathClick" | "onAddToUserListClick"
 >
 
+/**
+ * Just like `ol-components/LearningResourceCard`, but with builtin actions:
+ *  - click opens the Resource Drawer
+ *  - onAddToListClick opens the Add to List modal
+ *    - for unauthenticated users, a popover prompts signup instead.
+ *  - onAddToLearningPathClick opens the Add to Learning Path modal
+ */
 const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
   const {
     getDrawerHref,
@@ -89,6 +96,13 @@ type ResourceListCardProps = Omit<
   "href" | "onAddToLearningPathClick" | "onAddToUserListClick"
 >
 
+/**
+ * Just like `ol-components/LearningResourceListCard`, but with builtin actions:
+ *  - click opens the Resource Drawer
+ *  - onAddToListClick opens the Add to List modal
+ *    - for unauthenticated users, a popover prompts signup instead.
+ *  - onAddToLearningPathClick opens the Add to Learning Path modal
+ */
 const ResourceListCard: React.FC<ResourceListCardProps> = ({
   resource,
   ...others
