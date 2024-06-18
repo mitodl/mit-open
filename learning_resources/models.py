@@ -2,6 +2,7 @@
 
 from decimal import Decimal
 
+from django.contrib.admin.utils import flatten
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
@@ -256,7 +257,17 @@ class LearningResource(TimestampedModel):
             LearningResourceType.program.name,
         ]:
             next_run = self.next_run
-            return next_run.prices if next_run else []
+            return (
+                next_run.prices
+                if next_run and next_run.prices
+                else sorted(
+                    set(
+                        flatten(
+                            [run.prices for run in self.runs.filter(published=True)]
+                        )
+                    )
+                )
+            )
         else:
             return [Decimal(0.00)]
 
