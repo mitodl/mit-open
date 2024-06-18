@@ -109,16 +109,43 @@ const getPrices = (resource: LearningResource) => {
     return prices
   }
 
-  const resourcePrices = resource.prices
+  const resourcePrices = resource.prices.sort()
 
   if (resourcePrices.length > 1) {
     /* The resource is free and offers a paid certificate option, e.g.
-     * { prices: [0, 49], free: false, certification: true }
+     * { prices: [0, 49], free: true, certification: true }
      */
-    if (resource.certification && !Number(resourcePrices[0])) {
+    if (resource.certification && resource.free) {
+      const certificatedPrices = resourcePrices.filter((price) => price > 0)
       return {
-        certificate: resourcePrices[1],
         course: 0,
+        certificate:
+          certificatedPrices.length === 1
+            ? certificatedPrices[0]
+            : [
+                certificatedPrices[0],
+                certificatedPrices[certificatedPrices.length - 1],
+              ],
+      }
+    }
+
+    /* The resource is not free and has a range of prices, e.g.
+     * { prices: [950, 999], free: false, certification: true|false }
+     */
+    if (resource.certification && !resource.free && Number(resourcePrices[0])) {
+      return {
+        course: [resourcePrices[0], resourcePrices[resourcePrices.length - 1]],
+        certificate: null,
+      }
+    }
+
+    /* The resource is not free but has a zero price option (prices not ingested correctly)
+     * { prices: [0, 999], free: false, certification: true|false }
+     */
+    if (!resource.free && !Number(resourcePrices[0])) {
+      return {
+        course: +Infinity,
+        certificate: null,
       }
     }
 
@@ -149,19 +176,17 @@ const getPrices = (resource: LearningResource) => {
         certificate: null,
       }
     }
+  } else if (resourcePrices.length === 0) {
+    return {
+      course: resource.free ? 0 : +Infinity,
+      certificate: null,
+    }
   }
 
-  // if (!price && !resource.free) {
-  //   prices.course = +Infinity
-  //   return prices
-  // }
-  // if (resource.platform?.code === PlatformEnum.Ocw || price === 0) {
-  //   return "Free"
-  // }
   return prices
 }
 
-const getDisplayPrice = (price: number | null) => {
+const getDisplayPrice = (price: number | number[] | null) => {
   if (price === null) {
     return null
   }
@@ -170,6 +195,9 @@ const getDisplayPrice = (price: number | null) => {
   }
   if (price === +Infinity) {
     return "Paid"
+  }
+  if (Array.isArray(price)) {
+    return `$${price[0]} - $${price[1]}`
   }
   return `$${price}`
 }
@@ -188,7 +216,8 @@ const Info = ({ resource }: { resource: LearningResource }) => {
       {resource.certification && (
         <Certificate>
           <RiAwardFill />
-          Certificate {getDisplayPrice(prices?.certificate)}
+          Certificate{prices?.certificate ? ":" : ""}{" "}
+          {getDisplayPrice(prices?.certificate)}
         </Certificate>
       )}
       <Price>{getDisplayPrice(prices?.course)}</Price>
