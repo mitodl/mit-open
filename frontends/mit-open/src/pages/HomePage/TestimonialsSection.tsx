@@ -211,7 +211,7 @@ const SlickCarousel = () => {
     do {
       const idx = Math.floor(Math.random() * 6) + 1
       imagePath = `/images/testimonial_images/testimonial-image-${idx}.png`
-    } while (lastMarketingImage !== imagePath)
+    } while (lastMarketingImage !== "" && lastMarketingImage !== imagePath)
 
     lastMarketingImage = imagePath
 
