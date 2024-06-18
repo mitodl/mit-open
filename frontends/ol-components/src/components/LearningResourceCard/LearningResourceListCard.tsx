@@ -109,7 +109,7 @@ const getPrices = (resource: LearningResource) => {
     return prices
   }
 
-  const resourcePrices = resource.prices.sort()
+  const resourcePrices = resource.prices.map((price) => Number(price)).sort()
 
   if (resourcePrices.length > 1) {
     /* The resource is free and offers a paid certificate option, e.g.
@@ -186,6 +186,13 @@ const getPrices = (resource: LearningResource) => {
   return prices
 }
 
+const getDisplayPrecision = (price: number) => {
+  if (Number.isInteger(price)) {
+    return price.toFixed(0)
+  }
+  return price.toFixed(2)
+}
+
 const getDisplayPrice = (price: number | number[] | null) => {
   if (price === null) {
     return null
@@ -197,9 +204,9 @@ const getDisplayPrice = (price: number | number[] | null) => {
     return "Paid"
   }
   if (Array.isArray(price)) {
-    return `$${price[0]} - $${price[1]}`
+    return `$${getDisplayPrecision(price[0])} - $${getDisplayPrecision(price[1])}`
   }
-  return `$${price}`
+  return `$${getDisplayPrecision(price)}`
 }
 
 /* This displays a single price for courses with no free option

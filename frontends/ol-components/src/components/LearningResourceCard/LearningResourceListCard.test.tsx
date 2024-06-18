@@ -175,7 +175,7 @@ describe("Learning Resource List Card", () => {
       const resource = factories.learningResources.resource({
         certification: false,
         free: true,
-        prices: [0],
+        prices: ["0"],
       })
       setup(resource)
       screen.getByText("Free")
@@ -185,10 +185,10 @@ describe("Learning Resource List Card", () => {
       const resource = factories.learningResources.resource({
         certification: true,
         free: true,
-        prices: [0, 49],
+        prices: ["0", "49"],
       })
       setup(resource)
-      screen.getByText("Certificate: $49 - $99")
+      screen.getByText("Certificate: $49")
       screen.getByText("Free")
     })
 
@@ -196,7 +196,7 @@ describe("Learning Resource List Card", () => {
       const resource = factories.learningResources.resource({
         certification: true,
         free: true,
-        prices: [0, 49, 99],
+        prices: ["0", "49", "99"],
       })
       setup(resource)
       screen.getByText("Certificate: $49 - $99")
@@ -207,10 +207,20 @@ describe("Learning Resource List Card", () => {
       const resource = factories.learningResources.resource({
         certification: false,
         free: false,
-        prices: [49],
+        prices: ["49"],
       })
       setup(resource)
       screen.getByText("$49")
+    })
+
+    test("Amount with currency subunits are displayed to 2 decimal places", () => {
+      const resource = factories.learningResources.resource({
+        certification: false,
+        free: false,
+        prices: ["49.50"],
+      })
+      setup(resource)
+      screen.getByText("$49.50")
     })
 
     test('Free course with empty prices array displays "Free"', () => {
@@ -223,11 +233,11 @@ describe("Learning Resource List Card", () => {
       screen.getByText("Free")
     })
 
-    test('Course that is not free and has zero price (prices not ingested) displays "Paid"', () => {
+    test('Paid course that has zero price (prices not ingested) displays "Paid"', () => {
       const resource = factories.learningResources.resource({
         certification: false,
         free: false,
-        prices: [0],
+        prices: ["0"],
       })
       setup(resource)
       screen.getByText("Paid")
