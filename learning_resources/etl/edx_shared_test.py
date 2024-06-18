@@ -1,7 +1,6 @@
 """ETL utils test"""
 
 from pathlib import Path
-from subprocess import CalledProcessError
 
 import pytest
 
@@ -121,24 +120,11 @@ def test_sync_edx_course_files_invalid_tarfile(
         "learning_resources.etl.edx_shared.get_learning_course_bucket",
         return_value=bucket,
     )
-    mock_load_content_files = mocker.patch(
-        "learning_resources.etl.edx_shared.load_content_files",
-        autospec=True,
-        return_value=[],
-    )
-    mocker.patch(
-        "learning_resources.etl.edx_shared.transform_content_files",
-        side_effect=CalledProcessError(0, ""),
-    )
     mock_log = mocker.patch("learning_resources.etl.edx_shared.log.exception")
 
     sync_edx_course_files(platform, [run.learning_resource.id], [key])
-    mock_load_content_files.assert_not_called()
     mock_log.assert_called_once()
-    assert (
-        mock_log.call_args[0][0].startswith("Error ingesting OLX content data for")
-        is True
-    )
+    assert mock_log.call_args[0][0].startswith("Error reading tar file") is True
 
 
 @pytest.mark.parametrize(

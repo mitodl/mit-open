@@ -603,11 +603,11 @@ export interface CourseResource {
    */
   certification_type: CourseResourceCertificationType
   /**
-   * Returns the prices for the learning resource
-   * @type {Array<number>}
+   *
+   * @type {Array<string>}
    * @memberof CourseResource
    */
-  prices: Array<number>
+  prices: Array<string>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -1233,11 +1233,11 @@ export interface LearningPathResource {
    */
   certification_type: CourseResourceCertificationType
   /**
-   * Returns the prices for the learning resource
-   * @type {Array<number>}
+   *
+   * @type {Array<string>}
    * @memberof LearningPathResource
    */
-  prices: Array<number>
+  prices: Array<string>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -3710,11 +3710,11 @@ export interface PodcastEpisodeResource {
    */
   certification_type: CourseResourceCertificationType
   /**
-   * Returns the prices for the learning resource
-   * @type {Array<number>}
+   *
+   * @type {Array<string>}
    * @memberof PodcastEpisodeResource
    */
-  prices: Array<number>
+  prices: Array<string>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -3995,11 +3995,11 @@ export interface PodcastResource {
    */
   certification_type: CourseResourceCertificationType
   /**
-   * Returns the prices for the learning resource
-   * @type {Array<number>}
+   *
+   * @type {Array<string>}
    * @memberof PodcastResource
    */
-  prices: Array<number>
+  prices: Array<string>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -4518,11 +4518,11 @@ export interface ProgramResource {
    */
   certification_type: CourseResourceCertificationType
   /**
-   * Returns the prices for the learning resource
-   * @type {Array<number>}
+   *
+   * @type {Array<string>}
    * @memberof ProgramResource
    */
-  prices: Array<number>
+  prices: Array<string>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -5210,11 +5210,11 @@ export interface VideoPlaylistResource {
    */
   certification_type: CourseResourceCertificationType
   /**
-   * Returns the prices for the learning resource
-   * @type {Array<number>}
+   *
+   * @type {Array<string>}
    * @memberof VideoPlaylistResource
    */
-  prices: Array<number>
+  prices: Array<string>
   /**
    *
    * @type {Array<LearningResourceRun>}
@@ -5489,11 +5489,11 @@ export interface VideoResource {
    */
   certification_type: CourseResourceCertificationType
   /**
-   * Returns the prices for the learning resource
-   * @type {Array<number>}
+   *
+   * @type {Array<string>}
    * @memberof VideoResource
    */
-  prices: Array<number>
+  prices: Array<string>
   /**
    *
    * @type {Array<LearningResourceRun>}

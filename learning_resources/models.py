@@ -2,12 +2,12 @@
 
 from decimal import Decimal
 
-from django.contrib.admin.utils import flatten
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models import JSONField
+from django.db.models import JSONField, Q
 from django.db.models.functions import Lower
+from django.utils import timezone
 
 from learning_resources import constants
 from learning_resources.constants import (
@@ -240,17 +240,23 @@ class LearningResource(TimestampedModel):
         return None
 
     @property
+    def next_run(self):
+        """Returns the next run for the learning resource"""
+        return (
+            self.runs.filter(Q(published=True) & Q(start_date__gt=timezone.now()))
+            .order_by("start_date")
+            .first()
+        )
+
+    @property
     def prices(self) -> list[Decimal]:
         """Returns the prices for the learning resource"""
         if self.resource_type in [
             LearningResourceType.course.name,
             LearningResourceType.program.name,
         ]:
-            return list(
-                set(
-                    flatten([(run.prices or [Decimal(0.0)]) for run in self.runs.all()])
-                )
-            )
+            next_run = self.next_run
+            return next_run.prices if next_run else []
         else:
             return [Decimal(0.00)]
 

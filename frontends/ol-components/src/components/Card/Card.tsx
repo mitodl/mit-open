@@ -4,6 +4,7 @@ import React, {
   Children,
   ImgHTMLAttributes,
   isValidElement,
+  CSSProperties,
 } from "react"
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
@@ -81,9 +82,13 @@ const Info = styled.div<{ size?: Size }>`
   margin-bottom: ${({ size }) => (size === "small" ? 4 : 8)}px;
 `
 
-const Title = styled.h3<{ size?: Size }>`
+const Title = styled.h3<{ lines?: number; size?: Size }>`
   text-overflow: ellipsis;
-  height: ${({ size }) => theme.typography.pxToRem(size === "small" ? 36 : 60)};
+  height: ${({ lines, size }) => {
+    const lineHeightPx = size === "small" ? 18 : 20
+    lines = lines ?? (size === "small" ? 2 : 3)
+    return theme.typography.pxToRem(lines * lineHeightPx)
+  }};
   overflow: hidden;
   margin: 0;
 
@@ -91,12 +96,17 @@ const Title = styled.h3<{ size?: Size }>`
     size === "small"
       ? { ...theme.typography.subtitle2 }
       : { ...theme.typography.subtitle1 }}
-  @supports (-webkit-line-clamp: ${({ size }) => (size === "small" ? 2 : 3)}) {
-    white-space: initial;
-    display: -webkit-box;
-    -webkit-line-clamp: ${({ size }) => (size === "small" ? 2 : 3)};
-    -webkit-box-orient: vertical;
-  }
+
+  ${({ lines, size }) => {
+    lines = lines ?? (size === "small" ? 2 : 3)
+    return `
+      @supports (-webkit-line-clamp: ${lines}) {
+        white-space: initial;
+        display: -webkit-box;
+        -webkit-line-clamp: ${lines};
+        -webkit-box-orient: vertical;
+      }`
+  }}
 `
 
 const Footer = styled.span`
@@ -134,17 +144,34 @@ type CardProps = {
   size?: Size
   href?: string
 }
+
+type ImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+  size?: Size
+  style?: CSSProperties
+}
+type TitleProps = {
+  children?: ReactNode
+  lines?: number
+  style?: CSSProperties
+}
+type SlotProps = { children?: ReactNode; style?: CSSProperties }
+
 type Card = FC<CardProps> & {
   Content: FC<{ children: ReactNode }>
-  Image: FC<ImgHTMLAttributes<HTMLImageElement> | { size?: Size }>
-  Info: FC<{ children: ReactNode }>
-  Title: FC<{ children: ReactNode; size?: Size }>
-  Footer: FC<{ children: ReactNode }>
-  Actions: FC<{ children: ReactNode }>
+  Image: FC<ImageProps>
+  Info: FC<SlotProps>
+  Title: FC<TitleProps>
+  Footer: FC<SlotProps>
+  Actions: FC<SlotProps>
 }
 
 const Card: Card = ({ children, className, size, href }) => {
-  let content, imageProps, info, title, footer, actions
+  let content,
+    image: ImageProps = {},
+    info: SlotProps = {},
+    title: TitleProps = {},
+    footer: SlotProps = {},
+    actions: SlotProps = {}
 
   const _Container = href ? LinkContainer : Container
 
@@ -164,11 +191,11 @@ const Card: Card = ({ children, className, size, href }) => {
   Children.forEach(children, (child) => {
     if (!isValidElement(child)) return
     if (child.type === Content) content = child.props.children
-    else if (child.type === Image) imageProps = child.props
-    else if (child.type === Info) info = child.props.children
-    else if (child.type === Title) title = child.props.children
-    else if (child.type === Footer) footer = child.props.children
-    else if (child.type === Actions) actions = child.props.children
+    else if (child.type === Image) image = child.props
+    else if (child.type === Info) info = child.props
+    else if (child.type === Title) title = child.props
+    else if (child.type === Footer) footer = child.props
+    else if (child.type === Actions) actions = child.props
   })
 
   if (content) {
@@ -184,21 +211,27 @@ const Card: Card = ({ children, className, size, href }) => {
   return (
     <Wrapper className={className} size={size}>
       <_Container to={href!}>
-        {imageProps && (
+        {image && (
           <Image
             size={size}
-            {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)}
+            {...(image as ImgHTMLAttributes<HTMLImageElement>)}
           />
         )}
         <Body>
-          {info && <Info size={size}>{info}</Info>}
-          <Title size={size}>{title}</Title>
+          {info.children && (
+            <Info size={size} {...info}>
+              {info.children}
+            </Info>
+          )}
+          <Title size={size} {...title}>
+            {title.children}
+          </Title>
         </Body>
         <Bottom>
-          <Footer>{footer}</Footer>
+          <Footer {...footer}>{footer.children}</Footer>
         </Bottom>
       </_Container>
-      {actions && <Actions>{actions}</Actions>}
+      {actions.children && <Actions {...actions}>{actions.children}</Actions>}
     </Wrapper>
   )
 }

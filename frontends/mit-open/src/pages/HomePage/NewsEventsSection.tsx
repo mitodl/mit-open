@@ -73,7 +73,6 @@ const EventsContainer = styled.section`
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
-  align-self: stretch;
 `
 
 const StoryCard = styled(Card)<{ mobile: boolean }>`
@@ -145,8 +144,6 @@ const EventMonth = styled.p`
 `
 
 const EventTitle = styled.p`
-  height: ${theme.typography.pxToRem(59)};
-  align-self: stretch;
   color: ${theme.custom.colors.darkGray2};
   ${{ ...theme.typography.subtitle1 }}
   margin: 0;
@@ -176,7 +173,9 @@ const Story: React.FC<{ item: NewsFeedItem; mobile: boolean }> = ({
   return (
     <StoryCard mobile={mobile} href={item.url}>
       <Card.Image src={item.image?.url} alt={item.image?.alt} />
-      <Card.Title>{item.title}</Card.Title>
+      <Card.Title lines={2} style={{ marginBottom: -13 }}>
+        {item.title}
+      </Card.Title>
       <Card.Footer>
         Published: {formatDate(item.news_details?.publish_date)}
       </Card.Footer>
@@ -258,7 +257,7 @@ const NewsEventsSection: React.FC = () => {
           <Content>
             <StoriesContainer>
               <Typography variant="h4">Stories</Typography>
-              <Grid container columnSpacing="24px" rowSpacing="29px">
+              <Grid container columnSpacing="24px" rowSpacing="28px">
                 {stories.map((item) => (
                   <Grid item key={item.id} xs={12} sm={12} md={6} lg={4} xl={4}>
                     <Story item={item as NewsFeedItem} mobile={false} />
