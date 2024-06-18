@@ -1,7 +1,8 @@
 import React, { useCallback, useMemo } from "react"
-import { styled, Container, SearchInput, Grid } from "ol-components"
+import { styled, Container, Grid } from "ol-components"
 import { MetaTags, capitalize } from "ol-utilities"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
+import { SearchInput } from "@/page-components/SearchDisplay/SearchInput"
 import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
 
