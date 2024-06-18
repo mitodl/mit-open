@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.7
+Version 0.13.7 (Released June 18, 2024)
 --------------
 
 - Redoing the marketing image selector (#1113)
