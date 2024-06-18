@@ -28,10 +28,13 @@ import { useNavigate } from "react-router"
 import * as urls from "@/common/urls"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
-const ListHeaderGrid = styled(Grid)`
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-`
+const PageContainer = styled(Container)({
+  marginTop: "1rem",
+})
+
+const ListHeaderGrid = styled(Grid)({
+  marginBottom: "1rem",
+})
 
 type EditUserListMenuProps = {
   userList: UserList
@@ -164,12 +167,12 @@ const UserListListingPage: React.FC = () => {
       <MetaTags>
         <title>User Lists</title>
       </MetaTags>
-      <Container maxWidth="sm">
+      <PageContainer maxWidth="sm">
         <UserListListingComponent
           title="User Lists"
           onActivate={handleActivate}
         />
-      </Container>
+      </PageContainer>
     </BannerPage>
   )
 }
