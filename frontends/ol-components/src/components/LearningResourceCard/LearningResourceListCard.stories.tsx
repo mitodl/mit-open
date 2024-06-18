@@ -73,11 +73,26 @@ export default meta
 
 type Story = StoryObj<typeof LearningResourceListCard>
 
-export const Course: Story = {
+export const PaidCourse: Story = {
   args: {
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
+      free: false,
+      certification: true,
+      prices: ["999"],
+    }),
+  },
+}
+
+export const FreeCourse: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [factories.learningResources.run()],
+      free: true,
+      certification: true,
+      prices: ["0", "400"],
     }),
   },
 }
@@ -96,13 +111,19 @@ export const Program: Story = {
 
 export const Podcast: Story = {
   args: {
-    resource: makeResource({ resource_type: ResourceTypeEnum.Podcast }),
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Podcast,
+      free: true,
+    }),
   },
 }
 
 export const PodcastEpisode: Story = {
   args: {
-    resource: makeResource({ resource_type: ResourceTypeEnum.PodcastEpisode }),
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.PodcastEpisode,
+      free: true,
+    }),
   },
 }
 
@@ -111,6 +132,7 @@ export const Video: Story = {
     resource: makeResource({
       resource_type: ResourceTypeEnum.Video,
       url: "https://www.youtube.com/watch?v=4A9bGL-_ilA",
+      free: true,
     }),
   },
 }
@@ -119,6 +141,7 @@ export const VideoPlaylist: Story = {
   args: {
     resource: makeResource({
       resource_type: ResourceTypeEnum.VideoPlaylist,
+      free: true,
     }),
   },
 }
