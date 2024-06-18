@@ -516,14 +516,18 @@ def load_programs(
     blocklist = load_course_blocklist()
     duplicates = load_course_duplicates(etl_source)
 
-    return [
-        program
-        for program in [
-            load_program(program_data, blocklist, duplicates, config=config)
-            for program_data in programs_data
-        ]
-        if program is not None
+    programs = [
+        load_program(program_data, blocklist, duplicates, config=config)
+        for program_data in programs_data
     ]
+    if programs and config.prune:
+        for learning_resource in LearningResource.objects.filter(
+            etl_source=etl_source, resource_type=LearningResourceType.program.name
+        ).exclude(id__in=[learning_resource.id for learning_resource in programs]):
+            learning_resource.published = False
+            learning_resource.save()
+            resource_unpublished_actions(learning_resource)
+    return [program for program in programs if program is not None]
 
 
 def load_content_file(
