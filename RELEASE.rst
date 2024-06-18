@@ -1,6 +1,23 @@
 Release Notes
 =============
 
+Version 0.13.7
+--------------
+
+- Redoing the marketing image selector (#1113)
+- Update Python to v3.12.4 (#1035)
+- Update the conditional for the marketing image test to drop out if we haven't seen a marketing image at all yet (#1112)
+- Update Yarn to v4.3.0 (#1095)
+- Homepage Stories & Events layout fixes (#1103)
+- Add marketing images to homepage testimonial, fix some styling issues (#1077)
+- Contentfile archive comparison fix (#1078)
+- Sort run prices on save; make learning resource prices equal "next run" prices (#1085)
+- units page fixes (#1083)
+- Rename test appropriately and increase the timeout (#1105)
+- Fixed typo in the fastly api key secret name. (#1106)
+- breadcrumbs component (#1089)
+- Update dependency eslint-config-mitodl to v2 (#1037)
+
 Version 0.13.6 (Released June 17, 2024)
 --------------
 
