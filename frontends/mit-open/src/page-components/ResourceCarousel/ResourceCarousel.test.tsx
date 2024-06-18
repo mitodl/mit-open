@@ -11,6 +11,7 @@ import {
 import { factories, setMockResponse, makeRequest, urls } from "api/test-utils"
 import { LearningResourceCard } from "ol-components"
 import { ControlledPromise } from "ol-test-utilities"
+import invariant from "tiny-invariant"
 
 jest.mock("ol-components", () => {
   const actual = jest.requireActual("ol-components")
@@ -161,9 +162,17 @@ describe("ResourceCarousel", () => {
       <ResourceCarousel title="My Carousel" config={config} />,
     )
     await waitFor(() => {
-      expect(makeRequest.mock.calls.length > 0).toBe(true)
+      expect(makeRequest).toHaveBeenCalledWith(
+        "get",
+        expect.stringContaining(urls.learningResources.list()),
+        undefined,
+      )
     })
-    const [_method, url] = makeRequest.mock.calls[0]
+    const [_method, url] =
+      makeRequest.mock.calls.find(([_method, url]) => {
+        return url.includes(urls.learningResources.list())
+      }) ?? []
+    invariant(url)
     const urlParams = new URLSearchParams(url.split("?")[1])
     expect(urlParams.getAll("resource_type")).toEqual(["course", "program"])
     expect(urlParams.get("professional")).toEqual("true")

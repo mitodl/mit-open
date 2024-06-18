@@ -21,7 +21,10 @@ const Footer = styled.div({
   justifyContent: "end",
 })
 
-type SignupPopoverProps = Pick<PopoverProps, "anchorEl" | "onClose">
+type SignupPopoverProps = Pick<
+  PopoverProps,
+  "anchorEl" | "onClose" | "placement"
+>
 const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
   return (
     <StyledPopover {...props} open={!!props.anchorEl}>

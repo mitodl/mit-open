@@ -67,15 +67,16 @@ test("Popover does not trap focus if modal=false", async () => {
 
   await user.tab()
   expect(document.activeElement).toBe(
+    screen.getByRole("button", { name: "Other Button" }),
+  )
+
+  await user.tab()
+  expect(document.activeElement).toBe(
     screen.getByRole("button", { name: "Button 1" }),
   )
   await user.tab()
   expect(document.activeElement).toBe(
     screen.getByRole("button", { name: "Button 2" }),
-  )
-  await user.tab()
-  expect(document.activeElement).toBe(
-    screen.getByRole("button", { name: "Other Button" }),
   )
 })
 

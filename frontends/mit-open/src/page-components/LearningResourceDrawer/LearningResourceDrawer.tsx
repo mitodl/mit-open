@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useCallback } from "react"
 import {
   RoutedDrawer,
   LearningResourceExpanded,
@@ -96,10 +96,13 @@ const useOpenLearningResourceDrawer = () => {
 const useResourceDrawerHref = () => {
   const [search] = useSearchParams()
 
-  return (id: number) => {
-    search.set(RESOURCE_DRAWER_QUERY_PARAM, id.toString())
-    return `?${search.toString()}`
-  }
+  return useCallback(
+    (id: number) => {
+      search.set(RESOURCE_DRAWER_QUERY_PARAM, id.toString())
+      return `?${search.toString()}`
+    },
+    [search],
+  )
 }
 
 export default LearningResourceDrawer

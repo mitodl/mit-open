@@ -113,8 +113,18 @@ describe("Learning Resource List Card", () => {
     const addToUserListButton = screen.getByLabelText("Add to User List")
     await addToUserListButton.click()
 
-    expect(onAddToLearningPathClick).toHaveBeenCalledWith(resource.id)
-    expect(onAddToUserListClick).toHaveBeenCalledWith(resource.id)
+    expect(onAddToLearningPathClick).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.any(HTMLElement),
+      }),
+      resource.id,
+    )
+    expect(onAddToUserListClick).toHaveBeenCalledWith(
+      expect.objectContaining({
+        target: expect.any(HTMLElement),
+      }),
+      resource.id,
+    )
   })
 
   test("Displays certificate badge", () => {

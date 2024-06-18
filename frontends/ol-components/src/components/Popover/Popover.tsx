@@ -97,16 +97,6 @@ const getModifiers = (
       offset: [0, 10],
     },
   },
-  {
-    name: "preventOverflow",
-    enabled: true,
-    options: {
-      altAxis: true,
-      altBoundary: true,
-      tether: true,
-      padding: 8,
-    },
-  },
 ]
 
 const Arrow = styled("div")({
@@ -169,7 +159,6 @@ const Popover: React.FC<PopoverProps> = ({
     <StyledPopper
       open={open}
       modifiers={modifiers}
-      disablePortal
       transition
       {...props}
       {...(modal ? { role: "dialog" } : {})}
