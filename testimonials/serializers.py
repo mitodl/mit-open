@@ -8,10 +8,22 @@ from testimonials.models import Attestation
 class AttestationSerializer(serializers.ModelSerializer):
     """Serializer for attestations."""
 
-    avatar = serializers.URLField(source="avatar.url")
-    avatar_small = serializers.URLField(source="avatar_small.url")
-    avatar_medium = serializers.URLField(source="avatar_medium.url")
+    avatar = serializers.SerializerMethodField()
+    avatar_small = serializers.SerializerMethodField()
+    avatar_medium = serializers.SerializerMethodField()
     cover = serializers.SerializerMethodField()
+
+    def get_avatar(self, attestation) -> str | None:
+        """Get the avatar image URL"""
+        return attestation.avatar.url if attestation.avatar else None
+
+    def get_avatar_small(self, attestation) -> str | None:
+        """Get the avatar_small image URL"""
+        return attestation.avatar_small.url if attestation.avatar_small else None
+
+    def get_avatar_medium(self, attestation) -> str | None:
+        """Get the avatar_medium image URL"""
+        return attestation.avatar_medium.url if attestation.avatar_medium else None
 
     def get_cover(self, attestation) -> str | None:
         """Get the cover image URL"""

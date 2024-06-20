@@ -17,7 +17,8 @@ type InternalTestimonialDisplayProps = {
 }
 
 const TestimonialTruncateText = styled(TruncateText)({
-  [theme.breakpoints.down("md")]: {
+  textOverflow: "none",
+  [theme.breakpoints.down("sm")]: {
     ...theme.typography.subtitle1,
     WebkitLineClamp: 6,
     ["@supports (-webkit-line-clamp: 6)"]: {
@@ -41,6 +42,7 @@ const QuoteContainer = styled.section(({ theme }) => ({
   marginBottom: "80px",
   [theme.breakpoints.down("md")]: {
     marginBottom: "40px",
+    height: "200px",
   },
 }))
 
@@ -64,7 +66,7 @@ const QuoteLeader = styled.div(({ theme }) => ({
 const QuoteBody = styled.div(({ theme }) => ({
   width: "100%",
   display: "flex",
-  [theme.breakpoints.down("md")]: {
+  [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
   },
 }))
@@ -74,6 +76,10 @@ const AttestationBlock = styled.div(({ theme }) => ({
   flexGrow: "5",
   ...theme.typography.h5,
   justifyContent: "top",
+  [theme.breakpoints.down("sm")]: {
+    alignContent: "center",
+    height: "144px",
+  },
 }))
 
 const ButtonsContainer = styled.div(({ theme }) => ({
@@ -81,7 +87,7 @@ const ButtonsContainer = styled.div(({ theme }) => ({
   justifyContent: "right",
   margin: "4px auto 0",
   gap: "16px",
-  [theme.breakpoints.down("md")]: {
+  [theme.breakpoints.down("sm")]: {
     marginTop: "16px",
   },
 }))
@@ -98,10 +104,11 @@ const InteriorTestimonialDisplay: React.FC<InternalTestimonialDisplayProps> = ({
     <QuoteBody>
       <AttestationBlock>
         <TestimonialTruncateText lineClamp={4}>
-          {attestation?.quote}
+          {attestation?.quote.slice(0, 350)}
+          {attestation?.quote.length >= 350 ? "..." : null}
         </TestimonialTruncateText>
       </AttestationBlock>
-      <AttestantBlock attestation={attestation} />
+      <AttestantBlock attestation={attestation} variant="start" />
     </QuoteBody>
   )
 }

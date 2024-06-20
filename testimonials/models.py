@@ -39,7 +39,11 @@ class Attestation(TimestampedModel):
     )
 
     avatar = ProcessedImageField(
-        max_length=2083, upload_to=avatar_uri, help_text="The attestant's avatar"
+        max_length=2083,
+        upload_to=avatar_uri,
+        help_text="The attestant's avatar",
+        null=True,
+        blank=True,
     )
     avatar_small = ImageSpecField(
         source="avatar",

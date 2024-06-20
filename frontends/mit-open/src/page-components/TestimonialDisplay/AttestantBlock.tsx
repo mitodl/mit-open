@@ -1,6 +1,8 @@
 import React from "react"
 
-import { styled, theme } from "ol-components"
+import { RiAccountCircleFill } from "@remixicon/react"
+
+import { TruncateText, styled, theme } from "ol-components"
 import type { Attestation } from "api/v0"
 
 type AttestantBlockVariant = "start" | "end"
@@ -15,17 +17,28 @@ type AttestantBlockProps = AttestantBlockChildProps & {
   attestation: Attestation
 }
 
+const StyledRiAccountCircleFill = styled(RiAccountCircleFill)({
+  width: "40px",
+  height: "40px",
+})
+
 const AttestantBlockContainer = styled.div<AttestantBlockChildProps>(
   (props) => {
     const flexDir = props.variant === "end" ? "row-reverse" : "row"
 
     return [
       {
-        width: "100%",
         display: "flex",
+        flexShrink: 0,
         flexDirection: flexDir,
-        [theme.breakpoints.down("md")]: {
+        width: "300px",
+        marginLeft: "24px",
+        ...theme.typography.body3,
+        [theme.breakpoints.down("sm")]: {
+          width: "100%",
+          height: "56px",
           marginTop: "24px",
+          marginLeft: "0px",
         },
       },
     ]
@@ -37,10 +50,6 @@ const AttestantAvatar = styled.div<AttestantBlockChildProps>((props) => {
     {
       marginRight: props.variant === "end" ? "0px" : "12px",
       marginLeft: props.variant === "end" ? "14px" : "0px",
-      [theme.breakpoints.down("md")]: {
-        marginRight: "0",
-        marginLeft: "0",
-      },
       img: {
         objectFit: "cover",
         borderRadius: "50%",
@@ -49,9 +58,6 @@ const AttestantAvatar = styled.div<AttestantBlockChildProps>((props) => {
         height: "40px",
         boxShadow:
           "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
-        [theme.breakpoints.down("md")]: {
-          display: "none",
-        },
       },
     },
   ]
@@ -93,13 +99,17 @@ const AttestantBlock: React.FC<AttestantBlockProps> = ({
   return (
     <AttestantBlockContainer variant={variant} color={color}>
       <AttestantAvatar variant={variant} color={color}>
-        <img src={attestation.avatar_medium} />
+        {attestation.avatar ? (
+          <img src={attestation.avatar_medium} />
+        ) : (
+          <StyledRiAccountCircleFill />
+        )}
       </AttestantAvatar>
       <AttestantNameBlock variant={variant} color={color}>
         <AttestantName variant={variant} color={color}>
           {attestation?.attestant_name}
         </AttestantName>
-        {attestation.title}
+        <TruncateText lineClamp={2}>{attestation.title}</TruncateText>
       </AttestantNameBlock>
     </AttestantBlockContainer>
   )
