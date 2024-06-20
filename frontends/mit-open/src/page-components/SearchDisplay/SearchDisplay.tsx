@@ -475,6 +475,7 @@ interface SearchDisplayProps {
   clearAllFacets: UseResourceSearchParamsResult["clearAllFacets"]
   toggleParamValue: UseResourceSearchParamsResult["toggleParamValue"]
   patchParams: UseResourceSearchParamsResult["patchParams"]
+  showProfessionalToggle?: boolean
 }
 
 const SearchDisplay: React.FC<SearchDisplayProps> = ({
@@ -489,6 +490,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   clearAllFacets,
   toggleParamValue,
   patchParams,
+  showProfessionalToggle,
 }) => {
   const allParams = useMemo(() => {
     return { ...constantSearchParams, ...requestParams }
@@ -512,10 +514,12 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   const filterContents = (
     <>
       <FacetStyles>
-        <ProfessionalToggle
-          professionalSetting={requestParams.professional}
-          setParamValue={setParamValue}
-        ></ProfessionalToggle>
+        {showProfessionalToggle && (
+          <ProfessionalToggle
+            professionalSetting={requestParams.professional}
+            setParamValue={setParamValue}
+          ></ProfessionalToggle>
+        )}
         <AvailableFacets
           facetManifest={facetManifest}
           activeFacets={requestParams}

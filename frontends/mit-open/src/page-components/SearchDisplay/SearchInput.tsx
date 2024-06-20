@@ -26,7 +26,7 @@ const StyledInput = styled(Input)`
   border-radius: 0;
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
-  max-width: 81%;
+  width: 556px;
   border-right: none;
   height: 48px;
 
@@ -39,6 +39,7 @@ const StyledInput = styled(Input)`
     height: 37px;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
+    width: 80%;
   }
 `
 
@@ -85,6 +86,8 @@ type SearchSubmitHandler = (event: SearchSubmissionEvent) => void
 
 interface SearchInputProps {
   className?: string
+  classNameInput?: string
+
   classNameClear?: string
   classNameSearch?: string
   value: string
@@ -118,13 +121,13 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
     )
 
   return (
-    <StyledFormGroup row>
+    <StyledFormGroup className={props.className} row>
       <StyledInput
         fullWidth={props.fullWidth}
         size={props.size}
         inputProps={muiInputProps}
         autoFocus={props.autoFocus}
-        className={props.className}
+        className={props.classNameInput}
         placeholder={props.placeholder}
         value={props.value}
         onChange={props.onChange}

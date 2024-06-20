@@ -14,9 +14,38 @@ import type {
 } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
+import { SearchInput } from "@/page-components/SearchDisplay/SearchInput"
+
 import { getFacetManifest } from "@/pages/SearchPage/SearchPage"
 
 import _ from "lodash"
+import { styled } from "ol-components"
+
+const SearchInputContainer = styled.div`
+  padding-bottom: 40px;
+  margin-top: 80px;
+
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    padding-bottom: 35px;
+    margin-top: 40px;
+  }
+`
+
+const StyledSearchInput = styled(SearchInput)`
+  justify-content: center;
+  ${({ theme }) => theme.breakpoints.up("md")} {
+    .input-field {
+      height: 40px;
+      width: 450px;
+    }
+
+    .button-field {
+      height: 40px;
+      padding: 12px 16px 12px 12px;
+      width: 20px;
+    }
+  }
+`
 
 const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Topic]: [
@@ -35,12 +64,22 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   ],
   [ChannelTypeEnum.Unit]: [
     "free",
-    "certification_type",
     "topic",
+    "certification_type",
     "department",
     "learning_format",
   ],
   [ChannelTypeEnum.Pathway]: [],
+}
+
+const SHOW_PROFESSIONAL_TOGGLE_BY_CHANNEL_TYPE: Record<
+  ChannelTypeEnum,
+  boolean
+> = {
+  [ChannelTypeEnum.Topic]: true,
+  [ChannelTypeEnum.Department]: false,
+  [ChannelTypeEnum.Unit]: false,
+  [ChannelTypeEnum.Pathway]: false,
 }
 
 const getFacetManifestForChannelType = (
@@ -48,19 +87,24 @@ const getFacetManifestForChannelType = (
   offerors: Record<string, LearningResourceOfferor>,
   constantSearchParams: Facets,
 ): FacetManifest => {
-  return getFacetManifest(offerors).filter(
-    (facetSetting) =>
-      !Object.keys(constantSearchParams).includes(facetSetting.name) &&
-      (FACETS_BY_CHANNEL_TYPE[channelType] || []).includes(facetSetting.name),
-  ) as FacetManifest
+  const facets = FACETS_BY_CHANNEL_TYPE[channelType] || []
+  return getFacetManifest(offerors)
+    .filter(
+      (facetSetting) =>
+        !Object.keys(constantSearchParams).includes(facetSetting.name) &&
+        facets.includes(facetSetting.name),
+    )
+    .sort(
+      (a, b) => facets.indexOf(a.name) - facets.indexOf(b.name),
+    ) as FacetManifest
 }
 
-interface FeildSearchProps {
+interface FieldSearchProps {
   constantSearchParams: Facets & BooleanFacets
   channelType: ChannelTypeEnum
 }
 
-const FieldSearch: React.FC<FeildSearchProps> = ({
+const FieldSearch: React.FC<FieldSearchProps> = ({
   constantSearchParams,
   channelType,
 }) => {
@@ -119,6 +163,9 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
     clearAllFacets,
     toggleParamValue,
     patchParams,
+    currentText,
+    setCurrentText,
+    setCurrentTextAndQuery,
   } = useResourceSearchParams({
     searchParams,
     setSearchParams,
@@ -128,19 +175,40 @@ const FieldSearch: React.FC<FeildSearchProps> = ({
   const page = +(searchParams.get("page") ?? "1")
 
   return (
-    <SearchDisplay
-      page={page}
-      requestParams={params}
-      setPage={setPage}
-      facetManifest={facetManifest}
-      facetNames={facetNames}
-      constantSearchParams={constantSearchParams}
-      hasFacets={hasFacets}
-      setParamValue={setParamValue}
-      clearAllFacets={clearAllFacets}
-      toggleParamValue={toggleParamValue}
-      patchParams={patchParams}
-    />
+    <div>
+      <SearchInputContainer>
+        <StyledSearchInput
+          value={currentText}
+          onChange={(e) => setCurrentText(e.target.value)}
+          onSubmit={(e) => {
+            setCurrentTextAndQuery(e.target.value)
+          }}
+          onClear={() => {
+            setCurrentTextAndQuery("")
+          }}
+          classNameInput="input-field"
+          classNameSearch="button-field"
+          placeholder="Search for courses, programs, and learning materials..."
+        />
+      </SearchInputContainer>
+
+      <SearchDisplay
+        page={page}
+        requestParams={params}
+        setPage={setPage}
+        facetManifest={facetManifest}
+        facetNames={facetNames}
+        constantSearchParams={constantSearchParams}
+        hasFacets={hasFacets}
+        setParamValue={setParamValue}
+        clearAllFacets={clearAllFacets}
+        toggleParamValue={toggleParamValue}
+        patchParams={patchParams}
+        showProfessionalToggle={
+          SHOW_PROFESSIONAL_TOGGLE_BY_CHANNEL_TYPE[channelType]
+        }
+      />
+    </div>
   )
 }
 
