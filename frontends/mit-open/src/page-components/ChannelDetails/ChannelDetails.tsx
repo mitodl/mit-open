@@ -166,13 +166,11 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
   )
 
   const body = facetManifest
-    .sort((a, b) =>
-      a?.order && b?.order && a?.order > b?.order
-        ? 1
-        : a?.order && b?.order && b?.order > a?.order
-          ? -1
-          : 0,
-    )
+    .sort((a, b) => {
+      if (!("order" in a)) return 1
+      if (!("order" in b)) return -1
+      return a.order - b.order
+    })
     .map((value) => {
       const detailValue = (
         channelDetails as unknown as { [key: string]: string }
@@ -198,7 +196,9 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
       }
       return null
     })
-  return <ChannelDetailsCard>{body}</ChannelDetailsCard>
+  return (
+    <ChannelDetailsCard data-testid="unit-details">{body}</ChannelDetailsCard>
+  )
 }
 
 export { ChannelDetails }
