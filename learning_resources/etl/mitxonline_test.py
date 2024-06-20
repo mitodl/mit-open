@@ -195,7 +195,6 @@ def test_mitxonline_transform_programs(
                     "published": bool(
                         course_data.get("page", {}).get("page_url", None)
                         and course_data.get("page", {}).get("live", None)
-                        and course_data.get("live", None)
                     ),
                     "certification": True,
                     "certification_type": CertificationType.completion.name,
@@ -308,7 +307,6 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             "published": bool(
                 course_data.get("page", {}).get("page_url", None)
                 and course_data.get("page", {}).get("live", None)
-                and course_data.get("live", None)
             ),
             "professional": False,
             "certification": parse_certification(
