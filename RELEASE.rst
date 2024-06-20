@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 0.13.8 (Released June 20, 2024)
+--------------
+
+- add is_learning_material filter show courses and programs first in default sort (#1104)
+- dashboard my lists style fixes (#1107)
+- Updates to learning resource price display (#1108)
+- Add profile edit page (#1029)
+- Append `/static` to the front of the testimonial marketing card image (#1115)
+- two separate search inputs (#1111)
+
 Version 0.13.7 (Released June 18, 2024)
 --------------
 
