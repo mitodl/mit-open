@@ -227,7 +227,6 @@ def _transform_course(course):
         "published": bool(
             parse_page_attribute(course, "page_url")
             and parse_page_attribute(course, "live")
-            and course.get("live", False)
         ),  # a course is only considered published if it has a page url
         "professional": False,
         "certification": has_certification,
