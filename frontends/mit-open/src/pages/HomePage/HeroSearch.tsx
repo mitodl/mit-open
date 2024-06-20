@@ -146,11 +146,8 @@ const BrowseContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const Emphasized = styled.span(({ theme }) => ({
-  fontWeight: theme.typography.subtitle1.fontWeight,
-  ":hover": {
-    textDecoration: "underline",
-  },
+const BoldLink = styled(Link)(({ theme }) => ({
+  ...theme.typography.subtitle1,
 }))
 
 const HeroSearch: React.FC = () => {
@@ -180,11 +177,11 @@ const HeroSearch: React.FC = () => {
         </Typography>
         <Typography>
           Explore MIT's{" "}
-          <Emphasized>
-            <Link href={`${ABOUT}#${NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER}`}>
-              Non-Degree Education
-            </Link>
-          </Emphasized>
+          <BoldLink
+            href={`${ABOUT}#${NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER}`}
+          >
+            Non-Degree Education
+          </BoldLink>
         </Typography>
         <ControlsContainer>
           <SearchInput
