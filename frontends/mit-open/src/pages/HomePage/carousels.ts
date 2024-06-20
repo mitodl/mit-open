@@ -35,7 +35,7 @@ const FEATURED_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
     },
   },
   {
-    label: "Professional and Executive Learning",
+    label: "Professional & Executive Learning",
     cardProps: { size: "medium" },
     data: {
       type: "lr_featured",
