@@ -55,11 +55,11 @@ interface FieldSkeletonProps {
 const NAV_PATH: { [key: string]: { href: string; label: string } } = {
   topic: {
     href: TOPICS,
-    label: "Topics",
+    label: "Browse by Topic",
   },
   department: {
     href: DEPARTMENTS,
-    label: "Departments",
+    label: "Browse by Academic Department",
   },
   unit: {
     href: UNITS,
