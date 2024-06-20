@@ -3,7 +3,9 @@ import { MetaTags } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React from "react"
 
+const WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER = "what-is-mit-open"
 const NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER = "non-degree-learning"
+const WHAT_KINDS_OF_CONTENT_FRAGMENT_IDENTIFIER = "kinds-of-content"
 
 const PageContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -168,7 +170,9 @@ const AboutPage: React.FC = () => {
             <SubHeaderImage />
           </SubHeaderContainer>
           <BodySection>
-            <BodyText variant="h4">What is MIT Open?</BodyText>
+            <BodyText variant="h4" id={WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER}>
+              What is MIT Open?
+            </BodyText>
             <BodyText variant="body1">
               MIT Open is the best place to explore all of MIT's non-degree
               learning programs. Learners can compare offerings across
@@ -205,7 +209,10 @@ const AboutPage: React.FC = () => {
             </BodyText>
           </BodySection>
           <BodySection>
-            <BodyText variant="h4">
+            <BodyText
+              variant="h4"
+              id={WHAT_KINDS_OF_CONTENT_FRAGMENT_IDENTIFIER}
+            >
               What kinds of content are available from MIT Open?
             </BodyText>
             <BodyText variant="body1">
@@ -238,4 +245,9 @@ const AboutPage: React.FC = () => {
   )
 }
 
-export { AboutPage, NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER }
+export {
+  AboutPage,
+  WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER,
+  NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER,
+  WHAT_KINDS_OF_CONTENT_FRAGMENT_IDENTIFIER,
+}
