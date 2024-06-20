@@ -114,9 +114,7 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
       src="/static/images/course_search_banner.png"
       className="learningpaths-page"
     >
-      <MetaTags>
-        <title>{title}</title>
-      </MetaTags>
+      <MetaTags title={title} />
       <Container maxWidth="sm">
         <ListDetailsComponent
           listType={listType}

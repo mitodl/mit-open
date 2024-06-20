@@ -45,7 +45,7 @@ test.each([{ status: 401 }, { status: 403 }])(
     // redirect elsewhere.
     setup(status, { user: { is_authenticated: true } })
     await waitFor(() => {
-      expect(document.title).toBe("Not Allowed")
+      expect(document.title).toBe("Not Allowed | MIT Open")
     })
   },
 )
@@ -54,7 +54,7 @@ test("ErrorPage shows NotFound on API 404 errors", async () => {
   allowConsoleErrors()
   setup(404)
   await waitFor(() => {
-    expect(document.title).toBe("Not Found")
+    expect(document.title).toBe("Not Found | MIT Open")
   })
 })
 
@@ -62,7 +62,7 @@ test("ErrorPage shows NotFound on frontend routing 404 errors", async () => {
   allowConsoleErrors()
   renderTestApp({ url: "/some-fake-route" })
   await waitFor(() => {
-    expect(document.title).toBe("Not Found")
+    expect(document.title).toBe("Not Found | MIT Open")
   })
 })
 
@@ -87,7 +87,7 @@ test("ErrorPage shows ForbiddenPage on restricted routes.", async () => {
     { user: { is_authenticated: true } },
   )
   await waitFor(() => {
-    expect(document.title).toBe("Not Allowed")
+    expect(document.title).toBe("Not Allowed | MIT Open")
   })
 })
 
@@ -107,7 +107,7 @@ test("ErrorPage shows fallback and logs unexpected errors", async () => {
     { user: { is_authenticated: true } },
   )
   await waitFor(() => {
-    expect(document.title).toBe("Not Allowed")
+    expect(document.title).toBe("Not Allowed | MIT Open")
   })
   expect(consoleError).toHaveBeenCalledWith(Error("Some Error"))
 })

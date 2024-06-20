@@ -215,9 +215,7 @@ const DepartmentListingPage: React.FC = () => {
 
   return (
     <Page>
-      <MetaTags>
-        <title>MIT Open | Departments</title>
-      </MetaTags>
+      <MetaTags title="Departments" />
       <Banner
         backgroundUrl="/static/images/background_steps.jpeg"
         title="Departments"

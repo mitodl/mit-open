@@ -1,6 +1,8 @@
 import { resolve } from "path"
 import type { Config } from "@jest/types"
 
+process.env.SITE_NAME = "MIT Open"
+
 /**
  * Base configuration for jest tests.
  */

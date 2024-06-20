@@ -26,9 +26,7 @@ const ArticlesDetailPage: React.FC = () => {
       src="/static/images/course_search_banner.png"
       className="articles-detail-page"
     >
-      <MetaTags>
-        <title>{article.data?.title}</title>
-      </MetaTags>
+      <MetaTags title={article.data?.title} />
       <Container maxWidth="sm">
         <GridContainer>
           <GridColumn variant="single-full" container>

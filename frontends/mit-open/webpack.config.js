@@ -22,6 +22,7 @@ const {
   MITOPEN_AXIOS_BASE_PATH,
   API_DEV_PROXY_BASE_URL,
   WEBPACK_ANALYZE,
+  SITE_NAME,
 } = cleanEnv(process.env, {
   ENVIRONMENT: str({
     choices: ["local", "docker", "production"],
@@ -47,6 +48,10 @@ const {
   WEBPACK_ANALYZE: bool({
     desc: "Whether to run webpack bundle analyzer",
     default: false,
+  }),
+  SITE_NAME: str({
+    desc: ["The name of the site, used in page titles"],
+    default: "MIT Open",
   }),
 })
 
@@ -181,6 +186,7 @@ module.exports = (env, argv) => {
         // within app, define process.env.VAR_NAME with default from cleanEnv
         MITOPEN_AXIOS_BASE_PATH,
         ENVIRONMENT,
+        SITE_NAME,
       }),
     ]
       .concat(

@@ -164,9 +164,7 @@ const UserListListingPage: React.FC = () => {
       src="/static/images/course_search_banner.png"
       className="learningpaths-page"
     >
-      <MetaTags>
-        <title>User Lists</title>
-      </MetaTags>
+      <MetaTags title="My Lists" />
       <PageContainer maxWidth="sm">
         <UserListListingComponent
           title="User Lists"

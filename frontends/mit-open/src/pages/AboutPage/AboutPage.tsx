@@ -79,9 +79,7 @@ const AboutPage: React.FC = () => {
   return (
     <Container>
       <PageContainer>
-        <MetaTags>
-          <title>About Us</title>
-        </MetaTags>
+        <MetaTags title="About Us" />
         <BannerContainer>
           <BannerContainerInner>
             <Breadcrumbs

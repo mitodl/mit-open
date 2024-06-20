@@ -173,9 +173,7 @@ const SearchPage: React.FC = () => {
 
   return (
     <>
-      <MetaTags>
-        <title>Search</title>
-      </MetaTags>
+      <MetaTags title="Search" />
       <ColoredHeader>
         <BackgroundImage src="/static/images/search_page_vector.png" />
         <Container>

@@ -18,7 +18,7 @@ describe("AboutPage", () => {
       url: commonUrls.ABOUT,
     })
     await waitFor(() => {
-      expect(document.title).toBe("About Us")
+      expect(document.title).toBe("About Us | MIT Open")
     })
     screen.getByRole("heading", {
       name: "About Us",

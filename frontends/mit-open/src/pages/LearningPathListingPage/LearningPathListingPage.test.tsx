@@ -37,7 +37,9 @@ describe("LearningPathListingPage", () => {
   it("Has title 'Learning Paths'", async () => {
     setup()
     screen.getByRole("heading", { name: "Learning Paths" })
-    await waitFor(() => expect(document.title).toBe("Learning Paths"))
+    await waitFor(() =>
+      expect(document.title).toBe("Learning Paths | MIT Open"),
+    )
   })
 
   it("Renders a card for each learning path", async () => {

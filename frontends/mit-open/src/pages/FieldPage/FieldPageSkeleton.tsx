@@ -9,6 +9,7 @@ import {
   Box,
   Breadcrumbs,
 } from "ol-components"
+import { MetaTags } from "ol-utilities"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
 import { useChannelDetail } from "api/hooks/fields"
@@ -101,89 +102,110 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   ]
 
   return (
-    <BannerPage
-      src={
-        displayConfiguration?.banner_background ??
-        "/static/images/background_steps.jpeg"
-      }
-      omitBackground={field.isLoading}
-      backgroundSize="2000px auto"
-      dim={30}
-      bannerContent={
-        <Container sx={{ pt: "48px", pb: "64px" }}>
-          <Breadcrumbs
-            variant="dark"
-            ancestors={[
-              { href: HOME, label: "Home" },
-              {
-                href: NAV_PATH[channelType].href,
-                label: NAV_PATH[channelType].label,
-              },
-            ]}
-            current={field.data?.title}
-          />
-          <FieldTitleRow data-testid="banner">
-            {field.data && (
-              <Box
-                flexDirection="row"
-                alignItems="start"
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  width: "100%",
-                  color: "white",
-                  flexShrink: 1,
-                  flexGrow: 0,
-                }}
-              >
+    <>
+      <MetaTags title={field.data?.title || NAV_PATH[channelType].label} />
+      <BannerPage
+        src={
+          displayConfiguration?.banner_background ??
+          "/static/images/background_steps.jpeg"
+        }
+        omitBackground={field.isLoading}
+        backgroundSize="2000px auto"
+        dim={30}
+        bannerContent={
+          <Container sx={{ pt: "48px", pb: "64px" }}>
+            <Breadcrumbs
+              variant="dark"
+              ancestors={[
+                { href: HOME, label: "Home" },
+                {
+                  href: NAV_PATH[channelType].href,
+                  label: NAV_PATH[channelType].label,
+                },
+              ]}
+              current={field.data?.title}
+            />
+            <FieldTitleRow data-testid="banner">
+              {field.data && (
                 <Box
-                  display="flex"
-                  flexDirection="column"
+                  flexDirection="row"
                   alignItems="start"
                   sx={{
-                    flexGrow: 1,
-                    flexShrink: 0,
-                    order: 1,
-                    width: "50%",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    width: "100%",
+                    color: "white",
+                    flexShrink: 1,
+                    flexGrow: 0,
                   }}
                 >
                   <Box
                     display="flex"
-                    flexDirection="row"
-                    alignItems="center"
-                    sx={(theme) => ({
+                    flexDirection="column"
+                    alignItems="start"
+                    sx={{
                       flexGrow: 1,
                       flexShrink: 0,
                       order: 1,
-                      py: "24px",
-
-                      [theme.breakpoints.down("md")]: {
-                        py: 0,
-                        pb: "8px",
-                      },
-                    })}
+                      width: "50%",
+                    }}
                   >
-                    {displayConfiguration?.logo ? (
-                      <FieldAvatar
-                        imageVariant="inverted"
-                        formImageUrl={displayConfiguration?.logo}
-                        imageSize="medium"
-                        field={field.data}
-                      />
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      alignItems="center"
+                      sx={(theme) => ({
+                        flexGrow: 1,
+                        flexShrink: 0,
+                        order: 1,
+                        py: "24px",
+
+                        [theme.breakpoints.down("md")]: {
+                          py: 0,
+                          pb: "8px",
+                        },
+                      })}
+                    >
+                      {displayConfiguration?.logo ? (
+                        <FieldAvatar
+                          imageVariant="inverted"
+                          formImageUrl={displayConfiguration?.logo}
+                          imageSize="medium"
+                          field={field.data}
+                        />
+                      ) : (
+                        <Typography variant="h1" data-testid="header">
+                          <Link
+                            to={routes.makeFieldViewPath(
+                              field.data.channel_type,
+                              field.data.name,
+                            )}
+                          >
+                            {field.data.title}
+                          </Link>
+                        </Typography>
+                      )}
+                    </Box>
+                    {displayConfiguration.heading ? (
+                      <Box
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="center"
+                        sx={{
+                          flexGrow: 0,
+                          flexShrink: 0,
+                          order: 2,
+                          width: { md: "80%", sm: "100%" },
+                          my: 1,
+                        }}
+                      >
+                        <Typography variant="h4">
+                          {displayConfiguration.heading}
+                        </Typography>
+                      </Box>
                     ) : (
-                      <Typography variant="h1" data-testid="header">
-                        <Link
-                          to={routes.makeFieldViewPath(
-                            field.data.channel_type,
-                            field.data.name,
-                          )}
-                        >
-                          {field.data.title}
-                        </Link>
-                      </Typography>
+                      <></>
                     )}
-                  </Box>
-                  {displayConfiguration.heading ? (
                     <Box
                       display="flex"
                       flexDirection="row"
@@ -196,41 +218,70 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         my: 1,
                       }}
                     >
-                      <Typography variant="h4">
-                        {displayConfiguration.heading}
+                      <Typography variant="body1">
+                        {displayConfiguration.sub_heading}
                       </Typography>
                     </Box>
-                  ) : (
-                    <></>
-                  )}
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    alignItems="center"
-                    sx={{
-                      flexGrow: 0,
-                      flexShrink: 0,
-                      order: 2,
-                      width: { md: "80%", sm: "100%" },
-                      my: 1,
-                    }}
-                  >
-                    <Typography variant="body1">
-                      {displayConfiguration.sub_heading}
-                    </Typography>
+                    {channelType === "unit" ? (
+                      <Box
+                        display="flex"
+                        flexDirection="row"
+                        alignItems="end"
+                        sx={{
+                          flexGrow: 0,
+                          width: "100%",
+                          flexShrink: 1,
+                          order: 3,
+                          mt: { xs: "8px" },
+                          mb: { xs: "48px" },
+                        }}
+                      >
+                        <FieldControls>
+                          {field.data?.search_filter ? (
+                            <SearchSubscriptionToggle
+                              sourceType={
+                                SourceTypeEnum.ChannelSubscriptionType
+                              }
+                              searchParams={urlParams}
+                            />
+                          ) : null}
+                          {field.data?.is_moderator ? (
+                            <FieldMenu
+                              channelType={String(channelType)}
+                              name={String(name)}
+                            />
+                          ) : null}
+                        </FieldControls>
+                      </Box>
+                    ) : null}
                   </Box>
                   {channelType === "unit" ? (
+                    <Box
+                      flexDirection="row"
+                      alignItems="end"
+                      alignSelf="center"
+                      display="flex"
+                      sx={{
+                        order: 2,
+                        flexGrow: 0,
+                        flexShrink: 0,
+                        width: { md: "408px", xs: "100%" },
+                      }}
+                    >
+                      <ChannelDetails field={field.data} />
+                    </Box>
+                  ) : (
                     <Box
                       display="flex"
                       flexDirection="row"
                       alignItems="end"
                       sx={{
                         flexGrow: 0,
-                        width: "100%",
-                        flexShrink: 1,
-                        order: 3,
-                        mt: { xs: "8px" },
-                        mb: { xs: "48px" },
+                        width: { md: "15%", xs: "100%" },
+                        flexShrink: 0,
+                        order: 2,
+                        mt: { md: "0px", sm: "8px" },
+                        mb: { md: "0px", sm: "48px" },
                       }}
                     >
                       <FieldControls>
@@ -248,69 +299,24 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         ) : null}
                       </FieldControls>
                     </Box>
-                  ) : null}
+                  )}
                 </Box>
-                {channelType === "unit" ? (
-                  <Box
-                    flexDirection="row"
-                    alignItems="end"
-                    alignSelf="center"
-                    display="flex"
-                    sx={{
-                      order: 2,
-                      flexGrow: 0,
-                      flexShrink: 0,
-                      width: { md: "408px", xs: "100%" },
-                    }}
-                  >
-                    <ChannelDetails field={field.data} />
-                  </Box>
-                ) : (
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    alignItems="end"
-                    sx={{
-                      flexGrow: 0,
-                      width: { md: "15%", xs: "100%" },
-                      flexShrink: 0,
-                      order: 2,
-                      mt: { md: "0px", sm: "8px" },
-                      mb: { md: "0px", sm: "48px" },
-                    }}
-                  >
-                    <FieldControls>
-                      {field.data?.search_filter ? (
-                        <SearchSubscriptionToggle
-                          sourceType={SourceTypeEnum.ChannelSubscriptionType}
-                          searchParams={urlParams}
-                        />
-                      ) : null}
-                      {field.data?.is_moderator ? (
-                        <FieldMenu
-                          channelType={String(channelType)}
-                          name={String(name)}
-                        />
-                      ) : null}
-                    </FieldControls>
-                  </Box>
-                )}
-              </Box>
-            )}
-          </FieldTitleRow>
-        </Container>
-      }
-    >
-      {channelType === "unit" ? (
-        <Container>
-          <FeaturedCoursesCarousel
-            title="Featured Courses"
-            config={FEATURED_RESOURCES_CAROUSEL}
-          />
-        </Container>
-      ) : null}
-      {children}
-    </BannerPage>
+              )}
+            </FieldTitleRow>
+          </Container>
+        }
+      >
+        {channelType === "unit" ? (
+          <Container>
+            <FeaturedCoursesCarousel
+              title="Featured Courses"
+              config={FEATURED_RESOURCES_CAROUSEL}
+            />
+          </Container>
+        ) : null}
+        {children}
+      </BannerPage>
+    </>
   )
 }
 

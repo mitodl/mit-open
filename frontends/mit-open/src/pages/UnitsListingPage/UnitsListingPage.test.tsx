@@ -123,7 +123,7 @@ describe("DepartmentListingPage", () => {
     setupApis()
     renderWithProviders(<UnitsListingPage />)
     await waitFor(() => {
-      expect(document.title).toBe("MIT Open | Units")
+      expect(document.title).toBe("Units | MIT Open")
     })
     screen.getByRole("heading", { name: "Academic & Professional Learning" })
   })

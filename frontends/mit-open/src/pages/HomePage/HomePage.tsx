@@ -1,5 +1,6 @@
 import React from "react"
 import { Container, styled } from "ol-components"
+import { MetaTags } from "ol-utilities"
 import HeroSearch from "./HeroSearch"
 import BrowseTopicsSection from "./BrowseTopicsSection"
 import NewsEventsSection from "./NewsEventsSection"
@@ -35,6 +36,7 @@ const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
 const HomePage: React.FC = () => {
   return (
     <>
+      <MetaTags title="Learn with MIT" />
       <FullWidthBackground>
         <Container>
           <HeroSearch />

@@ -71,7 +71,7 @@ describe("ListDetailsPage", () => {
     const path = factories.learningResources.learningPath()
     setup({ path })
     await screen.findByRole("heading", { name: path.title })
-    await waitFor(() => expect(document.title).toBe(path.title))
+    await waitFor(() => expect(document.title).toBe(`${path.title} | MIT Open`))
   })
 
   test.each([

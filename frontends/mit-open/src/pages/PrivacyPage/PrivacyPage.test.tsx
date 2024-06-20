@@ -18,7 +18,7 @@ describe("PrivacyPage", () => {
       url: commonUrls.PRIVACY,
     })
     await waitFor(() => {
-      expect(document.title).toBe("Privacy Policy")
+      expect(document.title).toBe("Privacy Policy | MIT Open")
     })
     screen.getByRole("heading", {
       name: "Privacy Policy",

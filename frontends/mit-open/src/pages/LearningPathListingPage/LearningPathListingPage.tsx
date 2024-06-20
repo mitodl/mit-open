@@ -93,9 +93,7 @@ const LearningPathListingPage: React.FC = () => {
       src="/static/images/course_search_banner.png"
       className="learningpaths-page"
     >
-      <MetaTags>
-        <title>Learning Paths</title>
-      </MetaTags>
+      <MetaTags title="Learning Paths" />
       <Container maxWidth="md" style={{ paddingBottom: 100 }}>
         <GridContainer>
           <GridColumn variant="single-full">
