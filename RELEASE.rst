@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.8
+Version 0.13.8 (Released June 20, 2024)
 --------------
 
 - add is_learning_material filter show courses and programs first in default sort (#1104)
