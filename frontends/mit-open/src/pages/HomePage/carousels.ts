@@ -50,7 +50,7 @@ const MEDIA_CAROUSEL: ResourceCarouselProps["config"] = [
     cardProps: { size: "small" },
     data: {
       type: "resources",
-      params: { resource_type: ["video", "podcast"], limit: 12 },
+      params: { resource_type: ["video", "podcast_episode"], limit: 12 },
     },
   },
   {
