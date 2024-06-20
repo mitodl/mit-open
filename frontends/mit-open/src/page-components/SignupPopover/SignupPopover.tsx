@@ -2,6 +2,7 @@ import React from "react"
 import { Popover, Typography, styled, ButtonLink } from "ol-components"
 import type { PopoverProps } from "ol-components"
 import * as urls from "@/common/urls"
+import { useLocation } from "react-router"
 
 const StyledPopover = styled(Popover)({
   width: "300px",
@@ -26,15 +27,25 @@ type SignupPopoverProps = Pick<
   "anchorEl" | "onClose" | "placement"
 >
 const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
+  const loc = useLocation()
   return (
     <StyledPopover {...props} open={!!props.anchorEl}>
-      <HeaderText variant="subtitle2">Join MIT Open for free</HeaderText>
+      <HeaderText variant="subtitle2">
+        Join {process.env.SITE_NAME} for free.
+      </HeaderText>
       <BodyText variant="body2">
         As a member, get personalized recommendations, curate learning lists,
         and follow your areas of interests.
       </BodyText>
       <Footer>
-        <ButtonLink href={urls.login()}>Sign Up</ButtonLink>
+        <ButtonLink
+          href={urls.login({
+            pathname: loc.pathname,
+            search: loc.search,
+          })}
+        >
+          Sign Up
+        </ButtonLink>
       </Footer>
     </StyledPopover>
   )
