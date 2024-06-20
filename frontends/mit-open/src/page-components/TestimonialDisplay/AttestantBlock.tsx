@@ -7,10 +7,12 @@ import type { Attestation } from "api/v0"
 
 type AttestantBlockVariant = "start" | "end"
 type AttestantBlockColor = "light" | "dark"
+type AttestantAvatarStyle = "homepage" | "unit"
 
 type AttestantBlockChildProps = {
   variant?: AttestantBlockVariant
   color?: AttestantBlockColor
+  avatar?: AttestantAvatarStyle
 }
 
 type AttestantBlockProps = AttestantBlockChildProps & {
@@ -37,7 +39,7 @@ const AttestantBlockContainer = styled.div<AttestantBlockChildProps>(
         [theme.breakpoints.down("sm")]: {
           width: "100%",
           height: "56px",
-          marginTop: "24px",
+          marginTop: props.variant === "end" ? "0px" : "24px",
           marginLeft: "0px",
         },
       },
@@ -58,6 +60,9 @@ const AttestantAvatar = styled.div<AttestantBlockChildProps>((props) => {
         height: "40px",
         boxShadow:
           "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
+      },
+      [theme.breakpoints.down("sm")]: {
+        display: props.avatar === "homepage" ? "none" : "block",
       },
     },
   ]
@@ -95,10 +100,11 @@ const AttestantBlock: React.FC<AttestantBlockProps> = ({
   attestation,
   variant = "start",
   color = "light",
+  avatar = "unit",
 }) => {
   return (
     <AttestantBlockContainer variant={variant} color={color}>
-      <AttestantAvatar variant={variant} color={color}>
+      <AttestantAvatar variant={variant} color={color} avatar={avatar}>
         {attestation.avatar ? (
           <img src={attestation.avatar_medium} />
         ) : (
