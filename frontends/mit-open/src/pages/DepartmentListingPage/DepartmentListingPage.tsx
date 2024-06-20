@@ -218,7 +218,7 @@ const DepartmentListingPage: React.FC = () => {
       <MetaTags title="Departments" />
       <Banner
         backgroundUrl="/static/images/background_steps.jpeg"
-        title="Departments"
+        title="Browse by Academic Department"
         description="At MIT, academic departments span a wide range of disciplines, from science and engineering to humanities. Select a department below to explore all of its online course offerings."
         navText={
           <Breadcrumbs

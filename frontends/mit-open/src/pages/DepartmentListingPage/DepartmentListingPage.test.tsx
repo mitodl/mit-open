@@ -88,7 +88,7 @@ describe("DepartmentListingPage", () => {
     await waitFor(() => {
       expect(document.title).toBe("Departments | MIT Open")
     })
-    screen.getByRole("heading", { name: "Departments" })
+    screen.getByRole("heading", { name: "Browse by Academic Department" })
   })
 
   it("Lists schools and departments", async () => {
