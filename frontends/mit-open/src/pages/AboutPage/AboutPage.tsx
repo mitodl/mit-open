@@ -144,8 +144,8 @@ const AboutPage: React.FC = () => {
               </Typography>
               <ul>
                 <li>
-                  Access content from world-renowned faculty and experts much of
-                  it for free
+                  Access content from world-renowned faculty and experts &ndash;
+                  much of it for free
                 </li>
                 <li>
                   Build job-relevant skills through application-focused
@@ -156,13 +156,13 @@ const AboutPage: React.FC = () => {
                 </li>
                 <li>
                   Receive a certificate from MIT, or just learn for your own
-                  sake
+                  enjoyment
                 </li>
                 <li>
                   Learn from the same materials used by MIT students on campus
                 </li>
                 <li>
-                  Download, reuse and edit thousands of learning resources
+                  Download, share and modify thousands of learning resources
                 </li>
                 <li>Continue your education at your own pace</li>
               </ul>
@@ -202,10 +202,11 @@ const AboutPage: React.FC = () => {
               breadth of study required for a full degree. These programs are
               designed to be flexible and accessible, allowing professionals,
               students, and lifelong learners to engage with MIT's educational
-              offerings from anywhere in the world. Whether you're looking to
-              upskill, explore a new field, or gain a deeper understanding of a
-              subject, MIT's non-degree learning resources provide a pathway for
-              personal and professional growth.
+              offerings from anywhere in the world. Many of these resources are
+              free or low-cost. Whether you're looking to upskill, explore a new
+              field, or gain a deeper understanding of a subject, MIT's
+              non-degree learning resources provide a pathway for personal and
+              professional growth.
             </BodyText>
           </BodySection>
           <BodySection>
@@ -213,16 +214,14 @@ const AboutPage: React.FC = () => {
               variant="h4"
               id={WHAT_KINDS_OF_CONTENT_FRAGMENT_IDENTIFIER}
             >
-              What kinds of content are available from MIT Open?
+              What kind of content is available from MIT Open?
             </BodyText>
             <BodyText variant="body1">
-              MIT is dedicated to advancing knowledge beyond students enrolled
-              in MIT's campus programs. Several divisions within MIT offer
-              educational opportunities accessible to learners worldwide,
-              catering to a diverse range of needs.
+              MIT Open organizes non-degree educational opportunities into two
+              categories: academic and professional.
               <br />
               <br />
-              MIT's ACADEMIC courses, programs, and materials mirror MIT
+              MIT's Academic courses, programs, and materials mirror MIT
               curriculum and residential programs, making these available to a
               global audience. Approved by faculty committees, academic content
               furnishes a comprehensive foundation of knowledge, skills, and
@@ -231,7 +230,7 @@ const AboutPage: React.FC = () => {
               deliver an experience on par with the campus environment.
               <br />
               <br />
-              MIT's PROFESSIONAL courses and programs are tailored for working
+              MIT's Professional courses and programs are tailored for working
               professionals seeking essential practical skills across various
               industries. Led by MIT faculty and maintaining challenging
               standards, Professional courses and programs prioritize real-world
