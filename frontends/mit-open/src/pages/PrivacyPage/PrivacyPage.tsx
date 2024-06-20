@@ -48,7 +48,7 @@ const BodyText = styled(Typography)(({ theme }) => ({
 }))
 
 const UnorderedList = styled.ul(({ theme }) => ({
-  ...theme.typography.body3,
+  ...theme.typography.body1,
 }))
 
 const PrivacyPage: React.FC = () => {
@@ -67,15 +67,15 @@ const PrivacyPage: React.FC = () => {
           </BannerContainerInner>
         </BannerContainer>
         <BodyContainer>
-          <BodyText variant="h5">Introduction</BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="h4">Introduction</BodyText>
+          <BodyText variant="body1">
             MIT Open provides information about MIT courses, programs, and
             learning materials to learners from across the world. This Privacy
             Statement explains how MIT Open collects, uses, and processes
             personal information about our learners.
           </BodyText>
-          <BodyText variant="h5">What personal information we collect</BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="h4">What personal information we collect</BodyText>
+          <BodyText variant="body1">
             We collect, use, store, and transfer different kinds of personal
             information about you, which we have grouped together as follows:
           </BodyText>
@@ -99,10 +99,10 @@ const PrivacyPage: React.FC = () => {
             <li>IP addresses</li>
             <li>Course progress and performance</li>
           </UnorderedList>
-          <BodyText variant="h5">
+          <BodyText variant="h4">
             How we collect personal information about you
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             We collect information, including Personal Information, when you
             create and maintain a profile and user account, participate in
             online courses, submit applications for financial assistance (if
@@ -110,7 +110,7 @@ const PrivacyPage: React.FC = () => {
             messages, complete an entrance or exit survey, and/or participate in
             our public forums and social media.
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             We also collect certain usage information about learner performance
             and patterns of learning. In addition, we track information
             indicating, among other things, which pages of our Site were
@@ -118,12 +118,12 @@ const PrivacyPage: React.FC = () => {
             visited, and which hyperlinks and other user interface controls were
             used.
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             We also collect information when you fill out and submit contact
             forms, as well as from marketing data including how many emails you
             have received, opened, clicked, and unsubscribed from.
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             We may log the IP address, operating system, page visit behavior,
             and browser software used by each user of the Site, and we may be
             able to determine from an IP address a user's Internet Service
@@ -139,8 +139,8 @@ const PrivacyPage: React.FC = () => {
             the toolbar. If you reject our cookies, many functions and
             conveniences of this Site may not work properly.
           </BodyText>
-          <BodyText variant="h5">How we use your personal information</BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="h4">How we use your personal information</BodyText>
+          <BodyText variant="body1">
             We collect, use, and process your personal information (1) to
             process transactions requested by you and meet our contractual
             obligations; (2) to facilitate MITx Online's legitimate interests,
@@ -210,14 +210,14 @@ const PrivacyPage: React.FC = () => {
             </li>
             <li>To process refunds, as applicable.</li>
           </UnorderedList>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             If you have concerns about any of these purposes, or how we
             communicate with you, please contact us at
             mitxonline-support@mit.edu. We will always respect a request by you
             to stop processing your personal information (subject to our legal
             obligations).
           </BodyText>
-          <BodyText variant="h5">How we use your personal information</BodyText>
+          <BodyText variant="h4">How we use your personal information</BodyText>
           <UnorderedList>
             <li>
               With service providers or contractors that perform certain
@@ -277,7 +277,7 @@ const PrivacyPage: React.FC = () => {
               websites not controlled by us.
             </li>
           </UnorderedList>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             In cases where we share or disclose your Personal Information: (1)
             the third party recipients are required to handle the Personal
             Information in a confidential manner and to maintain adequate
@@ -290,10 +290,10 @@ const PrivacyPage: React.FC = () => {
             parties, including but not limited to researchers and business
             partners.
           </BodyText>
-          <BodyText variant="h5">
+          <BodyText variant="h4">
             How your information is stored and secured
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             MIT Open is designed to protect Personal Information in its
             possession or control. This is done through a variety of privacy and
             security policies, processes, and procedures, including
@@ -304,10 +304,10 @@ const PrivacyPage: React.FC = () => {
             the Internet or method of electronic storage is 100% secure, and
             therefore we do not guarantee its absolute security.
           </BodyText>
-          <BodyText variant="h5">
+          <BodyText variant="h4">
             How long we keep your personal information
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             We consider your relationship with the MITx Online community to be
             lifelong. This means that we will maintain a record for you until
             such time as you tell us that you no longer wish us to keep in
@@ -317,10 +317,10 @@ const PrivacyPage: React.FC = () => {
             archival, scientific and historical research and for the defense of
             potential legal claims.
           </BodyText>
-          <BodyText variant="h5">
+          <BodyText variant="h4">
             Rights for Individuals in the European Economic Area
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             You have the right in certain circumstances to (1) access your
             personal information; (2) to correct or erase information; (3)
             restrict processing; and (4) object to communications, direct
@@ -329,7 +329,7 @@ const PrivacyPage: React.FC = () => {
             rights. You also have the right to lodge complaints with your
             national or regional data protection authority.
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             If you are inclined to exercise these rights, we request an
             opportunity to discuss with you any concerns you may have. To
             protect the personal information we hold, we may also request
@@ -343,7 +343,7 @@ const PrivacyPage: React.FC = () => {
             purposes of establishing, defending against or exercising our rights
             with respect to such claim.
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             By providing information directly to MIT, you consent to the
             transfer of your personal information outside of the European
             Economic Area to the United States. You understand that the current
@@ -351,14 +351,14 @@ const PrivacyPage: React.FC = () => {
             level of protection as the data and privacy laws and regulations of
             the EEA.
           </BodyText>
-          <BodyText variant="h5">Additional Information</BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="h4">Additional Information</BodyText>
+          <BodyText variant="body1">
             We may change this Privacy Statement from time to time. If we make
             any significant changes in the way we treat your personal
             information, we will make this clear on our website or by contacting
             you directly.
           </BodyText>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             The controller for your personal information is MIT. We can be
             contacted at dataprotection@mit.edu.
           </BodyText>

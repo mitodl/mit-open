@@ -3,6 +3,10 @@ import { MetaTags } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React from "react"
 
+const WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER = "what-is-mit-open"
+const NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER = "non-degree-learning"
+const WHAT_KINDS_OF_CONTENT_FRAGMENT_IDENTIFIER = "kinds-of-content"
+
 const PageContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -10,7 +14,7 @@ const PageContainer = styled.div(({ theme }) => ({
   alignSelf: "stretch",
   padding: "40px 84px 80px 84px",
   [theme.breakpoints.down("md")]: {
-    padding: "40px 24px 80px 24px",
+    padding: "40px 0 80px 0",
   },
 }))
 
@@ -42,6 +46,25 @@ const BodyContainer = styled.div({
   gap: "40px",
 })
 
+const MissionStatementContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  padding: "24px 32px",
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "flex-start",
+  gap: "16px",
+  alignSelf: "stretch",
+  backgroundColor: theme.custom.colors.white,
+  [theme.breakpoints.down("md")]: {
+    padding: "16px 16px",
+  },
+}))
+
+const MissionStatementHeader = styled(Typography)(({ theme }) => ({
+  color: theme.custom.colors.mitRed,
+  ...theme.typography.h5,
+}))
+
 const SubHeaderContainer = styled.div(({ theme }) => ({
   display: "flex",
   alignItems: "center",
@@ -53,10 +76,12 @@ const SubHeaderContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const SubHeaderText = styled(Typography)(({ theme }) => ({
+const SubHeaderTextContainer = styled.div({
+  display: "flex",
+  flexDirection: "column",
   flex: "1 0 0",
-  color: theme.custom.colors.black,
-}))
+  alignSelf: "flex-start",
+})
 
 const SubHeaderImage = styled.img(({ theme }) => ({
   flexGrow: 1,
@@ -69,6 +94,14 @@ const SubHeaderImage = styled.img(({ theme }) => ({
     height: "300px",
   },
 }))
+
+const BodySection = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  alignSelf: "stretch",
+  gap: "16px",
+})
 
 const BodyText = styled(Typography)(({ theme }) => ({
   alignSelf: "stretch",
@@ -91,50 +124,132 @@ const AboutPage: React.FC = () => {
           </BannerContainerInner>
         </BannerContainer>
         <BodyContainer>
+          <MissionStatementContainer>
+            <MissionStatementHeader>Mission</MissionStatementHeader>
+            <BodyText variant="body1">
+              MIT's mission to share learning with the world has been central to
+              the Institute since its founding in 1861. At the start of the 21st
+              century, MIT took that mission online, bringing learning resources
+              to a broader audience through digital platforms. Today, MIT is
+              advancing this mission further by providing non-degree learning
+              resources &ndash; online, in-person, and blended courses and
+              programs that offer the opportunity to learn from MIT faculty,
+              industry experts, and a global community of learners without
+              enrolling in a degree-seeking program. Through these resources,
+              millions of learners have gained the knowledge and tools needed to
+              advance their academic and professional goals.
+            </BodyText>
+          </MissionStatementContainer>
           <SubHeaderContainer>
-            <SubHeaderText variant="h4">
-              The MIT community is driven by a shared purpose: to make a better
-              world through education, research, and innovation. We are fun and
-              quirky, elite but not elitist, inventive and artistic, obsessed
-              with numbers, and welcoming to talented people regardless of where
-              they come from.
-            </SubHeaderText>
+            <SubHeaderTextContainer>
+              <Typography variant="subtitle1">
+                Our non-degree learning resources empower you to:
+              </Typography>
+              <ul>
+                <li>
+                  Access content from world-renowned faculty and experts &ndash;
+                  much of it for free
+                </li>
+                <li>
+                  Build job-relevant skills through application-focused
+                  offerings{" "}
+                </li>
+                <li>
+                  Experience peer-to-peer interactions and grow your network
+                </li>
+                <li>
+                  Receive a certificate from MIT, or just learn for your own
+                  enjoyment
+                </li>
+                <li>
+                  Learn from the same materials used by MIT students on campus
+                </li>
+                <li>
+                  Download, share and modify thousands of learning resources
+                </li>
+                <li>Continue your education at your own pace</li>
+              </ul>
+            </SubHeaderTextContainer>
             <SubHeaderImage />
           </SubHeaderContainer>
-          <BodyText variant="body3">
-            Founded to accelerate the nation's industrial revolution, MIT is
-            profoundly American. With ingenuity and drive, our graduates have
-            invented fundamental technologies, launched new industries, and
-            created millions of American jobs. At the same time, and without the
-            slightest sense of contradiction, MIT is profoundly global. Our
-            community gains tremendous strength as a magnet for talent from
-            around the world. Through teaching, research, and innovation, MIT's
-            exceptional community pursues its mission of service to the nation
-            and the world.
-          </BodyText>
-          <BodyText variant="body3">
-            Founded to accelerate the nation's industrial revolution, MIT is
-            profoundly American. With ingenuity and drive, our graduates have
-            invented fundamental technologies, launched new industries, and
-            created millions of American jobs. At the same time, and without the
-            slightest sense of contradiction, MIT is profoundly global. Our
-            community gains tremendous strength as a magnet for talent from
-            around the world. Through teaching, research, and innovation, MIT's
-            exceptional community pursues its mission of service to the nation
-            and the world. Founded to accelerate the nation's industrial
-            revolution, MIT is profoundly American. With ingenuity and drive,
-            our graduates have invented fundamental technologies, launched new
-            industries, and created millions of American jobs. At the same time,
-            and without the slightest sense of contradiction, MIT is profoundly
-            global. Our community gains tremendous strength as a magnet for
-            talent from around the world. Through teaching, research, and
-            innovation, MIT's exceptional community pursues its mission of
-            service to the nation and the world.
-          </BodyText>
+          <BodySection>
+            <BodyText variant="h4" id={WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER}>
+              What is MIT Open?
+            </BodyText>
+            <BodyText variant="body1">
+              MIT Open is the best place to explore all of MIT's non-degree
+              learning programs. Learners can compare offerings across
+              departments and formats and complete a profile to receive
+              personalized recommendations that match their interests and goals.
+              <br />
+              <br />
+              MIT Open makes it easy to stay up-to-date on the latest non-degree
+              learning resources from MIT. Subscribe to topics, units, and
+              departments of interest to be notified when new courses, programs,
+              and more are added.
+              <br />
+              <br />
+              This portal includes courses and programs from MITx, MIT
+              Bootcamps, MIT OpenCourseWare, MIT Professional Education, MIT
+              Sloan Executive Education, MIT xPRO, and other departments across
+              MIT.
+            </BodyText>
+          </BodySection>
+          <BodySection>
+            <BodyText variant="h4" id={NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER}>
+              What is non-degree learning at MIT?
+            </BodyText>
+            <BodyText variant="body1">
+              MIT's non-degree learning programs provide specific skills,
+              knowledge, or certifications without the time commitment and
+              breadth of study required for a full degree. These programs are
+              designed to be flexible and accessible, allowing professionals,
+              students, and lifelong learners to engage with MIT's educational
+              offerings from anywhere in the world. Many of these resources are
+              free or low-cost. Whether you're looking to upskill, explore a new
+              field, or gain a deeper understanding of a subject, MIT's
+              non-degree learning resources provide a pathway for personal and
+              professional growth.
+            </BodyText>
+          </BodySection>
+          <BodySection>
+            <BodyText
+              variant="h4"
+              id={WHAT_KINDS_OF_CONTENT_FRAGMENT_IDENTIFIER}
+            >
+              What kind of content is available from MIT Open?
+            </BodyText>
+            <BodyText variant="body1">
+              MIT Open organizes non-degree educational opportunities into two
+              categories: academic and professional.
+              <br />
+              <br />
+              MIT's Academic courses, programs, and materials mirror MIT
+              curriculum and residential programs, making these available to a
+              global audience. Approved by faculty committees, academic content
+              furnishes a comprehensive foundation of knowledge, skills, and
+              abilities for students pursuing their academic objectives.
+              Renowned for its rigor and challenge, MIT's academic offerings
+              deliver an experience on par with the campus environment.
+              <br />
+              <br />
+              MIT's Professional courses and programs are tailored for working
+              professionals seeking essential practical skills across various
+              industries. Led by MIT faculty and maintaining challenging
+              standards, Professional courses and programs prioritize real-world
+              applications, emphasize practical skills, and are directly
+              relevant to today's workforce.
+            </BodyText>
+          </BodySection>
         </BodyContainer>
       </PageContainer>
     </Container>
   )
 }
 
-export default AboutPage
+export {
+  AboutPage,
+  WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER,
+  NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER,
+  WHAT_KINDS_OF_CONTENT_FRAGMENT_IDENTIFIER,
+}
