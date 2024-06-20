@@ -1,8 +1,10 @@
 import React, { useState, useCallback } from "react"
 import { useNavigate } from "react-router"
-import { Typography, styled, ChipLink } from "ol-components"
+import { Typography, styled, ChipLink, Link } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
 import { SearchInput, SearchInputProps } from "./SearchInput"
+import { ABOUT } from "@/common/urls"
+import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "../AboutPage/AboutPage"
 
 type SearchChip = {
   label: string
@@ -177,7 +179,12 @@ const HeroSearch: React.FC = () => {
           Learn with MIT
         </Typography>
         <Typography>
-          Explore MIT's <Emphasized>Non-Degree Education</Emphasized>
+          Explore MIT's{" "}
+          <Emphasized>
+            <Link href={`${ABOUT}#${NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER}`}>
+              Non-Degree Education
+            </Link>
+          </Emphasized>
         </Typography>
         <ControlsContainer>
           <SearchInput

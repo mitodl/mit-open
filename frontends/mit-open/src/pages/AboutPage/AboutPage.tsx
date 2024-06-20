@@ -3,6 +3,8 @@ import { MetaTags } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React from "react"
 
+const NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER = "non-degree-learning"
+
 const PageContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -187,7 +189,7 @@ const AboutPage: React.FC = () => {
             </BodyText>
           </BodySection>
           <BodySection>
-            <BodyText variant="h4" id="non-degree-learning">
+            <BodyText variant="h4" id={NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER}>
               What is non-degree learning at MIT?
             </BodyText>
             <BodyText variant="body1">
@@ -236,4 +238,4 @@ const AboutPage: React.FC = () => {
   )
 }
 
-export default AboutPage
+export { AboutPage, NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER }
