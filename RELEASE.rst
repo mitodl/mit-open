@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.9
+Version 0.13.9 (Released June 20, 2024)
 --------------
 
 - removing check for live attribute (#1128)
