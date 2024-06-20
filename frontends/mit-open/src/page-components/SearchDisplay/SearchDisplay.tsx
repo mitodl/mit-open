@@ -12,10 +12,8 @@ import {
   SimpleSelect,
   truncateText,
   css,
-  LearningResourceListCard,
   Drawer,
 } from "ol-components"
-import * as NiceModal from "@ebay/nice-modal-react"
 
 import {
   RiCloseLine,
@@ -44,12 +42,8 @@ import _ from "lodash"
 import { ResourceTypeTabs } from "./ResourceTypeTabs"
 import ProfessionalToggle from "./ProfessionalToggle"
 import type { TabConfig } from "./ResourceTypeTabs"
-import { useUserMe } from "api/hooks/user"
-import {
-  AddToLearningPathDialog,
-  AddToUserListDialog,
-} from "../Dialogs/AddToListDialog"
-import { useResourceDrawerHref } from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
+
+import { ResourceListCard } from "../ResourceCard/ResourceCard"
 
 export const StyledDropdown = styled(SimpleSelect)`
   margin-left: 8px;
@@ -509,22 +503,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     { keepPreviousData: true },
   )
 
-  const { data: user } = useUserMe()
-
-  const getDrawerHref = useResourceDrawerHref()
-
-  const showAddToLearningPathDialog =
-    user?.is_authenticated && user?.is_learning_path_editor
-      ? (resourceId: number) => {
-          NiceModal.show(AddToLearningPathDialog, { resourceId })
-        }
-      : null
-
-  const showAddToUserListDialog = user?.is_authenticated
-    ? (resourceId: number) => {
-        NiceModal.show(AddToUserListDialog, { resourceId })
-      }
-    : null
   const [mobileDrawerOpen, setMobileDrawerOpen] = React.useState(false)
 
   const toggleMobileDrawer = (newOpen: boolean) => () => {
@@ -647,7 +625,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                       .fill(null)
                       .map((a, index) => (
                         <li key={index}>
-                          <LearningResourceListCard isLoading={isLoading} />
+                          <ResourceListCard isLoading={isLoading} />
                         </li>
                       ))}
                   </PlainList>
@@ -655,12 +633,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   <PlainList itemSpacing={1.5}>
                     {data.results.map((resource) => (
                       <li key={resource.id}>
-                        <LearningResourceListCard
-                          resource={resource}
-                          href={getDrawerHref(resource.id)}
-                          onAddToLearningPathClick={showAddToLearningPathDialog}
-                          onAddToUserListClick={showAddToUserListDialog}
-                        />
+                        <ResourceListCard resource={resource} />
                       </li>
                     ))}
                   </PlainList>

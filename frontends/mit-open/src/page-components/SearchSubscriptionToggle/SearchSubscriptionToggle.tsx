@@ -11,14 +11,18 @@ import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp"
 import { useUserMe } from "api/hooks/user"
 import { SourceTypeEnum } from "api"
 import MailOutlineIcon from "@mui/icons-material/MailOutline"
+import { SignupPopover } from "../SignupPopover/SignupPopover"
 
-const SearchSubscriptionToggle = ({
-  searchParams,
-  sourceType,
-}: {
+type SearchSubscriptionToggleProps = {
   searchParams: URLSearchParams
   sourceType: SourceTypeEnum
+}
+
+const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
+  searchParams,
+  sourceType,
 }) => {
+  const [buttonEl, setButtonEl] = React.useState<null | HTMLElement>(null)
   const subscribeParams: Record<string, string[] | string> = useMemo(() => {
     return { source_type: sourceType, ...getSearchParamMap(searchParams) }
   }, [searchParams, sourceType])
@@ -27,7 +31,7 @@ const SearchSubscriptionToggle = ({
   const subscriptionDelete = useSearchSubscriptionDelete()
   const subscriptionCreate = useSearchSubscriptionCreate()
   const subscriptionList = useSearchSubscriptionList(subscribeParams, {
-    enabled: user?.is_authenticated,
+    enabled: !!user?.is_authenticated,
   })
 
   const unsubscribe = subscriptionDelete.mutate
@@ -44,14 +48,14 @@ const SearchSubscriptionToggle = ({
     ]
   }, [unsubscribe, subscriptionId])
 
-  if (subscriptionList.isLoading) return null
-  if (!user?.is_authenticated) return null
+  if (user?.is_authenticated && subscriptionList.isLoading) return null
+  if (!user) return null
   if (isSubscribed) {
     return (
       <SimpleMenu
         trigger={
           <Button variant="primary" endIcon={<ExpandMoreSharpIcon />}>
-            Follow
+            Following
           </Button>
         }
         items={unsubscribeItems}
@@ -59,19 +63,27 @@ const SearchSubscriptionToggle = ({
     )
   }
   return (
-    <Button
-      variant="primary"
-      disabled={subscriptionCreate.isLoading}
-      startIcon={<MailOutlineIcon />}
-      onClick={() =>
-        subscriptionCreate.mutateAsync({
-          PercolateQuerySubscriptionRequestRequest: subscribeParams,
-        })
-      }
-    >
-      Follow
-    </Button>
+    <>
+      <Button
+        variant="primary"
+        disabled={subscriptionCreate.isLoading}
+        startIcon={<MailOutlineIcon />}
+        onClick={(e) => {
+          if (user?.is_authenticated) {
+            subscriptionCreate.mutateAsync({
+              PercolateQuerySubscriptionRequestRequest: subscribeParams,
+            })
+          } else {
+            setButtonEl(e.currentTarget)
+          }
+        }}
+      >
+        Follow
+      </Button>
+      <SignupPopover anchorEl={buttonEl} onClose={() => setButtonEl(null)} />
+    </>
   )
 }
 
 export { SearchSubscriptionToggle }
+export type { SearchSubscriptionToggleProps }

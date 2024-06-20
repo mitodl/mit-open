@@ -85,7 +85,10 @@ const StyledActionButton = styled(ActionButton)<{ edge: string }>`
       : ""}
 `
 
-type ResourceIdCallback = (resourceId: number) => void
+type ResourceIdCallback = (
+  event: React.MouseEvent<HTMLButtonElement>,
+  resourceId: number,
+) => void
 
 const getEmbedlyUrl = (url: string, isMobile: boolean) => {
   return embedlyCroppedImage(url, {
@@ -396,7 +399,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
             color="secondary"
             size="small"
             aria-label="Add to Learning Path"
-            onClick={() => onAddToLearningPathClick(resource.id)}
+            onClick={(event) => onAddToLearningPathClick(event, resource.id)}
           >
             <RiMenuAddLine />
           </StyledActionButton>
@@ -408,7 +411,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
             color="secondary"
             size="small"
             aria-label="Add to User List"
-            onClick={() => onAddToUserListClick(resource.id)}
+            onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
             <RiBookmarkLine />
           </StyledActionButton>
@@ -427,3 +430,4 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
 }
 
 export { LearningResourceListCard }
+export type { LearningResourceListCardProps }

@@ -1,5 +1,4 @@
 import React from "react"
-import * as NiceModal from "@ebay/nice-modal-react"
 import {
   useFeaturedLearningResourcesList,
   useLearningResourcesList,
@@ -12,7 +11,6 @@ import {
   TabContext,
   TabButtonList,
   styled,
-  LearningResourceCard,
   Typography,
 } from "ol-components"
 import type {
@@ -22,12 +20,7 @@ import type {
   FeaturedDataSource,
 } from "./types"
 import { LearningResource } from "api"
-import { useUserMe } from "api/hooks/user"
-import {
-  AddToLearningPathDialog,
-  AddToUserListDialog,
-} from "../Dialogs/AddToListDialog"
-import { useResourceDrawerHref } from "../LearningResourceDrawer/LearningResourceDrawer"
+import { ResourceCard } from "../ResourceCard/ResourceCard"
 
 const StyledCarousel = styled(Carousel)({
   /**
@@ -261,23 +254,8 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   className,
   isLoading,
 }) => {
-  const { data: user } = useUserMe()
   const [tab, setTab] = React.useState("0")
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
-  const getDrawerHref = useResourceDrawerHref()
-
-  const showAddToLearningPathDialog =
-    user?.is_authenticated && user?.is_learning_path_editor
-      ? (resourceId: number) => {
-          NiceModal.show(AddToLearningPathDialog, { resourceId })
-        }
-      : null
-
-  const showAddToUserListDialog = user?.is_authenticated
-    ? (resourceId: number) => {
-        NiceModal.show(AddToUserListDialog, { resourceId })
-      }
-    : null
 
   return (
     <MobileOverflow className={className}>
@@ -305,7 +283,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
             <StyledCarousel arrowsContainer={ref}>
               {isLoading || childrenLoading
                 ? Array.from({ length: 6 }).map((_, index) => (
-                    <LearningResourceCard
+                    <ResourceCard
                       isLoading
                       key={index}
                       resource={null}
@@ -313,13 +291,10 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
                     />
                   ))
                 : resources.map((resource) => (
-                    <LearningResourceCard
+                    <ResourceCard
                       key={resource.id}
                       resource={resource}
                       {...tabConfig.cardProps}
-                      href={getDrawerHref(resource.id)}
-                      onAddToLearningPathClick={showAddToLearningPathDialog}
-                      onAddToUserListClick={showAddToUserListDialog}
                     />
                   ))}
             </StyledCarousel>

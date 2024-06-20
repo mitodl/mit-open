@@ -36,7 +36,10 @@ const getEmbedlyUrl = (resource: LearningResource, size: Size) => {
   })
 }
 
-type ResourceIdCallback = (resourceId: number) => void
+type ResourceIdCallback = (
+  event: React.MouseEvent<HTMLButtonElement>,
+  resourceId: number,
+) => void
 
 const Info = ({ resource }: { resource: LearningResource }) => {
   return (
@@ -169,7 +172,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
             color="secondary"
             size="small"
             aria-label="Add to Learning Path"
-            onClick={() => onAddToLearningPathClick(resource.id)}
+            onClick={(event) => onAddToLearningPathClick(event, resource.id)}
           >
             <RiMenuAddLine />
           </ActionButton>
@@ -181,7 +184,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
             color="secondary"
             size="small"
             aria-label="Add to User List"
-            onClick={() => onAddToUserListClick(resource.id)}
+            onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
             <RiBookmarkLine />
           </ActionButton>
@@ -195,3 +198,4 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
 }
 
 export { LearningResourceCard }
+export type { LearningResourceCardProps }

@@ -179,6 +179,7 @@ export * from "./components/TruncateText/TruncateText"
 export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/RadioChoiceField/RadioChoiceField"
 export * from "./components/ChoiceBox/ChoiceBox"
+export * from "./components/Popover/Popover"
 
 export * from "./constants/imgConfigs"
 
