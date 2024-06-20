@@ -189,7 +189,7 @@ const SearchPage: React.FC = () => {
                 onClear={() => {
                   setCurrentTextAndQuery("")
                 }}
-                placeholder="Search for resources"
+                placeholder="What do you want to learn?"
               />
             </Grid>
           </GridContainer>
