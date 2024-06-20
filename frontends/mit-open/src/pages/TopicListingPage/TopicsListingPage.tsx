@@ -288,6 +288,7 @@ const ToopicsListingPage: React.FC = () => {
           />
         }
         title="Browse by Topic"
+        description=""
         backgroundUrl={TOPICS_BANNER_IMAGE}
       />
       <Container>
