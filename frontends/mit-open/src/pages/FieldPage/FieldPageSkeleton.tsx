@@ -37,7 +37,7 @@ export const FieldTitleRow = styled.div`
 const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
   margin: "80px 0",
   [theme.breakpoints.down("sm")]: {
-    marginTop: "0px",
+    marginTop: "32px",
     marginBottom: "32px",
   },
 }))

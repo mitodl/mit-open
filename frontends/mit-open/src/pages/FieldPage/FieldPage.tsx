@@ -10,6 +10,11 @@ import type {
 } from "@mitodl/course-search-utils"
 import { ChannelTypeEnum } from "api/v0"
 import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
+import { styled } from "ol-components"
+
+export const StyledTestimonialDisplay = styled(TestimonialDisplay)`
+  margin-bottom: 80px;
+`
 
 type RouteParams = {
   channelType: ChannelTypeEnum
@@ -34,7 +39,7 @@ const FieldPage: React.FC = () => {
       <FieldPageSkeleton name={name} channelType={channelType}>
         <p>{fieldQuery.data?.public_description}</p>
         {channelType === "unit" ? (
-          <TestimonialDisplay offerors={[name]} />
+          <StyledTestimonialDisplay offerors={[name]} />
         ) : null}
         {fieldQuery.data?.search_filter && (
           <FieldSearch

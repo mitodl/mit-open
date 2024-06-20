@@ -21,6 +21,10 @@ const QuoteContainer = styled.section(({ theme }) => ({
   color: theme.custom.colors.white,
   overflow: "auto",
   padding: "16px 0 24px 0",
+  marginBottom: "80px",
+  [theme.breakpoints.down("md")]: {
+    marginBottom: "40px",
+  },
 }))
 
 const QuoteBlock = styled.div(() => ({

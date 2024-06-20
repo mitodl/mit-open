@@ -179,7 +179,13 @@ describe("FieldSearch", () => {
   test.each([
     {
       fieldType: ChannelTypeEnum.Topic,
-      displayedFacets: ["Certificate", "Offered By", "Department", "Format"],
+      displayedFacets: [
+        "Professional",
+        "Certificate",
+        "Offered By",
+        "Department",
+        "Format",
+      ],
     },
     {
       fieldType: ChannelTypeEnum.Department,
@@ -231,6 +237,7 @@ describe("FieldSearch", () => {
       const facetsContainer = screen.getByTestId("facets-container")
 
       for (const facetName of [
+        "Professional",
         "Certificate",
         "Department",
         "Offered By",

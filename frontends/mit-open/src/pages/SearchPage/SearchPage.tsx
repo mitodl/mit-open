@@ -48,8 +48,10 @@ const BackgroundImage = styled.img`
 `
 
 const SearchField = styled(SearchInput)`
-  background-color: ${({ theme }) => theme.custom.colors.white};
-  width: 100%;
+  ${({ theme }) => theme.breakpoints.up("md")} {
+    width: 680px;
+    min-width: 680px;
+  }
 `
 
 export const getFacetManifest = (
@@ -178,7 +180,7 @@ const SearchPage: React.FC = () => {
         <BackgroundImage src="/static/images/search_page_vector.png" />
         <Container>
           <GridContainer>
-            <GridColumn variant="sidebar-2-wide-main"></GridColumn>
+            <GridColumn variant="sidebar-2"></GridColumn>
             <Grid item xs={12} md={6} container alignItems="center">
               <SearchField
                 value={currentText}
@@ -207,6 +209,7 @@ const SearchPage: React.FC = () => {
         clearAllFacets={clearAllFacets}
         toggleParamValue={toggleParamValue}
         patchParams={patchParams}
+        showProfessionalToggle
       />
     </>
   )
