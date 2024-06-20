@@ -48,11 +48,11 @@ const BodyText = styled(Typography)(({ theme }) => ({
 }))
 
 const OrderedList = styled.ol(({ theme }) => ({
-  ...theme.typography.body3,
+  ...theme.typography.body1,
 }))
 
 const UnorderedList = styled.ul(({ theme }) => ({
-  ...theme.typography.body3,
+  ...theme.typography.body1,
 }))
 
 const TermsPage: React.FC = () => {
@@ -71,7 +71,7 @@ const TermsPage: React.FC = () => {
           </BannerContainerInner>
         </BannerContainer>
         <BodyContainer>
-          <BodyText variant="body3">
+          <BodyText variant="body1">
             Welcome to the MIT OPEN website (the “Site”). By accessing this
             Site, users agree to be bound by the following terms and conditions
             which MIT may revise at any time. Users are encouraged to visit this
@@ -202,7 +202,7 @@ const TermsPage: React.FC = () => {
               the legal forum for any such dispute.
             </li>
           </OrderedList>
-          <BodyText variant="subtitle3">
+          <BodyText variant="subtitle1">
             This policy was last updated in June 2024.
           </BodyText>
         </BodyContainer>
