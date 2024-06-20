@@ -14,7 +14,7 @@ const PageContainer = styled.div(({ theme }) => ({
   alignSelf: "stretch",
   padding: "40px 84px 80px 84px",
   [theme.breakpoints.down("md")]: {
-    padding: "40px 24px 80px 24px",
+    padding: "40px 0 80px 0",
   },
 }))
 
@@ -55,6 +55,9 @@ const MissionStatementContainer = styled.div(({ theme }) => ({
   gap: "16px",
   alignSelf: "stretch",
   backgroundColor: theme.custom.colors.white,
+  [theme.breakpoints.down("md")]: {
+    padding: "16px 16px",
+  },
 }))
 
 const MissionStatementHeader = styled(Typography)(({ theme }) => ({
