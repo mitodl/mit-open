@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.10
+Version 0.13.10 (Released June 20, 2024)
 ---------------
 
 - Channel page updates (#1126)
