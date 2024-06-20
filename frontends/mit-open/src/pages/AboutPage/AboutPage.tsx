@@ -127,12 +127,12 @@ const AboutPage: React.FC = () => {
               century, MIT took that mission online, bringing learning resources
               to a broader audience through digital platforms. Today, MIT is
               advancing this mission further by providing non-degree learning
-              resources - online, in-person, and blended courses and programs
-              that offer the opportunity to learn from MIT faculty, industry
-              experts, and a global community of learners without enrolling in a
-              degree-seeking program. Through these resources, millions of
-              learners have gained the knowledge and tools needed to advance
-              their academic and professional goals.
+              resources &ndash; online, in-person, and blended courses and
+              programs that offer the opportunity to learn from MIT faculty,
+              industry experts, and a global community of learners without
+              enrolling in a degree-seeking program. Through these resources,
+              millions of learners have gained the knowledge and tools needed to
+              advance their academic and professional goals.
             </BodyText>
           </MissionStatementContainer>
           <SubHeaderContainer>
