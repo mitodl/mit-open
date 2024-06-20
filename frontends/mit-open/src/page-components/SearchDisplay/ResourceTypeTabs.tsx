@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useMemo } from "react"
 import {
   TabButton,
   TabContext,
@@ -6,7 +6,7 @@ import {
   TabPanel,
   styled,
 } from "ol-components"
-import type { ResourceTypeEnum, LearningResourceSearchResponse } from "api"
+import { ResourceTypeEnum, LearningResourceSearchResponse } from "api"
 
 const TabsList = styled(TabButtonList)({
   ".MuiTabScrollButton-root.Mui-disabled": {
@@ -19,8 +19,10 @@ const CountSpan = styled.span`
   text-align: left;
 `
 type TabConfig = {
-  resource_type: ResourceTypeEnum
   label: string
+  name: string
+  defaultTab?: boolean
+  resource_type: ResourceTypeEnum[]
 }
 
 type Aggregations = LearningResourceSearchResponse["metadata"]["aggregations"]
@@ -29,14 +31,14 @@ const resourceTypeCounts = (aggregations?: Aggregations) => {
   const buckets = aggregations?.resource_type ?? []
   const counts = buckets.reduce(
     (acc, bucket) => {
-      acc[bucket.key] = bucket.doc_count
+      acc[bucket.key as ResourceTypeEnum] = bucket.doc_count
       return acc
     },
-    {} as Record<string, number>,
+    {} as Record<ResourceTypeEnum, number>,
   )
   return counts
 }
-const appendCount = (label: string, count?: number) => {
+const appendCount = (label: string, count?: number | null) => {
   if (Number.isFinite(count)) {
     return (
       <>
@@ -51,53 +53,61 @@ const appendCount = (label: string, count?: number) => {
  *
  */
 const ResourceTypesTabContext: React.FC<{
-  resourceType?: ResourceTypeEnum
+  activeTabName: string
   children: React.ReactNode
-}> = ({ resourceType, children }) => {
-  const tab = resourceType ?? "all"
-  return <TabContext value={tab}>{children}</TabContext>
+}> = ({ activeTabName, children }) => {
+  return <TabContext value={activeTabName}>{children}</TabContext>
 }
 
 type ResourceTypeTabsProps = {
   aggregations?: Aggregations
   tabs: TabConfig[]
-  patchParams: ({
-    resource_type,
-  }: {
-    resource_type: ResourceTypeEnum[]
-  }) => void
-  onTabChange?: (tab: ResourceTypeEnum | "all") => void
+  setSearchParams: (fn: (prev: URLSearchParams) => URLSearchParams) => void
+  onTabChange?: () => void
   className?: string
 }
 const ResourceTypeTabList: React.FC<ResourceTypeTabsProps> = ({
   tabs,
   aggregations,
-  patchParams,
+  setSearchParams,
   onTabChange,
   className,
 }) => {
-  const counts = resourceTypeCounts(aggregations)
-  const allCount = counts
-    ? tabs.reduce((acc, tab) => acc + (counts[tab.resource_type] ?? 0), 0)
-    : undefined
+  const withCounts = useMemo(() => {
+    const counts = resourceTypeCounts(aggregations)
+    return tabs.map((t) => {
+      const resourceTypes =
+        t.resource_type.length === 0
+          ? Object.values(ResourceTypeEnum)
+          : t.resource_type
+      const count = counts
+        ? resourceTypes
+            .map((rt) => counts[rt] ?? 0)
+            .reduce((acc, c) => acc + c, 0)
+        : null
+      return { ...t, label: appendCount(t.label, count) }
+    })
+  }, [tabs, aggregations])
   return (
     <TabsList
       className={className}
       onChange={(_e, value) => {
-        patchParams({ resource_type: value === "all" ? [] : [value] })
-        onTabChange?.(value)
+        const tab = tabs.find((t) => t.name === value)
+        if (!tab) return
+        setSearchParams((prev) => {
+          const next = new URLSearchParams(prev)
+          if (tab.defaultTab) {
+            next.delete("tab")
+          } else {
+            next.set("tab", value)
+          }
+          return next
+        })
+        onTabChange?.()
       }}
     >
-      <TabButton value="all" label={appendCount("All", allCount)} />
-      {tabs.map((t) => {
-        const count = counts ? counts[t.resource_type] ?? 0 : undefined
-        return (
-          <TabButton
-            key={t.resource_type}
-            value={t.resource_type}
-            label={appendCount(t.label, count)}
-          />
-        )
+      {withCounts.map((t) => {
+        return <TabButton key={t.name} value={t.name} label={t.label} />
       })}
     </TabsList>
   )
@@ -109,9 +119,8 @@ const ResourceTypeTabPanels: React.FC<{
 }> = ({ tabs, children }) => {
   return (
     <>
-      <TabPanel value="all">{children}</TabPanel>
       {tabs.map((t) => (
-        <TabPanel key={t.resource_type} value={t.resource_type}>
+        <TabPanel key={t.name} value={t.name}>
           {children}
         </TabPanel>
       ))}

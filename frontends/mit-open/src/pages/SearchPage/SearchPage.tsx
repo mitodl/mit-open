@@ -158,7 +158,6 @@ const SearchPage: React.FC = () => {
     params,
     hasFacets,
     clearAllFacets,
-    patchParams,
     toggleParamValue,
     currentText,
     setCurrentText,
@@ -199,6 +198,7 @@ const SearchPage: React.FC = () => {
       </ColoredHeader>
       <SearchDisplay
         page={page}
+        setSearchParams={setSearchParams}
         requestParams={params}
         setPage={setPage}
         facetManifest={facetManifest as FacetManifest}
@@ -208,7 +208,6 @@ const SearchPage: React.FC = () => {
         setParamValue={setParamValue}
         clearAllFacets={clearAllFacets}
         toggleParamValue={toggleParamValue}
-        patchParams={patchParams}
         showProfessionalToggle
       />
     </>
