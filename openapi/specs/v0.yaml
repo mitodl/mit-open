@@ -873,13 +873,19 @@ components:
           readOnly: true
         avatar:
           type: string
-          format: uri
+          nullable: true
+          description: Get the avatar image URL
+          readOnly: true
         avatar_small:
           type: string
-          format: uri
+          nullable: true
+          description: Get the avatar_small image URL
+          readOnly: true
         avatar_medium:
           type: string
-          format: uri
+          nullable: true
+          description: Get the avatar_medium image URL
+          readOnly: true
         cover:
           type: string
           nullable: true
