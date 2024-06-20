@@ -258,7 +258,7 @@ const TestimonialsSection: React.FC = () => {
       <Container id="hamster-noises">
         <Typography variant="h2">From our Community</Typography>
         <Typography variant="h3">
-          Here's what other subscribers had to say about MIT Open
+          Transforming education through the eyes of our learners
         </Typography>
       </Container>
       <SlickCarousel />
