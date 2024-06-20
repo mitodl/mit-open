@@ -1,6 +1,21 @@
 Release Notes
 =============
 
+Version 0.13.9 (Released June 20, 2024)
+--------------
+
+- removing check for live attribute (#1128)
+- Shanbady/copy edits for milestone demo (#1125)
+- Signup Popover (#1109)
+- show podcast_episode in media carousel all (#1123)
+- Updates to page titles (#1121)
+- Shanbady/minor UI updates (#1118)
+- Shanbady/navigation UI fixes (#1119)
+- mitx - only ingest published courses (#1102)
+- Make resource.prices = most recent published run prices if there is no next run (#1116)
+- switch default sort to use popular instead of created on (#1120)
+- Fix populate_featured_lists mgmt command (#1097)
+
 Version 0.13.8 (Released June 20, 2024)
 --------------
 
