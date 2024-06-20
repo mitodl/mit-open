@@ -63,7 +63,7 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
     {
       name: "department",
       title: "Department",
-      order: 0,
+      order: -2,
     },
     {
       name: "offerings",
@@ -169,7 +169,7 @@ const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
     .sort((a, b) => {
       if (!("order" in a)) return 1
       if (!("order" in b)) return -1
-      return a.order - b.order
+      return a?.order - b?.order
     })
     .map((value) => {
       const detailValue = (
