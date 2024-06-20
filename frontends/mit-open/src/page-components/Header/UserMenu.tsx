@@ -157,7 +157,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               reloadDocument={true}
               href={loginUrl}
             >
-              Sign Up / Log In
+              Log In
             </ButtonLink>
           </FlexContainer>
         ) : (

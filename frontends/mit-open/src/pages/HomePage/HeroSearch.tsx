@@ -213,7 +213,7 @@ const HeroSearch: React.FC = () => {
                 grow
                 variant="outlined"
                 size="medium"
-                label="Browse by Topics"
+                label="Browse by Topic"
                 href="/topics/"
               />
               <SquaredChip

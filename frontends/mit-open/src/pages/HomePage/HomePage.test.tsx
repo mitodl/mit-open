@@ -101,7 +101,7 @@ describe("Home Page Hero", () => {
       { label: "Upcoming", href: "/search?sortby=upcoming" },
       { label: "Free", href: "/search?free=true" },
       { label: "With Certificate", href: "/search?certification=true" },
-      { label: "Browse by Topics", href: "/topics/" },
+      { label: "Browse by Topic", href: "/topics/" },
       { label: "Explore All", href: "/search/" },
     ]
     expected.forEach(({ label, href }) => {
@@ -131,7 +131,7 @@ describe("Home Page Carousel", () => {
       },
     },
     {
-      tab: "Professional and Executive Learning",
+      tab: "Professional & Executive Learning",
       params: { resource_type: ["course"], limit: 12, professional: true },
     },
   ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
@@ -165,7 +165,7 @@ describe("Home Page Carousel", () => {
     within(featured).getByRole("tab", { name: "Free" })
     within(featured).getByRole("tab", { name: "With Certificate" })
     within(featured).getByRole("tab", {
-      name: "Professional and Executive Learning",
+      name: "Professional & Executive Learning",
     })
     within(media).getByRole("tab", { name: "All" })
     within(media).getByRole("tab", { name: "Videos" })
@@ -173,7 +173,7 @@ describe("Home Page Carousel", () => {
   })
 })
 
-describe("Home Page Browse by Topics", () => {
+describe("Home Page Browse by Topic", () => {
   test("Displays topics links", async () => {
     setupAPIs()
     const response = learningResources.topics({ count: 3 })
@@ -184,7 +184,7 @@ describe("Home Page Browse by Topics", () => {
     await waitFor(() => {
       const section = screen
         .getByRole("heading", {
-          name: "Browse by Topics",
+          name: "Browse by Topic",
         })!
         .closest("section")!
 

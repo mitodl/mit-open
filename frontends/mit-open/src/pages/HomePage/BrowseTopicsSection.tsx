@@ -99,7 +99,7 @@ const BrowseTopicsSection: React.FC = () => {
   return (
     <Section>
       <Container>
-        <Title variant="h2">Browse by Topics</Title>
+        <Title variant="h2">Browse by Topic</Title>
         <Topics>
           {topics?.results.map(({ id, name, channel_url: channelUrl }) => {
             return (

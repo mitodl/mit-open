@@ -92,7 +92,7 @@ describe("DepartmentListingPage", () => {
     await waitFor(() => {
       expect(document.title).toBe("Topics | MIT Open")
     })
-    screen.getByRole("heading", { name: "Topics" })
+    screen.getByRole("heading", { name: "Browse by Topic" })
   })
 
   it("Lists subtopics grouped by topic", async () => {
