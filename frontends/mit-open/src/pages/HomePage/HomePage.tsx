@@ -7,6 +7,7 @@ import NewsEventsSection from "./NewsEventsSection"
 import TestimonialsSection from "./TestimonialsSection"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 import PersonalizeSection from "./PersonalizeSection"
+import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
 import * as carousels from "./carousels"
 
 const FullWidthBackground = styled.div(({ theme }) => ({
@@ -46,6 +47,7 @@ const HomePage: React.FC = () => {
           />
         </Container>
       </FullWidthBackground>
+      <TestimonialDisplay offerors={["xpro"]} />
       <PersonalizeSection />
       <Container>
         <MediaCarousel title="Media" config={carousels.MEDIA_CAROUSEL} />

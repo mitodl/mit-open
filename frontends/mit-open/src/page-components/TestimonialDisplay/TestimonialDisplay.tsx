@@ -2,7 +2,7 @@ import React from "react"
 
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
-import { ActionButton, styled, theme } from "ol-components"
+import { ActionButton, TruncateText, styled, theme } from "ol-components"
 import AttestantBlock from "./AttestantBlock"
 import { useTestimonialList } from "api/hooks/testimonials"
 import type { Attestation } from "api/v0"
@@ -15,6 +15,23 @@ type TestimonialDisplayProps = {
 type InternalTestimonialDisplayProps = {
   attestation: Attestation
 }
+
+const TestimonialTruncateText = styled(TruncateText)({
+  [theme.breakpoints.down("md")]: {
+    ...theme.typography.subtitle1,
+    WebkitLineClamp: 6,
+    ["@supports (-webkit-line-clamp: 6)"]: {
+      WebkitLineClamp: 6,
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    ...theme.typography.subtitle2,
+    WebkitLineClamp: 8,
+    ["@supports (-webkit-line-clamp: 8)"]: {
+      WebkitLineClamp: 8,
+    },
+  },
+})
 
 const QuoteContainer = styled.section(({ theme }) => ({
   backgroundColor: theme.custom.colors.darkGray2,
@@ -79,7 +96,11 @@ const InteriorTestimonialDisplay: React.FC<InternalTestimonialDisplayProps> = ({
 }) => {
   return (
     <QuoteBody>
-      <AttestationBlock>{attestation?.quote}</AttestationBlock>
+      <AttestationBlock>
+        <TestimonialTruncateText lineClamp={4}>
+          {attestation?.quote}
+        </TestimonialTruncateText>
+      </AttestationBlock>
       <AttestantBlock attestation={attestation} />
     </QuoteBody>
   )
