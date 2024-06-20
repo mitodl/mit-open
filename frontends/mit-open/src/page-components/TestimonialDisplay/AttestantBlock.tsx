@@ -105,7 +105,7 @@ const AttestantBlock: React.FC<AttestantBlockProps> = ({
   return (
     <AttestantBlockContainer variant={variant} color={color}>
       <AttestantAvatar variant={variant} color={color} avatar={avatar}>
-        {attestation.avatar ? (
+        {attestation.avatar_medium ? (
           <img src={attestation.avatar_medium} />
         ) : (
           <StyledRiAccountCircleFill />
