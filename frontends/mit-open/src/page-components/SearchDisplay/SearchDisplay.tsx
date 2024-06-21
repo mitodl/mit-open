@@ -129,16 +129,22 @@ export const FacetStyles = styled.div`
   .filter-section-button {
     ${({ theme }) => css({ ...theme.typography.subtitle2 })}
     color: ${({ theme }) => theme.custom.colors.darkGray2};
-    padding-left: 0;
+    padding: 0;
     background-color: transparent;
     display: flex;
     width: 100%;
     border: none;
     cursor: pointer;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
 
     i {
       color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+    }
+
+    &:hover i {
+      color: ${({ theme }) => theme.custom.colors.darkGray2};
     }
   }
 
@@ -157,8 +163,8 @@ export const FacetStyles = styled.div`
   }
 
   .facet-visible {
-    margin-top: 4.5px;
-    margin-bottom: 4.5px;
+    margin-top: 6px;
+    margin-bottom: 6px;
   }
 
   .facet-visible:last-child {
@@ -179,6 +185,14 @@ export const FacetStyles = styled.div`
     padding-right: 24px;
     margin-top: 0;
     margin-bottom: 0;
+    max-height: 55px;
+    transition: max-height 0.4s ease-out;
+    overflow: hidden;
+
+    &.facets-expanded {
+      max-height: 600px;
+      transition: max-height 0.4s ease-in;
+    }
 
     .facet-visible {
       display: flex;
@@ -187,6 +201,7 @@ export const FacetStyles = styled.div`
       height: 25px;
       font-size: 0.875em;
       gap: 4px;
+      margin-left: -2px;
 
       input,
       label {
@@ -268,7 +283,7 @@ export const FacetStyles = styled.div`
   input.facet-filter {
     background-color: initial;
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 0;
     margin-bottom: 10px;
     width: 100%;
   }

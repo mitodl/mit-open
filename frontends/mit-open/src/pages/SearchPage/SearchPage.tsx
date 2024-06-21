@@ -74,6 +74,7 @@ export const getFacetManifest = (
       title: "Certificate",
       type: "static",
       expandedOnLoad: true,
+      preserveItems: true,
       labelFunction: (key: string) => getCertificationTypeName(key) || key,
     },
     {
@@ -81,12 +82,14 @@ export const getFacetManifest = (
       title: "Topic",
       type: "filterable",
       expandedOnLoad: true,
+      preserveItems: true,
     },
     {
       name: "learning_format",
       title: "Format",
       type: "static",
       expandedOnLoad: true,
+      preserveItems: true,
       labelFunction: (key: string) =>
         key
           .split("_")
@@ -98,6 +101,7 @@ export const getFacetManifest = (
       title: "Offered By",
       type: "static",
       expandedOnLoad: false,
+      preserveItems: true,
       labelFunction: (key: string) => offerors[key]?.name ?? key,
     },
     {
@@ -105,6 +109,7 @@ export const getFacetManifest = (
       title: "Department",
       type: "filterable",
       expandedOnLoad: false,
+      preserveItems: true,
       labelFunction: (key: string) => getDepartmentName(key) || key,
     },
   ]
