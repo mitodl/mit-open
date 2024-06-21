@@ -180,7 +180,7 @@ const HeroSearch: React.FC = () => {
           <BoldLink
             href={`${ABOUT}#${NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER}`}
           >
-            Non-Degree Education
+            Non-Degree Learning
           </BoldLink>
         </Typography>
         <ControlsContainer>
