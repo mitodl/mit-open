@@ -146,7 +146,7 @@ def test_get_profile(logged_in, user, user_client):
 
 
 def test_get_profile_automatically_creates_profile(user, user_client):
-    """Anonymous users should be able to view a person's profile"""
+    """Profiles should automatically get created for users without one"""
     user.profile.delete()
     url = reverse("profile:v0:profile_api-detail", kwargs={"user__username": "me"})
     resp = user_client.get(url)
