@@ -155,13 +155,6 @@ export const FacetStyles = styled.div`
     }
   }
 
-  .facet-visible.checked,
-  .facet-visible:hover {
-    .facet-label label {
-      color: ${({ theme }) => theme.custom.colors.darkGray2};
-    }
-  }
-
   .facet-visible {
     margin-top: 4.5px;
     margin-bottom: 4.5px;
@@ -226,6 +219,13 @@ export const FacetStyles = styled.div`
       }
     }
 
+    .facet-visible.checked,
+    .facet-visible:hover {
+      .facet-label label {
+        color: ${({ theme }) => theme.custom.colors.darkGray2};
+      }
+    }
+
     .facet-more-less {
       cursor: pointer;
       color: ${({ theme }) => theme.palette.text.secondary};
@@ -282,6 +282,7 @@ export const FacetStyles = styled.div`
     padding-bottom: 12px;
     padding-top: 10px;
 
+    /* stylelint-disable no-descending-specificity */
     .facet-visible {
       .facet-label {
         label,
@@ -292,6 +293,7 @@ export const FacetStyles = styled.div`
 
       margin-bottom: 0;
     }
+    /* stylelint-enable no-descending-specificity */
   }
 `
 
