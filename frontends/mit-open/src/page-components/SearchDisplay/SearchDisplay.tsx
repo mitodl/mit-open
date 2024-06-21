@@ -287,7 +287,7 @@ export const FacetStyles = styled.div`
       .facet-label {
         label,
         .facet-count {
-          color: black;
+          color: ${({ theme }) => theme.custom.colors.darkGray2};
         }
       }
 
