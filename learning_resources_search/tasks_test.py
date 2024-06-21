@@ -123,6 +123,8 @@ def test_start_recreate_index(mocker, mocked_celery, user, indexes):
     recreate_index should recreate the OpenSearch index and reindex all data with it
     """
     settings.OPENSEARCH_INDEXING_CHUNK_SIZE = 2
+    settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE = 2
+
     mock_blocklist = mocker.patch(
         "learning_resources_search.tasks.load_course_blocklist", return_value=[]
     )
@@ -132,6 +134,11 @@ def test_start_recreate_index(mocker, mocked_celery, user, indexes):
             CourseFactory.create_batch(4, etl_source=ETLSource.ocw.value),
             key=lambda course: course.learning_resource_id,
         )
+
+        for course in ocw_courses:
+            ContentFileFactory.create_batch(
+                3, run=course.learning_resource.runs.first()
+            )
 
         oll_courses = CourseFactory.create_batch(2, etl_source=ETLSource.ocw.value)
 
@@ -148,8 +155,8 @@ def test_start_recreate_index(mocker, mocked_celery, user, indexes):
     index_learning_resources_mock = mocker.patch(
         "learning_resources_search.tasks.index_learning_resources", autospec=True
     )
-    index_course_files_mock = mocker.patch(
-        "learning_resources_search.tasks.index_course_content_files", autospec=True
+    index_files_mock = mocker.patch(
+        "learning_resources_search.tasks.index_content_files", autospec=True
     )
 
     backing_index = "backing"
@@ -198,14 +205,23 @@ def test_start_recreate_index(mocker, mocked_celery, user, indexes):
             index_types=IndexestoUpdate.reindexing_index.value,
         )
 
-        index_course_files_mock.si.assert_any_call(
-            [ocw_courses[0].learning_resource_id, ocw_courses[1].learning_resource_id],
-            index_types=IndexestoUpdate.reindexing_index.value,
-        )
-        index_course_files_mock.si.assert_any_call(
-            [ocw_courses[2].learning_resource_id, ocw_courses[3].learning_resource_id],
-            index_types=IndexestoUpdate.reindexing_index.value,
-        )
+        for course in ocw_courses:
+            content_file_ids = (
+                course.learning_resource.runs.first()
+                .content_files.order_by("id")
+                .values_list("id", flat=True)
+            )
+            index_files_mock.si.assert_any_call(
+                [content_file_ids[0], content_file_ids[1]],
+                course.learning_resource_id,
+                index_types=IndexestoUpdate.reindexing_index.value,
+            )
+
+            index_files_mock.si.assert_any_call(
+                [content_file_ids[2]],
+                course.learning_resource_id,
+                index_types=IndexestoUpdate.reindexing_index.value,
+            )
 
     if PROGRAM_TYPE in indexes:
         assert index_learning_resources_mock.si.call_count == 2
@@ -340,12 +356,14 @@ def test_bulk_deindex_learning_resources(mocker, with_error):
         (["content_file"], ETLSource.oll.value),
     ],
 )
-def test_start_update_index(mocker, mocked_celery, indexes, etl_source, settings):
+def test_start_update_index(mocker, mocked_celery, indexes, etl_source, settings):  # noqa: PLR0915
     """
     recreate_index should recreate the OpenSearch index and reindex all data with it
     """
 
     settings.OPENSEARCH_INDEXING_CHUNK_SIZE = 2
+    settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE = 2
+
     mock_blocklist = mocker.patch(
         "learning_resources_search.tasks.load_course_blocklist", return_value=[]
     )
@@ -362,6 +380,11 @@ def test_start_update_index(mocker, mocked_celery, indexes, etl_source, settings
             [CourseFactory.create(etl_source=etl.value) for etl in etl_sources],
             key=lambda course: course.learning_resource_id,
         )
+
+        for course in courses:
+            ContentFileFactory.create_batch(
+                3, run=course.learning_resource.runs.first()
+            )
 
         unpublished_courses = sorted(
             [
@@ -387,8 +410,8 @@ def test_start_update_index(mocker, mocked_celery, indexes, etl_source, settings
         "learning_resources_search.tasks.bulk_deindex_learning_resources", autospec=True
     )
 
-    index_course_content_mock = mocker.patch(
-        "learning_resources_search.tasks.index_course_content_files", autospec=True
+    index_content_mock = mocker.patch(
+        "learning_resources_search.tasks.index_content_files", autospec=True
     )
 
     with pytest.raises(mocked_celery.replace_exception_class):
@@ -474,22 +497,35 @@ def test_start_update_index(mocker, mocked_celery, indexes, etl_source, settings
 
     if CONTENT_FILE_TYPE in indexes:
         if etl_source in RESOURCE_FILE_ETL_SOURCES:
-            assert index_course_content_mock.si.call_count == 1
+            assert index_content_mock.si.call_count == 2
             course = next(
                 course
                 for course in courses
                 if course.learning_resource.etl_source == etl_source
             )
 
-            index_course_content_mock.si.assert_any_call(
-                [course.learning_resource_id],
+            content_file_ids = (
+                course.learning_resource.runs.first()
+                .content_files.order_by("id")
+                .values_list("id", flat=True)
+            )
+
+            index_content_mock.si.assert_any_call(
+                [content_file_ids[0], content_file_ids[1]],
+                course.learning_resource_id,
+                index_types=IndexestoUpdate.current_index.value,
+            )
+
+            index_content_mock.si.assert_any_call(
+                [content_file_ids[2]],
+                course.learning_resource_id,
                 index_types=IndexestoUpdate.current_index.value,
             )
 
         elif etl_source:
-            assert index_course_content_mock.si.call_count == 0
+            assert index_content_mock.si.call_count == 0
         else:
-            assert index_course_content_mock.si.call_count == 2
+            assert index_content_mock.si.call_count == 4
 
     assert mocked_celery.replace.call_count == 1
     assert mocked_celery.replace.call_args[0][1] == mocked_celery.group.return_value

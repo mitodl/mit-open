@@ -343,6 +343,52 @@ def index_run_content_files(run_id, index_types):
         )
 
 
+def index_content_files(content_file_ids, learning_resource_id, index_types):
+    """
+    Index a list of content files
+
+    Args:
+        content_file_ids(array of int): List of content file ids
+        learning_resource_id(int): Learning resource id of the content files
+        index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+    """
+
+    documents = (
+        serialize_content_file_for_bulk(content_file)
+        for content_file in ContentFile.objects.filter(pk__in=content_file_ids)
+    )
+
+    index_items(
+        documents,
+        COURSE_TYPE,
+        index_types=index_types,
+        routing=learning_resource_id,
+    )
+
+
+def deindex_content_files(content_file_ids, learning_resource_id):
+    """
+    Index a list of content files
+
+    Args:
+        content_file_ids(array of int): List of content file ids
+        learning_resource_id(int): Learning resource id of the content files
+    """
+
+    documents = (
+        serialize_content_file_for_bulk_deletion(content_file)
+        for content_file in ContentFile.objects.filter(pk__in=content_file_ids)
+    )
+
+    deindex_items(
+        documents,
+        COURSE_TYPE,
+        index_types=IndexestoUpdate.all_indexes.value,
+        routing=learning_resource_id,
+    )
+
+
 def deindex_run_content_files(run_id, unpublished_only):
     """
     Deindex and delete a list of content files by run from the index
