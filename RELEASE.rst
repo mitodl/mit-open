@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.13.13
+---------------
+
+- Some copy edits and minor about page styling updates (#1141)
+- creating profile automatically for logged in user (#1140)
+
 Version 0.13.12 (Released June 21, 2024)
 ---------------
 
