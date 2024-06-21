@@ -145,6 +145,16 @@ def test_get_profile(logged_in, user, user_client):
     }
 
 
+def test_get_profile_automatically_creates_profile(user, user_client):
+    """Profiles should automatically get created for users without one"""
+    user.profile.delete()
+    url = reverse("profile:v0:profile_api-detail", kwargs={"user__username": "me"})
+    resp = user_client.get(url)
+    assert resp.status_code == 200
+    user.refresh_from_db()
+    assert user.profile is not None
+
+
 @pytest.mark.parametrize("email", ["", "test.email@example.com"])
 @pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
