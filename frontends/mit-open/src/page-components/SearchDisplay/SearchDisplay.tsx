@@ -392,10 +392,28 @@ const StyledDrawer = styled(Drawer)`
   }
 `
 
+const MobileFacetSearchButtons = styled.div`
+  width: 100%;
+  gap: 12px;
+`
+
+const MobileApplyFiltersButton = styled(Button)`
+  background-color: ${({ theme }) => theme.custom.colors.mitRed};
+  color: ${({ theme }) => theme.custom.colors.white};
+  padding: 12px;
+  border-radius: 4px;
+  width: 144px;
+  margin-right: 12px;
+  box-shadow:
+    0px 2px 4px 0px rgba(37, 38, 43, 0.1),
+    0px 3px 8px 0px rgba(37, 38, 43, 0.12);
+`
+
 const MobileClearAllButton = styled(Button)`
   background-color: white;
   padding: 12px;
   border-radius: 4px;
+  width: 144px;
 `
 
 const MobileDrawerCloseButton = styled(Button)`
@@ -643,15 +661,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                       <div>
                         <Typography variant="subtitle3">Filter</Typography>
                       </div>
-                      {hasFacets ? (
-                        <MobileClearAllButton
-                          variant="text"
-                          size="small"
-                          onClick={clearAllFacets}
-                        >
-                          Clear all
-                        </MobileClearAllButton>
-                      ) : null}
                     </div>
                     <MobileDrawerCloseButton
                       size="large"
@@ -662,6 +671,20 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                       <RiCloseLine fontSize="inherit" />
                     </MobileDrawerCloseButton>
                   </MobileFacetsTitleContainer>
+                  {hasFacets ? (
+                    <MobileFacetSearchButtons>
+                      <MobileApplyFiltersButton variant="text" size="small">
+                        Apply Filters
+                      </MobileApplyFiltersButton>
+                      <MobileClearAllButton
+                        variant="text"
+                        size="small"
+                        onClick={clearAllFacets}
+                      >
+                        Clear All
+                      </MobileClearAllButton>
+                    </MobileFacetSearchButtons>
+                  ) : null}
                   {filterContents}
                 </StyledDrawer>
                 <MobileSortContainer>{sortDropdown}</MobileSortContainer>
