@@ -189,6 +189,7 @@ const TestimonialTruncateText = styled(TruncateText)({
   fontSize: pxToRem(20), // This is a unicorn font size per the Figma design - it's not used anywhere else.
   lineHeight: pxToRem(26),
   height: "182px",
+  alignContent: "center",
   [theme.breakpoints.down("md")]: {
     WebkitLineClamp: 7,
     ["@supports (-webkit-line-clamp: 7)"]: {
@@ -204,11 +205,6 @@ const TestimonialTruncateText = styled(TruncateText)({
       WebkitLineClamp: 11,
     },
   },
-})
-
-const HomepageAttestantBlockContainer = styled.div({
-  marginLeft: "auto",
-  width: "auto",
 })
 
 const SlickCarousel = () => {
@@ -258,14 +254,12 @@ const SlickCarousel = () => {
                   {resource.quote.slice(0, 350)}
                   {resource.quote.length >= 350 ? "..." : ""}
                 </TestimonialTruncateText>
-                <HomepageAttestantBlockContainer>
-                  <AttestantBlock
-                    attestation={resource}
-                    variant="end"
-                    color="dark"
-                    avatar="homepage"
-                  />
-                </HomepageAttestantBlockContainer>
+                <AttestantBlock
+                  attestation={resource}
+                  variant="end"
+                  color="dark"
+                  avatar="homepage"
+                />
               </TestimonialCardQuote>
             </TestimonialCard>
           </TestimonialCardContainer>

@@ -33,8 +33,8 @@ const AttestantBlockContainer = styled.div<AttestantBlockChildProps>(
         display: "flex",
         flexShrink: 0,
         flexDirection: flexDir,
-        width: "300px",
-        marginLeft: "24px",
+        width: props.variant === "end" ? "100%" : "300px",
+        marginLeft: props.variant === "end" ? "0px" : "24px",
         ...theme.typography.body3,
         [theme.breakpoints.down("sm")]: {
           width: "100%",
