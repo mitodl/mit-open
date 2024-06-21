@@ -220,7 +220,8 @@ export const FacetStyles = styled.div`
     }
 
     .facet-visible.checked .facet-label label,
-    .facet-visible .facet-label label:hover {
+    .facet-visible .facet-label label:hover,
+    .facet-visible input:hover + .facet-label label {
       color: ${({ theme }) => theme.custom.colors.darkGray2};
     }
 
