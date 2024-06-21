@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.13.12
+---------------
+
+- Search facet checkbox and label styles (#1137)
+- Applies new fixes for the homepage and unit page testimonial sliders (#1131)
+- fixing sort method for panel detail display (#1130)
+- add learning materials tab (#1132)
+
 Version 0.13.11 (Released June 21, 2024)
 ---------------
 
