@@ -18,6 +18,7 @@ from main.permissions import (
     AnonymousAccessReadonlyPermission,
     IsStaffPermission,
 )
+from profiles.api import ensure_profile
 from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebsite
 from profiles.permissions import HasEditPermission, HasSiteEditPermission
 from profiles.serializers import (
@@ -70,7 +71,9 @@ class ProfileViewSet(
 
     def get_object(self):
         """Get the profile"""
+
         if self.kwargs["user__username"] == "me":
+            ensure_profile(self.request.user)
             return self.request.user.profile
         else:
             return super().get_object()
