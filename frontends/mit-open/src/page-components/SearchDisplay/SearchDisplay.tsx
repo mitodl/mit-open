@@ -214,16 +214,14 @@ export const FacetStyles = styled.div`
       .facet-count {
         font-size: 12px;
         padding-left: 3px;
-        color: ${({ theme }) => theme.custom.colors.silverGray};
+        color: ${({ theme }) => theme.custom.colors.silverGrayDark};
         float: right;
       }
     }
 
-    .facet-visible.checked,
-    .facet-visible:hover {
-      .facet-label label {
-        color: ${({ theme }) => theme.custom.colors.darkGray2};
-      }
+    .facet-visible.checked .facet-label label,
+    .facet-visible .facet-label label:hover {
+      color: ${({ theme }) => theme.custom.colors.darkGray2};
     }
 
     .facet-more-less {
