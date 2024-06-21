@@ -162,7 +162,6 @@ const FieldSearch: React.FC<FieldSearchProps> = ({
     setParamValue,
     clearAllFacets,
     toggleParamValue,
-    patchParams,
     currentText,
     setCurrentText,
     setCurrentTextAndQuery,
@@ -194,6 +193,7 @@ const FieldSearch: React.FC<FieldSearchProps> = ({
 
       <SearchDisplay
         page={page}
+        setSearchParams={setSearchParams}
         requestParams={params}
         setPage={setPage}
         facetManifest={facetManifest}
@@ -203,7 +203,6 @@ const FieldSearch: React.FC<FieldSearchProps> = ({
         setParamValue={setParamValue}
         clearAllFacets={clearAllFacets}
         toggleParamValue={toggleParamValue}
-        patchParams={patchParams}
         showProfessionalToggle={
           SHOW_PROFESSIONAL_TOGGLE_BY_CHANNEL_TYPE[channelType]
         }

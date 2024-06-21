@@ -44,6 +44,7 @@ import ProfessionalToggle from "./ProfessionalToggle"
 import type { TabConfig } from "./ResourceTypeTabs"
 
 import { ResourceListCard } from "../ResourceCard/ResourceCard"
+import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 
 export const StyledDropdown = styled(SimpleSelect)`
   margin-left: 8px;
@@ -426,20 +427,27 @@ export const getLastPage = (count: number): number => {
 
 export const TABS: TabConfig[] = [
   {
+    name: "all",
+    label: "All",
+    defaultTab: true,
+    resource_type: [],
+  },
+  {
+    name: "courses",
     label: "Courses",
-    resource_type: ResourceTypeEnum.Course,
+    resource_type: [ResourceTypeEnum.Course],
   },
   {
+    name: "programs",
     label: "Programs",
-    resource_type: ResourceTypeEnum.Program,
+    resource_type: [ResourceTypeEnum.Program],
   },
   {
-    label: "Videos",
-    resource_type: ResourceTypeEnum.Video,
-  },
-  {
-    label: "Podcasts",
-    resource_type: ResourceTypeEnum.Podcast,
+    name: "learning-materials",
+    label: "Learning Materials",
+    resource_type: Object.values(ResourceTypeEnum).filter(
+      (v) => v !== ResourceTypeEnum.Course && v !== ResourceTypeEnum.Program,
+    ),
   },
 ]
 export const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
@@ -474,8 +482,24 @@ interface SearchDisplayProps {
   setParamValue: UseResourceSearchParamsResult["setParamValue"]
   clearAllFacets: UseResourceSearchParamsResult["clearAllFacets"]
   toggleParamValue: UseResourceSearchParamsResult["toggleParamValue"]
-  patchParams: UseResourceSearchParamsResult["patchParams"]
   showProfessionalToggle?: boolean
+  /**
+   * NOTE: This is passed from parent, rather than obtained via useSearchParams,
+   * because of quirks with react-router's useSearchParams hook.
+   *
+   * Multiple calls to React Router's useSearchParam hook do not use current
+   * values for the search params.
+   * See https://github.com/remix-run/react-router/issues/9757 for details.
+   *
+   * This is partially addressed by `@mitodl/course-search-utils`, which exports
+   * a wrapper around `useSearchParams`: subsequent calls to `setSearchParams`
+   * DO use the current value, with one caveat: The setSearchParams function
+   * must be from the same "instance" of `useSearchParams`.
+   *
+   * Because of this, we pass the setSearchParams function from the parent
+   * rather than from a new "instance" of `useSearchParams`.
+   */
+  setSearchParams: UseResourceSearchParamsProps["setSearchParams"]
 }
 
 const SearchDisplay: React.FC<SearchDisplayProps> = ({
@@ -489,19 +513,32 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   setParamValue,
   clearAllFacets,
   toggleParamValue,
-  patchParams,
   showProfessionalToggle,
+  setSearchParams,
 }) => {
+  const [searchParams] = useSearchParams()
+  const activeTab =
+    TABS.find((t) => t.name === searchParams.get("tab")) ??
+    TABS.find((t) => t.defaultTab) ??
+    TABS[0]
   const allParams = useMemo(() => {
-    return { ...constantSearchParams, ...requestParams }
-  }, [requestParams, constantSearchParams])
-
-  const { data, isLoading } = useLearningResourcesSearch(
-    {
-      ...(allParams as LRSearchRequest),
+    return {
+      ...constantSearchParams,
+      resource_type: activeTab.resource_type,
+      ...requestParams,
       aggregations: facetNames as LRSearchRequest["aggregations"],
       offset: (page - 1) * PAGE_SIZE,
-    },
+    }
+  }, [
+    requestParams,
+    constantSearchParams,
+    activeTab?.resource_type,
+    facetNames,
+    page,
+  ])
+
+  const { data, isLoading } = useLearningResourcesSearch(
+    allParams as LRSearchRequest,
     { keepPreviousData: true },
   )
 
@@ -518,7 +555,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
           <ProfessionalToggle
             professionalSetting={requestParams.professional}
             setParamValue={setParamValue}
-          ></ProfessionalToggle>
+          />
         )}
         <AvailableFacets
           facetManifest={facetManifest}
@@ -548,9 +585,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   return (
     <Container>
       <StyledGridContainer>
-        <ResourceTypeTabs.Context
-          resourceType={requestParams.resource_type?.[0]}
-        >
+        <ResourceTypeTabs.Context activeTabName={activeTab.name}>
           <DesktopFiltersColumn
             variant="sidebar-2"
             data-testid="facets-container"
@@ -576,7 +611,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
           <StyledMainColumn variant="main-2">
             <DesktopSortContainer>{sortDropdown}</DesktopSortContainer>
             <StyledResourceTabs
-              patchParams={patchParams}
+              setSearchParams={setSearchParams}
               tabs={TABS}
               aggregations={data?.metadata.aggregations}
               onTabChange={() => setPage(1)}

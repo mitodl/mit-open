@@ -85,105 +85,6 @@ describe("SearchPage", () => {
   })
 
   test.each([
-    { url: "?resource_type=course", expectedActive: /Courses/ },
-    { url: "?resource_type=podcast", expectedActive: /Podcasts/ },
-    { url: "", expectedActive: /All/ },
-  ])("Active tab determined by URL $url", async ({ url, expectedActive }) => {
-    setMockApiResponses({
-      search: {
-        count: 1000,
-        metadata: {
-          aggregations: {
-            resource_type: [
-              { key: "course", doc_count: 100 },
-              { key: "podcast", doc_count: 200 },
-              { key: "program", doc_count: 300 },
-              { key: "irrelevant", doc_count: 400 },
-            ],
-          },
-          suggestions: [],
-        },
-      },
-    })
-    renderWithProviders(<SearchPage />, { url })
-    const tab = screen.getByRole("tab", { selected: true })
-    expect(tab).toHaveAccessibleName(expectedActive)
-  })
-
-  test("Clicking tabs updates URL", async () => {
-    setMockApiResponses({
-      search: {
-        count: 1000,
-        metadata: {
-          aggregations: {
-            resource_type: [
-              { key: "course", doc_count: 100 },
-              { key: "podcast", doc_count: 200 },
-              { key: "program", doc_count: 300 },
-              { key: "irrelevant", doc_count: 400 },
-            ],
-          },
-          suggestions: [],
-        },
-      },
-    })
-    const { location } = renderWithProviders(<SearchPage />)
-    const tabAll = screen.getByRole("tab", { name: /All/ })
-    const tabCourses = screen.getByRole("tab", { name: /Courses/ })
-    expect(tabAll).toHaveAttribute("aria-selected")
-    await user.click(tabCourses)
-    expect(tabCourses).toHaveAttribute("aria-selected")
-    expect(
-      new URLSearchParams(location.current.search).get("resource_type"),
-    ).toBe("course")
-    await user.click(tabAll)
-    expect(tabAll).toHaveAttribute("aria-selected")
-    expect(
-      new URLSearchParams(location.current.search).get("resource_type"),
-    ).toBe(null)
-  })
-
-  test("Tab titles show corret result counts", async () => {
-    setMockApiResponses({
-      search: {
-        count: 700,
-        metadata: {
-          aggregations: {
-            resource_type: [
-              { key: "course", doc_count: 100 },
-              { key: "podcast", doc_count: 200 },
-              { key: "irrelevant", doc_count: 400 },
-            ],
-          },
-          suggestions: [],
-        },
-      },
-    })
-    renderWithProviders(<SearchPage />)
-    const tabs = screen.getAllByRole("tab")
-    // initially (before API response) not result counts
-    expect(tabs.map((tab) => tab.textContent)).toEqual([
-      "All",
-      "Courses",
-      "Programs",
-      "Videos",
-      "Podcasts",
-    ])
-    // eventually (after API response) result counts show
-    await waitFor(() => {
-      expect(
-        tabs.map((tab) => (tab.textContent || "").replace(/\s/g, "")),
-      ).toEqual([
-        "All(300)",
-        "Courses(100)",
-        "Programs(0)",
-        "Videos(0)",
-        "Podcasts(200)",
-      ])
-    })
-  })
-
-  test.each([
     { url: "?topic=physics", expected: { topic: "physics" } },
     {
       url: "?resource_type=course",
@@ -279,6 +180,133 @@ describe("SearchPage", () => {
     expect(location.current.search).toBe("?q=meow")
     await user.click(screen.getByRole("button", { name: "Search" }))
     expect(location.current.search).toBe("?q=woof")
+  })
+})
+
+describe("Search Page Tabs", () => {
+  test.each([
+    { url: "", expectedActive: /All/ },
+    { url: "?all", expectedActive: /All/ },
+    { url: "?tab=courses", expectedActive: /Courses/ },
+    { url: "?tab=programs", expectedActive: /Programs/ },
+    { url: "?tab=learning-materials", expectedActive: /Learning Materials/ },
+  ])("Active tab determined by URL $url", async ({ url, expectedActive }) => {
+    setMockApiResponses({
+      search: {
+        count: 1000,
+        metadata: {
+          aggregations: {
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 200 },
+              { key: "program", doc_count: 300 },
+              { key: "irrelevant", doc_count: 400 },
+            ],
+          },
+          suggestions: [],
+        },
+      },
+    })
+    renderWithProviders(<SearchPage />, { url })
+    const tab = screen.getByRole("tab", { selected: true })
+    expect(tab).toHaveAccessibleName(expectedActive)
+  })
+
+  test("Clicking tabs updates URL", async () => {
+    setMockApiResponses({
+      search: {
+        count: 1000,
+        metadata: {
+          aggregations: {
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 200 },
+              { key: "program", doc_count: 300 },
+              { key: "irrelevant", doc_count: 400 },
+            ],
+          },
+          suggestions: [],
+        },
+      },
+    })
+    const { location } = renderWithProviders(<SearchPage />, {
+      url: "?department=8",
+    })
+    const tabAll = screen.getByRole("tab", { name: /All/ })
+    const tabCourses = screen.getByRole("tab", { name: /Courses/ })
+    expect(tabAll).toHaveAttribute("aria-selected")
+
+    // Click "Courses"
+    await user.click(tabCourses)
+    expect(tabCourses).toHaveAttribute("aria-selected")
+    const params1 = new URLSearchParams(location.current.search)
+    expect(params1.get("tab")).toBe("courses")
+    expect(params1.get("department")).toBe("8") // should preserve other params
+
+    // Click "All"
+    await user.click(tabAll)
+    expect(tabAll).toHaveAttribute("aria-selected")
+    const params2 = new URLSearchParams(location.current.search)
+    expect(params2.get("tab")).toBe(null)
+    expect(params2.get("department")).toBe("8") // should preserve other params
+  })
+
+  test("Tab titles show corret result counts", async () => {
+    setMockApiResponses({
+      search: {
+        count: 700,
+        metadata: {
+          aggregations: {
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 200 },
+              { key: "video", doc_count: 300 },
+              { key: "irrelevant", doc_count: 400 },
+            ],
+          },
+          suggestions: [],
+        },
+      },
+    })
+    renderWithProviders(<SearchPage />)
+    const tabs = screen.getAllByRole("tab")
+    // initially (before API response) not result counts
+    expect(tabs.map((tab) => tab.textContent)).toEqual([
+      "All",
+      "Courses",
+      "Programs",
+      "Learning Materials",
+    ])
+    // eventually (after API response) result counts show
+    await waitFor(() => {
+      expect(
+        tabs.map((tab) => (tab.textContent || "").replace(/\s/g, "")),
+      ).toEqual([
+        "All(600)",
+        "Courses(100)",
+        "Programs(0)",
+        "LearningMaterials(500)",
+      ])
+    })
+  })
+
+  test("Changing tab resets page number", async () => {
+    setMockApiResponses({
+      search: {
+        count: 1000,
+        metadata: {
+          aggregations: {},
+          suggestions: [],
+        },
+      },
+    })
+
+    const { location } = renderWithProviders(<SearchPage />, {
+      url: "?page=3&tab=courses",
+    })
+    const tabPrograms = screen.getByRole("tab", { name: /Programs/ })
+    await user.click(tabPrograms)
+    expect(location.current.search).toBe("?tab=programs")
   })
 })
 
