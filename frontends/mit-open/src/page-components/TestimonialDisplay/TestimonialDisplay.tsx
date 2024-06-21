@@ -44,6 +44,10 @@ const QuoteContainer = styled.section(({ theme }) => ({
     marginBottom: "40px",
     height: "200px",
   },
+  [theme.breakpoints.down("sm")]: {
+    marginBottom: "40px",
+    height: "340px",
+  },
 }))
 
 const QuoteBlock = styled.div(() => ({
