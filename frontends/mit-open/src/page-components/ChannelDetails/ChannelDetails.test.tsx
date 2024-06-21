@@ -40,4 +40,28 @@ describe("ChannelDetails", () => {
     screen.getByText(certifications.join(" | "))
     screen.getByText(contentTypes.join(" | "))
   })
+
+  it("Sorts displayed items correctly", async () => {
+    const field = factory.field({
+      title: "Test Title",
+      channel_type: "unit",
+    })
+    setMockResponse.get(
+      urls.fields.details(field.channel_type, field.name),
+      field,
+    )
+    render(
+      <BrowserRouter>
+        <ChannelDetails field={field} />
+      </BrowserRouter>,
+      { wrapper: ThemeProvider },
+    )
+
+    expect(screen.getByTestId("unit-details").firstChild).toHaveTextContent(
+      "Offerings",
+    )
+    expect(screen.getByTestId("unit-details").lastChild).toHaveTextContent(
+      "More Information",
+    )
+  })
 })
