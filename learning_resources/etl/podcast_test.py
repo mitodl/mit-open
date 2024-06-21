@@ -2,7 +2,6 @@
 
 import datetime
 from unittest.mock import Mock
-from urllib.parse import urljoin
 
 import pytest
 import yaml
@@ -23,6 +22,7 @@ from learning_resources.etl.podcast import (
 from learning_resources.factories import (
     PodcastEpisodeFactory,
 )
+from main.utils import frontend_absolute_url
 
 pytestmark = pytest.mark.django_db
 
@@ -251,10 +251,8 @@ def test_generate_aggregate_podcast_rss():
     resource_2.last_modified = datetime.datetime(2020, 1, 1, tzinfo=datetime.UTC)
     resource_2.save()
 
-    podcasts_url = urljoin(settings.SITE_BASE_URL, "podcasts")
-    cover_image_url = urljoin(
-        settings.SITE_BASE_URL, "/static/images/podcast_cover_art.png"
-    )
+    podcasts_url = frontend_absolute_url("/podcasts")
+    cover_image_url = frontend_absolute_url("/static/images/podcast_cover_art.png")
 
     expected_rss = f"""<?xml version='1.0' encoding='UTF-8'?>
     <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">

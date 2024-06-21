@@ -1,17 +1,4 @@
 x-environment: &py-environment
-  DEBUG: ${DEBUG:-True}
-  DEV_ENV: "True" # necessary to have nginx connect to web container
-  NODE_ENV: ${NODE_ENV:-development}
-  DATABASE_URL: postgres://postgres:postgres@db:5432/postgres
-  MITOPEN_SECURE_SSL_REDIRECT: "False"
-  MITOPEN_DB_DISABLE_SSL: "True"
-  MITOPEN_FEATURES_DEFAULT: ${MITOPEN_FEATURES_DEFAULT:-True}
-  OPENSEARCH_URL: opensearch-node-mitopen:9200
-  CELERY_TASK_ALWAYS_EAGER: "False"
-  CELERY_BROKER_URL: redis://redis:6379/4
-  CELERY_RESULT_BACKEND: redis://redis:6379/4
-  TIKA_SERVER_ENDPOINT: ${TIKA_SERVER_ENDPOINT:-http://tika:9998/}
-  TIKA_CLIENT_ONLY: "True"
 
 services:
   db:
@@ -60,14 +47,18 @@ services:
   nginx:
     profiles:
       - backend
-    image: nginx:1.27.0
+    build:
+      context: ./nginx
     ports:
       - "8063:8063"
     links:
       - web
+    environment:
+      PORT: 8063
+      NGINX_WORKERS: 1
+      NGINX_UWSGI_PASS: "web:8061"
     volumes:
-      - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
-      - ./frontends/mit-open/build:/src/frontends/mit-open/build
+      - ./config:/etc/nginx/templates
 
   web:
     profiles:
@@ -75,10 +66,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      <<: *py-environment
-      PORT: 8061
-    env_file: .env
+    env_file:
+      - path: env/shared.env
+      - path: env/shared.local.env
+        required: false
+      - path: env/backend.env
+      - path: env/backend.local.env
+        required: false
+      # DEPRECATED: legacy .env file at the repo root
+      - path: .env
+        required: false
     command: ./scripts/run-django-dev.sh
     stdin_open: true
     tty: true
@@ -103,11 +100,16 @@ services:
         yarn install --immutable
         yarn workspace mit-open storybook &
         yarn workspace mit-open watch:docker
-    environment:
-      NODE_ENV: ${NODE_ENV:-development}
-      PORT: 8062
-      MITOPEN_AXIOS_BASE_PATH: ${MITOPEN_BASE_URL}
-    env_file: .env
+    env_file:
+      - path: env/shared.env
+      - path: env/shared.local.env
+        required: false
+      - path: env/frontend.env
+      - path: env/frontend.local.env
+        required: false
+      # DEPRECATED: legacy .env file at the repo root
+      - path: .env
+        required: false
     ports:
       - "8062:8062"
       - "6006:6006"
@@ -120,8 +122,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    environment: *py-environment
-    env_file: .env
+    env_file:
+      - path: env/shared.env
+      - path: env/shared.local.env
+        required: false
+      - path: env/backend.env
+      - path: env/backend.local.env
+        required: false
+      # DEPRECATED: legacy .env file at the repo root
+      - path: .env
+        required: false
     command: >
       /bin/bash -c '
       sleep 3;

@@ -1,8 +1,5 @@
 """Models for channels"""
 
-from urllib.parse import urljoin
-
-from django.conf import settings
 from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
 from django.db import models
@@ -18,6 +15,7 @@ from learning_resources.models import (
     LearningResourceTopic,
 )
 from main.models import TimestampedModel
+from main.utils import frontend_absolute_url
 from profiles.utils import avatar_uri, banner_uri
 from widgets.models import WidgetList
 
@@ -99,7 +97,7 @@ class Channel(TimestampedModel):
     @property
     def channel_url(self) -> str:
         """Return the channel url"""
-        return urljoin(settings.SITE_BASE_URL, f"/c/{self.channel_type}/{self.name}/")
+        return frontend_absolute_url(f"/c/{self.channel_type}/{self.name}/")
 
 
 class ChannelTopicDetail(TimestampedModel):
