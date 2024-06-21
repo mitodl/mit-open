@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.12
+Version 0.13.12 (Released June 21, 2024)
 ---------------
 
 - Search facet checkbox and label styles (#1137)
