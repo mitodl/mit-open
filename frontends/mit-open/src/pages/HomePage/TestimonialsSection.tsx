@@ -38,12 +38,22 @@ const OverlayContainer = styled.div({
   position: "relative",
   maxWidth: "1440px",
   margin: "0 auto",
+  [theme.breakpoints.down("md")]: {
+    maxWidth: "680px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    maxWidth: "344px",
+  },
 })
 
 const TestimonialCardContainer = styled.div({
   maxWidth: "1440px",
   [theme.breakpoints.down("md")]: {
-    padding: "0 16px",
+    padding: "0",
+    maxWidth: "680px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    width: "344px",
   },
 })
 
@@ -55,9 +65,13 @@ const TestimonialCard = styled.div({
   borderRadius: "8px",
   margin: "0 0 50px 24px",
   [theme.breakpoints.down("md")]: {
-    height: "411px",
     flexDirection: "column",
     margin: "0",
+    width: "680px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    width: "344px",
+    padding: "0 8px",
   },
 })
 
@@ -78,10 +92,7 @@ const TestimonialCardImage = styled.div({
     },
   },
   [theme.breakpoints.down("md")]: {
-    width: "100%",
-    height: "190px",
-    borderRadius: "8px 0 8px 0",
-    backgroundColor: theme.custom.colors.darkBlue,
+    display: "none",
   },
 })
 
@@ -101,10 +112,15 @@ const TestimonialCardQuote = styled.div({
   [theme.breakpoints.down("md")]: {
     width: "100%",
     height: "161px",
-    borderRadius: "0 8px 0 8px",
+    padding: "32px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    height: "224px",
     marginTop: "16px",
-    marginBottom: "16px",
+    marginBottom: "0",
     padding: "0 16px",
+    flexGrow: "1",
+    ...theme.typography.subtitle1,
   },
 
   "div.testimonial-quote-opener": {
@@ -122,21 +138,6 @@ const TestimonialCardQuote = styled.div({
       lineHeight: "normal",
       transform: "translateY(-8px)",
     },
-  },
-
-  h4: {
-    flexGrow: "1",
-    marginTop: "8px",
-    height: "170px",
-    [theme.breakpoints.down("md")]: {
-      width: "100%",
-      ...theme.typography.subtitle1,
-    },
-  },
-
-  "div.testimonial-quote-closer": {
-    textAlign: "right",
-    width: "100%",
   },
 })
 
@@ -179,6 +180,30 @@ const ButtonsContainer = styled.div({
   gap: "16px",
   [theme.breakpoints.down("md")]: {
     marginTop: "20px",
+  },
+})
+
+const TestimonialTruncateText = styled(TruncateText)({
+  textOverflow: "none",
+  ...theme.typography.h4,
+  fontSize: pxToRem(20), // This is a unicorn font size per the Figma design - it's not used anywhere else.
+  lineHeight: pxToRem(26),
+  height: "182px",
+  alignContent: "center",
+  [theme.breakpoints.down("md")]: {
+    WebkitLineClamp: 7,
+    ["@supports (-webkit-line-clamp: 7)"]: {
+      WebkitLineClamp: 7,
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    height: "224px",
+    flexShrink: "0",
+    ...theme.typography.subtitle1,
+    WebkitLineClamp: 11,
+    ["@supports (-webkit-line-clamp: 11)"]: {
+      WebkitLineClamp: 11,
+    },
   },
 })
 
@@ -225,13 +250,15 @@ const SlickCarousel = () => {
               </TestimonialCardImage>
               <TestimonialCardQuote>
                 <div className="testimonial-quote-opener">&ldquo;</div>
-                <Typography variant="h4">
-                  <TruncateText lineClamp={5}>{resource.quote}</TruncateText>
-                </Typography>
+                <TestimonialTruncateText lineClamp={7}>
+                  {resource.quote.slice(0, 350)}
+                  {resource.quote.length >= 350 ? "..." : ""}
+                </TestimonialTruncateText>
                 <AttestantBlock
                   attestation={resource}
                   variant="end"
                   color="dark"
+                  avatar="homepage"
                 />
               </TestimonialCardQuote>
             </TestimonialCard>

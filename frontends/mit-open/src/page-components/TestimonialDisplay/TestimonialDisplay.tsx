@@ -2,7 +2,7 @@ import React from "react"
 
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
-import { ActionButton, styled, theme } from "ol-components"
+import { ActionButton, TruncateText, styled, theme } from "ol-components"
 import AttestantBlock from "./AttestantBlock"
 import { useTestimonialList } from "api/hooks/testimonials"
 import type { Attestation } from "api/v0"
@@ -16,6 +16,24 @@ type InternalTestimonialDisplayProps = {
   attestation: Attestation
 }
 
+const TestimonialTruncateText = styled(TruncateText)({
+  textOverflow: "none",
+  [theme.breakpoints.down("sm")]: {
+    ...theme.typography.subtitle1,
+    WebkitLineClamp: 6,
+    ["@supports (-webkit-line-clamp: 6)"]: {
+      WebkitLineClamp: 6,
+    },
+  },
+  [theme.breakpoints.down("sm")]: {
+    ...theme.typography.subtitle2,
+    WebkitLineClamp: 8,
+    ["@supports (-webkit-line-clamp: 8)"]: {
+      WebkitLineClamp: 8,
+    },
+  },
+})
+
 const QuoteContainer = styled.section(({ theme }) => ({
   backgroundColor: theme.custom.colors.darkGray2,
   color: theme.custom.colors.white,
@@ -24,6 +42,11 @@ const QuoteContainer = styled.section(({ theme }) => ({
   marginBottom: "80px",
   [theme.breakpoints.down("md")]: {
     marginBottom: "40px",
+    height: "200px",
+  },
+  [theme.breakpoints.down("sm")]: {
+    marginBottom: "40px",
+    height: "340px",
   },
 }))
 
@@ -47,7 +70,7 @@ const QuoteLeader = styled.div(({ theme }) => ({
 const QuoteBody = styled.div(({ theme }) => ({
   width: "100%",
   display: "flex",
-  [theme.breakpoints.down("md")]: {
+  [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
   },
 }))
@@ -57,6 +80,10 @@ const AttestationBlock = styled.div(({ theme }) => ({
   flexGrow: "5",
   ...theme.typography.h5,
   justifyContent: "top",
+  [theme.breakpoints.down("sm")]: {
+    alignContent: "center",
+    height: "144px",
+  },
 }))
 
 const ButtonsContainer = styled.div(({ theme }) => ({
@@ -64,7 +91,7 @@ const ButtonsContainer = styled.div(({ theme }) => ({
   justifyContent: "right",
   margin: "4px auto 0",
   gap: "16px",
-  [theme.breakpoints.down("md")]: {
+  [theme.breakpoints.down("sm")]: {
     marginTop: "16px",
   },
 }))
@@ -79,8 +106,13 @@ const InteriorTestimonialDisplay: React.FC<InternalTestimonialDisplayProps> = ({
 }) => {
   return (
     <QuoteBody>
-      <AttestationBlock>{attestation?.quote}</AttestationBlock>
-      <AttestantBlock attestation={attestation} />
+      <AttestationBlock>
+        <TestimonialTruncateText lineClamp={4}>
+          {attestation?.quote.slice(0, 350)}
+          {attestation?.quote.length >= 350 ? "..." : null}
+        </TestimonialTruncateText>
+      </AttestationBlock>
+      <AttestantBlock attestation={attestation} variant="start" />
     </QuoteBody>
   )
 }
