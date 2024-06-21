@@ -7,15 +7,13 @@ const WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER = "what-is-mit-open"
 const NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER = "non-degree-learning"
 const ACADEMIC_AND_PROFESSIONAL_CONTENT = "kinds-of-content"
 
-const PageContainer = styled.div(({ theme }) => ({
+const PageContainer = styled(Container)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "flex-start",
-  alignSelf: "stretch",
-  padding: "40px 84px 80px 84px",
-  [theme.breakpoints.down("md")]: {
-    padding: "40px 0 80px 0",
+  paddingTop: "40px",
+  paddingBottom: "80px",
+  [theme.breakpoints.down("sm")]: {
+    paddingTop: "28px",
+    paddingBottom: "32px",
   },
 }))
 
@@ -42,14 +40,13 @@ const BodyContainer = styled.div({
   gap: "40px",
 })
 
-const MissionStatementContainer = styled.div(({ theme }) => ({
+const HighlightContainer = styled.div(({ theme }) => ({
   display: "flex",
-  padding: "24px 32px",
   flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "flex-start",
-  gap: "16px",
-  alignSelf: "stretch",
+  gap: "24px",
+  padding: "40px",
+  borderRadius: "8px",
+  border: `1px solid ${theme.custom.colors.lightGray2}`,
   backgroundColor: theme.custom.colors.white,
   [theme.breakpoints.down("md")]: {
     padding: "16px 16px",
@@ -101,71 +98,68 @@ const List = styled.ul(({ theme }) => ({
 
 const AboutPage: React.FC = () => {
   return (
-    <Container>
-      <PageContainer>
-        <MetaTags title="About Us" />
-        <BannerContainer>
-          <BannerContainerInner>
-            <Breadcrumbs
-              variant="light"
-              ancestors={[{ href: urls.HOME, label: "Home" }]}
-              current="About Us"
-            />
-            <Typography variant="h3" component="h1">
-              About Us
+    <PageContainer>
+      <MetaTags title="About Us" />
+      <BannerContainer>
+        <BannerContainerInner>
+          <Breadcrumbs
+            variant="light"
+            ancestors={[{ href: urls.HOME, label: "Home" }]}
+            current="About Us"
+          />
+          <Typography variant="h3" component="h1">
+            About Us
+          </Typography>
+        </BannerContainerInner>
+      </BannerContainer>
+      <BodyContainer>
+        <Typography variant="body1">
+          Since its founding in 1861, MIT has been committed to sharing
+          knowledge with the world. At the beginning of the 21st century, MIT
+          expanded this mission by bringing learning resources online, reaching
+          a broader audience through digital platforms. Today, MIT continues to
+          advance this mission by offering non-degree learning resources,
+          including online, in-person, and blended courses and programs. These
+          opportunities allow learners to study with MIT faculty, industry
+          experts, and a global community without enrolling in a degree program.
+          Through these resources, millions of learners have acquired the
+          knowledge and skills needed to further their academic and professional
+          goals.
+        </Typography>
+        <SubHeaderContainer>
+          <SubHeaderTextContainer>
+            <Typography variant="subtitle1">
+              Our non-degree learning resources empower you to:
             </Typography>
-          </BannerContainerInner>
-        </BannerContainer>
-        <BodyContainer>
-          <MissionStatementContainer>
-            <Typography variant="body1">
-              Since its founding in 1861, MIT has been committed to sharing
-              knowledge with the world. At the beginning of the 21st century,
-              MIT expanded this mission by bringing learning resources online,
-              reaching a broader audience through digital platforms. Today, MIT
-              continues to advance this mission by offering non-degree learning
-              resources, including online, in-person, and blended courses and
-              programs. These opportunities allow learners to study with MIT
-              faculty, industry experts, and a global community without
-              enrolling in a degree program. Through these resources, millions
-              of learners have acquired the knowledge and skills needed to
-              further their academic and professional goals.
-            </Typography>
-          </MissionStatementContainer>
-          <SubHeaderContainer>
-            <SubHeaderTextContainer>
-              <Typography variant="subtitle1">
-                Our non-degree learning resources empower you to:
-              </Typography>
-              <List>
-                <li>
-                  Learn for free from the same materials used by MIT students on
-                  campus
-                </li>
-                <li>
-                  Receive a certificate from MIT or learn for your own enjoyment
-                </li>
-                <li>
-                  Earn program credentials and apply for an accelerated master's
-                  degree program at MIT
-                </li>
-                <li>
-                  Download, share, and modify thousands of learning resources
-                </li>
-                <li>Access content from world-renowned faculty and experts</li>
-                <li>
-                  Build job-relevant skills through application-focused
-                  offerings
-                </li>
-                <li>
-                  Experience peer-to-peer interactions and grow your network
-                </li>
-                <li>Continue your education at your own pace</li>
-              </List>
-            </SubHeaderTextContainer>
-            <SubHeaderImage />
-          </SubHeaderContainer>
-          <BodySection>
+            <List>
+              <li>
+                Learn for free from the same materials used by MIT students on
+                campus
+              </li>
+              <li>
+                Receive a certificate from MIT or learn for your own enjoyment
+              </li>
+              <li>
+                Earn program credentials and apply for an accelerated master's
+                degree program at MIT
+              </li>
+              <li>
+                Download, share, and modify thousands of learning resources
+              </li>
+              <li>Access content from world-renowned faculty and experts</li>
+              <li>
+                Build job-relevant skills through application-focused offerings
+              </li>
+              <li>
+                Experience peer-to-peer interactions and grow your network
+              </li>
+              <li>Continue your education at your own pace</li>
+            </List>
+          </SubHeaderTextContainer>
+          <SubHeaderImage />
+        </SubHeaderContainer>
+        <BodySection>
+          <HighlightContainer>
             <Typography
               variant="h4"
               component="h2"
@@ -188,60 +182,60 @@ const AboutPage: React.FC = () => {
               and goals, create lists of learning resources, follow topics of
               interest, and more
             </Typography>
-          </BodySection>
-          <BodySection>
-            <Typography
-              variant="h4"
-              component="h2"
-              id={NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER}
-            >
-              What is non-degree learning at MIT?
-            </Typography>
-            <Typography variant="body1">
-              MIT's non-degree learning programs offer targeted skills,
-              knowledge, and certifications without the extensive time
-              commitment of a full degree. These programs are designed to be
-              flexible and accessible, enabling professionals, students, and
-              lifelong learners to engage with MIT's educational offerings from
-              anywhere in the world. Many resources are available for free or at
-              a low cost. Whether you want to upskill, explore a new field, or
-              deepen your understanding of a subject, MIT's non-degree learning
-              resources provide a pathway for personal and professional growth.
-            </Typography>
-          </BodySection>
-          <BodySection>
-            <Typography
-              variant="h4"
-              component="h2"
-              id={ACADEMIC_AND_PROFESSIONAL_CONTENT}
-            >
-              Academic and Professional content
-            </Typography>
-            <Typography variant="body1">
-              MIT's non-degree offerings include content developed from MIT's
-              academic and professional curriculum.
-            </Typography>
-            <Typography variant="body1">
-              MIT's Academic courses, programs, and materials mirror MIT
-              curriculum and residential programs, making these available to a
-              global audience. Approved by faculty committees, academic content
-              furnishes a comprehensive foundation of knowledge, skills, and
-              abilities for students pursuing their academic objectives.
-              Renowned for its rigor and challenge, MIT’s academic offerings
-              deliver an experience on par with the campus environment.
-            </Typography>
-            <Typography variant="body1">
-              MIT's Professional courses and programs are tailored for working
-              professionals seeking essential practical skills across various
-              industries. Led by MIT faculty and maintaining challenging
-              standards, Professional courses and programs prioritize real-world
-              applications, emphasize practical skills, and are directly
-              relevant to today's workforce.
-            </Typography>
-          </BodySection>
-        </BodyContainer>
-      </PageContainer>
-    </Container>
+          </HighlightContainer>
+        </BodySection>
+        <BodySection>
+          <Typography
+            variant="h4"
+            component="h2"
+            id={NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER}
+          >
+            What is non-degree learning at MIT?
+          </Typography>
+          <Typography variant="body1">
+            MIT's non-degree learning programs offer targeted skills, knowledge,
+            and certifications without the extensive time commitment of a full
+            degree. These programs are designed to be flexible and accessible,
+            enabling professionals, students, and lifelong learners to engage
+            with MIT's educational offerings from anywhere in the world. Many
+            resources are available for free or at a low cost. Whether you want
+            to upskill, explore a new field, or deepen your understanding of a
+            subject, MIT's non-degree learning resources provide a pathway for
+            personal and professional growth.
+          </Typography>
+        </BodySection>
+        <BodySection>
+          <Typography
+            variant="h4"
+            component="h2"
+            id={ACADEMIC_AND_PROFESSIONAL_CONTENT}
+          >
+            Academic and Professional content
+          </Typography>
+          <Typography variant="body1">
+            MIT's non-degree offerings include content developed from MIT's
+            Academic and Professional curriculum.
+          </Typography>
+          <Typography variant="body1">
+            MIT's Academic courses, programs, and materials mirror MIT
+            curriculum and residential programs, making these available to a
+            global audience. Approved by faculty committees, academic content
+            furnishes a comprehensive foundation of knowledge, skills, and
+            abilities for students pursuing their academic objectives. Renowned
+            for its rigor and challenge, MIT's academic offerings deliver an
+            experience on par with the campus environment.
+          </Typography>
+          <Typography variant="body1">
+            MIT's Professional courses and programs are tailored for working
+            professionals seeking essential practical skills across various
+            industries. Led by MIT faculty and maintaining challenging
+            standards, Professional courses and programs prioritize real-world
+            applications, emphasize practical skills, and are directly relevant
+            to today's workforce.
+          </Typography>
+        </BodySection>
+      </BodyContainer>
+    </PageContainer>
   )
 }
 
