@@ -394,11 +394,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
       <ListCard.Info>
         <Info resource={resource} />
       </ListCard.Info>
-      <ListCard.Title
-        sx={(theme) => ({ color: theme.custom.colors.darkGray2 })}
-      >
-        {resource.title}
-      </ListCard.Title>
+      <ListCard.Title>{resource.title}</ListCard.Title>
       <ListCard.Actions>
         {onAddToLearningPathClick && (
           <StyledActionButton
