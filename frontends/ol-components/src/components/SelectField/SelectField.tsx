@@ -96,6 +96,14 @@ const SelectIcon = styled(RiArrowDownSLine)({
   width: "1em",
 })
 
+/**
+ * WARNING: You likely do not need this component. Try one of
+ *
+ *  - `SimpleSelect`,
+ *  - `SimpleSelectField`
+ *
+ * instead.
+ */
 function Select<Value = unknown>({ size, ...props }: SelectProps<Value>) {
   return (
     <MuiSelect
@@ -117,10 +125,6 @@ type SelectFieldProps<Value = unknown> = Omit<
 > &
   SelectProps<Value>
 
-/**
- * A form field for text input via dropdown. Supports labels, help text, error
- *  text, and start/end adornments.
- */
 function SelectField<Value = unknown>({
   label,
   required,

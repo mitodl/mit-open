@@ -15,7 +15,7 @@ function StateWrapper(props: SimpleSelectProps) {
 }
 
 const meta: Meta<typeof SimpleSelect> = {
-  title: "ol-components/SimpleSelect",
+  title: "smoot-design/Dropdowns/SimpleSelect",
   component: StateWrapper,
   argTypes: {
     multiple: {

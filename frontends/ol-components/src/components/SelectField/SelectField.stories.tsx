@@ -11,7 +11,7 @@ import { fn } from "@storybook/test"
 
 const SIZES = ["small", "medium", "large"] satisfies SelectFieldProps["size"][]
 const meta: Meta<typeof SelectField> = {
-  title: "smoot-design/SelectField",
+  title: "smoot-design/Dropdowns/SelectField (low-level)",
   argTypes: {
     size: {
       options: SIZES,

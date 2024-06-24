@@ -6,7 +6,7 @@ import DeleteIcon from "@mui/icons-material/Delete"
 import { withRouter } from "storybook-addon-react-router-v6"
 
 const meta: Meta<typeof SimpleMenu> = {
-  title: "ol-components/SimpleMenu",
+  title: "smoot-design/Dropdowns/SimpleMenu",
   component: SimpleMenu,
   argTypes: {
     onVisibilityChange: {

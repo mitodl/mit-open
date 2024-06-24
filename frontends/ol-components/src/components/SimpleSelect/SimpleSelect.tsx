@@ -5,7 +5,13 @@ import { MenuItem } from "../MenuItem/MenuItem"
 
 type SimpleSelectProps = Pick<
   SelectProps<string | string[]>,
-  "value" | "size" | "multiple" | "onChange" | "renderValue" | "className"
+  | "value"
+  | "size"
+  | "multiple"
+  | "onChange"
+  | "renderValue"
+  | "className"
+  | "name"
 > & {
   /**
    * The options for the dropdown
@@ -25,6 +31,9 @@ interface SimpleSelectOption {
   disabled?: boolean
 }
 
+/**
+ * An input for selection via dropdown.
+ */
 const SimpleSelect: React.FC<SimpleSelectProps> = ({ options, ...others }) => {
   return (
     <Select {...others} displayEmpty>
@@ -56,6 +65,10 @@ type SimpleSelectFieldProps = Pick<
   options: SimpleSelectOption[]
 }
 
+/**
+ * A form field for text input via select dropdowns. Supports labels, help text,
+ * error text, and start/end adornments.
+ */
 const SimpleSelectField: React.FC<SimpleSelectFieldProps> = ({
   options,
   ...others
