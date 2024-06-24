@@ -10,6 +10,7 @@ import { FormFieldWrapper } from "../FormHelpers/FormHelpers"
 import type { FormFieldWrapperProps } from "../FormHelpers/FormHelpers"
 import styled from "@emotion/styled"
 import { baseInputStyles } from "../Input/Input"
+import { RiArrowDownSLine } from "@remixicon/react"
 
 type SelectProps<Value = unknown> = Omit<
   MuiSelectProps<Value>,
@@ -33,6 +34,13 @@ const SelectInput = styled(InputBase as React.FC<SelectInputProps>)(
           backgroundColor: "transparent",
         },
       },
+      ".MuiSelect-icon": {
+        // MUI sizes icons via fontSize, remixicon doesn't.
+        // This usually isn't an issue. In this case, we need to size the icon
+        // MUI's way so that its transformations apply correctly.
+        height: "1em",
+        width: "1em",
+      },
     },
     size === "small" && {
       ...theme.typography.body3,
@@ -40,6 +48,13 @@ const SelectInput = styled(InputBase as React.FC<SelectInputProps>)(
       ".MuiInputBase-input": {
         height: "100%",
         padding: "8px 12px",
+      },
+      "&&& .MuiInputBase-input": {
+        paddingRight: "28px", // 12px + 16px icon
+      },
+      ".MuiSelect-icon": {
+        fontSize: 16,
+        right: "12px",
       },
     },
     size === "medium" && {
@@ -49,6 +64,13 @@ const SelectInput = styled(InputBase as React.FC<SelectInputProps>)(
         height: "100%",
         padding: "8px 12px",
       },
+      "&&& .MuiInputBase-input": {
+        paddingRight: "32px", // 12px + 20px icon
+      },
+      ".MuiSelect-icon": {
+        fontSize: 20,
+        right: "12px",
+      },
     },
     size === "large" && {
       ...theme.typography.body1,
@@ -57,9 +79,22 @@ const SelectInput = styled(InputBase as React.FC<SelectInputProps>)(
         height: "100%",
         padding: "8px 16px",
       },
+      "&&& .MuiInputBase-input": {
+        paddingRight: "40px", // 16px + 24px icon
+      },
+      ".MuiSelect-icon": {
+        fontSize: 24,
+        right: "16px",
+      },
     },
   ],
 )
+
+const SelectIcon = styled(RiArrowDownSLine)({
+  fontSize: "24px",
+  height: "1em",
+  width: "1em",
+})
 
 function Select<Value = unknown>({ size, ...props }: SelectProps<Value>) {
   return (
@@ -70,6 +105,7 @@ function Select<Value = unknown>({ size, ...props }: SelectProps<Value>) {
       // to be the same. But our Select has an extra "small" size.
       // Passing the size here generates the expected classes on root select.
       size={size}
+      IconComponent={SelectIcon}
       input={<SelectInput size={size} />}
     />
   )
