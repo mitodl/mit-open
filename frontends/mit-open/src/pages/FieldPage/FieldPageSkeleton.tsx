@@ -164,6 +164,9 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                           py: 0,
                           pb: "8px",
                         },
+                        [theme.breakpoints.down("sm")]: {
+                          width: "100%",
+                        },
                       })}
                     >
                       {displayConfiguration?.logo ? (

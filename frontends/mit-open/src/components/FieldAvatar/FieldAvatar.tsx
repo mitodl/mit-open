@@ -61,6 +61,10 @@ const AvatarContainer = styled.div<AvatarStyleProps>`
   align-items: center;
   height: ${({ imageSize }) => IMG_SIZES[imageSize]};
   width: auto;
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    height: auto;
+    width: 100%;
+  }
 `
 const AvatarImg = styled.img<AvatarStyleProps>`
   display: flex;
@@ -73,6 +77,10 @@ const AvatarImg = styled.img<AvatarStyleProps>`
     imageVariant === "inverted" ? "filter: saturate(0%) invert(100%);" : ""}
   height: ${({ imageSize }) => IMG_SIZES[imageSize]};
   width: auto;
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    height: auto;
+    width: 100%;
+  }
 `
 const AvatarInitials = styled(AvatarImg.withComponent("div"))(
   ({ theme, imageSize = "medium" }) => ({
