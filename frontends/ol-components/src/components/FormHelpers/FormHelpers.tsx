@@ -50,7 +50,13 @@ const ControlLabel: React.FC<ControlLabelProps> = ({
   id,
 }) => {
   return (
-    <Typography id={id} component="label" htmlFor={htmlFor} variant="subtitle2">
+    <Typography
+      id={id}
+      component="label"
+      htmlFor={htmlFor}
+      variant="subtitle2"
+      sx={{ marginBottom: "4px" }}
+    >
       {label}
       {required ? <Required aria-hidden="true">*</Required> : null}
     </Typography>
