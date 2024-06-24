@@ -213,7 +213,7 @@ const navData: NavData = {
         {
           title: "Popular",
           icon: "/static/images/navdrawer/popular.svg",
-          href: querifiedSearchUrl({ sortby: "popular" }),
+          href: querifiedSearchUrl({ sortby: "-views" }),
         },
         {
           title: "Free",
