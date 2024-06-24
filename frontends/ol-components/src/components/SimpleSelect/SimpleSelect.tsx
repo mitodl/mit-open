@@ -2,40 +2,15 @@ import React from "react"
 import { Select } from "../SelectField/SelectField"
 import type { SelectProps } from "../SelectField/SelectField"
 import { MenuItem } from "../MenuItem/MenuItem"
-import type { SelectChangeEvent } from "@mui/material/Select"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import { Theme, SxProps } from "@mui/material/styles"
 
-interface SimpleSelectProps {
-  /**
-   * Value of initial selection for the dropdown
-   */
-  initialValue: string | string[]
-  /**
-   * Whether the dropdown allows multiple selections
-   */
-  isMultiple: boolean
-  /**
-  The function that runs when there is a selection from the dropdown
-   */
-  onChange: (event: SelectChangeEvent<string[] | string>) => void
+type SimpleSelectProps = Pick<
+  SelectProps<string | string[]>,
+  "value" | "size" | "multiple" | "onChange" | "renderValue" | "className"
+> & {
   /**
    * The options for the dropdown
    */
   options: SimpleSelectOptionProps[]
-  /**
-   * Function that controls the display for the dropdown
-   */
-  renderValue?: (selected: string | string[] | void) => string
-  /**
-   * class name for the dropdown and base for key for dropdown options
-   */
-  className?: string
-  /**
-   * styles for the dropdown and options
-   */
-  sx?: SxProps<Theme>
-  size?: SelectProps["size"]
 }
 
 interface SimpleSelectOptionProps {
@@ -49,34 +24,14 @@ interface SimpleSelectOptionProps {
   label: string
 }
 
-const SimpleSelect: React.FC<SimpleSelectProps> = ({
-  className,
-  initialValue,
-  isMultiple,
-  onChange,
-  options,
-  renderValue,
-  size,
-  sx,
-}) => {
+const SimpleSelect: React.FC<SimpleSelectProps> = ({ options, ...others }) => {
   return (
-    <Select
-      size={size}
-      multiple={isMultiple}
-      displayEmpty
-      value={initialValue}
-      onChange={onChange}
-      className={className}
-      renderValue={renderValue}
-      IconComponent={() => <ExpandMoreIcon />}
-      sx={sx}
-    >
+    <Select {...others} displayEmpty>
       {options.map((option) => (
         <MenuItem
-          size={size}
+          size={others.size}
           value={option.key.toString()}
           key={option.key.toString()}
-          sx={sx}
         >
           {option.label}
         </MenuItem>

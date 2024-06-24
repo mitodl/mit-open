@@ -554,12 +554,10 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   const sortDropdown = (
     <StyledSelect
       size="small"
-      initialValue={requestParams.sortby || ""}
-      isMultiple={false}
+      value={requestParams.sortby || ""}
       onChange={(e) => setParamValue("sortby", e.target.value)}
       options={SORT_OPTIONS}
       className="sort-dropdown"
-      sx={{ fontSize: "small" }}
       renderValue={(value) => {
         const opt = SORT_OPTIONS.find((option) => option.key === value)
         return `Sort by: ${opt?.label}`

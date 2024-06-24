@@ -4,22 +4,20 @@ import { SimpleSelect, SimpleSelectProps } from "./SimpleSelect"
 import type { SelectChangeEvent } from "@mui/material/Select"
 
 function StateWrapper(props: SimpleSelectProps) {
-  const [value, setValue] = useState(props.initialValue)
+  const [value, setValue] = useState(props.value)
 
   const handleChange = (event: SelectChangeEvent<string | string[]>) => {
     setValue(event.target.value)
   }
 
-  return (
-    <SimpleSelect {...props} initialValue={value} onChange={handleChange} />
-  )
+  return <SimpleSelect {...props} value={value} onChange={handleChange} />
 }
 
 const meta: Meta<typeof SimpleSelect> = {
   title: "ol-components/SimpleSelect",
   component: StateWrapper,
   argTypes: {
-    isMultiple: {
+    multiple: {
       table: {
         disable: true,
       },
@@ -55,16 +53,16 @@ const options = [
 
 export const SingleSelect: Story = {
   args: {
-    initialValue: "bagel",
-    isMultiple: false,
+    value: "bagel",
+    multiple: false,
     options: options,
   },
 }
 
 export const MultipleSelect: Story = {
   args: {
-    initialValue: ["bagel", "bacon"],
-    isMultiple: true,
+    value: ["bagel", "bacon"],
+    multiple: true,
     options: options,
   },
 }
