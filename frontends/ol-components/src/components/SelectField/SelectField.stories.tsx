@@ -3,14 +3,13 @@ import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { SelectField } from "./SelectField"
 import type { SelectFieldProps } from "./SelectField"
-import MenuItem from "@mui/material/MenuItem"
+import { MenuItem } from "../MenuItem/MenuItem"
 
 import Stack from "@mui/material/Stack"
 import Grid from "@mui/material/Grid"
 import { fn } from "@storybook/test"
-import { useArgs } from "@storybook/preview-api"
 
-const SIZES = ["medium", "hero"] satisfies SelectFieldProps["size"][]
+const SIZES = ["small", "medium", "large"] satisfies SelectFieldProps["size"][]
 const meta: Meta<typeof SelectField> = {
   title: "smoot-design/SelectField",
   argTypes: {
@@ -20,12 +19,7 @@ const meta: Meta<typeof SelectField> = {
         type: "select",
       },
     },
-    value: {
-      control: { type: "select" },
-      options: ["", "value1", "value2", "value3"],
-    },
     onChange: { table: { disable: true } },
-    children: { table: { disable: true } },
   },
   args: {
     onChange: fn(),
@@ -33,84 +27,86 @@ const meta: Meta<typeof SelectField> = {
     label: "Label",
     helpText: "Help text the quick brown fox jumps over the lazy dog",
     errorText: "Error text the quick brown fox jumps over the lazy dog",
-    value: "value1",
     name: "select-example",
-    children: [
-      <MenuItem key="placeholder" value="" disabled>
-        Please select one...
-      </MenuItem>,
-      <MenuItem key="value1" value="value1">
-        Option 1
-      </MenuItem>,
-      <MenuItem key="value2" value="value2">
-        Option 2
-      </MenuItem>,
-      <MenuItem key="value3" value="value3">
-        Option 3
-      </MenuItem>,
-    ],
   },
 }
 
 export default meta
 
+const ITEMS = [
+  { label: "Please select one...", props: { value: "", disabled: true } },
+  { label: "Option 1", props: { value: "value1" } },
+  { label: "Option 2", props: { value: "value2" } },
+  { label: "Option 3", props: { value: "value3" } },
+]
+
 type Story = StoryObj<typeof SelectField>
 
 export const Sizes: Story = {
-  render: () => {
-    const [args, setArgs] = useArgs<SelectFieldProps>()
+  render: (args) => {
+    const [value, setValue] = React.useState("")
     const onChange: SelectFieldProps["onChange"] = (event, node) => {
-      setArgs({ value: event.target.value })
+      setValue(event.target.value as string)
       args.onChange?.(event, node)
     }
+    const props = { ...args, value, onChange }
     return (
-      <Stack direction="row" gap={2}>
-        <SelectField {...args} onChange={onChange} size="medium" />
-        <SelectField {...args} onChange={onChange} size="hero" />
+      <Stack direction="column" gap={2}>
+        {SIZES.map((size) => (
+          <SelectField key={size} {...props} size={size}>
+            {ITEMS.map((item) => (
+              <MenuItem key={item.props.value} {...item.props} size={size}>
+                {item.label}
+              </MenuItem>
+            ))}
+          </SelectField>
+        ))}
       </Stack>
     )
   },
 }
 
+const STATES = [
+  { label: "Placeholder", extraProps: { value: "" } },
+  { label: "Default", extraProps: {} },
+  { label: "Required", extraProps: { required: true } },
+  { label: "Error", extraProps: { error: true } },
+  { label: "Disabled", extraProps: { disabled: true } },
+]
 export const States: Story = {
-  render: () => {
-    const [args, setArgs] = useArgs<SelectFieldProps>()
+  render: (args) => {
+    const [value, setValue] = React.useState("")
     const onChange: SelectFieldProps["onChange"] = (event, node) => {
-      setArgs({ value: event.target.value })
+      setValue(event.target.value as string)
       args.onChange?.(event, node)
+    }
+    const props = {
+      ...args,
+      value,
+      onChange,
     }
     return (
       <Grid container spacing={2} alignItems="top" maxWidth="400px">
-        <Grid item xs={4}>
-          Placeholder
-        </Grid>
-        <Grid item xs={8}>
-          <SelectField {...args} value="" />
-        </Grid>
-        <Grid item xs={4}>
-          Default
-        </Grid>
-        <Grid item xs={8}>
-          <SelectField {...args} onChange={onChange} />
-        </Grid>
-        <Grid item xs={4}>
-          Required
-        </Grid>
-        <Grid item xs={8}>
-          <SelectField required {...args} onChange={onChange} />
-        </Grid>
-        <Grid item xs={4}>
-          Error
-        </Grid>
-        <Grid item xs={8}>
-          <SelectField {...args} error onChange={onChange} />
-        </Grid>
-        <Grid item xs={4}>
-          Disabled
-        </Grid>
-        <Grid item xs={8}>
-          <SelectField {...args} onChange={onChange} disabled />
-        </Grid>
+        {STATES.map(({ label, extraProps }) => (
+          <>
+            <Grid item xs={4}>
+              {label}
+            </Grid>
+            <Grid item xs={8}>
+              <SelectField {...props} {...extraProps}>
+                {ITEMS.map((item) => (
+                  <MenuItem
+                    key={item.props.value}
+                    {...item.props}
+                    size={args.size}
+                  >
+                    {item.label}
+                  </MenuItem>
+                ))}
+              </SelectField>
+            </Grid>
+          </>
+        ))}
       </Grid>
     )
   },

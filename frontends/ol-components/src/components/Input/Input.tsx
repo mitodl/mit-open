@@ -3,6 +3,7 @@ import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
 import InputBase from "@mui/material/InputBase"
 import type { InputBaseProps } from "@mui/material/InputBase"
+import type { Theme } from "@mui/material/styles"
 
 const defaultProps = {
   size: "medium",
@@ -16,6 +17,35 @@ const buttonPadding = {
 }
 
 /**
+ * Base styles for Input and Select components. Includes border, color, hover effects.
+ */
+const baseInputStyles = (theme: Theme) => ({
+  backgroundColor: "white",
+  color: theme.custom.colors.silverGrayDark,
+  borderColor: theme.custom.colors.silverGrayLight,
+  borderWidth: "1px",
+  borderStyle: "solid",
+  "&:hover:not(.Mui-disabled)": {
+    borderColor: theme.custom.colors.darkGray2,
+  },
+  "&.Mui-focused": {
+    borderWidth: "2px",
+    color: theme.custom.colors.darkGray2,
+    borderColor: "currentcolor",
+  },
+  "&.Mui-error": {
+    borderColor: theme.custom.colors.red,
+  },
+  "& input::placeholder": {
+    opacity: "0.3",
+    color: theme.custom.colors.black,
+  },
+  "& input:placeholder-shown": {
+    textOverflow: "ellipsis",
+  },
+})
+
+/**
  * A styled input that supports start and end adornments. In most cases, the
  * higher-level TextField component should be used instead of this component.
  */
@@ -25,31 +55,7 @@ const Input = styled(InputBase)(({
   multiline,
 }) => {
   return [
-    {
-      backgroundColor: "white",
-      color: theme.custom.colors.silverGrayDark,
-      borderColor: theme.custom.colors.silverGrayLight,
-      borderWidth: "1px",
-      borderStyle: "solid",
-      "&:hover:not(.Mui-disabled)": {
-        borderColor: theme.custom.colors.darkGray2,
-      },
-      "&.Mui-focused": {
-        borderWidth: "2px",
-        color: theme.custom.colors.darkGray2,
-        borderColor: "currentcolor",
-      },
-      "&.Mui-error": {
-        borderColor: theme.custom.colors.red,
-      },
-      "& input::placeholder": {
-        opacity: "0.3",
-        color: theme.custom.colors.black,
-      },
-      "& input:placeholder-shown": {
-        textOverflow: "ellipsis",
-      },
-    },
+    baseInputStyles(theme),
     size === "medium" && {
       "& .MuiInputBase-input": {
         ...theme.typography.body2,
@@ -207,5 +213,5 @@ const AdornmentButton: React.FC<AdornmentButtonProps> = (props) => {
 
 type InputProps = Omit<InputBaseProps, "color">
 
-export { AdornmentButton, Input }
+export { AdornmentButton, Input, baseInputStyles }
 export type { InputProps, AdornmentButtonProps }
