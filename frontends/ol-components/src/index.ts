@@ -186,14 +186,18 @@ export * from "./constants/imgConfigs"
 export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
 export { TextField } from "./components/TextField/TextField"
-export { SimpleSelect } from "./components/SimpleSelect/SimpleSelect"
+export {
+  SimpleSelect,
+  SimpleSelectField,
+} from "./components/SimpleSelect/SimpleSelect"
 export type {
   SimpleSelectProps,
-  SimpleSelectOptionProps,
+  SimpleSelectFieldProps,
+  SimpleSelectOption,
 } from "./components/SimpleSelect/SimpleSelect"
 
 export type { TextFieldProps } from "./components/TextField/TextField"
-export { Select, SelectField } from "./components/SelectField/SelectField"
+export { SelectField } from "./components/SelectField/SelectField"
 export type {
   SelectChangeEvent,
   SelectProps,

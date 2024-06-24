@@ -9,9 +9,8 @@ import type {
 } from "@mitodl/course-search-utils"
 import { BOOLEAN_FACET_NAMES } from "@mitodl/course-search-utils"
 import { Skeleton, styled } from "ol-components"
+import type { SimpleSelectOption } from "ol-components"
 import { StyledSelect } from "@/page-components/SearchDisplay/SearchDisplay"
-
-export type KeyWithLabel = { key: string; label: string }
 
 const StyledSkeleton = styled(Skeleton)`
   display: inline-flex;
@@ -51,19 +50,19 @@ const filteredResultsWithLabels = (
   results: Aggregation,
   labelFunction: ((value: string) => string) | null | undefined,
   constantsForFacet: string[] | null,
-): KeyWithLabel[] => {
-  const newResults = [] as KeyWithLabel[]
+): SimpleSelectOption[] => {
+  const newResults = [] as SimpleSelectOption[]
   if (constantsForFacet) {
     constantsForFacet.map((key: string) => {
       newResults.push({
-        key: key,
+        value: key,
         label: labelFunction ? labelFunction(key) : key,
       })
     })
   } else {
     results.map((singleFacet: Bucket) => {
       newResults.push({
-        key: singleFacet.key,
+        value: singleFacet.key,
         label: labelFunction ? labelFunction(singleFacet.key) : singleFacet.key,
       })
     })
@@ -113,15 +112,15 @@ const AvailableFacetsDropdowns: React.FC<
         }
 
         if (!isMultiple) {
-          facetItems.unshift({ key: "", label: "no selection" })
+          facetItems.unshift({ value: "", label: "no selection" })
         }
 
         return (
           facetItems.length && (
             <StyledSelect
               key={facetSetting.name}
-              initialValue={displayValue}
-              isMultiple={isMultiple}
+              value={displayValue}
+              multiple={isMultiple}
               onChange={(e) => onFacetChange(facetSetting.name, e.target.value)}
               renderValue={() => {
                 return facetSetting.title

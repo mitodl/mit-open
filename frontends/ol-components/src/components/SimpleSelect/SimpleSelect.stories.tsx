@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { SimpleSelect, SimpleSelectProps } from "./SimpleSelect"
+import type { SimpleSelectOption } from "./SimpleSelect"
 import type { SelectChangeEvent } from "@mui/material/Select"
 
 function StateWrapper(props: SimpleSelectProps) {
@@ -28,32 +29,37 @@ const meta: Meta<typeof SimpleSelect> = {
 export default meta
 
 type Story = StoryObj<typeof SimpleSelect>
-const options = [
+const options: SimpleSelectOption[] = [
   {
-    key: "bagel",
+    value: "",
+    label: "Please select",
+    disabled: true,
+  },
+  {
+    value: "bagel",
     label: "Bagel",
   },
   {
-    key: "bacon",
+    value: "bacon",
     label: "Bacon",
   },
   {
-    key: "french_toast",
+    value: "french_toast",
     label: "French Toast",
   },
   {
-    key: "eggs",
+    value: "eggs",
     label: "Eggs",
   },
   {
-    key: "belgian_waffles",
+    value: "belgian_waffles",
     label: "Belgian Waffles",
   },
 ]
 
 export const SingleSelect: Story = {
   args: {
-    value: "bagel",
+    value: "",
     multiple: false,
     options: options,
   },

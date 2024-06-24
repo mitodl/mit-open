@@ -439,19 +439,19 @@ export const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
 export const SORT_OPTIONS = [
   {
     label: "Best Match",
-    key: "",
+    value: "",
   },
   {
     label: "New",
-    key: "new",
+    value: "new",
   },
   {
     label: "Popular",
-    key: "-views",
+    value: "-views",
   },
   {
     label: "Upcoming",
-    key: "upcoming",
+    value: "upcoming",
   },
 ]
 
@@ -559,7 +559,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
       options={SORT_OPTIONS}
       className="sort-dropdown"
       renderValue={(value) => {
-        const opt = SORT_OPTIONS.find((option) => option.key === value)
+        const opt = SORT_OPTIONS.find((option) => option.value === value)
         return `Sort by: ${opt?.label}`
       }}
     />
