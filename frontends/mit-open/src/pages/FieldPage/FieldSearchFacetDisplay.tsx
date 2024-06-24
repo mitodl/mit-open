@@ -9,7 +9,7 @@ import type {
 } from "@mitodl/course-search-utils"
 import { BOOLEAN_FACET_NAMES } from "@mitodl/course-search-utils"
 import { Skeleton, styled } from "ol-components"
-import { StyledDropdown } from "@/page-components/SearchDisplay/SearchDisplay"
+import { StyledSelect } from "@/page-components/SearchDisplay/SearchDisplay"
 
 export type KeyWithLabel = { key: string; label: string }
 
@@ -118,7 +118,7 @@ const AvailableFacetsDropdowns: React.FC<
 
         return (
           facetItems.length && (
-            <StyledDropdown
+            <StyledSelect
               key={facetSetting.name}
               initialValue={displayValue}
               isMultiple={isMultiple}

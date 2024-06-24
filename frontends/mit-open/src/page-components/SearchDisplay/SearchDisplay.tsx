@@ -46,24 +46,8 @@ import type { TabConfig } from "./ResourceTypeTabs"
 import { ResourceListCard } from "../ResourceCard/ResourceCard"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 
-export const StyledDropdown = styled(SimpleSelect)`
-  margin-left: 8px;
-  margin-right: 0;
-  margin-top: 0;
+export const StyledSelect = styled(SimpleSelect)`
   min-width: 160px;
-  height: 32px;
-  background: ${({ theme }) => theme.custom.colors.white};
-
-  svg {
-    width: 0.75em;
-    height: 0.75em;
-  }
-
-  div {
-    min-height: 0 px;
-    padding-right: 1px !important;
-    font-size: 12px !important;
-  }
 `
 
 export const StyledResourceTabs = styled(ResourceTypeTabs.TabList)`
@@ -73,11 +57,6 @@ export const StyledResourceTabs = styled(ResourceTypeTabs.TabList)`
 export const DesktopSortContainer = styled.div`
   float: right;
 
-  div {
-    height: 32px;
-    bottom: 1px;
-  }
-
   ${({ theme }) => theme.breakpoints.down("md")} {
     display: none;
   }
@@ -86,11 +65,6 @@ export const MobileSortContainer = styled.div`
   float: right;
   ${({ theme }) => theme.breakpoints.up("md")} {
     display: none;
-  }
-
-  div {
-    height: 32px;
-    bottom: -2px;
   }
 `
 
@@ -578,7 +552,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   )
 
   const sortDropdown = (
-    <StyledDropdown
+    <StyledSelect
+      size="small"
       initialValue={requestParams.sortby || ""}
       isMultiple={false}
       onChange={(e) => setParamValue("sortby", e.target.value)}
