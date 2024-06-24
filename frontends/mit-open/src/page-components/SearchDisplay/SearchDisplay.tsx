@@ -405,8 +405,8 @@ const MobileApplyFiltersButton = styled(Button)`
   width: 144px;
   margin-right: 12px;
   box-shadow:
-    0px 2px 4px 0px rgba(37, 38, 43, 0.1),
-    0px 3px 8px 0px rgba(37, 38, 43, 0.12);
+    0 2px 4px 0 #25262b1a,
+    0 3px 8px 0 #25262b1f;
 `
 
 const MobileClearAllButton = styled(Button)`
@@ -673,7 +673,11 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   </MobileFacetsTitleContainer>
                   {hasFacets ? (
                     <MobileFacetSearchButtons>
-                      <MobileApplyFiltersButton variant="text" size="small">
+                      <MobileApplyFiltersButton
+                        variant="text"
+                        size="small"
+                        onClick={toggleMobileDrawer(false)}
+                      >
                         Apply Filters
                       </MobileApplyFiltersButton>
                       <MobileClearAllButton
