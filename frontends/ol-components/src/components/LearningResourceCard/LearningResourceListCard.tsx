@@ -21,6 +21,12 @@ const IMAGE_SIZES = {
   desktop: { width: 236, height: 122 },
 }
 
+const CardLabel = styled.span`
+  ${theme.breakpoints.down("sm")} {
+    display: none;
+  }
+`
+
 const Certificate = styled.div`
   border-radius: 4px;
   background-color: ${theme.custom.colors.lightGray1};
@@ -38,7 +44,6 @@ const Certificate = styled.div`
 
   ${theme.breakpoints.down("md")} {
     ${{ ...theme.typography.body4 }}
-    background: none;
     color: ${theme.custom.colors.darkGray2};
     gap: 2px;
 
@@ -60,7 +65,6 @@ const Price = styled.div`
   color: ${theme.custom.colors.darkGray2};
   ${theme.breakpoints.down("md")} {
     ${{ ...theme.typography.subtitle3 }}
-    color: ${theme.custom.colors.mitRed};
   }
 `
 
@@ -279,7 +283,7 @@ const StartDate: React.FC<{ resource: LearningResource }> = ({ resource }) => {
 
   return (
     <div>
-      {label} <span>{startDate}</span>
+      <CardLabel>{label}</CardLabel> <span>{startDate}</span>
     </div>
   )
 }
@@ -289,7 +293,7 @@ const Format = ({ resource }: { resource: LearningResource }) => {
   if (!format) return null
   return (
     <div>
-      Format: <span>{format}</span>
+      <CardLabel>Format:</CardLabel> <span>{format}</span>
     </div>
   )
 }
@@ -390,7 +394,11 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
       <ListCard.Info>
         <Info resource={resource} />
       </ListCard.Info>
-      <ListCard.Title>{resource.title}</ListCard.Title>
+      <ListCard.Title
+        sx={(theme) => ({ color: theme.custom.colors.darkGray2 })}
+      >
+        {resource.title}
+      </ListCard.Title>
       <ListCard.Actions>
         {onAddToLearningPathClick && (
           <StyledActionButton
