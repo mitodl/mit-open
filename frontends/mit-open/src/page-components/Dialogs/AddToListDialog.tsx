@@ -11,8 +11,7 @@ import {
   styled,
 } from "ol-components"
 
-import LockOpenIcon from "@mui/icons-material/LockOpen"
-import LockIcon from "@mui/icons-material/Lock"
+import { RiLockLine, RiLockUnlockLine } from "@remixicon/react"
 
 import AddIcon from "@mui/icons-material/Add"
 import * as NiceModal from "@ebay/nice-modal-react"
@@ -209,7 +208,7 @@ const PrivacyChip: React.FC<PrivacyChipProps> = ({
   selectedOption,
 }) => {
   const isPublic = selectedOption === publicOption
-  const icon = isPublic ? <LockOpenIcon /> : <LockIcon />
+  const icon = isPublic ? <RiLockUnlockLine /> : <RiLockLine />
   return <Chip icon={icon} label={selectedOption} size="medium" />
 }
 
