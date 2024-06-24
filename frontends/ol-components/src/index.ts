@@ -145,7 +145,7 @@ export { default as Collapse } from "@mui/material/Collapse"
 
 export { default as Menu } from "@mui/material/Menu"
 export type { MenuProps } from "@mui/material/Menu"
-export { default as MenuItem } from "@mui/material/MenuItem"
+export * from "./components/MenuItem/MenuItem"
 
 export { default as Stepper } from "@mui/material/Stepper"
 export { default as Step } from "@mui/material/Step"
