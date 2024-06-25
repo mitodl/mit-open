@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react"
 import type { Meta, StoryObj } from "@storybook/react"
+import { faker } from "@faker-js/faker/locale/en"
 import { ChoiceBox } from "./ChoiceBox"
 import type { ChoiceBoxProps } from "./ChoiceBox"
 
@@ -38,8 +39,7 @@ export const Radio: Story = {
 export const RadioDescription: Story = {
   args: {
     label: "Radio Choice Box with Description",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+    description: faker.lorem.paragraph(),
     type: "radio",
   },
 }
@@ -54,8 +54,7 @@ export const Checkbox: Story = {
 export const CheckboxDescription: Story = {
   args: {
     label: "Checkbox Choice Box with Description",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+    description: faker.lorem.paragraph(),
     type: "checkbox",
   },
 }

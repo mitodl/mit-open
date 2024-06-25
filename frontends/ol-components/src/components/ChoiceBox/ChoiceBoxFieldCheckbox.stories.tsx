@@ -1,19 +1,22 @@
 import React, { useState } from "react"
 import type { Meta, StoryObj } from "@storybook/react"
+import { faker } from "@faker-js/faker/locale/en"
 import { CheckboxChoiceBoxField } from "./ChoiceBoxField"
 import type { CheckboxChoiceBoxFieldProps } from "./ChoiceBoxField"
 
+const sentence = () => faker.lorem.sentence({ min: 1, max: 3 }).slice(0, -1)
+
 const CHOICES = [
-  { label: "Item 1", value: "item1" },
-  { label: "Item 2", value: "item2" },
-  { label: "Item 3", value: "item3" },
-  { label: "Item 4", value: "item4" },
-  { label: "Item 5", value: "item5" },
-  { label: "Item 6", value: "item6" },
-  { label: "Item 7", value: "item7" },
-  { label: "Item 8", value: "item8" },
-  { label: "Item 9", value: "item9" },
-  { label: "Item 10", value: "item10" },
+  { label: sentence(), value: "item1" },
+  { label: sentence(), value: "item2" },
+  { label: sentence(), value: "item3" },
+  { label: sentence(), value: "item4" },
+  { label: sentence(), value: "item5" },
+  { label: sentence(), value: "item6" },
+  { label: sentence(), value: "item7" },
+  { label: sentence(), value: "item8" },
+  { label: sentence(), value: "item9" },
+  { label: sentence(), value: "item10" },
 ]
 
 const StateWrapper = (props: CheckboxChoiceBoxFieldProps) => {
@@ -68,7 +71,7 @@ export const CheckboxDescriptions: Story = {
     label: "Choice Box Field Label",
     choices: CHOICES.map((choice) => ({
       ...choice,
-      description: "Description",
+      description: faker.lorem.paragraph(2),
     })),
   },
 }

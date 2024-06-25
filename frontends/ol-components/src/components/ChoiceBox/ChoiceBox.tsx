@@ -19,16 +19,17 @@ const ContainerLabel = styled.label(({ theme }) => {
     borderRadius: "4px",
     display: "flex",
     flexDirection: "column",
-    gap: "6px",
-    justifyContent: "space-between",
+    gap: "2px",
     boxShadow: `inset 0 0 0 1px ${colors.silverGrayLight}`,
     background: colors.white,
-    "&.checked": {
-      boxShadow: `inset 0 0 0 2px ${colors.darkGray2}`,
+    "&:hover:not(.checked)": {
+      boxShadow: `inset 0 0 0 1px ${colors.silverGrayDark}`,
     },
     "&:hover": {
-      boxShadow: `inset 0 0 0 1px ${colors.silverGray}`,
       cursor: "pointer",
+    },
+    "&.checked": {
+      boxShadow: `inset 0 0 0 2px ${colors.darkGray2}`,
     },
   }
 })
@@ -37,6 +38,7 @@ const UpperContainer = styled.div({
   display: "flex",
   gap: "6px",
   alignItems: "center",
+  justifyContent: "space-between",
 })
 
 const Label = styled.span(({ theme }) => ({
@@ -48,7 +50,7 @@ const Description = styled.span(({ theme }) => {
   const colors = theme.custom.colors
   return {
     ...theme.typography.body3,
-    color: theme.custom.colors.darkGray2,
+    color: theme.custom.colors.silverGrayDark,
     paddingRight: "26px",
     "label.checked &, label:hover &": {
       color: colors.darkGray2,
@@ -71,13 +73,10 @@ type IconsProps = {
 const ChoiceIcon = styled.span<IconsProps>(({ theme, checked }) => {
   const colors = theme.custom.colors
   return {
-    position: "absolute",
-    right: 0,
     height: "24px",
     width: "24px",
-    marginRight: "12px",
-    color: checked ? colors.mitRed : colors.lightGray2,
-    "label:hover &": {
+    color: checked ? colors.red : colors.lightGray2,
+    "label:hover:not(.checked) & ": {
       color: colors.silverGrayDark,
     },
   }
