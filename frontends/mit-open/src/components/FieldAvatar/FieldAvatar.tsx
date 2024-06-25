@@ -67,8 +67,6 @@ const AvatarContainer = styled.div<AvatarStyleProps>`
   }
 `
 const AvatarImg = styled.img<AvatarStyleProps>`
-  display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: center;
   min-height: 0;
@@ -78,8 +76,7 @@ const AvatarImg = styled.img<AvatarStyleProps>`
   height: ${({ imageSize }) => IMG_SIZES[imageSize]};
   width: auto;
   ${({ theme }) => theme.breakpoints.down("sm")} {
-    height: auto;
-    width: 100%;
+    height: min(calc(100vh), ${({ imageSize }) => IMG_SIZES[imageSize]});
   }
 `
 const AvatarInitials = styled(AvatarImg.withComponent("div"))(
