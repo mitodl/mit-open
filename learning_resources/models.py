@@ -395,6 +395,9 @@ class LearningResourceRelationship(TimestampedModel):
         default=None,
     )
 
+    class Meta:
+        ordering = ["position"]
+
 
 class ContentFile(TimestampedModel):
     """
@@ -473,6 +476,9 @@ class UserListRelationship(TimestampedModel):
         LearningResource, related_name="user_lists", on_delete=models.deletion.CASCADE
     )
     position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["position"]
 
 
 class Podcast(TimestampedModel):
