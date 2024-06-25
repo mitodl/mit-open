@@ -393,27 +393,12 @@ const StyledDrawer = styled(Drawer)`
 `
 
 const MobileFacetSearchButtons = styled.div`
-  width: 100%;
+  display: flex;
   gap: 12px;
-`
 
-const MobileApplyFiltersButton = styled(Button)`
-  background-color: ${({ theme }) => theme.custom.colors.mitRed};
-  color: ${({ theme }) => theme.custom.colors.white};
-  padding: 12px;
-  border-radius: 4px;
-  width: 144px;
-  margin-right: 12px;
-  box-shadow:
-    0 2px 4px 0 #25262b1a,
-    0 3px 8px 0 #25262b1f;
-`
-
-const MobileClearAllButton = styled(Button)`
-  background-color: white;
-  padding: 12px;
-  border-radius: 4px;
-  width: 144px;
+  & > button {
+    flex: 1;
+  }
 `
 
 const MobileDrawerCloseButton = styled(Button)`
@@ -673,20 +658,20 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   </MobileFacetsTitleContainer>
                   {hasFacets ? (
                     <MobileFacetSearchButtons>
-                      <MobileApplyFiltersButton
-                        variant="text"
+                      <Button
+                        variant="primary"
                         size="small"
                         onClick={toggleMobileDrawer(false)}
                       >
                         Apply Filters
-                      </MobileApplyFiltersButton>
-                      <MobileClearAllButton
-                        variant="text"
+                      </Button>
+                      <Button
+                        variant="text-secondary"
                         size="small"
                         onClick={clearAllFacets}
                       >
                         Clear All
-                      </MobileClearAllButton>
+                      </Button>
                     </MobileFacetSearchButtons>
                   ) : null}
                   {filterContents}

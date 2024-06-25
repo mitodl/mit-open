@@ -5,7 +5,13 @@ import tinycolor from "tinycolor2"
 import { Link } from "react-router-dom"
 import type { Theme } from "@mui/material/styles"
 
-type ButtonVariant = "primary" | "secondary" | "tertiary" | "text" | "inverted"
+type ButtonVariant =
+  | "primary"
+  | "secondary"
+  | "tertiary"
+  | "text"
+  | "text-secondary"
+  | "inverted"
 type ButtonSize = "small" | "medium" | "large"
 type ButtonEdge = "circular" | "rounded" | "none"
 
@@ -126,6 +132,17 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     },
     variant === "text" && {
       color: colors.darkGray2,
+      ":hover:not(:disabled)": {
+        backgroundColor: tinycolor(colors.darkGray1).setAlpha(0.06).toString(),
+      },
+      ":disabled": {
+        color: colors.silverGray,
+      },
+    },
+    variant === "text-secondary" && {
+      backgroundColor: colors.white,
+      color: colors.darkGray2,
+      border: "none",
       ":hover:not(:disabled)": {
         backgroundColor: tinycolor(colors.darkGray1).setAlpha(0.06).toString(),
       },
