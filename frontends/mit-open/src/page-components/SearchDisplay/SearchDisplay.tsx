@@ -408,10 +408,13 @@ const StyledDrawer = styled(Drawer)`
   }
 `
 
-const MobileClearAllButton = styled(Button)`
-  background-color: white;
-  padding: 12px;
-  border-radius: 4px;
+const MobileFacetSearchButtons = styled.div`
+  display: flex;
+  gap: 12px;
+
+  & > button {
+    flex: 1;
+  }
 `
 
 const MobileDrawerCloseButton = styled(Button)`
@@ -659,15 +662,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                       <div>
                         <Typography variant="subtitle3">Filter</Typography>
                       </div>
-                      {hasFacets ? (
-                        <MobileClearAllButton
-                          variant="text"
-                          size="small"
-                          onClick={clearAllFacets}
-                        >
-                          Clear all
-                        </MobileClearAllButton>
-                      ) : null}
                     </div>
                     <MobileDrawerCloseButton
                       size="large"
@@ -678,6 +672,24 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                       <RiCloseLine fontSize="inherit" />
                     </MobileDrawerCloseButton>
                   </MobileFacetsTitleContainer>
+                  {hasFacets ? (
+                    <MobileFacetSearchButtons>
+                      <Button
+                        variant="primary"
+                        size="small"
+                        onClick={toggleMobileDrawer(false)}
+                      >
+                        Apply Filters
+                      </Button>
+                      <Button
+                        variant="noBorder"
+                        size="small"
+                        onClick={clearAllFacets}
+                      >
+                        Clear All
+                      </Button>
+                    </MobileFacetSearchButtons>
+                  ) : null}
                   {filterContents}
                 </StyledDrawer>
                 <MobileSortContainer>{sortDropdown}</MobileSortContainer>

@@ -27,7 +27,14 @@ const meta: Meta<typeof Button> = {
   component: Button,
   argTypes: {
     variant: {
-      options: ["primary", "secondary", "tertiary", "text"],
+      options: [
+        "primary",
+        "secondary",
+        "tertiary",
+        "text",
+        "inverted",
+        "text-secondary",
+      ],
       control: { type: "select" },
     },
     size: {
@@ -81,6 +88,12 @@ export const VariantStory: Story = {
       </Button>
       <Button {...args} variant="text">
         Text
+      </Button>
+      <Button {...args} variant="noBorder">
+        Text Secondary
+      </Button>
+      <Button {...args} variant="inverted">
+        Inverted
       </Button>
     </Stack>
   ),
