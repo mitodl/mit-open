@@ -73,6 +73,11 @@ const themeOptions: ThemeOptions = {
         },
       },
     },
+    MuiMenu: {
+      styleOverrides: {
+        paper: { borderRadius: "4px" },
+      },
+    },
     MuiChip: chips.chipComponent,
   },
 }
