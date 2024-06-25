@@ -91,40 +91,37 @@ describe("DepartmentListingPage", () => {
     screen.getByRole("heading", { name: "Browse by Academic Department" })
   })
 
-  it.each(new Array(1000).fill(null))(
-    "Lists schools and departments",
-    async () => {
-      const { schools, departments } = setupApis()
-      renderWithProviders(<DepartmentListingPage />)
+  it("Lists schools and departments", async () => {
+    const { schools, departments } = setupApis()
+    renderWithProviders(<DepartmentListingPage />)
 
-      const school0 = (
-        await screen.findByRole("heading", {
-          name: schools[0].name,
-        })
-      ).closest("li")
-      const school1 = (
-        await screen.findByRole("heading", {
-          name: schools[1].name,
-        })
-      ).closest("li")
-      invariant(school0)
-      invariant(school1)
+    const school0 = (
+      await screen.findByRole("heading", {
+        name: schools[0].name,
+      })
+    ).closest("li")
+    const school1 = (
+      await screen.findByRole("heading", {
+        name: schools[1].name,
+      })
+    ).closest("li")
+    invariant(school0)
+    invariant(school1)
 
-      const school0depts = within(school0).getAllByRole("link")
-      const school1depts = within(school1).getAllByRole("link")
+    const school0depts = within(school0).getAllByRole("link")
+    const school1depts = within(school1).getAllByRole("link")
 
-      expect(school0depts).toHaveLength(2)
-      expect(school1depts).toHaveLength(3)
+    expect(school0depts).toHaveLength(2)
+    expect(school1depts).toHaveLength(3)
 
-      const [d1, d2, d3, d4, d5] = departments
-      expect(school0depts[0]).toHaveTextContent(d1.name)
-      expect(school0depts[1]).toHaveTextContent(d2.name)
+    const [d1, d2, d3, d4, d5] = departments
+    expect(school0depts[0]).toHaveTextContent(d1.name)
+    expect(school0depts[1]).toHaveTextContent(d2.name)
 
-      expect(school1depts[0]).toHaveTextContent(d3.name)
-      expect(school1depts[1]).toHaveTextContent(d4.name)
-      expect(school1depts[2]).toHaveTextContent(d5.name)
-    },
-  )
+    expect(school1depts[0]).toHaveTextContent(d3.name)
+    expect(school1depts[1]).toHaveTextContent(d4.name)
+    expect(school1depts[2]).toHaveTextContent(d5.name)
+  })
 
   test("Department links show course and program counts", async () => {
     const { departments } = setupApis()
