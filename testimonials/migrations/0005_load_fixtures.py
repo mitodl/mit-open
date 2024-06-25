@@ -212,6 +212,9 @@ def load_fixtures(apps, schema_editor):
     Load fixtures for testimonials
     """
     Attestation = apps.get_model("testimonials", "Attestation")
+    LearningResourceOfferor = apps.get_model(
+        "learning_resources", "LearningResourceOfferor"
+    )
 
     for fixture in fixtures:
         offerors = fixture.pop("offerors")
@@ -220,7 +223,11 @@ def load_fixtures(apps, schema_editor):
             title=fixture["title"],
             defaults=fixture,
         )
-        testimonial.offerors.set(offerors)
+        # make sure related offerors exists in system before setting
+        if LearningResourceOfferor.objects.filter(code__in=offerors).count() == len(
+            offerors
+        ):
+            testimonial.offerors.set(offerors)
         if not testimonial.avatar:
             """
             Save the image from fixture so alternate sizes are generated
