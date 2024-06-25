@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("channels", "0009_rename_fieldchannelgrouprole_channelgrouprole_and_more"),
+        ("channels", "0009_rename_field_to_channel"),
         ("testimonials", "0004_update_attestation_avatar_make_optional"),
     ]
 
