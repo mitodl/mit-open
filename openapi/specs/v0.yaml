@@ -169,7 +169,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FieldModerator'
+                  $ref: '#/components/schemas/ChannelModerator'
           description: ''
     post:
       operationId: channels_moderators_create
@@ -188,19 +188,19 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FieldModeratorRequest'
+              $ref: '#/components/schemas/ChannelModeratorRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/FieldModeratorRequest'
+              $ref: '#/components/schemas/ChannelModeratorRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/FieldModeratorRequest'
+              $ref: '#/components/schemas/ChannelModeratorRequest'
       responses:
         '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldModerator'
+                $ref: '#/components/schemas/ChannelModerator'
           description: ''
   /api/v0/channels/{id}/moderators/{moderator_name}/:
     delete:
@@ -999,7 +999,7 @@ components:
           maxLength: 100
         public_description:
           type: string
-        subfields:
+        sub_channels:
           type: array
           items:
             type: string
@@ -1007,13 +1007,13 @@ components:
         featured_list:
           type: integer
           nullable: true
-          description: Learning path featured in this field.
+          description: Learning path featured in this channel.
         lists:
           type: array
           items:
             type: integer
             nullable: true
-          description: Learning paths in this field.
+          description: Learning paths in this channel.
         avatar:
           type: string
           format: binary
@@ -1058,6 +1058,32 @@ components:
           type: string
           minLength: 1
           nullable: true
+    ChannelModerator:
+      type: object
+      description: Serializer for moderators
+      properties:
+        moderator_name:
+          type: string
+          description: Returns the name for the moderator
+        email:
+          type: string
+          description: Get the email from the associated user
+        full_name:
+          type: string
+          description: Get the full name of the associated user
+          readOnly: true
+      required:
+      - full_name
+    ChannelModeratorRequest:
+      type: object
+      description: Serializer for moderators
+      properties:
+        moderator_name:
+          type: string
+          description: Returns the name for the moderator
+        email:
+          type: string
+          description: Get the email from the associated user
     ChannelTopicDetail:
       type: object
       description: Serializer for the ChannelTopicDetail model
@@ -1175,11 +1201,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -1231,7 +1257,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - updated_on
     DepartmentChannelTypeEnum:
@@ -1404,32 +1430,6 @@ components:
       x-enum-descriptions:
       - News
       - Events
-    FieldModerator:
-      type: object
-      description: Serializer for moderators
-      properties:
-        moderator_name:
-          type: string
-          description: Returns the name for the moderator
-        email:
-          type: string
-          description: Get the email from the associated user
-        full_name:
-          type: string
-          description: Get the full name of the associated user
-          readOnly: true
-      required:
-      - full_name
-    FieldModeratorRequest:
-      type: object
-      description: Serializer for moderators
-      properties:
-        moderator_name:
-          type: string
-          description: Returns the name for the moderator
-        email:
-          type: string
-          description: Get the email from the associated user
     GoalsEnum:
       enum:
       - career-growth
@@ -1766,7 +1766,7 @@ components:
           maxLength: 100
         public_description:
           type: string
-        subfields:
+        sub_channels:
           type: array
           items:
             type: string
@@ -1774,13 +1774,13 @@ components:
         featured_list:
           type: integer
           nullable: true
-          description: Learning path featured in this field.
+          description: Learning path featured in this channel.
         lists:
           type: array
           items:
             type: integer
             nullable: true
-          description: Learning paths in this field.
+          description: Learning paths in this channel.
         avatar:
           type: string
           nullable: true
@@ -1930,11 +1930,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -1983,7 +1983,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - updated_on
     PathwayChannelTypeEnum:
@@ -2282,14 +2282,14 @@ components:
       - linkedin
       - personal
       - twitter
-    Subfield:
+    SubChannel:
       type: object
-      description: Serializer for Subfields
+      description: Serializer for SubChannels
       properties:
-        parent_field:
+        parent_channel:
           type: string
           readOnly: true
-        field_channel:
+        channel:
           type: string
           readOnly: true
         position:
@@ -2297,8 +2297,8 @@ components:
           maximum: 2147483647
           minimum: -2147483648
       required:
-      - field_channel
-      - parent_field
+      - channel
+      - parent_channel
     TimeCommitmentEnum:
       enum:
       - 0-to-5-hours
@@ -2362,11 +2362,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -2417,7 +2417,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - topic_detail
       - updated_on
@@ -2471,11 +2471,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -2526,7 +2526,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - unit_detail
       - updated_on

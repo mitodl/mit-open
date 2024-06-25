@@ -228,15 +228,15 @@ export interface ChannelCreateRequest {
    * @type {Array<string>}
    * @memberof ChannelCreateRequest
    */
-  subfields?: Array<string>
+  sub_channels?: Array<string>
   /**
-   * Learning path featured in this field.
+   * Learning path featured in this channel.
    * @type {number}
    * @memberof ChannelCreateRequest
    */
   featured_list?: number | null
   /**
-   * Learning paths in this field.
+   * Learning paths in this channel.
    * @type {Array<number>}
    * @memberof ChannelCreateRequest
    */
@@ -310,6 +310,50 @@ export interface ChannelDepartmentDetailRequest {
    * @memberof ChannelDepartmentDetailRequest
    */
   department?: string | null
+}
+/**
+ * Serializer for moderators
+ * @export
+ * @interface ChannelModerator
+ */
+export interface ChannelModerator {
+  /**
+   * Returns the name for the moderator
+   * @type {string}
+   * @memberof ChannelModerator
+   */
+  moderator_name?: string
+  /**
+   * Get the email from the associated user
+   * @type {string}
+   * @memberof ChannelModerator
+   */
+  email?: string
+  /**
+   * Get the full name of the associated user
+   * @type {string}
+   * @memberof ChannelModerator
+   */
+  full_name: string
+}
+/**
+ * Serializer for moderators
+ * @export
+ * @interface ChannelModeratorRequest
+ */
+export interface ChannelModeratorRequest {
+  /**
+   * Returns the name for the moderator
+   * @type {string}
+   * @memberof ChannelModeratorRequest
+   */
+  moderator_name?: string
+  /**
+   * Get the email from the associated user
+   * @type {string}
+   * @memberof ChannelModeratorRequest
+   */
+  email?: string
 }
 /**
  * Serializer for the ChannelTopicDetail model
@@ -509,10 +553,10 @@ export interface DepartmentChannel {
   featured_list: DepartmentChannelFeaturedList | null
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<SubChannel>}
    * @memberof DepartmentChannel
    */
-  subfields: Array<Subfield>
+  sub_channels: Array<SubChannel>
   /**
    *
    * @type {DepartmentChannelTypeEnum}
@@ -588,7 +632,7 @@ export interface DepartmentChannel {
 }
 
 /**
- * Learning path featured in this field.
+ * Learning path featured in this channel.
  * @export
  * @interface DepartmentChannelFeaturedList
  */
@@ -893,50 +937,6 @@ export const FeedSourceFeedTypeEnum = {
 export type FeedSourceFeedTypeEnum =
   (typeof FeedSourceFeedTypeEnum)[keyof typeof FeedSourceFeedTypeEnum]
 
-/**
- * Serializer for moderators
- * @export
- * @interface FieldModerator
- */
-export interface FieldModerator {
-  /**
-   * Returns the name for the moderator
-   * @type {string}
-   * @memberof FieldModerator
-   */
-  moderator_name?: string
-  /**
-   * Get the email from the associated user
-   * @type {string}
-   * @memberof FieldModerator
-   */
-  email?: string
-  /**
-   * Get the full name of the associated user
-   * @type {string}
-   * @memberof FieldModerator
-   */
-  full_name: string
-}
-/**
- * Serializer for moderators
- * @export
- * @interface FieldModeratorRequest
- */
-export interface FieldModeratorRequest {
-  /**
-   * Returns the name for the moderator
-   * @type {string}
-   * @memberof FieldModeratorRequest
-   */
-  moderator_name?: string
-  /**
-   * Get the email from the associated user
-   * @type {string}
-   * @memberof FieldModeratorRequest
-   */
-  email?: string
-}
 /**
  * * `career-growth` - Career Growth * `supplemental-learning` - Supplemental Learning * `just-to-learn` - Just to Learn
  * @export
@@ -1442,15 +1442,15 @@ export interface PatchedChannelWriteRequest {
    * @type {Array<string>}
    * @memberof PatchedChannelWriteRequest
    */
-  subfields?: Array<string>
+  sub_channels?: Array<string>
   /**
-   * Learning path featured in this field.
+   * Learning path featured in this channel.
    * @type {number}
    * @memberof PatchedChannelWriteRequest
    */
   featured_list?: number | null
   /**
-   * Learning paths in this field.
+   * Learning paths in this channel.
    * @type {Array<number>}
    * @memberof PatchedChannelWriteRequest
    */
@@ -1718,10 +1718,10 @@ export interface PathwayChannel {
   featured_list: DepartmentChannelFeaturedList | null
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<SubChannel>}
    * @memberof PathwayChannel
    */
-  subfields: Array<Subfield>
+  sub_channels: Array<SubChannel>
   /**
    *
    * @type {PathwayChannelTypeEnum}
@@ -2252,27 +2252,27 @@ export const SiteTypeEnum = {
 export type SiteTypeEnum = (typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]
 
 /**
- * Serializer for Subfields
+ * Serializer for SubChannels
  * @export
- * @interface Subfield
+ * @interface SubChannel
  */
-export interface Subfield {
+export interface SubChannel {
   /**
    *
    * @type {string}
-   * @memberof Subfield
+   * @memberof SubChannel
    */
-  parent_field: string
+  parent_channel: string
   /**
    *
    * @type {string}
-   * @memberof Subfield
+   * @memberof SubChannel
    */
-  field_channel: string
+  channel: string
   /**
    *
    * @type {number}
-   * @memberof Subfield
+   * @memberof SubChannel
    */
   position?: number
 }
@@ -2378,10 +2378,10 @@ export interface TopicChannel {
   featured_list: DepartmentChannelFeaturedList | null
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<SubChannel>}
    * @memberof TopicChannel
    */
-  subfields: Array<Subfield>
+  sub_channels: Array<SubChannel>
   /**
    *
    * @type {TopicChannelTypeEnum}
@@ -2538,10 +2538,10 @@ export interface UnitChannel {
   featured_list: DepartmentChannelFeaturedList | null
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<SubChannel>}
    * @memberof UnitChannel
    */
-  subfields: Array<Subfield>
+  sub_channels: Array<SubChannel>
   /**
    *
    * @type {UnitChannelTypeEnum}
@@ -3060,13 +3060,13 @@ export const ChannelsApiAxiosParamCreator = function (
      * View for listing and adding moderators
      * @summary Field Moderators Create
      * @param {string} id
-     * @param {FieldModeratorRequest} [FieldModeratorRequest]
+     * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     channelsModeratorsCreate: async (
       id: string,
-      FieldModeratorRequest?: FieldModeratorRequest,
+      ChannelModeratorRequest?: ChannelModeratorRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -3101,7 +3101,7 @@ export const ChannelsApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        FieldModeratorRequest,
+        ChannelModeratorRequest,
         localVarRequestOptions,
         configuration,
       )
@@ -3473,21 +3473,24 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
      * View for listing and adding moderators
      * @summary Field Moderators Create
      * @param {string} id
-     * @param {FieldModeratorRequest} [FieldModeratorRequest]
+     * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async channelsModeratorsCreate(
       id: string,
-      FieldModeratorRequest?: FieldModeratorRequest,
+      ChannelModeratorRequest?: ChannelModeratorRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldModerator>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ChannelModerator>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsModeratorsCreate(
           id,
-          FieldModeratorRequest,
+          ChannelModeratorRequest,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -3548,7 +3551,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<Array<FieldModerator>>
+      ) => AxiosPromise<Array<ChannelModerator>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsModeratorsList(id, options)
@@ -3727,11 +3730,11 @@ export const ChannelsApiFactory = function (
     channelsModeratorsCreate(
       requestParameters: ChannelsApiChannelsModeratorsCreateRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldModerator> {
+    ): AxiosPromise<ChannelModerator> {
       return localVarFp
         .channelsModeratorsCreate(
           requestParameters.id,
-          requestParameters.FieldModeratorRequest,
+          requestParameters.ChannelModeratorRequest,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -3765,7 +3768,7 @@ export const ChannelsApiFactory = function (
     channelsModeratorsList(
       requestParameters: ChannelsApiChannelsModeratorsListRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<FieldModerator>> {
+    ): AxiosPromise<Array<ChannelModerator>> {
       return localVarFp
         .channelsModeratorsList(requestParameters.id, options)
         .then((request) => request(axios, basePath))
@@ -3897,10 +3900,10 @@ export interface ChannelsApiChannelsModeratorsCreateRequest {
 
   /**
    *
-   * @type {FieldModeratorRequest}
+   * @type {ChannelModeratorRequest}
    * @memberof ChannelsApiChannelsModeratorsCreate
    */
-  readonly FieldModeratorRequest?: FieldModeratorRequest
+  readonly ChannelModeratorRequest?: ChannelModeratorRequest
 }
 
 /**
@@ -4072,7 +4075,7 @@ export class ChannelsApi extends BaseAPI {
     return ChannelsApiFp(this.configuration)
       .channelsModeratorsCreate(
         requestParameters.id,
-        requestParameters.FieldModeratorRequest,
+        requestParameters.ChannelModeratorRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
