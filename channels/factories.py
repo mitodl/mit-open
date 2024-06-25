@@ -6,10 +6,10 @@ from factory.django import DjangoModelFactory
 from channels.api import create_field_groups_and_roles
 from channels.constants import ChannelType
 from channels.models import (
+    Channel,
     ChannelDepartmentDetail,
     ChannelTopicDetail,
     ChannelUnitDetail,
-    FieldChannel,
     FieldList,
     Subfield,
 )
@@ -21,8 +21,8 @@ from learning_resources.factories import (
 )
 
 
-class FieldChannelFactory(DjangoModelFactory):
-    """Factory for a channels.models.FieldChannel object"""
+class ChannelFactory(DjangoModelFactory):
+    """Factory for a channels.models.Channel object"""
 
     name = factory.fuzzy.FuzzyText(length=21)
     title = factory.Faker("text", max_nb_chars=50)
@@ -83,7 +83,7 @@ class FieldChannelFactory(DjangoModelFactory):
         create_field_groups_and_roles(self)
 
     class Meta:
-        model = FieldChannel
+        model = Channel
         skip_postgeneration_save = True
 
     class Params:
@@ -109,7 +109,7 @@ class ChannelTopicDetailFactory(DjangoModelFactory):
     """Factory for a channels.models.ChannelTopicDetail object"""
 
     channel = factory.SubFactory(
-        FieldChannelFactory, is_topic=True, create_topic_detail=False
+        ChannelFactory, is_topic=True, create_topic_detail=False
     )
     topic = factory.SubFactory(LearningResourceTopicFactory)
 
@@ -121,7 +121,7 @@ class ChannelDepartmentDetailFactory(DjangoModelFactory):
     """Factory for a channels.models.ChannelDepartmentDetail object"""
 
     channel = factory.SubFactory(
-        FieldChannelFactory, is_department=True, create_department_detail=False
+        ChannelFactory, is_department=True, create_department_detail=False
     )
     department = factory.SubFactory(LearningResourceDepartmentFactory)
 
@@ -132,9 +132,7 @@ class ChannelDepartmentDetailFactory(DjangoModelFactory):
 class ChannelUnitDetailFactory(DjangoModelFactory):
     """Factory for a channels.models.ChannelUnitDetail object"""
 
-    channel = factory.SubFactory(
-        FieldChannelFactory, is_unit=True, create_unit_detail=False
-    )
+    channel = factory.SubFactory(ChannelFactory, is_unit=True, create_unit_detail=False)
     unit = factory.SubFactory(LearningResourceOfferorFactory)
 
     class Meta:
@@ -144,7 +142,7 @@ class ChannelUnitDetailFactory(DjangoModelFactory):
 class ChannelPathwayDetailFactory(DjangoModelFactory):
     """Factory for a channels.models.ChannelPathwayDetail object"""
 
-    channel = factory.SubFactory(FieldChannelFactory, is_pathway=True)
+    channel = factory.SubFactory(ChannelFactory, is_pathway=True)
 
     class Meta:
         model = ChannelUnitDetail
@@ -154,8 +152,8 @@ class SubfieldFactory(DjangoModelFactory):
     """Factory for channels.models.Subfield object"""
 
     position = factory.Sequence(lambda n: n)
-    parent_channel = factory.SubFactory(FieldChannelFactory)
-    field_channel = factory.SubFactory(FieldChannelFactory)
+    parent_channel = factory.SubFactory(ChannelFactory)
+    field_channel = factory.SubFactory(ChannelFactory)
 
     class Meta:
         model = Subfield
@@ -167,7 +165,7 @@ class FieldListFactory(DjangoModelFactory):
     learning_path = factory.SubFactory(LearningPathFactory)
     position = factory.Sequence(lambda n: n)
     field_list = factory.LazyAttribute(lambda o: o.learning_path.learning_resource)
-    field_channel = factory.SubFactory(FieldChannelFactory)
+    field_channel = factory.SubFactory(ChannelFactory)
 
     class Meta:
         model = FieldList

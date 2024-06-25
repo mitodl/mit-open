@@ -190,6 +190,102 @@ export type CertificateDesiredEnum =
   (typeof CertificateDesiredEnum)[keyof typeof CertificateDesiredEnum]
 
 /**
+ * @type Channel
+ * @export
+ */
+export type Channel =
+  | ({ channel_type: "department" } & DepartmentChannel)
+  | ({ channel_type: "pathway" } & PathwayChannel)
+  | ({ channel_type: "topic" } & TopicChannel)
+  | ({ channel_type: "unit" } & UnitChannel)
+
+/**
+ * Write serializer for Channel. Uses primary keys for referenced objects during requests, and delegates to ChannelSerializer for responses.
+ * @export
+ * @interface ChannelCreateRequest
+ */
+export interface ChannelCreateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCreateRequest
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCreateRequest
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCreateRequest
+   */
+  public_description?: string
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ChannelCreateRequest
+   */
+  subfields?: Array<string>
+  /**
+   * Learning path featured in this field.
+   * @type {number}
+   * @memberof ChannelCreateRequest
+   */
+  featured_list?: number | null
+  /**
+   * Learning paths in this field.
+   * @type {Array<number>}
+   * @memberof ChannelCreateRequest
+   */
+  lists?: Array<number>
+  /**
+   *
+   * @type {File}
+   * @memberof ChannelCreateRequest
+   */
+  avatar?: File | null
+  /**
+   *
+   * @type {File}
+   * @memberof ChannelCreateRequest
+   */
+  banner?: File | null
+  /**
+   *
+   * @type {any}
+   * @memberof ChannelCreateRequest
+   */
+  about?: any | null
+  /**
+   *
+   * @type {ChannelTypeEnum}
+   * @memberof ChannelCreateRequest
+   */
+  channel_type: ChannelTypeEnum
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCreateRequest
+   */
+  search_filter?: string
+  /**
+   *
+   * @type {ChannelTopicDetailRequest}
+   * @memberof ChannelCreateRequest
+   */
+  topic_detail?: ChannelTopicDetailRequest | null
+  /**
+   *
+   * @type {ChannelDepartmentDetailRequest}
+   * @memberof ChannelCreateRequest
+   */
+  department_detail?: ChannelDepartmentDetailRequest | null
+}
+
+/**
  * Serializer for the ChannelDepartmentDetail model
  * @export
  * @interface ChannelDepartmentDetail
@@ -798,102 +894,6 @@ export type FeedSourceFeedTypeEnum =
   (typeof FeedSourceFeedTypeEnum)[keyof typeof FeedSourceFeedTypeEnum]
 
 /**
- * @type FieldChannel
- * @export
- */
-export type FieldChannel =
-  | ({ channel_type: "department" } & DepartmentChannel)
-  | ({ channel_type: "pathway" } & PathwayChannel)
-  | ({ channel_type: "topic" } & TopicChannel)
-  | ({ channel_type: "unit" } & UnitChannel)
-
-/**
- * Write serializer for FieldChannel. Uses primary keys for referenced objects during requests, and delegates to FieldChannelSerializer for responses.
- * @export
- * @interface FieldChannelCreateRequest
- */
-export interface FieldChannelCreateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreateRequest
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreateRequest
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreateRequest
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FieldChannelCreateRequest
-   */
-  subfields?: Array<string>
-  /**
-   * Learning path featured in this field.
-   * @type {number}
-   * @memberof FieldChannelCreateRequest
-   */
-  featured_list?: number | null
-  /**
-   * Learning paths in this field.
-   * @type {Array<number>}
-   * @memberof FieldChannelCreateRequest
-   */
-  lists?: Array<number>
-  /**
-   *
-   * @type {File}
-   * @memberof FieldChannelCreateRequest
-   */
-  avatar?: File | null
-  /**
-   *
-   * @type {File}
-   * @memberof FieldChannelCreateRequest
-   */
-  banner?: File | null
-  /**
-   *
-   * @type {any}
-   * @memberof FieldChannelCreateRequest
-   */
-  about?: any | null
-  /**
-   *
-   * @type {ChannelTypeEnum}
-   * @memberof FieldChannelCreateRequest
-   */
-  channel_type: ChannelTypeEnum
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreateRequest
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {ChannelTopicDetailRequest}
-   * @memberof FieldChannelCreateRequest
-   */
-  topic_detail?: ChannelTopicDetailRequest | null
-  /**
-   *
-   * @type {ChannelDepartmentDetailRequest}
-   * @memberof FieldChannelCreateRequest
-   */
-  department_detail?: ChannelDepartmentDetailRequest | null
-}
-
-/**
  * Serializer for moderators
  * @export
  * @interface FieldModerator
@@ -1323,6 +1323,37 @@ export interface PaginatedAttestationList {
 /**
  *
  * @export
+ * @interface PaginatedChannelList
+ */
+export interface PaginatedChannelList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedChannelList
+   */
+  count: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedChannelList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedChannelList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<Channel>}
+   * @memberof PaginatedChannelList
+   */
+  results: Array<Channel>
+}
+/**
+ *
+ * @export
  * @interface PaginatedFeedItemList
  */
 export interface PaginatedFeedItemList {
@@ -1383,118 +1414,87 @@ export interface PaginatedFeedSourceList {
   results: Array<FeedSource>
 }
 /**
- *
+ * Similar to ChannelCreateSerializer, with read-only name
  * @export
- * @interface PaginatedFieldChannelList
+ * @interface PatchedChannelWriteRequest
  */
-export interface PaginatedFieldChannelList {
-  /**
-   *
-   * @type {number}
-   * @memberof PaginatedFieldChannelList
-   */
-  count: number
+export interface PatchedChannelWriteRequest {
   /**
    *
    * @type {string}
-   * @memberof PaginatedFieldChannelList
-   */
-  next?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedFieldChannelList
-   */
-  previous?: string | null
-  /**
-   *
-   * @type {Array<FieldChannel>}
-   * @memberof PaginatedFieldChannelList
-   */
-  results: Array<FieldChannel>
-}
-/**
- * Similar to FieldChannelCreateSerializer, with read-only name
- * @export
- * @interface PatchedFieldChannelWriteRequest
- */
-export interface PatchedFieldChannelWriteRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   name?: string
   /**
    *
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   title?: string
   /**
    *
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   public_description?: string
   /**
    *
    * @type {Array<string>}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   subfields?: Array<string>
   /**
    * Learning path featured in this field.
    * @type {number}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   featured_list?: number | null
   /**
    * Learning paths in this field.
    * @type {Array<number>}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   lists?: Array<number>
   /**
    * Get the avatar image URL
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   avatar?: string | null
   /**
    * Get the banner image URL
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   banner?: string | null
   /**
    *
    * @type {any}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   about?: any | null
   /**
    *
    * @type {ChannelTypeEnum}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   channel_type?: ChannelTypeEnum
   /**
    *
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   search_filter?: string
   /**
    *
    * @type {ChannelTopicDetailRequest}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   topic_detail?: ChannelTopicDetailRequest | null
   /**
    *
    * @type {ChannelDepartmentDetailRequest}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   department_detail?: ChannelDepartmentDetailRequest | null
 }
@@ -2900,21 +2900,21 @@ export const ChannelsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
-     * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
+     * @param {ChannelCreateRequest} ChannelCreateRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     channelsCreate: async (
-      FieldChannelCreateRequest: FieldChannelCreateRequest,
+      ChannelCreateRequest: ChannelCreateRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'FieldChannelCreateRequest' is not null or undefined
+      // verify required parameter 'ChannelCreateRequest' is not null or undefined
       assertParamExists(
         "channelsCreate",
-        "FieldChannelCreateRequest",
-        FieldChannelCreateRequest,
+        "ChannelCreateRequest",
+        ChannelCreateRequest,
       )
       const localVarPath = `/api/v0/channels/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2943,7 +2943,7 @@ export const ChannelsApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        FieldChannelCreateRequest,
+        ChannelCreateRequest,
         localVarRequestOptions,
         configuration,
       )
@@ -2954,9 +2954,9 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Destroy
-     * @param {number} id A unique integer value identifying this field channel.
+     * @param {number} id A unique integer value identifying this channel.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3000,7 +3000,7 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
      * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
      * @param {number} [limit] Number of results to return per page.
@@ -3214,16 +3214,16 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Update
-     * @param {number} id A unique integer value identifying this field channel.
-     * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
+     * @param {number} id A unique integer value identifying this channel.
+     * @param {PatchedChannelWriteRequest} [PatchedChannelWriteRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     channelsPartialUpdate: async (
       id: number,
-      PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest,
+      PatchedChannelWriteRequest?: PatchedChannelWriteRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -3258,7 +3258,7 @@ export const ChannelsApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        PatchedFieldChannelWriteRequest,
+        PatchedChannelWriteRequest,
         localVarRequestOptions,
         configuration,
       )
@@ -3269,9 +3269,9 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Retrieve
-     * @param {number} id A unique integer value identifying this field channel.
+     * @param {number} id A unique integer value identifying this channel.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3316,7 +3316,7 @@ export const ChannelsApiAxiosParamCreator = function (
     },
     /**
      * View for retrieving an individual field channel by type and name
-     * @summary FieldChannel Detail Lookup by channel type and name
+     * @summary Channel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {string} name
      * @param {*} [options] Override http request option.
@@ -3377,20 +3377,20 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ChannelsApiAxiosParamCreator(configuration)
   return {
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
-     * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
+     * @param {ChannelCreateRequest} ChannelCreateRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async channelsCreate(
-      FieldChannelCreateRequest: FieldChannelCreateRequest,
+      ChannelCreateRequest: ChannelCreateRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.channelsCreate(
-        FieldChannelCreateRequest,
+        ChannelCreateRequest,
         options,
       )
       const index = configuration?.serverIndex ?? 0
@@ -3405,9 +3405,9 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Destroy
-     * @param {number} id A unique integer value identifying this field channel.
+     * @param {number} id A unique integer value identifying this channel.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3433,7 +3433,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
      * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
      * @param {number} [limit] Number of results to return per page.
@@ -3450,7 +3450,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<PaginatedFieldChannelList>
+      ) => AxiosPromise<PaginatedChannelList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.channelsList(
         channel_type,
@@ -3564,24 +3564,24 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Update
-     * @param {number} id A unique integer value identifying this field channel.
-     * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
+     * @param {number} id A unique integer value identifying this channel.
+     * @param {PatchedChannelWriteRequest} [PatchedChannelWriteRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async channelsPartialUpdate(
       id: number,
-      PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest,
+      PatchedChannelWriteRequest?: PatchedChannelWriteRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsPartialUpdate(
           id,
-          PatchedFieldChannelWriteRequest,
+          PatchedChannelWriteRequest,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -3596,9 +3596,9 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Retrieve
-     * @param {number} id A unique integer value identifying this field channel.
+     * @param {number} id A unique integer value identifying this channel.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3606,7 +3606,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsRetrieve(id, options)
@@ -3623,7 +3623,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     },
     /**
      * View for retrieving an individual field channel by type and name
-     * @summary FieldChannel Detail Lookup by channel type and name
+     * @summary Channel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {string} name
      * @param {*} [options] Override http request option.
@@ -3634,7 +3634,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       name: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsTypeRetrieve(
@@ -3668,7 +3668,7 @@ export const ChannelsApiFactory = function (
   const localVarFp = ChannelsApiFp(configuration)
   return {
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3677,13 +3677,13 @@ export const ChannelsApiFactory = function (
     channelsCreate(
       requestParameters: ChannelsApiChannelsCreateRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannel> {
+    ): AxiosPromise<Channel> {
       return localVarFp
-        .channelsCreate(requestParameters.FieldChannelCreateRequest, options)
+        .channelsCreate(requestParameters.ChannelCreateRequest, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Destroy
      * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3698,7 +3698,7 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
      * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3707,7 +3707,7 @@ export const ChannelsApiFactory = function (
     channelsList(
       requestParameters: ChannelsApiChannelsListRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedFieldChannelList> {
+    ): AxiosPromise<PaginatedChannelList> {
       return localVarFp
         .channelsList(
           requestParameters.channel_type,
@@ -3771,7 +3771,7 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Update
      * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3780,17 +3780,17 @@ export const ChannelsApiFactory = function (
     channelsPartialUpdate(
       requestParameters: ChannelsApiChannelsPartialUpdateRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannel> {
+    ): AxiosPromise<Channel> {
       return localVarFp
         .channelsPartialUpdate(
           requestParameters.id,
-          requestParameters.PatchedFieldChannelWriteRequest,
+          requestParameters.PatchedChannelWriteRequest,
           options,
         )
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Retrieve
      * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3799,14 +3799,14 @@ export const ChannelsApiFactory = function (
     channelsRetrieve(
       requestParameters: ChannelsApiChannelsRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannel> {
+    ): AxiosPromise<Channel> {
       return localVarFp
         .channelsRetrieve(requestParameters.id, options)
         .then((request) => request(axios, basePath))
     },
     /**
      * View for retrieving an individual field channel by type and name
-     * @summary FieldChannel Detail Lookup by channel type and name
+     * @summary Channel Detail Lookup by channel type and name
      * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3814,7 +3814,7 @@ export const ChannelsApiFactory = function (
     channelsTypeRetrieve(
       requestParameters: ChannelsApiChannelsTypeRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannel> {
+    ): AxiosPromise<Channel> {
       return localVarFp
         .channelsTypeRetrieve(
           requestParameters.channel_type,
@@ -3834,10 +3834,10 @@ export const ChannelsApiFactory = function (
 export interface ChannelsApiChannelsCreateRequest {
   /**
    *
-   * @type {FieldChannelCreateRequest}
+   * @type {ChannelCreateRequest}
    * @memberof ChannelsApiChannelsCreate
    */
-  readonly FieldChannelCreateRequest: FieldChannelCreateRequest
+  readonly ChannelCreateRequest: ChannelCreateRequest
 }
 
 /**
@@ -3847,7 +3847,7 @@ export interface ChannelsApiChannelsCreateRequest {
  */
 export interface ChannelsApiChannelsDestroyRequest {
   /**
-   * A unique integer value identifying this field channel.
+   * A unique integer value identifying this channel.
    * @type {number}
    * @memberof ChannelsApiChannelsDestroy
    */
@@ -3945,7 +3945,7 @@ export interface ChannelsApiChannelsModeratorsListRequest {
  */
 export interface ChannelsApiChannelsPartialUpdateRequest {
   /**
-   * A unique integer value identifying this field channel.
+   * A unique integer value identifying this channel.
    * @type {number}
    * @memberof ChannelsApiChannelsPartialUpdate
    */
@@ -3953,10 +3953,10 @@ export interface ChannelsApiChannelsPartialUpdateRequest {
 
   /**
    *
-   * @type {PatchedFieldChannelWriteRequest}
+   * @type {PatchedChannelWriteRequest}
    * @memberof ChannelsApiChannelsPartialUpdate
    */
-  readonly PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest
+  readonly PatchedChannelWriteRequest?: PatchedChannelWriteRequest
 }
 
 /**
@@ -3966,7 +3966,7 @@ export interface ChannelsApiChannelsPartialUpdateRequest {
  */
 export interface ChannelsApiChannelsRetrieveRequest {
   /**
-   * A unique integer value identifying this field channel.
+   * A unique integer value identifying this channel.
    * @type {number}
    * @memberof ChannelsApiChannelsRetrieve
    */
@@ -4002,7 +4002,7 @@ export interface ChannelsApiChannelsTypeRetrieveRequest {
  */
 export class ChannelsApi extends BaseAPI {
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Create
    * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4014,12 +4014,12 @@ export class ChannelsApi extends BaseAPI {
     options?: RawAxiosRequestConfig,
   ) {
     return ChannelsApiFp(this.configuration)
-      .channelsCreate(requestParameters.FieldChannelCreateRequest, options)
+      .channelsCreate(requestParameters.ChannelCreateRequest, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Destroy
    * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4036,7 +4036,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary List
    * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4117,7 +4117,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Update
    * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4131,14 +4131,14 @@ export class ChannelsApi extends BaseAPI {
     return ChannelsApiFp(this.configuration)
       .channelsPartialUpdate(
         requestParameters.id,
-        requestParameters.PatchedFieldChannelWriteRequest,
+        requestParameters.PatchedChannelWriteRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Retrieve
    * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -4156,7 +4156,7 @@ export class ChannelsApi extends BaseAPI {
 
   /**
    * View for retrieving an individual field channel by type and name
-   * @summary FieldChannel Detail Lookup by channel type and name
+   * @summary Channel Detail Lookup by channel type and name
    * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

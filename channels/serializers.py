@@ -12,11 +12,11 @@ from rest_framework.exceptions import ValidationError
 from channels.api import add_user_role, is_moderator
 from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
 from channels.models import (
+    Channel,
     ChannelDepartmentDetail,
     ChannelPathwayDetail,
     ChannelTopicDetail,
     ChannelUnitDetail,
-    FieldChannel,
     FieldList,
     Subfield,
 )
@@ -34,7 +34,7 @@ log = logging.getLogger(__name__)
 
 
 class ChannelTypeChoiceField(serializers.ChoiceField):
-    """Field for FieldChannel.channel_type"""
+    """Field for Channel.channel_type"""
 
     def __init__(self, **kwargs):
         kwargs.setdefault("required", True)
@@ -42,7 +42,7 @@ class ChannelTypeChoiceField(serializers.ChoiceField):
 
 
 class ChannelTypeConstantField(serializers.ReadOnlyField):
-    """Field for FieldChannel.channel_type"""
+    """Field for Channel.channel_type"""
 
 
 class WriteableSerializerMethodField(serializers.SerializerMethodField):
@@ -129,8 +129,8 @@ class SubfieldSerializer(serializers.ModelSerializer):
         fields = ("parent_field", "field_channel", "position")
 
 
-class FieldChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer):
-    """Serializer for FieldChannel"""
+class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer):
+    """Serializer for Channel"""
 
     lists = serializers.SerializerMethodField()
     channel_url = serializers.SerializerMethodField(read_only=True)
@@ -160,7 +160,7 @@ class FieldChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerial
         return instance.channel_url
 
     class Meta:
-        model = FieldChannel
+        model = Channel
         exclude = []
 
 
@@ -172,7 +172,7 @@ class ChannelTopicDetailSerializer(serializers.ModelSerializer):
         exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
-class TopicChannelSerializer(FieldChannelBaseSerializer):
+class TopicChannelSerializer(ChannelBaseSerializer):
     """Serializer for Channel model of type topic"""
 
     channel_type = ChannelTypeConstantField(default=ChannelType.topic.name)
@@ -187,7 +187,7 @@ class ChannelDepartmentDetailSerializer(serializers.ModelSerializer):
         exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
-class DepartmentChannelSerializer(FieldChannelBaseSerializer):
+class DepartmentChannelSerializer(ChannelBaseSerializer):
     """Serializer for Channel model of type department"""
 
     channel_type = ChannelTypeConstantField(default=ChannelType.department.name)
@@ -205,7 +205,7 @@ class ChannelUnitDetailSerializer(serializers.ModelSerializer):
         exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
-class UnitChannelSerializer(FieldChannelBaseSerializer):
+class UnitChannelSerializer(ChannelBaseSerializer):
     """Serializer for Channel model of type unit"""
 
     channel_type = ChannelTypeConstantField(default=ChannelType.unit.name)
@@ -221,7 +221,7 @@ class ChannelPathwayDetailSerializer(serializers.ModelSerializer):
         exclude = ("channel", *COMMON_IGNORED_FIELDS)
 
 
-class PathwayChannelSerializer(FieldChannelBaseSerializer):
+class PathwayChannelSerializer(ChannelBaseSerializer):
     """Serializer for Channel model of type pathway"""
 
     channel_type = ChannelTypeConstantField(default=ChannelType.pathway.name)
@@ -229,8 +229,8 @@ class PathwayChannelSerializer(FieldChannelBaseSerializer):
     pathway_detail = ChannelPathwayDetailSerializer()
 
 
-class FieldChannelSerializer(serializers.Serializer):
-    """Serializer for FieldChannel"""
+class ChannelSerializer(serializers.Serializer):
+    """Serializer for Channel"""
 
     serializer_cls_mapping = {
         serializer_cls().fields["channel_type"].default: serializer_cls
@@ -243,16 +243,16 @@ class FieldChannelSerializer(serializers.Serializer):
     }
 
     def to_representation(self, instance):
-        """Serialize a FieldChannel based on channel_type"""
+        """Serialize a Channel based on channel_type"""
         serializer_cls = self.serializer_cls_mapping[instance.channel_type]
 
         return serializer_cls(instance=instance, context=self.context).data
 
 
-class FieldChannelCreateSerializer(serializers.ModelSerializer):
+class ChannelCreateSerializer(serializers.ModelSerializer):
     """
-    Write serializer for FieldChannel. Uses primary keys for referenced objects
-    during requests, and delegates to FieldChannelSerializer for responses.
+    Write serializer for Channel. Uses primary keys for referenced objects
+    during requests, and delegates to ChannelSerializer for responses.
     """
 
     channel_type = ChannelTypeChoiceField(required=True)
@@ -282,7 +282,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
     subfields = serializers.SlugRelatedField(
         slug_field="name",
         many=True,
-        queryset=FieldChannel.objects.all(),
+        queryset=Channel.objects.all(),
         required=False,
     )
     topic_detail = ChannelTopicDetailSerializer(
@@ -300,7 +300,7 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
     configuration = serializers.JSONField(read_only=True)
 
     class Meta:
-        model = FieldChannel
+        model = Channel
         fields = (
             "name",
             "title",
@@ -408,15 +408,15 @@ class FieldChannelCreateSerializer(serializers.ModelSerializer):
             return field_channel
 
     def to_representation(self, data):
-        return FieldChannelSerializer(context=self.context).to_representation(data)
+        return ChannelSerializer(context=self.context).to_representation(data)
 
 
-class FieldChannelWriteSerializer(FieldChannelCreateSerializer, ChannelAppearanceMixin):
-    """Similar to FieldChannelCreateSerializer, with read-only name"""
+class ChannelWriteSerializer(ChannelCreateSerializer, ChannelAppearanceMixin):
+    """Similar to ChannelCreateSerializer, with read-only name"""
 
     class Meta:
-        model = FieldChannel
-        fields = FieldChannelCreateSerializer.Meta.fields
+        model = Channel
+        fields = ChannelCreateSerializer.Meta.fields
         read_only_fields = ("id",)
 
     def update(self, instance, validated_data):
@@ -506,7 +506,5 @@ class FieldModeratorSerializer(serializers.Serializer):
             raise ValueError(msg)
 
         user = User.objects.get(username=username)
-        add_user_role(
-            FieldChannel.objects.get(id=field_id), FIELD_ROLE_MODERATORS, user
-        )
+        add_user_role(Channel.objects.get(id=field_id), FIELD_ROLE_MODERATORS, user)
         return user

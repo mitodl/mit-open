@@ -9,9 +9,9 @@ import { factories, urls, setMockResponse } from "api/test-utils"
 import { fields as factory } from "api/test-utils/factories"
 import { makeFieldViewPath, makeFieldEditPath } from "@/common/urls"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
-import type { FieldChannel } from "api/v0"
+import type { Channel } from "api/v0"
 
-const setupApis = (fieldOverrides: Partial<FieldChannel>) => {
+const setupApis = (fieldOverrides: Partial<Channel>) => {
   const field = factory.field({ is_moderator: true, ...fieldOverrides })
   setMockResponse.get(urls.userMe.get(), {})
   field.search_filter = undefined

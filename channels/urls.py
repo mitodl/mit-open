@@ -5,13 +5,13 @@ from rest_framework.routers import DefaultRouter
 
 from channels.views import (
     ChannelByTypeNameDetailView,
-    FieldChannelViewSet,
+    ChannelViewSet,
     FieldModeratorDetailView,
     FieldModeratorListView,
 )
 
 v0_router = DefaultRouter()
-v0_router.register(r"channels", FieldChannelViewSet, basename="field_channels_api")
+v0_router.register(r"channels", ChannelViewSet, basename="field_channels_api")
 
 v0_urls = [
     re_path(

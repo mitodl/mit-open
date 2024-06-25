@@ -14,7 +14,7 @@ pytestmark = pytest.mark.django_db
 def test_can_view_field_channels(mocker):
     """Anyone should be able to view a list of field channels"""
     assert (
-        permissions.HasFieldPermission().has_permission(
+        permissions.HasChannelPermission().has_permission(
             mocker.Mock(user=AnonymousUser(), method="GET"), mocker.Mock()
         )
         is True
@@ -26,7 +26,7 @@ def test_can_create_field_channels(mocker, is_staff):
     """Only staff should be able to create field channels"""
     field_user = UserFactory.create(is_staff=is_staff)
     assert (
-        permissions.HasFieldPermission().has_permission(
+        permissions.HasChannelPermission().has_permission(
             mocker.Mock(user=field_user, method="POST"), mocker.Mock()
         )
         is is_staff
@@ -36,7 +36,7 @@ def test_can_create_field_channels(mocker, is_staff):
 def test_can_view_field_channel_details(mocker, field_channel):
     """Anyone should be able to view details of a field channel"""
     assert (
-        permissions.HasFieldPermission().has_object_permission(
+        permissions.HasChannelPermission().has_object_permission(
             mocker.Mock(user=AnonymousUser(), method="GET"),
             mocker.Mock(),
             field_channel,
@@ -52,7 +52,7 @@ def test_can_edit_field_channel_details(mocker, field_channel, is_moderator):
     if is_moderator:
         add_user_role(field_channel, FIELD_ROLE_MODERATORS, field_user)
     assert (
-        permissions.HasFieldPermission().has_object_permission(
+        permissions.HasChannelPermission().has_object_permission(
             mocker.Mock(user=field_user, method="PATCH"),
             mocker.Mock(kwargs={"id": field_channel.id}),
             field_channel,
@@ -66,7 +66,7 @@ def test_can_delete_field_channel(mocker, field_channel, is_staff):
     """Only staff should be able to delete a field channel"""
     field_user = UserFactory.create(is_staff=is_staff)
     assert (
-        permissions.HasFieldPermission().has_object_permission(
+        permissions.HasChannelPermission().has_object_permission(
             mocker.Mock(user=field_user, method="DELETE"),
             mocker.Mock(kwargs={"id": field_channel.id}),
             field_channel,
@@ -86,11 +86,11 @@ def test_can_view_create_moderators(  # pylint:disable=too-many-arguments
     if is_moderator:
         add_user_role(field_channel, FIELD_ROLE_MODERATORS, user)
         user.refresh_from_db()
-    assert permissions.FieldModeratorPermissions().has_permission(
+    assert permissions.ChannelModeratorPermissions().has_permission(
         mocker.Mock(user=user, method=method),
         mocker.Mock(kwargs={"id": field_channel.id}),
     ) is (is_moderator or is_staff)
-    assert permissions.FieldModeratorPermissions().has_object_permission(
+    assert permissions.ChannelModeratorPermissions().has_object_permission(
         mocker.Mock(user=user, method=method),
         mocker.Mock(kwargs={"id": field_channel.id}),
         field_channel,

@@ -3,7 +3,7 @@ import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
 import type { LearningResourcesSearchResponse } from "api"
 import invariant from "tiny-invariant"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
-import type { FieldChannel } from "api/v0"
+import type { Channel } from "api/v0"
 import { ChannelTypeEnum } from "api/v0"
 
 const setMockApiResponses = ({
@@ -11,7 +11,7 @@ const setMockApiResponses = ({
   fieldPatch,
 }: {
   search?: Partial<LearningResourcesSearchResponse>
-  fieldPatch?: Partial<FieldChannel>
+  fieldPatch?: Partial<Channel>
 }) => {
   const field = factories.fields.field(fieldPatch)
   const urlParams = new URLSearchParams(fieldPatch?.search_filter)

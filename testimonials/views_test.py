@@ -6,7 +6,7 @@ import pytest
 from django.urls import reverse
 from freezegun import freeze_time
 
-from channels.factories import FieldChannelFactory
+from channels.factories import ChannelFactory
 from learning_resources.factories import LearningResourceOfferorFactory
 from main.utils import now_in_utc
 from testimonials.factories import AttestationFactory
@@ -57,7 +57,7 @@ def test_attestation_filters(
         # Add a known channel to the last one of these.
         # We'll put this at the end - if channels and offerors filters are both
         # active, we'll expect to receive nothing.
-        channel = FieldChannelFactory.create()
+        channel = ChannelFactory.create()
         attestation_with_channel = attestation_batch[5]
         attestation_with_channel.channels.add(channel)
         attestation_with_channel.save()

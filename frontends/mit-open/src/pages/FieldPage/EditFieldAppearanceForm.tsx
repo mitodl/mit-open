@@ -4,12 +4,12 @@ import { useFormik } from "formik"
 import { RadioChoiceField, Button, TextField } from "ol-components"
 import * as Yup from "yup"
 
-import { ChannelTypeEnum, FieldChannel } from "api/v0"
+import { ChannelTypeEnum, Channel } from "api/v0"
 import { makeFieldViewPath } from "@/common/urls"
 import { useChannelPartialUpdate } from "api/hooks/fields"
 
 type FormProps = {
-  field: FieldChannel
+  field: Channel
 }
 const CHANNEL_TYPE_CHOICES = [
   {

@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management import BaseCommand
 
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -47,9 +47,7 @@ class Command(BaseCommand):
             self.stdout.write(f"Creating featured list for {offeror.name} channel")
 
             # Get the channel for the offeror
-            unit_channel = FieldChannel.objects.filter(
-                unit_detail__unit=offeror
-            ).first()
+            unit_channel = Channel.objects.filter(unit_detail__unit=offeror).first()
             if not unit_channel:
                 self.stderr.write(
                     f"{offeror.name} channel not found, run backpopulate_resource_channels"  # noqa: E501

@@ -10,7 +10,7 @@ from channels.factories import (
     ChannelTopicDetailFactory,
     ChannelUnitDetailFactory,
 )
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources import factories, serializers, utils
 from learning_resources.constants import (
     CertificationType,
@@ -238,7 +238,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
                 "name": dept.name,
                 "channel_url": urljoin(
                     settings.SITE_BASE_URL,
-                    f"/c/department/{FieldChannel.objects.get(department_detail__department=dept).name}/",
+                    f"/c/department/{Channel.objects.get(department_detail__department=dept).name}/",
                 ),
                 "school": {
                     "id": dept.school.id,
@@ -493,7 +493,7 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                 "code": content_file.run.learning_resource.offered_by.code,
                 "channel_url": urljoin(
                     settings.SITE_BASE_URL,
-                    f"/c/unit/{FieldChannel.objects.get(unit_detail__unit=content_file.run.learning_resource.offered_by).name}/",
+                    f"/c/unit/{Channel.objects.get(unit_detail__unit=content_file.run.learning_resource.offered_by).name}/",
                 )
                 if has_channels
                 else None,
@@ -506,7 +506,7 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                     "department_id": dept.department_id,
                     "channel_url": urljoin(
                         settings.SITE_BASE_URL,
-                        f"/c/department/{FieldChannel.objects.get(department_detail__department=dept).name}/",
+                        f"/c/department/{Channel.objects.get(department_detail__department=dept).name}/",
                     )
                     if has_channels
                     else None,
@@ -529,7 +529,7 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                     "parent": topic.parent,
                     "channel_url": urljoin(
                         settings.SITE_BASE_URL,
-                        f"/c/topic/{FieldChannel.objects.get(topic_detail__topic=topic).name}/"
+                        f"/c/topic/{Channel.objects.get(topic_detail__topic=topic).name}/"
                         if has_channels
                         else None,
                     )

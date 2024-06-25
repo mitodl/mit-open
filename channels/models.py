@@ -82,7 +82,7 @@ class BaseChannel(models.Model):
         return self.title
 
 
-class FieldChannel(BaseChannel, TimestampedModel):
+class Channel(BaseChannel, TimestampedModel):
     """Channel for any field/subject"""
 
     channel_type = models.CharField(max_length=100, choices=ChannelType.as_tuple())
@@ -98,7 +98,7 @@ class FieldChannel(BaseChannel, TimestampedModel):
         WidgetList,
         on_delete=models.SET_NULL,
         null=True,
-        related_name="field_channel",
+        related_name="channel",
     )
 
     class Meta:
@@ -114,7 +114,7 @@ class ChannelTopicDetail(TimestampedModel):
     """Fields specific to topic channels"""
 
     channel = models.OneToOneField(
-        FieldChannel,
+        Channel,
         primary_key=True,
         on_delete=models.CASCADE,
         related_name="topic_detail",
@@ -128,7 +128,7 @@ class ChannelDepartmentDetail(TimestampedModel):
     """Fields specific to department channels"""
 
     channel = models.OneToOneField(
-        FieldChannel,
+        Channel,
         primary_key=True,
         on_delete=models.CASCADE,
         related_name="department_detail",
@@ -142,7 +142,7 @@ class ChannelUnitDetail(TimestampedModel):
     """Fields specific to unit channels"""
 
     channel = models.OneToOneField(
-        FieldChannel,
+        Channel,
         primary_key=True,
         on_delete=models.CASCADE,
         related_name="unit_detail",
@@ -156,7 +156,7 @@ class ChannelPathwayDetail(TimestampedModel):
     """Fields specific to pathway channels"""
 
     channel = models.OneToOneField(
-        FieldChannel,
+        Channel,
         primary_key=True,
         on_delete=models.CASCADE,
         related_name="pathway_detail",
@@ -168,7 +168,7 @@ class FieldList(TimestampedModel):
 
     field_list = models.ForeignKey(LearningResource, on_delete=models.CASCADE)
     field_channel = models.ForeignKey(
-        FieldChannel, related_name="lists", on_delete=models.CASCADE
+        Channel, related_name="lists", on_delete=models.CASCADE
     )
     position = models.IntegerField(default=0)
 
@@ -180,9 +180,9 @@ class FieldList(TimestampedModel):
 class Subfield(TimestampedModel):
     """Subfield and position for a parent field channel"""
 
-    field_channel = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+    field_channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     parent_channel = models.ForeignKey(
-        FieldChannel, on_delete=models.CASCADE, related_name="subfields"
+        Channel, on_delete=models.CASCADE, related_name="subfields"
     )
     position = models.IntegerField(default=0)
 
@@ -190,12 +190,12 @@ class Subfield(TimestampedModel):
         unique_together = (("field_channel", "parent_channel"),)
 
 
-class FieldChannelGroupRole(TimestampedModel):
+class ChannelGroupRole(TimestampedModel):
     """
     Keep track of field moderators
     """
 
-    field = models.ForeignKey(FieldChannel, on_delete=models.CASCADE)
+    field = models.ForeignKey(Channel, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     role = models.CharField(
         max_length=48, choices=zip(FIELD_ROLE_CHOICES, FIELD_ROLE_CHOICES)
@@ -206,4 +206,4 @@ class FieldChannelGroupRole(TimestampedModel):
         index_together = (("field", "role"),)
 
     def __str__(self):
-        return f"Group {self.group.name} role {self.role} for FieldChannel {self.field.name}"  # noqa: E501
+        return f"Group {self.group.name} role {self.role} for Channel {self.field.name}"

@@ -1,11 +1,11 @@
 import React, { useMemo } from "react"
 import { styled, Typography, Box } from "ol-components"
 import { capitalize } from "ol-utilities"
-import { ChannelTypeEnum, FieldChannel } from "api/v0"
+import { ChannelTypeEnum, Channel } from "api/v0"
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 
 type ChannelDetailsProps = {
-  field: FieldChannel
+  field: Channel
 }
 
 const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
@@ -125,7 +125,7 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
   )
 }
 
-const getChannelDetails = (field: FieldChannel) => {
+const getChannelDetails = (field: Channel) => {
   const channelType = field.channel_type
   const dataKey = `${channelType}_detail`
   const fieldData = field as unknown as Record<string, string[] | string>

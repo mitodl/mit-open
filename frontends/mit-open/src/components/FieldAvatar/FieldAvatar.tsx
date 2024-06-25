@@ -1,5 +1,5 @@
 import React from "react"
-import type { FieldChannel } from "api/v0"
+import type { Channel } from "api/v0"
 import { styled } from "ol-components"
 export const AVATAR_SMALL = "small" as const
 export const AVATAR_MEDIUM = "medium" as const
@@ -14,7 +14,7 @@ type ImageSize =
 
 type AvatarProps = {
   imageSize?: ImageSize
-  field: FieldChannel
+  field: Channel
   editable?: boolean
   formImageUrl?: string | null
   name?: string
@@ -30,7 +30,7 @@ const initials = (title: string): string => {
     .join("")
 }
 
-const getImage = (field: FieldChannel, imageSize: ImageSize | undefined) => {
+const getImage = (field: Channel, imageSize: ImageSize | undefined) => {
   switch (imageSize) {
     case AVATAR_LARGE:
       return field.avatar

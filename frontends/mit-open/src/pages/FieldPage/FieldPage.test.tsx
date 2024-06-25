@@ -1,6 +1,6 @@
 import { assertInstanceOf } from "ol-utilities"
 import { urls, factories, makeRequest } from "api/test-utils"
-import type { FieldChannel } from "api/v0"
+import type { Channel } from "api/v0"
 import type { LearningResourcesSearchResponse } from "api"
 import {
   renderTestApp,
@@ -21,7 +21,7 @@ jest.mock("./FieldSearch", () => {
 const mockedFieldSearch = jest.mocked(FieldSearch)
 
 const setupApis = (
-  fieldPatch?: Partial<FieldChannel>,
+  fieldPatch?: Partial<Channel>,
   search?: Partial<LearningResourcesSearchResponse>,
   { isSubscribed = false, isAuthenticated = false } = {},
 ) => {

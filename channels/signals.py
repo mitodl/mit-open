@@ -6,7 +6,7 @@ from guardian.shortcuts import assign_perm
 
 from channels.api import create_field_groups_and_roles
 from channels.constants import FIELD_ROLE_MODERATORS
-from channels.models import FieldChannel
+from channels.models import Channel
 from widgets.models import WidgetList
 
 WIDGET_LIST_CHANGE_PERM = "widgets.change_widgetlist"
@@ -14,7 +14,7 @@ WIDGET_LIST_CHANGE_PERM = "widgets.change_widgetlist"
 
 @receiver(
     post_save,
-    sender=FieldChannel,
+    sender=Channel,
     dispatch_uid="channelmembershipconfig_post_save",
 )
 def handle_create_field_channel(
@@ -24,7 +24,7 @@ def handle_create_field_channel(
     **kwargs,  # noqa: ARG001
 ):  # pylint: disable=unused-argument
     """
-    Create a WidgetList and permissions group for each new FieldChannel.
+    Create a WidgetList and permissions group for each new Channel.
     """
     if created:
         widget = WidgetList.objects.create()

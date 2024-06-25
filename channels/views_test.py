@@ -9,12 +9,12 @@ from django.urls import reverse
 from channels.api import add_user_role
 from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
 from channels.factories import (
-    FieldChannelFactory,
+    ChannelFactory,
     FieldListFactory,
     SubfieldFactory,
 )
-from channels.models import ChannelTopicDetail, FieldChannel
-from channels.serializers import FieldChannelSerializer
+from channels.models import Channel, ChannelTopicDetail
+from channels.serializers import ChannelSerializer
 from learning_resources.constants import LearningResourceType
 from learning_resources.factories import (
     LearningResourceFactory,
@@ -27,12 +27,12 @@ pytestmark = pytest.mark.django_db
 
 def test_list_field_channels(user_client):
     """Test that all field channels are returned"""
-    field_channels = sorted(FieldChannelFactory.create_batch(15), key=lambda f: f.id)
+    field_channels = sorted(ChannelFactory.create_batch(15), key=lambda f: f.id)
     url = reverse("channels:v0:field_channels_api-list")
     field_list = sorted(user_client.get(url).json()["results"], key=lambda f: f["id"])
     assert len(field_list) == len(field_channels)
     for idx, field_channel in enumerate(field_channels):
-        assert field_list[idx] == FieldChannelSerializer(instance=field_channel).data
+        assert field_list[idx] == ChannelSerializer(instance=field_channel).data
 
 
 @pytest.mark.parametrize("is_moderator", [True, False])
@@ -61,7 +61,7 @@ def test_create_field_channel(admin_client):
         "topic_detail": {"topic": topic.id},
     }
     admin_client.post(url, data=data).json()
-    assert FieldChannel.objects.filter(name=data["name"]).exists()
+    assert Channel.objects.filter(name=data["name"]).exists()
     assert ChannelTopicDetail.objects.filter(channel__name=data["name"]).exists()
 
 
@@ -101,7 +101,7 @@ def test_partial_update_field_channel_featured_list_only_learning_path(
     admin_client, resource_type
 ):
     """Only learning_paths may be used as featured_list"""
-    field_channel = FieldChannelFactory.create()
+    field_channel = ChannelFactory.create()
     url = reverse(
         "channels:v0:field_channels_api-detail",
         kwargs={"id": field_channel.id},
@@ -135,7 +135,7 @@ def test_partial_update_field_channel_lists_only_learning_path(
     admin_client, resource_type
 ):
     """Only learning_paths may be used as one of lists"""
-    field_channel = FieldChannelFactory.create()
+    field_channel = ChannelFactory.create()
     url = reverse(
         "channels:v0:field_channels_api-detail",
         kwargs={"id": field_channel.id},
@@ -153,7 +153,7 @@ def test_create_field_channel_forbidden(user_client):
     data = {"name": "biology", "title": "Biology", "about": {}}
     response = user_client.post(url, data=data)
     assert response.status_code == 403
-    assert FieldChannel.objects.filter(name=data["name"]).exists() is False
+    assert Channel.objects.filter(name=data["name"]).exists() is False
 
 
 def test_update_field_channel(field_channel, client):
@@ -211,14 +211,14 @@ def test_patch_field_channel_image(client, field_channel, attribute):
 
 def test_channel_by_type_name_detail(user_client):
     """ChannelByTypeNameDetailView should return expected result"""
-    channel = FieldChannelFactory.create(is_topic=True)
+    channel = ChannelFactory.create(is_topic=True)
     url = reverse(
         "channels:v0:field_by_type_name_api-detail",
         kwargs={"channel_type": ChannelType.topic.name, "name": channel.name},
     )
     response = user_client.get(url)
-    assert response.json() == FieldChannelSerializer(instance=channel).data
-    FieldChannel.objects.filter(id=channel.id).update(
+    assert response.json() == ChannelSerializer(instance=channel).data
+    Channel.objects.filter(id=channel.id).update(
         channel_type=ChannelType.department.name
     )
     response = user_client.get(url)
@@ -237,8 +237,8 @@ def test_update_field_channel_forbidden(field_channel, user_client):
 
 def test_update_field_channel_conflict(client):
     """An error should occur if there is a channel_type/name conflict"""
-    channel_1 = FieldChannelFactory.create(is_topic=True, name="biology")
-    channel_2 = FieldChannelFactory.create(is_department=True, name="biology")
+    channel_1 = ChannelFactory.create(is_topic=True, name="biology")
+    channel_2 = ChannelFactory.create(is_department=True, name="biology")
 
     field_user = UserFactory.create()
     add_user_role(channel_1, FIELD_ROLE_MODERATORS, field_user)
@@ -384,7 +384,7 @@ def test_no_excess_queries(user_client, django_assert_num_queries, related_count
     # This isn't too important; we care it does not scale with number of related items
     expected_query_count = 11
 
-    topic_channel = FieldChannelFactory.create(is_topic=True)
+    topic_channel = ChannelFactory.create(is_topic=True)
     FieldListFactory.create_batch(related_count, field_channel=topic_channel)
     SubfieldFactory.create_batch(related_count, parent_channel=topic_channel)
 

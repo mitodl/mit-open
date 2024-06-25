@@ -4,12 +4,12 @@ from django.contrib.auth.models import Group, User
 from django.db import transaction
 
 from channels.constants import FIELD_ROLE_CHOICES, FIELD_ROLE_MODERATORS
-from channels.models import FieldChannel, FieldChannelGroupRole
+from channels.models import Channel, ChannelGroupRole
 
 
 def create_field_groups_and_roles(
-    field_channel: FieldChannel,
-) -> dict[str, FieldChannelGroupRole]:
+    field_channel: Channel,
+) -> dict[str, ChannelGroupRole]:
     """
     Create a field channel's groups and roles
     """
@@ -18,7 +18,7 @@ def create_field_groups_and_roles(
         group, _ = Group.objects.get_or_create(
             name=f"field_{field_channel.name}_{role}"
         )
-        roles[role], _ = FieldChannelGroupRole.objects.get_or_create(
+        roles[role], _ = ChannelGroupRole.objects.get_or_create(
             field=field_channel, group=group, role=role
         )
 
@@ -26,21 +26,21 @@ def create_field_groups_and_roles(
 
 
 @transaction.atomic
-def get_role_model(field_channel: FieldChannel, role: str) -> FieldChannelGroupRole:
+def get_role_model(field_channel: Channel, role: str) -> ChannelGroupRole:
     """
-    Get or create a FieldChannelGroupRole object
+    Get or create a ChannelGroupRole object
     """
-    return FieldChannelGroupRole.objects.get(field=field_channel, role=role)
+    return ChannelGroupRole.objects.get(field=field_channel, role=role)
 
 
-def add_user_role(field_channel: FieldChannel, role: str, user: User):
+def add_user_role(field_channel: Channel, role: str, user: User):
     """
     Add a user to a field channel role's group
     """
     get_role_model(field_channel, role).group.user_set.add(user)
 
 
-def remove_user_role(field_channel: FieldChannel, role: str, user: User):
+def remove_user_role(field_channel: Channel, role: str, user: User):
     """
     Remove a user from a field channel role's group
     """
@@ -48,8 +48,8 @@ def remove_user_role(field_channel: FieldChannel, role: str, user: User):
 
 
 def get_group_role_name(field_id: int, role: str) -> str:
-    """Get the group name for a FieldChannel and role"""
-    field_name = FieldChannel.objects.get(id=field_id).name
+    """Get the group name for a Channel and role"""
+    field_name = Channel.objects.get(id=field_id).name
     return f"field_{field_name}_{role}"
 
 

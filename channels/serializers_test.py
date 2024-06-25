@@ -10,22 +10,22 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
 from channels.factories import (
     ChannelDepartmentDetailFactory,
+    ChannelFactory,
     ChannelPathwayDetailFactory,
     ChannelTopicDetailFactory,
     ChannelUnitDetailFactory,
-    FieldChannelFactory,
     FieldListFactory,
     SubfieldFactory,
 )
-from channels.models import FieldChannelGroupRole
+from channels.models import ChannelGroupRole
 from channels.serializers import (
+    ChannelCreateSerializer,
     ChannelDepartmentDetailSerializer,
     ChannelPathwayDetailSerializer,
+    ChannelSerializer,
     ChannelTopicDetailSerializer,
     ChannelUnitDetailSerializer,
-    FieldChannelCreateSerializer,
-    FieldChannelSerializer,
-    FieldChannelWriteSerializer,
+    ChannelWriteSerializer,
     FieldModeratorSerializer,
     LearningPathPreviewSerializer,
 )
@@ -100,7 +100,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
     """
 
     mocker.patch("channels.models.ResizeToFit", autospec=True)
-    channel = FieldChannelFactory.create(
+    channel = ChannelFactory.create(
         banner=mock_image_file("banner.jpg") if has_banner else None,
         avatar=mock_image_file("avatar.jpg") if has_avatar else None,
         about={"foo": "bar"} if has_about else None,
@@ -111,7 +111,7 @@ def test_serialize_field_channel(  # pylint: disable=too-many-arguments
 
     field_lists = FieldListFactory.create_batch(3, field_channel=channel)
 
-    assert FieldChannelSerializer(channel).data == {
+    assert ChannelSerializer(channel).data == {
         "name": channel.name,
         "title": channel.title,
         "avatar": channel.avatar.url if has_avatar else None,
@@ -172,7 +172,7 @@ def test_create_field_channel(base_field_data, channel_detail, channel_type):
             "key": "value",
         },
     }
-    serializer = FieldChannelCreateSerializer(data=data)
+    serializer = ChannelCreateSerializer(data=data)
     assert serializer.is_valid()
     channel = serializer.create(serializer.validated_data)
     assert channel.widget_list is not None
@@ -196,13 +196,13 @@ def test_create_and_write_response_serialization():
     """
     Test that the create and write serializers return the same data as the read serializer
     """
-    channel = FieldChannelFactory.create()
-    assert FieldChannelCreateSerializer().to_representation(
+    channel = ChannelFactory.create()
+    assert ChannelCreateSerializer().to_representation(
         channel
-    ) == FieldChannelSerializer().to_representation(channel)
-    assert FieldChannelWriteSerializer().to_representation(
+    ) == ChannelSerializer().to_representation(channel)
+    assert ChannelWriteSerializer().to_representation(
         channel
-    ) == FieldChannelSerializer().to_representation(channel)
+    ) == ChannelSerializer().to_representation(channel)
 
 
 def test_create_field_channel_private_list(base_field_data):
@@ -213,7 +213,7 @@ def test_create_field_channel_private_list(base_field_data):
         "featured_list": learning_path.id,
         "lists": [learning_path.id],
     }
-    serializer = FieldChannelCreateSerializer(data=data)
+    serializer = ChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
     assert "featured_list" in serializer.errors
 
@@ -221,7 +221,7 @@ def test_create_field_channel_private_list(base_field_data):
 def test_create_field_channel_bad_list_values(base_field_data):
     """Validation should fail if lists field has non-integer values"""
     data = {**base_field_data, "lists": ["my_list"]}
-    serializer = FieldChannelCreateSerializer(data=data)
+    serializer = ChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
     assert "lists" in serializer.errors
 
@@ -229,13 +229,13 @@ def test_create_field_channel_bad_list_values(base_field_data):
 def test_create_field_channel_with_subfields(base_field_data):
     """Field channels can be created with subfields"""
     other_fields = sorted(
-        FieldChannelFactory.create_batch(2), key=lambda field: field.id, reverse=True
+        ChannelFactory.create_batch(2), key=lambda field: field.id, reverse=True
     )
     data = {
         **base_field_data,
         "subfields": [other_field.name for other_field in other_fields],
     }
-    serializer = FieldChannelCreateSerializer(data=data)
+    serializer = ChannelCreateSerializer(data=data)
     assert serializer.is_valid() is True
     field_channel = serializer.create(serializer.validated_data)
     for other_field in other_fields:
@@ -247,7 +247,7 @@ def test_create_field_channel_with_subfields(base_field_data):
 def test_create_field_channel_not_existing_subfields(base_field_data):
     """Validation should fail if a subfield does not exist"""
     data = {**base_field_data, "subfields": ["fake"]}
-    serializer = FieldChannelCreateSerializer(data=data)
+    serializer = ChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
     assert "subfields" in serializer.errors
 
@@ -255,7 +255,7 @@ def test_create_field_channel_not_existing_subfields(base_field_data):
 def test_create_field_channel_self_reference_subfields(base_field_data):
     """Validation should fail if field is subfield of itself"""
     data = {**base_field_data, "name": "selfie", "subfields": ["selfie"]}
-    serializer = FieldChannelCreateSerializer(data=data)
+    serializer = ChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
     assert "subfields" in serializer.errors
 
@@ -263,7 +263,7 @@ def test_create_field_channel_self_reference_subfields(base_field_data):
 def test_create_field_channel_bad_subfield_values(base_field_data):
     """Validation should fail if subfield data is not a list of strings"""
     data = {**base_field_data, "subfields": [{"name": "fake"}]}
-    serializer = FieldChannelCreateSerializer(data=data)
+    serializer = ChannelCreateSerializer(data=data)
     assert serializer.is_valid() is False
     assert "subfields" in serializer.errors
 
@@ -277,7 +277,7 @@ def test_update_field_channel():
     new_name = "biology"
 
     department = LearningResourceDepartmentFactory.create()
-    channel = FieldChannelFactory.create(is_topic=True)
+    channel = ChannelFactory.create(is_topic=True)
     assert channel.channel_type == ChannelType.topic.name
     assert channel.topic_detail is not None
 
@@ -293,7 +293,7 @@ def test_update_field_channel():
         "channel_type": ChannelType.department.name,
         "department_detail": {"department": department.department_id},
     }
-    serializer = FieldChannelWriteSerializer(instance=channel, data=data)
+    serializer = ChannelWriteSerializer(instance=channel, data=data)
     assert serializer.is_valid() is True
     serializer.update(channel, serializer.validated_data)
     channel.refresh_from_db()
@@ -329,7 +329,7 @@ def test_moderator_serializer(mocker, field_channel, use_email):
     serializer.create(serializer.validated_data)
     field_user.refresh_from_db()
     assert (
-        FieldChannelGroupRole.objects.get(
+        ChannelGroupRole.objects.get(
             field__name=field_channel.name, role=FIELD_ROLE_MODERATORS
         ).group
         in field_user.groups.all()
