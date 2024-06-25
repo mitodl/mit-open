@@ -129,16 +129,22 @@ export const FacetStyles = styled.div`
   .filter-section-button {
     ${({ theme }) => css({ ...theme.typography.subtitle2 })}
     color: ${({ theme }) => theme.custom.colors.darkGray2};
-    padding-left: 0;
+    padding: 0;
     background-color: transparent;
     display: flex;
     width: 100%;
     border: none;
     cursor: pointer;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
 
     i {
       color: ${({ theme }) => theme.custom.colors.silverGrayLight};
+    }
+
+    &:hover i {
+      color: ${({ theme }) => theme.custom.colors.darkGray2};
     }
   }
 
@@ -157,8 +163,8 @@ export const FacetStyles = styled.div`
   }
 
   .facet-visible {
-    margin-top: 4.5px;
-    margin-bottom: 4.5px;
+    margin-top: 6px;
+    margin-bottom: 6px;
   }
 
   .facet-visible:last-child {
@@ -179,6 +185,14 @@ export const FacetStyles = styled.div`
     padding-right: 24px;
     margin-top: 0;
     margin-bottom: 0;
+    max-height: 55px;
+    transition: max-height 0.4s ease-out;
+    overflow: hidden;
+
+    &.facets-expanded {
+      max-height: 600px;
+      transition: max-height 0.4s ease-in;
+    }
 
     .facet-visible {
       display: flex;
@@ -187,6 +201,7 @@ export const FacetStyles = styled.div`
       height: 25px;
       font-size: 0.875em;
       gap: 4px;
+      margin-left: -2px;
 
       input,
       label {
@@ -202,6 +217,7 @@ export const FacetStyles = styled.div`
         background-image: url("data:image/svg+xml,%3Csvg width='18' height='18' viewBox='0 0 18 18' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 0H17C17.5523 0 18 0.44772 18 1V17C18 17.5523 17.5523 18 17 18H1C0.44772 18 0 17.5523 0 17V1C0 0.44772 0.44772 0 1 0ZM2 2V16H16V2H2Z' fill='%23B8C2CC'/%3E%3C/svg%3E%0A");
         background-repeat: no-repeat;
         background-position: 3px 3px;
+        flex-shrink: 0;
       }
 
       input[type="checkbox"]:hover {
@@ -268,7 +284,7 @@ export const FacetStyles = styled.div`
   input.facet-filter {
     background-color: initial;
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 0;
     margin-bottom: 10px;
     width: 100%;
   }
