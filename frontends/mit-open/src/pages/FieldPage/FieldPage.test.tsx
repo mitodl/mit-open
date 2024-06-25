@@ -145,26 +145,30 @@ describe("FieldPage", () => {
       expect(carousels).toBe(null)
     })
   })
-  it("Displays the field search if search_filter is not undefined", async () => {
-    const { field } = setupApis({
-      search_filter:
-        "platform=ocw&platform=mitxonline&department=8&department=9",
-    })
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findByText(field.title)
-    const expectedProps = expect.objectContaining({
-      constantSearchParams: {
-        platform: ["ocw", "mitxonline"],
-        department: ["8", "9"],
-      },
-    })
-    const expectedContext = expect.anything()
 
-    expect(mockedFieldSearch).toHaveBeenLastCalledWith(
-      expectedProps,
-      expectedContext,
-    )
-  })
+  it.each(new Array(1000).fill(null))(
+    "Displays the field search if search_filter is not undefined",
+    async () => {
+      const { field } = setupApis({
+        search_filter:
+          "platform=ocw&platform=mitxonline&department=8&department=9",
+      })
+      renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+      await screen.findByText(field.title)
+      const expectedProps = expect.objectContaining({
+        constantSearchParams: {
+          platform: ["ocw", "mitxonline"],
+          department: ["8", "9"],
+        },
+      })
+      const expectedContext = expect.anything()
+
+      expect(mockedFieldSearch).toHaveBeenLastCalledWith(
+        expectedProps,
+        expectedContext,
+      )
+    },
+  )
   it("Does not display the field search if search_filter is undefined", async () => {
     const { field } = setupApis()
     field.search_filter = undefined
