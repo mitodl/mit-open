@@ -8,7 +8,7 @@ import {
 } from "@remixicon/react"
 import { type GridProps } from "@mui/material/Grid"
 
-const Label = styled.label(({ theme }) => {
+const ContainerLabel = styled.label(({ theme }) => {
   const colors = theme.custom.colors
   return {
     margin: 0,
@@ -18,13 +18,10 @@ const Label = styled.label(({ theme }) => {
     minHeight: "100%",
     borderRadius: "4px",
     display: "flex",
-    alignItems: "start",
+    flexDirection: "column",
+    gap: "6px",
     justifyContent: "space-between",
     boxShadow: `inset 0 0 0 1px ${colors.silverGrayLight}`,
-    color: colors.darkGray2,
-    fontWeight: theme.typography.fontWeightMedium,
-    fontSize: "12px",
-    lineHeight: "16px",
     background: colors.white,
     "&.checked": {
       boxShadow: `inset 0 0 0 2px ${colors.darkGray2}`,
@@ -36,16 +33,23 @@ const Label = styled.label(({ theme }) => {
   }
 })
 
-const LabelContainer = styled.div({
+const UpperContainer = styled.div({
   display: "flex",
-  flexDirection: "column",
+  gap: "6px",
+  alignItems: "center",
 })
+
+const Label = styled.span(({ theme }) => ({
+  ...theme.typography.subtitle3,
+  color: theme.custom.colors.darkGray2,
+}))
 
 const Description = styled.span(({ theme }) => {
   const colors = theme.custom.colors
   return {
-    color: colors.silverGrayDark,
-    fontWeight: theme.typography.fontWeightRegular,
+    ...theme.typography.body3,
+    color: theme.custom.colors.darkGray2,
+    paddingRight: "26px",
     "label.checked &, label:hover &": {
       color: colors.darkGray2,
     },
@@ -56,8 +60,7 @@ const ChoiceInput = styled.input(({ theme }) => ({
   appearance: "none",
   visibility: "hidden",
   backgroundColor: theme.custom.colors.white,
-  width: "18px",
-  height: "18px",
+  margin: 0,
 }))
 
 type IconsProps = {
@@ -105,22 +108,22 @@ const ChoiceBox = ({
   onChange,
 }: ChoiceBoxProps) => {
   return (
-    <Label className={checked ? "checked" : ""}>
-      <LabelContainer>
-        {label}
-        {description ? <Description>{description}</Description> : null}
-      </LabelContainer>
+    <ContainerLabel className={checked ? "checked" : ""}>
+      <UpperContainer>
+        <Label>{label}</Label>
+        <ChoiceIcon checked={checked}>
+          {type === "checkbox" ? <CheckboxIcons checked={checked} /> : null}
+          {type === "radio" ? <RadioIcons checked={checked} /> : null}
+        </ChoiceIcon>
+      </UpperContainer>
+      {description ? <Description>{description}</Description> : null}
       <ChoiceInput
         type={type}
         value={value}
         checked={checked}
         onChange={onChange}
       />
-      <ChoiceIcon checked={checked}>
-        {type === "checkbox" ? <CheckboxIcons checked={checked} /> : null}
-        {type === "radio" ? <RadioIcons checked={checked} /> : null}
-      </ChoiceIcon>
-    </Label>
+    </ContainerLabel>
   )
 }
 
