@@ -43,6 +43,7 @@ const StyledCarousel = styled(Carousel)({
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   dataConfig: T
   isLoading?: boolean
+  enabled?: boolean
   children: ({
     resources,
     childrenLoading,
@@ -54,9 +55,12 @@ type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
 
 const ResourcesData: React.FC<DataPanelProps<ResourceDataSource>> = ({
   dataConfig,
+  enabled,
   children,
 }) => {
-  const { data, isLoading } = useLearningResourcesList(dataConfig.params)
+  const { data, isLoading } = useLearningResourcesList(dataConfig.params, {
+    enabled: enabled,
+  })
   return children({
     resources: data?.results ?? [],
     childrenLoading: isLoading,
