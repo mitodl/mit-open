@@ -311,6 +311,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
             <FeaturedCoursesCarousel
               title="Featured Courses"
               config={FEATURED_RESOURCES_CAROUSEL}
+              isLoading={field.isLoading}
             />
           </Container>
         ) : null}

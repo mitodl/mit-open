@@ -1,5 +1,5 @@
 import { assertInstanceOf } from "ol-utilities"
-import { urls, factories } from "api/test-utils"
+import { urls, factories, makeRequest } from "api/test-utils"
 import type { FieldChannel } from "api/v0"
 import type { LearningResourceSearchResponse } from "api"
 import {
@@ -7,7 +7,6 @@ import {
   screen,
   setMockResponse,
   within,
-  act,
   waitFor,
 } from "../../test-utils"
 import FieldSearch from "./FieldSearch"
@@ -35,11 +34,7 @@ const setupApis = (
     field,
   )
   setMockResponse.get(
-    urls.learningResources.featured({ limit: 12, platform: ["ocw"] }),
-    factories.learningResources.resources({ count: 0 }),
-  )
-  setMockResponse.get(
-    urls.learningResources.featured({ limit: 12 }),
+    expect.stringContaining(urls.learningResources.featured()),
     factories.learningResources.resources({ count: 0 }),
   )
 
@@ -121,16 +116,29 @@ describe("FieldPage", () => {
   })
   it("Displays a featured carousel if the channel type is 'unit'", async () => {
     const { field } = setupApis({
-      search_filter: "unit=ocw",
+      search_filter: "offered_by=ocw",
       channel_type: "unit",
     })
 
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
     await screen.findAllByText(field.title)
     const carousel = await screen.findByText("Featured Courses")
-    act(() => {
-      expect(carousel).toBeInTheDocument()
+    expect(carousel).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(makeRequest).toHaveBeenCalledWith(
+        "get",
+        urls.learningResources.featured({ limit: 12, offered_by: ["ocw"] }),
+        undefined,
+      )
     })
+    expect(
+      makeRequest.mock.calls.filter(([method, url]) => {
+        return (
+          method === "get" && url.includes(urls.learningResources.featured())
+        )
+      }).length,
+    ).toBe(1)
   })
   it("Does not display a featured carousel if the channel type is not 'unit'", async () => {
     const { field } = setupApis({
@@ -141,9 +149,7 @@ describe("FieldPage", () => {
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
     await screen.findAllByText(field.title)
     const carousels = screen.queryByText("Featured Courses")
-    act(() => {
-      expect(carousels).toBe(null)
-    })
+    expect(carousels).toBe(null)
   })
 
   it.each(new Array(1000).fill(null))(
