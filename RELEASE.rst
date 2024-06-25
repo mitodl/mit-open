@@ -1,6 +1,20 @@
 Release Notes
 =============
 
+Version 0.13.14
+---------------
+
+- better chunk sizes (#1159)
+- Use course_description_html field for OCW courses (#1154)
+- Update dependency eslint-plugin-mdx to v3 (#1149)
+- sort by -views instead (#1158)
+- exposing hijack routes via nginx conf (#1152)
+- sort the media carousel tabs by "new" (#1155)
+- Update dependency faker to v25 (#1150)
+- Update codecov/codecov-action action to v4.5.0 (#1148)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.22 (#1147)
+- Update dependency ruff to v0.4.10 (#1146)
+
 Version 0.13.13 (Released June 21, 2024)
 ---------------
 
