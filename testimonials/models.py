@@ -38,7 +38,7 @@ class Attestation(TimestampedModel):
         null=True, blank=True, help_text="The datetime to show the testimonial"
     )
 
-    avatar = ProcessedImageField(
+    avatar_test = ProcessedImageField(
         max_length=2083,
         upload_to=avatar_uri,
         help_text="The attestant's avatar",
