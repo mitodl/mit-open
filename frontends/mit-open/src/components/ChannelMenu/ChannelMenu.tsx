@@ -6,7 +6,7 @@ import SettingsIcon from "@mui/icons-material/Settings"
 
 const InvertedButton = styled(ActionButton)({ color: "white" })
 
-const FieldMenu: React.FC<{ channelType: string; name: string }> = ({
+const ChannelMenu: React.FC<{ channelType: string; name: string }> = ({
   channelType,
   name,
 }) => {
@@ -14,13 +14,13 @@ const FieldMenu: React.FC<{ channelType: string; name: string }> = ({
     return [
       {
         key: "settings",
-        label: "Field Settings",
-        href: routes.makeFieldEditPath(channelType, name),
+        label: "Channel Settings",
+        href: routes.makeChannelEditPath(channelType, name),
       },
       {
         key: "widget",
         label: "Manage Widgets",
-        href: routes.makeFieldManageWidgetsPath(channelType, name),
+        href: routes.makeChannelManageWidgetsPath(channelType, name),
       },
     ]
   }, [channelType, name])
@@ -36,4 +36,4 @@ const FieldMenu: React.FC<{ channelType: string; name: string }> = ({
   )
 }
 
-export default FieldMenu
+export default ChannelMenu

@@ -74,7 +74,7 @@ class ChannelTypeConstantFieldExtension(OpenApiSerializerFieldExtension):
 class ChannelSerializerExtension(OpenApiSerializerExtension):
     target_class = "channels.serializers.ChannelSerializer"
 
-    def _map_field_channel_base(self, auto_schema, direction):
+    def _map_channel_base(self, auto_schema, direction):
         # this will only be generated on return of map_serializer so mock it for now
         return ResolvedComponent(
             name=auto_schema._get_serializer_name(  # noqa: SLF001

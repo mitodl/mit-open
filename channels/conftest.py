@@ -6,6 +6,6 @@ from channels.factories import ChannelFactory
 
 
 @pytest.fixture()
-def field_channel():
+def channel():
     """Generate a sample Channel"""
     return ChannelFactory.create()

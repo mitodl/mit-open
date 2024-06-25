@@ -7,7 +7,7 @@ import {
 } from "../../test-utils"
 import { factories, urls, setMockResponse } from "api/test-utils"
 import { fields as factory } from "api/test-utils/factories"
-import { makeFieldViewPath, makeFieldEditPath } from "@/common/urls"
+import { makeChannelViewPath, makeChannelEditPath } from "@/common/urls"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import type { Channel } from "api/v0"
 
@@ -36,12 +36,12 @@ const setupApis = (fieldOverrides: Partial<Channel>) => {
   return field
 }
 
-describe("EditFieldAppearanceForm", () => {
+describe("EditChannelAppearanceForm", () => {
   it("Displays the field title, appearance inputs with current field values", async () => {
     const field = setupApis({})
     expect(field.is_moderator).toBeTruthy()
     renderTestApp({
-      url: `${makeFieldEditPath(field.channel_type, field.name)}/#appearance`,
+      url: `${makeChannelEditPath(field.channel_type, field.name)}/#appearance`,
     })
     const descInput = (await screen.findByLabelText(
       "Description",
@@ -56,7 +56,7 @@ describe("EditFieldAppearanceForm", () => {
   it("Shows an error if a required field is blank", async () => {
     const field = setupApis({})
     renderTestApp({
-      url: `${makeFieldEditPath(field.channel_type, field.name)}/#appearance`,
+      url: `${makeChannelEditPath(field.channel_type, field.name)}/#appearance`,
     })
     const titleInput = await screen.findByLabelText("Title")
     const titleError = screen.queryByText("Title is required.")
@@ -86,7 +86,7 @@ describe("EditFieldAppearanceForm", () => {
     }
     setMockResponse.patch(urls.fields.patch(field.id), updatedValues)
     const { location } = renderTestApp({
-      url: `${makeFieldEditPath(field.channel_type, field.name)}/#appearance`,
+      url: `${makeChannelEditPath(field.channel_type, field.name)}/#appearance`,
     })
     const titleInput = (await screen.findByLabelText(
       "Title",
@@ -112,7 +112,7 @@ describe("EditFieldAppearanceForm", () => {
 
     await waitFor(() => {
       expect(location.current.pathname).toBe(
-        makeFieldViewPath(newChannelType, field.name),
+        makeChannelViewPath(newChannelType, field.name),
       )
     })
     await screen.findAllByText(newTitle)

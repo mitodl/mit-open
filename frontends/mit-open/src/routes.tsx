@@ -4,8 +4,8 @@ import { ScrollRestoration } from "react-router-dom"
 import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
-import FieldPage from "@/pages/FieldPage/FieldPage"
-import EditFieldPage from "@/pages/FieldPage/EditFieldPage"
+import ChannelPage from "@/pages/ChannelPage/ChannelPage"
+import EditChannelPage from "@/pages/ChannelPage/EditChannelPage"
 
 import { UserListListingPage } from "./pages/UserListListingPage/UserListListingPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
@@ -141,15 +141,15 @@ const routes: RouteObject[] = [
       },
       {
         path: urls.FIELD_VIEW,
-        element: <FieldPage />,
+        element: <ChannelPage />,
       },
       {
-        path: urls.FIELD_EDIT_WIDGETS,
-        element: <FieldPage />,
+        path: urls.CHANNEL_EDIT_WIDGETS,
+        element: <ChannelPage />,
       },
       {
-        path: urls.FIELD_EDIT,
-        element: <EditFieldPage />,
+        path: urls.CHANNEL_EDIT,
+        element: <EditChannelPage />,
       },
       {
         element: <RestrictedRoute requires={Permissions.ArticleEditor} />,

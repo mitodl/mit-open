@@ -11,23 +11,23 @@ from channels.views import (
 )
 
 v0_router = DefaultRouter()
-v0_router.register(r"channels", ChannelViewSet, basename="field_channels_api")
+v0_router.register(r"channels", ChannelViewSet, basename="channels_api")
 
 v0_urls = [
     re_path(
         r"^channels/type/(?P<channel_type>[A-Za-z0-9_\-]+)/(?P<name>[A-Za-z0-9_\-]+)/$",
         ChannelByTypeNameDetailView.as_view({"get": "retrieve"}),
-        name="field_by_type_name_api-detail",
+        name="channel_by_type_name_api-detail",
     ),
     re_path(
         r"^channels/(?P<id>\d+)/moderators/$",
         FieldModeratorListView.as_view(),
-        name="field_moderators_api-list",
+        name="channel_moderators_api-list",
     ),
     re_path(
         r"^channels/(?P<id>\d+)/moderators/(?P<moderator_name>[A-Za-z0-9_]+)/$",
         FieldModeratorDetailView.as_view(),
-        name="field_moderators_api-detail",
+        name="channel_moderators_api-detail",
     ),
     *v0_router.urls,
 ]

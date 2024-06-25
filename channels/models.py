@@ -10,7 +10,7 @@ from django.db.models import JSONField, deletion
 from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
 
-from channels.constants import FIELD_ROLE_CHOICES, ChannelType
+from channels.constants import CHANNEL_ROLE_CHOICES, ChannelType
 from learning_resources.models import (
     LearningResource,
     LearningResourceDepartment,
@@ -163,47 +163,47 @@ class ChannelPathwayDetail(TimestampedModel):
     )
 
 
-class FieldList(TimestampedModel):
+class ChannelList(TimestampedModel):
     """LearningPath and position (list order) for a channel"""
 
-    field_list = models.ForeignKey(LearningResource, on_delete=models.CASCADE)
-    field_channel = models.ForeignKey(
-        Channel, related_name="lists", on_delete=models.CASCADE
-    )
+    channel_list = models.ForeignKey(LearningResource, on_delete=models.CASCADE)
+    channel = models.ForeignKey(Channel, related_name="lists", on_delete=models.CASCADE)
     position = models.IntegerField(default=0)
 
     class Meta:
-        unique_together = (("field_list", "field_channel"),)
+        unique_together = (("channel_list", "channel"),)
         ordering = ["position"]
 
 
-class Subfield(TimestampedModel):
-    """Subfield and position for a parent field channel"""
+class SubChannel(TimestampedModel):
+    """SubChannel and position for a parent channel"""
 
-    field_channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     parent_channel = models.ForeignKey(
-        Channel, on_delete=models.CASCADE, related_name="subfields"
+        Channel, on_delete=models.CASCADE, related_name="sub_channels"
     )
     position = models.IntegerField(default=0)
 
     class Meta:
-        unique_together = (("field_channel", "parent_channel"),)
+        unique_together = (("channel", "parent_channel"),)
 
 
 class ChannelGroupRole(TimestampedModel):
     """
-    Keep track of field moderators
+    Keep track of channel moderators
     """
 
-    field = models.ForeignKey(Channel, on_delete=models.CASCADE)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
     role = models.CharField(
-        max_length=48, choices=zip(FIELD_ROLE_CHOICES, FIELD_ROLE_CHOICES)
+        max_length=48, choices=zip(CHANNEL_ROLE_CHOICES, CHANNEL_ROLE_CHOICES)
     )
 
     class Meta:
-        unique_together = (("field", "group", "role"),)
-        index_together = (("field", "role"),)
+        unique_together = (("channel", "group", "role"),)
+        index_together = (("channel", "role"),)
 
     def __str__(self):
-        return f"Group {self.group.name} role {self.role} for Channel {self.field.name}"
+        return (
+            f"Group {self.group.name} role {self.role} for Channel {self.channel.name}"
+        )

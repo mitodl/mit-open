@@ -10,15 +10,15 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from channels.api import add_user_role, is_moderator
-from channels.constants import FIELD_ROLE_MODERATORS, ChannelType
+from channels.constants import CHANNEL_ROLE_MODERATORS, ChannelType
 from channels.models import (
     Channel,
     ChannelDepartmentDetail,
+    ChannelList,
     ChannelPathwayDetail,
     ChannelTopicDetail,
     ChannelUnitDetail,
-    FieldList,
-    Subfield,
+    SubChannel,
 )
 from learning_resources.constants import LearningResourceType
 from learning_resources.models import (
@@ -113,20 +113,20 @@ class ChannelAppearanceMixin(serializers.Serializer):
         return {"banner": value}
 
 
-class SubfieldSerializer(serializers.ModelSerializer):
-    """Serializer for Subfields"""
+class SubChannelSerializer(serializers.ModelSerializer):
+    """Serializer for SubChannels"""
 
-    parent_field = serializers.SlugRelatedField(
-        many=False, read_only=True, slug_field="name", source="parent_channel"
+    parent_channel = serializers.SlugRelatedField(
+        many=False, read_only=True, slug_field="name"
     )
 
-    field_channel = serializers.SlugRelatedField(
+    channel = serializers.SlugRelatedField(
         many=False, read_only=True, slug_field="name"
     )
 
     class Meta:
-        model = Subfield
-        fields = ("parent_field", "field_channel", "position")
+        model = SubChannel
+        fields = ("parent_channel", "channel", "position")
 
 
 class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer):
@@ -138,18 +138,18 @@ class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer)
         allow_null=True,
         many=False,
         read_only=True,
-        help_text="Learning path featured in this field.",
+        help_text="Learning path featured in this channel.",
     )
-    subfields = SubfieldSerializer(many=True, read_only=True)
+    sub_channels = SubChannelSerializer(many=True, read_only=True)
 
     @extend_schema_field(LearningPathPreviewSerializer(many=True))
     def get_lists(self, instance):
         """Return the field's list of LearningPaths"""
         return [
-            LearningPathPreviewSerializer(field_list.field_list).data
-            for field_list in FieldList.objects.filter(field_channel=instance)
+            LearningPathPreviewSerializer(channel_list.channel_list).data
+            for channel_list in ChannelList.objects.filter(channel=instance)
             .prefetch_related(
-                "field_list", "field_channel__lists", "field_channel__featured_list"
+                "channel_list", "channel__lists", "channel__featured_list"
             )
             .all()
             .order_by("position")
@@ -266,7 +266,7 @@ class ChannelCreateSerializer(serializers.ModelSerializer):
             published=True,
             resource_type=LearningResourceType.learning_path.name,
         ),
-        help_text="Learning path featured in this field.",
+        help_text="Learning path featured in this channel.",
     )
     lists = serializers.PrimaryKeyRelatedField(
         many=True,
@@ -277,9 +277,9 @@ class ChannelCreateSerializer(serializers.ModelSerializer):
             published=True,
             resource_type=LearningResourceType.learning_path.name,
         ),
-        help_text="Learning paths in this field.",
+        help_text="Learning paths in this channel.",
     )
-    subfields = serializers.SlugRelatedField(
+    sub_channels = serializers.SlugRelatedField(
         slug_field="name",
         many=True,
         queryset=Channel.objects.all(),
@@ -305,7 +305,7 @@ class ChannelCreateSerializer(serializers.ModelSerializer):
             "name",
             "title",
             "public_description",
-            "subfields",
+            "sub_channels",
             "featured_list",
             "lists",
             "avatar",
@@ -320,20 +320,20 @@ class ChannelCreateSerializer(serializers.ModelSerializer):
             "pathway_detail",
         )
 
-    def upsert_field_lists(self, instance, validated_data):
-        """Update or create field lists for a new or updated field channel"""
+    def upsert_channel_lists(self, instance, validated_data):
+        """Update or create channel lists for a new or updated channel"""
         if "lists" not in validated_data:
             return
-        field_lists = validated_data.pop("lists")
+        channel_lists = validated_data.pop("lists")
         new_lists = set()
         former_lists = list(instance.lists.values_list("id", flat=True))
-        for idx, learning_path in enumerate(field_lists):
-            field_list, _ = FieldList.objects.update_or_create(
-                field_channel=instance,
-                field_list=learning_path,
+        for idx, learning_path in enumerate(channel_lists):
+            channel_list, _ = ChannelList.objects.update_or_create(
+                channel=instance,
+                channel_list=learning_path,
                 defaults={"position": idx},
             )
-            new_lists.add(field_list)
+            new_lists.add(channel_list)
         removed_lists = list(
             set(former_lists) - {list.id for list in new_lists}  # noqa: A001
         )
@@ -341,33 +341,33 @@ class ChannelCreateSerializer(serializers.ModelSerializer):
             instance.lists.set(new_lists)
             instance.lists.filter(id__in=removed_lists).delete()
 
-    def upsert_subfields(self, instance, validated_data):
-        """Update or create subfields for a new or updated field channel"""
-        if "subfields" not in validated_data:
+    def upsert_sub_channels(self, instance, validated_data):
+        """Update or create sub_channels for a new or updated channel"""
+        if "sub_channels" not in validated_data:
             return
-        subfields = validated_data.pop("subfields")
-        new_subfields = set()
-        former_subfields = list(
-            instance.subfields.values_list("field_channel__name", flat=True)
+        sub_channels = validated_data.pop("sub_channels")
+        new_sub_channels = set()
+        former_sub_channels = list(
+            instance.sub_channels.values_list("channel__name", flat=True)
         )
-        for idx, field_channel in enumerate(subfields):
-            if field_channel.pk == instance.pk:
-                msg = "A field channel cannot be a subfield of itself"
+        for idx, channel in enumerate(sub_channels):
+            if channel.pk == instance.pk:
+                msg = "A channel cannot be a sub_channel of itself"
                 raise ValidationError(msg)
-            subfield, _ = Subfield.objects.update_or_create(
+            sub_channel, _ = SubChannel.objects.update_or_create(
                 parent_channel=instance,
-                field_channel=field_channel,
+                channel=channel,
                 defaults={"position": idx},
             )
-            new_subfields.add(subfield)
-        removed_subfields = list(
-            set(former_subfields)
-            - {subfield.field_channel.name for subfield in new_subfields}
+            new_sub_channels.add(sub_channel)
+        removed_sub_channels = list(
+            set(former_sub_channels)
+            - {sub_channel.channel.name for sub_channel in new_sub_channels}
         )
         with transaction.atomic():
-            instance.subfields.set(new_subfields)
-            instance.subfields.filter(
-                field_channel__name__in=removed_subfields
+            instance.sub_channels.set(new_sub_channels)
+            instance.sub_channels.filter(
+                channel__name__in=removed_sub_channels
             ).delete()
 
     def upsert_details(self, channel, validated_data):
@@ -392,7 +392,7 @@ class ChannelCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         base_field_data = copy.deepcopy(validated_data)
         for key in (
-            "subfields",
+            "sub_channels",
             "lists",
             "topic_detail",
             "department_detail",
@@ -401,11 +401,11 @@ class ChannelCreateSerializer(serializers.ModelSerializer):
         ):
             base_field_data.pop(key, None)
         with transaction.atomic():
-            field_channel = super().create(base_field_data)
-            self.upsert_field_lists(field_channel, validated_data)
-            self.upsert_subfields(field_channel, validated_data)
-            self.upsert_details(field_channel, validated_data)
-            return field_channel
+            channel = super().create(base_field_data)
+            self.upsert_channel_lists(channel, validated_data)
+            self.upsert_sub_channels(channel, validated_data)
+            self.upsert_details(channel, validated_data)
+            return channel
 
     def to_representation(self, data):
         return ChannelSerializer(context=self.context).to_representation(data)
@@ -420,28 +420,28 @@ class ChannelWriteSerializer(ChannelCreateSerializer, ChannelAppearanceMixin):
         read_only_fields = ("id",)
 
     def update(self, instance, validated_data):
-        """Update an existing field channel"""
-        self.upsert_field_lists(instance, validated_data)
-        self.upsert_subfields(instance, validated_data)
+        """Update an existing channel"""
+        self.upsert_channel_lists(instance, validated_data)
+        self.upsert_sub_channels(instance, validated_data)
         self.upsert_details(instance, validated_data)
 
         avatar = validated_data.pop("avatar", None)
         if avatar:
             instance.avatar.save(
-                f"field_channel_avatar_{instance.name}.jpg", avatar, save=False
+                f"channel_avatar_{instance.name}.jpg", avatar, save=False
             )
             instance.save(update_fields=["avatar"])
 
         banner = validated_data.pop("banner", None)
         if banner:
             instance.banner.save(
-                f"field_channel_banner_{instance.name}.jpg", banner, save=False
+                f"channel_banner_{instance.name}.jpg", banner, save=False
             )
             instance.save(update_fields=["banner"])
         return super().update(instance, validated_data)
 
 
-class FieldModeratorSerializer(serializers.Serializer):
+class ChannelModeratorSerializer(serializers.Serializer):
     """Serializer for moderators"""
 
     moderator_name = WriteableSerializerMethodField()
@@ -489,7 +489,7 @@ class FieldModeratorSerializer(serializers.Serializer):
         return {"email": value}
 
     def create(self, validated_data):
-        field_id = self.context["view"].kwargs["id"]
+        channel_id = self.context["view"].kwargs["id"]
         moderator_name = validated_data.get("moderator_name")
         email = validated_data.get("email")
 
@@ -506,5 +506,5 @@ class FieldModeratorSerializer(serializers.Serializer):
             raise ValueError(msg)
 
         user = User.objects.get(username=username)
-        add_user_role(Channel.objects.get(id=field_id), FIELD_ROLE_MODERATORS, user)
+        add_user_role(Channel.objects.get(id=channel_id), CHANNEL_ROLE_MODERATORS, user)
         return user

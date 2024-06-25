@@ -9,16 +9,16 @@ import {
   within,
   waitFor,
 } from "../../test-utils"
-import FieldSearch from "./FieldSearch"
+import ChannelSearch from "./ChannelSearch"
 
-jest.mock("./FieldSearch", () => {
-  const actual = jest.requireActual("./FieldSearch")
+jest.mock("./ChannelSearch", () => {
+  const actual = jest.requireActual("./ChannelSearch")
   return {
     __esModule: true,
     default: jest.fn(actual.default),
   }
 })
-const mockedFieldSearch = jest.mocked(FieldSearch)
+const mockedChannelSearch = jest.mocked(ChannelSearch)
 
 const setupApis = (
   fieldPatch?: Partial<Channel>,
@@ -99,7 +99,7 @@ const setupApis = (
   }
 }
 
-describe("FieldPage", () => {
+describe("ChannelPage", () => {
   it("Displays the field title, banner, and avatar", async () => {
     const { field } = setupApis()
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
@@ -167,7 +167,7 @@ describe("FieldPage", () => {
     })
     const expectedContext = expect.anything()
 
-    expect(mockedFieldSearch).toHaveBeenLastCalledWith(
+    expect(mockedChannelSearch).toHaveBeenLastCalledWith(
       expectedProps,
       expectedContext,
     )
@@ -178,7 +178,7 @@ describe("FieldPage", () => {
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
     await screen.findByText(field.title)
 
-    expect(mockedFieldSearch).toHaveBeenCalledTimes(0)
+    expect(mockedChannelSearch).toHaveBeenCalledTimes(0)
   })
 
   it("Includes heading and subheading in banner", async () => {

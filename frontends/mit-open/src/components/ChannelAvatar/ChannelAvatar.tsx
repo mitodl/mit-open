@@ -81,7 +81,7 @@ const AvatarInitials = styled(AvatarImg.withComponent("div"))(
   }),
 )
 
-const FieldAvatar: React.FC<AvatarProps> = (props) => {
+const ChannelAvatar: React.FC<AvatarProps> = (props) => {
   const {
     field,
     formImageUrl,
@@ -108,4 +108,4 @@ const FieldAvatar: React.FC<AvatarProps> = (props) => {
   )
 }
 
-export default FieldAvatar
+export default ChannelAvatar

@@ -1,8 +1,8 @@
 import React from "react"
 import { useParams } from "react-router"
-import FieldPageSkeleton from "./FieldPageSkeleton"
-import { useChannelDetail } from "api/hooks/fields"
-import FieldSearch from "./FieldSearch"
+import ChannelPageSkeleton from "./ChannelPageSkeleton"
+import { useChannelDetail } from "api/hooks/channels"
+import FieldSearch from "./ChannelSearch"
 import type {
   Facets,
   FacetKey,
@@ -21,7 +21,7 @@ type RouteParams = {
   name: string
 }
 
-const FieldPage: React.FC = () => {
+const ChannelPage: React.FC = () => {
   const { channelType, name } = useParams<RouteParams>()
   const fieldQuery = useChannelDetail(String(channelType), String(name))
   const searchParams: Facets & BooleanFacets = {}
@@ -41,7 +41,7 @@ const FieldPage: React.FC = () => {
   return (
     name &&
     channelType && (
-      <FieldPageSkeleton name={name} channelType={channelType}>
+      <ChannelPageSkeleton name={name} channelType={channelType}>
         <p>{fieldQuery.data?.public_description}</p>
         {channelType === "unit" ? (
           <StyledTestimonialDisplay offerors={[name]} />
@@ -52,9 +52,9 @@ const FieldPage: React.FC = () => {
             channelType={channelType}
           />
         )}
-      </FieldPageSkeleton>
+      </ChannelPageSkeleton>
     )
   )
 }
 
-export default FieldPage
+export default ChannelPage

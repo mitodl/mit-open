@@ -12,14 +12,14 @@ from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
 
 from channels.api import get_group_role_name, remove_user_role
-from channels.constants import FIELD_ROLE_MODERATORS
+from channels.constants import CHANNEL_ROLE_MODERATORS
 from channels.models import Channel
 from channels.permissions import ChannelModeratorPermissions, HasChannelPermission
 from channels.serializers import (
     ChannelCreateSerializer,
+    ChannelModeratorSerializer,
     ChannelSerializer,
     ChannelWriteSerializer,
-    FieldModeratorSerializer,
 )
 from learning_resources.views import LargePagination
 from main.constants import VALID_HTTP_METHODS
@@ -75,7 +75,7 @@ class ChannelViewSet(
         """Return a queryset"""
         return (
             Channel.objects.prefetch_related(
-                "lists", "subfields", "subfields__field_channel"
+                "lists", "sub_channels", "sub_channels__channel"
             )
             .select_related(
                 "featured_list", "topic_detail", "department_detail", "unit_detail"
@@ -128,7 +128,7 @@ class FieldModeratorListView(ListCreateAPIView):
     """
 
     permission_classes = (ChannelModeratorPermissions,)
-    serializer_class = FieldModeratorSerializer
+    serializer_class = ChannelModeratorSerializer
 
     def get_queryset(self):
         """
@@ -136,7 +136,7 @@ class FieldModeratorListView(ListCreateAPIView):
         """
         field_group_name = get_group_role_name(
             self.kwargs["id"],
-            FIELD_ROLE_MODERATORS,
+            CHANNEL_ROLE_MODERATORS,
         )
 
         return User.objects.filter(groups__name=field_group_name)
@@ -151,12 +151,12 @@ class FieldModeratorDetailView(APIView):
     """
 
     permission_classes = (ChannelModeratorPermissions,)
-    serializer_class = FieldModeratorSerializer
+    serializer_class = ChannelModeratorSerializer
 
     def delete(self, request, *args, **kwargs):  # noqa: ARG002
         """Remove the user from the moderator groups for this website"""
         user = User.objects.get(username=self.kwargs["moderator_name"])
         remove_user_role(
-            Channel.objects.get(id=self.kwargs["id"]), FIELD_ROLE_MODERATORS, user
+            Channel.objects.get(id=self.kwargs["id"]), CHANNEL_ROLE_MODERATORS, user
         )
         return Response(status=HTTP_204_NO_CONTENT)

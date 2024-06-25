@@ -3,15 +3,15 @@
 import factory
 from factory.django import DjangoModelFactory
 
-from channels.api import create_field_groups_and_roles
+from channels.api import create_channel_groups_and_roles
 from channels.constants import ChannelType
 from channels.models import (
     Channel,
     ChannelDepartmentDetail,
+    ChannelList,
     ChannelTopicDetail,
     ChannelUnitDetail,
-    FieldList,
-    Subfield,
+    SubChannel,
 )
 from learning_resources.factories import (
     LearningPathFactory,
@@ -76,11 +76,11 @@ class ChannelFactory(DjangoModelFactory):
         extracted,  # noqa: ARG002
         **kwargs,  # noqa: ARG002
     ):  # pylint: disable=unused-argument
-        """Create the field channel groups and roles after the field channel is created"""  # noqa: E501
+        """Create the channel groups and roles after the channel is created"""
         if not create:
             return
 
-        create_field_groups_and_roles(self)
+        create_channel_groups_and_roles(self)
 
     class Meta:
         model = Channel
@@ -148,25 +148,25 @@ class ChannelPathwayDetailFactory(DjangoModelFactory):
         model = ChannelUnitDetail
 
 
-class SubfieldFactory(DjangoModelFactory):
-    """Factory for channels.models.Subfield object"""
+class SubChannelFactory(DjangoModelFactory):
+    """Factory for channels.models.SubChannel object"""
 
     position = factory.Sequence(lambda n: n)
     parent_channel = factory.SubFactory(ChannelFactory)
-    field_channel = factory.SubFactory(ChannelFactory)
+    channel = factory.SubFactory(ChannelFactory)
 
     class Meta:
-        model = Subfield
+        model = SubChannel
 
 
-class FieldListFactory(DjangoModelFactory):
-    """Factory for channels.models.FieldList object"""
+class ChannelListFactory(DjangoModelFactory):
+    """Factory for channels.models.ChannelList object"""
 
     learning_path = factory.SubFactory(LearningPathFactory)
     position = factory.Sequence(lambda n: n)
-    field_list = factory.LazyAttribute(lambda o: o.learning_path.learning_resource)
-    field_channel = factory.SubFactory(ChannelFactory)
+    channel_list = factory.LazyAttribute(lambda o: o.learning_path.learning_resource)
+    channel = factory.SubFactory(ChannelFactory)
 
     class Meta:
-        model = FieldList
+        model = ChannelList
         exclude = ["learning_path"]

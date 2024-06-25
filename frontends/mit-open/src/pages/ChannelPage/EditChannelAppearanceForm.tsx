@@ -5,8 +5,8 @@ import { RadioChoiceField, Button, TextField } from "ol-components"
 import * as Yup from "yup"
 
 import { ChannelTypeEnum, Channel } from "api/v0"
-import { makeFieldViewPath } from "@/common/urls"
-import { useChannelPartialUpdate } from "api/hooks/fields"
+import { makeChannelViewPath } from "@/common/urls"
+import { useChannelPartialUpdate } from "api/hooks/channels"
 
 type FormProps = {
   field: Channel
@@ -45,21 +45,21 @@ const postSchema = Yup.object().shape({
 })
 type FormData = Yup.InferType<typeof postSchema>
 
-const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
+const EditChannelAppearanceForm = (props: FormProps): JSX.Element => {
   const { field } = props
   const fieldId = field.id
-  const editField = useChannelPartialUpdate()
+  const editChannel = useChannelPartialUpdate()
   const navigate = useNavigate()
 
   const handleSubmit = useCallback(
     async (e: FormData) => {
-      const data = await editField.mutateAsync({ id: fieldId, ...e })
+      const data = await editChannel.mutateAsync({ id: fieldId, ...e })
       if (data) {
-        navigate(makeFieldViewPath(data.channel_type, data.name))
+        navigate(makeChannelViewPath(data.channel_type, data.name))
       }
       return data
     },
-    [navigate, fieldId, editField],
+    [navigate, fieldId, editChannel],
   )
 
   const formik = useFormik({
@@ -111,7 +111,7 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
         <Button
           className="cancel"
           onClick={() =>
-            navigate(makeFieldViewPath(field.channel_type, field.name))
+            navigate(makeChannelViewPath(field.channel_type, field.name))
           }
         >
           Cancel
@@ -124,4 +124,4 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
   )
 }
 
-export default EditFieldAppearanceForm
+export default EditChannelAppearanceForm
