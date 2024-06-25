@@ -61,6 +61,7 @@ const ChoiceInput = styled.input(({ theme }) => ({
   visibility: "hidden",
   backgroundColor: theme.custom.colors.white,
   margin: 0,
+  position: "absolute",
 }))
 
 type IconsProps = {
