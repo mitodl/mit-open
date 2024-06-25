@@ -27,12 +27,14 @@ from learning_resources_search.factories import PercolateQueryFactory
 from learning_resources_search.indexing_api import (
     clear_and_create_index,
     create_backing_index,
+    deindex_content_files,
     deindex_document,
     deindex_learning_resources,
     deindex_percolators,
     deindex_run_content_files,
     delete_orphaned_indices,
     get_reindexing_alias_name,
+    index_content_files,
     index_course_content_files,
     index_items,
     index_learning_resources,
@@ -432,7 +434,7 @@ def test_deindex_run_content_files(mocker):
     assert ContentFile.objects.count() == 0
 
 
-def test_index_content_files(mocker):
+def test_index_course_content_files(mocker):
     """
     OpenSearch should try indexing content files for all runs in a course
     """
@@ -545,6 +547,86 @@ def test_bulk_index_content_files(  # noqa: PLR0913
                     chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
                     routing=course.learning_resource_id,
                 )
+
+
+@pytest.mark.parametrize("errors", [[], ["error"]])
+@pytest.mark.parametrize(
+    ("indexing_func_name", "doc"),
+    [
+        ("index_content_files", {"_id": "doc"}),
+        (
+            "deindex_content_files",
+            {"_id": "doc", "_op_type": "deindex"},
+        ),
+    ],
+)
+def test_index_content_files(  # noqa: PLR0913
+    mocked_es,
+    mocker,
+    settings,
+    errors,
+    indexing_func_name,
+    doc,
+):
+    """
+    index functions for content files should call bulk with correct arguments
+    """
+    settings.OPENSEARCH_INDEXING_CHUNK_SIZE = 6
+    course = CourseFactory.create()
+    run = LearningResourceRunFactory.create(learning_resource=course.learning_resource)
+    content_files = ContentFileFactory.create_batch(5, run=run)
+    content_file_ids = [content_file.id for content_file in content_files]
+
+    mock_get_aliases = mocker.patch(
+        "learning_resources_search.indexing_api.get_active_aliases",
+        autospec=True,
+        return_value=["a", "b"],
+    )
+    bulk_mock = mocker.patch(
+        "learning_resources_search.indexing_api.bulk",
+        autospec=True,
+        return_value=(0, errors),
+    )
+    mocker.patch(
+        "learning_resources_search.indexing_api.serialize_content_file_for_bulk",
+        autospec=True,
+        return_value=doc,
+    )
+    mocker.patch(
+        "learning_resources_search.indexing_api.serialize_content_file_for_bulk_deletion",
+        autospec=True,
+        return_value=doc,
+    )
+
+    if errors:
+        if indexing_func_name == "index_content_files":
+            with pytest.raises(ReindexError):
+                index_content_files(
+                    content_file_ids,
+                    course.learning_resource_id,
+                    IndexestoUpdate.all_indexes.value,
+                )
+        else:
+            with pytest.raises(ReindexError):
+                deindex_content_files(content_file_ids, course.learning_resource_id)
+    else:
+        if indexing_func_name == "index_content_files":
+            index_content_files(
+                content_file_ids,
+                course.learning_resource_id,
+                IndexestoUpdate.all_indexes.value,
+            )
+        else:
+            deindex_content_files(content_file_ids, course.learning_resource_id)
+
+        for alias in mock_get_aliases.return_value:
+            bulk_mock.assert_any_call(
+                mocked_es.conn,
+                [doc for _ in content_files],
+                index=alias,
+                chunk_size=6,
+                routing=course.learning_resource_id,
+            )
 
 
 @pytest.mark.parametrize("has_files", [True, False])
