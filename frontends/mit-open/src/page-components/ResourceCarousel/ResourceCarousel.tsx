@@ -43,7 +43,6 @@ const StyledCarousel = styled(Carousel)({
 type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   dataConfig: T
   isLoading?: boolean
-  enabled?: boolean
   children: ({
     resources,
     childrenLoading,
@@ -53,14 +52,18 @@ type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   }) => React.ReactNode
 }
 
+type LoadTabButtonProps<T extends TabConfig["data"] = TabConfig["data"]> = {
+  config: T
+  label: React.ReactNode
+  key: number
+  value: string
+}
+
 const ResourcesData: React.FC<DataPanelProps<ResourceDataSource>> = ({
   dataConfig,
-  enabled,
   children,
 }) => {
-  const { data, isLoading } = useLearningResourcesList(dataConfig.params, {
-    enabled: enabled,
-  })
+  const { data, isLoading } = useLearningResourcesList(dataConfig.params)
   return children({
     resources: data?.results ?? [],
     childrenLoading: isLoading,
@@ -121,6 +124,23 @@ const DataPanel: React.FC<DataPanelProps> = ({
       resources: [],
       childrenLoading: true,
     })
+}
+
+/**
+ * Tab button that loads the resource, so we can determine if it needs to be
+ * displayed or not. This shouldn't cause double-loading since React Query
+ * should only run the thing once - when you switch into the tab, the data
+ * should already be in the cache.
+ */
+
+const LoadFeaturedTabButton: React.FC<
+  LoadTabButtonProps<FeaturedDataSource>
+> = ({ config, label, key, value }) => {
+  const { data, isLoading } = useFeaturedLearningResourcesList(config.params)
+
+  return !isLoading && data && data.count > 0 ? (
+    <TabButton key={key} label={[label]} value={value} />
+  ) : null
 }
 
 const HeaderRow = styled.div(({ theme }) => ({
@@ -270,12 +290,23 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
           {config.length > 1 ? (
             <ControlsContainer>
               <TabsList onChange={(e, newValue) => setTab(newValue)}>
-                {config.map(({ label }, index) => (
-                  <TabButton
-                    key={index}
-                    label={label}
-                    value={index.toString()}
-                  />
+                {config.map((tabConfig, index) => (
+                  <>
+                    {tabConfig.data.type === "lr_featured" ? (
+                      <LoadFeaturedTabButton
+                        config={tabConfig}
+                        key={index}
+                        label={tabConfig.label}
+                        value={index.toString()}
+                      />
+                    ) : (
+                      <TabButton
+                        key={index}
+                        label={tabConfig.label}
+                        value={index.toString()}
+                      />
+                    )}
+                  </>
                 ))}
               </TabsList>
               <ButtonsContainer ref={setRef} />
