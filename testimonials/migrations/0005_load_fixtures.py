@@ -2,6 +2,222 @@
 
 from django.db import migrations
 
+fixture = [
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Maria%20Eduarda/ocw-avatar-maria-barbosa-2024-06-21T190451_avatar.png",
+        "attestant_name": "Maria Eduarda",
+        "title": "Independent Learner, Brazil",
+        "quote": (
+            "I am not exaggerating when I say MIT OpenCourseWare "
+            "has changed my life significantly for the better… "
+            "I would never have had the opportunity to "
+            "take Calculus during high school, let alone Solid State Chemistry. "
+            "These courses have greatly expanded my "
+            "interests and opportunities and I'm forever grateful for that."
+        ),
+        "position": 1,
+        "offerors": ["ocw"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Chansa%20Kabwe/ocw-avatar-chansa-kabwe-2024-06-21T190321_avatar.png",
+        "attestant_name": "Chansa Kabwe",
+        "title": "Independent Learner, Zambia",
+        "quote": (
+            "OpenCourseWare continues to be a big part of my career."
+            " My foundation is linked to it — I don't know if "
+            "I would be the same engineer today if not for OpenCourseWare."
+        ),
+        "position": 1,
+        "offerors": ["ocw"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Emmanuel%20Kasigazi/ocw-Emmanuel_Kasigazi_headshot-2024-06-21T174753_avatar.png",
+        "attestant_name": "Emmanuel Kasigazi",
+        "title": "Entrepreneur, Uganda",
+        "quote": (
+            "This is what OpenCourseWare has enabled me to do: "
+            "I get the chance to not only watch the "
+            "future happen, but I can actually be a part of it and create it."
+        ),
+        "position": 1,
+        "offerors": ["ocw"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Arthur%20Julio%20Nelson/bootcamps-avatar-Arthur-Julio-Nelson-2024-06-20T195924_avatar.png",
+        "attestant_name": "Arthur Julio Nelson",
+        "title": "Brand Strategy Lead, Google",
+        "quote": (
+            "The Bootcamp is, well, it's an accelerator "
+            "meets a creativity incubator. "
+            "It's all of these things mashed into one. "
+            "If you come into the Bootcamp with a "
+            "purpose and desire for impact and where you want "
+            "to channel it, the Bootcamp will help you unleash it."
+        ),
+        "position": 1,
+        "offerors": ["bootcamps"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Jasmine%20Latham/xpro-avatar-Jasmine_Latham-2024-06-20T195517_avatar.png",
+        "attestant_name": "Jasmine Latham",
+        "title": "Lead Data Scientist, Office for National Statistics",
+        "quote": (
+            "I am very pleased with the course content, "
+            "it is exactly the level I am looking for. "
+            "Each professor/course presenter has packed "
+            "a lot of information and has explained complex "
+            "algorithms in good detail. "
+            "Some with good sense of humor. Thank you very much."
+        ),
+        "position": 1,
+        "offerors": ["xpro"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Lauren%20Moscioni/prof-ed-avatar-Lauren-Moscioni-2024-06-20T194634_avatar.png",
+        "attestant_name": "Lauren Moscioni",
+        "title": "Associate, Morgan Stanley",
+        "quote": (
+            "Coming from the finance sector, "
+            "I wanted to learn more about real estate as an "
+            "alternative investment for ultra-high-net-worth clients. "
+            "What I got from MIT was a well-rounded, "
+            "holistic view of the state of the field."
+        ),
+        "position": 1,
+        "offerors": ["mitpe"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Sebastian%20Bello/mitx-avatar-sebastian-bello-2024-06-20T194252_avatar.png",
+        "attestant_name": "Sebastian Bello",
+        "title": "MicroMasters learner",
+        "quote": (
+            "I did the Micromaster in supply chain, "
+            "what motivated me the most to finish it was "
+            "to have a certificate in supply chain "
+            "from MIT to improve my career. I was so engaged with "
+            "the courses that I wanted to continue learning, "
+            "now I'm doing the Supply Chain Management Master's  at MIT."
+        ),
+        "position": 1,
+        "offerors": ["mitx"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/John%20Goodloe/exed-ed-avatar-john-goodloe-2024-06-20T193921_avatar.png",
+        "attestant_name": "John Goodloe",
+        "title": (
+            "Senior Director for Society Business Solutions, "
+            "American Chemical Society (ACS)"
+        ),
+        "quote": (
+            "The courses at MIT Sloan Executive Education brought together "
+            "true leaders from across the world. You're in classes with diplomats, "
+            "CEOs, heads of family businesses and "
+            "Fortune 500s—every course is a different mix."
+        ),
+        "position": 1,
+        "offerors": ["see"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Linda%20Obregon/bootcamps-Linda_Obregon-2024-06-17T202819_avatar.png",
+        "attestant_name": "Linda Obregon",
+        "title": "Founder and CEO",
+        "quote": (
+            "The program experience was 10-fold compared to what I expected. "
+            "They not only taught me how to create "
+            "a company in a week, but they gave me a "
+            "supportive network of the best "
+            "and brightest minds. After I left the Bootcamp, "
+            "I founded a startup that uses science and"
+            " plants to develop high-protein and tasty new foods."
+        ),
+        "position": 1,
+        "offerors": ["bootcamps"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Murali%20Thyagarajan/xpro-avatar-Murali_Thyagarajan-2024-06-20T195657_avatar.png",
+        "attestant_name": "Murali Thyagarajan",
+        "title": "DBA & Application Support, NASDAQ",
+        "quote": (
+            "The course was easy to understand and had depth. "
+            "All the concepts were clearly laid out and explained. "
+            "This is the best course I have come across on this topic."
+        ),
+        "position": 2,
+        "offerors": ["xpro"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Claudio%20Mirti/prof-ed-avatar-Claudio-Morti-2024-06-20T194710_avatar.png",
+        "attestant_name": "Claudio Mirti",
+        "title": "Senior Advanced Analytics and AI Specialist, Microsoft",
+        "quote": (
+            "The Certificate Program in Machine Learning and AI is a great experience. "
+            "You get a lot of powerful insights during "
+            "exchanges with the professors and other "
+            "students—and you learn how to incorporate the "
+            "material into your daily work."
+        ),
+        "position": 2,
+        "offerors": ["mitpe"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Stephen%20Okiya/mitx-avatar-stephen-okiya-2024-06-20T194343_avatar.png",
+        "attestant_name": "Stephen Okiya",
+        "title": "MITx Learner",
+        "quote": (
+            "I am really grateful for the efforts by MIT in coming up with innovative "
+            "ways of making quality education affordable "
+            "and accessible to everyone all over the world. "
+            "I am sure that the programs impact the lives of millions of "
+            "people either directly or indirectly "
+            "hence making the world a better place."
+        ),
+        "position": 2,
+        "offerors": ["mitx"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Brenda%20Patel/exec-ed-avatar-brenda-patel-2024-06-20T194149_avatar.png",
+        "attestant_name": "Brenda Patel",
+        "title": "CEO, Bonova Advisory",
+        "quote": (
+            "You're a part of an ecosystem that is a life-long community of "
+            "people with the same goal to create something new and valuable. "
+            "It's an investment of five days, but it stays with you forever."
+        ),
+        "position": 2,
+        "offerors": ["see"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Emily%20R.%20Wright/xpro-avatar-Emily_Wright-2024-06-20T195730_avatar.png",
+        "attestant_name": "Emily R. Wright",
+        "title": "Versatile Technologist",
+        "quote": (
+            "This is an awesome program for emerging leaders "
+            "and for those currently in leadership positions. "
+            "The knowledge, tools, and techniques "
+            "are very useful to companies worldwide. "
+            "I would highly recommend this program to all levels of employees."
+        ),
+        "position": 3,
+        "offerors": ["xpro"],
+    },
+    {
+        "avatar": "https://ol-mitopen-app-storage-production.s3.amazonaws.com/testimonial/Anesha%C2%A0Santhanam/mitx-avatar-anesha-santhanam-2024-06-20T194500_avatar.png",
+        "attestant_name": "Anesha Santhanam",
+        "title": "MITx Learner",
+        "quote": (
+            "I recently completed an MITx course in Python, "
+            "and it was phenomenal. I looked into this course to "
+            "give me a better foundation and a deeper "
+            "understanding so I could use Python "
+            "in other settings and applications. "
+            "I'm using what I learned everyday to further my passion, "
+            "so thank you for providing me with this opportunity!"
+        ),
+        "position": 3,
+        "offerors": ["mitx"],
+    },
+]
+
 
 class Migration(migrations.Migration):
     dependencies = [
