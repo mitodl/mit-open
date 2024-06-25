@@ -16,6 +16,7 @@ from learning_resources.etl.ocw import (
     transform_contentfile,
     transform_course,
 )
+from learning_resources.etl.utils import clean_data
 from learning_resources.factories import ContentFileFactory
 from learning_resources.models import ContentFile
 from learning_resources.utils import (
@@ -216,6 +217,9 @@ def test_transform_course(  # noqa: PLR0913
         assert transformed_json["runs"][0]["level"] == ["undergraduate", "high_school"]
         assert transformed_json["runs"][0]["semester"] == (term if term else None)
         assert transformed_json["runs"][0]["year"] == (year if year else None)
+        assert transformed_json["description"] == clean_data(
+            course_json["course_description_html"]
+        )
         assert (
             transformed_json["image"]["url"]
             == "http://test.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg"
