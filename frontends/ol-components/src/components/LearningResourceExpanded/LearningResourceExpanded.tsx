@@ -3,7 +3,6 @@ import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
 import { ButtonLink } from "../Button/Button"
-import MenuItem from "@mui/material/MenuItem"
 import Chip from "@mui/material/Chip"
 import type { LearningResource, LearningResourceTopic } from "api"
 import { ResourceTypeEnum, PlatformEnum } from "api"
@@ -13,9 +12,9 @@ import {
   getReadableResourceType,
 } from "ol-utilities"
 import type { EmbedlyConfig } from "ol-utilities"
-import type { SelectChangeEvent } from "@mui/material/Select"
 import { theme } from "../ThemeProvider/ThemeProvider"
-import { SelectField } from "../SelectField/SelectField"
+import { SimpleSelect } from "../SimpleSelect/SimpleSelect"
+import type { SimpleSelectProps } from "../SimpleSelect/SimpleSelect"
 import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
 import { ChipLink } from "../Chips/ChipLink"
@@ -319,7 +318,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     }
   }, [resource])
 
-  const onDateChange = (event: SelectChangeEvent) => {
+  const onDateChange: SimpleSelectProps["onChange"] = (event) => {
     const run = resource?.runs?.find(
       (run) => run.id === Number(event.target.value),
     )
@@ -333,6 +332,11 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     if (!resource) {
       return <Skeleton height={40} style={{ marginTop: 0, width: "60%" }} />
     }
+    const dateOptions: SimpleSelectProps["options"] =
+      resource.runs?.map((run) => ({
+        value: run.id.toString(),
+        label: formatDate(run.start_date!, "MMMM DD, YYYY"),
+      })) ?? []
 
     if (
       [ResourceTypeEnum.Course, ResourceTypeEnum.Program].includes(
@@ -343,18 +347,11 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       return (
         <Date>
           <DateLabel>Start Date:</DateLabel>
-          <SelectField
-            label={null}
-            value={selectedRun?.id as unknown as string}
-            defaultValue=""
+          <SimpleSelect
+            value={selectedRun?.id.toString() ?? ""}
             onChange={onDateChange}
-          >
-            {resource.runs?.map((run) => (
-              <MenuItem key={run.id} value={run.id}>
-                {formatDate(run.start_date!, "MMMM DD, YYYY")}
-              </MenuItem>
-            ))}
-          </SelectField>
+            options={dateOptions}
+          />
         </Date>
       )
     }
