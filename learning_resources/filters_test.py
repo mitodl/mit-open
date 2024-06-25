@@ -94,10 +94,7 @@ def mock_content_files():
     return content_files
 
 
-@pytest.mark.parametrize(
-    "multifilter", ["department={}&department={}", "department={},{}"]
-)
-def test_learning_resource_filter_department(mock_courses, client, multifilter):
+def test_learning_resource_filter_department(mock_courses, client):
     """Test that the department_id filter works"""
     ocw_department = mock_courses.ocw_course.departments.first()
     mitx_department = mock_courses.mitx_course.departments.first()
@@ -108,9 +105,7 @@ def test_learning_resource_filter_department(mock_courses, client, multifilter):
     assert len(results) == 1
     assert results[0]["readable_id"] == mock_courses.ocw_course.readable_id
 
-    dept_filter = multifilter.format(
-        ocw_department.department_id, mitx_department.department_id
-    )
+    dept_filter = f"department={ocw_department.department_id}&department={mitx_department.department_id}"
     results = client.get(f"{RESOURCE_API_URL}?{dept_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["readable_id"] for result in results]) == sorted(
@@ -118,10 +113,7 @@ def test_learning_resource_filter_department(mock_courses, client, multifilter):
     )
 
 
-@pytest.mark.parametrize(
-    "multifilter", ["offered_by={}&offered_by={}", "offered_by={},{}"]
-)
-def test_learning_resource_filter_offered_by(mock_courses, client, multifilter):
+def test_learning_resource_filter_offered_by(mock_courses, client):
     """Test that the offered_by filter works"""
 
     ocw_offeror = mock_courses.ocw_course.offered_by
@@ -133,7 +125,7 @@ def test_learning_resource_filter_offered_by(mock_courses, client, multifilter):
     assert len(results) == 1
     assert results[0]["readable_id"] == mock_courses.ocw_course.readable_id
 
-    offered_filter = multifilter.format(ocw_offeror.code, mitx_offeror.code)
+    offered_filter = f"offered_by={ocw_offeror.code}&offered_by={mitx_offeror.code}"
     results = client.get(f"{RESOURCE_API_URL}?{offered_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["readable_id"] for result in results]) == sorted(
@@ -141,8 +133,7 @@ def test_learning_resource_filter_offered_by(mock_courses, client, multifilter):
     )
 
 
-@pytest.mark.parametrize("multifilter", ["platform={}&platform={}", "platform={},{}"])
-def test_learning_resource_filter_platform(mock_courses, client, multifilter):
+def test_learning_resource_filter_platform(mock_courses, client):
     """Test that the platform filter works"""
 
     ocw_platform = mock_courses.ocw_course.platform
@@ -154,7 +145,7 @@ def test_learning_resource_filter_platform(mock_courses, client, multifilter):
     assert len(results) == 1
     assert results[0]["readable_id"] == mock_courses.ocw_course.readable_id
 
-    platform_filter = multifilter.format(ocw_platform.code, mitx_platform.code)
+    platform_filter = f"platform={ocw_platform.code}&platform={mitx_platform.code}"
     results = client.get(f"{RESOURCE_API_URL}?{platform_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["readable_id"] for result in results]) == sorted(
@@ -202,10 +193,7 @@ def test_learning_resource_filter_certification(offers_certification, client):
     )
 
 
-@pytest.mark.parametrize(
-    "multifilter", ["offered_by={}&offered_by={}", "offered_by={},{}"]
-)
-def test_learning_resource_filter_certification_type(mock_courses, client, multifilter):
+def test_learning_resource_filter_certification_type(mock_courses, client):
     """Test that the certification_type filter works"""
 
     assert mock_courses.mitpe_course.offered_by.professional is True
@@ -278,10 +266,7 @@ def test_learning_resource_filter_free(client):
         assert resource.id in [result["id"] for result in results]
 
 
-@pytest.mark.parametrize(
-    "multifilter", ["resource_type={}&resource_type={}", "resource_type={},{}"]
-)
-def test_learning_resource_filter_resource_type(client, multifilter):
+def test_learning_resource_filter_resource_type(client):
     """Test that the resource type filter works"""
     ProgramFactory.create()
     podcast = PodcastFactory.create().learning_resource
@@ -293,9 +278,7 @@ def test_learning_resource_filter_resource_type(client, multifilter):
     assert len(results) == 1
     assert results[0]["id"] == podcast.id
 
-    resource_filter = multifilter.format(
-        LearningResourceType.podcast.name, LearningResourceType.learning_path.name
-    )
+    resource_filter = f"resource_type={LearningResourceType.podcast.name}&resource_type={LearningResourceType.learning_path.name}"
     results = client.get(f"{RESOURCE_API_URL}?{resource_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["readable_id"] for result in results]) == sorted(
@@ -413,8 +396,7 @@ def test_learning_resource_sortby_new(client):
     )
 
 
-@pytest.mark.parametrize("multifilter", ["topic={}&topic={}", "topic={},{}"])
-def test_learning_resource_filter_topics(mock_courses, client, multifilter):
+def test_learning_resource_filter_topics(mock_courses, client):
     """Test that the topic filter works"""
     assert (
         list(
@@ -430,10 +412,7 @@ def test_learning_resource_filter_topics(mock_courses, client, multifilter):
     assert len(results) == 1
     assert results[0]["id"] == mock_courses.mitx_course.id
 
-    topic_filter = multifilter.format(
-        mock_courses.mitx_course.topics.first().name.lower(),
-        mock_courses.ocw_course.topics.first().name.upper(),
-    )
+    topic_filter = f"topic={mock_courses.mitx_course.topics.first().name.lower()}&topic={mock_courses.ocw_course.topics.first().name.upper()}"
     results = client.get(f"{RESOURCE_API_URL}?{topic_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["readable_id"] for result in results]) == sorted(
@@ -441,10 +420,7 @@ def test_learning_resource_filter_topics(mock_courses, client, multifilter):
     )
 
 
-@pytest.mark.parametrize(
-    "multifilter", ["course_feature={}&course_feature={}", "course_feature={},{}"]
-)
-def test_learning_resource_filter_course_features(client, multifilter):
+def test_learning_resource_filter_course_features(client):
     """Test that the resource_content_tag filter works"""
 
     resource_with_exams = LearningResourceFactory.create(
@@ -463,7 +439,9 @@ def test_learning_resource_filter_course_features(client, multifilter):
     assert len(results) == 1
     assert results[0]["id"] == resource_with_exams.id
 
-    feature_filter = multifilter.format("EXAMS", "lEcture nOtes")
+    feature_filter = "course_feature={}&course_feature={}".format(
+        "EXAMS", "lEcture nOtes"
+    )
     results = client.get(f"{RESOURCE_API_URL}?{feature_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["readable_id"] for result in results]) == sorted(
@@ -471,15 +449,7 @@ def test_learning_resource_filter_course_features(client, multifilter):
     )
 
 
-@pytest.mark.parametrize(
-    "multifilter",
-    [
-        "level=high_school&level=graduate",
-        "level=high_school,graduate",
-        "level=high_school,graduate&level=graduate",
-    ],
-)
-def test_learning_resource_filter_level(client, multifilter):
+def test_learning_resource_filter_level(client):
     """Test that the level filter works"""
 
     hs_run = LearningResourceRunFactory.create(
@@ -502,14 +472,13 @@ def test_learning_resource_filter_level(client, multifilter):
     assert len(results) == 1
     assert results[0]["id"] == grad_run.learning_resource.id
 
-    results = client.get(f"{RESOURCE_API_URL}?{multifilter}").json()["results"]
+    results = client.get(f"{RESOURCE_API_URL}?level=high_school&level=graduate").json()[
+        "results"
+    ]
     assert len(results) == 2
 
 
-@pytest.mark.parametrize(
-    "multifilter", ["learning_format={}&learning_format={}", "learning_format={},{}"]
-)
-def test_learning_resource_filter_formats(mock_courses, client, multifilter):
+def test_learning_resource_filter_formats(mock_courses, client):
     """Test that the learning_format filter works"""
     LearningResource.objects.filter(id=mock_courses.ocw_course.id).update(
         learning_format=[LearningResourceFormat.online.name]
@@ -533,9 +502,7 @@ def test_learning_resource_filter_formats(mock_courses, client, multifilter):
     assert len(results) == 1
     assert results[0]["id"] == mock_courses.mitpe_course.id
 
-    multiformats_filter = multifilter.format(
-        LearningResourceFormat.in_person.name, LearningResourceFormat.hybrid.name
-    )
+    multiformats_filter = f"learning_format={LearningResourceFormat.in_person.name}&learning_format={LearningResourceFormat.hybrid.name}"
     results = client.get(f"{RESOURCE_API_URL}?{multiformats_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["readable_id"] for result in results]) == sorted(
@@ -543,8 +510,7 @@ def test_learning_resource_filter_formats(mock_courses, client, multifilter):
     )
 
 
-@pytest.mark.parametrize("multifilter", ["run_id={}&run_id={}", "run_id={},{}"])
-def test_content_file_filter_run_id(mock_content_files, client, multifilter):
+def test_content_file_filter_run_id(mock_content_files, client):
     """Test that the run_id filter works for contentfiles"""
 
     results = client.get(
@@ -553,8 +519,8 @@ def test_content_file_filter_run_id(mock_content_files, client, multifilter):
     assert len(results) == 1
     assert results[0]["id"] == mock_content_files[1].id
 
-    feature_filter = multifilter.format(
-        mock_content_files[0].run.id, mock_content_files[1].run.id
+    feature_filter = (
+        f"run_id={mock_content_files[0].run.id}&run_id={mock_content_files[1].run.id}"
     )
     results = client.get(f"{CONTENT_API_URL}?{feature_filter}").json()["results"]
     assert len(results) == 2
@@ -563,10 +529,7 @@ def test_content_file_filter_run_id(mock_content_files, client, multifilter):
     )
 
 
-@pytest.mark.parametrize(
-    "multifilter", ["resource_id={}&resource_id={}", "resource_id={},{}"]
-)
-def test_content_file_filter_resource_id(mock_content_files, client, multifilter):
+def test_content_file_filter_resource_id(mock_content_files, client):
     """Test that the resource_id filter works for contentfiles"""
 
     results = client.get(
@@ -577,10 +540,7 @@ def test_content_file_filter_resource_id(mock_content_files, client, multifilter
         int(results[0]["resource_id"]) == mock_content_files[1].run.learning_resource.id
     )
 
-    feature_filter = multifilter.format(
-        mock_content_files[0].run.learning_resource.id,
-        mock_content_files[1].run.learning_resource.id,
-    )
+    feature_filter = f"resource_id={mock_content_files[0].run.learning_resource.id}&resource_id={mock_content_files[1].run.learning_resource.id}"
     results = client.get(f"{CONTENT_API_URL}?{feature_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([int(result["resource_id"]) for result in results]) == sorted(
@@ -591,8 +551,7 @@ def test_content_file_filter_resource_id(mock_content_files, client, multifilter
     )
 
 
-@pytest.mark.parametrize("multifilter", ["platform={}&platform={}", "platform={},{}"])
-def test_content_file_filter_platform(mock_content_files, client, multifilter):
+def test_content_file_filter_platform(mock_content_files, client):
     """Test that the platform filter works"""
 
     results = client.get(
@@ -601,10 +560,7 @@ def test_content_file_filter_platform(mock_content_files, client, multifilter):
     assert len(results) == 1
     assert results[0]["id"] == mock_content_files[1].id
 
-    platform_filter = multifilter.format(
-        mock_content_files[1].run.learning_resource.platform.code,
-        mock_content_files[0].run.learning_resource.platform.code,
-    )
+    platform_filter = f"platform={mock_content_files[1].run.learning_resource.platform.code}&platform={mock_content_files[0].run.learning_resource.platform.code}"
     results = client.get(f"{CONTENT_API_URL}?{platform_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["id"] for result in results]) == sorted(
@@ -612,10 +568,7 @@ def test_content_file_filter_platform(mock_content_files, client, multifilter):
     )
 
 
-@pytest.mark.parametrize(
-    "multifilter", ["offered_by={}&offered_by={}", "offered_by={},{}"]
-)
-def test_content_file_filter_offered_by(mock_content_files, client, multifilter):
+def test_content_file_filter_offered_by(mock_content_files, client):
     """Test that the offered_by filter works for contentfiles"""
 
     results = client.get(
@@ -624,10 +577,7 @@ def test_content_file_filter_offered_by(mock_content_files, client, multifilter)
     assert len(results) == 1
     assert results[0]["id"] == mock_content_files[1].id
 
-    offered_filter = multifilter.format(
-        mock_content_files[1].run.learning_resource.offered_by.code,
-        mock_content_files[0].run.learning_resource.offered_by.code,
-    )
+    offered_filter = f"offered_by={mock_content_files[1].run.learning_resource.offered_by.code}&offered_by={mock_content_files[0].run.learning_resource.offered_by.code}"
     results = client.get(f"{CONTENT_API_URL}?{offered_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["id"] for result in results]) == sorted(
@@ -635,11 +585,7 @@ def test_content_file_filter_offered_by(mock_content_files, client, multifilter)
     )
 
 
-@pytest.mark.parametrize(
-    "multifilter",
-    ["content_feature_type={}&content_feature_type={}", "content_feature_type={},{}"],
-)
-def test_learning_resource_filter_content_feature_type(client, multifilter):
+def test_learning_resource_filter_content_feature_type(client):
     """Test that the resource_content_tag filter works"""
 
     cf_with_exams = ContentFileFactory.create(
@@ -660,7 +606,9 @@ def test_learning_resource_filter_content_feature_type(client, multifilter):
     assert len(results) == 1
     assert results[0]["id"] == cf_with_exams.id
 
-    feature_filter = multifilter.format("EXAMS", "lEcture nOtes")
+    feature_filter = "content_feature_type={}&content_feature_type={}".format(
+        "EXAMS", "lEcture nOtes"
+    )
     results = client.get(f"{CONTENT_API_URL}?{feature_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["id"] for result in results]) == sorted(

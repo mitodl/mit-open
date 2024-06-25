@@ -117,20 +117,6 @@ def extract_values(obj, key):
     return extract(obj, array, key)
 
 
-class StringArrayField(serializers.ListField):
-    """
-    Character separated ListField.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def to_internal_value(self, data):
-        normalized = ",".join(data).split(",")
-
-        return super().to_internal_value(normalized)
-
-
 class ArrayWrappedBoolean(serializers.BooleanField):
     """
     Wrapper that wraps booleans in arrays so they have the same format as
@@ -194,7 +180,7 @@ class SearchRequestSerializer(serializers.Serializer):
         required=False, help_text="Number of results to return per page"
     )
     offered_by_choices = [(e.name.lower(), e.value) for e in OfferedBy]
-    offered_by = StringArrayField(
+    offered_by = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(choices=offered_by_choices),
         help_text=(
@@ -203,7 +189,7 @@ class SearchRequestSerializer(serializers.Serializer):
         ),
     )
     platform_choices = [(e.name.lower(), e.value) for e in PlatformType]
-    platform = StringArrayField(
+    platform = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(choices=platform_choices),
         help_text=(
@@ -211,7 +197,7 @@ class SearchRequestSerializer(serializers.Serializer):
             \n\n{build_choice_description_list(platform_choices)}"
         ),
     )
-    topic = StringArrayField(
+    topic = serializers.ListField(
         required=False,
         child=serializers.CharField(),
         help_text="The topic name. To see a list of options go to api/v1/topics/",
@@ -226,7 +212,7 @@ class SearchRequestSerializer(serializers.Serializer):
 
 
 class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
-    id = StringArrayField(
+    id = serializers.ListField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value for the learning resource",
@@ -240,7 +226,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         help_text="If the parameter starts with '-' the sort is in descending order",
     )
     resource_choices = [(e.name, e.value.lower()) for e in LearningResourceType]
-    resource_type = StringArrayField(
+    resource_type = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(
             choices=resource_choices,
@@ -274,7 +260,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         "video playlist, or learning path",
     )
     certification_choices = CertificationType.as_tuple()
-    certification_type = StringArrayField(
+    certification_type = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(
             choices=certification_choices,
@@ -285,7 +271,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         ),
     )
     department_choices = list(DEPARTMENTS.items())
-    department = StringArrayField(
+    department = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(choices=department_choices),
         help_text=(
@@ -294,23 +280,23 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         ),
     )
 
-    level = StringArrayField(
+    level = serializers.ListField(
         required=False, child=serializers.ChoiceField(choices=LevelType.as_list())
     )
 
-    course_feature = StringArrayField(
+    course_feature = serializers.ListField(
         required=False,
         child=serializers.CharField(),
         help_text="The course feature. "
         "Possible options are at api/v1/course_features/",
     )
-    aggregations = StringArrayField(
+    aggregations = serializers.ListField(
         required=False,
         help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=LEARNING_RESOURCE_AGGREGATIONS),
     )
     learning_format_choices = LearningResourceFormat.as_list()
-    learning_format = StringArrayField(
+    learning_format = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(choices=learning_format_choices),
         help_text=(
@@ -321,7 +307,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
 
 
 class ContentFileSearchRequestSerializer(SearchRequestSerializer):
-    id = StringArrayField(
+    id = serializers.ListField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value for the content file",
@@ -331,23 +317,23 @@ class ContentFileSearchRequestSerializer(SearchRequestSerializer):
         choices=CONTENT_FILE_SORTBY_OPTIONS,
         help_text="if the parameter starts with '-' the sort is in descending order",
     )
-    content_feature_type = StringArrayField(
+    content_feature_type = serializers.ListField(
         required=False,
         child=serializers.CharField(),
         help_text="The feature type of the content file. "
         "Possible options are at api/v1/course_features/",
     )
-    aggregations = StringArrayField(
+    aggregations = serializers.ListField(
         required=False,
         help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=CONTENT_FILE_AGGREGATIONS),
     )
-    run_id = StringArrayField(
+    run_id = serializers.ListField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value of the run that the content file belongs to",
     )
-    resource_id = StringArrayField(
+    resource_id = serializers.ListField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value of the parent learning resource for the content file",

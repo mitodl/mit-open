@@ -29,7 +29,12 @@ const FieldPage: React.FC = () => {
   if (fieldQuery.data?.search_filter) {
     const urlParams = new URLSearchParams(fieldQuery.data.search_filter)
     for (const [key, value] of urlParams.entries()) {
-      searchParams[key as FacetKey] = value.split(",")
+      const paramEntry = searchParams[key as FacetKey]
+      if (paramEntry !== undefined) {
+        paramEntry.push(value)
+      } else {
+        searchParams[key as FacetKey] = [value]
+      }
     }
   }
 
