@@ -10,7 +10,7 @@ type ButtonVariant =
   | "secondary"
   | "tertiary"
   | "text"
-  | "text-secondary"
+  | "noBorder"
   | "inverted"
 type ButtonSize = "small" | "medium" | "large"
 type ButtonEdge = "circular" | "rounded" | "none"
@@ -139,7 +139,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
         color: colors.silverGray,
       },
     },
-    variant === "text-secondary" && {
+    variant === "noBorder" && {
       backgroundColor: colors.white,
       color: colors.darkGray2,
       border: "none",

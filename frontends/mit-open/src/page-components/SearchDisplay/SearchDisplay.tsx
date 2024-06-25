@@ -666,7 +666,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                         Apply Filters
                       </Button>
                       <Button
-                        variant="text-secondary"
+                        variant="noBorder"
                         size="small"
                         onClick={clearAllFacets}
                       >

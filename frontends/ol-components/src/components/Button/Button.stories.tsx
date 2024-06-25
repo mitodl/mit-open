@@ -89,7 +89,7 @@ export const VariantStory: Story = {
       <Button {...args} variant="text">
         Text
       </Button>
-      <Button {...args} variant="text-secondary">
+      <Button {...args} variant="noBorder">
         Text Secondary
       </Button>
       <Button {...args} variant="inverted">
