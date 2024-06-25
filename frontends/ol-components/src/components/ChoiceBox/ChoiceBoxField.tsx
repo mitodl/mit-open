@@ -105,5 +105,5 @@ const RadioChoiceBoxField: React.FC<RadioChoiceBoxFieldProps> = ({
   )
 }
 
-export { CheckboxChoiceBoxField, RadioChoiceBoxField }
+export { ChoiceBoxField, CheckboxChoiceBoxField, RadioChoiceBoxField }
 export type { CheckboxChoiceBoxFieldProps, RadioChoiceBoxFieldProps }

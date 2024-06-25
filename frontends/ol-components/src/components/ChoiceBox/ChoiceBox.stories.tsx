@@ -30,30 +30,32 @@ type Story = StoryObj<typeof ChoiceBox>
 
 export const Radio: Story = {
   args: {
-    label: "Choice Box",
+    label: "Radio Choice Box",
     type: "radio",
   },
 }
 
 export const RadioDescription: Story = {
   args: {
-    label: "Choice Box",
-    description: "Description",
+    label: "Radio Choice Box with Description",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
     type: "radio",
   },
 }
 
 export const Checkbox: Story = {
   args: {
-    label: "Choice Box",
+    label: "Checkbox Choice Box",
     type: "checkbox",
   },
 }
 
 export const CheckboxDescription: Story = {
   args: {
-    label: "Choice Box",
-    description: "Description",
+    label: "Checkbox Choice Box with Description",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
     type: "checkbox",
   },
 }
