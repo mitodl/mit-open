@@ -33,7 +33,7 @@ const ChoiceBoxField: React.FC<ChoiceBoxFieldProps> = ({
   gridItemProps,
 }: ChoiceBoxFieldProps) => {
   const fieldGridProps: GridProps = {
-    spacing: 2,
+    spacing: "12px",
     justifyContent: "center",
     columns: {
       lg: 12,
