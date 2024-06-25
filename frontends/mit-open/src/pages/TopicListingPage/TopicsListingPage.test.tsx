@@ -1,13 +1,13 @@
 import React from "react"
 import { renderWithProviders, screen, waitFor, within } from "@/test-utils"
-import type { LearningResourceSearchResponse } from "api"
+import type { LearningResourcesSearchResponse } from "api"
 import TopicsListingPage from "./TopicsListingPage"
 import { factories, setMockResponse, urls } from "api/test-utils"
 import invariant from "tiny-invariant"
 
 const makeSearchResponse = (
   aggregations: Record<string, number>,
-): LearningResourceSearchResponse => {
+): LearningResourcesSearchResponse => {
   return {
     metadata: {
       suggestions: [],

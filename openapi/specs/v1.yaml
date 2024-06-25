@@ -2477,7 +2477,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResourceSearchResponse'
+                $ref: '#/components/schemas/LearningResourcesSearchResponse'
           description: ''
   /api/v1/learning_resources_user_subscription/:
     get:
@@ -8442,7 +8442,29 @@ components:
       - id
       - name
       - url
-    LearningResourceSearchResponse:
+    LearningResourceTopic:
+      type: object
+      description: Serializer for LearningResourceTopic model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+        parent:
+          type: integer
+          nullable: true
+        channel_url:
+          type: string
+          description: Get the channel url for the topic if it exists
+          readOnly: true
+          nullable: true
+      required:
+      - channel_url
+      - id
+      - name
+    LearningResourcesSearchResponse:
       type: object
       description: |-
         SearchResponseSerializer with OpenAPI annotations for Learning Resources
@@ -8495,28 +8517,6 @@ components:
       - next
       - previous
       - results
-    LearningResourceTopic:
-      type: object
-      description: Serializer for LearningResourceTopic model
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          maxLength: 128
-        parent:
-          type: integer
-          nullable: true
-        channel_url:
-          type: string
-          description: Get the channel url for the topic if it exists
-          readOnly: true
-          nullable: true
-      required:
-      - channel_url
-      - id
-      - name
     LevelEnum:
       enum:
       - undergraduate
@@ -9159,6 +9159,7 @@ components:
           $ref: '#/components/schemas/PrivacyLevelEnum'
     PercolateQuery:
       type: object
+      description: Serializer for PercolateQuery objects
       properties:
         id:
           type: integer

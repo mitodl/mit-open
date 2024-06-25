@@ -6,7 +6,7 @@ import {
   TabPanel,
   styled,
 } from "ol-components"
-import { ResourceTypeEnum, LearningResourceSearchResponse } from "api"
+import { ResourceTypeEnum, LearningResourcesSearchResponse } from "api"
 
 const TabsList = styled(TabButtonList)({
   ".MuiTabScrollButton-root.Mui-disabled": {
@@ -25,7 +25,7 @@ type TabConfig = {
   resource_type: ResourceTypeEnum[]
 }
 
-type Aggregations = LearningResourceSearchResponse["metadata"]["aggregations"]
+type Aggregations = LearningResourcesSearchResponse["metadata"]["aggregations"]
 const resourceTypeCounts = (aggregations?: Aggregations) => {
   if (!aggregations) return null
   const buckets = aggregations?.resource_type ?? []

@@ -1,6 +1,6 @@
 import { screen, within, waitFor, renderTestApp } from "@/test-utils"
 import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
-import type { LearningResourceSearchResponse } from "api"
+import type { LearningResourcesSearchResponse } from "api"
 import invariant from "tiny-invariant"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import type { FieldChannel } from "api/v0"
@@ -10,7 +10,7 @@ const setMockApiResponses = ({
   search,
   fieldPatch,
 }: {
-  search?: Partial<LearningResourceSearchResponse>
+  search?: Partial<LearningResourcesSearchResponse>
   fieldPatch?: Partial<FieldChannel>
 }) => {
   const field = factories.fields.field(fieldPatch)

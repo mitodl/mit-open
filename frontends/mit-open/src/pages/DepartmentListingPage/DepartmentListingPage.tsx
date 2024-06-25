@@ -15,7 +15,7 @@ import {
 import { MetaTags, pluralize } from "ol-utilities"
 import type {
   LearningResourceSchool,
-  LearningResourceSearchResponse,
+  LearningResourcesSearchResponse,
 } from "api"
 import {
   useLearningResourcesSearch,
@@ -186,7 +186,7 @@ const SchoolList = styled(PlainList)(({ theme }) => ({
 }))
 
 const aggregateByDepartment = (
-  data: LearningResourceSearchResponse,
+  data: LearningResourcesSearchResponse,
 ): Record<string, number> => {
   const buckets = data.metadata.aggregations["department"] ?? []
   return Object.fromEntries(
