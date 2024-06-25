@@ -85,7 +85,7 @@ const learningResourceBaseSchool: Factory<LearningResourceBaseSchool> = (
 ) => {
   return {
     id: uniqueEnforcerId.enforce(() => faker.number.int()),
-    name: faker.lorem.word(),
+    name: faker.lorem.words(3),
     url: faker.internet.url(),
     ...overrides,
   }
@@ -118,7 +118,7 @@ const learnigResourceSchool: Factory<LearningResourceSchool> = (
 ) => {
   return {
     id: uniqueEnforcerId.enforce(() => faker.number.int()),
-    name: faker.lorem.word(),
+    name: faker.lorem.words(3),
     url: faker.internet.url(),
     departments: repeat(learningResourceBaseDepartment),
     ...overrides,
