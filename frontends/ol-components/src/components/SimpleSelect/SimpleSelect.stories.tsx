@@ -1,25 +1,24 @@
 import React, { useState } from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { SimpleSelect, SimpleSelectProps } from "./SimpleSelect"
+import type { SimpleSelectOption } from "./SimpleSelect"
 import type { SelectChangeEvent } from "@mui/material/Select"
 
 function StateWrapper(props: SimpleSelectProps) {
-  const [value, setValue] = useState(props.initialValue)
+  const [value, setValue] = useState(props.value)
 
   const handleChange = (event: SelectChangeEvent<string | string[]>) => {
     setValue(event.target.value)
   }
 
-  return (
-    <SimpleSelect {...props} initialValue={value} onChange={handleChange} />
-  )
+  return <SimpleSelect {...props} value={value} onChange={handleChange} />
 }
 
 const meta: Meta<typeof SimpleSelect> = {
-  title: "ol-components/SimpleSelect",
+  title: "smoot-design/Dropdowns/SimpleSelect",
   component: StateWrapper,
   argTypes: {
-    isMultiple: {
+    multiple: {
       table: {
         disable: true,
       },
@@ -30,41 +29,46 @@ const meta: Meta<typeof SimpleSelect> = {
 export default meta
 
 type Story = StoryObj<typeof SimpleSelect>
-const options = [
+const options: SimpleSelectOption[] = [
   {
-    key: "bagel",
+    value: "",
+    label: "Please select",
+    disabled: true,
+  },
+  {
+    value: "bagel",
     label: "Bagel",
   },
   {
-    key: "bacon",
+    value: "bacon",
     label: "Bacon",
   },
   {
-    key: "french_toast",
+    value: "french_toast",
     label: "French Toast",
   },
   {
-    key: "eggs",
+    value: "eggs",
     label: "Eggs",
   },
   {
-    key: "belgian_waffles",
+    value: "belgian_waffles",
     label: "Belgian Waffles",
   },
 ]
 
 export const SingleSelect: Story = {
   args: {
-    initialValue: "bagel",
-    isMultiple: false,
+    value: "",
+    multiple: false,
     options: options,
   },
 }
 
 export const MultipleSelect: Story = {
   args: {
-    initialValue: ["bagel", "bacon"],
-    isMultiple: true,
+    value: ["bagel", "bacon"],
+    multiple: true,
     options: options,
   },
 }

@@ -145,7 +145,7 @@ export { default as Collapse } from "@mui/material/Collapse"
 
 export { default as Menu } from "@mui/material/Menu"
 export type { MenuProps } from "@mui/material/Menu"
-export { default as MenuItem } from "@mui/material/MenuItem"
+export * from "./components/MenuItem/MenuItem"
 
 export { default as Stepper } from "@mui/material/Stepper"
 export { default as Step } from "@mui/material/Step"
@@ -186,14 +186,18 @@ export * from "./constants/imgConfigs"
 export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
 export { TextField } from "./components/TextField/TextField"
-export { SimpleSelect } from "./components/SimpleSelect/SimpleSelect"
+export {
+  SimpleSelect,
+  SimpleSelectField,
+} from "./components/SimpleSelect/SimpleSelect"
 export type {
   SimpleSelectProps,
-  SimpleSelectOptionProps,
+  SimpleSelectFieldProps,
+  SimpleSelectOption,
 } from "./components/SimpleSelect/SimpleSelect"
 
 export type { TextFieldProps } from "./components/TextField/TextField"
-export { Select, SelectField } from "./components/SelectField/SelectField"
+export { SelectField } from "./components/SelectField/SelectField"
 export type {
   SelectChangeEvent,
   SelectProps,

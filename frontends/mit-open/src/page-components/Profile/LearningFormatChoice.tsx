@@ -1,12 +1,11 @@
 import React from "react"
 import {
-  RadioChoiceBoxField,
-  Select,
-  SelectChangeEvent,
-  MenuItem,
   FormControl,
   FormLabel,
+  SimpleSelect,
+  RadioChoiceBoxField,
 } from "ol-components"
+import type { SimpleSelectFieldProps, SimpleSelectOption } from "ol-components"
 import { LearningFormatEnum, LearningFormatEnumDescriptions } from "api/v0"
 
 import { ProfileFieldUpdateProps, ProfileFieldStateHook } from "./types"
@@ -19,6 +18,15 @@ const CHOICES = [
   value,
   label: LearningFormatEnumDescriptions[value],
 }))
+
+const SELECT_OPTIONS: SimpleSelectOption[] = [
+  {
+    label: <em>Please select</em>,
+    disabled: true,
+    value: "",
+  },
+  ...CHOICES,
+]
 
 type Props = ProfileFieldUpdateProps<"learning_format">
 type State = LearningFormatEnum | ""
@@ -66,11 +74,8 @@ const LearningFormatChoiceBoxField: React.FC<Props> = ({
 const LearningFormatSelect: React.FC<Props> = ({ label, value, onUpdate }) => {
   const [learningFormat, setLearningFormat] = React.useState<State>(value || "")
 
-  const handleChange = (event: SelectChangeEvent<typeof learningFormat>) => {
-    setLearningFormat(() => {
-      const target = event.target as HTMLInputElement
-      return target.value as LearningFormatEnum
-    })
+  const handleChange: SimpleSelectFieldProps["onChange"] = (event) => {
+    setLearningFormat(event.target.value as LearningFormatEnum)
   }
   React.useEffect(() => {
     onUpdate("learning_format", learningFormat)
@@ -79,16 +84,11 @@ const LearningFormatSelect: React.FC<Props> = ({ label, value, onUpdate }) => {
   return (
     <FormControl component="fieldset" fullWidth>
       <FormLabel component="label">{label}</FormLabel>
-      <Select displayEmpty onChange={handleChange} value={learningFormat}>
-        <MenuItem disabled value="">
-          <em>Please select</em>
-        </MenuItem>
-        {CHOICES.map((choice) => (
-          <MenuItem value={choice.value} key={choice.value}>
-            {choice.label}
-          </MenuItem>
-        ))}
-      </Select>
+      <SimpleSelect
+        options={SELECT_OPTIONS}
+        onChange={handleChange}
+        value={learningFormat}
+      />
     </FormControl>
   )
 }

@@ -73,6 +73,12 @@ const themeOptions: ThemeOptions = {
         },
       },
     },
+    MuiMenu: {
+      styleOverrides: { paper: { borderRadius: "4px" } },
+    },
+    MuiAutocomplete: {
+      styleOverrides: { paper: { borderRadius: "4px" } },
+    },
     MuiChip: chips.chipComponent,
   },
 }
