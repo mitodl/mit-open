@@ -6,26 +6,26 @@ import {
   waitFor,
 } from "../../test-utils"
 import { factories, urls, setMockResponse } from "api/test-utils"
-import { fields as factory } from "api/test-utils/factories"
+import { channels as factory } from "api/test-utils/factories"
 import { makeChannelViewPath, makeChannelEditPath } from "@/common/urls"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import type { Channel } from "api/v0"
 
-const setupApis = (fieldOverrides: Partial<Channel>) => {
-  const field = factory.field({ is_moderator: true, ...fieldOverrides })
+const setupApis = (channelOverrides: Partial<Channel>) => {
+  const channel = factory.channel({ is_moderator: true, ...channelOverrides })
   setMockResponse.get(urls.userMe.get(), {})
-  field.search_filter = undefined
+  channel.search_filter = undefined
   setMockResponse.get(
     urls.learningResources.featured({ limit: 12 }),
     factories.learningResources.resources({ count: 0 }),
   )
 
   setMockResponse.get(
-    urls.fields.details(field.channel_type, field.name),
-    field,
+    urls.channels.details(channel.channel_type, channel.name),
+    channel,
   )
   setMockResponse.get(
-    urls.widgetLists.details(field.widget_list || -1),
+    urls.widgetLists.details(channel.widget_list || -1),
     makeWidgetListResponse({}, { count: 0 }),
   )
 
@@ -33,15 +33,15 @@ const setupApis = (fieldOverrides: Partial<Channel>) => {
     results: [],
   })
 
-  return field
+  return channel
 }
 
 describe("EditChannelAppearanceForm", () => {
-  it("Displays the field title, appearance inputs with current field values", async () => {
-    const field = setupApis({})
-    expect(field.is_moderator).toBeTruthy()
+  it("Displays the channel title, appearance inputs with current channel values", async () => {
+    const channel = setupApis({})
+    expect(channel.is_moderator).toBeTruthy()
     renderTestApp({
-      url: `${makeChannelEditPath(field.channel_type, field.name)}/#appearance`,
+      url: `${makeChannelEditPath(channel.channel_type, channel.name)}/#appearance`,
     })
     const descInput = (await screen.findByLabelText(
       "Description",
@@ -49,14 +49,14 @@ describe("EditChannelAppearanceForm", () => {
     const titleInput = (await screen.findByLabelText(
       "Title",
     )) as HTMLInputElement
-    expect(titleInput.value).toEqual(field.title)
-    expect(descInput.value).toEqual(field.public_description)
+    expect(titleInput.value).toEqual(channel.title)
+    expect(descInput.value).toEqual(channel.public_description)
   })
 
-  it("Shows an error if a required field is blank", async () => {
-    const field = setupApis({})
+  it("Shows an error if a required channel is blank", async () => {
+    const channel = setupApis({})
     renderTestApp({
-      url: `${makeChannelEditPath(field.channel_type, field.name)}/#appearance`,
+      url: `${makeChannelEditPath(channel.channel_type, channel.name)}/#appearance`,
     })
     const titleInput = await screen.findByLabelText("Title")
     const titleError = screen.queryByText("Title is required.")
@@ -68,8 +68,8 @@ describe("EditChannelAppearanceForm", () => {
     await screen.findByText("Title is required.")
   })
 
-  it("updates field values on form submission", async () => {
-    const field = setupApis({
+  it("updates channel values on form submission", async () => {
+    const channel = setupApis({
       featured_list: null, // so we don't have to mock userList responses
       lists: [],
     })
@@ -77,16 +77,16 @@ describe("EditChannelAppearanceForm", () => {
     const newTitle = "New Title"
     const newDesc = "New Description"
     const newChannelType = "topic"
-    // Initial field values
+    // Initial channel values
     const updatedValues = {
-      ...field,
+      ...channel,
       title: newTitle,
       public_description: newDesc,
       channel_type: newChannelType,
     }
-    setMockResponse.patch(urls.fields.patch(field.id), updatedValues)
+    setMockResponse.patch(urls.channels.patch(channel.id), updatedValues)
     const { location } = renderTestApp({
-      url: `${makeChannelEditPath(field.channel_type, field.name)}/#appearance`,
+      url: `${makeChannelEditPath(channel.channel_type, channel.name)}/#appearance`,
     })
     const titleInput = (await screen.findByLabelText(
       "Title",
@@ -103,16 +103,16 @@ describe("EditChannelAppearanceForm", () => {
     await user.type(titleInput, newTitle)
     descInput.setSelectionRange(0, descInput.value.length)
     await user.type(descInput, newDesc)
-    // Expected field values after submit
+    // Expected channel values after submit
     setMockResponse.get(
-      urls.fields.details(newChannelType, field.name),
+      urls.channels.details(newChannelType, channel.name),
       updatedValues,
     )
     await user.click(submitBtn)
 
     await waitFor(() => {
       expect(location.current.pathname).toBe(
-        makeChannelViewPath(newChannelType, field.name),
+        makeChannelViewPath(newChannelType, channel.name),
       )
     })
     await screen.findAllByText(newTitle)

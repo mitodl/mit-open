@@ -14,7 +14,7 @@ type ImageSize =
 
 type AvatarProps = {
   imageSize?: ImageSize
-  field: Channel
+  channel: Channel
   editable?: boolean
   formImageUrl?: string | null
   name?: string
@@ -30,14 +30,14 @@ const initials = (title: string): string => {
     .join("")
 }
 
-const getImage = (field: Channel, imageSize: ImageSize | undefined) => {
+const getImage = (channel: Channel, imageSize: ImageSize | undefined) => {
   switch (imageSize) {
     case AVATAR_LARGE:
-      return field.avatar
+      return channel.avatar
     case AVATAR_SMALL:
-      return field.avatar_small
+      return channel.avatar_small
     default:
-      return field.avatar_medium
+      return channel.avatar_medium
   }
 }
 
@@ -83,19 +83,19 @@ const AvatarInitials = styled(AvatarImg.withComponent("div"))(
 
 const ChannelAvatar: React.FC<AvatarProps> = (props) => {
   const {
-    field,
+    channel,
     formImageUrl,
     imageSize = "medium",
     imageVariant = "normal",
   } = props
 
-  const imageUrl = formImageUrl || getImage(field, imageSize)
+  const imageUrl = formImageUrl || getImage(channel, imageSize)
 
   return (
     <AvatarContainer imageSize={imageSize} imageVariant={imageVariant}>
       {!imageUrl ? (
         <AvatarInitials imageSize={imageSize} imageVariant={imageVariant}>
-          {initials(field.title)}
+          {initials(channel.title)}
         </AvatarInitials>
       ) : (
         <AvatarImg

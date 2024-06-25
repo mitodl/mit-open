@@ -21,24 +21,24 @@ jest.mock("./ChannelSearch", () => {
 const mockedChannelSearch = jest.mocked(ChannelSearch)
 
 const setupApis = (
-  fieldPatch?: Partial<Channel>,
+  channelPatch?: Partial<Channel>,
   search?: Partial<LearningResourcesSearchResponse>,
   { isSubscribed = false, isAuthenticated = false } = {},
 ) => {
-  const field = factories.fields.field(fieldPatch)
+  const channel = factories.channels.channel(channelPatch)
   setMockResponse.get(urls.userMe.get(), {
     is_authenticated: isAuthenticated,
   })
   setMockResponse.get(
-    urls.fields.details(field.channel_type, field.name),
-    field,
+    urls.channels.details(channel.channel_type, channel.name),
+    channel,
   )
   setMockResponse.get(
     expect.stringContaining(urls.learningResources.featured()),
     factories.learningResources.resources({ count: 0 }),
   )
 
-  const urlParams = new URLSearchParams(fieldPatch?.search_filter)
+  const urlParams = new URLSearchParams(channelPatch?.search_filter)
   const subscribeParams: Record<string, string[] | string> = {}
   for (const [key, value] of urlParams.entries()) {
     if (
@@ -54,7 +54,7 @@ const setupApis = (
   const subscribeResponse = isSubscribed
     ? factories.percolateQueries.percolateQueryList({ count: 1 }).results
     : factories.percolateQueries.percolateQueryList({ count: 0 }).results
-  if (fieldPatch?.search_filter) {
+  if (channelPatch?.search_filter) {
     setMockResponse.get(
       `${urls.userSubscription.check(subscribeParams)}`,
       subscribeResponse,
@@ -95,33 +95,33 @@ const setupApis = (
   })
 
   return {
-    field,
+    channel,
   }
 }
 
 describe("ChannelPage", () => {
-  it("Displays the field title, banner, and avatar", async () => {
-    const { field } = setupApis()
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+  it("Displays the channel title, banner, and avatar", async () => {
+    const { channel } = setupApis()
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
 
-    const title = await screen.findAllByText(field.title)
+    const title = await screen.findAllByText(channel.title)
     const header = title[0].closest("header")
     assertInstanceOf(header, HTMLElement)
     const images = within(header).getAllByRole("img") as HTMLImageElement[]
     const headerStyles = getComputedStyle(header)
     expect(headerStyles.backgroundImage).toContain(
-      field.configuration.banner_background,
+      channel.configuration.banner_background,
     )
-    expect(images[0].src).toContain(field.configuration.logo)
+    expect(images[0].src).toContain(channel.configuration.logo)
   })
   it("Displays a featured carousel if the channel type is 'unit'", async () => {
-    const { field } = setupApis({
+    const { channel } = setupApis({
       search_filter: "offered_by=ocw",
       channel_type: "unit",
     })
 
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findAllByText(field.title)
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    await screen.findAllByText(channel.title)
     const carousel = await screen.findByText("Featured Courses")
     expect(carousel).toBeInTheDocument()
 
@@ -141,24 +141,23 @@ describe("ChannelPage", () => {
     ).toBe(1)
   })
   it("Does not display a featured carousel if the channel type is not 'unit'", async () => {
-    const { field } = setupApis({
+    const { channel } = setupApis({
       search_filter: "topic=physics",
       channel_type: "topic",
     })
 
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findAllByText(field.title)
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    await screen.findAllByText(channel.title)
     const carousels = screen.queryByText("Featured Courses")
     expect(carousels).toBe(null)
   })
-
-  it("Displays the field search if search_filter is not undefined", async () => {
-    const { field } = setupApis({
+  it("Displays the channel search if search_filter is not undefined", async () => {
+    const { channel } = setupApis({
       search_filter:
         "platform=ocw&platform=mitxonline&department=8&department=9",
     })
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findByText(field.title)
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    await screen.findByText(channel.title)
     const expectedProps = expect.objectContaining({
       constantSearchParams: {
         platform: ["ocw", "mitxonline"],
@@ -172,40 +171,42 @@ describe("ChannelPage", () => {
       expectedContext,
     )
   })
-  it("Does not display the field search if search_filter is undefined", async () => {
-    const { field } = setupApis()
-    field.search_filter = undefined
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findByText(field.title)
+  it("Does not display the channel search if search_filter is undefined", async () => {
+    const { channel } = setupApis()
+    channel.search_filter = undefined
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    await screen.findByText(channel.title)
 
     expect(mockedChannelSearch).toHaveBeenCalledTimes(0)
   })
 
   it("Includes heading and subheading in banner", async () => {
-    const { field } = setupApis()
-    field.search_filter = undefined
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findByText(field.title)
+    const { channel } = setupApis()
+    channel.search_filter = undefined
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    await screen.findByText(channel.title)
 
     await waitFor(() => {
       expect(
-        screen.getByText(field.configuration.sub_heading),
+        screen.getByText(channel.configuration.sub_heading),
       ).toBeInTheDocument()
     })
     await waitFor(() => {
-      expect(screen.getByText(field.configuration.heading)).toBeInTheDocument()
+      expect(
+        screen.getByText(channel.configuration.heading),
+      ).toBeInTheDocument()
     })
   })
 
   it.each([{ isSubscribed: false }, { isSubscribed: true }])(
     "Displays the subscribe toggle for authenticated and unauthenticated users",
     async ({ isSubscribed }) => {
-      const { field } = setupApis(
+      const { channel } = setupApis(
         { search_filter: "q=ocw" },
         {},
         { isSubscribed },
       )
-      renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
+      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
       const subscribedButton = await screen.findByText("Follow")
       expect(subscribedButton).toBeVisible()
     },

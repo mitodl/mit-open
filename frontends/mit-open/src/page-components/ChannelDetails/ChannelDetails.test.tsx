@@ -4,27 +4,27 @@ import { ChannelDetails } from "./ChannelDetails"
 import { BrowserRouter } from "react-router-dom"
 import { urls } from "api/test-utils"
 import { setMockResponse } from "../../test-utils"
-import { fields as factory } from "api/test-utils/factories"
+import { channels as factory } from "api/test-utils/factories"
 import { ThemeProvider } from "ol-components"
 
 describe("ChannelDetails", () => {
   it("Includes channel detail info panel", async () => {
-    const field = factory.field({
+    const channel = factory.channel({
       title: "Test Title",
       channel_type: "unit",
     })
     setMockResponse.get(
-      urls.fields.details(field.channel_type, field.name),
-      field,
+      urls.channels.details(channel.channel_type, channel.name),
+      channel,
     )
     render(
       <BrowserRouter>
-        <ChannelDetails field={field} />
+        <ChannelDetails channel={channel} />
       </BrowserRouter>,
       { wrapper: ThemeProvider },
     )
-    const fieldData = field as unknown as Record<string, unknown>
-    const unitDetail = fieldData.unit_detail as unknown as Record<
+    const channelData = channel as unknown as Record<string, unknown>
+    const unitDetail = channelData.unit_detail as unknown as Record<
       string,
       unknown
     >
@@ -42,17 +42,17 @@ describe("ChannelDetails", () => {
   })
 
   it("Sorts displayed items correctly", async () => {
-    const field = factory.field({
+    const channel = factory.channel({
       title: "Test Title",
       channel_type: "unit",
     })
     setMockResponse.get(
-      urls.fields.details(field.channel_type, field.name),
-      field,
+      urls.channels.details(channel.channel_type, channel.name),
+      channel,
     )
     render(
       <BrowserRouter>
-        <ChannelDetails field={field} />
+        <ChannelDetails channel={channel} />
       </BrowserRouter>,
       { wrapper: ThemeProvider },
     )

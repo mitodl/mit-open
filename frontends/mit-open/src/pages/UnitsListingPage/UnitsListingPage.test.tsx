@@ -107,7 +107,7 @@ describe("DepartmentListingPage", () => {
     )
 
     units.forEach((unit) => {
-      setMockResponse.get(urls.fields.details("unit", unit.code), {
+      setMockResponse.get(urls.channels.details("unit", unit.code), {
         channel_url: `/units/${unit.code}`,
       })
     })

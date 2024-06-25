@@ -5,14 +5,14 @@ import { BrowserRouter } from "react-router-dom"
 import ChannelMenu from "./ChannelMenu"
 import { urls } from "api/test-utils"
 import { setMockResponse, user } from "../../test-utils"
-import { fields as factory } from "api/test-utils/factories"
+import { channels as factory } from "api/test-utils/factories"
 import { ThemeProvider } from "ol-components"
 
 describe("ChannelMenu", () => {
   it("Includes links to field management and widget management", async () => {
-    const field = factory.field()
+    const field = factory.channel()
     setMockResponse.get(
-      urls.fields.details(field.channel_type, field.name),
+      urls.channels.details(field.channel_type, field.name),
       field,
     )
 

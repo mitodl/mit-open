@@ -152,7 +152,7 @@ const userSubscription = {
     `${API_BASE_URL}/api/v1/learning_resources_user_subscription/subscribe/`,
 }
 
-const fields = {
+const channels = {
   details: (channelType: string, name: string) =>
     `${API_BASE_URL}/api/v0/channels/type/${channelType}/${name}/`,
   patch: (id: number) => `${API_BASE_URL}/api/v0/channels/${id}/`,
@@ -198,7 +198,7 @@ export {
   search,
   userLists,
   programLetters,
-  fields,
+  channels,
   widgetLists,
   offerors,
   userMe,
