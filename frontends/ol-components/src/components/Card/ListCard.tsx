@@ -78,6 +78,7 @@ const Info = styled.div`
 
 const Title = styled.h3`
   flex-grow: 1;
+  color: ${theme.custom.colors.darkGray2};
   text-overflow: ellipsis;
   ${{ ...theme.typography.subtitle1 }}
   height: ${theme.typography.pxToRem(40)};
