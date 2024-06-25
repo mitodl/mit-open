@@ -7,7 +7,6 @@ from types import SimpleNamespace
 import factory
 import pytest
 from django.db.models import signals
-from django.http import QueryDict
 from django.urls import reverse
 from rest_framework.renderers import JSONRenderer
 from rest_framework.request import Request
@@ -713,20 +712,20 @@ def test_learning_resources_search_request_serializer():
         "q": "text",
         "offset": 1,
         "limit": 1,
-        "id": "1",
+        "id": ["1"],
         "sortby": "-start_date",
         "professional": "true",
         "certification": "false",
-        "certification_type": CertificationType.none.name,
+        "certification_type": [CertificationType.none.name],
         "free": True,
         "is_learning_material": True,
-        "offered_by": "xpro,ocw",
-        "platform": "xpro,edx,ocw",
-        "topic": "Math",
-        "department": "18,5",
-        "level": "high_school,undergraduate",
-        "course_feature": "Lecture Videos",
-        "aggregations": "resource_type,platform,level",
+        "topic": ["Math", "Atoms,Molecules,and Ions"],
+        "offered_by": ["xpro", "ocw"],
+        "platform": ["xpro", "edx", "ocw"],
+        "department": ["18", "5"],
+        "level": ["high_school", "undergraduate"],
+        "course_feature": ["Lecture Videos"],
+        "aggregations": ["resource_type", "platform", "level"],
     }
 
     cleaned = {
@@ -742,18 +741,15 @@ def test_learning_resources_search_request_serializer():
         "free": [True],
         "offered_by": ["xpro", "ocw"],
         "platform": ["xpro", "edx", "ocw"],
-        "topic": ["Math"],
+        "topic": ["Math", "Atoms,Molecules,and Ions"],
         "department": ["18", "5"],
         "level": ["high_school", "undergraduate"],
         "course_feature": ["Lecture Videos"],
         "aggregations": ["resource_type", "platform", "level"],
     }
 
-    request_data = QueryDict("", mutable=True)
-    request_data.update(data)
-
-    serialized = LearningResourcesSearchRequestSerializer(data=request_data)
-    assert serialized.is_valid() is True
+    serialized = LearningResourcesSearchRequestSerializer(data=data)
+    assert serialized.is_valid()
     assert serialized.data == cleaned
 
 
@@ -762,15 +758,15 @@ def test_content_file_search_request_serializer():
         "q": "text",
         "offset": 1,
         "limit": 1,
-        "id": "1",
+        "id": ["1"],
         "sortby": "-id",
-        "topic": "Math",
-        "aggregations": "topic",
-        "content_feature_type": "Assignment",
-        "run_id": "1,2",
-        "resource_id": "1,2,3",
-        "offered_by": "xpro,ocw",
-        "platform": "xpro,edx,ocw",
+        "topic": ["Math"],
+        "aggregations": ["topic"],
+        "content_feature_type": ["Assignment"],
+        "run_id": ["1", "2"],
+        "resource_id": ["1", "2", "3"],
+        "offered_by": ["xpro", "ocw"],
+        "platform": ["xpro", "edx", "ocw"],
     }
 
     cleaned = {
@@ -788,10 +784,7 @@ def test_content_file_search_request_serializer():
         "platform": ["xpro", "edx", "ocw"],
     }
 
-    request_data = QueryDict("", mutable=True)
-    request_data.update(data)
-
-    serialized = ContentFileSearchRequestSerializer(data=request_data)
+    serialized = ContentFileSearchRequestSerializer(data=data)
     assert serialized.is_valid() is True
     assert serialized.data == cleaned
 
@@ -799,10 +792,10 @@ def test_content_file_search_request_serializer():
 @pytest.mark.parametrize(
     ("parameter", "value"),
     [
-        ("resource_type", "course,program,spaceship"),
-        ("platform", "xpro,spaceship"),
-        ("offered_by", "spaceship"),
-        ("aggregations", "spaceship"),
+        ("resource_type", ["course", "program", "spaceship"]),
+        ("platform", ["xpro", "spaceship"]),
+        ("offered_by", ["spaceship"]),
+        ("aggregations", ["spaceship"]),
     ],
 )
 def test_learning_resources_search_request_serializer_invalid(parameter, value):
@@ -810,10 +803,7 @@ def test_learning_resources_search_request_serializer_invalid(parameter, value):
         parameter: value,
     }
 
-    request_data = QueryDict("", mutable=True)
-    request_data.update(data)
-
-    serialized = LearningResourcesSearchRequestSerializer(data=request_data)
+    serialized = LearningResourcesSearchRequestSerializer(data=data)
     assert serialized.is_valid() is False
     assert list(serialized.errors[parameter].values()) == [
         ['"spaceship" is not a valid choice.']

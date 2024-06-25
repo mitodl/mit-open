@@ -46,7 +46,14 @@ const setupApis = (
   const urlParams = new URLSearchParams(fieldPatch?.search_filter)
   const subscribeParams: Record<string, string[] | string> = {}
   for (const [key, value] of urlParams.entries()) {
-    subscribeParams[key] = value.split(",")
+    if (
+      subscribeParams[key] !== undefined &&
+      Array.isArray(subscribeParams[key])
+    ) {
+      subscribeParams[key] = [...subscribeParams[key], value]
+    } else {
+      subscribeParams[key] = [value]
+    }
   }
   subscribeParams["source_type"] = "channel_subscription_type"
   const subscribeResponse = isSubscribed
@@ -139,11 +146,17 @@ describe("FieldPage", () => {
     })
   })
   it("Displays the field search if search_filter is not undefined", async () => {
-    const { field } = setupApis({ search_filter: "platform=ocw" })
+    const { field } = setupApis({
+      search_filter:
+        "platform=ocw&platform=mitxonline&department=8&department=9",
+    })
     renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
     await screen.findByText(field.title)
     const expectedProps = expect.objectContaining({
-      constantSearchParams: { platform: ["ocw"] },
+      constantSearchParams: {
+        platform: ["ocw", "mitxonline"],
+        department: ["8", "9"],
+      },
     })
     const expectedContext = expect.anything()
 
@@ -152,7 +165,6 @@ describe("FieldPage", () => {
       expectedContext,
     )
   })
-
   it("Does not display the field search if search_filter is undefined", async () => {
     const { field } = setupApis()
     field.search_filter = undefined
