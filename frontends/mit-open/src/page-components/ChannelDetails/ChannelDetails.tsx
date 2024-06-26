@@ -1,11 +1,11 @@
 import React, { useMemo } from "react"
 import { styled, Typography, Box } from "ol-components"
 import { capitalize } from "ol-utilities"
-import { ChannelTypeEnum, FieldChannel } from "api/v0"
+import { ChannelTypeEnum, Channel } from "api/v0"
 import OpenInNewIcon from "@mui/icons-material/OpenInNew"
 
 type ChannelDetailsProps = {
-  field: FieldChannel
+  channel: Channel
 }
 
 const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
@@ -125,11 +125,11 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
   )
 }
 
-const getChannelDetails = (field: FieldChannel) => {
-  const channelType = field.channel_type
+const getChannelDetails = (channel: Channel) => {
+  const channelType = channel.channel_type
   const dataKey = `${channelType}_detail`
-  const fieldData = field as unknown as Record<string, string[] | string>
-  const data = fieldData[dataKey] as unknown as Record<
+  const channelData = channel as unknown as Record<string, string[] | string>
+  const data = channelData[dataKey] as unknown as Record<
     string,
     string[] | string
   >
@@ -155,10 +155,10 @@ const ChannelDetailsCard = styled(Box)(({ theme }) => ({
 }))
 
 const ChannelDetails: React.FC<ChannelDetailsProps> = (props) => {
-  const { field } = props
-  const channelDetails = getChannelDetails(field)
-  const channelType = field.channel_type
-  const channelTitle = field.title
+  const { channel } = props
+  const channelDetails = getChannelDetails(channel)
+  const channelType = channel.channel_type
+  const channelTitle = channel.title
 
   const facetManifest = useMemo(
     () => getFacetManifest(channelType),

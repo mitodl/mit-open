@@ -99,12 +99,12 @@ const getFacetManifestForChannelType = (
     ) as FacetManifest
 }
 
-interface FieldSearchProps {
+interface ChannelSearchProps {
   constantSearchParams: Facets & BooleanFacets
   channelType: ChannelTypeEnum
 }
 
-const FieldSearch: React.FC<FieldSearchProps> = ({
+const ChannelSearch: React.FC<ChannelSearchProps> = ({
   constantSearchParams,
   channelType,
 }) => {
@@ -211,4 +211,4 @@ const FieldSearch: React.FC<FieldSearchProps> = ({
   )
 }
 
-export default FieldSearch
+export default ChannelSearch

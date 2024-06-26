@@ -6,7 +6,7 @@ from django_filters import (
     NumberFilter,
 )
 
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources.models import LearningResourceOfferor
 
 
@@ -15,7 +15,7 @@ class AttestationFilter(FilterSet):
 
     channels = ModelMultipleChoiceFilter(
         label="The channels the attestation is for",
-        queryset=FieldChannel.objects.all(),
+        queryset=Channel.objects.all(),
     )
     offerors = ModelMultipleChoiceFilter(
         label="The offerors the attestation is for",

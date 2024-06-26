@@ -12,7 +12,7 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources import constants, models
 from learning_resources.constants import (
     CertificationType,
@@ -46,7 +46,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
 
     def get_channel_url(self, instance: models.LearningResourceTopic) -> str or None:
         """Get the channel url for the topic if it exists"""
-        channel = FieldChannel.objects.filter(topic_detail__topic=instance).first()
+        channel = Channel.objects.filter(topic_detail__topic=instance).first()
         return channel.channel_url if channel else None
 
     class Meta:
@@ -101,7 +101,7 @@ class LearningResourceOfferorSerializer(serializers.ModelSerializer):
 
     def get_channel_url(self, instance: models.LearningResourceOfferor) -> str or None:
         """Get the channel url for the offeror if it exists"""
-        channel = FieldChannel.objects.filter(unit_detail__unit=instance).first()
+        channel = Channel.objects.filter(unit_detail__unit=instance).first()
         return channel.channel_url if channel else None
 
     class Meta:
@@ -161,9 +161,7 @@ class LearningResourceBaseDepartmentSerializer(serializers.ModelSerializer):
         self, instance: models.LearningResourceDepartment
     ) -> str or None:
         """Get the channel url for the department if it exists"""
-        channel = FieldChannel.objects.filter(
-            department_detail__department=instance
-        ).first()
+        channel = Channel.objects.filter(department_detail__department=instance).first()
         return channel.channel_url if channel else None
 
     class Meta:

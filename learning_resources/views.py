@@ -23,7 +23,7 @@ from rest_framework_nested.viewsets import NestedViewSetMixin
 
 from authentication.decorators import blocked_ip_exempt
 from channels.constants import ChannelType
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources import permissions
 from learning_resources.constants import (
     LearningResourceType,
@@ -848,7 +848,7 @@ class FeaturedViewSet(
             QuerySet of LearningResource objects that are in
             featured learning paths from certain offerors
         """
-        featured_list_ids = FieldChannel.objects.filter(
+        featured_list_ids = Channel.objects.filter(
             channel_type=ChannelType.unit.name
         ).values_list("featured_list", flat=True)
 

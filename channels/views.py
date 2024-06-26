@@ -12,14 +12,14 @@ from rest_framework.status import HTTP_204_NO_CONTENT
 from rest_framework.views import APIView
 
 from channels.api import get_group_role_name, remove_user_role
-from channels.constants import FIELD_ROLE_MODERATORS
-from channels.models import FieldChannel
-from channels.permissions import FieldModeratorPermissions, HasFieldPermission
+from channels.constants import CHANNEL_ROLE_MODERATORS
+from channels.models import Channel
+from channels.permissions import ChannelModeratorPermissions, HasChannelPermission
 from channels.serializers import (
-    FieldChannelCreateSerializer,
-    FieldChannelSerializer,
-    FieldChannelWriteSerializer,
-    FieldModeratorSerializer,
+    ChannelCreateSerializer,
+    ChannelModeratorSerializer,
+    ChannelSerializer,
+    ChannelWriteSerializer,
 )
 from learning_resources.views import LargePagination
 from main.constants import VALID_HTTP_METHODS
@@ -47,7 +47,7 @@ def extend_schema_responses(serializer):
     return decorate
 
 
-@extend_schema_responses(FieldChannelSerializer)
+@extend_schema_responses(ChannelSerializer)
 @extend_schema_view(
     list=extend_schema(summary="List"),
     retrieve=extend_schema(summary="Retrieve"),
@@ -55,16 +55,16 @@ def extend_schema_responses(serializer):
     destroy=extend_schema(summary="Destroy"),
     partial_update=extend_schema(summary="Update"),
 )
-class FieldChannelViewSet(
+class ChannelViewSet(
     viewsets.ModelViewSet,
 ):
     """
-    CRUD Operations related to FieldChannels. Channels may represent groups
+    CRUD Operations related to Channels. Channels may represent groups
     or organizations at MIT and are a high-level categorization of content.
     """
 
     pagination_class = LargePagination
-    permission_classes = (HasFieldPermission,)
+    permission_classes = (HasChannelPermission,)
     http_method_names = VALID_HTTP_METHODS
     lookup_field = "id"
     lookup_url_kwarg = "id"
@@ -74,8 +74,8 @@ class FieldChannelViewSet(
     def get_queryset(self):
         """Return a queryset"""
         return (
-            FieldChannel.objects.prefetch_related(
-                "lists", "subfields", "subfields__field_channel"
+            Channel.objects.prefetch_related(
+                "lists", "sub_channels", "sub_channels__channel"
             )
             .select_related(
                 "featured_list", "topic_detail", "department_detail", "unit_detail"
@@ -85,80 +85,78 @@ class FieldChannelViewSet(
 
     def get_serializer_class(self):
         if self.action in ("retrieve", "list"):
-            return FieldChannelSerializer
+            return ChannelSerializer
         elif self.action == "create":
-            return FieldChannelCreateSerializer
-        return FieldChannelWriteSerializer
+            return ChannelCreateSerializer
+        return ChannelWriteSerializer
 
     def perform_destroy(self, instance):
-        """Remove the field channel"""
+        """Remove the channel"""
         instance.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
 
 @extend_schema_view(
-    retrieve=extend_schema(
-        summary="FieldChannel Detail Lookup by channel type and name"
-    ),
+    retrieve=extend_schema(summary="Channel Detail Lookup by channel type and name"),
 )
 class ChannelByTypeNameDetailView(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
-    View for retrieving an individual field channel by type and name
+    View for retrieving an individual channel by type and name
     """
 
-    serializer_class = FieldChannelSerializer
+    serializer_class = ChannelSerializer
     permission_classes = (AnonymousAccessReadonlyPermission,)
 
     def get_object(self):
         """
-        Return the field channel by type and name
+        Return the channel by type and name
         """
         return get_object_or_404(
-            FieldChannel,
+            Channel,
             channel_type=self.kwargs["channel_type"],
             name=self.kwargs["name"],
         )
 
 
 @extend_schema_view(
-    get=extend_schema(summary="Field Moderators List"),
-    post=extend_schema(summary="Field Moderators Create"),
+    get=extend_schema(summary="Channel Moderators List"),
+    post=extend_schema(summary="Channel Moderators Create"),
 )
-class FieldModeratorListView(ListCreateAPIView):
+class ChannelModeratorListView(ListCreateAPIView):
     """
     View for listing and adding moderators
     """
 
-    permission_classes = (FieldModeratorPermissions,)
-    serializer_class = FieldModeratorSerializer
+    permission_classes = (ChannelModeratorPermissions,)
+    serializer_class = ChannelModeratorSerializer
 
     def get_queryset(self):
         """
         Build a queryset of relevant users with moderator permissions for this channel
         """
-        field_group_name = get_group_role_name(
+        channel_group_name = get_group_role_name(
             self.kwargs["id"],
-            FIELD_ROLE_MODERATORS,
+            CHANNEL_ROLE_MODERATORS,
         )
 
-        return User.objects.filter(groups__name=field_group_name)
+        return User.objects.filter(groups__name=channel_group_name)
 
 
 @extend_schema_view(
-    delete=extend_schema(summary="Field Moderators Destroy"),
+    delete=extend_schema(summary="Channel Moderators Destroy"),
 )
-class FieldModeratorDetailView(APIView):
+class ChannelModeratorDetailView(APIView):
     """
-    View to retrieve and remove field channel moderators
+    View to retrieve and remove channel moderators
     """
 
-    permission_classes = (FieldModeratorPermissions,)
-    serializer_class = FieldModeratorSerializer
+    permission_classes = (ChannelModeratorPermissions,)
+    serializer_class = ChannelModeratorSerializer
 
     def delete(self, request, *args, **kwargs):  # noqa: ARG002
         """Remove the user from the moderator groups for this website"""
         user = User.objects.get(username=self.kwargs["moderator_name"])
         remove_user_role(
-            FieldChannel.objects.get(id=self.kwargs["id"]), FIELD_ROLE_MODERATORS, user
+            Channel.objects.get(id=self.kwargs["id"]), CHANNEL_ROLE_MODERATORS, user
         )
         return Response(status=HTTP_204_NO_CONTENT)

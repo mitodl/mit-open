@@ -8,7 +8,7 @@ paths:
     get:
       operationId: channels_list
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: List
       parameters:
@@ -45,12 +45,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedFieldChannelList'
+                $ref: '#/components/schemas/PaginatedChannelList'
           description: ''
     post:
       operationId: channels_create
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: Create
       tags:
@@ -59,26 +59,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FieldChannelCreateRequest'
+              $ref: '#/components/schemas/ChannelCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/FieldChannelCreateRequest'
+              $ref: '#/components/schemas/ChannelCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/FieldChannelCreateRequest'
+              $ref: '#/components/schemas/ChannelCreateRequest'
         required: true
       responses:
         '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannel'
+                $ref: '#/components/schemas/Channel'
           description: ''
   /api/v0/channels/{id}/:
     get:
       operationId: channels_retrieve
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: Retrieve
       parameters:
@@ -86,7 +86,7 @@ paths:
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this field channel.
+        description: A unique integer value identifying this channel.
         required: true
       tags:
       - channels
@@ -95,12 +95,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannel'
+                $ref: '#/components/schemas/Channel'
           description: ''
     patch:
       operationId: channels_partial_update
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: Update
       parameters:
@@ -108,7 +108,7 @@ paths:
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this field channel.
+        description: A unique integer value identifying this channel.
         required: true
       tags:
       - channels
@@ -116,24 +116,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedFieldChannelWriteRequest'
+              $ref: '#/components/schemas/PatchedChannelWriteRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedFieldChannelWriteRequest'
+              $ref: '#/components/schemas/PatchedChannelWriteRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedFieldChannelWriteRequest'
+              $ref: '#/components/schemas/PatchedChannelWriteRequest'
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannel'
+                $ref: '#/components/schemas/Channel'
           description: ''
     delete:
       operationId: channels_destroy
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: Destroy
       parameters:
@@ -141,7 +141,7 @@ paths:
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this field channel.
+        description: A unique integer value identifying this channel.
         required: true
       tags:
       - channels
@@ -152,7 +152,7 @@ paths:
     get:
       operationId: channels_moderators_list
       description: View for listing and adding moderators
-      summary: Field Moderators List
+      summary: Channel Moderators List
       parameters:
       - in: path
         name: id
@@ -169,12 +169,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FieldModerator'
+                  $ref: '#/components/schemas/ChannelModerator'
           description: ''
     post:
       operationId: channels_moderators_create
       description: View for listing and adding moderators
-      summary: Field Moderators Create
+      summary: Channel Moderators Create
       parameters:
       - in: path
         name: id
@@ -188,25 +188,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FieldModeratorRequest'
+              $ref: '#/components/schemas/ChannelModeratorRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/FieldModeratorRequest'
+              $ref: '#/components/schemas/ChannelModeratorRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/FieldModeratorRequest'
+              $ref: '#/components/schemas/ChannelModeratorRequest'
       responses:
         '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldModerator'
+                $ref: '#/components/schemas/ChannelModerator'
           description: ''
   /api/v0/channels/{id}/moderators/{moderator_name}/:
     delete:
       operationId: channels_moderators_destroy
       description: Remove the user from the moderator groups for this website
-      summary: Field Moderators Destroy
+      summary: Channel Moderators Destroy
       parameters:
       - in: path
         name: id
@@ -228,8 +228,8 @@ paths:
   /api/v0/channels/type/{channel_type}/{name}/:
     get:
       operationId: channels_type_retrieve
-      description: View for retrieving an individual field channel by type and name
-      summary: FieldChannel Detail Lookup by channel type and name
+      description: View for retrieving an individual channel by type and name
+      summary: Channel Detail Lookup by channel type and name
       parameters:
       - in: path
         name: channel_type
@@ -250,7 +250,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannel'
+                $ref: '#/components/schemas/Channel'
           description: ''
   /api/v0/ckeditor:
     get:
@@ -969,6 +969,80 @@ components:
       - 'Yes'
       - 'No'
       - Not Sure Yet
+    Channel:
+      oneOf:
+      - $ref: '#/components/schemas/TopicChannel'
+      - $ref: '#/components/schemas/DepartmentChannel'
+      - $ref: '#/components/schemas/UnitChannel'
+      - $ref: '#/components/schemas/PathwayChannel'
+      discriminator:
+        propertyName: channel_type
+        mapping:
+          topic: '#/components/schemas/TopicChannel'
+          department: '#/components/schemas/DepartmentChannel'
+          unit: '#/components/schemas/UnitChannel'
+          pathway: '#/components/schemas/PathwayChannel'
+    ChannelCreateRequest:
+      type: object
+      description: |-
+        Write serializer for Channel. Uses primary keys for referenced objects
+        during requests, and delegates to ChannelSerializer for responses.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          pattern: ^[A-Za-z0-9_]+$
+          maxLength: 100
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+        public_description:
+          type: string
+        sub_channels:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        featured_list:
+          type: integer
+          nullable: true
+          description: Learning path featured in this channel.
+        lists:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Learning paths in this channel.
+        avatar:
+          type: string
+          format: binary
+          nullable: true
+        banner:
+          type: string
+          format: binary
+          nullable: true
+        about:
+          nullable: true
+        channel_type:
+          type: string
+          allOf:
+          - $ref: '#/components/schemas/ChannelTypeEnum'
+        search_filter:
+          type: string
+          maxLength: 2048
+        topic_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelTopicDetailRequest'
+          nullable: true
+        department_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
+          nullable: true
+      required:
+      - channel_type
+      - name
+      - title
     ChannelDepartmentDetail:
       type: object
       description: Serializer for the ChannelDepartmentDetail model
@@ -984,6 +1058,32 @@ components:
           type: string
           minLength: 1
           nullable: true
+    ChannelModerator:
+      type: object
+      description: Serializer for moderators
+      properties:
+        moderator_name:
+          type: string
+          description: Returns the name for the moderator
+        email:
+          type: string
+          description: Get the email from the associated user
+        full_name:
+          type: string
+          description: Get the full name of the associated user
+          readOnly: true
+      required:
+      - full_name
+    ChannelModeratorRequest:
+      type: object
+      description: Serializer for moderators
+      properties:
+        moderator_name:
+          type: string
+          description: Returns the name for the moderator
+        email:
+          type: string
+          description: Get the email from the associated user
     ChannelTopicDetail:
       type: object
       description: Serializer for the ChannelTopicDetail model
@@ -1101,11 +1201,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -1132,9 +1232,6 @@ components:
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -1142,6 +1239,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -1157,7 +1257,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - updated_on
     DepartmentChannelTypeEnum:
@@ -1330,106 +1430,6 @@ components:
       x-enum-descriptions:
       - News
       - Events
-    FieldChannel:
-      oneOf:
-      - $ref: '#/components/schemas/TopicChannel'
-      - $ref: '#/components/schemas/DepartmentChannel'
-      - $ref: '#/components/schemas/UnitChannel'
-      - $ref: '#/components/schemas/PathwayChannel'
-      discriminator:
-        propertyName: channel_type
-        mapping:
-          topic: '#/components/schemas/TopicChannel'
-          department: '#/components/schemas/DepartmentChannel'
-          unit: '#/components/schemas/UnitChannel'
-          pathway: '#/components/schemas/PathwayChannel'
-    FieldChannelCreateRequest:
-      type: object
-      description: |-
-        Write serializer for FieldChannel. Uses primary keys for referenced objects
-        during requests, and delegates to FieldChannelSerializer for responses.
-      properties:
-        name:
-          type: string
-          minLength: 1
-          pattern: ^[A-Za-z0-9_]+$
-          maxLength: 100
-        title:
-          type: string
-          minLength: 1
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
-          type: array
-          items:
-            type: string
-            minLength: 1
-        featured_list:
-          type: integer
-          nullable: true
-          description: Learning path featured in this field.
-        lists:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Learning paths in this field.
-        avatar:
-          type: string
-          format: binary
-          nullable: true
-        banner:
-          type: string
-          format: binary
-          nullable: true
-        about:
-          nullable: true
-        channel_type:
-          type: string
-          allOf:
-          - $ref: '#/components/schemas/ChannelTypeEnum'
-        search_filter:
-          type: string
-          maxLength: 2048
-        topic_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelTopicDetailRequest'
-          nullable: true
-        department_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
-          nullable: true
-      required:
-      - channel_type
-      - name
-      - title
-    FieldModerator:
-      type: object
-      description: Serializer for moderators
-      properties:
-        moderator_name:
-          type: string
-          description: Returns the name for the moderator
-        email:
-          type: string
-          description: Get the email from the associated user
-        full_name:
-          type: string
-          description: Get the full name of the associated user
-          readOnly: true
-      required:
-      - full_name
-    FieldModeratorRequest:
-      type: object
-      description: Serializer for moderators
-      properties:
-        moderator_name:
-          type: string
-          description: Returns the name for the moderator
-        email:
-          type: string
-          description: Get the email from the associated user
     GoalsEnum:
       enum:
       - career-growth
@@ -1682,6 +1682,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attestation'
+    PaginatedChannelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Channel'
     PaginatedFeedItemList:
       type: object
       required:
@@ -1728,32 +1751,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FeedSource'
-    PaginatedFieldChannelList:
+    PatchedChannelWriteRequest:
       type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/FieldChannel'
-    PatchedFieldChannelWriteRequest:
-      type: object
-      description: Similar to FieldChannelCreateSerializer, with read-only name
+      description: Similar to ChannelCreateSerializer, with read-only name
       properties:
         name:
           type: string
@@ -1766,7 +1766,7 @@ components:
           maxLength: 100
         public_description:
           type: string
-        subfields:
+        sub_channels:
           type: array
           items:
             type: string
@@ -1774,13 +1774,13 @@ components:
         featured_list:
           type: integer
           nullable: true
-          description: Learning path featured in this field.
+          description: Learning path featured in this channel.
         lists:
           type: array
           items:
             type: integer
             nullable: true
-          description: Learning paths in this field.
+          description: Learning paths in this channel.
         avatar:
           type: string
           nullable: true
@@ -1930,11 +1930,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -1959,9 +1959,6 @@ components:
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -1969,6 +1966,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -1983,7 +1983,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - updated_on
     PathwayChannelTypeEnum:
@@ -2282,14 +2282,14 @@ components:
       - linkedin
       - personal
       - twitter
-    Subfield:
+    SubChannel:
       type: object
-      description: Serializer for Subfields
+      description: Serializer for SubChannels
       properties:
-        parent_field:
+        parent_channel:
           type: string
           readOnly: true
-        field_channel:
+        channel:
           type: string
           readOnly: true
         position:
@@ -2297,8 +2297,8 @@ components:
           maximum: 2147483647
           minimum: -2147483648
       required:
-      - field_channel
-      - parent_field
+      - channel
+      - parent_channel
     TimeCommitmentEnum:
       enum:
       - 0-to-5-hours
@@ -2362,11 +2362,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -2393,9 +2393,6 @@ components:
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -2403,6 +2400,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -2417,7 +2417,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - topic_detail
       - updated_on
@@ -2471,11 +2471,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -2502,9 +2502,6 @@ components:
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -2512,6 +2509,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -2526,7 +2526,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - unit_detail
       - updated_on

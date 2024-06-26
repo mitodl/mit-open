@@ -12,9 +12,9 @@ import {
 import { MetaTags } from "ol-utilities"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
-import { useChannelDetail } from "api/hooks/fields"
-import FieldMenu from "@/components/FieldMenu/FieldMenu"
-import FieldAvatar from "@/components/FieldAvatar/FieldAvatar"
+import { useChannelDetail } from "api/hooks/channels"
+import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
+import ChannelAvatar from "@/components/ChannelAvatar/ChannelAvatar"
 import ResourceCarousel, {
   ResourceCarouselProps,
 } from "@/page-components/ResourceCarousel/ResourceCarousel"
@@ -22,7 +22,7 @@ import { SourceTypeEnum } from "api"
 import { getSearchParamMap } from "@/common/utils"
 import { DEPARTMENTS, HOME, TOPICS, UNITS } from "../../common/urls"
 
-export const FieldTitleRow = styled.div`
+export const ChannelTitleRow = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -41,13 +41,13 @@ const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
     marginBottom: "32px",
   },
 }))
-export const FieldControls = styled.div`
+export const ChannelControls = styled.div`
   position: relative;
   min-height: 38px;
   display: flex;
 `
 
-interface FieldSkeletonProps {
+interface ChannelSkeletonProps {
   children: React.ReactNode
   channelType: string
   name: string
@@ -72,23 +72,23 @@ const NAV_PATH: { [key: string]: { href: string; label: string } } = {
 }
 
 /**
- * Common structure for field-oriented pages.
+ * Common structure for channel-oriented pages.
  *
- * Renders the field title and avatar in a banner.
+ * Renders the channel title and avatar in a banner.
  */
-const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
+const ChannelSkeletonProps: React.FC<ChannelSkeletonProps> = ({
   children,
   channelType,
   name,
 }) => {
-  const field = useChannelDetail(String(channelType), String(name))
-  const urlParams = new URLSearchParams(field.data?.search_filter)
-  const displayConfiguration = field.data?.configuration
+  const channel = useChannelDetail(String(channelType), String(name))
+  const urlParams = new URLSearchParams(channel.data?.search_filter)
+  const displayConfiguration = channel.data?.configuration
 
   const urlParamMap: Record<string, string[] | string> = useMemo(() => {
-    const urlParams = new URLSearchParams(field.data?.search_filter)
+    const urlParams = new URLSearchParams(channel.data?.search_filter)
     return getSearchParamMap(urlParams)
-  }, [field])
+  }, [channel])
 
   const FEATURED_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
     {
@@ -103,13 +103,13 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
 
   return (
     <>
-      <MetaTags title={field.data?.title || NAV_PATH[channelType].label} />
+      <MetaTags title={channel.data?.title || NAV_PATH[channelType].label} />
       <BannerPage
         src={
           displayConfiguration?.banner_background ??
           "/static/images/background_steps.jpeg"
         }
-        omitBackground={field.isLoading}
+        omitBackground={channel.isLoading}
         backgroundSize="2000px auto"
         dim={30}
         bannerContent={
@@ -123,10 +123,10 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                   label: NAV_PATH[channelType].label,
                 },
               ]}
-              current={field.data?.title}
+              current={channel.data?.title}
             />
-            <FieldTitleRow data-testid="banner">
-              {field.data && (
+            <ChannelTitleRow data-testid="banner">
+              {channel.data && (
                 <Box
                   flexDirection="row"
                   alignItems="start"
@@ -170,21 +170,21 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                       })}
                     >
                       {displayConfiguration?.logo ? (
-                        <FieldAvatar
+                        <ChannelAvatar
                           imageVariant="inverted"
                           formImageUrl={displayConfiguration?.logo}
                           imageSize="medium"
-                          field={field.data}
+                          channel={channel.data}
                         />
                       ) : (
                         <Typography variant="h1" data-testid="header">
                           <Link
-                            to={routes.makeFieldViewPath(
-                              field.data.channel_type,
-                              field.data.name,
+                            to={routes.makeChannelViewPath(
+                              channel.data.channel_type,
+                              channel.data.name,
                             )}
                           >
-                            {field.data.title}
+                            {channel.data.title}
                           </Link>
                         </Typography>
                       )}
@@ -239,8 +239,8 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                           mb: { xs: "48px" },
                         }}
                       >
-                        <FieldControls>
-                          {field.data?.search_filter ? (
+                        <ChannelControls>
+                          {channel.data?.search_filter ? (
                             <SearchSubscriptionToggle
                               sourceType={
                                 SourceTypeEnum.ChannelSubscriptionType
@@ -248,13 +248,13 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                               searchParams={urlParams}
                             />
                           ) : null}
-                          {field.data?.is_moderator ? (
-                            <FieldMenu
+                          {channel.data?.is_moderator ? (
+                            <ChannelMenu
                               channelType={String(channelType)}
                               name={String(name)}
                             />
                           ) : null}
-                        </FieldControls>
+                        </ChannelControls>
                       </Box>
                     ) : null}
                   </Box>
@@ -271,7 +271,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         width: { md: "408px", xs: "100%" },
                       }}
                     >
-                      <ChannelDetails field={field.data} />
+                      <ChannelDetails channel={channel.data} />
                     </Box>
                   ) : (
                     <Box
@@ -287,25 +287,25 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
                         mb: { md: "0px", sm: "48px" },
                       }}
                     >
-                      <FieldControls>
-                        {field.data?.search_filter ? (
+                      <ChannelControls>
+                        {channel.data?.search_filter ? (
                           <SearchSubscriptionToggle
                             sourceType={SourceTypeEnum.ChannelSubscriptionType}
                             searchParams={urlParams}
                           />
                         ) : null}
-                        {field.data?.is_moderator ? (
-                          <FieldMenu
+                        {channel.data?.is_moderator ? (
+                          <ChannelMenu
                             channelType={String(channelType)}
                             name={String(name)}
                           />
                         ) : null}
-                      </FieldControls>
+                      </ChannelControls>
                     </Box>
                   )}
                 </Box>
               )}
-            </FieldTitleRow>
+            </ChannelTitleRow>
           </Container>
         }
       >
@@ -314,7 +314,7 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
             <FeaturedCoursesCarousel
               title="Featured Courses"
               config={FEATURED_RESOURCES_CAROUSEL}
-              isLoading={field.isLoading}
+              isLoading={channel.isLoading}
             />
           </Container>
         ) : null}
@@ -324,4 +324,4 @@ const FieldSkeletonProps: React.FC<FieldSkeletonProps> = ({
   )
 }
 
-export default FieldSkeletonProps
+export default ChannelSkeletonProps

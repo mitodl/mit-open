@@ -19,7 +19,7 @@ import {
   OfferedByEnum,
 } from "api"
 import { MetaTags } from "ol-utilities"
-import { useChannelDetail } from "api/hooks/fields"
+import { useChannelDetail } from "api/hooks/channels"
 import { HOME } from "@/common/urls"
 
 const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"

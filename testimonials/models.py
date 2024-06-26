@@ -23,7 +23,7 @@ class Attestation(TimestampedModel):
         help_text="The position the attestation should occupy", default=1
     )
     channels = models.ManyToManyField(
-        "channels.FieldChannel",
+        "channels.Channel",
         related_name="+",
         help_text="Channels that the testimonial belongs to",
         blank=True,

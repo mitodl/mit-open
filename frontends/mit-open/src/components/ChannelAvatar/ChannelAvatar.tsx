@@ -1,5 +1,5 @@
 import React from "react"
-import type { FieldChannel } from "api/v0"
+import type { Channel } from "api/v0"
 import { styled } from "ol-components"
 export const AVATAR_SMALL = "small" as const
 export const AVATAR_MEDIUM = "medium" as const
@@ -14,7 +14,7 @@ type ImageSize =
 
 type AvatarProps = {
   imageSize?: ImageSize
-  field: FieldChannel
+  channel: Channel
   editable?: boolean
   formImageUrl?: string | null
   name?: string
@@ -30,14 +30,14 @@ const initials = (title: string): string => {
     .join("")
 }
 
-const getImage = (field: FieldChannel, imageSize: ImageSize | undefined) => {
+const getImage = (channel: Channel, imageSize: ImageSize | undefined) => {
   switch (imageSize) {
     case AVATAR_LARGE:
-      return field.avatar
+      return channel.avatar
     case AVATAR_SMALL:
-      return field.avatar_small
+      return channel.avatar_small
     default:
-      return field.avatar_medium
+      return channel.avatar_medium
   }
 }
 
@@ -81,21 +81,21 @@ const AvatarInitials = styled(AvatarImg.withComponent("div"))(
   }),
 )
 
-const FieldAvatar: React.FC<AvatarProps> = (props) => {
+const ChannelAvatar: React.FC<AvatarProps> = (props) => {
   const {
-    field,
+    channel,
     formImageUrl,
     imageSize = "medium",
     imageVariant = "normal",
   } = props
 
-  const imageUrl = formImageUrl || getImage(field, imageSize)
+  const imageUrl = formImageUrl || getImage(channel, imageSize)
 
   return (
     <AvatarContainer imageSize={imageSize} imageVariant={imageVariant}>
       {!imageUrl ? (
         <AvatarInitials imageSize={imageSize} imageVariant={imageVariant}>
-          {initials(field.title)}
+          {initials(channel.title)}
         </AvatarInitials>
       ) : (
         <AvatarImg
@@ -108,4 +108,4 @@ const FieldAvatar: React.FC<AvatarProps> = (props) => {
   )
 }
 
-export default FieldAvatar
+export default ChannelAvatar

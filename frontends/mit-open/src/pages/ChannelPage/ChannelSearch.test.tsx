@@ -3,24 +3,24 @@ import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
 import type { LearningResourcesSearchResponse } from "api"
 import invariant from "tiny-invariant"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
-import type { FieldChannel } from "api/v0"
+import type { Channel } from "api/v0"
 import { ChannelTypeEnum } from "api/v0"
 
 const setMockApiResponses = ({
   search,
-  fieldPatch,
+  channelPatch,
 }: {
   search?: Partial<LearningResourcesSearchResponse>
-  fieldPatch?: Partial<FieldChannel>
+  channelPatch?: Partial<Channel>
 }) => {
-  const field = factories.fields.field(fieldPatch)
-  const urlParams = new URLSearchParams(fieldPatch?.search_filter)
+  const channel = factories.channels.channel(channelPatch)
+  const urlParams = new URLSearchParams(channelPatch?.search_filter)
   const subscribeParams: Record<string, string[] | string> = {}
   for (const [key, value] of urlParams.entries()) {
     subscribeParams[key] = value.split(",")
   }
   subscribeParams["source_type"] = "channel_subscription_type"
-  if (fieldPatch?.search_filter) {
+  if (channelPatch?.search_filter) {
     setMockResponse.get(
       `${urls.userSubscription.check(subscribeParams)}`,
       factories.percolateQueries,
@@ -40,13 +40,13 @@ const setMockApiResponses = ({
     factories.percolateQueries,
   )
   setMockResponse.get(
-    urls.fields.details(field.channel_type, field.name),
-    field,
+    urls.channels.details(channel.channel_type, channel.name),
+    channel,
   )
 
   const widgetsList = makeWidgetListResponse()
   setMockResponse.get(
-    urls.widgetLists.details(field.widget_list || -1),
+    urls.widgetLists.details(channel.widget_list || -1),
     widgetsList,
   )
 
@@ -77,7 +77,7 @@ const setMockApiResponses = ({
   })
 
   return {
-    field,
+    channel,
   }
 }
 
@@ -92,12 +92,12 @@ const getLastApiSearchParams = () => {
   return fullUrl.searchParams
 }
 
-describe("FieldSearch", () => {
+describe("ChannelSearch", () => {
   test("Renders search results", async () => {
     const resources = factories.learningResources.resources({
       count: 10,
     }).results
-    const { field } = setMockApiResponses({
+    const { channel } = setMockApiResponses({
       search: {
         count: 1000,
         metadata: {
@@ -115,8 +115,8 @@ describe("FieldSearch", () => {
       },
     })
     setMockResponse.get(urls.userMe.get(), {})
-    renderTestApp({ url: `/c/${field.channel_type}/${field.name}` })
-    await screen.findByText(field.title)
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    await screen.findByText(channel.title)
     const tabpanel = await screen.findByRole("tabpanel")
     for (const resource of resources) {
       await within(tabpanel).findByText(resource.title)
@@ -142,8 +142,8 @@ describe("FieldSearch", () => {
   ])(
     "Filters by combined parameters from the search_filter and the url",
     async ({ searchFilter, url, expected }) => {
-      const { field } = setMockApiResponses({
-        fieldPatch: { search_filter: searchFilter },
+      const { channel } = setMockApiResponses({
+        channelPatch: { search_filter: searchFilter },
         search: {
           count: 700,
           metadata: {
@@ -164,7 +164,9 @@ describe("FieldSearch", () => {
       })
       setMockResponse.get(urls.userMe.get(), {})
 
-      renderTestApp({ url: `/c/${field.channel_type}/${field.name}/${url}` })
+      renderTestApp({
+        url: `/c/${channel.channel_type}/${channel.name}/${url}`,
+      })
 
       await waitFor(() => {
         expect(makeRequest.mock.calls.length > 0).toBe(true)
@@ -178,7 +180,7 @@ describe("FieldSearch", () => {
 
   test.each([
     {
-      fieldType: ChannelTypeEnum.Topic,
+      channelType: ChannelTypeEnum.Topic,
       displayedFacets: [
         "Professional",
         "Certificate",
@@ -188,22 +190,22 @@ describe("FieldSearch", () => {
       ],
     },
     {
-      fieldType: ChannelTypeEnum.Department,
+      channelType: ChannelTypeEnum.Department,
       displayedFacets: ["Certificate", "Offered By", "Topic", "Format"],
     },
     {
-      fieldType: ChannelTypeEnum.Unit,
+      channelType: ChannelTypeEnum.Unit,
       displayedFacets: ["Certificate", "Department", "Topic", "Format"],
     },
     {
-      fieldType: ChannelTypeEnum.Pathway,
+      channelType: ChannelTypeEnum.Pathway,
       displayedFacets: [],
     },
   ])(
-    "Displays the correct facets for the fieldType",
-    async ({ fieldType, displayedFacets }) => {
-      const { field } = setMockApiResponses({
-        fieldPatch: { channel_type: fieldType },
+    "Displays the correct facets for the channelType",
+    async ({ channelType, displayedFacets }) => {
+      const { channel } = setMockApiResponses({
+        channelPatch: { channel_type: channelType },
         search: {
           count: 700,
           metadata: {
@@ -228,7 +230,7 @@ describe("FieldSearch", () => {
 
       setMockResponse.get(urls.userMe.get(), {})
 
-      renderTestApp({ url: `/c/${field.channel_type}/${field.name}/` })
+      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}/` })
 
       await waitFor(() => {
         expect(makeRequest.mock.calls.length > 0).toBe(true)
