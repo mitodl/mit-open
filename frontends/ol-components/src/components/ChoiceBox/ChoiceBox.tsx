@@ -80,7 +80,7 @@ const ChoiceBox = ({
         ) : null}
         {type === "radio" ? (
           <Radio
-            name={name!}
+            name={name}
             value={value}
             checked={checked}
             onChange={onChange}

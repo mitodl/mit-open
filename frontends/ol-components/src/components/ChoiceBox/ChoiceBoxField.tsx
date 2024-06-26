@@ -93,7 +93,7 @@ const CheckboxChoiceBoxField: React.FC<CheckboxChoiceBoxFieldProps> = ({
 
 interface RadioChoiceBoxFieldProps extends BaseChoiceBoxFieldProps {
   value?: string
-  name: string
+  name?: string
 }
 
 const RadioChoiceBoxField: React.FC<RadioChoiceBoxFieldProps> = ({

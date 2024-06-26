@@ -27,6 +27,5 @@ export const Simple: Story = {}
 export const WithLabel: Story = {
   args: {
     label: "Radio",
-    name: "group",
   },
 }

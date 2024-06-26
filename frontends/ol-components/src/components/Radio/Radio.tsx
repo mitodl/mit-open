@@ -49,7 +49,7 @@ const Container = styled.div`
 export type RadioProps = {
   label?: string
   value?: string
-  name: string
+  name?: string
   checked?: boolean
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
