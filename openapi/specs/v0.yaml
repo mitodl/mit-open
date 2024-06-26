@@ -228,7 +228,7 @@ paths:
   /api/v0/channels/type/{channel_type}/{name}/:
     get:
       operationId: channels_type_retrieve
-      description: View for retrieving an individual field channel by type and name
+      description: View for retrieving an individual channel by type and name
       summary: Channel Detail Lookup by channel type and name
       parameters:
       - in: path

@@ -3315,7 +3315,7 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * View for retrieving an individual field channel by type and name
+     * View for retrieving an individual channel by type and name
      * @summary Channel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {string} name
@@ -3625,7 +3625,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * View for retrieving an individual field channel by type and name
+     * View for retrieving an individual channel by type and name
      * @summary Channel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {string} name
@@ -3808,7 +3808,7 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * View for retrieving an individual field channel by type and name
+     * View for retrieving an individual channel by type and name
      * @summary Channel Detail Lookup by channel type and name
      * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -4158,7 +4158,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * View for retrieving an individual field channel by type and name
+   * View for retrieving an individual channel by type and name
    * @summary Channel Detail Lookup by channel type and name
    * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
