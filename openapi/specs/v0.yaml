@@ -1232,9 +1232,6 @@ components:
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -1242,6 +1239,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -1959,9 +1959,6 @@ components:
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -1969,6 +1966,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -2393,9 +2393,6 @@ components:
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -2403,6 +2400,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -2502,9 +2502,6 @@ components:
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -2512,6 +2509,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true

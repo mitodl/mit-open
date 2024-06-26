@@ -601,12 +601,6 @@ export interface DepartmentChannel {
   about?: any | null
   /**
    *
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
    * @type {any}
    * @memberof DepartmentChannel
    */
@@ -623,6 +617,12 @@ export interface DepartmentChannel {
    * @memberof DepartmentChannel
    */
   public_description?: string
+  /**
+   *
+   * @type {string}
+   * @memberof DepartmentChannel
+   */
+  ga_tracking_id?: string
   /**
    *
    * @type {number}
@@ -1760,12 +1760,6 @@ export interface PathwayChannel {
   about?: any | null
   /**
    *
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
    * @type {any}
    * @memberof PathwayChannel
    */
@@ -1782,6 +1776,12 @@ export interface PathwayChannel {
    * @memberof PathwayChannel
    */
   public_description?: string
+  /**
+   *
+   * @type {string}
+   * @memberof PathwayChannel
+   */
+  ga_tracking_id?: string
   /**
    *
    * @type {number}
@@ -2426,12 +2426,6 @@ export interface TopicChannel {
   about?: any | null
   /**
    *
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
    * @type {any}
    * @memberof TopicChannel
    */
@@ -2448,6 +2442,12 @@ export interface TopicChannel {
    * @memberof TopicChannel
    */
   public_description?: string
+  /**
+   *
+   * @type {string}
+   * @memberof TopicChannel
+   */
+  ga_tracking_id?: string
   /**
    *
    * @type {number}
@@ -2586,12 +2586,6 @@ export interface UnitChannel {
   about?: any | null
   /**
    *
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
    * @type {any}
    * @memberof UnitChannel
    */
@@ -2608,6 +2602,12 @@ export interface UnitChannel {
    * @memberof UnitChannel
    */
   public_description?: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  ga_tracking_id?: string
   /**
    *
    * @type {number}
