@@ -67,8 +67,6 @@ const AvatarContainer = styled.div<AvatarStyleProps>`
   }
 `
 const AvatarImg = styled.img<AvatarStyleProps>`
-  align-items: center;
-  justify-content: center;
   min-height: 0;
   min-width: 0;
   ${({ imageVariant }) =>
