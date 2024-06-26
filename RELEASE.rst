@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.14
+Version 0.13.14 (Released June 26, 2024)
 ---------------
 
 - better chunk sizes (#1159)
