@@ -5,9 +5,9 @@ from rest_framework.routers import DefaultRouter
 
 from channels.views import (
     ChannelByTypeNameDetailView,
+    ChannelModeratorDetailView,
+    ChannelModeratorListView,
     ChannelViewSet,
-    FieldModeratorDetailView,
-    FieldModeratorListView,
 )
 
 v0_router = DefaultRouter()
@@ -21,12 +21,12 @@ v0_urls = [
     ),
     re_path(
         r"^channels/(?P<id>\d+)/moderators/$",
-        FieldModeratorListView.as_view(),
+        ChannelModeratorListView.as_view(),
         name="channel_moderators_api-list",
     ),
     re_path(
         r"^channels/(?P<id>\d+)/moderators/(?P<moderator_name>[A-Za-z0-9_]+)/$",
-        FieldModeratorDetailView.as_view(),
+        ChannelModeratorDetailView.as_view(),
         name="channel_moderators_api-detail",
     ),
     *v0_router.urls,

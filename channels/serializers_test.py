@@ -315,7 +315,7 @@ def test_update_channel():
 
 @pytest.mark.parametrize("use_email", [True, False])
 def test_moderator_serializer(mocker, channel, use_email):
-    """Test creating moderators with the FieldModeratorSerializer"""
+    """Test creating moderators with the ChannelModeratorSerializer"""
     channel_user = UserFactory.create()
     if use_email:
         data = {"email": channel_user.email}
