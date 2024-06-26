@@ -143,70 +143,11 @@ describe("Home Page Hero", () => {
   })
 })
 
-describe("Home Page Carousel", () => {
-  test.each<{ tab: string; params: FeaturedRequest }>([
-    {
-      tab: "All",
-      params: { limit: 12 },
-    },
-    {
-      tab: "Free",
-      params: { limit: 12, free: true },
-    },
-    {
-      tab: "With Certificate",
-      params: {
-        limit: 12,
-        certification: true,
-        professional: false,
-      },
-    },
-    {
-      tab: "Professional & Executive Learning",
-      params: { limit: 12, professional: true },
-    },
-  ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
-    const resources = learningResources.resources({ count: 12 })
-    setupAPIs()
-    setupFeaturedAPIs()
-
-    // The tab buttons eager-load the resources so we need to set them all up.
-
-    // This is for the clicked tab (which might be "All")
-    // We will check that its response is visible as cards.
-    setMockResponse.get(
-      urls.learningResources.featured({ ...params }),
-      resources,
-    )
-
-    renderWithProviders(<HomePage />)
-    const [featuredTabs] = screen.getAllByRole("tablist")
-    await user.click(within(featuredTabs).getByRole("tab", { name: tab }))
-    const [featuredPanel] = screen.getAllByRole("tabpanel")
-    await within(featuredPanel).findByText(resources.results[0].title)
-  })
-
-  test("Tabbed Carousel sanity check", () => {
-    setupAPIs()
-    setupFeaturedAPIs()
-
-    renderWithProviders(<HomePage />)
-    const [featured, media] = screen.getAllByRole("tablist")
-    within(featured).getByRole("tab", { name: "All" })
-    within(featured).getByRole("tab", { name: "Free" })
-    within(featured).getByRole("tab", { name: "With Certificate" })
-    within(featured).getByRole("tab", {
-      name: "Professional & Executive Learning",
-    })
-    within(media).getByRole("tab", { name: "All" })
-    within(media).getByRole("tab", { name: "Videos" })
-    within(media).getByRole("tab", { name: "Podcasts" })
-  })
-})
-
 describe("Home Page Browse by Topic", () => {
   test("Displays topics links", async () => {
     setupAPIs()
+    setupFeaturedAPIs()
+
     const response = learningResources.topics({ count: 3 })
     setMockResponse.get(urls.topics.list({ is_toplevel: true }), response)
     setMockResponse.get(urls.userMe.get(), {})
@@ -338,6 +279,8 @@ describe("Home Page personalize section", () => {
   test("Links to dashboard when authenticated", async () => {
     setMockResponse.get(urls.userMe.get(), {})
     setupAPIs()
+    setupFeaturedAPIs()
+
     renderWithProviders(<HomePage />)
     const personalize = (
       await screen.findByRole("heading", {
@@ -351,6 +294,8 @@ describe("Home Page personalize section", () => {
 
   test("Links to login when not authenticated", async () => {
     setupAPIs()
+    setupFeaturedAPIs()
+
     setMockResponse.get(urls.userMe.get(), {}, { code: 403 })
     renderWithProviders(<HomePage />)
     const personalize = (
@@ -367,15 +312,82 @@ describe("Home Page personalize section", () => {
       }),
     )
   })
+})
 
-  describe("Home Page Testimonials", () => {
-    test("Displays testimonials carousel", async () => {
-      setupAPIs()
-      renderWithProviders(<HomePage />)
+describe("Home Page Testimonials", () => {
+  test("Displays testimonials carousel", async () => {
+    setupAPIs()
+    setupFeaturedAPIs()
 
-      await waitFor(() => {
-        screen.getAllByText(/testable title/i)
+    renderWithProviders(<HomePage />)
+
+    await waitFor(() => {
+      screen.getAllByText(/testable title/i)
+    })
+  })
+})
+
+describe("Home Page Carousel", () => {
+  test.each<{ tab: string; params: FeaturedRequest }>([
+    {
+      tab: "All",
+      params: { limit: 12, resource_type: ["course"] },
+    },
+    {
+      tab: "Free",
+      params: { limit: 12, resource_type: ["course"], free: true },
+    },
+    {
+      tab: "With Certificate",
+      params: {
+        resource_type: ["course"],
+        limit: 12,
+        certification: true,
+        professional: false,
+      },
+    },
+    {
+      tab: "Professional & Executive Learning",
+      params: { resource_type: ["course"], limit: 12, professional: true },
+    },
+  ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
+    const resources = learningResources.resources({ count: 12 })
+    setupAPIs()
+    setupFeaturedAPIs()
+
+    // The tab buttons eager-load the resources so we need to set them all up.
+
+    // This is for the clicked tab (which might be "All")
+    // We will check that its response is visible as cards.
+    setMockResponse.get(
+      urls.learningResources.featured({ ...params }),
+      resources,
+    )
+
+    renderWithProviders(<HomePage />)
+    screen.findByRole("tab", { name: tab }).then(async (featuredTab) => {
+      await user.click(within(featuredTab).getByRole("tab", { name: tab }))
+      const [featuredPanel] = screen.getAllByRole("tabpanel")
+      await within(featuredPanel).findByText(resources.results[0].title)
+    })
+  })
+
+  test("Tabbed Carousel sanity check", async () => {
+    setupAPIs()
+    setupFeaturedAPIs()
+
+    renderWithProviders(<HomePage />)
+
+    screen.findAllByRole("tablist").then(([featured, media]) => {
+      within(featured).getByRole("tab", { name: "All" })
+      within(featured).getByRole("tab", { name: "Free" })
+      within(featured).getByRole("tab", { name: "With Certificate" })
+      within(featured).getByRole("tab", {
+        name: "Professional & Executive Learning",
       })
+      within(media).getByRole("tab", { name: "All" })
+      within(media).getByRole("tab", { name: "Videos" })
+      within(media).getByRole("tab", { name: "Podcasts" })
     })
   })
 })
