@@ -15,7 +15,7 @@ import { RiBookOpenLine, RiSuitcaseLine } from "@remixicon/react"
 import React from "react"
 import {
   LearningResourceOfferorDetail,
-  LearningResourceSearchResponse,
+  LearningResourcesSearchResponse,
   OfferedByEnum,
 } from "api"
 import { MetaTags } from "ol-utilities"
@@ -26,7 +26,7 @@ const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
 
 const aggregateByUnits = (
-  data: LearningResourceSearchResponse,
+  data: LearningResourcesSearchResponse,
 ): Record<string, number> => {
   const buckets = data.metadata.aggregations["offered_by"] ?? []
   return Object.fromEntries(

@@ -18,7 +18,7 @@ import {
   useLearningResourceTopics,
   useLearningResourcesSearch,
 } from "api/hooks/learningResources"
-import { LearningResourceSearchResponse, LearningResourceTopic } from "api"
+import { LearningResourcesSearchResponse, LearningResourceTopic } from "api"
 import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 import { HOME } from "@/common/urls"
 
@@ -181,7 +181,7 @@ const TopicBoxLoading = () => {
 const Page = styled.div({})
 
 const aggregateByTopic = (
-  data: LearningResourceSearchResponse,
+  data: LearningResourcesSearchResponse,
 ): Record<string, number> => {
   const buckets = data.metadata.aggregations["topic"] ?? []
   return Object.fromEntries(

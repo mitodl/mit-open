@@ -2249,43 +2249,6 @@ export interface LearningResourceSchool {
   departments: Array<LearningResourceBaseDepartment>
 }
 /**
- * SearchResponseSerializer with OpenAPI annotations for Learning Resources search
- * @export
- * @interface LearningResourceSearchResponse
- */
-export interface LearningResourceSearchResponse {
-  /**
-   *
-   * @type {number}
-   * @memberof LearningResourceSearchResponse
-   */
-  count: number
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceSearchResponse
-   */
-  next: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceSearchResponse
-   */
-  previous: string | null
-  /**
-   *
-   * @type {Array<LearningResource>}
-   * @memberof LearningResourceSearchResponse
-   */
-  results: Array<LearningResource>
-  /**
-   *
-   * @type {ContentFileSearchResponseMetadata}
-   * @memberof LearningResourceSearchResponse
-   */
-  metadata: ContentFileSearchResponseMetadata
-}
-/**
  * Serializer for LearningResourceTopic model
  * @export
  * @interface LearningResourceTopic
@@ -2315,6 +2278,43 @@ export interface LearningResourceTopic {
    * @memberof LearningResourceTopic
    */
   channel_url: string | null
+}
+/**
+ * SearchResponseSerializer with OpenAPI annotations for Learning Resources search
+ * @export
+ * @interface LearningResourcesSearchResponse
+ */
+export interface LearningResourcesSearchResponse {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourcesSearchResponse
+   */
+  count: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesSearchResponse
+   */
+  next: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourcesSearchResponse
+   */
+  previous: string | null
+  /**
+   *
+   * @type {Array<LearningResource>}
+   * @memberof LearningResourcesSearchResponse
+   */
+  results: Array<LearningResource>
+  /**
+   *
+   * @type {ContentFileSearchResponseMetadata}
+   * @memberof LearningResourcesSearchResponse
+   */
+  metadata: ContentFileSearchResponseMetadata
 }
 /**
  * * `undergraduate` - Undergraduate * `graduate` - Graduate * `high_school` - High School * `noncredit` - Non-Credit * `advanced` - Advanced * `intermediate` - Intermediate * `introductory` - Introductory
@@ -3248,7 +3248,7 @@ export interface PatchedUserListRequest {
 }
 
 /**
- *
+ * Serializer for PercolateQuery objects
  * @export
  * @interface PercolateQuery
  */
@@ -11567,7 +11567,7 @@ export const LearningResourcesSearchApiFp = function (
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<LearningResourceSearchResponse>
+      ) => AxiosPromise<LearningResourcesSearchResponse>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesSearchRetrieve(
@@ -11629,7 +11629,7 @@ export const LearningResourcesSearchApiFactory = function (
     learningResourcesSearchRetrieve(
       requestParameters: LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<LearningResourceSearchResponse> {
+    ): AxiosPromise<LearningResourcesSearchResponse> {
       return localVarFp
         .learningResourcesSearchRetrieve(
           requestParameters.aggregations,
