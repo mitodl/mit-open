@@ -3,7 +3,6 @@
 import logging
 from pathlib import Path
 
-from django.conf import settings
 from django.core.files import File
 from django.db import migrations
 
@@ -242,8 +241,7 @@ def load_fixtures(apps, schema_editor):
             Save the image from fixture so alternate sizes are generated
             """
             with Path.open(
-                settings.BASE_DIR
-                / f"testimonials/fixtures/avatars/{fixture["attestant_name"]}.png",
+                f"testimonials/fixtures/avatars/{fixture["attestant_name"]}.png",
                 "rb",
             ) as imagefile:
                 testimonial.avatar.save("avatar.png", File(imagefile), save=True)
