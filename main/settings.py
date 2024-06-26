@@ -111,7 +111,7 @@ INSTALLED_APPS = (
     "testimonials",
     "data_fixtures",
 )
-if not get_bool("RUN_DATA_MIGRATIONS"):
+if not get_bool("RUN_DATA_MIGRATIONS", default=False):
     MIGRATION_MODULES = {"data_fixtures": None}
 
 SCIM_SERVICE_PROVIDER = {
