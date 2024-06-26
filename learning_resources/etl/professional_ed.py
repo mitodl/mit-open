@@ -38,10 +38,24 @@ def extract():
     return []
 
 
-def transform(data):
+def transform_course(resource_data):
+    """Transform raw resource data into a format suitable for the Course model"""
+    return resource_data
+
+
+def transform_program(resource_data):
+    """Transform raw resource data into a format suitable for the Program model"""
+    return resource_data
+
+
+def transform(data: dict) -> tuple[list[dict], list[dict]]:
     """Transform the Professional Education data into courses and programs"""
     programs = []
     courses = []
     for resource in data:
-        programs.append(resource)
-        courses.append(resource)
+        program_course_data = resource.get("program_course_data", {}).get("data", [])
+        if program_course_data:
+            programs.append(transform_program(resource))
+        else:
+            courses.append(transform_course(resource))
+    return courses, programs
