@@ -9,16 +9,16 @@ import { channels as factory } from "api/test-utils/factories"
 import { ThemeProvider } from "ol-components"
 
 describe("ChannelMenu", () => {
-  it("Includes links to field management and widget management", async () => {
-    const field = factory.channel()
+  it("Includes links to channel management and widget management", async () => {
+    const channel = factory.channel()
     setMockResponse.get(
-      urls.channels.details(field.channel_type, field.name),
-      field,
+      urls.channels.details(channel.channel_type, channel.name),
+      channel,
     )
 
     render(
       <BrowserRouter>
-        <ChannelMenu channelType={field.channel_type} name={field.name} />
+        <ChannelMenu channelType={channel.channel_type} name={channel.name} />
       </BrowserRouter>,
       { wrapper: ThemeProvider },
     )
@@ -27,12 +27,12 @@ describe("ChannelMenu", () => {
 
     const item1 = screen.getByRole("menuitem", { name: "Channel Settings" })
     expect((item1 as HTMLAnchorElement).href).toContain(
-      `/c/${field.channel_type}/${field.name}/manage`,
+      `/c/${channel.channel_type}/${channel.name}/manage`,
     )
 
     const item2 = screen.getByRole("menuitem", { name: "Manage Widgets" })
     expect((item2 as HTMLAnchorElement).href).toContain(
-      `/c/${field.channel_type}/${field.name}/manage/widgets`,
+      `/c/${channel.channel_type}/${channel.name}/manage/widgets`,
     )
   })
 })
