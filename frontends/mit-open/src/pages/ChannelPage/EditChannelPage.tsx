@@ -68,7 +68,7 @@ const EditChannelPage: React.FC = () => {
               <GridColumn variant="main-2">
                 <TabPanel value="appearance" className="page-nav-content">
                   <div>
-                    <EditChannelAppearanceForm field={channel.data} />
+                    <EditChannelAppearanceForm channel={channel.data} />
                   </div>
                 </TabPanel>
                 <TabPanel value="moderators" className="page-nav-content">

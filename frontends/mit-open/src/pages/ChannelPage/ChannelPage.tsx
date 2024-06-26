@@ -23,11 +23,11 @@ type RouteParams = {
 
 const ChannelPage: React.FC = () => {
   const { channelType, name } = useParams<RouteParams>()
-  const fieldQuery = useChannelDetail(String(channelType), String(name))
+  const channelQuery = useChannelDetail(String(channelType), String(name))
   const searchParams: Facets & BooleanFacets = {}
 
-  if (fieldQuery.data?.search_filter) {
-    const urlParams = new URLSearchParams(fieldQuery.data.search_filter)
+  if (channelQuery.data?.search_filter) {
+    const urlParams = new URLSearchParams(channelQuery.data.search_filter)
     for (const [key, value] of urlParams.entries()) {
       const paramEntry = searchParams[key as FacetKey]
       if (paramEntry !== undefined) {
@@ -42,11 +42,11 @@ const ChannelPage: React.FC = () => {
     name &&
     channelType && (
       <ChannelPageSkeleton name={name} channelType={channelType}>
-        <p>{fieldQuery.data?.public_description}</p>
+        <p>{channelQuery.data?.public_description}</p>
         {channelType === "unit" ? (
           <StyledTestimonialDisplay offerors={[name]} />
         ) : null}
-        {fieldQuery.data?.search_filter && (
+        {channelQuery.data?.search_filter && (
           <FieldSearch
             constantSearchParams={searchParams}
             channelType={channelType}
