@@ -15,6 +15,7 @@ import {
 } from "ol-components"
 import type {
   TabConfig,
+  DataSource,
   ResourceDataSource,
   SearchDataSource,
   FeaturedDataSource,
@@ -52,8 +53,8 @@ type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   }) => React.ReactNode
 }
 
-type LoadTabButtonProps<T extends TabConfig["data"] = TabConfig["data"]> = {
-  config: T
+type LoadTabButtonProps = {
+  config: DataSource
   label: React.ReactNode
   key: number
   value: string
@@ -133,14 +134,12 @@ const DataPanel: React.FC<DataPanelProps> = ({
  * should already be in the cache.
  */
 
-const LoadFeaturedTabButton: React.FC<
-  LoadTabButtonProps<FeaturedDataSource>
-> = ({ config, label, key, value }) => {
-  const { data, isLoading } = useFeaturedLearningResourcesList(config.params)
+const LoadFeaturedTabButton: React.FC<LoadTabButtonProps> = (props) => {
+  const { data, isLoading } = useFeaturedLearningResourcesList(
+    props.config.params,
+  )
 
-  return !isLoading && data && data.count > 0 ? (
-    <TabButton key={key} label={[label]} value={value} />
-  ) : null
+  return !isLoading && data && data.count > 0 ? <TabButton {...props} /> : null
 }
 
 const HeaderRow = styled.div(({ theme }) => ({
@@ -290,24 +289,22 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
           {config.length > 1 ? (
             <ControlsContainer>
               <TabsList onChange={(e, newValue) => setTab(newValue)}>
-                {config.map((tabConfig, index) => (
-                  <>
-                    {tabConfig.data.type === "lr_featured" ? (
-                      <LoadFeaturedTabButton
-                        config={tabConfig}
-                        key={index}
-                        label={tabConfig.label}
-                        value={index.toString()}
-                      />
-                    ) : (
-                      <TabButton
-                        key={index}
-                        label={tabConfig.label}
-                        value={index.toString()}
-                      />
-                    )}
-                  </>
-                ))}
+                {config.map((tabConfig, index) =>
+                  tabConfig.data.type === "lr_featured" ? (
+                    <LoadFeaturedTabButton
+                      config={tabConfig.data}
+                      key={index}
+                      label={tabConfig.label}
+                      value={index.toString()}
+                    />
+                  ) : (
+                    <TabButton
+                      key={index}
+                      label={tabConfig.label}
+                      value={index.toString()}
+                    />
+                  ),
+                )}
               </TabsList>
               <ButtonsContainer ref={setRef} />
             </ControlsContainer>

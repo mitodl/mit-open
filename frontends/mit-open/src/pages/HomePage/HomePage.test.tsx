@@ -73,6 +73,38 @@ const setupAPIs = () => {
   )
 }
 
+const setupFeaturedAPIs = () => {
+  setMockResponse.get(
+    urls.learningResources.featured({ limit: 12, resource_type: ["course"] }),
+    learningResources.resources({ count: 0 }),
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({
+      free: true,
+      limit: 12,
+      resource_type: ["course"],
+    }),
+    learningResources.resources({ count: 0 }),
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({
+      certification: true,
+      professional: false,
+      limit: 12,
+      resource_type: ["course"],
+    }),
+    learningResources.resources({ count: 0 }),
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({
+      professional: true,
+      limit: 12,
+      resource_type: ["course"],
+    }),
+    learningResources.resources({ count: 0 }),
+  )
+}
+
 describe("Home Page Hero", () => {
   test("Submitting search goes to search page", async () => {
     setupAPIs()
@@ -136,12 +168,10 @@ describe("Home Page Carousel", () => {
   ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
     const resources = learningResources.resources({ count: 12 })
     setupAPIs()
+    setupFeaturedAPIs()
 
-    // The "All" tab is initially visible, so it needs a response.
-    setMockResponse.get(
-      urls.learningResources.featured({ limit: 12 }),
-      learningResources.resources({ count: 0 }),
-    )
+    // The tab buttons eager-load the resources so we need to set them all up.
+
     // This is for the clicked tab (which might be "All")
     // We will check that its response is visible as cards.
     setMockResponse.get(
@@ -158,6 +188,8 @@ describe("Home Page Carousel", () => {
 
   test("Tabbed Carousel sanity check", () => {
     setupAPIs()
+    setupFeaturedAPIs()
+
     renderWithProviders(<HomePage />)
     const [featured, media] = screen.getAllByRole("tablist")
     within(featured).getByRole("tab", { name: "All" })
