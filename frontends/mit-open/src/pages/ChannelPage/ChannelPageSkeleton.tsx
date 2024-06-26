@@ -314,7 +314,7 @@ const ChannelSkeletonProps: React.FC<ChannelSkeletonProps> = ({
             <FeaturedCoursesCarousel
               title="Featured Courses"
               config={FEATURED_RESOURCES_CAROUSEL}
-              isLoading={field.isLoading}
+              isLoading={channel.isLoading}
             />
           </Container>
         ) : null}
