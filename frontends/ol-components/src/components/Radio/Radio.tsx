@@ -42,8 +42,8 @@ const Container = styled.div`
 
   ${containerStyles}
 
-  label:hover & input[type="radio"]:not(:checked),
-  &:hover input[type="radio"]:not(:checked) {
+  &:hover input[type="radio"]:not(:checked),
+  label:hover & input[type="radio"]:not(:checked) {
     ${hoverStyles}
   }
 `

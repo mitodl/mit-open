@@ -43,8 +43,8 @@ const Container = styled.div`
 
   ${containerStyles}
 
-  label:hover & input[type="checkbox"]:not(:checked),
-  &:hover input[type="checkbox"]:not(:checked) {
+  &:hover input[type="checkbox"]:not(:checked),
+  label:hover & input[type="checkbox"]:not(:checked) {
     ${hoverStyles}
   }
 `
