@@ -73,9 +73,6 @@ const AvatarImg = styled.img<AvatarStyleProps>`
     imageVariant === "inverted" ? "filter: saturate(0%) invert(100%);" : ""}
   height: ${({ imageSize }) => IMG_SIZES[imageSize]};
   width: auto;
-  ${({ theme }) => theme.breakpoints.down("sm")} {
-    height: min(calc(100vh), ${({ imageSize }) => IMG_SIZES[imageSize]});
-  }
 `
 const AvatarInitials = styled(AvatarImg.withComponent("div"))(
   ({ theme, imageSize = "medium" }) => ({
