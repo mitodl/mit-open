@@ -22,9 +22,9 @@ const useChannelsList = (
   })
 }
 
-const useChannelDetail = (channelType: string, fieldName: string) => {
+const useChannelDetail = (channelType: string, channelName: string) => {
   return useQuery({
-    ...channels.detailByType(channelType, fieldName),
+    ...channels.detailByType(channelType, channelName),
   })
 }
 
