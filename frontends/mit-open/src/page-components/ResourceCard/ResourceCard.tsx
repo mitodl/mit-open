@@ -12,8 +12,9 @@ import {
 import { useResourceDrawerHref } from "../LearningResourceDrawer/LearningResourceDrawer"
 import { useUserMe } from "api/hooks/user"
 import { SignupPopover } from "../SignupPopover/SignupPopover"
+import { LearningResource } from "api"
 
-const useResourceCard = () => {
+const useResourceCard = (resource?: LearningResource | null) => {
   const getDrawerHref = useResourceDrawerHref()
   const { data: user } = useUserMe()
 
@@ -48,12 +49,17 @@ const useResourceCard = () => {
       }
     }, [user])
 
+  const inUserList = !!resource?.user_list_parents?.length
+  const inLearningPath = !!resource?.learning_path_parents?.length
+
   return {
     getDrawerHref,
     anchorEl,
     handleClosePopover,
     handleAddToLearningPathClick,
     handleAddToUserListClick,
+    inUserList,
+    inLearningPath,
   }
 }
 
@@ -76,7 +82,9 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
     handleClosePopover,
     handleAddToLearningPathClick,
     handleAddToUserListClick,
-  } = useResourceCard()
+    inUserList,
+    inLearningPath,
+  } = useResourceCard(resource)
   return (
     <>
       <LearningResourceCard
@@ -84,6 +92,8 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
         href={resource ? getDrawerHref(resource.id) : undefined}
         onAddToLearningPathClick={handleAddToLearningPathClick}
         onAddToUserListClick={handleAddToUserListClick}
+        inUserList={inUserList}
+        inLearningPath={inLearningPath}
         {...others}
       />
       <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} />
@@ -113,7 +123,10 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
     handleClosePopover,
     handleAddToLearningPathClick,
     handleAddToUserListClick,
-  } = useResourceCard()
+    inUserList,
+    inLearningPath,
+  } = useResourceCard(resource)
+  console.log(inUserList)
   return (
     <>
       <LearningResourceListCard
@@ -121,6 +134,8 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
         href={resource ? getDrawerHref(resource.id) : undefined}
         onAddToLearningPathClick={handleAddToLearningPathClick}
         onAddToUserListClick={handleAddToUserListClick}
+        inUserList={inUserList}
+        inLearningPath={inLearningPath}
         {...others}
       />
       <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} />
