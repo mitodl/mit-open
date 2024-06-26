@@ -119,8 +119,8 @@ class ChannelByTypeNameDetailView(mixins.RetrieveModelMixin, viewsets.GenericVie
 
 
 @extend_schema_view(
-    get=extend_schema(summary="Field Moderators List"),
-    post=extend_schema(summary="Field Moderators Create"),
+    get=extend_schema(summary="Channel Moderators List"),
+    post=extend_schema(summary="Channel Moderators Create"),
 )
 class ChannelModeratorListView(ListCreateAPIView):
     """
@@ -143,7 +143,7 @@ class ChannelModeratorListView(ListCreateAPIView):
 
 
 @extend_schema_view(
-    delete=extend_schema(summary="Field Moderators Destroy"),
+    delete=extend_schema(summary="Channel Moderators Destroy"),
 )
 class ChannelModeratorDetailView(APIView):
     """
