@@ -6,6 +6,10 @@ from pathlib import Path
 from django.core.files import File
 from django.db import migrations
 
+"""
+Fix an issue with PIL's logger when running in test
+https://github.com/camptocamp/pytest-odoo/issues/15
+"""
 pil_logger = logging.getLogger("PIL")
 pil_logger.setLevel(logging.INFO)
 
