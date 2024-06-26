@@ -16,7 +16,6 @@ import type {
   LearningPathResource,
   LearningPathRelationshipRequest,
   MicroLearningPathRelationship,
-  LearningResource,
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
   UserlistsApiUserlistsListRequest as ULListRequest,
   UserlistsApiUserlistsCreateRequest as ULCreateRequest,
@@ -28,10 +27,13 @@ import type {
   MicroUserListRelationship,
   PlatformsApiPlatformsListRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
+  PaginatedLearningResourceList,
 } from "../../generated/v1"
 import learningResources, {
   invalidateResourceQueries,
   invalidateUserListQueries,
+  updateListParentsOnAdd,
+  updateListParentsOnDestroy,
 } from "./keyFactory"
 import { ListType } from "../../common/constants"
 
@@ -169,13 +171,13 @@ const useLearningpathRelationshipCreate = () => {
         LearningPathRelationshipRequest: params,
       }),
     onSuccess: (response, _vars) => {
-      queryClient.setQueryData(
-        learningResources.detail(response.data.child).queryKey,
-        response.data.resource,
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured({}).queryKey,
+        (old) => updateListParentsOnAdd(response.data, old),
       )
     },
-    onSettled: (response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.child)
+    onSettled: (_response, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.child, { skipFeatured: true })
       invalidateResourceQueries(queryClient, vars.parent)
     },
   })
@@ -190,21 +192,17 @@ const useLearningpathRelationshipDestroy = () => {
         learning_resource_id: params.parent,
       }),
     onSuccess: (_response, vars) => {
-      queryClient.setQueryData(
-        learningResources.detail(vars.child).queryKey,
-        (old: LearningResource | undefined) => {
-          if (!old) return
-          const parents =
-            old.learning_path_parents?.filter(({ id }) => vars.id !== id) ?? []
-          return {
-            ...old,
-            learning_path_parents: parents,
-          }
-        },
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured().queryKey,
+        (old) =>
+          updateListParentsOnDestroy(
+            { value: vars, type: "learning_path" },
+            old,
+          ),
       )
     },
     onSettled: (_response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.child)
+      invalidateResourceQueries(queryClient, vars.child, { skipFeatured: true })
       invalidateResourceQueries(queryClient, vars.parent)
     },
   })
@@ -298,13 +296,13 @@ const useUserListRelationshipCreate = () => {
         UserListRelationshipRequest: params,
       }),
     onSuccess: (response, _vars) => {
-      queryClient.setQueryData(
-        learningResources.detail(response.data.child).queryKey,
-        response.data.resource,
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured({}).queryKey,
+        (old) => updateListParentsOnAdd(response.data, old),
       )
     },
-    onSettled: (response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.child)
+    onSettled: (_response, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.child, { skipFeatured: true })
       invalidateUserListQueries(queryClient, vars.parent)
     },
   })
@@ -319,21 +317,14 @@ const useUserListRelationshipDestroy = () => {
         userlist_id: params.parent,
       }),
     onSuccess: (_response, vars) => {
-      queryClient.setQueryData(
-        learningResources.detail(vars.child).queryKey,
-        (old: LearningResource | undefined) => {
-          if (!old) return
-          const parents =
-            old.user_list_parents?.filter(({ id }) => vars.id !== id) ?? []
-          return {
-            ...old,
-            user_list_parents: parents,
-          }
-        },
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured({}).queryKey,
+        (old) =>
+          updateListParentsOnDestroy({ value: vars, type: "userlist" }, old),
       )
     },
     onSettled: (_response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.child)
+      invalidateResourceQueries(queryClient, vars.child, { skipFeatured: true })
       invalidateUserListQueries(queryClient, vars.parent)
     },
   })

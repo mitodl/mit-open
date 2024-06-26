@@ -2,7 +2,10 @@ import { renderHook, waitFor } from "@testing-library/react"
 import { faker } from "@faker-js/faker/locale/en"
 
 import { setupReactQueryTest } from "../test-utils"
-import keyFactory, { invalidateResourceQueries } from "./keyFactory"
+import keyFactory, {
+  invalidateResourceQueries,
+  invalidateUserListQueries,
+} from "./keyFactory"
 import {
   useLearningResourcesDetail,
   useLearningResourcesList,
@@ -16,10 +19,16 @@ import {
   useLearningpathRelationshipMove,
   useLearningpathRelationshipCreate,
   useLearningpathRelationshipDestroy,
+  useFeaturedLearningResourcesList,
+  useUserListRelationshipCreate,
+  useUserListRelationshipDestroy,
 } from "./index"
 import { setMockResponse, urls, makeRequest } from "../../test-utils"
-import * as factory from "../../test-utils/factories/learningResources"
+import * as factories from "../../test-utils/factories"
 import { UseQueryResult } from "@tanstack/react-query"
+import { LearningResource } from "../../generated/v1"
+
+const factory = factories.learningResources
 
 jest.mock("./keyFactory", () => {
   const actual = jest.requireActual("./keyFactory")
@@ -27,6 +36,7 @@ jest.mock("./keyFactory", () => {
     __esModule: true,
     ...actual,
     invalidateResourceQueries: jest.fn(),
+    invalidateUserListQueries: jest.fn(),
   }
 })
 
@@ -41,7 +51,12 @@ const assertApiCalled = async (
   data: unknown,
 ) => {
   await waitFor(() => expect(result.current.isLoading).toBe(false))
-  expect(makeRequest).toHaveBeenCalledWith(method, url, expect.anything())
+  expect(
+    makeRequest.mock.calls.some((args) => {
+      // Don't use toHaveBeenCalledWith. It doesn't handle undefined 3rd arg.
+      return args[0].toUpperCase() === method && args[1] === url
+    }),
+  ).toBe(true)
   expect(result.current.data).toEqual(data)
 }
 
@@ -55,7 +70,7 @@ describe("useLearningResourcesList", () => {
       setMockResponse.get(url, data)
       const useTestHook = () => useLearningResourcesList(params)
       const { result } = renderHook(useTestHook, { wrapper })
-      assertApiCalled(result, url, "GET", data)
+      await assertApiCalled(result, url, "GET", data)
     },
   )
 })
@@ -71,7 +86,7 @@ describe("useLearningResourcesRetrieve", () => {
     const useTestHook = () => useLearningResourcesDetail(params.id)
     const { result } = renderHook(useTestHook, { wrapper })
 
-    assertApiCalled(result, url, "GET", data)
+    await assertApiCalled(result, url, "GET", data)
   })
 })
 
@@ -87,7 +102,7 @@ describe("useLearningPathsList", () => {
       const useTestHook = () => useLearningPathsList(params)
       const { result } = renderHook(useTestHook, { wrapper })
 
-      assertApiCalled(result, url, "GET", data)
+      await assertApiCalled(result, url, "GET", data)
     },
   )
 })
@@ -103,7 +118,7 @@ describe("useLearningPathsRetrieve", () => {
     const useTestHook = () => useLearningPathsDetail(params.id)
     const { result } = renderHook(useTestHook, { wrapper })
 
-    assertApiCalled(result, url, "GET", data)
+    await assertApiCalled(result, url, "GET", data)
   })
 })
 
@@ -119,7 +134,7 @@ describe("useLearningResourceTopics", () => {
       const useTestHook = () => useLearningResourceTopics(params)
       const { result } = renderHook(useTestHook, { wrapper })
 
-      assertApiCalled(result, url, "GET", data)
+      await assertApiCalled(result, url, "GET", data)
     },
   )
 })
@@ -170,7 +185,6 @@ describe("LearningPath CRUD", () => {
     const relationship = factory.learningPathRelationship({ parent: path.id })
     const keys = {
       learningResources: keyFactory._def,
-      childResource: keyFactory.detail(relationship.child).queryKey,
       relationshipListing: keyFactory.learningpaths._ctx.detail(path.id)._ctx
         .infiniteItems._def,
     }
@@ -185,7 +199,15 @@ describe("LearningPath CRUD", () => {
         learning_resource_id: path.id,
       }),
     }
-    return { path, relationship, pathUrls, keys }
+
+    const resourceWithoutList: LearningResource = {
+      ...relationship.resource,
+      learning_path_parents:
+        relationship.resource.learning_path_parents?.filter(
+          (m) => m.id !== relationship.id,
+        ) ?? null,
+    }
+    return { path, relationship, pathUrls, keys, resourceWithoutList }
   }
 
   test("useLearningpathCreate calls correct API", async () => {
@@ -262,68 +284,273 @@ describe("LearningPath CRUD", () => {
     )
   })
 
-  test("useLearningpathRelationshipCreate calls correct API and patches child resource cache", async () => {
-    const { relationship, pathUrls, keys } = makeData()
-    const url = pathUrls.relationshipList
-    const requestData = {
-      child: relationship.child,
-      parent: relationship.parent,
-      position: relationship.position,
+  test.each([{ isChildFeatured: false }, { isChildFeatured: true }])(
+    "useLearningpathRelationshipCreate calls correct API and patches featured resources",
+    async ({ isChildFeatured }) => {
+      const { relationship, pathUrls, resourceWithoutList } = makeData()
+
+      const featured = factory.resources({ count: 3 })
+      if (isChildFeatured) {
+        featured.results[0] = resourceWithoutList
+      }
+      setMockResponse.get(urls.learningResources.featured(), featured)
+
+      const url = pathUrls.relationshipList
+      const requestData = {
+        child: relationship.child,
+        parent: relationship.parent,
+        position: relationship.position,
+      }
+      setMockResponse.post(url, relationship)
+
+      const { wrapper, queryClient } = setupReactQueryTest()
+      const { result } = renderHook(useLearningpathRelationshipCreate, {
+        wrapper,
+      })
+      const { result: featuredResult } = renderHook(
+        useFeaturedLearningResourcesList,
+        { wrapper },
+      )
+      await waitFor(() => expect(featuredResult.current.data).toBe(featured))
+
+      result.current.mutate(requestData)
+
+      await waitFor(() => expect(result.current.isSuccess).toBe(true))
+      expect(makeRequest).toHaveBeenCalledWith("post", url, requestData)
+
+      expect(invalidateResourceQueries).toHaveBeenCalledWith(
+        queryClient,
+        relationship.child,
+        { skipFeatured: true },
+      )
+      expect(invalidateResourceQueries).toHaveBeenCalledWith(
+        queryClient,
+        relationship.parent,
+      )
+
+      // Assert featured API called only once and that the result has been
+      // patched correctly. When the child is featured, we do NOT want to make
+      // a new API call to /featured, because the results of that API are randomly
+      // ordered.
+      expect(
+        makeRequest.mock.calls.filter((call) => call[0] === "get").length,
+      ).toEqual(1)
+      if (isChildFeatured) {
+        expect(featuredResult.current.data?.results).toEqual([
+          relationship.resource,
+          ...featured.results.slice(1),
+        ])
+      } else {
+        expect(featuredResult.current.data).toEqual(featured)
+      }
+    },
+  )
+
+  test.each([{ isChildFeatured: false }, { isChildFeatured: true }])(
+    "useLearningpathRelationshipDestroy calls correct API and patches child resource cache (isChildFeatured=$isChildFeatured)",
+    async ({ isChildFeatured }) => {
+      const { relationship, pathUrls, resourceWithoutList } = makeData()
+      const url = pathUrls.relationshipDetails
+
+      const featured = factory.resources({ count: 3 })
+      if (isChildFeatured) {
+        featured.results[0] = relationship.resource
+      }
+      setMockResponse.get(urls.learningResources.featured(), featured)
+
+      setMockResponse.delete(url, null)
+      const { wrapper, queryClient } = setupReactQueryTest()
+
+      const { result } = renderHook(useLearningpathRelationshipDestroy, {
+        wrapper,
+      })
+      const { result: featuredResult } = renderHook(
+        useFeaturedLearningResourcesList,
+        { wrapper },
+      )
+
+      await waitFor(() => expect(featuredResult.current.data).toBe(featured))
+      result.current.mutate(relationship)
+      await waitFor(() => expect(result.current.isSuccess).toBe(true))
+
+      expect(makeRequest).toHaveBeenCalledWith("delete", url, undefined)
+      expect(invalidateResourceQueries).toHaveBeenCalledWith(
+        queryClient,
+        relationship.child,
+        { skipFeatured: true },
+      )
+      expect(invalidateResourceQueries).toHaveBeenCalledWith(
+        queryClient,
+        relationship.parent,
+      )
+
+      // Assert featured API called only once and that the result has been
+      // patched correctly. When the child is featured, we do NOT want to make
+      // a new API call to /featured, because the results of that API are randomly
+      // ordered.
+      expect(
+        makeRequest.mock.calls.filter((call) => call[0] === "get").length,
+      ).toEqual(1)
+      if (isChildFeatured) {
+        expect(featuredResult.current.data?.results).toEqual([
+          resourceWithoutList,
+          ...featured.results.slice(1),
+        ])
+      } else {
+        expect(featuredResult.current.data).toEqual(featured)
+      }
+    },
+  )
+})
+
+describe("userlist CRUD", () => {
+  const makeData = () => {
+    const list = factories.userLists.userList()
+    const relationship = factories.userLists.userListRelationship({
+      parent: list.id,
+    })
+    const keys = {
+      learningResources: keyFactory._def,
+      relationshipListing: keyFactory.userlists._ctx.detail(list.id)._ctx
+        .infiniteItems._def,
     }
-    setMockResponse.post(url, relationship)
+    const listUrls = {
+      list: urls.userLists.list(),
+      details: urls.userLists.details({ id: list.id }),
+      relationshipList: urls.userLists.resources({
+        userlist_id: list.id,
+      }),
+      relationshipDetails: urls.userLists.resourceDetails({
+        id: relationship.id,
+        userlist_id: list.id,
+      }),
+    }
 
-    const { wrapper, queryClient } = setupReactQueryTest()
-    const { result } = renderHook(useLearningpathRelationshipCreate, {
-      wrapper,
-    })
-    result.current.mutate(requestData)
-
-    await waitFor(() => expect(result.current.isSuccess).toBe(true))
-    expect(makeRequest).toHaveBeenCalledWith("post", url, requestData)
-
-    expect(invalidateResourceQueries).toHaveBeenCalledWith(
-      queryClient,
-      relationship.child,
-    )
-    expect(invalidateResourceQueries).toHaveBeenCalledWith(
-      queryClient,
-      relationship.parent,
-    )
-
-    // Check patches cached result
-    expect(queryClient.getQueryData(keys.childResource)).toEqual(
-      relationship.resource,
-    )
-  })
-
-  test("useLearningpathRelationshipDestroy calls correct API and patches child resource cache", async () => {
-    const { relationship, pathUrls, keys } = makeData()
-    const url = pathUrls.relationshipDetails
-
-    setMockResponse.delete(url, null)
-    const { wrapper, queryClient } = setupReactQueryTest()
-    queryClient.setQueryData(keys.childResource, relationship.resource)
-    const { result } = renderHook(useLearningpathRelationshipDestroy, {
-      wrapper,
-    })
-
-    result.current.mutate(relationship)
-    await waitFor(() => expect(result.current.isSuccess).toBe(true))
-
-    expect(makeRequest).toHaveBeenCalledWith("delete", url, undefined)
-    expect(invalidateResourceQueries).toHaveBeenCalledWith(
-      queryClient,
-      relationship.child,
-    )
-    expect(invalidateResourceQueries).toHaveBeenCalledWith(
-      queryClient,
-      relationship.parent,
-    )
-
-    // Patched existing resource
-    expect(queryClient.getQueryData(keys.childResource)).toEqual({
+    const resourceWithoutList: LearningResource = {
       ...relationship.resource,
-      learning_path_parents: [],
-    })
-  })
+      user_list_parents:
+        relationship.resource.user_list_parents?.filter(
+          (m) => m.id !== relationship.id,
+        ) ?? null,
+    }
+    return { path: list, relationship, listUrls, keys, resourceWithoutList }
+  }
+
+  test.each([{ isChildFeatured: false }, { isChildFeatured: true }])(
+    "useUserListRelationshipCreate calls correct API and patches featured resources",
+    async ({ isChildFeatured }) => {
+      const { relationship, listUrls, resourceWithoutList } = makeData()
+
+      const featured = factory.resources({ count: 3 })
+      if (isChildFeatured) {
+        featured.results[0] = resourceWithoutList
+      }
+      setMockResponse.get(urls.learningResources.featured(), featured)
+
+      const url = listUrls.relationshipList
+      const requestData = {
+        child: relationship.child,
+        parent: relationship.parent,
+        position: relationship.position,
+      }
+      setMockResponse.post(url, relationship)
+
+      const { wrapper, queryClient } = setupReactQueryTest()
+      const { result } = renderHook(useUserListRelationshipCreate, {
+        wrapper,
+      })
+      const { result: featuredResult } = renderHook(
+        useFeaturedLearningResourcesList,
+        { wrapper },
+      )
+      await waitFor(() => expect(featuredResult.current.data).toBe(featured))
+
+      result.current.mutate(requestData)
+
+      await waitFor(() => expect(result.current.isSuccess).toBe(true))
+      expect(makeRequest).toHaveBeenCalledWith("post", url, requestData)
+
+      expect(invalidateResourceQueries).toHaveBeenCalledWith(
+        queryClient,
+        relationship.child,
+        { skipFeatured: true },
+      )
+      expect(invalidateUserListQueries).toHaveBeenCalledWith(
+        queryClient,
+        relationship.parent,
+      )
+
+      // Assert featured API called only once and that the result has been
+      // patched correctly. When the child is featured, we do NOT want to make
+      // a new API call to /featured, because the results of that API are randomly
+      // ordered.
+      expect(
+        makeRequest.mock.calls.filter((call) => call[0] === "get").length,
+      ).toEqual(1)
+      if (isChildFeatured) {
+        expect(featuredResult.current.data?.results).toEqual([
+          relationship.resource,
+          ...featured.results.slice(1),
+        ])
+      } else {
+        expect(featuredResult.current.data).toEqual(featured)
+      }
+    },
+  )
+
+  test.each([{ isChildFeatured: false }, { isChildFeatured: true }])(
+    "useUserListRelationshipDestroy calls correct API and patches child resource cache (isChildFeatured=$isChildFeatured)",
+    async ({ isChildFeatured }) => {
+      const { relationship, listUrls, resourceWithoutList } = makeData()
+      const url = listUrls.relationshipDetails
+
+      const featured = factory.resources({ count: 3 })
+      if (isChildFeatured) {
+        featured.results[0] = relationship.resource
+      }
+      setMockResponse.get(urls.learningResources.featured(), featured)
+
+      setMockResponse.delete(url, null)
+      const { wrapper, queryClient } = setupReactQueryTest()
+
+      const { result } = renderHook(useUserListRelationshipDestroy, {
+        wrapper,
+      })
+      const { result: featuredResult } = renderHook(
+        useFeaturedLearningResourcesList,
+        { wrapper },
+      )
+
+      await waitFor(() => expect(featuredResult.current.data).toBe(featured))
+      result.current.mutate(relationship)
+      await waitFor(() => expect(result.current.isSuccess).toBe(true))
+
+      expect(makeRequest).toHaveBeenCalledWith("delete", url, undefined)
+      expect(invalidateResourceQueries).toHaveBeenCalledWith(
+        queryClient,
+        relationship.child,
+        { skipFeatured: true },
+      )
+      expect(invalidateUserListQueries).toHaveBeenCalledWith(
+        queryClient,
+        relationship.parent,
+      )
+
+      // Assert featured API called only once and that the result has been
+      // patched correctly. When the child is featured, we do NOT want to make
+      // a new API call to /featured, because the results of that API are randomly
+      // ordered.
+      expect(
+        makeRequest.mock.calls.filter((call) => call[0] === "get").length,
+      ).toEqual(1)
+      if (isChildFeatured) {
+        expect(featuredResult.current.data?.results).toEqual([
+          resourceWithoutList,
+          ...featured.results.slice(1),
+        ])
+      } else {
+        expect(featuredResult.current.data).toEqual(featured)
+      }
+    },
+  )
 })
