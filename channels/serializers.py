@@ -144,7 +144,7 @@ class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer)
 
     @extend_schema_field(LearningPathPreviewSerializer(many=True))
     def get_lists(self, instance):
-        """Return the field's list of LearningPaths"""
+        """Return the channel's list of LearningPaths"""
         return [
             LearningPathPreviewSerializer(channel_list.channel_list).data
             for channel_list in ChannelList.objects.filter(channel=instance)
