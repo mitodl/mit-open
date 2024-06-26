@@ -27,12 +27,12 @@ export const articlesEditView = (id: number) =>
 export const DEPARTMENTS = "/departments/"
 export const TOPICS = "/topics/"
 
-export const FIELD_VIEW = "/c/:channelType/:name" as const
+export const CHANNEL_VIEW = "/c/:channelType/:name" as const
 export const CHANNEL_EDIT = "/c/:channelType/:name/manage/" as const
 export const CHANNEL_EDIT_WIDGETS =
   "/c/:channelType/:name/manage/widgets/" as const
 export const makeChannelViewPath = (channelType: string, name: string) =>
-  generatePath(FIELD_VIEW, { channelType, name })
+  generatePath(CHANNEL_VIEW, { channelType, name })
 export const makeChannelEditPath = (channelType: string, name: string) =>
   generatePath(CHANNEL_EDIT, { channelType, name })
 export const makeChannelManageWidgetsPath = (

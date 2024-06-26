@@ -140,7 +140,7 @@ const routes: RouteObject[] = [
         element: <UnitsListingPage />,
       },
       {
-        path: urls.FIELD_VIEW,
+        path: urls.CHANNEL_VIEW,
         element: <ChannelPage />,
       },
       {
