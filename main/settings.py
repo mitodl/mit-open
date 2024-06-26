@@ -111,6 +111,8 @@ INSTALLED_APPS = (
     "testimonials",
     "data_fixtures",
 )
+if not get_bool("RUN_DATA_MIGRATIONS"):
+    MIGRATION_MODULES = {"data_fixtures": None}
 
 SCIM_SERVICE_PROVIDER = {
     "SCHEME": "https",
