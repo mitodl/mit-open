@@ -91,7 +91,7 @@ class ChannelViewSet(
         return ChannelWriteSerializer
 
     def perform_destroy(self, instance):
-        """Remove the field channel"""
+        """Remove the channel"""
         instance.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -101,7 +101,7 @@ class ChannelViewSet(
 )
 class ChannelByTypeNameDetailView(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
-    View for retrieving an individual field channel by type and name
+    View for retrieving an individual channel by type and name
     """
 
     serializer_class = ChannelSerializer
@@ -109,7 +109,7 @@ class ChannelByTypeNameDetailView(mixins.RetrieveModelMixin, viewsets.GenericVie
 
     def get_object(self):
         """
-        Return the field channel by type and name
+        Return the channel by type and name
         """
         return get_object_or_404(
             Channel,
@@ -134,12 +134,12 @@ class ChannelModeratorListView(ListCreateAPIView):
         """
         Build a queryset of relevant users with moderator permissions for this channel
         """
-        field_group_name = get_group_role_name(
+        channel_group_name = get_group_role_name(
             self.kwargs["id"],
             CHANNEL_ROLE_MODERATORS,
         )
 
-        return User.objects.filter(groups__name=field_group_name)
+        return User.objects.filter(groups__name=channel_group_name)
 
 
 @extend_schema_view(
@@ -147,7 +147,7 @@ class ChannelModeratorListView(ListCreateAPIView):
 )
 class ChannelModeratorDetailView(APIView):
     """
-    View to retrieve and remove field channel moderators
+    View to retrieve and remove channel moderators
     """
 
     permission_classes = (ChannelModeratorPermissions,)
