@@ -39,7 +39,7 @@ from learning_resources_search.serializers import (
     ContentFileSearchRequestSerializer,
     ContentFileSerializer,
     LearningResourcesSearchRequestSerializer,
-    SearchResponseSerializer,
+    LearningResourcesSearchResponseSerializer,
     extract_values,
     serialize_percolate_query,
 )
@@ -827,7 +827,9 @@ def test_learning_resources_search_response_serializer(
     settings.OPENSEARCH_MAX_SUGGEST_HITS = 10
     request = get_request_object(learning_resources_search_view.url)
     assert JSONRenderer().render(
-        SearchResponseSerializer(raw_data, context={"request": request}).data
+        LearningResourcesSearchResponseSerializer(
+            raw_data, context={"request": request}
+        ).data
     ) == JSONRenderer().render(response)
 
 
@@ -884,7 +886,9 @@ def test_learning_resources_search_response_serializer_user_parents(  # noqa: PL
             ]
 
     assert JSONRenderer().render(
-        SearchResponseSerializer(raw_data, context={"request": request}).data
+        LearningResourcesSearchResponseSerializer(
+            raw_data, context={"request": request}
+        ).data
     ) == JSONRenderer().render(response)
 
 

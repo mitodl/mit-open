@@ -25,11 +25,10 @@ from learning_resources_search.models import PercolateQuery
 from learning_resources_search.serializers import (
     ContentFileSearchRequestSerializer,
     ContentFileSearchResponseSerializer,
-    LearningResourceSearchResponseSerializer,
     LearningResourcesSearchRequestSerializer,
+    LearningResourcesSearchResponseSerializer,
     PercolateQuerySerializer,
     PercolateQuerySubscriptionRequestSerializer,
-    SearchResponseSerializer,
 )
 
 log = logging.getLogger(__name__)
@@ -53,7 +52,7 @@ class ESView(APIView):
 @extend_schema_view(
     get=extend_schema(
         parameters=[LearningResourcesSearchRequestSerializer()],
-        responses=LearningResourceSearchResponseSerializer(),
+        responses=LearningResourcesSearchResponseSerializer(),
     ),
 )
 @action(methods=["GET"], detail=False, name="Search Learning Resources")
@@ -73,7 +72,9 @@ class LearningResourcesSearchView(ESView):
                 request_data.data | {"endpoint": LEARNING_RESOURCE}
             )
             return Response(
-                SearchResponseSerializer(response, context={"request": request}).data
+                LearningResourcesSearchResponseSerializer(
+                    response, context={"request": request}
+                ).data
             )
         else:
             errors = {}
@@ -237,7 +238,9 @@ class ContentFileSearchView(ESView):
                 request_data.data | {"endpoint": CONTENT_FILE_TYPE}
             )
             return Response(
-                SearchResponseSerializer(response, context={"request": request}).data
+                ContentFileSearchResponseSerializer(
+                    response, context={"request": request}
+                ).data
             )
         else:
             errors = {}

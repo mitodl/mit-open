@@ -47,24 +47,8 @@ import type { TabConfig } from "./ResourceTypeTabs"
 import { ResourceListCard } from "../ResourceCard/ResourceCard"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 
-export const StyledDropdown = styled(SimpleSelect)`
-  margin-left: 8px;
-  margin-right: 0;
-  margin-top: 0;
+export const StyledSelect = styled(SimpleSelect)`
   min-width: 160px;
-  height: 32px;
-  background: ${({ theme }) => theme.custom.colors.white};
-
-  svg {
-    width: 0.75em;
-    height: 0.75em;
-  }
-
-  div {
-    min-height: 0 px;
-    padding-right: 1px !important;
-    font-size: 12px !important;
-  }
 `
 
 export const StyledResourceTabs = styled(ResourceTypeTabs.TabList)`
@@ -74,11 +58,6 @@ export const StyledResourceTabs = styled(ResourceTypeTabs.TabList)`
 export const DesktopSortContainer = styled.div`
   float: right;
 
-  div {
-    height: 32px;
-    bottom: 1px;
-  }
-
   ${({ theme }) => theme.breakpoints.down("md")} {
     display: none;
   }
@@ -87,11 +66,6 @@ export const MobileSortContainer = styled.div`
   float: right;
   ${({ theme }) => theme.breakpoints.up("md")} {
     display: none;
-  }
-
-  div {
-    height: 32px;
-    bottom: -2px;
   }
 `
 
@@ -391,10 +365,13 @@ const StyledDrawer = styled(Drawer)`
   }
 `
 
-const MobileClearAllButton = styled(Button)`
-  background-color: white;
-  padding: 12px;
-  border-radius: 4px;
+const MobileFacetSearchButtons = styled.div`
+  display: flex;
+  gap: 12px;
+
+  & > button {
+    flex: 1;
+  }
 `
 
 const MobileDrawerCloseButton = styled(Button)`
@@ -464,19 +441,19 @@ export const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
 export const SORT_OPTIONS = [
   {
     label: "Best Match",
-    key: "",
+    value: "",
   },
   {
     label: "New",
-    key: "new",
+    value: "new",
   },
   {
     label: "Popular",
-    key: "-views",
+    value: "-views",
   },
   {
     label: "Upcoming",
-    key: "upcoming",
+    value: "upcoming",
   },
 ]
 
@@ -577,15 +554,14 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   )
 
   const sortDropdown = (
-    <StyledDropdown
-      initialValue={requestParams.sortby || ""}
-      isMultiple={false}
+    <StyledSelect
+      size="small"
+      value={requestParams.sortby || ""}
       onChange={(e) => setParamValue("sortby", e.target.value)}
       options={SORT_OPTIONS}
       className="sort-dropdown"
-      sx={{ fontSize: "small" }}
       renderValue={(value) => {
-        const opt = SORT_OPTIONS.find((option) => option.key === value)
+        const opt = SORT_OPTIONS.find((option) => option.value === value)
         return `Sort by: ${opt?.label}`
       }}
     />
@@ -642,15 +618,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                       <div>
                         <Typography variant="subtitle3">Filter</Typography>
                       </div>
-                      {hasFacets ? (
-                        <MobileClearAllButton
-                          variant="text"
-                          size="small"
-                          onClick={clearAllFacets}
-                        >
-                          Clear all
-                        </MobileClearAllButton>
-                      ) : null}
                     </div>
                     <MobileDrawerCloseButton
                       size="large"
@@ -661,6 +628,24 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                       <RiCloseLine fontSize="inherit" />
                     </MobileDrawerCloseButton>
                   </MobileFacetsTitleContainer>
+                  {hasFacets ? (
+                    <MobileFacetSearchButtons>
+                      <Button
+                        variant="primary"
+                        size="small"
+                        onClick={toggleMobileDrawer(false)}
+                      >
+                        Apply Filters
+                      </Button>
+                      <Button
+                        variant="noBorder"
+                        size="small"
+                        onClick={clearAllFacets}
+                      >
+                        Clear All
+                      </Button>
+                    </MobileFacetSearchButtons>
+                  ) : null}
                   {filterContents}
                 </StyledDrawer>
                 <MobileSortContainer>{sortDropdown}</MobileSortContainer>

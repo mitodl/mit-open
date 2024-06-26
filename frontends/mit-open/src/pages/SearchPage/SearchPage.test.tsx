@@ -9,7 +9,7 @@ import {
 import SearchPage from "./SearchPage"
 import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
 import type {
-  LearningResourceSearchResponse,
+  LearningResourcesSearchResponse,
   PaginatedLearningResourceOfferorDetailList,
 } from "api"
 import invariant from "tiny-invariant"
@@ -19,7 +19,7 @@ const setMockApiResponses = ({
   search,
   offerors,
 }: {
-  search?: Partial<LearningResourceSearchResponse>
+  search?: Partial<LearningResourcesSearchResponse>
   offerors?: PaginatedLearningResourceOfferorDetailList
 }) => {
   setMockResponse.get(urls.userMe.get(), {

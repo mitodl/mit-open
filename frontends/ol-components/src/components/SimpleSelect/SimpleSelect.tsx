@@ -1,84 +1,89 @@
 import React from "react"
-import { Select } from "../SelectField/SelectField"
-import MenuItem from "@mui/material/MenuItem"
-import type { SelectChangeEvent } from "@mui/material/Select"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import { Theme, SxProps } from "@mui/material/styles"
+import { Select, SelectField } from "../SelectField/SelectField"
+import type { SelectProps, SelectFieldProps } from "../SelectField/SelectField"
+import { MenuItem } from "../MenuItem/MenuItem"
 
-interface SimpleSelectProps {
-  /**
-   * Value of initial selection for the dropdown
-   */
-  initialValue: string | string[]
-  /**
-   * Whether the dropdown allows multiple selections
-   */
-  isMultiple: boolean
-  /**
-  The function that runs when there is a selection from the dropdown
-   */
-  onChange: (event: SelectChangeEvent<string[] | string>) => void
+type SimpleSelectProps = Pick<
+  SelectProps<string | string[]>,
+  | "value"
+  | "size"
+  | "multiple"
+  | "onChange"
+  | "renderValue"
+  | "className"
+  | "name"
+> & {
   /**
    * The options for the dropdown
    */
-  options: SimpleSelectOptionProps[]
-  /**
-   * Function that controls the display for the dropdown
-   */
-  renderValue?: (selected: string | string[] | void) => string
-  /**
-   * class name for the dropdown and base for key for dropdown options
-   */
-  className?: string
-  /**
-   * styles for the dropdown and options
-   */
-  sx?: SxProps<Theme>
+  options: SimpleSelectOption[]
 }
 
-interface SimpleSelectOptionProps {
+interface SimpleSelectOption {
   /**
    * value for the dropdown option
    */
-  key: string
+  value: string
   /**
    * label for the dropdown option
    */
-  label: string
+  label: React.ReactNode
+  disabled?: boolean
 }
 
-const SimpleSelect: React.FC<SimpleSelectProps> = ({
-  className,
-  initialValue,
-  isMultiple,
-  onChange,
-  options,
-  renderValue,
-  sx,
-}) => {
+/**
+ * An input for selection via dropdown.
+ */
+const SimpleSelect: React.FC<SimpleSelectProps> = ({ options, ...others }) => {
   return (
-    <Select
-      multiple={isMultiple}
-      displayEmpty
-      value={initialValue}
-      onChange={onChange}
-      className={className}
-      renderValue={renderValue}
-      IconComponent={() => <ExpandMoreIcon />}
-      sx={sx}
-    >
-      {options.map((option) => (
-        <MenuItem
-          value={option.key.toString()}
-          key={option.key.toString()}
-          sx={sx}
-        >
-          {option.label}
+    <Select {...others} displayEmpty>
+      {options.map(({ label, value, ...itemProps }) => (
+        <MenuItem key={value} size={others.size} {...itemProps} value={value}>
+          {label}
         </MenuItem>
       ))}
     </Select>
   )
 }
 
-export { SimpleSelect }
-export type { SimpleSelectProps, SimpleSelectOptionProps }
+type SimpleSelectFieldProps = Pick<
+  SelectFieldProps<string | string[]>,
+  | "fullWidth"
+  | "label"
+  | "helpText"
+  | "errorText"
+  | "required"
+  | "size"
+  | "value"
+  | "onChange"
+  | "name"
+  | "className"
+> & {
+  /**
+   * The options for the dropdown
+   */
+  options: SimpleSelectOption[]
+}
+
+/**
+ * A form field for text input via select dropdowns. Supports labels, help text,
+ * error text, and start/end adornments.
+ */
+const SimpleSelectField: React.FC<SimpleSelectFieldProps> = ({
+  options,
+  ...others
+}) => {
+  return (
+    <SelectField {...others}>
+      <MenuItem style={{ display: "none" }}></MenuItem>
+      {options.map(({ value, label, ...itemProps }) => (
+        <MenuItem size={others.size} value={value} key={value} {...itemProps}>
+          {label}
+        </MenuItem>
+      ))}
+    </SelectField>
+  )
+}
+
+export { SimpleSelect, SimpleSelectField }
+export type { SimpleSelectProps, SimpleSelectFieldProps, SimpleSelectOption }

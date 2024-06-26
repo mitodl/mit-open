@@ -2,7 +2,6 @@ import type { ResourceCarouselProps } from "@/page-components/ResourceCarousel/R
 import type { FeaturedApiFeaturedListRequest as FeaturedListParams } from "api"
 
 const FEATURED_COMMON_PARAMS: FeaturedListParams = {
-  resource_type: ["course"],
   limit: 12,
 }
 const FEATURED_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [

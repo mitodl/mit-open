@@ -115,16 +115,15 @@ describe("Home Page Carousel", () => {
   test.each<{ tab: string; params: FeaturedRequest }>([
     {
       tab: "All",
-      params: { limit: 12, resource_type: ["course"] },
+      params: { limit: 12 },
     },
     {
       tab: "Free",
-      params: { limit: 12, resource_type: ["course"], free: true },
+      params: { limit: 12, free: true },
     },
     {
       tab: "With Certificate",
       params: {
-        resource_type: ["course"],
         limit: 12,
         certification: true,
         professional: false,
@@ -132,7 +131,7 @@ describe("Home Page Carousel", () => {
     },
     {
       tab: "Professional & Executive Learning",
-      params: { resource_type: ["course"], limit: 12, professional: true },
+      params: { limit: 12, professional: true },
     },
   ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
     const resources = learningResources.resources({ count: 12 })
@@ -140,7 +139,7 @@ describe("Home Page Carousel", () => {
 
     // The "All" tab is initially visible, so it needs a response.
     setMockResponse.get(
-      urls.learningResources.featured({ limit: 12, resource_type: ["course"] }),
+      urls.learningResources.featured({ limit: 12 }),
       learningResources.resources({ count: 0 }),
     )
     // This is for the clicked tab (which might be "All")

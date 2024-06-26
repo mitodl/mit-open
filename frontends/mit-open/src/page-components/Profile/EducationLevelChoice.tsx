@@ -1,15 +1,22 @@
 import React from "react"
 
-import {
-  Select,
-  MenuItem,
-  FormControl,
-  FormLabel,
-  SelectChangeEvent,
-} from "ol-components"
+import { FormControl, FormLabel, SimpleSelect } from "ol-components"
+import type { SimpleSelectFieldProps, SimpleSelectOption } from "ol-components"
 import { CurrentEducationEnum, CurrentEducationEnumDescriptions } from "api/v0"
 
 import { ProfileFieldUpdateProps } from "./types"
+
+const OPTIONS: SimpleSelectOption[] = [
+  {
+    label: <em>Please select</em>,
+    disabled: true,
+    value: "",
+  },
+  ...Object.values(CurrentEducationEnum).map((value) => ({
+    value,
+    label: CurrentEducationEnumDescriptions[value],
+  })),
+]
 
 const EducationLevelSelect: React.FC<
   ProfileFieldUpdateProps<"current_education">
@@ -18,7 +25,7 @@ const EducationLevelSelect: React.FC<
     CurrentEducationEnum | ""
   >(value || "")
 
-  const handleChange = (event: SelectChangeEvent<typeof educationLevel>) => {
+  const handleChange: SimpleSelectFieldProps["onChange"] = (event) => {
     setEducationLevel(event.target.value as CurrentEducationEnum)
   }
 
@@ -29,18 +36,11 @@ const EducationLevelSelect: React.FC<
   return (
     <FormControl component="fieldset" fullWidth>
       <FormLabel component="label">{label}</FormLabel>
-      <Select displayEmpty onChange={handleChange} value={educationLevel}>
-        <MenuItem disabled value="">
-          <em>Please select</em>
-        </MenuItem>
-        {Object.values(CurrentEducationEnum).map((value, index) => {
-          return (
-            <MenuItem value={value} key={index}>
-              {CurrentEducationEnumDescriptions[value]}
-            </MenuItem>
-          )
-        })}
-      </Select>
+      <SimpleSelect
+        value={educationLevel}
+        onChange={handleChange}
+        options={OPTIONS}
+      />
     </FormControl>
   )
 }

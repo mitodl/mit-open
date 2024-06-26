@@ -457,6 +457,29 @@ class SearchResponseSerializer(serializers.Serializer):
     def get_count(self, instance) -> int:
         return instance.get("hits", {}).get("total", {}).get("value")
 
+    def get_metadata(self, instance) -> SearchResponseMetadata:
+        return {
+            "aggregations": _transform_aggregations(instance.get("aggregations", {})),
+            "suggest": _transform_search_results_suggest(instance),
+        }
+
+
+class PercolateQuerySerializer(serializers.ModelSerializer):
+    """
+    Serializer for PercolateQuery objects
+    """
+
+    class Meta:
+        model = PercolateQuery
+        exclude = (*COMMON_IGNORED_FIELDS, "users")
+
+
+class LearningResourcesSearchResponseSerializer(SearchResponseSerializer):
+    """
+    SearchResponseSerializer with OpenAPI annotations for Learning Resources
+    search
+    """
+
     def update_path_parents(self, hits):
         """Fill in learning_path_parents for path editors"""
 
@@ -505,6 +528,7 @@ class SearchResponseSerializer(serializers.Serializer):
                     ).data
                 )
 
+    @extend_schema_field(LearningResourceSerializer(many=True))
     def get_results(self, instance):
         hits = instance.get("hits", {}).get("hits", [])
         request = self.context.get("request")
@@ -519,29 +543,6 @@ class SearchResponseSerializer(serializers.Serializer):
                 self.update_path_parents(hits)
         return (hit.get("_source") for hit in hits)
 
-    def get_metadata(self, instance) -> SearchResponseMetadata:
-        return {
-            "aggregations": _transform_aggregations(instance.get("aggregations", {})),
-            "suggest": _transform_search_results_suggest(instance),
-        }
-
-
-class PercolateQuerySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PercolateQuery
-        exclude = (*COMMON_IGNORED_FIELDS, "users")
-
-
-class LearningResourceSearchResponseSerializer(SearchResponseSerializer):
-    """
-    SearchResponseSerializer with OpenAPI annotations for Learning Resources
-    search
-    """
-
-    @extend_schema_field(LearningResourceSerializer(many=True))
-    def get_results():
-        return super().get_results()
-
 
 class ContentFileSearchResponseSerializer(SearchResponseSerializer):
     """
@@ -549,8 +550,9 @@ class ContentFileSearchResponseSerializer(SearchResponseSerializer):
     """
 
     @extend_schema_field(ContentFileSerializer(many=True))
-    def get_results():
-        return super().get_results()
+    def get_results(self, instance):
+        hits = instance.get("hits", {}).get("hits", [])
+        return (hit.get("_source") for hit in hits)
 
 
 class PercolateQuerySubscriptionRequestSerializer(
