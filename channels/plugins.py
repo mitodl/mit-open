@@ -1,4 +1,4 @@
-"""Plugins for field channels"""
+"""Plugins for channels"""
 
 from django.apps import apps
 from django.utils.text import slugify
