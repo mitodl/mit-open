@@ -1,6 +1,23 @@
 Release Notes
 =============
 
+Version 0.13.15
+---------------
+
+- fix content file search (#1167)
+- Set default ordering by position for userlist and learningresource relationships (#1165)
+- fix flaky test (#1168)
+- Update favicons (#1153)
+- de-flake a test (#1166)
+- Shanbady/search page card mobile updates (#1156)
+- remove course filter from featured carousel (#1164)
+- Update Select and Dropdown components (#1160)
+- Adds a separate pane for the filter CTAs, adds an apply button on mobile (#1144)
+- Search facet styles and animation (#1143)
+- Modifications to api/search filtering with comma values (#1122)
+- [pre-commit.ci] pre-commit autoupdate (#1110)
+- Update Yarn to v4.3.1 (#1145)
+
 Version 0.13.14 (Released June 26, 2024)
 ---------------
 
