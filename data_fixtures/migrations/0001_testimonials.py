@@ -225,7 +225,7 @@ def load_fixtures(apps, schema_editor):
             defaults=fixture,
         )
         # make sure related offerors exists in system before setting
-        if LearningResourceOfferor.objects.filter(code__in=offerors).count() == len(
+        if LearningResourceOfferor.objects.filter(pk__in=offerors).count() == len(
             offerors
         ):
             testimonial.offerors.set(offerors)
