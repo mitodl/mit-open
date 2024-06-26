@@ -19,11 +19,13 @@ interface BaseChoiceBoxFieldProps extends ChoiceBoxGridProps {
 
 interface ChoiceBoxFieldProps extends BaseChoiceBoxFieldProps {
   type: ChoiceBoxProps["type"]
+  name?: string
   isChecked: (choice: ChoiceBoxChoice) => boolean
 }
 
 const ChoiceBoxField: React.FC<ChoiceBoxFieldProps> = ({
   label,
+  name,
   choices,
   type,
   isChecked,
@@ -59,6 +61,7 @@ const ChoiceBoxField: React.FC<ChoiceBoxFieldProps> = ({
             <Grid item {...fieldGridItemProps} key={index}>
               <ChoiceBox
                 type={type}
+                name={name}
                 checked={isChecked(choice)}
                 onChange={onChange}
                 {...choice}
@@ -90,6 +93,7 @@ const CheckboxChoiceBoxField: React.FC<CheckboxChoiceBoxFieldProps> = ({
 
 interface RadioChoiceBoxFieldProps extends BaseChoiceBoxFieldProps {
   value?: string
+  name: string
 }
 
 const RadioChoiceBoxField: React.FC<RadioChoiceBoxFieldProps> = ({

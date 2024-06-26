@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useId } from "react"
 import FormControl from "@mui/material/FormControl"
 import FormControlLabel from "@mui/material/FormControlLabel"
 import FormLabel from "@mui/material/FormLabel"
-import Radio from "@mui/material/Radio"
+import { Radio } from "../Radio/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
 import type { RadioGroupProps } from "@mui/material/RadioGroup"
 
@@ -59,7 +59,7 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
             <FormControlLabel
               key={value}
               value={value}
-              control={<Radio />}
+              control={<Radio name={name} />}
               label={label}
               className={className}
             />
