@@ -3058,7 +3058,7 @@ export const ChannelsApiAxiosParamCreator = function (
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators Create
+     * @summary Channel Moderators Create
      * @param {string} id
      * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
      * @param {*} [options] Override http request option.
@@ -3113,7 +3113,7 @@ export const ChannelsApiAxiosParamCreator = function (
     },
     /**
      * Remove the user from the moderator groups for this website
-     * @summary Field Moderators Destroy
+     * @summary Channel Moderators Destroy
      * @param {string} id
      * @param {string} moderator_name
      * @param {*} [options] Override http request option.
@@ -3169,7 +3169,7 @@ export const ChannelsApiAxiosParamCreator = function (
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators List
+     * @summary Channel Moderators List
      * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3471,7 +3471,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators Create
+     * @summary Channel Moderators Create
      * @param {string} id
      * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
      * @param {*} [options] Override http request option.
@@ -3506,7 +3506,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Remove the user from the moderator groups for this website
-     * @summary Field Moderators Destroy
+     * @summary Channel Moderators Destroy
      * @param {string} id
      * @param {string} moderator_name
      * @param {*} [options] Override http request option.
@@ -3539,7 +3539,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators List
+     * @summary Channel Moderators List
      * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3722,7 +3722,7 @@ export const ChannelsApiFactory = function (
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators Create
+     * @summary Channel Moderators Create
      * @param {ChannelsApiChannelsModeratorsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3741,7 +3741,7 @@ export const ChannelsApiFactory = function (
     },
     /**
      * Remove the user from the moderator groups for this website
-     * @summary Field Moderators Destroy
+     * @summary Channel Moderators Destroy
      * @param {ChannelsApiChannelsModeratorsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3760,7 +3760,7 @@ export const ChannelsApiFactory = function (
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators List
+     * @summary Channel Moderators List
      * @param {ChannelsApiChannelsModeratorsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4062,7 +4062,7 @@ export class ChannelsApi extends BaseAPI {
 
   /**
    * View for listing and adding moderators
-   * @summary Field Moderators Create
+   * @summary Channel Moderators Create
    * @param {ChannelsApiChannelsModeratorsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4083,7 +4083,7 @@ export class ChannelsApi extends BaseAPI {
 
   /**
    * Remove the user from the moderator groups for this website
-   * @summary Field Moderators Destroy
+   * @summary Channel Moderators Destroy
    * @param {ChannelsApiChannelsModeratorsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -4104,7 +4104,7 @@ export class ChannelsApi extends BaseAPI {
 
   /**
    * View for listing and adding moderators
-   * @summary Field Moderators List
+   * @summary Channel Moderators List
    * @param {ChannelsApiChannelsModeratorsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

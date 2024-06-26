@@ -152,7 +152,7 @@ paths:
     get:
       operationId: channels_moderators_list
       description: View for listing and adding moderators
-      summary: Field Moderators List
+      summary: Channel Moderators List
       parameters:
       - in: path
         name: id
@@ -174,7 +174,7 @@ paths:
     post:
       operationId: channels_moderators_create
       description: View for listing and adding moderators
-      summary: Field Moderators Create
+      summary: Channel Moderators Create
       parameters:
       - in: path
         name: id
@@ -206,7 +206,7 @@ paths:
     delete:
       operationId: channels_moderators_destroy
       description: Remove the user from the moderator groups for this website
-      summary: Field Moderators Destroy
+      summary: Channel Moderators Destroy
       parameters:
       - in: path
         name: id
