@@ -25,8 +25,8 @@ AVATAR_SMALL_MAX_DIMENSION = 22
 AVATAR_MEDIUM_MAX_DIMENSION = 90
 
 
-class BaseChannel(models.Model):
-    """Base abstract model for channels"""
+class Channel(TimestampedModel):
+    """Channel for any field/subject"""
 
     # Channel configuration
     name = models.CharField(
@@ -70,21 +70,6 @@ class BaseChannel(models.Model):
         null=True, blank=True, max_length=2083, upload_to=banner_uri
     )
     about = JSONField(blank=True, null=True)
-
-    # Miscellaneous fields
-    ga_tracking_id = models.CharField(max_length=24, blank=True)
-
-    class Meta:
-        abstract = True
-
-    def __str__(self):
-        """Str representation of channel"""
-        return self.title
-
-
-class Channel(BaseChannel, TimestampedModel):
-    """Channel for any field/subject"""
-
     channel_type = models.CharField(max_length=100, choices=ChannelType.as_tuple())
     configuration = models.JSONField(null=True, default=dict, blank=True)
     search_filter = models.CharField(max_length=2048, blank=True, default="")
@@ -100,6 +85,13 @@ class Channel(BaseChannel, TimestampedModel):
         null=True,
         related_name="channel",
     )
+
+    # Miscellaneous fields
+    ga_tracking_id = models.CharField(max_length=24, blank=True)
+
+    def __str__(self):
+        """Str representation of channel"""
+        return self.title
 
     class Meta:
         unique_together = ("name", "channel_type")
