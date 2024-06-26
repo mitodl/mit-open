@@ -61,12 +61,12 @@ const AvatarContainer = styled.div<AvatarStyleProps>`
   align-items: center;
   height: ${({ imageSize }) => IMG_SIZES[imageSize]};
   width: auto;
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    height: auto;
+    width: 100%;
+  }
 `
 const AvatarImg = styled.img<AvatarStyleProps>`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
   min-height: 0;
   min-width: 0;
   ${({ imageVariant }) =>
