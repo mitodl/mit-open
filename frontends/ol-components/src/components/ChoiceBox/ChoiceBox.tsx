@@ -1,12 +1,8 @@
 import React from "react"
 import styled from "@emotion/styled"
-import {
-  RiCheckboxFill,
-  RiCheckboxBlankLine,
-  RiRadioButtonLine,
-  RiCheckboxBlankCircleLine,
-} from "@remixicon/react"
+import { RiRadioButtonLine, RiCheckboxBlankCircleLine } from "@remixicon/react"
 import { type GridProps } from "@mui/material/Grid"
+import { Checkbox } from "../Checkbox/Checkbox"
 
 const ContainerLabel = styled.label(({ theme }) => {
   const colors = theme.custom.colors
@@ -58,14 +54,6 @@ const Description = styled.span(({ theme }) => {
   }
 })
 
-const ChoiceInput = styled.input(({ theme }) => ({
-  appearance: "none",
-  visibility: "hidden",
-  backgroundColor: theme.custom.colors.white,
-  margin: 0,
-  position: "absolute",
-}))
-
 type IconsProps = {
   checked: boolean
 }
@@ -76,7 +64,7 @@ const ChoiceIcon = styled.span<IconsProps>(({ theme, checked }) => {
     height: "24px",
     width: "24px",
     color: checked ? colors.red : colors.lightGray2,
-    "label:hover:not(.checked) & ": {
+    "label:hover:not(.checked) &": {
       color: colors.silverGrayDark,
     },
   }
@@ -89,10 +77,6 @@ type ChoiceBoxProps = {
   type: "radio" | "checkbox"
   checked: boolean
   onChange: React.ChangeEventHandler<HTMLInputElement>
-}
-
-const CheckboxIcons = ({ checked }: IconsProps) => {
-  return checked ? <RiCheckboxFill /> : <RiCheckboxBlankLine />
 }
 
 const RadioIcons = ({ checked }: IconsProps) => {
@@ -111,18 +95,16 @@ const ChoiceBox = ({
     <ContainerLabel className={checked ? "checked" : ""}>
       <UpperContainer>
         <Label>{label}</Label>
-        <ChoiceIcon checked={checked}>
-          {type === "checkbox" ? <CheckboxIcons checked={checked} /> : null}
-          {type === "radio" ? <RadioIcons checked={checked} /> : null}
-        </ChoiceIcon>
+        {type === "checkbox" ? (
+          <Checkbox value={value} checked={checked} onChange={onChange} />
+        ) : null}
+        {type === "radio" ? (
+          <ChoiceIcon checked={checked}>
+            <RadioIcons checked={checked} />
+          </ChoiceIcon>
+        ) : null}
       </UpperContainer>
       {description ? <Description>{description}</Description> : null}
-      <ChoiceInput
-        type={type}
-        value={value}
-        checked={checked}
-        onChange={onChange}
-      />
     </ContainerLabel>
   )
 }
