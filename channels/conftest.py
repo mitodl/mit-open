@@ -2,10 +2,10 @@
 
 import pytest
 
-from channels.factories import FieldChannelFactory
+from channels.factories import ChannelFactory
 
 
 @pytest.fixture()
-def field_channel():
-    """Generate a sample FieldChannel"""
-    return FieldChannelFactory.create()
+def channel():
+    """Generate a sample Channel"""
+    return ChannelFactory.create()

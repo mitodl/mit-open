@@ -9,7 +9,7 @@ from django.utils import timezone
 from rest_framework.reverse import reverse
 
 from channels.factories import ChannelUnitDetailFactory
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -934,9 +934,7 @@ def test_featured_view(client, offeror_featured_lists):
             offeror = LearningResourceOfferor.objects.get(
                 code=resource["offered_by"]["code"]
             )
-            featured_list = FieldChannel.objects.get(
-                unit_detail__unit=offeror
-            ).featured_list
+            featured_list = Channel.objects.get(unit_detail__unit=offeror).featured_list
             assert featured_list.children.all()[position].child.id == resource["id"]
 
 

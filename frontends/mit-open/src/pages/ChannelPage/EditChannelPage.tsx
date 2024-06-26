@@ -6,9 +6,9 @@ import { Container, TabList, Tab, TabContext, TabPanel } from "ol-components"
 import { MetaTags } from "ol-utilities"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-import { useChannelDetail } from "api/hooks/fields"
-import EditFieldAppearanceForm from "./EditFieldAppearanceForm"
-import FieldPageSkeleton from "./FieldPageSkeleton"
+import { useChannelDetail } from "api/hooks/channels"
+import EditChannelAppearanceForm from "./EditChannelAppearanceForm"
+import ChannelPageSkeleton from "./ChannelPageSkeleton"
 type RouteParams = {
   channelType: string
   name: string
@@ -20,12 +20,12 @@ const keyFromHash = (hash: string) => {
   return match ?? "appearance"
 }
 
-const EditFieldPage: React.FC = () => {
+const EditChannelPage: React.FC = () => {
   const { channelType, name } = useParams<RouteParams>()
   const navigate = useNavigate()
   const { hash } = useLocation()
   const tabValue = keyFromHash(hash)
-  const field = useChannelDetail(String(channelType), String(name))
+  const channel = useChannelDetail(String(channelType), String(name))
   const handleChange = useCallback(
     (event: React.SyntheticEvent, newValue: string) => {
       navigate({ hash: newValue }, { replace: true })
@@ -33,13 +33,13 @@ const EditFieldPage: React.FC = () => {
     [navigate],
   )
 
-  return field.data ? (
-    <FieldPageSkeleton
-      name={field.data?.name}
-      channelType={field.data?.channel_type}
+  return channel.data ? (
+    <ChannelPageSkeleton
+      name={channel.data?.name}
+      channelType={channel.data?.channel_type}
     >
-      <MetaTags title={[field.data.title, "Edit"]} />
-      {field.data.is_moderator ? (
+      <MetaTags title={[channel.data.title, "Edit"]} />
+      {channel.data.is_moderator ? (
         <TabContext value={tabValue}>
           <div className="page-subbanner">
             <Container className="page-nav-container">
@@ -68,7 +68,7 @@ const EditFieldPage: React.FC = () => {
               <GridColumn variant="main-2">
                 <TabPanel value="appearance" className="page-nav-content">
                   <div>
-                    <EditFieldAppearanceForm field={field.data} />
+                    <EditChannelAppearanceForm channel={channel.data} />
                   </div>
                 </TabPanel>
                 <TabPanel value="moderators" className="page-nav-content">
@@ -89,8 +89,8 @@ const EditFieldPage: React.FC = () => {
           </GridContainer>
         </Container>
       )}
-    </FieldPageSkeleton>
+    </ChannelPageSkeleton>
   ) : null
 }
 
-export default EditFieldPage
+export default EditChannelPage

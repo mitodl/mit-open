@@ -27,16 +27,18 @@ export const articlesEditView = (id: number) =>
 export const DEPARTMENTS = "/departments/"
 export const TOPICS = "/topics/"
 
-export const FIELD_VIEW = "/c/:channelType/:name" as const
-export const FIELD_EDIT = "/c/:channelType/:name/manage/" as const
-export const FIELD_EDIT_WIDGETS =
+export const CHANNEL_VIEW = "/c/:channelType/:name" as const
+export const CHANNEL_EDIT = "/c/:channelType/:name/manage/" as const
+export const CHANNEL_EDIT_WIDGETS =
   "/c/:channelType/:name/manage/widgets/" as const
-export const makeFieldViewPath = (channelType: string, name: string) =>
-  generatePath(FIELD_VIEW, { channelType, name })
-export const makeFieldEditPath = (channelType: string, name: string) =>
-  generatePath(FIELD_EDIT, { channelType, name })
-export const makeFieldManageWidgetsPath = (channelType: string, name: string) =>
-  generatePath(FIELD_EDIT_WIDGETS, { channelType, name })
+export const makeChannelViewPath = (channelType: string, name: string) =>
+  generatePath(CHANNEL_VIEW, { channelType, name })
+export const makeChannelEditPath = (channelType: string, name: string) =>
+  generatePath(CHANNEL_EDIT, { channelType, name })
+export const makeChannelManageWidgetsPath = (
+  channelType: string,
+  name: string,
+) => generatePath(CHANNEL_EDIT_WIDGETS, { channelType, name })
 
 export const LOGIN = `${process.env.MITOPEN_AXIOS_BASE_PATH}/login/ol-oidc/`
 export const LOGOUT = `${process.env.MITOPEN_AXIOS_BASE_PATH}/logout/`

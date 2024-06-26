@@ -7,13 +7,13 @@ import {
 
 import { channelsApi } from "../../clients"
 import type {
-  ChannelsApiChannelsListRequest as ChannelsApiListRequest,
-  PatchedFieldChannelWriteRequest,
+  ChannelsApiChannelsListRequest,
+  PatchedChannelWriteRequest,
 } from "../../generated/v0"
 import channels from "./keyFactory"
 
 const useChannelsList = (
-  params: ChannelsApiListRequest = {},
+  params: ChannelsApiChannelsListRequest = {},
   opts: Pick<UseQueryOptions, "enabled"> = {},
 ) => {
   return useQuery({
@@ -22,20 +22,20 @@ const useChannelsList = (
   })
 }
 
-const useChannelDetail = (channelType: string, fieldName: string) => {
+const useChannelDetail = (channelType: string, channelName: string) => {
   return useQuery({
-    ...channels.detailByType(channelType, fieldName),
+    ...channels.detailByType(channelType, channelName),
   })
 }
 
 const useChannelPartialUpdate = () => {
   const client = useQueryClient()
   return useMutation({
-    mutationFn: (data: PatchedFieldChannelWriteRequest & { id: number }) =>
+    mutationFn: (data: PatchedChannelWriteRequest & { id: number }) =>
       channelsApi
         .channelsPartialUpdate({
           id: data.id,
-          PatchedFieldChannelWriteRequest: data,
+          PatchedChannelWriteRequest: data,
         })
         .then((response) => response.data),
     onSuccess: (_data) => {

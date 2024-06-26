@@ -71,10 +71,10 @@ class ChannelTypeConstantFieldExtension(OpenApiSerializerFieldExtension):
         }
 
 
-class FieldChannelSerializerExtension(OpenApiSerializerExtension):
-    target_class = "channels.serializers.FieldChannelSerializer"
+class ChannelSerializerExtension(OpenApiSerializerExtension):
+    target_class = "channels.serializers.ChannelSerializer"
 
-    def _map_field_channel_base(self, auto_schema, direction):
+    def _map_channel_base(self, auto_schema, direction):
         # this will only be generated on return of map_serializer so mock it for now
         return ResolvedComponent(
             name=auto_schema._get_serializer_name(  # noqa: SLF001
@@ -83,12 +83,12 @@ class FieldChannelSerializerExtension(OpenApiSerializerExtension):
             type=ResolvedComponent.SCHEMA,
             object=self.target,
             schema=auto_schema._map_basic_serializer(  # noqa: SLF001
-                serializers.FieldChannelBaseSerializer, direction
+                serializers.ChannelBaseSerializer, direction
             ),
         )
 
     def map_serializer(self, auto_schema, direction):
-        sub_serializers = serializers.FieldChannelBaseSerializer.__subclasses__()
+        sub_serializers = serializers.ChannelBaseSerializer.__subclasses__()
 
         resolved_sub_serializers = [
             (

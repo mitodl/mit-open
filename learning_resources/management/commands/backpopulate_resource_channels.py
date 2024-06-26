@@ -7,7 +7,7 @@ from django.conf import settings
 from django.core.management import BaseCommand
 
 from channels.constants import ChannelType
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources.hooks import get_plugin_manager
 from learning_resources.models import (
     LearningResourceDepartment,
@@ -64,12 +64,12 @@ class Command(BaseCommand):
         template_conf = offeror_template_config.get(offeror_code)
         if (
             template_conf
-            and FieldChannel.objects.filter(
+            and Channel.objects.filter(
                 unit_detail__unit__code=offeror_code,
                 channel_type="unit",
             ).exists()
         ):
-            channel = FieldChannel.objects.get(
+            channel = Channel.objects.get(
                 unit_detail__unit__code=offeror_code,
                 channel_type="unit",
             )

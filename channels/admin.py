@@ -3,13 +3,13 @@
 from django.contrib import admin
 from django.utils.html import format_html
 
-from channels.models import FieldChannel
+from channels.models import Channel
 
 
-class FieldChannelAdmin(admin.ModelAdmin):
-    """FieldChannel admin model"""
+class ChannelAdmin(admin.ModelAdmin):
+    """Channel admin model"""
 
-    def field_widget_list(self, instance):
+    def channel_widget_list(self, instance):
         """Render a link to the WidgetList admin URL"""
         return (
             format_html(
@@ -21,16 +21,16 @@ class FieldChannelAdmin(admin.ModelAdmin):
             else "No widget"
         )
 
-    model = FieldChannel
+    model = Channel
     exclude = ("widget_list",)
     search_fields = ("name", "title")
     list_display = ("title", "name", "channel_type")
     list_filter = ("channel_type",)
     readonly_fields = (
-        "field_widget_list",
+        "channel_widget_list",
         "updated_on",
         "created_on",
     )
 
 
-admin.site.register(FieldChannel, FieldChannelAdmin)
+admin.site.register(Channel, ChannelAdmin)

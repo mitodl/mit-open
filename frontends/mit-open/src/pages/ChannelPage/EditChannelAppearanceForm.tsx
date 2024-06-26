@@ -4,12 +4,12 @@ import { useFormik } from "formik"
 import { RadioChoiceField, Button, TextField } from "ol-components"
 import * as Yup from "yup"
 
-import { ChannelTypeEnum, FieldChannel } from "api/v0"
-import { makeFieldViewPath } from "@/common/urls"
-import { useChannelPartialUpdate } from "api/hooks/fields"
+import { ChannelTypeEnum, Channel } from "api/v0"
+import { makeChannelViewPath } from "@/common/urls"
+import { useChannelPartialUpdate } from "api/hooks/channels"
 
 type FormProps = {
-  field: FieldChannel
+  channel: Channel
 }
 const CHANNEL_TYPE_CHOICES = [
   {
@@ -45,29 +45,29 @@ const postSchema = Yup.object().shape({
 })
 type FormData = Yup.InferType<typeof postSchema>
 
-const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
-  const { field } = props
-  const fieldId = field.id
-  const editField = useChannelPartialUpdate()
+const EditChannelAppearanceForm = (props: FormProps): JSX.Element => {
+  const { channel } = props
+  const channelId = channel.id
+  const editChannel = useChannelPartialUpdate()
   const navigate = useNavigate()
 
   const handleSubmit = useCallback(
     async (e: FormData) => {
-      const data = await editField.mutateAsync({ id: fieldId, ...e })
+      const data = await editChannel.mutateAsync({ id: channelId, ...e })
       if (data) {
-        navigate(makeFieldViewPath(data.channel_type, data.name))
+        navigate(makeChannelViewPath(data.channel_type, data.name))
       }
       return data
     },
-    [navigate, fieldId, editField],
+    [navigate, channelId, editChannel],
   )
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      title: field.title,
-      public_description: String(field.public_description),
-      channel_type: field.channel_type,
+      title: channel.title,
+      public_description: String(channel.public_description),
+      channel_type: channel.channel_type,
     },
     validationSchema: postSchema,
     onSubmit: handleSubmit,
@@ -111,7 +111,7 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
         <Button
           className="cancel"
           onClick={() =>
-            navigate(makeFieldViewPath(field.channel_type, field.name))
+            navigate(makeChannelViewPath(channel.channel_type, channel.name))
           }
         >
           Cancel
@@ -124,4 +124,4 @@ const EditFieldAppearanceForm = (props: FormProps): JSX.Element => {
   )
 }
 
-export default EditFieldAppearanceForm
+export default EditChannelAppearanceForm

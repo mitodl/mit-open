@@ -4,17 +4,17 @@ import { UniqueEnforcer } from "enforce-unique"
 import {
   ChannelTypeEnum,
   DepartmentChannel,
-  FieldChannel,
+  Channel,
   UnitChannel,
   PathwayChannel,
   TopicChannel,
 } from "../../generated/v0"
 import { offeror } from "./learningResources"
-import { mergeOverrides } from "./"
+import { mergeOverrides } from "."
 const channelType = () =>
   faker.helpers.arrayElement(Object.values(ChannelTypeEnum))
 
-const field: PartialFactory<FieldChannel> = (overrides = {}) => {
+const channel: PartialFactory<Channel> = (overrides = {}) => {
   overrides = mergeOverrides(
     {
       channel_type: channelType(),
@@ -46,7 +46,7 @@ const departmentChannel: PartialFactory<DepartmentChannel> = (
   overrides = {},
 ) => {
   return mergeOverrides<DepartmentChannel>(
-    _fieldShared(),
+    _channelShared(),
     { channel_type: ChannelTypeEnum.Department },
     {
       configuration: {
@@ -69,7 +69,7 @@ const departmentChannel: PartialFactory<DepartmentChannel> = (
 
 const topicChannel: PartialFactory<TopicChannel> = (overrides = {}) => {
   return mergeOverrides<TopicChannel>(
-    _fieldShared(),
+    _channelShared(),
     { channel_type: ChannelTypeEnum.Topic },
     {
       configuration: {
@@ -92,7 +92,7 @@ const topicChannel: PartialFactory<TopicChannel> = (overrides = {}) => {
 
 const unitChannel: PartialFactory<UnitChannel> = (overrides = {}) => {
   return mergeOverrides<UnitChannel>(
-    _fieldShared(),
+    _channelShared(),
     { channel_type: ChannelTypeEnum.Unit },
     {
       configuration: {
@@ -115,14 +115,14 @@ const unitChannel: PartialFactory<UnitChannel> = (overrides = {}) => {
 
 const pathwayChannel: PartialFactory<PathwayChannel> = (overrides = {}) => {
   return mergeOverrides<PathwayChannel>(
-    _fieldShared(),
+    _channelShared(),
     { channel_type: ChannelTypeEnum.Pathway },
     overrides,
   )
 }
 const uniqueEnforcerSlug = new UniqueEnforcer()
 
-const _fieldShared = (): Partial<Omit<FieldChannel, "channel_type">> => {
+const _channelShared = (): Partial<Omit<Channel, "channel_type">> => {
   return {
     name: uniqueEnforcerSlug.enforce(() => {
       return faker.lorem.slug()
@@ -136,7 +136,7 @@ const _fieldShared = (): Partial<Omit<FieldChannel, "channel_type">> => {
     avatar: new URL(faker.internet.url()).toString(),
     is_moderator: faker.datatype.boolean(),
     widget_list: faker.number.int(),
-    subfields: [],
+    sub_channels: [],
     featured_list: null,
     lists: [],
     updated_on: faker.date.recent().toString(),
@@ -151,6 +151,6 @@ const _fieldShared = (): Partial<Omit<FieldChannel, "channel_type">> => {
   }
 }
 
-const fields = makePaginatedFactory(field)
+const channels = makePaginatedFactory(channel)
 
-export { fields, field }
+export { channels, channel }
