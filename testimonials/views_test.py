@@ -18,7 +18,7 @@ pytestmark = pytest.mark.django_db
 
 def test_attestation_list(client):
     """Test that attestations can be listed"""
-
+    Attestation.objects.all().delete()
     attestation_batch = sorted(AttestationFactory.create_batch(5), key=lambda a: a.id)
 
     list_url = reverse("testimonials:v0:testimonials_api-list")
@@ -49,6 +49,7 @@ def test_attestation_filters(
       last attestation; otherwise, it'll be for the channel and the offeror
       added to the 4th attestation.
     """
+    Attestation.objects.all().delete()
 
     attestation_batch = sorted(AttestationFactory.create_batch(6), key=lambda a: a.id)
     api_params = {}
@@ -108,6 +109,7 @@ def test_attestation_filters(
 
 def test_attestation_published(client):
     """Test that just published attestations are listed"""
+    Attestation.objects.all().delete()
 
     attestation_batch = sorted(AttestationFactory.create_batch(4), key=lambda a: a.id)
 
@@ -151,6 +153,7 @@ def test_attestation_order(client):
     - In the case where more than one row has the same position, they should be
       displayed in order of `updated_on` for that position.
     """
+    Attestation.objects.all().delete()
 
     attestation_batch = [AttestationFactory.create(position=i) for i in range(1, 6)]
 
