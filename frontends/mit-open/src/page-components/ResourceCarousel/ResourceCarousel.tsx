@@ -15,7 +15,6 @@ import {
 } from "ol-components"
 import type {
   TabConfig,
-  DataSource,
   ResourceDataSource,
   SearchDataSource,
   FeaturedDataSource,
@@ -54,7 +53,7 @@ type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
 }
 
 type LoadTabButtonProps = {
-  config: DataSource
+  config: FeaturedDataSource
   label: React.ReactNode
   key: number
   value: string
