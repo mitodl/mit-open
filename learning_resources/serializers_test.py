@@ -13,6 +13,7 @@ from channels.factories import (
 from channels.models import Channel
 from learning_resources import factories, serializers, utils
 from learning_resources.constants import (
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
@@ -190,6 +191,14 @@ def test_learning_resource_serializer(  # noqa: PLR0913
     ).data
     expected = specific_serializer_cls(instance=resource, context=context).data
 
+    if resource.resource_type in [
+        LearningResourceType.course.name,
+        LearningResourceType.program.name,
+    ]:
+        resource_category = resource.resource_type
+    else:
+        resource_category = LEARNING_MATERIAL_RESOURCE_CATEGORY
+
     assert result == expected
 
     assert result == {
@@ -223,6 +232,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
                 )
             )
         ),
+        "resource_category": resource_category,
         "published": resource.published,
         "readable_id": resource.readable_id,
         "course_feature": sorted([tag.name for tag in resource.content_tags.all()]),
