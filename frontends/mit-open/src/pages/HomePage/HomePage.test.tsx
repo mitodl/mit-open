@@ -45,8 +45,28 @@ const setupAPIs = () => {
     expect.stringContaining(urls.learningResources.list()),
     resources,
   )
+
+  setMockResponse.get(urls.learningResources.featured({ limit: 12 }), resources)
   setMockResponse.get(
-    expect.stringContaining(urls.learningResources.featured()),
+    urls.learningResources.featured({
+      free: true,
+      limit: 12,
+    }),
+    resources,
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({
+      certification: true,
+      professional: false,
+      limit: 12,
+    }),
+    resources,
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({
+      professional: true,
+      limit: 12,
+    }),
     resources,
   )
 
@@ -70,38 +90,6 @@ const setupAPIs = () => {
   setMockResponse.get(
     expect.stringContaining(urls.testimonials.list({})),
     attestations,
-  )
-}
-
-const setupFeaturedAPIs = () => {
-  setMockResponse.get(
-    urls.learningResources.featured({ limit: 12, resource_type: ["course"] }),
-    learningResources.resources({ count: 0 }),
-  )
-  setMockResponse.get(
-    urls.learningResources.featured({
-      free: true,
-      limit: 12,
-      resource_type: ["course"],
-    }),
-    learningResources.resources({ count: 0 }),
-  )
-  setMockResponse.get(
-    urls.learningResources.featured({
-      certification: true,
-      professional: false,
-      limit: 12,
-      resource_type: ["course"],
-    }),
-    learningResources.resources({ count: 0 }),
-  )
-  setMockResponse.get(
-    urls.learningResources.featured({
-      professional: true,
-      limit: 12,
-      resource_type: ["course"],
-    }),
-    learningResources.resources({ count: 0 }),
   )
 }
 
@@ -146,7 +134,6 @@ describe("Home Page Hero", () => {
 describe("Home Page Browse by Topic", () => {
   test("Displays topics links", async () => {
     setupAPIs()
-    setupFeaturedAPIs()
 
     const response = learningResources.topics({ count: 3 })
     setMockResponse.get(urls.topics.list({ is_toplevel: true }), response)
@@ -279,7 +266,6 @@ describe("Home Page personalize section", () => {
   test("Links to dashboard when authenticated", async () => {
     setMockResponse.get(urls.userMe.get(), {})
     setupAPIs()
-    setupFeaturedAPIs()
 
     renderWithProviders(<HomePage />)
     const personalize = (
@@ -294,7 +280,6 @@ describe("Home Page personalize section", () => {
 
   test("Links to login when not authenticated", async () => {
     setupAPIs()
-    setupFeaturedAPIs()
 
     setMockResponse.get(urls.userMe.get(), {}, { code: 403 })
     renderWithProviders(<HomePage />)
@@ -317,7 +302,6 @@ describe("Home Page personalize section", () => {
 describe("Home Page Testimonials", () => {
   test("Displays testimonials carousel", async () => {
     setupAPIs()
-    setupFeaturedAPIs()
 
     renderWithProviders(<HomePage />)
 
@@ -353,7 +337,6 @@ describe("Home Page Carousel", () => {
   ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
     const resources = learningResources.resources({ count: 12 })
     setupAPIs()
-    setupFeaturedAPIs()
 
     // The tab buttons eager-load the resources so we need to set them all up.
 
@@ -374,7 +357,6 @@ describe("Home Page Carousel", () => {
 
   test("Tabbed Carousel sanity check", async () => {
     setupAPIs()
-    setupFeaturedAPIs()
 
     renderWithProviders(<HomePage />)
 
