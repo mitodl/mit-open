@@ -17,6 +17,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.RunSQL("DROP TABLE IF EXISTS channels_channel CASCADE"),
         migrations.RenameModel(
             old_name="FieldChannel",
             new_name="Channel",
