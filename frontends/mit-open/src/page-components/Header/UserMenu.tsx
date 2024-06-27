@@ -27,7 +27,7 @@ const UserMenuContainer = styled.button({
 })
 
 const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
-  paddingRight: "16px",
+  paddingLeft: "24px",
   "&:hover": {
     textDecoration: "none",
   },
