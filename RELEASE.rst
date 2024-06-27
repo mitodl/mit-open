@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.15
+Version 0.13.15 (Released June 27, 2024)
 ---------------
 
 - fix content file search (#1167)
