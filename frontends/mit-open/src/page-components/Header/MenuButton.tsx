@@ -40,7 +40,6 @@ const StyledMenuButton = styled.button(({ theme }) => ({
   borderWidth: "1px",
   borderColor: "currentcolor",
   borderStyle: "none",
-  color: theme.custom.colors.white,
 }))
 
 interface MenuButtonProps {
