@@ -1,4 +1,4 @@
-import { Button, styled } from "ol-components"
+import { styled } from "ol-components"
 import { RiMenuLine } from "@remixicon/react"
 import React from "react"
 
@@ -23,14 +23,25 @@ const MenuButtonInner = styled.div({
   alignItems: "flex-start",
 })
 
-const StyledMenuButton = styled(Button)({
+const StyledMenuButton = styled.button(({ theme }) => ({
   padding: "0",
   background: "transparent",
   "&:hover:not(:disabled)": {
     background: "transparent",
   },
   touchAction: "none",
-})
+  textAlign: "center",
+  display: "inline-flex",
+  justifyContent: "center",
+  alignItems: "center",
+  color: theme.palette.text.primary,
+  transition: `background ${theme.transitions.duration.short}ms`,
+  cursor: "pointer",
+  borderWidth: "1px",
+  borderColor: "currentcolor",
+  borderStyle: "none",
+  color: theme.custom.colors.white,
+}))
 
 interface MenuButtonProps {
   text?: string
