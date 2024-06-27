@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.13.16
+---------------
+
+- Adding the PostHog settings to the "Build frontend" step (#1182)
+- facet order (#1171)
+- rename field to channel (#1170)
+- fixing width of unit page logo for small devices (#1151)
+
 Version 0.13.15 (Released June 27, 2024)
 ---------------
 
