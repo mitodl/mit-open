@@ -4,7 +4,7 @@ import { type GridProps } from "@mui/material/Grid"
 import { Checkbox } from "../Checkbox/Checkbox"
 import { Radio } from "../Radio/Radio"
 
-const ContainerLabel = styled.label(({ theme }) => {
+const Container = styled.label(({ theme }) => {
   const colors = theme.custom.colors
   return {
     margin: 0,
@@ -14,8 +14,8 @@ const ContainerLabel = styled.label(({ theme }) => {
     minHeight: "100%",
     borderRadius: "4px",
     display: "flex",
-    flexDirection: "column",
     gap: "2px",
+    justifyContent: "space-between",
     boxShadow: `inset 0 0 0 1px ${colors.silverGrayLight}`,
     background: colors.white,
     "&:hover:not(.checked)": {
@@ -30,11 +30,12 @@ const ContainerLabel = styled.label(({ theme }) => {
   }
 })
 
-const UpperContainer = styled.div<{ centered: boolean }>(({ centered }) => ({
+const Text = styled.div<{ centered: boolean }>(({ centered }) => ({
   display: "flex",
+  flexDirection: "column",
   gap: "6px",
-  alignItems: centered ? "center" : "flex-start",
-  justifyContent: "space-between",
+  wordBreak: "break-word",
+  marginTop: centered ? "3px" : "0",
 }))
 
 const Label = styled.span(({ theme }) => ({
@@ -51,6 +52,10 @@ const Description = styled.span(({ theme }) => ({
     color: theme.custom.colors.darkGray2,
   },
 }))
+
+const Input = styled.div({
+  flexShrink: 0,
+})
 
 type ChoiceBoxProps = {
   label: string
@@ -72,9 +77,12 @@ const ChoiceBox = ({
   onChange,
 }: ChoiceBoxProps) => {
   return (
-    <ContainerLabel className={checked ? "checked" : ""}>
-      <UpperContainer centered={!description}>
+    <Container className={checked ? "checked" : ""}>
+      <Text centered={!description}>
         <Label>{label}</Label>
+        {description ? <Description>{description}</Description> : null}
+      </Text>
+      <Input>
         {type === "checkbox" ? (
           <Checkbox value={value} checked={checked} onChange={onChange} />
         ) : null}
@@ -86,9 +94,8 @@ const ChoiceBox = ({
             onChange={onChange}
           />
         ) : null}
-      </UpperContainer>
-      {description ? <Description>{description}</Description> : null}
-    </ContainerLabel>
+      </Input>
+    </Container>
   )
 }
 

@@ -4,7 +4,8 @@ import { faker } from "@faker-js/faker/locale/en"
 import { CheckboxChoiceBoxField } from "./ChoiceBoxField"
 import type { CheckboxChoiceBoxFieldProps } from "./ChoiceBoxField"
 
-const sentence = () => faker.lorem.sentence({ min: 1, max: 3 }).slice(0, -1)
+const sentence = (count?: number) =>
+  faker.lorem.sentence(count ?? { min: 1, max: 3 }).slice(0, -1)
 
 const CHOICES = [
   { label: sentence(), value: "item1" },
@@ -61,14 +62,24 @@ type Story = StoryObj<typeof CheckboxChoiceBoxField>
 
 export const Checkbox: Story = {
   args: {
-    label: "Choice Box Field Label",
+    label: "Choice Box Field",
     choices: CHOICES,
+  },
+}
+
+export const CheckboxVaryingLength: Story = {
+  args: {
+    label: "Choice Box Field",
+    choices: CHOICES.map((choices) => ({
+      ...choices,
+      label: sentence(Math.random() * 30),
+    })),
   },
 }
 
 export const CheckboxDescriptions: Story = {
   args: {
-    label: "Choice Box Field Label",
+    label: "Choice Box Field",
     choices: CHOICES.map((choice) => ({
       ...choice,
       description: faker.lorem.paragraph(2),
