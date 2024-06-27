@@ -8,6 +8,7 @@ const StateWrapper = (props: RadioProps) => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked)
+    props.onChange?.(event)
   }
 
   return <Radio {...props} checked={checked} onChange={handleChange} />
@@ -16,6 +17,11 @@ const StateWrapper = (props: RadioProps) => {
 const meta: Meta<typeof Radio> = {
   title: "ol-components/Radio",
   component: StateWrapper,
+  argTypes: {
+    onChange: {
+      action: "change",
+    },
+  },
 }
 
 export default meta

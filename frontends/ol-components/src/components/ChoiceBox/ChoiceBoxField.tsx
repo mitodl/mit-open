@@ -1,14 +1,23 @@
 import React from "react"
+import styled from "@emotion/styled"
 import FormControl from "@mui/material/FormControl"
 import FormGroup from "@mui/material/FormGroup"
 import FormLabel from "@mui/material/FormLabel"
 import Grid, { type GridProps } from "@mui/material/Grid"
+import { theme } from "../ThemeProvider/ThemeProvider"
 import { ChoiceBox } from "./ChoiceBox"
 import type {
   ChoiceBoxGridProps,
   ChoiceBoxChoice,
   ChoiceBoxProps,
 } from "./ChoiceBox"
+
+const Label = styled.div`
+  width: 100%;
+  ${{ ...theme.typography.subtitle2 }}
+  color: ${theme.custom.colors.darkGray2};
+  margin-bottom: 8px;
+`
 
 interface BaseChoiceBoxFieldProps extends ChoiceBoxGridProps {
   label: React.ReactNode
@@ -50,7 +59,7 @@ const ChoiceBoxField: React.FC<ChoiceBoxFieldProps> = ({
       sx={{ width: "100%" }}
     >
       <FormLabel component="legend" sx={{ width: "100%" }}>
-        {label}
+        <Label>{label}</Label>
       </FormLabel>
       <FormGroup>
         <Grid container {...fieldGridProps}>
@@ -82,7 +91,7 @@ const CheckboxChoiceBoxField: React.FC<CheckboxChoiceBoxFieldProps> = ({
   return (
     <ChoiceBoxField
       type="checkbox"
-      isChecked={(choice) => values?.indexOf(choice.value) !== -1}
+      isChecked={(choice) => !!values?.includes(choice.value)}
       {...props}
     />
   )
@@ -106,5 +115,5 @@ const RadioChoiceBoxField: React.FC<RadioChoiceBoxFieldProps> = ({
   )
 }
 
-export { ChoiceBoxField, CheckboxChoiceBoxField, RadioChoiceBoxField }
+export { CheckboxChoiceBoxField, RadioChoiceBoxField }
 export type { CheckboxChoiceBoxFieldProps, RadioChoiceBoxFieldProps }
