@@ -94,6 +94,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       ":disabled": {
         cursor: "default",
       },
+      minWidth: "100px",
     },
     ...sizeStyles(size, hasBorder, theme),
     // responsive
