@@ -17,7 +17,57 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL("DROP TABLE IF EXISTS channels_channel CASCADE"),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_channel CASCADE", migrations.RunSQL.noop
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_channelgrouprole CASCADE",
+            migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_channelinvitation CASCADE",
+            migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_channelmembershipconfig CASCADE",
+            migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_channelmembershipconfig_channels CASCADE",
+            migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_channelsubscription CASCADE",
+            migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_channelinvitation CASCADE",
+            migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_comment CASCADE", migrations.RunSQL.noop
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_linkmeta CASCADE", migrations.RunSQL.noop
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_post CASCADE", migrations.RunSQL.noop
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_redditaccesstoken CASCADE",
+            migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_redditrefreshtoken CASCADE",
+            migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_spamcheckresult CASCADE",
+            migrations.RunSQL.noop,
+        ),
+        migrations.RunSQL(
+            "DROP TABLE IF EXISTS channels_subscription CASCADE", migrations.RunSQL.noop
+        ),
         migrations.RenameModel(
             old_name="FieldChannel",
             new_name="Channel",
