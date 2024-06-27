@@ -28,8 +28,6 @@ import type {
   PlatformsApiPlatformsListRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
   UserListRelationship,
-  LearningPathRelationship,
-  MicroLearningPathRelationship,
   MicroUserListRelationship,
 } from "../../generated/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
@@ -228,7 +226,7 @@ const invalidateUserListQueries = (
  * did not contain R to begin with, no change is made)
  */
 const updateListParentsOnAdd = (
-  relationship: LearningPathRelationship | UserListRelationship,
+  relationship: UserListRelationship,
   oldList?: PaginatedLearningResourceList,
 ) => {
   if (!oldList) return oldList
@@ -244,15 +242,6 @@ const updateListParentsOnAdd = (
   }
 }
 
-type WrappedRelationship =
-  | {
-      value?: MicroLearningPathRelationship
-      type: "learning_path"
-    }
-  | {
-      value?: MicroUserListRelationship
-      type: "userlist"
-    }
 /**
  * Given
  *  - a list of learning resources L
@@ -261,25 +250,20 @@ type WrappedRelationship =
  * did not contain R to begin with, no change is made)
  */
 const updateListParentsOnDestroy = (
-  relationship: WrappedRelationship,
+  relationship: MicroUserListRelationship,
   list?: PaginatedLearningResourceList,
 ) => {
   if (!list) return list
-  const { value } = relationship
-  if (!value) return list
-  const matchIndex = list.results.findIndex((res) => res.id === value.child)
+  if (!relationship) return list
+  const matchIndex = list.results.findIndex(
+    (res) => res.id === relationship.child,
+  )
   if (matchIndex === -1) return list
   const updatedResults = [...list.results]
   const newResource = { ...updatedResults[matchIndex] }
-  if (relationship.type === "learning_path") {
-    newResource.learning_path_parents =
-      newResource.learning_path_parents?.filter((m) => m.id !== value.id) ??
-      null
-  }
-  if (relationship.type === "userlist") {
-    newResource.user_list_parents =
-      newResource.user_list_parents?.filter((m) => m.id !== value.id) ?? null
-  }
+  newResource.user_list_parents =
+    newResource.user_list_parents?.filter((m) => m.id !== relationship.id) ??
+    null
   updatedResults[matchIndex] = newResource
   return {
     ...list,

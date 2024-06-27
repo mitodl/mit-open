@@ -321,35 +321,19 @@ describe("LearningPath CRUD", () => {
       expect(invalidateResourceQueries).toHaveBeenCalledWith(
         queryClient,
         relationship.child,
-        { skipFeatured: true },
+        { skipFeatured: false },
       )
       expect(invalidateResourceQueries).toHaveBeenCalledWith(
         queryClient,
         relationship.parent,
       )
-
-      // Assert featured API called only once and that the result has been
-      // patched correctly. When the child is featured, we do NOT want to make
-      // a new API call to /featured, because the results of that API are randomly
-      // ordered.
-      expect(
-        makeRequest.mock.calls.filter((call) => call[0] === "get").length,
-      ).toEqual(1)
-      if (isChildFeatured) {
-        expect(featuredResult.current.data?.results).toEqual([
-          relationship.resource,
-          ...featured.results.slice(1),
-        ])
-      } else {
-        expect(featuredResult.current.data).toEqual(featured)
-      }
     },
   )
 
   test.each([{ isChildFeatured: false }, { isChildFeatured: true }])(
     "useLearningpathRelationshipDestroy calls correct API and patches child resource cache (isChildFeatured=$isChildFeatured)",
     async ({ isChildFeatured }) => {
-      const { relationship, pathUrls, resourceWithoutList } = makeData()
+      const { relationship, pathUrls } = makeData()
       const url = pathUrls.relationshipDetails
 
       const featured = factory.resources({ count: 3 })
@@ -377,28 +361,12 @@ describe("LearningPath CRUD", () => {
       expect(invalidateResourceQueries).toHaveBeenCalledWith(
         queryClient,
         relationship.child,
-        { skipFeatured: true },
+        { skipFeatured: false },
       )
       expect(invalidateResourceQueries).toHaveBeenCalledWith(
         queryClient,
         relationship.parent,
       )
-
-      // Assert featured API called only once and that the result has been
-      // patched correctly. When the child is featured, we do NOT want to make
-      // a new API call to /featured, because the results of that API are randomly
-      // ordered.
-      expect(
-        makeRequest.mock.calls.filter((call) => call[0] === "get").length,
-      ).toEqual(1)
-      if (isChildFeatured) {
-        expect(featuredResult.current.data?.results).toEqual([
-          resourceWithoutList,
-          ...featured.results.slice(1),
-        ])
-      } else {
-        expect(featuredResult.current.data).toEqual(featured)
-      }
     },
   )
 })

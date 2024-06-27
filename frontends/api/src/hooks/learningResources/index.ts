@@ -170,14 +170,15 @@ const useLearningpathRelationshipCreate = () => {
         learning_resource_id: params.parent,
         LearningPathRelationshipRequest: params,
       }),
-    onSuccess: (response, _vars) => {
-      queryClient.setQueriesData<PaginatedLearningResourceList>(
-        learningResources.featured({}).queryKey,
-        (old) => updateListParentsOnAdd(response.data, old),
-      )
-    },
     onSettled: (_response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.child, { skipFeatured: true })
+      invalidateResourceQueries(
+        queryClient,
+        vars.child,
+        // do NOT skip invalidating the /featured/ lists,
+        // Changing a learning path might change the members of the featured
+        // lists.
+        { skipFeatured: false },
+      )
       invalidateResourceQueries(queryClient, vars.parent)
     },
   })
@@ -191,18 +192,15 @@ const useLearningpathRelationshipDestroy = () => {
         id: params.id,
         learning_resource_id: params.parent,
       }),
-    onSuccess: (_response, vars) => {
-      queryClient.setQueriesData<PaginatedLearningResourceList>(
-        learningResources.featured().queryKey,
-        (old) =>
-          updateListParentsOnDestroy(
-            { value: vars, type: "learning_path" },
-            old,
-          ),
-      )
-    },
     onSettled: (_response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.child, { skipFeatured: true })
+      invalidateResourceQueries(
+        queryClient,
+        vars.child,
+        // do NOT skip invalidating the /featured/ lists,
+        // Changing a learning path might change the members of the featured
+        // lists.
+        { skipFeatured: false },
+      )
       invalidateResourceQueries(queryClient, vars.parent)
     },
   })
@@ -302,7 +300,15 @@ const useUserListRelationshipCreate = () => {
       )
     },
     onSettled: (_response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.child, { skipFeatured: true })
+      invalidateResourceQueries(
+        queryClient,
+        vars.child,
+        // Do NOT invalidate the featured lists. Re-fetching the featured list
+        // data will cause the order to change, since the /featured API returns
+        // at random order.
+        // Instead, `onSuccess` hook will manually update the data.
+        { skipFeatured: true },
+      )
       invalidateUserListQueries(queryClient, vars.parent)
     },
   })
@@ -319,12 +325,19 @@ const useUserListRelationshipDestroy = () => {
     onSuccess: (_response, vars) => {
       queryClient.setQueriesData<PaginatedLearningResourceList>(
         learningResources.featured({}).queryKey,
-        (old) =>
-          updateListParentsOnDestroy({ value: vars, type: "userlist" }, old),
+        (old) => updateListParentsOnDestroy(vars, old),
       )
     },
     onSettled: (_response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.child, { skipFeatured: true })
+      invalidateResourceQueries(
+        queryClient,
+        vars.child,
+        // Do NOT invalidate the featured lists. Re-fetching the featured list
+        // data will cause the order to change, since the /featured API returns
+        // at random order.
+        // Instead, `onSuccess` hook will manually update the data.
+        { skipFeatured: true },
+      )
       invalidateUserListQueries(queryClient, vars.parent)
     },
   })
