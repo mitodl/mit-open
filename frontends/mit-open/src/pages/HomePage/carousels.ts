@@ -46,7 +46,7 @@ const FEATURED_RESOURCES_CAROUSEL: ResourceCarouselProps["config"] = [
 const MEDIA_CAROUSEL: ResourceCarouselProps["config"] = [
   {
     label: "All",
-    cardProps: { size: "small" },
+    cardProps: { size: "small", isMedia: true },
     data: {
       type: "resources",
       params: {
@@ -58,7 +58,7 @@ const MEDIA_CAROUSEL: ResourceCarouselProps["config"] = [
   },
   {
     label: "Videos",
-    cardProps: { size: "small" },
+    cardProps: { size: "small", isMedia: true },
     data: {
       type: "resources",
       params: { resource_type: ["video"], limit: 12, sortby: "new" },
@@ -66,7 +66,7 @@ const MEDIA_CAROUSEL: ResourceCarouselProps["config"] = [
   },
   {
     label: "Podcasts",
-    cardProps: { size: "small" },
+    cardProps: { size: "small", isMedia: true },
     data: {
       type: "resources",
       params: { resource_type: ["podcast_episode"], limit: 12, sortby: "new" },

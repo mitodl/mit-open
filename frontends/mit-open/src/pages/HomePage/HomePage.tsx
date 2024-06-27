@@ -28,8 +28,10 @@ const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
 }))
 const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
   margin: "80px 0",
+  minHeight: "388px",
   [theme.breakpoints.down("md")]: {
     margin: "40px 0",
+    minHeight: "418px",
   },
 }))
 

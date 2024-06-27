@@ -25,10 +25,14 @@ const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
 
-const getEmbedlyUrl = (resource: LearningResource, size: Size) => {
+const getEmbedlyUrl = (
+  resource: LearningResource,
+  size: Size,
+  isMedia: boolean,
+) => {
   const dimensions = {
-    small: { width: 190, height: 120 },
-    medium: { width: 298, height: 170 },
+    small: { width: 190, height: isMedia ? 190 : 120 },
+    medium: { width: 298, height: isMedia ? 298 : 170 },
   }
   return embedlyCroppedImage(resource.image!.url!, {
     key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
@@ -116,6 +120,7 @@ interface LearningResourceCardProps {
   resource?: LearningResource | null
   className?: string
   size?: Size
+  isMedia?: boolean
   href?: string
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
@@ -126,16 +131,18 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   resource,
   className,
   size = "medium",
+  isMedia = false,
   href,
   onAddToLearningPathClick,
   onAddToUserListClick,
 }) => {
   if (isLoading) {
     const { width, height } = imgConfigs["column"]
+    const aspect = isMedia ? 1 : width / height
     return (
       <Card className={className} size={size}>
         <Card.Content>
-          <SkeletonImage variant="rectangular" aspect={width / height} />
+          <SkeletonImage variant="rectangular" aspect={aspect} />
           <Skeleton height={25} width="65%" sx={{ margin: "23px 16px 0" }} />
           <Skeleton height={25} width="80%" sx={{ margin: "0 16px 35px" }} />
           <Skeleton height={25} width="30%" sx={{ margin: "0 16px 16px" }} />
@@ -151,10 +158,11 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       <Card.Image
         src={
           resource.image?.url
-            ? getEmbedlyUrl(resource, size)
+            ? getEmbedlyUrl(resource, size, isMedia)
             : DEFAULT_RESOURCE_IMG
         }
         alt={resource.image?.alt ?? ""}
+        height="auto"
       />
       <Card.Info>
         <Info resource={resource} />
