@@ -51,23 +51,23 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Topic]: [
     "free",
     "certification_type",
-    "department",
-    "offered_by",
     "learning_format",
+    "offered_by",
+    "department",
   ],
   [ChannelTypeEnum.Department]: [
     "free",
     "certification_type",
     "topic",
-    "offered_by",
     "learning_format",
+    "offered_by",
   ],
   [ChannelTypeEnum.Unit]: [
     "free",
     "topic",
     "certification_type",
-    "department",
     "learning_format",
+    "department",
   ],
   [ChannelTypeEnum.Pathway]: [],
 }
