@@ -126,7 +126,6 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
     inUserList,
     inLearningPath,
   } = useResourceCard(resource)
-  console.log(inUserList)
   return (
     <>
       <LearningResourceListCard
