@@ -35,7 +35,7 @@ jobs:
         run: NODE_ENV=production yarn build
         env:
           EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
-          POSTHOG_ENABLED: false
+          POSTHOG_ENABLED: true
           POSTHOG_API_HOST: https://app.posthog.com
           POSTHOG_TIMEOUT_MS: 1000
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_RC }}
