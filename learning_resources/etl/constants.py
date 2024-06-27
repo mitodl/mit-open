@@ -51,6 +51,7 @@ class ETLSource(Enum):
     oll = "oll"
     xpro = "xpro"
     ocw = "ocw"
+    prof_ed = "prof_ed"
     prolearn = "prolearn"
     podcast = "podcast"
     youtube = "youtube"
