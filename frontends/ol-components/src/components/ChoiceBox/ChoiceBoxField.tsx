@@ -43,9 +43,6 @@ const ChoiceBoxField: React.FC<ChoiceBoxFieldProps> = ({
     },
     ...gridProps,
   }
-  const fieldGridItemProps = {
-    ...gridItemProps,
-  }
   return (
     <FormControl
       className={className}
@@ -58,7 +55,7 @@ const ChoiceBoxField: React.FC<ChoiceBoxFieldProps> = ({
       <FormGroup>
         <Grid container {...fieldGridProps}>
           {choices.map((choice, index) => (
-            <Grid item {...fieldGridItemProps} key={index}>
+            <Grid item {...gridItemProps} key={index}>
               <ChoiceBox
                 type={type}
                 name={name}
