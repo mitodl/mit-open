@@ -1,7 +1,12 @@
 import React from "react"
 import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
-import { RiMenuAddLine, RiBookmarkLine, RiAwardFill } from "@remixicon/react"
+import {
+  RiMenuAddLine,
+  RiBookmarkLine,
+  RiBookmarkFill,
+  RiAwardFill,
+} from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
 import {
   findBestRun,
@@ -13,7 +18,7 @@ import {
 import { Card } from "../Card/Card"
 import type { Size } from "../Card/Card"
 import { TruncateText } from "../TruncateText/TruncateText"
-import { ActionButton } from "../Button/Button"
+import { ActionButton, ActionButtonProps } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
 
@@ -124,6 +129,25 @@ interface LearningResourceCardProps {
   href?: string
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
+  inUserList?: boolean
+  inLearningPath?: boolean
+}
+
+const FILLED_PROPS = { variant: "primary" } as const
+const UNFILLED_PROPS = { color: "secondary", variant: "secondary" } as const
+const CardActionButton: React.FC<
+  Pick<ActionButtonProps, "aria-label" | "onClick" | "children"> & {
+    filled?: boolean
+  }
+> = ({ filled, ...props }) => {
+  return (
+    <ActionButton
+      edge="circular"
+      size={"small"}
+      {...(filled ? FILLED_PROPS : UNFILLED_PROPS)}
+      {...props}
+    />
+  )
 }
 
 const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
@@ -135,6 +159,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   href,
   onAddToLearningPathClick,
   onAddToUserListClick,
+  inLearningPath,
+  inUserList,
 }) => {
   if (isLoading) {
     const { width, height } = imgConfigs["column"]
@@ -174,28 +200,22 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       </Card.Title>
       <Card.Actions>
         {onAddToLearningPathClick && (
-          <ActionButton
-            variant="secondary"
-            edge="circular"
-            color="secondary"
-            size="small"
+          <CardActionButton
+            filled={inLearningPath}
             aria-label="Add to Learning Path"
             onClick={(event) => onAddToLearningPathClick(event, resource.id)}
           >
             <RiMenuAddLine />
-          </ActionButton>
+          </CardActionButton>
         )}
         {onAddToUserListClick && (
-          <ActionButton
-            variant="secondary"
-            edge="circular"
-            color="secondary"
-            size="small"
+          <CardActionButton
+            filled={inUserList}
             aria-label="Add to User List"
             onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
-            <RiBookmarkLine />
-          </ActionButton>
+            {inUserList ? <RiBookmarkFill /> : <RiBookmarkLine />}
+          </CardActionButton>
         )}
       </Card.Actions>
       <Card.Footer>

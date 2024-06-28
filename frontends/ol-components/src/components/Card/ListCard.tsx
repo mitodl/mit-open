@@ -10,6 +10,7 @@ import { theme } from "../ThemeProvider/ThemeProvider"
 import { Link } from "react-router-dom"
 import { Wrapper, containerStyles } from "./Card"
 import { TruncateText } from "../TruncateText/TruncateText"
+import { ActionButton, ActionButtonProps } from "../Button/Button"
 
 const LinkContainer = styled(Link)`
   ${containerStyles}
@@ -114,6 +115,9 @@ const Bottom = styled.div`
   }
 `
 
+/**
+ * Slot intended to contain ListCardAction buttons.
+ */
 const Actions = styled.div<{ hasImage?: boolean }>`
   display: flex;
   gap: 8px;
@@ -121,12 +125,27 @@ const Actions = styled.div<{ hasImage?: boolean }>`
   bottom: 24px;
   right: ${({ hasImage }) => (hasImage ? "284px" : "24px")};
   ${theme.breakpoints.down("md")} {
-    bottom: 12px;
-    right: ${({ hasImage }) => (hasImage ? "124px" : "12px")};
+    bottom: 8px;
+    gap: 4px;
+    right: ${({ hasImage }) => (hasImage ? "120px" : "8px")};
   }
 
   background-color: ${theme.custom.colors.white};
 `
+
+const ListCardActionButton = styled(ActionButton)<{ isMobile?: boolean }>(
+  ({ theme }) => ({
+    [theme.breakpoints.down("md")]: {
+      borderStyle: "none",
+      width: "24px",
+      height: "24px",
+      svg: {
+        width: "16px",
+        height: "16px",
+      },
+    },
+  }),
+)
 
 type CardProps = {
   children: ReactNode[] | ReactNode
@@ -140,6 +159,7 @@ type Card = FC<CardProps> & {
   Title: FC<{ children: ReactNode }>
   Footer: FC<{ children: ReactNode }>
   Actions: FC<{ children: ReactNode }>
+  Action: FC<ActionButtonProps>
 }
 
 const ListCard: Card = ({ children, className, href }) => {
@@ -192,5 +212,7 @@ ListCard.Info = Info
 ListCard.Title = Title
 ListCard.Footer = Footer
 ListCard.Actions = Actions
+ListCard.Action = ListCardActionButton
 
 export { ListCard }
+export { ListCardActionButton }
