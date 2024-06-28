@@ -686,7 +686,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                     setPage(newPage)
                     setTimeout(() => {
                       scrollHook.current?.scrollIntoView({
-                        block: "end",
+                        block: "center",
                         behavior: "smooth",
                       })
                     }, 0)
