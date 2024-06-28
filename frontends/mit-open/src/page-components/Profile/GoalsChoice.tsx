@@ -1,7 +1,7 @@
 import React from "react"
 import {
   styled,
-  Checkbox,
+  MuiCheckbox,
   CheckboxChoiceBoxField,
   ChoiceBoxGridProps,
   FormLabel,
@@ -119,7 +119,7 @@ function GoalsCheckboxChoiceField({
         {CHOICES.map((choice) => {
           return (
             <label key={choice.value}>
-              <Checkbox
+              <MuiCheckbox
                 edge="start"
                 checked={goals.indexOf(choice.value) !== -1}
                 onChange={handleToggle}

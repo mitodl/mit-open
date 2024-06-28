@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import {
   BasicDialog,
   Chip,
-  Checkbox,
+  MuiCheckbox,
   List,
   ListItem,
   ListItemButton,
@@ -312,7 +312,7 @@ const LearningPathToggleList: React.FC<LearningPathToggleListProps> = ({
           aria-disabled={disabled}
           onClick={disabled ? undefined : handleToggle(list)}
         >
-          <Checkbox
+          <MuiCheckbox
             edge="start"
             disabled={disabled}
             checked={checked}
@@ -364,7 +364,7 @@ const UserListToggleList: React.FC<UserListToggleListProps> = ({
           aria-disabled={disabled}
           onClick={disabled ? undefined : handleToggle(list)}
         >
-          <Checkbox
+          <MuiCheckbox
             edge="start"
             disabled={disabled}
             checked={checked}
