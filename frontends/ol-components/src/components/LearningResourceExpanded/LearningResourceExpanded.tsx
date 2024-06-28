@@ -10,7 +10,6 @@ import {
   formatDate,
   resourceThumbnailSrc,
   getReadableResourceType,
-  DEFAULT_RESOURCE_IMG,
 } from "ol-utilities"
 import type { EmbedlyConfig } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
@@ -27,10 +26,7 @@ const Container = styled.div<{ padTop?: boolean }>`
   padding: 18px 32px 160px;
   gap: 20px;
   ${({ padTop }) => (padTop ? "padding-top: 64px;" : "")}
-  width: 600px;
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    width: 550px;
-  }
+  width: 516px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: auto;
   }
@@ -81,7 +77,6 @@ const Image = styled.img<{ aspect: number }>`
   aspect-ratio: ${({ aspect }) => aspect};
   border-radius: 8px;
   width: 100%;
-  object-fit: cover;
 `
 
 const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
@@ -170,10 +165,6 @@ const ImageSection: React.FC<{
         aspect={config.width / config.height}
         alt={resource?.image.alt ?? ""}
       />
-    )
-  } else if (resource) {
-    return (
-      <Image src={DEFAULT_RESOURCE_IMG} aspect={config.width / config.height} />
     )
   } else {
     return (
