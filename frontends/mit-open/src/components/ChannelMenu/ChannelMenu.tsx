@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import * as routes from "../../common/urls"
 import { SimpleMenu, ActionButton, styled } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
-import SettingsIcon from "@mui/icons-material/Settings"
+import { RiSettingsLine } from "@remixicon/react"
 
 const InvertedButton = styled(ActionButton)({ color: "white" })
 
@@ -29,7 +29,7 @@ const ChannelMenu: React.FC<{ channelType: string; name: string }> = ({
       items={items}
       trigger={
         <InvertedButton variant="text">
-          <SettingsIcon />
+          <RiSettingsLine />
         </InvertedButton>
       }
     />
