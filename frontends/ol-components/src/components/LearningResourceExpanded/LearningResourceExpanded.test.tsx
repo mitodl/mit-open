@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom"
 import { render, screen, within } from "@testing-library/react"
 import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
-import { ResourceTypeEnum, PlatformEnum } from "api"
+import { ResourceTypeEnum, PlatformEnum, PodcastEpisodeResource } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import { getReadableResourceType } from "ol-utilities"
@@ -26,44 +26,34 @@ const setup = (resource: LearningResource) => {
 }
 
 describe("Learning Resource Expanded", () => {
-  test.each(
-    Object.values(ResourceTypeEnum).filter(
-      (type) =>
-        type !== ResourceTypeEnum.Video &&
-        type !== ResourceTypeEnum.VideoPlaylist,
-    ),
-  )('Renders image, title and link for resource type "%s"', (resourceType) => {
-    const resource = factories.learningResources.resource({
-      resource_type: resourceType,
-    })
-
-    setup(resource)
-
-    const images = screen.getAllByRole("img")
-    const image = images.find((img) =>
-      img
-        .getAttribute("src")
-        ?.includes(encodeURIComponent(resource.image?.url ?? "")),
+  const RESOURCE_TYPES = Object.values(ResourceTypeEnum)
+  const isVideo = (resourceType: ResourceTypeEnum) =>
+    [ResourceTypeEnum.Video, ResourceTypeEnum.VideoPlaylist].includes(
+      resourceType,
     )
-    expect(image).toBeInTheDocument()
-    invariant(image)
-    expect(image).toHaveAttribute("alt", resource.image?.alt ?? "")
 
-    screen.getByRole("heading", { name: resource.title })
+  test.each(RESOURCE_TYPES.filter((type) => !isVideo(type)))(
+    'Renders image and title for resource type "%s"',
+    (resourceType) => {
+      const resource = factories.learningResources.resource({
+        resource_type: resourceType,
+      })
 
-    const linkName =
-      resource.resource_type === ResourceTypeEnum.Podcast ||
-      resource.resource_type === ResourceTypeEnum.PodcastEpisode
-        ? `Listen to ${getReadableResourceType(resource.resource_type)}`
-        : `Take ${getReadableResourceType(resource.resource_type)}`
+      setup(resource)
 
-    if (linkName) {
-      const link = screen.getByRole("link", {
-        name: linkName,
-      }) as HTMLAnchorElement
-      expect(link.href).toMatch(new RegExp(`^${resource.url}/?$`))
-    }
-  })
+      const images = screen.getAllByRole("img")
+      const image = images.find((img) =>
+        img
+          .getAttribute("src")
+          ?.includes(encodeURIComponent(resource.image?.url ?? "")),
+      )
+      expect(image).toBeInTheDocument()
+      invariant(image)
+      expect(image).toHaveAttribute("alt", resource.image?.alt ?? "")
+
+      screen.getByRole("heading", { name: resource.title })
+    },
+  )
 
   test(`Renders card and title for resource type "${ResourceTypeEnum.Video}"`, () => {
     const resource = factories.learningResources.resource({
@@ -79,36 +69,76 @@ describe("Learning Resource Expanded", () => {
     screen.getByRole("heading", { name: resource.title })
   })
 
-  test.each(
-    Object.values(ResourceTypeEnum).filter(
-      (type) => type !== ResourceTypeEnum.Video,
-    ),
-  )('Renders topic section for resource type "%s"', (resourceType) => {
+  test.each([ResourceTypeEnum.Program, ResourceTypeEnum.LearningPath])(
+    'Renders CTA button for resource type "%s"',
+    (resourceType) => {
+      const resource = factories.learningResources.resource({
+        resource_type: resourceType,
+      })
+
+      setup(resource)
+
+      const linkName = `Take ${getReadableResourceType(resource.resource_type)}`
+
+      if (linkName) {
+        const link = screen.getByRole("link", {
+          name: linkName,
+        }) as HTMLAnchorElement
+
+        expect(link.href).toMatch(new RegExp(`^${resource.url}/?$`))
+      }
+    },
+  )
+
+  test.each([ResourceTypeEnum.PodcastEpisode])(
+    'Renders CTA button for resource type "%s"',
+    (resourceType) => {
+      const resource = factories.learningResources.resource({
+        resource_type: resourceType,
+        podcast_episode: {
+          episode_link: "https://example.com",
+        },
+      })
+
+      setup(resource)
+
+      const link = screen.getByRole("link", {
+        name: "Listen to Podcast",
+      }) as HTMLAnchorElement
+
+      expect(link.href).toMatch(
+        new RegExp(
+          `^${(resource as PodcastEpisodeResource).podcast_episode?.episode_link}/?$`,
+        ),
+      )
+    },
+  )
+
+  test.each(RESOURCE_TYPES.filter((type) => !isVideo(type)))(
+    'Renders topic section for resource type "%s"',
+    (resourceType) => {
+      const resource = factories.learningResources.resource({
+        resource_type: resourceType,
+      })
+
+      setup(resource)
+
+      const section = screen
+        .getByRole("heading", { name: "Topics" })!
+        .closest("section")!
+
+      const links = within(section).getAllByRole("link")
+
+      resource.topics!.forEach((topic, index) => {
+        expect(links[index]).toHaveAttribute("href", topic.channel_url)
+        expect(links[index]).toHaveTextContent(topic.name)
+      })
+    },
+  )
+
+  test(`Renders info section for resource type "${ResourceTypeEnum.Video}"`, () => {
     const resource = factories.learningResources.resource({
-      resource_type: resourceType,
-    })
-
-    setup(resource)
-
-    const section = screen
-      .getByRole("heading", { name: "Topics" })!
-      .closest("section")!
-
-    const links = within(section).getAllByRole("link")
-
-    resource.topics!.forEach((topic, index) => {
-      expect(links[index]).toHaveAttribute("href", topic.channel_url)
-      expect(links[index]).toHaveTextContent(topic.name)
-    })
-  })
-
-  test.each(
-    Object.values(ResourceTypeEnum).filter(
-      (type) => type !== ResourceTypeEnum.Video,
-    ),
-  )('Renders info section for resource type "%s"', (resourceType) => {
-    const resource = factories.learningResources.resource({
-      resource_type: resourceType,
+      resource_type: ResourceTypeEnum.Video,
     })
 
     setup(resource)

@@ -185,6 +185,15 @@ const ImageSection: React.FC<{
   }
 }
 
+const getCallToActionUrl = (resource: LearningResource) => {
+  switch (resource.resource_type) {
+    case ResourceTypeEnum.PodcastEpisode:
+      return resource.podcast_episode?.episode_link
+    default:
+      return resource.url
+  }
+}
+
 const CallToActionSection = ({
   resource,
   hide,
@@ -208,18 +217,18 @@ const CallToActionSection = ({
   const platformImage =
     PLATFORMS[resource?.platform?.code as PlatformEnum]?.image
 
-  const { resource_type: type, url, platform } = resource!
+  const { resource_type: type, platform } = resource!
 
-  const buttonPrefix =
+  const cta =
     type === ResourceTypeEnum.Podcast ||
     type === ResourceTypeEnum.PodcastEpisode
-      ? "Listen to"
-      : "Take"
+      ? "Listen to Podcast"
+      : `Take ${getReadableResourceType(type)}`
 
   return (
     <CallToAction>
-      <StyledButton size="large" href={url!}>
-        {`${buttonPrefix} ${getReadableResourceType(type)}`}
+      <StyledButton size="large" href={getCallToActionUrl(resource) || ""}>
+        {cta}
       </StyledButton>
       {platformImage ? (
         <Platform>
