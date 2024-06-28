@@ -570,7 +570,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
 
   return (
     <Container>
-      <div ref={scrollHook} />
       <StyledGridContainer>
         <ResourceTypeTabs.Context activeTabName={activeTab.name}>
           <DesktopFiltersColumn
@@ -652,8 +651,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 </StyledDrawer>
                 <MobileSortContainer>{sortDropdown}</MobileSortContainer>
               </MobileFilter>
-
               <StyledResultsContainer>
+                <div ref={scrollHook} />
                 {isLoading ? (
                   <PlainList itemSpacing={1.5}>
                     {Array(PAGE_SIZE)
