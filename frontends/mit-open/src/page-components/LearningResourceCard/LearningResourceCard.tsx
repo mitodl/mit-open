@@ -10,8 +10,6 @@ import * as NiceModal from "@ebay/nice-modal-react"
 import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import type { LearningResourceCardTemplateProps } from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import { ActionButton, imgConfigs } from "ol-components"
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
 import {
   AddToLearningPathDialog,
   AddToUserListDialog,
@@ -19,6 +17,8 @@ import {
 import { LearningResource } from "api"
 import { useUserMe } from "api/hooks/user"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
+
+import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
 
 type LearningResourceCardProps = Pick<
   LearningResourceCardTemplateProps<LearningResource>,
@@ -77,7 +77,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
               aria-label="Add to Learning Path"
               onClick={showAddToLearningPathDialog}
             >
-              <PlaylistAddIcon />
+              <RiMenuAddLine />
             </ActionButton>
           )}
           {user?.is_authenticated && (
@@ -88,7 +88,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
               aria-label="Add to User List"
               onClick={showAddToUserListDialog}
             >
-              <BookmarkBorderIcon />
+              <RiBookmarkLine />
             </ActionButton>
           )}
         </div>
