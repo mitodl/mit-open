@@ -22,7 +22,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "OCW",
+      "name": "MIT OpenCourseware",
       "code": "ocw",
       "professional": false,
       "offerings": ["Learning Materials"],
@@ -75,7 +75,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "Professional Education",
+      "name": "MIT Professional Education",
       "code": "mitpe",
       "professional": true,
       "offerings": ["Courses", "Certificates"],
