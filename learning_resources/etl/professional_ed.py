@@ -165,7 +165,8 @@ def transform_course(resource_data):
     runs = _transform_runs(resource_data)
     if len(runs) > 0:
         return {
-            "readable_id": "",
+            "readable_id": parse_resource_url(resource_data),
+            "original_id": resource_data["id"],
             "offered_by": OFFERED_BY,
             "platform": PlatformType.mitpe.name,
             "etl_source": ETLSource.prof_ed.name,
@@ -192,7 +193,34 @@ def transform_course(resource_data):
 
 def transform_program(resource_data):
     """Transform raw resource data into a format suitable for the Program model"""
-    return resource_data
+    return {
+        "readable_id": parse_resource_url(resource_data),
+        "offered_by": OFFERED_BY,
+        "platform": PlatformType.mitpe.name,
+        "etl_source": ETLSource.prof_ed.name,
+        "professional": True,
+        "certification": True,
+        "certification_type": CertificationType.professional.name,
+        "title": resource_data["attributes"]["title"],
+        "url": parse_resource_url(resource_data),
+        "image": parse_image(resource_data),
+        "description": clean_data(resource_data["attributes"]["body"]["processed"]),
+        "course": {
+            "course_numbers": [],
+        },
+        "learning_format": transform_format(resource_data["field_course_location"]),
+        "published": not resource_data["attributes"]["field_do_not_show_in_catalog"],
+        "topics": parse_topics(resource_data),
+        "runs": [
+            {
+                "run_id": parse_resource_url(resource_data),
+            }
+        ],
+        "courses": [
+            # Fill this out
+        ],
+        "unique_field": UNIQUE_FIELD,
+    }
 
 
 def transform(data: dict) -> tuple[list[dict], list[dict]]:
