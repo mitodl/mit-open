@@ -86,7 +86,6 @@ const RoutedDrawer = <K extends string, R extends K = K>(
           <ActionButton
             style={closeSx}
             variant="text"
-            color="secondary"
             size="medium"
             onClick={setOpen.off}
             aria-label="Close"
