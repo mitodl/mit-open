@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useMemo, useRef } from "react"
 import {
   styled,
   Pagination,
@@ -503,6 +503,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   setSearchParams,
 }) => {
   const [searchParams] = useSearchParams()
+  const scrollHook = useRef<HTMLDivElement>(null)
   const activeTab =
     TABS.find((t) => t.name === searchParams.get("tab")) ??
     TABS.find((t) => t.defaultTab) ??
@@ -650,8 +651,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 </StyledDrawer>
                 <MobileSortContainer>{sortDropdown}</MobileSortContainer>
               </MobileFilter>
-
               <StyledResultsContainer>
+                <div ref={scrollHook} />
                 {isLoading ? (
                   <PlainList itemSpacing={1.5}>
                     {Array(PAGE_SIZE)
@@ -680,7 +681,15 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 <Pagination
                   count={getLastPage(data?.count ?? 0)}
                   page={page}
-                  onChange={(_, newPage) => setPage(newPage)}
+                  onChange={(_, newPage) => {
+                    setPage(newPage)
+                    setTimeout(() => {
+                      scrollHook.current?.scrollIntoView({
+                        block: "center",
+                        behavior: "smooth",
+                      })
+                    }, 0)
+                  }}
                   renderItem={(item) => (
                     <PaginationItem
                       slots={{
