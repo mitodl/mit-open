@@ -52,7 +52,7 @@ class OfferedBy(ExtendedEnum):
     """
 
     mitx = "MITx"
-    ocw = "MIT OpenCourseware"
+    ocw = "MIT OpenCourseWare"
     bootcamps = "Bootcamps"
     xpro = "xPRO"
     mitpe = "MIT Professional Education"
@@ -66,7 +66,7 @@ class PlatformType(ExtendedEnum):
     """
 
     edx = "edX"
-    ocw = "MIT OpenCourseware"
+    ocw = "MIT OpenCourseWare"
     oll = "Open Learning Library"
     mitxonline = "MITx Online"
     bootcamps = "Bootcamps"

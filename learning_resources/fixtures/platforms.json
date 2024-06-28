@@ -3,7 +3,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "code": "ocw",
-      "name": "MIT OpenCourseware",
+      "name": "MIT OpenCourseWare",
       "is_edx": false,
       "has_content_files": true,
       "url": "https://ocw.mit.edu/",
