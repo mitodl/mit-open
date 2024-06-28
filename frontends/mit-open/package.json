@@ -14,7 +14,7 @@
     "build": "webpack --config webpack.config.js --bail",
     "build-exports": "webpack --config webpack.exports.js --bail",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --output-dir build/storybook"
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
