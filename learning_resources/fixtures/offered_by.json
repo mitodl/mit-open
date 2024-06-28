@@ -100,12 +100,7 @@
       "name": "Sloan Executive Education",
       "code": "see",
       "professional": true,
-      "offerings": [
-        "Courses",
-        "Programs",
-        "Enterprise or Organizational accounts",
-        "Custom Engagements"
-      ],
+      "offerings": ["Courses", "Programs"],
       "audience": [
         "Global Business Professionals (all levels)",
         "Entrepreneurs and intrapreneurs",
