@@ -24,15 +24,19 @@ import { Link } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 import { useLocation } from "react-router"
 import { UserListListingComponent } from "../UserListListingPage/UserListListingPage"
-import { UserList } from "api"
+import {
+  UserList,
+  LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest,
+} from "api"
+import {
+  useInfiniteUserListItems,
+  useUserListsDetail,
+  useLearningResourcesSearch,
+} from "api/hooks/learningResources"
 import { ListDetailsComponent } from "../ListDetailsPage/ListDetailsPage"
 import { ListType } from "api/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { ProfileEditForm } from "./ProfileEditForm"
-import {
-  useInfiniteUserListItems,
-  useUserListsDetail,
-} from "api/hooks/learningResources"
 import { useProfileMeQuery } from "api/hooks/profile"
 import {
   TopPicksCarouselConfig,
@@ -329,6 +333,28 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
   )
 }
 
+const TopPicksCarousel: React.FC = () => {
+  const { isLoading: isLoadingProfile, data: profile } = useProfileMeQuery()
+  const config = TopPicksCarouselConfig(profile)
+  const { data, isLoading } = useLearningResourcesSearch(
+    config[0].data
+      .params as LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest,
+  )
+
+  if (!isLoading && !data?.results?.length) {
+    return null
+  }
+  return (
+    <CarouselContainer data-testid="top-picks-carousel">
+      <ResourceCarousel
+        title="Top picks for you"
+        isLoading={isLoadingProfile}
+        config={config}
+      />
+    </CarouselContainer>
+  )
+}
+
 const DashboardPage: React.FC = () => {
   const { isLoading: isLoadingUser, data: user } = useUserMe()
   const { isLoading: isLoadingProfile, data: profile } = useProfileMeQuery()
@@ -442,13 +468,7 @@ const DashboardPage: React.FC = () => {
                       </ButtonLink>
                     </HomeHeaderRight>
                   </HomeHeader>
-                  <CarouselContainer data-testid="top-picks-carousel">
-                    <ResourceCarousel
-                      title="Top picks for you"
-                      isLoading={isLoadingProfile}
-                      config={TopPicksCarouselConfig(profile)}
-                    />
-                  </CarouselContainer>
+                  <TopPicksCarousel />
                   {topics?.map((topic) => (
                     <CarouselContainer
                       key={topic}
