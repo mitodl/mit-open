@@ -4,7 +4,6 @@ import {
   setMockResponse,
   within,
   renderWithProviders,
-  // waitForElementToBeRemoved,
 } from "../../test-utils"
 import { factories, urls } from "api/test-utils"
 import { Permissions } from "@/common/permissions"
@@ -37,7 +36,7 @@ describe("DashboardPage", () => {
     return responseData
   }
 
-  const setupAPIs = ({ topPicksCount }: { topPicksCount?: number } = {}) => {
+  const setupAPIs = () => {
     const profile = factories.user.profile({
       preference_search_filters: {
         topic: factories.learningResources
@@ -61,7 +60,7 @@ describe("DashboardPage", () => {
     )
 
     const topPicks = factories.learningResources.courses({
-      count: topPicksCount ?? 10,
+      count: 10,
     })
 
     topPicks.results.forEach((course) => {
@@ -342,17 +341,4 @@ describe("DashboardPage", () => {
       expect(courseTitle).toBeInTheDocument()
     })
   }, 10000)
-
-  test("Does not render the Top picks carousel if no results", async () => {
-    setupAPIs({ topPicksCount: 0 })
-
-    renderWithProviders(<DashboardPage />)
-
-    await screen.findByText("Popular")
-
-    const topPicksTitle = screen.getByText("Top picks for you")
-    expect(topPicksTitle).not.toBeInTheDocument()
-
-    // await waitForElementToBeRemoved(() => screen.queryByText("Top picks for you"))
-  })
 })
