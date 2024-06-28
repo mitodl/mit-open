@@ -59,9 +59,7 @@ describe("DashboardPage", () => {
       profile?.preference_search_filters.learning_format?.includes(format),
     )
 
-    const topPicks = factories.learningResources.courses({
-      count: 10,
-    })
+    const topPicks = factories.learningResources.courses({ count: 10 })
 
     topPicks.results.forEach((course) => {
       course.topics = topics?.map((topic) =>
