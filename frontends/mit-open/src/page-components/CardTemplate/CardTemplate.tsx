@@ -238,7 +238,7 @@ const CardTemplate = ({
         </Details>
         {sortable ? (
           <DragHandle>
-            <RiDraggable fontSize="inherit" />
+            <RiDraggable fontSize="inherit" data-testid="CardDraggable" />
           </DragHandle>
         ) : null}
       </StyledCardContent>
