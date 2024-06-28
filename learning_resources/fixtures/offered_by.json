@@ -100,7 +100,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "Sloan Executive Education",
+      "name": "MIT Sloan Executive Education",
       "code": "see",
       "professional": true,
       "offerings": ["Courses", "Programs"],
