@@ -17,7 +17,7 @@ import {
   pluralize,
 } from "ol-utilities"
 import { ListCard } from "../Card/ListCard"
-import { ActionButton, ActionButtonProps } from "../Button/Button"
+import { ActionButtonProps } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
 
@@ -356,19 +356,6 @@ interface LearningResourceListCardProps {
   inLearningPath?: boolean
 }
 
-const StyledActionButton = styled(ActionButton)<{ isMobile?: boolean }>(
-  ({ theme }) => ({
-    [theme.breakpoints.down("md")]: {
-      borderStyle: "none",
-      width: "24px",
-      height: "24px",
-      svg: {
-        width: "16px",
-        height: "16px",
-      },
-    },
-  }),
-)
 const FILLED_PROPS = { variant: "primary" } as const
 const UNFILLED_PROPS = { color: "secondary", variant: "secondary" } as const
 const CardActionButton: React.FC<
@@ -378,10 +365,9 @@ const CardActionButton: React.FC<
   }
 > = ({ filled, isMobile, ...props }) => {
   return (
-    <StyledActionButton
+    <ListCard.Action
       edge="circular"
       size={"small"}
-      isMobile={isMobile}
       {...(filled ? FILLED_PROPS : UNFILLED_PROPS)}
       {...props}
     />
@@ -431,7 +417,6 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
         {onAddToLearningPathClick && (
           <CardActionButton
             filled={inLearningPath}
-            isMobile={isMobile}
             aria-label="Add to Learning Path"
             onClick={(event) => onAddToLearningPathClick(event, resource.id)}
           >
@@ -441,7 +426,6 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
         {onAddToUserListClick && (
           <CardActionButton
             filled={inUserList}
-            isMobile={isMobile}
             aria-label="Add to User List"
             onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
