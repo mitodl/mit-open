@@ -28,9 +28,8 @@ const setup = (resource: LearningResource) => {
 describe("Learning Resource Expanded", () => {
   const RESOURCE_TYPES = Object.values(ResourceTypeEnum)
   const isVideo = (resourceType: ResourceTypeEnum) =>
-    [ResourceTypeEnum.Video, ResourceTypeEnum.VideoPlaylist].includes(
-      resourceType,
-    )
+    resourceType === ResourceTypeEnum.Video ||
+    resourceType === ResourceTypeEnum.VideoPlaylist
 
   test.each(RESOURCE_TYPES.filter((type) => !isVideo(type)))(
     'Renders image and title for resource type "%s"',
