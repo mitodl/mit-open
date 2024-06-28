@@ -37,8 +37,6 @@ const StyledMenuButton = styled.button(({ theme }) => ({
   color: theme.palette.text.primary,
   transition: `background ${theme.transitions.duration.short}ms`,
   cursor: "pointer",
-  borderWidth: "1px",
-  borderColor: "currentcolor",
   borderStyle: "none",
 }))
 
