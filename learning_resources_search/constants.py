@@ -74,7 +74,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = {
     "platform": FilterConfig("platform.code"),
     "offered_by": FilterConfig("offered_by.code"),
     "learning_format": FilterConfig("learning_format.code"),
-    "is_learning_material": FilterConfig("is_learning_material"),
+    "resource_category": FilterConfig("resource_category"),
 }
 
 SEARCH_NESTED_FILTERS = {
@@ -111,6 +111,7 @@ LEARNING_RESOURCE_MAP = {
         },
     },
     "free": {"type": "boolean"},
+    "is_learning_material": {"type": "boolean"},
     "learning_format": {
         "type": "nested",
         "properties": {
@@ -158,6 +159,7 @@ LEARNING_RESOURCE_MAP = {
     },
     "professional": {"type": "boolean"},
     "resource_type": {"type": "keyword"},
+    "resource_category": {"type": "keyword"},
     "topics": {
         "type": "nested",
         "properties": {

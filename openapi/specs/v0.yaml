@@ -991,7 +991,7 @@ components:
         name:
           type: string
           minLength: 1
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -1225,7 +1225,7 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -1758,7 +1758,7 @@ components:
         name:
           type: string
           minLength: 1
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -1952,7 +1952,7 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -2386,7 +2386,7 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -2495,7 +2495,7 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string

@@ -34,6 +34,7 @@ const TabButtonList: React.FC<TabListProps> = styled((props: TabListProps) => (
 
 const tabStyles = ({ theme }: { theme: Theme }) =>
   css({
+    minWidth: "auto",
     ":focus-visible": {
       outlineOffset: "-1px",
     },

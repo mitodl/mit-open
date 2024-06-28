@@ -1,7 +1,12 @@
 import React from "react"
 import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
-import { RiMenuAddLine, RiBookmarkLine, RiAwardFill } from "@remixicon/react"
+import {
+  RiMenuAddLine,
+  RiBookmarkLine,
+  RiAwardFill,
+  RiBookmarkFill,
+} from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
 import {
   findBestRun,
@@ -12,7 +17,7 @@ import {
   pluralize,
 } from "ol-utilities"
 import { ListCard } from "../Card/ListCard"
-import { ActionButton } from "../Button/Button"
+import { ActionButtonProps } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
 
@@ -78,15 +83,6 @@ const BorderSeparator = styled.div`
     padding-left: 8px;
     border-left: 1px solid ${theme.custom.colors.lightGray2};
   }
-`
-
-const StyledActionButton = styled(ActionButton)<{ edge: string }>`
-  ${({ edge }) =>
-    edge === "none"
-      ? `
-  width: 16px;
-  height: 16px;`
-      : ""}
 `
 
 type ResourceIdCallback = (
@@ -356,6 +352,26 @@ interface LearningResourceListCardProps {
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
   editMenu?: React.ReactNode | null
+  inUserList?: boolean
+  inLearningPath?: boolean
+}
+
+const FILLED_PROPS = { variant: "primary" } as const
+const UNFILLED_PROPS = { color: "secondary", variant: "secondary" } as const
+const CardActionButton: React.FC<
+  Pick<ActionButtonProps, "aria-label" | "onClick" | "children"> & {
+    filled?: boolean
+    isMobile?: boolean
+  }
+> = ({ filled, isMobile, ...props }) => {
+  return (
+    <ListCard.Action
+      edge="circular"
+      size={"small"}
+      {...(filled ? FILLED_PROPS : UNFILLED_PROPS)}
+      {...props}
+    />
+  )
 }
 
 const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
@@ -366,6 +382,8 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   onAddToLearningPathClick,
   onAddToUserListClick,
   editMenu,
+  inLearningPath,
+  inUserList,
 }) => {
   const isMobile = !useMuiBreakpointAtLeast("md")
 
@@ -397,28 +415,22 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
       <ListCard.Title>{resource.title}</ListCard.Title>
       <ListCard.Actions>
         {onAddToLearningPathClick && (
-          <StyledActionButton
-            variant="secondary"
-            edge={isMobile ? "none" : "circular"}
-            color="secondary"
-            size="small"
+          <CardActionButton
+            filled={inLearningPath}
             aria-label="Add to Learning Path"
             onClick={(event) => onAddToLearningPathClick(event, resource.id)}
           >
             <RiMenuAddLine />
-          </StyledActionButton>
+          </CardActionButton>
         )}
         {onAddToUserListClick && (
-          <StyledActionButton
-            variant="secondary"
-            edge={isMobile ? "none" : "circular"}
-            color="secondary"
-            size="small"
+          <CardActionButton
+            filled={inUserList}
             aria-label="Add to User List"
             onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
-            <RiBookmarkLine />
-          </StyledActionButton>
+            {inUserList ? <RiBookmarkFill /> : <RiBookmarkLine />}
+          </CardActionButton>
         )}
         {editMenu}
       </ListCard.Actions>

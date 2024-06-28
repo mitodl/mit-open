@@ -787,6 +787,24 @@ paths:
         explode: false
         style: form
       - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -1369,6 +1387,24 @@ paths:
         explode: false
         style: form
       - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -1744,6 +1780,24 @@ paths:
         explode: false
         style: form
       - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -2093,7 +2147,7 @@ paths:
             - professional
             - free
             - learning_format
-            - is_learning_material
+            - resource_category
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -2108,7 +2162,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
-              * `is_learning_material` - is_learning_material
+              * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
         name: certification
@@ -2257,13 +2311,6 @@ paths:
             type: integer
         description: The id value for the learning resource
       - in: query
-        name: is_learning_material
-        schema:
-          type: boolean
-          nullable: true
-        description: True if the learning resource is a podcast, podcast episode,
-          video, video playlist, or learning path
-      - in: query
         name: learning_format
         schema:
           type: array
@@ -2399,6 +2446,22 @@ paths:
           type: string
           minLength: 1
         description: The search text
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            enum:
+            - course
+            - program
+            - learning_material
+            type: string
+            description: |-
+              * `course` - Course
+              * `program` - Program
+              * `learning_material` - Learning Material
+        description: "The category of learning resource             \n\n* `course`\
+          \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
       - in: query
         name: resource_type
         schema:
@@ -2503,7 +2566,7 @@ paths:
             - professional
             - free
             - learning_format
-            - is_learning_material
+            - resource_category
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -2518,7 +2581,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
-              * `is_learning_material` - is_learning_material
+              * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
         name: certification
@@ -2667,13 +2730,6 @@ paths:
             type: integer
         description: The id value for the learning resource
       - in: query
-        name: is_learning_material
-        schema:
-          type: boolean
-          nullable: true
-        description: True if the learning resource is a podcast, podcast episode,
-          video, video playlist, or learning path
-      - in: query
         name: learning_format
         schema:
           type: array
@@ -2809,6 +2865,22 @@ paths:
           type: string
           minLength: 1
         description: The search text
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            enum:
+            - course
+            - program
+            - learning_material
+            type: string
+            description: |-
+              * `course` - Course
+              * `program` - Program
+              * `learning_material` - Learning Material
+        description: "The category of learning resource             \n\n* `course`\
+          \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
       - in: query
         name: resource_type
         schema:
@@ -2938,7 +3010,7 @@ paths:
             - professional
             - free
             - learning_format
-            - is_learning_material
+            - resource_category
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -2953,7 +3025,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
-              * `is_learning_material` - is_learning_material
+              * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
         name: certification
@@ -3102,13 +3174,6 @@ paths:
             type: integer
         description: The id value for the learning resource
       - in: query
-        name: is_learning_material
-        schema:
-          type: boolean
-          nullable: true
-        description: True if the learning resource is a podcast, podcast episode,
-          video, video playlist, or learning path
-      - in: query
         name: learning_format
         schema:
           type: array
@@ -3244,6 +3309,22 @@ paths:
           type: string
           minLength: 1
         description: The search text
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            enum:
+            - course
+            - program
+            - learning_material
+            type: string
+            description: |-
+              * `course` - Course
+              * `program` - Program
+              * `learning_material` - Learning Material
+        description: "The category of learning resource             \n\n* `course`\
+          \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
       - in: query
         name: resource_type
         schema:
@@ -3364,7 +3445,7 @@ paths:
             - professional
             - free
             - learning_format
-            - is_learning_material
+            - resource_category
             type: string
             description: |-
               * `resource_type` - resource_type
@@ -3379,7 +3460,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
-              * `is_learning_material` - is_learning_material
+              * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
         name: certification
@@ -3528,13 +3609,6 @@ paths:
             type: integer
         description: The id value for the learning resource
       - in: query
-        name: is_learning_material
-        schema:
-          type: boolean
-          nullable: true
-        description: True if the learning resource is a podcast, podcast episode,
-          video, video playlist, or learning path
-      - in: query
         name: learning_format
         schema:
           type: array
@@ -3670,6 +3744,22 @@ paths:
           type: string
           minLength: 1
         description: The search text
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            enum:
+            - course
+            - program
+            - learning_material
+            type: string
+            description: |-
+              * `course` - Course
+              * `program` - Program
+              * `learning_material` - Learning Material
+        description: "The category of learning resource             \n\n* `course`\
+          \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
       - in: query
         name: resource_type
         schema:
@@ -4048,6 +4138,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -4750,6 +4858,24 @@ paths:
         explode: false
         style: form
       - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -5123,6 +5249,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -5585,6 +5729,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -6352,6 +6514,24 @@ paths:
         explode: false
         style: form
       - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -6793,6 +6973,24 @@ paths:
         explode: false
         style: form
       - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
+        style: form
+      - in: query
         name: resource_type
         schema:
           type: array
@@ -6909,7 +7107,7 @@ components:
       - professional
       - free
       - learning_format
-      - is_learning_material
+      - resource_category
       type: string
       description: |-
         * `resource_type` - resource_type
@@ -6924,7 +7122,7 @@ components:
         * `professional` - professional
         * `free` - free
         * `learning_format` - learning_format
-        * `is_learning_material` - is_learning_material
+        * `resource_category` - resource_category
       x-enum-descriptions:
       - resource_type
       - certification
@@ -6938,7 +7136,7 @@ components:
       - professional
       - free
       - learning_format
-      - is_learning_material
+      - resource_category
     Article:
       type: object
       description: Serializer for LearningResourceInstructor model
@@ -7313,6 +7511,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/CourseResourceResourceTypeEnum'
@@ -7374,6 +7576,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -7719,6 +7922,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/LearningPathResourceResourceTypeEnum'
@@ -7778,6 +7985,7 @@ components:
       - platform
       - prices
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -9258,11 +9466,6 @@ components:
           type: boolean
           nullable: true
           description: True if the learning resource offers a certificate
-        is_learning_material:
-          type: boolean
-          nullable: true
-          description: True if the learning resource is a podcast, podcast episode,
-            video, video playlist, or learning path
         certification_type:
           type: array
           items:
@@ -9315,6 +9518,12 @@ components:
           description: "The format(s) in which the learning resource is offered  \
             \           \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
             \ - In person"
+        resource_category:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceCategoryEnum'
+          description: "The category of learning resource             \n\n* `course`\
+            \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
         source_type:
           allOf:
           - $ref: '#/components/schemas/SourceTypeEnum'
@@ -9585,6 +9794,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastEpisodeResourceResourceTypeEnum'
@@ -9646,6 +9859,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -9830,6 +10044,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastResourceResourceTypeEnum'
@@ -9891,6 +10109,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -10220,6 +10439,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/ProgramResourceResourceTypeEnum'
@@ -10281,6 +10504,7 @@ components:
       - professional
       - program
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -10355,6 +10579,20 @@ components:
       - Learning Path Items
       - Podcast Episodes
       - Playlist Videos
+    ResourceCategoryEnum:
+      enum:
+      - course
+      - program
+      - learning_material
+      type: string
+      description: |-
+        * `course` - Course
+        * `program` - Program
+        * `learning_material` - Learning Material
+      x-enum-descriptions:
+      - Course
+      - Program
+      - Learning Material
     ResourceTypeEnum:
       enum:
       - course
@@ -10700,6 +10938,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoPlaylistResourceResourceTypeEnum'
@@ -10760,6 +11002,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -10935,6 +11178,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoResourceResourceTypeEnum'
@@ -10995,6 +11242,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title

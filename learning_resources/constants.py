@@ -34,6 +34,14 @@ class LearningResourceType(ExtendedEnum):
     video_playlist = "Video Playlist"
 
 
+LEARNING_MATERIAL_RESOURCE_CATEGORY = "learning_material"
+RESOURCE_CATEGORY_VALUES = [
+    LearningResourceType.course.name,
+    LearningResourceType.program.name,
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
+]
+
+
 class OfferedBy(ExtendedEnum):
     """
     Enum for our Offered By labels. They are our MIT "brands" for LearningResources
