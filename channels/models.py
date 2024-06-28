@@ -33,7 +33,7 @@ class Channel(TimestampedModel):
         max_length=100,
         validators=[
             RegexValidator(
-                regex=r"^[A-Za-z0-9_]+$",
+                regex=r"^[A-Za-z0-9_-]+$",
                 message=(
                     "Channel name can only contain the characters: A-Z, a-z, 0-9, _"
                 ),
