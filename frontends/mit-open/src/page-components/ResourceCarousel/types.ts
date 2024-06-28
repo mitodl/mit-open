@@ -29,7 +29,6 @@ type TabConfig<D extends DataSource = DataSource> = {
   label: React.ReactNode
   cardProps?: CardProps
   data: D
-  eager?: boolean
 }
 
 export type {
