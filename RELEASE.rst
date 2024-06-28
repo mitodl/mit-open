@@ -1,6 +1,17 @@
 Release Notes
 =============
 
+Version 0.13.16 (Released June 28, 2024)
+---------------
+
+- adding command to remove old tables (#1186)
+- New default image for learning resources (#1136)
+- Swap search and login button (#1181)
+- Adding the PostHog settings to the "Build frontend" step (#1182)
+- facet order (#1171)
+- rename field to channel (#1170)
+- fixing width of unit page logo for small devices (#1151)
+
 Version 0.13.15 (Released June 27, 2024)
 ---------------
 
