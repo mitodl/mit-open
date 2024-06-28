@@ -32,7 +32,7 @@ class CustomLogoutView(views.LogoutView):
             user, provider=OlOpenIdConnectAuth.name
         ).first()
         id_token = user_social_auth_record.extra_data.get("id_token")
-        return f"{settings.KEYCLOAK_BASE_URL}/realms/{settings.KEYCLOAK_REALM_NAME}/protocol/openid-connect/logout?id_token_hint={id_token}"  # noqa: E501
+        return f"{settings.KEYCLOAK_BASE_URL}/realms/{settings.KEYCLOAK_REALM_NAME}/protocol/openid-connect/logout?id_token_hint={id_token}&post_logout_redirect_uri={settings.LOGOUT_REDIRECT_URL}"  # noqa: E501
 
     def get(
         self,
