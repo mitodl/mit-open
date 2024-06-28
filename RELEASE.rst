@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.16
+Version 0.13.16 (Released June 28, 2024)
 ---------------
 
 - adding command to remove old tables (#1186)
