@@ -78,15 +78,18 @@
       "name": "Professional Education",
       "code": "mitpe",
       "professional": true,
-      "offerings": ["(tbd)"],
+      "offerings": ["Courses", "Certificates"],
       "audience": [
         "Engineering Professionals",
         "Technical Professionals",
         "Scientists and Researchers"
       ],
-      "formats": ["(tbd)"],
+      "formats": ["Online", "In Person", "Hybrid"],
       "fee": ["Paid"],
-      "certifications": ["(tbd)"],
+      "certifications": [
+        "Certificate of Completion",
+        "Professional Certificates"
+      ],
       "content_types": ["Academic"],
       "more_information": "https://professional.mit.edu/",
       "value_prop": "Whether online, on campus, or at your company site, MIT Professional Education offers several programs to fit your career goals and organization needs. With over 50 courses across more than 12 topic categories, and some now offered in Spanish, our programs are geared towards engineering and technology professionals across the globe.",
