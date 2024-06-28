@@ -503,7 +503,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   setSearchParams,
 }) => {
   const [searchParams] = useSearchParams()
-  const scrollHook = useRef<HTMLInputElement>(null)
+  const scrollHook = useRef<HTMLDivElement>(null)
   const activeTab =
     TABS.find((t) => t.name === searchParams.get("tab")) ??
     TABS.find((t) => t.defaultTab) ??
