@@ -3,7 +3,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "code": "ocw",
-      "name": "OCW",
+      "name": "MIT OpenCourseware",
       "is_edx": false,
       "has_content_files": true,
       "url": "https://ocw.mit.edu/",
@@ -99,7 +99,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "code": "see",
-      "name": "Sloan Executive Education",
+      "name": "MIT Sloan Executive Education",
       "is_edx": false,
       "has_content_files": false,
       "url": "https://executive.mit.edu/",
