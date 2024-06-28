@@ -718,14 +718,14 @@ def test_learning_resources_search_request_serializer():
         "certification": "false",
         "certification_type": [CertificationType.none.name],
         "free": True,
-        "is_learning_material": True,
+        "resource_category": ["course", "program"],
         "topic": ["Math", "Atoms,Molecules,and Ions"],
         "offered_by": ["xpro", "ocw"],
         "platform": ["xpro", "edx", "ocw"],
         "department": ["18", "5"],
         "level": ["high_school", "undergraduate"],
         "course_feature": ["Lecture Videos"],
-        "aggregations": ["resource_type", "platform", "level"],
+        "aggregations": ["resource_type", "platform", "level", "resource_category"],
     }
 
     cleaned = {
@@ -736,7 +736,7 @@ def test_learning_resources_search_request_serializer():
         "sortby": "-start_date",
         "professional": [True],
         "certification": [False],
-        "is_learning_material": [True],
+        "resource_category": ["course", "program"],
         "certification_type": [CertificationType.none.name],
         "free": [True],
         "offered_by": ["xpro", "ocw"],
@@ -745,7 +745,7 @@ def test_learning_resources_search_request_serializer():
         "department": ["18", "5"],
         "level": ["high_school", "undergraduate"],
         "course_feature": ["Lecture Videos"],
-        "aggregations": ["resource_type", "platform", "level"],
+        "aggregations": ["resource_type", "platform", "level", "resource_category"],
     }
 
     serialized = LearningResourcesSearchRequestSerializer(data=data)

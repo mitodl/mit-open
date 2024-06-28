@@ -6,6 +6,7 @@ import pytest
 from django.utils.http import urlencode
 
 from learning_resources.constants import (
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
     CertificationType,
     LearningResourceFormat,
@@ -17,7 +18,6 @@ from learning_resources.constants import (
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
-    LearningPathFactory,
     LearningResourceContentTagFactory,
     LearningResourceFactory,
     LearningResourceOfferorFactory,
@@ -266,24 +266,29 @@ def test_learning_resource_filter_free(client):
         assert resource.id in [result["id"] for result in results]
 
 
-def test_learning_resource_filter_resource_type(client):
+def test_learning_resource_filter_resource_category(client):
     """Test that the resource type filter works"""
-    ProgramFactory.create()
-    podcast = PodcastFactory.create().learning_resource
-    learning_path = LearningPathFactory.create().learning_resource
+    program = ProgramFactory.create().learning_resource
+    CourseFactory.create()
+
+    podcast = PodcastEpisodeFactory.create().learning_resource
+    video = VideoFactory.create().learning_resource
 
     results = client.get(
-        f"{RESOURCE_API_URL}?resource_type={LearningResourceType.podcast.name}"
+        f"{RESOURCE_API_URL}?resource_category={LEARNING_MATERIAL_RESOURCE_CATEGORY}"
     ).json()["results"]
-    assert len(results) == 1
-    assert results[0]["id"] == podcast.id
-
-    resource_filter = f"resource_type={LearningResourceType.podcast.name}&resource_type={LearningResourceType.learning_path.name}"
-    results = client.get(f"{RESOURCE_API_URL}?{resource_filter}").json()["results"]
     assert len(results) == 2
-    assert sorted([result["readable_id"] for result in results]) == sorted(
-        [podcast.readable_id, learning_path.readable_id]
-    )
+    ids = (res["id"] for res in results)
+    assert podcast.id in ids
+    assert video.id in ids
+
+    resource_filter = f"resource_category={LearningResourceType.program.name}&resource_category={LEARNING_MATERIAL_RESOURCE_CATEGORY}"
+    results = client.get(f"{RESOURCE_API_URL}?{resource_filter}").json()["results"]
+    assert len(results) == 3
+    ids = (res["id"] for res in results)
+    assert program.id in ids
+    assert podcast.id in ids
+    assert video.id in ids
 
 
 def test_learning_resource_filter_readable_id(client):
