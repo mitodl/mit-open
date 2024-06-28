@@ -100,19 +100,14 @@
       "name": "Sloan Executive Education",
       "code": "see",
       "professional": true,
-      "offerings": [
-        "Courses",
-        "Programs",
-        "Enterprise or Organizational accounts",
-        "Custom Engagements"
-      ],
+      "offerings": ["Courses", "Programs"],
       "audience": [
         "Global Business Professionals (all levels)",
         "Entrepreneurs and intrapreneurs",
         "Managers and executives",
         "Current and future business leaders"
       ],
-      "formats": ["Online", "In-Person", "Blended"],
+      "formats": ["Online", "In-Person", "Hybrid"],
       "fee": ["Paid", "Free Webinars and Blogs"],
       "certifications": ["Executive Certificates", "Professional Certificates"],
       "content_types": ["Professional"],
