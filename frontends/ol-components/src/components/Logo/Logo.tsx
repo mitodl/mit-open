@@ -8,7 +8,7 @@ type PlatformObject = {
 
 export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   [PlatformEnum.Ocw]: {
-    name: "OCW",
+    name: "MIT OpenCourseware",
     image: "mit-ocw-logo-square.png",
   },
   [PlatformEnum.Edx]: {
@@ -40,7 +40,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
     image: null,
   },
   [PlatformEnum.See]: {
-    name: "Sloan Executive Education",
+    name: "MIT Sloan Executive Education",
     image: "sloan-logo.png",
   },
   [PlatformEnum.Scc]: {
