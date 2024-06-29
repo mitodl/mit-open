@@ -96,7 +96,7 @@ services:
     profiles:
       - frontend
     working_dir: /src
-    image: node:20.14
+    image: node:20.15
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |
