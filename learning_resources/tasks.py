@@ -68,6 +68,12 @@ def get_oll_data():
 
 
 @app.task
+def get_professional_ed_data():
+    """Execute the Professional Education ETL pipeline"""
+    return len(pipelines.professional_ed_etl())
+
+
+@app.task
 def get_prolearn_data():
     """Execute the ProLearn ETL pipelines"""
     courses = pipelines.prolearn_courses_etl()

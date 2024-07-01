@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from learning_resources.etl import professional_ed
+from learning_resources.etl.professional_ed import extract
 from main.test_utils import assert_json_equal
 
 
@@ -15,10 +15,10 @@ def mock_fetch_data(mocker):
 
     def read_json(file_path):
         with Path.open(file_path, "r") as file:
-            return json.load(file)
+            return mocker.Mock(json=mocker.Mock(return_value=json.load(file)))
 
     return mocker.patch(
-        "learning_resources.etl.professional_ed._fetch_data",
+        "learning_resources.etl.professional_ed.requests.get",
         side_effect=[
             read_json("./test_json/professional_ed/professional_ed_resources.json"),
             read_json(
@@ -51,9 +51,13 @@ def mock_fetch_data(mocker):
 def test_extract(settings, mock_fetch_data, prof_ed_api_url):
     """Test extract function"""
     settings.PROFESSIONAL_EDUCATION_API_URL = prof_ed_api_url
-    results = professional_ed.extract()
+    with Path.open(
+        Path("./test_json/professional_ed/professional_ed_resources.json"), "r"
+    ) as file:
+        expected = json.load(file)["data"]
+    results = extract()
     if prof_ed_api_url:
         assert len(results) == 2
-        assert_json_equal(results, next(iter(mock_fetch_data.side_effect))["data"])
+        assert_json_equal(results, expected)
     else:
         assert len(results) == 0
