@@ -28,6 +28,7 @@ export {
   ActionButtonLink,
   ButtonLink,
 } from "./components/Button/Button"
+export { ListCardActionButton } from "./components/Card/ListCard"
 
 export type {
   ButtonProps,

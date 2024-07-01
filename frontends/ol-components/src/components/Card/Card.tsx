@@ -66,10 +66,11 @@ const Body = styled.div`
   margin: 16px;
 `
 
-const Image = styled.img<{ size?: Size }>`
+const Image = styled.img<{ height?: number | string; size?: Size }>`
   display: block;
   width: 100%;
-  height: ${({ size }) => (size === "small" ? 120 : 170)}px;
+  height: ${({ height, size }) =>
+    height ?? (size === "small" ? "120px" : "170px")};
   background-color: ${theme.custom.colors.lightGray1};
   object-fit: cover;
 `
@@ -147,6 +148,7 @@ type CardProps = {
 
 type ImageProps = ImgHTMLAttributes<HTMLImageElement> & {
   size?: Size
+  height?: number | string
   style?: CSSProperties
 }
 type TitleProps = {
@@ -214,6 +216,7 @@ const Card: Card = ({ children, className, size, href }) => {
         {image && (
           <Image
             size={size}
+            height={image.height}
             {...(image as ImgHTMLAttributes<HTMLImageElement>)}
           />
         )}

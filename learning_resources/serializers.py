@@ -15,6 +15,7 @@ from rest_framework.exceptions import ValidationError
 from channels.models import Channel
 from learning_resources import constants, models
 from learning_resources.constants import (
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
     LearningResourceFormat,
     LearningResourceType,
@@ -454,6 +455,17 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         child=LearningResourceFormatSerializer(), read_only=True
     )
     free = serializers.SerializerMethodField()
+    resource_category = serializers.SerializerMethodField()
+
+    def get_resource_category(self, instance) -> str:
+        """Return the resource category of the resource"""
+        if instance.resource_type in [
+            LearningResourceType.course.name,
+            LearningResourceType.program.name,
+        ]:
+            return instance.resource_type
+        else:
+            return LEARNING_MATERIAL_RESOURCE_CATEGORY
 
     def get_free(self, instance) -> bool:
         """Return true if the resource is free/has a free option"""
@@ -549,6 +561,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         model = models.LearningResource
         read_only_fields = [
             "free",
+            "resource_category",
             "certification",
             "certification_type",
             "professional",

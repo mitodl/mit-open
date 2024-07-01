@@ -27,6 +27,8 @@ import type {
   OfferorsApiOfferorsListRequest,
   PlatformsApiPlatformsListRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
+  UserListRelationship,
+  MicroUserListRelationship,
 } from "../../generated/v1"
 import { createQueryKeys } from "@lukemorales/query-key-factory"
 
@@ -45,7 +47,7 @@ const learningResources = createQueryKeys("learningResources", {
         .learningResourcesList(params)
         .then((res) => res.data),
   }),
-  featured: (params: FeaturedListParams) => ({
+  featured: (params: FeaturedListParams = {}) => ({
     queryKey: [params],
     queryFn: () => featuredApi.featuredList(params).then((res) => res.data),
   }),
@@ -143,12 +145,12 @@ const learningResources = createQueryKeys("learningResources", {
   },
 })
 
-const learningPathHasResource =
+const listHasResource =
   (resourceId: number) =>
   (query: Query): boolean => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = query.state.data as any
-    const resources: LearningResource[] = data.pages
+    const resources: LearningResource[] | UserList[] = data.pages
       ? data.pages.flatMap(
           (page: PaginatedLearningResourceList) => page.results,
         )
@@ -156,22 +158,20 @@ const learningPathHasResource =
     return resources.some((res) => res.id === resourceId)
   }
 
-const userListHasResource =
-  (resourceId: number) =>
-  (query: Query): boolean => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data = query.state.data as any
-    const resources: UserList[] = data.pages
-      ? data.pages.flatMap(
-          (page: PaginatedLearningResourceList) => page.results,
-        )
-      : data.results
-    return resources.some((res) => res.id === resourceId)
-  }
-
+/**
+ * Invalidate Resource queries that a specific resource appears in.
+ *
+ * By default, this will invalidate featured list queries. This can result in
+ * odd behavior because the featured list item order is randomized: when the
+ * featured list cache is invalidated, the newly fetched data may be in a
+ * different order. To maintain the order, use skipFeatured to skip invalidation
+ * of featured lists and instead manually update the cached data via
+ * `updateListParentsOnAdd`.
+ */
 const invalidateResourceQueries = (
   queryClient: QueryClient,
   resourceId: LearningResource["id"],
+  { skipFeatured = false } = {},
 ) => {
   /**
    * Invalidate details queries.
@@ -191,17 +191,13 @@ const invalidateResourceQueries = (
   const lists = [
     learningResources.list._def,
     learningResources.learningpaths._ctx.list._def,
-    learningResources.userlists._ctx.list._def,
-    learningResources.featured._def,
+    learningResources.search._def,
+    ...(skipFeatured ? [] : [learningResources.featured._def]),
   ]
   lists.forEach((queryKey) => {
     queryClient.invalidateQueries({
       queryKey,
-      predicate: learningPathHasResource(resourceId),
-    })
-    queryClient.invalidateQueries({
-      queryKey,
-      predicate: userListHasResource(resourceId),
+      predicate: listHasResource(resourceId),
     })
   })
 }
@@ -213,7 +209,72 @@ const invalidateUserListQueries = (
   queryClient.invalidateQueries(
     learningResources.userlists._ctx.detail(userListId).queryKey,
   )
+  const lists = [learningResources.userlists._ctx.list._def]
+  lists.forEach((queryKey) => {
+    queryClient.invalidateQueries({
+      queryKey,
+      predicate: listHasResource(userListId),
+    })
+  })
+}
+
+/**
+ * Given
+ *  - a list of learning resources L
+ *  - a new relationship between learningpath/userlist and a resource R
+ * Update the list L so that it includes the updated resource R. (If the list
+ * did not contain R to begin with, no change is made)
+ */
+const updateListParentsOnAdd = (
+  relationship: UserListRelationship,
+  oldList?: PaginatedLearningResourceList,
+) => {
+  if (!oldList) return oldList
+  const matchIndex = oldList.results.findIndex(
+    (res) => res.id === relationship.child,
+  )
+  if (matchIndex === -1) return oldList
+  const updatesResults = [...oldList.results]
+  updatesResults[matchIndex] = relationship.resource
+  return {
+    ...oldList,
+    results: updatesResults,
+  }
+}
+
+/**
+ * Given
+ *  - a list of learning resources L
+ *  - a destroyed relationship between learningpath/userlist and a resource R
+ * Update the list L so that it includes the updated resource R. (If the list
+ * did not contain R to begin with, no change is made)
+ */
+const updateListParentsOnDestroy = (
+  relationship: MicroUserListRelationship,
+  list?: PaginatedLearningResourceList,
+) => {
+  if (!list) return list
+  if (!relationship) return list
+  const matchIndex = list.results.findIndex(
+    (res) => res.id === relationship.child,
+  )
+  if (matchIndex === -1) return list
+  const updatedResults = [...list.results]
+  const newResource = { ...updatedResults[matchIndex] }
+  newResource.user_list_parents =
+    newResource.user_list_parents?.filter((m) => m.id !== relationship.id) ??
+    null
+  updatedResults[matchIndex] = newResource
+  return {
+    ...list,
+    results: updatedResults,
+  }
 }
 
 export default learningResources
-export { invalidateResourceQueries, invalidateUserListQueries }
+export {
+  invalidateResourceQueries,
+  invalidateUserListQueries,
+  updateListParentsOnAdd,
+  updateListParentsOnDestroy,
+}
