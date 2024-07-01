@@ -24,7 +24,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
     image: null,
   },
   [PlatformEnum.Xpro]: {
-    name: "xPRO",
+    name: "MIT xPRO",
     image: "mit-xpro-logo.png",
   },
   [PlatformEnum.Podcast]: {

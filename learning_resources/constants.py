@@ -54,7 +54,7 @@ class OfferedBy(ExtendedEnum):
     mitx = "MITx"
     ocw = "MIT OpenCourseWare"
     bootcamps = "Bootcamps"
-    xpro = "xPRO"
+    xpro = "MIT xPRO"
     mitpe = "MIT Professional Education"
     see = "MIT Sloan Executive Education"
 
@@ -70,7 +70,7 @@ class PlatformType(ExtendedEnum):
     oll = "Open Learning Library"
     mitxonline = "MITx Online"
     bootcamps = "Bootcamps"
-    xpro = "xPRO"
+    xpro = "MIT xPRO"
     csail = "CSAIL"
     mitpe = "MIT Professional Education"
     see = "MIT Sloan Executive Education"

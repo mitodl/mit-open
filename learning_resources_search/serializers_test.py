@@ -64,7 +64,7 @@ response_test_raw_data_1 = {
                         {"id": 5, "name": "Management"},
                         {"id": 6, "name": "Innovation"},
                     ],
-                    "offered_by": "xPRO",
+                    "offered_by": "MIT xPRO",
                     "course_feature": [],
                     "department": None,
                     "learning_format": [
@@ -163,7 +163,7 @@ response_test_raw_data_1 = {
             "offered_by": {
                 "doc_count_error_upper_bound": 0,
                 "sum_other_doc_count": 0,
-                "buckets": [{"key": "xPRO", "doc_count": 9}],
+                "buckets": [{"key": "MIT xPRO", "doc_count": 9}],
             },
         },
     },
@@ -206,7 +206,7 @@ response_test_response_1 = {
                 {"id": 5, "name": "Management"},
                 {"id": 6, "name": "Innovation"},
             ],
-            "offered_by": "xPRO",
+            "offered_by": "MIT xPRO",
             "course_feature": [],
             "department": None,
             "learning_format": [
@@ -284,7 +284,7 @@ response_test_response_1 = {
     "metadata": {
         "aggregations": {
             "level": [],
-            "offered_by": [{"key": "xPRO", "doc_count": 9}],
+            "offered_by": [{"key": "MIT xPRO", "doc_count": 9}],
         },
         "suggest": ["manage"],
     },

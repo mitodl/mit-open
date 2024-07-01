@@ -57,7 +57,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "xPRO",
+      "name": "MIT xPRO",
       "code": "xpro",
       "professional": true,
       "offerings": ["Courses", "Programs"],

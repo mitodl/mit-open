@@ -51,7 +51,7 @@
     "model": "learning_resources.LearningResourcePlatform",
     "fields": {
       "code": "xpro",
-      "name": "xPRO",
+      "name": "MIT xPRO",
       "is_edx": true,
       "has_content_files": true,
       "url": "https://xpro.mit.edu/",

@@ -33,7 +33,7 @@ XPRO_PLATFORM_TRANSFORM = {
     "Simplilearn": PlatformType.simplilearn.name,
     "Susskind": PlatformType.susskind.name,
     "WHU": PlatformType.whu.name,
-    "xPRO": PlatformType.xpro.name,
+    "MIT xPRO": PlatformType.xpro.name,
 }
 
 
