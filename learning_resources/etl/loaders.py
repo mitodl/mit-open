@@ -315,25 +315,34 @@ def load_course(
         )
         resource_id = deduplicated_course_id or readable_id
         if unique_field_name != READABLE_ID_FIELD:
-            # Some dupes may result, so we need to unpublish resources
-            # with matching unique values and different readable_ids
-            for resource in LearningResource.objects.filter(
+            # Some dupes may result, so delete any unpublished resources
+            # and update published matching resources with the ingested
+            # readable_ids
+            LearningResource.objects.filter(
                 **{unique_field_name: unique_field_value},
                 platform=platform,
                 resource_type=LearningResourceType.course.name,
-            ).exclude(readable_id=resource_id):
-                resource.published = False
-                resource.save()
-                resource_unpublished_actions(resource)
-        (
-            learning_resource,
-            created,
-        ) = LearningResource.objects.select_for_update().update_or_create(
-            readable_id=resource_id,
-            platform=platform,
-            resource_type=LearningResourceType.course.name,
-            defaults=resource_data,
-        )
+                published=False,
+            ).delete()
+            (
+                learning_resource,
+                created,
+            ) = LearningResource.objects.select_for_update().update_or_create(
+                **{unique_field_name: unique_field_value},
+                platform=platform,
+                resource_type=LearningResourceType.course.name,
+                defaults={"readable_id": resource_id, **resource_data},
+            )
+        else:
+            (
+                learning_resource,
+                created,
+            ) = LearningResource.objects.select_for_update().update_or_create(
+                readable_id=resource_id,
+                platform=platform,
+                resource_type=LearningResourceType.course.name,
+                defaults=resource_data,
+            )
 
         Course.objects.get_or_create(
             learning_resource=learning_resource, defaults=course_data
