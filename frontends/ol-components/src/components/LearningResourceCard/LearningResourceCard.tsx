@@ -103,7 +103,7 @@ const getStartDate = (resource: LearningResource, size: Size = "medium") => {
 
   if (!startDate) return null
 
-  return formatDate(startDate, `MM${size === "medium" ? "M" : ""} DD, YYYY`)
+  return formatDate(startDate, `MMM${size === "medium" ? "M" : ""} DD, YYYY`)
 }
 
 const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
