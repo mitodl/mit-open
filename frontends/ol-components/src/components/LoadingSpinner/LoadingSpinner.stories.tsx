@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { LoadingSpinner } from "./LoadingSpinner"
 
 const meta: Meta<typeof LoadingSpinner> = {
-  title: "ol-components/LoadingSpinner",
+  title: "smoot-design/LoadingSpinner",
   component: LoadingSpinner,
 }
 

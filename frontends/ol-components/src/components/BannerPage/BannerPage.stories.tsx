@@ -7,7 +7,7 @@ const PUBLIC_URL =
   process.env.PUBLIC_URL || process.env.STORYBOOK_PUBLIC_URL || ""
 
 const meta: Meta<typeof BannerPage> = {
-  title: "ol-components/BannerPage",
+  title: "old/BannerPage",
   render: (props) => (
     <BannerPage {...props}>
       <Typography variant="h1">Page content</Typography>

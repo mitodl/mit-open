@@ -44,7 +44,7 @@ const StateWrapper = (props: RadioChoiceBoxFieldProps) => {
 }
 
 const meta: Meta<typeof RadioChoiceBoxField> = {
-  title: "ol-components/ChoiceBoxField",
+  title: "smoot-design/ChoiceBoxField",
   component: StateWrapper,
 }
 
