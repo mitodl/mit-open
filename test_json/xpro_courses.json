@@ -8,7 +8,7 @@
     "readable_id": "course-v1:xPRO+SysEngxB1",
     "courseruns": [],
     "next_run_id": null,
-    "platform": "xPRO",
+    "platform": "MIT xPRO",
     "topics": [{ "name": "Business:Leadership & Organizations" }],
     "format": "Online"
   },
@@ -18,7 +18,7 @@
     "description": "<p>Course 3 of 4 that comprises the Architecture and Systems Engineering Professional Certificate Program. This course may be taken individually, without enrolling in the professional certificate program.</p>",
     "thumbnail_url": "/static/images/mit-dome.png",
     "readable_id": "course-v1:xPRO+SysEngxB3",
-    "platform": "xPRO",
+    "platform": "MIT xPRO",
     "courseruns": [
       {
         "title": "SEED Model-Based Systems Engineering: Documentation and Analysis - Fall 2020",
@@ -46,7 +46,7 @@
     "thumbnail_url": "/static/images/mit-dome.png",
     "readable_id": "course-v1:xPRO+SysEngxB2",
     "url": "https://xpro.mit.edu/courses/course-v1:xPRO+SysEngxB2",
-    "platform": "xPRO",
+    "platform": "MIT xPRO",
     "courseruns": [
       {
         "title": "SEED Models in Engineering - Spring 2020",
@@ -76,7 +76,7 @@
     "courseruns": [],
     "next_run_id": null,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "platform": "xPRO",
+    "platform": "MIT xPRO",
     "format": "Online"
   },
   {
@@ -85,7 +85,7 @@
     "description": "<p>An introductory course to Digital Learning</p>",
     "thumbnail_url": "/static/images/mit-dome.png",
     "readable_id": "course-v1:xPRO+DgtlLearn1",
-    "platform": "xPRO",
+    "platform": "MIT xPRO",
     "format": "Online",
     "courseruns": [
       {
@@ -138,7 +138,7 @@
     "next_run_id": null,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
     "format": "Online",
-    "platform": "xPRO"
+    "platform": "MIT xPRO"
   },
   {
     "id": 32,
@@ -150,6 +150,6 @@
     "next_run_id": null,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
     "format": "Online",
-    "platform": "xPRO"
+    "platform": "MIT xPRO"
   }
 ]

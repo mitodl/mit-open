@@ -22,7 +22,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "OCW",
+      "name": "MIT OpenCourseWare",
       "code": "ocw",
       "professional": false,
       "offerings": ["Learning Materials"],
@@ -57,7 +57,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "xPRO",
+      "name": "MIT xPRO",
       "code": "xpro",
       "professional": true,
       "offerings": ["Courses", "Programs"],
@@ -75,7 +75,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "Professional Education",
+      "name": "MIT Professional Education",
       "code": "mitpe",
       "professional": true,
       "offerings": ["Courses", "Certificates"],
@@ -100,7 +100,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "Sloan Executive Education",
+      "name": "MIT Sloan Executive Education",
       "code": "see",
       "professional": true,
       "offerings": ["Courses", "Programs"],

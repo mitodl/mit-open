@@ -68,7 +68,7 @@ def parse_offered_by(document: dict) -> LearningResourceOfferor:
         LearningResourceOfferor: offeror or None
     """
     return LearningResourceOfferor.objects.filter(
-        name=document["department"].lstrip("MIT").strip()
+        name=document["department"].strip()
     ).first()
 
 
