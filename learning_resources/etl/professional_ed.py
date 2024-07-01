@@ -79,13 +79,13 @@ def extract() -> list[dict]:
 
 def parse_topics(resource_data: dict) -> list[dict]:
     """
-    Get a list containing one {"name": <topic>} dict object
+    Get a list containing {"name": <topic>} dict objects
 
     Args:
         resource_data: course or program data
 
     Returns:
-        list of dict: list containing one topic dict with a name attribute
+        list of dict: list containing topic dicts with a name attribute
     """
     topic_data = resource_data["relationships"]["field_course_topics"]
     topic_url = topic_data["links"].get("related", {}).get("href")
@@ -95,6 +95,29 @@ def parse_topics(resource_data: dict) -> list[dict]:
             [{"name": topic["attributes"]["name"]} for topic in topic_data]
         )
     return []
+
+
+def parse_instructors(resource_data: dict) -> list[dict]:
+    """
+    Get a list of instructors for a resource
+    """
+    instructors = []
+    for attribute in ["field_lead_instructors", "field_instructors"]:
+        instructors_data = resource_data["relationships"][attribute]
+        instructors_url = instructors_data["links"].get("related", {}).get("href")
+        if instructors_data["data"] and instructors_url:
+            instructor_data = _fetch_data(instructors_url)
+            instructors.extend(
+                [
+                    {
+                        "full_name": instructor["attributes"]["title"],
+                        "last_name": instructor["attributes"]["field_last_name"],
+                        "first_name": instructor["attributes"]["field_first_name"],
+                    }
+                    for instructor in instructor_data
+                ]
+            )
+    return instructors
 
 
 def parse_image(document: dict) -> dict or None:
@@ -213,6 +236,7 @@ def _transform_runs(resource_data: dict) -> list[dict]:
                     "published": True,
                     "prices": [price] if price else [],
                     "url": parse_resource_url(resource_data),
+                    "instructors": parse_instructors(resource_data),
                 }
             )
     return runs
@@ -242,7 +266,12 @@ def transform_course(resource_data: dict) -> dict or None:
             "title": resource_data["attributes"]["title"],
             "url": parse_resource_url(resource_data),
             "image": parse_image(resource_data),
-            "description": clean_data(resource_data["attributes"]["body"]["processed"]),
+            "description": clean_data(
+                resource_data["attributes"]["field_featured_course_summary"]
+            ),
+            "full_description": clean_data(
+                resource_data["attributes"]["body"]["processed"]
+            ),
             "course": {
                 "course_numbers": [],
             },
@@ -280,7 +309,12 @@ def transform_program(resource_data: dict) -> dict:
         "title": resource_data["attributes"]["title"],
         "url": parse_resource_url(resource_data),
         "image": parse_image(resource_data),
-        "description": clean_data(resource_data["attributes"]["body"]["processed"]),
+        "description": clean_data(
+            resource_data["attributes"]["field_featured_course_summary"]
+        ),
+        "full_description": clean_data(
+            resource_data["attributes"]["body"]["processed"]
+        ),
         "learning_format": parse_format(
             resource_data["attributes"]["field_course_location"]
         ),
