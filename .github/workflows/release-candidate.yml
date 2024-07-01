@@ -42,6 +42,7 @@ jobs:
           POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_RC }}
           MITOPEN_AXIOS_WITH_CREDENTIALS: true
           MITOPEN_AXIOS_BASE_PATH: https://api.mitopen-rc.odl.mit.edu
+          MITOPEN_SUPPORT_EMAIL: odl-mitopen-rc-support@mit.edu
 
       - uses: akhileshns/heroku-deploy@581dd286c962b6972d427fcf8980f60755c15520
         with:
