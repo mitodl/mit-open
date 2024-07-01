@@ -167,22 +167,8 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
-      - name: Copy static assets
-        run: |
-          mkdir -p  frontends/mit-open/build/static;
-          cp -R frontends/mit-open/public/ frontends/mit-open/build/static;
-
-      - run: PUBLIC_URL=/mit-open yarn build-github-pages
-        working-directory: frontends
-
-      - run: PUBLIC_URL=/mit-open yarn build-storybook --output-dir ../github-pages/build/storybook
-        working-directory: frontends
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4
-        with:
-          name: pages-site
-          path: frontends/github-pages/build
+      - name: Build Storybook
+        run: yarn workspace mit-open build-storybook
 
   openapi-generated-client-check-v0:
     # This job checks that the output of openapi-generator-typescript-axios that
