@@ -1,6 +1,29 @@
 Release Notes
 =============
 
+Version 0.13.17
+---------------
+
+- Fix default image height in resource cards (#1212)
+- update unit names (#1198)
+- Update opensearchproject/opensearch Docker tag to v2.15.0 (#1205)
+- Update mcr.microsoft.com/playwright Docker tag to v1.45.0 (#1203)
+- Update dependency ruff to v0.5.0 (#1202)
+- Update Node.js to v20.15.0 (#1201)
+- Shanbady/log out flow (#1199)
+- update mitpe unit data (#1194)
+- update sloan executive education offerings (#1193)
+- adding post logout redirect to keycloak (#1192)
+- stop publishing github pages every pr (#1197)
+- setting 100px as default width for buttons (#1185)
+- Don't display carousel tabs if there's no data to display (#1169)
+- Filled vs Unfilled Bookmarks (#1180)
+- Square aspect ratio for media resource images (#1183)
+- Add resource category to apis (#1188)
+- Scroll results into view when paginating (#1189)
+- Drawer CSS fixes (#1190)
+- Updates to ChoiceBox; Checkbox, Radio components (#1174)
+
 Version 0.13.16 (Released June 28, 2024)
 ---------------
 
