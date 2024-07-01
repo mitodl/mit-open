@@ -52,6 +52,7 @@ const UnorderedList = styled.ul(({ theme }) => ({
 }))
 
 const { SITE_NAME } = process.env
+const { MITOPEN_SUPPORT_EMAIL } = process.env
 
 const PrivacyPage: React.FC = () => {
   return (
@@ -210,7 +211,7 @@ const PrivacyPage: React.FC = () => {
           </UnorderedList>
           <BodyText variant="body1">
             If you have concerns about any of these purposes, or how we
-            communicate with you, please contact us at mitopen-support@mit.edu.
+            communicate with you, please contact us at {MITOPEN_SUPPORT_EMAIL}.
             We will always respect a request by you to stop processing your
             personal information (subject to our legal obligations).
           </BodyText>

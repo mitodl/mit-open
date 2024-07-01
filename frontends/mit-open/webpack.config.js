@@ -23,6 +23,7 @@ const {
   API_DEV_PROXY_BASE_URL,
   WEBPACK_ANALYZE,
   SITE_NAME,
+  MITOPEN_SUPPORT_EMAIL,
 } = cleanEnv(process.env, {
   ENVIRONMENT: str({
     choices: ["local", "docker", "production"],
@@ -52,6 +53,10 @@ const {
   SITE_NAME: str({
     desc: ["The name of the site, used in page titles"],
     default: "MIT Open",
+  }),
+  MITOPEN_SUPPORT_EMAIL: str({
+    desc: "Email address for support",
+    default: "mitopen-support@mit.edu",
   }),
 })
 
@@ -187,6 +192,7 @@ module.exports = (env, argv) => {
         MITOPEN_AXIOS_BASE_PATH,
         ENVIRONMENT,
         SITE_NAME,
+        MITOPEN_SUPPORT_EMAIL,
       }),
     ]
       .concat(
