@@ -62,7 +62,7 @@ const CertificateChoiceBoxField: React.FC<Props> = ({
       <Container maxWidth="md">
         <Grid
           container
-          spacing={2}
+          spacing="12px"
           justifyContent="center"
           columns={{
             md: 12,

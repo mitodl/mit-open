@@ -14,6 +14,7 @@ from django_filters import (
 from learning_resources.constants import (
     DEPARTMENTS,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    RESOURCE_CATEGORY_VALUES,
     CertificationType,
     LearningResourceFormat,
     LearningResourceType,
@@ -115,6 +116,17 @@ class LearningResourceFilter(FilterSet):
         lookup_expr="iexact",
     )
 
+    resource_category = MultipleChoiceFilter(
+        label="The resource category of the learning resources",
+        method="filter_resource_category",
+        choices=(
+            [
+                (value, value.replace("_", " ").title())
+                for value in RESOURCE_CATEGORY_VALUES
+            ]
+        ),
+    )
+
     def filter_free(self, queryset, _, value):
         """Free cost filter for learning resources"""
         free_filter = (
@@ -129,6 +141,24 @@ class LearningResourceFilter(FilterSet):
         else:
             # Resources that are not offered for free
             return queryset.exclude(free_filter)
+
+    def filter_resource_category(self, queryset, _, value):
+        """Filter by resource category"""
+        query_or_filters = Q()
+        for val in value:
+            if val in [
+                LearningResourceType.course.name,
+                LearningResourceType.program.name,
+            ]:
+                query_or_filters |= Q(resource_type=val)
+            else:
+                query_or_filters |= ~Q(
+                    resource_type__in=[
+                        LearningResourceType.course.name,
+                        LearningResourceType.program.name,
+                    ]
+                )
+        return queryset.filter(query_or_filters)
 
     def filter_readable_id(self, queryset, _, value):
         """Readable id filter for leaarning resources"""

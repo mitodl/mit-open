@@ -1,6 +1,57 @@
 Release Notes
 =============
 
+Version 0.13.17 (Released July 02, 2024)
+---------------
+
+- Fix default image height in resource cards (#1212)
+- update unit names (#1198)
+- Update opensearchproject/opensearch Docker tag to v2.15.0 (#1205)
+- Update mcr.microsoft.com/playwright Docker tag to v1.45.0 (#1203)
+- Update dependency ruff to v0.5.0 (#1202)
+- Update Node.js to v20.15.0 (#1201)
+- Shanbady/log out flow (#1199)
+- update mitpe unit data (#1194)
+- update sloan executive education offerings (#1193)
+- adding post logout redirect to keycloak (#1192)
+- stop publishing github pages every pr (#1197)
+- setting 100px as default width for buttons (#1185)
+- Don't display carousel tabs if there's no data to display (#1169)
+- Filled vs Unfilled Bookmarks (#1180)
+- Square aspect ratio for media resource images (#1183)
+- Add resource category to apis (#1188)
+- Scroll results into view when paginating (#1189)
+- Drawer CSS fixes (#1190)
+- Updates to ChoiceBox; Checkbox, Radio components (#1174)
+
+Version 0.13.16 (Released June 28, 2024)
+---------------
+
+- adding command to remove old tables (#1186)
+- New default image for learning resources (#1136)
+- Swap search and login button (#1181)
+- Adding the PostHog settings to the "Build frontend" step (#1182)
+- facet order (#1171)
+- rename field to channel (#1170)
+- fixing width of unit page logo for small devices (#1151)
+
+Version 0.13.15 (Released June 27, 2024)
+---------------
+
+- fix content file search (#1167)
+- Set default ordering by position for userlist and learningresource relationships (#1165)
+- fix flaky test (#1168)
+- Update favicons (#1153)
+- de-flake a test (#1166)
+- Shanbady/search page card mobile updates (#1156)
+- remove course filter from featured carousel (#1164)
+- Update Select and Dropdown components (#1160)
+- Adds a separate pane for the filter CTAs, adds an apply button on mobile (#1144)
+- Search facet styles and animation (#1143)
+- Modifications to api/search filtering with comma values (#1122)
+- [pre-commit.ci] pre-commit autoupdate (#1110)
+- Update Yarn to v4.3.1 (#1145)
+
 Version 0.13.14 (Released June 26, 2024)
 ---------------
 

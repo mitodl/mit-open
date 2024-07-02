@@ -1,5 +1,7 @@
 """Authentication views"""
 
+from urllib.parse import urlencode
+
 from django.conf import settings
 from django.contrib.auth import views
 from django.http import Http404
@@ -32,7 +34,13 @@ class CustomLogoutView(views.LogoutView):
             user, provider=OlOpenIdConnectAuth.name
         ).first()
         id_token = user_social_auth_record.extra_data.get("id_token")
-        return f"{settings.KEYCLOAK_BASE_URL}/realms/{settings.KEYCLOAK_REALM_NAME}/protocol/openid-connect/logout?id_token_hint={id_token}"  # noqa: E501
+        qs = urlencode(
+            {
+                "id_token_hint": id_token,
+                "post_logout_redirect_uri": settings.LOGOUT_REDIRECT_URL,
+            }
+        )
+        return f"{settings.KEYCLOAK_BASE_URL}/realms/{settings.KEYCLOAK_REALM_NAME}/protocol/openid-connect/logout?{qs}"  # noqa: E501
 
     def get(
         self,

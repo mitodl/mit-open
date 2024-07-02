@@ -94,6 +94,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       ":disabled": {
         cursor: "default",
       },
+      minWidth: "100px",
     },
     ...sizeStyles(size, hasBorder, theme),
     // responsive
@@ -303,6 +304,7 @@ type ActionButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
 
 const actionStyles = (size: ButtonSize) => {
   return {
+    minWidth: "auto",
     padding: 0,
     height: {
       small: "32px",

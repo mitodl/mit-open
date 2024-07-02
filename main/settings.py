@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.13.14"
+VERSION = "0.13.17"
 
 log = logging.getLogger()
 
@@ -65,9 +65,9 @@ ALLOWED_HOSTS = ["*"]
 SECURE_SSL_REDIRECT = get_bool("MITOPEN_SECURE_SSL_REDIRECT", True)  # noqa: FBT003
 
 SITE_ID = 1
-SITE_BASE_URL = get_string("MITOPEN_BASE_URL", None)
-if not SITE_BASE_URL:
-    msg = "MITOPEN_BASE_URL is not set"
+APP_BASE_URL = get_string("MITOPEN_APP_BASE_URL", None)
+if not APP_BASE_URL:
+    msg = "MITOPEN_APP_BASE_URL is not set"
     raise ImproperlyConfigured(msg)
 MITOPEN_TITLE = get_string("MITOPEN_TITLE", "MIT Open")
 
@@ -174,14 +174,14 @@ if DEBUG:
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
-LOGIN_REDIRECT_URL = SITE_BASE_URL
+LOGIN_REDIRECT_URL = "/app"
 LOGIN_URL = "/login"
 LOGIN_ERROR_URL = "/login"
 LOGOUT_URL = "/logout"
-LOGOUT_REDIRECT_URL = SITE_BASE_URL
+LOGOUT_REDIRECT_URL = "/app"
 
 MITOPEN_TOS_URL = get_string(
-    "MITOPEN_TOS_URL", urljoin(SITE_BASE_URL, "/terms-and-conditions/")
+    "MITOPEN_TOS_URL", urljoin(APP_BASE_URL, "/terms-and-conditions/")
 )
 
 ROOT_URLCONF = "main.urls"
@@ -259,7 +259,7 @@ AUTHENTICATION_BACKENDS = (
     "guardian.backends.ObjectPermissionBackend",
 )
 
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_string("MITOPEN_LOGIN_REDIRECT_URL", "/")
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_string("MITOPEN_LOGIN_REDIRECT_URL", "/app")
 SOCIAL_AUTH_NEW_USER_LOGIN_REDIRECT_URL = get_string(
     "MITOPEN_NEW_USER_LOGIN_URL", "/onboarding"
 )
@@ -269,7 +269,7 @@ SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
         name="SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS",
         default=[],
     ),
-    urlparse(SITE_BASE_URL).netloc,
+    urlparse(APP_BASE_URL).netloc,
 ]
 
 SOCIAL_AUTH_PIPELINE = (
@@ -550,10 +550,6 @@ OPENSEARCH_MAX_SUGGEST_RESULTS = get_int("OPENSEARCH_MAX_SUGGEST_RESULTS", 1)
 OPENSEARCH_SHARD_COUNT = get_int("OPENSEARCH_SHARD_COUNT", 2)
 OPENSEARCH_REPLICA_COUNT = get_int("OPENSEARCH_REPLICA_COUNT", 2)
 OPENSEARCH_MAX_REQUEST_SIZE = get_int("OPENSEARCH_MAX_REQUEST_SIZE", 10485760)
-INDEXING_API_USERNAME = get_string("INDEXING_API_USERNAME", None)
-if not INDEXING_API_USERNAME:
-    msg = "Missing setting INDEXING_API_USERNAME"
-    raise ImproperlyConfigured(msg)
 INDEXING_ERROR_RETRIES = get_int("INDEXING_ERROR_RETRIES", 1)
 
 # JWT authentication settings

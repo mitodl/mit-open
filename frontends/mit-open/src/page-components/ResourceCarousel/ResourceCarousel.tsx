@@ -52,6 +52,13 @@ type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
   }) => React.ReactNode
 }
 
+type LoadTabButtonProps = {
+  config: FeaturedDataSource
+  label: React.ReactNode
+  key: number
+  value: string
+}
+
 const ResourcesData: React.FC<DataPanelProps<ResourceDataSource>> = ({
   dataConfig,
   children,
@@ -117,6 +124,21 @@ const DataPanel: React.FC<DataPanelProps> = ({
       resources: [],
       childrenLoading: true,
     })
+}
+
+/**
+ * Tab button that loads the resource, so we can determine if it needs to be
+ * displayed or not. This shouldn't cause double-loading since React Query
+ * should only run the thing once - when you switch into the tab, the data
+ * should already be in the cache.
+ */
+
+const LoadFeaturedTabButton: React.FC<LoadTabButtonProps> = (props) => {
+  const { data, isLoading } = useFeaturedLearningResourcesList(
+    props.config.params,
+  )
+
+  return !isLoading && data && data.count > 0 ? <TabButton {...props} /> : null
 }
 
 const HeaderRow = styled.div(({ theme }) => ({
@@ -266,13 +288,22 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
           {config.length > 1 ? (
             <ControlsContainer>
               <TabsList onChange={(e, newValue) => setTab(newValue)}>
-                {config.map(({ label }, index) => (
-                  <TabButton
-                    key={index}
-                    label={label}
-                    value={index.toString()}
-                  />
-                ))}
+                {config.map((tabConfig, index) =>
+                  tabConfig.data.type === "lr_featured" ? (
+                    <LoadFeaturedTabButton
+                      config={tabConfig.data}
+                      key={index}
+                      label={tabConfig.label}
+                      value={index.toString()}
+                    />
+                  ) : (
+                    <TabButton
+                      key={index}
+                      label={tabConfig.label}
+                      value={index.toString()}
+                    />
+                  ),
+                )}
               </TabsList>
               <ButtonsContainer ref={setRef} />
             </ControlsContainer>

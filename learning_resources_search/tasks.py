@@ -50,7 +50,7 @@ from learning_resources_search.serializers import (
     serialize_percolate_query_for_update,
 )
 from main.celery import app
-from main.utils import chunks, merge_strings, now_in_utc
+from main.utils import chunks, frontend_absolute_url, merge_strings, now_in_utc
 from profiles.utils import send_template_email
 
 User = get_user_model()
@@ -141,7 +141,7 @@ def _infer_search_url(percolate_query):
     if "endpoint" in query_string_params:
         query_string_params.pop("endpoint")
     query_string = urlencode(query_string_params, doseq=True)
-    return f"{settings.SITE_BASE_URL}/search?{query_string}"
+    return frontend_absolute_url(f"/search?{query_string}")
 
 
 def _group_percolated_rows(rows):

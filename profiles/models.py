@@ -10,6 +10,7 @@ from django.db.models import JSONField
 from django_scim.models import AbstractSCIMUserMixin
 
 from learning_resources.constants import LearningResourceFormat
+from main.utils import frontend_absolute_url
 from profiles.utils import (
     IMAGE_MEDIUM_MAX_DIMENSION,
     IMAGE_SMALL_MAX_DIMENSION,
@@ -293,4 +294,4 @@ class ProgramLetter(models.Model):
         )
 
     def get_absolute_url(self):
-        return f"/program_letter/{self.id}/view"
+        return frontend_absolute_url(f"/program_letter/{self.id}/view")

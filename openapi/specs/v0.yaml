@@ -991,7 +991,7 @@ components:
         name:
           type: string
           minLength: 1
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -1225,7 +1225,7 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -1758,7 +1758,7 @@ components:
         name:
           type: string
           minLength: 1
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -1952,7 +1952,7 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -2170,12 +2170,6 @@ components:
         record_hash:
           type: string
           readOnly: true
-        program_letter_generate_url:
-          type: string
-          readOnly: true
-        program_letter_share_url:
-          type: string
-          readOnly: true
         program_title:
           type: string
           maxLength: 256
@@ -2249,8 +2243,6 @@ components:
           format: date-time
           nullable: true
       required:
-      - program_letter_generate_url
-      - program_letter_share_url
       - program_title
       - record_hash
       - user_email
@@ -2386,7 +2378,7 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -2495,7 +2487,7 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string

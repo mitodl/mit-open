@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from "react"
 import {
   Button,
   SimpleMenu,
-  ActionButton,
   Grid,
   LoadingSpinner,
   BannerPage,
@@ -11,7 +10,7 @@ import {
   Typography,
   PlainList,
   LearningResourceListCard,
-  theme,
+  ListCardActionButton,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import { RiPencilFill, RiMore2Line, RiDeleteBinLine } from "@remixicon/react"
@@ -29,13 +28,6 @@ import { useUserMe } from "api/hooks/user"
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
   margin-bottom: 1rem;
-`
-
-const StyledActionButton = styled(ActionButton)`
-  ${theme.breakpoints.down("md")} {
-    width: 16px;
-    height: 16px;
-  }
 `
 
 const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
@@ -61,15 +53,15 @@ const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
   return (
     <SimpleMenu
       trigger={
-        <StyledActionButton
+        <ListCardActionButton
           variant="secondary"
-          edge="none"
+          edge="circular"
           color="secondary"
           size="small"
           aria-label={`Edit list ${resource.title}`}
         >
           <RiMore2Line fontSize="inherit" />
-        </StyledActionButton>
+        </ListCardActionButton>
       }
       items={items}
     />

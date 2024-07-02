@@ -197,7 +197,7 @@ const OnboardingPage: React.FC = () => {
               <GoalsChoiceBoxField
                 label={
                   <Label>
-                    <Title component="h3" variant="h3">
+                    <Title component="h3" variant="h6">
                       What do you want MIT online education to help you reach?
                     </Title>
                     <Prompt component="p">Select all that apply:</Prompt>

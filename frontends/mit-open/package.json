@@ -42,7 +42,7 @@
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.6.1",
     "ol-test-utilities": "0.0.0",
-    "storybook": "^8.0.9",
+    "storybook": "^8.1.10",
     "swc-loader": "^0.2.6",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
     "webpack": "^5.91.0",

@@ -39,48 +39,14 @@ http {
     sendfile on;
 
     server {
-        server_name lemelsonx.mit.edu;
-        listen <%= ENV["PORT"] %>;
-        return 301 https://open.mit.edu/c/lemelsoneducators;
-    }
-
-    server {
-        server_name themove.mit.edu;
-        listen <%= ENV["PORT"] %>;
-        return 301 https://open.mit.edu/c/themove;
-    }
-
-    server {
-        server_name discussions.odl.mit.edu;
-        listen <%= ENV["PORT"] %>;
-        return 301 https://open.mit.edu$request_uri;
-    }
-
-    server {
         listen <%= ENV["PORT"] %> default_server;
         server_name _;
-        root /app;
-
-        location / {
-            expires max;
-            try_files /frontends/mit-open/build/static$uri /frontends/mit-open/build$uri @index;
-        }
-
-        location ~ ^/program_letter/([0-9]+)/view$ {
-            expires 1m;
-            try_files /frontends/mit-open/build/index.html =404;
-        }
-
-        location @index {
-            expires 1m;
-            try_files /frontends/mit-open/build/index.html =404;
-        }
 
         location = /.well-known/dnt-policy.txt {
             return 204;
         }
 
-        location ~ ^/(api|login|complete/ol-oidc|logout|admin|static/admin|static/rest_framework|static/hijack|_/features/|hijack/|scim/|o/|disconnect/|podcasts/rss_feed|__debug__/|media/|profile/|program_letter/([0-9]+)/) {
+        location / {
             uwsgi_param QUERY_STRING $query_string;
             uwsgi_param REQUEST_METHOD $request_method;
             uwsgi_param CONTENT_TYPE $content_type;
@@ -98,7 +64,7 @@ http {
             uwsgi_param X-Forwarded-Proto $http_x_forwarded_proto;
             uwsgi_param X-Forwarded-Port $http_x_forwarded_port;
             uwsgi_param X-Forwarded-Host $http_x_forwarded_host;
-            uwsgi_pass unix:/tmp/nginx.socket;
+            uwsgi_pass <%= ENV["NGINX_UWSGI_PASS"] || "unix:/tmp/nginx.socket" %>;
             uwsgi_pass_request_headers on;
             uwsgi_pass_request_body on;
             client_max_body_size 25M;

@@ -15,7 +15,7 @@
       { "name": "Planning" }
     ],
     "format": "Online",
-    "platform": "xPRO",
+    "platform": "MIT xPRO",
     "courses": [
       {
         "id": 18,
@@ -26,7 +26,7 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [{ "name": "Business:Leadership & Organizations" }],
-        "platform": "xPRO",
+        "platform": "MIT xPRO",
         "format": "Online"
       },
       {
@@ -36,7 +36,7 @@
         "thumbnail_url": "/static/images/mit-dome.png",
         "readable_id": "course-v1:xPRO+SysEngxB3",
         "topics": [],
-        "platform": "xPRO",
+        "platform": "MIT xPRO",
         "format": "Online",
         "courseruns": [
           {
@@ -63,7 +63,7 @@
         "thumbnail_url": "/static/images/mit-dome.png",
         "readable_id": "course-v1:xPRO+SysEngxB2",
         "topics": [{ "name": "Business:Leadership & Organizations" }],
-        "platform": "xPRO",
+        "platform": "MIT xPRO",
         "format": "Online",
         "courseruns": [
           {
@@ -92,7 +92,7 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [],
-        "platform": "xPRO"
+        "platform": "MIT xPRO"
       }
     ]
   },
@@ -109,7 +109,7 @@
     "enrollment_start": null,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
     "format": "In person",
-    "platform": "xPRO",
+    "platform": "MIT xPRO",
     "courses": [
       {
         "id": 30,
@@ -118,7 +118,7 @@
         "thumbnail_url": "/static/images/mit-dome.png",
         "readable_id": "course-v1:xPRO+DgtlLearn1",
         "topics": [{ "name": "Business:Leadership & Organizations" }],
-        "platform": "xPRO",
+        "platform": "MIT xPRO",
         "courseruns": [
           {
             "title": "SEED Digital Learning 100 - August 2020",
@@ -168,7 +168,7 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [{ "name": "Business:Leadership & Organizations" }],
-        "platform": "xPRO"
+        "platform": "MIT xPRO"
       },
       {
         "id": 32,
@@ -179,7 +179,7 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [],
-        "platform": "xPRO"
+        "platform": "MIT xPRO"
       }
     ]
   }
