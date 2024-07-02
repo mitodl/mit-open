@@ -4063,9 +4063,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@git+https://github.com/mitodl/course-search-utils.git#ab/resource-category":
-  version: 3.1.3
-  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=ced377beb3407e14e2b86638c91c9be6048ea21a"
+"@mitodl/course-search-utils@git+https://github.com/mitodl/course-search-utils.git#ab/certification-type":
+  version: 3.1.0
+  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=5a7633b0a4b822bbd620bfb12e7fd83e8e2eaf4e"
   dependencies:
     "@mitodl/open-api-axios": "npm:^2024.6.4"
     axios: "npm:^1.6.7"
@@ -4084,17 +4084,17 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 10/c755da385878294d70d135647c57a0024b4736777a0dec342fde6f627be24a7197f1e0a59c407166d0e33775651dd04d22cd95185cc31848457e4f5f8fd3449e
+  checksum: 10/8c3b60bf16a3b497dff83317b1f90ac6449ad817bd6cfba6d48e6ec556edcba7517cd4911a392f6ea6dd7ae72faf536796e12a70658ea0253dd26aa2a882db0f
   languageName: node
   linkType: hard
 
 "@mitodl/open-api-axios@npm:^2024.6.4":
-  version: 2024.6.28
-  resolution: "@mitodl/open-api-axios@npm:2024.6.28"
+  version: 2024.7.2
+  resolution: "@mitodl/open-api-axios@npm:2024.7.2"
   dependencies:
     "@types/node": "npm:^20.11.19"
     axios: "npm:^1.6.5"
-  checksum: 10/798d944766c3af48bef13c991fde4c62bcebd12a1ac32b32f0d304aeb2bfff8c165e71b612efdc81a9eda7302ee339af77298e019b06b14c0f0e8805e54138c9
+  checksum: 10/aaf77c821458ced4c86695aa3fb071a9186a87bec292247ff9b99b5f05b32e1369ea5d75f4e1cff3752c8d5f0cb5ba6c588b9be6e8b8f520cc425005bdcea058
   languageName: node
   linkType: hard
 
@@ -18614,7 +18614,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^8.0.0"
-    "@mitodl/course-search-utils": "git+https://github.com/mitodl/course-search-utils.git#ab/resource-category"
+    "@mitodl/course-search-utils": "git+https://github.com/mitodl/course-search-utils.git#ab/certification-type"
     "@mui/icons-material": "npm:^5.15.15"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@remixicon/react": "npm:^4.2.0"
