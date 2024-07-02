@@ -51,6 +51,20 @@ describe("Learning Resource Expanded", () => {
       expect(image).toHaveAttribute("alt", resource.image?.alt ?? "")
 
       screen.getByRole("heading", { name: resource.title })
+
+      const linkName =
+        resource.resource_type === ResourceTypeEnum.Podcast ||
+        resource.resource_type === ResourceTypeEnum.PodcastEpisode
+          ? `Listen to ${getReadableResourceType(resource.resource_type)}`
+          : `Take ${getReadableResourceType(resource.resource_type)}`
+
+      if (linkName) {
+        const link = screen.getByRole("link", {
+          name: linkName,
+        }) as HTMLAnchorElement
+        expect(link.target).toBe("_blank")
+        expect(link.href).toMatch(new RegExp(`^${resource.url}/?$`))
+      }
     },
   )
 

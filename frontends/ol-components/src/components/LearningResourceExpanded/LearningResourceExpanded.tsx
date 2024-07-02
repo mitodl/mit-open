@@ -92,7 +92,7 @@ const CallToAction = styled.div`
   align-items: center;
 `
 
-const StyledButton = styled(ButtonLink)`
+const StyledLink = styled(ButtonLink)`
   text-align: center;
   width: 220px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
@@ -224,9 +224,13 @@ const CallToActionSection = ({
 
   return (
     <CallToAction>
-      <StyledButton size="large" href={getCallToActionUrl(resource) || ""}>
+      <StyledLink
+        target="_blank"
+        size="large"
+        href={getCallToActionUrl(resource) || ""}
+      >
         {cta}
-      </StyledButton>
+      </StyledLink>
       {platformImage ? (
         <Platform>
           <OnPlatform>on</OnPlatform>
