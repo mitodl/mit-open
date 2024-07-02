@@ -18,7 +18,7 @@ const config: Config.InitialOptions = {
       embedlyKey: "embedly_key",
       axios_base_path: "https://api.mitopen-test.odl.mit.edu",
     },
-    MITOPEN_AXIOS_BASE_PATH: "https://api.mitopen-test.odl.mit.edu",
+    MITOPEN_API_BASE_URL: "https://api.mitopen-test.odl.mit.edu",
   },
 }
 

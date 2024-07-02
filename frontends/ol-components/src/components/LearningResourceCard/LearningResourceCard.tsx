@@ -30,18 +30,22 @@ const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
 
+const getImageDimensions = (size: Size, isMedia: boolean) => {
+  const dimensions = {
+    small: { width: 190, height: isMedia ? 190 : 120 },
+    medium: { width: 298, height: isMedia ? 298 : 170 },
+  }
+  return dimensions[size]
+}
+
 const getEmbedlyUrl = (
   resource: LearningResource,
   size: Size,
   isMedia: boolean,
 ) => {
-  const dimensions = {
-    small: { width: 190, height: isMedia ? 190 : 120 },
-    medium: { width: 298, height: isMedia ? 298 : 170 },
-  }
   return embedlyCroppedImage(resource.image!.url!, {
     key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
-    ...dimensions[size],
+    ...getImageDimensions(size, isMedia),
   })
 }
 
@@ -188,7 +192,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
             : DEFAULT_RESOURCE_IMG
         }
         alt={resource.image?.alt ?? ""}
-        height="auto"
+        height={getImageDimensions(size, isMedia).height}
       />
       <Card.Info>
         <Info resource={resource} />

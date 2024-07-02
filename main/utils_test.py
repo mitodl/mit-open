@@ -13,6 +13,7 @@ from main.utils import (
     extract_values,
     filter_dict_keys,
     filter_dict_with_renamed_keys,
+    frontend_absolute_url,
     html_to_plain_text,
     is_near_now,
     markdown_to_plain_text,
@@ -199,3 +200,14 @@ def test_write_to_file():
         write_to_file(outfile.name, content)
         with open(outfile.name, "rb") as infile:  # noqa: PTH123
             assert infile.read() == content
+
+
+def test_frontend_absolute_url(settings):
+    """
+    frontend_absolute_url should generate urls to the frontend
+    """
+    settings.APP_BASE_URL = "http://example.com/"
+
+    assert frontend_absolute_url("/") == "http://example.com/"
+    assert frontend_absolute_url("/path") == "http://example.com/path"
+    assert frontend_absolute_url("path") == "http://example.com/path"

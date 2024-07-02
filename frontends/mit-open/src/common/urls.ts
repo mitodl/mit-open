@@ -40,8 +40,8 @@ export const makeChannelManageWidgetsPath = (
   name: string,
 ) => generatePath(CHANNEL_EDIT_WIDGETS, { channelType, name })
 
-export const LOGIN = `${process.env.MITOPEN_AXIOS_BASE_PATH}/login/ol-oidc/`
-export const LOGOUT = `${process.env.MITOPEN_AXIOS_BASE_PATH}/logout/`
+export const LOGIN = `${process.env.MITOPEN_API_BASE_URL}/login/ol-oidc/`
+export const LOGOUT = `${process.env.MITOPEN_API_BASE_URL}/logout/`
 
 /**
  * Returns the URL to the login page, with a `next` parameter to redirect back

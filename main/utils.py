@@ -5,6 +5,7 @@ import logging
 import os
 from enum import Flag, auto
 from itertools import islice
+from urllib.parse import urljoin
 
 import markdown2
 from bs4 import BeautifulSoup
@@ -296,3 +297,16 @@ def write_x509_files():
     """Write the x509 certificate and key to files"""
     write_to_file(settings.MIT_WS_CERTIFICATE_FILE, settings.MIT_WS_CERTIFICATE)
     write_to_file(settings.MIT_WS_PRIVATE_KEY_FILE, settings.MIT_WS_PRIVATE_KEY)
+
+
+def frontend_absolute_url(relative_path: str) -> str:
+    """
+    Create an absolute url to the frontend
+
+    Args:
+        relative_path(str): path relative to the frontend root
+
+    Returns:
+        str: absolute url path to the frontend
+    """
+    return urljoin(settings.APP_BASE_URL, relative_path)
