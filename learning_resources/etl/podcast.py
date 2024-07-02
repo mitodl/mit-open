@@ -1,7 +1,6 @@
 """podcast ETL"""
 
 import logging
-from urllib.parse import urljoin
 
 import github
 import requests
@@ -15,7 +14,7 @@ from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import clean_data, generate_readable_id
 from learning_resources.models import PodcastEpisode
-from main.utils import now_in_utc
+from main.utils import frontend_absolute_url, now_in_utc
 
 CONFIG_FILE_REPO = "mitodl/open-podcast-data"
 CONFIG_FILE_FOLDER = "podcasts"
@@ -242,10 +241,8 @@ def get_all_mit_podcasts_channel_rss():
     """  # noqa: E501
     current_timestamp = now_in_utc().strftime(TIMESTAMP_FORMAT)
 
-    podcasts_url = urljoin(settings.SITE_BASE_URL, "podcasts")
-    cover_image_url = urljoin(
-        settings.SITE_BASE_URL, "/static/images/podcast_cover_art.png"
-    )
+    podcasts_url = frontend_absolute_url("/podcasts")
+    cover_image_url = frontend_absolute_url("/static/images/podcast_cover_art.png")
 
     rss = f"""<?xml version='1.0' encoding='UTF-8'?>
     <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">

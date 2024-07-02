@@ -1,10 +1,8 @@
 """Tests for channels.serializers"""
 
 from types import SimpleNamespace
-from urllib.parse import urljoin
 
 import pytest
-from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 
 from channels.constants import CHANNEL_ROLE_MODERATORS, ChannelType
@@ -37,6 +35,7 @@ from learning_resources.factories import (
 )
 from learning_resources.serializers import LearningResourceOfferorDetailSerializer
 from main.factories import UserFactory
+from main.utils import frontend_absolute_url
 
 # pylint:disable=redefined-outer-name
 pytestmark = pytest.mark.django_db
@@ -124,8 +123,8 @@ def test_serialize_channel(  # pylint: disable=too-many-arguments
         "updated_on": mocker.ANY,
         "created_on": mocker.ANY,
         "id": channel.id,
-        "channel_url": urljoin(
-            settings.SITE_BASE_URL, f"/c/{channel.channel_type}/{channel.name}/"
+        "channel_url": frontend_absolute_url(
+            f"/c/{channel.channel_type}/{channel.name}/"
         ),
         "lists": [
             LearningPathPreviewSerializer(channel_list.channel_list).data

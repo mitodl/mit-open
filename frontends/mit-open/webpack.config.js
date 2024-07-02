@@ -19,7 +19,7 @@ const {
   NODE_ENV,
   ENVIRONMENT,
   PORT,
-  MITOPEN_AXIOS_BASE_PATH,
+  MITOPEN_API_BASE_URL,
   API_DEV_PROXY_BASE_URL,
   WEBPACK_ANALYZE,
   SITE_NAME,
@@ -37,14 +37,14 @@ const {
     desc: "Port to run the development server on",
     default: 8062,
   }),
-  MITOPEN_AXIOS_BASE_PATH: str({
+  MITOPEN_API_BASE_URL: str({
     desc: "Base URL for API requests",
     devDefault: "",
   }),
   API_DEV_PROXY_BASE_URL: str({
     desc: "API base URL to proxy to in development mode",
     default: "",
-    devDefault: process.env.MITOPEN_BASE_URL,
+    devDefault: process.env.MITOPEN_APP_BASE_URL,
   }),
   WEBPACK_ANALYZE: bool({
     desc: "Whether to run webpack bundle analyzer",
@@ -175,7 +175,7 @@ module.exports = (env, argv) => {
           axios_with_credentials: JSON.stringify(
             process.env.MITOPEN_AXIOS_WITH_CREDENTIALS,
           ),
-          axios_base_path: JSON.stringify(process.env.MITOPEN_AXIOS_BASE_PATH),
+          axios_base_path: JSON.stringify(process.env.MITOPEN_API_BASE_URL),
           embedlyKey: JSON.stringify(process.env.EMBEDLY_KEY),
           search_page_size: JSON.stringify(
             process.env.OPENSEARCH_DEFAULT_PAGE_SIZE,
@@ -189,7 +189,7 @@ module.exports = (env, argv) => {
       }),
       new webpack.EnvironmentPlugin({
         // within app, define process.env.VAR_NAME with default from cleanEnv
-        MITOPEN_AXIOS_BASE_PATH,
+        MITOPEN_API_BASE_URL,
         ENVIRONMENT,
         SITE_NAME,
         MITOPEN_SUPPORT_EMAIL,
@@ -269,11 +269,11 @@ module.exports = (env, argv) => {
             "/static/admin",
             "/static/hijack",
           ],
-          target: API_DEV_PROXY_BASE_URL || MITOPEN_AXIOS_BASE_PATH,
+          target: API_DEV_PROXY_BASE_URL || MITOPEN_API_BASE_URL,
           changeOrigin: true,
           secure: false,
           headers: {
-            Origin: API_DEV_PROXY_BASE_URL || MITOPEN_AXIOS_BASE_PATH,
+            Origin: API_DEV_PROXY_BASE_URL || MITOPEN_API_BASE_URL,
           },
         },
       ],
