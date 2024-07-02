@@ -249,9 +249,7 @@ def load_fixtures(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-    dependencies = [
-        ("testimonials", "0004_update_attestation_avatar_make_optional"),
-    ]
+    dependencies = []
 
     operations = [
         migrations.RunPython(load_fixtures, migrations.RunPython.noop),
