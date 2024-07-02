@@ -14,7 +14,7 @@ import {
   theme,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
-import EditIcon from "@mui/icons-material/Edit"
+import { RiPencilFill } from "@remixicon/react"
 import MoreVertIcon from "@mui/icons-material/MoreVert"
 import DeleteIcon from "@mui/icons-material/Delete"
 
@@ -48,7 +48,7 @@ const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
       {
         key: "edit",
         label: "Edit",
-        icon: <EditIcon />,
+        icon: <RiPencilFill />,
         onClick: () => manageListDialogs.upsertLearningPath(resource),
       },
       {

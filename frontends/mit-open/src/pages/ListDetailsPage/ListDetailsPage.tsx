@@ -1,6 +1,6 @@
 import React from "react"
 import { Container, Grid, Button, BannerPage, Typography } from "ol-components"
-import EditIcon from "@mui/icons-material/Edit"
+import { RiPencilFill } from "@remixicon/react"
 import SwapVertIcon from "@mui/icons-material/SwapVert"
 import { useUserMe } from "api/hooks/user"
 import { useToggle, pluralize, MetaTags } from "ol-utilities"
@@ -79,7 +79,7 @@ const ListDetailsComponent: React.FC<ListDetailsPageProps> = (props) => {
             {canEdit ? (
               <Button
                 variant="text"
-                startIcon={<EditIcon />}
+                startIcon={<RiPencilFill />}
                 onClick={handleEdit}
               >
                 Edit
