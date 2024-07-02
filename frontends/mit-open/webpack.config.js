@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path")
 
-if (process.env.ENVIRONMENT !== "docker") {
+if (process.env.ENVIRONMENT === "local") {
   require("dotenv").config({
     path: [
       path.resolve(__dirname, "../../env/frontend.local.env"),
