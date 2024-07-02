@@ -54,10 +54,13 @@ const SearchField = styled(SearchInput)`
   }
 `
 
+const LEARNING_MATERIAL = "learning_material"
+
 export const getFacetManifest = (
   offerors: Record<string, LearningResourceOfferor>,
+  resourceCategory: string | null,
 ) => {
-  return [
+  const mainfest = [
     {
       type: "group",
       name: "free",
@@ -68,6 +71,18 @@ export const getFacetManifest = (
           label: "Free",
         },
       ],
+    },
+    {
+      name: "resource_type",
+      title: "Resource Type",
+      type: "static",
+      expandedOnLoad: true,
+      preserveItems: true,
+      labelFunction: (key: string) =>
+        key
+          .split("_")
+          .map((word) => capitalize(word))
+          .join(" "),
     },
     {
       name: "certification_type",
@@ -113,10 +128,17 @@ export const getFacetManifest = (
       labelFunction: (key: string) => getDepartmentName(key) || key,
     },
   ]
+
+  //Only display the resource_type facet if the resource_category is learning_material
+  if (resourceCategory !== LEARNING_MATERIAL) {
+    mainfest.splice(1, 1)
+  }
+
+  return mainfest
 }
 
 const facetNames = [
-  "resource_category",
+  "resource_type",
   "certification_type",
   "learning_format",
   "department",
@@ -128,18 +150,21 @@ const facetNames = [
 
 const constantSearchParams = {}
 
-const useFacetManifest = () => {
+const useFacetManifest = (resourceCategory: string | null) => {
   const offerorsQuery = useOfferorsList()
   const offerors = useMemo(() => {
     return _.keyBy(offerorsQuery.data?.results ?? [], (o) => o.code)
   }, [offerorsQuery.data?.results])
-  const facetManifest = useMemo(() => getFacetManifest(offerors), [offerors])
+  const facetManifest = useMemo(
+    () => getFacetManifest(offerors, resourceCategory),
+    [offerors, resourceCategory],
+  )
   return facetManifest
 }
 
 const SearchPage: React.FC = () => {
-  const facetManifest = useFacetManifest()
   const [searchParams, setSearchParams] = useSearchParams()
+  const facetManifest = useFacetManifest(searchParams.get("resource_category"))
 
   const setPage = useCallback(
     (newPage: number) => {
