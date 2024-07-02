@@ -57,6 +57,7 @@ const Container = styled.div`
 export type CheckboxProps = {
   label?: string
   value?: string
+  name?: string
   checked?: boolean
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   className?: string
@@ -65,6 +66,7 @@ export type CheckboxProps = {
 const Checkbox = ({
   label,
   value,
+  name,
   checked,
   onChange,
   className,
@@ -75,6 +77,7 @@ const Checkbox = ({
         <label>
           <input
             type="checkbox"
+            name={name}
             value={value}
             checked={checked}
             onChange={onChange}
@@ -84,6 +87,7 @@ const Checkbox = ({
       ) : (
         <input
           type="checkbox"
+          name={name}
           value={value}
           checked={checked}
           onChange={onChange}

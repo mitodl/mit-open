@@ -84,4 +84,8 @@ const TimeCommitmentSelect: React.FC<Props> = ({ label, value, onUpdate }) => {
   )
 }
 
-export { TimeCommitmentRadioChoiceBoxField, TimeCommitmentSelect }
+export {
+  TimeCommitmentRadioChoiceBoxField,
+  TimeCommitmentSelect,
+  CHOICES as TIME_COMMITMENT_CHOICES,
+}

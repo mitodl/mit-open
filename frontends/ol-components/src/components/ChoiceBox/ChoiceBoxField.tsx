@@ -24,11 +24,11 @@ interface BaseChoiceBoxFieldProps extends ChoiceBoxGridProps {
   choices: ChoiceBoxChoice[]
   onChange: ChoiceBoxProps["onChange"]
   className?: string
+  name?: string
 }
 
 interface ChoiceBoxFieldProps extends BaseChoiceBoxFieldProps {
   type: ChoiceBoxProps["type"]
-  name?: string
   isChecked: (choice: ChoiceBoxChoice) => boolean
 }
 
