@@ -11,9 +11,8 @@ import {
   styled,
 } from "ol-components"
 
-import { RiLockLine, RiLockUnlockLine } from "@remixicon/react"
+import { RiLockLine, RiLockUnlockLine, RiAddLine } from "@remixicon/react"
 
-import AddIcon from "@mui/icons-material/Add"
 import * as NiceModal from "@ebay/nice-modal-react"
 
 import {
@@ -252,7 +251,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
                 <ListItemButton
                   onClick={() => manageListDialogs.upsertLearningPath()}
                 >
-                  <AddIcon />
+                  <RiAddLine />
                   <ListItemText primary="Create a new list" />
                 </ListItemButton>
               </ListItem>
@@ -268,7 +267,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
                 <ListItemButton
                   onClick={() => manageListDialogs.upsertUserList()}
                 >
-                  <AddIcon />
+                  <RiAddLine />
                   <ListItemText primary="Create a new list" />
                 </ListItemButton>
               </ListItem>
