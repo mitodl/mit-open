@@ -45,4 +45,4 @@ const EducationLevelSelect: React.FC<
   )
 }
 
-export { EducationLevelSelect }
+export { EducationLevelSelect, OPTIONS as EDUCATION_LEVEL_OPTIONS }

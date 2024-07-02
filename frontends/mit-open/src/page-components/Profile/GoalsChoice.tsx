@@ -134,4 +134,8 @@ function GoalsCheckboxChoiceField({
     </FormControl>
   )
 }
-export { GoalsChoiceBoxField, GoalsCheckboxChoiceField }
+export {
+  GoalsChoiceBoxField,
+  GoalsCheckboxChoiceField,
+  CHOICES as GOALS_CHOICES,
+}
