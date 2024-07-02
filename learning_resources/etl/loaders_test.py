@@ -704,7 +704,7 @@ def test_load_offered_bys(
     if offeror_exists and not null_data:
         expected = ocw_offeror
 
-    load_offered_by(resource, None if null_data else {"name": "OCW"})
+    load_offered_by(resource, None if null_data else {"name": "MIT OpenCourseWare"})
 
     assert resource.offered_by == expected
 

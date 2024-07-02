@@ -183,15 +183,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -224,14 +224,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -242,13 +242,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: q
         schema:
@@ -348,11 +349,11 @@ paths:
           The organization that offers a learning resource the content file belongs to
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -390,14 +391,14 @@ paths:
           The platform on which learning resources the content file belongs to is offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -712,11 +713,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -754,14 +755,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -949,11 +950,11 @@ paths:
           The organization that offers a learning resource the content file belongs to
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -991,14 +992,14 @@ paths:
           The platform on which learning resources the content file belongs to is offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -1312,11 +1313,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -1354,14 +1355,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -1705,11 +1706,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -1747,14 +1748,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -1942,11 +1943,11 @@ paths:
           The organization that offers a learning resource the content file belongs to
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -1984,14 +1985,14 @@ paths:
           The platform on which learning resources the content file belongs to is offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -2369,15 +2370,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -2410,14 +2411,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -2428,13 +2429,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: professional
         schema:
@@ -2788,15 +2790,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -2829,14 +2831,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -2847,13 +2849,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: professional
         schema:
@@ -3232,15 +3235,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -3273,14 +3276,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -3291,13 +3294,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: professional
         schema:
@@ -3667,15 +3671,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -3708,14 +3712,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -3726,13 +3730,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: professional
         schema:
@@ -4065,11 +4070,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -4107,14 +4112,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -4783,11 +4788,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -4825,14 +4830,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -5176,11 +5181,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -5218,14 +5223,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -5656,11 +5661,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -5698,14 +5703,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -6439,11 +6444,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -6481,14 +6486,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -6898,11 +6903,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -6940,14 +6945,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -8800,18 +8805,18 @@ components:
       type: string
       description: |-
         * `mitx` - MITx
-        * `ocw` - OCW
+        * `ocw` - MIT OpenCourseWare
         * `bootcamps` - Bootcamps
-        * `xpro` - xPRO
-        * `mitpe` - Professional Education
-        * `see` - Sloan Executive Education
+        * `xpro` - MIT xPRO
+        * `mitpe` - MIT Professional Education
+        * `see` - MIT Sloan Executive Education
       x-enum-descriptions:
       - MITx
-      - OCW
+      - MIT OpenCourseWare
       - Bootcamps
-      - xPRO
-      - Professional Education
-      - Sloan Executive Education
+      - MIT xPRO
+      - MIT Professional Education
+      - MIT Sloan Executive Education
     PaginatedArticleList:
       type: object
       required:
@@ -9402,21 +9407,22 @@ components:
           items:
             $ref: '#/components/schemas/OfferedByEnum'
           description: "The organization that offers the learning resource       \
-            \      \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n\
-            * `xpro` - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-            \ Education"
+            \      \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps`\
+            \ - Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+            * `see` - MIT Sloan Executive Education"
         platform:
           type: array
           items:
             $ref: '#/components/schemas/PlatformEnum'
           description: "The platform on which the learning resource is offered   \
-            \          \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-            * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-            * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan\
-            \ Executive Education\n* `scc` - Schwarzman College of Computing\n* `ctl`\
-            \ - Center for Transportation & Logistics\n* `whu` - WHU\n* `susskind`\
-            \ - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n\
-            * `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+            \          \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` -\
+            \ Open Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` -\
+            \ Bootcamps\n* `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional\
+            \ Education\n* `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman\
+            \ College of Computing\n* `ctl` - Center for Transportation & Logistics\n\
+            * `whu` - WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n\
+            * `simplilearn` - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` -\
+            \ Podcast\n* `youtube` - YouTube"
         topic:
           type: array
           items:
@@ -9582,14 +9588,14 @@ components:
       type: string
       description: |-
         * `edx` - edX
-        * `ocw` - OCW
+        * `ocw` - MIT OpenCourseWare
         * `oll` - Open Learning Library
         * `mitxonline` - MITx Online
         * `bootcamps` - Bootcamps
-        * `xpro` - xPRO
+        * `xpro` - MIT xPRO
         * `csail` - CSAIL
-        * `mitpe` - Professional Education
-        * `see` - Sloan Executive Education
+        * `mitpe` - MIT Professional Education
+        * `see` - MIT Sloan Executive Education
         * `scc` - Schwarzman College of Computing
         * `ctl` - Center for Transportation & Logistics
         * `whu` - WHU
@@ -9601,14 +9607,14 @@ components:
         * `youtube` - YouTube
       x-enum-descriptions:
       - edX
-      - OCW
+      - MIT OpenCourseWare
       - Open Learning Library
       - MITx Online
       - Bootcamps
-      - xPRO
+      - MIT xPRO
       - CSAIL
-      - Professional Education
-      - Sloan Executive Education
+      - MIT Professional Education
+      - MIT Sloan Executive Education
       - Schwarzman College of Computing
       - Center for Transportation & Logistics
       - WHU

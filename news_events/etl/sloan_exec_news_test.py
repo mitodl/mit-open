@@ -1,4 +1,4 @@
-"""Tests for Sloan Executive Education news ETL pipeline"""
+"""Tests for MIT Sloan Executive Education news ETL pipeline"""
 
 import json
 from pathlib import Path
