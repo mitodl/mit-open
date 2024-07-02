@@ -38,10 +38,10 @@
           "langcode": "en"
         },
         "body": {
-          "value": "\u003Cp\u003EBuilding on MIT's prestigious reputation and innovative culture, MIT Professional Education is pleased to offer the Professional Certificate Program in Innovation &amp; Technology. Focused on building competitive advantage through innovation and technology, this credential signifies your depth of knowledge and skill in this high-value area.\u003C/p\u003E",
+          "value": "The full <a href='http://foo.html'>program</a> description.",
           "format": "full_html",
-          "processed": "\u003Cp\u003EBuilding on MIT's prestigious reputation and innovative culture, MIT Professional Education is pleased to offer the Professional Certificate Program in Innovation &amp; Technology. Focused on building competitive advantage through innovation and technology, this credential signifies your depth of knowledge and skill in this high-value area.\u003C/p\u003E",
-          "summary": "Building on MIT's prestigious reputation and innovative culture, MIT Professional Education is pleased to offer the Professional Certificate Program in Innovation & Technology. Focused on building competitive advantage through innovation and technology, this credential signifies your depth of knowledge and skill in this high-value area."
+          "processed": "The full <a href='http://foo.html'>program</a> description.",
+          "summary": "The program summary description."
         },
         "field_ceus": null,
         "field_course_alert": {
@@ -71,7 +71,7 @@
         },
         "field_custom_buttons": [],
         "field_do_not_show_in_catalog": false,
-        "field_featured_course_summary": "Building on MIT's prestigious reputation and innovative culture, MIT Professional Education is pleased to offer the Professional Certificate Program in Innovation & Technology. Focused on building competitive advantage through innovation and technology, this credential signifies your depth of knowledge and skill in this high-value area.",
+        "field_featured_course_summary": "The featured program summary.",
         "field_meta_tags": null,
         "field_registration_deadline": null,
         "field_registration_url": {
@@ -407,10 +407,10 @@
           "langcode": "en"
         },
         "body": {
-          "value": "\u003Cp\u003EIn this three-day course, learners will reinvent their approach to innovation, pulling inspiration from real-world success stories, innovation focused tours through MIT and Cambridge, and a practical application of AI-powered tools to identify their industry’s “next best thing.”\u003Cbr\u003E\u003Cbr\u003ETHIS COURSE MAY BE TAKEN INDIVIDUALLY OR AS PART OF THE \u003Ca href=\"https://professional.mit.edu/course-catalog/professional-certificate-program-innovation-technology\" title=\"PROFESSIONAL CERTIFICATE PROGRAM IN INNOVATION &amp; TECHNOLOGY\"\u003EPROFESSIONAL CERTIFICATE PROGRAM IN INNOVATION &amp; TECHNOLOGY\u003C/a\u003E.\u003C/p\u003E",
+          "value": "The full course description.",
           "format": "full_html",
-          "processed": "\u003Cp\u003EIn this three-day course, learners will reinvent their approach to innovation, pulling inspiration from real-world success stories, innovation focused tours through MIT and Cambridge, and a practical application of AI-powered tools to identify their industry’s “next best thing.”\u003Cbr\u003E\u003Cbr\u003ETHIS COURSE MAY BE TAKEN INDIVIDUALLY OR AS PART OF THE \u003Ca href=\"https://professional.mit.edu/course-catalog/professional-certificate-program-innovation-technology\" title=\"PROFESSIONAL CERTIFICATE PROGRAM IN INNOVATION &amp; TECHNOLOGY\"\u003EPROFESSIONAL CERTIFICATE PROGRAM IN INNOVATION &amp; TECHNOLOGY\u003C/a\u003E.\u003C/p\u003E",
-          "summary": "In this three-day course, learners will reinvent their approach to innovation, pulling inspiration from real-world success stories, innovation focused tours through MIT and Cambridge, and a practical application of AI-powered tools to identify their industry’s “next best thing.”"
+          "processed": "The full course description.",
+          "summary": "The course summary description."
         },
         "field_ceus": "1.8",
         "field_course_alert": {
@@ -436,7 +436,7 @@
         "field_course_webinar_url": null,
         "field_custom_buttons": [],
         "field_do_not_show_in_catalog": false,
-        "field_featured_course_summary": "In this three-day course, learners will reinvent their approach to innovation, pulling inspiration from real-world success stories, innovation focused tours through MIT and Cambridge, and a practical application of AI-powered tools to identify their industry’s “next best thing.”",
+        "field_featured_course_summary": "The featured course summary.",
         "field_meta_tags": null,
         "field_registration_deadline": "2024-07-08",
         "field_registration_url": {

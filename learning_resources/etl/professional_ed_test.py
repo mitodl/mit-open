@@ -1,12 +1,144 @@
 """Tests for Professional Education ETL functions"""
 
+import datetime
 import json
 from pathlib import Path
 
 import pytest
 
-from learning_resources.etl.professional_ed import extract
+from learning_resources.etl import professional_ed
 from main.test_utils import assert_json_equal
+
+EXPECTED_COURSE = {
+    "readable_id": "6d8f9727-beb3-4def-bfb6-bc0f7e270d58",
+    "offered_by": {"code": "mitpe"},
+    "platform": "mitpe",
+    "etl_source": "mitpe",
+    "professional": True,
+    "certification": True,
+    "certification_type": "professional",
+    "title": "Product Innovation in the Age of AI",
+    "url": "https://professional.mit.edu/course-catalog/product-innovation-age-ai",
+    "image": {
+        "alt": "product innovation in the age of AI",
+        "description": "",
+        "url": "https://professional.mit.edu/sites/default/files/2024-04/MITPE-ProductInnovationAgeOfAI-website-banner-1600x800.jpg",
+    },
+    "description": "The featured course summary.",
+    "full_description": "The full course description.",
+    "course": {"course_numbers": []},
+    "learning_format": ["in_person"],
+    "published": True,
+    "topics": [{"name": "Innovation"}],
+    "runs": [
+        {
+            "run_id": "6d8f9727-beb3-4def-bfb6-bc0f7e270d58_2024-07-29",
+            "title": "Product Innovation in the Age of AI",
+            "start_date": datetime.datetime(2024, 7, 29, 4, 0, tzinfo=datetime.UTC),
+            "end_date": datetime.datetime(2024, 7, 31, 4, 0, tzinfo=datetime.UTC),
+            "enrollment_end": datetime.datetime(2024, 7, 8, 4, 0, tzinfo=datetime.UTC),
+            "published": True,
+            "prices": [3600],
+            "url": "https://professional.mit.edu/course-catalog/product-innovation-age-ai",
+            "instructors": [
+                {
+                    "full_name": "Eric von Hippel",
+                    "last_name": "von Hippel",
+                    "first_name": "Eric",
+                },
+                {
+                    "full_name": "Erdin Beshimov",
+                    "last_name": " Beshimov",
+                    "first_name": "Erdin",
+                },
+            ],
+        }
+    ],
+    "unique_field": "url",
+}
+EXPECTED_PROGRAM = {
+    "readable_id": "9c0692c9-7216-4be1-b432-fbeefec1da1f",
+    "offered_by": {"code": "mitpe"},
+    "platform": "mitpe",
+    "etl_source": "mitpe",
+    "professional": True,
+    "certification": True,
+    "certification_type": "professional",
+    "title": "Professional Certificate Program in Innovation & Technology",
+    "url": "https://professional.mit.edu/course-catalog/professional-certificate-program-innovation-technology",
+    "image": {
+        "alt": "Innovation & Technology - Header Image",
+        "description": "",
+        "url": "https://professional.mit.edu/sites/default/files/2021-01/MITPE-InnovationCertificateProgram-website-banner-1600x800.jpg",
+    },
+    "description": "The featured program summary.",
+    "full_description": "The full program description.",
+    "learning_format": ["online", "in_person"],
+    "published": True,
+    "topics": [{"name": "Innovation"}],
+    "runs": [
+        {
+            "run_id": "https://professional.mit.edu/course-catalog/professional-certificate-program-innovation-technology",
+            "instructors": [
+                {
+                    "full_name": "Blade Kotelly",
+                    "last_name": "Kotelly",
+                    "first_name": "Blade",
+                },
+                {
+                    "full_name": "Reza Rahaman",
+                    "last_name": "Rahaman",
+                    "first_name": "Reza",
+                },
+                {
+                    "full_name": "Michael Davies",
+                    "last_name": "Davies",
+                    "first_name": "Michael",
+                },
+                {
+                    "full_name": "Sang-Gook Kim",
+                    "last_name": "Kim",
+                    "first_name": "Sang-Gook",
+                },
+                {
+                    "full_name": "Eric von Hippel",
+                    "last_name": "von Hippel",
+                    "first_name": "Eric",
+                },
+                {
+                    "full_name": "Erdin Beshimov",
+                    "last_name": " Beshimov",
+                    "first_name": "Erdin",
+                },
+                {
+                    "full_name": "Adam Berinsky",
+                    "last_name": "Berinsky",
+                    "first_name": "Adam",
+                },
+                {"full_name": "David Niño", "last_name": "Niño", "first_name": "David"},
+                {
+                    "full_name": "Markus J. Buehler",
+                    "last_name": "Buehler",
+                    "first_name": "Markus J.",
+                },
+                {
+                    "full_name": "Edward Schiappa",
+                    "last_name": "Schiappa",
+                    "first_name": "Edward",
+                },
+                {"full_name": "John Hart", "last_name": "Hart", "first_name": "John"},
+            ],
+        }
+    ],
+    "courses": [EXPECTED_COURSE],
+}
+
+
+@pytest.fixture()
+def prof_ed_settings(settings):
+    """Fixture to set Professional Education API URL"""
+    settings.PROFESSIONAL_EDUCATION_API_URL = "http://pro_edd_api.com"
+    return settings
 
 
 @pytest.fixture()
@@ -22,9 +154,6 @@ def mock_fetch_data(mocker):
         side_effect=[
             read_json("./test_json/professional_ed/professional_ed_resources.json"),
             read_json(
-                "./test_json/professional_ed/professional_ed_program_instructors.json"
-            ),
-            read_json(
                 "./test_json/professional_ed/professional_ed_program_image_1.json"
             ),
             read_json(
@@ -32,6 +161,9 @@ def mock_fetch_data(mocker):
             ),
             read_json(
                 "./test_json/professional_ed/professional_ed_program_topics.json"
+            ),
+            read_json(
+                "./test_json/professional_ed/professional_ed_program_instructors.json"
             ),
             read_json(
                 "./test_json/professional_ed/professional_ed_course_instructors.json"
@@ -55,9 +187,16 @@ def test_extract(settings, mock_fetch_data, prof_ed_api_url):
         Path("./test_json/professional_ed/professional_ed_resources.json"), "r"
     ) as file:
         expected = json.load(file)["data"]
-    results = extract()
+    results = professional_ed.extract()
     if prof_ed_api_url:
         assert len(results) == 2
         assert_json_equal(results, expected)
     else:
         assert len(results) == 0
+
+
+def test_transform(prof_ed_settings, mock_fetch_data):
+    """Test transform function"""
+    courses, programs = professional_ed.transform(professional_ed.extract())
+    assert courses == [EXPECTED_COURSE]
+    assert programs == [EXPECTED_PROGRAM]

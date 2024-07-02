@@ -47,13 +47,13 @@ class ETLSource(Enum):
 
     micromasters = "micromasters"
     mit_edx = "mit_edx"
+    mitpe = "mitpe"
     mitxonline = "mitxonline"
     oll = "oll"
-    xpro = "xpro"
     ocw = "ocw"
-    prof_ed = "prof_ed"
     prolearn = "prolearn"
     podcast = "podcast"
+    xpro = "xpro"
     youtube = "youtube"
 
 

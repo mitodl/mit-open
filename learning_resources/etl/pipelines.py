@@ -178,11 +178,11 @@ def professional_ed_etl() -> tuple[list[LearningResource], list[LearningResource
     courses_data, programs_data = professional_ed.transform(professional_ed.extract())
     return (
         loaders.load_courses(
-            ETLSource.prof_ed.name, courses_data, config=CourseLoaderConfig(prune=True)
+            ETLSource.mitpe.name, courses_data, config=CourseLoaderConfig(prune=True)
         ),
         loaders.load_programs(
-            ETLSource.prof_ed.name,
+            ETLSource.mitpe.name,
             programs_data,
-            config=ProgramLoaderConfig(prune=True),
+            config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig()),
         ),
     )

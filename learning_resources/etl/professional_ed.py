@@ -3,6 +3,7 @@
 import logging
 from datetime import UTC, datetime
 from urllib.parse import urljoin
+from zoneinfo import ZoneInfo
 
 import requests
 from django.conf import settings
@@ -164,7 +165,11 @@ def parse_date(date_str: str) -> datetime or None:
         datetime: start or end date
     """
     if date_str:
-        return datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=UTC)
+        return (
+            datetime.strptime(date_str, "%Y-%m-%d")
+            .replace(tzinfo=ZoneInfo("US/Eastern"))
+            .astimezone(UTC)
+        )
     return None
 
 
@@ -259,7 +264,7 @@ def transform_course(resource_data: dict) -> dict or None:
             "readable_id": resource_data["id"],
             "offered_by": OFFERED_BY,
             "platform": PlatformType.mitpe.name,
-            "etl_source": ETLSource.prof_ed.name,
+            "etl_source": ETLSource.mitpe.name,
             "professional": True,
             "certification": True,
             "certification_type": CertificationType.professional.name,
@@ -302,7 +307,7 @@ def transform_program(resource_data: dict) -> dict:
         "readable_id": resource_data["id"],
         "offered_by": OFFERED_BY,
         "platform": PlatformType.mitpe.name,
-        "etl_source": ETLSource.prof_ed.name,
+        "etl_source": ETLSource.mitpe.name,
         "professional": True,
         "certification": True,
         "certification_type": CertificationType.professional.name,
@@ -323,6 +328,7 @@ def transform_program(resource_data: dict) -> dict:
         "runs": [
             {
                 "run_id": parse_resource_url(resource_data),
+                "instructors": parse_instructors(resource_data),
             }
         ],
         "course_ids": [
@@ -352,7 +358,7 @@ def transform_program_courses(programs: list[dict], courses_data: list[dict]):
         ]
 
 
-def transform(data: dict) -> tuple[list[dict], list[dict]]:
+def transform(data: list[dict]) -> tuple[list[dict], list[dict]]:
     """
     Transform the Professional Education data into courses and programs
 
