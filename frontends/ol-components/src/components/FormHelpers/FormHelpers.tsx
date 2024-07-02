@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "@emotion/styled"
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined"
+import { RiInformationLine } from "@remixicon/react"
 import Typography from "@mui/material/Typography"
 
 const Required = styled.span(({ theme }) => ({
@@ -129,7 +129,7 @@ const FormFieldWrapper: React.FC<FormFieldWrapperProps> = ({
       {helpText && <Description id={helpId}>{helpText}</Description>}
       {error && errorText && (
         <Description id={errorId} error>
-          <InfoOutlinedIcon fontSize="inherit" />
+          <RiInformationLine fontSize="inherit" />
           {errorText}
         </Description>
       )}

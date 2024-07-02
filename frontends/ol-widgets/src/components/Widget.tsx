@@ -6,8 +6,8 @@ import {
   RiDeleteBin7Fill,
   RiArrowDownSLine,
   RiArrowUpSLine,
+  RiDraggable,
 } from "@remixicon/react"
-import IconDrag from "@mui/icons-material/DragHandle"
 
 import type {
   AnonymousWidget,
@@ -120,7 +120,7 @@ const WidgetTemplate: React.FC<WidgetTemplateProps> = ({
               <RiDeleteBin7Fill fontSize="inherit" />
             </button>
             <button aria-label={btnLabel.move} type="button" {...handleProps}>
-              <IconDrag fontSize="inherit" />
+              <RiDraggable fontSize="inherit" />
             </button>
           </CardActions>
         </>
