@@ -1,8 +1,7 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { SimpleMenu } from "./SimpleMenu"
-import EditIcon from "@mui/icons-material/Edit"
-import DeleteIcon from "@mui/icons-material/Delete"
+import { RiPencilFill, RiDeleteBin7Fill } from "@remixicon/react"
 import { withRouter } from "storybook-addon-react-router-v6"
 
 const meta: Meta<typeof SimpleMenu> = {
@@ -45,11 +44,11 @@ export const PlainLinks: Story = {
 export const WithIcons: Story = {
   args: {
     items: [
-      { key: "edit", label: "Edit", icon: <EditIcon />, onClick: () => {} },
+      { key: "edit", label: "Edit", icon: <RiPencilFill />, onClick: () => {} },
       {
         key: "delete",
         label: "Delete",
-        icon: <DeleteIcon />,
+        icon: <RiDeleteBin7Fill />,
         onClick: () => {},
       },
     ],

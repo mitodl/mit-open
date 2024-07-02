@@ -1,6 +1,6 @@
 import {
   RiPaletteLine,
-  RiSeedlingLine,
+  RiShakeHandsLine,
   RiEarthLine,
   RiQuillPenLine,
   RiBriefcase3Line,
@@ -25,7 +25,7 @@ const ICON_MAP = {
   Science: RiTestTubeLine,
   "Social Science": RiUserSearchLine,
   Society: RiEarthLine,
-  "Teaching and Education": RiSeedlingLine,
+  "Teaching and Education": RiShakeHandsLine,
 }
 
 type RootTopicIconProps = { name: string }
