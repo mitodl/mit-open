@@ -116,7 +116,7 @@ export const getFacetManifest = (
 }
 
 const facetNames = [
-  "resource_type",
+  "resource_category",
   "certification_type",
   "learning_format",
   "department",
