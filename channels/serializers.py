@@ -78,9 +78,8 @@ class ChannelAppearanceMixin(serializers.Serializer):
     def get_is_moderator(self, instance) -> bool:
         """Return true if user is a moderator for the channel"""
         request = self.context.get("request")
-        if request and is_moderator(request.user, instance.id):
-            return True
-        return False
+
+        return request and is_moderator(request.user, instance.id)
 
     def get_avatar(self, channel) -> str | None:
         """Get the avatar image URL"""
