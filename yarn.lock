@@ -4063,11 +4063,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:3.1.3":
+"@mitodl/course-search-utils@git+https://github.com/mitodl/course-search-utils.git#ab/resource-category":
   version: 3.1.3
-  resolution: "@mitodl/course-search-utils@npm:3.1.3"
+  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=a8869b939d957a1002f4cc6fae7c785c1fc0aca3"
   dependencies:
-    "@mitodl/open-api-axios": "npm:^2024.6.4"
+    "@mitodl/open-api-axios": "npm:^2024.7.2"
     axios: "npm:^1.6.7"
     fuse.js: "npm:^7.0.0"
     query-string: "npm:^6.13.1"
@@ -4084,17 +4084,17 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 10/bb0b0fafe2ec36b9b04729cde6e610b67b481b39489ce14a2d832fb2d5e48fa71f923d541869e29c3ca8e8944eab36e53ca0736e01893e7bd4d7c859454695ae
+  checksum: 10/74c00bfe93179f48c27a63dca1e338a4824e1ac45b7b37004ceea9aa15deeb602168e92e0dbb20db1facfbf114293b21fab35434488a7b63caa7794c909bf409
   languageName: node
   linkType: hard
 
-"@mitodl/open-api-axios@npm:^2024.6.4":
-  version: 2024.6.13
-  resolution: "@mitodl/open-api-axios@npm:2024.6.13"
+"@mitodl/open-api-axios@npm:^2024.7.2":
+  version: 2024.7.2
+  resolution: "@mitodl/open-api-axios@npm:2024.7.2"
   dependencies:
     "@types/node": "npm:^20.11.19"
     axios: "npm:^1.6.5"
-  checksum: 10/6505a551935929095bc324dc61e3577858938f761d19a16a7b5b3b385c539cf4ed56e15e9b57ccd09584fee9f076817114d3057e1148c54955f83b440e096133
+  checksum: 10/aaf77c821458ced4c86695aa3fb071a9186a87bec292247ff9b99b5f05b32e1369ea5d75f4e1cff3752c8d5f0cb5ba6c588b9be6e8b8f520cc425005bdcea058
   languageName: node
   linkType: hard
 
@@ -7215,7 +7215,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^20.11.19":
+"@types/node@npm:*":
   version: 20.14.2
   resolution: "@types/node@npm:20.14.2"
   dependencies:
@@ -7239,6 +7239,15 @@ __metadata:
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10/73822f66f269ce865df7e2f586787ac7444bd1169fd265cbed1e851b72787f1170517c5b616e0308ec2fbc0934ec6403b0f28d4152acbb0486071aec41167d51
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.11.19":
+  version: 20.14.9
+  resolution: "@types/node@npm:20.14.9"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10/f313b06c79be92f5d3541159ef813b9fc606941f951ecf826e940658c6d4952755ca2f06277b746326cef0697ed79a04676ecde053d32e1121b3352c8168d2e9
   languageName: node
   linkType: hard
 
@@ -18605,7 +18614,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^8.0.0"
-    "@mitodl/course-search-utils": "npm:3.1.3"
+    "@mitodl/course-search-utils": "git+https://github.com/mitodl/course-search-utils.git#ab/resource-category"
     "@mui/icons-material": "npm:^5.15.15"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@remixicon/react": "npm:^4.2.0"
