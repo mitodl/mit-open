@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.17
+Version 0.13.17 (Released July 02, 2024)
 ---------------
 
 - Fix default image height in resource cards (#1212)
