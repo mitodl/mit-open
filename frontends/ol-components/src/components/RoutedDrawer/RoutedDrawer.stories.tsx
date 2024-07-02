@@ -16,7 +16,7 @@ const Content = styled.div({
 })
 
 const meta: Meta<typeof RoutedDrawer> = {
-  title: "ol-components/RoutedDrawer",
+  title: "smoot-design/RoutedDrawer",
   decorators: [withRouter],
 }
 

@@ -18,7 +18,7 @@ function StateWrapper(props: BooleanRadioChoiceFieldProps) {
 }
 
 const meta: Meta<typeof BooleanRadioChoiceField> = {
-  title: "ol-components/BooleanRadioChoiceField",
+  title: "~smoot-design/BooleanRadioChoiceField",
   component: StateWrapper,
   argTypes: {
     onChange: {

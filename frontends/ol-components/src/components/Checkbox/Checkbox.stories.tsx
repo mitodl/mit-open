@@ -15,7 +15,7 @@ const StateWrapper = (props: CheckboxProps) => {
 }
 
 const meta: Meta<typeof Checkbox> = {
-  title: "ol-components/Checkbox",
+  title: "smoot-design/Checkbox",
   component: StateWrapper,
   argTypes: {
     onChange: {

@@ -23,7 +23,7 @@ const BreakpointsDemo = () => {
 }
 
 const meta: Meta<typeof BreakpointsDemo> = {
-  title: "ol-components/Breakpoints",
+  title: "smoot-design/Container Breakpoints",
   component: BreakpointsDemo,
   parameters: {
     viewports: {},

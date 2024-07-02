@@ -254,6 +254,6 @@ $("#add-to-user-list-button").on("click", async (event) => {
 
 This is just an example, and you could input any `readable_id` to bring up a dialog to add any given `LearningResource` object to a `UserList`.
 
-## GitHub Pages
+## GitHub Pages Storybook
 
-A static site for this repo with developer resources publishes to https://mitodl.github.io/mit-open/ during CI runs.
+Demos and documentation of reusable UI components in this repo are published as a [storybook](https://storybook.js.org/) at https://mitodl.github.io/mit-open/.

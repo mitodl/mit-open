@@ -15,7 +15,7 @@ const StateWrapper = (props: ChoiceBoxProps) => {
 }
 
 const meta: Meta<typeof ChoiceBox> = {
-  title: "ol-components/ChoiceBox",
+  title: "smoot-design/ChoiceBox",
   component: StateWrapper,
   argTypes: {
     type: {

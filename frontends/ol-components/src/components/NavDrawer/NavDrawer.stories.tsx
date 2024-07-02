@@ -52,7 +52,7 @@ const NavDrawerDemo = () => {
 }
 
 const meta: Meta<typeof NavDrawer> = {
-  title: "ol-components/NavDrawer",
+  title: "smoot-design/NavDrawer",
   component: NavDrawerDemo,
   argTypes: {
     onReset: {

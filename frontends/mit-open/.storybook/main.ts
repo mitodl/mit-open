@@ -31,7 +31,6 @@ const config = {
   docs: {
     autodocs: "tag",
   },
-  staticDirs: ["../build"],
   env: (config: any) => ({
     ...config,
     PUBLIC_URL: process.env.PUBLIC_URL || "",

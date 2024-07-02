@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { ShareTooltip } from "./ShareTooltip"
 
 const meta: Meta<typeof ShareTooltip> = {
-  title: "ol-components/ShareTooltip",
+  title: "old/ShareTooltip",
   component: ShareTooltip,
 }
 

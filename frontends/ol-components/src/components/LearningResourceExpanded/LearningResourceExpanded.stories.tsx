@@ -18,7 +18,7 @@ const makeResource: typeof _makeResource = (overrides) => {
 }
 
 const meta: Meta<typeof LearningResourceExpanded> = {
-  title: "ol-components/LearningResourceExpanded",
+  title: "smoot-design/LearningResourceExpanded",
   component: LearningResourceExpanded,
   args: {
     imgConfig: {

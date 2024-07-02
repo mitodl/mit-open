@@ -5,7 +5,7 @@ import { withRouter } from "storybook-addon-react-router-v6"
 import styled from "@emotion/styled"
 
 const meta: Meta<typeof Breadcrumbs> = {
-  title: "ol-components/Breadcrumbs",
+  title: "smoot-design/Breadcrumbs",
   component: Breadcrumbs,
   decorators: [withRouter],
 }

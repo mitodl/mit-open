@@ -15,7 +15,7 @@ const StateWrapper = (props: RadioProps) => {
 }
 
 const meta: Meta<typeof Radio> = {
-  title: "ol-components/Radio",
+  title: "smoot-design/Radio",
   component: StateWrapper,
   argTypes: {
     onChange: {

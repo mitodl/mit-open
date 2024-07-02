@@ -35,7 +35,7 @@ const DialogDemo = (props: FormDialogProps) => {
 }
 
 const meta: Meta<typeof FormDialog> = {
-  title: "ol-components/FormDialog",
+  title: "smoot-design/FormDialog",
   component: DialogDemo,
   argTypes: {
     onReset: {

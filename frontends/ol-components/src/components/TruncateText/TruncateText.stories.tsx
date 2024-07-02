@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { TruncateText } from "./TruncateText"
 
 const meta: Meta<typeof TruncateText> = {
-  title: "ol-components/TruncateText",
+  title: "smoot-design/TruncateText",
   component: TruncateText,
   argTypes: {
     lineClamp: {
