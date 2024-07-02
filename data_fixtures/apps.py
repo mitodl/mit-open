@@ -1,9 +1,9 @@
-"""embedly apps"""
+"""data_fixtures apps"""
 
 from django.apps import AppConfig
 
 
 class DataFixturesConfig(AppConfig):
-    """embedly config"""
+    """Data Fixtures config"""
 
     name = "data_fixtures"
