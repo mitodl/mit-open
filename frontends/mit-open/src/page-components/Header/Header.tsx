@@ -9,7 +9,21 @@ import {
   ClickAwayListener,
   ActionButtonLink,
 } from "ol-components"
-import { RiSearch2Line } from "@remixicon/react"
+import {
+  RiSearch2Line,
+  RiPencilRulerLine,
+  RiStackLine,
+  RiSignpostLine,
+  RiBookMarkedLine,
+  RiPresentationLine,
+  RiNodeTree,
+  RiVerifiedBadgeLine,
+  RiFileAddLine,
+  RiTimeLine,
+  RiHeartLine,
+  RiPriceTag3Line,
+  RiAwardLine,
+} from "@remixicon/react"
 import { MITLogoLink, useToggle } from "ol-utilities"
 import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
@@ -151,26 +165,26 @@ const navData: NavData = {
       items: [
         {
           title: "Courses",
-          icon: "/static/images/navdrawer/courses.svg",
+          icon: <RiPencilRulerLine />,
           description: "Learn with MIT instructors",
           href: querifiedSearchUrl({ resource_category: "course" }),
         },
         {
           title: "Programs",
-          icon: "/static/images/navdrawer/programs.svg",
+          icon: <RiStackLine />,
           description:
             "Learn in-depth from a series of courses and earn a certificate",
           href: querifiedSearchUrl({ resource_category: "program" }),
         },
         {
           title: "Pathways",
-          icon: "/static/images/navdrawer/pathways.svg",
+          icon: <RiSignpostLine />,
           description:
             "Achieve your learning goals with a curated collection of courses",
         },
         {
           title: "Learning Materials",
-          icon: "/static/images/navdrawer/learning_materials.svg",
+          icon: <RiBookMarkedLine />,
           description:
             "Free teaching and learning materials including videos, podcasts, lecture notes, etc.",
           href: querifiedSearchUrl({ resource_category: "learning_material" }),
@@ -182,17 +196,17 @@ const navData: NavData = {
       items: [
         {
           title: "By Topic",
-          icon: "/static/images/navdrawer/topics.svg",
+          icon: <RiPresentationLine />,
           href: TOPICS,
         },
         {
           title: "By Departments",
-          icon: "/static/images/navdrawer/departments.svg",
+          icon: <RiNodeTree />,
           href: DEPARTMENTS,
         },
         {
           title: "By Provider",
-          icon: "/static/images/navdrawer/provider.svg",
+          icon: <RiVerifiedBadgeLine />,
           href: UNITS,
         },
       ],
@@ -202,27 +216,27 @@ const navData: NavData = {
       items: [
         {
           title: "New",
-          icon: "/static/images/navdrawer/new.svg",
+          icon: <RiFileAddLine />,
           href: querifiedSearchUrl({ sortby: "new" }),
         },
         {
           title: "Upcoming",
-          icon: "/static/images/navdrawer/free.svg",
+          icon: <RiTimeLine />,
           href: querifiedSearchUrl({ sortby: "upcoming" }),
         },
         {
           title: "Popular",
-          icon: "/static/images/navdrawer/popular.svg",
           href: querifiedSearchUrl({ sortby: "-views" }),
+          icon: <RiHeartLine />,
         },
         {
           title: "Free",
-          icon: "/static/images/navdrawer/free.svg",
+          icon: <RiPriceTag3Line />,
           href: querifiedSearchUrl({ free: "true" }),
         },
         {
           title: "With Certificate",
-          icon: "/static/images/navdrawer/certificate.svg",
+          icon: <RiAwardLine />,
           href: querifiedSearchUrl({ certification: "true" }),
         },
       ],
