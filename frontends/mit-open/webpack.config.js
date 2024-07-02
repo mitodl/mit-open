@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path")
-require("dotenv").config({
-  path: [
-    path.resolve(__dirname, "../../env/frontend.local.env"),
-    path.resolve(__dirname, "../../env/frontend.env"),
-    path.resolve(__dirname, "../../env/shared.local.env"),
-    path.resolve(__dirname, "../../env/shared.env"),
-    path.resolve(__dirname, "../../.env"),
-  ],
-})
+
+if (process.env.ENVIRONMENT !== "docker") {
+  require("dotenv").config({
+    path: [
+      path.resolve(__dirname, "../../env/frontend.local.env"),
+      path.resolve(__dirname, "../../env/frontend.env"),
+      path.resolve(__dirname, "../../env/shared.local.env"),
+      path.resolve(__dirname, "../../env/shared.env"),
+      path.resolve(__dirname, "../../.env"),
+    ],
+  })
+}
 
 const webpack = require("webpack")
 const BundleTracker = require("webpack-bundle-tracker")
