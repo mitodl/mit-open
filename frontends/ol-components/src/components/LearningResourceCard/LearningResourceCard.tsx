@@ -110,7 +110,7 @@ const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
   resource,
   size,
 }) => {
-  const startDate = getStartDate(resource)
+  const startDate = getStartDate(resource, size)
 
   if (!startDate) return null
 

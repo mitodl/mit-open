@@ -60,6 +60,7 @@ describe("DashboardPage", () => {
     )
 
     const topPicks = factories.learningResources.courses({ count: 10 })
+
     topPicks.results.forEach((course) => {
       course.topics = topics?.map((topic) =>
         factories.learningResources.topic({ name: topic }),
