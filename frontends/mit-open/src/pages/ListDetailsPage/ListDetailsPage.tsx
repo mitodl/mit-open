@@ -1,7 +1,6 @@
 import React from "react"
 import { Container, Grid, Button, BannerPage, Typography } from "ol-components"
-import { RiPencilFill } from "@remixicon/react"
-import SwapVertIcon from "@mui/icons-material/SwapVert"
+import { RiPencilFill, RiArrowUpDownLine } from "@remixicon/react"
 import { useUserMe } from "api/hooks/user"
 import { useToggle, pluralize, MetaTags } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
@@ -58,7 +57,7 @@ const ListDetailsComponent: React.FC<ListDetailsPageProps> = (props) => {
               <Button
                 variant="text"
                 disabled={count === 0}
-                startIcon={isSorting ? undefined : <SwapVertIcon />}
+                startIcon={isSorting ? undefined : <RiArrowUpDownLine />}
                 onClick={toggleIsSorting.toggle}
               >
                 {isSorting ? "Done ordering" : "Reorder"}
