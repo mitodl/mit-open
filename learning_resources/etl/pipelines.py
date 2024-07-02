@@ -16,6 +16,7 @@ from learning_resources.etl import (
     oll,
     podcast,
     posthog,
+    professional_ed,
     prolearn,
     xpro,
     youtube,
@@ -26,6 +27,7 @@ from learning_resources.etl.constants import (
     ProgramLoaderConfig,
 )
 from learning_resources.etl.exceptions import ExtractException
+from learning_resources.models import LearningResource
 
 log = logging.getLogger(__name__)
 
@@ -164,3 +166,23 @@ posthog_etl = compose(
     posthog.posthog_transform_lrd_view_events,
     posthog.posthog_extract_lrd_view_events,
 )
+
+
+def professional_ed_etl() -> tuple[list[LearningResource], list[LearningResource]]:
+    """
+    ETL for professional education courses and programs.
+
+    This pipeline is structured a bit differently than others because the source API
+    and the transform/extract functions return both courses and programs.
+    """
+    courses_data, programs_data = professional_ed.transform(professional_ed.extract())
+    return (
+        loaders.load_courses(
+            ETLSource.mitpe.name, courses_data, config=CourseLoaderConfig(prune=True)
+        ),
+        loaders.load_programs(
+            ETLSource.mitpe.name,
+            programs_data,
+            config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig()),
+        ),
+    )
