@@ -109,7 +109,11 @@ INSTALLED_APPS = (
     "oauth2_provider",
     "news_events",
     "testimonials",
+    "data_fixtures",
 )
+
+if not get_bool("RUN_DATA_MIGRATIONS", default=False):
+    MIGRATION_MODULES = {"data_fixtures": None}
 
 SCIM_SERVICE_PROVIDER = {
     "SCHEME": "https",
