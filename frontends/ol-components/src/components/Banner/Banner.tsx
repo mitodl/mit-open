@@ -37,10 +37,31 @@ const NavText = styled(Typography)(({ theme }) => ({
   marginBottom: "4px",
 }))
 
+const InnerContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "flex-start",
+  justifyContent: "space-between",
+  [theme.breakpoints.down("sm")]: {
+    flexDirection: "column",
+  },
+}))
+
+const TitleContainer = styled.div({
+  display: "flex",
+  flexDirection: "column",
+})
+
+const ActionsContainer = styled.div({
+  display: "flex",
+  flexDirection: "row",
+})
+
 type BannerProps = BannerWrapperProps & {
   description: React.ReactNode
   title: React.ReactNode
   navText: React.ReactNode
+  action?: React.ReactNode
 }
 
 /**
@@ -52,17 +73,23 @@ const Banner = ({
   description,
   title,
   navText,
+  action,
 }: BannerProps) => {
   return (
     <BannerWrapper backgroundUrl={backgroundUrl}>
       <Container>
-        <NavText variant="subtitle3">{navText}</NavText>
-        <Typography component="h1" typography={{ xs: "h2", md: "h1" }}>
-          {title}
-        </Typography>
-        <Description typography={{ xs: "body2", md: "body1" }}>
-          {description}
-        </Description>
+        <InnerContainer>
+          <TitleContainer>
+            <NavText variant="subtitle3">{navText}</NavText>
+            <Typography component="h1" typography={{ xs: "h2", md: "h1" }}>
+              {title}
+            </Typography>
+            <Description typography={{ xs: "body2", md: "body1" }}>
+              {description}
+            </Description>
+          </TitleContainer>
+          <ActionsContainer>{action}</ActionsContainer>
+        </InnerContainer>
       </Container>
     </BannerWrapper>
   )
