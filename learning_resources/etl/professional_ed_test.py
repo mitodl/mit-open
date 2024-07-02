@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+from learning_resources.constants import LearningResourceFormat
 from learning_resources.etl import professional_ed
 from main.test_utils import assert_json_equal
 
@@ -196,7 +197,24 @@ def test_extract(settings, mock_fetch_data, prof_ed_api_url):
 
 
 def test_transform(prof_ed_settings, mock_fetch_data):
-    """Test transform function"""
+    """Test transform function, and effectivelu most other functions"""
     courses, programs = professional_ed.transform(professional_ed.extract())
     assert courses == [EXPECTED_COURSE]
     assert programs == [EXPECTED_PROGRAM]
+
+
+@pytest.mark.parametrize(
+    ("format_str", "expected"),
+    [
+        ("On Campus", [LearningResourceFormat.in_person.name]),
+        ("Online", [LearningResourceFormat.online.name]),
+        (
+            "Live Virtual OR On Campus",
+            [LearningResourceFormat.online.name, LearningResourceFormat.in_person.name],
+        ),
+        ("Unrecognized", [LearningResourceFormat.online.name]),
+    ],
+)
+def test_parse_format(format_str, expected):
+    """Test parse_format function"""
+    assert professional_ed.parse_format(format_str) == expected
