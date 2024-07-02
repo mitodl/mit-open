@@ -2,6 +2,7 @@
 const path = require("path")
 
 if (process.env.ENVIRONMENT === "local") {
+  console.info("Loading environment from .env files")
   require("dotenv").config({
     path: [
       path.resolve(__dirname, "../../env/frontend.local.env"),
@@ -267,7 +268,7 @@ module.exports = (env, argv) => {
       devMiddleware: {
         writeToDisk: true,
       },
-      host: ENVIRONMENT === "docker" ? "0.0.0.0" : "::",
+      host: "0.0.0.0",
       proxy: [
         {
           context: [
