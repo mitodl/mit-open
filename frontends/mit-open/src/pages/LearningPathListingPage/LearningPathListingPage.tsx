@@ -13,9 +13,7 @@ import {
   ListCardActionButton,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
-import EditIcon from "@mui/icons-material/Edit"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
-import DeleteIcon from "@mui/icons-material/Delete"
+import { RiPencilFill, RiMore2Line, RiDeleteBinLine } from "@remixicon/react"
 
 import { MetaTags } from "ol-utilities"
 import type { LearningPathResource } from "api"
@@ -40,13 +38,13 @@ const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
       {
         key: "edit",
         label: "Edit",
-        icon: <EditIcon />,
+        icon: <RiPencilFill />,
         onClick: () => manageListDialogs.upsertLearningPath(resource),
       },
       {
         key: "delete",
         label: "Delete",
-        icon: <DeleteIcon />,
+        icon: <RiDeleteBinLine />,
         onClick: () => manageListDialogs.destroyLearningPath(resource),
       },
     ],
@@ -62,7 +60,7 @@ const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
           size="small"
           aria-label={`Edit list ${resource.title}`}
         >
-          <MoreVertIcon fontSize="inherit" />
+          <RiMore2Line fontSize="inherit" />
         </ListCardActionButton>
       }
       items={items}

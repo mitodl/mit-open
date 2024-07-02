@@ -7,7 +7,7 @@ import {
   styled,
   TruncateText,
 } from "ol-components"
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
+import { RiDraggable } from "@remixicon/react"
 import {
   DEFAULT_RESOURCE_IMG,
   EmbedlyConfig,
@@ -238,7 +238,7 @@ const CardTemplate = ({
         </Details>
         {sortable ? (
           <DragHandle>
-            <DragIndicatorIcon fontSize="inherit" />
+            <RiDraggable fontSize="inherit" data-testid="CardDraggable" />
           </DragHandle>
         ) : null}
       </StyledCardContent>

@@ -1,6 +1,5 @@
 import React, { useCallback } from "react"
 
-import ClearIcon from "@mui/icons-material/Clear"
 import {
   Input,
   AdornmentButton,
@@ -10,7 +9,7 @@ import {
   css,
 } from "ol-components"
 import type { InputProps } from "ol-components"
-import { RiSearch2Line } from "@remixicon/react"
+import { RiSearch2Line, RiCloseLine } from "@remixicon/react"
 
 export interface SearchSubmissionEvent {
   target: {
@@ -139,7 +138,7 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
               aria-label="Clear search text"
               onClick={props.onClear}
             >
-              <ClearIcon />
+              <RiCloseLine />
             </AdornmentButton>
           )
         }

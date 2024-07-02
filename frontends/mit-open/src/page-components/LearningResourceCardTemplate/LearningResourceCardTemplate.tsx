@@ -2,7 +2,7 @@ import React, { useCallback } from "react"
 import { ResourceTypeEnum } from "api"
 import type { LearningResource } from "api"
 import { Chip, styled } from "ol-components"
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
+import { RiCalendarLine } from "@remixicon/react"
 import {
   formatDate,
   pluralize,
@@ -72,7 +72,7 @@ const ResourceFooterDetails: React.FC<
   return (
     <CalendarChip
       variant="gray"
-      icon={<CalendarTodayIcon />}
+      icon={<RiCalendarLine />}
       label={formattedDate}
     />
   )

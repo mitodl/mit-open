@@ -2,7 +2,7 @@ import React, { useMemo } from "react"
 import { styled, Typography, Box } from "ol-components"
 import { capitalize } from "ol-utilities"
 import { ChannelTypeEnum, Channel } from "api/v0"
-import OpenInNewIcon from "@mui/icons-material/OpenInNew"
+import { RiExternalLinkLine } from "@remixicon/react"
 
 type ChannelDetailsProps = {
   channel: Channel
@@ -90,7 +90,7 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
       title: "More Information",
       labelFunction: (key: string, channelTitle: string) => (
         <a href={key}>
-          {channelTitle} website <OpenInNewIcon fontSize="inherit" />
+          {channelTitle} website <RiExternalLinkLine size={18} />
         </a>
       ),
       order: 1,
