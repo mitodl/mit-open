@@ -4,7 +4,7 @@ import { BasicDialog } from "./BasicDialog"
 import Typography from "@mui/material/Typography"
 
 const meta: Meta<typeof BasicDialog> = {
-  title: "ol-components/BasicDialog",
+  title: "smoot-design/BasicDialog",
   render: (props) => (
     <BasicDialog {...props}>
       <Typography variant="h1">Dialog Content</Typography>
