@@ -155,11 +155,6 @@ function restrictedImports({ paths = [], patterns = [] } = {}) {
             allowTypeImports: true,
           },
           {
-            name: "@mui/icons-material",
-            message: "Please use @mui/icons-material/<ICON_NAME> instead.",
-            allowTypeImports: true,
-          },
-          {
             name: "@mui/material",
             message: "Please use @mui/material/<COMPONENT_NAME> instead.",
             allowTypeImports: true,
