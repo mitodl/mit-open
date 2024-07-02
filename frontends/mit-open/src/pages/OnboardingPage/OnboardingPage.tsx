@@ -117,7 +117,9 @@ const Label = styled.div({
 
 const profileSchema = yup.object().shape({
   topic_interests: yup.array().of(yup.string()),
-  goals: yup.array().of(yup.string()),
+  goals: yup
+    .array()
+    .of(yup.string().oneOf(GOALS_CHOICES.map((choice) => choice.value))),
   certificate_desired: yup.string(),
   current_education: yup.string(),
   time_commitment: yup.string(),
@@ -248,6 +250,7 @@ const OnboardingPage: React.FC = () => {
       <SimpleSelectField
         options={EDUCATION_LEVEL_OPTIONS}
         name="current_education"
+        fullWidth
         label={
           <Label>
             <Title component="h3" variant="h6">
