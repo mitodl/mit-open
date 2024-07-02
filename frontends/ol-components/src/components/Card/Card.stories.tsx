@@ -6,7 +6,7 @@ import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
 import { withRouter } from "storybook-addon-react-router-v6"
 
 const meta: Meta<typeof Card> = {
-  title: "ol-components/Card",
+  title: "smoot-design/Cards/Card",
   argTypes: {
     size: {
       options: ["small", "medium"],

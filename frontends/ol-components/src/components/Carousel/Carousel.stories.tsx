@@ -26,7 +26,7 @@ const StyledCarousel = styled(Carousel)({
 })
 
 const meta: Meta<typeof Carousel> = {
-  title: "ol-components/Carousel",
+  title: "smoot-design/Carousel",
   render: (props) => (
     <div>
       This carousel:

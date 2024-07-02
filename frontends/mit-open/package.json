@@ -14,7 +14,7 @@
     "build": "webpack --config webpack.config.js --bail",
     "build-exports": "webpack --config webpack.exports.js --bail",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --output-dir build/storybook"
+    "build-storybook": "storybook build"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
@@ -33,6 +33,7 @@
     "@testing-library/react": "14.3.1",
     "@testing-library/user-event": "14.5.2",
     "@types/lodash": "^4.14.182",
+    "@types/react-refresh": "^0",
     "@types/react-slick": "^0",
     "@types/slick-carousel": "^1",
     "copy-webpack-plugin": "^12.0.2",
@@ -42,6 +43,7 @@
     "html-webpack-plugin": "^5.6.0",
     "mini-css-extract-plugin": "^2.6.1",
     "ol-test-utilities": "0.0.0",
+    "react-refresh": "^0.14.2",
     "storybook": "^8.1.10",
     "swc-loader": "^0.2.6",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
@@ -57,7 +59,7 @@
   },
   "dependencies": {
     "@ebay/nice-modal-react": "^1.2.13",
-    "@mitodl/course-search-utils": "3.1.3",
+    "@mitodl/course-search-utils": "^3.1.4",
     "@remixicon/react": "^4.2.0",
     "@sentry/react": "^7.57.0",
     "@tanstack/react-query": "^4.36.1",

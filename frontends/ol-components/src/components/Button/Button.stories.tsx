@@ -42,7 +42,7 @@ const meta: Meta<typeof Button> = {
       control: { type: "select" },
     },
     edge: {
-      options: ["circular", "rounded", "none"],
+      options: ["circular", "rounded"],
       control: { type: "select" },
     },
     startIcon: {
@@ -247,29 +247,40 @@ export const LinkStory: Story = {
 }
 export const ButtonsShowcase: Story = {
   render: (args) => (
-    <Grid container rowGap={2} sx={{ maxWidth: "500px" }}>
+    <Grid container rowGap={2} sx={{ maxWidth: "600px" }}>
       {VARIANTS.flatMap((variant) =>
         EDGES.flatMap((edge) =>
           EXTRA_PROPS.map((extraProps, i) => {
-            return SIZES.map((size) => (
-              <Grid
-                item
-                xs={4}
-                display="flex"
-                alignItems="center"
-                key={`${variant}-${edge}-${size}-${i}`}
-              >
-                <Button
-                  {...args}
-                  variant={variant}
-                  edge={edge}
-                  size={size}
-                  {...extraProps}
-                >
-                  {args.children}
-                </Button>
-              </Grid>
-            ))
+            return (
+              <React.Fragment key={`${variant}-${edge}-${i}`}>
+                <Grid xs={3}>
+                  <pre>
+                    variant={variant}
+                    <br />
+                    edge={edge}
+                  </pre>
+                </Grid>
+                {SIZES.map((size) => (
+                  <Grid
+                    item
+                    xs={3}
+                    display="flex"
+                    alignItems="center"
+                    key={`${size}`}
+                  >
+                    <Button
+                      {...args}
+                      variant={variant}
+                      edge={edge}
+                      size={size}
+                      {...extraProps}
+                    >
+                      {args.children}
+                    </Button>
+                  </Grid>
+                ))}
+              </React.Fragment>
+            )
           }),
         ),
       )}
@@ -321,6 +332,11 @@ export const ActionButtonsShowcase: Story = {
             alignItems="center"
             sx={{ my: 2 }}
           >
+            <pre>
+              variant={variant}
+              <br />
+              edge={edge}
+            </pre>
             {SIZES.map((size) => (
               <React.Fragment key={size}>
                 {ICONS.map((icon) => (
