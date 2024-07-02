@@ -185,14 +185,20 @@ def parse_format(format_str: str) -> list[str]:
     """
     format_str = format_str.strip().lower()
     formats = []
-    if "virtual" in format_str or "online" in format_str:
-        formats.append(LearningResourceFormat.online.name)
-    if "campus" in format_str:
-        formats.append(LearningResourceFormat.in_person.name)
-    if not formats:
-        log.warning("Unknown format: %s, defaulting to online", format_str)
-        formats.append(LearningResourceFormat.online.name)
-    return formats
+    is_online = "virtual" in format_str or "online" in format_str
+    in_person = "campus" in format_str
+    is_hybrid = is_online and in_person and " and " in format_str
+    if is_hybrid:
+        formats.append(LearningResourceFormat.hybrid.name)
+    else:
+        if in_person:
+            formats.append(LearningResourceFormat.in_person.name)
+        if is_online:
+            formats.append(LearningResourceFormat.online.name)
+        if not formats:
+            log.warning("Unknown format: %s, defaulting to online", format_str)
+            formats.append(LearningResourceFormat.online.name)
+    return sorted(formats)
 
 
 def parse_resource_url(resource_data: dict) -> str:

@@ -74,7 +74,7 @@ EXPECTED_PROGRAM = {
     },
     "description": "The featured program summary.",
     "full_description": "The full program description.",
-    "learning_format": ["online", "in_person"],
+    "learning_format": ["hybrid"],
     "published": True,
     "topics": [{"name": "Innovation"}],
     "runs": [
@@ -212,9 +212,13 @@ def test_transform(prof_ed_settings, mock_fetch_data):
             "Live Virtual OR On Campus",
             [LearningResourceFormat.online.name, LearningResourceFormat.in_person.name],
         ),
+        (
+            "Live Virtual And On Campus",
+            [LearningResourceFormat.hybrid.name],
+        ),
         ("Unrecognized", [LearningResourceFormat.online.name]),
     ],
 )
 def test_parse_format(format_str, expected):
     """Test parse_format function"""
-    assert professional_ed.parse_format(format_str) == expected
+    assert sorted(professional_ed.parse_format(format_str)) == sorted(expected)
