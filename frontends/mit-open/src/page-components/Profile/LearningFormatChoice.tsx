@@ -63,6 +63,7 @@ const LearningFormatChoiceBoxField: React.FC<Props> = ({
 
   return (
     <RadioChoiceBoxField
+      name="learning_format"
       label={label}
       onChange={handleChange}
       choices={CHOICES}
@@ -93,4 +94,8 @@ const LearningFormatSelect: React.FC<Props> = ({ label, value, onUpdate }) => {
   )
 }
 
-export { LearningFormatChoiceBoxField, LearningFormatSelect }
+export {
+  LearningFormatChoiceBoxField,
+  LearningFormatSelect,
+  CHOICES as LEARNING_FORMAT_CHOICES,
+}

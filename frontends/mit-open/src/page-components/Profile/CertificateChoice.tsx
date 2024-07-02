@@ -120,4 +120,8 @@ const CertificateRadioChoiceField: React.FC<Props> = ({
   )
 }
 
-export { CertificateChoiceBoxField, CertificateRadioChoiceField }
+export {
+  CertificateChoiceBoxField,
+  CertificateRadioChoiceField,
+  CHOICES as CERTIFICATE_CHOICES,
+}

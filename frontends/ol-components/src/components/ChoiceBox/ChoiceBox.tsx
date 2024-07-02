@@ -84,7 +84,12 @@ const ChoiceBox = ({
       </Text>
       <Input>
         {type === "checkbox" ? (
-          <Checkbox value={value} checked={checked} onChange={onChange} />
+          <Checkbox
+            name={name}
+            value={value}
+            checked={checked}
+            onChange={onChange}
+          />
         ) : null}
         {type === "radio" ? (
           <Radio

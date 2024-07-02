@@ -1,6 +1,5 @@
-import React from "react"
+import React, { useId, useMemo } from "react"
 import { useNavigate } from "react-router-dom"
-import isEqual from "lodash/isEqual"
 import range from "lodash/range"
 import {
   styled,
@@ -13,21 +12,25 @@ import {
   LoadingSpinner,
   CircularProgress,
   Typography,
+  CheckboxChoiceBoxField,
+  RadioChoiceBoxField,
+  SimpleSelectField,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
-import { PatchedProfileRequest } from "api/v0"
 
-import { LearningFormatChoiceBoxField } from "@/page-components/Profile/LearningFormatChoice"
-import { GoalsChoiceBoxField } from "@/page-components/Profile/GoalsChoice"
-import { TopicInterestsChoiceBoxField } from "@/page-components/Profile/TopicInterestsChoice"
-import { TimeCommitmentRadioChoiceBoxField } from "@/page-components/Profile/TimeCommitmentChoice"
-import { EducationLevelSelect } from "@/page-components/Profile/EducationLevelChoice"
-import { CertificateChoiceBoxField } from "@/page-components/Profile/CertificateChoice"
+import { LEARNING_FORMAT_CHOICES } from "@/page-components/Profile/LearningFormatChoice"
+import { GOALS_CHOICES } from "@/page-components/Profile/GoalsChoice"
+
+import { TIME_COMMITMENT_CHOICES } from "@/page-components/Profile/TimeCommitmentChoice"
+import { EDUCATION_LEVEL_OPTIONS } from "@/page-components/Profile/EducationLevelChoice"
+import { CERTIFICATE_CHOICES } from "@/page-components/Profile/CertificateChoice"
 import { useProfileMeMutation, useProfileMeQuery } from "api/hooks/profile"
 import { DASHBOARD } from "@/common/urls"
+import * as yup from "yup"
 
-import type { ProfileFieldUpdateFunc } from "@/page-components/Profile/types"
+import { useFormik } from "formik"
+import { useLearningResourceTopics } from "api/hooks/learningResources"
 
 const NUM_STEPS = 6
 
@@ -112,44 +115,185 @@ const Label = styled.div({
   margin: "0 0 40px",
 })
 
+const profileSchema = yup.object().shape({
+  topic_interests: yup.array().of(yup.string()),
+  goals: yup.array().of(yup.string()),
+  certificate_desired: yup.string(),
+  current_education: yup.string(),
+  time_commitment: yup.string(),
+  learning_format: yup.string(),
+})
+
+const GRID_PROPS = {
+  justifyContent: "left",
+  columns: {
+    lg: 15,
+    md: 9,
+    xs: 3,
+  },
+  maxWidth: "lg",
+}
+const GRID_ITEM_PROPS = { xs: 3 }
+const GRID_STYLE_PROPS = {
+  gridProps: GRID_PROPS,
+  gridItemProps: GRID_ITEM_PROPS,
+}
+
 const OnboardingPage: React.FC = () => {
-  const [updates, setUpdates] = React.useState<PatchedProfileRequest>({})
   const { data: profile, isLoading: isLoadingProfile } = useProfileMeQuery()
+  const formId = useId()
+  const initialFormData = useMemo(() => {
+    return {
+      ...profile,
+      topic_interests:
+        profile?.topic_interests?.map((topic) => String(topic.id)) || [],
+    }
+  }, [profile])
   const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
   const [activeStep, setActiveStep] = React.useState<number>(0)
   const navigate = useNavigate()
-
-  const handleNext = () => {
-    // TODO: handle this error
-    mutateAsync(updates).then(() => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1)
-    })
-  }
-  const handleFinish = () => {
-    mutateAsync(updates).then(() => {
-      navigate(DASHBOARD)
-    })
-  }
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: initialFormData ?? profileSchema.getDefault(),
+    validationSchema: profileSchema,
+    onSubmit: async (values) => {
+      if (formik.dirty) {
+        await mutateAsync({
+          ...values,
+          topic_interests: values.topic_interests.map((id) => parseInt(id)),
+        })
+      }
+      if (activeStep < NUM_STEPS - 1) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1)
+      } else {
+        navigate(DASHBOARD)
+      }
+    },
+    validateOnChange: false,
+    validateOnBlur: false,
+  })
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
-  const handleUpdate: ProfileFieldUpdateFunc = <
-    T extends keyof PatchedProfileRequest,
-  >(
-    name: T,
-    value: PatchedProfileRequest[T],
-  ) => {
-    if (!isEqual(updates[name], value)) {
-      setUpdates({
-        [name]: value,
-      })
-    }
-  }
-  if (typeof profile === "undefined") {
+  const { data: topics } = useLearningResourceTopics({ is_toplevel: true })
+  const topicChoices =
+    topics?.results?.map((topic) => ({
+      label: topic.name,
+      value: topic.id.toString(),
+    })) ?? []
+
+  if (!profile) {
     return null
   }
+
+  const pages = [
+    <Container key="topic_interests" maxWidth="lg">
+      <CheckboxChoiceBoxField
+        name="topic_interests"
+        choices={topicChoices}
+        {...GRID_STYLE_PROPS}
+        label={
+          <Label>
+            <Title component="h3" variant="h6">
+              Welcome{profile.name ? `, ${profile.name}` : ""}! What are you
+              interested in learning about?
+            </Title>
+            <Prompt component="p">Select all that apply:</Prompt>
+          </Label>
+        }
+        values={formik.values.topic_interests}
+        onChange={formik.handleChange}
+      />
+    </Container>,
+    <Container key="goals" maxWidth="lg">
+      <CheckboxChoiceBoxField
+        name="goals"
+        choices={GOALS_CHOICES}
+        {...GRID_STYLE_PROPS}
+        label={
+          <Label>
+            <Title component="h3" variant="h6">
+              What do you want MIT online education to help you reach?
+            </Title>
+            <Prompt component="p">Select all that apply:</Prompt>
+          </Label>
+        }
+        values={formik.values.goals}
+        onChange={(event) => {
+          console.log(event)
+          formik.handleChange(event)
+        }}
+      />
+    </Container>,
+    <Container key="certificate_desired" maxWidth="md">
+      <RadioChoiceBoxField
+        name="certificate_desired"
+        choices={CERTIFICATE_CHOICES}
+        {...GRID_STYLE_PROPS}
+        label={
+          <Label>
+            <Title component="h3" variant="h6">
+              Are you seeking to receive a certificate?
+            </Title>
+            <Prompt>Select one:</Prompt>
+          </Label>
+        }
+        value={formik.values.certificate_desired}
+        onChange={formik.handleChange}
+      />
+    </Container>,
+    <Container key="current_education" maxWidth="sm">
+      <SimpleSelectField
+        options={EDUCATION_LEVEL_OPTIONS}
+        name="current_education"
+        label={
+          <Label>
+            <Title component="h3" variant="h6">
+              What is your current level of education?
+            </Title>
+          </Label>
+        }
+        value={formik.values.current_education}
+        onChange={formik.handleChange}
+      />
+    </Container>,
+    <Container key="time_commitment" maxWidth="md">
+      <RadioChoiceBoxField
+        name="time_commitment"
+        choices={TIME_COMMITMENT_CHOICES}
+        {...GRID_STYLE_PROPS}
+        label={
+          <Label>
+            <Title component="h3" variant="h6">
+              How much time per week do you want to commit to learning?
+            </Title>
+            <Prompt>Select one:</Prompt>
+          </Label>
+        }
+        value={formik.values.time_commitment}
+        onChange={formik.handleChange}
+      />
+    </Container>,
+    <Container key="learning_format" maxWidth="md">
+      <RadioChoiceBoxField
+        name="learning_format"
+        choices={LEARNING_FORMAT_CHOICES}
+        {...GRID_STYLE_PROPS}
+        label={
+          <Label>
+            <Title component="h3" variant="h6">
+              What course format are you interested in?
+            </Title>
+            <Prompt>Select one:</Prompt>
+          </Label>
+        }
+        value={formik.values.learning_format}
+        onChange={formik.handleChange}
+      />
+    </Container>,
+  ]
 
   return activeStep < NUM_STEPS ? (
     <FlexContainer>
@@ -174,104 +318,9 @@ const OnboardingPage: React.FC = () => {
       {isLoadingProfile ? (
         <LoadingSpinner loading={true} />
       ) : (
-        <>
-          {activeStep === 0 ? (
-            <Container maxWidth="lg">
-              <TopicInterestsChoiceBoxField
-                label={
-                  <Label>
-                    <Title component="h3" variant="h6">
-                      Welcome{profile.name ? `, ${profile.name}` : ""}! What are
-                      you interested in learning about?
-                    </Title>
-                    <Prompt component="p">Select all that apply:</Prompt>
-                  </Label>
-                }
-                value={profile.topic_interests}
-                onUpdate={handleUpdate}
-              />
-            </Container>
-          ) : null}
-          {activeStep === 1 ? (
-            <Container maxWidth="lg">
-              <GoalsChoiceBoxField
-                label={
-                  <Label>
-                    <Title component="h3" variant="h6">
-                      What do you want MIT online education to help you reach?
-                    </Title>
-                    <Prompt component="p">Select all that apply:</Prompt>
-                  </Label>
-                }
-                value={profile.goals}
-                onUpdate={handleUpdate}
-              />
-            </Container>
-          ) : null}
-          {activeStep === 2 ? (
-            <Container maxWidth="md">
-              <CertificateChoiceBoxField
-                label={
-                  <Label>
-                    <Title component="h3" variant="h6">
-                      Are you seeking to receive a certificate?
-                    </Title>
-                    <Prompt>Select one:</Prompt>
-                  </Label>
-                }
-                value={profile.certificate_desired}
-                onUpdate={handleUpdate}
-              />
-            </Container>
-          ) : null}
-          {activeStep === 3 ? (
-            <Container maxWidth="sm">
-              <EducationLevelSelect
-                label={
-                  <Label>
-                    <Title component="h3" variant="h6">
-                      What is your current level of education?
-                    </Title>
-                  </Label>
-                }
-                value={profile.current_education}
-                onUpdate={handleUpdate}
-              />
-            </Container>
-          ) : null}
-          {activeStep === 4 ? (
-            <Container maxWidth="md">
-              <TimeCommitmentRadioChoiceBoxField
-                label={
-                  <Label>
-                    <Title component="h3" variant="h6">
-                      How much time per week do you want to commit to learning?
-                    </Title>
-                    <Prompt>Select one:</Prompt>
-                  </Label>
-                }
-                value={profile.time_commitment}
-                onUpdate={handleUpdate}
-              />
-            </Container>
-          ) : null}
-          {activeStep === 5 ? (
-            <Container maxWidth="md">
-              <LearningFormatChoiceBoxField
-                label={
-                  <Label>
-                    <Title component="h3" variant="h6">
-                      What course format are you interested in?
-                    </Title>
-                    <Prompt>Select one:</Prompt>
-                  </Label>
-                }
-                value={profile.learning_format}
-                onUpdate={handleUpdate}
-              />
-            </Container>
-          ) : null}
-        </>
+        <form id={formId} onSubmit={formik.handleSubmit}>
+          {pages[activeStep]}
+        </form>
       )}
       <NavControls>
         {activeStep > 0 ? (
@@ -284,23 +333,16 @@ const OnboardingPage: React.FC = () => {
             Back
           </Button>
         ) : null}
-        {activeStep < NUM_STEPS - 1 ? (
+        {
           <Button
             endIcon={isSaving ? <CircularProgress /> : <RiArrowRightLine />}
-            onClick={handleNext}
             disabled={isSaving}
+            type="submit"
+            form={formId}
           >
-            Next
+            {activeStep < NUM_STEPS - 1 ? "Next" : "Finish"}
           </Button>
-        ) : (
-          <Button
-            endIcon={isSaving ? <CircularProgress /> : <RiArrowRightLine />}
-            onClick={handleFinish}
-            disabled={isSaving}
-          >
-            Finish
-          </Button>
-        )}
+        }
       </NavControls>
     </FlexContainer>
   ) : null
