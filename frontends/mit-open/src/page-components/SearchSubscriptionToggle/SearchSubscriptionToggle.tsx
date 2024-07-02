@@ -7,10 +7,10 @@ import {
 } from "api/hooks/searchSubscription"
 import { Button, SimpleMenu } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
-import ExpandMoreSharpIcon from "@mui/icons-material/ExpandMoreSharp"
+import { RiArrowDownSLine, RiMailLine } from "@remixicon/react"
 import { useUserMe } from "api/hooks/user"
 import { SourceTypeEnum } from "api"
-import MailOutlineIcon from "@mui/icons-material/MailOutline"
+
 import { SignupPopover } from "../SignupPopover/SignupPopover"
 
 type SearchSubscriptionToggleProps = {
@@ -54,7 +54,7 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
     return (
       <SimpleMenu
         trigger={
-          <Button variant="primary" endIcon={<ExpandMoreSharpIcon />}>
+          <Button variant="primary" endIcon={<RiArrowDownSLine />}>
             Following
           </Button>
         }
@@ -67,7 +67,7 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
       <Button
         variant="primary"
         disabled={subscriptionCreate.isLoading}
-        startIcon={<MailOutlineIcon />}
+        startIcon={<RiMailLine />}
         onClick={(e) => {
           if (user?.is_authenticated) {
             subscriptionCreate.mutateAsync({
