@@ -24,14 +24,10 @@ import { Link } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 import { useLocation } from "react-router"
 import { UserListListingComponent } from "../UserListListingPage/UserListListingPage"
-import {
-  UserList,
-  LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest,
-} from "api"
+import { UserList } from "api"
 import {
   useInfiniteUserListItems,
   useUserListsDetail,
-  useLearningResourcesSearch,
 } from "api/hooks/learningResources"
 import { ListDetailsComponent } from "../ListDetailsPage/ListDetailsPage"
 import { ListType } from "api/constants"
@@ -252,7 +248,7 @@ const HomeHeaderRight = styled.div(({ theme }) => ({
   },
 }))
 
-const CarouselContainer = styled.div(({ theme }) => ({
+const StyledResourceCarousel = styled(ResourceCarousel)(({ theme }) => ({
   padding: "40px 0",
   [theme.breakpoints.down("md")]: {
     padding: "16px 0",
@@ -330,28 +326,6 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
       isFetching={itemsQuery.isFetching}
       handleEdit={() => manageListDialogs.upsertUserList(pathQuery.data)}
     />
-  )
-}
-
-const TopPicksCarousel: React.FC = () => {
-  const { isLoading: isLoadingProfile, data: profile } = useProfileMeQuery()
-  const config = TopPicksCarouselConfig(profile)
-  const { data, isLoading } = useLearningResourcesSearch(
-    config[0].data
-      .params as LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest,
-  )
-
-  if (!isLoading && !data?.results?.length) {
-    return null
-  }
-  return (
-    <CarouselContainer data-testid="top-picks-carousel">
-      <ResourceCarousel
-        title="Top picks for you"
-        isLoading={isLoadingProfile}
-        config={config}
-      />
-    </CarouselContainer>
   )
 }
 
@@ -468,48 +442,46 @@ const DashboardPage: React.FC = () => {
                       </ButtonLink>
                     </HomeHeaderRight>
                   </HomeHeader>
-                  <TopPicksCarousel />
-                  {topics?.map((topic) => (
-                    <CarouselContainer
-                      key={topic}
+                  <StyledResourceCarousel
+                    title="Top picks for you"
+                    isLoading={isLoadingProfile}
+                    config={TopPicksCarouselConfig(profile)}
+                    data-testid="top-picks-carousel"
+                  />
+                  {topics?.map((topic, index) => (
+                    <StyledResourceCarousel
+                      key={index}
+                      title={`Popular courses in ${topic}`}
+                      isLoading={isLoadingProfile}
+                      config={TopicCarouselConfig(topic)}
                       data-testid={`topic-carousel-${topic}`}
-                    >
-                      <ResourceCarousel
-                        title={`Popular courses in ${topic}`}
-                        isLoading={isLoadingProfile}
-                        config={TopicCarouselConfig(topic)}
-                      />
-                    </CarouselContainer>
+                    />
                   ))}
                   {certification === true ? (
-                    <CarouselContainer data-testid="certification-carousel">
-                      <ResourceCarousel
-                        title={"Courses with Certificates"}
-                        isLoading={isLoadingProfile}
-                        config={CERTIFICATE_COURSES_CAROUSEL}
-                      />
-                    </CarouselContainer>
+                    <StyledResourceCarousel
+                      title="Courses with Certificates"
+                      isLoading={isLoadingProfile}
+                      config={CERTIFICATE_COURSES_CAROUSEL}
+                      data-testid="certification-carousel"
+                    />
                   ) : (
-                    <CarouselContainer data-testid="free-carousel">
-                      <ResourceCarousel
-                        title={"Free courses"}
-                        isLoading={isLoadingProfile}
-                        config={FREE_COURSES_CAROUSEL}
-                      />
-                    </CarouselContainer>
+                    <StyledResourceCarousel
+                      title="Free courses"
+                      isLoading={isLoadingProfile}
+                      config={FREE_COURSES_CAROUSEL}
+                      data-testid="free-carousel"
+                    />
                   )}
-                  <CarouselContainer data-testid="new-learning-resources-carousel">
-                    <ResourceCarousel
-                      title="New"
-                      config={NEW_LEARNING_RESOURCES_CAROUSEL}
-                    />
-                  </CarouselContainer>
-                  <CarouselContainer data-testid="popular-learning-resources-carousel">
-                    <ResourceCarousel
-                      title="Popular"
-                      config={POPULAR_LEARNING_RESOURCES_CAROUSEL}
-                    />
-                  </CarouselContainer>
+                  <StyledResourceCarousel
+                    title="New"
+                    config={NEW_LEARNING_RESOURCES_CAROUSEL}
+                    data-testid="new-learning-resources-carousel"
+                  />
+                  <StyledResourceCarousel
+                    title="Popular"
+                    config={POPULAR_LEARNING_RESOURCES_CAROUSEL}
+                    data-testid="popular-learning-resources-carousel"
+                  />
                 </TabPanelStyled>
                 <TabPanelStyled value={TabValues.MY_LISTS}>
                   {userListAction === "list" ? (
