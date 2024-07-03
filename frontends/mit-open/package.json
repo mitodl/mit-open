@@ -9,7 +9,7 @@
   },
   "scripts": {
     "watch": "NODE_ENV=development ENVIRONMENT=local webpack serve",
-    "watch:docker": "API_DEV_PROXY_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=local webpack serve",
+    "watch:docker": "API_DEV_PROXY_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=docker webpack serve",
     "watch:rc": "API_DEV_PROXY_BASE_URL=https://api.mitopen-rc.odl.mit.edu/ NODE_ENV=development ENVIRONMENT=local webpack serve",
     "build": "webpack --config webpack.config.js --bail",
     "build-exports": "webpack --config webpack.exports.js --bail",
