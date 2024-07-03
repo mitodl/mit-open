@@ -96,7 +96,7 @@ const StyledButton = styled(ButtonLink)`
   text-align: center;
   width: 220px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
-    width: 182px;
+    width: auto;
   }
 `
 
