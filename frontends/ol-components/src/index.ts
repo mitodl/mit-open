@@ -109,7 +109,7 @@ export {
   TabButtonList,
 } from "./components/TabButtons/TabButtonList"
 
-export { default as TabContext } from "@mui/lab/TabContext"
+export { default as TabContext, useTabContext } from "@mui/lab/TabContext"
 export type { TabContextProps } from "@mui/lab/TabContext"
 export { default as TabPanel } from "@mui/lab/TabPanel"
 export type { TabPanelProps } from "@mui/lab/TabPanel"

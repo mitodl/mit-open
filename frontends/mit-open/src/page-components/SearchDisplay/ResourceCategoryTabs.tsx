@@ -5,6 +5,7 @@ import {
   TabButtonList,
   TabPanel,
   styled,
+  useTabContext,
 } from "ol-components"
 import { ResourceCategoryEnum, LearningResourcesSearchResponse } from "api"
 
@@ -73,13 +74,22 @@ const ResourceCategoryTabList: React.FC<ResourceCategoryTabsProps> = ({
   onTabChange,
   className,
 }) => {
-  const counts = resourceCategoryCounts(aggregations)
+  const tabContext = useTabContext()
+  const activeTab = tabContext?.value
+  const categoryCounts = resourceCategoryCounts(aggregations)
   const allCount = aggregations?.resource_category
     ? (aggregations.resource_category || []).reduce((count, bucket) => {
         count = count + bucket.doc_count
         return count
       }, 0)
     : undefined
+  const counts = categoryCounts
+    ? {
+        ...categoryCounts,
+        all: allCount ?? 0,
+      }
+    : null
+  const countsLoaded = !!counts
 
   return (
     <TabsList
@@ -98,24 +108,24 @@ const ResourceCategoryTabList: React.FC<ResourceCategoryTabsProps> = ({
         onTabChange?.()
       }}
     >
-      {tabs.map((t) => {
-        let count: number | undefined
-        if (t.name === "all") {
-          count = allCount
-        } else {
-          count =
-            counts && t.resource_category
-              ? counts[t.resource_category] ?? 0
-              : undefined
-        }
-        return (
-          <TabButton
-            key={t.name}
-            value={t.name}
-            label={appendCount(t.label, count)}
-          />
-        )
-      })}
+      {tabs
+        .map((tab) => ({
+          tab,
+          count: counts?.[tab.resource_category ?? "all"] ?? 0,
+        }))
+        .filter(({ count, tab }) => {
+          if (!countsLoaded || activeTab === tab.name) return true
+          return count
+        })
+        .map(({ tab, count }) => {
+          return (
+            <TabButton
+              key={tab.name}
+              value={tab.name}
+              label={countsLoaded ? appendCount(tab.label, count) : tab.label}
+            />
+          )
+        })}
     </TabsList>
   )
 }
