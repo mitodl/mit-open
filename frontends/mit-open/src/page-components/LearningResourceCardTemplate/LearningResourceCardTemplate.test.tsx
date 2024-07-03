@@ -142,7 +142,7 @@ describe("LearningResourceCard", () => {
       />,
     )
 
-    expect(!!screen.queryByTestId("DragIndicatorIcon")).toBe(sortable)
+    expect(!!screen.queryByTestId("CardDraggable")).toBe(sortable)
   })
 
   it.each([{ variant: "row" }, { variant: "column" }] as const)(

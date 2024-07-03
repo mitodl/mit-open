@@ -13,9 +13,7 @@ import {
   PlainList,
   imgConfigs,
 } from "ol-components"
-import EditIcon from "@mui/icons-material/Edit"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
-import DeleteIcon from "@mui/icons-material/Delete"
+import { RiPencilFill, RiMore2Fill, RiDeleteBin7Fill } from "@remixicon/react"
 
 import { MetaTags } from "ol-utilities"
 import type { UserList } from "api"
@@ -46,13 +44,13 @@ const EditUserListMenu: React.FC<EditUserListMenuProps> = ({ userList }) => {
       {
         key: "edit",
         label: "Edit",
-        icon: <EditIcon />,
+        icon: <RiPencilFill />,
         onClick: () => manageListDialogs.upsertUserList(userList),
       },
       {
         key: "delete",
         label: "Delete",
-        icon: <DeleteIcon />,
+        icon: <RiDeleteBin7Fill />,
         onClick: () => manageListDialogs.destroyUserList(userList),
       },
     ],
@@ -67,7 +65,7 @@ const EditUserListMenu: React.FC<EditUserListMenuProps> = ({ userList }) => {
           size="small"
           aria-label={`Edit list ${userList.title}`}
         >
-          <MoreVertIcon fontSize="inherit" />
+          <RiMore2Fill fontSize="inherit" />
         </ActionButton>
       }
       items={items}

@@ -154,7 +154,7 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
         }
       }),
     ),
-  ).concat(["resource_type"]) as UseResourceSearchParamsProps["facets"]
+  ).concat(["resource_category"]) as UseResourceSearchParamsProps["facets"]
 
   const {
     hasFacets,

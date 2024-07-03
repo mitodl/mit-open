@@ -8,7 +8,7 @@ const Item = styled.li`
 `
 
 const meta: Meta<typeof PlainList> = {
-  title: "ol-components/PlainList",
+  title: "smoot-design/PlainList",
   render: (args) => {
     return (
       <PlainList {...args}>

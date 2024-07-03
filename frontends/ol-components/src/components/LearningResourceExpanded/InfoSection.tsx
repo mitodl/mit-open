@@ -3,13 +3,14 @@ import styled from "@emotion/styled"
 import ISO6391 from "iso-639-1"
 import {
   RemixiconComponentType,
-  RiMoneyDollarCircleFill,
-  RiBarChartFill,
-  RiGraduationCapFill,
-  RiGlobalLine,
+  RiVerifiedBadgeLine,
   RiTimeLine,
   RiCalendarLine,
-  RiBookReadFill,
+  RiListOrdered2,
+  RiPriceTag3Line,
+  RiDashboard3Line,
+  RiGraduationCapLine,
+  RiTranslate2,
 } from "@remixicon/react"
 import {
   LearningResource,
@@ -66,7 +67,7 @@ type InfoItemConfig = {
 const INFO_ITEMS: InfoItemConfig = [
   {
     label: "Price:",
-    Icon: RiMoneyDollarCircleFill,
+    Icon: RiPriceTag3Line,
     selector: (resource: LearningResource, run?: LearningResourceRun) => {
       if (!resource || !run) {
         return null
@@ -84,7 +85,7 @@ const INFO_ITEMS: InfoItemConfig = [
 
   {
     label: "Level:",
-    Icon: RiBarChartFill,
+    Icon: RiDashboard3Line,
     selector: (resource: LearningResource, run?: LearningResourceRun) => {
       return run?.level?.[0]?.name || null
     },
@@ -92,7 +93,7 @@ const INFO_ITEMS: InfoItemConfig = [
 
   {
     label: "Instructors:",
-    Icon: RiGraduationCapFill,
+    Icon: RiGraduationCapLine,
     selector: (resource: LearningResource, run?: LearningResourceRun) => {
       return (
         run?.instructors
@@ -105,7 +106,7 @@ const INFO_ITEMS: InfoItemConfig = [
 
   {
     label: "Languages:",
-    Icon: RiGlobalLine,
+    Icon: RiTranslate2,
     selector: (resource: LearningResource, run?: LearningResourceRun) => {
       return run?.languages?.length
         ? run.languages
@@ -133,7 +134,7 @@ const INFO_ITEMS: InfoItemConfig = [
 
   {
     label: "Offered By:",
-    Icon: RiBarChartFill,
+    Icon: RiVerifiedBadgeLine,
     selector: (resource: LearningResource) => {
       return resource.offered_by?.name || null
     },
@@ -150,7 +151,7 @@ const INFO_ITEMS: InfoItemConfig = [
 
   {
     label: "Number of Courses:",
-    Icon: RiBookReadFill,
+    Icon: RiListOrdered2,
     selector: (resource: LearningResource) => {
       if (resource.resource_type === ResourceTypeEnum.Program) {
         return resource.program?.courses?.length || null

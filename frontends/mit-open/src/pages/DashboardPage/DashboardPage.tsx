@@ -1,8 +1,8 @@
 import {
   RiAccountCircleFill,
-  RiBookmarkFill,
-  RiEditFill,
-  RiLayoutMasonryFill,
+  RiDashboardLine,
+  RiBookMarkedLine,
+  RiEditLine,
 } from "@remixicon/react"
 import {
   ButtonLink,
@@ -390,20 +390,20 @@ const DashboardPage: React.FC = () => {
           data-testid="desktop-tab-list"
         >
           <UserMenuTab
-            icon={<RiLayoutMasonryFill />}
+            icon={<RiDashboardLine />}
             text={TabLabels[TabValues.HOME]}
             value={TabValues.HOME}
             currentValue={tabValue}
           />
           <UserMenuTab
-            icon={<RiBookmarkFill />}
+            icon={<RiBookMarkedLine />}
             text={TabLabels[TabValues.MY_LISTS]}
             value={TabValues.MY_LISTS}
             currentValue={tabValue}
             onClick={() => setUserListAction("list")}
           />
           <UserMenuTab
-            icon={<RiEditFill />}
+            icon={<RiEditLine />}
             text={TabLabels[TabValues.PROFILE]}
             value={TabValues.PROFILE}
             currentValue={tabValue}
