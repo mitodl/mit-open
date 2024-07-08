@@ -50,6 +50,7 @@ const StyledSearchInput = styled(SearchInput)`
 const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Topic]: [
     "free",
+    "resource_type",
     "certification_type",
     "learning_format",
     "offered_by",
@@ -57,6 +58,7 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   ],
   [ChannelTypeEnum.Department]: [
     "free",
+    "resource_type",
     "certification_type",
     "topic",
     "learning_format",
@@ -64,6 +66,7 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   ],
   [ChannelTypeEnum.Unit]: [
     "free",
+    "resource_type",
     "topic",
     "certification_type",
     "learning_format",
@@ -86,9 +89,10 @@ const getFacetManifestForChannelType = (
   channelType: ChannelTypeEnum,
   offerors: Record<string, LearningResourceOfferor>,
   constantSearchParams: Facets,
+  resourceCategory: string | null,
 ): FacetManifest => {
   const facets = FACETS_BY_CHANNEL_TYPE[channelType] || []
-  return getFacetManifest(offerors)
+  return getFacetManifest(offerors, resourceCategory)
     .filter(
       (facetSetting) =>
         !Object.keys(constantSearchParams).includes(facetSetting.name) &&
@@ -114,6 +118,7 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
   }, [offerorsQuery.data?.results])
 
   const [searchParams, setSearchParams] = useSearchParams()
+  const resourceCategory = searchParams.get("resource_category")
 
   const facetManifest = useMemo(
     () =>
@@ -121,8 +126,9 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
         channelType,
         offerors,
         constantSearchParams,
+        resourceCategory,
       ),
-    [offerors, channelType, constantSearchParams],
+    [offerors, channelType, constantSearchParams, resourceCategory],
   )
 
   const setPage = useCallback(
@@ -154,7 +160,7 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
         }
       }),
     ),
-  ).concat(["resource_category"]) as UseResourceSearchParamsProps["facets"]
+  ) as UseResourceSearchParamsProps["facets"]
 
   const {
     hasFacets,

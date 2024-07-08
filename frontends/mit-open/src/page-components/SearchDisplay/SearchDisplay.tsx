@@ -514,7 +514,9 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
         ? [activeTab.resource_category]
         : undefined,
       ...requestParams,
-      aggregations: facetNames as LRSearchRequest["aggregations"],
+      aggregations: (facetNames || []).concat([
+        "resource_category",
+      ]) as LRSearchRequest["aggregations"],
       offset: (page - 1) * PAGE_SIZE,
     }
   }, [

@@ -121,6 +121,7 @@ describe("SearchPage", () => {
         "offered_by",
         "professional",
         "resource_category",
+        "resource_type",
         "topic",
       ])
       expect(Object.fromEntries(apiSearchParams.entries())).toEqual(
@@ -166,6 +167,37 @@ describe("SearchPage", () => {
     await screen.findByRole("button", { name: /clear all/i }) // Clear All shows again
     expect(physics).toBeChecked()
     expect(location.current.search).toBe("?topic=Physics")
+  })
+
+  test("Shows Learning Resource facet only if learning materials tab is selected", async () => {
+    setMockApiResponses({
+      search: {
+        count: 700,
+        metadata: {
+          aggregations: {
+            resource_category: [
+              { key: "course", doc_count: 100 },
+              { key: "learning_material", doc_count: 200 },
+            ],
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 100 },
+              { key: "video", doc_count: 100 },
+            ],
+          },
+          suggestions: [],
+        },
+      },
+    })
+    renderWithProviders(<SearchPage />)
+
+    const facetsContainer = screen.getByTestId("facets-container")
+    expect(within(facetsContainer).queryByText("Resource Type")).toBeNull()
+    const tabLearningMaterial = screen.getByRole("tab", {
+      name: /Learning Material/,
+    })
+    await user.click(tabLearningMaterial)
+    await within(facetsContainer).findByText("Resource Type")
   })
 
   test("Submitting text updates URL", async () => {
