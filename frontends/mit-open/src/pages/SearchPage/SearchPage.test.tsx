@@ -247,6 +247,30 @@ describe("Search Page Tabs", () => {
     expect(tab).toHaveAccessibleName(expectedActive)
   })
 
+  test("Clearing facets does NOT reset tab", async () => {
+    setMockApiResponses({
+      search: {
+        count: 0,
+        metadata: {
+          aggregations: {
+            resource_category: [
+              { key: "course", doc_count: 100 },
+              { key: "program", doc_count: 10 },
+            ],
+          },
+          suggestions: [],
+        },
+      },
+    })
+    const { location } = renderWithProviders(<SearchPage />, {
+      url: "?topic=Physics&resource_category=course",
+    })
+    const activeTab = screen.getByRole("tab", { selected: true })
+    expect(activeTab).toHaveTextContent("Courses")
+    await user.click(screen.getByRole("button", { name: /clear all/i }))
+    expect(location.current.search).toBe("?resource_category=course")
+  })
+
   test.each([
     { programCount: 0, programsVisible: false, url: "?" },
     {
