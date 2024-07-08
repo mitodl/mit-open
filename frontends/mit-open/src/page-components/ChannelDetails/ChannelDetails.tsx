@@ -90,7 +90,7 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
       title: "More Information",
       labelFunction: (key: string, channelTitle: string) => (
         <a href={key}>
-          {channelTitle} website <RiExternalLinkLine size={18} />
+          {channelTitle} Website <RiExternalLinkLine size={18} />
         </a>
       ),
       order: 1,
@@ -107,7 +107,7 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
     },
     {
       name: "certifications",
-      title: "Certificate",
+      title: "Certificates",
       order: 0,
     },
     {
