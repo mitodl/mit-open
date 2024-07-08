@@ -26,7 +26,7 @@ describe("DashboardPage", () => {
         suggestions: [],
         aggregations: {},
       },
-      count: 0,
+      count: results.length,
       results: results,
       next: null,
       previous: null,
@@ -72,6 +72,7 @@ describe("DashboardPage", () => {
           : { code: "online", name: "Online" },
       )
     })
+
     const topicsCourses: CourseResource[] = []
     topics?.forEach((topic) => {
       const topicCourses = factories.learningResources.courses({ count: 10 })
@@ -268,13 +269,12 @@ describe("DashboardPage", () => {
 
     const topPicksTitle = await screen.findByText("Top picks for you")
     expect(topPicksTitle).toBeInTheDocument()
-    const topPicksCarousel = await screen.findByTestId("top-picks-carousel")
-    topPicks.results.forEach(async (course) => {
-      const courseTitle = await within(topPicksCarousel).findByText(
-        course.title,
-      )
-      expect(courseTitle).toBeInTheDocument()
-    })
+
+    await Promise.all(
+      topPicks.results.map((course) => {
+        return screen.findAllByText(course.title)
+      }),
+    )
 
     profile.preference_search_filters.topic?.forEach(async (topic) => {
       const topicTitle = await screen.findByText(`Popular courses in ${topic}`)
