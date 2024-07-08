@@ -195,6 +195,14 @@ def test_mitxonline_transform_programs(
                     "published": bool(
                         course_data.get("page", {}).get("page_url", None)
                         and course_data.get("page", {}).get("live", None)
+                        and len(
+                            [
+                                run
+                                for run in course_data["courseruns"]
+                                if run["is_enrollable"]
+                            ]
+                        )
+                        > 0
                     ),
                     "certification": True,
                     "certification_type": CertificationType.completion.name,
@@ -222,7 +230,8 @@ def test_mitxonline_transform_programs(
                             ),
                             "description": any_instance_of(str, type(None)),
                             "published": bool(
-                                parse_page_attribute(course_data, "page_url")
+                                course_run_data["is_enrollable"]
+                                and course_data["page"]["live"]
                             ),
                             "prices": sorted(
                                 {
@@ -362,7 +371,9 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                     "end_date": any_instance_of(datetime, type(None)),
                     "enrollment_start": any_instance_of(datetime, type(None)),
                     "enrollment_end": any_instance_of(datetime, type(None)),
-                    "published": bool(course_data.get("page", {}).get("page_url")),
+                    "published": bool(
+                        course_run_data["is_enrollable"] and course_data["page"]["live"]
+                    ),
                     "prices": sorted(
                         {
                             "0.00",

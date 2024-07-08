@@ -114,6 +114,7 @@ def extract_courses():
                 params={
                     "page__live": True,
                     "live": True,
+                    "courserun_is_enrollable": True,
                 },
             )
         )
@@ -171,7 +172,7 @@ def _transform_run(course_run: dict, course: dict) -> dict:
         "enrollment_start": _parse_datetime(course_run.get("enrollment_start")),
         "enrollment_end": _parse_datetime(course_run.get("enrollment_end")),
         "url": parse_page_attribute(course, "page_url", is_url=True),
-        "published": bool(parse_page_attribute(course, "page_url")),
+        "published": bool(course_run["is_enrollable"] and course["page"]["live"]),
         "description": clean_data(parse_page_attribute(course_run, "description")),
         "image": _transform_image(course_run),
         "prices": sorted(
@@ -227,7 +228,8 @@ def _transform_course(course):
         "published": bool(
             parse_page_attribute(course, "page_url")
             and parse_page_attribute(course, "live")
-        ),  # a course is only considered published if it has a page url
+            and len([run for run in runs if run["published"]]) > 0
+        ),  # a course is only published if it has a live url and published runs
         "professional": False,
         "certification": has_certification,
         "certification_type": CertificationType.completion.name
