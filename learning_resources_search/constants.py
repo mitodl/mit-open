@@ -338,8 +338,8 @@ RUNS_QUERY_FIELDS = [
 
 RUN_INSTRUCTORS_QUERY_FIELDS = [
     "runs.instructors.first_name",
-    "runs.instructors.last_name",
-    "runs.instructors.full_name",
+    "runs.instructors.last_name^5",
+    "runs.instructors.full_name^5",
 ]
 
 RESOURCEFILE_QUERY_FIELDS = [
