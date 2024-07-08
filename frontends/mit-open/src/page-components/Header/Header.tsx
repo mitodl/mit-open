@@ -178,7 +178,7 @@ const navData: NavData = {
           title: "Programs",
           icon: <RiStackLine />,
           description:
-            "Learn in-depth from a series of courses and earn a certificate",
+            "A series of courses for in-depth learning across a range of topics",
           href: querifiedSearchUrl({ resource_category: "program" }),
         },
         {
