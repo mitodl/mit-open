@@ -35,7 +35,7 @@ const setupApis = (
   )
   setMockResponse.get(
     expect.stringContaining(urls.learningResources.featured()),
-    factories.learningResources.resources({ count: 0 }),
+    factories.learningResources.resources({ count: 10 }),
   )
 
   const urlParams = new URLSearchParams(channelPatch?.search_filter)
@@ -132,13 +132,14 @@ describe("ChannelPage", () => {
         undefined,
       )
     })
-    expect(
-      makeRequest.mock.calls.filter(([method, url]) => {
-        return (
-          method === "get" && url.includes(urls.learningResources.featured())
-        )
-      }).length,
-    ).toBe(1)
+
+    await waitFor(() => {
+      expect(makeRequest).toHaveBeenCalledWith(
+        "get",
+        urls.learningResources.featured({ limit: 12 }),
+        undefined,
+      )
+    })
   })
   it("Does not display a featured carousel if the channel type is not 'unit'", async () => {
     const { channel } = setupApis({

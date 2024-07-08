@@ -133,6 +133,7 @@ const PanelChildren: React.FC<PanelChildrenProps> = ({
   if (config.length === 1) {
     const { data, isLoading } = queries[0]
     const resources = data?.results ?? []
+
     return children({
       resources,
       childrenLoading: isLoading,
@@ -144,6 +145,7 @@ const PanelChildren: React.FC<PanelChildrenProps> = ({
       {config.map((tabConfig, index) => {
         const { data, isLoading } = queries[index]
         const resources = data?.results ?? []
+
         return (
           <StyledTabPanel key={index} value={index.toString()}>
             {children({
@@ -223,12 +225,10 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
       },
     ),
   })
-  if (
-    !isLoading &&
-    !queries.find(
-      (query) => !query.isLoading && (query.data as { count: number })?.count,
-    )
-  ) {
+
+  const allChildrenLoaded = queries.every(({ isLoading }) => !isLoading)
+  const allChildrenEmpty = queries.every(({ data }) => !data?.count)
+  if (!isLoading && allChildrenLoaded && allChildrenEmpty) {
     return null
   }
 
