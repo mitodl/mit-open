@@ -270,7 +270,7 @@ describe("Home Page personalize section", () => {
     renderWithProviders(<HomePage />)
     const personalize = (
       await screen.findByRole("heading", {
-        name: "Personalize Your Journey",
+        name: "Continue Your Journey",
       })
     ).closest("section")
     invariant(personalize)
