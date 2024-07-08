@@ -16,7 +16,11 @@ import {
 import type { TabConfig, FeaturedDataSource } from "./types"
 import { LearningResource, PaginatedLearningResourceList } from "api"
 import { ResourceCard } from "../ResourceCard/ResourceCard"
-import { useQueries, UseQueryResult } from "@tanstack/react-query"
+import {
+  useQueries,
+  UseQueryResult,
+  UseQueryOptions,
+} from "@tanstack/react-query"
 
 const StyledCarousel = styled(Carousel)({
   /**
@@ -194,21 +198,31 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   const [tab, setTab] = React.useState("0")
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const queries = useQueries<any>({
-    // const queries = useQueries<UseQueryResult<PaginatedLearningResourceList, unknown>[]>({
-    queries: config.map((tab) => {
-      switch (tab.data.type) {
-        case "resources":
-          return learningResourcesKeyFactory.list(tab.data.params)
-        case "lr_search":
-          return learningResourcesKeyFactory.search(tab.data.params)
-        case "lr_featured":
-          return learningResourcesKeyFactory.featured(tab.data.params)
-      }
-    }),
+  const queries = useQueries({
+    queries: config.map(
+      (
+        tab,
+      ): UseQueryOptions<
+        PaginatedLearningResourceList,
+        unknown,
+        unknown,
+        // The factory-generated types for queryKeys are very specific (tuples not arrays)
+        // and assignable to the loose QueryKey (readonly unknown[]) on the UseQueryOptions generic.
+        // But! as a queryFn arg the more specific QueryKey cannot be assigned to the looser QueryKey.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        any
+      > => {
+        switch (tab.data.type) {
+          case "resources":
+            return learningResourcesKeyFactory.list(tab.data.params)
+          case "lr_search":
+            return learningResourcesKeyFactory.search(tab.data.params)
+          case "lr_featured":
+            return learningResourcesKeyFactory.featured(tab.data.params)
+        }
+      },
+    ),
   })
-
   if (
     !isLoading &&
     !queries.find(
@@ -257,9 +271,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
         </HeaderRow>
         <PanelChildren
           config={config}
-          queries={
-            queries as UseQueryResult<PaginatedLearningResourceList, unknown>[]
-          }
+          queries={queries as UseQueryResult<PaginatedLearningResourceList>[]}
         >
           {({ resources, childrenLoading, tabConfig }) => (
             <StyledCarousel arrowsContainer={ref}>
