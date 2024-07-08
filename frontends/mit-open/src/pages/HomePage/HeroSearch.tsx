@@ -173,7 +173,7 @@ const HeroSearch: React.FC = () => {
           typography={{ xs: "h3", md: "h1" }}
           sx={{ paddingBottom: 1 }}
         >
-          Learn with MIT
+          Learn With MIT
         </Typography>
         <Typography>
           Explore MIT's{" "}
