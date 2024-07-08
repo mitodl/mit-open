@@ -99,6 +99,8 @@ const LeftDivider = styled(Divider)({
 
 const RightDivider = styled(Divider)(({ theme }) => ({
   margin: "0 32px",
+  height: "24px",
+  alignSelf: "auto",
   [theme.breakpoints.down("sm")]: {
     margin: "0 16px",
   },
