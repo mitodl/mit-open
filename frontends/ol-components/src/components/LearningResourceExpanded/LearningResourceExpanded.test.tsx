@@ -55,15 +55,19 @@ describe("Learning Resource Expanded", () => {
       const linkName =
         resource.resource_type === ResourceTypeEnum.Podcast ||
         resource.resource_type === ResourceTypeEnum.PodcastEpisode
-          ? `Listen to ${getReadableResourceType(resource.resource_type)}`
+          ? "Listen to Podcast"
           : `Take ${getReadableResourceType(resource.resource_type)}`
 
+      const url =
+        resource.resource_type === ResourceTypeEnum.PodcastEpisode
+          ? (resource as PodcastEpisodeResource).podcast_episode?.episode_link
+          : resource.url
       if (linkName) {
         const link = screen.getByRole("link", {
           name: linkName,
         }) as HTMLAnchorElement
         expect(link.target).toBe("_blank")
-        expect(link.href).toMatch(new RegExp(`^${resource.url}/?$`))
+        expect(link.href).toMatch(new RegExp(`^${url}/?$`))
       }
     },
   )
