@@ -126,7 +126,7 @@ const DefaultChannelSkeleton: React.FC<DefaultChannelSkeletonProps> = ({
             current={channel.data?.title}
           />
         }
-        title={
+        header={
           displayConfiguration?.logo && channel.data ? (
             <ChannelAvatar
               imageVariant="inverted"
@@ -138,12 +138,12 @@ const DefaultChannelSkeleton: React.FC<DefaultChannelSkeletonProps> = ({
             channel.data?.title
           )
         }
-        description=""
+        subHeader=""
         backgroundUrl={
           displayConfiguration?.banner_background ??
           "/static/images/background_steps.jpeg"
         }
-        action={
+        extraRight={
           <ChannelControlsContainer>
             <ChannelControls>
               {channel.data?.search_filter ? (

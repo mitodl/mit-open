@@ -1,12 +1,5 @@
 import React, { useMemo } from "react"
-import {
-  styled,
-  Container,
-  Typography,
-  Box,
-  Breadcrumbs,
-  Banner,
-} from "ol-components"
+import { styled, Container, Box, Breadcrumbs, Banner } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
@@ -84,6 +77,11 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
     },
   ]
 
+  const headerStyles = {
+    width: { md: "80%", sm: "100%" },
+    my: 1,
+  }
+
   return (
     <Page>
       <MetaTags title={channel.data?.title || UNITS_LABEL} />
@@ -92,6 +90,9 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
           displayConfiguration?.banner_background ??
           "/static/images/background_steps.jpeg"
         }
+        backgroundSize="2000px auto"
+        backgroundDim={30}
+        containerPadding={"48px 0 64px 0"}
         navText={
           <Breadcrumbs
             variant="dark"
@@ -105,91 +106,73 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
             current={channel.data?.title}
           />
         }
-        title={
+        avatar={
           displayConfiguration?.logo && channel.data ? (
-            <ChannelAvatar
-              imageVariant="inverted"
-              formImageUrl={displayConfiguration.logo}
-              imageSize="medium"
-              channel={channel.data}
-            />
-          ) : (
-            channel.data?.title
-          )
-        }
-        description={
-          <>
-            {displayConfiguration?.heading ? (
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-                sx={{
-                  flexGrow: 0,
-                  flexShrink: 0,
-                  order: 2,
-                  width: { md: "80%", sm: "100%" },
-                  my: 1,
-                }}
-              >
-                <Typography variant="h4">
-                  {displayConfiguration.heading}
-                </Typography>
-              </Box>
-            ) : (
-              <></>
-            )}
-            {displayConfiguration?.sub_heading ? (
-              <Box
-                display="flex"
-                flexDirection="row"
-                alignItems="center"
-                sx={{
-                  flexGrow: 0,
-                  flexShrink: 0,
-                  order: 2,
-                  width: { md: "80%", sm: "100%" },
-                  my: 1,
-                }}
-              >
-                <Typography variant="body1">
-                  {displayConfiguration.sub_heading}
-                </Typography>
-              </Box>
-            ) : (
-              <></>
-            )}
             <Box
               display="flex"
               flexDirection="row"
-              alignItems="end"
-              sx={{
-                flexGrow: 0,
-                width: "100%",
-                flexShrink: 1,
-                order: 3,
-                mt: { xs: "8px" },
-                mb: { xs: "48px" },
-              }}
+              alignItems="center"
+              sx={(theme) => ({
+                flexGrow: 1,
+                flexShrink: 0,
+                order: 1,
+                py: "24px",
+
+                [theme.breakpoints.down("md")]: {
+                  py: 0,
+                  pb: "8px",
+                },
+                [theme.breakpoints.down("sm")]: {
+                  width: "100%",
+                },
+              })}
             >
-              <ChannelControls>
-                {channel.data?.search_filter ? (
-                  <SearchSubscriptionToggle
-                    sourceType={SourceTypeEnum.ChannelSubscriptionType}
-                    searchParams={urlParams}
-                  />
-                ) : null}
-                {channel.data?.is_moderator ? (
-                  <ChannelMenu
-                    channelType={ChannelTypeEnum.Unit}
-                    name={String(name)}
-                  />
-                ) : null}
-              </ChannelControls>
+              <ChannelAvatar
+                imageVariant="inverted"
+                formImageUrl={displayConfiguration.logo}
+                imageSize="medium"
+                channel={channel.data}
+              />
             </Box>
-          </>
+          ) : null
         }
-        action={
+        header={displayConfiguration?.heading}
+        headerTypography={{ xs: "h4", md: "h4" }}
+        headerStyles={headerStyles}
+        subHeader={displayConfiguration?.sub_heading}
+        subHeaderStyles={headerStyles}
+        subHeaderTypography={{ xs: "body1", md: "body1" }}
+        extraHeader={
+          <Box
+            display="flex"
+            flexDirection="row"
+            alignItems="end"
+            sx={{
+              flexGrow: 0,
+              width: "100%",
+              flexShrink: 1,
+              order: 3,
+              mt: { xs: "8px" },
+              mb: { xs: "48px" },
+            }}
+          >
+            <ChannelControls>
+              {channel.data?.search_filter ? (
+                <SearchSubscriptionToggle
+                  sourceType={SourceTypeEnum.ChannelSubscriptionType}
+                  searchParams={urlParams}
+                />
+              ) : null}
+              {channel.data?.is_moderator ? (
+                <ChannelMenu
+                  channelType={ChannelTypeEnum.Unit}
+                  name={String(name)}
+                />
+              ) : null}
+            </ChannelControls>
+          </Box>
+        }
+        extraRight={
           channel.data && (
             <Box
               flexDirection="row"
@@ -197,9 +180,6 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
               alignSelf="center"
               display="flex"
               sx={{
-                order: 2,
-                flexGrow: 0,
-                flexShrink: 0,
                 width: { md: "408px", xs: "100%" },
               }}
             >

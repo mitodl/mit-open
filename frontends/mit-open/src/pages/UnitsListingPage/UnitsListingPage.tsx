@@ -414,8 +414,8 @@ const UnitsListingPage: React.FC = () => {
             current="MIT Units"
           />
         }
-        title="Academic & Professional Learning"
-        description="Non-degree learning resources tailored to the needs of students and working professionals."
+        header="Academic & Professional Learning"
+        subHeader="Non-degree learning resources tailored to the needs of students and working professionals."
         backgroundUrl={UNITS_BANNER_IMAGE}
       />
       <Container>

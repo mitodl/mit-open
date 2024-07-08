@@ -2,8 +2,10 @@ import React from "react"
 import styled from "@emotion/styled"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
+import { Box, Theme } from "../.."
+import { ResponsiveStyleValue, SxProps } from "@mui/system"
 
-const Description = styled(Typography)(({ theme }) => ({
+const SubHeader = styled(Typography)(({ theme }) => ({
   maxWidth: "700px",
   marginTop: "8px",
   [theme.breakpoints.down("sm")]: {
@@ -13,55 +15,71 @@ const Description = styled(Typography)(({ theme }) => ({
 
 type BannerWrapperProps = {
   backgroundUrl: string
+  backgroundSize?: string
+  backgroundDim?: number
+  containerPadding: string
 }
 
 /**
  * This is a full-width banner component that takes a background image URL.
  */
 const BannerWrapper = styled.div<BannerWrapperProps>(
-  ({ theme, backgroundUrl }) => ({
-    backgroundImage: `url(${backgroundUrl})`,
-    backgroundSize: "cover",
+  ({
+    theme,
+    backgroundUrl,
+    backgroundSize = "cover",
+    backgroundDim = 0,
+    containerPadding = "48px 0 48px 0",
+  }) => ({
+    backgroundAttachment: "fixed",
+    backgroundImage: `linear-gradient(rgba(0 0 0 / ${backgroundDim}%), rgba(0 0 0 / ${backgroundDim}%)), url('${backgroundUrl}')`,
+    backgroundSize: backgroundSize,
     color: theme.custom.colors.white,
-    paddingTop: "48px",
-    paddingBottom: "48px",
+    padding: containerPadding,
     [theme.breakpoints.down("sm")]: {
-      paddingTop: "32px",
-      paddingBottom: "32px",
+      padding: "32px 0 32px 0",
     },
   }),
 )
-
-const NavText = styled(Typography)(({ theme }) => ({
-  color: theme.custom.colors.lightGray2,
-  marginBottom: "4px",
-}))
 
 const InnerContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
   alignItems: "flex-start",
   justifyContent: "space-between",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     flexDirection: "column",
   },
 }))
 
-const TitleContainer = styled.div({
+const HeaderContainer = styled.div({
   display: "flex",
   flexDirection: "column",
 })
 
-const ActionsContainer = styled.div({
+const RightContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
-})
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
+}))
 
 type BannerProps = BannerWrapperProps & {
-  description: React.ReactNode
-  title: React.ReactNode
+  backgroundUrl: string
+  backgroundSize?: string
+  backgroundDim?: number
+  containerPadding?: string
   navText: React.ReactNode
-  action?: React.ReactNode
+  avatar?: React.ReactNode
+  header: React.ReactNode
+  headerTypography?: ResponsiveStyleValue<string | undefined>
+  headerStyles?: SxProps<Theme>
+  subHeader?: React.ReactNode
+  subHeaderTypography?: ResponsiveStyleValue<string | undefined>
+  subHeaderStyles?: SxProps<Theme>
+  extraHeader?: React.ReactNode
+  extraRight?: React.ReactNode
 }
 
 /**
@@ -70,25 +88,49 @@ type BannerProps = BannerWrapperProps & {
  */
 const Banner = ({
   backgroundUrl,
-  description,
-  title,
+  backgroundSize = "cover",
+  backgroundDim = 0,
+  containerPadding = "48px 0 48px 0",
   navText,
-  action,
+  avatar,
+  header,
+  headerTypography,
+  headerStyles,
+  subHeader,
+  subHeaderTypography,
+  subHeaderStyles,
+  extraHeader,
+  extraRight,
 }: BannerProps) => {
+  const defaultHeaderTypography = { xs: "h2", md: "h1" }
+  const defaultSubHeaderTypography = { xs: "body2", md: "body1" }
   return (
-    <BannerWrapper backgroundUrl={backgroundUrl}>
+    <BannerWrapper
+      backgroundUrl={backgroundUrl}
+      backgroundSize={backgroundSize}
+      backgroundDim={backgroundDim}
+      containerPadding={containerPadding}
+    >
       <Container>
+        {navText}
         <InnerContainer>
-          <TitleContainer>
-            <NavText variant="subtitle3">{navText}</NavText>
-            <Typography component="h1" typography={{ xs: "h2", md: "h1" }}>
-              {title}
+          <HeaderContainer>
+            {avatar ? <Box>{avatar}</Box> : null}
+            <Typography
+              typography={headerTypography || defaultHeaderTypography}
+              sx={headerStyles}
+            >
+              {header}
             </Typography>
-            <Description typography={{ xs: "body2", md: "body1" }}>
-              {description}
-            </Description>
-          </TitleContainer>
-          <ActionsContainer>{action}</ActionsContainer>
+            <SubHeader
+              typography={subHeaderTypography || defaultSubHeaderTypography}
+              sx={subHeaderStyles}
+            >
+              {subHeader}
+            </SubHeader>
+            <Box>{extraHeader}</Box>
+          </HeaderContainer>
+          <RightContainer>{extraRight}</RightContainer>
         </InnerContainer>
       </Container>
     </BannerWrapper>
