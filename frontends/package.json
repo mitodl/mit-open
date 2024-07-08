@@ -3,7 +3,6 @@
   "private": true,
   "workspaces": [
     "api",
-    "github-pages",
     "mit-open",
     "ol-ckeditor",
     "ol-common",
@@ -33,7 +32,6 @@
     "global:typecheck": "cd $INIT_CWD && tsc --noEmit",
     "global:test-watch": "cd $INIT_CWD && NODE_ENV=test jest --watch",
     "create-package": "yarn workspace ol-template plop package",
-    "build-github-pages": "yarn workspace github-pages build",
     "storybook": "yarn workspace mit-open storybook",
     "build-storybook": "yarn workspace mit-open build-storybook",
     "in-workspaces": "yarn workspaces foreach -A --exclude . --exclude frontends"

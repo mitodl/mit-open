@@ -3,14 +3,14 @@ import styled from "@emotion/styled"
 import ISO6391 from "iso-639-1"
 import {
   RemixiconComponentType,
+  RiVerifiedBadgeLine,
+  RiTimeLine,
+  RiCalendarLine,
+  RiListOrdered2,
   RiPriceTag3Line,
   RiDashboard3Line,
   RiGraduationCapLine,
   RiTranslate2,
-  RiTimeLine,
-  RiVerifiedBadgeLine,
-  RiCalendarLine,
-  RiListOrdered2,
 } from "@remixicon/react"
 import {
   LearningResource,

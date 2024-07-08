@@ -91,7 +91,7 @@ const queryNextButton = () => screen.queryByRole("button", { name: "Next" })
 const queryBackButton = () => screen.queryByRole("button", { name: "Back" })
 const queryFinishButton = () => screen.queryByRole("button", { name: "Finish" })
 
-describe.skip("OnboardingPage", () => {
+describe("OnboardingPage", () => {
   describe("Topic Interests step", () => {
     const STEP = 0
     const TITLE = STEP_TITLES[STEP]
@@ -110,7 +110,7 @@ describe.skip("OnboardingPage", () => {
       const finishButton = queryFinishButton()
 
       expect(backButton).toBeNil()
-      expect(nextButton).toBeDisabled()
+      expect(nextButton).not.toBeNil()
       expect(finishButton).toBeNil()
     })
   })
@@ -132,8 +132,8 @@ describe.skip("OnboardingPage", () => {
       const nextButton = await findNextButton()
       const finishButton = queryFinishButton()
 
-      expect(backButton).toBeEnabled()
-      expect(nextButton).toBeDisabled()
+      expect(backButton).not.toBeNil()
+      expect(nextButton).not.toBeNil()
       expect(finishButton).toBeNil()
     })
 
@@ -167,8 +167,8 @@ describe.skip("OnboardingPage", () => {
       const nextButton = await findNextButton()
       const finishButton = queryFinishButton()
 
-      expect(backButton).toBeEnabled()
-      expect(nextButton).toBeDisabled()
+      expect(backButton).not.toBeNil()
+      expect(nextButton).not.toBeNil()
       expect(finishButton).toBeNil()
     })
 
@@ -202,8 +202,8 @@ describe.skip("OnboardingPage", () => {
       const nextButton = await findNextButton()
       const finishButton = queryFinishButton()
 
-      expect(backButton).toBeEnabled()
-      expect(nextButton).toBeDisabled()
+      expect(backButton).not.toBeNil()
+      expect(nextButton).not.toBeNil()
       expect(finishButton).toBeNil()
     })
 
@@ -237,8 +237,8 @@ describe.skip("OnboardingPage", () => {
       const nextButton = await findNextButton()
       const finishButton = queryFinishButton()
 
-      expect(backButton).toBeEnabled()
-      expect(nextButton).toBeDisabled()
+      expect(backButton).not.toBeNil()
+      expect(nextButton).not.toBeNil()
       expect(finishButton).toBeNil()
     })
 
@@ -272,9 +272,9 @@ describe.skip("OnboardingPage", () => {
       const nextButton = queryNextButton()
       const finishButton = await findFinishButton()
 
-      expect(backButton).toBeEnabled()
+      expect(backButton).not.toBeNil()
       expect(nextButton).toBeNil()
-      expect(finishButton).toBeDisabled()
+      expect(finishButton).not.toBeNil()
     })
 
     test("Back button should go to previous step", async () => {

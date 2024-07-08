@@ -22,7 +22,7 @@ const LearningResourceCardStyled = styled(LearningResourceCard)`
 `
 
 const meta: Meta<typeof LearningResourceCard> = {
-  title: "ol-components/LearningResourceCard",
+  title: "smoot-design/Cards/LearningResourceCard",
   argTypes: {
     resource: {
       options: ["Loading", "Without Image", ...Object.values(ResourceTypeEnum)],

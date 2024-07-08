@@ -11,8 +11,6 @@ import responses
 from pytest_mock import PytestMockWarning
 from urllib3.exceptions import InsecureRequestWarning
 
-from main.factories import UserFactory
-
 
 @pytest.fixture(autouse=True)
 def silence_factory_logging():  # noqa: PT004
@@ -78,14 +76,6 @@ def mocked_celery(mocker):
         chain=chain_mock,
         replace_exception_class=exception_class,
     )
-
-
-@pytest.fixture()
-def indexing_user(settings):
-    """Sets and returns the indexing user"""  # noqa: D401
-    user = UserFactory.create()
-    settings.INDEXING_API_USERNAME = user.username
-    return user
 
 
 @pytest.fixture()

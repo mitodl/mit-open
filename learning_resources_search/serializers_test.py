@@ -64,7 +64,7 @@ response_test_raw_data_1 = {
                         {"id": 5, "name": "Management"},
                         {"id": 6, "name": "Innovation"},
                     ],
-                    "offered_by": "xPRO",
+                    "offered_by": "MIT xPRO",
                     "course_feature": [],
                     "department": None,
                     "learning_format": [
@@ -163,7 +163,7 @@ response_test_raw_data_1 = {
             "offered_by": {
                 "doc_count_error_upper_bound": 0,
                 "sum_other_doc_count": 0,
-                "buckets": [{"key": "xPRO", "doc_count": 9}],
+                "buckets": [{"key": "MIT xPRO", "doc_count": 9}],
             },
         },
     },
@@ -206,7 +206,7 @@ response_test_response_1 = {
                 {"id": 5, "name": "Management"},
                 {"id": 6, "name": "Innovation"},
             ],
-            "offered_by": "xPRO",
+            "offered_by": "MIT xPRO",
             "course_feature": [],
             "department": None,
             "learning_format": [
@@ -284,7 +284,7 @@ response_test_response_1 = {
     "metadata": {
         "aggregations": {
             "level": [],
-            "offered_by": [{"key": "xPRO", "doc_count": 9}],
+            "offered_by": [{"key": "MIT xPRO", "doc_count": 9}],
         },
         "suggest": ["manage"],
     },
@@ -718,14 +718,14 @@ def test_learning_resources_search_request_serializer():
         "certification": "false",
         "certification_type": [CertificationType.none.name],
         "free": True,
-        "is_learning_material": True,
+        "resource_category": ["course", "program"],
         "topic": ["Math", "Atoms,Molecules,and Ions"],
         "offered_by": ["xpro", "ocw"],
         "platform": ["xpro", "edx", "ocw"],
         "department": ["18", "5"],
         "level": ["high_school", "undergraduate"],
         "course_feature": ["Lecture Videos"],
-        "aggregations": ["resource_type", "platform", "level"],
+        "aggregations": ["resource_type", "platform", "level", "resource_category"],
     }
 
     cleaned = {
@@ -736,7 +736,7 @@ def test_learning_resources_search_request_serializer():
         "sortby": "-start_date",
         "professional": [True],
         "certification": [False],
-        "is_learning_material": [True],
+        "resource_category": ["course", "program"],
         "certification_type": [CertificationType.none.name],
         "free": [True],
         "offered_by": ["xpro", "ocw"],
@@ -745,7 +745,7 @@ def test_learning_resources_search_request_serializer():
         "department": ["18", "5"],
         "level": ["high_school", "undergraduate"],
         "course_feature": ["Lecture Videos"],
-        "aggregations": ["resource_type", "platform", "level"],
+        "aggregations": ["resource_type", "platform", "level", "resource_category"],
     }
 
     serialized = LearningResourcesSearchRequestSerializer(data=data)

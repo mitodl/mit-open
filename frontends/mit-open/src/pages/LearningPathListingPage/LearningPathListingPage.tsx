@@ -2,7 +2,6 @@ import React, { useCallback, useMemo } from "react"
 import {
   Button,
   SimpleMenu,
-  ActionButton,
   Grid,
   LoadingSpinner,
   BannerPage,
@@ -11,12 +10,10 @@ import {
   Typography,
   PlainList,
   LearningResourceListCard,
-  theme,
+  ListCardActionButton,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
-import EditIcon from "@mui/icons-material/Edit"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
-import DeleteIcon from "@mui/icons-material/Delete"
+import { RiPencilFill, RiMore2Line, RiDeleteBinLine } from "@remixicon/react"
 
 import { MetaTags } from "ol-utilities"
 import type { LearningPathResource } from "api"
@@ -33,13 +30,6 @@ const ListHeaderGrid = styled(Grid)`
   margin-bottom: 1rem;
 `
 
-const StyledActionButton = styled(ActionButton)`
-  ${theme.breakpoints.down("md")} {
-    width: 16px;
-    height: 16px;
-  }
-`
-
 const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
   resource,
 }) => {
@@ -48,13 +38,13 @@ const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
       {
         key: "edit",
         label: "Edit",
-        icon: <EditIcon />,
+        icon: <RiPencilFill />,
         onClick: () => manageListDialogs.upsertLearningPath(resource),
       },
       {
         key: "delete",
         label: "Delete",
-        icon: <DeleteIcon />,
+        icon: <RiDeleteBinLine />,
         onClick: () => manageListDialogs.destroyLearningPath(resource),
       },
     ],
@@ -63,15 +53,15 @@ const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
   return (
     <SimpleMenu
       trigger={
-        <StyledActionButton
+        <ListCardActionButton
           variant="secondary"
-          edge="none"
+          edge="circular"
           color="secondary"
           size="small"
           aria-label={`Edit list ${resource.title}`}
         >
-          <MoreVertIcon fontSize="inherit" />
-        </StyledActionButton>
+          <RiMore2Line fontSize="inherit" />
+        </ListCardActionButton>
       }
       items={items}
     />

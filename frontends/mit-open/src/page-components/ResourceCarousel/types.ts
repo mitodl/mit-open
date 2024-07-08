@@ -3,10 +3,7 @@ import type {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as SearchRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
 } from "api"
-
-type CardProps = {
-  size?: "small" | "medium"
-}
+import type { LearningResourceCardProps } from "ol-components"
 
 interface ResourceDataSource {
   type: "resources"
@@ -27,7 +24,7 @@ type DataSource = ResourceDataSource | SearchDataSource | FeaturedDataSource
 
 type TabConfig<D extends DataSource = DataSource> = {
   label: React.ReactNode
-  cardProps?: CardProps
+  cardProps?: Pick<LearningResourceCardProps, "size" | "isMedia">
   data: D
 }
 

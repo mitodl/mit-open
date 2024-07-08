@@ -120,7 +120,7 @@ describe("SearchPage", () => {
         "learning_format",
         "offered_by",
         "professional",
-        "resource_type",
+        "resource_category",
         "topic",
       ])
       expect(Object.fromEntries(apiSearchParams.entries())).toEqual(
@@ -187,9 +187,12 @@ describe("Search Page Tabs", () => {
   test.each([
     { url: "", expectedActive: /All/ },
     { url: "?all", expectedActive: /All/ },
-    { url: "?tab=courses", expectedActive: /Courses/ },
-    { url: "?tab=programs", expectedActive: /Programs/ },
-    { url: "?tab=learning-materials", expectedActive: /Learning Materials/ },
+    { url: "?resource_category=course", expectedActive: /Courses/ },
+    { url: "?resource_category=program", expectedActive: /Programs/ },
+    {
+      url: "?resource_category=learning_material",
+      expectedActive: /Learning Materials/,
+    },
   ])("Active tab determined by URL $url", async ({ url, expectedActive }) => {
     setMockApiResponses({
       search: {
@@ -240,14 +243,14 @@ describe("Search Page Tabs", () => {
     await user.click(tabCourses)
     expect(tabCourses).toHaveAttribute("aria-selected")
     const params1 = new URLSearchParams(location.current.search)
-    expect(params1.get("tab")).toBe("courses")
+    expect(params1.get("resource_category")).toBe("course")
     expect(params1.get("department")).toBe("8") // should preserve other params
 
     // Click "All"
     await user.click(tabAll)
     expect(tabAll).toHaveAttribute("aria-selected")
     const params2 = new URLSearchParams(location.current.search)
-    expect(params2.get("tab")).toBe(null)
+    expect(params2.get("resource_category")).toBe(null)
     expect(params2.get("department")).toBe("8") // should preserve other params
   })
 
@@ -257,11 +260,10 @@ describe("Search Page Tabs", () => {
         count: 700,
         metadata: {
           aggregations: {
-            resource_type: [
+            resource_category: [
               { key: "course", doc_count: 100 },
-              { key: "podcast", doc_count: 200 },
-              { key: "video", doc_count: 300 },
-              { key: "irrelevant", doc_count: 400 },
+              { key: "program", doc_count: 200 },
+              { key: "learning_material", doc_count: 300 },
             ],
           },
           suggestions: [],
@@ -284,8 +286,8 @@ describe("Search Page Tabs", () => {
       ).toEqual([
         "All(600)",
         "Courses(100)",
-        "Programs(0)",
-        "LearningMaterials(500)",
+        "Programs(200)",
+        "LearningMaterials(300)",
       ])
     })
   })
@@ -302,11 +304,11 @@ describe("Search Page Tabs", () => {
     })
 
     const { location } = renderWithProviders(<SearchPage />, {
-      url: "?page=3&tab=courses",
+      url: "?page=3&resource_category=course",
     })
     const tabPrograms = screen.getByRole("tab", { name: /Programs/ })
     await user.click(tabPrograms)
-    expect(location.current.search).toBe("?tab=programs")
+    expect(location.current.search).toBe("?resource_category=program")
   })
 })
 

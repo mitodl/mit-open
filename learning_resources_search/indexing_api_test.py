@@ -192,7 +192,6 @@ def test_create_backing_index(mocked_es, mocker, temp_alias_exists):
     )
 
 
-@pytest.mark.usefixtures("indexing_user")
 @pytest.mark.parametrize("errors", [(), "error"])
 @pytest.mark.parametrize(
     "index_types",
@@ -253,7 +252,6 @@ def test_index_learning_resources(
                 )
 
 
-@pytest.mark.usefixtures("indexing_user")
 @pytest.mark.parametrize("errors", [(), "error"])
 def test_deindex_learning_resources(mocked_es, mocker, settings, errors):
     """

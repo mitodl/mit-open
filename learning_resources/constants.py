@@ -34,6 +34,14 @@ class LearningResourceType(ExtendedEnum):
     video_playlist = "Video Playlist"
 
 
+LEARNING_MATERIAL_RESOURCE_CATEGORY = "learning_material"
+RESOURCE_CATEGORY_VALUES = [
+    LearningResourceType.course.name,
+    LearningResourceType.program.name,
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
+]
+
+
 class OfferedBy(ExtendedEnum):
     """
     Enum for our Offered By labels. They are our MIT "brands" for LearningResources
@@ -44,11 +52,11 @@ class OfferedBy(ExtendedEnum):
     """
 
     mitx = "MITx"
-    ocw = "OCW"
+    ocw = "MIT OpenCourseWare"
     bootcamps = "Bootcamps"
-    xpro = "xPRO"
-    mitpe = "Professional Education"
-    see = "Sloan Executive Education"
+    xpro = "MIT xPRO"
+    mitpe = "MIT Professional Education"
+    see = "MIT Sloan Executive Education"
 
 
 class PlatformType(ExtendedEnum):
@@ -58,14 +66,14 @@ class PlatformType(ExtendedEnum):
     """
 
     edx = "edX"
-    ocw = "OCW"
+    ocw = "MIT OpenCourseWare"
     oll = "Open Learning Library"
     mitxonline = "MITx Online"
     bootcamps = "Bootcamps"
-    xpro = "xPRO"
+    xpro = "MIT xPRO"
     csail = "CSAIL"
-    mitpe = "Professional Education"
-    see = "Sloan Executive Education"
+    mitpe = "MIT Professional Education"
+    see = "MIT Sloan Executive Education"
     scc = "Schwarzman College of Computing"
     ctl = "Center for Transportation & Logistics"
     whu = "WHU"

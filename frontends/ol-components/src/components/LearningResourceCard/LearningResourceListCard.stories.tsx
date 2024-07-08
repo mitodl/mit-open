@@ -15,7 +15,7 @@ const makeResource: typeof _makeResource = (overrides) => {
 }
 
 const meta: Meta<typeof LearningResourceListCard> = {
-  title: "ol-components/LearningResourceListCard",
+  title: "smoot-design/Cards/LearningResourceListCard",
   argTypes: {
     resource: {
       options: ["Loading", ...Object.values(ResourceTypeEnum)],

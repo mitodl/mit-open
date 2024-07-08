@@ -77,7 +77,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     ...props,
   }
   const { colors } = theme.custom
-  const hasBorder = variant === "secondary" || variant === "text"
+  const hasBorder = variant === "secondary"
 
   return [
     {
@@ -94,6 +94,7 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       ":disabled": {
         cursor: "default",
       },
+      minWidth: "100px",
     },
     ...sizeStyles(size, hasBorder, theme),
     // responsive
@@ -109,17 +110,22 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       backgroundColor: colors.mitRed,
       color: colors.white,
       border: "none",
+      /* Shadow/04dp */
+      boxShadow:
+        "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 3px 8px 0px rgba(37, 38, 43, 0.12)",
       ":hover:not(:disabled)": {
         backgroundColor: colors.red,
+        boxShadow: "none",
       },
       ":disabled": {
         backgroundColor: colors.silverGray,
+        boxShadow: "none",
       },
     },
     hasBorder && {
       backgroundColor: "transparent",
       borderColor: "currentcolor",
-      borderStyle: variant === "secondary" ? "solid" : "none",
+      borderStyle: "solid",
     },
     variant === "secondary" && {
       color: colors.red,
@@ -131,6 +137,8 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
       },
     },
     variant === "text" && {
+      backgroundColor: "transparent",
+      borderStyle: "none",
       color: colors.darkGray2,
       ":hover:not(:disabled)": {
         backgroundColor: tinycolor(colors.darkGray1).setAlpha(0.06).toString(),
@@ -175,14 +183,6 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
     edge === "circular" && {
       // Pill-shaped buttons... Overlapping border radius get clipped to pill.
       borderRadius: "100vh",
-    },
-    edge === "none" && {
-      border: "none",
-      ":hover:not(:disabled)": {
-        "&&": {
-          backgroundColor: "inherit",
-        },
-      },
     },
     // color
     color === "secondary" && {
@@ -303,6 +303,7 @@ type ActionButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
 
 const actionStyles = (size: ButtonSize) => {
   return {
+    minWidth: "auto",
     padding: 0,
     height: {
       small: "32px",

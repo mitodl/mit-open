@@ -27,10 +27,7 @@ const Container = styled.div<{ padTop?: boolean }>`
   padding: 18px 32px 160px;
   gap: 20px;
   ${({ padTop }) => (padTop ? "padding-top: 64px;" : "")}
-  width: 600px;
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    width: 550px;
-  }
+  width: 516px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: auto;
   }

@@ -15,7 +15,7 @@ jobs:
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'success'
     steps:
-      - uses: actions/checkout@0ad4b8fadaa221de15dcec353f45205ec38ea70b # v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
         with:
           ref: release-candidate
 
@@ -41,7 +41,8 @@ jobs:
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_RC }}
           POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_RC }}
           MITOPEN_AXIOS_WITH_CREDENTIALS: true
-          MITOPEN_AXIOS_BASE_PATH: https://api.mitopen-rc.odl.mit.edu
+          MITOPEN_API_BASE_URL: https://api.mitopen-rc.odl.mit.edu
+          MITOPEN_SUPPORT_EMAIL: odl-mitopen-rc-support@mit.edu
 
       - uses: akhileshns/heroku-deploy@581dd286c962b6972d427fcf8980f60755c15520
         with:

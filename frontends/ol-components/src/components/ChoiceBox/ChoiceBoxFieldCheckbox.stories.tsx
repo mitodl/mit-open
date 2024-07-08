@@ -52,7 +52,7 @@ const StateWrapper = (props: CheckboxChoiceBoxFieldProps) => {
 }
 
 const meta: Meta<typeof CheckboxChoiceBoxField> = {
-  title: "ol-components/ChoiceBoxField",
+  title: "smoot-design/ChoiceBoxField",
   component: StateWrapper,
 }
 

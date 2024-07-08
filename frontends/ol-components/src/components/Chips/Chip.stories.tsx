@@ -7,15 +7,17 @@ import Stack from "@mui/material/Stack"
 import { fn } from "@storybook/test"
 import { ChipLink } from "./ChipLink"
 import { withRouter } from "storybook-addon-react-router-v6"
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
-import DeleteIcon from "@mui/icons-material/Delete"
-import EditIcon from "@mui/icons-material/Edit"
+import {
+  RiPencilFill,
+  RiCalendarLine,
+  RiDeleteBin7Fill,
+} from "@remixicon/react"
 
 const icons = {
   None: undefined,
-  CalendarTodayIcon: <CalendarTodayIcon />,
-  DeleteIcon: <DeleteIcon />,
-  EditIcon: <EditIcon />,
+  CalendarTodayIcon: <RiCalendarLine />,
+  DeleteIcon: <RiDeleteBin7Fill />,
+  EditIcon: <RiPencilFill />,
 }
 
 const VARIANTS: {
@@ -125,7 +127,7 @@ export const Disabled: Story = {
 
 export const Icons: Story = {
   args: {
-    icon: <CalendarTodayIcon />,
+    icon: <RiCalendarLine />,
   },
 }
 

@@ -4,7 +4,7 @@ import { useArgs } from "@storybook/preview-api"
 import { RadioChoiceField, BooleanRadioChoiceField } from "./RadioChoiceField"
 
 const meta: Meta<typeof RadioChoiceField> = {
-  title: "ol-components/RadioChoiceField",
+  title: "smoot-design/RadioChoiceField",
   argTypes: {
     onChange: {
       action: "changed",

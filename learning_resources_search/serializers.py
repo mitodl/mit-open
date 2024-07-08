@@ -14,7 +14,9 @@ from rest_framework.utils.urls import replace_query_param
 from learning_resources.constants import (
     DEPARTMENTS,
     GROUP_STAFF_LISTS_EDITORS,
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    RESOURCE_CATEGORY_VALUES,
     CertificationType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
@@ -38,8 +40,6 @@ from learning_resources.serializers import (
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
-    COURSE_TYPE,
-    PROGRAM_TYPE,
 )
 from learning_resources_search.models import PercolateQuery
 from learning_resources_search.utils import remove_child_queries
@@ -81,8 +81,8 @@ def serialize_learning_resource_for_update(
     return {
         "resource_relations": {"name": "resource"},
         "created_on": learning_resource_obj.created_on,
-        "is_learning_material": learning_resource_obj.resource_type
-        not in [COURSE_TYPE, PROGRAM_TYPE],
+        "is_learning_material": serialized_data["resource_category"]
+        == LEARNING_MATERIAL_RESOURCE_CATEGORY,
         **serialized_data,
     }
 
@@ -93,6 +93,8 @@ def extract_values(obj, key):
 
     Args:
         obj(dict): The JSON object
+
+
         key(str): The JSON key to search for and extract
 
     Returns:
@@ -165,7 +167,7 @@ LEARNING_RESOURCE_AGGREGATIONS = [
     "professional",
     "free",
     "learning_format",
-    "is_learning_material",
+    "resource_category",
 ]
 
 CONTENT_FILE_AGGREGATIONS = ["topic", "content_feature_type", "platform", "offered_by"]
@@ -252,13 +254,6 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         default=None,
         help_text="True if the learning resource offers a certificate",
     )
-    is_learning_material = ArrayWrappedBoolean(
-        required=False,
-        allow_null=True,
-        default=None,
-        help_text="True if the learning resource is a podcast, podcast episode, video, "
-        "video playlist, or learning path",
-    )
     certification_choices = CertificationType.as_tuple()
     certification_type = serializers.ListField(
         required=False,
@@ -302,6 +297,19 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         help_text=(
             f"The format(s) in which the learning resource is offered \
             \n\n{build_choice_description_list(learning_format_choices)}"
+        ),
+    )
+    resource_category_choices = [
+        (value, value.replace("_", " ").title()) for value in RESOURCE_CATEGORY_VALUES
+    ]
+    resource_category = serializers.ListField(
+        required=False,
+        child=serializers.ChoiceField(
+            choices=resource_category_choices,
+        ),
+        help_text=(
+            f"The category of learning resource \
+            \n\n{build_choice_description_list(resource_category_choices)}"
         ),
     )
 

@@ -17,18 +17,25 @@ MIT Open follows the same [initial setup steps outlined in the common OL web app
 Run through those steps **including the addition of `/etc/hosts` aliases and the optional step for running the
 `createsuperuser` command**.
 
-### Configure required `.env` settings
+### Configuration
+
+Configuration can be put in the following filess which are gitignored:
+
+```
+mit-open/
+  ├── env/
+  │   ├── shared.local.env (provided to both frontend and backend containers)
+  │   ├── frontend.local.env (provided only to frontend containers)
+  │   └── backend.local.env (provided only to frontend containers)
+  └── .env (legacy file)
+```
 
 The following settings must be configured before running the app:
 
 - `COMPOSE_PROFILES`
 
   Controls which docker containers run. To run them all, use `COMPOSE_PROFILES=backend,frontend`. See [Frontend Development](./frontends/README.md) for more.
-
-- `INDEXING_API_USERNAME`
-
-  At least to start out, this should be set to the username of the superuser
-  you created above.
+  This can be set either in a top-level `.env` that `docker compose` [automatically ingests](https://docs.docker.com/compose/environment-variables/envvars/#compose_env_files) or through any other method of setting an environment variable in your shell (e.g. `direnv`).
 
 - `MAILGUN_KEY` and `MAILGUN_SENDER_DOMAIN`
 
@@ -216,7 +223,7 @@ Once these are set (and you've restarted the app), you should see events flowing
 A Javascript bundle of exported frontend components can be generated for use in external websites that have CORS allowance into a given instance of `mit-open`. There are a few settings you might want to change in order to get the expected results.
 
 - `MITOPEN_AXIOS_WITH_CREDENTIALS` - This sets `withCredentials: true` when initializing the Axios API, which tells the end user's browser to send along any browser level cookies for the current domain when making CORS requests
-- `MITOPEN_AXIOS_BASE_PATH` - This sets the base path used for API requests, which will need to be set to a fully qualified url pointing to an instance of `mit-open` (i.e. https://mitopen.odl.mit.edu) in order for requests from the external site to reach the proper destination
+- `MITOPEN_API_BASE_URL` - This sets the base url used for API requests, which will need to be set to a fully qualified url pointing to an instance of `mit-open` (i.e. https://mitopen.odl.mit.edu) in order for requests from the external site to reach the proper destination
 - `CORS_ALLOWED_ORIGINS`, `CSRF_TRUSTED_ORIGINS` - On the instance of `mit-open` that the externally hosted components will access via the API, the domains of any sites that need CORS access need to be here as a list of strings
 
 To build the bundle of exported components, run:
@@ -247,6 +254,6 @@ $("#add-to-user-list-button").on("click", async (event) => {
 
 This is just an example, and you could input any `readable_id` to bring up a dialog to add any given `LearningResource` object to a `UserList`.
 
-## GitHub Pages
+## GitHub Pages Storybook
 
-A static site for this repo with developer resources publishes to https://mitodl.github.io/mit-open/ during CI runs.
+Demos and documentation of reusable UI components in this repo are published as a [storybook](https://storybook.js.org/) at https://mitodl.github.io/mit-open/.

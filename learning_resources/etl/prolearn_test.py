@@ -45,7 +45,7 @@ def _mock_offerors_platforms():
     """Make sure necessary platforms and offerors exist"""
     LearningResourcePlatformFactory.create(code="csail")
     LearningResourceOfferorFactory.create(
-        name="Professional Education", code="mitpe", professional=True
+        name="MIT Professional Education", code="mitpe", professional=True
     )
     LearningResourcePlatformFactory.create(
         code="mitpe", name="MIT Professional Education"
@@ -67,7 +67,7 @@ def mock_csail_programs_data():
 
 @pytest.fixture()
 def mock_mitpe_courses_data():
-    """Mock prolearn Professional Education courses data"""
+    """Mock prolearn MIT Professional Education courses data"""
     with open("./test_json/prolearn_mitpe_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
@@ -300,7 +300,7 @@ def test_parse_topic(topic, expected):
 @pytest.mark.parametrize(
     ("department", "offered_by"),
     [
-        ("MIT Professional Education", "Professional Education"),
+        ("MIT Professional Education", "MIT Professional Education"),
         ("MIT Other", None),
     ],
 )

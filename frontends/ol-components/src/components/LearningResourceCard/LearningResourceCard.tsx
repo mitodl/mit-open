@@ -1,7 +1,12 @@
 import React from "react"
 import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
-import { RiMenuAddLine, RiBookmarkLine, RiAwardFill } from "@remixicon/react"
+import {
+  RiMenuAddLine,
+  RiBookmarkLine,
+  RiBookmarkFill,
+  RiAwardFill,
+} from "@remixicon/react"
 import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
 import {
   findBestRun,
@@ -13,7 +18,7 @@ import {
 import { Card } from "../Card/Card"
 import type { Size } from "../Card/Card"
 import { TruncateText } from "../TruncateText/TruncateText"
-import { ActionButton } from "../Button/Button"
+import { ActionButton, ActionButtonProps } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
 
@@ -25,14 +30,22 @@ const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
 
-const getEmbedlyUrl = (resource: LearningResource, size: Size) => {
+const getImageDimensions = (size: Size, isMedia: boolean) => {
   const dimensions = {
-    small: { width: 190, height: 120 },
-    medium: { width: 298, height: 170 },
+    small: { width: 190, height: isMedia ? 190 : 120 },
+    medium: { width: 298, height: isMedia ? 298 : 170 },
   }
+  return dimensions[size]
+}
+
+const getEmbedlyUrl = (
+  resource: LearningResource,
+  size: Size,
+  isMedia: boolean,
+) => {
   return embedlyCroppedImage(resource.image!.url!, {
     key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
-    ...dimensions[size],
+    ...getImageDimensions(size, isMedia),
   })
 }
 
@@ -116,9 +129,29 @@ interface LearningResourceCardProps {
   resource?: LearningResource | null
   className?: string
   size?: Size
+  isMedia?: boolean
   href?: string
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
+  inUserList?: boolean
+  inLearningPath?: boolean
+}
+
+const FILLED_PROPS = { variant: "primary" } as const
+const UNFILLED_PROPS = { color: "secondary", variant: "secondary" } as const
+const CardActionButton: React.FC<
+  Pick<ActionButtonProps, "aria-label" | "onClick" | "children"> & {
+    filled?: boolean
+  }
+> = ({ filled, ...props }) => {
+  return (
+    <ActionButton
+      edge="circular"
+      size={"small"}
+      {...(filled ? FILLED_PROPS : UNFILLED_PROPS)}
+      {...props}
+    />
+  )
 }
 
 const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
@@ -126,16 +159,20 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   resource,
   className,
   size = "medium",
+  isMedia = false,
   href,
   onAddToLearningPathClick,
   onAddToUserListClick,
+  inLearningPath,
+  inUserList,
 }) => {
   if (isLoading) {
     const { width, height } = imgConfigs["column"]
+    const aspect = isMedia ? 1 : width / height
     return (
       <Card className={className} size={size}>
         <Card.Content>
-          <SkeletonImage variant="rectangular" aspect={width / height} />
+          <SkeletonImage variant="rectangular" aspect={aspect} />
           <Skeleton height={25} width="65%" sx={{ margin: "23px 16px 0" }} />
           <Skeleton height={25} width="80%" sx={{ margin: "0 16px 35px" }} />
           <Skeleton height={25} width="30%" sx={{ margin: "0 16px 16px" }} />
@@ -151,10 +188,11 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       <Card.Image
         src={
           resource.image?.url
-            ? getEmbedlyUrl(resource, size)
+            ? getEmbedlyUrl(resource, size, isMedia)
             : DEFAULT_RESOURCE_IMG
         }
         alt={resource.image?.alt ?? ""}
+        height={getImageDimensions(size, isMedia).height}
       />
       <Card.Info>
         <Info resource={resource} />
@@ -166,28 +204,22 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       </Card.Title>
       <Card.Actions>
         {onAddToLearningPathClick && (
-          <ActionButton
-            variant="secondary"
-            edge="circular"
-            color="secondary"
-            size="small"
+          <CardActionButton
+            filled={inLearningPath}
             aria-label="Add to Learning Path"
             onClick={(event) => onAddToLearningPathClick(event, resource.id)}
           >
             <RiMenuAddLine />
-          </ActionButton>
+          </CardActionButton>
         )}
         {onAddToUserListClick && (
-          <ActionButton
-            variant="secondary"
-            edge="circular"
-            color="secondary"
-            size="small"
+          <CardActionButton
+            filled={inUserList}
             aria-label="Add to User List"
             onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
-            <RiBookmarkLine />
-          </ActionButton>
+            {inUserList ? <RiBookmarkFill /> : <RiBookmarkLine />}
+          </CardActionButton>
         )}
       </Card.Actions>
       <Card.Footer>

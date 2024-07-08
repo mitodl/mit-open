@@ -22,7 +22,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "OCW",
+      "name": "MIT OpenCourseWare",
       "code": "ocw",
       "professional": false,
       "offerings": ["Learning Materials"],
@@ -57,7 +57,7 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "xPRO",
+      "name": "MIT xPRO",
       "code": "xpro",
       "professional": true,
       "offerings": ["Courses", "Programs"],
@@ -75,18 +75,21 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "Professional Education",
+      "name": "MIT Professional Education",
       "code": "mitpe",
       "professional": true,
-      "offerings": ["(tbd)"],
+      "offerings": ["Courses", "Certificates"],
       "audience": [
         "Engineering Professionals",
         "Technical Professionals",
         "Scientists and Researchers"
       ],
-      "formats": ["(tbd)"],
+      "formats": ["Online", "In Person", "Hybrid"],
       "fee": ["Paid"],
-      "certifications": ["(tbd)"],
+      "certifications": [
+        "Certificate of Completion",
+        "Professional Certificates"
+      ],
       "content_types": ["Academic"],
       "more_information": "https://professional.mit.edu/",
       "value_prop": "Whether online, on campus, or at your company site, MIT Professional Education offers several programs to fit your career goals and organization needs. With over 50 courses across more than 12 topic categories, and some now offered in Spanish, our programs are geared towards engineering and technology professionals across the globe.",
@@ -97,22 +100,17 @@
   {
     "model": "learning_resources.LearningResourceOfferor",
     "fields": {
-      "name": "Sloan Executive Education",
+      "name": "MIT Sloan Executive Education",
       "code": "see",
       "professional": true,
-      "offerings": [
-        "Courses",
-        "Programs",
-        "Enterprise or Organizational accounts",
-        "Custom Engagements"
-      ],
+      "offerings": ["Courses", "Programs"],
       "audience": [
         "Global Business Professionals (all levels)",
         "Entrepreneurs and intrapreneurs",
         "Managers and executives",
         "Current and future business leaders"
       ],
-      "formats": ["Online", "In-Person", "Blended"],
+      "formats": ["Online", "In-Person", "Hybrid"],
       "fee": ["Paid", "Free Webinars and Blogs"],
       "certifications": ["Executive Certificates", "Professional Certificates"],
       "content_types": ["Professional"],

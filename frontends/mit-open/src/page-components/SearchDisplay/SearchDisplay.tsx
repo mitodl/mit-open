@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { useMemo, useRef } from "react"
 import {
   styled,
   Pagination,
@@ -25,7 +25,7 @@ import {
 
 import {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
-  ResourceTypeEnum,
+  ResourceCategoryEnum,
 } from "api"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
@@ -40,9 +40,9 @@ import type {
   FacetManifest,
 } from "@mitodl/course-search-utils"
 import _ from "lodash"
-import { ResourceTypeTabs } from "./ResourceTypeTabs"
+import { ResourceCategoryTabs } from "./ResourceCategoryTabs"
 import ProfessionalToggle from "./ProfessionalToggle"
-import type { TabConfig } from "./ResourceTypeTabs"
+import type { TabConfig } from "./ResourceCategoryTabs"
 
 import { ResourceListCard } from "../ResourceCard/ResourceCard"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
@@ -51,7 +51,7 @@ export const StyledSelect = styled(SimpleSelect)`
   min-width: 160px;
 `
 
-export const StyledResourceTabs = styled(ResourceTypeTabs.TabList)`
+export const StyledResourceTabs = styled(ResourceCategoryTabs.TabList)`
   margin-top: 0 px;
 `
 
@@ -416,27 +416,24 @@ export const TABS: TabConfig[] = [
     name: "all",
     label: "All",
     defaultTab: true,
-    resource_type: [],
+    resource_category: null,
   },
   {
     name: "courses",
     label: "Courses",
-    resource_type: [ResourceTypeEnum.Course],
+    resource_category: ResourceCategoryEnum.Course,
   },
   {
     name: "programs",
     label: "Programs",
-    resource_type: [ResourceTypeEnum.Program],
+    resource_category: ResourceCategoryEnum.Program,
   },
   {
     name: "learning-materials",
     label: "Learning Materials",
-    resource_type: Object.values(ResourceTypeEnum).filter(
-      (v) => v !== ResourceTypeEnum.Course && v !== ResourceTypeEnum.Program,
-    ),
+    resource_category: ResourceCategoryEnum.LearningMaterial,
   },
 ]
-export const ALL_RESOURCE_TABS = TABS.map((t) => t.resource_type)
 
 export const SORT_OPTIONS = [
   {
@@ -503,14 +500,19 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   setSearchParams,
 }) => {
   const [searchParams] = useSearchParams()
+  const scrollHook = useRef<HTMLDivElement>(null)
   const activeTab =
-    TABS.find((t) => t.name === searchParams.get("tab")) ??
+    TABS.find(
+      (t) => t.resource_category === searchParams.get("resource_category"),
+    ) ??
     TABS.find((t) => t.defaultTab) ??
     TABS[0]
   const allParams = useMemo(() => {
     return {
       ...constantSearchParams,
-      resource_type: activeTab.resource_type,
+      resource_category: activeTab.resource_category
+        ? [activeTab.resource_category]
+        : undefined,
       ...requestParams,
       aggregations: facetNames as LRSearchRequest["aggregations"],
       offset: (page - 1) * PAGE_SIZE,
@@ -518,7 +520,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   }, [
     requestParams,
     constantSearchParams,
-    activeTab?.resource_type,
+    activeTab?.resource_category,
     facetNames,
     page,
   ])
@@ -570,7 +572,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   return (
     <Container>
       <StyledGridContainer>
-        <ResourceTypeTabs.Context activeTabName={activeTab.name}>
+        <ResourceCategoryTabs.Context activeTabName={activeTab.name}>
           <DesktopFiltersColumn
             variant="sidebar-2"
             data-testid="facets-container"
@@ -601,7 +603,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               aggregations={data?.metadata.aggregations}
               onTabChange={() => setPage(1)}
             />
-            <ResourceTypeTabs.TabPanels tabs={TABS}>
+            <ResourceCategoryTabs.TabPanels tabs={TABS}>
               <MobileFilter>
                 <Button variant="text" onClick={toggleMobileDrawer(true)}>
                   <Typography variant="subtitle1">Filter</Typography>
@@ -650,8 +652,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 </StyledDrawer>
                 <MobileSortContainer>{sortDropdown}</MobileSortContainer>
               </MobileFilter>
-
               <StyledResultsContainer>
+                <div ref={scrollHook} />
                 {isLoading ? (
                   <PlainList itemSpacing={1.5}>
                     {Array(PAGE_SIZE)
@@ -680,7 +682,15 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 <Pagination
                   count={getLastPage(data?.count ?? 0)}
                   page={page}
-                  onChange={(_, newPage) => setPage(newPage)}
+                  onChange={(_, newPage) => {
+                    setPage(newPage)
+                    setTimeout(() => {
+                      scrollHook.current?.scrollIntoView({
+                        block: "center",
+                        behavior: "smooth",
+                      })
+                    }, 0)
+                  }}
                   renderItem={(item) => (
                     <PaginationItem
                       slots={{
@@ -692,9 +702,9 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   )}
                 />
               </PaginationContainer>
-            </ResourceTypeTabs.TabPanels>
+            </ResourceCategoryTabs.TabPanels>
           </StyledMainColumn>
-        </ResourceTypeTabs.Context>
+        </ResourceCategoryTabs.Context>
       </StyledGridContainer>
     </Container>
   )

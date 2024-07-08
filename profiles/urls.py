@@ -6,7 +6,6 @@ from rest_framework.routers import DefaultRouter
 from profiles.views import (
     CurrentUserRetrieveViewSet,
     ProfileViewSet,
-    ProgramLetterInterceptView,
     ProgramLetterViewSet,
     UserProgramCertificateViewSet,
     UserViewSet,
@@ -52,10 +51,5 @@ urlpatterns = [
         r"^profile/(?P<username>[A-Za-z0-9_]+)/(?P<size>\d+)/(?P<color>[A-Za-z0-9]+)/(?P<bgcolor>[A-Za-z0-9]+).png",
         name_initials_avatar_view,
         name="name-initials-avatar",
-    ),
-    re_path(
-        r"^program_letter/(?P<program_id>[0-9]+)/",
-        ProgramLetterInterceptView.as_view(),
-        name="program-letter-intercept",
     ),
 ]

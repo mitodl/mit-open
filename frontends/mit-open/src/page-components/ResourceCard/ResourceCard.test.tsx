@@ -1,6 +1,11 @@
 import React from "react"
 import * as NiceModal from "@ebay/nice-modal-react"
-import { renderWithProviders, user, screen } from "../../test-utils"
+import {
+  renderWithProviders,
+  user,
+  screen,
+  expectProps,
+} from "../../test-utils"
 import type { User } from "../../test-utils"
 import { ResourceCard, ResourceListCard } from "./ResourceCard"
 import {
@@ -11,6 +16,17 @@ import type { ResourceCardProps } from "./ResourceCard"
 import { urls, factories, setMockResponse } from "api/test-utils"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import invariant from "tiny-invariant"
+import { LearningResourceCard, LearningResourceListCard } from "ol-components"
+
+jest.mock("ol-components", () => {
+  const actual = jest.requireActual("ol-components")
+  return {
+    __esModule: true,
+    ...actual,
+    LearningResourceCard: jest.fn(actual.LearningResourceCard),
+    LearningResourceListCard: jest.fn(actual.LearningResourceListCard),
+  }
+})
 
 jest.mock("@ebay/nice-modal-react", () => {
   const actual = jest.requireActual("@ebay/nice-modal-react")
@@ -24,11 +40,13 @@ jest.mock("@ebay/nice-modal-react", () => {
 describe.each([
   {
     CardComponent: ResourceCard,
+    BaseComponent: LearningResourceCard,
   },
   {
     CardComponent: ResourceListCard,
+    BaseComponent: LearningResourceListCard,
   },
-])("$CardComponent", ({ CardComponent }) => {
+])("$CardComponent", ({ CardComponent, BaseComponent }) => {
   const makeResource = factories.learningResources.resource
   type SetupOptions = {
     user?: Partial<User>
@@ -81,6 +99,47 @@ describe.each([
         name: labels.addToLearningPaths,
       })
       expect(!!addToLearningPathButton).toBe(expectAddToLearningPathButton)
+    },
+  )
+
+  test.each([
+    {
+      userlist: { count: 1, inList: true },
+      learningpath: { count: 1, inList: true },
+    },
+    {
+      userlist: { count: 0, inList: false },
+      learningpath: { count: 1, inList: true },
+    },
+    {
+      userlist: { count: 1, inList: true },
+      learningpath: { count: 0, inList: false },
+    },
+    {
+      userlist: { count: 0, inList: false },
+      learningpath: { count: 0, inList: false },
+    },
+  ])(
+    "'Add to ...' buttons are filled based on membership in list",
+    ({ userlist, learningpath }) => {
+      const resource = makeResource()
+      const { microLearningPathRelationship } = factories.learningResources
+      const { microUserListRelationship } = factories.userLists
+      resource.learning_path_parents = Array.from(
+        { length: learningpath.count },
+        () => microLearningPathRelationship({ child: resource.id }),
+      )
+      resource.user_list_parents = Array.from({ length: userlist.count }, () =>
+        microUserListRelationship({ child: resource.id }),
+      )
+
+      setup({ user: { is_authenticated: true }, props: { resource } })
+
+      expectProps(BaseComponent, {
+        resource,
+        inLearningPath: learningpath.inList,
+        inUserList: userlist.inList,
+      })
     },
   )
 
