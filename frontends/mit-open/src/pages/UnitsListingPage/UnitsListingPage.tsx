@@ -390,7 +390,7 @@ const UnitsListingPage: React.FC = () => {
       icon: <AcademicIcon />,
       title: "Academic Units",
       description:
-        "MIT's Academic courses, programs and materials mirror MIT curriculum and residential programs, making these available to a global audience. Approved by faculty committees, academic content furnishes a comprehensive foundation of knowledge, skills, and abilities for students pursuing their academic objectives. Renowned for their rigor and challenge, MIT's academic offerings deliver an experience on par with the campus environment.",
+        "MIT's Academic courses, programs and materials mirror MIT curriculum and residential programs, making these available to a global audience. Approved by faculty committees, Academic content furnishes a comprehensive foundation of knowledge, skills, and abilities for students pursuing their academic objectives. Renowned for their rigor and challenge, MIT's Academic offerings deliver an experience on par with the campus environment.",
       units: academicUnits,
     },
     {
