@@ -93,10 +93,14 @@ const LogoLink = styled(MITLogoLink)(({ theme }) => ({
 
 const LeftDivider = styled(Divider)({
   margin: "0 24px",
+  height: "24px",
+  alignSelf: "auto",
 })
 
 const RightDivider = styled(Divider)(({ theme }) => ({
   margin: "0 32px",
+  height: "24px",
+  alignSelf: "auto",
   [theme.breakpoints.down("sm")]: {
     margin: "0 16px",
   },
