@@ -11,7 +11,6 @@ import type {
 import { ChannelTypeEnum } from "api/v0"
 import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
 import { styled } from "ol-components"
-import DefaultChannelSkeleton from "./DefaultChannelSkeleton"
 
 export const StyledTestimonialDisplay = styled(TestimonialDisplay)`
   margin-bottom: 80px;
@@ -41,8 +40,7 @@ const ChannelPage: React.FC = () => {
 
   return (
     name &&
-    channelType &&
-    (channelType === "unit" ? (
+    channelType && (
       <ChannelPageSkeleton name={name} channelType={channelType}>
         <p>{channelQuery.data?.public_description}</p>
         <StyledTestimonialDisplay offerors={[name]} />
@@ -53,17 +51,7 @@ const ChannelPage: React.FC = () => {
           />
         )}
       </ChannelPageSkeleton>
-    ) : (
-      <DefaultChannelSkeleton name={name} channelType={channelType}>
-        <p>{channelQuery.data?.public_description}</p>
-        {channelQuery.data?.search_filter && (
-          <FieldSearch
-            constantSearchParams={searchParams}
-            channelType={channelType}
-          />
-        )}
-      </DefaultChannelSkeleton>
-    ))
+    )
   )
 }
 
