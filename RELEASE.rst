@@ -1,6 +1,21 @@
 Release Notes
 =============
 
+Version 0.13.18
+---------------
+
+- resource type (#1222)
+- Data fixtures app for loading static fixtures (#1218)
+- Webpack build config loads .env files for running outside of Docker (#1221)
+- Updates icons to use Remixicons where they don't already (#1157)
+- make primary buttons shadowy, remove edge=none (#1213)
+- resource category tabs (#1211)
+- Fix storybook github pages publishing (#1200)
+- Fix and reenable onboarding page tests (#1216)
+- Removed nginx serving of frontend locally (#1179)
+- Update actions/checkout digest to 692973e (#961)
+- Privacy policy updates (#1208)
+
 Version 0.13.17 (Released July 02, 2024)
 ---------------
 
