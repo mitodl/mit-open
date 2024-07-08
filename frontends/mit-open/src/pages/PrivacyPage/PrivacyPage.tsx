@@ -271,7 +271,7 @@ const PrivacyPage: React.FC = () => {
             You have the right in certain circumstances to (1) access your
             personal information; (2) to correct or erase information; (3)
             restrict processing; and (4) object to communications, direct
-            marketing, or profiling. To the extent applicable, the EEA’s General
+            marketing, or profiling. To the extent applicable, the EEA's General
             Data Protection Regulation (GDPR) provides further information about
             your rights. You also have the right to lodge complaints with your
             national or regional data protection authority.
