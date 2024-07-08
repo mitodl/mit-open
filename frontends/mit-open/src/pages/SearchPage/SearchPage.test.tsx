@@ -64,9 +64,9 @@ describe("SearchPage", () => {
         count: 1000,
         metadata: {
           aggregations: {
-            resource_type: [
+            resource_category: [
               { key: "course", doc_count: 100 },
-              { key: "podcast", doc_count: 200 },
+              { key: "learning_materials", doc_count: 200 },
               { key: "program", doc_count: 300 },
               { key: "irrelevant", doc_count: 400 },
             ],
@@ -231,9 +231,9 @@ describe("Search Page Tabs", () => {
         count: 1000,
         metadata: {
           aggregations: {
-            resource_type: [
+            resource_category: [
               { key: "course", doc_count: 100 },
-              { key: "podcast", doc_count: 200 },
+              { key: "learning_materials", doc_count: 200 },
               { key: "program", doc_count: 300 },
               { key: "irrelevant", doc_count: 400 },
             ],
@@ -247,13 +247,57 @@ describe("Search Page Tabs", () => {
     expect(tab).toHaveAccessibleName(expectedActive)
   })
 
+  test.each([
+    { programCount: 0, programsVisible: false, url: "?" },
+    {
+      programCount: 0,
+      programsVisible: true,
+      url: "?resource_category=program",
+    },
+    { programCount: 123, programsVisible: true, url: "?" },
+  ])(
+    "Tabs only visible if there are results or tab is active (count: $programCount, url: $url, visible: $programsVisible)",
+    async ({ programCount, programsVisible, url }) => {
+      setMockApiResponses({
+        search: {
+          count: 0,
+          metadata: {
+            aggregations: {
+              resource_category: [
+                { key: "course", doc_count: 0 },
+                { key: "learning_material", doc_count: 0 },
+                { key: "program", doc_count: programCount },
+              ],
+            },
+            suggestions: [],
+          },
+        },
+      })
+      renderWithProviders(<SearchPage />, { url })
+
+      // getBy is syncrhonous. The tab is initially visible while API call is pending.
+      const tabPrograms = screen.getByRole("tab", { name: /Programs/ })
+      // Now wait either for the count or for the tab to disappear
+      if (programsVisible) {
+        await waitFor(() => {
+          expect(tabPrograms).toHaveTextContent(`${programCount}`)
+        })
+        expect(tabPrograms).toBeVisible()
+      } else {
+        await waitFor(() => {
+          expect(tabPrograms).not.toBeVisible()
+        })
+      }
+    },
+  )
+
   test("Clicking tabs updates URL", async () => {
     setMockApiResponses({
       search: {
         count: 1000,
         metadata: {
           aggregations: {
-            resource_type: [
+            resource_category: [
               { key: "course", doc_count: 100 },
               { key: "podcast", doc_count: 200 },
               { key: "program", doc_count: 300 },
@@ -329,7 +373,13 @@ describe("Search Page Tabs", () => {
       search: {
         count: 1000,
         metadata: {
-          aggregations: {},
+          aggregations: {
+            resource_category: [
+              { key: "course", doc_count: 100 },
+              { key: "learning_materials", doc_count: 200 },
+              { key: "program", doc_count: 300 },
+            ],
+          },
           suggestions: [],
         },
       },
