@@ -37,19 +37,27 @@ const spyItemsListing = jest.mocked(ItemsListing)
 const setup = ({
   userSettings,
   path,
+  ...opts
 }: {
   userSettings?: Partial<User>
   path: LearningPathResource
+  pageSize?: number
 }) => {
   invariant(path.learning_path, "Must pass a learning path")
+  const pageSize = opts.pageSize ?? path.learning_path.item_count
   const paginatedRelationships =
     factories.learningResources.learningPathRelationships({
-      count: path.learning_path.item_count,
+      count: Math.min(path.learning_path.item_count, pageSize),
       parent: path.id,
     })
   const detailsUrl = urls.learningPaths.details({ id: path.id })
   const pathResourcesUrl = urls.learningPaths.resources({
     learning_resource_id: path.id,
+    /**
+     * This is not paginated yet. It's a staff-only view, so let's just increase
+     * the pagesize to 100 for now.
+     */
+    limit: 100,
   })
   setMockResponse.get(detailsUrl, path)
   setMockResponse.get(pathResourcesUrl, paginatedRelationships)
@@ -118,7 +126,7 @@ describe("ListDetailsPage", () => {
       canReorder: false,
     },
     {
-      itemCount: faker.number.int({ min: 1, max: 10 }),
+      itemCount: faker.number.int({ min: 1, max: 20 }),
       canReorder: true,
     },
   ])(
@@ -147,6 +155,16 @@ describe("ListDetailsPage", () => {
     expect(editList).not.toHaveBeenCalled()
     await user.click(editButton)
     expect(editList).toHaveBeenCalledWith(path)
+  })
+
+  test("Displays list count", async () => {
+    const path = factories.learningResources.learningPath({
+      learning_path: {
+        item_count: 30,
+      },
+    })
+    setup({ path, pageSize: 3 })
+    await screen.findByText("30 items")
   })
 
   test("Passes appropriate props to ItemsListing", async () => {
