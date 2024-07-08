@@ -682,6 +682,10 @@ def load_podcast(podcast_data: dict) -> LearningResource:
         LearningResource.objects.filter(id__in=unpublished_episode_ids).update(
             published=False
         )
+        bulk_resources_unpublished_actions(
+            unpublished_episode_ids,
+            LearningResourceType.podcast_episode.name,
+        )
         episode_ids.extend(unpublished_episode_ids)
         learning_resource.resources.set(
             episode_ids,
@@ -719,13 +723,22 @@ def load_podcasts(podcasts_data: list[dict]) -> list[LearningResource]:
 
     # unpublish the podcasts and episodes we're no longer tracking
     ids = [podcast.id for podcast in podcast_resources]
-    LearningResource.objects.filter(
+    unpublished_podcasts = LearningResource.objects.filter(
         resource_type=LearningResourceType.podcast.name
-    ).exclude(id__in=ids).update(published=False)
-    LearningResource.objects.filter(
+    ).exclude(id__in=ids)
+    unpublished_podcasts.update(published=False)
+    bulk_resources_unpublished_actions(
+        unpublished_podcasts.values_list("id", flat=True),
+        LearningResourceType.podcast.name,
+    )
+    unpublished_episodes = LearningResource.objects.filter(
         resource_type=LearningResourceType.podcast_episode.name
-    ).exclude(parents__parent__in=ids).update(published=False)
-
+    ).exclude(parents__parent__in=ids)
+    unpublished_episodes.update(published=False)
+    bulk_resources_unpublished_actions(
+        unpublished_episodes.values_list("id", flat=True),
+        LearningResourceType.podcast_episode.name,
+    )
     return podcast_resources
 
 

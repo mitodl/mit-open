@@ -12,7 +12,7 @@ from requests.exceptions import HTTPError
 
 from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import clean_data, generate_readable_id
+from learning_resources.etl.utils import clean_data
 from learning_resources.models import PodcastEpisode
 from main.utils import frontend_absolute_url, now_in_utc
 
@@ -143,7 +143,7 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
     rss_data.guid.string = f"{podcast_id}: {rss_data.guid.text}"
 
     return {
-        "readable_id": generate_readable_id(rss_data.title.text[:95]),
+        "readable_id": rss_data.guid.text,
         "etl_source": ETLSource.podcast.name,
         "resource_type": LearningResourceType.podcast_episode.name,
         "title": rss_data.title.text,
@@ -203,7 +203,7 @@ def transform(extracted_podcasts):
             apple_podcasts_url = config_data.get("apple_podcasts_url")
             google_podcasts_url = config_data.get("google_podcasts_url")
             title = config_data.get("podcast_title", rss_data.channel.title.text)
-            podcast_id = generate_readable_id(title[:95])
+            podcast_id = rss_data.guid.text
 
             yield {
                 "readable_id": podcast_id,
