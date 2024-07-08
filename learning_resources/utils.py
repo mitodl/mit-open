@@ -264,10 +264,10 @@ def upsert_offered_by_data():
         for offeror in offered_by_json:
             offeror_fields = offeror["fields"]
             offered_by, _ = LearningResourceOfferor.objects.update_or_create(
-                name=offeror_fields["name"],
+                code=offeror_fields["code"],
                 defaults=offeror_fields,
             )
-            offeror_upserted_actions(offered_by)
+            offeror_upserted_actions(offered_by, overwrite=True)
             offerors.append(offeror_fields["name"])
         invalid_offerors = LearningResourceOfferor.objects.exclude(name__in=offerors)
         for offeror in invalid_offerors:

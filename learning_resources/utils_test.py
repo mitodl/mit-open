@@ -19,7 +19,11 @@ from learning_resources.factories import (
     LearningResourceRunFactory,
     LearningResourceTopicFactory,
 )
-from learning_resources.models import LearningResourcePlatform, LearningResourceTopic
+from learning_resources.models import (
+    LearningResourceOfferor,
+    LearningResourcePlatform,
+    LearningResourceTopic,
+)
 from learning_resources.utils import (
     add_parent_topics_to_learning_resource,
     upsert_topic_data,
@@ -305,3 +309,18 @@ def test_add_parent_topics_to_learning_resource(fixture_resource):
     fixture_resource.refresh_from_db()
 
     assert fixture_resource.topics.filter(pk=main_topic.id).exists()
+
+
+def test_upsert_offered_by(mocker):
+    """Test that upsert_offered_by_data creates expected offerors and triggers pluggy"""
+    mock_upsert = mocker.patch("learning_resources.utils.offeror_upserted_actions")
+    with Path.open(Path(__file__).parent / "fixtures" / "offered_by.json") as inf:
+        offered_by_json = json.load(inf)
+    utils.upsert_offered_by_data()
+    assert LearningResourceOfferor.objects.count() == len(offered_by_json)
+    for offered_by_data in offered_by_json:
+        offeror = LearningResourceOfferor.objects.get(
+            code=offered_by_data["fields"]["code"]
+        )
+        assert offeror.name == offered_by_data["fields"]["name"]
+        mock_upsert.assert_any_call(offeror, overwrite=True)
