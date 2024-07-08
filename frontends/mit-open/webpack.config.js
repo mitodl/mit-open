@@ -1,8 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path")
-require("dotenv").config({
-  path: path.resolve(__dirname, "../../.env"),
-})
+
+if (process.env.ENVIRONMENT === "local") {
+  console.info("Loading environment from .env files")
+  require("dotenv").config({
+    path: [
+      path.resolve(__dirname, "../../env/frontend.local.env"),
+      path.resolve(__dirname, "../../env/frontend.env"),
+      path.resolve(__dirname, "../../env/shared.local.env"),
+      path.resolve(__dirname, "../../env/shared.env"),
+      path.resolve(__dirname, "../../.env"),
+    ],
+  })
+}
 
 const webpack = require("webpack")
 const BundleTracker = require("webpack-bundle-tracker")
@@ -258,7 +268,7 @@ module.exports = (env, argv) => {
       devMiddleware: {
         writeToDisk: true,
       },
-      host: ENVIRONMENT === "docker" ? "0.0.0.0" : "::",
+      host: "0.0.0.0",
       proxy: [
         {
           context: [
