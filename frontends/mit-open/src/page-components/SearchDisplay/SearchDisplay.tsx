@@ -51,25 +51,25 @@ export const StyledSelect = styled(SimpleSelect)`
   min-width: 160px;
 `
 
-export const StyledResourceTabs = styled(ResourceCategoryTabs.TabList)`
+const StyledResourceTabs = styled(ResourceCategoryTabs.TabList)`
   margin-top: 0 px;
 `
 
-export const DesktopSortContainer = styled.div`
+const DesktopSortContainer = styled.div`
   float: right;
 
   ${({ theme }) => theme.breakpoints.down("md")} {
     display: none;
   }
 `
-export const MobileSortContainer = styled.div`
+const MobileSortContainer = styled.div`
   float: right;
   ${({ theme }) => theme.breakpoints.up("md")} {
     display: none;
   }
 `
 
-export const FacetStyles = styled.div`
+const FacetStyles = styled.div`
   * {
     color: ${({ theme }) => theme.palette.secondary.main};
   }
@@ -270,7 +270,7 @@ export const FacetStyles = styled.div`
   }
 `
 
-export const FilterTitle = styled.div`
+const FilterTitle = styled.div`
   svg {
     margin-left: 8px;
   }
@@ -282,7 +282,7 @@ export const FilterTitle = styled.div`
   color: ${({ theme }) => theme.custom.colors.darkGray2};
 `
 
-export const FacetsTitleContainer = styled.div`
+const FacetsTitleContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -293,8 +293,13 @@ export const FacetsTitleContainer = styled.div`
 const PaginationContainer = styled.div`
   display: flex;
   justify-content: end;
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin-top: 24px;
+  margin-bottom: 80px;
+
+  ${({ theme }) => theme.breakpoints.down("md")} {
+    margin-top: 16px;
+    margin-bottom: 24px;
+  }
 
   ul li button.Mui-selected {
     ${({ theme }) => css({ ...theme.typography.subtitle1 })}
@@ -406,12 +411,12 @@ const StyledGridContainer = styled(GridContainer)`
 const PAGE_SIZE = 10
 const MAX_PAGE = 50
 
-export const getLastPage = (count: number): number => {
+const getLastPage = (count: number): number => {
   const pages = Math.ceil(count / PAGE_SIZE)
   return pages > MAX_PAGE ? MAX_PAGE : pages
 }
 
-export const TABS: TabConfig[] = [
+const TABS: TabConfig[] = [
   {
     name: "all",
     label: "All",
@@ -435,7 +440,7 @@ export const TABS: TabConfig[] = [
   },
 ]
 
-export const SORT_OPTIONS = [
+const SORT_OPTIONS = [
   {
     label: "Best Match",
     value: "",
