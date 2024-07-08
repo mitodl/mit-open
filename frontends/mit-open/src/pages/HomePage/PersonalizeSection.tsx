@@ -61,18 +61,18 @@ const TextContainer = styled.div({
 
 const AUTH_TEXT_DATA = {
   authenticated: {
-    title: "Personalize Your Journey",
-    text: "Find your next course. Check your dashboard for personalized recommendations.",
+    title: "Continue Your Journey",
+    text: "Ready to keep learning? Choose from your saved courses, find personalized recommendations, and see what's trending on your dashboard.",
     linkProps: {
-      children: "Dashboard",
+      children: "My Dashboard",
       href: urls.DASHBOARD,
     },
   },
   anonymous: {
     title: "Personalize Your Journey",
-    text: "We can help find the courses for you. Tell us more about yourself to help you get started.",
+    text: "Find courses that match your interests and goals, get personalized recommendations, and save courses for later. Fill out a free profile to get started.",
     linkProps: {
-      children: "Sign Up to Get Started",
+      children: "Sign Up for Free",
       reloadDocument: true,
       href: urls.login({
         pathname: urls.DASHBOARD,
