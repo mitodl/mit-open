@@ -35,7 +35,7 @@ const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
       </HeaderText>
       <BodyText variant="body2">
         As a member, get personalized recommendations, curate learning lists,
-        and follow your areas of interests.
+        and follow your areas of interest.
       </BodyText>
       <Footer>
         <ButtonLink

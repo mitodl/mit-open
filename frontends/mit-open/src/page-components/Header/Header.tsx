@@ -170,7 +170,8 @@ const navData: NavData = {
         {
           title: "Courses",
           icon: <RiPencilRulerLine />,
-          description: "Learn with MIT instructors",
+          description:
+            "Single courses on a specific subject, taught by MIT instructors",
           href: querifiedSearchUrl({ resource_category: "course" }),
         },
         {
@@ -190,7 +191,7 @@ const navData: NavData = {
           title: "Learning Materials",
           icon: <RiBookMarkedLine />,
           description:
-            "Free teaching and learning materials including videos, podcasts, lecture notes, etc.",
+            "Free learning and teaching materials, including videos, podcasts, lecture notes, and more",
           href: querifiedSearchUrl({ resource_category: "learning_material" }),
         },
       ],
@@ -204,7 +205,7 @@ const navData: NavData = {
           href: TOPICS,
         },
         {
-          title: "By Departments",
+          title: "By Department",
           icon: <RiNodeTree />,
           href: DEPARTMENTS,
         },
