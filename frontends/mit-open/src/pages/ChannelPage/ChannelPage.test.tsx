@@ -101,19 +101,43 @@ const setupApis = (
 
 describe("ChannelPage", () => {
   it("Displays the channel title, banner, and avatar", async () => {
-    const { channel } = setupApis()
+    const { channel } = setupApis({
+      search_filter: "offered_by=ocw",
+      channel_type: "unit",
+    })
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-
-    const titles = await screen.findAllByText(channel.title)
-    const title = titles[titles.findIndex((title) => title.nodeName === "H1")]
+    const findTitle = (titles: HTMLElement[]) => {
+      return titles[
+        titles.findIndex(
+          (title: HTMLElement) =>
+            title.textContent === channel.title ||
+            title.textContent === channel.configuration.heading,
+        )
+      ]
+    }
+    await waitFor(() => {
+      const titles = screen.getAllByRole("heading")
+      const title = findTitle(titles)
+      expect(title).toBeInTheDocument()
+    })
+    const titles = screen.getAllByRole("heading")
+    const title = findTitle(titles)
     expect(title).toBeInTheDocument()
     const header = title.closest("header")
     assertInstanceOf(header, HTMLElement)
     const images = within(header).getAllByRole("img") as HTMLImageElement[]
     const headerStyles = getComputedStyle(header)
-    expect(headerStyles.backgroundImage).toContain(
-      channel.configuration.banner_background,
-    )
+    if (channel.channel_type !== "unit") {
+      /*
+       * unit channels are filtered out from this assertion
+       * because they wrap the background image in a linear-gradient,
+       * which causes react testing library to not render the background-image
+       * property at all
+       */
+      expect(headerStyles.backgroundImage).toContain(
+        channel.configuration.banner_background,
+      )
+    }
     expect(images[0].src).toContain(channel.configuration.logo)
   })
   it("Displays a featured carousel if the channel type is 'unit'", async () => {

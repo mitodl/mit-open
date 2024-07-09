@@ -33,6 +33,7 @@ const BannerWrapper = styled.header<BannerWrapperProps>(
       ? `linear-gradient(rgba(0 0 0 / ${backgroundDim}%), rgba(0 0 0 / ${backgroundDim}%)), url('${backgroundUrl}')`
       : `url(${backgroundUrl})`,
     backgroundSize: backgroundSize,
+    backgroundRepeat: "no-repeat",
     color: theme.custom.colors.white,
     padding: containerPadding,
     [theme.breakpoints.down("sm")]: {
