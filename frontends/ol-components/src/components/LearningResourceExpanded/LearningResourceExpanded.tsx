@@ -90,13 +90,19 @@ const CallToAction = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  ${({ theme }) => theme.breakpoints.down("sm")} {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 `
 
 const StyledButton = styled(ButtonLink)`
   text-align: center;
   width: 220px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
-    width: auto;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
 `
 
