@@ -2,7 +2,7 @@
 
 from django.core.management import BaseCommand
 
-from learning_resources.utils import migrate_list_resources
+from learning_resources.utils import transfer_list_resources
 from main.utils import now_in_utc
 
 
@@ -49,7 +49,7 @@ class Command(BaseCommand):
             f"{from_source} to {to_source}, matching on {match_field}"
         )
         start = now_in_utc()
-        unpublished, matching = migrate_list_resources(
+        unpublished, matching = transfer_list_resources(
             resource_type,
             match_field,
             from_source,

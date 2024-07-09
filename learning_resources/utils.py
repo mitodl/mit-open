@@ -564,7 +564,7 @@ def add_parent_topics_to_learning_resource(resource):
             _walk_lr_topic_parents(resource, topic.parent)
 
 
-def migrate_list_resources(
+def transfer_list_resources(
     resource_type: str,
     matching_field: str,
     from_source: str,
@@ -573,8 +573,8 @@ def migrate_list_resources(
     delete_unpublished: bool = False,
 ) -> tuple[int, int]:
     """
-    Migrate learningpath/userlist resources that have been replaced with
-    a new resource object.
+    Migrate unpublished learningpath/userlist resources that have
+    been replaced with new resource objects.
 
     Args:
         resource_type (str): the resource type

@@ -31,7 +31,7 @@ from learning_resources.models import (
 )
 from learning_resources.utils import (
     add_parent_topics_to_learning_resource,
-    migrate_list_resources,
+    transfer_list_resources,
     upsert_topic_data,
 )
 
@@ -341,10 +341,10 @@ def test_upsert_offered_by(mocker):
         ("readable_id", "podcast", "podcast", False, False),
     ],
 )
-def test_migrate_list_resources(
+def test_transfer_list_resources(
     matching_field, from_source, to_source, matches, delete_old
 ):
-    """Test that the migrate_list_resources function works as expected."""
+    """Test that the transfer_list_resources function works as expected."""
     original_podcasts = LearningResourceFactory.create_batch(
         5, is_podcast=True, etl_source=from_source, published=False
     )
@@ -365,7 +365,7 @@ def test_migrate_list_resources(
         for old_podcast in original_podcasts
     ]
 
-    results = migrate_list_resources(
+    results = transfer_list_resources(
         "podcast", matching_field, from_source, to_source, delete_unpublished=delete_old
     )
     podcast_path.refresh_from_db()
