@@ -104,8 +104,10 @@ describe("ChannelPage", () => {
     const { channel } = setupApis()
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
 
-    const title = await screen.findAllByText(channel.title)
-    const header = title[1].closest("header")
+    const titles = await screen.findAllByText(channel.title)
+    const title = titles[titles.findIndex((title) => title.nodeName === "H1")]
+    expect(title).toBeInTheDocument()
+    const header = title.closest("header")
     assertInstanceOf(header, HTMLElement)
     const images = within(header).getAllByRole("img") as HTMLImageElement[]
     const headerStyles = getComputedStyle(header)
