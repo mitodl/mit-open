@@ -9,10 +9,14 @@ import ItemsListing from "./ItemsListing"
 import type { LearningResourceListItem } from "./ItemsListing"
 
 type OnEdit = () => void
+type ListData = {
+  title: string
+  description?: string | null
+  item_count: number
+}
 type ListDetailsPageProps = {
   listType: string
-  title: string | undefined
-  description: string | null | undefined
+  list?: ListData
   items: LearningResourceListItem[]
   isLoading: boolean
   isFetching: boolean
@@ -20,31 +24,22 @@ type ListDetailsPageProps = {
 }
 
 const ListDetailsComponent: React.FC<ListDetailsPageProps> = (props) => {
-  const {
-    listType,
-    title,
-    description,
-    items,
-    isLoading,
-    isFetching,
-    handleEdit,
-  } = props
+  const { listType, list, items, isLoading, isFetching, handleEdit } = props
   const { data: user } = useUserMe()
   const [isSorting, toggleIsSorting] = useToggle(false)
 
   const canEdit = user?.is_learning_path_editor
   const showSort = canEdit && !!items.length
-  const count = items.length
-
+  const count = list?.item_count
   return (
     <GridContainer>
       <GridColumn variant="single-full">
         <Grid container>
           <Grid item xs={12}>
             <Typography variant="h3" component="h1">
-              {title}
+              {list?.title}
             </Typography>
-            {description && <p>{description}</p>}
+            {list?.description && <p>{list.description}</p>}
           </Grid>
           <Grid
             item
@@ -101,8 +96,7 @@ const ListDetailsComponent: React.FC<ListDetailsPageProps> = (props) => {
 
 const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
   listType,
-  title,
-  description,
+  list,
   items,
   isLoading,
   isFetching,
@@ -113,12 +107,11 @@ const ListDetailsPage: React.FC<ListDetailsPageProps> = ({
       src="/static/images/course_search_banner.png"
       className="learningpaths-page"
     >
-      <MetaTags title={title} />
+      <MetaTags title={list?.title} />
       <Container maxWidth="sm">
         <ListDetailsComponent
           listType={listType}
-          title={title}
-          description={description}
+          list={list}
           items={items}
           isLoading={isLoading}
           isFetching={isFetching}

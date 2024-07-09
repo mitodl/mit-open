@@ -310,7 +310,7 @@ interface UserListDetailsTabProps {
 
 const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
   const { userListId } = props
-  const pathQuery = useUserListsDetail(userListId)
+  const listQuery = useUserListsDetail(userListId)
   const itemsQuery = useInfiniteUserListItems({ userlist_id: userListId })
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
@@ -319,12 +319,11 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
   return (
     <ListDetailsComponent
       listType={ListType.UserList}
-      title={pathQuery?.data?.title}
-      description={pathQuery.data?.description}
+      list={listQuery.data}
       items={items}
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}
-      handleEdit={() => manageListDialogs.upsertUserList(pathQuery.data)}
+      handleEdit={() => manageListDialogs.upsertUserList(listQuery.data)}
     />
   )
 }
