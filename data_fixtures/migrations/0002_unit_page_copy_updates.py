@@ -117,13 +117,15 @@ def update_copy(apps, schema_editor):
         channel_configuration_updates = fixture["channel_configuration"]
         offeror_configuration_updates = fixture["offeror_configuration"]
         channel = Channel.objects.get(name=fixture["name"])
-        offeror = LearningResourceOfferor.objects.get(code=fixture["name"])
-        for key, val in channel_configuration_updates.items():
-            channel.configuration[key] = val
-        channel.save()
-        for key, val in offeror_configuration_updates.items():
-            setattr(offeror, key, val)
-        offeror.save()
+        if Channel.objects.filter(name=fixture["name"]).exists():
+            for key, val in channel_configuration_updates.items():
+                channel.configuration[key] = val
+            channel.save()
+        if LearningResourceOfferor.objects.filter(code=fixture["name"]).exists():
+            offeror = LearningResourceOfferor.objects.get(code=fixture["name"])
+            for key, val in offeror_configuration_updates.items():
+                setattr(offeror, key, val)
+            offeror.save()
 
 
 class Migration(migrations.Migration):
