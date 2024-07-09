@@ -514,20 +514,46 @@ def switch_indices(backing_index, object_type):
     )
 
 
-def delete_orphaned_indices():
+def delete_orphaned_indexes(obj_types, delete_reindexing_tags):
     """
-    Delete any indices without aliases and any reindexing aliases
+    Delete any indices without aliases
     """
     conn = get_conn()
     indices = conn.indices.get_alias(index="*")
     for index in indices:
         aliases = indices[index]["aliases"]
         keys = list(aliases)
+
+        if delete_reindexing_tags:
+            for alias in aliases:
+                if "reindexing" in alias:
+                    log.info("Deleting alias %s for index %s", alias, index)
+                    conn.indices.delete_alias(name=alias, index=index)
+                    keys.remove(alias)
+
+        if not keys and not index.startswith("."):
+            for object_type in obj_types:
+                if object_type in index:
+                    log.info("Deleting orphaned index %s", index)
+                    conn.indices.delete(index)
+                    break
+
+
+def get_existing_reindexing_indexes(obj_types):
+    """
+    Check for existing indexes with reindexing tag
+    """
+    conn = get_conn()
+    reindexing_indexes = []
+    indices = conn.indices.get_alias(index="*")
+    for index in indices:
+        aliases = indices[index]["aliases"]
+
         for alias in aliases:
             if "reindexing" in alias:
-                log.info("Deleting alias %s for index %s", alias, index)
-                conn.indices.delete_alias(name=alias, index=index)
-                keys.remove(alias)
-        if not keys:
-            log.info("Deleting index %s", index)
-            conn.indices.delete(index)
+                for object_type in obj_types:
+                    if object_type in index:
+                        reindexing_indexes.append(index)
+                        break
+
+    return reindexing_indexes

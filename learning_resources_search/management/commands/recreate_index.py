@@ -3,6 +3,7 @@
 from django.core.management.base import BaseCommand, CommandError
 
 from learning_resources_search.constants import ALL_INDEX_TYPES
+from learning_resources_search.indexing_api import get_existing_reindexing_indexes
 from learning_resources_search.tasks import start_recreate_index
 from main.utils import now_in_utc
 
@@ -13,6 +14,13 @@ class Command(BaseCommand):
     help = "Recreate opensearch index"
 
     def add_arguments(self, parser):
+        parser.add_argument(
+            "--remove_existing_reindexing_tags",
+            dest="remove_existing_reindexing_tags",
+            action="store_true",
+            help="Overwrite any existing reindexing tags and remove those indexes",
+        )
+
         parser.add_argument(
             "--all", dest="all", action="store_true", help="Recreate all indexes"
         )
@@ -28,11 +36,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Index all LEARNING_RESOURCE_TYPES"""
+        remove_existing_reindexing_tags = options["remove_existing_reindexing_tags"]
         if options["all"]:
-            task = start_recreate_index.delay(list(ALL_INDEX_TYPES))
-            self.stdout.write(
-                f"Started celery task {task} to index content for all indexes"
-            )
+            indexes_to_update = list(ALL_INDEX_TYPES)
         else:
             indexes_to_update = list(
                 filter(lambda object_type: options[object_type], ALL_INDEX_TYPES)
@@ -44,12 +50,24 @@ class Command(BaseCommand):
                 for object_type in sorted(ALL_INDEX_TYPES):
                     self.stdout.write(f"  --{object_type}s")
                 return
-
-            task = start_recreate_index.delay(indexes_to_update)
-            self.stdout.write(
-                f"Started celery task {task} to index content for the following"
-                f" indexes: {indexes_to_update}"
+        if not remove_existing_reindexing_tags:
+            existing_reindexing_indexes = get_existing_reindexing_indexes(
+                indexes_to_update
             )
+            if existing_reindexing_indexes:
+                self.stdout.write(
+                    f"Reindexing in progress. Reindexing indexes already exist:"
+                    f" {', '.join(existing_reindexing_indexes)}"
+                )
+                return
+
+        task = start_recreate_index.delay(
+            indexes_to_update, remove_existing_reindexing_tags
+        )
+        self.stdout.write(
+            f"Started celery task {task} to index content for the following"
+            f" indexes: {indexes_to_update}"
+        )
 
         self.stdout.write("Waiting on task...")
         start = now_in_utc()
