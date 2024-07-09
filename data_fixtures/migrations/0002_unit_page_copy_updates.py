@@ -98,13 +98,6 @@ fixtures = [
         },
         "channel_configuration": {},
     },
-    {
-        "name": "mitx",
-        "offeror_configuration": {
-            "certifications": ["Professional Certificate"],
-        },
-        "channel_configuration": {},
-    },
 ]
 
 
