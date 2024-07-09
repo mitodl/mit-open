@@ -595,12 +595,12 @@ def migrate_list_resources(
         unpublished_count += 1
         unique_value = getattr(resource, matching_field)
         published_replacement = LearningResource.objects.filter(
+            **{matching_field: unique_value},
             resource_type=resource_type,
             published=True,
             etl_source=to_source,
-            **{matching_field: unique_value},
         ).first()
-        if published_replacement:
+        if published_replacement is not None:
             published_count += 1
             LearningResourceRelationship.objects.filter(
                 relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,

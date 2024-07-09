@@ -12,20 +12,26 @@ from learning_resources.constants import (
     CONTENT_TYPE_FILE,
     CONTENT_TYPE_PDF,
     CONTENT_TYPE_VIDEO,
+    LearningResourceRelationTypes,
 )
 from learning_resources.etl.utils import get_content_type
 from learning_resources.factories import (
     CourseFactory,
+    LearningPathFactory,
+    LearningResourceFactory,
     LearningResourceRunFactory,
     LearningResourceTopicFactory,
+    UserListFactory,
 )
 from learning_resources.models import (
+    LearningResource,
     LearningResourceOfferor,
     LearningResourcePlatform,
     LearningResourceTopic,
 )
 from learning_resources.utils import (
     add_parent_topics_to_learning_resource,
+    migrate_list_resources,
     upsert_topic_data,
 )
 
@@ -324,3 +330,58 @@ def test_upsert_offered_by(mocker):
         )
         assert offeror.name == offered_by_data["fields"]["name"]
         mock_upsert.assert_any_call(offeror, overwrite=True)
+
+
+@pytest.mark.parametrize(
+    ("matching_field", "from_source", "to_source", "matches", "delete_old"),
+    [
+        ("url", "podcast", "podcast", True, False),
+        ("url", "podcast", "podcast", True, True),
+        ("url", "podcast", "xpro", False, False),
+        ("readable_id", "podcast", "podcast", False, False),
+    ],
+)
+def test_migrate_list_resources(
+    matching_field, from_source, to_source, matches, delete_old
+):
+    """Test that the migrate_list_resources function works as expected."""
+    original_podcasts = LearningResourceFactory.create_batch(
+        5, is_podcast=True, etl_source=from_source, published=False
+    )
+    podcast_path = LearningPathFactory.create().learning_resource
+    podcast_path.resources.set(
+        original_podcasts,
+        through_defaults={
+            "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS
+        },
+    )
+    podcast_list = UserListFactory.create()
+    podcast_list.resources.set(original_podcasts)
+
+    new_podcasts = [
+        LearningResourceFactory.create(
+            is_podcast=True, url=old_podcast.url, etl_source=from_source
+        )
+        for old_podcast in original_podcasts
+    ]
+
+    results = migrate_list_resources(
+        "podcast", matching_field, from_source, to_source, delete_unpublished=delete_old
+    )
+    podcast_path.refresh_from_db()
+    podcast_list.refresh_from_db()
+
+    assert results == ((5, 5) if matches else (5, 0))
+    list_podcasts = (
+        new_podcasts if matches else (original_podcasts if not delete_old else [])
+    )
+    for podcast in list_podcasts:
+        assert podcast in podcast_path.resources.all()
+        assert podcast in podcast_list.resources.all()
+    if delete_old:
+        assert (
+            LearningResource.objects.filter(
+                id__in=[podcast.id for podcast in original_podcasts]
+            ).count()
+            == 0
+        )
