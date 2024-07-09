@@ -1,6 +1,6 @@
 import React from "react"
-import UnitChannelSkeleton from "./UnitChannelSkeleton"
-import DefaultChannelSkeleton from "./DefaultChannelSkeleton"
+import UnitChannelSkeleton from "./UnitChannelTemplate"
+import DefaultChannelSkeleton from "./DefaultChannelTemplate"
 import { ChannelTypeEnum } from "api/v0"
 import {
   DEPARTMENTS as DEPARTMENTS_URL,
@@ -66,25 +66,25 @@ interface ChannelSkeletonProps {
  *
  * Renders the channel title and avatar in a banner.
  */
-const ChannelPageSkeleton: React.FC<ChannelSkeletonProps> = ({
+const ChannelPageTemplate: React.FC<ChannelSkeletonProps> = ({
   children,
   channelType,
   name,
 }) => {
-  const SkeletonTemplate =
+  const ChannelTemplate =
     channelType === ChannelTypeEnum.Unit
       ? UnitChannelSkeleton
       : DefaultChannelSkeleton
 
   return (
-    <SkeletonTemplate name={name} channelType={channelType}>
+    <ChannelTemplate name={name} channelType={channelType}>
       {children}
-    </SkeletonTemplate>
+    </ChannelTemplate>
   )
 }
 
 export {
-  ChannelPageSkeleton,
+  ChannelPageTemplate,
   ChannelTitleRow,
   ChannelControls,
   CHANNEL_TYPE_BREADCRUMB_TARGETS,

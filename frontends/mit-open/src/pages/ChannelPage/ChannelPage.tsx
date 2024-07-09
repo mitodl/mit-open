@@ -1,6 +1,6 @@
 import React from "react"
 import { useParams } from "react-router"
-import { ChannelPageSkeleton } from "./ChannelPageSkeleton"
+import { ChannelPageTemplate } from "./ChannelPageTemplate"
 import { useChannelDetail } from "api/hooks/channels"
 import FieldSearch from "./ChannelSearch"
 import {
@@ -41,7 +41,7 @@ const ChannelPage: React.FC = () => {
   return (
     name &&
     channelType && (
-      <ChannelPageSkeleton name={name} channelType={channelType}>
+      <ChannelPageTemplate name={name} channelType={channelType}>
         <p>{channelQuery.data?.public_description}</p>
         {channelType === "unit" ? (
           <StyledTestimonialDisplay offerors={[name]} />
@@ -52,7 +52,7 @@ const ChannelPage: React.FC = () => {
             channelType={channelType}
           />
         )}
-      </ChannelPageSkeleton>
+      </ChannelPageTemplate>
     )
   )
 }

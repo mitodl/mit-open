@@ -13,7 +13,7 @@ import { SourceTypeEnum } from "api"
 import { getSearchParamMap } from "@/common/utils"
 import { HOME as HOME_URL, UNITS as UNITS_URL } from "../../common/urls"
 import { ChannelTypeEnum } from "api/v0"
-import { ChannelControls, UNITS_LABEL } from "./ChannelPageSkeleton"
+import { ChannelControls, UNITS_LABEL } from "./ChannelPageTemplate"
 
 const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
   margin: "80px 0",
@@ -23,7 +23,7 @@ const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
   },
 }))
 
-interface UnitChannelSkeletonProps {
+interface UnitChannelTemplateProps {
   children: React.ReactNode
   name: string
 }
@@ -33,7 +33,7 @@ interface UnitChannelSkeletonProps {
  *
  * Renders the channel title and avatar in a banner.
  */
-const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
+const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
   children,
   name,
 }) => {
@@ -181,4 +181,4 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
   )
 }
 
-export default UnitChannelSkeleton
+export default UnitChannelTemplate

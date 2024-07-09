@@ -17,7 +17,7 @@ import {
   CHANNEL_TYPE_BREADCRUMB_TARGETS,
   ChannelControls,
   ChannelTitleRow,
-} from "./ChannelPageSkeleton"
+} from "./ChannelPageTemplate"
 
 const HeadingTextContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -56,7 +56,7 @@ const ChannelControlsContainer = styled.div(({ theme }) => ({
   },
 }))
 
-interface DefaultChannelSkeletonProps {
+interface DefaultChannelTemplateProps {
   children: React.ReactNode
   channelType: string
   name: string
@@ -67,7 +67,7 @@ interface DefaultChannelSkeletonProps {
  *
  * Renders the channel title and avatar in a banner.
  */
-const DefaultChannelSkeleton: React.FC<DefaultChannelSkeletonProps> = ({
+const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
   children,
   channelType,
   name,
@@ -162,4 +162,4 @@ const DefaultChannelSkeleton: React.FC<DefaultChannelSkeletonProps> = ({
   )
 }
 
-export default DefaultChannelSkeleton
+export default DefaultChannelTemplate
