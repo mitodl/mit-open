@@ -26,6 +26,7 @@ const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
     marginTop: "0px",
   },
 }))
+
 const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
   margin: "80px 0",
   minHeight: "388px",

@@ -1,9 +1,5 @@
 import React from "react"
-import {
-  useFeaturedLearningResourcesList,
-  learningResourcesKeyFactory,
-} from "api/hooks/learningResources"
-
+import { learningResourcesKeyFactory } from "api/hooks/learningResources"
 import {
   Carousel,
   TabButton,
@@ -13,7 +9,7 @@ import {
   styled,
   Typography,
 } from "ol-components"
-import type { TabConfig, FeaturedDataSource } from "./types"
+import type { TabConfig } from "./types"
 import { LearningResource, PaginatedLearningResourceList } from "api"
 import { ResourceCard } from "../ResourceCard/ResourceCard"
 import {
@@ -39,28 +35,6 @@ const StyledCarousel = styled(Carousel)({
     paddingLeft: "4px",
   },
 })
-
-type LoadTabButtonProps = {
-  config: FeaturedDataSource
-  label: React.ReactNode
-  key: number
-  value: string
-}
-
-/**
- * Tab button that loads the resource, so we can determine if it needs to be
- * displayed or not. This shouldn't cause double-loading since React Query
- * should only run the thing once - when you switch into the tab, the data
- * should already be in the cache.
- */
-
-const LoadFeaturedTabButton: React.FC<LoadTabButtonProps> = (props) => {
-  const { data, isLoading } = useFeaturedLearningResourcesList(
-    props.config.params,
-  )
-
-  return !isLoading && data && data.count > 0 ? <TabButton {...props} /> : null
-}
 
 const HeaderRow = styled.div(({ theme }) => ({
   display: "flex",
@@ -245,18 +219,11 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
                   if (
                     !isLoading &&
                     !queries[index].isLoading &&
-                    !(queries[index].data as { count: number })?.count
+                    !queries[index].data?.count
                   ) {
                     return null
                   }
-                  return tabConfig.data.type === "lr_featured" ? (
-                    <LoadFeaturedTabButton
-                      config={tabConfig.data}
-                      key={index}
-                      label={tabConfig.label}
-                      value={index.toString()}
-                    />
-                  ) : (
+                  return (
                     <TabButton
                       key={index}
                       label={tabConfig.label}
