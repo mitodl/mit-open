@@ -5,13 +5,10 @@ import Container from "@mui/material/Container"
 import { Box, Theme } from "../.."
 import { ResponsiveStyleValue, SxProps } from "@mui/system"
 
-const SubHeader = styled(Typography)(({ theme }) => ({
+const SubHeader = styled(Typography)({
   maxWidth: "700px",
   marginTop: "8px",
-  [theme.breakpoints.down("sm")]: {
-    marginTop: "16px",
-  },
-}))
+})
 
 type BannerWrapperProps = {
   backgroundUrl: string

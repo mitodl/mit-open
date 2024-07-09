@@ -123,6 +123,7 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
                   pb: "8px",
                 },
                 [theme.breakpoints.down("sm")]: {
+                  pt: "32px",
                   width: "100%",
                 },
               })}
@@ -137,11 +138,11 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
           ) : null
         }
         header={displayConfiguration?.heading}
-        headerTypography={{ xs: "h4", md: "h4" }}
+        headerTypography={{ xs: "h5", md: "h4" }}
         headerStyles={headerStyles}
         subHeader={displayConfiguration?.sub_heading}
         subHeaderStyles={headerStyles}
-        subHeaderTypography={{ xs: "body1", md: "body1" }}
+        subHeaderTypography={{ xs: "body2", md: "body1" }}
         extraHeader={
           <Box
             display="flex"
