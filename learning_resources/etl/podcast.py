@@ -125,7 +125,7 @@ def extract():
             log.exception("Invalid rss url %s", rss_url)
 
 
-def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
+def transform_episode(rss_data, offered_by, topics, parent_image):
     """
     Transform a podcast episode into our normalized data
 
@@ -139,8 +139,6 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
         dict:
             normalized podcast episode data
     """
-
-    rss_data.guid.string = f"{podcast_id}: {rss_data.guid.text}"
 
     return {
         "readable_id": rss_data.guid.text,
@@ -203,10 +201,9 @@ def transform(extracted_podcasts):
             apple_podcasts_url = config_data.get("apple_podcasts_url")
             google_podcasts_url = config_data.get("google_podcasts_url")
             title = config_data.get("podcast_title", rss_data.channel.title.text)
-            podcast_id = rss_data.guid.text
 
             yield {
-                "readable_id": podcast_id,
+                "readable_id": rss_data.guid.text,
                 "title": title,
                 "etl_source": ETLSource.podcast.name,
                 "resource_type": LearningResourceType.podcast.name,
@@ -217,9 +214,7 @@ def transform(extracted_podcasts):
                 "url": config_data["website"],
                 "topics": topics,
                 "episodes": (
-                    transform_episode(
-                        episode_rss, offered_by, topics, image, podcast_id
-                    )
+                    transform_episode(episode_rss, offered_by, topics, image)
                     for episode_rss in rss_data.find_all("item")
                 ),
                 "podcast": {

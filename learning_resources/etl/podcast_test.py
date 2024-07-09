@@ -123,22 +123,14 @@ def test_transform(mock_github_client, title, topics, offered_by):
     )
 
     expected_title = title if title else "A Podcast"
-    expected_readable_id = (
-        "custom-titleb04b26d38dd63a2c829393e9e075927d"
-        if title
-        else "a-podcast7e3a1ebb0c4d3196ba4c7f8254af4d2d"
-    )
 
     expected_offered_by = {"name": offered_by} if offered_by else None
 
     episodes_rss = list(bs(rss_content(), "xml").find_all("item"))
 
-    for episode in episodes_rss:
-        episode.guid.string = f"{expected_readable_id}: {episode.guid.text}"
-
     expected_results = [
         {
-            "readable_id": expected_readable_id,
+            "readable_id": "tag:soundcloud,2010:tracks/1857159426",
             "etl_source": ETLSource.podcast.name,
             "title": expected_title,
             "offered_by": expected_offered_by,
@@ -155,7 +147,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
             "topics": expected_topics,
             "episodes": [
                 {
-                    "readable_id": "episode15ede89915db9342fb76bc91918d22016",
+                    "readable_id": "tag:soundcloud,2010:tracks/numbers1",
                     "etl_source": ETLSource.podcast.name,
                     "title": "Episode1",
                     "offered_by": expected_offered_by,
@@ -178,7 +170,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "topics": expected_topics,
                 },
                 {
-                    "readable_id": "episode205c066df9ed531e48c6414f6e72d3b96",
+                    "readable_id": "tag:soundcloud,2010:tracks/numbers2",
                     "etl_source": ETLSource.podcast.name,
                     "title": "Episode2",
                     "offered_by": expected_offered_by,
