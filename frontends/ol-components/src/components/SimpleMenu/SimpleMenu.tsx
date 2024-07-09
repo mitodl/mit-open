@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from "react"
 import Menu, { MenuProps } from "@mui/material/Menu"
-import { MenuItem } from "../MenuItem/MenuItem"
+import { MenuItem, MenuItemProps } from "../MenuItem/MenuItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
 import { Link as RouterLink } from "react-router-dom"
 import type { LinkProps as RouterLinkProps } from "react-router-dom"
@@ -20,12 +20,13 @@ const LinkBehavior = React.forwardRef<
 interface SimpleMenuItemBase {
   key: string
   label: React.ReactNode
+  itemProps?: MenuItemProps
   icon?: React.ReactNode
   LinkComponent?: React.ElementType
 }
 
 type SimpleMenuItemOnClick = SimpleMenuItemBase & {
-  onClick: () => void
+  onClick?: () => void
   href?: string
 }
 
@@ -116,7 +117,12 @@ const SimpleMenu: React.FC<SimpleMenuProps> = ({
             setOpen(false)
           }
           return (
-            <MenuItem {...linkProps} key={item.key} onClick={onClick}>
+            <MenuItem
+              {...linkProps}
+              {...item.itemProps}
+              key={item.key}
+              onClick={onClick}
+            >
               {item.icon ? <ListItemIcon>{item.icon}</ListItemIcon> : null}
               {item.label}
             </MenuItem>

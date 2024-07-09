@@ -104,6 +104,12 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
 
   const items: UserMenuItem[] = [
     {
+      label: "Test",
+      key: "test",
+      allow: true,
+      itemProps: { component: "button", type: "submit" },
+    },
+    {
       label: "Dashboard",
       key: "dashboard",
       allow: !!user?.is_authenticated,
@@ -127,6 +133,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   const menuOverrideProps: MenuOverrideProps = {
     anchorOrigin: { horizontal: "right", vertical: "bottom" },
     transformOrigin: { horizontal: "right", vertical: "top" },
+
+    slotProps: {
+      root: {
+        component: "form",
+        method: "post",
+        action: urls.LOGOUT,
+      },
+    },
   }
 
   if (user?.is_authenticated) {
