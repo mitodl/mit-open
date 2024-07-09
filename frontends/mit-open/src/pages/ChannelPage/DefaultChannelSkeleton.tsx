@@ -126,19 +126,20 @@ const DefaultChannelSkeleton: React.FC<DefaultChannelSkeletonProps> = ({
             current={channel.data?.title}
           />
         }
-        header={
-          displayConfiguration?.logo && channel.data ? (
+        avatar={
+          displayConfiguration?.logo &&
+          channel.data && (
             <ChannelAvatar
               imageVariant="inverted"
               formImageUrl={displayConfiguration.logo}
               imageSize="medium"
               channel={channel.data}
             />
-          ) : (
-            channel.data?.title
           )
         }
-        subHeader=""
+        header={channel.data?.title}
+        subHeader={displayConfiguration?.heading}
+        extraHeader={displayConfiguration?.sub_heading}
         backgroundUrl={
           displayConfiguration?.banner_background ??
           "/static/images/background_steps.jpeg"

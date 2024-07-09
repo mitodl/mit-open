@@ -2,8 +2,8 @@ import React from "react"
 import styled from "@emotion/styled"
 import Typography from "@mui/material/Typography"
 import Container from "@mui/material/Container"
-import { Box, Theme } from "../.."
 import { ResponsiveStyleValue, SxProps } from "@mui/system"
+import { Theme } from "../ThemeProvider/ThemeProvider"
 
 const SubHeader = styled(Typography)({
   maxWidth: "700px",
@@ -14,13 +14,13 @@ type BannerWrapperProps = {
   backgroundUrl: string
   backgroundSize?: string
   backgroundDim?: number
-  containerPadding: string
+  containerPadding?: string
 }
 
 /**
  * This is a full-width banner component that takes a background image URL.
  */
-const BannerWrapper = styled.div<BannerWrapperProps>(
+const BannerWrapper = styled.header<BannerWrapperProps>(
   ({
     theme,
     backgroundUrl,
@@ -29,7 +29,9 @@ const BannerWrapper = styled.div<BannerWrapperProps>(
     containerPadding = "48px 0 48px 0",
   }) => ({
     backgroundAttachment: "fixed",
-    backgroundImage: `linear-gradient(rgba(0 0 0 / ${backgroundDim}%), rgba(0 0 0 / ${backgroundDim}%)), url('${backgroundUrl}')`,
+    backgroundImage: backgroundDim
+      ? `linear-gradient(rgba(0 0 0 / ${backgroundDim}%), rgba(0 0 0 / ${backgroundDim}%)), url('${backgroundUrl}')`
+      : `url(${backgroundUrl})`,
     backgroundSize: backgroundSize,
     color: theme.custom.colors.white,
     padding: containerPadding,
@@ -112,20 +114,22 @@ const Banner = ({
         {navText}
         <InnerContainer>
           <HeaderContainer>
-            {avatar ? <Box>{avatar}</Box> : null}
+            {avatar ? <div>{avatar}</div> : null}
             <Typography
+              variant="h1"
               typography={headerTypography || defaultHeaderTypography}
               sx={headerStyles}
             >
               {header}
             </Typography>
             <SubHeader
+              variant="body1"
               typography={subHeaderTypography || defaultSubHeaderTypography}
               sx={subHeaderStyles}
             >
               {subHeader}
             </SubHeader>
-            <Box>{extraHeader}</Box>
+            <div>{extraHeader}</div>
           </HeaderContainer>
           <RightContainer>{extraRight}</RightContainer>
         </InnerContainer>

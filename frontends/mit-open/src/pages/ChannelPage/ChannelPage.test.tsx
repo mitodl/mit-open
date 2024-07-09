@@ -105,7 +105,7 @@ describe("ChannelPage", () => {
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
 
     const title = await screen.findAllByText(channel.title)
-    const header = title[0].closest("header")
+    const header = title[1].closest("header")
     assertInstanceOf(header, HTMLElement)
     const images = within(header).getAllByRole("img") as HTMLImageElement[]
     const headerStyles = getComputedStyle(header)
@@ -158,7 +158,7 @@ describe("ChannelPage", () => {
         "platform=ocw&platform=mitxonline&department=8&department=9",
     })
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findByText(channel.title)
+    await screen.findAllByText(channel.title)
     const expectedProps = expect.objectContaining({
       constantSearchParams: {
         platform: ["ocw", "mitxonline"],
@@ -176,7 +176,7 @@ describe("ChannelPage", () => {
     const { channel } = setupApis()
     channel.search_filter = undefined
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findByText(channel.title)
+    await screen.findAllByText(channel.title)
 
     expect(mockedChannelSearch).toHaveBeenCalledTimes(0)
   })
@@ -185,17 +185,17 @@ describe("ChannelPage", () => {
     const { channel } = setupApis()
     channel.search_filter = undefined
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findByText(channel.title)
+    await screen.findAllByText(channel.title)
 
     await waitFor(() => {
-      expect(
-        screen.getByText(channel.configuration.sub_heading),
-      ).toBeInTheDocument()
+      screen.getAllByText(channel.configuration.sub_heading).forEach((el) => {
+        expect(el).toBeInTheDocument()
+      })
     })
     await waitFor(() => {
-      expect(
-        screen.getByText(channel.configuration.heading),
-      ).toBeInTheDocument()
+      screen.getAllByText(channel.configuration.heading).forEach((el) => {
+        expect(el).toBeInTheDocument()
+      })
     })
   })
 

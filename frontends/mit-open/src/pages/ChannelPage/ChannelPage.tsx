@@ -43,7 +43,9 @@ const ChannelPage: React.FC = () => {
     channelType && (
       <ChannelPageSkeleton name={name} channelType={channelType}>
         <p>{channelQuery.data?.public_description}</p>
-        <StyledTestimonialDisplay offerors={[name]} />
+        {channelType === "unit" ? (
+          <StyledTestimonialDisplay offerors={[name]} />
+        ) : null}
         {channelQuery.data?.search_filter && (
           <FieldSearch
             constantSearchParams={searchParams}
