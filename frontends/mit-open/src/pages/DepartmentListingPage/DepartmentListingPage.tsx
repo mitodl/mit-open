@@ -44,10 +44,6 @@ const SCHOOL_ICONS: Record<string, React.ReactNode> = {
   "https://computing.mit.edu/": <RiTerminalBoxLine />,
 }
 
-const Page = styled.div(({ theme }) => ({
-  backgroundColor: theme.custom.colors.white,
-}))
-
 const SchoolTitle = styled.h2(({ theme }) => {
   return {
     marginBottom: "10px",
@@ -105,7 +101,7 @@ const DepartmentLink = styled(ListItemLink)(({ theme }) => ({
     },
   },
   "&:hover": {
-    backgroundColor: theme.custom.colors.lightGray1,
+    backgroundColor: theme.custom.colors.white,
     ".hover-dark, .MuiListItemText-secondary": {
       color: theme.custom.colors.darkGray1,
     },
@@ -217,7 +213,7 @@ const DepartmentListingPage: React.FC = () => {
     : {}
 
   return (
-    <Page>
+    <>
       <MetaTags title="Departments" />
       <Banner
         backgroundUrl="/static/images/background_steps.jpeg"
@@ -249,7 +245,7 @@ const DepartmentListingPage: React.FC = () => {
           </Grid>
         </Grid>
       </Container>
-    </Page>
+    </>
   )
 }
 
