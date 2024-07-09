@@ -12,7 +12,8 @@ import { useChannelDetail } from "api/hooks/channels"
 import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
 import ChannelAvatar from "@/components/ChannelAvatar/ChannelAvatar"
 import { SourceTypeEnum } from "api"
-import { DEPARTMENTS, HOME, TOPICS, UNITS } from "../../common/urls"
+import { HOME as HOME_URL } from "../../common/urls"
+import { CHANNEL_TYPE_BREADCRUMB_TARGETS } from "./ChannelPage"
 
 const HeadingTextContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -74,24 +75,6 @@ interface DefaultChannelSkeletonProps {
   channelType: string
   name: string
 }
-const NAV_PATH: { [key: string]: { href: string; label: string } } = {
-  topic: {
-    href: TOPICS,
-    label: "Browse by Topic",
-  },
-  department: {
-    href: DEPARTMENTS,
-    label: "Browse by Academic Department",
-  },
-  unit: {
-    href: UNITS,
-    label: "MIT Units",
-  },
-  pathway: {
-    href: "",
-    label: "Pathways",
-  },
-}
 
 /**
  * Common structure for channel-oriented pages.
@@ -109,16 +92,21 @@ const DefaultChannelSkeleton: React.FC<DefaultChannelSkeletonProps> = ({
 
   return (
     <>
-      <MetaTags title={channel.data?.title || NAV_PATH[channelType].label} />
+      <MetaTags
+        title={
+          channel.data?.title ||
+          CHANNEL_TYPE_BREADCRUMB_TARGETS[channelType].label
+        }
+      />
       <Banner
         navText={
           <Breadcrumbs
             variant="dark"
             ancestors={[
-              { href: HOME, label: "Home" },
+              { href: HOME_URL, label: "Home" },
               {
-                href: NAV_PATH[channelType].href,
-                label: NAV_PATH[channelType].label,
+                href: CHANNEL_TYPE_BREADCRUMB_TARGETS[channelType].href,
+                label: CHANNEL_TYPE_BREADCRUMB_TARGETS[channelType].label,
               },
             ]}
             current={channel.data?.title}

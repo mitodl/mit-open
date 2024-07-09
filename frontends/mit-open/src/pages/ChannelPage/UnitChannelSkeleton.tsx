@@ -11,10 +11,9 @@ import ResourceCarousel, {
 } from "@/page-components/ResourceCarousel/ResourceCarousel"
 import { SourceTypeEnum } from "api"
 import { getSearchParamMap } from "@/common/utils"
-import { HOME, UNITS } from "../../common/urls"
+import { HOME as HOME_URL, UNITS as UNITS_URL } from "../../common/urls"
 import { ChannelTypeEnum } from "api/v0"
-
-const UNITS_LABEL = "MIT Units"
+import { UNITS_LABEL } from "./ChannelPage"
 
 export const ChannelTitleRow = styled.div`
   display: flex;
@@ -95,9 +94,9 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
           <Breadcrumbs
             variant="dark"
             ancestors={[
-              { href: HOME, label: "Home" },
+              { href: HOME_URL, label: "Home" },
               {
-                href: UNITS,
+                href: UNITS_URL,
                 label: UNITS_LABEL,
               },
             ]}
