@@ -13,7 +13,7 @@ import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
 import ChannelAvatar from "@/components/ChannelAvatar/ChannelAvatar"
 import { SourceTypeEnum } from "api"
 import { HOME as HOME_URL } from "../../common/urls"
-import { CHANNEL_TYPE_BREADCRUMB_TARGETS } from "./ChannelPage"
+import { CHANNEL_TYPE_BREADCRUMB_TARGETS } from "./ChannelPageSkeleton"
 
 const HeadingTextContainer = styled.div(({ theme }) => ({
   display: "flex",

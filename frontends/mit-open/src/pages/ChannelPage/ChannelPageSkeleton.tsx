@@ -2,6 +2,37 @@ import React from "react"
 import UnitChannelSkeleton from "./UnitChannelSkeleton"
 import DefaultChannelSkeleton from "./DefaultChannelSkeleton"
 import { ChannelTypeEnum } from "api/v0"
+import {
+  DEPARTMENTS as DEPARTMENTS_URL,
+  TOPICS as TOPICS_URL,
+  UNITS as UNITS_URL,
+} from "@/common/urls"
+
+const TOPICS_LABEL = "Browse by Topic"
+const DEPARTMENTS_LABEL = "Browse by Academic Department"
+const UNITS_LABEL = "MIT Units"
+const PATHWAYS_LABEL = "Pathways"
+
+const CHANNEL_TYPE_BREADCRUMB_TARGETS: {
+  [key: string]: { href: string; label: string }
+} = {
+  topic: {
+    href: TOPICS_URL,
+    label: TOPICS_LABEL,
+  },
+  department: {
+    href: DEPARTMENTS_URL,
+    label: DEPARTMENTS_LABEL,
+  },
+  unit: {
+    href: UNITS_URL,
+    label: UNITS_LABEL,
+  },
+  pathway: {
+    href: "",
+    label: PATHWAYS_LABEL,
+  },
+}
 
 interface ChannelSkeletonProps {
   children: React.ReactNode
@@ -14,7 +45,7 @@ interface ChannelSkeletonProps {
  *
  * Renders the channel title and avatar in a banner.
  */
-const ChannelSkeletonProps: React.FC<ChannelSkeletonProps> = ({
+const ChannelSkeleton: React.FC<ChannelSkeletonProps> = ({
   children,
   channelType,
   name,
@@ -31,4 +62,11 @@ const ChannelSkeletonProps: React.FC<ChannelSkeletonProps> = ({
   )
 }
 
-export default ChannelSkeletonProps
+export {
+  ChannelSkeleton,
+  CHANNEL_TYPE_BREADCRUMB_TARGETS,
+  UNITS_LABEL,
+  TOPICS_LABEL,
+  DEPARTMENTS_LABEL,
+  PATHWAYS_LABEL,
+}

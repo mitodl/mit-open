@@ -11,37 +11,6 @@ import {
 import { ChannelTypeEnum } from "api/v0"
 import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
 import { styled } from "ol-components"
-import {
-  DEPARTMENTS as DEPARTMENTS_URL,
-  TOPICS as TOPICS_URL,
-  UNITS as UNITS_URL,
-} from "@/common/urls"
-
-const TOPICS_LABEL = "Browse by Topic"
-const DEPARTMENTS_LABEL = "Browse by Academic Department"
-const UNITS_LABEL = "MIT Units"
-const PATHWAYS_LABEL = "Pathways"
-
-const CHANNEL_TYPE_BREADCRUMB_TARGETS: {
-  [key: string]: { href: string; label: string }
-} = {
-  topic: {
-    href: TOPICS_URL,
-    label: TOPICS_LABEL,
-  },
-  department: {
-    href: DEPARTMENTS_URL,
-    label: DEPARTMENTS_LABEL,
-  },
-  unit: {
-    href: UNITS_URL,
-    label: UNITS_LABEL,
-  },
-  pathway: {
-    href: "",
-    label: PATHWAYS_LABEL,
-  },
-}
 
 export const StyledTestimonialDisplay = styled(TestimonialDisplay)`
   margin-bottom: 80px;
@@ -88,11 +57,4 @@ const ChannelPage: React.FC = () => {
   )
 }
 
-export {
-  ChannelPage,
-  TOPICS_LABEL,
-  DEPARTMENTS_LABEL,
-  UNITS_LABEL,
-  PATHWAYS_LABEL,
-  CHANNEL_TYPE_BREADCRUMB_TARGETS,
-}
+export default ChannelPage

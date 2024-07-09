@@ -4,7 +4,7 @@ import { ScrollRestoration } from "react-router-dom"
 import HomePage from "@/pages/HomePage/HomePage"
 import RestrictedRoute from "@/components/RestrictedRoute/RestrictedRoute"
 import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPathListingPage"
-import { ChannelPage } from "@/pages/ChannelPage/ChannelPage"
+import ChannelPage from "@/pages/ChannelPage/ChannelPage"
 import EditChannelPage from "@/pages/ChannelPage/EditChannelPage"
 
 import { UserListListingPage } from "./pages/UserListListingPage/UserListListingPage"
