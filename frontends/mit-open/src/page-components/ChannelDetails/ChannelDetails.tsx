@@ -89,7 +89,7 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
       name: "more_information",
       title: "More Information",
       labelFunction: (key: string, channelTitle: string) => (
-        <a target="_blank" href={key} rel="noopener noreferrer">
+        <a target="_blank" href={key} rel="noopener">
           {channelTitle} Website <RiExternalLinkLine size={18} />
         </a>
       ),
