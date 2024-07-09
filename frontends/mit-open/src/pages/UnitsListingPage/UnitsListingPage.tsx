@@ -424,7 +424,7 @@ const UnitsListingPage: React.FC = () => {
             <PageHeaderContainerInner>
               <PageHeaderText>
                 MIT is dedicated to advancing knowledge beyond students enrolled
-                in MIT’s campus programs. Several units within MIT offer
+                in MIT's campus programs. Several units within MIT offer
                 educational opportunities accessible to learners worldwide,
                 catering to a diverse range of needs. There are two types of
                 non-degree learning content: Academic and Professional. Each
