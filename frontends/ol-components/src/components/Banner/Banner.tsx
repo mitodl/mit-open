@@ -75,9 +75,9 @@ type BannerProps = BannerWrapperProps & {
   header: React.ReactNode
   headerTypography?: ResponsiveStyleValue<string | undefined>
   headerStyles?: SxProps<Theme>
-  subHeader?: React.ReactNode
-  subHeaderTypography?: ResponsiveStyleValue<string | undefined>
-  subHeaderStyles?: SxProps<Theme>
+  subheader?: React.ReactNode
+  subheaderTypography?: ResponsiveStyleValue<string | undefined>
+  subheaderStyles?: SxProps<Theme>
   extraHeader?: React.ReactNode
   extraRight?: React.ReactNode
 }
@@ -96,9 +96,9 @@ const Banner = ({
   header,
   headerTypography,
   headerStyles,
-  subHeader,
-  subHeaderTypography,
-  subHeaderStyles,
+  subheader,
+  subheaderTypography,
+  subheaderStyles,
   extraHeader,
   extraRight,
 }: BannerProps) => {
@@ -125,10 +125,10 @@ const Banner = ({
             </Typography>
             <SubHeader
               variant="body1"
-              typography={subHeaderTypography || defaultSubHeaderTypography}
-              sx={subHeaderStyles}
+              typography={subheaderTypography || defaultSubHeaderTypography}
+              sx={subheaderStyles}
             >
-              {subHeader}
+              {subheader}
             </SubHeader>
             <div>{extraHeader}</div>
           </HeaderContainer>

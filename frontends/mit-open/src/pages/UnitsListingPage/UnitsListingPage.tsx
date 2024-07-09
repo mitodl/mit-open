@@ -415,7 +415,7 @@ const UnitsListingPage: React.FC = () => {
           />
         }
         header="Academic & Professional Learning"
-        subHeader="Non-degree learning resources tailored to the needs of students and working professionals."
+        subheader="Non-degree learning resources tailored to the needs of students and working professionals."
         backgroundUrl={UNITS_BANNER_IMAGE}
       />
       <Container>

@@ -120,9 +120,9 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
         header={displayConfiguration?.heading}
         headerTypography={{ xs: "h5", md: "h4" }}
         headerStyles={headerStyles}
-        subHeader={displayConfiguration?.sub_heading}
-        subHeaderStyles={headerStyles}
-        subHeaderTypography={{ xs: "body2", md: "body1" }}
+        subheader={displayConfiguration?.sub_heading}
+        subheaderStyles={headerStyles}
+        subheaderTypography={{ xs: "body2", md: "body1" }}
         extraHeader={
           <Box
             display="flex"

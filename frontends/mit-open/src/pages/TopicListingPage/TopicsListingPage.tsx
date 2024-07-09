@@ -288,7 +288,7 @@ const ToopicsListingPage: React.FC = () => {
           />
         }
         header="Browse by Topic"
-        subHeader=""
+        subheader=""
         backgroundUrl={TOPICS_BANNER_IMAGE}
       />
       <Container>

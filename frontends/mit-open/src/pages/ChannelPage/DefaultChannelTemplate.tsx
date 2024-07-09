@@ -110,7 +110,7 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
           )
         }
         header={channel.data?.title}
-        subHeader={displayConfiguration?.heading}
+        subheader={displayConfiguration?.heading}
         extraHeader={displayConfiguration?.sub_heading}
         backgroundUrl={
           displayConfiguration?.banner_background ??
