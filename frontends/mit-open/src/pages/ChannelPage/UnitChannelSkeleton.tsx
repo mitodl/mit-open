@@ -16,8 +16,6 @@ import { ChannelTypeEnum } from "api/v0"
 
 const UNITS_LABEL = "MIT Units"
 
-const Page = styled.div({})
-
 export const ChannelTitleRow = styled.div`
   display: flex;
   flex-direction: row;
@@ -83,7 +81,7 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
   }
 
   return (
-    <Page>
+    <>
       <MetaTags title={channel.data?.title || UNITS_LABEL} />
       <Banner
         backgroundUrl={
@@ -197,7 +195,7 @@ const UnitChannelSkeleton: React.FC<UnitChannelSkeletonProps> = ({
         />
         {children}
       </Container>
-    </Page>
+    </>
   )
 }
 

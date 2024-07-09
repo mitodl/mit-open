@@ -14,8 +14,6 @@ import ChannelAvatar from "@/components/ChannelAvatar/ChannelAvatar"
 import { SourceTypeEnum } from "api"
 import { DEPARTMENTS, HOME, TOPICS, UNITS } from "../../common/urls"
 
-const Page = styled.div({})
-
 const HeadingTextContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
@@ -110,7 +108,7 @@ const DefaultChannelSkeleton: React.FC<DefaultChannelSkeletonProps> = ({
   const displayConfiguration = channel.data?.configuration
 
   return (
-    <Page>
+    <>
       <MetaTags title={channel.data?.title || NAV_PATH[channelType].label} />
       <Banner
         navText={
@@ -186,7 +184,7 @@ const DefaultChannelSkeleton: React.FC<DefaultChannelSkeletonProps> = ({
         </ChannelTitleRow>
       </Container>
       {children}
-    </Page>
+    </>
   )
 }
 
