@@ -109,12 +109,12 @@ const ProfessionalToggle: React.FC<{
       </Collapse>
       <Collapse in={professionalSetting === "false"}>
         <ExplanationContainer>
-          Content developed from MIT’s academic curriculum
+          Content developed from MIT's academic curriculum
         </ExplanationContainer>
       </Collapse>
       <Collapse in={professionalSetting === "true"}>
         <ExplanationContainer>
-          Content developed from MIT’s professional curriculum
+          Content developed from MIT's professional curriculum
         </ExplanationContainer>
       </Collapse>
     </StyledButtonGroupContainer>

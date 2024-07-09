@@ -38,7 +38,7 @@ const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
 const HomePage: React.FC = () => {
   return (
     <>
-      <MetaTags title="Learn with MIT" />
+      <MetaTags title="Learn With MIT" />
       <FullWidthBackground>
         <Container>
           <HeroSearch />

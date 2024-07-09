@@ -231,8 +231,11 @@ const NewsEventsSection: React.FC = () => {
 
   return (
     <Section>
-      <Title variant="h2">Experience MIT</Title>
-      <StrapLine>See what's happening in the world of learning.</StrapLine>
+      <Title variant="h2">MIT Stories & Events</Title>
+      <StrapLine>
+        See what's happening in the world of learning with the latest news,
+        insights, and upcoming events at MIT.
+      </StrapLine>
       {isMobile ? (
         <MobileContent>
           <MobileContainer>

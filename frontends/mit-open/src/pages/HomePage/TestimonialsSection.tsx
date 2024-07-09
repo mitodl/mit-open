@@ -283,9 +283,10 @@ const TestimonialsSection: React.FC = () => {
   return (
     <Section>
       <Container id="hamster-noises">
-        <Typography variant="h2">From our Community</Typography>
+        <Typography variant="h2">From Our Community</Typography>
         <Typography variant="h3">
-          Transforming education through the eyes of our learners
+          Millions of learners are reaching their goals with MIT's non-degree
+          learning resources. Here's what they're saying.
         </Typography>
       </Container>
       <SlickCarousel />
