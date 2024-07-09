@@ -83,19 +83,13 @@ describe("ResourceCarousel", () => {
         },
       ]
 
-      const { resources, resolve } = setupApis({ autoResolve: false })
+      const { resources } = setupApis({ autoResolve: true })
 
       renderWithProviders(
         <ResourceCarousel title="My Carousel" config={config} />,
       )
 
-      expectLastProps(spyLearningResourceCard, {
-        isLoading: true,
-        ...cardProps,
-      })
-      resolve()
-
-      const tabs = screen.getAllByRole("tab")
+      const tabs = await screen.findAllByRole("tab")
 
       expect(tabs).toHaveLength(2)
       expect(tabs[0]).toHaveTextContent("Resources")
@@ -178,7 +172,7 @@ describe("ResourceCarousel", () => {
     expect(urlParams.get("professional")).toEqual("true")
   })
 
-  it("Shows the correct title", () => {
+  it("Shows the correct title", async () => {
     const config: ResourceCarouselProps["config"] = [
       {
         label: "Resources",
@@ -193,8 +187,7 @@ describe("ResourceCarousel", () => {
     renderWithProviders(
       <ResourceCarousel title="My Favorite Carousel" config={config} />,
     )
-    expect(
-      screen.getByRole("heading", { name: "My Favorite Carousel" }),
-    ).toBeInTheDocument()
+
+    await screen.findByRole("heading", { name: "My Favorite Carousel" })
   })
 })

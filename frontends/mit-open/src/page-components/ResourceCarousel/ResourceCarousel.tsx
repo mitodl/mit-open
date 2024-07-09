@@ -1,9 +1,5 @@
 import React from "react"
-import {
-  useFeaturedLearningResourcesList,
-  useLearningResourcesList,
-  useLearningResourcesSearch,
-} from "api/hooks/learningResources"
+import { learningResourcesKeyFactory } from "api/hooks/learningResources"
 import {
   Carousel,
   TabButton,
@@ -13,14 +9,14 @@ import {
   styled,
   Typography,
 } from "ol-components"
-import type {
-  TabConfig,
-  ResourceDataSource,
-  SearchDataSource,
-  FeaturedDataSource,
-} from "./types"
-import { LearningResource } from "api"
+import type { TabConfig } from "./types"
+import { LearningResource, PaginatedLearningResourceList } from "api"
 import { ResourceCard } from "../ResourceCard/ResourceCard"
+import {
+  useQueries,
+  UseQueryResult,
+  UseQueryOptions,
+} from "@tanstack/react-query"
 
 const StyledCarousel = styled(Carousel)({
   /**
@@ -39,107 +35,6 @@ const StyledCarousel = styled(Carousel)({
     paddingLeft: "4px",
   },
 })
-
-type DataPanelProps<T extends TabConfig["data"] = TabConfig["data"]> = {
-  dataConfig: T
-  isLoading?: boolean
-  children: ({
-    resources,
-    childrenLoading,
-  }: {
-    resources: LearningResource[]
-    childrenLoading: boolean
-  }) => React.ReactNode
-}
-
-type LoadTabButtonProps = {
-  config: FeaturedDataSource
-  label: React.ReactNode
-  key: number
-  value: string
-}
-
-const ResourcesData: React.FC<DataPanelProps<ResourceDataSource>> = ({
-  dataConfig,
-  children,
-}) => {
-  const { data, isLoading } = useLearningResourcesList(dataConfig.params)
-  return children({
-    resources: data?.results ?? [],
-    childrenLoading: isLoading,
-  })
-}
-
-const SearchData: React.FC<DataPanelProps<SearchDataSource>> = ({
-  dataConfig,
-  children,
-}) => {
-  const { data, isLoading } = useLearningResourcesSearch(dataConfig.params)
-  return children({
-    resources: data?.results ?? [],
-    childrenLoading: isLoading,
-  })
-}
-
-const FeaturedData: React.FC<DataPanelProps<FeaturedDataSource>> = ({
-  dataConfig,
-  children,
-}) => {
-  const { data, isLoading } = useFeaturedLearningResourcesList(
-    dataConfig.params,
-  )
-  return children({
-    resources: data?.results ?? [],
-    childrenLoading: isLoading,
-  })
-}
-
-/**
- * A wrapper to load data based `TabConfig.data`.
- *
- * For each `TabConfig.data.type`, a different API endpoint, and hence
- * react-query hook, is used. Since hooks can't be called conditionally within
- * a single component, each type of data is handled in a separate component.
- */
-const DataPanel: React.FC<DataPanelProps> = ({
-  dataConfig,
-  isLoading,
-  children,
-}) => {
-  if (!isLoading) {
-    switch (dataConfig.type) {
-      case "resources":
-        return <ResourcesData dataConfig={dataConfig}>{children}</ResourcesData>
-      case "lr_search":
-        return <SearchData dataConfig={dataConfig}>{children}</SearchData>
-      case "lr_featured":
-        return <FeaturedData dataConfig={dataConfig}>{children}</FeaturedData>
-      default:
-        // @ts-expect-error This will always be an error if the switch statement
-        // is exhaustive since dataConfig will have type `never`
-        throw new Error(`Unknown data type: ${dataConfig.type}`)
-    }
-  } else
-    return children({
-      resources: [],
-      childrenLoading: true,
-    })
-}
-
-/**
- * Tab button that loads the resource, so we can determine if it needs to be
- * displayed or not. This shouldn't cause double-loading since React Query
- * should only run the thing once - when you switch into the tab, the data
- * should already be in the cache.
- */
-
-const LoadFeaturedTabButton: React.FC<LoadTabButtonProps> = (props) => {
-  const { data, isLoading } = useFeaturedLearningResourcesList(
-    props.config.params,
-  )
-
-  return !isLoading && data && data.count > 0 ? <TabButton {...props} /> : null
-}
 
 const HeaderRow = styled.div(({ theme }) => ({
   display: "flex",
@@ -195,48 +90,46 @@ const TabsList = styled(TabButtonList)({
 
 type ContentProps = {
   resources: LearningResource[]
-  isLoading?: boolean
+  childrenLoading?: boolean
   tabConfig: TabConfig
 }
 
 type PanelChildrenProps = {
   config: TabConfig[]
+  queries: UseQueryResult<PaginatedLearningResourceList, unknown>[]
   children: (props: ContentProps) => React.ReactNode
-  isLoading?: boolean
 }
 const PanelChildren: React.FC<PanelChildrenProps> = ({
   config,
+  queries,
   children,
-  isLoading,
 }) => {
   if (config.length === 1) {
-    return (
-      <DataPanel dataConfig={config[0].data} isLoading={isLoading}>
-        {({ resources, childrenLoading }) =>
-          children({
-            resources,
-            isLoading: childrenLoading || isLoading,
-            tabConfig: config[0],
-          })
-        }
-      </DataPanel>
-    )
+    const { data, isLoading } = queries[0]
+    const resources = data?.results ?? []
+
+    return children({
+      resources,
+      childrenLoading: isLoading,
+      tabConfig: config[0],
+    })
   }
   return (
     <>
-      {config.map((tabConfig, index) => (
-        <StyledTabPanel key={index} value={index.toString()}>
-          <DataPanel dataConfig={tabConfig.data} isLoading={isLoading}>
-            {({ resources, childrenLoading }) =>
-              children({
-                resources,
-                isLoading: childrenLoading || isLoading,
-                tabConfig,
-              })
-            }
-          </DataPanel>
-        </StyledTabPanel>
-      ))}
+      {config.map((tabConfig, index) => {
+        const { data, isLoading } = queries[index]
+        const resources = data?.results ?? []
+
+        return (
+          <StyledTabPanel key={index} value={index.toString()}>
+            {children({
+              resources,
+              childrenLoading: isLoading,
+              tabConfig,
+            })}
+          </StyledTabPanel>
+        )
+      })}
     </>
   )
 }
@@ -258,6 +151,7 @@ type ResourceCarouselProps = {
   title: string
   className?: string
   isLoading?: boolean
+  "data-testid"?: string
 }
 /**
  * A tabbed carousel that fetches resources based on the configuration provided.
@@ -275,12 +169,45 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   title,
   className,
   isLoading,
+  "data-testid": dataTestId,
 }) => {
   const [tab, setTab] = React.useState("0")
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
 
+  const queries = useQueries({
+    queries: config.map(
+      (
+        tab,
+      ): UseQueryOptions<
+        PaginatedLearningResourceList,
+        unknown,
+        unknown,
+        // The factory-generated types for queryKeys are very specific (tuples not arrays)
+        // and assignable to the loose QueryKey (readonly unknown[]) on the UseQueryOptions generic.
+        // But! as a queryFn arg the more specific QueryKey cannot be assigned to the looser QueryKey.
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        any
+      > => {
+        switch (tab.data.type) {
+          case "resources":
+            return learningResourcesKeyFactory.list(tab.data.params)
+          case "lr_search":
+            return learningResourcesKeyFactory.search(tab.data.params)
+          case "lr_featured":
+            return learningResourcesKeyFactory.featured(tab.data.params)
+        }
+      },
+    ),
+  })
+
+  const allChildrenLoaded = queries.every(({ isLoading }) => !isLoading)
+  const allChildrenEmpty = queries.every(({ data }) => !data?.count)
+  if (!isLoading && allChildrenLoaded && allChildrenEmpty) {
+    return null
+  }
+
   return (
-    <MobileOverflow className={className}>
+    <MobileOverflow className={className} data-testid={dataTestId}>
       <TabContext value={tab}>
         <HeaderRow>
           <HeaderText variant="h4">{title}</HeaderText>
@@ -288,29 +215,32 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
           {config.length > 1 ? (
             <ControlsContainer>
               <TabsList onChange={(e, newValue) => setTab(newValue)}>
-                {config.map((tabConfig, index) =>
-                  tabConfig.data.type === "lr_featured" ? (
-                    <LoadFeaturedTabButton
-                      config={tabConfig.data}
-                      key={index}
-                      label={tabConfig.label}
-                      value={index.toString()}
-                    />
-                  ) : (
+                {config.map((tabConfig, index) => {
+                  if (
+                    !isLoading &&
+                    !queries[index].isLoading &&
+                    !queries[index].data?.count
+                  ) {
+                    return null
+                  }
+                  return (
                     <TabButton
                       key={index}
                       label={tabConfig.label}
                       value={index.toString()}
                     />
-                  ),
-                )}
+                  )
+                })}
               </TabsList>
               <ButtonsContainer ref={setRef} />
             </ControlsContainer>
           ) : null}
         </HeaderRow>
-        <PanelChildren config={config} isLoading={isLoading}>
-          {({ resources, isLoading: childrenLoading, tabConfig }) => (
+        <PanelChildren
+          config={config}
+          queries={queries as UseQueryResult<PaginatedLearningResourceList>[]}
+        >
+          {({ resources, childrenLoading, tabConfig }) => (
             <StyledCarousel arrowsContainer={ref}>
               {isLoading || childrenLoading
                 ? Array.from({ length: 6 }).map((_, index) => (

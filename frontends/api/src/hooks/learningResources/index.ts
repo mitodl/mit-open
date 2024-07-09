@@ -427,6 +427,13 @@ const useSchoolsList = () => {
   return useQuery(learningResources.schools())
 }
 
+/*
+ * Not intended to be imported except for special cases.
+ * It's used in the ResourceCarousel to dynamically build a single useQueries hook
+ * from config because a React component cannot conditionally call hooks during renders.
+ */
+export { default as learningResourcesKeyFactory } from "./keyFactory"
+
 export {
   useLearningResourcesList,
   useFeaturedLearningResourcesList,
