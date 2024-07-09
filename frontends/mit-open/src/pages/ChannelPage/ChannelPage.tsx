@@ -1,6 +1,6 @@
 import React from "react"
 import { useParams } from "react-router"
-import ChannelPageSkeleton from "./ChannelPageSkeleton"
+import { ChannelPageSkeleton } from "./ChannelPageSkeleton"
 import { useChannelDetail } from "api/hooks/channels"
 import FieldSearch from "./ChannelSearch"
 import {

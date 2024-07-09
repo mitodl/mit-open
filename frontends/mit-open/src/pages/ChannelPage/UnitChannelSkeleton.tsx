@@ -13,19 +13,7 @@ import { SourceTypeEnum } from "api"
 import { getSearchParamMap } from "@/common/utils"
 import { HOME as HOME_URL, UNITS as UNITS_URL } from "../../common/urls"
 import { ChannelTypeEnum } from "api/v0"
-import { UNITS_LABEL } from "./ChannelPageSkeleton"
-
-export const ChannelTitleRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  h1 a {
-    &:hover {
-      text-decoration: none;
-    }
-  }
-`
+import { ChannelControls, UNITS_LABEL } from "./ChannelPageSkeleton"
 
 const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
   margin: "80px 0",
@@ -34,11 +22,6 @@ const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
     marginBottom: "32px",
   },
 }))
-export const ChannelControls = styled.div`
-  position: relative;
-  min-height: 38px;
-  display: flex;
-`
 
 interface UnitChannelSkeletonProps {
   children: React.ReactNode

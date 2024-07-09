@@ -8,7 +8,7 @@ import { MetaTags } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { useChannelDetail } from "api/hooks/channels"
 import EditChannelAppearanceForm from "./EditChannelAppearanceForm"
-import ChannelPageSkeleton from "./ChannelPageSkeleton"
+import { ChannelPageSkeleton } from "./ChannelPageSkeleton"
 type RouteParams = {
   channelType: string
   name: string

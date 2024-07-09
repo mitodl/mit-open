@@ -13,7 +13,11 @@ import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
 import ChannelAvatar from "@/components/ChannelAvatar/ChannelAvatar"
 import { SourceTypeEnum } from "api"
 import { HOME as HOME_URL } from "../../common/urls"
-import { CHANNEL_TYPE_BREADCRUMB_TARGETS } from "./ChannelPageSkeleton"
+import {
+  CHANNEL_TYPE_BREADCRUMB_TARGETS,
+  ChannelControls,
+  ChannelTitleRow,
+} from "./ChannelPageSkeleton"
 
 const HeadingTextContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -51,24 +55,6 @@ const ChannelControlsContainer = styled.div(({ theme }) => ({
     width: "15%",
   },
 }))
-
-export const ChannelTitleRow = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  h1 a {
-    &:hover {
-      text-decoration: none;
-    }
-  }
-`
-
-export const ChannelControls = styled.div`
-  position: relative;
-  min-height: 38px;
-  display: flex;
-`
 
 interface DefaultChannelSkeletonProps {
   children: React.ReactNode

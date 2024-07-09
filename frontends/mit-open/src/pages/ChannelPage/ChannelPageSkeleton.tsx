@@ -7,6 +7,7 @@ import {
   TOPICS as TOPICS_URL,
   UNITS as UNITS_URL,
 } from "@/common/urls"
+import { styled } from "ol-components"
 
 const TOPICS_LABEL = "Browse by Topic"
 const DEPARTMENTS_LABEL = "Browse by Academic Department"
@@ -34,6 +35,26 @@ const CHANNEL_TYPE_BREADCRUMB_TARGETS: {
   },
 }
 
+const ChannelTitleRow = styled.div({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+
+  h1: {
+    a: {
+      "&:hover": {
+        textDecoration: "none",
+      },
+    },
+  },
+})
+
+const ChannelControls = styled.div({
+  position: "relative",
+  minHeight: "38px",
+  display: "flex",
+})
+
 interface ChannelSkeletonProps {
   children: React.ReactNode
   channelType: string
@@ -45,7 +66,7 @@ interface ChannelSkeletonProps {
  *
  * Renders the channel title and avatar in a banner.
  */
-const ChannelSkeleton: React.FC<ChannelSkeletonProps> = ({
+const ChannelPageSkeleton: React.FC<ChannelSkeletonProps> = ({
   children,
   channelType,
   name,
@@ -63,7 +84,9 @@ const ChannelSkeleton: React.FC<ChannelSkeletonProps> = ({
 }
 
 export {
-  ChannelSkeleton,
+  ChannelPageSkeleton,
+  ChannelTitleRow,
+  ChannelControls,
   CHANNEL_TYPE_BREADCRUMB_TARGETS,
   UNITS_LABEL,
   TOPICS_LABEL,
