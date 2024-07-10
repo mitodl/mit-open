@@ -209,10 +209,10 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
        * With icons, the left space is 20/12/8 px.
        */
       marginLeft: "-4px",
-      marginRight: "4px",
+      marginRight: "8px",
     },
     side === "end" && {
-      marginLeft: "4px",
+      marginLeft: "8px",
       marginRight: "-4px",
     },
     {
