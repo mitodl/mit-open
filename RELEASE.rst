@@ -1,6 +1,37 @@
 Release Notes
 =============
 
+Version 0.13.18
+---------------
+
+- Fix logout view (#1236)
+- remove manage widgets (#1239)
+- Unit and detail page copy updates (#1235)
+- Align departments listing colors to designs (#1238)
+- resource drawer UI fixes (#1237)
+- Remove "Top picks" carousel if no results (#1195)
+- fix learning path count, increase item page size (#1230)
+- Use ovewrite=True when calling pluggy function from upsert_offered_by (#1227)
+- open resources in new tab (#1220)
+- extra weight for instructors (#1231)
+- Homepage and nav drawer copy edits (#1233)
+- Update dependency eslint-plugin-jest to v28 (#1038)
+- Only publish enrollable mitxonline courses (#1229)
+- Navigation UI fixes (#1228)
+- better spacing around pagination component (#1219)
+- Update resource drawer text and URL for podcast episodes (#1191)
+- resource type (#1222)
+- Data fixtures app for loading static fixtures (#1218)
+- Webpack build config loads .env files for running outside of Docker (#1221)
+- Updates icons to use Remixicons where they don't already (#1157)
+- make primary buttons shadowy, remove edge=none (#1213)
+- resource category tabs (#1211)
+- Fix storybook github pages publishing (#1200)
+- Fix and reenable onboarding page tests (#1216)
+- Removed nginx serving of frontend locally (#1179)
+- Update actions/checkout digest to 692973e (#961)
+- Privacy policy updates (#1208)
+
 Version 0.13.17 (Released July 02, 2024)
 ---------------
 
