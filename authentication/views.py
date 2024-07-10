@@ -4,7 +4,6 @@ from urllib.parse import urlencode
 
 from django.conf import settings
 from django.contrib.auth import views
-from django.http import Http404
 from django.shortcuts import redirect
 from social_django.utils import load_strategy
 
@@ -37,25 +36,38 @@ class CustomLogoutView(views.LogoutView):
         qs = urlencode(
             {
                 "id_token_hint": id_token,
-                "post_logout_redirect_uri": settings.LOGOUT_REDIRECT_URL,
+                "post_logout_redirect_uri": self.request.build_absolute_uri(
+                    settings.LOGOUT_REDIRECT_URL
+                ),
             }
         )
-        return f"{settings.KEYCLOAK_BASE_URL}/realms/{settings.KEYCLOAK_REALM_NAME}/protocol/openid-connect/logout?{qs}"  # noqa: E501
+
+        return (
+            f"{settings.KEYCLOAK_BASE_URL}/realms/"
+            f"{settings.KEYCLOAK_REALM_NAME}/protocol/openid-connect/logout"
+            f"?{qs}"
+        )
 
     def get(
         self,
         request,
         *args,  # noqa: ARG002
         **kwargs,  # noqa: ARG002
-    ):  # pylint:disable=unused-argument
+    ):
         """
         GET endpoint for loggin a user out.
-        Raises 404 if the user is not included in the request.
+
+        The logout redirect path the user follows is:
+
+        - api.example.com/logout (this view)
+        - keycloak.example.com/realms/REALM/protocol/openid-connect/logout
+        - api.example.com/app (see main/urls.py)
+        - app.example.com
+
         """
         user = getattr(request, "user", None)
         if user and user.is_authenticated:
             super().get(request)
             return redirect(self._keycloak_logout_url(user))
         else:
-            msg = "Not currently logged in."
-            raise Http404(msg)
+            return redirect("/app")
