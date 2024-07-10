@@ -94,9 +94,7 @@ export const Title = styled.h3`
 export const Footer = styled.span`
   display: block;
   ${{ ...theme.typography.body3 }}
-
   color: ${theme.custom.colors.darkGray2};
-
   white-space: nowrap;
 `
 
