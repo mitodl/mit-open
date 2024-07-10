@@ -88,9 +88,11 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
     {
       name: "more_information",
       title: "More Information",
+
       labelFunction: (key: string, channelTitle: string) => (
-        <a href={key}>
-          {channelTitle} website <RiExternalLinkLine size={18} />
+        // eslint-disable react/jsx-no-target-blank
+        <a target="_blank" href={key} rel="noopener noreferrer">
+          {channelTitle} Website <RiExternalLinkLine size={18} />
         </a>
       ),
       order: 1,
@@ -107,7 +109,7 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
     },
     {
       name: "certifications",
-      title: "Certificate",
+      title: "Certificates",
       order: 0,
     },
     {
