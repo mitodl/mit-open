@@ -6,9 +6,8 @@ from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
 from dateutil import parser
-from django.utils.html import strip_tags
 
-from main.utils import now_in_utc
+from main.utils import clean_data, now_in_utc
 from news_events.constants import FeedType
 from news_events.etl.utils import get_request_json
 
@@ -173,8 +172,8 @@ def transform_event(event_data: dict) -> dict or None:
                 event_data.get("relationships", {}).get("field_event_image", {})
             )
         ),
-        "summary": strip_tags(attributes.get("body", {}).get("value") or ""),
-        "content": strip_tags(attributes.get("body", {}).get("value") or ""),
+        "summary": clean_data(attributes.get("body", {}).get("value") or ""),
+        "content": clean_data(attributes.get("body", {}).get("value") or ""),
         "detail": {
             "location": transform_relationship(
                 extract_relationship(event_data, "field_location_tag")

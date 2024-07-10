@@ -43,26 +43,6 @@ def tag_text(tag: Tag) -> str:
     return tag.text.strip() if tag and tag.text else None
 
 
-def safe_html(tag: Tag) -> str:
-    """
-    Get safe html from a BeautifulSoup tag, with no styles, classes, etc
-
-    Args:
-        tag (Tag): The BeautifulSoup tag
-
-    Returns:
-        str: The html as a string with certain elements/attributes removed
-    """
-    if tag:
-        [element.decompose() for element in tag.findAll(["script", "style"])]
-        children = tag.find_all(recursive=True)
-        for element in [tag, *children]:
-            for attribute in ["style", "class"]:
-                del element[attribute]
-        return str(tag)
-    return None
-
-
 def stringify_time_struct(time_struct: struct_time) -> str:
     """
     Transform a struct_time object into an ISO formatted date string

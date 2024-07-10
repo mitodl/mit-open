@@ -10,6 +10,9 @@ from urllib.parse import urljoin
 import markdown2
 from bs4 import BeautifulSoup
 from django.conf import settings
+from nh3 import nh3
+
+from learning_resources.etl.constants import ALLOWED_HTML_ATTRIBUTES, ALLOWED_HTML_TAGS
 
 log = logging.getLogger(__name__)
 
@@ -310,3 +313,12 @@ def frontend_absolute_url(relative_path: str) -> str:
         str: absolute url path to the frontend
     """
     return urljoin(settings.APP_BASE_URL, relative_path)
+
+
+def clean_data(data: str) -> str:
+    """Remove unwanted html tags from text"""
+    if data:
+        return nh3.clean(
+            data, tags=ALLOWED_HTML_TAGS, attributes=ALLOWED_HTML_ATTRIBUTES
+        )
+    return ""

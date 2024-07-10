@@ -29,13 +29,14 @@ from learning_resources.etl.prolearn import (
     transform_programs,
     update_format,
 )
-from learning_resources.etl.utils import clean_data, transform_format
+from learning_resources.etl.utils import transform_format
 from learning_resources.factories import (
     LearningResourceOfferorFactory,
     LearningResourcePlatformFactory,
 )
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
 from main.test_utils import assert_json_equal
+from main.utils import clean_data
 
 pytestmark = pytest.mark.django_db
 

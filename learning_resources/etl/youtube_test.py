@@ -16,8 +16,8 @@ from learning_resources.constants import LearningResourceType, OfferedBy, Platfo
 from learning_resources.etl import youtube
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.exceptions import ExtractException
-from learning_resources.etl.utils import clean_data
 from learning_resources.factories import VideoFactory
+from main.utils import clean_data
 
 
 @pytest.fixture()

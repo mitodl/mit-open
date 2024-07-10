@@ -10,6 +10,7 @@ from django.contrib.auth import get_user_model
 from main.factories import UserFactory
 from main.utils import (
     chunks,
+    clean_data,
     extract_values,
     filter_dict_keys,
     filter_dict_with_renamed_keys,
@@ -211,3 +212,32 @@ def test_frontend_absolute_url(settings):
     assert frontend_absolute_url("/") == "http://example.com/"
     assert frontend_absolute_url("/path") == "http://example.com/path"
     assert frontend_absolute_url("path") == "http://example.com/path"
+
+
+@pytest.mark.parametrize(
+    ("input_text", "output_text"),
+    [
+        ("The cat sat on the mat & spat.\n", "The cat sat on the mat &amp; spat.\n"),
+        (
+            "the <b class='foo'>dog</b> chased a <a href='http://hog.mit.edu'>hog</a>",
+            "the <b>dog</b> chased a hog",
+        ),
+        (
+            "<p><style type='text/css'> <!--/*--><![CDATA[/* ><!--*/ <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}--> /*--><!]]>*/ </style>What a mess</p>",
+            "<p>What a mess</p>",
+        ),
+        (
+            "<script type='javascript'>alert('xss');</script><style>\nh1 {color:red;}\np {color:blue;}\n</style><p>Some text</p>",
+            "<p>Some text</p>",
+        ),
+        (
+            "<p><img src='' onerror='alert(\"xss!\")'/>Hello, world!</p>",
+            "<p>Hello, world!</p>",
+        ),
+        (None, ""),
+        ("", ""),
+    ],
+)
+def test_clean_data(input_text, output_text):
+    """clean_data function should return expected output"""
+    assert clean_data(input_text) == output_text

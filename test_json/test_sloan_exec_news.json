@@ -40,7 +40,7 @@
               },
               "Article_Title": {
                 "nodeType": "NameField",
-                "value": "Cybersecurity Resiliency is More Than Protection"
+                "value": "Cybersecurity Resiliency &amp; Stuff is More Than Protection"
               },
               "Original_Date": {
                 "nodeType": "Date",
@@ -63,7 +63,7 @@
             "language": "en_US",
             "managedContentId": "20YU1000004rCaMMAU",
             "publishedDate": "2024-03-25T16:29:25.000Z",
-            "title": "Cybersecurity Resiliency is More Than Protection",
+            "title": "Cybersecurity Resiliency &amp; Stuff is More Than Protection",
             "type": "Blog_Post",
             "typeLabel": "Blog Post",
             "unauthenticatedUrl": "/cms/delivery/v51.0/0DB6g0000004FHZGA2/contents/20YU1000004rCaMMAU?oid=00D6g000006yH4pEAE"
@@ -222,7 +222,7 @@
               },
               "First_Section_Content": {
                 "nodeType": "RichText",
-                "value": "&lt;p&gt;During Women\u2019s History Month, it is important to celebrate the social, economic, cultural, and political achievements of women. This month also marks a call to action for accelerating gender parity. Many of the unique challenges women have traditionally faced when seeking to advance to senior levels appear to remain.&lt;/p&gt;\n&lt;p&gt;In the quest to advance women, MIT Sloan Professor Fiona Murray and Senior Lecturer Elsbeth Johnson, co-faculty of the &lt;a href=&quot;https://executive.mit.edu/course/womens-leadership-program/a054v00000rfdVZAAY.html&quot; target=&quot;_blank&quot;&gt;Women&#39;s Leadership Program&lt;/a&gt;, advocate for a critical shift towards embracing power. Women often excel in influence and communication, yet may shy away from seeking power directly. This hesitation can hinder progress towards senior executive roles, despite exceptional expertise across fields like science, law, or finance. The challenge is to normalize the pursuit of power among women, encouraging them to step forward and claim their place at the decision-making table. Murray and Johnson offer six approaches to help aspiring women leaders address these challenges and break through the glass ceiling\u2014once and for all.&lt;/p&gt;"
+                "value": "&lt;p&gt;During &lt;a href='http://foo.com'&gt;Women\u2019s History Month&lt;/a&gt;, it is important to celebrate the social, economic, cultural, and political achievements of women. This month also marks a call to action for accelerating gender parity. Many of the unique challenges women have traditionally faced when seeking to advance to senior levels appear to remain.&lt;/p&gt;\n&lt;p&gt;In the quest to advance women, MIT Sloan Professor Fiona Murray and Senior Lecturer Elsbeth Johnson, co-faculty of the &lt;a href=&quot;https://executive.mit.edu/course/womens-leadership-program/a054v00000rfdVZAAY.html&quot; target=&quot;_blank&quot;&gt;Women&#39;s Leadership Program&lt;/a&gt;, advocate for a critical shift towards embracing power. Women often excel in influence and communication, yet may shy away from seeking power directly. This hesitation can hinder progress towards senior executive roles, despite exceptional expertise across fields like science, law, or finance. The challenge is to normalize the pursuit of power among women, encouraging them to step forward and claim their place at the decision-making table. Murray and Johnson offer six approaches to help aspiring women leaders address these challenges and break through the glass ceiling\u2014once and for all.&lt;/p&gt;"
               },
               "Category": {
                 "nodeType": "Text",
@@ -242,7 +242,7 @@
               },
               "Summary": {
                 "nodeType": "RichText",
-                "value": "&lt;p&gt;Despite the many advances women have made in the workforce over these past decades, many of the unique challenges women have traditionally faced when seeking to advance to senior levels appear to remain. Here are six tips from MIT&#39;s Fiona Murray and Elsbeth Johnson for claiming power and breaking through the glass ceiling once and for all.&lt;/p&gt;"
+                "value": "&lt;p&gt;Despite the many advances women have made in the &lt;a href='http://foo.com'&gt;workforce&lt;/a&gt; over these past decades, many of the unique challenges women have traditionally faced when seeking to advance to senior levels appear to remain. Here are six tips from MIT&#39;s Fiona Murray and Elsbeth Johnson for claiming power and breaking through the glass ceiling once and for all.&lt;/p&gt;"
               },
               "Featured_Quote": {
                 "nodeType": "Text",
