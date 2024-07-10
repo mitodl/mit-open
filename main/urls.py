@@ -67,6 +67,7 @@ urlpatterns = [  # noqa: RUF005
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
     re_path(r"", include("news_events.urls")),
     re_path(r"^app", RedirectView.as_view(url=settings.APP_BASE_URL)),
+    re_path(r"^silk/", include("silk.urls", namespace="silk")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

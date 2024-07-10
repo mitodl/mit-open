@@ -1198,11 +1198,11 @@ export interface LearningResourceTopic {
    */
   parent?: number | null
   /**
-   * Get the channel url for the topic if it exists
+   *
    * @type {string}
    * @memberof LearningResourceTopic
    */
-  channel_url: string | null
+  channel_url: string
 }
 /**
  * Serializer for News FeedItem

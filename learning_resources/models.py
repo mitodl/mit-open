@@ -5,7 +5,7 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models import JSONField, Q
+from django.db.models import JSONField, OuterRef, Q
 from django.db.models.functions import Lower
 from django.utils import timezone
 
@@ -17,7 +17,7 @@ from learning_resources.constants import (
     LearningResourceType,
     PrivacyLevel,
 )
-from main.models import TimestampedModel
+from main.models import TimestampedModel, TimestampedModelQuerySet
 
 
 def default_learning_format():
@@ -38,10 +38,28 @@ class LearningResourcePlatform(TimestampedModel):
         return f"{self.code}: {self.name}"
 
 
+class LearningResourceTopicQuerySet(TimestampedModelQuerySet):
+    """QuerySet for LearningResourceTopic"""
+
+    def annotate_channel_url(self):
+        """Annotate with the channel url"""
+        from channels.models import Channel
+
+        return self.annotate(
+            _channel_url=(
+                Channel.objects.filter(topic_detail__topic=OuterRef("pk"))
+                .annotate_channel_url()
+                .values_list("_channel_url", flat=True)[:1]
+            ),
+        )
+
+
 class LearningResourceTopic(TimestampedModel):
     """
     Topics for all learning resources (e.g. "History")
     """
+
+    objects = LearningResourceTopicQuerySet.as_manager()
 
     name = models.CharField(max_length=128)
     parent = models.ForeignKey(
@@ -53,8 +71,17 @@ class LearningResourceTopic(TimestampedModel):
 
     def __str__(self):
         """Return the topic name."""
-
         return self.name
+
+    @property
+    def channel_url(self):
+        """Return the topic's channel url"""
+        if hasattr(self, "_channel_url"):
+            return self._channel_url
+
+        topic_detail = self.channel_topic_details.first()
+
+        return topic_detail.channel.channel_url if topic_detail is not None else None
 
     class Meta:
         """Meta options for LearningResourceTopic"""
