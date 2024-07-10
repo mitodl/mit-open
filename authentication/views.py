@@ -55,11 +55,19 @@ class CustomLogoutView(views.LogoutView):
         **kwargs,  # noqa: ARG002
     ):
         """
-        POST endpoint for loggin a user out.
+        GET endpoint for loggin a user out.
+
+        The logout redirect path the user follows is:
+
+        - api.example.com/logout (this view)
+        - keycloak.example.com/realms/REALM/protocol/openid-connect/logout
+        - api.example.com/app (see main/urls.py)
+        - app.example.com
+
         """
         user = getattr(request, "user", None)
         if user and user.is_authenticated:
-            super().post(request)
+            super().get(request)
             return redirect(self._keycloak_logout_url(user))
         else:
             return redirect("/app")
