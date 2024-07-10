@@ -5,13 +5,17 @@ import {
   useSearchSubscriptionDelete,
   useSearchSubscriptionList,
 } from "api/hooks/searchSubscription"
-import { Button, SimpleMenu } from "ol-components"
+import { Button, SimpleMenu, styled } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import { RiArrowDownSLine, RiMailLine } from "@remixicon/react"
 import { useUserMe } from "api/hooks/user"
 import { SourceTypeEnum } from "api"
 
 import { SignupPopover } from "../SignupPopover/SignupPopover"
+
+const StyledButton = styled(Button)({
+  minWidth: "130px",
+})
 
 type SearchSubscriptionToggleProps = {
   searchParams: URLSearchParams
@@ -54,9 +58,9 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
     return (
       <SimpleMenu
         trigger={
-          <Button variant="primary" endIcon={<RiArrowDownSLine />}>
+          <StyledButton variant="primary" endIcon={<RiArrowDownSLine />}>
             Following
-          </Button>
+          </StyledButton>
         }
         items={unsubscribeItems}
       />
@@ -64,7 +68,7 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
   }
   return (
     <>
-      <Button
+      <StyledButton
         variant="primary"
         disabled={subscriptionCreate.isLoading}
         startIcon={<RiMailLine />}
@@ -79,7 +83,7 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
         }}
       >
         Follow
-      </Button>
+      </StyledButton>
       <SignupPopover anchorEl={buttonEl} onClose={() => setButtonEl(null)} />
     </>
   )
