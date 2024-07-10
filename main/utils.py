@@ -12,7 +12,7 @@ from bs4 import BeautifulSoup
 from django.conf import settings
 from nh3 import nh3
 
-from learning_resources.etl.constants import ALLOWED_HTML_ATTRIBUTES, ALLOWED_HTML_TAGS
+from main.constants import ALLOWED_HTML_ATTRIBUTES, ALLOWED_HTML_TAGS
 
 log = logging.getLogger(__name__)
 
