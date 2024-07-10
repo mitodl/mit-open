@@ -1,5 +1,9 @@
 import React, { useCallback, useMemo, useState } from "react"
-import { LearningResourceCard, LearningResourceListCard } from "ol-components"
+import {
+  LearningResourceCard,
+  LearningResourceListCard,
+  LearningResourceListCardCondensed,
+} from "ol-components"
 import * as NiceModal from "@ebay/nice-modal-react"
 import type {
   LearningResourceCardProps,
@@ -104,7 +108,9 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
 type ResourceListCardProps = Omit<
   LearningResourceListCardProps,
   "href" | "onAddToLearningPathClick" | "onAddToUserListClick"
->
+> & {
+  condensed?: boolean
+}
 
 /**
  * Just like `ol-components/LearningResourceListCard`, but with builtin actions:
@@ -115,6 +121,7 @@ type ResourceListCardProps = Omit<
  */
 const ResourceListCard: React.FC<ResourceListCardProps> = ({
   resource,
+  condensed,
   ...others
 }) => {
   const {
@@ -126,9 +133,13 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
     inUserList,
     inLearningPath,
   } = useResourceCard(resource)
+
+  const ListCardComponent = condensed
+    ? LearningResourceListCardCondensed
+    : LearningResourceListCard
   return (
     <>
-      <LearningResourceListCard
+      <ListCardComponent
         resource={resource}
         href={resource ? getDrawerHref(resource.id) : undefined}
         onAddToLearningPathClick={handleAddToLearningPathClick}

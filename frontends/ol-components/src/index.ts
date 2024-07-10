@@ -28,7 +28,7 @@ export {
   ActionButtonLink,
   ButtonLink,
 } from "./components/Button/Button"
-export { ListCardActionButton } from "./components/Card/ListCard"
+export { ListCard, ListCardActionButton } from "./components/Card/ListCard"
 
 export type {
   ButtonProps,
@@ -167,7 +167,9 @@ export * from "./components/Chips/ChipLink"
 export * from "./components/EmbedlyCard/EmbedlyCard"
 export * from "./components/FormDialog/FormDialog"
 export * from "./components/LearningResourceCard/LearningResourceCard"
-export * from "./components/LearningResourceCard/LearningResourceListCard"
+export { LearningResourceListCard } from "./components/LearningResourceCard/LearningResourceListCard"
+export type { LearningResourceListCardProps } from "./components/LearningResourceCard/LearningResourceListCard"
+export * from "./components/LearningResourceCard/LearningResourceListCardCondensed"
 export * from "./components/LearningResourceExpanded/LearningResourceExpanded"
 export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/Logo/Logo"

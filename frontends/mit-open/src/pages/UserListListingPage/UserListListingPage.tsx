@@ -73,24 +73,6 @@ const EditUserListMenu: React.FC<EditUserListMenuProps> = ({ userList }) => {
   )
 }
 
-type ListCardProps = {
-  list: UserList
-  onActivate: (userList: UserList) => void
-  canEdit: boolean
-}
-const ListCard: React.FC<ListCardProps> = ({ list, onActivate }) => {
-  return (
-    <UserListCardTemplate
-      variant="row-reverse"
-      userList={list}
-      className="ic-resource-card"
-      imgConfig={imgConfigs["row-reverse-small"]}
-      onActivate={onActivate}
-      footerActionSlot={<EditUserListMenu userList={list} />}
-    />
-  )
-}
-
 type UserListListingComponentProps = {
   title?: string
   onActivate: (userList: UserList) => void
@@ -132,10 +114,13 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
               {listingQuery.data.results?.map((list) => {
                 return (
                   <li key={list.id}>
-                    <ListCard
-                      list={list}
+                    <UserListCardTemplate
+                      variant="row-reverse"
+                      userList={list}
+                      className="ic-resource-card"
+                      imgConfig={imgConfigs["row-reverse-small"]}
                       onActivate={onActivate}
-                      canEdit={true}
+                      footerActionSlot={<EditUserListMenu userList={list} />}
                     />
                   </li>
                 )
