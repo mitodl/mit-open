@@ -96,7 +96,7 @@ def transform_item(item_data: dict) -> dict:
     """
     return {
         "guid": item_data.get("managedContentId"),
-        "title": html.escape(item_data.get("title", "")),
+        "title": html.unescape(item_data.get("title", "")),
         "summary": tag_text(
             Soup(
                 html.unescape(
@@ -131,7 +131,7 @@ def transform_item(item_data: dict) -> dict:
         },
         "detail": {
             "authors": [
-                html.escape(
+                html.unescape(
                     item_data.get("contentNodes", {})
                     .get("Quote_Author", {})
                     .get("value", "")

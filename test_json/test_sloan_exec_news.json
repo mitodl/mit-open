@@ -205,7 +205,7 @@
             "contentNodes": {
               "Quote_Author": {
                 "nodeType": "Text",
-                "value": "MIT Professor Fiona Murray"
+                "value": "MIT Professor Fiona \u0022OG\u0022 Murray"
               },
               "Featured_Image": {
                 "altText": "pink fist punching through a glass ceiling",
