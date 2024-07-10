@@ -8,7 +8,6 @@ import yaml
 from bs4 import BeautifulSoup as bs  # noqa: N813
 from dateutil.parser import parse
 from django.conf import settings
-from django.utils.text import slugify
 from requests.exceptions import HTTPError
 
 from learning_resources.constants import LearningResourceType
@@ -101,6 +100,19 @@ def get_podcast_configs():
     return podcast_configs
 
 
+def parse_readable_id_from_url(url):
+    """
+    Parse readable id from podcast/episode url
+
+    Args:
+        url (str): the podcast/episode url
+
+    Returns:
+        str: the readable id
+    """
+    return url.split("//")[-1]
+
+
 def extract():
     """
     Function for extracting podcast data
@@ -143,7 +155,9 @@ def transform_episode(rss_data, offered_by, topics, parent_image):
 
     return {
         "readable_id": rss_data.guid.text
-        or slugify(rss_data.link.text if rss_data.link else rss_data.enclosure["url"]),
+        or parse_readable_id_from_url(
+            rss_data.link.text if rss_data.link else rss_data.enclosure["url"]
+        ),
         "etl_source": ETLSource.podcast.name,
         "resource_type": LearningResourceType.podcast_episode.name,
         "title": rss_data.title.text,
@@ -151,12 +165,10 @@ def transform_episode(rss_data, offered_by, topics, parent_image):
         "description": clean_data(rss_data.description.text),
         "url": rss_data.enclosure["url"],
         "image": {
-            "url": (
-                rss_data.find("image")["href"]
-                if rss_data.find("image")
-                else parent_image
-            ),
-        },
+            "url": (rss_data.find("image")["href"]),
+        }
+        if rss_data.find("image")
+        else parent_image,
         "last_modified": parse(rss_data.pubDate.text),
         "published": True,
         "topics": topics,
@@ -205,7 +217,7 @@ def transform(extracted_podcasts):
             title = config_data.get("podcast_title", rss_data.channel.title.text)
 
             yield {
-                "readable_id": slugify(rss_data.channel.link or config_data["rss_url"]),
+                "readable_id": parse_readable_id_from_url(config_data["rss_url"]),
                 "title": title,
                 "etl_source": ETLSource.podcast.name,
                 "resource_type": LearningResourceType.podcast.name,

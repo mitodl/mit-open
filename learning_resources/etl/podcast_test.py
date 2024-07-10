@@ -43,23 +43,22 @@ def rss_content():
 def mock_podcast_file(  # pylint: disable=too-many-arguments  # noqa: PLR0913
     podcast_title=None,
     topics=None,
-    website_url="website_url",
+    website_url="http://website.url/podcast",
     offered_by=None,
     google_podcasts_url="google_podcasts_url",
     apple_podcasts_url="apple_podcasts_url",
-    rss_url="rss_url",
+    rss_url="http://website.url/podcast/rss.xml",
 ):
     """Mock podcast github file"""
 
     content = f"""---
-rss_url: rss_url
+rss_url: {rss_url}
 { "podcast_title: " + podcast_title if podcast_title else "" }
 { "topics: " + topics if topics else "" }
 { "offered_by: " + offered_by if offered_by else "" }
 website:  {website_url}
 google_podcasts_url: {google_podcasts_url}
 apple_podcasts_url: {apple_podcasts_url}
-rss_url: {rss_url}
 """
     return Mock(decoded_content=content)
 
@@ -130,7 +129,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
 
     expected_results = [
         {
-            "readable_id": "tag:soundcloud,2010:tracks/1857159426",
+            "readable_id": "website.url/podcast/rss.xml",
             "etl_source": ETLSource.podcast.name,
             "title": expected_title,
             "offered_by": expected_offered_by,
@@ -141,7 +140,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
             "podcast": {
                 "google_podcasts_url": "google_podcasts_url",
                 "apple_podcasts_url": "apple_podcasts_url",
-                "rss_url": "rss_url",
+                "rss_url": "http://website.url/podcast/rss.xml",
             },
             "resource_type": LearningResourceType.podcast.name,
             "topics": expected_topics,
@@ -221,11 +220,11 @@ def test_transform_with_error(mocker, mock_github_client):
     results = list(transform(extract_results))
 
     mock_exception_log.assert_called_once_with(
-        "Error parsing podcast data from %s", "rss_url"
+        "Error parsing podcast data from %s", "http://website.url/podcast/rss.xml"
     )
 
     assert len(results) == 1
-    assert results[0]["url"] == "website_url"
+    assert results[0]["url"] == "http://website.url/podcast"
 
 
 @pytest.mark.django_db()
