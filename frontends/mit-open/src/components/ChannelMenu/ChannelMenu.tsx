@@ -17,11 +17,6 @@ const ChannelMenu: React.FC<{ channelType: string; name: string }> = ({
         label: "Channel Settings",
         href: routes.makeChannelEditPath(channelType, name),
       },
-      {
-        key: "widget",
-        label: "Manage Widgets",
-        href: routes.makeChannelManageWidgetsPath(channelType, name),
-      },
     ]
   }, [channelType, name])
   return (
