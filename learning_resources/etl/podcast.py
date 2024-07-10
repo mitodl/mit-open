@@ -184,7 +184,7 @@ def transform(extracted_podcasts):
     for rss_data, config_data in extracted_podcasts:
         try:
             image = (
-                rss_data.channel.find("itunes:image")["href"]
+                {"url": rss_data.channel.find("itunes:image")["href"]}
                 if rss_data.channel.find("itunes:image")
                 else None
             )
@@ -209,7 +209,7 @@ def transform(extracted_podcasts):
                 "resource_type": LearningResourceType.podcast.name,
                 "offered_by": offered_by,
                 "description": clean_data(rss_data.channel.description.text),
-                "image": {"url": rss_data.channel.find("itunes:image")["href"]},
+                "image": image,
                 "published": True,
                 "url": config_data["website"],
                 "topics": topics,

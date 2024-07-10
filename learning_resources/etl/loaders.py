@@ -723,9 +723,11 @@ def load_podcasts(podcasts_data: list[dict]) -> list[LearningResource]:
 
     # unpublish the podcasts and episodes we're no longer tracking
     ids = [podcast.id for podcast in podcast_resources]
+    log.info("PODCAST ID COUNT: %d", len(ids))
     unpublished_podcasts = LearningResource.objects.filter(
         resource_type=LearningResourceType.podcast.name
     ).exclude(id__in=ids)
+    log.info("UNPUBLISHED PODCAST ID COUNT: %d", len(unpublished_podcasts))
     unpublished_podcasts.update(published=False)
     bulk_resources_unpublished_actions(
         unpublished_podcasts.values_list("id", flat=True),
