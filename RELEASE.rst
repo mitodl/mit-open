@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.18
+Version 0.13.18 (Released July 10, 2024)
 ---------------
 
 - Fix logout view (#1236)
