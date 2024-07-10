@@ -8,6 +8,7 @@ import yaml
 from bs4 import BeautifulSoup as bs  # noqa: N813
 from dateutil.parser import parse
 from django.conf import settings
+from django.utils.text import slugify
 from requests.exceptions import HTTPError
 
 from learning_resources.constants import LearningResourceType
@@ -141,7 +142,8 @@ def transform_episode(rss_data, offered_by, topics, parent_image):
     """
 
     return {
-        "readable_id": rss_data.guid.text,
+        "readable_id": rss_data.guid.text
+        or slugify(rss_data.link.text if rss_data.link else rss_data.enclosure["url"]),
         "etl_source": ETLSource.podcast.name,
         "resource_type": LearningResourceType.podcast_episode.name,
         "title": rss_data.title.text,
@@ -203,7 +205,7 @@ def transform(extracted_podcasts):
             title = config_data.get("podcast_title", rss_data.channel.title.text)
 
             yield {
-                "readable_id": rss_data.guid.text,
+                "readable_id": slugify(rss_data.channel.link or config_data["rss_url"]),
                 "title": title,
                 "etl_source": ETLSource.podcast.name,
                 "resource_type": LearningResourceType.podcast.name,
