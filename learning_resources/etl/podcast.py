@@ -12,7 +12,7 @@ from requests.exceptions import HTTPError
 
 from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import clean_data, generate_readable_id
+from learning_resources.etl.utils import clean_data
 from learning_resources.models import PodcastEpisode
 from main.utils import frontend_absolute_url, now_in_utc
 
@@ -100,6 +100,19 @@ def get_podcast_configs():
     return podcast_configs
 
 
+def parse_readable_id_from_url(url):
+    """
+    Parse readable id from podcast/episode url
+
+    Args:
+        url (str): the podcast/episode url
+
+    Returns:
+        str: the readable id
+    """
+    return url.split("//")[-1]
+
+
 def extract():
     """
     Function for extracting podcast data
@@ -125,7 +138,7 @@ def extract():
             log.exception("Invalid rss url %s", rss_url)
 
 
-def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
+def transform_episode(rss_data, offered_by, topics, parent_image):
     """
     Transform a podcast episode into our normalized data
 
@@ -140,10 +153,11 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
             normalized podcast episode data
     """
 
-    rss_data.guid.string = f"{podcast_id}: {rss_data.guid.text}"
-
     return {
-        "readable_id": generate_readable_id(rss_data.title.text[:95]),
+        "readable_id": rss_data.guid.text
+        or parse_readable_id_from_url(
+            rss_data.link.text if rss_data.link else rss_data.enclosure["url"]
+        ),
         "etl_source": ETLSource.podcast.name,
         "resource_type": LearningResourceType.podcast_episode.name,
         "title": rss_data.title.text,
@@ -151,12 +165,10 @@ def transform_episode(rss_data, offered_by, topics, parent_image, podcast_id):
         "description": clean_data(rss_data.description.text),
         "url": rss_data.enclosure["url"],
         "image": {
-            "url": (
-                rss_data.find("image")["href"]
-                if rss_data.find("image")
-                else parent_image
-            ),
-        },
+            "url": (rss_data.find("image")["href"]),
+        }
+        if rss_data.find("image")
+        else parent_image,
         "last_modified": parse(rss_data.pubDate.text),
         "published": True,
         "topics": topics,
@@ -186,7 +198,7 @@ def transform(extracted_podcasts):
     for rss_data, config_data in extracted_podcasts:
         try:
             image = (
-                rss_data.channel.find("itunes:image")["href"]
+                {"url": rss_data.channel.find("itunes:image")["href"]}
                 if rss_data.channel.find("itunes:image")
                 else None
             )
@@ -203,23 +215,20 @@ def transform(extracted_podcasts):
             apple_podcasts_url = config_data.get("apple_podcasts_url")
             google_podcasts_url = config_data.get("google_podcasts_url")
             title = config_data.get("podcast_title", rss_data.channel.title.text)
-            podcast_id = generate_readable_id(title[:95])
 
             yield {
-                "readable_id": podcast_id,
+                "readable_id": parse_readable_id_from_url(config_data["rss_url"]),
                 "title": title,
                 "etl_source": ETLSource.podcast.name,
                 "resource_type": LearningResourceType.podcast.name,
                 "offered_by": offered_by,
                 "description": clean_data(rss_data.channel.description.text),
-                "image": {"url": rss_data.channel.find("itunes:image")["href"]},
+                "image": image,
                 "published": True,
                 "url": config_data["website"],
                 "topics": topics,
                 "episodes": (
-                    transform_episode(
-                        episode_rss, offered_by, topics, image, podcast_id
-                    )
+                    transform_episode(episode_rss, offered_by, topics, image)
                     for episode_rss in rss_data.find_all("item")
                 ),
                 "podcast": {

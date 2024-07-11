@@ -185,7 +185,7 @@ class LearningResource(TimestampedModel):
         *([item.name for item in LearningResourceType]),
     ]
 
-    readable_id = models.CharField(max_length=128, null=False, blank=False)
+    readable_id = models.CharField(max_length=512, null=False, blank=False)
     title = models.CharField(max_length=256)
     description = models.TextField(null=True, blank=True)  # noqa: DJ001
     full_description = models.TextField(null=True, blank=True)  # noqa: DJ001

@@ -16,6 +16,7 @@ from retry import retry
 
 from learning_resources.constants import (
     GROUP_STAFF_LISTS_EDITORS,
+    LearningResourceRelationTypes,
     semester_mapping,
 )
 from learning_resources.hooks import get_plugin_manager
@@ -24,9 +25,11 @@ from learning_resources.models import (
     LearningResourceDepartment,
     LearningResourceOfferor,
     LearningResourcePlatform,
+    LearningResourceRelationship,
     LearningResourceRun,
     LearningResourceSchool,
     LearningResourceTopic,
+    UserListRelationship,
 )
 from main.utils import generate_filepath
 
@@ -559,3 +562,53 @@ def add_parent_topics_to_learning_resource(resource):
     for topic in resource.topics.all():
         if topic.parent:
             _walk_lr_topic_parents(resource, topic.parent)
+
+
+def transfer_list_resources(
+    resource_type: str,
+    matching_field: str,
+    from_source: str,
+    to_source: str,
+    *,
+    delete_unpublished: bool = False,
+) -> tuple[int, int]:
+    """
+    Migrate unpublished learningpath/userlist resources that have
+    been replaced with new resource objects.
+
+    Args:
+        resource_type (str): the resource type
+        matching_field (str): the unique field to match identical resources
+        from_source (str): the ETL source of unpublished resources
+        to_source (str): the ETL source of published resources
+        delete_unpublished (bool): whether to delete the unpublished resources
+
+    Returns:
+        tuple[int, int]: the number of unpublished and matching published resources
+    """
+    unpublished_resources = LearningResource.objects.filter(
+        resource_type=resource_type, published=False, etl_source=from_source
+    )
+    unpublished_count = 0
+    published_count = 0
+    for resource in unpublished_resources:
+        unpublished_count += 1
+        unique_value = getattr(resource, matching_field)
+        published_replacement = LearningResource.objects.filter(
+            **{matching_field: unique_value},
+            resource_type=resource_type,
+            published=True,
+            etl_source=to_source,
+        ).first()
+        if published_replacement is not None:
+            published_count += 1
+            LearningResourceRelationship.objects.filter(
+                relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,
+                child=resource,
+            ).update(child=published_replacement)
+            UserListRelationship.objects.filter(child=resource).update(
+                child=published_replacement
+            )
+    if delete_unpublished:
+        unpublished_resources.delete()
+    return unpublished_count, published_count
