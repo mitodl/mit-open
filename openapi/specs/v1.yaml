@@ -2534,6 +2534,16 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_search
       responses:
@@ -2953,6 +2963,16 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_user_subscription
       responses:
@@ -3411,6 +3431,16 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_user_subscription
       responses:
@@ -3846,6 +3876,16 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_user_subscription
       requestBody:
@@ -9460,6 +9500,14 @@ components:
         professional:
           type: boolean
           nullable: true
+        yearly_decay_percent:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+          description: Relevance score penalty percent per year for for resources
+            without upcoming runs. Only affects results if there is a search term.
         certification:
           type: boolean
           nullable: true

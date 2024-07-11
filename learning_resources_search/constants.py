@@ -248,6 +248,7 @@ LEARNING_RESOURCE_MAP = {
         },
     },
     "next_start_date": {"type": "date"},
+    "resource_age_date": {"type": "date"},
 }
 
 
@@ -372,4 +373,5 @@ SOURCE_EXCLUDED_FIELDS = [
     "course.course_numbers.primary",
     "resource_relations",
     "is_learning_material",
+    "resource_age_date",
 ]
