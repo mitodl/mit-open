@@ -147,12 +147,7 @@ class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer)
         """Return the channel's list of LearningPaths"""
         return [
             LearningPathPreviewSerializer(channel_list.channel_list).data
-            for channel_list in ChannelList.objects.filter(channel=instance)
-            .prefetch_related(
-                "channel_list", "channel__lists", "channel__featured_list"
-            )
-            .all()
-            .order_by("position")
+            for channel_list in instance.lists.all()
         ]
 
     def get_channel_url(self, instance) -> str:

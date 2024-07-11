@@ -4,6 +4,7 @@ from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
 from django.db import models
 from django.db.models import JSONField, deletion
+from django.db.models.functions import Concat
 from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
 
@@ -14,7 +15,7 @@ from learning_resources.models import (
     LearningResourceOfferor,
     LearningResourceTopic,
 )
-from main.models import TimestampedModel
+from main.models import TimestampedModel, TimestampedModelQuerySet
 from main.utils import frontend_absolute_url
 from profiles.utils import avatar_uri, banner_uri
 from widgets.models import WidgetList
@@ -23,8 +24,26 @@ AVATAR_SMALL_MAX_DIMENSION = 22
 AVATAR_MEDIUM_MAX_DIMENSION = 90
 
 
+class ChannelQuerySet(TimestampedModelQuerySet):
+    """Custom queryset for Channels"""
+
+    def annotate_channel_url(self):
+        """Annotate the channel for serialization"""
+        return self.annotate(
+            _channel_url=Concat(
+                models.Value(frontend_absolute_url("/c/")),
+                "channel_type",
+                models.Value("/"),
+                "name",
+                models.Value("/"),
+            )
+        )
+
+
 class Channel(TimestampedModel):
     """Channel for any field/subject"""
+
+    objects = ChannelQuerySet.as_manager()
 
     # Channel configuration
     name = models.CharField(
@@ -91,13 +110,17 @@ class Channel(TimestampedModel):
         """Str representation of channel"""
         return self.title
 
-    class Meta:
-        unique_together = ("name", "channel_type")
-
     @property
     def channel_url(self) -> str:
         """Return the channel url"""
-        return frontend_absolute_url(f"/c/{self.channel_type}/{self.name}/")
+        return getattr(
+            self,
+            "_channel_url",
+            frontend_absolute_url(f"/c/{self.channel_type}/{self.name}/"),
+        )
+
+    class Meta:
+        unique_together = ("name", "channel_type")
 
 
 class ChannelTopicDetail(TimestampedModel):
@@ -110,7 +133,10 @@ class ChannelTopicDetail(TimestampedModel):
         related_name="topic_detail",
     )
     topic = models.ForeignKey(
-        LearningResourceTopic, null=True, on_delete=models.SET_NULL
+        LearningResourceTopic,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="channel_topic_details",
     )
 
 

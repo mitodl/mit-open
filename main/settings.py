@@ -110,6 +110,7 @@ INSTALLED_APPS = (
     "news_events",
     "testimonials",
     "data_fixtures",
+    "silk",
 )
 
 if not get_bool("RUN_DATA_MIGRATIONS", default=False):
@@ -150,6 +151,7 @@ MIDDLEWARE = (
     "hijack.middleware.HijackUserMiddleware",
     "oauth2_provider.middleware.OAuth2TokenMiddleware",
     "django_scim.middleware.SCIMAuthCheckMiddleware",
+    "silk.middleware.SilkyMiddleware",
 )
 
 # CORS
@@ -713,3 +715,12 @@ POSTHOG_PROJECT_ID = get_int(
     name="POSTHOG_PROJECT_ID",
     default=None,
 )
+
+SILKY_INTERCEPT_PERCENT = get_int(name="SILKY_INTERCEPT_PERCENT", default=50)
+SILKY_MAX_RECORDED_REQUESTS = get_int(name="SILKY_MAX_RECORDED_REQUESTS", default=10**3)
+SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT = get_int(
+    name="SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT", default=10
+)
+SILKY_AUTHENTICATION = True  # User must login
+SILKY_AUTHORISATION = True
+SILKY_PERMISSIONS = lambda user: user.is_superuser  # noqa: E731

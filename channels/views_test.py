@@ -378,7 +378,7 @@ def test_no_excess_queries(user_client, django_assert_num_queries, related_count
     sub_channels / lists.
     """
     # This isn't too important; we care it does not scale with number of related items
-    expected_query_count = 11
+    expected_query_count = 10
 
     topic_channel = ChannelFactory.create(is_topic=True)
     ChannelListFactory.create_batch(related_count, channel=topic_channel)
