@@ -612,13 +612,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -629,8 +629,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -1212,13 +1212,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -1229,8 +1229,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -1605,13 +1605,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -1622,8 +1622,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -2256,13 +2256,13 @@ paths:
               * `11` - Urban Studies and Planning
               * `12` - Earth, Atmospheric, and Planetary Sciences
               * `14` - Economics
-              * `15` - Sloan School of Management
+              * `15` - Management
               * `16` - Aeronautics and Astronautics
               * `17` - Political Science
               * `18` - Mathematics
               * `20` - Biological Engineering
               * `21A` - Anthropology
-              * `21G` - Global Studies and Languages
+              * `21G` - Global Languages
               * `21H` - History
               * `21L` - Literature
               * `21M` - Music and Theater Arts
@@ -2273,8 +2273,8 @@ paths:
               * `EC` - Edgerton Center
               * `ES` - Experimental Study Group
               * `ESD` - Engineering Systems Division
-              * `HST` - Health Sciences and Technology
-              * `IDS` - Institute for Data, Systems, and Society
+              * `HST` - Medical Engineering and Science
+              * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
               * `RES` - Supplemental Resources
@@ -2287,18 +2287,17 @@ paths:
           \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
           \ - Chemical Engineering\n* `11` - Urban Studies and Planning\n* `12` -\
           \ Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n* `15`\
-          \ - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-          * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n\
-          * `21A` - Anthropology\n* `21G` - Global Studies and Languages\n* `21H`\
-          \ - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n* `22`\
-          \ - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-          * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-          \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-          \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS` -\
-          \ Institute for Data, Systems, and Society\n* `MAS` - Media Arts and Sciences\n\
-          * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
-          \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
-          \ and Gender Studies"
+          \ - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+          \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+          \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+          \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+          \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+          * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+          * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+          * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+          \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
+          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
         name: free
         schema:
@@ -2676,13 +2675,13 @@ paths:
               * `11` - Urban Studies and Planning
               * `12` - Earth, Atmospheric, and Planetary Sciences
               * `14` - Economics
-              * `15` - Sloan School of Management
+              * `15` - Management
               * `16` - Aeronautics and Astronautics
               * `17` - Political Science
               * `18` - Mathematics
               * `20` - Biological Engineering
               * `21A` - Anthropology
-              * `21G` - Global Studies and Languages
+              * `21G` - Global Languages
               * `21H` - History
               * `21L` - Literature
               * `21M` - Music and Theater Arts
@@ -2693,8 +2692,8 @@ paths:
               * `EC` - Edgerton Center
               * `ES` - Experimental Study Group
               * `ESD` - Engineering Systems Division
-              * `HST` - Health Sciences and Technology
-              * `IDS` - Institute for Data, Systems, and Society
+              * `HST` - Medical Engineering and Science
+              * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
               * `RES` - Supplemental Resources
@@ -2707,18 +2706,17 @@ paths:
           \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
           \ - Chemical Engineering\n* `11` - Urban Studies and Planning\n* `12` -\
           \ Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n* `15`\
-          \ - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-          * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n\
-          * `21A` - Anthropology\n* `21G` - Global Studies and Languages\n* `21H`\
-          \ - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n* `22`\
-          \ - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-          * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-          \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-          \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS` -\
-          \ Institute for Data, Systems, and Society\n* `MAS` - Media Arts and Sciences\n\
-          * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
-          \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
-          \ and Gender Studies"
+          \ - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+          \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+          \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+          \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+          \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+          * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+          * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+          * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+          \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
+          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
         name: free
         schema:
@@ -3121,13 +3119,13 @@ paths:
               * `11` - Urban Studies and Planning
               * `12` - Earth, Atmospheric, and Planetary Sciences
               * `14` - Economics
-              * `15` - Sloan School of Management
+              * `15` - Management
               * `16` - Aeronautics and Astronautics
               * `17` - Political Science
               * `18` - Mathematics
               * `20` - Biological Engineering
               * `21A` - Anthropology
-              * `21G` - Global Studies and Languages
+              * `21G` - Global Languages
               * `21H` - History
               * `21L` - Literature
               * `21M` - Music and Theater Arts
@@ -3138,8 +3136,8 @@ paths:
               * `EC` - Edgerton Center
               * `ES` - Experimental Study Group
               * `ESD` - Engineering Systems Division
-              * `HST` - Health Sciences and Technology
-              * `IDS` - Institute for Data, Systems, and Society
+              * `HST` - Medical Engineering and Science
+              * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
               * `RES` - Supplemental Resources
@@ -3152,18 +3150,17 @@ paths:
           \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
           \ - Chemical Engineering\n* `11` - Urban Studies and Planning\n* `12` -\
           \ Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n* `15`\
-          \ - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-          * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n\
-          * `21A` - Anthropology\n* `21G` - Global Studies and Languages\n* `21H`\
-          \ - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n* `22`\
-          \ - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-          * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-          \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-          \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS` -\
-          \ Institute for Data, Systems, and Society\n* `MAS` - Media Arts and Sciences\n\
-          * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
-          \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
-          \ and Gender Studies"
+          \ - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+          \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+          \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+          \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+          \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+          * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+          * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+          * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+          \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
+          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
         name: free
         schema:
@@ -3557,13 +3554,13 @@ paths:
               * `11` - Urban Studies and Planning
               * `12` - Earth, Atmospheric, and Planetary Sciences
               * `14` - Economics
-              * `15` - Sloan School of Management
+              * `15` - Management
               * `16` - Aeronautics and Astronautics
               * `17` - Political Science
               * `18` - Mathematics
               * `20` - Biological Engineering
               * `21A` - Anthropology
-              * `21G` - Global Studies and Languages
+              * `21G` - Global Languages
               * `21H` - History
               * `21L` - Literature
               * `21M` - Music and Theater Arts
@@ -3574,8 +3571,8 @@ paths:
               * `EC` - Edgerton Center
               * `ES` - Experimental Study Group
               * `ESD` - Engineering Systems Division
-              * `HST` - Health Sciences and Technology
-              * `IDS` - Institute for Data, Systems, and Society
+              * `HST` - Medical Engineering and Science
+              * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
               * `RES` - Supplemental Resources
@@ -3588,18 +3585,17 @@ paths:
           \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
           \ - Chemical Engineering\n* `11` - Urban Studies and Planning\n* `12` -\
           \ Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n* `15`\
-          \ - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-          * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n\
-          * `21A` - Anthropology\n* `21G` - Global Studies and Languages\n* `21H`\
-          \ - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n* `22`\
-          \ - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-          * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-          \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-          \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS` -\
-          \ Institute for Data, Systems, and Society\n* `MAS` - Media Arts and Sciences\n\
-          * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
-          \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
-          \ and Gender Studies"
+          \ - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+          \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+          \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+          \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+          \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+          * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+          * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+          * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+          \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
+          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
         name: free
         schema:
@@ -3969,13 +3965,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -3986,8 +3982,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -4687,13 +4683,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -4704,8 +4700,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -5080,13 +5076,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -5097,8 +5093,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -5560,13 +5556,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -5577,8 +5573,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -6343,13 +6339,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -6360,8 +6356,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -6802,13 +6798,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -6819,8 +6815,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -7693,13 +7689,13 @@ components:
         * `11` - Urban Studies and Planning
         * `12` - Earth, Atmospheric, and Planetary Sciences
         * `14` - Economics
-        * `15` - Sloan School of Management
+        * `15` - Management
         * `16` - Aeronautics and Astronautics
         * `17` - Political Science
         * `18` - Mathematics
         * `20` - Biological Engineering
         * `21A` - Anthropology
-        * `21G` - Global Studies and Languages
+        * `21G` - Global Languages
         * `21H` - History
         * `21L` - Literature
         * `21M` - Music and Theater Arts
@@ -7710,8 +7706,8 @@ components:
         * `EC` - Edgerton Center
         * `ES` - Experimental Study Group
         * `ESD` - Engineering Systems Division
-        * `HST` - Health Sciences and Technology
-        * `IDS` - Institute for Data, Systems, and Society
+        * `HST` - Medical Engineering and Science
+        * `IDS` - Data, Systems, and Society
         * `MAS` - Media Arts and Sciences
         * `PE` - Athletics, Physical Education and Recreation
         * `RES` - Supplemental Resources
@@ -7731,13 +7727,13 @@ components:
       - Urban Studies and Planning
       - Earth, Atmospheric, and Planetary Sciences
       - Economics
-      - Sloan School of Management
+      - Management
       - Aeronautics and Astronautics
       - Political Science
       - Mathematics
       - Biological Engineering
       - Anthropology
-      - Global Studies and Languages
+      - Global Languages
       - History
       - Literature
       - Music and Theater Arts
@@ -7748,8 +7744,8 @@ components:
       - Edgerton Center
       - Experimental Study Group
       - Engineering Systems Division
-      - Health Sciences and Technology
-      - Institute for Data, Systems, and Society
+      - Medical Engineering and Science
+      - Data, Systems, and Society
       - Media Arts and Sciences
       - Athletics, Physical Education and Recreation
       - Supplemental Resources
@@ -9490,18 +9486,17 @@ components:
             * `7` - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n\
             * `10` - Chemical Engineering\n* `11` - Urban Studies and Planning\n*\
             \ `12` - Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n\
-            * `15` - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-            * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological\
-            \ Engineering\n* `21A` - Anthropology\n* `21G` - Global Studies and Languages\n\
-            * `21H` - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n\
-            * `22` - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-            * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-            \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-            \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS`\
-            \ - Institute for Data, Systems, and Society\n* `MAS` - Media Arts and\
-            \ Sciences\n* `PE` - Athletics, Physical Education and Recreation\n* `RES`\
-            \ - Supplemental Resources\n* `STS` - Science, Technology, and Society\n\
-            * `WGS` - Women's and Gender Studies"
+            * `15` - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+            \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+            \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+            \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+            \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+            * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+            * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+            * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+            \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+            \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS`\
+            \ - Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
         level:
           type: array
           items:
