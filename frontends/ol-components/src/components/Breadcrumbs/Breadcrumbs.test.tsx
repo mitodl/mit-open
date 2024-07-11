@@ -46,7 +46,7 @@ describe("Breadcrumbs", () => {
       )
       expect(screen.getAllByRole("link")).toHaveLength(totalAncestors)
       expectedLabels.forEach((label, index) => {
-        const link = screen.getByText(label)
+        const link = screen.getByText(label).parentElement
         expect(link).toBeInTheDocument()
         expect(link).toHaveAttribute("href", expectedHrefs[index])
       })

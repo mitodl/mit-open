@@ -8,11 +8,26 @@ const BreadcrumbsContainer = styled.span({
   display: "inline-flex",
   paddingBottom: "16px",
   alignItems: "flex-start",
+  overflow: "hidden",
+  width: "100%",
 })
 
 const Breadcrumb = styled.span({
   display: "flex",
   alignItems: "center",
+  overflow: "hidden",
+})
+
+const BreadcrumbLink = styled(Link)({
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+})
+
+const BreadcrumbText = styled.span({
+  textWrap: "nowrap",
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 })
 
 const Separator = styled(RiArrowRightSLine)({
@@ -28,7 +43,7 @@ const DarkSeparator = styled(Separator)({
   color: theme.custom.colors.silverGray,
 })
 
-const Current = styled.span({
+const Current = styled(BreadcrumbText)({
   ...theme.typography.body3,
 })
 
@@ -57,14 +72,14 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
         const isLast = index === ancestors.length
         return (
           <Breadcrumb key={ancestor.label}>
-            <Link
+            <BreadcrumbLink
               size="small"
               href={ancestor.href}
               color={linkColor}
               hovercolor={linkColor}
             >
-              {ancestor.label}
-            </Link>
+              <BreadcrumbText>{ancestor.label}</BreadcrumbText>
+            </BreadcrumbLink>
             {!isLast && <_Separator data-testid="breadcrumb-separator" />}
           </Breadcrumb>
         )

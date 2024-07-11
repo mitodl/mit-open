@@ -8,7 +8,7 @@ import { MetaTags } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { useChannelDetail } from "api/hooks/channels"
 import EditChannelAppearanceForm from "./EditChannelAppearanceForm"
-import ChannelPageSkeleton from "./ChannelPageSkeleton"
+import { ChannelPageTemplate } from "./ChannelPageTemplate"
 type RouteParams = {
   channelType: string
   name: string
@@ -34,7 +34,7 @@ const EditChannelPage: React.FC = () => {
   )
 
   return channel.data ? (
-    <ChannelPageSkeleton
+    <ChannelPageTemplate
       name={channel.data?.name}
       channelType={channel.data?.channel_type}
     >
@@ -89,7 +89,7 @@ const EditChannelPage: React.FC = () => {
           </GridContainer>
         </Container>
       )}
-    </ChannelPageSkeleton>
+    </ChannelPageTemplate>
   ) : null
 }
 
