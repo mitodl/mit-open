@@ -445,12 +445,10 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
         {editMenu}
       </ListCard.Actions>
       <ListCard.Footer>
-        export{" "}
         <BorderSeparator>
           <Count resource={resource} />
           <StartDate resource={resource} />
           <Format resource={resource} />
-          export{" "}
         </BorderSeparator>
       </ListCard.Footer>
     </ListCard>
