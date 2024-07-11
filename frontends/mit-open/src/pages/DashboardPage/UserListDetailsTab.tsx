@@ -1,5 +1,4 @@
 import React, { useMemo } from "react"
-
 import {
   useInfiniteUserListItems,
   useUserListsDetail,
@@ -16,10 +15,12 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
   const { userListId } = props
   const listQuery = useUserListsDetail(userListId)
   const itemsQuery = useInfiniteUserListItems({ userlist_id: userListId })
+
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
     return pages?.flatMap((p) => p.results ?? []) ?? []
   }, [itemsQuery.data])
+
   return (
     <ItemsListingComponent
       listType={ListType.UserList}

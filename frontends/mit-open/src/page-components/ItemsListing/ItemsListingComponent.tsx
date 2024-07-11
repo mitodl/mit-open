@@ -21,10 +21,18 @@ type ItemsListingComponentProps = {
   isLoading: boolean
   isFetching: boolean
   handleEdit: OnEdit
+  condensed?: boolean
 }
 
-const ItemsListingComponent: React.FC<ItemsListingComponentProps> = (props) => {
-  const { listType, list, items, isLoading, isFetching, handleEdit } = props
+const ItemsListingComponent: React.FC<ItemsListingComponentProps> = ({
+  listType,
+  list,
+  items,
+  isLoading,
+  isFetching,
+  handleEdit,
+  condensed = false,
+}) => {
   const { data: user } = useUserMe()
   const [isSorting, toggleIsSorting] = useToggle(false)
 
@@ -89,6 +97,7 @@ const ItemsListingComponent: React.FC<ItemsListingComponentProps> = (props) => {
           isRefetching={isFetching}
           sortable={isSorting}
           emptyMessage="There are no items in this list yet."
+          condensed={condensed}
         />
       </GridColumn>
     </GridContainer>
