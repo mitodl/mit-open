@@ -1,6 +1,20 @@
 Release Notes
 =============
 
+Version 0.13.19
+---------------
+
+- change xpro ETL dict key back (#1252)
+- reindexing fixes (#1247)
+- Pin dependencies (#1225)
+- Plain text news/events titles/authors; standardize html cleanup (#1248)
+- Condensed list card components for user lists (#1251)
+- Change readable_id values for podcasts and episodes (#1232)
+- adjust / refactor channel detail header (#1234)
+- use main not "$default-branch" (#1249)
+- Update dependency ruff to v0.5.1 (#1241)
+- Update dependency Django to v4.2.14 (#1240)
+
 Version 0.13.18 (Released July 10, 2024)
 ---------------
 
