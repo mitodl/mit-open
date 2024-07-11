@@ -5,7 +5,7 @@ import type {
   PaginatedLearningPathRelationshipList,
 } from "api"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import ItemsListing from "./ItemsListing"
+import ItemsListing from "@/page-components/ItemsListing/ItemsListing"
 import { learningPathsView } from "@/common/urls"
 import {
   screen,

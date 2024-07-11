@@ -1,3 +1,4 @@
+import React, { useCallback, useState } from "react"
 import {
   RiAccountCircleFill,
   RiDashboardLine,
@@ -19,19 +20,12 @@ import {
   styled,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
-import React, { useCallback, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 import { useLocation } from "react-router"
 import { UserListListingComponent } from "../UserListListingPage/UserListListingPage"
 import { UserList } from "api"
-import {
-  useInfiniteUserListItems,
-  useUserListsDetail,
-} from "api/hooks/learningResources"
-import { ListDetailsComponent } from "../ListDetailsPage/ListDetailsPage"
-import { ListType } from "api/constants"
-import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+
 import { ProfileEditForm } from "./ProfileEditForm"
 import { useProfileMeQuery } from "api/hooks/profile"
 import {
@@ -43,6 +37,7 @@ import {
   FREE_COURSES_CAROUSEL,
 } from "./carousels"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
+import UserListDetailsTab from "./UserListDetailsTab"
 
 /**
  *
@@ -302,30 +297,6 @@ const keyFromHash = (hash: string) => {
   const keys = [TabValues.HOME, TabValues.MY_LISTS, TabValues.PROFILE]
   const match = keys.find((key) => `#${key}` === hash)
   return match ?? "home"
-}
-
-interface UserListDetailsTabProps {
-  userListId: number
-}
-
-const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
-  const { userListId } = props
-  const listQuery = useUserListsDetail(userListId)
-  const itemsQuery = useInfiniteUserListItems({ userlist_id: userListId })
-  const items = useMemo(() => {
-    const pages = itemsQuery.data?.pages
-    return pages?.flatMap((p) => p.results ?? []) ?? []
-  }, [itemsQuery.data])
-  return (
-    <ListDetailsComponent
-      listType={ListType.UserList}
-      list={listQuery.data}
-      items={items}
-      isLoading={itemsQuery.isLoading}
-      isFetching={itemsQuery.isFetching}
-      handleEdit={() => manageListDialogs.upsertUserList(listQuery.data)}
-    />
-  )
 }
 
 const DashboardPage: React.FC = () => {
