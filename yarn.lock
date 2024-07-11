@@ -10701,9 +10701,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-mitodl@https://github.com/mitodl/eslint-config.git#cc2b4acddc0dfb89d4c83e15cc60decf7876574b":
-  version: 2.0.0
-  resolution: "eslint-config-mitodl@https://github.com/mitodl/eslint-config.git#commit=cc2b4acddc0dfb89d4c83e15cc60decf7876574b"
+"eslint-config-mitodl@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "eslint-config-mitodl@npm:2.1.0"
   dependencies:
     "@babel/eslint-parser": "npm:^7.11.0"
     "@typescript-eslint/parser": "npm:^7.0.1"
@@ -10718,7 +10718,7 @@ __metadata:
       optional: true
     eslint-plugin-mocha:
       optional: true
-  checksum: 10/3d195fc9d0978466d85e11794236317266114e110389dc65e33d4ade6f9f82b9996358f2886252d6c486b202c54c8a6623bae0c983b0bb82142c6f5b2c45274a
+  checksum: 10/e65551209eeffc2c50d34d20e097e47d3ffd49283d0d782dbf9c9caa544e226ba5d6f69c472f8b6838758d28d1ba89e3d69b310c8163c481860032b798d646e8
   languageName: node
   linkType: hard
 
@@ -11673,7 +11673,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^7.0.0"
     cross-fetch: "npm:^4.0.0"
     eslint: "npm:8"
-    eslint-config-mitodl: "https://github.com/mitodl/eslint-config.git#cc2b4acddc0dfb89d4c83e15cc60decf7876574b"
+    eslint-config-mitodl: "npm:^2.1.0"
     eslint-config-prettier: "npm:^9.0.0"
     eslint-import-resolver-typescript: "npm:^3.6.1"
     eslint-plugin-import: "npm:^2.29.1"
