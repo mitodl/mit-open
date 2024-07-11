@@ -11,6 +11,7 @@ import {
   styled,
   PlainList,
 } from "ol-components"
+import { ResourceListCard } from "@/page-components/ResourceCard/ResourceCard"
 import { useListItemMove } from "api/hooks/learningResources"
 
 const EmptyMessage = styled.p({
@@ -38,14 +39,11 @@ const ItemsListingViewOnly: React.FC<{
   items: NonNullable<ItemsListingProps["items"]>
 }> = ({ items }) => {
   return (
-    <PlainList itemSpacing={3}>
+    <PlainList itemSpacing={1}>
       {items.map((item) => {
         return (
           <li key={item.id}>
-            <LearningResourceCard
-              variant="row-reverse"
-              resource={item.resource}
-            />
+            <ResourceListCard resource={item.resource} condensed />
           </li>
         )
       })}
