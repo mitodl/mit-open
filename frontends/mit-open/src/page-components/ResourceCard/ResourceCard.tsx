@@ -122,7 +122,7 @@ type ResourceListCardProps = Omit<
 const ResourceListCard: React.FC<ResourceListCardProps> = ({
   resource,
   condensed,
-  ...others
+  ...props
 }) => {
   const {
     getDrawerHref,
@@ -146,7 +146,7 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
         onAddToUserListClick={handleAddToUserListClick}
         inUserList={inUserList}
         inLearningPath={inLearningPath}
-        {...others}
+        {...props}
       />
       <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} />
     </>
