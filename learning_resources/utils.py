@@ -289,7 +289,7 @@ def upsert_department_data():
         for dept in departments_json:
             department_fields = dept["fields"]
             LearningResourceDepartment.objects.update_or_create(
-                name=department_fields["name"],
+                department_id=department_fields["department_id"],
                 defaults=department_fields,
             )
             departments.append(department_fields["name"])
@@ -312,7 +312,7 @@ def upsert_school_data():
         for school in schools_json:
             school_fields = school["fields"]
             LearningResourceSchool.objects.update_or_create(
-                name=school_fields["name"],
+                id=school_fields["id"],
                 defaults=school_fields,
             )
             schools.append(school_fields["name"])
