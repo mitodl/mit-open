@@ -41,7 +41,7 @@ const ItemsListingViewOnly: React.FC<{
   condensed?: boolean
 }> = ({ items, condensed }) => {
   return (
-    <PlainList itemSpacing={1}>
+    <PlainList itemSpacing={condensed ? 1 : 2}>
       {items.map((item) => {
         return (
           <li key={item.id}>

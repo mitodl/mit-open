@@ -20,8 +20,10 @@ import { User } from "../../types/settings"
 import { ControlledPromise } from "ol-test-utilities"
 import invariant from "tiny-invariant"
 
-jest.mock("./ItemsListing", () => {
-  const actual = jest.requireActual("./ItemsListing")
+jest.mock("../../page-components/ItemsListing/ItemsListing", () => {
+  const actual = jest.requireActual(
+    "../../page-components/ItemsListing/ItemsListing",
+  )
   return {
     __esModule: true,
     ...actual,

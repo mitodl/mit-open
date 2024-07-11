@@ -6,7 +6,7 @@ import {
 } from "ol-components"
 import type { RoutedDrawerProps } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import { useSearchParams, useLocation } from "react-router-dom"
+import { useSearchParams } from "react-router-dom"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { usePostHog } from "posthog-js/react"
 
@@ -94,17 +94,14 @@ const useOpenLearningResourceDrawer = () => {
 }
 
 const useResourceDrawerHref = () => {
-  const { hash } = useLocation()
   const [search] = useSearchParams()
-
-  console.log("HASH", hash)
 
   return useCallback(
     (id: number) => {
       search.set(RESOURCE_DRAWER_QUERY_PARAM, id.toString())
-      return `${hash}?${search.toString()}`
+      return `?${search.toString()}`
     },
-    [hash, search],
+    [search],
   )
 }
 
