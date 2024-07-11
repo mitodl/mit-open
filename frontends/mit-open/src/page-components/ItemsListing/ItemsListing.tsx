@@ -145,8 +145,9 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
 }) => {
   return (
     <>
-      {isLoading && <LoadingSpinner loading />}
-      {items.length === 0 ? (
+      {isLoading ? (
+        <LoadingSpinner loading />
+      ) : items.length === 0 ? (
         <EmptyMessage>{emptyMessage}</EmptyMessage>
       ) : sortable ? (
         <ItemsListingSortable
