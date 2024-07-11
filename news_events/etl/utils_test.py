@@ -36,16 +36,6 @@ def test_tag_text(mock_requests_get_html):
     )
 
 
-def test_safe_html(mock_requests_get_html):
-    """safe_html should return the html from a tag with no forbidden elements"""
-    soup = utils.get_soup("https://test.mit.edu/events")
-    initial_html = str(soup)
-    clean_html = utils.safe_html(soup)
-    for element in ["<script", "style=", "class="]:
-        assert element in initial_html
-        assert element not in clean_html
-
-
 @pytest.mark.parametrize(
     ("time_struct", "expected"),
     [

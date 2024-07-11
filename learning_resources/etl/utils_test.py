@@ -436,35 +436,6 @@ def test_parse_certification(offered_by, availability, has_cert):
 
 
 @pytest.mark.parametrize(
-    ("input_text", "output_text"),
-    [
-        ("The cat sat on the mat & spat.\n", "The cat sat on the mat &amp; spat.\n"),
-        (
-            "the <b class='foo'>dog</b> chased a <a href='http://hog.mit.edu'>hog</a>",
-            "the <b>dog</b> chased a hog",
-        ),
-        (
-            "<p><style type='text/css'> <!--/*--><![CDATA[/* ><!--*/ <!--td {border: 1px solid #ccc;}br {mso-data-placement:same-cell;}--> /*--><!]]>*/ </style>What a mess</p>",
-            "<p>What a mess</p>",
-        ),
-        (
-            "<script type='javascript'>alert('xss');</script><style>\nh1 {color:red;}\np {color:blue;}\n</style><p>Some text</p>",
-            "<p>Some text</p>",
-        ),
-        (
-            "<p><img src='' onerror='alert(\"xss!\")'/>Hello, world!</p>",
-            "<p>Hello, world!</p>",
-        ),
-        (None, ""),
-        ("", ""),
-    ],
-)
-def test_clean_data(input_text, output_text):
-    """clean_data function should return expected output"""
-    assert utils.clean_data(input_text) == output_text
-
-
-@pytest.mark.parametrize(
     ("previous_archive", "identical"),
     [
         ("test_json/course-v1:MITxT+8.01.3x+3T2022_no_change.tar.gz", True),

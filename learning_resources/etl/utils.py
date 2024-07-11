@@ -23,7 +23,6 @@ import requests
 from django.conf import settings
 from django.utils.functional import SimpleLazyObject
 from django.utils.text import slugify
-from nh3 import nh3
 from tika import parser as tika_parser
 from xbundle import XBundle
 
@@ -40,8 +39,6 @@ from learning_resources.constants import (
     OfferedBy,
 )
 from learning_resources.etl.constants import (
-    ALLOWED_HTML_ATTRIBUTES,
-    ALLOWED_HTML_TAGS,
     RESOURCE_FORMAT_MAPPING,
     CourseNumberType,
     ETLSource,
@@ -692,12 +689,3 @@ def parse_certification(offeror, runs_data):
             if (availability and availability != AvailabilityType.archived.value)
         ]
     )
-
-
-def clean_data(data: str) -> str:
-    """Remove unwanted html tags from text"""
-    if data:
-        return nh3.clean(
-            data, tags=ALLOWED_HTML_TAGS, attributes=ALLOWED_HTML_ATTRIBUTES
-        )
-    return ""

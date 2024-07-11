@@ -26,7 +26,6 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
-    clean_data,
     extract_text_metadata,
     generate_course_numbers_json,
     get_content_type,
@@ -38,6 +37,7 @@ from learning_resources.utils import (
     parse_instructors,
     safe_load_json,
 )
+from main.utils import clean_data
 
 log = logging.getLogger(__name__)
 

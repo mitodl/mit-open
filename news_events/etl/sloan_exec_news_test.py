@@ -43,7 +43,12 @@ def test_transform():
     items = list(source["items"])
     assert len(items) == 20
     assert items[0]["detail"]["publish_date"] == "2024-03-25T16:29:25.000Z"
-    assert items[0]["title"] == "Cybersecurity Resiliency is More Than Protection"
+    assert (
+        items[0]["title"] == "Cybersecurity Resiliency & Stuff is More Than Protection"
+    )
+    assert items[1]["title"] == (
+        "From blockchain to virtual reality and beyond: Joshua Gayman\u2019s experience and Executive Certificate journey at MIT"
+    )
     assert (
         items[0]["url"]
         == "https://exec.mit.edu/s/blog-post/cybersecurity-resiliency-is-more-than-protection-20YU1000004rCaMMAU"
@@ -52,6 +57,13 @@ def test_transform():
         "Organizations & Leadership",
         "Trending Blog Posts",
     ]
+    assert items[3]["detail"]["authors"] == ['MIT Professor Fiona "OG" Murray']
+    assert items[3]["summary"].startswith(
+        "<p>Despite the many advances women have made in the workforce over"
+    )
+    assert items[3]["content"].startswith(
+        "<p>During Women\u2019s History Month, it is important"
+    )
 
 
 def test_transform_no_posts(mocker):

@@ -16,14 +16,13 @@ from learning_resources.etl.ocw import (
     transform_contentfile,
     transform_course,
 )
-from learning_resources.etl.utils import clean_data
 from learning_resources.factories import ContentFileFactory
 from learning_resources.models import ContentFile
 from learning_resources.utils import (
     get_s3_object_and_read,
     safe_load_json,
 )
-from main.utils import now_in_utc
+from main.utils import clean_data, now_in_utc
 
 pytestmark = pytest.mark.django_db
 

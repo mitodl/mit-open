@@ -17,7 +17,6 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import COMMON_HEADERS
 from learning_resources.etl.utils import (
-    clean_data,
     extract_valid_department_from_id,
     generate_course_numbers_json,
     parse_certification,
@@ -25,6 +24,7 @@ from learning_resources.etl.utils import (
     without_none,
 )
 from learning_resources.utils import get_year_and_semester
+from main.utils import clean_data
 
 MIT_OWNER_KEYS = ["MITx", "MITx_PRO"]
 
