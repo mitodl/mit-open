@@ -1,22 +1,23 @@
 """ETL for blog/news from Sloan School of Management Executive Education"""
 
-import html
 import logging
 import re
+from datetime import UTC
 from urllib.parse import urlencode, urljoin
+from zoneinfo import ZoneInfo
 
 import requests
-from bs4 import BeautifulSoup as Soup
+from dateutil import parser
+from django.utils.html import strip_tags
 
 from news_events.constants import FeedType
-from news_events.etl.utils import tag_text
 
 log = logging.getLogger(__name__)
 
-SLOAN_WEBINAR_TITLE = "MIT Sloan Executive Education"
+SLOAN_WEBINAR_TITLE = "MIT Sloan Executive Education Webinars"
 SLOAN_WEBINAR_BASE_URL = "https://exec.mit.edu/"
-SLOAN_WEBINAR_BLOG_URL = urljoin(SLOAN_WEBINAR_BASE_URL, "/s/blog")
-SLOAN_WEBINAR_ARTICLE_PREFIX_URL = urljoin(SLOAN_WEBINAR_BASE_URL, "/s/blog-post/")
+SLOAN_WEBINAR_URL = urljoin(SLOAN_WEBINAR_BASE_URL, "/s/webinars")
+SLOAN_WEBINAR_PREFIX_URL = urljoin(SLOAN_WEBINAR_BASE_URL, "/s/webinar-post/")
 SLOAN_WEBINAR_POST_URL = urljoin(
     SLOAN_WEBINAR_BASE_URL,
     "/s/sfsites/aura?r=1&other.CMSContent.fetchImage=1&other.CMSContent.fetchImages=1&other.CMSContent.fetchTopicPage=2&other.CMSNav.fetchHeaderMessage=1&other.CMSNav.isLoggedIn=1",
@@ -29,13 +30,13 @@ SLOAN_WEBINAR_POST_DATA = (
                     {
                         "id": "111;a",
                         "descriptor": "apex://CMSContentController/ACTION$fetchTopicPage",
-                        "callingDescriptor": "markup://c:CMS_BlogPostList",
+                        "callingDescriptor": "markup://c:CMS_Webinar_PostList",
                         "params": {
-                            "contentType": "Blog_Post",
-                            "topicName": "",
+                            "contentType": "Webinar_Post",
                             "pageSize": 20,
                             "pageNumber": 0,
                             "sortFields": ["DateTime1"],
+                            "sortBy": "DateTime1",
                             "AscDesc": "DESC",
                         },
                     }
@@ -53,7 +54,7 @@ SLOAN_WEBINAR_POST_DATA = (
                 "globals": {},
                 "uad": False,
             },
-            "aura.pageURI": "/s/blog",
+            "aura.pageURI": "/s/webinars",
             "aura.token": None,
         }
     )
@@ -66,13 +67,13 @@ SLOAN_WEBINAR_POST_DATA = (
 
 def extract() -> dict:
     """
-    Extract JSON from Sloan School of Management
+    Extract JSON from Sloan's Webinar listing
 
     Returns:
         dict: JSON data from Sloan blog post request
     """
     session = requests.Session()
-    content = str(session.get(SLOAN_WEBINAR_BLOG_URL).content)
+    content = str(session.get(SLOAN_WEBINAR_URL).content)
     fwuid = re.findall(r"fwuid%22%3A%22([^%]+)%22", content)[0]
     appId = re.findall(r"siteforce%3AcommunityApp%22%3A%22([^%]+)%", content)[0]
     session.headers["Content-Type"] = "application/x-www-form-urlencoded"
@@ -84,66 +85,66 @@ def extract() -> dict:
     ).json()
 
 
-def transform_item(item_data: dict) -> dict:
+def extract_event_image(image_data: dict) -> tuple[dict, dict]:
+    """
+    Extract the image data from the Open Learning Event.
+
+    Args:
+        image_data (dict): The image data
+
+    Returns:
+        tuple[dict, dict]: The image text metadata and image source metadata
+
+    """
+    altText = image_data.get("altText", "")
+    return {
+        "url": urljoin(SLOAN_WEBINAR_BASE_URL, image_data.get("url", "")),
+        "alt": altText if altText else "",
+        "description": altText if altText else "",
+    }
+
+
+def transform_item(event_data: dict) -> dict:
     """
     Transform item from Sloan School of Management blog
 
     Args:
-        item_data (dict): raw JSON data for a single blog post
+        event_data (dict): raw JSON data for a single webinar post
 
     Returns:
-        dict: Transformed data for a single blog post
+        dict: Transformed data for a single webinar post
 
     """
+    attributes = event_data.get("contentNodes", {})
+    guid = event_data["contentKey"]
+    event_path = f'{event_data.get("contentUrlName", "")}-{guid}'
+
+    dt = attributes.get("Original_Date", {}).get("value")
+    dt_utc = (
+        parser.parse(dt).replace(tzinfo=ZoneInfo("US/Eastern")).astimezone(UTC)
+        if dt
+        else None
+    )
+    cta_url = attributes.get("CTA_Button_URL", {}).get("value", "")
+    if not cta_url:
+        return None
     return {
-        "guid": item_data.get("managedContentId"),
-        "title": html.escape(item_data.get("title", "")),
-        "summary": tag_text(
-            Soup(
-                html.unescape(
-                    item_data.get("contentNodes", {}).get("Summary", {}).get("value")
-                ),
-                "lxml",
-            )
+        "guid": guid,
+        "url": urljoin(SLOAN_WEBINAR_PREFIX_URL, event_path) if event_path else None,
+        "title": attributes.get("Webinar_Title").get("value"),
+        "image": extract_event_image(attributes.get("Featured_Image", {})),
+        "summary": strip_tags(attributes.get("Summary", {}).get("value") or ""),
+        "content": strip_tags(
+            attributes.get("Full_Webinar_Summary", {}).get("value") or ""
         ),
-        "content": html.unescape(
-            item_data.get("contentNodes", {})
-            .get("First_Section_Content", {})
-            .get("value")
-        ),
-        "url": urljoin(
-            SLOAN_WEBINAR_ARTICLE_PREFIX_URL,
-            f'{item_data.get("contentUrlName")}-{item_data.get("managedContentId")}',
-        ),
-        "image": {
-            "url": urljoin(
-                SLOAN_WEBINAR_BASE_URL,
-                item_data.get("contentNodes", {}).get("Featured_Image", {}).get("url")
-                or "",
-            ),
-            "alt": item_data.get("contentNodes", {})
-            .get("Featured_Image", {})
-            .get("altText")
-            or "",
-            "description": item_data.get("contentNodes", {})
-            .get("Featured_Image", {})
-            .get("title")
-            or "",
-        },
         "detail": {
-            "authors": [
-                html.escape(
-                    item_data.get("contentNodes", {})
-                    .get("Quote_Author", {})
-                    .get("value", "")
-                )
+            "location": ["Online"],
+            "event_datetime": dt_utc,
+            "event_type": [
+                topic["name"]
+                for topic in event_data.get("associations", {}).get("topics", [])
             ],
-            "publish_date": item_data.get("publishedDate"),
-            "topics": [
-                html.unescape(topic["name"])
-                for topic in item_data.get("associations", {}).get("topics", [])
-                if topic
-            ],
+            "audience": ["Faculty", "MIT Community", "Public", "Students"],
         },
     }
 
@@ -156,7 +157,7 @@ def transform_items(source_data: dict) -> list[dict]:
         source_data (dict): raw JSON data for Sloan blog posts
 
     Returns:
-        list of dict: List of transformed blog posts
+        list of dict: List of transformed webinar posts
 
     """
     items_data = source_data.get("actions")
@@ -172,11 +173,11 @@ def transform_items(source_data: dict) -> list[dict]:
 
 def transform(source_data: dict) -> list[dict]:
     """
-    Transform the data from Sloan School of Management's blog.
+    Transform the data from Sloan webinar listing.
 
     Args:
-        source_data (Soup): BeautifulSoup representation of Sloan index page
-        news_data (dict): JSON data from Sloan blog API request
+        source_data (Soup): BeautifulSoup representation of Sloan blog index page
+
 
     Returns:
         list of dict: List of transformed source data
@@ -185,8 +186,8 @@ def transform(source_data: dict) -> list[dict]:
     return [
         {
             "title": SLOAN_WEBINAR_TITLE,
-            "url": SLOAN_WEBINAR_BLOG_URL,
-            "feed_type": FeedType.news.name,
+            "url": SLOAN_WEBINAR_URL,
+            "feed_type": FeedType.events.name,
             "description": SLOAN_WEBINAR_TITLE,
             "items": transform_items(source_data),
         }

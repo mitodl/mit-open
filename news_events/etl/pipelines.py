@@ -27,7 +27,7 @@ sloan_exec_news_etl = compose(
     sloan_exec_news.extract,
 )
 sloan_webinars_etl = compose(
-    load_sources(FeedType.news.name),
+    load_sources(FeedType.events.name),
     sloan_webinars.transform,
     sloan_webinars.extract,
 )
