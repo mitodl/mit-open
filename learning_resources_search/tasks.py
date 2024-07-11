@@ -458,11 +458,26 @@ def wrap_retry_exception(*exception_classes):
 
 
 @app.task(bind=True)
-def start_recreate_index(self, indexes):
+def start_recreate_index(self, indexes, remove_existing_reindexing_tags):
     """
     Wipe and recreate index and mapping, and index all items.
     """
     try:
+        if not remove_existing_reindexing_tags:
+            existing_reindexing_indexes = api.get_existing_reindexing_indexes(indexes)
+
+            if existing_reindexing_indexes:
+                error = (
+                    f"Reindexing in progress. Reindexing indexes already exist: "
+                    f"{', '.join(existing_reindexing_indexes)}"
+                )
+                log.exception(error)
+                return error
+
+        api.delete_orphaned_indexes(
+            indexes, delete_reindexing_tags=remove_existing_reindexing_tags
+        )
+
         new_backing_indices = {
             obj_type: api.create_backing_index(obj_type) for obj_type in indexes
         }
@@ -768,7 +783,9 @@ def get_update_learning_resource_tasks(resource_type):
     ]
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+@app.task(
+    acks_late=True, autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m"
+)
 def finish_recreate_index(results, backing_indices):
     """
     Swap reindex backing index with default backing index
@@ -780,7 +797,9 @@ def finish_recreate_index(results, backing_indices):
     errors = merge_strings(results)
     if errors:
         try:
-            api.delete_orphaned_indices()
+            api.delete_orphaned_indexes(
+                list(backing_indices.keys()), delete_reindexing_tags=True
+            )
         except RequestError as ex:
             raise RetryError(str(ex)) from ex
         msg = f"Errors occurred during recreate_index: {errors}"

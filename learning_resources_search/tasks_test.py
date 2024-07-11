@@ -165,14 +165,26 @@ def test_start_recreate_index(mocker, mocked_celery, user, indexes):
         autospec=True,
         return_value=backing_index,
     )
+    mocker.patch(
+        "learning_resources_search.indexing_api.get_existing_reindexing_indexes",
+        autospec=True,
+        return_value=[],
+    )
+    delete_orphaned_indexes_mock = mocker.patch(
+        "learning_resources_search.indexing_api.delete_orphaned_indexes", autospec=True
+    )
     finish_recreate_index_mock = mocker.patch(
         "learning_resources_search.tasks.finish_recreate_index", autospec=True
     )
 
     with pytest.raises(mocked_celery.replace_exception_class):
-        start_recreate_index.delay(indexes)
+        start_recreate_index.delay(indexes, remove_existing_reindexing_tags=False)
 
     finish_recreate_index_dict = {}
+
+    delete_orphaned_indexes_mock.assert_called_once_with(
+        indexes, delete_reindexing_tags=False
+    )
 
     for doctype in LEARNING_RESOURCE_TYPES:
         if doctype in indexes:
@@ -240,6 +252,87 @@ def test_start_recreate_index(mocker, mocked_celery, user, indexes):
     assert mocked_celery.replace.call_args[0][1] == mocked_celery.chain.return_value
 
 
+@pytest.mark.parametrize(
+    "remove_existing_reindexing_tags",
+    [True, False],
+)
+def test_start_recreate_index_existing_reindexing_index(
+    mocker, mocked_celery, user, remove_existing_reindexing_tags
+):
+    settings.OPENSEARCH_INDEXING_CHUNK_SIZE = 2
+    settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE = 2
+    indexes = ["program"]
+
+    programs = sorted(
+        ProgramFactory.create_batch(4),
+        key=lambda program: program.learning_resource_id,
+    )
+
+    index_learning_resources_mock = mocker.patch(
+        "learning_resources_search.tasks.index_learning_resources", autospec=True
+    )
+
+    backing_index = "backing"
+    mocker.patch(
+        "learning_resources_search.indexing_api.create_backing_index",
+        autospec=True,
+        return_value=backing_index,
+    )
+    delete_orphaned_indexes_mock = mocker.patch(
+        "learning_resources_search.indexing_api.delete_orphaned_indexes", autospec=True
+    )
+    finish_recreate_index_mock = mocker.patch(
+        "learning_resources_search.tasks.finish_recreate_index", autospec=True
+    )
+
+    mocker.patch(
+        "learning_resources_search.indexing_api.get_existing_reindexing_indexes",
+        autospec=True,
+        return_value=["another_reindexing_index"],
+    )
+
+    if remove_existing_reindexing_tags:
+        with pytest.raises(mocked_celery.replace_exception_class):
+            start_recreate_index.delay(
+                indexes, remove_existing_reindexing_tags=remove_existing_reindexing_tags
+            )
+    else:
+        start_recreate_index.delay(
+            indexes, remove_existing_reindexing_tags=remove_existing_reindexing_tags
+        )
+
+    finish_recreate_index_dict = {"program": "backing"}
+
+    if remove_existing_reindexing_tags:
+        delete_orphaned_indexes_mock.assert_called_once_with(
+            indexes, delete_reindexing_tags=True
+        )
+
+        finish_recreate_index_mock.s.assert_called_once_with(finish_recreate_index_dict)
+        assert mocked_celery.group.call_count == 1
+
+        # Celery's 'group' function takes a generator as an argument. In order to make assertions about the items
+        # in that generator, 'list' is being called to force iteration through all of those items.
+        list(mocked_celery.group.call_args[0][0])
+        assert index_learning_resources_mock.si.call_count == 2
+        index_learning_resources_mock.si.assert_any_call(
+            [programs[0].learning_resource_id, programs[1].learning_resource_id],
+            PROGRAM_TYPE,
+            index_types=IndexestoUpdate.reindexing_index.value,
+        )
+        index_learning_resources_mock.si.assert_any_call(
+            [programs[2].learning_resource_id, programs[3].learning_resource_id],
+            PROGRAM_TYPE,
+            index_types=IndexestoUpdate.reindexing_index.value,
+        )
+
+        assert mocked_celery.replace.call_count == 1
+        assert mocked_celery.replace.call_args[0][1] == mocked_celery.chain.return_value
+    else:
+        assert index_learning_resources_mock.si.call_count == 0
+        assert mocked_celery.replace.call_count == 0
+
+
 @pytest.mark.parametrize("with_error", [True, False])
 def test_finish_recreate_index(mocker, with_error):
     """
@@ -251,7 +344,7 @@ def test_finish_recreate_index(mocker, with_error):
         "learning_resources_search.indexing_api.switch_indices", autospec=True
     )
     mock_delete_orphans = mocker.patch(
-        "learning_resources_search.indexing_api.delete_orphaned_indices"
+        "learning_resources_search.indexing_api.delete_orphaned_indexes"
     )
 
     if with_error:
@@ -280,7 +373,7 @@ def test_finish_recreate_index_retry_exceptions(mocker, with_error):
         side_effect=[mock_error, None],
     )
     mock_delete_orphans = mocker.patch(
-        "learning_resources_search.indexing_api.delete_orphaned_indices",
+        "learning_resources_search.indexing_api.delete_orphaned_indexes",
         side_effect=[mock_error, None],
     )
 
