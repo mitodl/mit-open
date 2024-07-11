@@ -11,11 +11,15 @@
     "end_date": "2019-12-01T00:00:00Z",
     "enrollment_start": "2019-08-01T00:00:00Z",
     "topics": [
-      { "name": "Business:Leadership & Organizations" },
-      { "name": "Planning" }
+      {
+        "name": "Business:Leadership & Organizations"
+      },
+      {
+        "name": "Planning"
+      }
     ],
     "format": "Online",
-    "platform": "MIT xPRO",
+    "platform": "xPRO",
     "courses": [
       {
         "id": 18,
@@ -25,8 +29,12 @@
         "readable_id": "course-v1:xPRO+SysEngxB1",
         "courseruns": [],
         "next_run_id": null,
-        "topics": [{ "name": "Business:Leadership & Organizations" }],
-        "platform": "MIT xPRO",
+        "topics": [
+          {
+            "name": "Business:Leadership & Organizations"
+          }
+        ],
+        "platform": "xPRO",
         "format": "Online"
       },
       {
@@ -36,7 +44,7 @@
         "thumbnail_url": "/static/images/mit-dome.png",
         "readable_id": "course-v1:xPRO+SysEngxB3",
         "topics": [],
-        "platform": "MIT xPRO",
+        "platform": "xPRO",
         "format": "Online",
         "courseruns": [
           {
@@ -62,8 +70,12 @@
         "description": "<p>Course 2 of 4 that comprises the Architecture and Systems Engineering Professional Certificate Program. This course may be taken individually, without enrolling in the professional certificate program.</p>",
         "thumbnail_url": "/static/images/mit-dome.png",
         "readable_id": "course-v1:xPRO+SysEngxB2",
-        "topics": [{ "name": "Business:Leadership & Organizations" }],
-        "platform": "MIT xPRO",
+        "topics": [
+          {
+            "name": "Business:Leadership & Organizations"
+          }
+        ],
+        "platform": "xPRO",
         "format": "Online",
         "courseruns": [
           {
@@ -92,7 +104,7 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [],
-        "platform": "MIT xPRO"
+        "platform": "xPRO"
       }
     ]
   },
@@ -107,9 +119,13 @@
     "start_date": "2019-09-10T00:00:00Z",
     "end_date": "2019-12-10T00:00:00Z",
     "enrollment_start": null,
-    "topics": [{ "name": "Business:Leadership & Organizations" }],
+    "topics": [
+      {
+        "name": "Business:Leadership & Organizations"
+      }
+    ],
     "format": "In person",
-    "platform": "MIT xPRO",
+    "platform": "xPRO",
     "courses": [
       {
         "id": 30,
@@ -117,8 +133,12 @@
         "description": "<p>An introductory course to Digital Learning</p>",
         "thumbnail_url": "/static/images/mit-dome.png",
         "readable_id": "course-v1:xPRO+DgtlLearn1",
-        "topics": [{ "name": "Business:Leadership & Organizations" }],
-        "platform": "MIT xPRO",
+        "topics": [
+          {
+            "name": "Business:Leadership & Organizations"
+          }
+        ],
+        "platform": "xPRO",
         "courseruns": [
           {
             "title": "SEED Digital Learning 100 - August 2020",
@@ -167,8 +187,12 @@
         "readable_id": "course-v1:xPRO+DgtlLearn2",
         "courseruns": [],
         "next_run_id": null,
-        "topics": [{ "name": "Business:Leadership & Organizations" }],
-        "platform": "MIT xPRO"
+        "topics": [
+          {
+            "name": "Business:Leadership & Organizations"
+          }
+        ],
+        "platform": "xPRO"
       },
       {
         "id": 32,
@@ -179,7 +203,7 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [],
-        "platform": "MIT xPRO"
+        "platform": "xPRO"
       }
     ]
   }
