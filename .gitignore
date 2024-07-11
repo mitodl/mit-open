@@ -91,6 +91,7 @@ codekit-config.json
 
 # Django static
 staticfiles/
+static/hash.txt
 
 .venv
 release-notes-checklist
