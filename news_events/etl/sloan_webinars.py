@@ -108,11 +108,15 @@ def extract_event_image(image_data: dict) -> tuple[dict, dict]:
 
     """
     altText = image_data.get("altText", "")
-    return {
-        "url": urljoin(SLOAN_WEBINAR_BASE_URL, image_data.get("url", "")),
-        "alt": altText if altText else "",
-        "description": altText if altText else "",
-    }
+    imagePath = image_data.get("url", "")
+    if imagePath:
+        return {
+            "url": urljoin(SLOAN_WEBINAR_BASE_URL, imagePath),
+            "alt": altText if altText else "",
+            "description": altText if altText else "",
+        }
+    else:
+        return None
 
 
 def transform_item(event_data: dict) -> dict:
@@ -128,18 +132,18 @@ def transform_item(event_data: dict) -> dict:
     """
     attributes = event_data.get("contentNodes", {})
     guid = event_data["contentKey"]
-    event_path = f'{event_data.get("contentUrlName", "")}-{guid}'
     dt = event_data.get("publishedDate")
     dt_utc = (
         parser.parse(dt).replace(tzinfo=ZoneInfo("US/Eastern")).astimezone(UTC)
         if dt
         else None
     )
+    cta_button = attributes.get("CTA_Button_URL", {}).get("value", "")
     return {
         "guid": guid,
-        "url": urljoin(SLOAN_WEBINAR_PREFIX_URL, event_path) if event_path else None,
+        "url": cta_button,
         "title": event_data.get("title", ""),
-        "image": extract_event_image(attributes.get("Featured_Image", {})),
+        "image": extract_event_image(attributes.get("Card_Image", {})),
         "summary": strip_tags(attributes.get("Summary", {}).get("value") or ""),
         "content": strip_tags(
             attributes.get("Full_Webinar_Summary", {}).get("value") or ""
@@ -158,7 +162,7 @@ def transform_item(event_data: dict) -> dict:
 
 def transform_items(source_data: dict) -> list[dict]:
     """
-    Transform items from Sloan School of Management blog
+    Transform items from Sloan Webinars blog
 
     Args:
         source_data (dict): raw JSON data for Sloan blog posts
@@ -181,7 +185,7 @@ def transform_items(source_data: dict) -> list[dict]:
 
 def transform(source_data: dict) -> list[dict]:
     """
-    Transform the data from Sloan webinar listing.
+    Transform the data from Sloan webinar listings.
 
     Args:
         source_data (Soup): BeautifulSoup representation of Sloan blog index page
