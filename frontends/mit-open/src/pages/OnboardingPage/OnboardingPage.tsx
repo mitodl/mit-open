@@ -132,7 +132,7 @@ const profileSchema = yup.object().shape({
 const GRID_PROPS = {
   justifyContent: "left",
   columns: {
-    lg: 15,
+    lg: 12,
     md: 9,
     xs: 3,
   },
