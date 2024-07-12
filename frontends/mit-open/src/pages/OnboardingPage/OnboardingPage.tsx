@@ -110,11 +110,11 @@ function StepIcon(props: StepIconProps) {
 
 const Title = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.black,
-  paddingBottom: "16px",
 })) as typeof Typography
 
 const Prompt = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.silverGrayDark,
+  paddingTop: "16px",
 })) as typeof Typography
 
 const Label = styled.div({
