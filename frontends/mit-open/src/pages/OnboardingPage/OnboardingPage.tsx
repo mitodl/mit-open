@@ -15,6 +15,7 @@ import {
   CheckboxChoiceBoxField,
   RadioChoiceBoxField,
   SimpleSelectField,
+  Skeleton,
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
@@ -31,6 +32,7 @@ import * as yup from "yup"
 
 import { useFormik } from "formik"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
+import { useUserMe } from "api/hooks/user"
 
 const NUM_STEPS = 6
 
@@ -153,6 +155,7 @@ const OnboardingPage: React.FC = () => {
     }
   }, [profile])
   const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
+  const { isLoading: userLoading, data: user } = useUserMe()
   const [activeStep, setActiveStep] = React.useState<number>(0)
   const navigate = useNavigate()
   const formik = useFormik({
@@ -199,10 +202,14 @@ const OnboardingPage: React.FC = () => {
         {...GRID_STYLE_PROPS}
         label={
           <Label>
-            <Title variant="h4">
-              Welcome{profile.name ? `, ${profile.name}` : ""}! What are you
-              interested in learning about?
-            </Title>
+            {userLoading ? (
+              <Skeleton variant="text" width="100%" height={40} />
+            ) : (
+              <Title variant="h4">
+                Welcome{user?.first_name ? `, ${user.first_name}` : ""}! What
+                are you interested in learning about?
+              </Title>
+            )}
             <Prompt component="p">Select all that apply:</Prompt>
           </Label>
         }
