@@ -357,7 +357,7 @@ AUTHORIZATION_URL = get_string(
 STATIC_URL = "/static/"
 
 STATIC_ROOT = "staticfiles"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontends/mit-open/public")]  # noqa: PTH118
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # noqa: PTH118
 
 # Important to define this so DEBUG works properly
 INTERNAL_IPS = (get_string("HOST_IP", "127.0.0.1"),)
