@@ -97,6 +97,27 @@ def test_search_index_plugin_department_delete():
 
 @pytest.mark.django_db()
 @pytest.mark.parametrize("overwrite", [True, False])
+def test_search_index_plugin_department_rename(overwrite):
+    """The plugin function should update the channel title when the department name changes"""
+    channel = ChannelFactory.create(is_department=True)
+    department = channel.department_detail.department
+    old_title = channel.title
+    assert department is not None
+    new_name = "New Name"
+    department.name = new_name
+    department.save()
+    updated_channel, updated = ChannelPlugin().department_upserted(
+        department, overwrite
+    )
+    if updated:
+        assert updated_channel.title == new_name
+    else:
+        assert updated_channel.title == old_title
+    assert updated is overwrite
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize("overwrite", [True, False])
 def test_search_index_plugin_offeror_upserted(overwrite):
     """The plugin function should create an offeror channel"""
     offeror = LearningResourceOfferorFactory.create()

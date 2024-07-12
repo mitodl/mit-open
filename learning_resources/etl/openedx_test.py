@@ -197,7 +197,7 @@ def test_transform_course(  # noqa: PLR0913
                         "value": "MITx+15.071x",
                         "department": {
                             "department_id": "15",
-                            "name": "Sloan School of Management",
+                            "name": "Management",
                         },
                         "listing_type": CourseNumberType.primary.value,
                         "primary": True,

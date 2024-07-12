@@ -73,11 +73,11 @@ class ChannelPlugin:
             channel = None
         elif department.school and (overwrite or not channel):
             channel, _ = Channel.objects.update_or_create(
-                name=slugify(department.name),
+                search_filter=f"department={department.department_id}",
                 channel_type=ChannelType.department.name,
                 defaults={
+                    "name": slugify(department.name),
                     "title": department.name,
-                    "search_filter": f"department={department.department_id}",
                 },
             )
             ChannelDepartmentDetail.objects.update_or_create(
