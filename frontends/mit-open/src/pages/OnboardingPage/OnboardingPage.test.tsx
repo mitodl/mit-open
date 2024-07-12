@@ -52,7 +52,7 @@ const profileForStep = (step: number) => {
 
 const STEP_TITLES = [
   "What are you interested in learning about?",
-  "What do you want MIT online education to help you reach?",
+  "What are your learning goals?",
   "Are you seeking to receive a certificate?",
   "What is your current level of education?",
   "How much time per week do you want to commit to learning?",
