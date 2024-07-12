@@ -9,7 +9,12 @@ class Migration(migrations.Migration):
         ("profiles", "0027_update_profile_education_choices"),
     ]
 
+    def reset_goals(self, apps):
+        Profile = apps.get_model("profiles", "Profile")
+        Profile.objects.all().update(goals=[])
+
     operations = [
+        migrations.RunPython(reset_goals),
         migrations.AlterField(
             model_name="profile",
             name="goals",
