@@ -7,6 +7,7 @@ import {
   user,
   expectLastProps,
   setMockResponse,
+  ignoreError,
 } from "../../test-utils"
 import { Widget, WidgetsListEditable } from "ol-widgets"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
@@ -34,6 +35,13 @@ const setupApis = ({ widgets = 3 } = {}) => {
 
 describe("Viewing widgets with WidgetsList", () => {
   test("Renders widgets", async () => {
+    /* Issue is in react-markdown v6.0.3. The package is now several versions ahead. We can remove this once we update
+     * https://github.com/remarkjs/react-markdown/blob/ce6c1a71c17280e753e54e919511cd8bafadf86e/src/react-markdown.js#L138
+     */
+    const ignored = ignoreError(
+      "Support for defaultProps will be removed from function components in a future major release",
+    )
+
     const { widgetsList } = setupApis({ widgets: 3 })
     renderWithProviders(
       <WidgetsList isEditing={false} widgetListId={widgetsList.id} />,
@@ -57,6 +65,8 @@ describe("Viewing widgets with WidgetsList", () => {
     expectProps(spyWidget, { widget: widgets.at(-1) })
     expectProps(spyWidget, { widget: widgets.at(-2) })
     expectProps(spyWidget, { widget: widgets.at(-3) })
+
+    ignored.clear()
   })
 })
 
