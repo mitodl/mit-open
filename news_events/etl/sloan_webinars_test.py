@@ -57,7 +57,6 @@ def test_extract(sloan_webinars_json_data, mock_get_json_data):
     assert sloan_webinars.extract() == sloan_webinars_json_data
 
 
-@pytest.mark.usefixtures(_mock_post_json)
 def test_transform(mock_get_json_data, sloan_webinars_json_data, expected_event):
     """Transform should return expected JSON"""
     expected_event["publishedDate"] = datetime.datetime.strptime(
