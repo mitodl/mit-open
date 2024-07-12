@@ -330,6 +330,8 @@ const OnboardingPage: React.FC = () => {
         {activeStep > 0 ? (
           <Button
             variant="secondary"
+            size="large"
+            responsive={true}
             startIcon={<RiArrowLeftLine />}
             onClick={handleBack}
             disabled={isSaving}
@@ -339,6 +341,8 @@ const OnboardingPage: React.FC = () => {
         ) : null}
         {
           <Button
+            size="large"
+            responsive={true}
             endIcon={isSaving ? <CircularProgress /> : <RiArrowRightLine />}
             disabled={isSaving}
             type="submit"
