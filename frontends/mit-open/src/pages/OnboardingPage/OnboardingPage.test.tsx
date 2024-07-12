@@ -14,7 +14,6 @@ import * as factories from "api/test-utils/factories"
 import {
   GoalsEnum,
   LearningFormatEnum,
-  TimeCommitmentEnum,
   CurrentEducationEnum,
   CertificateDesiredEnum,
   type Profile,
@@ -31,9 +30,6 @@ const STEPS_DATA: Partial<Profile>[] = [
   },
   {
     certificate_desired: CertificateDesiredEnum.Yes,
-  },
-  {
-    time_commitment: TimeCommitmentEnum._0To5Hours,
   },
   {
     current_education: CurrentEducationEnum.SecondaryHighSchool,
@@ -55,7 +51,6 @@ const STEP_TITLES = [
   "What are your learning goals?",
   "Are you seeking a certificate?",
   "What is your current level of education?",
-  "How much time per week do you want to commit to learning?",
   "What course format are you interested in?",
 ]
 
@@ -187,41 +182,6 @@ describe("OnboardingPage", () => {
 
   describe("Current education step", () => {
     const STEP = 3
-    const TITLE = STEP_TITLES[STEP]
-
-    beforeEach(async () => {
-      await setupAndProgressToStep(STEP)
-    })
-
-    test(`Title should be '${TITLE}'`, async () => {
-      expect(await screen.findByText(TITLE, { exact: false })).not.toBeNil()
-    })
-
-    test("Has 'Next' and 'Back' buttons", async () => {
-      const backButton = await findBackButton()
-      const nextButton = await findNextButton()
-      const finishButton = queryFinishButton()
-
-      expect(backButton).not.toBeNil()
-      expect(nextButton).not.toBeNil()
-      expect(finishButton).toBeNil()
-    })
-
-    test("Back button should go to previous step", async () => {
-      const backButton = await findBackButton()
-
-      await user.click(backButton)
-
-      await waitFor(async () => {
-        expect(
-          await screen.findByText(STEP_TITLES[STEP - 1], { exact: false }),
-        ).not.toBeNil()
-      })
-    })
-  })
-
-  describe("Time commitment step", () => {
-    const STEP = 4
     const TITLE = STEP_TITLES[STEP]
 
     beforeEach(async () => {
