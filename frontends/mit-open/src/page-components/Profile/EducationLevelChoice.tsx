@@ -8,7 +8,7 @@ import { ProfileFieldUpdateProps } from "./types"
 
 const OPTIONS: SimpleSelectOption[] = [
   {
-    label: <em>Please select</em>,
+    label: <em>Please Select</em>,
     disabled: true,
     value: "",
   },

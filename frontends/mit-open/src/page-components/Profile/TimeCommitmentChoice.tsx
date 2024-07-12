@@ -23,7 +23,7 @@ const CHOICES = [
 
 const SELECT_OPTIONS: SimpleSelectOption[] = [
   {
-    label: <em>Please select</em>,
+    label: <em>Please Select</em>,
     disabled: true,
     value: "",
   },
