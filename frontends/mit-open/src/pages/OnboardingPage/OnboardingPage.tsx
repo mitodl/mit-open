@@ -245,7 +245,7 @@ const OnboardingPage: React.FC = () => {
         }}
       />
     </Container>,
-    <Container key="certificate_desired" maxWidth="md">
+    <Container key="certificate_desired" maxWidth="lg">
       <RadioChoiceBoxField
         name="certificate_desired"
         choices={CERTIFICATE_CHOICES}
