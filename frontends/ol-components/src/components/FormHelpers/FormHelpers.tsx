@@ -42,12 +42,14 @@ type ControlLabelProps = {
   label: React.ReactNode
   required?: boolean
   id?: string
+  fullWidth?: boolean
 }
 const ControlLabel: React.FC<ControlLabelProps> = ({
   htmlFor,
   label,
   required,
   id,
+  fullWidth,
 }) => {
   return (
     <Typography
@@ -55,7 +57,7 @@ const ControlLabel: React.FC<ControlLabelProps> = ({
       component="label"
       htmlFor={htmlFor}
       variant="subtitle2"
-      sx={{ marginBottom: "4px" }}
+      sx={{ marginBottom: "4px", width: fullWidth ? "100%" : "auto" }}
     >
       {label}
       {required ? <Required aria-hidden="true">*</Required> : null}
@@ -117,6 +119,7 @@ const FormFieldWrapper: React.FC<FormFieldWrapperProps> = ({
         id={labelId}
         label={label}
         required={required}
+        fullWidth={fullWidth}
       />
       {children({
         id: inputId,
