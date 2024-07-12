@@ -133,19 +133,23 @@ const profileSchema = yup.object().shape({
   learning_format: yup.string(),
 })
 
-const GRID_PROPS = {
-  justifyContent: "left",
-  columns: {
+const GridStyle = (
+  justifyContent = "center",
+  columns = {
     lg: 12,
     md: 9,
     xs: 3,
   },
-  maxWidth: "lg",
-}
-const GRID_ITEM_PROPS = { xs: 3 }
-const GRID_STYLE_PROPS = {
-  gridProps: GRID_PROPS,
-  gridItemProps: GRID_ITEM_PROPS,
+  maxWidth = "lg",
+) => {
+  return {
+    gridProps: {
+      justifyContent: justifyContent,
+      columns: columns,
+      maxWidth: maxWidth,
+    },
+    gridItemProps: { xs: 3 },
+  }
 }
 
 const OnboardingPage: React.FC = () => {
@@ -203,7 +207,7 @@ const OnboardingPage: React.FC = () => {
       <CheckboxChoiceBoxField
         name="topic_interests"
         choices={topicChoices}
-        {...GRID_STYLE_PROPS}
+        {...GridStyle("left")}
         label={
           <Label>
             {userLoading ? (
@@ -225,7 +229,7 @@ const OnboardingPage: React.FC = () => {
       <CheckboxChoiceBoxField
         name="goals"
         choices={GOALS_CHOICES}
-        {...GRID_STYLE_PROPS}
+        {...GridStyle()}
         label={
           <Label>
             <Title component="h3" variant="h6">
@@ -245,7 +249,7 @@ const OnboardingPage: React.FC = () => {
       <RadioChoiceBoxField
         name="certificate_desired"
         choices={CERTIFICATE_CHOICES}
-        {...GRID_STYLE_PROPS}
+        {...GridStyle()}
         label={
           <Label>
             <Title component="h3" variant="h6">
@@ -278,7 +282,7 @@ const OnboardingPage: React.FC = () => {
       <RadioChoiceBoxField
         name="time_commitment"
         choices={TIME_COMMITMENT_CHOICES}
-        {...GRID_STYLE_PROPS}
+        {...GridStyle("left", { lg: 9, md: 6, xs: 3 })}
         label={
           <Label>
             <Title component="h3" variant="h6">
@@ -295,7 +299,7 @@ const OnboardingPage: React.FC = () => {
       <RadioChoiceBoxField
         name="learning_format"
         choices={LEARNING_FORMAT_CHOICES}
-        {...GRID_STYLE_PROPS}
+        {...GridStyle()}
         label={
           <Label>
             <Title component="h3" variant="h6">
