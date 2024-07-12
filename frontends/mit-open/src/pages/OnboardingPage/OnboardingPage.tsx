@@ -104,6 +104,7 @@ function StepIcon(props: StepIconProps) {
 
 const Title = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.black,
+  paddingBottom: "16px",
 })) as typeof Typography
 
 const Prompt = styled(Typography)(({ theme }) => ({
@@ -198,7 +199,7 @@ const OnboardingPage: React.FC = () => {
         {...GRID_STYLE_PROPS}
         label={
           <Label>
-            <Title component="h3" variant="h6">
+            <Title variant="h4">
               Welcome{profile.name ? `, ${profile.name}` : ""}! What are you
               interested in learning about?
             </Title>
