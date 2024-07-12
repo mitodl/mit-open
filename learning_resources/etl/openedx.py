@@ -12,6 +12,7 @@ from dateutil.parser import parse
 from toolz import compose
 
 from learning_resources.constants import (
+    CertificationType,
     LearningResourceType,
 )
 from learning_resources.etl.constants import COMMON_HEADERS
@@ -23,6 +24,7 @@ from learning_resources.etl.utils import (
     without_none,
 )
 from learning_resources.utils import get_year_and_semester
+from main.utils import clean_data
 
 MIT_OWNER_KEYS = ["MITx", "MITx_PRO"]
 
@@ -225,7 +227,9 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "availability": course_run.get("availability"),
         "url": marketing_url
         or "{}{}/course/".format(config.alt_url, course_run.get("key")),
-        "prices": [seat.get("price") for seat in course_run.get("seats")],
+        "prices": sorted(
+            {"0.00", *[seat.get("price") for seat in course_run.get("seats", [])]}
+        ),
         "instructors": [
             {
                 "first_name": person.get("given_name"),
@@ -254,6 +258,7 @@ def _transform_course(config, course):
         for course_run in course.get("course_runs", [])
         if _filter_course_run(course_run)
     ]
+    has_certification = parse_certification(config.offered_by, runs)
     return {
         "readable_id": course.get("key"),
         "etl_source": config.etl_source,
@@ -262,8 +267,8 @@ def _transform_course(config, course):
         "offered_by": {"code": config.offered_by},
         "title": course.get("title"),
         "departments": extract_valid_department_from_id(course.get("key")),
-        "description": course.get("short_description"),
-        "full_description": course.get("full_description"),
+        "description": clean_data(course.get("short_description")),
+        "full_description": clean_data(course.get("full_description")),
         "last_modified": last_modified,
         "image": _transform_image(course.get("image")),
         "url": marketing_url
@@ -278,7 +283,10 @@ def _transform_course(config, course):
         "published": any(
             run["status"] == "published" for run in course.get("course_runs", [])
         ),
-        "certification": parse_certification(config.offered_by, runs),
+        "certification": has_certification,
+        "certification_type": CertificationType.completion.name
+        if has_certification
+        else CertificationType.none.name,
     }
 
 

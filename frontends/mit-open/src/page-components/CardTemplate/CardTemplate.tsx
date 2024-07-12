@@ -1,13 +1,13 @@
 import React from "react"
 import invariant from "tiny-invariant"
 import {
-  Card,
+  MuiCard,
   CardContent,
   CardMedia,
   styled,
   TruncateText,
 } from "ol-components"
-import DragIndicatorIcon from "@mui/icons-material/DragIndicator"
+import { RiDraggable } from "@remixicon/react"
 import {
   DEFAULT_RESOURCE_IMG,
   EmbedlyConfig,
@@ -38,7 +38,7 @@ const LIGHT_TEXT_COLOR = "#8c8c8c"
 const SPACER = 0.75
 const SMALL_FONT_SIZE = 0.75
 
-const StyledCard = styled(Card)`
+const StyledCard = styled(MuiCard)`
   display: flex;
   flex-direction: column;
 
@@ -238,7 +238,7 @@ const CardTemplate = ({
         </Details>
         {sortable ? (
           <DragHandle>
-            <DragIndicatorIcon fontSize="inherit" />
+            <RiDraggable fontSize="inherit" data-testid="CardDraggable" />
           </DragHandle>
         ) : null}
       </StyledCardContent>

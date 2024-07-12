@@ -38,7 +38,7 @@ log = logging.getLogger(__name__)
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
-DEFAULT_SORT = "-created_on"
+DEFAULT_SORT = ["is_learning_material", "-views"]
 
 
 def gen_content_file_id(content_file_id):
@@ -551,7 +551,7 @@ def construct_search(search_params):
         sort = generate_sort_clause(search_params)
         search = search.sort(sort)
     elif not search_params.get("q"):
-        search = search.sort(DEFAULT_SORT)
+        search = search.sort(*DEFAULT_SORT)
 
     if search_params.get("endpoint") == CONTENT_FILE_TYPE:
         query_type_query = {"exists": {"field": "content_type"}}
@@ -598,7 +598,6 @@ def execute_learn_search(search_params):
     """
 
     search = construct_search(search_params)
-
     return search.execute().to_dict()
 
 

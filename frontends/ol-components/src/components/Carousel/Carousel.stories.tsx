@@ -6,6 +6,7 @@ import { theme } from "../ThemeProvider/ThemeProvider"
 
 const Panel = styled.div({
   height: 200,
+  width: 300,
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
@@ -13,25 +14,32 @@ const Panel = styled.div({
   backgroundColor: theme.palette.grey[300],
   borderShadow: theme.custom.shadow,
 })
+const Slide: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  return <Panel>{children}</Panel>
+}
+
+const StyledCarousel = styled(Carousel)({
+  ".slick-track": {
+    display: "flex",
+    gap: "24px",
+  },
+})
 
 const meta: Meta<typeof Carousel> = {
-  title: "ol-components/Carousel",
+  title: "smoot-design/Carousel",
   render: (props) => (
     <div>
-      <p style={{ backgroundColor: "lightblue" }}>
-        With respect to this blue rectangle, the left-most child is
-        left-aligned, the right-most child is right-aligned.
-      </p>
-      <Carousel {...props}>
-        <Panel>Child 1</Panel>
-        <Panel>Child 2</Panel>
-        <Panel>Child 3</Panel>
-        <Panel>Child 4</Panel>
-        <Panel>Child 5</Panel>
-        <Panel>Child 6</Panel>
-        <Panel>Child 7</Panel>
-        <Panel>Child 8</Panel>
-      </Carousel>
+      This carousel:
+      <ul>
+        <li>Has 10 slides</li>
+        <li>has pagesize equal to number of fully visible slides</li>
+        <li>should have next/prev disabled at beginning/end</li>
+      </ul>
+      <StyledCarousel {...props}>
+        {[...Array(10)].map((_, i) => (
+          <Slide key={i}>Slide {i}</Slide>
+        ))}
+      </StyledCarousel>
     </div>
   ),
 }
@@ -41,8 +49,5 @@ export default meta
 type Story = StoryObj<typeof Carousel>
 
 export const Simple: Story = {
-  args: {
-    pageSize: 4,
-    cellSpacing: 20,
-  },
+  args: {},
 }

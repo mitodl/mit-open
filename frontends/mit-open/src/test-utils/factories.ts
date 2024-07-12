@@ -16,7 +16,7 @@ const makeUserSettings: Factory<User> = (overrides = {}) => {
   if (Number.isFinite(overrides.id)) {
     calculated.is_authenticated = true
   } else if (overrides.is_authenticated) {
-    calculated.id = faker.datatype.number()
+    calculated.id = faker.number.int()
   }
   return {
     id: null,

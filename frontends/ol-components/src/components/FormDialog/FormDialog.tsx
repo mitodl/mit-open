@@ -6,7 +6,7 @@ import DialogActions from "@mui/material/DialogActions"
 import DialogContent from "@mui/material/DialogContent"
 import DialogTitle from "@mui/material/DialogTitle"
 import type { DialogProps } from "@mui/material/Dialog"
-import Close from "@mui/icons-material/Close"
+import { RiCloseLine } from "@remixicon/react"
 
 const topRightStyle: React.CSSProperties = {
   position: "absolute",
@@ -157,16 +157,16 @@ const FormDialog: React.FC<FormDialogProps> = ({
           onClick={onClose}
           aria-label="Close"
         >
-          <Close />
+          <RiCloseLine />
         </ActionButton>
       </div>
       <DialogContent dividers={true}>{children}</DialogContent>
       <DialogActions>
-        <Button variant="outlined" onClick={onClose} {...cancelButtonProps}>
+        <Button variant="secondary" onClick={onClose} {...cancelButtonProps}>
           {cancelButtonContent}
         </Button>
         <Button
-          variant="filled"
+          variant="primary"
           type="submit"
           disabled={isSubmitting}
           {...submitButtonProps}

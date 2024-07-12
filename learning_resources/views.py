@@ -2,6 +2,7 @@
 
 import logging
 from hmac import compare_digest
+from random import shuffle
 
 import rapidjson
 from django.conf import settings
@@ -22,7 +23,7 @@ from rest_framework_nested.viewsets import NestedViewSetMixin
 
 from authentication.decorators import blocked_ip_exempt
 from channels.constants import ChannelType
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources import permissions
 from learning_resources.constants import (
     LearningResourceType,
@@ -428,7 +429,9 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     Topics covered by learning resources
     """
 
-    queryset = LearningResourceTopic.objects.all().order_by("name")
+    queryset = (
+        LearningResourceTopic.objects.all().order_by("name").annotate_channel_url()
+    )
     serializer_class = LearningResourceTopicSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
@@ -810,9 +813,6 @@ class VideoPlaylistViewSet(BaseLearningResourceViewSet):
 
 
 @extend_schema_view(
-    list=extend_schema(
-        description="Get a paginated list of featured resources",
-    ),
     retrieve=extend_schema(
         description="Retrieve a single featured resource",
     ),
@@ -828,6 +828,20 @@ class FeaturedViewSet(
     resource_type_name_plural = "Featured Resources"
     serializer_class = LearningResourceSerializer
 
+    @staticmethod
+    def _randomize_results(results):
+        """Randomize the results within each position"""
+        if len(results) > 0:
+            results_by_position = {}
+            randomized_results = []
+            for result in results:
+                results_by_position.setdefault(result.position, []).append(result)
+            for position in sorted(results_by_position.keys()):
+                shuffle(results_by_position[position])
+                randomized_results.extend(results_by_position[position])
+            return randomized_results
+        return results
+
     def get_queryset(self) -> QuerySet:
         """
         Generate a QuerySet for fetching featured LearningResource objects
@@ -836,8 +850,8 @@ class FeaturedViewSet(
             QuerySet of LearningResource objects that are in
             featured learning paths from certain offerors
         """
-        featured_list_ids = FieldChannel.objects.filter(
-            channel_type=ChannelType.offeror.name
+        featured_list_ids = Channel.objects.filter(
+            channel_type=ChannelType.unit.name
         ).values_list("featured_list", flat=True)
 
         return (
@@ -848,3 +862,18 @@ class FeaturedViewSet(
             .order_by("position")
             .distinct()
         )
+
+    @extend_schema(
+        summary="List",
+        description="Get a paginated list of featured resources",
+    )
+    def list(self, request, *args, **kwargs):  # noqa: ARG002
+        """Get a paginated list of featured resources"""
+        queryset = self.filter_queryset(self.get_queryset())
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(self._randomize_results(page), many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(self._randomize_results(queryset), many=True)
+        return Response(serializer.data)

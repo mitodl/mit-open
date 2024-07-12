@@ -1,8 +1,30 @@
 """Common filter classes and functions"""
 
+import logging
+from typing import Any
+
 from django.db.models import Q, QuerySet
 from django_filters import BaseInFilter, CharFilter, MultipleChoiceFilter, NumberFilter
 from django_filters.rest_framework import DjangoFilterBackend
+
+log = logging.getLogger(__name__)
+
+
+def decomma(value: Any) -> Any:
+    """URL-encode commas"""
+    if isinstance(value, str):
+        return value.replace(",", "%2C")
+    return value
+
+
+def recomma(value: Any) -> Any:
+    """URL-decode commas"""
+    if isinstance(value, str):
+        return value.replace(
+            "%2C",
+            ",",
+        )
+    return value
 
 
 def multi_or_filter(
@@ -10,7 +32,7 @@ def multi_or_filter(
 ) -> QuerySet:
     """Filter attribute by value string with n comma-delimited values"""
     query_or_filters = Q()
-    for query in [Q(**{attribute: value}) for value in values]:
+    for query in [Q(**{attribute: recomma(value)}) for value in values]:
         query_or_filters |= query
     return queryset.filter(query_or_filters)
 
@@ -47,11 +69,8 @@ class MultipleOptionsFilterBackend(DjangoFilterBackend):
                     ]
                     values = [value for val_list in split_values for value in val_list]
                     query_params.setlist(key, values)
-                elif (isinstance(filter_key, CharInFilter | NumberInFilter)) and len(
-                    values
-                ) > 1:
-                    query_params[key] = ",".join(list(values))
-
+                elif isinstance(filter_key, CharInFilter | NumberInFilter):
+                    query_params[key] = ",".join([decomma(value) for value in values])
         return {
             "data": query_params,
             "queryset": queryset,

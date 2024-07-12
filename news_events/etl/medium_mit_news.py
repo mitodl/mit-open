@@ -1,7 +1,9 @@
 """ETL functions for MIT News data."""
 
 import feedparser
+from bs4 import BeautifulSoup
 
+from main.utils import clean_data
 from news_events.constants import FeedType
 from news_events.etl.utils import stringify_time_struct
 
@@ -42,15 +44,31 @@ def transform_items(items_data: list[dict]) -> list[dict]:
     Returns:
         list of dict: list of transformed items
     """
-    return [
-        {
+    entries = []
+    for item in items_data:
+        content = (item.get("content") or [{}])[0].get("value", "")
+        soup = BeautifulSoup(content, "lxml")
+        figures = soup.find_all("figure")
+        image_data = None
+        if (
+            len(figures) > 0
+            and figures[0].next_element
+            and figures[0].next_element.name == "img"
+        ):
+            image_attrs = figures[0].next_element.attrs
+            image_data = {
+                "url": image_attrs.get("src"),
+                "alt": image_attrs.get("alt"),
+                "description": image_attrs.get("alt", ""),
+            }
+
+        entry = {
             "guid": item.get("id"),
             "title": item.get("title", ""),
             "url": item.get("link", None),
-            "summary": item.get("summary", ""),
-            "content": (item.get("content") or [{}])[0].get("value", ""),
-            # This RSS does not include images for news items
-            "image": None,
+            "summary": clean_data(item.get("summary", "")),
+            "content": clean_data(content),
+            "image": image_data,
             "detail": {
                 "authors": [
                     author["name"] for author in item.get("authors", []) if author
@@ -59,8 +77,8 @@ def transform_items(items_data: list[dict]) -> list[dict]:
                 "publish_date": stringify_time_struct(item.get("published_parsed")),
             },
         }
-        for item in items_data
-    ]
+        entries.append(entry)
+    return entries
 
 
 def transform_image(image_data: dict) -> dict:
@@ -91,6 +109,7 @@ def transform(sources_data: list[tuple[dict, str]]) -> list[dict]:
         list of dict: list of transformed sources data
 
     """
+
     return [
         {
             "title": source_data["feed"].get("title", ""),

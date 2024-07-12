@@ -1,14 +1,14 @@
-"""Plugins for field channels"""
+"""Plugins for channels"""
 
 from django.apps import apps
 from django.utils.text import slugify
 
 from channels.constants import ChannelType
 from channels.models import (
+    Channel,
     ChannelDepartmentDetail,
-    ChannelOfferorDetail,
     ChannelTopicDetail,
-    FieldChannel,
+    ChannelUnitDetail,
 )
 
 
@@ -27,11 +27,11 @@ class ChannelPlugin:
             overwrite(bool): Whether to overwrite the existing channel
 
         Returns:
-            tuple(FieldChannel, bool): Channel and "upserted" boolean
+            tuple(Channel, bool): Channel and "upserted" boolean
         """
         topic_detail = ChannelTopicDetail.objects.filter(topic=topic).first()
         if overwrite or not topic_detail:
-            channel, _ = FieldChannel.objects.update_or_create(
+            channel, _ = Channel.objects.update_or_create(
                 name=slugify(topic.name),
                 channel_type=ChannelType.topic.name,
                 defaults={"title": topic.name, "search_filter": f"topic={topic.name}"},
@@ -49,7 +49,7 @@ class ChannelPlugin:
             topic(LearningResourceTopic): The topic to delete
 
         """
-        FieldChannel.objects.filter(topic_detail__topic=topic).delete()
+        Channel.objects.filter(topic_detail__topic=topic).delete()
         topic.delete()
 
     @hookimpl
@@ -63,16 +63,16 @@ class ChannelPlugin:
 
 
         Returns:
-            tuple(FieldChannel, bool): Channel and "upserted" boolean
+            tuple(Channel, bool): Channel and "upserted" boolean
         """
-        channel = FieldChannel.objects.filter(
+        channel = Channel.objects.filter(
             department_detail__department=department
         ).first()
         if channel and not department.school:
             channel.delete()
             channel = None
         elif department.school and (overwrite or not channel):
-            channel, _ = FieldChannel.objects.update_or_create(
+            channel, _ = Channel.objects.update_or_create(
                 name=slugify(department.name),
                 channel_type=ChannelType.department.name,
                 defaults={
@@ -95,7 +95,7 @@ class ChannelPlugin:
             department(LearningResourceDepartment): The department to delete
 
         """
-        FieldChannel.objects.filter(department_detail__department=department).delete()
+        Channel.objects.filter(department_detail__department=department).delete()
         department.delete()
 
     @hookimpl
@@ -108,23 +108,21 @@ class ChannelPlugin:
             overwrite(bool): Whether to overwrite the existing channel
 
         Returns:
-            tuple(FieldChannel, bool): Channel and "upserted" boolean
+            tuple(Channel, bool): Channel and "upserted" boolean
         """
-        offeror_detail = ChannelOfferorDetail.objects.filter(offeror=offeror).first()
-        if overwrite or not offeror_detail:
-            channel, _ = FieldChannel.objects.update_or_create(
+        unit_detail = ChannelUnitDetail.objects.filter(unit=offeror).first()
+        if overwrite or not unit_detail:
+            channel, _ = Channel.objects.update_or_create(
                 name=offeror.code,
-                channel_type=ChannelType.offeror.name,
+                channel_type=ChannelType.unit.name,
                 defaults={
                     "title": offeror.name,
                     "search_filter": f"offered_by={offeror.code}",
                 },
             )
-            ChannelOfferorDetail.objects.update_or_create(
-                channel=channel, offeror=offeror
-            )
+            ChannelUnitDetail.objects.update_or_create(channel=channel, unit=offeror)
             return channel, True
-        return offeror_detail.channel, False
+        return unit_detail.channel, False
 
     @hookimpl
     def offeror_delete(self, offeror):
@@ -135,5 +133,5 @@ class ChannelPlugin:
             offeror(LearningResourceOfferor): The offeror to delete
 
         """
-        FieldChannel.objects.filter(offeror_detail__offeror=offeror).delete()
+        Channel.objects.filter(unit_detail__unit=offeror).delete()
         offeror.delete()

@@ -18,6 +18,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path, re_path
+from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 
 from main.views import FeaturesViewSet, index
@@ -65,6 +66,8 @@ urlpatterns = [  # noqa: RUF005
     # Hijack
     re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
     re_path(r"", include("news_events.urls")),
+    re_path(r"^app", RedirectView.as_view(url=settings.APP_BASE_URL)),
+    re_path(r"^silk/", include("silk.urls", namespace="silk")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

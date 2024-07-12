@@ -31,9 +31,9 @@ test("The ForbiddenPage loads with meta", async () => {
   })
   renderWithProviders(<ForbiddenPage />)
   await waitFor(() => {
-    expect(document.title).toBe("Not Allowed")
+    expect(document.title).toBe("Not Allowed | MIT Open")
   })
-  // eslint-disable-next-line testing-library/no-node-access
+
   const meta = document.head.querySelector('meta[name="robots"]')
   expect(meta).toHaveProperty("content", "noindex,noarchive")
 })

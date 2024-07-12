@@ -1,5 +1,7 @@
 import React from "react"
 import { Global, css, theme } from "ol-components"
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 const pageCss = css`
   html {
@@ -8,7 +10,7 @@ const pageCss = css`
   }
 
   body {
-    background-color: ${theme.custom.oldBackgroundColor};
+    background-color: ${theme.custom.colors.lightGray1};
     margin: 0;
     padding: 0;
   }
@@ -18,20 +20,12 @@ const pageCss = css`
   }
 
   #app-container {
-    height: 100vh;
-    margin-top: 80px;
-    ${theme.breakpoints.down("sm")} {
-      margin-top: 60px;
-    }
+    height: calc(100vh - 60px);
+    margin-top: 60px;
   }
 
   a {
     text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-
     color: inherit;
   }
 

@@ -50,7 +50,7 @@ from learning_resources_search.serializers import (
     serialize_percolate_query_for_update,
 )
 from main.celery import app
-from main.utils import chunks, merge_strings, now_in_utc
+from main.utils import chunks, frontend_absolute_url, merge_strings, now_in_utc
 from profiles.utils import send_template_email
 
 User = get_user_model()
@@ -141,7 +141,7 @@ def _infer_search_url(percolate_query):
     if "endpoint" in query_string_params:
         query_string_params.pop("endpoint")
     query_string = urlencode(query_string_params, doseq=True)
-    return f"{settings.SITE_BASE_URL}/search?{query_string}"
+    return frontend_absolute_url(f"/search?{query_string}")
 
 
 def _group_percolated_rows(rows):
@@ -199,6 +199,7 @@ def send_subscription_emails(self, subscription_type, period="daily"):
     """
     Send subscription emails by percolating matched documents
     """
+    log.info("Sending %s subscription emails for %s", period, subscription_type)
     delta = datetime.timedelta(days=1)
     if period == "weekly":
         delta = datetime.timedelta(days=7)
@@ -344,6 +345,56 @@ def index_course_content_files(course_ids, index_types):
 
 
 @app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def index_content_files(
+    content_file_ids,
+    learning_resource_id,
+    index_types=IndexestoUpdate.all_indexes.value,
+):
+    """
+    Index a list of content files
+
+    Args:
+        content_file_ids(array of int): List of content file ids
+        learning_resource_id(int): Learning resource id of the content files
+        index_types (string): one of the values IndexestoUpdate. Whether the default
+            index, the reindexing index or both need to be updated
+
+    """
+    try:
+        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
+            api.index_content_files(
+                content_file_ids, learning_resource_id, index_types=index_types
+            )
+    except (RetryError, Ignore):
+        raise
+    except:  # noqa: E722
+        error = "index_content_files threw an error"
+        log.exception(error)
+        return error
+
+
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def deindex_content_files(content_file_ids, learning_resource_id):
+    """
+    Deindex a list of content files
+
+    Args:
+        content_file_ids(array of int): List of content file ids
+        learning_resource_id(int): Learning resource id of the content files
+
+    """
+    try:
+        with wrap_retry_exception(*SEARCH_CONN_EXCEPTIONS):
+            api.deindex_content_files(content_file_ids, learning_resource_id)
+    except (RetryError, Ignore):
+        raise
+    except:  # noqa: E722
+        error = "deindex_content_files threw an error"
+        log.exception(error)
+        return error
+
+
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
 def index_run_content_files(run_id, index_types=IndexestoUpdate.all_indexes.value):
     """
     Index content files for a LearningResourceRun
@@ -407,11 +458,26 @@ def wrap_retry_exception(*exception_classes):
 
 
 @app.task(bind=True)
-def start_recreate_index(self, indexes):
+def start_recreate_index(self, indexes, remove_existing_reindexing_tags):
     """
     Wipe and recreate index and mapping, and index all items.
     """
     try:
+        if not remove_existing_reindexing_tags:
+            existing_reindexing_indexes = api.get_existing_reindexing_indexes(indexes)
+
+            if existing_reindexing_indexes:
+                error = (
+                    f"Reindexing in progress. Reindexing indexes already exist: "
+                    f"{', '.join(existing_reindexing_indexes)}"
+                )
+                log.exception(error)
+                return error
+
+        api.delete_orphaned_indexes(
+            indexes, delete_reindexing_tags=remove_existing_reindexing_tags
+        )
+
         new_backing_indices = {
             obj_type: api.create_backing_index(obj_type) for obj_type in indexes
         }
@@ -434,38 +500,44 @@ def start_recreate_index(self, indexes):
 
         if COURSE_TYPE in indexes:
             blocklisted_ids = load_course_blocklist()
-            index_tasks = (
-                index_tasks
-                + [
-                    index_learning_resources.si(
+            index_tasks = index_tasks + [
+                index_learning_resources.si(
+                    ids,
+                    COURSE_TYPE,
+                    index_types=IndexestoUpdate.reindexing_index.value,
+                )
+                for ids in chunks(
+                    Course.objects.filter(learning_resource__published=True)
+                    .exclude(learning_resource__readable_id=blocklisted_ids)
+                    .order_by("learning_resource_id")
+                    .values_list("learning_resource_id", flat=True),
+                    chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                )
+            ]
+
+            for course in (
+                Course.objects.filter(learning_resource__published=True)
+                .filter(learning_resource__etl_source__in=RESOURCE_FILE_ETL_SOURCES)
+                .exclude(learning_resource__readable_id=blocklisted_ids)
+                .order_by("learning_resource_id")
+            ):
+                index_tasks = index_tasks + [
+                    index_content_files.si(
                         ids,
-                        COURSE_TYPE,
+                        course.learning_resource_id,
                         index_types=IndexestoUpdate.reindexing_index.value,
                     )
                     for ids in chunks(
-                        Course.objects.filter(learning_resource__published=True)
-                        .exclude(learning_resource__readable_id=blocklisted_ids)
-                        .order_by("learning_resource_id")
-                        .values_list("learning_resource_id", flat=True),
-                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-                    )
-                ]
-                + [
-                    index_course_content_files.si(
-                        ids, index_types=IndexestoUpdate.reindexing_index.value
-                    )
-                    for ids in chunks(
-                        Course.objects.filter(learning_resource__published=True)
-                        .filter(
-                            learning_resource__etl_source__in=RESOURCE_FILE_ETL_SOURCES
+                        ContentFile.objects.filter(
+                            run__learning_resource_id=course.learning_resource_id,
+                            published=True,
+                            run__published=True,
                         )
-                        .exclude(learning_resource__readable_id=blocklisted_ids)
-                        .order_by("learning_resource_id")
-                        .values_list("learning_resource_id", flat=True),
-                        chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
+                        .order_by("id")
+                        .values_list("id", flat=True),
+                        chunk_size=settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE,
                     )
                 ]
-            )
 
         for resource_type in [
             PROGRAM_TYPE,
@@ -554,7 +626,10 @@ def start_update_index(self, indexes, etl_source):
 
 def get_update_resource_files_tasks(blocklisted_ids, etl_source):
     """
-    Get list of tasks to update course files
+    Get list of tasks to update course files.
+    This task upserts content files for courses that are published and delists content
+    files that are not published but are part of a published course.
+
     Args:
         blocklisted_ids(list of int): List of course id's to exclude
         etl_source(str): ETL source filter for the task
@@ -574,15 +649,41 @@ def get_update_resource_files_tasks(blocklisted_ids, etl_source):
                 etl_source__in=RESOURCE_FILE_ETL_SOURCES
             )
 
-        return [
-            index_course_content_files.si(
-                ids, index_types=IndexestoUpdate.current_index.value
-            )
-            for ids in chunks(
-                course_update_query.values_list("id", flat=True),
-                chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
-            )
-        ]
+        index_tasks = []
+
+        for learning_resource in course_update_query.order_by("id"):
+            index_tasks = index_tasks + [
+                index_content_files.si(
+                    ids,
+                    learning_resource.id,
+                    index_types=IndexestoUpdate.current_index.value,
+                )
+                for ids in chunks(
+                    ContentFile.objects.filter(
+                        run__learning_resource_id=learning_resource.id,
+                        published=True,
+                        run__published=True,
+                    )
+                    .order_by("id")
+                    .values_list("id", flat=True),
+                    chunk_size=settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE,
+                )
+            ]
+
+            index_tasks = index_tasks + [
+                deindex_content_files.si(ids, learning_resource.id)
+                for ids in chunks(
+                    ContentFile.objects.filter(
+                        run__learning_resource_id=learning_resource.id
+                    )
+                    .filter(Q(published=False) | Q(run__published=False))
+                    .order_by("id")
+                    .values_list("id", flat=True),
+                    chunk_size=settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE,
+                )
+            ]
+
+        return index_tasks
     else:
         return []
 
@@ -682,7 +783,9 @@ def get_update_learning_resource_tasks(resource_type):
     ]
 
 
-@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+@app.task(
+    acks_late=True, autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m"
+)
 def finish_recreate_index(results, backing_indices):
     """
     Swap reindex backing index with default backing index
@@ -694,7 +797,9 @@ def finish_recreate_index(results, backing_indices):
     errors = merge_strings(results)
     if errors:
         try:
-            api.delete_orphaned_indices()
+            api.delete_orphaned_indexes(
+                list(backing_indices.keys()), delete_reindexing_tags=True
+            )
         except RequestError as ex:
             raise RetryError(str(ex)) from ex
         msg = f"Errors occurred during recreate_index: {errors}"

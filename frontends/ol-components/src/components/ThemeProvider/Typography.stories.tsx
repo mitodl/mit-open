@@ -1,8 +1,6 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import Typography from "@mui/material/Typography"
-import Button from "@mui/material/Button"
-import Stack from "@mui/material/Stack"
 
 const meta: Meta<typeof Typography> = {
   title: "smoot-design/Typography",
@@ -57,21 +55,6 @@ export const Paragraphs: Story = {
           <Typography variant="body4">Body level 4, {text}</Typography>
         </li>
       </ul>
-    )
-  },
-}
-
-export const Buttons: Story = {
-  render: () => {
-    return (
-      <Stack spacing={2} direction="row" alignItems="center">
-        <Button size="small" variant="outlined">
-          Small
-        </Button>
-        <Button size="large" variant="outlined">
-          Large
-        </Button>
-      </Stack>
     )
   },
 }

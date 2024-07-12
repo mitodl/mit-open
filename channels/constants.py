@@ -2,8 +2,8 @@
 
 from named_enum import ExtendedEnum
 
-FIELD_ROLE_MODERATORS = "moderators"
-FIELD_ROLE_CHOICES = (FIELD_ROLE_MODERATORS,)  # Just moderators for now
+CHANNEL_ROLE_MODERATORS = "moderators"
+CHANNEL_ROLE_CHOICES = (CHANNEL_ROLE_MODERATORS,)  # Just moderators for now
 
 
 class ChannelType(ExtendedEnum):
@@ -13,5 +13,5 @@ class ChannelType(ExtendedEnum):
 
     topic = "Topic"
     department = "Department"
-    offeror = "Offeror"
+    unit = "Unit"
     pathway = "Pathway"

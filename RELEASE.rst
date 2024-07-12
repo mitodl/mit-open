@@ -1,6 +1,324 @@
 Release Notes
 =============
 
+Version 0.13.18 (Released July 10, 2024)
+---------------
+
+- Fix logout view (#1236)
+- remove manage widgets (#1239)
+- Unit and detail page copy updates (#1235)
+- Align departments listing colors to designs (#1238)
+- resource drawer UI fixes (#1237)
+- Remove "Top picks" carousel if no results (#1195)
+- fix learning path count, increase item page size (#1230)
+- Use ovewrite=True when calling pluggy function from upsert_offered_by (#1227)
+- open resources in new tab (#1220)
+- extra weight for instructors (#1231)
+- Homepage and nav drawer copy edits (#1233)
+- Update dependency eslint-plugin-jest to v28 (#1038)
+- Only publish enrollable mitxonline courses (#1229)
+- Navigation UI fixes (#1228)
+- better spacing around pagination component (#1219)
+- Update resource drawer text and URL for podcast episodes (#1191)
+- resource type (#1222)
+- Data fixtures app for loading static fixtures (#1218)
+- Webpack build config loads .env files for running outside of Docker (#1221)
+- Updates icons to use Remixicons where they don't already (#1157)
+- make primary buttons shadowy, remove edge=none (#1213)
+- resource category tabs (#1211)
+- Fix storybook github pages publishing (#1200)
+- Fix and reenable onboarding page tests (#1216)
+- Removed nginx serving of frontend locally (#1179)
+- Update actions/checkout digest to 692973e (#961)
+- Privacy policy updates (#1208)
+
+Version 0.13.17 (Released July 02, 2024)
+---------------
+
+- Fix default image height in resource cards (#1212)
+- update unit names (#1198)
+- Update opensearchproject/opensearch Docker tag to v2.15.0 (#1205)
+- Update mcr.microsoft.com/playwright Docker tag to v1.45.0 (#1203)
+- Update dependency ruff to v0.5.0 (#1202)
+- Update Node.js to v20.15.0 (#1201)
+- Shanbady/log out flow (#1199)
+- update mitpe unit data (#1194)
+- update sloan executive education offerings (#1193)
+- adding post logout redirect to keycloak (#1192)
+- stop publishing github pages every pr (#1197)
+- setting 100px as default width for buttons (#1185)
+- Don't display carousel tabs if there's no data to display (#1169)
+- Filled vs Unfilled Bookmarks (#1180)
+- Square aspect ratio for media resource images (#1183)
+- Add resource category to apis (#1188)
+- Scroll results into view when paginating (#1189)
+- Drawer CSS fixes (#1190)
+- Updates to ChoiceBox; Checkbox, Radio components (#1174)
+
+Version 0.13.16 (Released June 28, 2024)
+---------------
+
+- adding command to remove old tables (#1186)
+- New default image for learning resources (#1136)
+- Swap search and login button (#1181)
+- Adding the PostHog settings to the "Build frontend" step (#1182)
+- facet order (#1171)
+- rename field to channel (#1170)
+- fixing width of unit page logo for small devices (#1151)
+
+Version 0.13.15 (Released June 27, 2024)
+---------------
+
+- fix content file search (#1167)
+- Set default ordering by position for userlist and learningresource relationships (#1165)
+- fix flaky test (#1168)
+- Update favicons (#1153)
+- de-flake a test (#1166)
+- Shanbady/search page card mobile updates (#1156)
+- remove course filter from featured carousel (#1164)
+- Update Select and Dropdown components (#1160)
+- Adds a separate pane for the filter CTAs, adds an apply button on mobile (#1144)
+- Search facet styles and animation (#1143)
+- Modifications to api/search filtering with comma values (#1122)
+- [pre-commit.ci] pre-commit autoupdate (#1110)
+- Update Yarn to v4.3.1 (#1145)
+
+Version 0.13.14 (Released June 26, 2024)
+---------------
+
+- better chunk sizes (#1159)
+- Use course_description_html field for OCW courses (#1154)
+- Update dependency eslint-plugin-mdx to v3 (#1149)
+- sort by -views instead (#1158)
+- exposing hijack routes via nginx conf (#1152)
+- sort the media carousel tabs by "new" (#1155)
+- Update dependency faker to v25 (#1150)
+- Update codecov/codecov-action action to v4.5.0 (#1148)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.22 (#1147)
+- Update dependency ruff to v0.4.10 (#1146)
+
+Version 0.13.13 (Released June 21, 2024)
+---------------
+
+- Some copy edits and minor about page styling updates (#1141)
+- creating profile automatically for logged in user (#1140)
+
+Version 0.13.12 (Released June 21, 2024)
+---------------
+
+- Search facet checkbox and label styles (#1137)
+- Applies new fixes for the homepage and unit page testimonial sliders (#1131)
+- fixing sort method for panel detail display (#1130)
+- add learning materials tab (#1132)
+
+Version 0.13.11 (Released June 21, 2024)
+---------------
+
+- about page updates (#1134)
+
+Version 0.13.10 (Released June 20, 2024)
+---------------
+
+- Channel page updates (#1126)
+
+Version 0.13.9 (Released June 20, 2024)
+--------------
+
+- removing check for live attribute (#1128)
+- Shanbady/copy edits for milestone demo (#1125)
+- Signup Popover (#1109)
+- show podcast_episode in media carousel all (#1123)
+- Updates to page titles (#1121)
+- Shanbady/minor UI updates (#1118)
+- Shanbady/navigation UI fixes (#1119)
+- mitx - only ingest published courses (#1102)
+- Make resource.prices = most recent published run prices if there is no next run (#1116)
+- switch default sort to use popular instead of created on (#1120)
+- Fix populate_featured_lists mgmt command (#1097)
+
+Version 0.13.8 (Released June 20, 2024)
+--------------
+
+- add is_learning_material filter show courses and programs first in default sort (#1104)
+- dashboard my lists style fixes (#1107)
+- Updates to learning resource price display (#1108)
+- Add profile edit page (#1029)
+- Append `/static` to the front of the testimonial marketing card image (#1115)
+- two separate search inputs (#1111)
+
+Version 0.13.7 (Released June 18, 2024)
+--------------
+
+- Redoing the marketing image selector (#1113)
+- Update Python to v3.12.4 (#1035)
+- Update the conditional for the marketing image test to drop out if we haven't seen a marketing image at all yet (#1112)
+- Update Yarn to v4.3.0 (#1095)
+- Homepage Stories & Events layout fixes (#1103)
+- Add marketing images to homepage testimonial, fix some styling issues (#1077)
+- Contentfile archive comparison fix (#1078)
+- Sort run prices on save; make learning resource prices equal "next run" prices (#1085)
+- units page fixes (#1083)
+- Rename test appropriately and increase the timeout (#1105)
+- Fixed typo in the fastly api key secret name. (#1106)
+- breadcrumbs component (#1089)
+- Update dependency eslint-config-mitodl to v2 (#1037)
+
+Version 0.13.6 (Released June 17, 2024)
+--------------
+
+- update course-search-utils (#1100)
+- fix safari image stretching, cap image width (#1096)
+- excluding users from serializer (#1090)
+- All MITx runs should include a price of $0 (#1094)
+- Search page styling (#1051)
+- fix dashboard home certificate course carousel (#1082)
+- Shanbady/browse by topics UI fix (#1081)
+- Update OCW unit name in offerors.json (#1084)
+- Add -E flag to worker subcommand for sending task events
+
+Version 0.13.5 (Released June 14, 2024)
+--------------
+
+- Shanbady/topic channel page header fixes (#1063)
+- Learning Resource cards, list view (#1054)
+
+Version 0.13.4 (Released June 14, 2024)
+--------------
+
+- Expose thenew user login url as an environment var (#1086)
+- Homepage "Personalize" (#1068)
+- Revert "Add flag for Celery to send task state change events"
+- Adds learner testimonials component for interior pages (#1001)
+- Fixing image width and position on the homepage carousel; prefer cover image over avatar if it exists (#1073)
+- Add pytest-xdist and use it for CI builds (#1074)
+- Update names in offerors.json (#1079)
+- Add flag for Celery to send task state change events
+
+Version 0.13.3 (Released June 14, 2024)
+--------------
+
+- Adds ScrollRestoration to the spot in the routes; sets it up so it works only if the path change; adds a mit-open mock for window.scrollTo (#1071)
+- Change LOGIN_REDIRECT_URL and LOGOUT_REDIRECT_URL to use the base URL (#1075)
+- dashboard home (#1062)
+
+Version 0.13.2 (Released June 13, 2024)
+--------------
+
+- Update education options and add to schema (#1069)
+- local dev: Read `MITOPEN_AXIOS_BASE_PATH` from env (#1065)
+- Add featured courses carousel to unit channel page (#1059)
+- Add ordering to testimonials, adjust view on homepage testimonial carousel (#1067)
+- Change channel type and url from "offeror" to "unit" (#1031)
+- Update dependency ruff to v0.4.8 (#1036)
+
+Version 0.13.1 (Released June 11, 2024)
+--------------
+
+- [pre-commit.ci] pre-commit autoupdate (#1055)
+- make slick fail more gracefully when parent width unconstrained (#1060)
+- Copies static assets to root build directory (#1053)
+- Absolute login return URL (#1052)
+- resource card fallback image and alt text fix (#1050)
+- pass cardProps to loading state (#1048)
+- search prefs learning format as list (#1056)
+- Use login redirect URL setting for social auth as well
+- Expose the login/logout redirects as an environment variable (#1046)
+- homepage hero bug fixes (#1034)
+
+Version 0.13.0 (Released June 10, 2024)
+--------------
+
+- adding configurable csrf settings and including withXSRFToken in axio… (#1042)
+- Fixing authentication issue, and fixing some filtering and test issues (#1039)
+- dashboard menu (#1009)
+- Add a setting for CSRF_COOKIE_DOMAIN (#1032)
+- Add backpopulate command for user profiles (#1030)
+- mitxonline etl v2 api (#1026)
+- Carousel Makeover: New tabs and Fixed Width Cards (#1020)
+- Update dependency @testing-library/react to v16 (#799)
+- Offerer banner UI (#1010)
+- Add learner testimonials homepage UI (#916)
+- Update dependency @ckeditor/ckeditor5-react to v7 (#997)
+- Update dependency django-json-widget to v2 (#998)
+- OLL contentfiles (#1008)
+- Profile-based search filter preferences (#1017)
+- Move Heroku deploy step prior to S3 publish
+- Fix bug with onboarding steps not saving (#1024)
+- Purge the fastly cache on deploy (#1021)
+- Write the commit hash to the frontend build for doof (#1023)
+- Point the webpack dev server proxy to the new API subdomain (#1022)
+- Learning Resource Card (#1015)
+- certification_type (#1018)
+- Insert learning_path_parents/user_list_parents values into search results (#992)
+- Add channel links to unit cards (#1016)
+- [pre-commit.ci] pre-commit autoupdate (#1004)
+- Add onboarding ux (#964)
+- Style tab components to match figma (#1012)
+- Toggle Professional (#1005)
+- Absolute URL to backend for login routes (#1011)
+- Add nullalbe offerors and channels to the testimonials model/API (#1006)
+
+Version 0.12.1 (Released June 05, 2024)
+--------------
+
+- Update profile fields to align to LR data (#1003)
+- Shanbady/additional details on offeror channel pages (#975)
+- Configure JS bundles to use a separate API domain for backend (#1002)
+- units page (#974)
+- Add "tertiary" button and align button terminology with Figma (#991)
+
+Version 0.12.0 (Released June 04, 2024)
+--------------
+
+- Sortby parameter for news_events (#989)
+- Reduce functions occurring under atomic transactions; fix dedupe comparison in load_course function (#984)
+- Update nginx Docker tag to v1.27.0 (#996)
+- Update Node.js to v20.14.0 (#995)
+- Update dependency ruff to v0.4.7 (#993)
+- Update mcr.microsoft.com/playwright Docker tag to v1.44.1 (#994)
+- More code sharing between search and field pages (#980)
+- Certification types for learning resources (#977)
+- Revert "Error if using npm to install (#986)" (#990)
+- Learning resource drawer design updates (#958)
+- Adding the EMBEDLY_KEY to the populated envvars for building the release static assets. (#987)
+- Error if using npm to install (#986)
+- Fix celerybeat schedule (#985)
+- Lock file maintenance (#982)
+- extract images for news articles (#973)
+
+Version 0.11.0 (Released May 30, 2024)
+--------------
+
+- remove package-lock.json (#978)
+- Randomize featured api order by offeror, keep sorting by position (#971)
+- Updated hero page (#969)
+- Fix flaky test by specifying a sort of program courses in serializer (#972)
+- Clean up resource descriptions (#957)
+- Fix Featured API requests (#970)
+- add the footer & privacy, terms and about us pages (#956)
+- Adding call to update program topics during ETL loads (#952)
+- Upgrade NukaCarousel to v8 (#960)
+- Fix detect-secrets baseline file (#967)
+- Update dependency @faker-js/faker to v8 (#797)
+
+Version 0.10.2 (Released May 30, 2024)
+--------------
+
+- Update dependency @ckeditor/ckeditor5-dev-utils to v40 (#933)
+- Topics Listing Page (#946)
+- Do not ingest prolearn courses/programs from the past (#955)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v40 (#932)
+- add All tab (#966)
+- fix flaky test (#965)
+- [pre-commit.ci] pre-commit autoupdate (#963)
+- Update codecov/codecov-action action to v4.4.1 (#962)
+- Featured Courses Carousel (#959)
+- horizontal facets (#949)
+- workflow changes to publish static assets to s3 (#922)
+- daily subscription email to subscribers (#937)
+- Filtering by free=true should exclude all professional courses (#948)
+- Fix flaky test (#954)
+
 Version 0.10.1 (Released May 24, 2024)
 --------------
 

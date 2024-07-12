@@ -145,7 +145,10 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
 
     code = FuzzyChoice([offeror.name for offeror in constants.OfferedBy])
     name = factory.LazyAttribute(lambda o: constants.OfferedBy[o.code].value)
-    professional = Faker("boolean")
+    professional = factory.LazyAttribute(
+        lambda o: o.code
+        not in (constants.OfferedBy.mitx.name, constants.OfferedBy.ocw.name)
+    )
 
     class Meta:
         model = models.LearningResourceOfferor
@@ -192,6 +195,28 @@ class LearningResourceFactory(DjangoModelFactory):
     content_tags = factory.PostGeneration(_post_gen_tags)
     published = True
     learning_format = factory.List(random.choices(LearningResourceFormat.names()))  # noqa: S311
+    professional = factory.LazyAttribute(
+        lambda o: o.resource_type
+        in (
+            constants.LearningResourceType.course.name,
+            constants.LearningResourceType.program.name,
+        )
+        and o.offered_by.professional
+    )
+    certification = factory.LazyAttribute(
+        lambda o: (
+            o.professional
+            or (o.offered_by and o.offered_by.code == constants.OfferedBy.mitx.name)
+        )
+        is True
+    )
+    certification_type = factory.LazyAttribute(
+        lambda o: constants.CertificationType.professional.name
+        if o.professional
+        else constants.CertificationType.completion.name
+        if o.certification
+        else constants.CertificationType.none.name
+    )
 
     course = factory.Maybe(
         "create_course",
@@ -451,7 +476,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
             constants.AvailabilityType.archived.value,
         )
     )
-    enrollment_start = factory.Faker("date_time", tzinfo=UTC)
+    enrollment_start = factory.Faker("future_datetime", tzinfo=UTC)
     enrollment_end = factory.LazyAttribute(
         lambda obj: (
             (obj.enrollment_start + timedelta(days=45))
@@ -465,10 +490,12 @@ class LearningResourceRunFactory(DjangoModelFactory):
     end_date = factory.LazyAttribute(
         lambda obj: obj.start_date + timedelta(days=90) if obj.start_date else None
     )
-    prices = [
-        decimal.Decimal(random.uniform(100, 200))  # noqa: S311
-        for _ in range(random.randint(1, 3))  # noqa: S311
-    ]
+    prices = sorted(
+        [
+            decimal.Decimal(random.uniform(100, 200))  # noqa: S311
+            for _ in range(random.randint(1, 3))  # noqa: S311
+        ]
+    )
 
     @factory.post_generation
     def instructors(self, create, extracted, **kwargs):  # noqa: ARG002

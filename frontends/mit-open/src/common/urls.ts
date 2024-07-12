@@ -2,6 +2,8 @@ import { generatePath } from "react-router"
 
 export const HOME = "/"
 
+export const ONBOARDING = "/onboarding"
+
 export const LEARNINGPATH_LISTING = "/learningpaths/"
 export const LEARNINGPATH_VIEW = "/learningpaths/:id"
 export const learningPathsView = (id: number) =>
@@ -23,20 +25,23 @@ export const articlesEditView = (id: number) =>
   generatePath(ARTICLES_EDIT, { id: String(id) })
 
 export const DEPARTMENTS = "/departments/"
+export const TOPICS = "/topics/"
 
-export const FIELD_VIEW = "/c/:channelType/:name" as const
-export const FIELD_EDIT = "/c/:channelType/:name/manage/" as const
-export const FIELD_EDIT_WIDGETS =
+export const CHANNEL_VIEW = "/c/:channelType/:name" as const
+export const CHANNEL_EDIT = "/c/:channelType/:name/manage/" as const
+export const CHANNEL_EDIT_WIDGETS =
   "/c/:channelType/:name/manage/widgets/" as const
-export const makeFieldViewPath = (channelType: string, name: string) =>
-  generatePath(FIELD_VIEW, { channelType, name })
-export const makeFieldEditPath = (channelType: string, name: string) =>
-  generatePath(FIELD_EDIT, { channelType, name })
-export const makeFieldManageWidgetsPath = (channelType: string, name: string) =>
-  generatePath(FIELD_EDIT_WIDGETS, { channelType, name })
+export const makeChannelViewPath = (channelType: string, name: string) =>
+  generatePath(CHANNEL_VIEW, { channelType, name })
+export const makeChannelEditPath = (channelType: string, name: string) =>
+  generatePath(CHANNEL_EDIT, { channelType, name })
+export const makeChannelManageWidgetsPath = (
+  channelType: string,
+  name: string,
+) => generatePath(CHANNEL_EDIT_WIDGETS, { channelType, name })
 
-export const LOGIN = "/login/ol-oidc/"
-export const LOGOUT = "/logout/"
+export const LOGIN = `${process.env.MITOPEN_API_BASE_URL}/login/ol-oidc/`
+export const LOGOUT = `${process.env.MITOPEN_API_BASE_URL}/logout/`
 
 /**
  * Returns the URL to the login page, with a `next` parameter to redirect back
@@ -57,13 +62,25 @@ export const login = ({
    * There's no need to encode the path parameter (it might contain slashes,
    * but those are allowed in search parameters) so let's keep it readable.
    */
-  const next = `${pathname}${encodeURIComponent(search)}`
+  const next = `${window.location.origin}${pathname}${encodeURIComponent(search)}`
   return `${LOGIN}?next=${next}`
 }
 
 export const DASHBOARD = "/dashboard/"
 
 export const SEARCH = "/search/"
+
+export const ABOUT = "/about/"
+
+export const ACCESSIBILITY = "https://accessibility.mit.edu/"
+
+export const PRIVACY = "/privacy/"
+
+export const TERMS = "/terms/"
+
+export const UNITS = "/units/"
+
+export const CONTACT = "mailto:odl-discussions-support@mit.edu"
 
 export const RESOURCE_DRAWER_QUERY_PARAM = "resource"
 

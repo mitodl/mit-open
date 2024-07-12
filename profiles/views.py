@@ -2,12 +2,9 @@
 
 from cairosvg import svg2png  # pylint:disable=no-name-in-module
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, redirect
-from django.utils.decorators import method_decorator
-from django.views import View
+from django.http import HttpResponse
+from django.shortcuts import redirect
 from django.views.decorators.cache import cache_page
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import mixins, viewsets
@@ -18,6 +15,7 @@ from main.permissions import (
     AnonymousAccessReadonlyPermission,
     IsStaffPermission,
 )
+from profiles.api import ensure_profile
 from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebsite
 from profiles.permissions import HasEditPermission, HasSiteEditPermission
 from profiles.serializers import (
@@ -68,7 +66,17 @@ class ProfileViewSet(
     )
     lookup_field = "user__username"
 
+    def get_object(self):
+        """Get the profile"""
+
+        if self.kwargs["user__username"] == "me":
+            ensure_profile(self.request.user)
+            return self.request.user.profile
+        else:
+            return super().get_object()
+
     def get_serializer_context(self):
+        """Get the serializer context"""
         return {"include_user_websites": True}
 
 
@@ -131,23 +139,3 @@ def name_initials_avatar_view(
         return redirect(DEFAULT_PROFILE_IMAGE)
     svg = generate_svg_avatar(user.profile.name, int(size), color, bgcolor)
     return HttpResponse(svg2png(bytestring=svg), content_type="image/png")
-
-
-@method_decorator(login_required, name="dispatch")
-class ProgramLetterInterceptView(View):
-    """
-    View that generates a uuid (via ProgramLetter instance)
-    and then passes the user along to the shareable letter view
-    """
-
-    def get(self, request, **kwargs):
-        program_id = kwargs.get("program_id")
-        certificate = get_object_or_404(
-            ProgramCertificate,
-            user_email=request.user.email,
-            micromasters_program_id=program_id,
-        )
-        letter, created = ProgramLetter.objects.get_or_create(
-            user=request.user, certificate=certificate
-        )
-        return HttpResponseRedirect(letter.get_absolute_url())

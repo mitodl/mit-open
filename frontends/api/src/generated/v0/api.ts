@@ -52,23 +52,23 @@ export interface Attestation {
    */
   id: number
   /**
-   *
+   * Get the avatar image URL
    * @type {string}
    * @memberof Attestation
    */
-  avatar: string
+  avatar: string | null
   /**
-   *
+   * Get the avatar_small image URL
    * @type {string}
    * @memberof Attestation
    */
-  avatar_small: string
+  avatar_small: string | null
   /**
-   *
+   * Get the avatar_medium image URL
    * @type {string}
    * @memberof Attestation
    */
-  avatar_medium: string
+  avatar_medium: string | null
   /**
    * Get the cover image URL
    * @type {string}
@@ -106,6 +106,12 @@ export interface Attestation {
    */
   quote: string
   /**
+   * The position the attestation should occupy
+   * @type {number}
+   * @memberof Attestation
+   */
+  position?: number
+  /**
    * The datetime to show the testimonial
    * @type {string}
    * @memberof Attestation
@@ -116,13 +122,23 @@ export interface Attestation {
    * @type {Array<number>}
    * @memberof Attestation
    */
-  channels: Array<number>
+  channels?: Array<number>
+  /**
+   * The offerors that this attestation can appear on
+   * @type {Array<string>}
+   * @memberof Attestation
+   */
+  offerors?: Array<string>
 }
 /**
  *
  * @export
  * @enum {string}
  */
+
+export const BlankEnumDescriptions = {
+  "": "",
+} as const
 
 export const BlankEnum = {
   Empty: "",
@@ -149,14 +165,125 @@ export interface CKEditorSettings {
  * @enum {string}
  */
 
+export const CertificateDesiredEnumDescriptions = {
+  yes: "Yes",
+  no: "No",
+  "not-sure-yet": "Not Sure Yet",
+} as const
+
 export const CertificateDesiredEnum = {
+  /**
+   * Yes
+   */
   Yes: "yes",
+  /**
+   * No
+   */
   No: "no",
+  /**
+   * Not Sure Yet
+   */
   NotSureYet: "not-sure-yet",
 } as const
 
 export type CertificateDesiredEnum =
   (typeof CertificateDesiredEnum)[keyof typeof CertificateDesiredEnum]
+
+/**
+ * @type Channel
+ * @export
+ */
+export type Channel =
+  | ({ channel_type: "department" } & DepartmentChannel)
+  | ({ channel_type: "pathway" } & PathwayChannel)
+  | ({ channel_type: "topic" } & TopicChannel)
+  | ({ channel_type: "unit" } & UnitChannel)
+
+/**
+ * Write serializer for Channel. Uses primary keys for referenced objects during requests, and delegates to ChannelSerializer for responses.
+ * @export
+ * @interface ChannelCreateRequest
+ */
+export interface ChannelCreateRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCreateRequest
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCreateRequest
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCreateRequest
+   */
+  public_description?: string
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ChannelCreateRequest
+   */
+  sub_channels?: Array<string>
+  /**
+   * Learning path featured in this channel.
+   * @type {number}
+   * @memberof ChannelCreateRequest
+   */
+  featured_list?: number | null
+  /**
+   * Learning paths in this channel.
+   * @type {Array<number>}
+   * @memberof ChannelCreateRequest
+   */
+  lists?: Array<number>
+  /**
+   *
+   * @type {File}
+   * @memberof ChannelCreateRequest
+   */
+  avatar?: File | null
+  /**
+   *
+   * @type {File}
+   * @memberof ChannelCreateRequest
+   */
+  banner?: File | null
+  /**
+   *
+   * @type {any}
+   * @memberof ChannelCreateRequest
+   */
+  about?: any | null
+  /**
+   *
+   * @type {ChannelTypeEnum}
+   * @memberof ChannelCreateRequest
+   */
+  channel_type: ChannelTypeEnum
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCreateRequest
+   */
+  search_filter?: string
+  /**
+   *
+   * @type {ChannelTopicDetailRequest}
+   * @memberof ChannelCreateRequest
+   */
+  topic_detail?: ChannelTopicDetailRequest | null
+  /**
+   *
+   * @type {ChannelDepartmentDetailRequest}
+   * @memberof ChannelCreateRequest
+   */
+  department_detail?: ChannelDepartmentDetailRequest | null
+}
 
 /**
  * Serializer for the ChannelDepartmentDetail model
@@ -185,17 +312,48 @@ export interface ChannelDepartmentDetailRequest {
   department?: string | null
 }
 /**
- * Serializer for the ChannelOfferorDetail model
+ * Serializer for moderators
  * @export
- * @interface ChannelOfferorDetail
+ * @interface ChannelModerator
  */
-export interface ChannelOfferorDetail {
+export interface ChannelModerator {
   /**
-   *
-   * @type {LearningResourceOfferorDetail}
-   * @memberof ChannelOfferorDetail
+   * Returns the name for the moderator
+   * @type {string}
+   * @memberof ChannelModerator
    */
-  offeror: LearningResourceOfferorDetail
+  moderator_name?: string
+  /**
+   * Get the email from the associated user
+   * @type {string}
+   * @memberof ChannelModerator
+   */
+  email?: string
+  /**
+   * Get the full name of the associated user
+   * @type {string}
+   * @memberof ChannelModerator
+   */
+  full_name: string
+}
+/**
+ * Serializer for moderators
+ * @export
+ * @interface ChannelModeratorRequest
+ */
+export interface ChannelModeratorRequest {
+  /**
+   * Returns the name for the moderator
+   * @type {string}
+   * @memberof ChannelModeratorRequest
+   */
+  moderator_name?: string
+  /**
+   * Get the email from the associated user
+   * @type {string}
+   * @memberof ChannelModeratorRequest
+   */
+  email?: string
 }
 /**
  * Serializer for the ChannelTopicDetail model
@@ -224,15 +382,34 @@ export interface ChannelTopicDetailRequest {
   topic?: number | null
 }
 /**
- * * `topic` - Topic * `department` - Department * `offeror` - Offeror * `pathway` - Pathway
+ * * `topic` - Topic * `department` - Department * `unit` - Unit * `pathway` - Pathway
  * @export
  * @enum {string}
  */
 
+export const ChannelTypeEnumDescriptions = {
+  topic: "Topic",
+  department: "Department",
+  unit: "Unit",
+  pathway: "Pathway",
+} as const
+
 export const ChannelTypeEnum = {
+  /**
+   * Topic
+   */
   Topic: "topic",
+  /**
+   * Department
+   */
   Department: "department",
-  Offeror: "offeror",
+  /**
+   * Unit
+   */
+  Unit: "unit",
+  /**
+   * Pathway
+   */
   Pathway: "pathway",
 } as const
 
@@ -240,32 +417,75 @@ export type ChannelTypeEnum =
   (typeof ChannelTypeEnum)[keyof typeof ChannelTypeEnum]
 
 /**
- * * `online` - Online * `in-person` - In-Person * `hybrid` - Hybrid
+ * Serializer for the ChannelOfferorDetail model
+ * @export
+ * @interface ChannelUnitDetail
+ */
+export interface ChannelUnitDetail {
+  /**
+   *
+   * @type {LearningResourceOfferorDetail}
+   * @memberof ChannelUnitDetail
+   */
+  unit: LearningResourceOfferorDetail
+}
+/**
+ * * `` - ---- * `Doctorate` - Doctorate * `Master\'s or professional degree` - Master\'s or professional degree * `Bachelor\'s degree` - Bachelor\'s degree * `Associate degree` - Associate degree * `Secondary/high school` - Secondary/high school * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school * `Elementary/primary school` - Elementary/primary school * `No formal education` - No formal education * `Other education` - Other education
  * @export
  * @enum {string}
  */
 
-export const CourseFormatEnum = {
-  Online: "online",
-  InPerson: "in-person",
-  Hybrid: "hybrid",
+export const CurrentEducationEnumDescriptions = {
+  Doctorate: "Doctorate",
+  "Master's or professional degree": "Master's or professional degree",
+  "Bachelor's degree": "Bachelor's degree",
+  "Associate degree": "Associate degree",
+  "Secondary/high school": "Secondary/high school",
+  "Junior secondary/junior high/middle school":
+    "Junior secondary/junior high/middle school",
+  "Elementary/primary school": "Elementary/primary school",
+  "No formal education": "No formal education",
+  "Other education": "Other education",
 } as const
 
-export type CourseFormatEnum =
-  (typeof CourseFormatEnum)[keyof typeof CourseFormatEnum]
-
-/**
- * * `no-formal` - No Formal Education * `primary` - Primary Education * `secondary-or-high-school` - Secondary Education or High School * `ged` - GED * `vocational-qualification` - Vocational Qualification
- * @export
- * @enum {string}
- */
-
 export const CurrentEducationEnum = {
-  NoFormal: "no-formal",
-  Primary: "primary",
-  SecondaryOrHighSchool: "secondary-or-high-school",
-  Ged: "ged",
-  VocationalQualification: "vocational-qualification",
+  /**
+   * Doctorate
+   */
+  Doctorate: "Doctorate",
+  /**
+   * Master&#39;s or professional degree
+   */
+  MastersOrProfessionalDegree: "Master's or professional degree",
+  /**
+   * Bachelor&#39;s degree
+   */
+  BachelorsDegree: "Bachelor's degree",
+  /**
+   * Associate degree
+   */
+  AssociateDegree: "Associate degree",
+  /**
+   * Secondary/high school
+   */
+  SecondaryHighSchool: "Secondary/high school",
+  /**
+   * Junior secondary/junior high/middle school
+   */
+  JuniorSecondaryJuniorHighMiddleSchool:
+    "Junior secondary/junior high/middle school",
+  /**
+   * Elementary/primary school
+   */
+  ElementaryPrimarySchool: "Elementary/primary school",
+  /**
+   * No formal education
+   */
+  NoFormalEducation: "No formal education",
+  /**
+   * Other education
+   */
+  OtherEducation: "Other education",
 } as const
 
 export type CurrentEducationEnum =
@@ -333,10 +553,10 @@ export interface DepartmentChannel {
   featured_list: DepartmentChannelFeaturedList | null
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<SubChannel>}
    * @memberof DepartmentChannel
    */
-  subfields: Array<Subfield>
+  sub_channels: Array<SubChannel>
   /**
    *
    * @type {DepartmentChannelTypeEnum}
@@ -381,12 +601,6 @@ export interface DepartmentChannel {
   about?: any | null
   /**
    *
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
    * @type {any}
    * @memberof DepartmentChannel
    */
@@ -405,6 +619,12 @@ export interface DepartmentChannel {
   public_description?: string
   /**
    *
+   * @type {string}
+   * @memberof DepartmentChannel
+   */
+  ga_tracking_id?: string
+  /**
+   *
    * @type {number}
    * @memberof DepartmentChannel
    */
@@ -412,7 +632,7 @@ export interface DepartmentChannel {
 }
 
 /**
- * Learning path featured in this field.
+ * Learning path featured in this channel.
  * @export
  * @interface DepartmentChannelFeaturedList
  */
@@ -442,7 +662,14 @@ export interface DepartmentChannelFeaturedList {
  * @enum {string}
  */
 
+export const DepartmentChannelTypeEnumDescriptions = {
+  department: "Department",
+} as const
+
 export const DepartmentChannelTypeEnum = {
+  /**
+   * Department
+   */
   Department: "department",
 } as const
 
@@ -522,6 +749,10 @@ export interface EventFeedItem {
  * @export
  * @enum {string}
  */
+
+export const EventFeedItemFeedTypeEnumDescriptions = {
+  events: "",
+} as const
 
 export const EventFeedItemFeedTypeEnum = {
   Events: "events",
@@ -687,8 +918,19 @@ export interface FeedSource {
  * @enum {string}
  */
 
+export const FeedSourceFeedTypeEnumDescriptions = {
+  news: "News",
+  events: "Events",
+} as const
+
 export const FeedSourceFeedTypeEnum = {
+  /**
+   * News
+   */
   News: "news",
+  /**
+   * Events
+   */
   Events: "events",
 } as const
 
@@ -696,193 +938,63 @@ export type FeedSourceFeedTypeEnum =
   (typeof FeedSourceFeedTypeEnum)[keyof typeof FeedSourceFeedTypeEnum]
 
 /**
- * @type FieldChannel
- * @export
- */
-export type FieldChannel =
-  | ({ channel_type: "department" } & DepartmentChannel)
-  | ({ channel_type: "offeror" } & OfferorChannel)
-  | ({ channel_type: "pathway" } & PathwayChannel)
-  | ({ channel_type: "topic" } & TopicChannel)
-
-/**
- * Write serializer for FieldChannel. Uses primary keys for referenced objects during requests, and delegates to FieldChannelSerializer for responses.
- * @export
- * @interface FieldChannelCreateRequest
- */
-export interface FieldChannelCreateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreateRequest
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreateRequest
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreateRequest
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FieldChannelCreateRequest
-   */
-  subfields?: Array<string>
-  /**
-   * Learning path featured in this field.
-   * @type {number}
-   * @memberof FieldChannelCreateRequest
-   */
-  featured_list?: number | null
-  /**
-   * Learning paths in this field.
-   * @type {Array<number>}
-   * @memberof FieldChannelCreateRequest
-   */
-  lists?: Array<number>
-  /**
-   *
-   * @type {File}
-   * @memberof FieldChannelCreateRequest
-   */
-  avatar?: File | null
-  /**
-   *
-   * @type {File}
-   * @memberof FieldChannelCreateRequest
-   */
-  banner?: File | null
-  /**
-   *
-   * @type {any}
-   * @memberof FieldChannelCreateRequest
-   */
-  about?: any | null
-  /**
-   *
-   * @type {ChannelTypeEnum}
-   * @memberof FieldChannelCreateRequest
-   */
-  channel_type: ChannelTypeEnum
-  /**
-   *
-   * @type {string}
-   * @memberof FieldChannelCreateRequest
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {any}
-   * @memberof FieldChannelCreateRequest
-   */
-  configuration?: any | null
-  /**
-   *
-   * @type {ChannelTopicDetailRequest}
-   * @memberof FieldChannelCreateRequest
-   */
-  topic_detail?: ChannelTopicDetailRequest | null
-  /**
-   *
-   * @type {ChannelDepartmentDetailRequest}
-   * @memberof FieldChannelCreateRequest
-   */
-  department_detail?: ChannelDepartmentDetailRequest | null
-}
-
-/**
- * Serializer for moderators
- * @export
- * @interface FieldModerator
- */
-export interface FieldModerator {
-  /**
-   * Returns the name for the moderator
-   * @type {string}
-   * @memberof FieldModerator
-   */
-  moderator_name?: string
-  /**
-   * Get the email from the associated user
-   * @type {string}
-   * @memberof FieldModerator
-   */
-  email?: string
-  /**
-   * Get the full name of the associated user
-   * @type {string}
-   * @memberof FieldModerator
-   */
-  full_name: string
-}
-/**
- * Serializer for moderators
- * @export
- * @interface FieldModeratorRequest
- */
-export interface FieldModeratorRequest {
-  /**
-   * Returns the name for the moderator
-   * @type {string}
-   * @memberof FieldModeratorRequest
-   */
-  moderator_name?: string
-  /**
-   * Get the email from the associated user
-   * @type {string}
-   * @memberof FieldModeratorRequest
-   */
-  email?: string
-}
-/**
  * * `career-growth` - Career Growth * `supplemental-learning` - Supplemental Learning * `just-to-learn` - Just to Learn
  * @export
  * @enum {string}
  */
 
+export const GoalsEnumDescriptions = {
+  "career-growth": "Career Growth",
+  "supplemental-learning": "Supplemental Learning",
+  "just-to-learn": "Just to Learn",
+} as const
+
 export const GoalsEnum = {
+  /**
+   * Career Growth
+   */
   CareerGrowth: "career-growth",
+  /**
+   * Supplemental Learning
+   */
   SupplementalLearning: "supplemental-learning",
+  /**
+   * Just to Learn
+   */
   JustToLearn: "just-to-learn",
 } as const
 
 export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
 
 /**
- * * `computer-science` - Computer Science * `business` - Business * `engineering` - Engineering * `leadership` - Leadership * `organized-behavior` - Organized Behavior * `management` - Management * `electrical-engineering` - Electrical Engineering * `information-technology` - Information Technology * `biology` - Biology * `earth-science` - Earth Science * `environmental-engineering` - Environmental Engineering * `health-and-medicine` - Health & Medicine * `probability-and-stats` - Probability & Stats * `economics` - Economics * `history` - History * `mathematics` - Mathematics * `mechanical-engineering` - Mechanical Engineering * `other` - Other
+ * * `online` - Online * `hybrid` - Hybrid * `in_person` - In person
  * @export
  * @enum {string}
  */
 
-export const InterestsEnum = {
-  ComputerScience: "computer-science",
-  Business: "business",
-  Engineering: "engineering",
-  Leadership: "leadership",
-  OrganizedBehavior: "organized-behavior",
-  Management: "management",
-  ElectricalEngineering: "electrical-engineering",
-  InformationTechnology: "information-technology",
-  Biology: "biology",
-  EarthScience: "earth-science",
-  EnvironmentalEngineering: "environmental-engineering",
-  HealthAndMedicine: "health-and-medicine",
-  ProbabilityAndStats: "probability-and-stats",
-  Economics: "economics",
-  History: "history",
-  Mathematics: "mathematics",
-  MechanicalEngineering: "mechanical-engineering",
-  Other: "other",
+export const LearningFormatEnumDescriptions = {
+  online: "Online",
+  hybrid: "Hybrid",
+  in_person: "In person",
 } as const
 
-export type InterestsEnum = (typeof InterestsEnum)[keyof typeof InterestsEnum]
+export const LearningFormatEnum = {
+  /**
+   * Online
+   */
+  Online: "online",
+  /**
+   * Hybrid
+   */
+  Hybrid: "hybrid",
+  /**
+   * In person
+   */
+  InPerson: "in_person",
+} as const
+
+export type LearningFormatEnum =
+  (typeof LearningFormatEnum)[keyof typeof LearningFormatEnum]
 
 /**
  * Serializer for a minimal preview of Learning Paths
@@ -981,6 +1093,12 @@ export interface LearningResourceOfferorDetail {
    * @memberof LearningResourceOfferorDetail
    */
   more_information?: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetail
+   */
+  value_prop?: string
 }
 /**
  * Serializer for LearningResourceOfferor with all details
@@ -1048,6 +1166,43 @@ export interface LearningResourceOfferorDetailRequest {
    * @memberof LearningResourceOfferorDetailRequest
    */
   more_information?: string
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceOfferorDetailRequest
+   */
+  value_prop?: string
+}
+/**
+ * Serializer for LearningResourceTopic model
+ * @export
+ * @interface LearningResourceTopic
+ */
+export interface LearningResourceTopic {
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceTopic
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceTopic
+   */
+  name: string
+  /**
+   *
+   * @type {number}
+   * @memberof LearningResourceTopic
+   */
+  parent?: number | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceTopic
+   */
+  channel_url: string
 }
 /**
  * Serializer for News FeedItem
@@ -1123,165 +1278,16 @@ export interface NewsFeedItem {
  * @enum {string}
  */
 
+export const NewsFeedItemFeedTypeEnumDescriptions = {
+  news: "",
+} as const
+
 export const NewsFeedItemFeedTypeEnum = {
   News: "news",
 } as const
 
 export type NewsFeedItemFeedTypeEnum =
   (typeof NewsFeedItemFeedTypeEnum)[keyof typeof NewsFeedItemFeedTypeEnum]
-
-/**
- * Serializer for Channel model of type offeror
- * @export
- * @interface OfferorChannel
- */
-export interface OfferorChannel {
-  /**
-   *
-   * @type {number}
-   * @memberof OfferorChannel
-   */
-  id: number
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  avatar?: string | null
-  /**
-   * Get the avatar image small URL
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  avatar_small: string | null
-  /**
-   * Get the avatar image medium URL
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  avatar_medium: string | null
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  banner?: string | null
-  /**
-   * Return true if user is a moderator for the channel
-   * @type {boolean}
-   * @memberof OfferorChannel
-   */
-  is_moderator: boolean
-  /**
-   *
-   * @type {Array<LearningPathPreview>}
-   * @memberof OfferorChannel
-   */
-  lists: Array<LearningPathPreview>
-  /**
-   * Get the URL for the channel
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  channel_url: string
-  /**
-   *
-   * @type {DepartmentChannelFeaturedList}
-   * @memberof OfferorChannel
-   */
-  featured_list: DepartmentChannelFeaturedList | null
-  /**
-   *
-   * @type {Array<Subfield>}
-   * @memberof OfferorChannel
-   */
-  subfields: Array<Subfield>
-  /**
-   *
-   * @type {OfferorChannelTypeEnum}
-   * @memberof OfferorChannel
-   */
-  channel_type: OfferorChannelTypeEnum
-  /**
-   *
-   * @type {ChannelOfferorDetail}
-   * @memberof OfferorChannel
-   */
-  offeror_detail: ChannelOfferorDetail
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  created_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  updated_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  title: string
-  /**
-   *
-   * @type {any}
-   * @memberof OfferorChannel
-   */
-  about?: any | null
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
-   * @type {any}
-   * @memberof OfferorChannel
-   */
-  configuration?: any | null
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {string}
-   * @memberof OfferorChannel
-   */
-  public_description?: string
-  /**
-   *
-   * @type {number}
-   * @memberof OfferorChannel
-   */
-  widget_list?: number | null
-}
-
-/**
- * * `offeror` - Offeror
- * @export
- * @enum {string}
- */
-
-export const OfferorChannelTypeEnum = {
-  Offeror: "offeror",
-} as const
-
-export type OfferorChannelTypeEnum =
-  (typeof OfferorChannelTypeEnum)[keyof typeof OfferorChannelTypeEnum]
 
 /**
  *
@@ -1313,6 +1319,37 @@ export interface PaginatedAttestationList {
    * @memberof PaginatedAttestationList
    */
   results: Array<Attestation>
+}
+/**
+ *
+ * @export
+ * @interface PaginatedChannelList
+ */
+export interface PaginatedChannelList {
+  /**
+   *
+   * @type {number}
+   * @memberof PaginatedChannelList
+   */
+  count: number
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedChannelList
+   */
+  next?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof PaginatedChannelList
+   */
+  previous?: string | null
+  /**
+   *
+   * @type {Array<Channel>}
+   * @memberof PaginatedChannelList
+   */
+  results: Array<Channel>
 }
 /**
  *
@@ -1377,124 +1414,87 @@ export interface PaginatedFeedSourceList {
   results: Array<FeedSource>
 }
 /**
- *
+ * Similar to ChannelCreateSerializer, with read-only name
  * @export
- * @interface PaginatedFieldChannelList
+ * @interface PatchedChannelWriteRequest
  */
-export interface PaginatedFieldChannelList {
-  /**
-   *
-   * @type {number}
-   * @memberof PaginatedFieldChannelList
-   */
-  count: number
+export interface PatchedChannelWriteRequest {
   /**
    *
    * @type {string}
-   * @memberof PaginatedFieldChannelList
-   */
-  next?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedFieldChannelList
-   */
-  previous?: string | null
-  /**
-   *
-   * @type {Array<FieldChannel>}
-   * @memberof PaginatedFieldChannelList
-   */
-  results: Array<FieldChannel>
-}
-/**
- * Similar to FieldChannelCreateSerializer, with read-only name
- * @export
- * @interface PatchedFieldChannelWriteRequest
- */
-export interface PatchedFieldChannelWriteRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   name?: string
   /**
    *
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   title?: string
   /**
    *
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   public_description?: string
   /**
    *
    * @type {Array<string>}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
-  subfields?: Array<string>
+  sub_channels?: Array<string>
   /**
-   * Learning path featured in this field.
+   * Learning path featured in this channel.
    * @type {number}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   featured_list?: number | null
   /**
-   * Learning paths in this field.
+   * Learning paths in this channel.
    * @type {Array<number>}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   lists?: Array<number>
   /**
    * Get the avatar image URL
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   avatar?: string | null
   /**
    * Get the banner image URL
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   banner?: string | null
   /**
    *
    * @type {any}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   about?: any | null
   /**
    *
    * @type {ChannelTypeEnum}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   channel_type?: ChannelTypeEnum
   /**
    *
    * @type {string}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   search_filter?: string
   /**
    *
-   * @type {any}
-   * @memberof PatchedFieldChannelWriteRequest
-   */
-  configuration?: any | null
-  /**
-   *
    * @type {ChannelTopicDetailRequest}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   topic_detail?: ChannelTopicDetailRequest | null
   /**
    *
    * @type {ChannelDepartmentDetailRequest}
-   * @memberof PatchedFieldChannelWriteRequest
+   * @memberof PatchedChannelWriteRequest
    */
   department_detail?: ChannelDepartmentDetailRequest | null
 }
@@ -1561,10 +1561,10 @@ export interface PatchedProfileRequest {
   location?: any | null
   /**
    *
-   * @type {Array<InterestsEnum>}
+   * @type {Array<number>}
    * @memberof PatchedProfileRequest
    */
-  interests?: Array<InterestsEnum>
+  topic_interests?: Array<number>
   /**
    *
    * @type {Array<GoalsEnum>}
@@ -1591,10 +1591,10 @@ export interface PatchedProfileRequest {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestCourseFormat}
+   * @type {PatchedProfileRequestLearningFormat}
    * @memberof PatchedProfileRequest
    */
-  course_format?: PatchedProfileRequestCourseFormat
+  learning_format?: PatchedProfileRequestLearningFormat
 }
 /**
  * @type PatchedProfileRequestCertificateDesired
@@ -1605,18 +1605,18 @@ export type PatchedProfileRequestCertificateDesired =
   | CertificateDesiredEnum
 
 /**
- * @type PatchedProfileRequestCourseFormat
- * @export
- */
-export type PatchedProfileRequestCourseFormat = BlankEnum | CourseFormatEnum
-
-/**
  * @type PatchedProfileRequestCurrentEducation
  * @export
  */
 export type PatchedProfileRequestCurrentEducation =
   | BlankEnum
   | CurrentEducationEnum
+
+/**
+ * @type PatchedProfileRequestLearningFormat
+ * @export
+ */
+export type PatchedProfileRequestLearningFormat = BlankEnum | LearningFormatEnum
 
 /**
  * @type PatchedProfileRequestTimeCommitment
@@ -1718,10 +1718,10 @@ export interface PathwayChannel {
   featured_list: DepartmentChannelFeaturedList | null
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<SubChannel>}
    * @memberof PathwayChannel
    */
-  subfields: Array<Subfield>
+  sub_channels: Array<SubChannel>
   /**
    *
    * @type {PathwayChannelTypeEnum}
@@ -1760,12 +1760,6 @@ export interface PathwayChannel {
   about?: any | null
   /**
    *
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
    * @type {any}
    * @memberof PathwayChannel
    */
@@ -1784,6 +1778,12 @@ export interface PathwayChannel {
   public_description?: string
   /**
    *
+   * @type {string}
+   * @memberof PathwayChannel
+   */
+  ga_tracking_id?: string
+  /**
+   *
    * @type {number}
    * @memberof PathwayChannel
    */
@@ -1796,13 +1796,45 @@ export interface PathwayChannel {
  * @enum {string}
  */
 
+export const PathwayChannelTypeEnumDescriptions = {
+  pathway: "Pathway",
+} as const
+
 export const PathwayChannelTypeEnum = {
+  /**
+   * Pathway
+   */
   Pathway: "pathway",
 } as const
 
 export type PathwayChannelTypeEnum =
   (typeof PathwayChannelTypeEnum)[keyof typeof PathwayChannelTypeEnum]
 
+/**
+ * Serializer for profile search preference filters
+ * @export
+ * @interface PreferencesSearch
+ */
+export interface PreferencesSearch {
+  /**
+   *
+   * @type {boolean}
+   * @memberof PreferencesSearch
+   */
+  certification?: boolean
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PreferencesSearch
+   */
+  topic?: Array<string>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PreferencesSearch
+   */
+  learning_format?: Array<string>
+}
 /**
  * Serializer for Profile
  * @export
@@ -1889,10 +1921,10 @@ export interface Profile {
   placename: string
   /**
    *
-   * @type {Array<InterestsEnum>}
+   * @type {Array<LearningResourceTopic>}
    * @memberof Profile
    */
-  interests?: Array<InterestsEnum>
+  topic_interests?: Array<LearningResourceTopic>
   /**
    *
    * @type {Array<GoalsEnum>}
@@ -1919,10 +1951,16 @@ export interface Profile {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestCourseFormat}
+   * @type {PatchedProfileRequestLearningFormat}
    * @memberof Profile
    */
-  course_format?: PatchedProfileRequestCourseFormat
+  learning_format?: PatchedProfileRequestLearningFormat
+  /**
+   *
+   * @type {PreferencesSearch}
+   * @memberof Profile
+   */
+  preference_search_filters: PreferencesSearch
 }
 /**
  * Serializer for Profile
@@ -1986,10 +2024,10 @@ export interface ProfileRequest {
   location?: any | null
   /**
    *
-   * @type {Array<InterestsEnum>}
+   * @type {Array<number>}
    * @memberof ProfileRequest
    */
-  interests?: Array<InterestsEnum>
+  topic_interests?: Array<number>
   /**
    *
    * @type {Array<GoalsEnum>}
@@ -2016,10 +2054,10 @@ export interface ProfileRequest {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestCourseFormat}
+   * @type {PatchedProfileRequestLearningFormat}
    * @memberof ProfileRequest
    */
-  course_format?: PatchedProfileRequestCourseFormat
+  learning_format?: PatchedProfileRequestLearningFormat
 }
 /**
  * Serializer for Program Certificates
@@ -2033,18 +2071,6 @@ export interface ProgramCertificate {
    * @memberof ProgramCertificate
    */
   record_hash: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  program_letter_generate_url: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  program_letter_share_url: string
   /**
    *
    * @type {string}
@@ -2160,8 +2186,19 @@ export interface ProgramCertificate {
  * @enum {string}
  */
 
+export const ResourceTypeEnumDescriptions = {
+  news: "news",
+  events: "events",
+} as const
+
 export const ResourceTypeEnum = {
+  /**
+   * news
+   */
   News: "news",
+  /**
+   * events
+   */
   Events: "events",
 } as const
 
@@ -2174,37 +2211,56 @@ export type ResourceTypeEnum =
  * @enum {string}
  */
 
+export const SiteTypeEnumDescriptions = {
+  facebook: "facebook",
+  linkedin: "linkedin",
+  personal: "personal",
+  twitter: "twitter",
+} as const
+
 export const SiteTypeEnum = {
+  /**
+   * facebook
+   */
   Facebook: "facebook",
+  /**
+   * linkedin
+   */
   Linkedin: "linkedin",
+  /**
+   * personal
+   */
   Personal: "personal",
+  /**
+   * twitter
+   */
   Twitter: "twitter",
 } as const
 
 export type SiteTypeEnum = (typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]
 
 /**
- * Serializer for Subfields
+ * Serializer for SubChannels
  * @export
- * @interface Subfield
+ * @interface SubChannel
  */
-export interface Subfield {
+export interface SubChannel {
   /**
    *
    * @type {string}
-   * @memberof Subfield
+   * @memberof SubChannel
    */
-  parent_field: string
+  parent_channel: string
   /**
    *
    * @type {string}
-   * @memberof Subfield
+   * @memberof SubChannel
    */
-  field_channel: string
+  channel: string
   /**
    *
    * @type {number}
-   * @memberof Subfield
+   * @memberof SubChannel
    */
   position?: number
 }
@@ -2214,11 +2270,34 @@ export interface Subfield {
  * @enum {string}
  */
 
+export const TimeCommitmentEnumDescriptions = {
+  "0-to-5-hours": "<5 hours/week",
+  "5-to-10-hours": "5-10 hours/week",
+  "10-to-20-hours": "10-20 hours/week",
+  "20-to-30-hours": "20-30 hours/week",
+  "30-plus-hours": "30+ hours/week",
+} as const
+
 export const TimeCommitmentEnum = {
+  /**
+   * &lt;5 hours/week
+   */
   _0To5Hours: "0-to-5-hours",
+  /**
+   * 5-10 hours/week
+   */
   _5To10Hours: "5-to-10-hours",
+  /**
+   * 10-20 hours/week
+   */
   _10To20Hours: "10-to-20-hours",
+  /**
+   * 20-30 hours/week
+   */
   _20To30Hours: "20-to-30-hours",
+  /**
+   * 30+ hours/week
+   */
   _30PlusHours: "30-plus-hours",
 } as const
 
@@ -2287,10 +2366,10 @@ export interface TopicChannel {
   featured_list: DepartmentChannelFeaturedList | null
   /**
    *
-   * @type {Array<Subfield>}
+   * @type {Array<SubChannel>}
    * @memberof TopicChannel
    */
-  subfields: Array<Subfield>
+  sub_channels: Array<SubChannel>
   /**
    *
    * @type {TopicChannelTypeEnum}
@@ -2335,12 +2414,6 @@ export interface TopicChannel {
   about?: any | null
   /**
    *
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
    * @type {any}
    * @memberof TopicChannel
    */
@@ -2359,6 +2432,12 @@ export interface TopicChannel {
   public_description?: string
   /**
    *
+   * @type {string}
+   * @memberof TopicChannel
+   */
+  ga_tracking_id?: string
+  /**
+   *
    * @type {number}
    * @memberof TopicChannel
    */
@@ -2371,12 +2450,179 @@ export interface TopicChannel {
  * @enum {string}
  */
 
+export const TopicChannelTypeEnumDescriptions = {
+  topic: "Topic",
+} as const
+
 export const TopicChannelTypeEnum = {
+  /**
+   * Topic
+   */
   Topic: "topic",
 } as const
 
 export type TopicChannelTypeEnum =
   (typeof TopicChannelTypeEnum)[keyof typeof TopicChannelTypeEnum]
+
+/**
+ * Serializer for Channel model of type unit
+ * @export
+ * @interface UnitChannel
+ */
+export interface UnitChannel {
+  /**
+   *
+   * @type {number}
+   * @memberof UnitChannel
+   */
+  id: number
+  /**
+   * Get the avatar image URL
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  avatar?: string | null
+  /**
+   * Get the avatar image small URL
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  avatar_small: string | null
+  /**
+   * Get the avatar image medium URL
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  avatar_medium: string | null
+  /**
+   * Get the banner image URL
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  banner?: string | null
+  /**
+   * Return true if user is a moderator for the channel
+   * @type {boolean}
+   * @memberof UnitChannel
+   */
+  is_moderator: boolean
+  /**
+   *
+   * @type {Array<LearningPathPreview>}
+   * @memberof UnitChannel
+   */
+  lists: Array<LearningPathPreview>
+  /**
+   * Get the URL for the channel
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  channel_url: string
+  /**
+   *
+   * @type {DepartmentChannelFeaturedList}
+   * @memberof UnitChannel
+   */
+  featured_list: DepartmentChannelFeaturedList | null
+  /**
+   *
+   * @type {Array<SubChannel>}
+   * @memberof UnitChannel
+   */
+  sub_channels: Array<SubChannel>
+  /**
+   *
+   * @type {UnitChannelTypeEnum}
+   * @memberof UnitChannel
+   */
+  channel_type: UnitChannelTypeEnum
+  /**
+   *
+   * @type {ChannelUnitDetail}
+   * @memberof UnitChannel
+   */
+  unit_detail: ChannelUnitDetail
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  updated_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  title: string
+  /**
+   *
+   * @type {any}
+   * @memberof UnitChannel
+   */
+  about?: any | null
+  /**
+   *
+   * @type {any}
+   * @memberof UnitChannel
+   */
+  configuration?: any | null
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  search_filter?: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  public_description?: string
+  /**
+   *
+   * @type {string}
+   * @memberof UnitChannel
+   */
+  ga_tracking_id?: string
+  /**
+   *
+   * @type {number}
+   * @memberof UnitChannel
+   */
+  widget_list?: number | null
+}
+
+/**
+ * * `unit` - Unit
+ * @export
+ * @enum {string}
+ */
+
+export const UnitChannelTypeEnumDescriptions = {
+  unit: "Unit",
+} as const
+
+export const UnitChannelTypeEnum = {
+  /**
+   * Unit
+   */
+  Unit: "unit",
+} as const
+
+export type UnitChannelTypeEnum =
+  (typeof UnitChannelTypeEnum)[keyof typeof UnitChannelTypeEnum]
 
 /**
  * Serializer for User
@@ -2604,10 +2850,29 @@ export interface WidgetListRequest {
  * @enum {string}
  */
 
-export const WidgetTypeEnum = {
+export const WidgetTypeEnumDescriptions = {
   Markdown: "Markdown",
+  URL: "URL",
+  "RSS Feed": "RSS Feed",
+  People: "People",
+} as const
+
+export const WidgetTypeEnum = {
+  /**
+   * Markdown
+   */
+  Markdown: "Markdown",
+  /**
+   * URL
+   */
   Url: "URL",
+  /**
+   * RSS Feed
+   */
   RssFeed: "RSS Feed",
+  /**
+   * People
+   */
   People: "People",
 } as const
 
@@ -2623,21 +2888,21 @@ export const ChannelsApiAxiosParamCreator = function (
 ) {
   return {
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
-     * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
+     * @param {ChannelCreateRequest} ChannelCreateRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     channelsCreate: async (
-      FieldChannelCreateRequest: FieldChannelCreateRequest,
+      ChannelCreateRequest: ChannelCreateRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'FieldChannelCreateRequest' is not null or undefined
+      // verify required parameter 'ChannelCreateRequest' is not null or undefined
       assertParamExists(
         "channelsCreate",
-        "FieldChannelCreateRequest",
-        FieldChannelCreateRequest,
+        "ChannelCreateRequest",
+        ChannelCreateRequest,
       )
       const localVarPath = `/api/v0/channels/`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -2666,7 +2931,7 @@ export const ChannelsApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        FieldChannelCreateRequest,
+        ChannelCreateRequest,
         localVarRequestOptions,
         configuration,
       )
@@ -2677,9 +2942,9 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Destroy
-     * @param {number} id A unique integer value identifying this field channel.
+     * @param {number} id A unique integer value identifying this channel.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2723,9 +2988,9 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
-     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;offeror&#x60; - Offeror * &#x60;pathway&#x60; - Pathway
+     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -2781,15 +3046,15 @@ export const ChannelsApiAxiosParamCreator = function (
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators Create
+     * @summary Channel Moderators Create
      * @param {string} id
-     * @param {FieldModeratorRequest} [FieldModeratorRequest]
+     * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     channelsModeratorsCreate: async (
       id: string,
-      FieldModeratorRequest?: FieldModeratorRequest,
+      ChannelModeratorRequest?: ChannelModeratorRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -2824,7 +3089,7 @@ export const ChannelsApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        FieldModeratorRequest,
+        ChannelModeratorRequest,
         localVarRequestOptions,
         configuration,
       )
@@ -2836,7 +3101,7 @@ export const ChannelsApiAxiosParamCreator = function (
     },
     /**
      * Remove the user from the moderator groups for this website
-     * @summary Field Moderators Destroy
+     * @summary Channel Moderators Destroy
      * @param {string} id
      * @param {string} moderator_name
      * @param {*} [options] Override http request option.
@@ -2892,7 +3157,7 @@ export const ChannelsApiAxiosParamCreator = function (
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators List
+     * @summary Channel Moderators List
      * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -2937,16 +3202,16 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Update
-     * @param {number} id A unique integer value identifying this field channel.
-     * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
+     * @param {number} id A unique integer value identifying this channel.
+     * @param {PatchedChannelWriteRequest} [PatchedChannelWriteRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     channelsPartialUpdate: async (
       id: number,
-      PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest,
+      PatchedChannelWriteRequest?: PatchedChannelWriteRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
@@ -2981,7 +3246,7 @@ export const ChannelsApiAxiosParamCreator = function (
         ...options.headers,
       }
       localVarRequestOptions.data = serializeDataIfNeeded(
-        PatchedFieldChannelWriteRequest,
+        PatchedChannelWriteRequest,
         localVarRequestOptions,
         configuration,
       )
@@ -2992,9 +3257,9 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Retrieve
-     * @param {number} id A unique integer value identifying this field channel.
+     * @param {number} id A unique integer value identifying this channel.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3038,8 +3303,8 @@ export const ChannelsApiAxiosParamCreator = function (
       }
     },
     /**
-     * View for retrieving an individual field channel by type and name
-     * @summary FieldChannel Detail Lookup by channel type and name
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {string} name
      * @param {*} [options] Override http request option.
@@ -3100,20 +3365,20 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ChannelsApiAxiosParamCreator(configuration)
   return {
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
-     * @param {FieldChannelCreateRequest} FieldChannelCreateRequest
+     * @param {ChannelCreateRequest} ChannelCreateRequest
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async channelsCreate(
-      FieldChannelCreateRequest: FieldChannelCreateRequest,
+      ChannelCreateRequest: ChannelCreateRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.channelsCreate(
-        FieldChannelCreateRequest,
+        ChannelCreateRequest,
         options,
       )
       const index = configuration?.serverIndex ?? 0
@@ -3128,9 +3393,9 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Destroy
-     * @param {number} id A unique integer value identifying this field channel.
+     * @param {number} id A unique integer value identifying this channel.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3156,9 +3421,9 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
-     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;offeror&#x60; - Offeror * &#x60;pathway&#x60; - Pathway
+     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
      * @param {*} [options] Override http request option.
@@ -3173,7 +3438,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<PaginatedFieldChannelList>
+      ) => AxiosPromise<PaginatedChannelList>
     > {
       const localVarAxiosArgs = await localVarAxiosParamCreator.channelsList(
         channel_type,
@@ -3194,23 +3459,26 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators Create
+     * @summary Channel Moderators Create
      * @param {string} id
-     * @param {FieldModeratorRequest} [FieldModeratorRequest]
+     * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async channelsModeratorsCreate(
       id: string,
-      FieldModeratorRequest?: FieldModeratorRequest,
+      ChannelModeratorRequest?: ChannelModeratorRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldModerator>
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<ChannelModerator>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsModeratorsCreate(
           id,
-          FieldModeratorRequest,
+          ChannelModeratorRequest,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -3226,7 +3494,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     },
     /**
      * Remove the user from the moderator groups for this website
-     * @summary Field Moderators Destroy
+     * @summary Channel Moderators Destroy
      * @param {string} id
      * @param {string} moderator_name
      * @param {*} [options] Override http request option.
@@ -3259,7 +3527,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators List
+     * @summary Channel Moderators List
      * @param {string} id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3271,7 +3539,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       (
         axios?: AxiosInstance,
         basePath?: string,
-      ) => AxiosPromise<Array<FieldModerator>>
+      ) => AxiosPromise<Array<ChannelModerator>>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsModeratorsList(id, options)
@@ -3287,24 +3555,24 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Update
-     * @param {number} id A unique integer value identifying this field channel.
-     * @param {PatchedFieldChannelWriteRequest} [PatchedFieldChannelWriteRequest]
+     * @param {number} id A unique integer value identifying this channel.
+     * @param {PatchedChannelWriteRequest} [PatchedChannelWriteRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async channelsPartialUpdate(
       id: number,
-      PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest,
+      PatchedChannelWriteRequest?: PatchedChannelWriteRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsPartialUpdate(
           id,
-          PatchedFieldChannelWriteRequest,
+          PatchedChannelWriteRequest,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -3319,9 +3587,9 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Retrieve
-     * @param {number} id A unique integer value identifying this field channel.
+     * @param {number} id A unique integer value identifying this channel.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -3329,7 +3597,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       id: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsRetrieve(id, options)
@@ -3345,8 +3613,8 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * View for retrieving an individual field channel by type and name
-     * @summary FieldChannel Detail Lookup by channel type and name
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {string} name
      * @param {*} [options] Override http request option.
@@ -3357,7 +3625,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
       name: string,
       options?: RawAxiosRequestConfig,
     ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FieldChannel>
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.channelsTypeRetrieve(
@@ -3391,7 +3659,7 @@ export const ChannelsApiFactory = function (
   const localVarFp = ChannelsApiFp(configuration)
   return {
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3400,13 +3668,13 @@ export const ChannelsApiFactory = function (
     channelsCreate(
       requestParameters: ChannelsApiChannelsCreateRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannel> {
+    ): AxiosPromise<Channel> {
       return localVarFp
-        .channelsCreate(requestParameters.FieldChannelCreateRequest, options)
+        .channelsCreate(requestParameters.ChannelCreateRequest, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Destroy
      * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3421,7 +3689,7 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary List
      * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3430,7 +3698,7 @@ export const ChannelsApiFactory = function (
     channelsList(
       requestParameters: ChannelsApiChannelsListRequest = {},
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedFieldChannelList> {
+    ): AxiosPromise<PaginatedChannelList> {
       return localVarFp
         .channelsList(
           requestParameters.channel_type,
@@ -3442,7 +3710,7 @@ export const ChannelsApiFactory = function (
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators Create
+     * @summary Channel Moderators Create
      * @param {ChannelsApiChannelsModeratorsCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3450,18 +3718,18 @@ export const ChannelsApiFactory = function (
     channelsModeratorsCreate(
       requestParameters: ChannelsApiChannelsModeratorsCreateRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldModerator> {
+    ): AxiosPromise<ChannelModerator> {
       return localVarFp
         .channelsModeratorsCreate(
           requestParameters.id,
-          requestParameters.FieldModeratorRequest,
+          requestParameters.ChannelModeratorRequest,
           options,
         )
         .then((request) => request(axios, basePath))
     },
     /**
      * Remove the user from the moderator groups for this website
-     * @summary Field Moderators Destroy
+     * @summary Channel Moderators Destroy
      * @param {ChannelsApiChannelsModeratorsDestroyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3480,7 +3748,7 @@ export const ChannelsApiFactory = function (
     },
     /**
      * View for listing and adding moderators
-     * @summary Field Moderators List
+     * @summary Channel Moderators List
      * @param {ChannelsApiChannelsModeratorsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3488,13 +3756,13 @@ export const ChannelsApiFactory = function (
     channelsModeratorsList(
       requestParameters: ChannelsApiChannelsModeratorsListRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<FieldModerator>> {
+    ): AxiosPromise<Array<ChannelModerator>> {
       return localVarFp
         .channelsModeratorsList(requestParameters.id, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Update
      * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3503,17 +3771,17 @@ export const ChannelsApiFactory = function (
     channelsPartialUpdate(
       requestParameters: ChannelsApiChannelsPartialUpdateRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannel> {
+    ): AxiosPromise<Channel> {
       return localVarFp
         .channelsPartialUpdate(
           requestParameters.id,
-          requestParameters.PatchedFieldChannelWriteRequest,
+          requestParameters.PatchedChannelWriteRequest,
           options,
         )
         .then((request) => request(axios, basePath))
     },
     /**
-     * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Retrieve
      * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
@@ -3522,14 +3790,14 @@ export const ChannelsApiFactory = function (
     channelsRetrieve(
       requestParameters: ChannelsApiChannelsRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannel> {
+    ): AxiosPromise<Channel> {
       return localVarFp
         .channelsRetrieve(requestParameters.id, options)
         .then((request) => request(axios, basePath))
     },
     /**
-     * View for retrieving an individual field channel by type and name
-     * @summary FieldChannel Detail Lookup by channel type and name
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
      * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3537,7 +3805,7 @@ export const ChannelsApiFactory = function (
     channelsTypeRetrieve(
       requestParameters: ChannelsApiChannelsTypeRetrieveRequest,
       options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FieldChannel> {
+    ): AxiosPromise<Channel> {
       return localVarFp
         .channelsTypeRetrieve(
           requestParameters.channel_type,
@@ -3557,10 +3825,10 @@ export const ChannelsApiFactory = function (
 export interface ChannelsApiChannelsCreateRequest {
   /**
    *
-   * @type {FieldChannelCreateRequest}
+   * @type {ChannelCreateRequest}
    * @memberof ChannelsApiChannelsCreate
    */
-  readonly FieldChannelCreateRequest: FieldChannelCreateRequest
+  readonly ChannelCreateRequest: ChannelCreateRequest
 }
 
 /**
@@ -3570,7 +3838,7 @@ export interface ChannelsApiChannelsCreateRequest {
  */
 export interface ChannelsApiChannelsDestroyRequest {
   /**
-   * A unique integer value identifying this field channel.
+   * A unique integer value identifying this channel.
    * @type {number}
    * @memberof ChannelsApiChannelsDestroy
    */
@@ -3584,8 +3852,8 @@ export interface ChannelsApiChannelsDestroyRequest {
  */
 export interface ChannelsApiChannelsListRequest {
   /**
-   * * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;offeror&#x60; - Offeror * &#x60;pathway&#x60; - Pathway
-   * @type {'department' | 'offeror' | 'pathway' | 'topic'}
+   * * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
+   * @type {'department' | 'pathway' | 'topic' | 'unit'}
    * @memberof ChannelsApiChannelsList
    */
   readonly channel_type?: ChannelsListChannelTypeEnum
@@ -3620,10 +3888,10 @@ export interface ChannelsApiChannelsModeratorsCreateRequest {
 
   /**
    *
-   * @type {FieldModeratorRequest}
+   * @type {ChannelModeratorRequest}
    * @memberof ChannelsApiChannelsModeratorsCreate
    */
-  readonly FieldModeratorRequest?: FieldModeratorRequest
+  readonly ChannelModeratorRequest?: ChannelModeratorRequest
 }
 
 /**
@@ -3668,7 +3936,7 @@ export interface ChannelsApiChannelsModeratorsListRequest {
  */
 export interface ChannelsApiChannelsPartialUpdateRequest {
   /**
-   * A unique integer value identifying this field channel.
+   * A unique integer value identifying this channel.
    * @type {number}
    * @memberof ChannelsApiChannelsPartialUpdate
    */
@@ -3676,10 +3944,10 @@ export interface ChannelsApiChannelsPartialUpdateRequest {
 
   /**
    *
-   * @type {PatchedFieldChannelWriteRequest}
+   * @type {PatchedChannelWriteRequest}
    * @memberof ChannelsApiChannelsPartialUpdate
    */
-  readonly PatchedFieldChannelWriteRequest?: PatchedFieldChannelWriteRequest
+  readonly PatchedChannelWriteRequest?: PatchedChannelWriteRequest
 }
 
 /**
@@ -3689,7 +3957,7 @@ export interface ChannelsApiChannelsPartialUpdateRequest {
  */
 export interface ChannelsApiChannelsRetrieveRequest {
   /**
-   * A unique integer value identifying this field channel.
+   * A unique integer value identifying this channel.
    * @type {number}
    * @memberof ChannelsApiChannelsRetrieve
    */
@@ -3725,7 +3993,7 @@ export interface ChannelsApiChannelsTypeRetrieveRequest {
  */
 export class ChannelsApi extends BaseAPI {
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Create
    * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -3737,12 +4005,12 @@ export class ChannelsApi extends BaseAPI {
     options?: RawAxiosRequestConfig,
   ) {
     return ChannelsApiFp(this.configuration)
-      .channelsCreate(requestParameters.FieldChannelCreateRequest, options)
+      .channelsCreate(requestParameters.ChannelCreateRequest, options)
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Destroy
    * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -3759,7 +4027,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary List
    * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -3782,7 +4050,7 @@ export class ChannelsApi extends BaseAPI {
 
   /**
    * View for listing and adding moderators
-   * @summary Field Moderators Create
+   * @summary Channel Moderators Create
    * @param {ChannelsApiChannelsModeratorsCreateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3795,7 +4063,7 @@ export class ChannelsApi extends BaseAPI {
     return ChannelsApiFp(this.configuration)
       .channelsModeratorsCreate(
         requestParameters.id,
-        requestParameters.FieldModeratorRequest,
+        requestParameters.ChannelModeratorRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -3803,7 +4071,7 @@ export class ChannelsApi extends BaseAPI {
 
   /**
    * Remove the user from the moderator groups for this website
-   * @summary Field Moderators Destroy
+   * @summary Channel Moderators Destroy
    * @param {ChannelsApiChannelsModeratorsDestroyRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3824,7 +4092,7 @@ export class ChannelsApi extends BaseAPI {
 
   /**
    * View for listing and adding moderators
-   * @summary Field Moderators List
+   * @summary Channel Moderators List
    * @param {ChannelsApiChannelsModeratorsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3840,7 +4108,7 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Update
    * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -3854,14 +4122,14 @@ export class ChannelsApi extends BaseAPI {
     return ChannelsApiFp(this.configuration)
       .channelsPartialUpdate(
         requestParameters.id,
-        requestParameters.PatchedFieldChannelWriteRequest,
+        requestParameters.PatchedChannelWriteRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
   }
 
   /**
-   * CRUD Operations related to FieldChannels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Retrieve
    * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
@@ -3878,8 +4146,8 @@ export class ChannelsApi extends BaseAPI {
   }
 
   /**
-   * View for retrieving an individual field channel by type and name
-   * @summary FieldChannel Detail Lookup by channel type and name
+   * View for retrieving an individual channel by type and name
+   * @summary Channel Detail Lookup by channel type and name
    * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -3904,9 +4172,9 @@ export class ChannelsApi extends BaseAPI {
  */
 export const ChannelsListChannelTypeEnum = {
   Department: "department",
-  Offeror: "offeror",
   Pathway: "pathway",
   Topic: "topic",
+  Unit: "unit",
 } as const
 export type ChannelsListChannelTypeEnum =
   (typeof ChannelsListChannelTypeEnum)[keyof typeof ChannelsListChannelTypeEnum]
@@ -4055,6 +4323,7 @@ export const NewsEventsApiAxiosParamCreator = function (
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4062,6 +4331,7 @@ export const NewsEventsApiAxiosParamCreator = function (
       feed_type?: Array<NewsEventsListFeedTypeEnum>,
       limit?: number,
       offset?: number,
+      sortby?: NewsEventsListSortbyEnum,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v0/news_events/`
@@ -4090,6 +4360,10 @@ export const NewsEventsApiAxiosParamCreator = function (
 
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
+      }
+
+      if (sortby !== undefined) {
+        localVarQueryParameter["sortby"] = sortby
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -4167,6 +4441,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4174,6 +4449,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
       feed_type?: Array<NewsEventsListFeedTypeEnum>,
       limit?: number,
       offset?: number,
+      sortby?: NewsEventsListSortbyEnum,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -4185,6 +4461,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
         feed_type,
         limit,
         offset,
+        sortby,
         options,
       )
       const index = configuration?.serverIndex ?? 0
@@ -4252,6 +4529,7 @@ export const NewsEventsApiFactory = function (
           requestParameters.feed_type,
           requestParameters.limit,
           requestParameters.offset,
+          requestParameters.sortby,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -4299,6 +4577,13 @@ export interface NewsEventsApiNewsEventsListRequest {
    * @memberof NewsEventsApiNewsEventsList
    */
   readonly offset?: number
+
+  /**
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+   * @type {'-created' | '-event_date' | '-id' | 'created' | 'event_date' | 'id'}
+   * @memberof NewsEventsApiNewsEventsList
+   */
+  readonly sortby?: NewsEventsListSortbyEnum
 }
 
 /**
@@ -4338,6 +4623,7 @@ export class NewsEventsApi extends BaseAPI {
         requestParameters.feed_type,
         requestParameters.limit,
         requestParameters.offset,
+        requestParameters.sortby,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -4369,6 +4655,19 @@ export const NewsEventsListFeedTypeEnum = {
 } as const
 export type NewsEventsListFeedTypeEnum =
   (typeof NewsEventsListFeedTypeEnum)[keyof typeof NewsEventsListFeedTypeEnum]
+/**
+ * @export
+ */
+export const NewsEventsListSortbyEnum = {
+  Created: "-created",
+  EventDate: "-event_date",
+  Id: "-id",
+  Created2: "created",
+  EventDate2: "event_date",
+  Id2: "id",
+} as const
+export type NewsEventsListSortbyEnum =
+  (typeof NewsEventsListSortbyEnum)[keyof typeof NewsEventsListSortbyEnum]
 
 /**
  * NewsEventsSourcesApi - axios parameter creator
@@ -5359,16 +5658,18 @@ export const TestimonialsApiAxiosParamCreator = function (
      * @summary List
      * @param {Array<number>} [channels] The channels the attestation is for
      * @param {number} [limit] Number of results to return per page.
+     * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {boolean} [published] Only return published testimonials
+     * @param {number} [position] Only show items that exist at this position
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     testimonialsList: async (
       channels?: Array<number>,
       limit?: number,
+      offerors?: Array<string>,
       offset?: number,
-      published?: boolean,
+      position?: number,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v0/testimonials/`
@@ -5395,12 +5696,16 @@ export const TestimonialsApiAxiosParamCreator = function (
         localVarQueryParameter["limit"] = limit
       }
 
+      if (offerors) {
+        localVarQueryParameter["offerors"] = offerors
+      }
+
       if (offset !== undefined) {
         localVarQueryParameter["offset"] = offset
       }
 
-      if (published !== undefined) {
-        localVarQueryParameter["published"] = published
+      if (position !== undefined) {
+        localVarQueryParameter["position"] = position
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -5479,16 +5784,18 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
      * @summary List
      * @param {Array<number>} [channels] The channels the attestation is for
      * @param {number} [limit] Number of results to return per page.
+     * @param {Array<string>} [offerors] The offerors the attestation is for
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {boolean} [published] Only return published testimonials
+     * @param {number} [position] Only show items that exist at this position
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async testimonialsList(
       channels?: Array<number>,
       limit?: number,
+      offerors?: Array<string>,
       offset?: number,
-      published?: boolean,
+      position?: number,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -5500,8 +5807,9 @@ export const TestimonialsApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.testimonialsList(
           channels,
           limit,
+          offerors,
           offset,
-          published,
+          position,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -5570,8 +5878,9 @@ export const TestimonialsApiFactory = function (
         .testimonialsList(
           requestParameters.channels,
           requestParameters.limit,
+          requestParameters.offerors,
           requestParameters.offset,
-          requestParameters.published,
+          requestParameters.position,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -5615,6 +5924,13 @@ export interface TestimonialsApiTestimonialsListRequest {
   readonly limit?: number
 
   /**
+   * The offerors the attestation is for
+   * @type {Array<string>}
+   * @memberof TestimonialsApiTestimonialsList
+   */
+  readonly offerors?: Array<string>
+
+  /**
    * The initial index from which to return the results.
    * @type {number}
    * @memberof TestimonialsApiTestimonialsList
@@ -5622,11 +5938,11 @@ export interface TestimonialsApiTestimonialsListRequest {
   readonly offset?: number
 
   /**
-   * Only return published testimonials
-   * @type {boolean}
+   * Only show items that exist at this position
+   * @type {number}
    * @memberof TestimonialsApiTestimonialsList
    */
-  readonly published?: boolean
+  readonly position?: number
 }
 
 /**
@@ -5666,8 +5982,9 @@ export class TestimonialsApi extends BaseAPI {
       .testimonialsList(
         requestParameters.channels,
         requestParameters.limit,
+        requestParameters.offerors,
         requestParameters.offset,
-        requestParameters.published,
+        requestParameters.position,
         options,
       )
       .then((request) => request(this.axios, this.basePath))

@@ -7,13 +7,14 @@ import re
 import ulid
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from django.urls import reverse
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from authentication import api as auth_api
+from learning_resources.models import LearningResourceTopic
 from learning_resources.permissions import is_admin_user, is_learning_path_editor
+from learning_resources.serializers import LearningResourceTopicSerializer
 from profiles.api import get_site_type_from_url
 from profiles.models import (
     PERSONAL_SITE_TYPE,
@@ -34,6 +35,51 @@ from profiles.utils import (
 User = get_user_model()
 
 
+class TopicInterestsField(serializers.Field):
+    """
+    Serializer field for topic interests
+    """
+
+    def to_representation(self, value):
+        """Serialize the topic_interests"""
+        return LearningResourceTopicSerializer(value, many=True).data
+
+    def to_internal_value(self, data):
+        """Validate the topic_interests"""
+        topic_ids = data
+
+        if not topic_ids:
+            return []
+
+        if not isinstance(topic_ids, list) or not all(
+            isinstance(topic_id, int) for topic_id in topic_ids
+        ):
+            msg = "Should be a list of topic integer ids"
+            raise serializers.ValidationError(msg)
+
+        topics = LearningResourceTopic.objects.filter(parent=None, id__in=topic_ids)
+
+        valid_ids = {topic.id for topic in topics}
+        missing_ids = set(topic_ids) - valid_ids
+
+        if missing_ids:
+            missing = ",".join(map(str, missing_ids))
+            message = f"Invalid id(s): {missing}"
+            raise serializers.ValidationError(message)
+
+        return topics
+
+
+class PreferencesSearchSerializer(serializers.Serializer):
+    """Serializer for profile search preference filters"""
+
+    certification = serializers.BooleanField(required=False)
+    topic = serializers.ListField(child=serializers.CharField(), required=False)
+    learning_format = serializers.ListField(
+        child=serializers.CharField(), required=False
+    )
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     """Serializer for Profile"""
 
@@ -43,6 +89,8 @@ class ProfileSerializer(serializers.ModelSerializer):
     profile_image_medium = serializers.SerializerMethodField(read_only=True)
     profile_image_small = serializers.SerializerMethodField(read_only=True)
     placename = serializers.SerializerMethodField(read_only=True)
+    topic_interests = TopicInterestsField(default=list)
+    preference_search_filters = serializers.SerializerMethodField(read_only=True)
 
     def get_username(self, obj) -> str:
         """Custom getter for the username"""  # noqa: D401
@@ -62,6 +110,23 @@ class ProfileSerializer(serializers.ModelSerializer):
             return obj.location.get("value", "")
         return ""
 
+    @extend_schema_field(PreferencesSearchSerializer)
+    def get_preference_search_filters(self, obj) -> dict:
+        """Get search filters based on profile preferences."""
+        filters = {}
+        if (
+            obj.certificate_desired
+            and obj.certificate_desired != Profile.CertificateDesired.NOT_SURE_YET.value
+        ):
+            filters["certification"] = (
+                obj.certificate_desired == Profile.CertificateDesired.YES.value
+            )
+        if obj.topic_interests and obj.topic_interests.count() > 0:
+            filters["topic"] = obj.topic_interests.values_list("name", flat=True)
+        if obj.learning_format:
+            filters["learning_format"] = [obj.learning_format]
+        return PreferencesSearchSerializer(instance=filters).data
+
     def validate_location(self, location):
         """
         Validator for location.
@@ -74,6 +139,11 @@ class ProfileSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         """Update the profile and related docs in OpenSearch"""
         with transaction.atomic():
+            topic_interests = validated_data.pop("topic_interests", None)
+
+            if topic_interests is not None:
+                instance.topic_interests.set(topic_interests)
+
             for attr, value in validated_data.items():
                 setattr(instance, attr, value)
 
@@ -112,12 +182,13 @@ class ProfileSerializer(serializers.ModelSerializer):
             "username",
             "placename",
             "location",
-            "interests",
+            "topic_interests",
             "goals",
             "current_education",
             "certificate_desired",
             "time_commitment",
-            "course_format",
+            "learning_format",
+            "preference_search_filters",
         )
         read_only_fields = (
             "image_file_small",
@@ -126,6 +197,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "profile_image_medium",
             "username",
             "placename",
+            "preference_search_filters",
         )
         extra_kwargs = {"location": {"write_only": True}}
 
@@ -290,31 +362,6 @@ class ProgramCertificateSerializer(serializers.ModelSerializer):
     """
     Serializer for Program Certificates
     """
-
-    program_letter_generate_url = serializers.SerializerMethodField()
-    program_letter_share_url = serializers.SerializerMethodField()
-
-    def get_program_letter_generate_url(self, instance) -> str:
-        request = self.context.get("request")
-        letter_url = reverse(
-            "profile:program-letter-intercept",
-            kwargs={"program_id": instance.micromasters_program_id},
-        )
-        if request:
-            return request.build_absolute_uri(letter_url)
-        return letter_url
-
-    def get_program_letter_share_url(self, instance) -> str:
-        request = self.context.get("request")
-
-        user = User.objects.get(email=instance.user_email)
-        letter, created = ProgramLetter.objects.get_or_create(
-            user=user, certificate=instance
-        )
-        letter_url = letter.get_absolute_url()
-        if request:
-            return request.build_absolute_uri(letter_url)
-        return letter_url
 
     class Meta:
         model = ProgramCertificate

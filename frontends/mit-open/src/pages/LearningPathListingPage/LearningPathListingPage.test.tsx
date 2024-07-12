@@ -2,38 +2,21 @@ import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { factories, urls } from "api/test-utils"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import LearningPathListingPage from "./LearningPathListingPage"
 import {
   screen,
   renderWithProviders,
   setMockResponse,
   user,
-  expectProps,
   waitFor,
 } from "../../test-utils"
 import type { User } from "../../types/settings"
-
-jest.mock(
-  "../../page-components/LearningResourceCardTemplate/LearningResourceCardTemplate",
-  () => {
-    const actual = jest.requireActual(
-      "../../page-components/LearningResourceCardTemplate/LearningResourceCardTemplate",
-    )
-    return {
-      __esModule: true,
-      ...actual,
-      default: jest.fn(actual.default),
-    }
-  },
-)
-const spyLRCardTemplate = jest.mocked(LearningResourceCardTemplate)
 
 /**
  * Set up the mock API responses for lists pages.
  */
 const setup = ({
-  listsCount = faker.datatype.number({ min: 2, max: 5 }),
+  listsCount = faker.number.int({ min: 2, max: 5 }),
   user = { is_learning_path_editor: true },
 }: {
   user?: Partial<User>
@@ -54,7 +37,9 @@ describe("LearningPathListingPage", () => {
   it("Has title 'Learning Paths'", async () => {
     setup()
     screen.getByRole("heading", { name: "Learning Paths" })
-    await waitFor(() => expect(document.title).toBe("Learning Paths"))
+    await waitFor(() =>
+      expect(document.title).toBe("Learning Paths | MIT Open"),
+    )
   })
 
   it("Renders a card for each learning path", async () => {
@@ -67,10 +52,6 @@ describe("LearningPathListingPage", () => {
     // for sanity
     expect(headings.length).toBeGreaterThan(0)
     expect(titles.length).toBe(headings.length)
-
-    paths.results.forEach((resource) => {
-      expectProps(spyLRCardTemplate, { resource })
-    })
   })
 
   it.each([

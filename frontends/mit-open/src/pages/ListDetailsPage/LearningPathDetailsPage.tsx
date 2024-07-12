@@ -7,7 +7,7 @@ import {
   useLearningPathsDetail,
 } from "api/hooks/learningResources"
 
-import ListDetailsPage from "./ListDetailsPage"
+import { ListDetailsPage } from "./ListDetailsPage"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { ListType } from "api/constants"
 
@@ -18,17 +18,29 @@ type RouteParams = {
 const LearningPathDetailsPage: React.FC = () => {
   const id = Number(useParams<RouteParams>().id)
   const pathQuery = useLearningPathsDetail(id)
-  const itemsQuery = useInfiniteLearningPathItems({ learning_resource_id: id })
+  const itemsQuery = useInfiniteLearningPathItems({
+    learning_resource_id: id,
+    limit: 100,
+  })
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
     return pages?.flatMap((p) => p.results ?? []) ?? []
   }, [itemsQuery.data])
+  const list = useMemo(() => {
+    if (!pathQuery.data) {
+      return undefined
+    }
+    return {
+      title: pathQuery.data.title,
+      description: pathQuery.data.description,
+      item_count: pathQuery.data.learning_path.item_count,
+    }
+  }, [pathQuery.data])
 
   return (
     <ListDetailsPage
       listType={ListType.LearningPath}
-      title={pathQuery?.data?.title}
-      description={pathQuery.data?.description}
+      list={list}
       items={items}
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}

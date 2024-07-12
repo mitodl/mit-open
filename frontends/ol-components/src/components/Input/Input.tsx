@@ -3,6 +3,7 @@ import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
 import InputBase from "@mui/material/InputBase"
 import type { InputBaseProps } from "@mui/material/InputBase"
+import type { Theme } from "@mui/material/styles"
 
 const defaultProps = {
   size: "medium",
@@ -12,7 +13,37 @@ const defaultProps = {
 const buttonPadding = {
   medium: 4,
   hero: 6,
+  heroMobile: 4,
 }
+
+/**
+ * Base styles for Input and Select components. Includes border, color, hover effects.
+ */
+const baseInputStyles = (theme: Theme) => ({
+  backgroundColor: "white",
+  color: theme.custom.colors.silverGrayDark,
+  borderColor: theme.custom.colors.silverGrayLight,
+  borderWidth: "1px",
+  borderStyle: "solid",
+  "&:hover:not(.Mui-disabled)": {
+    borderColor: theme.custom.colors.darkGray2,
+  },
+  "&.Mui-focused": {
+    borderWidth: "2px",
+    color: theme.custom.colors.darkGray2,
+    borderColor: "currentcolor",
+  },
+  "&.Mui-error": {
+    borderColor: theme.custom.colors.red,
+  },
+  "& input::placeholder": {
+    opacity: "0.3",
+    color: theme.custom.colors.black,
+  },
+  "& input:placeholder-shown": {
+    textOverflow: "ellipsis",
+  },
+})
 
 /**
  * A styled input that supports start and end adornments. In most cases, the
@@ -24,42 +55,25 @@ const Input = styled(InputBase)(({
   multiline,
 }) => {
   return [
-    {
-      backgroundColor: "white",
-      color: theme.custom.colors.silverGrayDark,
-      borderColor: theme.custom.colors.silverGrayLight,
-      borderWidth: "1px",
-      borderStyle: "solid",
-      "&:hover:not(.Mui-disabled)": {
-        borderWidth: "2px",
-      },
-      "&.Mui-focused": {
-        borderWidth: "2px",
-        color: theme.custom.colors.black,
-        borderColor: "currentcolor",
-      },
-      "&.Mui-error": {
-        borderColor: theme.custom.colors.red,
-      },
-      "& input::placeholder": {
-        opacity: "0.3",
-        color: theme.custom.colors.black,
-      },
-    },
+    baseInputStyles(theme),
     size === "medium" && {
-      ...theme.typography.body2,
+      "& .MuiInputBase-input": {
+        ...theme.typography.body2,
+      },
       paddingLeft: "12px",
       paddingRight: "12px",
       borderRadius: "4px",
       "&.MuiInputBase-adornedStart": {
-        marginLeft: `-${buttonPadding.medium}px`,
+        paddingLeft: `${12 - buttonPadding.medium}px`,
+        "&.Mui-focused": {
+          paddingLeft: `${11 - buttonPadding.medium}px`,
+        },
       },
       "&.MuiInputBase-adornedEnd": {
-        marginRight: `-${buttonPadding.medium}px`,
-      },
-      "&:hover:not(.Mui-disabled), &.Mui-focused": {
-        paddingLeft: "11px",
-        paddingRight: "11px",
+        paddingRight: `${12 - buttonPadding.medium}px`,
+        "&.Mui-focused": {
+          paddingRight: `${11 - buttonPadding.medium}px`,
+        },
       },
     },
     size === "medium" &&
@@ -67,25 +81,48 @@ const Input = styled(InputBase)(({
         height: "40px",
       },
     size === "hero" && {
-      ...theme.typography.body1,
+      "& .MuiInputBase-input": {
+        ...theme.typography.body1,
+      },
       paddingLeft: "16px",
       paddingRight: "16px",
       borderRadius: "8px",
-
       "&.MuiInputBase-adornedStart": {
-        marginLeft: `-${buttonPadding.hero}px`,
+        paddingLeft: `${16 - buttonPadding.hero}px`,
+        "&.Mui-focused": {
+          paddingLeft: `${15 - buttonPadding.hero}px`,
+        },
       },
       "&.MuiInputBase-adornedEnd": {
-        marginRight: `-${buttonPadding.hero}px`,
+        paddingRight: `${16 - buttonPadding.hero}px`,
+        "&.Mui-focused": {
+          paddingRight: `${15 - buttonPadding.hero}px`,
+        },
       },
-      "&:hover:not(.Mui-disabled), &.Mui-focused": {
-        paddingLeft: "15px",
-        paddingRight: "15px",
+      [theme.breakpoints.down("sm")]: {
+        "& .MuiInputBase-input": {
+          ...theme.typography.body4,
+        },
+        "&.MuiInputBase-adornedStart": {
+          paddingLeft: `${12 - buttonPadding.heroMobile}px`,
+          "&.Mui-focused": {
+            paddingLeft: `${11 - buttonPadding.heroMobile}px`,
+          },
+        },
+        "&.MuiInputBase-adornedEnd": {
+          paddingRight: `${12 - buttonPadding.heroMobile}px`,
+          "&.Mui-focused": {
+            paddingRight: `${11 - buttonPadding.heroMobile}px`,
+          },
+        },
       },
     },
     size === "hero" &&
       !multiline && {
         height: "56px",
+        [theme.breakpoints.down("sm")]: {
+          height: "37px",
+        },
       },
   ]
 })
@@ -123,6 +160,13 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
     height: pxToRem(24 + 2 * buttonPadding.hero),
     ".MuiSvgIcon-root": {
       fontSize: pxToRem(24),
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: pxToRem(16 + 2 * buttonPadding.heroMobile),
+      height: pxToRem(16 + 2 * buttonPadding.heroMobile),
+      ".MuiSvgIcon-root": {
+        fontSize: pxToRem(16),
+      },
     },
   },
 
@@ -169,5 +213,5 @@ const AdornmentButton: React.FC<AdornmentButtonProps> = (props) => {
 
 type InputProps = Omit<InputBaseProps, "color">
 
-export { AdornmentButton, Input }
+export { AdornmentButton, Input, baseInputStyles }
 export type { InputProps, AdornmentButtonProps }

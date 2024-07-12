@@ -21,7 +21,7 @@ const ArticleEditPage: React.FC = () => {
     [navigate, id],
   )
   const goHome = useCallback(() => navigate("/"), [navigate])
-  const title = `Editing: ${article.data?.title ?? ""}`
+  const title = article.data?.title ? `${article.data?.title} | Edit` : "Edit"
   return (
     <ArticleUpsertPage title={title}>
       <ArticleUpsertForm

@@ -83,6 +83,15 @@ def mitxonline_aws_settings(aws_settings):
     return aws_settings
 
 
+@pytest.fixture(autouse=True)
+def oll_aws_settings(aws_settings):
+    """Default OLL test settings"""  # noqa: D401
+    aws_settings.OLL_LEARNING_COURSE_BUCKET_NAME = (  # impossible bucket name
+        "test-oll-bucket"
+    )
+    return aws_settings
+
+
 @pytest.fixture()
 def mock_xpro_learning_bucket(
     xpro_aws_settings,
@@ -127,4 +136,19 @@ def mock_mitx_learning_bucket(
         aws_secret_access_key=mitx_aws_settings.AWS_SECRET_ACCESS_KEY,
     )
     bucket = s3.create_bucket(Bucket=mitx_aws_settings.EDX_LEARNING_COURSE_BUCKET_NAME)
+    return SimpleNamespace(s3=s3, bucket=bucket)
+
+
+@pytest.fixture()
+def mock_oll_learning_bucket(
+    oll_aws_settings,
+    mock_s3_fixture,  # noqa: ARG001
+):  # pylint: disable=unused-argument
+    """Mock OLL learning bucket"""
+    s3 = boto3.resource(
+        "s3",
+        aws_access_key_id=oll_aws_settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=oll_aws_settings.AWS_SECRET_ACCESS_KEY,
+    )
+    bucket = s3.create_bucket(Bucket=oll_aws_settings.OLL_LEARNING_COURSE_BUCKET_NAME)
     return SimpleNamespace(s3=s3, bucket=bucket)

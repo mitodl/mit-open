@@ -6,9 +6,11 @@ import * as SelectField from "./SelectField.stories";
 
 # SelectField
 
+**NOTE: Prefer using `SimpleSelectField`, wherein options are specified by an array of objects rather than using `MenuItem` Children.**
+
 `SelectField` includes an input, label, help text, and error message. Internally, it uses `<Select />`. The child menu items should be `<MenuItem>...</MenuItem>` components; "placeholder" text can be added via a disabled `MenuItem`.
 
-SelectFields come in two sizes, `size="medium" | "hero"`:
+SelectFields come in two sizes, `size="small" | "medium" | "large"`:
 
 <Canvas of={SelectField.Sizes} />
 

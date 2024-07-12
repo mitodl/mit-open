@@ -433,3 +433,22 @@ def test_parse_certification(offered_by, availability, has_cert):
         )
         == has_cert
     )
+
+
+@pytest.mark.parametrize(
+    ("previous_archive", "identical"),
+    [
+        ("test_json/course-v1:MITxT+8.01.3x+3T2022_no_change.tar.gz", True),
+        ("test_json/course-v1:MITxT+8.01.3x+3T2022_minor_change.tar.gz", False),
+    ],
+)
+def test_calc_checksum(previous_archive, identical):
+    """
+    calc_checksum should be able to accurately identify identical vs different archives.
+    All 3 tar.gz files created on OSX from the same directory.  One archive has a minor
+    text change in one file, "400" to "500".
+    """
+    reference_checksum = utils.calc_checksum(
+        "test_json/course-v1:MITxT+8.01.3x+3T2022.tar.gz"
+    )
+    assert (utils.calc_checksum(previous_archive) == reference_checksum) is identical

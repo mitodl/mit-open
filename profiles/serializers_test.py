@@ -7,12 +7,20 @@ import factory
 import pytest
 from rest_framework.exceptions import ValidationError
 
+from learning_resources.constants import LearningResourceFormat
+from learning_resources.factories import LearningResourceTopicFactory
+from learning_resources.serializers import LearningResourceTopicSerializer
 from profiles.factories import UserWebsiteFactory
 from profiles.models import FACEBOOK_DOMAIN, PERSONAL_SITE_TYPE, Profile
 from profiles.serializers import (
     ProfileSerializer,
     UserSerializer,
     UserWebsiteSerializer,
+)
+from profiles.utils import (
+    IMAGE_MEDIUM,
+    IMAGE_SMALL,
+    image_uri,
 )
 
 small_gif = (
@@ -26,8 +34,6 @@ def test_serialize_user(user):
     """
     Test serializing a user
     """
-    profile = user.profile
-
     assert UserSerializer(user).data == {
         "id": user.id,
         "username": user.username,
@@ -35,27 +41,7 @@ def test_serialize_user(user):
         "last_name": user.last_name,
         "is_learning_path_editor": False,
         "is_article_editor": False,
-        "profile": {
-            "name": profile.name,
-            "image": profile.image,
-            "image_small": profile.image_small,
-            "image_medium": profile.image_medium,
-            "image_file": profile.image_file.url,
-            "image_small_file": profile.image_small_file.url,
-            "image_medium_file": profile.image_medium_file.url,
-            "profile_image_small": profile.image_small_file.url,
-            "profile_image_medium": profile.image_medium_file.url,
-            "bio": profile.bio,
-            "headline": profile.headline,
-            "username": profile.user.username,
-            "placename": profile.location["value"],
-            "interests": profile.interests,
-            "goals": profile.goals,
-            "current_education": profile.current_education,
-            "certificate_desired": profile.certificate_desired,
-            "time_commitment": profile.time_commitment,
-            "course_format": profile.course_format,
-        },
+        "profile": ProfileSerializer(user.profile).data,
     }
 
 
@@ -65,9 +51,6 @@ def test_serialize_create_user(db, mocker):
     """
     profile = {
         "name": "name",
-        "image": "image",
-        "image_small": "image_small",
-        "image_medium": "image_medium",
         "email_optin": True,
         "toc_optin": True,
         "bio": "bio",
@@ -84,28 +67,33 @@ def test_serialize_create_user(db, mocker):
 
     profile.update(
         {
+            "image": None,
+            "image_small": None,
+            "image_medium": None,
             "image_file": None,
             "image_small_file": None,
             "image_medium_file": None,
-            "profile_image_small": "image_small",
-            "profile_image_medium": "image_medium",
+            "profile_image_small": image_uri(user.profile, IMAGE_SMALL),
+            "profile_image_medium": image_uri(user.profile, IMAGE_MEDIUM),
             "username": user.username,
-            "interests": user.profile.interests,
+            "topic_interests": LearningResourceTopicSerializer(
+                user.profile.topic_interests, many=True
+            ).data,
             "goals": user.profile.goals,
             "current_education": user.profile.current_education,
             "certificate_desired": user.profile.certificate_desired,
             "time_commitment": user.profile.time_commitment,
-            "course_format": user.profile.course_format,
+            "learning_format": user.profile.learning_format,
         }
     )
-    assert UserSerializer(user).data == {
+    assert UserSerializer(instance=user).data == {
         "id": user.id,
         "username": user.username,
         "first_name": user.first_name,
         "last_name": user.last_name,
         "is_learning_path_editor": False,
         "is_article_editor": False,
-        "profile": profile,
+        "profile": {**profile, "preference_search_filters": {}},
     }
 
 
@@ -113,9 +101,6 @@ def test_serialize_create_user(db, mocker):
     ("key", "value"),
     [
         ("name", "name_value"),
-        ("image", "image_value"),
-        ("image_small", "image_small_value"),
-        ("image_medium", "image_medium_value"),
         ("email_optin", True),
         ("email_optin", False),
         ("bio", "bio_value"),
@@ -158,6 +143,33 @@ def test_update_user_profile(mocker, user, key, value):
 
 
 @pytest.mark.parametrize(
+    ("topic_interests", "errors"),
+    [
+        ("just_a_string", ["Should be a list of topic integer ids"]),
+        (["id_as_string"], ["Should be a list of topic integer ids"]),
+        ([{"id": 1}], ["Should be a list of topic integer ids"]),
+        ([99999999], ["Invalid id(s): 99999999"]),  # missing topic
+    ],
+)
+def test_serializer_profile_topic_interests_invalid(user, topic_interests, errors):
+    """Test that invalid topic_interests are rejected"""
+
+    serializer = ProfileSerializer(
+        instance=user,
+        data={
+            "topic_interests": topic_interests,
+        },
+        partial=True,
+    )
+
+    serializer.is_valid()
+
+    assert serializer.errors == {
+        "topic_interests": errors,
+    }
+
+
+@pytest.mark.parametrize(
     ("data", "is_valid"),
     [
         ({}, True),
@@ -175,6 +187,7 @@ def test_location_validation(user, data, is_valid):
     assert serializer.is_valid(raise_exception=False) is is_valid
 
 
+@pytest.mark.django_db()
 @pytest.mark.parametrize(
     ("key", "value"),
     [
@@ -182,16 +195,21 @@ def test_location_validation(user, data, is_valid):
         ("bio", "bio_value"),
         ("headline", "headline_value"),
         ("location", {"value": "Hobbiton, The Shire, Middle-Earth"}),
+        ("learning_format", LearningResourceFormat.hybrid.name),
+        ("certificate_desired", Profile.CertificateDesired.YES.value),
     ],
 )
 def test_update_profile(mocker, user, key, value):
     """
     Test updating a profile via the ProfileSerializer
     """
+    topic_ids = [topic.id for topic in LearningResourceTopicFactory.create_batch(2)]
     profile = user.profile
 
     serializer = ProfileSerializer(
-        instance=user.profile, data={key: value}, partial=True
+        instance=user.profile,
+        data={key: value, "topic_interests": topic_ids},
+        partial=True,
     )
     serializer.is_valid(raise_exception=True)
     serializer.save()
@@ -205,6 +223,9 @@ def test_update_profile(mocker, user, key, value):
         "bio",
         "headline",
         "location",
+        "learning_format",
+        "certificate_desired",
+        "topic_interests",
     ):
         if prop == key:
             if isinstance(value, bool):
@@ -213,6 +234,39 @@ def test_update_profile(mocker, user, key, value):
                 assert getattr(profile2, prop) == value
         else:
             assert getattr(profile2, prop) == getattr(profile, prop)
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize(
+    ("cert_desired", "cert_filter"),
+    [
+        (Profile.CertificateDesired.YES.value, True),
+        (Profile.CertificateDesired.NO.value, False),
+        (Profile.CertificateDesired.NOT_SURE_YET.value, None),
+        ("", None),
+    ],
+)
+@pytest.mark.parametrize("topics", [["Biology", "Chemistry"], []])
+@pytest.mark.parametrize("lr_format", [LearningResourceFormat.hybrid.name, ""])
+def test_serialize_profile_preference_search_filters(
+    user, cert_desired, cert_filter, topics, lr_format
+):
+    """Tests that the ProfileSerializer includes search filters when an option is set via the context"""
+    profile = user.profile
+    profile.certificate_desired = cert_desired
+    profile.learning_format = lr_format
+    if topics:
+        profile.topic_interests.set(
+            [LearningResourceTopicFactory.create(name=topic) for topic in topics]
+        )
+    profile.save()
+
+    search_filters = ProfileSerializer(profile).data["preference_search_filters"]
+    assert search_filters.get("certification", None) == cert_filter
+    assert search_filters.get("topic", None) == (topics if topics else None)
+    assert search_filters.get("learning_format", None) == (
+        [lr_format] if lr_format else None
+    )
 
 
 def test_serialize_profile_websites(user):

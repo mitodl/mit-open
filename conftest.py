@@ -20,3 +20,15 @@ def prevent_requests(mocker, request):  # noqa: PT004
         autospec=True,
         side_effect=DoNotUseRequestException,
     )
+
+
+@pytest.fixture(autouse=True)
+def _disable_silky(settings):
+    """Disable django-silky during tests"""
+    settings.SILKY_INTERCEPT_PERCENT = 0
+
+    settings.MIDDLEWARE = tuple(
+        middleware
+        for middleware in settings.MIDDLEWARE
+        if middleware != "silk.middleware.SilkyMiddleware"
+    )

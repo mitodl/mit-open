@@ -1,0 +1,18 @@
+import { Canvas, Meta } from "@storybook/blocks";
+
+import * as TabButtonList from "./TabButtonList.stories";
+
+<Meta of={TabButtonList} />
+
+# Tabs
+
+Use `TabButtonList` and `TabButton` to render a list of tabs styled as our tertiary buttons:
+
+<Canvas of={TabButtonList.ButtonTabs} />
+
+By default, the tabs will be scrollable if there are too many to fit in the container:
+<Canvas of={TabButtonList.ManyButtonTabs} />
+
+Use `TabButtonLink` for tabs that should affect the URL:
+
+<Canvas of={TabButtonList.LinkTabs} />

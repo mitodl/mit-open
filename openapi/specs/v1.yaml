@@ -183,15 +183,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -224,14 +224,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -242,13 +242,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: q
         schema:
@@ -348,11 +349,11 @@ paths:
           The organization that offers a learning resource the content file belongs to
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -390,14 +391,14 @@ paths:
           The platform on which learning resources the content file belongs to is offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -522,6 +523,26 @@ paths:
         name: certification
         schema:
           type: boolean
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
       - in: query
         name: course_feature
         schema:
@@ -692,11 +713,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -734,14 +755,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -765,6 +786,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -911,11 +950,11 @@ paths:
           The organization that offers a learning resource the content file belongs to
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -953,14 +992,14 @@ paths:
           The platform on which learning resources the content file belongs to is offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -1085,6 +1124,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -1254,11 +1313,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -1296,14 +1355,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -1327,6 +1386,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -1440,6 +1517,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -1609,11 +1706,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -1651,14 +1748,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -1682,6 +1779,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -1828,11 +1943,11 @@ paths:
           The organization that offers a learning resource the content file belongs to
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -1870,14 +1985,14 @@ paths:
           The platform on which learning resources the content file belongs to is offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -2023,6 +2138,7 @@ paths:
             enum:
             - resource_type
             - certification
+            - certification_type
             - offered_by
             - platform
             - topic
@@ -2032,10 +2148,12 @@ paths:
             - professional
             - free
             - learning_format
+            - resource_category
             type: string
             description: |-
               * `resource_type` - resource_type
               * `certification` - certification
+              * `certification_type` - certification_type
               * `offered_by` - offered_by
               * `platform` - platform
               * `topic` - topic
@@ -2045,6 +2163,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
         name: certification
@@ -2052,6 +2171,25 @@ paths:
           type: boolean
           nullable: true
         description: True if the learning resource offers a certificate
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            enum:
+            - micromasters
+            - professional
+            - completion
+            - none
+            type: string
+            description: |-
+              * `micromasters` - Micromasters Credential
+              * `professional` - Professional Certificate
+              * `completion` - Certificate of Completion
+              * `none` - No Certificate
+        description: "The type of certificate             \n\n* `micromasters` - Micromasters\
+          \ Credential\n* `professional` - Professional Certificate\n* `completion`\
+          \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
         name: course_feature
         schema:
@@ -2232,15 +2370,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -2273,14 +2411,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -2291,13 +2429,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: professional
         schema:
@@ -2309,6 +2448,22 @@ paths:
           type: string
           minLength: 1
         description: The search text
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            enum:
+            - course
+            - program
+            - learning_material
+            type: string
+            description: |-
+              * `course` - Course
+              * `program` - Program
+              * `learning_material` - Learning Material
+        description: "The category of learning resource             \n\n* `course`\
+          \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
       - in: query
         name: resource_type
         schema:
@@ -2387,7 +2542,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/LearningResourceSearchResponse'
+                $ref: '#/components/schemas/LearningResourcesSearchResponse'
           description: ''
   /api/v1/learning_resources_user_subscription/:
     get:
@@ -2403,6 +2558,7 @@ paths:
             enum:
             - resource_type
             - certification
+            - certification_type
             - offered_by
             - platform
             - topic
@@ -2412,10 +2568,12 @@ paths:
             - professional
             - free
             - learning_format
+            - resource_category
             type: string
             description: |-
               * `resource_type` - resource_type
               * `certification` - certification
+              * `certification_type` - certification_type
               * `offered_by` - offered_by
               * `platform` - platform
               * `topic` - topic
@@ -2425,6 +2583,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
         name: certification
@@ -2432,6 +2591,25 @@ paths:
           type: boolean
           nullable: true
         description: True if the learning resource offers a certificate
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            enum:
+            - micromasters
+            - professional
+            - completion
+            - none
+            type: string
+            description: |-
+              * `micromasters` - Micromasters Credential
+              * `professional` - Professional Certificate
+              * `completion` - Certificate of Completion
+              * `none` - No Certificate
+        description: "The type of certificate             \n\n* `micromasters` - Micromasters\
+          \ Credential\n* `professional` - Professional Certificate\n* `completion`\
+          \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
         name: course_feature
         schema:
@@ -2612,15 +2790,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -2653,14 +2831,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -2671,13 +2849,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: professional
         schema:
@@ -2689,6 +2868,22 @@ paths:
           type: string
           minLength: 1
         description: The search text
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            enum:
+            - course
+            - program
+            - learning_material
+            type: string
+            description: |-
+              * `course` - Course
+              * `program` - Program
+              * `learning_material` - Learning Material
+        description: "The category of learning resource             \n\n* `course`\
+          \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
       - in: query
         name: resource_type
         schema:
@@ -2808,6 +3003,7 @@ paths:
             enum:
             - resource_type
             - certification
+            - certification_type
             - offered_by
             - platform
             - topic
@@ -2817,10 +3013,12 @@ paths:
             - professional
             - free
             - learning_format
+            - resource_category
             type: string
             description: |-
               * `resource_type` - resource_type
               * `certification` - certification
+              * `certification_type` - certification_type
               * `offered_by` - offered_by
               * `platform` - platform
               * `topic` - topic
@@ -2830,6 +3028,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
         name: certification
@@ -2837,6 +3036,25 @@ paths:
           type: boolean
           nullable: true
         description: True if the learning resource offers a certificate
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            enum:
+            - micromasters
+            - professional
+            - completion
+            - none
+            type: string
+            description: |-
+              * `micromasters` - Micromasters Credential
+              * `professional` - Professional Certificate
+              * `completion` - Certificate of Completion
+              * `none` - No Certificate
+        description: "The type of certificate             \n\n* `micromasters` - Micromasters\
+          \ Credential\n* `professional` - Professional Certificate\n* `completion`\
+          \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
         name: course_feature
         schema:
@@ -3017,15 +3235,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -3058,14 +3276,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -3076,13 +3294,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: professional
         schema:
@@ -3094,6 +3313,22 @@ paths:
           type: string
           minLength: 1
         description: The search text
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            enum:
+            - course
+            - program
+            - learning_material
+            type: string
+            description: |-
+              * `course` - Course
+              * `program` - Program
+              * `learning_material` - Learning Material
+        description: "The category of learning resource             \n\n* `course`\
+          \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
       - in: query
         name: resource_type
         schema:
@@ -3204,6 +3439,7 @@ paths:
             enum:
             - resource_type
             - certification
+            - certification_type
             - offered_by
             - platform
             - topic
@@ -3213,10 +3449,12 @@ paths:
             - professional
             - free
             - learning_format
+            - resource_category
             type: string
             description: |-
               * `resource_type` - resource_type
               * `certification` - certification
+              * `certification_type` - certification_type
               * `offered_by` - offered_by
               * `platform` - platform
               * `topic` - topic
@@ -3226,6 +3464,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
         name: certification
@@ -3233,6 +3472,25 @@ paths:
           type: boolean
           nullable: true
         description: True if the learning resource offers a certificate
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            enum:
+            - micromasters
+            - professional
+            - completion
+            - none
+            type: string
+            description: |-
+              * `micromasters` - Micromasters Credential
+              * `professional` - Professional Certificate
+              * `completion` - Certificate of Completion
+              * `none` - No Certificate
+        description: "The type of certificate             \n\n* `micromasters` - Micromasters\
+          \ Credential\n* `professional` - Professional Certificate\n* `completion`\
+          \ - Certificate of Completion\n* `none` - No Certificate"
       - in: query
         name: course_feature
         schema:
@@ -3413,15 +3671,15 @@ paths:
             type: string
             description: |-
               * `mitx` - MITx
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `xpro` - MIT xPRO
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
         description: "The organization that offers the learning resource         \
-          \    \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n* `xpro`\
-          \ - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education"
+          \    \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps` -\
+          \ Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education"
       - in: query
         name: offset
         schema:
@@ -3454,14 +3712,14 @@ paths:
             type: string
             description: |-
               * `edx` - edX
-              * `ocw` - OCW
+              * `ocw` - MIT OpenCourseWare
               * `oll` - Open Learning Library
               * `mitxonline` - MITx Online
               * `bootcamps` - Bootcamps
-              * `xpro` - xPRO
+              * `xpro` - MIT xPRO
               * `csail` - CSAIL
-              * `mitpe` - Professional Education
-              * `see` - Sloan Executive Education
+              * `mitpe` - MIT Professional Education
+              * `see` - MIT Sloan Executive Education
               * `scc` - Schwarzman College of Computing
               * `ctl` - Center for Transportation & Logistics
               * `whu` - WHU
@@ -3472,13 +3730,14 @@ paths:
               * `podcast` - Podcast
               * `youtube` - YouTube
         description: "The platform on which the learning resource is offered     \
-          \        \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-          * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-          * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-          \ Education\n* `scc` - Schwarzman College of Computing\n* `ctl` - Center\
-          \ for Transportation & Logistics\n* `whu` - WHU\n* `susskind` - Susskind\n\
-          * `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n* `emeritus`\
-          \ - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+          \        \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` - Open\
+          \ Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n\
+          * `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional Education\n\
+          * `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman College of\
+          \ Computing\n* `ctl` - Center for Transportation & Logistics\n* `whu` -\
+          \ WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn`\
+          \ - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube`\
+          \ - YouTube"
       - in: query
         name: professional
         schema:
@@ -3490,6 +3749,22 @@ paths:
           type: string
           minLength: 1
         description: The search text
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            enum:
+            - course
+            - program
+            - learning_material
+            type: string
+            description: |-
+              * `course` - Course
+              * `program` - Program
+              * `learning_material` - Learning Material
+        description: "The category of learning resource             \n\n* `course`\
+          \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
       - in: query
         name: resource_type
         schema:
@@ -3605,6 +3880,26 @@ paths:
         name: certification
         schema:
           type: boolean
+      - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
       - in: query
         name: course_feature
         schema:
@@ -3775,11 +4070,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -3817,14 +4112,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -3848,6 +4143,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -4286,6 +4599,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -4455,11 +4788,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -4497,14 +4830,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -4528,6 +4861,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -4641,6 +4992,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -4810,11 +5181,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -4852,14 +5223,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -4883,6 +5254,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -5083,6 +5472,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -5252,11 +5661,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -5294,14 +5703,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -5325,6 +5734,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -5828,6 +6255,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -5997,11 +6444,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -6039,14 +6486,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -6070,6 +6517,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -6249,6 +6714,26 @@ paths:
         schema:
           type: boolean
       - in: query
+        name: certification_type
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - completion
+            - micromasters
+            - none
+            - professional
+        description: |-
+          The type of certification offered
+
+          * `micromasters` - Micromasters Credential
+          * `professional` - Professional Certificate
+          * `completion` - Certificate of Completion
+          * `none` - No Certificate
+        explode: true
+        style: form
+      - in: query
         name: course_feature
         schema:
           type: array
@@ -6418,11 +6903,11 @@ paths:
           The organization that offers a learning resource
 
           * `mitx` - MITx
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `xpro` - MIT xPRO
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
         explode: true
         style: form
       - name: offset
@@ -6460,14 +6945,14 @@ paths:
           The platform on which learning resources are offered
 
           * `edx` - edX
-          * `ocw` - OCW
+          * `ocw` - MIT OpenCourseWare
           * `oll` - Open Learning Library
           * `mitxonline` - MITx Online
           * `bootcamps` - Bootcamps
-          * `xpro` - xPRO
+          * `xpro` - MIT xPRO
           * `csail` - CSAIL
-          * `mitpe` - Professional Education
-          * `see` - Sloan Executive Education
+          * `mitpe` - MIT Professional Education
+          * `see` - MIT Sloan Executive Education
           * `scc` - Schwarzman College of Computing
           * `ctl` - Center for Transportation & Logistics
           * `whu` - WHU
@@ -6491,6 +6976,24 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: resource_category
+        schema:
+          type: array
+          items:
+            type: string
+            enum:
+            - course
+            - learning_material
+            - program
+        description: |-
+          The resource category of the learning resources
+
+          * `course` - Course
+          * `program` - Program
+          * `learning_material` - Learning Material
+        explode: true
         style: form
       - in: query
         name: resource_type
@@ -6599,6 +7102,7 @@ components:
       enum:
       - resource_type
       - certification
+      - certification_type
       - offered_by
       - platform
       - topic
@@ -6608,10 +7112,12 @@ components:
       - professional
       - free
       - learning_format
+      - resource_category
       type: string
       description: |-
         * `resource_type` - resource_type
         * `certification` - certification
+        * `certification_type` - certification_type
         * `offered_by` - offered_by
         * `platform` - platform
         * `topic` - topic
@@ -6621,6 +7127,21 @@ components:
         * `professional` - professional
         * `free` - free
         * `learning_format` - learning_format
+        * `resource_category` - resource_category
+      x-enum-descriptions:
+      - resource_type
+      - certification
+      - certification_type
+      - offered_by
+      - platform
+      - topic
+      - department
+      - level
+      - course_feature
+      - professional
+      - free
+      - learning_format
+      - resource_category
     Article:
       type: object
       description: Serializer for LearningResourceInstructor model
@@ -6650,6 +7171,23 @@ components:
       required:
       - html
       - title
+    CertificationTypeEnum:
+      enum:
+      - micromasters
+      - professional
+      - completion
+      - none
+      type: string
+      description: |-
+        * `micromasters` - Micromasters Credential
+        * `professional` - Professional Certificate
+        * `completion` - Certificate of Completion
+        * `none` - No Certificate
+      x-enum-descriptions:
+      - Micromasters Credential
+      - Professional Certificate
+      - Certificate of Completion
+      - No Certificate
     ContentFile:
       type: object
       description: Serializer class for course run ContentFiles
@@ -6817,6 +7355,10 @@ components:
         * `page` - page
         * `file` - file
         * `vertical` - vertical
+      x-enum-descriptions:
+      - page
+      - file
+      - vertical
     Course:
       type: object
       description: Serializer for the Course model
@@ -6905,12 +7447,27 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
-            type: number
-            format: double
-          description: Returns the prices for the learning resource
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -6959,6 +7516,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/CourseResourceResourceTypeEnum'
@@ -6970,7 +7531,7 @@ components:
           readOnly: true
         readable_id:
           type: string
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           maxLength: 256
@@ -7006,6 +7567,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course
       - course_feature
       - departments
@@ -7019,6 +7581,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -7035,7 +7598,7 @@ components:
         readable_id:
           type: string
           minLength: 1
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           minLength: 1
@@ -7154,6 +7717,44 @@ components:
         * `RES` - Supplemental Resources
         * `STS` - Science, Technology, and Society
         * `WGS` - Women's and Gender Studies
+      x-enum-descriptions:
+      - Civil and Environmental Engineering
+      - Mechanical Engineering
+      - Materials Science and Engineering
+      - Architecture
+      - Chemistry
+      - Electrical Engineering and Computer Science
+      - Biology
+      - Physics
+      - Brain and Cognitive Sciences
+      - Chemical Engineering
+      - Urban Studies and Planning
+      - Earth, Atmospheric, and Planetary Sciences
+      - Economics
+      - Sloan School of Management
+      - Aeronautics and Astronautics
+      - Political Science
+      - Mathematics
+      - Biological Engineering
+      - Anthropology
+      - Global Studies and Languages
+      - History
+      - Literature
+      - Music and Theater Arts
+      - Nuclear Science and Engineering
+      - Linguistics and Philosophy
+      - Concourse
+      - Comparative Media Studies/Writing
+      - Edgerton Center
+      - Experimental Study Group
+      - Engineering Systems Division
+      - Health Sciences and Technology
+      - Institute for Data, Systems, and Society
+      - Media Arts and Sciences
+      - Athletics, Physical Education and Recreation
+      - Supplemental Resources
+      - Science, Technology, and Society
+      - Women's and Gender Studies
     LearningFormatEnum:
       enum:
       - online
@@ -7164,6 +7765,10 @@ components:
         * `online` - Online
         * `hybrid` - Hybrid
         * `in_person` - In person
+      x-enum-descriptions:
+      - Online
+      - Hybrid
+      - In person
     LearningPath:
       type: object
       description: Serializer for the LearningPath model
@@ -7253,12 +7858,27 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
-            type: number
-            format: double
-          description: Returns the prices for the learning resource
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -7307,6 +7927,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/LearningPathResourceResourceTypeEnum'
@@ -7353,6 +7977,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -7365,6 +7990,7 @@ components:
       - platform
       - prices
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -7450,9 +8076,9 @@ components:
           maxLength: 256
         channel_url:
           type: string
+          nullable: true
           description: Get the channel url for the department if it exists
           readOnly: true
-          nullable: true
       required:
       - channel_url
       - department_id
@@ -7518,9 +8144,9 @@ components:
           maxLength: 256
         channel_url:
           type: string
+          nullable: true
           description: Get the channel url for the department if it exists
           readOnly: true
-          nullable: true
         school:
           allOf:
           - $ref: '#/components/schemas/LearningResourceBaseSchool'
@@ -7634,9 +8260,9 @@ components:
           maxLength: 256
         channel_url:
           type: string
+          nullable: true
           description: Get the channel url for the offeror if it exists
           readOnly: true
-          nullable: true
       required:
       - channel_url
       - code
@@ -7650,9 +8276,9 @@ components:
           maxLength: 12
         channel_url:
           type: string
+          nullable: true
           description: Get the channel url for the offeror if it exists
           readOnly: true
-          nullable: true
         name:
           type: string
           maxLength: 256
@@ -7692,6 +8318,8 @@ components:
           type: string
           format: uri
           maxLength: 200
+        value_prop:
+          type: string
       required:
       - channel_url
       - code
@@ -8027,7 +8655,26 @@ components:
       - id
       - name
       - url
-    LearningResourceSearchResponse:
+    LearningResourceTopic:
+      type: object
+      description: Serializer for LearningResourceTopic model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+        parent:
+          type: integer
+          nullable: true
+        channel_url:
+          type: string
+      required:
+      - channel_url
+      - id
+      - name
+    LearningResourcesSearchResponse:
       type: object
       description: |-
         SearchResponseSerializer with OpenAPI annotations for Learning Resources
@@ -8080,28 +8727,6 @@ components:
       - next
       - previous
       - results
-    LearningResourceTopic:
-      type: object
-      description: Serializer for LearningResourceTopic model
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        name:
-          type: string
-          maxLength: 128
-        parent:
-          type: integer
-          nullable: true
-        channel_url:
-          type: string
-          description: Get the channel url for the topic if it exists
-          readOnly: true
-          nullable: true
-      required:
-      - channel_url
-      - id
-      - name
     LevelEnum:
       enum:
       - undergraduate
@@ -8120,6 +8745,14 @@ components:
         * `advanced` - Advanced
         * `intermediate` - Intermediate
         * `introductory` - Introductory
+      x-enum-descriptions:
+      - Undergraduate
+      - Graduate
+      - High School
+      - Non-Credit
+      - Advanced
+      - Intermediate
+      - Introductory
     MicroLearningPathRelationship:
       type: object
       description: Serializer containing only parent and child ids for a learning
@@ -8169,11 +8802,18 @@ components:
       type: string
       description: |-
         * `mitx` - MITx
-        * `ocw` - OCW
+        * `ocw` - MIT OpenCourseWare
         * `bootcamps` - Bootcamps
-        * `xpro` - xPRO
-        * `mitpe` - Professional Education
-        * `see` - Sloan Executive Education
+        * `xpro` - MIT xPRO
+        * `mitpe` - MIT Professional Education
+        * `see` - MIT Sloan Executive Education
+      x-enum-descriptions:
+      - MITx
+      - MIT OpenCourseWare
+      - Bootcamps
+      - MIT xPRO
+      - MIT Professional Education
+      - MIT Sloan Executive Education
     PaginatedArticleList:
       type: object
       required:
@@ -8729,6 +9369,7 @@ components:
           $ref: '#/components/schemas/PrivacyLevelEnum'
     PercolateQuery:
       type: object
+      description: Serializer for PercolateQuery objects
       properties:
         id:
           type: integer
@@ -8737,16 +9378,11 @@ components:
         query: {}
         source_type:
           $ref: '#/components/schemas/SourceTypeEnum'
-        users:
-          type: array
-          items:
-            type: integer
       required:
       - id
       - original_query
       - query
       - source_type
-      - users
     PercolateQuerySubscriptionRequestRequest:
       type: object
       description: |-
@@ -8768,21 +9404,22 @@ components:
           items:
             $ref: '#/components/schemas/OfferedByEnum'
           description: "The organization that offers the learning resource       \
-            \      \n\n* `mitx` - MITx\n* `ocw` - OCW\n* `bootcamps` - Bootcamps\n\
-            * `xpro` - xPRO\n* `mitpe` - Professional Education\n* `see` - Sloan Executive\
-            \ Education"
+            \      \n\n* `mitx` - MITx\n* `ocw` - MIT OpenCourseWare\n* `bootcamps`\
+            \ - Bootcamps\n* `xpro` - MIT xPRO\n* `mitpe` - MIT Professional Education\n\
+            * `see` - MIT Sloan Executive Education"
         platform:
           type: array
           items:
             $ref: '#/components/schemas/PlatformEnum'
           description: "The platform on which the learning resource is offered   \
-            \          \n\n* `edx` - edX\n* `ocw` - OCW\n* `oll` - Open Learning Library\n\
-            * `mitxonline` - MITx Online\n* `bootcamps` - Bootcamps\n* `xpro` - xPRO\n\
-            * `csail` - CSAIL\n* `mitpe` - Professional Education\n* `see` - Sloan\
-            \ Executive Education\n* `scc` - Schwarzman College of Computing\n* `ctl`\
-            \ - Center for Transportation & Logistics\n* `whu` - WHU\n* `susskind`\
-            \ - Susskind\n* `globalalumni` - Global Alumni\n* `simplilearn` - Simplilearn\n\
-            * `emeritus` - Emeritus\n* `podcast` - Podcast\n* `youtube` - YouTube"
+            \          \n\n* `edx` - edX\n* `ocw` - MIT OpenCourseWare\n* `oll` -\
+            \ Open Learning Library\n* `mitxonline` - MITx Online\n* `bootcamps` -\
+            \ Bootcamps\n* `xpro` - MIT xPRO\n* `csail` - CSAIL\n* `mitpe` - MIT Professional\
+            \ Education\n* `see` - MIT Sloan Executive Education\n* `scc` - Schwarzman\
+            \ College of Computing\n* `ctl` - Center for Transportation & Logistics\n\
+            * `whu` - WHU\n* `susskind` - Susskind\n* `globalalumni` - Global Alumni\n\
+            * `simplilearn` - Simplilearn\n* `emeritus` - Emeritus\n* `podcast` -\
+            \ Podcast\n* `youtube` - YouTube"
         topic:
           type: array
           items:
@@ -8832,6 +9469,13 @@ components:
           type: boolean
           nullable: true
           description: True if the learning resource offers a certificate
+        certification_type:
+          type: array
+          items:
+            $ref: '#/components/schemas/CertificationTypeEnum'
+          description: "The type of certificate             \n\n* `micromasters` -\
+            \ Micromasters Credential\n* `professional` - Professional Certificate\n\
+            * `completion` - Certificate of Completion\n* `none` - No Certificate"
         department:
           type: array
           items:
@@ -8877,6 +9521,12 @@ components:
           description: "The format(s) in which the learning resource is offered  \
             \           \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
             \ - In person"
+        resource_category:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceCategoryEnum'
+          description: "The category of learning resource             \n\n* `course`\
+            \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
         source_type:
           allOf:
           - $ref: '#/components/schemas/SourceTypeEnum'
@@ -8904,6 +9554,14 @@ components:
         * `podcast_episode` - podcast episode
         * `video` - video
         * `video_playlist` - video playlist
+      x-enum-descriptions:
+      - course
+      - program
+      - learning path
+      - podcast
+      - podcast episode
+      - video
+      - video playlist
     PlatformEnum:
       enum:
       - edx
@@ -8927,14 +9585,14 @@ components:
       type: string
       description: |-
         * `edx` - edX
-        * `ocw` - OCW
+        * `ocw` - MIT OpenCourseWare
         * `oll` - Open Learning Library
         * `mitxonline` - MITx Online
         * `bootcamps` - Bootcamps
-        * `xpro` - xPRO
+        * `xpro` - MIT xPRO
         * `csail` - CSAIL
-        * `mitpe` - Professional Education
-        * `see` - Sloan Executive Education
+        * `mitpe` - MIT Professional Education
+        * `see` - MIT Sloan Executive Education
         * `scc` - Schwarzman College of Computing
         * `ctl` - Center for Transportation & Logistics
         * `whu` - WHU
@@ -8944,6 +9602,25 @@ components:
         * `emeritus` - Emeritus
         * `podcast` - Podcast
         * `youtube` - YouTube
+      x-enum-descriptions:
+      - edX
+      - MIT OpenCourseWare
+      - Open Learning Library
+      - MITx Online
+      - Bootcamps
+      - MIT xPRO
+      - CSAIL
+      - MIT Professional Education
+      - MIT Sloan Executive Education
+      - Schwarzman College of Computing
+      - Center for Transportation & Logistics
+      - WHU
+      - Susskind
+      - Global Alumni
+      - Simplilearn
+      - Emeritus
+      - Podcast
+      - YouTube
     Podcast:
       type: object
       description: Serializer for Podcasts
@@ -9051,12 +9728,27 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
-            type: number
-            format: double
-          description: Returns the prices for the learning resource
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -9105,6 +9797,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastEpisodeResourceResourceTypeEnum'
@@ -9116,7 +9812,7 @@ components:
           readOnly: true
         readable_id:
           type: string
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           maxLength: 256
@@ -9152,6 +9848,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -9165,6 +9862,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -9181,7 +9879,7 @@ components:
         readable_id:
           type: string
           minLength: 1
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           minLength: 1
@@ -9280,12 +9978,27 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
-            type: number
-            format: double
-          description: Returns the prices for the learning resource
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -9334,6 +10047,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/PodcastResourceResourceTypeEnum'
@@ -9345,7 +10062,7 @@ components:
           readOnly: true
         readable_id:
           type: string
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           maxLength: 256
@@ -9381,6 +10098,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -9394,6 +10112,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -9410,7 +10129,7 @@ components:
         readable_id:
           type: string
           minLength: 1
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           minLength: 1
@@ -9459,6 +10178,9 @@ components:
       description: |-
         * `private` - private
         * `unlisted` - unlisted
+      x-enum-descriptions:
+      - private
+      - unlisted
     Program:
       type: object
       description: Serializer for the Program model
@@ -9476,12 +10198,6 @@ components:
       description: Serializer for Program Certificates
       properties:
         record_hash:
-          type: string
-          readOnly: true
-        program_letter_generate_url:
-          type: string
-          readOnly: true
-        program_letter_share_url:
           type: string
           readOnly: true
         program_title:
@@ -9557,8 +10273,6 @@ components:
           format: date-time
           nullable: true
       required:
-      - program_letter_generate_url
-      - program_letter_share_url
       - program_title
       - record_hash
       - user_email
@@ -9651,12 +10365,27 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
-            type: number
-            format: double
-          description: Returns the prices for the learning resource
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -9705,6 +10434,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/ProgramResourceResourceTypeEnum'
@@ -9716,7 +10449,7 @@ components:
           readOnly: true
         readable_id:
           type: string
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           maxLength: 256
@@ -9752,6 +10485,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -9765,6 +10499,7 @@ components:
       - professional
       - program
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -9781,7 +10516,7 @@ components:
         readable_id:
           type: string
           minLength: 1
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           minLength: 1
@@ -9834,6 +10569,25 @@ components:
         * `LEARNING_PATH_ITEMS` - Learning Path Items
         * `PODCAST_EPISODES` - Podcast Episodes
         * `PLAYLIST_VIDEOS` - Playlist Videos
+      x-enum-descriptions:
+      - Program Courses
+      - Learning Path Items
+      - Podcast Episodes
+      - Playlist Videos
+    ResourceCategoryEnum:
+      enum:
+      - course
+      - program
+      - learning_material
+      type: string
+      description: |-
+        * `course` - Course
+        * `program` - Program
+        * `learning_material` - Learning Material
+      x-enum-descriptions:
+      - Course
+      - Program
+      - Learning Material
     ResourceTypeEnum:
       enum:
       - course
@@ -9852,6 +10606,14 @@ components:
         * `podcast_episode` - podcast_episode
         * `video` - video
         * `video_playlist` - video_playlist
+      x-enum-descriptions:
+      - course
+      - program
+      - learning_path
+      - podcast
+      - podcast_episode
+      - video
+      - video_playlist
     SortbyEnum:
       enum:
       - id
@@ -9884,6 +10646,21 @@ components:
         * `views` - Popularity ascending
         * `-views` - Popularity descending
         * `upcoming` - Next start date ascending
+      x-enum-descriptions:
+      - Object ID ascending
+      - Object ID descending
+      - Readable ID ascending
+      - Readable ID descending
+      - Last Modified Date ascending
+      - Last Modified Date descending
+      - Newest resources first
+      - Start Date ascending
+      - Start Date descending
+      - MIT course number ascending
+      - MIT course number descending
+      - Popularity ascending
+      - Popularity descending
+      - Next start date ascending
     SourceTypeEnum:
       enum:
       - search_subscription_type
@@ -9892,6 +10669,9 @@ components:
       description: |-
         * `search_subscription_type` - search_subscription_type
         * `channel_subscription_type` - channel_subscription_type
+      x-enum-descriptions:
+      - search_subscription_type
+      - channel_subscription_type
     UserList:
       type: object
       description: Simplified serializer for UserList model.
@@ -10084,12 +10864,27 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
-            type: number
-            format: double
-          description: Returns the prices for the learning resource
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -10138,6 +10933,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoPlaylistResourceResourceTypeEnum'
@@ -10149,7 +10948,7 @@ components:
           readOnly: true
         readable_id:
           type: string
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           maxLength: 256
@@ -10185,6 +10984,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -10197,6 +10997,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -10214,7 +11015,7 @@ components:
         readable_id:
           type: string
           minLength: 1
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           minLength: 1
@@ -10303,12 +11104,27 @@ components:
         certification:
           type: boolean
           readOnly: true
+        certification_type:
+          type: object
+          properties:
+            code:
+              enum:
+              - micromasters
+              - professional
+              - completion
+              - none
+            name:
+              type: string
+          required:
+          - code
+          - name
+          readOnly: true
         prices:
           type: array
           items:
-            type: number
-            format: double
-          description: Returns the prices for the learning resource
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -10357,6 +11173,10 @@ components:
           type: boolean
           description: Return true if the resource is free/has a free option
           readOnly: true
+        resource_category:
+          type: string
+          description: Return the resource category of the resource
+          readOnly: true
         resource_type:
           allOf:
           - $ref: '#/components/schemas/VideoResourceResourceTypeEnum'
@@ -10368,7 +11188,7 @@ components:
           readOnly: true
         readable_id:
           type: string
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           maxLength: 256
@@ -10404,6 +11224,7 @@ components:
           nullable: true
       required:
       - certification
+      - certification_type
       - course_feature
       - departments
       - free
@@ -10416,6 +11237,7 @@ components:
       - prices
       - professional
       - readable_id
+      - resource_category
       - resource_type
       - runs
       - title
@@ -10433,7 +11255,7 @@ components:
         readable_id:
           type: string
           minLength: 1
-          maxLength: 128
+          maxLength: 512
         title:
           type: string
           minLength: 1

@@ -128,7 +128,7 @@ const ArticleUpsertForm = ({
         <Grid item xs={6}>
           {id ? (
             <Button
-              variant="outlined"
+              variant="secondary"
               disabled={!hasData || destroyArticle.isLoading}
               onClick={toggleConfirmationOpen.on}
             >
@@ -137,11 +137,11 @@ const ArticleUpsertForm = ({
           ) : null}
         </Grid>
         <FormControls item xs={6}>
-          <Button variant="outlined" onClick={onCancel}>
+          <Button variant="secondary" onClick={onCancel}>
             Cancel
           </Button>
           <Button
-            variant="filled"
+            variant="primary"
             disabled={
               editorBusy || createArticle.isLoading || editArticle.isLoading
             }

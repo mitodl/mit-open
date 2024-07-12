@@ -2,21 +2,22 @@
 
 from decimal import Decimal
 
-from django.contrib.admin.utils import flatten
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models import JSONField
+from django.db.models import JSONField, OuterRef, Q
 from django.db.models.functions import Lower
+from django.utils import timezone
 
 from learning_resources import constants
 from learning_resources.constants import (
+    CertificationType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     PrivacyLevel,
 )
-from main.models import TimestampedModel
+from main.models import TimestampedModel, TimestampedModelQuerySet
 
 
 def default_learning_format():
@@ -37,10 +38,28 @@ class LearningResourcePlatform(TimestampedModel):
         return f"{self.code}: {self.name}"
 
 
+class LearningResourceTopicQuerySet(TimestampedModelQuerySet):
+    """QuerySet for LearningResourceTopic"""
+
+    def annotate_channel_url(self):
+        """Annotate with the channel url"""
+        from channels.models import Channel
+
+        return self.annotate(
+            _channel_url=(
+                Channel.objects.filter(topic_detail__topic=OuterRef("pk"))
+                .annotate_channel_url()
+                .values_list("_channel_url", flat=True)[:1]
+            ),
+        )
+
+
 class LearningResourceTopic(TimestampedModel):
     """
     Topics for all learning resources (e.g. "History")
     """
+
+    objects = LearningResourceTopicQuerySet.as_manager()
 
     name = models.CharField(max_length=128)
     parent = models.ForeignKey(
@@ -52,8 +71,17 @@ class LearningResourceTopic(TimestampedModel):
 
     def __str__(self):
         """Return the topic name."""
-
         return self.name
+
+    @property
+    def channel_url(self):
+        """Return the topic's channel url"""
+        if hasattr(self, "_channel_url"):
+            return self._channel_url
+
+        topic_detail = self.channel_topic_details.first()
+
+        return topic_detail.channel.channel_url if topic_detail is not None else None
 
     class Meta:
         """Meta options for LearningResourceTopic"""
@@ -77,6 +105,8 @@ class LearningResourceOfferor(TimestampedModel):
     certifications = ArrayField(models.CharField(max_length=128), default=list)
     content_types = ArrayField(models.CharField(max_length=128), default=list)
     more_information = models.URLField(blank=True)
+    # This field name means "value proposition"
+    value_prop = models.TextField(blank=True)
 
     def __str__(self):
         return f"{self.code}: {self.name}"
@@ -182,7 +212,7 @@ class LearningResource(TimestampedModel):
         *([item.name for item in LearningResourceType]),
     ]
 
-    readable_id = models.CharField(max_length=128, null=False, blank=False)
+    readable_id = models.CharField(max_length=512, null=False, blank=False)
     title = models.CharField(max_length=256)
     description = models.TextField(null=True, blank=True)  # noqa: DJ001
     full_description = models.TextField(null=True, blank=True)  # noqa: DJ001
@@ -207,6 +237,11 @@ class LearningResource(TimestampedModel):
         LearningResourceDepartment,
     )
     certification = models.BooleanField(default=False)
+    certification_type = models.CharField(
+        choices=CertificationType.as_tuple(),
+        max_length=24,
+        default=CertificationType.none.name,
+    )
     resource_type = models.CharField(
         max_length=24,
         db_index=True,
@@ -232,17 +267,26 @@ class LearningResource(TimestampedModel):
         return None
 
     @property
+    def next_run(self):
+        """Returns the next run for the learning resource"""
+        return (
+            self.runs.filter(Q(published=True) & Q(start_date__gt=timezone.now()))
+            .order_by("start_date")
+            .first()
+        )
+
+    @property
     def prices(self) -> list[Decimal]:
         """Returns the prices for the learning resource"""
         if self.resource_type in [
             LearningResourceType.course.name,
             LearningResourceType.program.name,
         ]:
-            return list(
-                set(
-                    flatten([(run.prices or [Decimal(0.0)]) for run in self.runs.all()])
-                )
+            next_run = (
+                self.next_run
+                or self.runs.filter(published=True).order_by("-start_date").first()
             )
+            return next_run.prices if next_run and next_run.prices else []
         else:
             return [Decimal(0.00)]
 
@@ -378,6 +422,9 @@ class LearningResourceRelationship(TimestampedModel):
         default=None,
     )
 
+    class Meta:
+        ordering = ["position"]
+
 
 class ContentFile(TimestampedModel):
     """
@@ -456,6 +503,9 @@ class UserListRelationship(TimestampedModel):
         LearningResource, related_name="user_lists", on_delete=models.deletion.CASCADE
     )
     position = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["position"]
 
 
 class Podcast(TimestampedModel):

@@ -6,10 +6,9 @@ import re
 from urllib.parse import urlencode, urljoin
 
 import requests
-from bs4 import BeautifulSoup as Soup
 
+from main.utils import clean_data
 from news_events.constants import FeedType
-from news_events.etl.utils import tag_text
 
 log = logging.getLogger(__name__)
 
@@ -96,19 +95,18 @@ def transform_item(item_data: dict) -> dict:
     """
     return {
         "guid": item_data.get("managedContentId"),
-        "title": html.escape(item_data.get("title", "")),
-        "summary": tag_text(
-            Soup(
-                html.unescape(
-                    item_data.get("contentNodes", {}).get("Summary", {}).get("value")
-                ),
-                "lxml",
+        "title": html.unescape(item_data.get("title", "")),
+        "summary": clean_data(
+            html.unescape(
+                item_data.get("contentNodes", {}).get("Summary", {}).get("value")
             )
         ),
-        "content": html.unescape(
-            item_data.get("contentNodes", {})
-            .get("First_Section_Content", {})
-            .get("value")
+        "content": clean_data(
+            html.unescape(
+                item_data.get("contentNodes", {})
+                .get("First_Section_Content", {})
+                .get("value")
+            )
         ),
         "url": urljoin(
             SLOAN_EXEC_ARTICLE_PREFIX_URL,
@@ -131,7 +129,7 @@ def transform_item(item_data: dict) -> dict:
         },
         "detail": {
             "authors": [
-                html.escape(
+                html.unescape(
                     item_data.get("contentNodes", {})
                     .get("Quote_Author", {})
                     .get("value", "")

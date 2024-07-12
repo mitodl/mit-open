@@ -3,7 +3,7 @@ import {
   createTheme,
   ThemeProvider as MuiThemeProvider,
 } from "@mui/material/styles"
-import type { ThemeOptions } from "@mui/material/styles"
+import type { ThemeOptions, Theme } from "@mui/material/styles"
 import type {} from "@mui/lab/themeAugmentation"
 import * as typography from "./typography"
 import * as buttons from "./buttons"
@@ -19,7 +19,6 @@ const shadow = {
 
 // To replace ../scss/theme.scss for #236 as we refactor it out
 const custom: ThemeOptions["custom"] = {
-  oldBackgroundColor: "#edeff5",
   transitionDuration: "300ms",
   shadow: `${shadow.shadowOffsetX} ${shadow.shadowOffsetY} ${shadow.shadowBlurRadius} ${shadow.shadowColor}`,
   colors,
@@ -30,7 +29,7 @@ const BREAKPOINTS = {
     xs: 0,
     sm: 600,
     md: 900,
-    lg: 1280,
+    lg: 1272 + 48,
     xl: 1536,
   },
 }
@@ -52,7 +51,7 @@ const themeOptions: ThemeOptions = {
       contrastText: colors.white,
     },
     secondary: {
-      light: colors.lightGray2,
+      light: colors.darkGray2,
       active: colors.silverGrayDark,
       main: colors.black,
       contrastText: colors.white,
@@ -70,10 +69,15 @@ const themeOptions: ThemeOptions = {
     MuiTabPanel: {
       styleOverrides: {
         root: {
-          paddingLeft: "0px",
-          paddingRight: "0px",
+          padding: "0px",
         },
       },
+    },
+    MuiMenu: {
+      styleOverrides: { paper: { borderRadius: "4px" } },
+    },
+    MuiAutocomplete: {
+      styleOverrides: { paper: { borderRadius: "4px" } },
     },
     MuiChip: chips.chipComponent,
   },
@@ -92,7 +96,5 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
 }
 
-export type Theme = typeof themeOptions
-
 export { ThemeProvider }
-export type { ThemeProviderProps }
+export type { ThemeProviderProps, Theme }

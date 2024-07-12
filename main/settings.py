@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.10.1"
+VERSION = "0.13.18"
 
 log = logging.getLogger()
 
@@ -65,9 +65,9 @@ ALLOWED_HOSTS = ["*"]
 SECURE_SSL_REDIRECT = get_bool("MITOPEN_SECURE_SSL_REDIRECT", True)  # noqa: FBT003
 
 SITE_ID = 1
-SITE_BASE_URL = get_string("MITOPEN_BASE_URL", None)
-if not SITE_BASE_URL:
-    msg = "MITOPEN_BASE_URL is not set"
+APP_BASE_URL = get_string("MITOPEN_APP_BASE_URL", None)
+if not APP_BASE_URL:
+    msg = "MITOPEN_APP_BASE_URL is not set"
     raise ImproperlyConfigured(msg)
 MITOPEN_TITLE = get_string("MITOPEN_TITLE", "MIT Open")
 
@@ -109,7 +109,12 @@ INSTALLED_APPS = (
     "oauth2_provider",
     "news_events",
     "testimonials",
+    "data_fixtures",
+    "silk",
 )
+
+if not get_bool("RUN_DATA_MIGRATIONS", default=False):
+    MIGRATION_MODULES = {"data_fixtures": None}
 
 SCIM_SERVICE_PROVIDER = {
     "SCHEME": "https",
@@ -146,12 +151,25 @@ MIDDLEWARE = (
     "hijack.middleware.HijackUserMiddleware",
     "oauth2_provider.middleware.OAuth2TokenMiddleware",
     "django_scim.middleware.SCIMAuthCheckMiddleware",
+    "silk.middleware.SilkyMiddleware",
 )
 
 # CORS
 CORS_ALLOWED_ORIGINS = get_list_of_str("CORS_ALLOWED_ORIGINS", [])
 CORS_ALLOWED_ORIGIN_REGEXES = get_list_of_str("CORS_ALLOWED_ORIGIN_REGEXES", [])
-CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_CREDENTIALS = get_bool("CORS_ALLOW_CREDENTIALS", True)  # noqa: FBT003
+SECURE_CROSS_ORIGIN_OPENER_POLICY = get_string(
+    "SECURE_CROSS_ORIGIN_OPENER_POLICY",
+    "same-origin",
+)
+
+CSRF_COOKIE_SECURE = get_bool("CSRF_COOKIE_SECURE", True)  # noqa: FBT003
+SESSION_COOKIE_DOMAIN = get_string("SESSION_COOKIE_DOMAIN", None)
+CSRF_COOKIE_DOMAIN = get_string("CSRF_COOKIE_DOMAIN", None)
+
+CSRF_HEADER_NAME = get_string("CSRF_HEADER_NAME", "HTTP_X_CSRFTOKEN")
+
 
 CSRF_TRUSTED_ORIGINS = get_list_of_str("CSRF_TRUSTED_ORIGINS", [])
 
@@ -162,14 +180,14 @@ if DEBUG:
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = "/app"
 LOGIN_URL = "/login"
 LOGIN_ERROR_URL = "/login"
 LOGOUT_URL = "/logout"
-LOGOUT_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/app"
 
 MITOPEN_TOS_URL = get_string(
-    "MITOPEN_TOS_URL", urljoin(SITE_BASE_URL, "/terms-and-conditions/")
+    "MITOPEN_TOS_URL", urljoin(APP_BASE_URL, "/terms-and-conditions/")
 )
 
 ROOT_URLCONF = "main.urls"
@@ -247,14 +265,17 @@ AUTHENTICATION_BACKENDS = (
     "guardian.backends.ObjectPermissionBackend",
 )
 
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = "/"
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_string("MITOPEN_LOGIN_REDIRECT_URL", "/app")
+SOCIAL_AUTH_NEW_USER_LOGIN_REDIRECT_URL = get_string(
+    "MITOPEN_NEW_USER_LOGIN_URL", "/onboarding"
+)
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
 SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
     *get_list_of_str(
         name="SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS",
         default=[],
     ),
-    urlparse(SITE_BASE_URL).netloc,
+    urlparse(APP_BASE_URL).netloc,
 ]
 
 SOCIAL_AUTH_PIPELINE = (
@@ -293,6 +314,8 @@ SOCIAL_AUTH_PIPELINE = (
     "social_core.pipeline.user.user_details",
     # Create a favorites list for new users
     "authentication.pipeline.user.user_created_actions",
+    # redirect new users to onboarding
+    "authentication.pipeline.user.user_onboarding",
 )
 
 SOCIAL_AUTH_OL_OIDC_OIDC_ENDPOINT = get_string(
@@ -533,10 +556,6 @@ OPENSEARCH_MAX_SUGGEST_RESULTS = get_int("OPENSEARCH_MAX_SUGGEST_RESULTS", 1)
 OPENSEARCH_SHARD_COUNT = get_int("OPENSEARCH_SHARD_COUNT", 2)
 OPENSEARCH_REPLICA_COUNT = get_int("OPENSEARCH_REPLICA_COUNT", 2)
 OPENSEARCH_MAX_REQUEST_SIZE = get_int("OPENSEARCH_MAX_REQUEST_SIZE", 10485760)
-INDEXING_API_USERNAME = get_string("INDEXING_API_USERNAME", None)
-if not INDEXING_API_USERNAME:
-    msg = "Missing setting INDEXING_API_USERNAME"
-    raise ImproperlyConfigured(msg)
 INDEXING_ERROR_RETRIES = get_int("INDEXING_ERROR_RETRIES", 1)
 
 # JWT authentication settings
@@ -696,3 +715,12 @@ POSTHOG_PROJECT_ID = get_int(
     name="POSTHOG_PROJECT_ID",
     default=None,
 )
+
+SILKY_INTERCEPT_PERCENT = get_int(name="SILKY_INTERCEPT_PERCENT", default=50)
+SILKY_MAX_RECORDED_REQUESTS = get_int(name="SILKY_MAX_RECORDED_REQUESTS", default=10**3)
+SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT = get_int(
+    name="SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT", default=10
+)
+SILKY_AUTHENTICATION = True  # User must login
+SILKY_AUTHORISATION = True
+SILKY_PERMISSIONS = lambda user: user.is_superuser  # noqa: E731

@@ -6,6 +6,7 @@ import logging
 import mimetypes
 import os
 import re
+import tarfile
 import uuid
 from collections import Counter
 from collections.abc import Generator
@@ -471,6 +472,7 @@ def get_learning_course_bucket_name(etl_source: str) -> str:
         ETLSource.mit_edx.name: settings.EDX_LEARNING_COURSE_BUCKET_NAME,
         ETLSource.xpro.name: settings.XPRO_LEARNING_COURSE_BUCKET_NAME,
         ETLSource.mitxonline.name: settings.MITX_ONLINE_LEARNING_COURSE_BUCKET_NAME,
+        ETLSource.oll.name: settings.OLL_LEARNING_COURSE_BUCKET_NAME,
     }
     return bucket_names.get(etl_source)
 
@@ -505,11 +507,8 @@ def calc_checksum(filename) -> str:
     Returns:
         str: The md5 checksum of the file
     """
-    hash_md5 = md5()  # noqa: S324
-    with Path.open(Path(filename), "rb") as f:
-        for chunk in iter(lambda: f.read(4096), b""):
-            hash_md5.update(chunk)
-    return hash_md5.hexdigest()
+    with tarfile.open(filename, "r") as tgz_file:
+        return str(hash(tuple(ti.chksum for ti in tgz_file.getmembers())))
 
 
 def get_content_type(file_type: str) -> str:

@@ -1,11 +1,13 @@
 import React, { useCallback } from "react"
 import classNames from "classnames"
-import { Divider, Card, CardContent, CardActions } from "ol-components"
-import IconEdit from "@mui/icons-material/Edit"
-import IconDelete from "@mui/icons-material/Delete"
-import IconDrag from "@mui/icons-material/DragHandle"
-import IconExpand from "@mui/icons-material/ExpandMore"
-import IconCollapse from "@mui/icons-material/ExpandLess"
+import { Divider, MuiCard, CardContent, CardActions } from "ol-components"
+import {
+  RiPencilFill,
+  RiDeleteBin7Fill,
+  RiArrowDownSLine,
+  RiArrowUpSLine,
+  RiDraggable,
+} from "@remixicon/react"
 
 import type {
   AnonymousWidget,
@@ -72,7 +74,7 @@ const WidgetTemplate: React.FC<WidgetTemplateProps> = ({
   }
 
   return (
-    <Card
+    <MuiCard
       className={classNames("ol-widget", className, {
         "ol-widget-collapsed": !isOpen,
       })}
@@ -86,14 +88,14 @@ const WidgetTemplate: React.FC<WidgetTemplateProps> = ({
                 aria-label={btnLabel.collapse}
                 onClick={handleVisibilityChange}
               >
-                <IconCollapse fontSize="inherit" />
+                <RiArrowUpSLine fontSize="inherit" />
               </button>
             ) : (
               <button
                 aria-label={btnLabel.expand}
                 onClick={handleVisibilityChange}
               >
-                <IconExpand fontSize="inherit" />
+                <RiArrowDownSLine fontSize="inherit" />
               </button>
             ))}
         </h2>
@@ -108,22 +110,22 @@ const WidgetTemplate: React.FC<WidgetTemplateProps> = ({
               type="button"
               onClick={handleEdit}
             >
-              <IconEdit fontSize="inherit" />
+              <RiPencilFill fontSize="inherit" />
             </button>
             <button
               aria-label={btnLabel.delete}
               type="button"
               onClick={handleDelete}
             >
-              <IconDelete fontSize="inherit" />
+              <RiDeleteBin7Fill fontSize="inherit" />
             </button>
             <button aria-label={btnLabel.move} type="button" {...handleProps}>
-              <IconDrag fontSize="inherit" />
+              <RiDraggable fontSize="inherit" />
             </button>
           </CardActions>
         </>
       )}
-    </Card>
+    </MuiCard>
   )
 }
 

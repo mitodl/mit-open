@@ -1,14 +1,13 @@
 """Filters for testimonials."""
 
-from django.db.models import Q
 from django_filters import (
-    BooleanFilter,
     FilterSet,
     ModelMultipleChoiceFilter,
+    NumberFilter,
 )
 
-from channels.models import FieldChannel
-from main.utils import now_in_utc
+from channels.models import Channel
+from learning_resources.models import LearningResourceOfferor
 
 
 class AttestationFilter(FilterSet):
@@ -16,18 +15,12 @@ class AttestationFilter(FilterSet):
 
     channels = ModelMultipleChoiceFilter(
         label="The channels the attestation is for",
-        queryset=FieldChannel.objects.all(),
+        queryset=Channel.objects.all(),
     )
-    published = BooleanFilter(
-        label="Only return published testimonials", method="filter_published"
+    offerors = ModelMultipleChoiceFilter(
+        label="The offerors the attestation is for",
+        queryset=LearningResourceOfferor.objects.all(),
     )
-
-    def filter_published(self, queryset, _, value):
-        """Filter only published attestations"""
-
-        if value:
-            return queryset.filter(
-                Q(publish_date__isnull=True) | Q(publish_date__lte=now_in_utc())
-            )
-
-        return queryset
+    position = NumberFilter(
+        label="Only show items that exist at this position",
+    )

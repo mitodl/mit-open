@@ -6,28 +6,19 @@ import * as ButtonStories from "./Button.stories";
 
 # Button
 
-Use prop `variant="filled" | "outlined" | "text"` to set the button variant:
+Use prop `variant="primary" | "secondary" | "tertiary" | "text"` to set the button variant:
 
 <Canvas of={ButtonStories.VariantStory} />
 
-Use `size="small" | "medium" | "large"` to set the button size:
+Use `size="small" | "medium" | "large"` to set the button size. If a button has `responsive=true` (default: `false`), it will shift its size down one level on `sm` screens.
 
 <Canvas of={ButtonStories.SizeStory} />
-
-Use `color="red" | "dark"` to set the button color:
-
-<Canvas of={ButtonStories.ColorStory} />
 
 Use `disabled` to disable the button:
 
 <Canvas of={ButtonStories.DisabledStory} />
 
-Use `edge="rounded" | "sharp"` to set the button edge:
-
-<Canvas of={ButtonStories.EdgeStory} />
-
-Use `startIcon` and `endIcon` to add icons to the button. The icons are expected
-to be from [`@mui/icons-material`](https://mui.com/material-ui/material-icons/):
+Use `edge="circular" | "rounded"` to set the button edge:
 
 <Canvas of={ButtonStories.WithIconStory} />
 
@@ -41,6 +32,12 @@ To render a link styled as a Buttons, use `ButtonLink`. The underlying component
 Use `<ActionButton />` to render an icon-only button:
 
 <Canvas of={ButtonStories.IconOnlyStory} />
+
+## Action Buttons
+
+Action buttons are simple controls to trigger actions—deletions. Like standard Buttons, they come in three sizes and have a `responsive` prop (default: `false`).
+
+<Canvas of={ButtonStories.ActionButtonSizeStory} />
 
 ## More Examples
 

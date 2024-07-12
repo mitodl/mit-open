@@ -1,6 +1,6 @@
 import React from "react"
 import { renderWithProviders, screen, waitFor, within } from "@/test-utils"
-import type { LearningResourceSearchResponse } from "api"
+import type { LearningResourcesSearchResponse } from "api"
 import DepartmentListingPage from "./DepartmentListingPage"
 import { factories, setMockResponse, urls } from "api/test-utils"
 import invariant from "tiny-invariant"
@@ -8,7 +8,7 @@ import { faker } from "@faker-js/faker/locale/en"
 
 const makeSearchResponse = (
   aggregations: Record<string, number>,
-): LearningResourceSearchResponse => {
+): LearningResourcesSearchResponse => {
   return {
     metadata: {
       suggestions: [],
@@ -82,13 +82,13 @@ describe("DepartmentListingPage", () => {
     }
   }
 
-  it("Has a page title", async () => {
+  it("Has correct page title", async () => {
     setupApis()
     renderWithProviders(<DepartmentListingPage />)
     await waitFor(() => {
-      expect(document.title).toBe("MIT Open | Departments")
+      expect(document.title).toBe("Departments | MIT Open")
     })
-    screen.getByRole("heading", { name: "Departments" })
+    screen.getByRole("heading", { name: "Browse by Academic Department" })
   })
 
   it("Lists schools and departments", async () => {

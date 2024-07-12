@@ -12,9 +12,11 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources import constants, models
 from learning_resources.constants import (
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
+    CertificationType,
     LearningResourceFormat,
     LearningResourceType,
     LevelType,
@@ -41,12 +43,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
     Serializer for LearningResourceTopic model
     """
 
-    channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
-
-    def get_channel_url(self, instance: models.LearningResourceTopic) -> str or None:
-        """Get the channel url for the topic if it exists"""
-        channel = FieldChannel.objects.filter(topic_detail__topic=instance).first()
-        return channel.channel_url if channel else None
+    channel_url = serializers.CharField()
 
     class Meta:
         """Meta options for the serializer."""
@@ -98,9 +95,9 @@ class LearningResourceOfferorSerializer(serializers.ModelSerializer):
 
     channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
 
-    def get_channel_url(self, instance: models.LearningResourceOfferor) -> str or None:
+    def get_channel_url(self, instance: models.LearningResourceOfferor) -> str | None:
         """Get the channel url for the offeror if it exists"""
-        channel = FieldChannel.objects.filter(offeror_detail__offeror=instance).first()
+        channel = Channel.objects.filter(unit_detail__unit=instance).first()
         return channel.channel_url if channel else None
 
     class Meta:
@@ -114,6 +111,24 @@ class LearningResourceOfferorDetailSerializer(LearningResourceOfferorSerializer)
     class Meta:
         model = models.LearningResourceOfferor
         exclude = COMMON_IGNORED_FIELDS
+
+
+@extend_schema_field(
+    {
+        "type": "object",
+        "properties": {
+            "code": {"enum": CertificationType.names()},
+            "name": {"type": "string"},
+        },
+        "required": ["code", "name"],
+    }
+)
+class CertificateTypeField(serializers.Field):
+    """Serializer for LearningResource.certification_type"""
+
+    def to_representation(self, value):
+        """Serialize certification type as a dict"""
+        return {"code": value, "name": CertificationType[value].value}
 
 
 @extend_schema_field({"type": "array", "items": {"type": "string"}})
@@ -140,11 +155,9 @@ class LearningResourceBaseDepartmentSerializer(serializers.ModelSerializer):
 
     def get_channel_url(
         self, instance: models.LearningResourceDepartment
-    ) -> str or None:
+    ) -> str | None:
         """Get the channel url for the department if it exists"""
-        channel = FieldChannel.objects.filter(
-            department_detail__department=instance
-        ).first()
+        channel = Channel.objects.filter(department_detail__department=instance).first()
         return channel.channel_url if channel else None
 
     class Meta:
@@ -290,6 +303,7 @@ class ProgramSerializer(serializers.ModelSerializer):
                 LearningResource.objects.filter(id__in=ids)
                 .select_related(*LearningResource.related_selects)
                 .prefetch_related(*LearningResource.prefetches)
+                .order_by("next_start_date", "id")
             ),
             many=True,
         ).data
@@ -421,8 +435,12 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     departments = LearningResourceDepartmentSerializer(
         read_only=True, allow_null=True, many=True
     )
-    certification = serializers.ReadOnlyField()
-    prices = serializers.ReadOnlyField()
+    certification = serializers.ReadOnlyField(read_only=True)
+    certification_type = CertificateTypeField(read_only=True)
+    prices = serializers.ListField(
+        child=serializers.DecimalField(max_digits=10, decimal_places=2),
+        read_only=True,
+    )
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     image = serializers.SerializerMethodField()
     learning_path_parents = serializers.SerializerMethodField()
@@ -432,6 +450,17 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         child=LearningResourceFormatSerializer(), read_only=True
     )
     free = serializers.SerializerMethodField()
+    resource_category = serializers.SerializerMethodField()
+
+    def get_resource_category(self, instance) -> str:
+        """Return the resource category of the resource"""
+        if instance.resource_type in [
+            LearningResourceType.course.name,
+            LearningResourceType.program.name,
+        ]:
+            return instance.resource_type
+        else:
+            return LEARNING_MATERIAL_RESOURCE_CATEGORY
 
     def get_free(self, instance) -> bool:
         """Return true if the resource is free/has a free option"""
@@ -525,7 +554,14 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
 
     class Meta:
         model = models.LearningResource
-        read_only_fields = ["free", "certification", "professional", "views"]
+        read_only_fields = [
+            "free",
+            "resource_category",
+            "certification",
+            "certification_type",
+            "professional",
+            "views",
+        ]
         exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
 
 

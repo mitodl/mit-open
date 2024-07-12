@@ -2,7 +2,6 @@
 
 import datetime
 from unittest.mock import Mock
-from urllib.parse import urljoin
 
 import pytest
 import yaml
@@ -23,6 +22,7 @@ from learning_resources.etl.podcast import (
 from learning_resources.factories import (
     PodcastEpisodeFactory,
 )
+from main.utils import frontend_absolute_url
 
 pytestmark = pytest.mark.django_db
 
@@ -43,23 +43,22 @@ def rss_content():
 def mock_podcast_file(  # pylint: disable=too-many-arguments  # noqa: PLR0913
     podcast_title=None,
     topics=None,
-    website_url="website_url",
+    website_url="http://website.url/podcast",
     offered_by=None,
     google_podcasts_url="google_podcasts_url",
     apple_podcasts_url="apple_podcasts_url",
-    rss_url="rss_url",
+    rss_url="http://website.url/podcast/rss.xml",
 ):
     """Mock podcast github file"""
 
     content = f"""---
-rss_url: rss_url
+rss_url: {rss_url}
 { "podcast_title: " + podcast_title if podcast_title else "" }
 { "topics: " + topics if topics else "" }
 { "offered_by: " + offered_by if offered_by else "" }
 website:  {website_url}
 google_podcasts_url: {google_podcasts_url}
 apple_podcasts_url: {apple_podcasts_url}
-rss_url: {rss_url}
 """
     return Mock(decoded_content=content)
 
@@ -123,28 +122,17 @@ def test_transform(mock_github_client, title, topics, offered_by):
     )
 
     expected_title = title if title else "A Podcast"
-    expected_readable_id = (
-        "custom-titleb04b26d38dd63a2c829393e9e075927d"
-        if title
-        else "a-podcast7e3a1ebb0c4d3196ba4c7f8254af4d2d"
-    )
 
     expected_offered_by = {"name": offered_by} if offered_by else None
 
     episodes_rss = list(bs(rss_content(), "xml").find_all("item"))
 
-    for episode in episodes_rss:
-        episode.guid.string = f"{expected_readable_id}: {episode.guid.text}"
-
     expected_results = [
         {
-            "readable_id": expected_readable_id,
+            "readable_id": "website.url/podcast/rss.xml",
             "etl_source": ETLSource.podcast.name,
             "title": expected_title,
             "offered_by": expected_offered_by,
-            "full_description": (
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            ),
             "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
             "image": {"url": "apicture.jpg"},
             "published": True,
@@ -152,21 +140,17 @@ def test_transform(mock_github_client, title, topics, offered_by):
             "podcast": {
                 "google_podcasts_url": "google_podcasts_url",
                 "apple_podcasts_url": "apple_podcasts_url",
-                "rss_url": "rss_url",
+                "rss_url": "http://website.url/podcast/rss.xml",
             },
             "resource_type": LearningResourceType.podcast.name,
             "topics": expected_topics,
             "episodes": [
                 {
-                    "readable_id": "episode15ede89915db9342fb76bc91918d22016",
+                    "readable_id": "tag:soundcloud,2010:tracks/numbers1",
                     "etl_source": ETLSource.podcast.name,
                     "title": "Episode1",
                     "offered_by": expected_offered_by,
                     "description": (
-                        "SMorbi id consequat nisl. Morbi leo elit, vulputate nec"
-                        " aliquam molestie, ullamcorper sit amet tortor"
-                    ),
-                    "full_description": (
                         "SMorbi id consequat nisl. Morbi leo elit, vulputate nec"
                         " aliquam molestie, ullamcorper sit amet tortor"
                     ),
@@ -185,15 +169,11 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "topics": expected_topics,
                 },
                 {
-                    "readable_id": "episode205c066df9ed531e48c6414f6e72d3b96",
+                    "readable_id": "tag:soundcloud,2010:tracks/numbers2",
                     "etl_source": ETLSource.podcast.name,
                     "title": "Episode2",
                     "offered_by": expected_offered_by,
                     "description": (
-                        "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit"
-                        " felis ut varius facilisis."
-                    ),
-                    "full_description": (
                         "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit"
                         " felis ut varius facilisis."
                     ),
@@ -240,11 +220,11 @@ def test_transform_with_error(mocker, mock_github_client):
     results = list(transform(extract_results))
 
     mock_exception_log.assert_called_once_with(
-        "Error parsing podcast data from %s", "rss_url"
+        "Error parsing podcast data from %s", "http://website.url/podcast/rss.xml"
     )
 
     assert len(results) == 1
-    assert results[0]["url"] == "website_url"
+    assert results[0]["url"] == "http://website.url/podcast"
 
 
 @pytest.mark.django_db()
@@ -262,10 +242,8 @@ def test_generate_aggregate_podcast_rss():
     resource_2.last_modified = datetime.datetime(2020, 1, 1, tzinfo=datetime.UTC)
     resource_2.save()
 
-    podcasts_url = urljoin(settings.SITE_BASE_URL, "podcasts")
-    cover_image_url = urljoin(
-        settings.SITE_BASE_URL, "/static/images/podcast_cover_art.png"
-    )
+    podcasts_url = frontend_absolute_url("/podcasts")
+    cover_image_url = frontend_absolute_url("/static/images/podcast_cover_art.png")
 
     expected_rss = f"""<?xml version='1.0' encoding='UTF-8'?>
     <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">

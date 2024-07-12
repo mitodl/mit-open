@@ -23,7 +23,7 @@ from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.loaders import update_index
 from learning_resources.models import LearningResource
-from main.utils import now_in_utc
+from main.utils import clean_data, now_in_utc
 
 CONFIG_FILE_REPO = "mitodl/open-video-data"
 CONFIG_FILE_FOLDER = "youtube"
@@ -415,8 +415,7 @@ def transform_video(video_data: dict, offered_by_code: str) -> dict:
         "etl_source": ETLSource.youtube.name,
         "resource_type": LearningResourceType.video.name,
         "title": video_data["snippet"]["localized"]["title"],
-        "description": video_data["snippet"]["description"],
-        "full_description": video_data["snippet"]["description"],
+        "description": clean_data(video_data["snippet"]["description"]),
         "image": {"url": video_data["snippet"]["thumbnails"]["high"]["url"]},
         "last_modified": video_data["snippet"]["publishedAt"],
         "url": f"https://www.youtube.com/watch?v={video_data['id']}",
