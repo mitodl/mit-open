@@ -43,6 +43,10 @@ const FlexContainer = styled(Container)({
   maxWidth: "800px",
 })
 
+const Form = styled.form({
+  width: "100%",
+})
+
 const StepContainer = styled(Container)({
   display: "flex",
   flexDirection: "row",
@@ -329,9 +333,9 @@ const OnboardingPage: React.FC = () => {
       {isLoadingProfile ? (
         <LoadingSpinner loading={true} />
       ) : (
-        <form id={formId} onSubmit={formik.handleSubmit}>
+        <Form id={formId} onSubmit={formik.handleSubmit}>
           {pages[activeStep]}
-        </form>
+        </Form>
       )}
       <NavControls>
         {activeStep > 0 ? (
