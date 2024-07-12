@@ -271,7 +271,12 @@ def test_patch_topic_interests(client, logged_in_profile):
 @pytest.mark.parametrize(
     ("field", "before", "value", "after"),
     [
-        ("goals", [], [Profile.Goal.JUST_TO_LEARN], [Profile.Goal.JUST_TO_LEARN]),
+        (
+            "goals",
+            [],
+            [Profile.Goal.LIFELONG_LEARNING],
+            [Profile.Goal.LIFELONG_LEARNING],
+        ),
         (
             "certificate_desired",
             "",
