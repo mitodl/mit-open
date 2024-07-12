@@ -253,7 +253,7 @@ const OnboardingPage: React.FC = () => {
         label={
           <Label>
             <Title component="h3" variant="h6">
-              Are you seeking to receive a certificate?
+              Are you seeking a certificate?
             </Title>
             <Prompt>Select one:</Prompt>
           </Label>

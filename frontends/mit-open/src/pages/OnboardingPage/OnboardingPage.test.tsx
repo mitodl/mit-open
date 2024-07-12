@@ -53,7 +53,7 @@ const profileForStep = (step: number) => {
 const STEP_TITLES = [
   "What are you interested in learning about?",
   "What are your learning goals?",
-  "Are you seeking to receive a certificate?",
+  "Are you seeking a certificate?",
   "What is your current level of education?",
   "How much time per week do you want to commit to learning?",
   "What course format are you interested in?",
