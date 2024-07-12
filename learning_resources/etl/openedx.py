@@ -220,8 +220,10 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "start_date": course_run.get("start") or course_run.get("enrollment_start"),
         "end_date": course_run.get("end"),
         "last_modified": last_modified,
-        "published": course_run.get("status", "") == "published"
-        and course_run.get("is_enrollable", False),
+        "published": (
+            course_run.get("status", "") == "published"
+            and course_run.get("is_enrollable", False)
+        ),
         "enrollment_start": course_run.get("enrollment_start"),
         "enrollment_end": course_run.get("enrollment_end"),
         "image": _transform_image(course_run.get("image")),
