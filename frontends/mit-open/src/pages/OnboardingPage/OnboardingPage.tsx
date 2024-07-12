@@ -54,11 +54,11 @@ const StepContainer = styled(Container)({
   },
   // the two following rules work in concert to center the <Stepper>
   // this makes the empty div take up all the left space
-  "& > div:first-child": {
+  "& > div:first-of-type": {
     flex: 1,
   },
   // this makes <StepNumbers> take up all the right space
-  "& > div:last-child": {
+  "& > div:last-of-type": {
     flex: 1,
   },
 })
