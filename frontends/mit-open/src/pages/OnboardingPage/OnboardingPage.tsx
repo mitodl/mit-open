@@ -225,7 +225,7 @@ const OnboardingPage: React.FC = () => {
         label={
           <Label>
             <Title component="h3" variant="h6">
-              What do you want MIT online education to help you reach?
+              What are your learning goals?
             </Title>
             <Prompt component="p">Select all that apply:</Prompt>
           </Label>
