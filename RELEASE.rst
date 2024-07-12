@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.19
+Version 0.13.19 (Released July 12, 2024)
 ---------------
 
 - remove erronous export string (#1257)
