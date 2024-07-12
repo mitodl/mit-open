@@ -255,7 +255,6 @@ const OnboardingPage: React.FC = () => {
             <Title component="h3" variant="h6">
               Are you seeking a certificate?
             </Title>
-            <Prompt>Select one:</Prompt>
           </Label>
         }
         value={formik.values.certificate_desired}
