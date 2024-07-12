@@ -23,7 +23,6 @@ import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import { LEARNING_FORMAT_CHOICES } from "@/page-components/Profile/LearningFormatChoice"
 import { GOALS_CHOICES } from "@/page-components/Profile/GoalsChoice"
 
-import { TIME_COMMITMENT_CHOICES } from "@/page-components/Profile/TimeCommitmentChoice"
 import { EDUCATION_LEVEL_OPTIONS } from "@/page-components/Profile/EducationLevelChoice"
 import { CERTIFICATE_CHOICES } from "@/page-components/Profile/CertificateChoice"
 import { useProfileMeMutation, useProfileMeQuery } from "api/hooks/profile"
@@ -34,7 +33,7 @@ import { useFormik } from "formik"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { useUserMe } from "api/hooks/user"
 
-const NUM_STEPS = 6
+const NUM_STEPS = 5
 
 const FlexContainer = styled(Container)({
   display: "flex",
@@ -129,7 +128,6 @@ const profileSchema = yup.object().shape({
     .of(yup.string().oneOf(GOALS_CHOICES.map((choice) => choice.value))),
   certificate_desired: yup.string(),
   current_education: yup.string(),
-  time_commitment: yup.string(),
   learning_format: yup.string(),
 })
 
@@ -274,23 +272,6 @@ const OnboardingPage: React.FC = () => {
           </Label>
         }
         value={formik.values.current_education}
-        onChange={formik.handleChange}
-      />
-    </Container>,
-    <Container key="time_commitment" maxWidth="md">
-      <RadioChoiceBoxField
-        name="time_commitment"
-        choices={TIME_COMMITMENT_CHOICES}
-        {...GridStyle("left", { lg: 9, md: 6, xs: 3 })}
-        label={
-          <Label>
-            <Title component="h3" variant="h6">
-              How much time per week do you want to commit to learning?
-            </Title>
-            <Prompt>Select one:</Prompt>
-          </Label>
-        }
-        value={formik.values.time_commitment}
         onChange={formik.handleChange}
       />
     </Container>,
