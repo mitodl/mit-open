@@ -12,4 +12,8 @@ open_spectacular_settings = {
     "COMPONENT_SPLIT_REQUEST": True,
     "AUTHENTICATION_WHITELIST": [],
     "SCHEMA_PATH_PREFIX": "/api/v[0-9]",
+    "POSTPROCESSING_HOOKS": [
+        "drf_spectacular.hooks.postprocess_schema_enums",
+        "openapi.hooks.postprocess_x_enum_descriptions",
+    ],
 }

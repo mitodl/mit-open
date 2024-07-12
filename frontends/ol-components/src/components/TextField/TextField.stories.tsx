@@ -5,9 +5,7 @@ import type { TextFieldProps } from "./TextField"
 import { AdornmentButton } from "../Input/Input"
 import Stack from "@mui/material/Stack"
 import Grid from "@mui/material/Grid"
-import SearchIcon from "@mui/icons-material/Search"
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday"
-import CloseIcon from "@mui/icons-material/Close"
+import { RiSearchLine, RiCalendarLine, RiCloseLine } from "@remixicon/react"
 import { fn } from "@storybook/test"
 
 const SIZES = ["medium", "hero"] satisfies TextFieldProps["size"][]
@@ -15,26 +13,26 @@ const ADORNMENTS = {
   None: undefined,
   SearchIcon: (
     <AdornmentButton>
-      <SearchIcon />
+      <RiSearchLine />
     </AdornmentButton>
   ),
   CalendarTodayIcon: (
     <AdornmentButton>
-      <CalendarTodayIcon />
+      <RiCalendarLine />
     </AdornmentButton>
   ),
   CloseIcon: (
     <AdornmentButton>
-      <CloseIcon />
+      <RiCloseLine />
     </AdornmentButton>
   ),
   "Close and Calendar": (
     <>
       <AdornmentButton>
-        <CloseIcon />
+        <RiCloseLine />
       </AdornmentButton>
       <AdornmentButton>
-        <CalendarTodayIcon />
+        <RiCalendarLine />
       </AdornmentButton>
     </>
   ),

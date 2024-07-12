@@ -1,9 +1,7 @@
 import React, { useCallback, useMemo } from "react"
-import { useNavigate } from "react-router"
 import {
   Button,
   SimpleMenu,
-  ActionButton,
   Grid,
   LoadingSpinner,
   BannerPage,
@@ -11,11 +9,11 @@ import {
   styled,
   Typography,
   PlainList,
+  LearningResourceListCard,
+  ListCardActionButton,
 } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
-import EditIcon from "@mui/icons-material/Edit"
-import MoreVertIcon from "@mui/icons-material/MoreVert"
-import DeleteIcon from "@mui/icons-material/Delete"
+import { RiPencilFill, RiMore2Line, RiDeleteBinLine } from "@remixicon/react"
 
 import { MetaTags } from "ol-utilities"
 import type { LearningPathResource } from "api"
@@ -23,9 +21,6 @@ import { useLearningPathsList } from "api/hooks/learningResources"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
-import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
-
-import { imgConfigs } from "@/common/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import * as urls from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
@@ -35,23 +30,21 @@ const ListHeaderGrid = styled(Grid)`
   margin-bottom: 1rem;
 `
 
-type EditListMenuProps = {
-  resource: LearningPathResource
-}
-
-const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
+const EditListMenu: React.FC<{ resource: LearningPathResource }> = ({
+  resource,
+}) => {
   const items: SimpleMenuItem[] = useMemo(
     () => [
       {
         key: "edit",
         label: "Edit",
-        icon: <EditIcon />,
+        icon: <RiPencilFill />,
         onClick: () => manageListDialogs.upsertLearningPath(resource),
       },
       {
         key: "delete",
         label: "Delete",
-        icon: <DeleteIcon />,
+        icon: <RiDeleteBinLine />,
         onClick: () => manageListDialogs.destroyLearningPath(resource),
       },
     ],
@@ -60,33 +53,17 @@ const EditListMenu: React.FC<EditListMenuProps> = ({ resource }) => {
   return (
     <SimpleMenu
       trigger={
-        <ActionButton
-          variant="text"
+        <ListCardActionButton
+          variant="secondary"
+          edge="circular"
           color="secondary"
           size="small"
           aria-label={`Edit list ${resource.title}`}
         >
-          <MoreVertIcon fontSize="inherit" />
-        </ActionButton>
+          <RiMore2Line fontSize="inherit" />
+        </ListCardActionButton>
       }
       items={items}
-    />
-  )
-}
-
-type ListCardProps = {
-  list: LearningPathResource
-  onActivate: (resource: LearningPathResource) => void
-  canEdit: boolean
-}
-const ListCard: React.FC<ListCardProps> = ({ list, onActivate, canEdit }) => {
-  return (
-    <LearningResourceCardTemplate
-      variant="row-reverse"
-      resource={list}
-      imgConfig={imgConfigs["row-reverse-small"]}
-      footerActionSlot={canEdit ? <EditListMenu resource={list} /> : null}
-      onActivate={onActivate}
     />
   )
 }
@@ -95,14 +72,6 @@ const LearningPathListingPage: React.FC = () => {
   const listingQuery = useLearningPathsList()
   const { data: user } = useUserMe()
 
-  const navigate = useNavigate()
-  const handleActivate = useCallback(
-    (resource: LearningPathResource) => {
-      const path = urls.learningPathsView(resource.id)
-      navigate(path)
-    },
-    [navigate],
-  )
   const handleCreate = useCallback(() => {
     manageListDialogs.upsertLearningPath()
   }, [])
@@ -112,13 +81,10 @@ const LearningPathListingPage: React.FC = () => {
   return (
     <BannerPage
       src="/static/images/course_search_banner.png"
-      alt=""
       className="learningpaths-page"
     >
-      <MetaTags>
-        <title>Learning Paths</title>
-      </MetaTags>
-      <Container maxWidth="sm">
+      <MetaTags title="Learning Paths" />
+      <Container maxWidth="md" style={{ paddingBottom: 100 }}>
         <GridContainer>
           <GridColumn variant="single-full">
             <ListHeaderGrid container justifyContent="space-between">
@@ -134,7 +100,7 @@ const LearningPathListingPage: React.FC = () => {
                 display="flex"
               >
                 {canEdit ? (
-                  <Button variant="filled" onClick={handleCreate}>
+                  <Button variant="primary" onClick={handleCreate}>
                     Create new list
                   </Button>
                 ) : null}
@@ -144,13 +110,17 @@ const LearningPathListingPage: React.FC = () => {
               <LoadingSpinner loading={listingQuery.isLoading} />
               {listingQuery.data && (
                 <PlainList itemSpacing={3}>
-                  {listingQuery.data.results?.map((list) => {
+                  {listingQuery.data.results?.map((resource) => {
                     return (
-                      <li key={list.id}>
-                        <ListCard
-                          list={list}
-                          onActivate={handleActivate}
-                          canEdit={canEdit}
+                      <li key={resource.id}>
+                        <LearningResourceListCard
+                          resource={resource}
+                          href={urls.learningPathsView(resource.id)}
+                          editMenu={
+                            canEdit ? (
+                              <EditListMenu resource={resource} />
+                            ) : null
+                          }
                         />
                       </li>
                     )

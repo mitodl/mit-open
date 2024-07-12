@@ -1,16 +1,24 @@
+/*
+ * TODO: This has been replaced by the ol-components LearningResourceCard
+ * It is still in use by the LearningPathDetailsPage -> ListDetails -> ItemsListing
+ * though can be removed (and adjacent LearningResourceCardTemplate) once
+ * the sorting functionality has been refactored across
+ */
 import React, { useCallback } from "react"
 import * as NiceModal from "@ebay/nice-modal-react"
 
 import LearningResourceCardTemplate from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
 import type { LearningResourceCardTemplateProps } from "@/page-components/LearningResourceCardTemplate/LearningResourceCardTemplate"
-import { imgConfigs } from "@/common/constants"
-import { ActionButton } from "ol-components"
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd"
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder"
-import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
+import { ActionButton, imgConfigs } from "ol-components"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "../Dialogs/AddToListDialog"
 import { LearningResource } from "api"
 import { useUserMe } from "api/hooks/user"
 import { useOpenLearningResourceDrawer } from "../LearningResourceDrawer/LearningResourceDrawer"
+
+import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
 
 type LearningResourceCardProps = Pick<
   LearningResourceCardTemplateProps<LearningResource>,
@@ -43,8 +51,8 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return
   }, [resource])
 
-  const { isLoading, data: user } = useUserMe()
   const openLRDrawer = useOpenLearningResourceDrawer()
+  const { isLoading, data: user } = useUserMe()
 
   if (isLoading) {
     return null
@@ -64,23 +72,23 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
           {user?.is_authenticated && user?.is_learning_path_editor && (
             <ActionButton
               variant="text"
-              edge="rounded"
+              edge="circular"
               color="secondary"
               aria-label="Add to Learning Path"
               onClick={showAddToLearningPathDialog}
             >
-              <PlaylistAddIcon />
+              <RiMenuAddLine />
             </ActionButton>
           )}
           {user?.is_authenticated && (
             <ActionButton
               variant="text"
-              edge="rounded"
+              edge="circular"
               color="secondary"
               aria-label="Add to User List"
               onClick={showAddToUserListDialog}
             >
-              <BookmarkBorderIcon />
+              <RiBookmarkLine />
             </ActionButton>
           )}
         </div>

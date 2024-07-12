@@ -1,9 +1,9 @@
 import Drawer, { DrawerProps } from "@mui/material/Drawer"
 import styled from "@emotion/styled"
-import React from "react"
+import React, { ReactElement } from "react"
 
 const DrawerContent = styled.div(({ theme }) => ({
-  paddingTop: "80px",
+  paddingTop: "60px",
   width: "366px",
   height: "100%",
   background: theme.custom.colors.white,
@@ -108,7 +108,7 @@ export interface NavSection {
 
 export interface NavItem {
   title: string
-  icon?: string
+  icon?: string | ReactElement
   description?: string
   href?: string
 }
@@ -118,13 +118,14 @@ const NavItem: React.FC<NavItem> = (props) => {
   const navItem = (
     <NavItemContainer>
       <NavIconContainer style={{ paddingTop: description ? "4px" : "" }}>
-        {icon ? (
+        {typeof icon === "string" ? (
           <NavIcon
             src={icon}
             className="nav-link-icon"
             data-testid="nav-link-icon"
           />
         ) : null}
+        {typeof icon !== "string" ? icon : null}
       </NavIconContainer>
       <NavTextContainer>
         <NavLinkText className="nav-link-text" data-testid="nav-link-text">
@@ -182,8 +183,10 @@ const NavDrawer = (props: NavDrawerProps) => {
       hideBackdrop={true}
       PaperProps={{
         sx: {
+          borderRight: "none",
           boxShadow: "0px 6px 24px 0px rgba(37, 38, 43, 0.10)",
           zIndex: (theme) => theme.zIndex.appBar - 1,
+          overscrollBehavior: "contain",
         },
       }}
       {...props}

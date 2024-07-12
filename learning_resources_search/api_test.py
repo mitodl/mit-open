@@ -229,8 +229,8 @@ def test_generate_learning_resources_text_clause():
                                                             "query": "math",
                                                             "fields": [
                                                                 "runs.instructors.first_name",
-                                                                "runs.instructors.last_name",
-                                                                "runs.instructors.full_name",
+                                                                "runs.instructors.last_name^5",
+                                                                "runs.instructors.full_name^5",
                                                             ],
                                                         }
                                                     },
@@ -338,8 +338,8 @@ def test_generate_learning_resources_text_clause():
                                         "query": "math",
                                         "fields": [
                                             "runs.instructors.first_name",
-                                            "runs.instructors.last_name",
-                                            "runs.instructors.full_name",
+                                            "runs.instructors.last_name^5",
+                                            "runs.instructors.full_name^5",
                                         ],
                                     }
                                 },
@@ -463,8 +463,8 @@ def test_generate_learning_resources_text_clause():
                                                             "query": '"math"',
                                                             "fields": [
                                                                 "runs.instructors.first_name",
-                                                                "runs.instructors.last_name",
-                                                                "runs.instructors.full_name",
+                                                                "runs.instructors.last_name^5",
+                                                                "runs.instructors.full_name^5",
                                                             ],
                                                         }
                                                     },
@@ -575,8 +575,8 @@ def test_generate_learning_resources_text_clause():
                                         "query": '"math"',
                                         "fields": [
                                             "runs.instructors.first_name",
-                                            "runs.instructors.last_name",
-                                            "runs.instructors.full_name",
+                                            "runs.instructors.last_name^5",
+                                            "runs.instructors.full_name^5",
                                         ],
                                     }
                                 },
@@ -1144,8 +1144,8 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                                 "query": "math",
                                                                                 "fields": [
                                                                                     "runs.instructors.first_name",
-                                                                                    "runs.instructors.last_name",
-                                                                                    "runs.instructors.full_name",
+                                                                                    "runs.instructors.last_name^5",
+                                                                                    "runs.instructors.full_name^5",
                                                                                 ],
                                                                             }
                                                                         },
@@ -1264,8 +1264,8 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                         "query": "math",
                                                         "fields": [
                                                             "runs.instructors.first_name",
-                                                            "runs.instructors.last_name",
-                                                            "runs.instructors.full_name",
+                                                            "runs.instructors.last_name^5",
+                                                            "runs.instructors.full_name^5",
                                                         ],
                                                     }
                                                 },
@@ -1428,6 +1428,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                 "course.course_numbers.sort_coursenum",
                 "course.course_numbers.primary",
                 "resource_relations",
+                "is_learning_material",
             ]
         },
     }
@@ -1630,6 +1631,7 @@ def test_execute_learn_search_for_content_file_query(opensearch):
                 "course.course_numbers.sort_coursenum",
                 "course.course_numbers.primary",
                 "resource_relations",
+                "is_learning_material",
             ]
         },
     }
@@ -1760,7 +1762,7 @@ def test_document_percolation(opensearch, mocker):
     [
         ("-views", None, [{"views": {"order": "desc"}}]),
         ("-views", "text", [{"views": {"order": "desc"}}]),
-        (None, None, [{"created_on": {"order": "desc"}}]),
+        (None, None, ["is_learning_material", {"views": {"order": "desc"}}]),
         (None, "text", None),
     ],
 )

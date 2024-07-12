@@ -3,7 +3,11 @@
 # pylint: disable=redefined-outer-name
 import pytest
 
-from learning_resources.constants import LearningResourceType, PlatformType
+from learning_resources.constants import (
+    CertificationType,
+    LearningResourceType,
+    PlatformType,
+)
 from learning_resources.etl import micromasters
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.micromasters import READABLE_ID_PREFIX
@@ -121,6 +125,8 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
                 "offered_by": micromasters.OFFERED_BY,
                 "platform": PlatformType.edx.name,
                 "etl_source": ETLSource.micromasters.name,
+                "certification": True,
+                "certification_type": CertificationType.micromasters.name,
                 "courses": [
                     {
                         "readable_id": "1",

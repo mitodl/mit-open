@@ -16,8 +16,9 @@ from rest_framework.test import APIRequestFactory
 from learning_resources_search.constants import CONTENT_FILE_TYPE, LEARNING_RESOURCE
 from learning_resources_search.serializers import (
     ContentFileSearchRequestSerializer,
+    ContentFileSearchResponseSerializer,
     LearningResourcesSearchRequestSerializer,
-    SearchResponseSerializer,
+    LearningResourcesSearchResponseSerializer,
 )
 
 FAKE_SEARCH_RESPONSE = {
@@ -80,7 +81,7 @@ def test_learn_resources_search(mocker, client, learning_resources_search_view):
         | {"endpoint": LEARNING_RESOURCE}
     )
     assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
-        SearchResponseSerializer(FAKE_SEARCH_RESPONSE).data
+        LearningResourcesSearchResponseSerializer(FAKE_SEARCH_RESPONSE).data
     )
 
 
@@ -225,7 +226,7 @@ def test_content_file_search(mocker, client, content_file_search_view):
         | {"endpoint": CONTENT_FILE_TYPE}
     )
     assert JSONRenderer().render(resp.json()) == JSONRenderer().render(
-        SearchResponseSerializer(
+        ContentFileSearchResponseSerializer(
             FAKE_SEARCH_RESPONSE, context={"request": request}
         ).data
     )

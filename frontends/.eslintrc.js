@@ -45,7 +45,7 @@ module.exports = {
           "**/*.test.ts",
           "**/*.test.tsx",
           "**/src/setupJest.ts",
-          "jest-shared-setup.ts",
+          "**/jest-shared-setup.ts",
           "**/test-utils/**",
           "**/test-utils/**",
           "**/webpack.config.js",
@@ -112,6 +112,9 @@ module.exports = {
       files: ["./**/*.test.{ts,tsx}"],
       plugins: ["testing-library"],
       extends: ["plugin:testing-library/react"],
+      rules: {
+        "testing-library/no-node-access": "off",
+      },
     },
   ],
 }
@@ -149,11 +152,6 @@ function restrictedImports({ paths = [], patterns = [] } = {}) {
           {
             name: "@faker-js/faker",
             message: "Please use @faker-js/faker/locale/en instead.",
-            allowTypeImports: true,
-          },
-          {
-            name: "@mui/icons-material",
-            message: "Please use @mui/icons-material/<ICON_NAME> instead.",
             allowTypeImports: true,
           },
           {

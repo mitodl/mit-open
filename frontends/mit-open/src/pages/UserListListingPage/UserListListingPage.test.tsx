@@ -10,7 +10,7 @@ import {
   waitFor,
 } from "../../test-utils"
 import type { User } from "../../types/settings"
-import UserListListingPage from "./UserListListingPage"
+import { UserListListingPage } from "./UserListListingPage"
 import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserListCardTemplate"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
@@ -33,7 +33,7 @@ const spyULCardTemplate = jest.mocked(UserListCardTemplate)
  * Set up the mock API responses for lists pages.
  */
 const setup = ({
-  listsCount = faker.datatype.number({ min: 2, max: 5 }),
+  listsCount = faker.number.int({ min: 2, max: 5 }),
   user = { is_learning_path_editor: false },
 }: {
   user?: Partial<User>
@@ -53,10 +53,10 @@ const setup = ({
 }
 
 describe("UserListListingPage", () => {
-  it("Has title 'User Lists'", async () => {
+  it("Has heading 'User Lists' and correct page title", async () => {
     setup()
     screen.getByRole("heading", { name: "User Lists" })
-    await waitFor(() => expect(document.title).toBe("User Lists"))
+    await waitFor(() => expect(document.title).toBe("My Lists | MIT Open"))
   })
 
   it("Renders a card for each user list", async () => {

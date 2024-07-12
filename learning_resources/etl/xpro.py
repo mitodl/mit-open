@@ -8,13 +8,19 @@ import requests
 from dateutil.parser import parse
 from django.conf import settings
 
-from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.constants import (
+    CertificationType,
+    LearningResourceType,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     generate_course_numbers_json,
     transform_format,
     transform_topics,
 )
+from main.utils import clean_data
 
 log = logging.getLogger(__name__)
 
@@ -110,7 +116,7 @@ def _transform_learning_resource_course(course):
         "image": {"url": course["thumbnail_url"]},
         "offered_by": copy.deepcopy(OFFERED_BY),
         "professional": True,
-        "description": course["description"],
+        "description": clean_data(course["description"]),
         "url": course.get("url"),
         "published": any(
             course_run.get("current_price", None) for course_run in course["courseruns"]
@@ -125,6 +131,7 @@ def _transform_learning_resource_course(course):
             ),
         },
         "certification": True,
+        "certification_type": CertificationType.professional.name,
     }
 
 
@@ -151,7 +158,7 @@ def transform_programs(programs):
             "etl_source": ETLSource.xpro.name,
             "title": program["title"],
             "image": {"url": program["thumbnail_url"]},
-            "description": program["description"],
+            "description": clean_data(program["description"]),
             "offered_by": copy.deepcopy(OFFERED_BY),
             "professional": True,
             "published": bool(
@@ -185,6 +192,7 @@ def transform_programs(programs):
             ],
             "courses": transform_courses(program["courses"]),
             "certification": True,
+            "certification_type": CertificationType.professional.name,
         }
         for program in programs
     ]

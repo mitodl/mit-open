@@ -37,6 +37,7 @@ from learning_resources.utils import (
     parse_instructors,
     safe_load_json,
 )
+from main.utils import clean_data
 
 log = logging.getLogger(__name__)
 
@@ -234,11 +235,12 @@ def transform_run(course_data: dict) -> dict:
     image_src = course_data.get("image_src")
     semester = course_data.get("term") or None
     year = course_data.get("year") or None
+
     return {
         "run_id": course_data["run_id"],
         "published": True,
         "instructors": parse_instructors(course_data.get("instructors", [])),
-        "description": course_data.get("course_description"),
+        "description": clean_data(course_data.get("course_description_html")),
         "year": year,
         "semester": semester,
         "availability": AvailabilityType.current.value,
@@ -329,7 +331,7 @@ def transform_course(course_data: dict) -> dict:
                 .get("image-alt")
             ),
         },
-        "description": course_data["course_description"],
+        "description": clean_data(course_data["course_description_html"]),
         "url": course_data.get("url"),
         "last_modified": course_data.get("last_modified"),
         "published": True,

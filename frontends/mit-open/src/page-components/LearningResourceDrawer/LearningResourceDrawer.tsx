@@ -1,8 +1,11 @@
-import React, { useEffect } from "react"
-import { RoutedDrawer, ExpandedLearningResourceDisplay } from "ol-components"
+import React, { useEffect, useCallback } from "react"
+import {
+  RoutedDrawer,
+  LearningResourceExpanded,
+  imgConfigs,
+} from "ol-components"
 import type { RoutedDrawerProps } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import { imgConfigs } from "@/common/constants"
 import { useSearchParams } from "react-router-dom"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { usePostHog } from "posthog-js/react"
@@ -43,7 +46,7 @@ const DrawerContent: React.FC<{
   useCapturePageView(Number(resourceId))
 
   return (
-    <ExpandedLearningResourceDisplay
+    <LearningResourceExpanded
       imgConfig={imgConfigs.large}
       resource={resource.data}
     />
@@ -52,8 +55,12 @@ const DrawerContent: React.FC<{
 
 const PAPER_PROPS: RoutedDrawerProps["PaperProps"] = {
   sx: {
-    padding: "1rem",
-    maxWidth: (theme) => `${theme.breakpoints.values.sm}px`,
+    maxWidth: (theme) => theme.breakpoints.values.sm,
+    minWidth: (theme) => ({
+      [theme.breakpoints.down("sm")]: {
+        minWidth: "100%",
+      },
+    }),
   },
 }
 
@@ -86,5 +93,17 @@ const useOpenLearningResourceDrawer = () => {
   return openLearningResourceDrawer
 }
 
+const useResourceDrawerHref = () => {
+  const [search] = useSearchParams()
+
+  return useCallback(
+    (id: number) => {
+      search.set(RESOURCE_DRAWER_QUERY_PARAM, id.toString())
+      return `?${search.toString()}`
+    },
+    [search],
+  )
+}
+
 export default LearningResourceDrawer
-export { useOpenLearningResourceDrawer }
+export { useOpenLearningResourceDrawer, useResourceDrawerHref }

@@ -87,8 +87,8 @@ describe("UserMenu", () => {
     const mobileLoginButton = await screen.findByTestId("login-button-mobile")
     invariant(desktopLoginButton instanceof HTMLAnchorElement)
     invariant(mobileLoginButton instanceof HTMLAnchorElement)
-    expect(desktopLoginButton.href).toBe(`${window.origin}${expectedUrl}`)
-    expect(mobileLoginButton.href).toBe(`${window.origin}${expectedUrl}`)
+    expect(desktopLoginButton.href).toBe(expectedUrl)
+    expect(mobileLoginButton.href).toBe(expectedUrl)
 
     // Check for real navigation; Login page needs a page reload
     await expectWindowNavigation(() => user.click(desktopLoginButton))
@@ -98,7 +98,7 @@ describe("UserMenu", () => {
   test("Authenticated users see the Log Out link", async () => {
     const isAuthenticated = true
     const initialUrl = "/foo/bar?cat=meow"
-    const expected = { text: "Log out", url: urlConstants.LOGOUT }
+    const expected = { text: "Log Out", url: urlConstants.LOGOUT }
     setMockResponse.get(urls.userMe.get(), {
       is_authenticated: isAuthenticated,
     })
@@ -111,7 +111,7 @@ describe("UserMenu", () => {
     })
 
     invariant(authLink instanceof HTMLAnchorElement)
-    expect(authLink.href).toBe(`${window.origin}${expected.url}`)
+    expect(authLink.href).toBe(expected.url)
 
     // Check for real navigation; Login page needs a page reload
     await expectWindowNavigation(() => user.click(authLink))

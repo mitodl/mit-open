@@ -1,4 +1,3 @@
-/* eslint-disable testing-library/no-node-access */
 import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
 import { assertInstanceOf } from "ol-utilities"

@@ -10,6 +10,7 @@ import {
   BasicDialog,
   styled,
   RadioChoiceField,
+  MenuItem,
 } from "ol-components"
 import * as Yup from "yup"
 import { PrivacyLevelEnum, type LearningPathResource, UserList } from "api"
@@ -222,6 +223,9 @@ const UpsertLearningPathDialog = NiceModal.create(
               }
             />
           )}
+          renderOption={(props, opt) => {
+            return <MenuItem {...props}>{opt.name}</MenuItem>
+          }}
         />
         <BooleanRadioChoiceField
           className="form-row"

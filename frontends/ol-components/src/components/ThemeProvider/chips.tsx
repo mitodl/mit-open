@@ -1,13 +1,14 @@
 import React from "react"
 import type { ThemeOptions } from "@mui/material/styles"
 import { colors } from "./colors"
-import tinycolor from "tinycolor2"
-import ClearIcon from "@mui/icons-material/Clear"
+import { RiCloseLine } from "@remixicon/react"
 
 const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
   defaultProps: {
     size: "medium",
-    deleteIcon: <ClearIcon />,
+    color: "default",
+    variant: "outlined",
+    deleteIcon: <RiCloseLine aria-hidden="true" />,
   },
   styleOverrides: {
     root: {
@@ -15,12 +16,31 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
       borderWidth: "1px",
     },
     deleteIcon: {
-      fontSize: "1.25em",
+      "&:hover": {
+        color: "inherit",
+      },
+      "&.MuiChip-deleteIconLarge": {
+        width: "16px",
+        height: "16px",
+      },
+      "&.MuiChip-deleteIconMedium": {
+        width: "14px",
+        height: "14px",
+      },
       margin: "0 -2px 0 8px",
+      color: "inherit",
     },
     icon: {
-      fontSize: "1.25em",
       margin: "0 8px 0 -2px",
+      color: "inherit",
+      "&.MuiChip-iconLarge": {
+        width: "16px",
+        height: "16px",
+      },
+      "&.MuiChip-iconMedium": {
+        width: "14px",
+        height: "14px",
+      },
     },
   },
   variants: [
@@ -28,6 +48,7 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
       props: { size: "medium" },
       style: ({ theme }) => ({
         ...theme.typography.body3,
+        boxSizing: "border-box",
         height: "24px",
         paddingRight: "12px",
         paddingLeft: "12px",
@@ -51,63 +72,79 @@ const chipComponent: NonNullable<ThemeOptions["components"]>["MuiChip"] = {
       }),
     },
     {
-      props: { color: "default" },
+      props: { variant: "outlined" },
       style: {
-        borderColor: colors.lightGray2,
-        color: colors.silverGrayDark,
+        borderColor: colors.silverGrayLight,
+        color: colors.darkGray1,
+        "&.Mui-focusVisible": {
+          backgroundColor: "transparent",
+        },
         "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
-          color: colors.darkGray2,
+          color: colors.darkGray1,
+          borderColor: colors.silverGrayDark,
+          backgroundColor: "transparent", // mui has a default background color for hover
+        },
+      },
+    },
+    {
+      props: { variant: "outlinedWhite" },
+      style: {
+        backgroundColor: "white",
+        border: "1px solid",
+        borderColor: colors.silverGrayLight,
+        color: colors.darkGray1,
+        "&.Mui-focusVisible": {
+          backgroundColor: "white",
+        },
+        "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
+          color: colors.darkGray1,
+          borderColor: colors.silverGrayDark,
+          backgroundColor: "white", // mui has a default background color hover
+        },
+      },
+    },
+    {
+      props: { variant: "gray" },
+      style: {
+        backgroundColor: colors.lightGray2,
+        border: "none",
+        color: colors.darkGray2,
+        "&.Mui-focusVisible": {
           backgroundColor: colors.lightGray2,
         },
-      },
-    },
-    {
-      props: { color: "primary", variant: "filled" },
-      style: ({ theme }) => {
-        return {
-          "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
-            backgroundColor: theme.palette.primary.active,
-          },
-          "&.MuiChip-clickable:focus-visible, &.MuiChip-deletable:focus-visible":
-            {
-              backgroundColor: theme.palette.primary.active,
-            },
-        }
-      },
-    },
-    {
-      props: { color: "primary", variant: "outlined" },
-      style: ({ theme }) => ({
         "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
-          backgroundColor: tinycolor(theme.palette.primary.main)
-            .setAlpha(0.06)
-            .toRgbString(),
+          color: colors.darkGray1,
+          backgroundColor: colors.silverGrayLight,
         },
-      }),
-    },
-    {
-      props: { color: "secondary", variant: "filled" },
-      style: ({ theme }) => {
-        return {
-          "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
-            backgroundColor: theme.palette.secondary.active,
-          },
-          "&.MuiChip-clickable:focus-visible, &.MuiChip-deletable:focus-visible":
-            {
-              backgroundColor: theme.palette.secondary.active,
-            },
-        }
       },
     },
     {
-      props: { color: "secondary", variant: "outlined" },
-      style: ({ theme }) => ({
-        "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
-          backgroundColor: tinycolor(theme.palette.secondary.main)
-            .setAlpha(0.06)
-            .toRgbString(),
+      props: { variant: "dark" },
+      style: {
+        backgroundColor: colors.silverGrayDark,
+        border: "none",
+        color: colors.white,
+        "&.Mui-focusVisible": {
+          backgroundColor: colors.silverGrayDark,
         },
-      }),
+        "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
+          backgroundColor: colors.darkGray1,
+        },
+      },
+    },
+    {
+      props: { variant: "filled" },
+      style: {
+        backgroundColor: colors.mitRed,
+        border: "none",
+        color: colors.white,
+        "&.Mui-focusVisible": {
+          backgroundColor: colors.mitRed,
+        },
+        "&.MuiChip-clickable:hover, &.MuiChip-deletable:hover": {
+          backgroundColor: colors.red,
+        },
+      },
     },
   ],
 }

@@ -7,7 +7,7 @@ import {
   SortableList,
   SortEndEvent,
 } from "ol-components"
-import AddIcon from "@mui/icons-material/Add"
+import { RiAddLine } from "@remixicon/react"
 import { uniqueId, zip } from "lodash"
 import Widget from "../Widget"
 import type { WidgetListResponse, AnonymousWidget } from "../../interfaces"
@@ -229,10 +229,10 @@ const WidgetsListEditable: React.FC<WidgetsListEditableProps> = ({
         <h4 className="ol-widget-editing-header-row">
           Manage Widgets
           <div>
-            <Button size="small" variant="outlined" onClick={onCancel}>
+            <Button size="small" variant="secondary" onClick={onCancel}>
               Cancel
             </Button>
-            <Button size="small" variant="filled" onClick={handleDone}>
+            <Button size="small" variant="secondary" onClick={handleDone}>
               Done
             </Button>
           </div>
@@ -240,7 +240,7 @@ const WidgetsListEditable: React.FC<WidgetsListEditableProps> = ({
         <div className="ol-widget-editing-header-row">
           <Button
             size="small"
-            startIcon={<AddIcon />}
+            startIcon={<RiAddLine />}
             onClick={dialogHandlers.beginAdd}
           >
             Add widget

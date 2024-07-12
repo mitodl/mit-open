@@ -27,12 +27,14 @@ from learning_resources_search.factories import PercolateQueryFactory
 from learning_resources_search.indexing_api import (
     clear_and_create_index,
     create_backing_index,
+    deindex_content_files,
     deindex_document,
     deindex_learning_resources,
     deindex_percolators,
     deindex_run_content_files,
-    delete_orphaned_indices,
+    delete_orphaned_indexes,
     get_reindexing_alias_name,
+    index_content_files,
     index_course_content_files,
     index_items,
     index_learning_resources,
@@ -190,7 +192,6 @@ def test_create_backing_index(mocked_es, mocker, temp_alias_exists):
     )
 
 
-@pytest.mark.usefixtures("indexing_user")
 @pytest.mark.parametrize("errors", [(), "error"])
 @pytest.mark.parametrize(
     "index_types",
@@ -251,7 +252,6 @@ def test_index_learning_resources(
                 )
 
 
-@pytest.mark.usefixtures("indexing_user")
 @pytest.mark.parametrize("errors", [(), "error"])
 def test_deindex_learning_resources(mocked_es, mocker, settings, errors):
     """
@@ -349,7 +349,8 @@ def test_index_items_size_limits(settings, mocker, max_size, chunks, exceeds_siz
     assert mock_log.call_count == (10 if exceeds_size else 0)
 
 
-def test_delete_orphaned_indices(mocker, mocked_es):
+@pytest.mark.parametrize("delete_reindexing_tags", [True, False])
+def test_delete_orphaned_indexes(mocker, mocked_es, delete_reindexing_tags):
     """
     Delete any indices without aliases and any reindexing aliases
     """
@@ -369,6 +370,12 @@ def test_delete_orphaned_indices(mocker, mocked_es):
                 "some_other_alias": {},
             }
         },
+        "discussions_local_podcast_1e61d15ff35b8c9b4f6884bba05484cb": {
+            "aliases": {
+                "discussions_local_program_reindexing": {},
+                "some_other_alias": {},
+            }
+        },
         "discussions_local_program_5484cbb8c9b1e61d15ff354f6884bba0": {"aliases": {}},
         "discussions_local_course_15ff354d6884bba05484cbb8c9b1e61d": {
             "aliases": {
@@ -380,23 +387,32 @@ def test_delete_orphaned_indices(mocker, mocked_es):
     mocked_es.conn.indices = mocker.Mock(
         delete_alias=mocker.Mock(), get_alias=mocker.Mock(return_value=mock_aliases)
     )
-    delete_orphaned_indices()
+    delete_orphaned_indexes(["program"], delete_reindexing_tags=delete_reindexing_tags)
     mocked_es.conn.indices.get_alias.assert_called_once_with(index="*")
-    mocked_es.conn.indices.delete_alias.assert_any_call(
-        name="discussions_local_program_reindexing",
-        index="discussions_local_program_b8c9b1e61d15ff354f6884bba05484cb",
-    )
-    mocked_es.conn.indices.delete_alias.assert_any_call(
-        name="discussions_local_program_reindexing",
-        index="discussions_local_program_1e61d15ff35b8c9b4f6884bba05484cb",
-    )
+
+    if delete_reindexing_tags:
+        mocked_es.conn.indices.delete_alias.assert_any_call(
+            name="discussions_local_program_reindexing",
+            index="discussions_local_program_b8c9b1e61d15ff354f6884bba05484cb",
+        )
+        mocked_es.conn.indices.delete_alias.assert_any_call(
+            name="discussions_local_program_reindexing",
+            index="discussions_local_program_1e61d15ff35b8c9b4f6884bba05484cb",
+        )
+    else:
+        mocked_es.conn.indices.delete_alias.assert_not_called()
+
     mocked_es.conn.indices.delete.assert_any_call(
         "discussions_local_program_5484cbb8c9b1e61d15ff354f6884bba0"
     )
-    mocked_es.conn.indices.delete.assert_any_call(
-        "discussions_local_program_b8c9b1e61d15ff354f6884bba05484cb"
-    )
-    assert mocked_es.conn.indices.delete.call_count == 2
+
+    if delete_reindexing_tags:
+        mocked_es.conn.indices.delete.assert_any_call(
+            "discussions_local_program_b8c9b1e61d15ff354f6884bba05484cb"
+        )
+        assert mocked_es.conn.indices.delete.call_count == 2
+    else:
+        assert mocked_es.conn.indices.delete.call_count == 1
 
 
 def test_bulk_content_file_deindex_on_course_deletion(mocker):
@@ -432,7 +448,7 @@ def test_deindex_run_content_files(mocker):
     assert ContentFile.objects.count() == 0
 
 
-def test_index_content_files(mocker):
+def test_index_course_content_files(mocker):
     """
     OpenSearch should try indexing content files for all runs in a course
     """
@@ -545,6 +561,86 @@ def test_bulk_index_content_files(  # noqa: PLR0913
                     chunk_size=settings.OPENSEARCH_INDEXING_CHUNK_SIZE,
                     routing=course.learning_resource_id,
                 )
+
+
+@pytest.mark.parametrize("errors", [[], ["error"]])
+@pytest.mark.parametrize(
+    ("indexing_func_name", "doc"),
+    [
+        ("index_content_files", {"_id": "doc"}),
+        (
+            "deindex_content_files",
+            {"_id": "doc", "_op_type": "deindex"},
+        ),
+    ],
+)
+def test_index_content_files(  # noqa: PLR0913
+    mocked_es,
+    mocker,
+    settings,
+    errors,
+    indexing_func_name,
+    doc,
+):
+    """
+    index functions for content files should call bulk with correct arguments
+    """
+    settings.OPENSEARCH_INDEXING_CHUNK_SIZE = 6
+    course = CourseFactory.create()
+    run = LearningResourceRunFactory.create(learning_resource=course.learning_resource)
+    content_files = ContentFileFactory.create_batch(5, run=run)
+    content_file_ids = [content_file.id for content_file in content_files]
+
+    mock_get_aliases = mocker.patch(
+        "learning_resources_search.indexing_api.get_active_aliases",
+        autospec=True,
+        return_value=["a", "b"],
+    )
+    bulk_mock = mocker.patch(
+        "learning_resources_search.indexing_api.bulk",
+        autospec=True,
+        return_value=(0, errors),
+    )
+    mocker.patch(
+        "learning_resources_search.indexing_api.serialize_content_file_for_bulk",
+        autospec=True,
+        return_value=doc,
+    )
+    mocker.patch(
+        "learning_resources_search.indexing_api.serialize_content_file_for_bulk_deletion",
+        autospec=True,
+        return_value=doc,
+    )
+
+    if errors:
+        if indexing_func_name == "index_content_files":
+            with pytest.raises(ReindexError):
+                index_content_files(
+                    content_file_ids,
+                    course.learning_resource_id,
+                    IndexestoUpdate.all_indexes.value,
+                )
+        else:
+            with pytest.raises(ReindexError):
+                deindex_content_files(content_file_ids, course.learning_resource_id)
+    else:
+        if indexing_func_name == "index_content_files":
+            index_content_files(
+                content_file_ids,
+                course.learning_resource_id,
+                IndexestoUpdate.all_indexes.value,
+            )
+        else:
+            deindex_content_files(content_file_ids, course.learning_resource_id)
+
+        for alias in mock_get_aliases.return_value:
+            bulk_mock.assert_any_call(
+                mocked_es.conn,
+                [doc for _ in content_files],
+                index=alias,
+                chunk_size=6,
+                routing=course.learning_resource_id,
+            )
 
 
 @pytest.mark.parametrize("has_files", [True, False])

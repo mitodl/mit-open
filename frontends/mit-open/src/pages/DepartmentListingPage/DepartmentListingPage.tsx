@@ -9,11 +9,13 @@ import {
   ListItemLink,
   ListItemText,
   Grid,
+  Banner,
+  Breadcrumbs,
 } from "ol-components"
 import { MetaTags, pluralize } from "ol-utilities"
 import type {
   LearningResourceSchool,
-  LearningResourceSearchResponse,
+  LearningResourcesSearchResponse,
 } from "api"
 import {
   useLearningResourcesSearch,
@@ -21,39 +23,26 @@ import {
 } from "api/hooks/learningResources"
 import {
   RiPaletteLine,
-  RiSeedlingLine,
-  RiBriefcaseLine,
-  RiMacbookLine,
-  RiBarChartBoxLine,
-  RiUserSearchLine,
   RiArrowRightSLine,
+  RiBuilding2Line,
+  RiCompasses2Line,
+  RiGovernmentLine,
+  RiShakeHandsLine,
+  RiFlaskLine,
+  RiTerminalBoxLine,
 } from "@remixicon/react"
+import { HOME } from "@/common/urls"
 
 const SCHOOL_ICONS: Record<string, React.ReactNode> = {
-  "https://sap.mit.edu/": <RiPaletteLine />,
-  "https://engineering.mit.edu/": <RiBriefcaseLine />,
-  "https://shass.mit.edu/": <RiMacbookLine />,
-  "https://science.mit.edu/": <RiBarChartBoxLine />,
-  "http://mitsloan.mit.edu/": <RiSeedlingLine />,
-  "https://computing.mit.edu/": <RiUserSearchLine />,
+  // School of Architecture and Planning
+  "https://sap.mit.edu/": <RiBuilding2Line />,
+  "https://engineering.mit.edu/": <RiCompasses2Line />,
+  // School of Humanities, Arts, and Social Sciences
+  "https://shass.mit.edu/": <RiGovernmentLine />,
+  "https://science.mit.edu/": <RiFlaskLine />,
+  "http://mitsloan.mit.edu/": <RiShakeHandsLine />,
+  "https://computing.mit.edu/": <RiTerminalBoxLine />,
 }
-
-const FullWidthBackground = styled.div`
-  background-image: url("/static/images/background_steps.jpeg");
-  background-size: cover;
-  padding-top: 48px;
-  padding-bottom: 48px;
-  color: ${({ theme }) => theme.custom.colors.white};
-`
-
-const Page = styled.div(({ theme }) => ({
-  backgroundColor: theme.custom.colors.white,
-}))
-
-const HeaderDesription = styled(Typography)(({ theme }) => ({
-  maxWidth: "700px",
-  marginTop: theme.spacing(1),
-}))
 
 const SchoolTitle = styled.h2(({ theme }) => {
   return {
@@ -112,7 +101,7 @@ const DepartmentLink = styled(ListItemLink)(({ theme }) => ({
     },
   },
   "&:hover": {
-    backgroundColor: theme.custom.colors.lightGray1,
+    backgroundColor: theme.custom.colors.white,
     ".hover-dark, .MuiListItemText-secondary": {
       color: theme.custom.colors.darkGray1,
     },
@@ -196,7 +185,7 @@ const SchoolList = styled(PlainList)(({ theme }) => ({
 }))
 
 const aggregateByDepartment = (
-  data: LearningResourceSearchResponse,
+  data: LearningResourcesSearchResponse,
 ): Record<string, number> => {
   const buckets = data.metadata.aggregations["department"] ?? []
   return Object.fromEntries(
@@ -224,21 +213,20 @@ const DepartmentListingPage: React.FC = () => {
     : {}
 
   return (
-    <Page>
-      <MetaTags>
-        <title>MIT Open | Departments</title>
-      </MetaTags>
-      <FullWidthBackground>
-        <Container>
-          <Typography variant="subtitle3">MIT / Departments</Typography>
-          <Typography variant="h1">Departments</Typography>
-          <HeaderDesription>
-            At MIT, academic departments span a wide range of disciplines, from
-            science and engineering to humanities. Select a department below to
-            explore all of its online course offerings.
-          </HeaderDesription>
-        </Container>
-      </FullWidthBackground>
+    <>
+      <MetaTags title="Departments" />
+      <Banner
+        backgroundUrl="/static/images/background_steps.jpeg"
+        header="Browse by Academic Department"
+        subheader="At MIT, academic departments span a wide range of disciplines, from science and engineering to humanities. Select a department below to explore all of its online course offerings."
+        navText={
+          <Breadcrumbs
+            variant="dark"
+            ancestors={[{ href: HOME, label: "Home" }]}
+            current="Departments"
+          />
+        }
+      />
       <Container>
         <Grid container>
           <Grid item xs={0} sm={1}></Grid>
@@ -257,7 +245,7 @@ const DepartmentListingPage: React.FC = () => {
           </Grid>
         </Grid>
       </Container>
-    </Page>
+    </>
   )
 }
 

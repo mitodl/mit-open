@@ -12,6 +12,7 @@ from django.conf import settings
 
 from learning_resources.constants import (
     AvailabilityType,
+    CertificationType,
     LearningResourceType,
     OfferedBy,
     PlatformType,
@@ -23,12 +24,26 @@ from learning_resources.etl.utils import (
     parse_certification,
     transform_topics,
 )
+from main.utils import clean_data
 
 log = logging.getLogger(__name__)
 
 EXCLUDE_REGEX = r"PROCTORED EXAM"
 
 OFFERED_BY = {"code": OfferedBy.mitx.name}
+
+
+def _fetch_data(url, params=None):
+    if not params:
+        params = {}
+    while url:
+        response = requests.get(
+            url, params=params, timeout=settings.REQUESTS_TIMEOUT
+        ).json()
+        results = response["results"]
+
+        yield from results
+        url = response.get("next")
 
 
 def _parse_datetime(value):
@@ -75,16 +90,37 @@ def parse_page_attribute(
 def extract_programs():
     """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_PROGRAMS_API_URL:
-        return requests.get(settings.MITX_ONLINE_PROGRAMS_API_URL).json()  # noqa: S113
-    log.warning("Missing required setting MITX_ONLINE_PROGRAMS_API_URL")
+        return list(
+            _fetch_data(
+                settings.MITX_ONLINE_PROGRAMS_API_URL,
+                params={
+                    "page__live": True,
+                    "live": True,
+                },
+            )
+        )
+    else:
+        log.warning("Missing required setting MITX_ONLINE_PROGRAMS_API_URL")
+
     return []
 
 
 def extract_courses():
     """Loads the MITx Online catalog data"""  # noqa: D401
     if settings.MITX_ONLINE_COURSES_API_URL:
-        return requests.get(settings.MITX_ONLINE_COURSES_API_URL).json()  # noqa: S113
-    log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
+        return list(
+            _fetch_data(
+                settings.MITX_ONLINE_COURSES_API_URL,
+                params={
+                    "page__live": True,
+                    "live": True,
+                    "courserun_is_enrollable": True,
+                },
+            )
+        )
+    else:
+        log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
+
     return []
 
 
@@ -136,16 +172,22 @@ def _transform_run(course_run: dict, course: dict) -> dict:
         "enrollment_start": _parse_datetime(course_run.get("enrollment_start")),
         "enrollment_end": _parse_datetime(course_run.get("enrollment_end")),
         "url": parse_page_attribute(course, "page_url", is_url=True),
-        "published": bool(parse_page_attribute(course, "page_url")),
-        "description": parse_page_attribute(course_run, "description"),
+        "published": bool(course_run["is_enrollable"] and course["page"]["live"]),
+        "description": clean_data(parse_page_attribute(course_run, "description")),
         "image": _transform_image(course_run),
-        "prices": [
-            price
-            for price in [
-                product.get("price") for product in course_run.get("products", [])
-            ]
-            if price is not None
-        ],
+        "prices": sorted(
+            {
+                "0.00",
+                *[
+                    price
+                    for price in [
+                        product.get("price")
+                        for product in course_run.get("products", [])
+                    ]
+                    if price is not None
+                ],
+            }
+        ),
         "instructors": [
             {"full_name": instructor["name"]}
             for instructor in parse_page_attribute(course, "instructors", is_list=True)
@@ -167,6 +209,7 @@ def _transform_course(course):
         dict: normalized course data
     """  # noqa: D401
     runs = [_transform_run(course_run, course) for course_run in course["courseruns"]]
+    has_certification = parse_certification(OFFERED_BY["code"], runs)
     return {
         "readable_id": course["readable_id"],
         "platform": PlatformType.mitxonline.name,
@@ -184,12 +227,17 @@ def _transform_course(course):
         },
         "published": bool(
             parse_page_attribute(course, "page_url")
-        ),  # a course is only considered published if it has a page url
+            and parse_page_attribute(course, "live")
+            and len([run for run in runs if run["published"]]) > 0
+        ),  # a course is only published if it has a live url and published runs
         "professional": False,
-        "certification": parse_certification(OFFERED_BY["code"], runs),
+        "certification": has_certification,
+        "certification_type": CertificationType.completion.name
+        if has_certification
+        else CertificationType.none.name,
         "image": _transform_image(course),
         "url": parse_page_attribute(course, "page_url", is_url=True),
-        "description": parse_page_attribute(course, "description"),
+        "description": clean_data(parse_page_attribute(course, "description")),
     }
 
 
@@ -210,9 +258,27 @@ def transform_courses(courses):
     ]
 
 
+def _fetch_courses_by_ids(course_ids):
+    if settings.MITX_ONLINE_COURSES_API_URL:
+        return list(
+            _fetch_data(
+                settings.MITX_ONLINE_COURSES_API_URL,
+                params={
+                    "id": ",".join([str(courseid) for courseid in course_ids]),
+                    "page__live": True,
+                    "live": True,
+                },
+            )
+        )
+
+    log.warning("Missing required setting MITX_ONLINE_COURSES_API_URL")
+    return []
+
+
 def transform_programs(programs):
     """Transform the MITX Online catalog data"""
     # normalize the MITx Online data
+
     return [
         {
             "readable_id": program["readable_id"],
@@ -224,8 +290,11 @@ def transform_programs(programs):
             "platform": PlatformType.mitxonline.name,
             "professional": False,
             "certification": bool(parse_page_attribute(program, "page_url")),
+            "certification_type": CertificationType.completion.name
+            if bool(parse_page_attribute(program, "page_url"))
+            else CertificationType.none.name,
             "topics": transform_topics(program.get("topics", [])),
-            "description": parse_page_attribute(program, "description"),
+            "description": clean_data(parse_page_attribute(program, "description")),
             "url": parse_page_attribute(program, "page_url", is_url=True),
             "image": _transform_image(program),
             "published": bool(
@@ -248,18 +317,22 @@ def transform_programs(programs):
                     ),  # program only considered published if it has a product/price
                     "url": parse_page_attribute(program, "page_url", is_url=True),
                     "image": _transform_image(program),
-                    "description": parse_page_attribute(program, "description"),
+                    "description": clean_data(
+                        parse_page_attribute(program, "description")
+                    ),
                     "prices": parse_program_prices(program),
                     "availability": AvailabilityType.current.value
                     if parse_page_attribute(program, "page_url")
                     else AvailabilityType.archived.value,
                 }
             ],
-            "courses": [
-                _transform_course(course)
-                for course in program["courses"]
-                if not re.search(EXCLUDE_REGEX, course["title"], re.IGNORECASE)
-            ],
+            "courses": transform_courses(
+                [
+                    course
+                    for course in _fetch_courses_by_ids(program["courses"])
+                    if not re.search(EXCLUDE_REGEX, course["title"], re.IGNORECASE)
+                ]
+            ),
         }
         for program in programs
     ]

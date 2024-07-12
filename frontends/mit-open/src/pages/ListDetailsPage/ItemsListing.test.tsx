@@ -30,7 +30,8 @@ jest.mock("ol-components", () => {
   }
 })
 
-const spyLearningResourceCard = jest.mocked(LearningResourceCard)
+const spyLearningResourceCardOld = jest.mocked(LearningResourceCard)
+
 const spySortableList = jest.mocked(SortableList)
 const spySortableItem = jest.mocked(SortableItem)
 
@@ -57,105 +58,107 @@ const getPaginatedRelationships = (
   }
 }
 
-describe.each([ListType.LearningPath, ListType.UserList])(
-  "ItemsListing",
-  (listType: string) => {
-    test("Shows loading message while loading", () => {
-      const emptyMessage = "Empty list"
+describe("ItemsListing", () => {
+  test.each([
+    { listType: ListType.LearningPath },
+    { listType: ListType.UserList },
+  ])("Shows loading message while loading", ({ listType }) => {
+    const emptyMessage = "Empty list"
 
-      const { view } = renderWithProviders(
+    const { view } = renderWithProviders(
+      <ItemsListing
+        listType={listType}
+        emptyMessage={emptyMessage}
+        isLoading
+      />,
+    )
+    screen.getByLabelText("Loading")
+    view.rerender(
+      <ItemsListing listType={listType} emptyMessage={emptyMessage} />,
+    )
+  })
+
+  test.each([
+    { listType: ListType.LearningPath, count: 0, hasEmptyMessage: true },
+    {
+      listType: ListType.LearningPath,
+      count: faker.number.int({ min: 1, max: 5 }),
+      hasEmptyMessage: false,
+    },
+    { listType: ListType.LearningPath, count: 0, hasEmptyMessage: true },
+    {
+      listType: ListType.UserList,
+      count: faker.number.int({ min: 1, max: 5 }),
+      hasEmptyMessage: false,
+    },
+  ])(
+    "Shows empty message when there are no items",
+    ({ listType, count, hasEmptyMessage }) => {
+      setMockResponse.get(urls.userMe.get(), {})
+      const emptyMessage = faker.lorem.sentence()
+      const paginatedRelationships = getPaginatedRelationships(
+        listType,
+        count,
+        faker.number.int(),
+      )
+      renderWithProviders(
         <ItemsListing
           listType={listType}
           emptyMessage={emptyMessage}
-          isLoading
+          items={paginatedRelationships.results as LearningResourceListItem[]}
         />,
       )
-      screen.getByLabelText("Loading")
-      view.rerender(
-        <ItemsListing listType={listType} emptyMessage={emptyMessage} />,
+      const emptyMessageElement = screen.queryByText(emptyMessage)
+      expect(!!emptyMessageElement).toBe(hasEmptyMessage)
+    },
+  )
+
+  test.each([
+    { listType: ListType.LearningPath, sortable: false, cardProps: {} },
+    {
+      listType: ListType.LearningPath,
+      sortable: true,
+      cardProps: { sortable: true },
+    },
+    { listType: ListType.UserList, sortable: false, cardProps: {} },
+    {
+      listType: ListType.UserList,
+      sortable: true,
+      cardProps: { sortable: true },
+    },
+  ])(
+    "Shows a list of $listType LearningResourceCards with sortable=$sortable",
+    ({ listType, sortable, cardProps }) => {
+      const emptyMessage = faker.lorem.sentence()
+      const paginatedRelationships = getPaginatedRelationships(
+        listType,
+        faker.number.int({ min: 2, max: 4 }),
+        faker.number.int(),
       )
-    })
+      const items = paginatedRelationships.results as LearningResourceListItem[]
+      renderWithProviders(
+        <ItemsListing
+          listType={listType}
+          emptyMessage={emptyMessage}
+          items={items}
+          sortable={sortable}
+        />,
+        { user: {} },
+      )
+      const titles = items.map((item) => item.resource.title)
+      const headings = screen.getAllByRole("heading", {
+        name: (value) => titles.includes(value),
+      })
+      expect(headings.map((h) => h.textContent)).toEqual(titles)
 
-    test.each([
-      { listType: ListType.LearningPath, count: 0, hasEmptyMessage: true },
-      {
-        listType: ListType.LearningPath,
-        count: faker.datatype.number({ min: 1, max: 5 }),
-        hasEmptyMessage: false,
-      },
-      { listType: ListType.LearningPath, count: 0, hasEmptyMessage: true },
-      {
-        listType: ListType.UserList,
-        count: faker.datatype.number({ min: 1, max: 5 }),
-        hasEmptyMessage: false,
-      },
-    ])(
-      "Shows empty message when there are no items",
-      ({ listType, count, hasEmptyMessage }) => {
-        setMockResponse.get(urls.userMe.get(), {})
-        const emptyMessage = faker.lorem.sentence()
-        const paginatedRelationships = getPaginatedRelationships(
-          listType,
-          count,
-          faker.datatype.number(),
-        )
-        renderWithProviders(
-          <ItemsListing
-            listType={listType}
-            emptyMessage={emptyMessage}
-            items={paginatedRelationships.results as LearningResourceListItem[]}
-          />,
-        )
-        const emptyMessageElement = screen.queryByText(emptyMessage)
-        expect(!!emptyMessageElement).toBe(hasEmptyMessage)
-      },
-    )
-
-    test.each([
-      { listType: ListType.LearningPath, sortable: false, cardProps: {} },
-      {
-        listType: ListType.LearningPath,
-        sortable: true,
-        cardProps: { sortable: true },
-      },
-      { listType: ListType.UserList, sortable: false, cardProps: {} },
-      {
-        listType: ListType.UserList,
-        sortable: true,
-        cardProps: { sortable: true },
-      },
-    ])(
-      "Shows a list of LearningResourceCards with sortable=$sortable",
-      ({ listType, sortable, cardProps }) => {
-        const emptyMessage = faker.lorem.sentence()
-        const paginatedRelationships = getPaginatedRelationships(
-          listType,
-          faker.datatype.number({ min: 2, max: 4 }),
-          faker.datatype.number(),
-        )
-        const items =
-          paginatedRelationships.results as LearningResourceListItem[]
-        renderWithProviders(
-          <ItemsListing
-            listType={listType}
-            emptyMessage={emptyMessage}
-            items={items}
-            sortable={sortable}
-          />,
-          { user: {} },
-        )
-        const titles = items.map((item) => item.resource.title)
-        const headings = screen.getAllByRole("heading", {
-          name: (value) => titles.includes(value),
-        })
-        expect(headings.map((h) => h.textContent)).toEqual(titles)
+      if (sortable) {
         items.forEach(({ resource }) => {
-          expectProps(spyLearningResourceCard, { resource, ...cardProps })
+          expectProps(spyLearningResourceCardOld, { resource, ...cardProps })
         })
-      },
-    )
-  },
-)
+      }
+    },
+  )
+})
 
 describe.each([ListType.LearningPath, ListType.UserList])(
   "Sorting ItemListing",
@@ -163,7 +166,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
     const setup = (props: Partial<ItemsListingProps> = {}) => {
       const listType = props.listType || ""
       const emptyMessage = faker.lorem.sentence()
-      const parentId = faker.datatype.number()
+      const parentId = faker.number.int()
       const paginatedRelationships = getPaginatedRelationships(
         listType,
         5,

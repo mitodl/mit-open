@@ -16,14 +16,22 @@ services:
       retries: 2
 
   nginx:
-    image: nginx:1.26.0
+    image: nginx:1.27.0
     ports:
       - 8063:8063
     links:
       - web
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
+      - ./config/static-app.conf:/etc/nginx/templates/static-app.template
       - ./frontends/mit-open/build:/src/frontends/mit-open/build
+    env_file:
+      - path: ./env/shared.env
+    networks:
+      default:
+        aliases:
+          - "open.odl.local"
+          - "api.open.odl.local"
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8063"]
       interval: 30s
@@ -48,7 +56,7 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/e2e_postgres # pragma: allowlist secret
       PORT: 8061
-    env_file: .env.ci
+    env_file: env/ci.env
     depends_on:
       db:
         condition: service_healthy
@@ -72,7 +80,7 @@ services:
       context: e2e_testing
     environment:
       - CI=true
-      - BASE_URL=http://nginx:8063
+      - BASE_URL=http://open.odl.local:8063
     depends_on:
       nginx:
         condition: service_healthy

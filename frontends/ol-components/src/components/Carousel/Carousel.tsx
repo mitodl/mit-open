@@ -1,127 +1,185 @@
-import React, { ElementType, useCallback, useState } from "react"
-import NukaCarousel from "nuka-carousel"
-import { clamp } from "lodash"
-import type { CarouselProps as NukaCarouselProps } from "nuka-carousel"
-import styled from "@emotion/styled"
+import React, { useCallback } from "react"
+import { createPortal } from "react-dom"
+import Slick from "react-slick"
 import { ActionButton } from "../Button/Button"
-import Stack from "@mui/material/Stack"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
+import styled from "@emotion/styled"
 
 type CarouselProps = {
   children: React.ReactNode
-  as?: ElementType
   className?: string
-  pageSize: number
+  initialSlide?: number
   /**
    * Animation duration in milliseconds.
    */
   animationDuration?: number
-  cellSpacing?: NukaCarouselProps["cellSpacing"]
+  arrowsContainer?: HTMLElement | null
 }
 
-const DEFAULT_CAROUSEL_SPACING = 24
+const SlickStyled = styled(Slick)({
+  /**
+   * This is a fallback. The carousel's width should be constrained by it's
+   * parent. But if it's not, this will at least prevent it from resizing itself
+   * beyond the viewport width.
+   */
+  maxWidth: "100vw",
+})
 
-const NukaCarouselStyled = styled(NukaCarousel)(
-  ({ cellSpacing = DEFAULT_CAROUSEL_SPACING }) => ({
-    /*
-      We want the carousel cards to:
-        1. be spaced,
-        2. have shadows (possibly), and
-        3. be left-aligned (left edge of left-most card aligned with rest of page content)
+/**
+ * Return the current slide and the sliders per paged, based on current element
+ * rectangles.
+ */
+export const getSlideInfo = (
+  container: HTMLElement,
+): {
+  currentIndex: number | undefined
+  slidesPerPage: number | undefined
+} => {
+  /**
+   * NOTE:
+   * The calculation of `slidesPerPage` is based on the assumption that:
+   * - slides are fixed-width
+   * - gaps between slides are consistent
+   *
+   * With this assumption, a perfect fit would be:
+   * containerWidth = slidesPerPage * slideWidth + (slidesPerPage - 1) * gap
+   * Or, in other words:
+   * slidersPerPage = (containerWidth + gap) / (slideWidth + gap)
+   */
+  const current = container.querySelector<HTMLElement>(".slick-current")
+  const slides = container.querySelectorAll<HTMLElement>(".slick-slide")
+  if (!current) {
+    return { currentIndex: undefined, slidesPerPage: undefined }
+  }
+  const currentIndex = Number(current.dataset.index)
+  const adjacent = current.nextElementSibling ?? current.previousElementSibling
+  if (!adjacent) {
+    return { currentIndex, slidesPerPage: 1 }
+  }
+  const currentRect = current.getBoundingClientRect()
+  const adjRect = adjacent.getBoundingClientRect()
+  const containerRect = container.getBoundingClientRect()
+  const itemWidth = currentRect.width
+  if (!itemWidth) return { currentIndex, slidesPerPage: 1 }
+  const gap = Math.abs(adjRect.x - currentRect.x) - itemWidth
+  const fractional =
+    Math.round(containerRect.width + gap) / Math.round(itemWidth + gap)
 
-      The card container has `overflow: hidden` to prevent seeing the offscreen
-      cards. Consequently, if the leftmost card is at the left edge of the carousel
-      container, then its shadow gets cut off and looks weird.
+  /**
+   * Never allow more slides per page than children.
+   *
+   * If the parent container width is unconstrained, allowing more sliders per
+   * page than children can cause the carousel to
+   * 1. determine slides per page
+   * 2. increase the content width
+   * 3. ...which increases parent width (if it is unconstrained)
+   * 4. which changes slides per page... ad infinitum.
+   *
+   * Capping slidesPerPage at the number of slides prevents this, and there's
+   * never any reason to show more slides than there are.
+   */
+  const slidesPerPage = Math.min(Math.floor(fractional), slides.length)
+  return { currentIndex, slidesPerPage }
+}
 
-      So instead:
-        1. Use the default NukaCarousel behavior where there is half a cellSpacing
-          of padding on the left and right of each slide
-        2. translate the contents leftwards by half a cellSpacing so that they
-          appear left-aligned
-        3. Increase the width to 100% + cellSpacing so that the right-most card
-          is right-aligned
-        4. Apply positive-padding, negative-margin to the top and bottom to allow
-          vertical shadows.
-
-      NOTE: This will not work if the horizontal shadow exceeds half the
-      cellspacing. In that case, the horizontal shadow will be cut off.
-      */
-    transform: `translateX(-${cellSpacing * 0.5}px)`,
-    width: `calc(100% + ${cellSpacing}px) !important`,
-    /**
-     * These values are a bit arbitrary. They just need to exceed the vertical
-     * shadow.
-     */
-    paddingBottom: "6px",
-    marginBottom: "-6px",
-    paddingTop: "6px",
-    marginTop: "-6px",
-  }),
-)
-
-const defaultAnimationDuration = 800
-
+/**
+ * This is a horizontal carousel intended for fixed-width slides, potentially
+ * with a gab between the slides.
+ *
+ * The carousel shows as many slides as possible in the available space.
+ *
+ * The "pagesize" is however many slides are fully visible.
+ *
+ * Swapping and drag events are supported, and also move the carousel by the
+ * page size.
+ *
+ * NOTES:
+ * 1. The carousel root (or an ancestor) should have a constrained width.
+ *
+ * 2. The children of this carousel should NOT have a `style` prop.
+ * If it does, react-slick will override the style.
+ * See also https://github.com/akiran/react-slick/issues/1378
+ */
 const Carousel: React.FC<CarouselProps> = ({
   children,
   className,
-  cellSpacing = DEFAULT_CAROUSEL_SPACING,
-  pageSize,
-  animationDuration = defaultAnimationDuration,
-  as: ContainerComponent = "div",
+  initialSlide = 0,
+  arrowsContainer,
 }) => {
-  const [index, setIndex] = useState(0)
-  const childCount = React.Children.count(children)
-  const canPageUp = index + pageSize < childCount
-  const canPageDown = index !== 0
+  const [slick, setSlick] = React.useState<Slick | null>(null)
+  const [slidesPerPage, setSlidesPerPage] = React.useState<number>(1)
+  /**
+   * The index of the first visible slide.
+   * slick-carousel marks this slide with slick-current.
+   */
+  const [currentIndex, setCurrentIndex] = React.useState<number>(0)
+  const canPrev = currentIndex > 0
+  const canNext = currentIndex + slidesPerPage < React.Children.count(children)
+  const onReInit = useCallback(() => {
+    if (!slick) return
+    const container = slick.innerSlider?.list
+    if (!container) return
+    const slideInfo = getSlideInfo(container)
+    if (slideInfo.slidesPerPage !== undefined) {
+      setSlidesPerPage(slideInfo.slidesPerPage)
+    }
+    if (slideInfo.currentIndex !== undefined) {
+      setCurrentIndex(slideInfo.currentIndex)
+    }
+  }, [slick])
+  const nextPage = React.useCallback(() => {
+    if (!slick) return
+    slick.slickNext()
+  }, [slick])
+  const prevPage = React.useCallback(() => {
+    if (!slick) return
+    slick.slickPrev()
+  }, [slick])
 
-  const pageDown = useCallback(() => {
-    setIndex((currentIndex) =>
-      clamp(currentIndex - pageSize, 0, childCount - 1),
-    )
-  }, [pageSize, childCount])
-  const pageUp = useCallback(() => {
-    setIndex((currentIndex) =>
-      clamp(currentIndex + pageSize, 0, childCount - 1),
-    )
-  }, [pageSize, childCount])
-  const handleBeforeSlide: NonNullable<NukaCarouselProps["beforeSlide"]> =
-    useCallback((_currentIndex, endIndex) => {
-      setIndex(endIndex)
-    }, [])
+  const arrows = (
+    <>
+      <ActionButton
+        size="small"
+        edge="rounded"
+        variant="tertiary"
+        onClick={prevPage}
+        disabled={!canPrev}
+        aria-label="Previous"
+      >
+        <RiArrowLeftLine />
+      </ActionButton>
+      <ActionButton
+        size="small"
+        edge="rounded"
+        variant="tertiary"
+        onClick={nextPage}
+        disabled={!canNext}
+        aria-label="Next"
+      >
+        <RiArrowRightLine />
+      </ActionButton>
+    </>
+  )
 
   return (
-    <ContainerComponent id="hello" className={className}>
-      <NukaCarouselStyled
-        slideIndex={index}
-        slidesToShow={pageSize}
-        beforeSlide={handleBeforeSlide}
-        withoutControls={true}
-        cellSpacing={cellSpacing}
-        speed={animationDuration}
+    <>
+      <SlickStyled
+        className={className}
+        ref={setSlick}
+        variableWidth
+        initialSlide={initialSlide}
+        infinite={false}
+        autoplay={false}
+        onReInit={onReInit}
+        slidesToShow={slidesPerPage}
+        slidesToScroll={slidesPerPage}
+        arrows={false}
       >
         {children}
-      </NukaCarouselStyled>
-      <Stack direction="row" justifyContent="end" spacing={3} marginTop={3}>
-        <ActionButton
-          size="small"
-          edge="rounded"
-          onClick={pageDown}
-          disabled={!canPageDown}
-          aria-label="Previous"
-        >
-          <RiArrowLeftLine />
-        </ActionButton>
-        <ActionButton
-          size="small"
-          edge="rounded"
-          onClick={pageUp}
-          disabled={!canPageUp}
-          aria-label="Next"
-        >
-          <RiArrowRightLine />
-        </ActionButton>
-      </Stack>
-    </ContainerComponent>
+      </SlickStyled>
+      {arrowsContainer === undefined ? arrows : null}
+      {arrowsContainer ? createPortal(arrows, arrowsContainer) : null}
+    </>
   )
 }
 

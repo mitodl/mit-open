@@ -31,3 +31,13 @@ def user_created_actions(**kwargs):
         pm = get_plugin_manager()
         hook = pm.hook
         hook.user_created(user=kwargs["user"])
+
+
+def user_onboarding(*, backend, **kwargs):
+    """
+    Redirect new users to the onboarding flow
+    """
+    if kwargs.get("is_new"):
+        backend.strategy.session_set(
+            "next", backend.setting("NEW_USER_LOGIN_REDIRECT_URL")
+        )

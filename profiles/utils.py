@@ -62,6 +62,9 @@ SVG_TEMPLATE = re.sub(r"(\s+|\n)", " ", SVG_TEMPLATE)
 DEFAULT_PROFILE_IMAGE = urljoin(settings.STATIC_URL, "images/avatar_default.png")
 
 
+# NOTE: this is probably a bit broken at the moment
+#       because of the API/frontend separation which
+#       means APP_BASE_URL has changed
 def generate_gravatar_image(user, image_field=None):
     """
     Query gravatar for an image and return those image properties
@@ -81,11 +84,11 @@ def generate_gravatar_image(user, image_field=None):
     size_param = f"&s={max_dimension}" if max_dimension else ""
     if user.profile.name:
         d_param = urljoin(
-            settings.SITE_BASE_URL,
+            settings.APP_BASE_URL,
             f"/profile/{user.username}/{max_dimension}/fff/579cf9.png",
         )
     else:
-        d_param = urljoin(settings.SITE_BASE_URL, DEFAULT_PROFILE_IMAGE)
+        d_param = urljoin(settings.APP_BASE_URL, DEFAULT_PROFILE_IMAGE)
 
     return f"{gravatar_image_url}?d={quote(d_param)}{size_param}"
 

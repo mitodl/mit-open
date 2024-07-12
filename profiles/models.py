@@ -9,6 +9,8 @@ from django.db import models, transaction
 from django.db.models import JSONField
 from django_scim.models import AbstractSCIMUserMixin
 
+from learning_resources.constants import LearningResourceFormat
+from main.utils import frontend_absolute_url
 from profiles.utils import (
     IMAGE_MEDIUM_MAX_DIMENSION,
     IMAGE_SMALL_MAX_DIMENSION,
@@ -68,31 +70,6 @@ def filter_profile_props(data):
 class Profile(AbstractSCIMUserMixin):
     """Profile model"""
 
-    class Interest(models.TextChoices):
-        """User interests choices"""
-
-        COMPUTER_SCIENCE = "computer-science", "Computer Science"
-        BUSINESS = "business", "Business"
-        ENGINEERING = "engineering", "Engineering"
-        LEADERSHIP = "leadership", "Leadership"
-        ORGANIZED_BEHAVIOR = "organized-behavior", "Organized Behavior"
-        MANAGEMENT = "management", "Management"
-        ELECTRICAL_ENGINEERING = "electrical-engineering", "Electrical Engineering"
-        INFORMATION_TECHNOLOGY = "information-technology", "Information Technology"
-        BIOLOGY = "biology", "Biology"
-        EARTH_SCIENCE = "earth-science", "Earth Science"
-        ENVIRONMENTAL_ENGINEERING = (
-            "environmental-engineering",
-            "Environmental Engineering",
-        )
-        HEALTH_AND_MEDICINE = "health-and-medicine", "Health & Medicine"
-        PROBABILITY_AND_STATS = "probability-and-stats", "Probability & Stats"
-        ECONOMICS = "economics", "Economics"
-        HISTORY = "history", "History"
-        MATHEMATICS = "mathematics", "Mathematics"
-        MECHANICAL_ENGINEERING = "mechanical-engineering", "Mechanical Engineering"
-        OTHER = "other", "Other"
-
     class Goal(models.TextChoices):
         """User goals choices"""
 
@@ -110,17 +87,19 @@ class Profile(AbstractSCIMUserMixin):
     class CurrentEducation(models.TextChoices):
         """User current education choices"""
 
-        NO_FORMAL = "no-formal", "No Formal Education"
-        PRIMARY = "primary", "Primary Education"
-        SECONDARY_OR_HIGH_SCHOOL = (
-            "secondary-or-high-school",
-            "Secondary Education or High School",
+        NO_ANSWER = "", "----"
+        DOCTORATE = "Doctorate", "Doctorate"
+        MASTERS = "Master's or professional degree", "Master's or professional degree"
+        BACHELORS = "Bachelor's degree", "Bachelor's degree"
+        ASSOCIATES = "Associate degree", "Associate degree"
+        SECONDARY = "Secondary/high school", "Secondary/high school"
+        JUNIOR_SECONDARY = (
+            "Junior secondary/junior high/middle school",
+            "Junior secondary/junior high/middle school",
         )
-        GED = "ged", "GED"
-        VOCATIONAL_QUALIFICATION = (
-            "vocational-qualification",
-            "Vocational Qualification",
-        )
+        PRIMARY = "Elementary/primary school", "Elementary/primary school"
+        NO_FORMAL = "No formal education", "No formal education"
+        OTHER = "Other education", "Other education"
 
     class TimeCommitment(models.TextChoices):
         """User time commitment choices"""
@@ -129,14 +108,7 @@ class Profile(AbstractSCIMUserMixin):
         FIVE_TO_TEN_HOURS = "5-to-10-hours", "5-10 hours/week"
         TEN_TO_TWENTY_HOURS = "10-to-20-hours", "10-20 hours/week"
         TWENTY_TO_THIRTY_HOURS = "20-to-30-hours", "20-30 hours/week"
-        THIRY_PLUS_HOURS = "30-plus-hours", "30+ hours/week"
-
-    class CourseFormat(models.TextChoices):
-        """User course format choices"""
-
-        ONLINE = "online", "Online"
-        IN_PERSON = "in-person", "In-Person"
-        HYBRID = "hybrid", "Hybrid"
+        THIRTY_PLUS_HOURS = "30-plus-hours", "30+ hours/week"
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -176,10 +148,8 @@ class Profile(AbstractSCIMUserMixin):
     location = JSONField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    interests = ArrayField(
-        models.CharField(max_length=50, choices=Interest.choices),
-        default=list,
-        blank=True,
+    topic_interests = models.ManyToManyField(
+        "learning_resources.LearningResourceTopic", limit_choices_to={"parent": None}
     )
     goals = ArrayField(
         models.CharField(max_length=50, choices=Goal.choices), default=list, blank=True
@@ -193,8 +163,8 @@ class Profile(AbstractSCIMUserMixin):
     time_commitment = models.CharField(
         max_length=50, choices=TimeCommitment.choices, blank=True, default=""
     )
-    course_format = models.CharField(
-        max_length=50, choices=CourseFormat.choices, blank=True, default=""
+    learning_format = models.CharField(
+        max_length=50, choices=LearningResourceFormat.as_tuple(), blank=True, default=""
     )
 
     @transaction.atomic
@@ -324,4 +294,4 @@ class ProgramLetter(models.Model):
         )
 
     def get_absolute_url(self):
-        return f"/program_letter/{self.id}/view"
+        return frontend_absolute_url(f"/program_letter/{self.id}/view")

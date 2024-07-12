@@ -1,4 +1,7 @@
-import { join, dirname } from "path"
+import { resolve, join, dirname } from "path"
+import * as dotenv from "dotenv"
+
+dotenv.config({ path: resolve(__dirname, "../../../.env") })
 
 /**
  * This function is used to resolve the absolute path of a package.
@@ -28,11 +31,13 @@ const config = {
   docs: {
     autodocs: "tag",
   },
-  staticDirs: ["../build"],
   env: (config: any) => ({
     ...config,
     PUBLIC_URL: process.env.PUBLIC_URL || "",
     EMBEDLY_KEY: process.env.EMBEDLY_KEY || "",
+    APP_SETTINGS: {
+      embedlyKey: process.env.EMBEDLY_KEY || "",
+    },
   }),
 }
 

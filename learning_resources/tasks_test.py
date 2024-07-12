@@ -110,7 +110,7 @@ def test_import_all_mit_edx_files(settings, mocker, mocked_celery, mock_blocklis
         tasks.import_all_mit_edx_files.delay(4)
     get_content_tasks_mock.assert_called_once_with(
         ETLSource.mit_edx.name,
-        4,
+        chunk_size=4,
         s3_prefix="simeon-mitx-course-tarballs",
     )
 
@@ -127,7 +127,7 @@ def test_import_all_mitxonline_files(settings, mocker, mocked_celery, mock_block
         tasks.import_all_mitxonline_files.delay(3)
     get_content_tasks_mock.assert_called_once_with(
         PlatformType.mitxonline.name,
-        3,
+        chunk_size=3,
     )
 
 
@@ -140,7 +140,24 @@ def test_import_all_xpro_files(settings, mocker, mocked_celery, mock_blocklist):
     )
     with pytest.raises(mocked_celery.replace_exception_class):
         tasks.import_all_xpro_files.delay(3)
-    get_content_tasks_mock.assert_called_once_with(PlatformType.xpro.name, 3)
+    get_content_tasks_mock.assert_called_once_with(PlatformType.xpro.name, chunk_size=3)
+
+
+@mock_s3
+def test_import_all_oll_files(settings, mocker, mocked_celery, mock_blocklist):
+    """import_all_oll_files should start chunked tasks with correct bucket, platform"""
+    setup_s3(settings)
+    get_content_tasks_mock = mocker.patch(
+        "learning_resources.tasks.get_content_tasks", autospec=True
+    )
+    with pytest.raises(mocked_celery.replace_exception_class):
+        tasks.import_all_oll_files.delay(4)
+    get_content_tasks_mock.assert_called_once_with(
+        ETLSource.oll.name,
+        chunk_size=4,
+        s3_prefix="open-learning-library/courses",
+        override_base_prefix=True,
+    )
 
 
 @mock_s3

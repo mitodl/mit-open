@@ -21,7 +21,7 @@ describe("ArticleDetailsPage", () => {
     screen.getByText(article.html)
 
     await waitFor(() => {
-      expect(document.title).toBe(article.title)
+      expect(document.title).toBe(`${article.title} | MIT Open`)
     })
   })
 

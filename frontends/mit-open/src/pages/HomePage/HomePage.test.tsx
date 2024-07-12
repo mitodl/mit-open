@@ -2,7 +2,11 @@ import React from "react"
 import HomePage from "./HomePage"
 import NewsEventsSection from "./NewsEventsSection"
 import { urls, setMockResponse } from "api/test-utils"
-import { learningResources, newsEvents } from "api/test-utils/factories"
+import {
+  learningResources,
+  newsEvents,
+  testimonials,
+} from "api/test-utils/factories"
 import {
   renderWithProviders,
   screen,
@@ -10,7 +14,9 @@ import {
   within,
   waitFor,
 } from "../../test-utils"
+import type { FeaturedApiFeaturedListRequest as FeaturedRequest } from "api"
 import invariant from "tiny-invariant"
+import * as routes from "@/common/urls"
 
 const assertLinksTo = (
   el: HTMLElement,
@@ -29,37 +35,68 @@ const assertLinksTo = (
   expect(searchParams).toEqual(search)
 }
 
-const setup = () => {
+const setupAPIs = () => {
+  setMockResponse.get(urls.userMe.get(), {})
+
   const resources = learningResources.resources({ count: 4 })
+  const attestations = testimonials.testimonials({ count: 3 })
+
   setMockResponse.get(
     expect.stringContaining(urls.learningResources.list()),
     resources,
   )
+
+  setMockResponse.get(urls.learningResources.featured({ limit: 12 }), resources)
   setMockResponse.get(
-    expect.stringContaining(urls.learningResources.featured()),
+    urls.learningResources.featured({
+      free: true,
+      limit: 12,
+    }),
+    resources,
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({
+      certification: true,
+      professional: false,
+      limit: 12,
+    }),
+    resources,
+  )
+  setMockResponse.get(
+    urls.learningResources.featured({
+      professional: true,
+      limit: 12,
+    }),
     resources,
   )
 
   setMockResponse.get(
-    urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
+    urls.newsEvents.list({ feed_type: ["news"], limit: 6, sortby: "-created" }),
     {},
   )
   setMockResponse.get(
-    urls.newsEvents.list({ feed_type: ["events"], limit: 5 }),
+    urls.newsEvents.list({
+      feed_type: ["events"],
+      limit: 5,
+      sortby: "event_date",
+    }),
     {},
   )
 
-  return renderWithProviders(<HomePage />)
+  setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
+    results: [],
+  })
+
+  setMockResponse.get(
+    expect.stringContaining(urls.testimonials.list({})),
+    attestations,
+  )
 }
 
 describe("Home Page Hero", () => {
   test("Submitting search goes to search page", async () => {
-    setMockResponse.get(urls.userMe.get(), {})
-    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
-      results: [],
-    })
-
-    const { location } = setup()
+    setupAPIs()
+    const { location } = renderWithProviders(<HomePage />)
     const searchbox = screen.getByRole("textbox", { name: /search for/i })
     await user.click(searchbox)
     await user.paste("physics")
@@ -76,56 +113,37 @@ describe("Home Page Hero", () => {
     setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
       results: [],
     })
-    setup()
-    const aiCourses = screen.getByRole<HTMLAnchorElement>("link", {
-      name: /ai courses/i,
+    setupAPIs()
+    renderWithProviders(<HomePage />)
+    const expected = [
+      { label: "New", href: "/search?sortby=new" },
+      { label: "Popular", href: "/search?sortby=-views" },
+      { label: "Upcoming", href: "/search?sortby=upcoming" },
+      { label: "Free", href: "/search?free=true" },
+      { label: "With Certificate", href: "/search?certification=true" },
+      { label: "Browse by Topic", href: "/topics/" },
+      { label: "Explore All", href: "/search/" },
+    ]
+    expected.forEach(({ label, href }) => {
+      const link = screen.getByRole<HTMLAnchorElement>("link", { name: label })
+      expect(link).toHaveAttribute("href", href)
     })
-    const engineeringCourses = screen.getByRole<HTMLAnchorElement>("link", {
-      name: /engineering courses/i,
-    })
-    const all = screen.getByRole<HTMLAnchorElement>("link", {
-      name: /explore all/i,
-    })
-    assertLinksTo(aiCourses, {
-      pathname: "/search",
-      search: { topic: "Artificial Intelligence", resource_type: "course" },
-    })
-    assertLinksTo(engineeringCourses, {
-      pathname: "/search",
-      search: { topic: "Engineering", resource_type: "course" },
-    })
-    assertLinksTo(all, { pathname: "/search" })
   })
 })
 
-describe("Home Page Carousel", () => {
-  test("Tabbed Carousel sanity check", () => {
-    setMockResponse.get(urls.topics.list({ is_toplevel: true }), {
-      results: [],
-    })
-    setup()
-    const [featured, media] = screen.getAllByRole("tablist")
-    within(featured).getByRole("tab", { name: "Free" })
-    within(featured).getByRole("tab", { name: "Certificate" })
-    within(featured).getByRole("tab", { name: "Professional" })
-    within(media).getByRole("tab", { name: "All" })
-    within(media).getByRole("tab", { name: "Videos" })
-    within(media).getByRole("tab", { name: "Podcasts" })
-  })
-})
-
-describe("Home Page Browse by Topics", () => {
+describe("Home Page Browse by Topic", () => {
   test("Displays topics links", async () => {
+    setupAPIs()
+
     const response = learningResources.topics({ count: 3 })
     setMockResponse.get(urls.topics.list({ is_toplevel: true }), response)
     setMockResponse.get(urls.userMe.get(), {})
-
-    setup()
+    renderWithProviders(<HomePage />)
 
     await waitFor(() => {
       const section = screen
         .getByRole("heading", {
-          name: "Browse by Topics",
+          name: "Browse by Topic",
         })!
         .closest("section")!
 
@@ -147,13 +165,21 @@ describe("Home Page News and Events", () => {
   test("Displays News section", async () => {
     const news = newsEvents.newsItems({ count: 6 })
     setMockResponse.get(
-      urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
+      urls.newsEvents.list({
+        feed_type: ["news"],
+        limit: 6,
+        sortby: "-created",
+      }),
       news,
     )
 
     const events = newsEvents.eventItems({ count: 5 })
     setMockResponse.get(
-      urls.newsEvents.list({ feed_type: ["events"], limit: 5 }),
+      urls.newsEvents.list({
+        feed_type: ["events"],
+        limit: 5,
+        sortby: "event_date",
+      }),
       events,
     )
 
@@ -190,13 +216,21 @@ describe("Home Page News and Events", () => {
   test("Displays Events section", async () => {
     const news = newsEvents.newsItems({ count: 6 })
     setMockResponse.get(
-      urls.newsEvents.list({ feed_type: ["news"], limit: 6 }),
+      urls.newsEvents.list({
+        feed_type: ["news"],
+        limit: 6,
+        sortby: "-created",
+      }),
       news,
     )
 
     const events = newsEvents.eventItems({ count: 5 })
     setMockResponse.get(
-      urls.newsEvents.list({ feed_type: ["events"], limit: 5 }),
+      urls.newsEvents.list({
+        feed_type: ["events"],
+        limit: 5,
+        sortby: "event_date",
+      }),
       events,
     )
 
@@ -225,5 +259,117 @@ describe("Home Page News and Events", () => {
 
     expect(links[4]).toHaveAttribute("href", events.results[4].url)
     within(links[4]).getByText(events.results[4].title)
+  })
+})
+
+describe("Home Page personalize section", () => {
+  test("Links to dashboard when authenticated", async () => {
+    setMockResponse.get(urls.userMe.get(), {})
+    setupAPIs()
+
+    renderWithProviders(<HomePage />)
+    const personalize = (
+      await screen.findByRole("heading", {
+        name: "Continue Your Journey",
+      })
+    ).closest("section")
+    invariant(personalize)
+    const link = within(personalize).getByRole("link")
+    expect(link).toHaveAttribute("href", "/dashboard/")
+  })
+
+  test("Links to login when not authenticated", async () => {
+    setupAPIs()
+
+    setMockResponse.get(urls.userMe.get(), {}, { code: 403 })
+    renderWithProviders(<HomePage />)
+    const personalize = (
+      await screen.findByRole("heading", {
+        name: "Personalize Your Journey",
+      })
+    ).closest("section")
+    invariant(personalize)
+    const link = within(personalize).getByRole("link")
+    expect(link).toHaveAttribute(
+      "href",
+      routes.login({
+        pathname: routes.DASHBOARD,
+      }),
+    )
+  })
+})
+
+describe("Home Page Testimonials", () => {
+  test("Displays testimonials carousel", async () => {
+    setupAPIs()
+
+    renderWithProviders(<HomePage />)
+
+    await waitFor(() => {
+      screen.getAllByText(/testable title/i)
+    })
+  })
+})
+
+describe("Home Page Carousel", () => {
+  test.each<{ tab: string; params: FeaturedRequest }>([
+    {
+      tab: "All",
+      params: { limit: 12, resource_type: ["course"] },
+    },
+    {
+      tab: "Free",
+      params: { limit: 12, resource_type: ["course"], free: true },
+    },
+    {
+      tab: "With Certificate",
+      params: {
+        resource_type: ["course"],
+        limit: 12,
+        certification: true,
+        professional: false,
+      },
+    },
+    {
+      tab: "Professional & Executive Learning",
+      params: { resource_type: ["course"], limit: 12, professional: true },
+    },
+  ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
+    const resources = learningResources.resources({ count: 12 })
+    setupAPIs()
+
+    // The tab buttons eager-load the resources so we need to set them all up.
+
+    // This is for the clicked tab (which might be "All")
+    // We will check that its response is visible as cards.
+    setMockResponse.get(
+      urls.learningResources.featured({ ...params }),
+      resources,
+    )
+
+    renderWithProviders(<HomePage />)
+    screen.findByRole("tab", { name: tab }).then(async (featuredTab) => {
+      await user.click(within(featuredTab).getByRole("tab", { name: tab }))
+      const [featuredPanel] = screen.getAllByRole("tabpanel")
+      await within(featuredPanel).findByText(resources.results[0].title)
+    })
+  })
+
+  test("Tabbed Carousel sanity check", async () => {
+    setupAPIs()
+
+    renderWithProviders(<HomePage />)
+
+    screen.findAllByRole("tablist").then(([featured, media]) => {
+      within(featured).getByRole("tab", { name: "All" })
+      within(featured).getByRole("tab", { name: "Free" })
+      within(featured).getByRole("tab", { name: "With Certificate" })
+      within(featured).getByRole("tab", {
+        name: "Professional & Executive Learning",
+      })
+      within(media).getByRole("tab", { name: "All" })
+      within(media).getByRole("tab", { name: "Videos" })
+      within(media).getByRole("tab", { name: "Podcasts" })
+    })
   })
 })

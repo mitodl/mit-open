@@ -8,7 +8,7 @@ paths:
     get:
       operationId: channels_list
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: List
       parameters:
@@ -18,13 +18,13 @@ paths:
           type: string
           enum:
           - department
-          - offeror
           - pathway
           - topic
+          - unit
         description: |-
           * `topic` - Topic
           * `department` - Department
-          * `offeror` - Offeror
+          * `unit` - Unit
           * `pathway` - Pathway
       - name: limit
         required: false
@@ -45,12 +45,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaginatedFieldChannelList'
+                $ref: '#/components/schemas/PaginatedChannelList'
           description: ''
     post:
       operationId: channels_create
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: Create
       tags:
@@ -59,26 +59,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FieldChannelCreateRequest'
+              $ref: '#/components/schemas/ChannelCreateRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/FieldChannelCreateRequest'
+              $ref: '#/components/schemas/ChannelCreateRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/FieldChannelCreateRequest'
+              $ref: '#/components/schemas/ChannelCreateRequest'
         required: true
       responses:
         '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannel'
+                $ref: '#/components/schemas/Channel'
           description: ''
   /api/v0/channels/{id}/:
     get:
       operationId: channels_retrieve
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: Retrieve
       parameters:
@@ -86,7 +86,7 @@ paths:
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this field channel.
+        description: A unique integer value identifying this channel.
         required: true
       tags:
       - channels
@@ -95,12 +95,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannel'
+                $ref: '#/components/schemas/Channel'
           description: ''
     patch:
       operationId: channels_partial_update
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: Update
       parameters:
@@ -108,7 +108,7 @@ paths:
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this field channel.
+        description: A unique integer value identifying this channel.
         required: true
       tags:
       - channels
@@ -116,24 +116,24 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchedFieldChannelWriteRequest'
+              $ref: '#/components/schemas/PatchedChannelWriteRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/PatchedFieldChannelWriteRequest'
+              $ref: '#/components/schemas/PatchedChannelWriteRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/PatchedFieldChannelWriteRequest'
+              $ref: '#/components/schemas/PatchedChannelWriteRequest'
       responses:
         '200':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannel'
+                $ref: '#/components/schemas/Channel'
           description: ''
     delete:
       operationId: channels_destroy
       description: |-
-        CRUD Operations related to FieldChannels. Channels may represent groups
+        CRUD Operations related to Channels. Channels may represent groups
         or organizations at MIT and are a high-level categorization of content.
       summary: Destroy
       parameters:
@@ -141,7 +141,7 @@ paths:
         name: id
         schema:
           type: integer
-        description: A unique integer value identifying this field channel.
+        description: A unique integer value identifying this channel.
         required: true
       tags:
       - channels
@@ -152,7 +152,7 @@ paths:
     get:
       operationId: channels_moderators_list
       description: View for listing and adding moderators
-      summary: Field Moderators List
+      summary: Channel Moderators List
       parameters:
       - in: path
         name: id
@@ -169,12 +169,12 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/FieldModerator'
+                  $ref: '#/components/schemas/ChannelModerator'
           description: ''
     post:
       operationId: channels_moderators_create
       description: View for listing and adding moderators
-      summary: Field Moderators Create
+      summary: Channel Moderators Create
       parameters:
       - in: path
         name: id
@@ -188,25 +188,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/FieldModeratorRequest'
+              $ref: '#/components/schemas/ChannelModeratorRequest'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/FieldModeratorRequest'
+              $ref: '#/components/schemas/ChannelModeratorRequest'
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/FieldModeratorRequest'
+              $ref: '#/components/schemas/ChannelModeratorRequest'
       responses:
         '201':
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldModerator'
+                $ref: '#/components/schemas/ChannelModerator'
           description: ''
   /api/v0/channels/{id}/moderators/{moderator_name}/:
     delete:
       operationId: channels_moderators_destroy
       description: Remove the user from the moderator groups for this website
-      summary: Field Moderators Destroy
+      summary: Channel Moderators Destroy
       parameters:
       - in: path
         name: id
@@ -228,8 +228,8 @@ paths:
   /api/v0/channels/type/{channel_type}/{name}/:
     get:
       operationId: channels_type_retrieve
-      description: View for retrieving an individual field channel by type and name
-      summary: FieldChannel Detail Lookup by channel type and name
+      description: View for retrieving an individual channel by type and name
+      summary: Channel Detail Lookup by channel type and name
       parameters:
       - in: path
         name: channel_type
@@ -250,7 +250,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FieldChannel'
+                $ref: '#/components/schemas/Channel'
           description: ''
   /api/v0/ckeditor:
     get:
@@ -298,6 +298,26 @@ paths:
         description: The initial index from which to return the results.
         schema:
           type: integer
+      - in: query
+        name: sortby
+        schema:
+          type: string
+          enum:
+          - -created
+          - -event_date
+          - -id
+          - created
+          - event_date
+          - id
+        description: |-
+          Sort By
+
+          * `id` - Object ID ascending
+          * `-id` - Object ID descending
+          * `event_date` - Event date ascending
+          * `-event_date` - Event date  descending
+          * `created` - Creation date ascending
+          * `-created` - Creation date descending
       tags:
       - news_events
       responses:
@@ -519,6 +539,15 @@ paths:
         description: Number of results to return per page.
         schema:
           type: integer
+      - in: query
+        name: offerors
+        schema:
+          type: array
+          items:
+            type: string
+        description: The offerors the attestation is for
+        explode: true
+        style: form
       - name: offset
         required: false
         in: query
@@ -526,10 +555,10 @@ paths:
         schema:
           type: integer
       - in: query
-        name: published
+        name: position
         schema:
-          type: boolean
-        description: Only return published testimonials
+          type: integer
+        description: Only show items that exist at this position
       tags:
       - testimonials
       responses:
@@ -844,13 +873,19 @@ components:
           readOnly: true
         avatar:
           type: string
-          format: uri
+          nullable: true
+          description: Get the avatar image URL
+          readOnly: true
         avatar_small:
           type: string
-          format: uri
+          nullable: true
+          description: Get the avatar_small image URL
+          readOnly: true
         avatar_medium:
           type: string
-          format: uri
+          nullable: true
+          description: Get the avatar_medium image URL
+          readOnly: true
         cover:
           type: string
           nullable: true
@@ -875,6 +910,11 @@ components:
         quote:
           type: string
           description: The testimonial attestation
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          description: The position the attestation should occupy
         publish_date:
           type: string
           format: date-time
@@ -885,12 +925,16 @@ components:
           items:
             type: integer
           description: Channels that the testimonial belongs to
+        offerors:
+          type: array
+          items:
+            type: string
+          description: The offerors that this attestation can appear on
       required:
       - attestant_name
       - avatar
       - avatar_medium
       - avatar_small
-      - channels
       - cover
       - created_on
       - id
@@ -921,6 +965,84 @@ components:
         * `yes` - Yes
         * `no` - No
         * `not-sure-yet` - Not Sure Yet
+      x-enum-descriptions:
+      - 'Yes'
+      - 'No'
+      - Not Sure Yet
+    Channel:
+      oneOf:
+      - $ref: '#/components/schemas/TopicChannel'
+      - $ref: '#/components/schemas/DepartmentChannel'
+      - $ref: '#/components/schemas/UnitChannel'
+      - $ref: '#/components/schemas/PathwayChannel'
+      discriminator:
+        propertyName: channel_type
+        mapping:
+          topic: '#/components/schemas/TopicChannel'
+          department: '#/components/schemas/DepartmentChannel'
+          unit: '#/components/schemas/UnitChannel'
+          pathway: '#/components/schemas/PathwayChannel'
+    ChannelCreateRequest:
+      type: object
+      description: |-
+        Write serializer for Channel. Uses primary keys for referenced objects
+        during requests, and delegates to ChannelSerializer for responses.
+      properties:
+        name:
+          type: string
+          minLength: 1
+          pattern: ^[A-Za-z0-9_-]+$
+          maxLength: 100
+        title:
+          type: string
+          minLength: 1
+          maxLength: 100
+        public_description:
+          type: string
+        sub_channels:
+          type: array
+          items:
+            type: string
+            minLength: 1
+        featured_list:
+          type: integer
+          nullable: true
+          description: Learning path featured in this channel.
+        lists:
+          type: array
+          items:
+            type: integer
+            nullable: true
+          description: Learning paths in this channel.
+        avatar:
+          type: string
+          format: binary
+          nullable: true
+        banner:
+          type: string
+          format: binary
+          nullable: true
+        about:
+          nullable: true
+        channel_type:
+          type: string
+          allOf:
+          - $ref: '#/components/schemas/ChannelTypeEnum'
+        search_filter:
+          type: string
+          maxLength: 2048
+        topic_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelTopicDetailRequest'
+          nullable: true
+        department_detail:
+          allOf:
+          - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
+          nullable: true
+      required:
+      - channel_type
+      - name
+      - title
     ChannelDepartmentDetail:
       type: object
       description: Serializer for the ChannelDepartmentDetail model
@@ -936,16 +1058,32 @@ components:
           type: string
           minLength: 1
           nullable: true
-    ChannelOfferorDetail:
+    ChannelModerator:
       type: object
-      description: Serializer for the ChannelOfferorDetail model
+      description: Serializer for moderators
       properties:
-        offeror:
-          allOf:
-          - $ref: '#/components/schemas/LearningResourceOfferorDetail'
+        moderator_name:
+          type: string
+          description: Returns the name for the moderator
+        email:
+          type: string
+          description: Get the email from the associated user
+        full_name:
+          type: string
+          description: Get the full name of the associated user
           readOnly: true
       required:
-      - offeror
+      - full_name
+    ChannelModeratorRequest:
+      type: object
+      description: Serializer for moderators
+      properties:
+        moderator_name:
+          type: string
+          description: Returns the name for the moderator
+        email:
+          type: string
+          description: Get the email from the associated user
     ChannelTopicDetail:
       type: object
       description: Serializer for the ChannelTopicDetail model
@@ -964,38 +1102,62 @@ components:
       enum:
       - topic
       - department
-      - offeror
+      - unit
       - pathway
       type: string
       description: |-
         * `topic` - Topic
         * `department` - Department
-        * `offeror` - Offeror
+        * `unit` - Unit
         * `pathway` - Pathway
-    CourseFormatEnum:
-      enum:
-      - online
-      - in-person
-      - hybrid
-      type: string
-      description: |-
-        * `online` - Online
-        * `in-person` - In-Person
-        * `hybrid` - Hybrid
+      x-enum-descriptions:
+      - Topic
+      - Department
+      - Unit
+      - Pathway
+    ChannelUnitDetail:
+      type: object
+      description: Serializer for the ChannelOfferorDetail model
+      properties:
+        unit:
+          allOf:
+          - $ref: '#/components/schemas/LearningResourceOfferorDetail'
+          readOnly: true
+      required:
+      - unit
     CurrentEducationEnum:
       enum:
-      - no-formal
-      - primary
-      - secondary-or-high-school
-      - ged
-      - vocational-qualification
+      - Doctorate
+      - Master's or professional degree
+      - Bachelor's degree
+      - Associate degree
+      - Secondary/high school
+      - Junior secondary/junior high/middle school
+      - Elementary/primary school
+      - No formal education
+      - Other education
       type: string
       description: |-
-        * `no-formal` - No Formal Education
-        * `primary` - Primary Education
-        * `secondary-or-high-school` - Secondary Education or High School
-        * `ged` - GED
-        * `vocational-qualification` - Vocational Qualification
+        * `` - ----
+        * `Doctorate` - Doctorate
+        * `Master's or professional degree` - Master's or professional degree
+        * `Bachelor's degree` - Bachelor's degree
+        * `Associate degree` - Associate degree
+        * `Secondary/high school` - Secondary/high school
+        * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school
+        * `Elementary/primary school` - Elementary/primary school
+        * `No formal education` - No formal education
+        * `Other education` - Other education
+      x-enum-descriptions:
+      - Doctorate
+      - Master's or professional degree
+      - Bachelor's degree
+      - Associate degree
+      - Secondary/high school
+      - Junior secondary/junior high/middle school
+      - Elementary/primary school
+      - No formal education
+      - Other education
     DepartmentChannel:
       type: object
       description: Serializer for Channel model of type department
@@ -1039,11 +1201,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -1063,16 +1225,13 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -1080,6 +1239,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -1095,7 +1257,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - updated_on
     DepartmentChannelTypeEnum:
@@ -1103,6 +1265,8 @@ components:
       - department
       type: string
       description: '* `department` - Department'
+      x-enum-descriptions:
+      - Department
     EventFeedItem:
       type: object
       description: Serializer for News FeedItem
@@ -1263,108 +1427,9 @@ components:
       description: |-
         * `news` - News
         * `events` - Events
-    FieldChannel:
-      oneOf:
-      - $ref: '#/components/schemas/TopicChannel'
-      - $ref: '#/components/schemas/DepartmentChannel'
-      - $ref: '#/components/schemas/OfferorChannel'
-      - $ref: '#/components/schemas/PathwayChannel'
-      discriminator:
-        propertyName: channel_type
-        mapping:
-          topic: '#/components/schemas/TopicChannel'
-          department: '#/components/schemas/DepartmentChannel'
-          offeror: '#/components/schemas/OfferorChannel'
-          pathway: '#/components/schemas/PathwayChannel'
-    FieldChannelCreateRequest:
-      type: object
-      description: |-
-        Write serializer for FieldChannel. Uses primary keys for referenced objects
-        during requests, and delegates to FieldChannelSerializer for responses.
-      properties:
-        name:
-          type: string
-          minLength: 1
-          pattern: ^[A-Za-z0-9_]+$
-          maxLength: 100
-        title:
-          type: string
-          minLength: 1
-          maxLength: 100
-        public_description:
-          type: string
-        subfields:
-          type: array
-          items:
-            type: string
-            minLength: 1
-        featured_list:
-          type: integer
-          nullable: true
-          description: Learning path featured in this field.
-        lists:
-          type: array
-          items:
-            type: integer
-            nullable: true
-          description: Learning paths in this field.
-        avatar:
-          type: string
-          format: binary
-          nullable: true
-        banner:
-          type: string
-          format: binary
-          nullable: true
-        about:
-          nullable: true
-        channel_type:
-          type: string
-          allOf:
-          - $ref: '#/components/schemas/ChannelTypeEnum'
-        search_filter:
-          type: string
-          maxLength: 2048
-        configuration:
-          nullable: true
-        topic_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelTopicDetailRequest'
-          nullable: true
-        department_detail:
-          allOf:
-          - $ref: '#/components/schemas/ChannelDepartmentDetailRequest'
-          nullable: true
-      required:
-      - channel_type
-      - name
-      - title
-    FieldModerator:
-      type: object
-      description: Serializer for moderators
-      properties:
-        moderator_name:
-          type: string
-          description: Returns the name for the moderator
-        email:
-          type: string
-          description: Get the email from the associated user
-        full_name:
-          type: string
-          description: Get the full name of the associated user
-          readOnly: true
-      required:
-      - full_name
-    FieldModeratorRequest:
-      type: object
-      description: Serializer for moderators
-      properties:
-        moderator_name:
-          type: string
-          description: Returns the name for the moderator
-        email:
-          type: string
-          description: Get the email from the associated user
+      x-enum-descriptions:
+      - News
+      - Events
     GoalsEnum:
       enum:
       - career-growth
@@ -1375,46 +1440,24 @@ components:
         * `career-growth` - Career Growth
         * `supplemental-learning` - Supplemental Learning
         * `just-to-learn` - Just to Learn
-    InterestsEnum:
+      x-enum-descriptions:
+      - Career Growth
+      - Supplemental Learning
+      - Just to Learn
+    LearningFormatEnum:
       enum:
-      - computer-science
-      - business
-      - engineering
-      - leadership
-      - organized-behavior
-      - management
-      - electrical-engineering
-      - information-technology
-      - biology
-      - earth-science
-      - environmental-engineering
-      - health-and-medicine
-      - probability-and-stats
-      - economics
-      - history
-      - mathematics
-      - mechanical-engineering
-      - other
+      - online
+      - hybrid
+      - in_person
       type: string
       description: |-
-        * `computer-science` - Computer Science
-        * `business` - Business
-        * `engineering` - Engineering
-        * `leadership` - Leadership
-        * `organized-behavior` - Organized Behavior
-        * `management` - Management
-        * `electrical-engineering` - Electrical Engineering
-        * `information-technology` - Information Technology
-        * `biology` - Biology
-        * `earth-science` - Earth Science
-        * `environmental-engineering` - Environmental Engineering
-        * `health-and-medicine` - Health & Medicine
-        * `probability-and-stats` - Probability & Stats
-        * `economics` - Economics
-        * `history` - History
-        * `mathematics` - Mathematics
-        * `mechanical-engineering` - Mechanical Engineering
-        * `other` - Other
+        * `online` - Online
+        * `hybrid` - Hybrid
+        * `in_person` - In person
+      x-enum-descriptions:
+      - Online
+      - Hybrid
+      - In person
     LearningPathPreview:
       type: object
       description: Serializer for a minimal preview of Learning Paths
@@ -1442,9 +1485,9 @@ components:
           maxLength: 12
         channel_url:
           type: string
+          nullable: true
           description: Get the channel url for the offeror if it exists
           readOnly: true
-          nullable: true
         name:
           type: string
           maxLength: 256
@@ -1484,6 +1527,8 @@ components:
           type: string
           format: uri
           maxLength: 200
+        value_prop:
+          type: string
       required:
       - channel_url
       - code
@@ -1542,8 +1587,29 @@ components:
           type: string
           format: uri
           maxLength: 200
+        value_prop:
+          type: string
       required:
       - code
+      - name
+    LearningResourceTopic:
+      type: object
+      description: Serializer for LearningResourceTopic model
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 128
+        parent:
+          type: integer
+          nullable: true
+        channel_url:
+          type: string
+      required:
+      - channel_url
+      - id
       - name
     NewsFeedItem:
       type: object
@@ -1590,113 +1656,6 @@ components:
       type: string
       enum:
       - news
-    OfferorChannel:
-      type: object
-      description: Serializer for Channel model of type offeror
-      properties:
-        id:
-          type: integer
-          readOnly: true
-        avatar:
-          type: string
-          nullable: true
-          description: Get the avatar image URL
-        avatar_small:
-          type: string
-          nullable: true
-          description: Get the avatar image small URL
-          readOnly: true
-        avatar_medium:
-          type: string
-          nullable: true
-          description: Get the avatar image medium URL
-          readOnly: true
-        banner:
-          type: string
-          nullable: true
-          description: Get the banner image URL
-        is_moderator:
-          type: boolean
-          description: Return true if user is a moderator for the channel
-          readOnly: true
-        lists:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningPathPreview'
-          readOnly: true
-        channel_url:
-          type: string
-          description: Get the URL for the channel
-          readOnly: true
-        featured_list:
-          allOf:
-          - $ref: '#/components/schemas/LearningPathPreview'
-          readOnly: true
-          nullable: true
-          description: Learning path featured in this field.
-        subfields:
-          type: array
-          items:
-            $ref: '#/components/schemas/Subfield'
-          readOnly: true
-        channel_type:
-          type: string
-          default: offeror
-          allOf:
-          - $ref: '#/components/schemas/OfferorChannelTypeEnum'
-          readOnly: true
-        offeror_detail:
-          $ref: '#/components/schemas/ChannelOfferorDetail'
-        created_on:
-          type: string
-          format: date-time
-          readOnly: true
-        updated_on:
-          type: string
-          format: date-time
-          readOnly: true
-        name:
-          type: string
-          pattern: ^[A-Za-z0-9_]+$
-          maxLength: 100
-        title:
-          type: string
-          maxLength: 100
-        about:
-          nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
-        configuration:
-          nullable: true
-        search_filter:
-          type: string
-          maxLength: 2048
-        public_description:
-          type: string
-        widget_list:
-          type: integer
-          nullable: true
-      required:
-      - avatar_medium
-      - avatar_small
-      - channel_type
-      - channel_url
-      - created_on
-      - featured_list
-      - id
-      - is_moderator
-      - lists
-      - name
-      - offeror_detail
-      - subfields
-      - title
-      - updated_on
-    OfferorChannelTypeEnum:
-      enum:
-      - offeror
-      type: string
-      description: '* `offeror` - Offeror'
     PaginatedAttestationList:
       type: object
       required:
@@ -1720,6 +1679,29 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Attestation'
+    PaginatedChannelList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=400&limit=100
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?offset=200&limit=100
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Channel'
     PaginatedFeedItemList:
       type: object
       required:
@@ -1766,37 +1748,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/FeedSource'
-    PaginatedFieldChannelList:
+    PatchedChannelWriteRequest:
       type: object
-      required:
-      - count
-      - results
-      properties:
-        count:
-          type: integer
-          example: 123
-        next:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=400&limit=100
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          example: http://api.example.org/accounts/?offset=200&limit=100
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/FieldChannel'
-    PatchedFieldChannelWriteRequest:
-      type: object
-      description: Similar to FieldChannelCreateSerializer, with read-only name
+      description: Similar to ChannelCreateSerializer, with read-only name
       properties:
         name:
           type: string
           minLength: 1
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
@@ -1804,7 +1763,7 @@ components:
           maxLength: 100
         public_description:
           type: string
-        subfields:
+        sub_channels:
           type: array
           items:
             type: string
@@ -1812,13 +1771,13 @@ components:
         featured_list:
           type: integer
           nullable: true
-          description: Learning path featured in this field.
+          description: Learning path featured in this channel.
         lists:
           type: array
           items:
             type: integer
             nullable: true
-          description: Learning paths in this field.
+          description: Learning paths in this channel.
         avatar:
           type: string
           nullable: true
@@ -1836,8 +1795,6 @@ components:
         search_filter:
           type: string
           maxLength: 2048
-        configuration:
-          nullable: true
         topic_detail:
           allOf:
           - $ref: '#/components/schemas/ChannelTopicDetailRequest'
@@ -1884,10 +1841,10 @@ components:
         location:
           writeOnly: true
           nullable: true
-        interests:
+        topic_interests:
           type: array
           items:
-            $ref: '#/components/schemas/InterestsEnum'
+            type: integer
         goals:
           type: array
           items:
@@ -1904,9 +1861,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
-        course_format:
+        learning_format:
           oneOf:
-          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/LearningFormatEnum'
           - $ref: '#/components/schemas/BlankEnum'
     PatchedUserRequest:
       type: object
@@ -1970,11 +1927,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -1992,16 +1949,13 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -2009,6 +1963,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -2023,7 +1980,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - updated_on
     PathwayChannelTypeEnum:
@@ -2031,6 +1988,22 @@ components:
       - pathway
       type: string
       description: '* `pathway` - Pathway'
+      x-enum-descriptions:
+      - Pathway
+    PreferencesSearch:
+      type: object
+      description: Serializer for profile search preference filters
+      properties:
+        certification:
+          type: boolean
+        topic:
+          type: array
+          items:
+            type: string
+        learning_format:
+          type: array
+          items:
+            type: string
     Profile:
       type: object
       description: Serializer for Profile
@@ -2088,10 +2061,10 @@ components:
           type: string
           description: Custom getter for location text
           readOnly: true
-        interests:
+        topic_interests:
           type: array
           items:
-            $ref: '#/components/schemas/InterestsEnum'
+            $ref: '#/components/schemas/LearningResourceTopic'
         goals:
           type: array
           items:
@@ -2108,15 +2081,20 @@ components:
           oneOf:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
-        course_format:
+        learning_format:
           oneOf:
-          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/LearningFormatEnum'
           - $ref: '#/components/schemas/BlankEnum'
+        preference_search_filters:
+          allOf:
+          - $ref: '#/components/schemas/PreferencesSearch'
+          readOnly: true
       required:
       - image_file
       - image_medium_file
       - image_small_file
       - placename
+      - preference_search_filters
       - profile_image_medium
       - profile_image_small
       - username
@@ -2158,10 +2136,10 @@ components:
         location:
           writeOnly: true
           nullable: true
-        interests:
+        topic_interests:
           type: array
           items:
-            $ref: '#/components/schemas/InterestsEnum'
+            type: integer
         goals:
           type: array
           items:
@@ -2178,21 +2156,15 @@ components:
           oneOf:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
-        course_format:
+        learning_format:
           oneOf:
-          - $ref: '#/components/schemas/CourseFormatEnum'
+          - $ref: '#/components/schemas/LearningFormatEnum'
           - $ref: '#/components/schemas/BlankEnum'
     ProgramCertificate:
       type: object
       description: Serializer for Program Certificates
       properties:
         record_hash:
-          type: string
-          readOnly: true
-        program_letter_generate_url:
-          type: string
-          readOnly: true
-        program_letter_share_url:
           type: string
           readOnly: true
         program_title:
@@ -2268,8 +2240,6 @@ components:
           format: date-time
           nullable: true
       required:
-      - program_letter_generate_url
-      - program_letter_share_url
       - program_title
       - record_hash
       - user_email
@@ -2281,6 +2251,9 @@ components:
       description: |-
         * `news` - news
         * `events` - events
+      x-enum-descriptions:
+      - news
+      - events
     SiteTypeEnum:
       enum:
       - facebook
@@ -2293,14 +2266,19 @@ components:
         * `linkedin` - linkedin
         * `personal` - personal
         * `twitter` - twitter
-    Subfield:
+      x-enum-descriptions:
+      - facebook
+      - linkedin
+      - personal
+      - twitter
+    SubChannel:
       type: object
-      description: Serializer for Subfields
+      description: Serializer for SubChannels
       properties:
-        parent_field:
+        parent_channel:
           type: string
           readOnly: true
-        field_channel:
+        channel:
           type: string
           readOnly: true
         position:
@@ -2308,8 +2286,8 @@ components:
           maximum: 2147483647
           minimum: -2147483648
       required:
-      - field_channel
-      - parent_field
+      - channel
+      - parent_channel
     TimeCommitmentEnum:
       enum:
       - 0-to-5-hours
@@ -2324,6 +2302,12 @@ components:
         * `10-to-20-hours` - 10-20 hours/week
         * `20-to-30-hours` - 20-30 hours/week
         * `30-plus-hours` - 30+ hours/week
+      x-enum-descriptions:
+      - <5 hours/week
+      - 5-10 hours/week
+      - 10-20 hours/week
+      - 20-30 hours/week
+      - 30+ hours/week
     TopicChannel:
       type: object
       description: Serializer for Channel model of type topic
@@ -2367,11 +2351,11 @@ components:
           - $ref: '#/components/schemas/LearningPathPreview'
           readOnly: true
           nullable: true
-          description: Learning path featured in this field.
-        subfields:
+          description: Learning path featured in this channel.
+        sub_channels:
           type: array
           items:
-            $ref: '#/components/schemas/Subfield'
+            $ref: '#/components/schemas/SubChannel'
           readOnly: true
         channel_type:
           type: string
@@ -2391,16 +2375,13 @@ components:
           readOnly: true
         name:
           type: string
-          pattern: ^[A-Za-z0-9_]+$
+          pattern: ^[A-Za-z0-9_-]+$
           maxLength: 100
         title:
           type: string
           maxLength: 100
         about:
           nullable: true
-        ga_tracking_id:
-          type: string
-          maxLength: 24
         configuration:
           nullable: true
         search_filter:
@@ -2408,6 +2389,9 @@ components:
           maxLength: 2048
         public_description:
           type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
         widget_list:
           type: integer
           nullable: true
@@ -2422,7 +2406,7 @@ components:
       - is_moderator
       - lists
       - name
-      - subfields
+      - sub_channels
       - title
       - topic_detail
       - updated_on
@@ -2431,6 +2415,117 @@ components:
       - topic
       type: string
       description: '* `topic` - Topic'
+      x-enum-descriptions:
+      - Topic
+    UnitChannel:
+      type: object
+      description: Serializer for Channel model of type unit
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        avatar:
+          type: string
+          nullable: true
+          description: Get the avatar image URL
+        avatar_small:
+          type: string
+          nullable: true
+          description: Get the avatar image small URL
+          readOnly: true
+        avatar_medium:
+          type: string
+          nullable: true
+          description: Get the avatar image medium URL
+          readOnly: true
+        banner:
+          type: string
+          nullable: true
+          description: Get the banner image URL
+        is_moderator:
+          type: boolean
+          description: Return true if user is a moderator for the channel
+          readOnly: true
+        lists:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+        channel_url:
+          type: string
+          description: Get the URL for the channel
+          readOnly: true
+        featured_list:
+          allOf:
+          - $ref: '#/components/schemas/LearningPathPreview'
+          readOnly: true
+          nullable: true
+          description: Learning path featured in this channel.
+        sub_channels:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubChannel'
+          readOnly: true
+        channel_type:
+          type: string
+          default: unit
+          allOf:
+          - $ref: '#/components/schemas/UnitChannelTypeEnum'
+          readOnly: true
+        unit_detail:
+          $ref: '#/components/schemas/ChannelUnitDetail'
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9_-]+$
+          maxLength: 100
+        title:
+          type: string
+          maxLength: 100
+        about:
+          nullable: true
+        configuration:
+          nullable: true
+        search_filter:
+          type: string
+          maxLength: 2048
+        public_description:
+          type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
+        widget_list:
+          type: integer
+          nullable: true
+      required:
+      - avatar_medium
+      - avatar_small
+      - channel_type
+      - channel_url
+      - created_on
+      - featured_list
+      - id
+      - is_moderator
+      - lists
+      - name
+      - sub_channels
+      - title
+      - unit_detail
+      - updated_on
+    UnitChannelTypeEnum:
+      enum:
+      - unit
+      type: string
+      description: '* `unit` - Unit'
+      x-enum-descriptions:
+      - Unit
     User:
       type: object
       description: Serializer for User
@@ -2586,3 +2681,8 @@ components:
         * `URL` - URL
         * `RSS Feed` - RSS Feed
         * `People` - People
+      x-enum-descriptions:
+      - Markdown
+      - URL
+      - RSS Feed
+      - People

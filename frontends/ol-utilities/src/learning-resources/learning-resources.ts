@@ -28,7 +28,7 @@ const embedlyCroppedImage = (
   )}&height=${height}&width=${width}&grow=true&animate=false&errorurl=${BLANK_IMAGE}`
 
 const DEFAULT_RESOURCE_IMG = new URL(
-  "/static/images/default_resource_thumb.jpg",
+  "/static/images/default_resource.jpg",
   window.location.origin,
 ).toString()
 

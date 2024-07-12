@@ -21,9 +21,11 @@ const mergeOverrides = <T>(
 export { mergeOverrides }
 
 export * as articles from "./articles"
-export * as fields from "./fields"
+export * as channels from "./channels"
 export * as learningResources from "./learningResources"
 export * as newsEvents from "./newsEvents"
 export * as percolateQueries from "./percolateQueries"
 export * as letters from "./programLetters"
 export * as userLists from "./userLists"
+export * as user from "./user"
+export * as testimonials from "./testimonials"

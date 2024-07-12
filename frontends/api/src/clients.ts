@@ -18,11 +18,14 @@ import {
   WidgetListsApi,
   UsersApi,
   NewsEventsApi,
+  ProfilesApi,
+  TestimonialsApi,
 } from "./generated/v0/api"
 
 import axiosInstance from "./axios"
 
-const BASE_PATH = APP_SETTINGS.axios_base_path?.replace(/\/+$/, "") ?? ""
+const BASE_PATH = process.env.MITOPEN_API_BASE_URL?.replace(/\/+$/, "") ?? ""
+
 const learningResourcesApi = new LearningResourcesApi(
   undefined,
   BASE_PATH,
@@ -71,9 +74,12 @@ const searchSubscriptionApi = new LearningResourcesUserSubscriptionApi(
 
 const usersApi = new UsersApi(undefined, BASE_PATH, axiosInstance)
 
+const profilesApi = new ProfilesApi(undefined, BASE_PATH, axiosInstance)
+
 const schoolsApi = new SchoolsApi(undefined, BASE_PATH, axiosInstance)
 
 const newsEventsApi = new NewsEventsApi(undefined, BASE_PATH, axiosInstance)
+const testimonialsApi = new TestimonialsApi(undefined, BASE_PATH, axiosInstance)
 
 export {
   learningResourcesApi,
@@ -87,9 +93,11 @@ export {
   channelsApi,
   widgetListsApi,
   usersApi,
+  profilesApi,
   platformsApi,
   searchSubscriptionApi,
   schoolsApi,
   newsEventsApi,
   featuredApi,
+  testimonialsApi,
 }

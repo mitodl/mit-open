@@ -1,38 +1,20 @@
 import React from "react"
-import { Container, styled, theme, Button, Typography } from "ol-components"
+import { Container, styled, theme, Typography, ButtonLink } from "ol-components"
 import { Link } from "react-router-dom"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
-import {
-  RiPaletteLine,
-  RiSeedlingLine,
-  RiBriefcaseLine,
-  RiMacbookLine,
-  RiBarChartBoxLine,
-  RiUserSearchLine,
-  RiEarthLine,
-  RiArrowRightLine,
-} from "@remixicon/react"
-
-/* TODO Using any icons until we have a solution for specifying them */
-const ICONS = [
-  RiBriefcaseLine,
-  RiPaletteLine,
-  RiSeedlingLine,
-  RiMacbookLine,
-  RiBarChartBoxLine,
-  RiUserSearchLine,
-  RiEarthLine,
-]
+import { RiArrowRightLine } from "@remixicon/react"
+import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 
 const Section = styled.section`
-  background:
-    linear-gradient(270deg, rgba(243 244 248 / 0%) 0%, rgb(243 244 248) 100%),
-    url("/static/images/open-bg-texture-wgradient.jpg") lightgray 50% / cover
-      no-repeat;
-  background-position: center right;
+  background: #fff url("/static/images/open-bg-texture-with-gradient.svg")
+    no-repeat center left;
+  background-size: 135% auto;
   padding: 80px 0;
   ${theme.breakpoints.down("md")} {
     padding: 40px 0;
+  }
+  ${theme.breakpoints.down("sm")} {
+    padding: 32px 0;
   }
 `
 
@@ -53,7 +35,7 @@ const Topics = styled.div`
 
 const TopicBox = styled(Link)`
   flex: 0 1 calc(100% * (1 / 3) - 16px);
-  padding: 28px 30px;
+  padding: 24px;
   ${theme.breakpoints.down("md")} {
     flex: 0 1 100%;
     padding: 18px 15px;
@@ -104,11 +86,11 @@ const TopicBoxName = styled.p`
   margin: 0;
 `
 
-const SeeAllButton = styled(Button)`
+const SeeAllButton = styled(ButtonLink)`
   margin: 0 auto;
   box-sizing: content-box;
-  text-transform: none;
-  display: block;
+  display: flex;
+  width: 152px;
 `
 
 const BrowseTopicsSection: React.FC = () => {
@@ -117,25 +99,22 @@ const BrowseTopicsSection: React.FC = () => {
   return (
     <Section>
       <Container>
-        <Title variant="h2">Browse by Topics</Title>
+        <Title variant="h2">Browse by Topic</Title>
         <Topics>
-          {topics?.results.map(
-            ({ id, name, channel_url: channelUrl }, index) => {
-              const Icon = ICONS[index % ICONS.length]
-              return (
-                <TopicBox key={id} to={channelUrl!}>
-                  <TopicBoxContent>
-                    <Icon />
-                    <TopicBoxName>{name}</TopicBoxName>
-                    <RiArrowRightLine />
-                  </TopicBoxContent>
-                </TopicBox>
-              )
-            },
-          )}
+          {topics?.results.map(({ id, name, channel_url: channelUrl }) => {
+            return (
+              <TopicBox key={id} to={channelUrl!}>
+                <TopicBoxContent>
+                  <RootTopicIcon name={name} />
+                  <TopicBoxName>{name}</TopicBoxName>
+                  <RiArrowRightLine />
+                </TopicBoxContent>
+              </TopicBox>
+            )
+          })}
         </Topics>
-        <SeeAllButton edge="rounded" size="large">
-          See all (coming soon)
+        <SeeAllButton href="/topics/" size="large" responsive>
+          See all
         </SeeAllButton>
       </Container>
     </Section>

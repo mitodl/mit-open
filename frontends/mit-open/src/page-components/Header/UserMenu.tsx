@@ -27,7 +27,7 @@ const UserMenuContainer = styled.button({
 })
 
 const LoginButtonContainer = styled(FlexContainer)(({ theme }) => ({
-  paddingRight: "32px",
+  paddingLeft: "24px",
   "&:hover": {
     textDecoration: "none",
   },
@@ -110,19 +110,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
       href: urls.DASHBOARD,
     },
     {
-      label: "User Lists",
-      key: "userlists",
-      allow: !!user?.is_authenticated,
-      href: urls.USERLIST_LISTING,
-    },
-    {
       label: "Learning Paths",
       key: "learningpaths",
       allow: !!user?.is_learning_path_editor,
       href: urls.LEARNINGPATH_LISTING,
     },
     {
-      label: "Log out",
+      label: "Log Out",
       key: "logout",
       allow: !!user?.is_authenticated,
       href: urls.LOGOUT,
@@ -159,12 +153,11 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
           <FlexContainer className="login-button-desktop">
             <ButtonLink
               data-testid="login-button-desktop"
-              edge="rounded"
               size="small"
-              nativeAnchor={true}
+              reloadDocument={true}
               href={loginUrl}
             >
-              Sign Up / Login
+              Log In
             </ButtonLink>
           </FlexContainer>
         ) : (
@@ -174,9 +167,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
           <FlexContainer className="login-button-mobile">
             <ActionButtonLink
               data-testid="login-button-mobile"
-              edge="rounded"
+              edge="circular"
               variant="text"
-              nativeAnchor={true}
+              reloadDocument={true}
               href={loginUrl}
             >
               <UserIcon data-testid="UserIcon" />

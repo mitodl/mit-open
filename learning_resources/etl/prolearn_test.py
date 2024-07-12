@@ -7,7 +7,12 @@ from urllib.parse import urljoin, urlparse
 
 import pytest
 
-from learning_resources.constants import LearningResourceFormat, OfferedBy, PlatformType
+from learning_resources.constants import (
+    CertificationType,
+    LearningResourceFormat,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.prolearn import (
     PROLEARN_BASE_URL,
@@ -31,6 +36,7 @@ from learning_resources.factories import (
 )
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
 from main.test_utils import assert_json_equal
+from main.utils import clean_data
 
 pytestmark = pytest.mark.django_db
 
@@ -40,7 +46,7 @@ def _mock_offerors_platforms():
     """Make sure necessary platforms and offerors exist"""
     LearningResourcePlatformFactory.create(code="csail")
     LearningResourceOfferorFactory.create(
-        name="Professional Education", code="mitpe", professional=True
+        name="MIT Professional Education", code="mitpe", professional=True
     )
     LearningResourcePlatformFactory.create(
         code="mitpe", name="MIT Professional Education"
@@ -62,7 +68,7 @@ def mock_csail_programs_data():
 
 @pytest.fixture()
 def mock_mitpe_courses_data():
-    """Mock prolearn Professional Education courses data"""
+    """Mock prolearn MIT Professional Education courses data"""
     with open("./test_json/prolearn_mitpe_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
@@ -133,6 +139,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
         {
             "readable_id": f"prolearn-{PlatformType.csail.name}-{program['nid']}",
             "title": program["title"],
+            "description": clean_data(program["body"]),
             "url": (
                 program["course_link"]
                 or program["course_application_url"]
@@ -145,13 +152,22 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             "professional": True,
             "learning_format": transform_format(program["format_name"]),
             "certification": True,
+            "certification_type": CertificationType.professional.name,
             "runs": [
                 {
                     "run_id": f"{program['nid']}_{start_val}",
                     "title": program["title"],
-                    "prices": parse_price(program),
+                    "image": parse_image(program),
+                    "description": clean_data(program["body"]),
                     "start_date": parse_date(start_val),
                     "end_date": parse_date(end_val),
+                    "published": True,
+                    "prices": parse_price(program),
+                    "url": (
+                        program["course_link"]
+                        or program["course_application_url"]
+                        or urljoin(PROLEARN_BASE_URL, program["url"])
+                    ),
                 }
                 for (start_val, end_val) in zip(
                     program["start_value"], program["end_value"]
@@ -166,6 +182,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                     "offered_by": None,
                     "professional": True,
                     "certification": True,
+                    "certification_type": CertificationType.professional.name,
                     "etl_source": ETLSource.prolearn.name,
                     "runs": [
                         {
@@ -178,7 +195,7 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             ],
             "unique_field": UNIQUE_FIELD,
         }
-        for program in extracted_data
+        for program in extracted_data[1:]
     ]
     assert_json_equal(expected, result)
 
@@ -195,10 +212,11 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "etl_source": ETLSource.prolearn.name,
             "title": course["title"],
             "image": parse_image(course),
-            "description": course["body"],
+            "description": clean_data(course["body"]),
             "published": True,
             "professional": True,
             "certification": True,
+            "certification_type": CertificationType.professional.name,
             "learning_format": transform_format(course["format_name"]),
             "topics": parse_topic(course),
             "url": course["course_link"]
@@ -212,7 +230,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                     "run_id": f"{course['nid']}_{start_val}",
                     "title": course["title"],
                     "image": parse_image(course),
-                    "description": course["body"],
+                    "description": clean_data(course["body"]),
                     "start_date": parse_date(start_val),
                     "end_date": parse_date(end_val),
                     "published": True,
@@ -220,7 +238,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                     "url": (
                         course["course_link"]
                         or course["course_application_url"]
-                        or course["url"]
+                        or urljoin(PROLEARN_BASE_URL, course["url"])
                     ),
                 }
                 for (start_val, end_val) in zip(
@@ -230,7 +248,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "course": {"course_numbers": []},
             "unique_field": UNIQUE_FIELD,
         }
-        for course in extracted_data
+        for course in extracted_data[2:]
     ]
     assert_json_equal(expected, result)
 
@@ -283,7 +301,7 @@ def test_parse_topic(topic, expected):
 @pytest.mark.parametrize(
     ("department", "offered_by"),
     [
-        ("MIT Professional Education", "Professional Education"),
+        ("MIT Professional Education", "MIT Professional Education"),
         ("MIT Other", None),
     ],
 )

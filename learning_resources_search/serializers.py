@@ -13,18 +13,29 @@ from rest_framework.utils.urls import replace_query_param
 
 from learning_resources.constants import (
     DEPARTMENTS,
+    GROUP_STAFF_LISTS_EDITORS,
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
+    RESOURCE_CATEGORY_VALUES,
+    CertificationType,
     LearningResourceFormat,
+    LearningResourceRelationTypes,
     LearningResourceType,
     LevelType,
     OfferedBy,
     PlatformType,
 )
-from learning_resources.models import LearningResource
+from learning_resources.models import (
+    LearningResource,
+    LearningResourceRelationship,
+    UserListRelationship,
+)
 from learning_resources.serializers import (
     ContentFileSerializer,
     CourseNumberSerializer,
     LearningResourceSerializer,
+    MicroLearningPathRelationshipSerializer,
+    MicroUserListRelationshipSerializer,
 )
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
@@ -70,6 +81,8 @@ def serialize_learning_resource_for_update(
     return {
         "resource_relations": {"name": "resource"},
         "created_on": learning_resource_obj.created_on,
+        "is_learning_material": serialized_data["resource_category"]
+        == LEARNING_MATERIAL_RESOURCE_CATEGORY,
         **serialized_data,
     }
 
@@ -80,6 +93,8 @@ def extract_values(obj, key):
 
     Args:
         obj(dict): The JSON object
+
+
         key(str): The JSON key to search for and extract
 
     Returns:
@@ -102,20 +117,6 @@ def extract_values(obj, key):
         return array
 
     return extract(obj, array, key)
-
-
-class StringArrayField(serializers.ListField):
-    """
-    Character separated ListField.
-    """
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-    def to_internal_value(self, data):
-        normalized = ",".join(data).split(",")
-
-        return super().to_internal_value(normalized)
 
 
 class ArrayWrappedBoolean(serializers.BooleanField):
@@ -156,6 +157,7 @@ CONTENT_FILE_SORTBY_OPTIONS = [
 LEARNING_RESOURCE_AGGREGATIONS = [
     "resource_type",
     "certification",
+    "certification_type",
     "offered_by",
     "platform",
     "topic",
@@ -165,6 +167,7 @@ LEARNING_RESOURCE_AGGREGATIONS = [
     "professional",
     "free",
     "learning_format",
+    "resource_category",
 ]
 
 CONTENT_FILE_AGGREGATIONS = ["topic", "content_feature_type", "platform", "offered_by"]
@@ -179,7 +182,7 @@ class SearchRequestSerializer(serializers.Serializer):
         required=False, help_text="Number of results to return per page"
     )
     offered_by_choices = [(e.name.lower(), e.value) for e in OfferedBy]
-    offered_by = StringArrayField(
+    offered_by = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(choices=offered_by_choices),
         help_text=(
@@ -188,7 +191,7 @@ class SearchRequestSerializer(serializers.Serializer):
         ),
     )
     platform_choices = [(e.name.lower(), e.value) for e in PlatformType]
-    platform = StringArrayField(
+    platform = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(choices=platform_choices),
         help_text=(
@@ -196,7 +199,7 @@ class SearchRequestSerializer(serializers.Serializer):
             \n\n{build_choice_description_list(platform_choices)}"
         ),
     )
-    topic = StringArrayField(
+    topic = serializers.ListField(
         required=False,
         child=serializers.CharField(),
         help_text="The topic name. To see a list of options go to api/v1/topics/",
@@ -211,7 +214,7 @@ class SearchRequestSerializer(serializers.Serializer):
 
 
 class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
-    id = StringArrayField(
+    id = serializers.ListField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value for the learning resource",
@@ -225,7 +228,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         help_text="If the parameter starts with '-' the sort is in descending order",
     )
     resource_choices = [(e.name, e.value.lower()) for e in LearningResourceType]
-    resource_type = StringArrayField(
+    resource_type = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(
             choices=resource_choices,
@@ -251,8 +254,19 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         default=None,
         help_text="True if the learning resource offers a certificate",
     )
+    certification_choices = CertificationType.as_tuple()
+    certification_type = serializers.ListField(
+        required=False,
+        child=serializers.ChoiceField(
+            choices=certification_choices,
+        ),
+        help_text=(
+            f"The type of certificate \
+            \n\n{build_choice_description_list(certification_choices)}"
+        ),
+    )
     department_choices = list(DEPARTMENTS.items())
-    department = StringArrayField(
+    department = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(choices=department_choices),
         help_text=(
@@ -261,23 +275,23 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         ),
     )
 
-    level = StringArrayField(
+    level = serializers.ListField(
         required=False, child=serializers.ChoiceField(choices=LevelType.as_list())
     )
 
-    course_feature = StringArrayField(
+    course_feature = serializers.ListField(
         required=False,
         child=serializers.CharField(),
         help_text="The course feature. "
         "Possible options are at api/v1/course_features/",
     )
-    aggregations = StringArrayField(
+    aggregations = serializers.ListField(
         required=False,
         help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=LEARNING_RESOURCE_AGGREGATIONS),
     )
     learning_format_choices = LearningResourceFormat.as_list()
-    learning_format = StringArrayField(
+    learning_format = serializers.ListField(
         required=False,
         child=serializers.ChoiceField(choices=learning_format_choices),
         help_text=(
@@ -285,10 +299,23 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
             \n\n{build_choice_description_list(learning_format_choices)}"
         ),
     )
+    resource_category_choices = [
+        (value, value.replace("_", " ").title()) for value in RESOURCE_CATEGORY_VALUES
+    ]
+    resource_category = serializers.ListField(
+        required=False,
+        child=serializers.ChoiceField(
+            choices=resource_category_choices,
+        ),
+        help_text=(
+            f"The category of learning resource \
+            \n\n{build_choice_description_list(resource_category_choices)}"
+        ),
+    )
 
 
 class ContentFileSearchRequestSerializer(SearchRequestSerializer):
-    id = StringArrayField(
+    id = serializers.ListField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value for the content file",
@@ -298,23 +325,23 @@ class ContentFileSearchRequestSerializer(SearchRequestSerializer):
         choices=CONTENT_FILE_SORTBY_OPTIONS,
         help_text="if the parameter starts with '-' the sort is in descending order",
     )
-    content_feature_type = StringArrayField(
+    content_feature_type = serializers.ListField(
         required=False,
         child=serializers.CharField(),
         help_text="The feature type of the content file. "
         "Possible options are at api/v1/course_features/",
     )
-    aggregations = StringArrayField(
+    aggregations = serializers.ListField(
         required=False,
         help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=CONTENT_FILE_AGGREGATIONS),
     )
-    run_id = StringArrayField(
+    run_id = serializers.ListField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value of the run that the content file belongs to",
     )
-    resource_id = StringArrayField(
+    resource_id = serializers.ListField(
         required=False,
         child=serializers.IntegerField(),
         help_text="The id value of the parent learning resource for the content file",
@@ -438,10 +465,6 @@ class SearchResponseSerializer(serializers.Serializer):
     def get_count(self, instance) -> int:
         return instance.get("hits", {}).get("total", {}).get("value")
 
-    def get_results(self, instance):
-        hits = instance.get("hits", {}).get("hits", [])
-        return (hit.get("_source") for hit in hits)
-
     def get_metadata(self, instance) -> SearchResponseMetadata:
         return {
             "aggregations": _transform_aggregations(instance.get("aggregations", {})),
@@ -450,20 +473,83 @@ class SearchResponseSerializer(serializers.Serializer):
 
 
 class PercolateQuerySerializer(serializers.ModelSerializer):
+    """
+    Serializer for PercolateQuery objects
+    """
+
     class Meta:
         model = PercolateQuery
-        exclude = COMMON_IGNORED_FIELDS
+        exclude = (*COMMON_IGNORED_FIELDS, "users")
 
 
-class LearningResourceSearchResponseSerializer(SearchResponseSerializer):
+class LearningResourcesSearchResponseSerializer(SearchResponseSerializer):
     """
     SearchResponseSerializer with OpenAPI annotations for Learning Resources
     search
     """
 
+    def update_path_parents(self, hits):
+        """Fill in learning_path_parents for path editors"""
+
+        request = self.context.get("request")
+        if request and request.user and request.user.is_authenticated:
+            learning_path_parents_dict = {}
+            hit_ids = [hit.get("_id") for hit in hits]
+
+            # Get learning path parents for all returned resources
+            learning_path_parents = LearningResourceRelationship.objects.filter(
+                child__id__in=hit_ids,
+                relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,
+            ).values("id", "child_id", "parent_id")
+            for parent in learning_path_parents:
+                learning_path_parents_dict.setdefault(
+                    str(parent["child_id"]), []
+                ).append(parent)
+
+            for hit in hits:
+                if hit["_id"] in learning_path_parents_dict:
+                    hit["_source"]["learning_path_parents"] = (
+                        MicroLearningPathRelationshipSerializer(
+                            instance=learning_path_parents_dict[hit["_id"]], many=True
+                        ).data
+                    )
+
+    def update_list_parents(self, hits, user):
+        """Fill in user_list_parents for users"""
+        user_list_parents_dict = {}
+        hit_ids = [hit.get("_id") for hit in hits]
+
+        # Get user_list_parents for all returned resources
+        user_list_parents = UserListRelationship.objects.filter(
+            parent__author=user, child_id__in=hit_ids
+        ).values("id", "child_id", "parent_id")
+        for parent in user_list_parents:
+            user_list_parents_dict.setdefault(str(parent["child_id"]), []).append(
+                parent
+            )
+
+        for hit in hits:
+            if hit["_id"] in user_list_parents_dict:
+                hit["_source"]["user_list_parents"] = (
+                    MicroUserListRelationshipSerializer(
+                        instance=user_list_parents_dict[hit["_id"]], many=True
+                    ).data
+                )
+
     @extend_schema_field(LearningResourceSerializer(many=True))
-    def get_results():
-        return super().get_results()
+    def get_results(self, instance):
+        hits = instance.get("hits", {}).get("hits", [])
+        request = self.context.get("request")
+        if request and request.user and request.user.is_authenticated:
+            self.update_list_parents(hits, request.user)
+            if (
+                request.user.is_staff
+                or request.user.is_superuser
+                or request.user.groups.filter(name=GROUP_STAFF_LISTS_EDITORS).first()
+                is not None
+            ):
+                self.update_path_parents(hits)
+        return (hit.get("_source") for hit in hits)
 
 
 class ContentFileSearchResponseSerializer(SearchResponseSerializer):
@@ -472,8 +558,9 @@ class ContentFileSearchResponseSerializer(SearchResponseSerializer):
     """
 
     @extend_schema_field(ContentFileSerializer(many=True))
-    def get_results():
-        return super().get_results()
+    def get_results(self, instance):
+        hits = instance.get("hits", {}).get("hits", [])
+        return (hit.get("_source") for hit in hits)
 
 
 class PercolateQuerySubscriptionRequestSerializer(

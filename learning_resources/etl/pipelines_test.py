@@ -79,7 +79,7 @@ def test_mitxonline_programs_etl():
     mock_load_programs.assert_called_once_with(
         ETLSource.mitxonline.name,
         mock_transform.return_value,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True), prune=True),
     )
 
     assert result == mock_load_programs.return_value

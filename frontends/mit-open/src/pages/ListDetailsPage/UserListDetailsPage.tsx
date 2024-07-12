@@ -8,7 +8,7 @@ import {
 } from "api/hooks/learningResources"
 
 import { ListType } from "api/constants"
-import ListDetailsPage from "./ListDetailsPage"
+import { ListDetailsPage } from "./ListDetailsPage"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 
 type RouteParams = {
@@ -17,7 +17,7 @@ type RouteParams = {
 
 const UserListDetailsPage: React.FC = () => {
   const id = Number(useParams<RouteParams>().id)
-  const pathQuery = useUserListsDetail(id)
+  const listQuery = useUserListsDetail(id)
   const itemsQuery = useInfiniteUserListItems({ userlist_id: id })
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
@@ -27,12 +27,11 @@ const UserListDetailsPage: React.FC = () => {
   return (
     <ListDetailsPage
       listType={ListType.UserList}
-      title={pathQuery?.data?.title}
-      description={pathQuery.data?.description}
+      list={listQuery.data}
       items={items}
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}
-      handleEdit={() => manageListDialogs.upsertUserList(pathQuery.data)}
+      handleEdit={() => manageListDialogs.upsertUserList(listQuery.data)}
     />
   )
 }

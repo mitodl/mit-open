@@ -20,8 +20,7 @@ REQUIRED_SETTINGS = {
     "MAILGUN_KEY": "fake_mailgun_key",
     "MITOPEN_COOKIE_NAME": "cookie_monster",
     "MITOPEN_COOKIE_DOMAIN": "od.fake.domain",
-    "MITOPEN_BASE_URL": "http:localhost:8063/",
-    "INDEXING_API_USERNAME": "mitodl",
+    "MITOPEN_APP_BASE_URL": "http:localhost:8063/",
 }
 
 

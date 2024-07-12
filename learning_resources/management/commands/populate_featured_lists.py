@@ -6,7 +6,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.management import BaseCommand
 
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -47,10 +47,8 @@ class Command(BaseCommand):
             self.stdout.write(f"Creating featured list for {offeror.name} channel")
 
             # Get the channel for the offeror
-            offeror_channel = FieldChannel.objects.filter(
-                offeror_detail__offeror=offeror
-            ).first()
-            if not offeror_channel:
+            unit_channel = Channel.objects.filter(unit_detail__unit=offeror).first()
+            if not unit_channel:
                 self.stderr.write(
                     f"{offeror.name} channel not found, run backpopulate_resource_channels"  # noqa: E501
                 )
@@ -84,11 +82,11 @@ class Command(BaseCommand):
                 )
 
             # Assign the learning path as the offeror channel's featured list
-            offeror_channel.featured_list = learning_path
-            offeror_channel.save()
+            unit_channel.featured_list = learning_path
+            unit_channel.save()
 
         total_seconds = (now_in_utc() - start).total_seconds()
         self.stdout.write(
-            "Population of offeror channel featured lists finished, "
+            "Population of unit channel featured lists finished, "
             f"took {total_seconds} seconds"
         )

@@ -75,7 +75,7 @@ describe("ManageWidgetDialog (Editing)", () => {
   })
 
   it("passes classes to relevant elements", async () => {
-    const fakerClassName = () => faker.helpers.unique(faker.lorem.slug)
+    const fakerClassName = () => faker.lorem.slug()
     const classes = {
       label: fakerClassName(),
       field: fakerClassName(),
@@ -83,13 +83,9 @@ describe("ManageWidgetDialog (Editing)", () => {
       dialog: fakerClassName(),
     }
     await setupEditingDialog({ classes })
-    // eslint-disable-next-line testing-library/no-node-access
     const dialog = document.querySelector(`.${classes.dialog}`) as HTMLElement
-    // eslint-disable-next-line testing-library/no-node-access
     const labels = dialog.querySelectorAll("label")
-    // eslint-disable-next-line testing-library/no-node-access
     const inputs = dialog.querySelectorAll("input, textarea")
-    // eslint-disable-next-line testing-library/no-node-access
     const groups = dialog.querySelectorAll(`.${classes.fieldGroup}`)
 
     expect(dialog).toHaveClass(classes.dialog)
@@ -129,7 +125,7 @@ describe("Adding new widgets", () => {
     const { specs } = await setupAddingWidget()
     // The dialog has radio buttons for each available widget
     const radios = screen.getAllByRole("radio")
-    // eslint-disable-next-line testing-library/no-node-access
+
     const labels = radios.map((r) => r.closest("label"))
     labels.forEach((label, i) => {
       expect(label).toHaveTextContent(specs[i].description)

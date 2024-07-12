@@ -1,18 +1,17 @@
 """Tests for learning_resources serializers"""
 
-from urllib.parse import urljoin
-
 import pytest
-from django.conf import settings
 
 from channels.factories import (
     ChannelDepartmentDetailFactory,
-    ChannelOfferorDetailFactory,
     ChannelTopicDetailFactory,
+    ChannelUnitDetailFactory,
 )
-from channels.models import FieldChannel
+from channels.models import Channel
 from learning_resources import factories, serializers, utils
 from learning_resources.constants import (
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
+    CertificationType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -21,6 +20,7 @@ from learning_resources.constants import (
 from learning_resources.factories import LearningResourceFactory
 from learning_resources.serializers import LearningResourceSerializer
 from main.test_utils import assert_json_equal, drf_datetime
+from main.utils import frontend_absolute_url
 
 pytestmark = pytest.mark.django_db
 
@@ -68,7 +68,9 @@ def test_serialize_program_to_json():
             "courses": [
                 # this is currently messy because program.courses is a list of LearningResourceRelationships
                 serializers.CourseResourceSerializer(instance=course_rel.child).data
-                for course_rel in program.courses.filter(child__published=True)
+                for course_rel in program.courses.filter(
+                    child__published=True
+                ).order_by("child__next_start_date", "child__id")
             ]
         },
     )
@@ -187,6 +189,14 @@ def test_learning_resource_serializer(  # noqa: PLR0913
     ).data
     expected = specific_serializer_cls(instance=resource, context=context).data
 
+    if resource.resource_type in [
+        LearningResourceType.course.name,
+        LearningResourceType.program.name,
+    ]:
+        resource_category = resource.resource_type
+    else:
+        resource_category = LEARNING_MATERIAL_RESOURCE_CATEGORY
+
     assert result == expected
 
     assert result == {
@@ -203,14 +213,24 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "platform": serializers.LearningResourcePlatformSerializer(
             instance=resource.platform
         ).data,
-        "prices": resource.prices,
+        "prices": sorted([f"{price:.2f}" for price in resource.prices]),
         "professional": resource.professional,
         "certification": resource.certification,
+        "certification_type": {
+            "code": resource.certification_type,
+            "name": CertificationType[resource.certification_type].value,
+        },
         "free": (
-            not resource.professional
-            and detail_key
+            detail_key
             not in (LearningResourceType.course.name, LearningResourceType.program.name)
+            or (
+                not resource.professional
+                and (
+                    not resource.prices or all(price == 0 for price in resource.prices)
+                )
+            )
         ),
+        "resource_category": resource_category,
         "published": resource.published,
         "readable_id": resource.readable_id,
         "course_feature": sorted([tag.name for tag in resource.content_tags.all()]),
@@ -224,9 +244,8 @@ def test_learning_resource_serializer(  # noqa: PLR0913
             {
                 "department_id": dept.department_id,
                 "name": dept.name,
-                "channel_url": urljoin(
-                    settings.SITE_BASE_URL,
-                    f"/c/department/{FieldChannel.objects.get(department_detail__department=dept).name}/",
+                "channel_url": frontend_absolute_url(
+                    f"/c/department/{Channel.objects.get(department_detail__department=dept).name}/",
                 ),
                 "school": {
                     "id": dept.school.id,
@@ -441,7 +460,7 @@ def test_learningpathitem_serializer_validation(child_exists):
 @pytest.mark.parametrize("has_channels", [True, False])
 def test_content_file_serializer(settings, expected_types, has_channels):
     """Verify that the ContentFileSerializer has the correct data"""
-    settings.SITE_BASE_URL = "https://test.edu/"
+    settings.APP_BASE_URL = "https://test.edu/"
     content_kwargs = {
         "content": "Test content",
         "content_author": "MIT",
@@ -462,7 +481,7 @@ def test_content_file_serializer(settings, expected_types, has_channels):
             ChannelDepartmentDetailFactory.create(department=department)
             for department in course.learning_resource.departments.all()
         ]
-        ChannelOfferorDetailFactory.create(offeror=course.learning_resource.offered_by)
+        ChannelUnitDetailFactory.create(unit=course.learning_resource.offered_by)
 
     serialized = serializers.ContentFileSerializer(content_file).data
 
@@ -479,9 +498,8 @@ def test_content_file_serializer(settings, expected_types, has_channels):
             "offered_by": {
                 "name": content_file.run.learning_resource.offered_by.name,
                 "code": content_file.run.learning_resource.offered_by.code,
-                "channel_url": urljoin(
-                    settings.SITE_BASE_URL,
-                    f"/c/offeror/{FieldChannel.objects.get(offeror_detail__offeror=content_file.run.learning_resource.offered_by).name}/",
+                "channel_url": frontend_absolute_url(
+                    f"/c/unit/{Channel.objects.get(unit_detail__unit=content_file.run.learning_resource.offered_by).name}/"
                 )
                 if has_channels
                 else None,
@@ -492,9 +510,8 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                 {
                     "name": dept.name,
                     "department_id": dept.department_id,
-                    "channel_url": urljoin(
-                        settings.SITE_BASE_URL,
-                        f"/c/department/{FieldChannel.objects.get(department_detail__department=dept).name}/",
+                    "channel_url": frontend_absolute_url(
+                        f"/c/department/{Channel.objects.get(department_detail__department=dept).name}/"
                     )
                     if has_channels
                     else None,
@@ -515,9 +532,8 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                     "name": topic.name,
                     "id": topic.id,
                     "parent": topic.parent,
-                    "channel_url": urljoin(
-                        settings.SITE_BASE_URL,
-                        f"/c/topic/{FieldChannel.objects.get(topic_detail__topic=topic).name}/"
+                    "channel_url": frontend_absolute_url(
+                        f"/c/topic/{Channel.objects.get(topic_detail__topic=topic).name}/"
                         if has_channels
                         else None,
                     )

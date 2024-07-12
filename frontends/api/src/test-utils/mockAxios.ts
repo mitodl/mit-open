@@ -1,4 +1,5 @@
 import { when } from "jest-when"
+import { isFunction } from "lodash"
 import type { AxiosResponse } from "axios"
 
 const AxiosError = jest.requireActual("axios").AxiosError
@@ -66,7 +67,10 @@ const mockAxiosInstance = {
  * Jest's `expect.anything()` does not match against `null` or `undefined`.
  * This suffices for usage with `when`.
  */
-const expectAnything: unknown = when(() => true)
+const expectAnythingOrNil = expect.toBeOneOf([
+  expect.anything(),
+  expect.toBeNil(),
+])
 
 const standardizeUrl = <T>(url: T) => {
   if (!(typeof url === "string")) return url
@@ -77,17 +81,22 @@ const standardizeUrl = <T>(url: T) => {
   return `${path}?${query.toString()}`
 }
 
-const mockRequest = (
+const mockRequest = <T, U>(
   method: Method,
   url: string,
-  requestBody = expectAnything,
-  responseBody: unknown = undefined,
+  requestBody: T = expectAnythingOrNil,
+  responseBody: U | ((req: T) => U) | undefined = undefined,
   code: number,
 ) => {
   when(makeRequest)
     .calledWith(method, standardizeUrl(url), requestBody)
     .mockImplementation(async () => {
-      const data = await responseBody
+      let data
+      if (isFunction(responseBody)) {
+        data = await responseBody(requestBody)
+      } else {
+        data = await responseBody
+      }
       const response = { data, status: code }
       if (code >= 400) {
         throw new AxiosError(

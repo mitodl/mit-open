@@ -9,9 +9,11 @@ from urllib.parse import urljoin, urlparse
 import requests
 from django.conf import settings
 
+from learning_resources.constants import CertificationType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import transform_format, transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
+from main.utils import clean_data, now_in_utc
 
 log = logging.getLogger(__name__)
 
@@ -66,7 +68,7 @@ def parse_offered_by(document: dict) -> LearningResourceOfferor:
         LearningResourceOfferor: offeror or None
     """
     return LearningResourceOfferor.objects.filter(
-        name=document["department"].lstrip("MIT").strip()
+        name=document["department"].strip()
     ).first()
 
 
@@ -238,10 +240,12 @@ def transform_programs(programs: list[dict]) -> list[dict]:
     for program in programs:
         offered_by = parse_offered_by(program)
         platform = parse_platform(program)
-        if platform:
+        runs = _transform_runs(program)
+        if platform and runs:
             transformed_program = {
                 "readable_id": f'prolearn-{platform}-{program["nid"]}',
                 "title": program["title"],
+                "description": clean_data(program["body"]),
                 "offered_by": {"name": offered_by.name} if offered_by else None,
                 "platform": platform,
                 "etl_source": ETLSource.prolearn.name,
@@ -249,19 +253,9 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                 "image": parse_image(program),
                 "professional": True,
                 "certification": True,
+                "certification_type": CertificationType.professional.name,
                 "learning_format": transform_format(program["format_name"]),
-                "runs": [
-                    {
-                        "run_id": f'{program["nid"]}_{start_value}',
-                        "title": program["title"],
-                        "prices": parse_price(program),
-                        "start_date": parse_date(start_value),
-                        "end_date": parse_date(end_value),
-                    }
-                    for (start_value, end_value) in zip(
-                        program["start_value"], program["end_value"]
-                    )
-                ],
+                "runs": runs,
                 "topics": parse_topic(program),
                 "courses": [
                     {
@@ -270,6 +264,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                         "platform": platform,
                         "etl_source": ETLSource.prolearn.name,
                         "certification": True,
+                        "certification_type": CertificationType.professional.name,
                         "professional": True,
                         "runs": [
                             {
@@ -290,32 +285,34 @@ def transform_programs(programs: list[dict]) -> list[dict]:
     return list(unique_programs.values())
 
 
-def _transform_runs(course_run: dict) -> dict:
+def _transform_runs(resource: dict) -> list[dict]:
     """
-    Transform a course run into our normalized data structure
+    Transform a course/program run into our normalized data structure
 
     Args:
-        course_run (dict): course run data
+        resource (dict): course/program data
 
     Returns:
-        dict: normalized course run data
+        dict: normalized course/program data
     """
-    return [
-        {
-            "run_id": f'{course_run["nid"]}_{start_value}',
-            "title": course_run["title"],
-            "image": parse_image(course_run),
-            "description": course_run["body"],
-            "start_date": parse_date(start_value),
-            "end_date": parse_date(end_value),
-            "published": True,
-            "prices": parse_price(course_run),
-            "url": parse_url(course_run),
-        }
-        for (start_value, end_value) in zip(
-            course_run["start_value"], course_run["end_value"]
-        )
-    ]
+    runs = []
+    for start_value, end_value in zip(resource["start_value"], resource["end_value"]):
+        start_date = parse_date(start_value)
+        if start_date and start_date >= now_in_utc():
+            runs.append(
+                {
+                    "run_id": f'{resource["nid"]}_{start_value}',
+                    "title": resource["title"],
+                    "image": parse_image(resource),
+                    "description": clean_data(resource["body"]),
+                    "start_date": start_date,
+                    "end_date": parse_date(end_value),
+                    "published": True,
+                    "prices": parse_price(resource),
+                    "url": parse_url(resource),
+                }
+            )
+    return runs
 
 
 def _transform_course(
@@ -330,26 +327,30 @@ def _transform_course(
     Returns:
         dict: normalized course data
     """  # noqa: D401
-    return {
-        "readable_id": f'prolearn-{platform}-{course["nid"]}',
-        "offered_by": {"name": offered_by.name} if offered_by else None,
-        "platform": platform,
-        "etl_source": ETLSource.prolearn.name,
-        "professional": True,
-        "certification": True,
-        "title": course["title"],
-        "url": parse_url(course),
-        "image": parse_image(course),
-        "description": course["body"],
-        "course": {
-            "course_numbers": [],
-        },
-        "learning_format": transform_format(course["format_name"]),
-        "published": True,
-        "topics": parse_topic(course),
-        "runs": _transform_runs(course),
-        "unique_field": UNIQUE_FIELD,
-    }
+    runs = _transform_runs(course)
+    if len(runs) > 0:
+        return {
+            "readable_id": f'prolearn-{platform}-{course["nid"]}',
+            "offered_by": {"name": offered_by.name} if offered_by else None,
+            "platform": platform,
+            "etl_source": ETLSource.prolearn.name,
+            "professional": True,
+            "certification": True,
+            "certification_type": CertificationType.professional.name,
+            "title": course["title"],
+            "url": parse_url(course),
+            "image": parse_image(course),
+            "description": clean_data(course["body"]),
+            "course": {
+                "course_numbers": [],
+            },
+            "learning_format": transform_format(course["format_name"]),
+            "published": True,
+            "topics": parse_topic(course),
+            "runs": runs,
+            "unique_field": UNIQUE_FIELD,
+        }
+    return None
 
 
 def transform_courses(courses: list[dict]) -> list[dict]:
@@ -368,9 +369,10 @@ def transform_courses(courses: list[dict]) -> list[dict]:
         platform = parse_platform(course)
         if platform:
             transformed_course = _transform_course(course, offered_by, platform)
-            unique_course = unique_courses.setdefault(
-                transformed_course["url"], transformed_course
-            )
-            update_format(unique_course, transformed_course["learning_format"])
-            unique_courses[transformed_course["url"]] = unique_course
+            if transformed_course:
+                unique_course = unique_courses.setdefault(
+                    transformed_course["url"], transformed_course
+                )
+                update_format(unique_course, transformed_course["learning_format"])
+                unique_courses[transformed_course["url"]] = unique_course
     return list(unique_courses.values())

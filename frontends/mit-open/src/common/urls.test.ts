@@ -1,19 +1,27 @@
 import { login } from "./urls"
 
+const { MITOPEN_API_BASE_URL } = process.env
+
 test("login encodes the next parameter appropriately", () => {
-  expect(login()).toBe("/login/ol-oidc/?next=/")
-  expect(login({})).toBe("/login/ol-oidc/?next=/")
+  expect(login()).toBe(
+    `${MITOPEN_API_BASE_URL}/login/ol-oidc/?next=http://localhost/`,
+  )
+  expect(login({})).toBe(
+    `${MITOPEN_API_BASE_URL}/login/ol-oidc/?next=http://localhost/`,
+  )
 
   expect(
     login({
       pathname: "/foo/bar",
     }),
-  ).toBe("/login/ol-oidc/?next=/foo/bar")
+  ).toBe(`${MITOPEN_API_BASE_URL}/login/ol-oidc/?next=http://localhost/foo/bar`)
 
   expect(
     login({
       pathname: "/foo/bar",
       search: "?cat=meow",
     }),
-  ).toBe("/login/ol-oidc/?next=/foo/bar%3Fcat%3Dmeow")
+  ).toBe(
+    `${MITOPEN_API_BASE_URL}/login/ol-oidc/?next=http://localhost/foo/bar%3Fcat%3Dmeow`,
+  )
 })

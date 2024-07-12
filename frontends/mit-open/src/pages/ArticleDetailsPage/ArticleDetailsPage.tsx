@@ -24,12 +24,9 @@ const ArticlesDetailPage: React.FC = () => {
   return (
     <BannerPage
       src="/static/images/course_search_banner.png"
-      alt=""
       className="articles-detail-page"
     >
-      <MetaTags>
-        <title>{article.data?.title}</title>
-      </MetaTags>
+      <MetaTags title={article.data?.title} />
       <Container maxWidth="sm">
         <GridContainer>
           <GridColumn variant="single-full" container>
@@ -45,7 +42,7 @@ const ArticlesDetailPage: React.FC = () => {
                   alignItems="center"
                   display="flex"
                 >
-                  <ButtonLink variant="outlined" href={articlesEditView(id)}>
+                  <ButtonLink variant="secondary" href={articlesEditView(id)}>
                     Edit
                   </ButtonLink>
                 </Grid>

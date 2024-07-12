@@ -60,6 +60,7 @@ class FilterConfig:
 LEARNING_RESOURCE_SEARCH_FILTERS = {
     "resource_type": FilterConfig("resource_type"),
     "certification": FilterConfig("certification"),
+    "certification_type": FilterConfig("certification_type.code"),
     "professional": FilterConfig("professional"),
     "free": FilterConfig("free"),
     "id": FilterConfig("id", case_sensitive=True),
@@ -73,6 +74,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = {
     "platform": FilterConfig("platform.code"),
     "offered_by": FilterConfig("offered_by.code"),
     "learning_format": FilterConfig("learning_format.code"),
+    "resource_category": FilterConfig("resource_category"),
 }
 
 SEARCH_NESTED_FILTERS = {
@@ -101,7 +103,15 @@ LEARNING_RESOURCE_MAP = {
     "resource_relations": {"type": "join", "relations": {"resource": "content_file"}},
     "id": {"type": "long"},
     "certification": {"type": "boolean"},
+    "certification_type": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
     "free": {"type": "boolean"},
+    "is_learning_material": {"type": "boolean"},
     "learning_format": {
         "type": "nested",
         "properties": {
@@ -149,6 +159,7 @@ LEARNING_RESOURCE_MAP = {
     },
     "professional": {"type": "boolean"},
     "resource_type": {"type": "keyword"},
+    "resource_category": {"type": "keyword"},
     "topics": {
         "type": "nested",
         "properties": {
@@ -327,8 +338,8 @@ RUNS_QUERY_FIELDS = [
 
 RUN_INSTRUCTORS_QUERY_FIELDS = [
     "runs.instructors.first_name",
-    "runs.instructors.last_name",
-    "runs.instructors.full_name",
+    "runs.instructors.last_name^5",
+    "runs.instructors.full_name^5",
 ]
 
 RESOURCEFILE_QUERY_FIELDS = [
@@ -360,4 +371,5 @@ SOURCE_EXCLUDED_FIELDS = [
     "course.course_numbers.sort_coursenum",
     "course.course_numbers.primary",
     "resource_relations",
+    "is_learning_material",
 ]

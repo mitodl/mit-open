@@ -9,11 +9,18 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 
+from learning_resources.constants import LearningResourceFormat
+from learning_resources.factories import LearningResourceTopicFactory
+from learning_resources.serializers import LearningResourceTopicSerializer
 from learning_resources_search.serializers_test import get_request_object
 from profiles.factories import ProgramCertificateFactory, ProgramLetterFactory
-from profiles.models import ProgramLetter
-from profiles.serializers import ProgramCertificateSerializer, ProgramLetterSerializer
-from profiles.utils import DEFAULT_PROFILE_IMAGE
+from profiles.models import Profile
+from profiles.serializers import (
+    ProfileSerializer,
+    ProgramCertificateSerializer,
+    ProgramLetterSerializer,
+)
+from profiles.utils import DEFAULT_PROFILE_IMAGE, IMAGE_MEDIUM, IMAGE_SMALL, image_uri
 
 pytestmark = [pytest.mark.django_db]
 
@@ -22,7 +29,6 @@ def test_list_users(staff_client, staff_user):
     """
     List users
     """
-    profile = staff_user.profile
     url = reverse("profile:v0:user_api-list")
     resp = staff_client.get(url)
     assert resp.status_code == 200
@@ -34,29 +40,7 @@ def test_list_users(staff_client, staff_user):
             "last_name": staff_user.last_name,
             "is_learning_path_editor": True,
             "is_article_editor": True,
-            "profile": {
-                "name": profile.name,
-                "image": profile.image,
-                "image_small": profile.image_small,
-                "image_medium": profile.image_medium,
-                "image_file": f"http://testserver{profile.image_file.url}",
-                "image_small_file": f"http://testserver{profile.image_small_file.url}",
-                "image_medium_file": (
-                    f"http://testserver{profile.image_medium_file.url}"
-                ),
-                "profile_image_small": profile.image_small_file.url,
-                "profile_image_medium": profile.image_medium_file.url,
-                "bio": profile.bio,
-                "headline": profile.headline,
-                "username": staff_user.username,
-                "placename": profile.location.get("value", ""),
-                "interests": profile.interests,
-                "goals": profile.goals,
-                "current_education": profile.current_education,
-                "certificate_desired": profile.certificate_desired,
-                "time_commitment": profile.time_commitment,
-                "course_format": profile.course_format,
-            },
+            "profile": ProfileSerializer(staff_user.profile).data,
         }
     ]
 
@@ -94,26 +78,7 @@ def test_create_user(staff_client, staff_user, email_optin, toc_optin):  # pylin
     resp = staff_client.post(url, data=payload)
     user = User.objects.get(username=resp.json()["username"])
     assert resp.status_code == 201
-    for optin in ("email_optin", "toc_optin"):
-        if optin in payload["profile"]:
-            del payload["profile"][optin]
-    payload["profile"].update(
-        {
-            "image_file": None,
-            "image_small_file": None,
-            "image_medium_file": None,
-            "username": user.username,
-            "profile_image_small": "image_small",
-            "profile_image_medium": "image_medium",
-            "interests": user.profile.interests,
-            "goals": user.profile.goals,
-            "current_education": user.profile.current_education,
-            "certificate_desired": user.profile.certificate_desired,
-            "time_commitment": user.profile.time_commitment,
-            "course_format": user.profile.course_format,
-        }
-    )
-    assert resp.json()["profile"] == payload["profile"]
+    assert resp.json()["profile"] == ProfileSerializer(user.profile).data
     assert user.email == email
     assert user.profile.email_optin is email_optin
     assert user.profile.toc_optin is toc_optin
@@ -123,7 +88,6 @@ def test_get_user(staff_client, user):
     """
     Get a user
     """
-    profile = user.profile
     url = reverse("profile:v0:user_api-detail", kwargs={"username": user.username})
     resp = staff_client.get(url)
     assert resp.status_code == 200
@@ -134,27 +98,7 @@ def test_get_user(staff_client, user):
         "last_name": user.last_name,
         "is_article_editor": True,
         "is_learning_path_editor": True,
-        "profile": {
-            "name": profile.name,
-            "image": profile.image,
-            "image_small": profile.image_small,
-            "image_medium": profile.image_medium,
-            "image_file": f"http://testserver{profile.image_file.url}",
-            "image_small_file": f"http://testserver{profile.image_small_file.url}",
-            "image_medium_file": f"http://testserver{profile.image_medium_file.url}",
-            "profile_image_small": profile.image_small_file.url,
-            "profile_image_medium": profile.image_medium_file.url,
-            "bio": profile.bio,
-            "headline": profile.headline,
-            "username": profile.user.username,
-            "placename": profile.location.get("value", ""),
-            "interests": profile.interests,
-            "goals": profile.goals,
-            "current_education": profile.current_education,
-            "certificate_desired": profile.certificate_desired,
-            "time_commitment": profile.time_commitment,
-            "course_format": profile.course_format,
-        },
+        "profile": ProfileSerializer(user.profile).data,
     }
 
 
@@ -172,25 +116,43 @@ def test_get_profile(logged_in, user, user_client):
     assert resp.json() == {
         "name": profile.name,
         "image": profile.image,
-        "image_small": profile.image_small,
-        "image_medium": profile.image_medium,
-        "image_file": f"{profile.image_file.url}",
-        "image_small_file": f"{profile.image_small_file.url}",
-        "image_medium_file": f"{profile.image_medium_file.url}",
-        "profile_image_small": profile.image_small_file.url,
-        "profile_image_medium": profile.image_medium_file.url,
+        "image_small": None,
+        "image_medium": None,
+        "image_file": None,
+        "image_small_file": None,
+        "image_medium_file": None,
+        "profile_image_small": image_uri(profile, IMAGE_SMALL),
+        "profile_image_medium": image_uri(profile, IMAGE_MEDIUM),
         "bio": profile.bio,
         "headline": profile.headline,
         "username": profile.user.username,
         "placename": profile.location.get("value", ""),
         "user_websites": [],
-        "interests": profile.interests,
+        "topic_interests": LearningResourceTopicSerializer(
+            profile.topic_interests, many=True
+        ).data,
         "goals": profile.goals,
         "current_education": profile.current_education,
         "certificate_desired": profile.certificate_desired,
         "time_commitment": profile.time_commitment,
-        "course_format": profile.course_format,
+        "learning_format": profile.learning_format,
+        "preference_search_filters": {
+            "learning_format": [profile.learning_format],
+            "certification": (
+                profile.certificate_desired == Profile.CertificateDesired.YES.value
+            ),
+        },
     }
+
+
+def test_get_profile_automatically_creates_profile(user, user_client):
+    """Profiles should automatically get created for users without one"""
+    user.profile.delete()
+    url = reverse("profile:v0:profile_api-detail", kwargs={"user__username": "me"})
+    resp = user_client.get(url)
+    assert resp.status_code == 200
+    user.refresh_from_db()
+    assert user.profile is not None
 
 
 @pytest.mark.parametrize("email", ["", "test.email@example.com"])
@@ -214,6 +176,8 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
         payload["profile"]["toc_optin"] = toc_optin
     url = reverse("profile:v0:user_api-detail", kwargs={"username": user.username})
     resp = staff_client.patch(url, data=payload)
+    user.refresh_from_db()
+    profile.refresh_from_db()
     assert resp.status_code == 200
     assert resp.json() == {
         "id": user.id,
@@ -222,27 +186,7 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
         "last_name": user.last_name,
         "is_learning_path_editor": True,
         "is_article_editor": True,
-        "profile": {
-            "name": "othername",
-            "image": profile.image,
-            "image_small": profile.image_small,
-            "image_medium": profile.image_medium,
-            "image_file": f"http://testserver{profile.image_file.url}",
-            "image_small_file": f"http://testserver{profile.image_small_file.url}",
-            "image_medium_file": f"http://testserver{profile.image_medium_file.url}",
-            "profile_image_small": profile.image_small_file.url,
-            "profile_image_medium": profile.image_medium_file.url,
-            "bio": profile.bio,
-            "headline": profile.headline,
-            "username": profile.user.username,
-            "placename": profile.location.get("value", ""),
-            "interests": profile.interests,
-            "goals": profile.goals,
-            "current_education": profile.current_education,
-            "certificate_desired": profile.certificate_desired,
-            "time_commitment": profile.time_commitment,
-            "course_format": profile.course_format,
-        },
+        "profile": ProfileSerializer(user.profile).data,
     }
     user.refresh_from_db()
     profile.refresh_from_db()
@@ -285,6 +229,102 @@ def test_patch_profile_by_user(client, logged_in_profile):
 
     logged_in_profile.refresh_from_db()
     assert logged_in_profile.location == location_json
+
+
+def test_patch_topic_interests(client, logged_in_profile):
+    """Test that patching Profile.topic_interests works correctly"""
+    topics = LearningResourceTopicFactory.create_batch(3)
+    topic_ids = {topic.id for topic in topics}
+
+    url = reverse(
+        "profile:v0:profile_api-detail",
+        kwargs={"user__username": logged_in_profile.user.username},
+    )
+
+    assert logged_in_profile.topic_interests.count() == 0
+
+    resp = client.patch(
+        url,
+        data={
+            "topic_interests": [topic.id for topic in topics],
+        },
+    )
+
+    assert resp.status_code == status.HTTP_200_OK
+
+    assert sorted(
+        resp.json()["topic_interests"], key=lambda topic: topic["id"]
+    ) == sorted(
+        LearningResourceTopicSerializer(topics, many=True).data,
+        key=lambda topic: topic["id"],
+    )
+
+    logged_in_profile.refresh_from_db()
+
+    assert logged_in_profile.topic_interests.count() == len(topics)
+
+    profile_topic_ids = {topic.id for topic in logged_in_profile.topic_interests.all()}
+
+    assert profile_topic_ids == topic_ids
+
+
+@pytest.mark.parametrize(
+    ("field", "before", "value", "after"),
+    [
+        ("goals", [], [Profile.Goal.JUST_TO_LEARN], [Profile.Goal.JUST_TO_LEARN]),
+        (
+            "certificate_desired",
+            "",
+            Profile.CertificateDesired.YES,
+            Profile.CertificateDesired.YES,
+        ),
+        (
+            "current_education",
+            "",
+            Profile.CurrentEducation.MASTERS,
+            Profile.CurrentEducation.MASTERS,
+        ),
+        (
+            "time_commitment",
+            "",
+            Profile.TimeCommitment.ZERO_TO_FIVE_HOURS,
+            Profile.TimeCommitment.ZERO_TO_FIVE_HOURS,
+        ),
+        (
+            "learning_format",
+            "",
+            LearningResourceFormat.hybrid.name,
+            LearningResourceFormat.hybrid.name,
+        ),
+    ],
+)
+def test_patch_onboarding_fields(  # noqa: PLR0913
+    client, logged_in_profile, field, before, value, after
+):
+    """Test that patching Profile onboarding fields works correctly"""
+    url = reverse(
+        "profile:v0:profile_api-detail",
+        kwargs={"user__username": logged_in_profile.user.username},
+    )
+
+    setattr(logged_in_profile, field, before)
+    logged_in_profile.save()
+    logged_in_profile.refresh_from_db()
+    assert getattr(logged_in_profile, field) == before
+
+    resp = client.patch(
+        url,
+        data={
+            (field): after,
+        },
+    )
+
+    assert resp.status_code == status.HTTP_200_OK
+
+    logged_in_profile.refresh_from_db()
+
+    assert resp.json()[field] == after
+    assert getattr(logged_in_profile, field) == after
 
 
 def test_initialized_avatar(client, user):
@@ -336,7 +376,6 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
     if is_anonymous:
         assert resp.status_code == status.HTTP_403_FORBIDDEN
     else:
-        profile = user.profile
         assert resp.json() == {
             "id": user.id,
             "username": user.username,
@@ -344,69 +383,8 @@ def test_get_user_by_me(mocker, client, user, is_anonymous):
             "last_name": user.last_name,
             "is_learning_path_editor": False,
             "is_article_editor": False,
-            "profile": {
-                "name": profile.name,
-                "image": profile.image,
-                "image_small": profile.image_small,
-                "image_medium": profile.image_medium,
-                "image_file": f"http://testserver{profile.image_file.url}",
-                "image_small_file": f"http://testserver{profile.image_small_file.url}",
-                "image_medium_file": f"http://testserver{profile.image_medium_file.url}",
-                "profile_image_small": profile.image_small_file.url,
-                "profile_image_medium": profile.image_medium_file.url,
-                "bio": profile.bio,
-                "headline": profile.headline,
-                "username": profile.user.username,
-                "placename": profile.location.get("value", ""),
-                "interests": profile.interests,
-                "goals": profile.goals,
-                "current_education": profile.current_education,
-                "certificate_desired": profile.certificate_desired,
-                "time_commitment": profile.time_commitment,
-                "course_format": profile.course_format,
-            },
+            "profile": ProfileSerializer(user.profile).data,
         }
-
-
-@pytest.mark.parametrize("is_anonymous", [True, False])
-def test_letter_intercept_view_generates_program_letter(
-    mocker, client, user, is_anonymous, settings
-):
-    """
-    Test that the letter intercept view generates a
-    ProgramLetter and then passes the user along to the display.
-    Also test that anonymous users do not generate letters and cant access this page
-    """
-    settings.DATABASE_ROUTERS = []
-    micromasters_program_id = 1
-    if not is_anonymous:
-        client.force_login(user)
-        cert = ProgramCertificateFactory(
-            user_email=user.email, micromasters_program_id=micromasters_program_id
-        )
-        assert ProgramLetter.objects.filter(user=user).count() == 0
-
-        response = client.get(
-            reverse(
-                "profile:program-letter-intercept",
-                kwargs={"program_id": micromasters_program_id},
-            )
-        )
-        assert ProgramLetter.objects.filter(user=user).count() == 1
-        letter_id = ProgramLetter.objects.get(user=user, certificate=cert).id
-        assert response.url == f"/program_letter/{letter_id}/view"
-    else:
-        cert = ProgramCertificateFactory(
-            user_email=user.email, micromasters_program_id=micromasters_program_id
-        )
-        ProgramLetterFactory(user=user, certificate=cert)
-        response = client.get(
-            reverse(
-                "profile:program-letter-intercept",
-                kwargs={"program_id": micromasters_program_id},
-            )
-        )
-        assert response.status_code == 302
 
 
 @pytest.mark.parametrize("is_anonymous", [True, False])
