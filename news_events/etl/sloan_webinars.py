@@ -28,18 +28,29 @@ SLOAN_WEBINAR_POST_DATA = (
             "message": {
                 "actions": [
                     {
-                        "id": "111;a",
+                        "id": "192;a",
                         "descriptor": "apex://CMSContentController/ACTION$fetchTopicPage",
-                        "callingDescriptor": "markup://c:CMS_Webinar_PostList",
+                        "callingDescriptor": "markup://c:CMS_ThreeCardDisplay",
                         "params": {
-                            "contentType": "Webinar_Post",
+                            "contentType": "Card_Display_Item",
+                            "topicName": "Upcoming Webinars",
                             "pageSize": 20,
                             "pageNumber": 0,
-                            "sortFields": ["DateTime1"],
-                            "sortBy": "DateTime1",
-                            "AscDesc": "DESC",
                         },
-                    }
+                    },
+                    {
+                        "id": "111;a",
+                        "descriptor": "apex://CMSContentController/ACTION$fetchTopicPage",
+                        "callingDescriptor": "markup://c:CMS_WebinarList",
+                        "params": {
+                            "contentType": "Webinar_Post",
+                            "topicName": "Recent Webinar",
+                            "pageSize": 20,
+                            "pageNumber": 0,
+                            "AscDesc": "DESC",
+                            "sortFields": ["DateTime1"],
+                        },
+                    },
                 ]
             },
             "aura.context": {
@@ -118,20 +129,16 @@ def transform_item(event_data: dict) -> dict:
     attributes = event_data.get("contentNodes", {})
     guid = event_data["contentKey"]
     event_path = f'{event_data.get("contentUrlName", "")}-{guid}'
-
-    dt = attributes.get("Original_Date", {}).get("value")
+    dt = event_data.get("publishedDate")
     dt_utc = (
         parser.parse(dt).replace(tzinfo=ZoneInfo("US/Eastern")).astimezone(UTC)
         if dt
         else None
     )
-    cta_url = attributes.get("CTA_Button_URL", {}).get("value", "")
-    if not cta_url:
-        return None
     return {
         "guid": guid,
         "url": urljoin(SLOAN_WEBINAR_PREFIX_URL, event_path) if event_path else None,
-        "title": attributes.get("Webinar_Title").get("value"),
+        "title": event_data.get("title", ""),
         "image": extract_event_image(attributes.get("Featured_Image", {})),
         "summary": strip_tags(attributes.get("Summary", {}).get("value") or ""),
         "content": strip_tags(
@@ -168,7 +175,8 @@ def transform_items(source_data: dict) -> list[dict]:
         if isinstance(item.get("returnValue"), dict):
             contents = item.get("returnValue").get("content")
             for content in contents:
-                yield transform_item(content)
+                if "contentNodes" in content:
+                    yield transform_item(content)
 
 
 def transform(source_data: dict) -> list[dict]:
