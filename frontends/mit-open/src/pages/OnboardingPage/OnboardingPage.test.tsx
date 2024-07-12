@@ -27,7 +27,7 @@ const STEPS_DATA: Partial<Profile>[] = [
     topic_interests: [factories.learningResources.topic()],
   },
   {
-    goals: [GoalsEnum.JustToLearn],
+    goals: [GoalsEnum.LifelongLearning],
   },
   {
     certificate_desired: CertificateDesiredEnum.Yes,

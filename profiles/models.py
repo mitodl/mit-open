@@ -73,9 +73,9 @@ class Profile(AbstractSCIMUserMixin):
     class Goal(models.TextChoices):
         """User goals choices"""
 
+        ACADEMIC_EXCELLENCE = "academic-excellence", "Academic Excellence"
         CAREER_GROWTH = "career-growth", "Career Growth"
-        SUPPLEMENTAL_LEARNING = "supplemental-learning", "Supplemental Learning"
-        JUST_TO_LEARN = "just-to-learn", "Just to Learn"
+        LIFELONG_LEARNING = "lifelong-learning", "Lifelong Learning"
 
     class CertificateDesired(models.TextChoices):
         """User certificate desired choices"""

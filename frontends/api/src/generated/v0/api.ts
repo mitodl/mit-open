@@ -938,30 +938,30 @@ export type FeedSourceFeedTypeEnum =
   (typeof FeedSourceFeedTypeEnum)[keyof typeof FeedSourceFeedTypeEnum]
 
 /**
- * * `career-growth` - Career Growth * `supplemental-learning` - Supplemental Learning * `just-to-learn` - Just to Learn
+ * * `academic-excellence` - Academic Excellence * `career-growth` - Career Growth * `lifelong-learning` - Lifelong Learning
  * @export
  * @enum {string}
  */
 
 export const GoalsEnumDescriptions = {
+  "academic-excellence": "Academic Excellence",
   "career-growth": "Career Growth",
-  "supplemental-learning": "Supplemental Learning",
-  "just-to-learn": "Just to Learn",
+  "lifelong-learning": "Lifelong Learning",
 } as const
 
 export const GoalsEnum = {
+  /**
+   * Academic Excellence
+   */
+  AcademicExcellence: "academic-excellence",
   /**
    * Career Growth
    */
   CareerGrowth: "career-growth",
   /**
-   * Supplemental Learning
+   * Lifelong Learning
    */
-  SupplementalLearning: "supplemental-learning",
-  /**
-   * Just to Learn
-   */
-  JustToLearn: "just-to-learn",
+  LifelongLearning: "lifelong-learning",
 } as const
 
 export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]

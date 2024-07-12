@@ -13,19 +13,20 @@ import type { ProfileFieldUpdateProps, ProfileFieldUpdateFunc } from "./types"
 
 const CHOICES = [
   {
+    value: GoalsEnum.AcademicExcellence,
+    label: GoalsEnumDescriptions[GoalsEnum.AcademicExcellence],
+    description: "Supplemental learning to support me in earning a degree.",
+  },
+  {
     value: GoalsEnum.CareerGrowth,
     label: GoalsEnumDescriptions[GoalsEnum.CareerGrowth],
-    description: "Looking for career growth through new skills & certification",
+    description:
+      "Looking for career growth through new skills & certification.",
   },
   {
-    value: GoalsEnum.SupplementalLearning,
-    label: GoalsEnumDescriptions[GoalsEnum.SupplementalLearning],
-    description: "Additional learning to integrate with degree work",
-  },
-  {
-    value: GoalsEnum.JustToLearn,
-    label: GoalsEnumDescriptions[GoalsEnum.JustToLearn],
-    description: "I just want more knowledge",
+    value: GoalsEnum.LifelongLearning,
+    label: GoalsEnumDescriptions[GoalsEnum.LifelongLearning],
+    description: "Learning about topics that interest me just for fun.",
   },
 ]
 

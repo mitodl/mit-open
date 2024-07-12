@@ -1432,18 +1432,18 @@ components:
       - Events
     GoalsEnum:
       enum:
+      - academic-excellence
       - career-growth
-      - supplemental-learning
-      - just-to-learn
+      - lifelong-learning
       type: string
       description: |-
+        * `academic-excellence` - Academic Excellence
         * `career-growth` - Career Growth
-        * `supplemental-learning` - Supplemental Learning
-        * `just-to-learn` - Just to Learn
+        * `lifelong-learning` - Lifelong Learning
       x-enum-descriptions:
+      - Academic Excellence
       - Career Growth
-      - Supplemental Learning
-      - Just to Learn
+      - Lifelong Learning
     LearningFormatEnum:
       enum:
       - online
