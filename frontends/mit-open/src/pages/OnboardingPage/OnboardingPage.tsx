@@ -84,7 +84,7 @@ const StepPill = styled.div<{ ownerState: StepIconProps }>(
   ({ theme, ownerState }) => ({
     backgroundColor:
       ownerState.active || ownerState.completed
-        ? theme.custom.colors.mitRed
+        ? theme.custom.colors.red
         : theme.custom.colors.silverGrayLight,
     height: "8px",
     borderRadius: "4px",
