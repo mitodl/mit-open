@@ -962,13 +962,13 @@ components:
       - not-sure-yet
       type: string
       description: |-
-        * `yes` - Yes
-        * `no` - No
-        * `not-sure-yet` - Not Sure Yet
+        * `yes` - Yes, I am looking for a certificate
+        * `no` - No, I am not looking for a certificate
+        * `not-sure-yet` - Not Sure
       x-enum-descriptions:
-      - 'Yes'
-      - 'No'
-      - Not Sure Yet
+      - Yes, I am looking for a certificate
+      - No, I am not looking for a certificate
+      - Not Sure
     Channel:
       oneOf:
       - $ref: '#/components/schemas/TopicChannel'

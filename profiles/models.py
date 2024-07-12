@@ -80,9 +80,9 @@ class Profile(AbstractSCIMUserMixin):
     class CertificateDesired(models.TextChoices):
         """User certificate desired choices"""
 
-        YES = "yes", "Yes"
-        NO = "no", "No"
-        NOT_SURE_YET = "not-sure-yet", "Not Sure Yet"
+        YES = "yes", "Yes, I am looking for a certificate"
+        NO = "no", "No, I am not looking for a certificate"
+        NOT_SURE_YET = "not-sure-yet", "Not Sure"
 
     class CurrentEducation(models.TextChoices):
         """User current education choices"""

@@ -160,28 +160,28 @@ export interface CKEditorSettings {
   token: string | null
 }
 /**
- * * `yes` - Yes * `no` - No * `not-sure-yet` - Not Sure Yet
+ * * `yes` - Yes, I am looking for a certificate * `no` - No, I am not looking for a certificate * `not-sure-yet` - Not Sure
  * @export
  * @enum {string}
  */
 
 export const CertificateDesiredEnumDescriptions = {
-  yes: "Yes",
-  no: "No",
-  "not-sure-yet": "Not Sure Yet",
+  yes: "Yes, I am looking for a certificate",
+  no: "No, I am not looking for a certificate",
+  "not-sure-yet": "Not Sure",
 } as const
 
 export const CertificateDesiredEnum = {
   /**
-   * Yes
+   * Yes, I am looking for a certificate
    */
   Yes: "yes",
   /**
-   * No
+   * No, I am not looking for a certificate
    */
   No: "no",
   /**
-   * Not Sure Yet
+   * Not Sure
    */
   NotSureYet: "not-sure-yet",
 } as const
