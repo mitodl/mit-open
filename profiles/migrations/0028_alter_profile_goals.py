@@ -4,14 +4,15 @@ import django.contrib.postgres.fields
 from django.db import migrations, models
 
 
+def reset_goals(apps, schema_editor):
+    Profile = apps.get_model("profiles", "Profile")
+    Profile.objects.all().update(goals=[])
+
+
 class Migration(migrations.Migration):
     dependencies = [
         ("profiles", "0027_update_profile_education_choices"),
     ]
-
-    def reset_goals(self, apps):
-        Profile = apps.get_model("profiles", "Profile")
-        Profile.objects.all().update(goals=[])
 
     operations = [
         migrations.RunPython(reset_goals),
