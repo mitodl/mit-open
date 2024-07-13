@@ -338,7 +338,15 @@ const OnboardingPage: React.FC = () => {
           <Button
             size="large"
             responsive={true}
-            endIcon={isSaving ? <CircularProgress /> : <RiArrowRightLine />}
+            endIcon={
+              activeStep < NUM_STEPS - 1 ? (
+                isSaving ? (
+                  <CircularProgress />
+                ) : (
+                  <RiArrowRightLine />
+                )
+              ) : null
+            }
             disabled={isSaving}
             type="submit"
             form={formId}
