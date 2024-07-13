@@ -285,7 +285,7 @@ const OnboardingPage: React.FC = () => {
             <Title component="h3" variant="h6">
               What course format are you interested in?
             </Title>
-            <Prompt>Select one:</Prompt>
+            <Prompt>Select all that apply:</Prompt>
           </Label>
         }
         values={formik.values.learning_format}
