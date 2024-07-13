@@ -3,7 +3,7 @@ import {
   FormControl,
   FormLabel,
   SimpleSelect,
-  RadioChoiceBoxField,
+  CheckboxChoiceBoxField,
 } from "ol-components"
 import type { SimpleSelectFieldProps, SimpleSelectOption } from "ol-components"
 import { LearningFormatEnum, LearningFormatEnumDescriptions } from "api/v0"
@@ -11,8 +11,8 @@ import { LearningFormatEnum, LearningFormatEnumDescriptions } from "api/v0"
 import { ProfileFieldUpdateProps, ProfileFieldStateHook } from "./types"
 
 const CHOICES = [
-  LearningFormatEnum.InPerson,
   LearningFormatEnum.Online,
+  LearningFormatEnum.InPerson,
   LearningFormatEnum.Hybrid,
 ].map((value) => ({
   value,
@@ -29,18 +29,21 @@ const SELECT_OPTIONS: SimpleSelectOption[] = [
 ]
 
 type Props = ProfileFieldUpdateProps<"learning_format">
-type State = LearningFormatEnum | ""
+type State = LearningFormatEnum[] | []
 
 const useLearningFormatChoice: ProfileFieldStateHook<"learning_format"> = (
   value,
   onUpdate,
 ): [State, React.ChangeEventHandler] => {
-  const [learningFormat, setLearningFormat] = React.useState<State>(value || "")
+  const [learningFormat, setLearningFormat] = React.useState<State>(value || [])
 
   const handleChange = (event: React.SyntheticEvent) => {
     setLearningFormat(() => {
       const target = event.target as HTMLInputElement
-      return target.value as LearningFormatEnum
+      const values = Array.from(
+        document.querySelectorAll(`input[name='${target.name}']:checked`),
+      ).map((el) => el.getAttribute("value") || "")
+      return values as LearningFormatEnum[]
     })
   }
 
@@ -62,21 +65,21 @@ const LearningFormatChoiceBoxField: React.FC<Props> = ({
   )
 
   return (
-    <RadioChoiceBoxField
+    <CheckboxChoiceBoxField
       name="learning_format"
       label={label}
       onChange={handleChange}
       choices={CHOICES}
-      value={learningFormat}
+      values={learningFormat}
       gridItemProps={{ xs: 4 }}
     />
   )
 }
 const LearningFormatSelect: React.FC<Props> = ({ label, value, onUpdate }) => {
-  const [learningFormat, setLearningFormat] = React.useState<State>(value || "")
+  const [learningFormat, setLearningFormat] = React.useState<State>(value || [])
 
   const handleChange: SimpleSelectFieldProps["onChange"] = (event) => {
-    setLearningFormat(event.target.value as LearningFormatEnum)
+    setLearningFormat(event.target.value as LearningFormatEnum[])
   }
   React.useEffect(() => {
     onUpdate("learning_format", learningFormat)
