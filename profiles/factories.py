@@ -5,7 +5,6 @@ from factory.django import DjangoModelFactory
 from factory.fuzzy import FuzzyChoice
 from faker.providers import BaseProvider
 
-from learning_resources.constants import LearningResourceFormat
 from profiles.models import Profile, ProgramCertificate, ProgramLetter, UserWebsite
 
 
@@ -45,7 +44,7 @@ class ProfileFactory(DjangoModelFactory):
 
     location = Faker("location")
 
-    learning_format = FuzzyChoice(LearningResourceFormat.names())
+    learning_format = [key for key, _ in Profile.LearningResourceFormat.choices]
     certificate_desired = FuzzyChoice(
         [Profile.CertificateDesired.YES.value, Profile.CertificateDesired.NO.value]
     )

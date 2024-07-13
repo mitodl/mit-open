@@ -7,7 +7,6 @@ import factory
 import pytest
 from rest_framework.exceptions import ValidationError
 
-from learning_resources.constants import LearningResourceFormat
 from learning_resources.factories import LearningResourceTopicFactory
 from learning_resources.serializers import LearningResourceTopicSerializer
 from profiles.factories import UserWebsiteFactory
@@ -28,6 +27,7 @@ small_gif = (
     b"\x01\x0a\x00\x01\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02"
     b"\x02\x4c\x01\x00\x3b"
 )
+lr_format_keys = [key for key, _ in Profile.LearningResourceFormat.choices]
 
 
 def test_serialize_user(user):
@@ -195,7 +195,7 @@ def test_location_validation(user, data, is_valid):
         ("bio", "bio_value"),
         ("headline", "headline_value"),
         ("location", {"value": "Hobbiton, The Shire, Middle-Earth"}),
-        ("learning_format", LearningResourceFormat.hybrid.name),
+        ("learning_format", lr_format_keys),
         ("certificate_desired", Profile.CertificateDesired.YES.value),
     ],
 )
@@ -247,7 +247,7 @@ def test_update_profile(mocker, user, key, value):
     ],
 )
 @pytest.mark.parametrize("topics", [["Biology", "Chemistry"], []])
-@pytest.mark.parametrize("lr_format", [LearningResourceFormat.hybrid.name, ""])
+@pytest.mark.parametrize("lr_format", [lr_format_keys, []])
 def test_serialize_profile_preference_search_filters(
     user, cert_desired, cert_filter, topics, lr_format
 ):
@@ -265,7 +265,7 @@ def test_serialize_profile_preference_search_filters(
     assert search_filters.get("certification", None) == cert_filter
     assert search_filters.get("topic", None) == (topics if topics else None)
     assert search_filters.get("learning_format", None) == (
-        [lr_format] if lr_format else None
+        lr_format if lr_format else None
     )
 
 

@@ -9,7 +9,6 @@ from django.db import models, transaction
 from django.db.models import JSONField
 from django_scim.models import AbstractSCIMUserMixin
 
-from learning_resources.constants import LearningResourceFormat
 from main.utils import frontend_absolute_url
 from profiles.utils import (
     IMAGE_MEDIUM_MAX_DIMENSION,
@@ -110,6 +109,13 @@ class Profile(AbstractSCIMUserMixin):
         TWENTY_TO_THIRTY_HOURS = "20-to-30-hours", "20-30 hours/week"
         THIRTY_PLUS_HOURS = "30-plus-hours", "30+ hours/week"
 
+    class LearningResourceFormat(models.TextChoices):
+        """User learning format choices"""
+
+        ONLINE = "online", "Online"
+        HYBRID = "hybrid", "Hybrid"
+        IN_PERSON = "in_person", "In person"
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     name = models.TextField(blank=True, null=True)  # noqa: DJ001
@@ -163,8 +169,10 @@ class Profile(AbstractSCIMUserMixin):
     time_commitment = models.CharField(
         max_length=50, choices=TimeCommitment.choices, blank=True, default=""
     )
-    learning_format = models.CharField(
-        max_length=50, choices=LearningResourceFormat.as_tuple(), blank=True, default=""
+    learning_format = ArrayField(
+        models.CharField(max_length=50, choices=LearningResourceFormat.choices),
+        default=list,
+        blank=True,
     )
 
     @transaction.atomic

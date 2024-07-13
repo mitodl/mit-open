@@ -35,7 +35,7 @@ const STEPS_DATA: Partial<Profile>[] = [
     current_education: CurrentEducationEnum.SecondaryHighSchool,
   },
   {
-    learning_format: LearningFormatEnum.Hybrid,
+    learning_format: [LearningFormatEnum.Hybrid],
   },
 ]
 
@@ -216,7 +216,7 @@ describe("OnboardingPage", () => {
   })
 
   describe("Learning format step", () => {
-    const STEP = 5
+    const STEP = 4
     const TITLE = STEP_TITLES[STEP]
 
     beforeEach(async () => {
@@ -227,7 +227,7 @@ describe("OnboardingPage", () => {
       expect(await screen.findByText(TITLE, { exact: false })).not.toBeNil()
     })
 
-    test("Has 'Next' and 'Back' buttons", async () => {
+    test("Has 'Next' and 'Finish' buttons", async () => {
       const backButton = await findBackButton()
       const nextButton = queryNextButton()
       const finishButton = await findFinishButton()

@@ -1862,9 +1862,9 @@ components:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
         learning_format:
-          oneOf:
-          - $ref: '#/components/schemas/LearningFormatEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningFormatEnum'
     PatchedUserRequest:
       type: object
       description: Serializer for User
@@ -2082,9 +2082,9 @@ components:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
         learning_format:
-          oneOf:
-          - $ref: '#/components/schemas/LearningFormatEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningFormatEnum'
         preference_search_filters:
           allOf:
           - $ref: '#/components/schemas/PreferencesSearch'
@@ -2157,9 +2157,9 @@ components:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
         learning_format:
-          oneOf:
-          - $ref: '#/components/schemas/LearningFormatEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningFormatEnum'
     ProgramCertificate:
       type: object
       description: Serializer for Program Certificates

@@ -128,7 +128,7 @@ const profileSchema = yup.object().shape({
     .of(yup.string().oneOf(GOALS_CHOICES.map((choice) => choice.value))),
   certificate_desired: yup.string(),
   current_education: yup.string(),
-  learning_format: yup.string(),
+  learning_format: yup.array().of(yup.string()),
 })
 
 const GridStyle = (
@@ -276,7 +276,7 @@ const OnboardingPage: React.FC = () => {
       />
     </Container>,
     <Container key="learning_format" maxWidth="md">
-      <RadioChoiceBoxField
+      <CheckboxChoiceBoxField
         name="learning_format"
         choices={LEARNING_FORMAT_CHOICES}
         {...GridStyle()}
@@ -288,7 +288,7 @@ const OnboardingPage: React.FC = () => {
             <Prompt>Select one:</Prompt>
           </Label>
         }
-        value={formik.values.learning_format}
+        values={formik.values.learning_format}
         onChange={formik.handleChange}
       />
     </Container>,

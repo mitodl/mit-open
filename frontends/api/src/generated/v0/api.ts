@@ -1591,10 +1591,10 @@ export interface PatchedProfileRequest {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestLearningFormat}
+   * @type {Array<LearningFormatEnum>}
    * @memberof PatchedProfileRequest
    */
-  learning_format?: PatchedProfileRequestLearningFormat
+  learning_format?: Array<LearningFormatEnum>
 }
 /**
  * @type PatchedProfileRequestCertificateDesired
@@ -1611,12 +1611,6 @@ export type PatchedProfileRequestCertificateDesired =
 export type PatchedProfileRequestCurrentEducation =
   | BlankEnum
   | CurrentEducationEnum
-
-/**
- * @type PatchedProfileRequestLearningFormat
- * @export
- */
-export type PatchedProfileRequestLearningFormat = BlankEnum | LearningFormatEnum
 
 /**
  * @type PatchedProfileRequestTimeCommitment
@@ -1951,10 +1945,10 @@ export interface Profile {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestLearningFormat}
+   * @type {Array<LearningFormatEnum>}
    * @memberof Profile
    */
-  learning_format?: PatchedProfileRequestLearningFormat
+  learning_format?: Array<LearningFormatEnum>
   /**
    *
    * @type {PreferencesSearch}
@@ -2054,10 +2048,10 @@ export interface ProfileRequest {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestLearningFormat}
+   * @type {Array<LearningFormatEnum>}
    * @memberof ProfileRequest
    */
-  learning_format?: PatchedProfileRequestLearningFormat
+  learning_format?: Array<LearningFormatEnum>
 }
 /**
  * Serializer for Program Certificates
