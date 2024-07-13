@@ -967,7 +967,7 @@ export const GoalsEnum = {
 export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
 
 /**
- * * `online` - Online * `hybrid` - Hybrid * `in_person` - In person
+ * * `online` - Online * `hybrid` - Hybrid * `in_person` - In-Person
  * @export
  * @enum {string}
  */
@@ -975,7 +975,7 @@ export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
 export const LearningFormatEnumDescriptions = {
   online: "Online",
   hybrid: "Hybrid",
-  in_person: "In person",
+  in_person: "In-Person",
 } as const
 
 export const LearningFormatEnum = {
@@ -988,7 +988,7 @@ export const LearningFormatEnum = {
    */
   Hybrid: "hybrid",
   /**
-   * In person
+   * In-Person
    */
   InPerson: "in_person",
 } as const

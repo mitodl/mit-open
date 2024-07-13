@@ -1453,11 +1453,11 @@ components:
       description: |-
         * `online` - Online
         * `hybrid` - Hybrid
-        * `in_person` - In person
+        * `in_person` - In-Person
       x-enum-descriptions:
       - Online
       - Hybrid
-      - In person
+      - In-Person
     LearningPathPreview:
       type: object
       description: Serializer for a minimal preview of Learning Paths
