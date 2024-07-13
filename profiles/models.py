@@ -114,7 +114,7 @@ class Profile(AbstractSCIMUserMixin):
 
         ONLINE = "online", "Online"
         HYBRID = "hybrid", "Hybrid"
-        IN_PERSON = "in_person", "In person"
+        IN_PERSON = "in_person", "In-Person"
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 

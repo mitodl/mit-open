@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                     choices=[
                         ("online", "Online"),
                         ("hybrid", "Hybrid"),
-                        ("in_person", "In person"),
+                        ("in_person", "In-Person"),
                     ],
                     max_length=50,
                 ),
