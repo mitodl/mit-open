@@ -1,0 +1,538 @@
+topics:
+  - name: Art, Design & Architecture
+    id:
+    icon:
+    mappings:
+    children:
+      - name: Architecture
+        id:
+        icon:
+        mappings:
+      - name: Environmental Deisgn
+        id:
+        icon:
+        mappings:
+      - name: Game Design
+        id:
+        icon:
+        mappings:
+      - name: Performing Arts
+        id:
+        icon:
+        mappings:
+      - name: Visual Arts
+        id:
+        icon:
+        mappings:
+      - name: Media Studies
+        id:
+        icon:
+        mappings:
+      - name: Real Estate
+        id:
+        icon:
+        mappings:
+      - name: Art History
+        id:
+        icon:
+        mappings:
+  - name: Business & Management
+    id:
+    icon:
+    mappings:
+    children:
+      - name: Entrepreneurship
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Organizations & Leadership
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Negotiation & Communication
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Marketing
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Supply Chain
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Finance & Accounting
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Operations
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Family Enterprise
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Business Analytics
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Systems Thinking
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Strategy & Innovation
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Digital Business & IT
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Management
+        id:
+        icon:
+        mappings:
+        children:
+  - name: Data Science, Analytics & Computer Technology
+    id:
+    icon:
+    mappings:
+    children:
+      - name: AI
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Programming & Coding
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Software Design and Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Algorithms and Data Structures
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Networks and Security
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Machine Learning
+        id:
+        icon:
+        mappings:
+        children:
+      - name: User Experience
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Blockchain
+        id:
+        icon:
+        mappings:
+        children:
+      - name: AR/VR/MR/XR
+        id:
+        icon:
+        mappings:
+        children:
+      - name: CyberSecurity
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Machine Learning
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Visualization
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Computer Science
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Data Science
+        id:
+        icon:
+        mappings:
+        children:
+  - name: Education & Teaching
+    id:
+    icon:
+    mappings:
+    children:
+      - name: Pedagogy and Curriculum
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Education Policy
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Educational Technology
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Digital Learning
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Faculty Leadership
+        id:
+        icon:
+        mappings:
+        children:
+  - name: Social Sciences
+    id:
+    icon:
+    mappings:
+    children:
+      - name: Anthropology
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Communication
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Economics
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Geography
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Law
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Political Science
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Psychology
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Policy and Administration
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Sociology
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Urban Studies
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Gender Studies
+        id:
+        icon:
+        mappings:
+        children:
+      - name: International Development
+        id:
+        icon:
+        mappings:
+        children:
+  - name: Science & Math
+    id:
+    icon:
+    mappings:
+    children:
+      - name: Biology
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Chemistry
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Cognitive Science
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Earth Science
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Physics
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Mathematics
+        id:
+        icon:
+        mappings:
+        children:
+  - name: Energy, Climate & Sustainability
+    id:
+    icon:
+    mappings:
+    children:
+      - name: Energy
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Environmental and Climate Justice
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Climate Science
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Built Environment
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Natural Systems
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Adaptation and Resilience
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Climate and Energy Policy
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Sustainable Business
+        id:
+        icon:
+        mappings:
+        children:
+  - name: Engineering
+    id:
+    icon:
+    mappings:
+    children:
+      - name: Aerospace Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Biological Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Chemical Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Civil Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Electrical Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Environmental Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Materials Science and Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Nuclear Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Ocean Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Systems Engineering
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Mechanical Engineering
+        id:
+        icon:
+        mappings:
+        children:
+  - name: Humanities
+    id:
+    icon:
+    mappings:
+    children:
+      - name: History
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Language
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Linguistics
+        id:
+        icon:
+        mappings:
+        children:
+      - name: LIterature
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Philosophy
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Music
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Religion
+        id:
+        icon:
+        mappings:
+        children:
+  - name: Innovation & Entrepreneurship
+    id:
+    icon:
+    mappings:
+    children:
+      - name: Startups/New Enterprises
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Corporate Innovation
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Innovation Process
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Product Innovation
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Inventions & Patents
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Innovation Ecosystems
+        id:
+        icon:
+        mappings:
+        children:
+  - name: Health & Medicine
+    id:
+    icon:
+    mappings:
+    children:
+      - name: Biomedical Technologies
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Health Care Management
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Immunology
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Imaging
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Mental Health
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Pathology and Pathophysiology
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Pharmacology & Toxicology
+        id:
+        icon:
+        mappings:
+        children:
+      - name: Public Health
+        id:
+        icon:
+        mappings:
+        children:
