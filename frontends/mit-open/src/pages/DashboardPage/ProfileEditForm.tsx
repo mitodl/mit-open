@@ -37,7 +37,11 @@ const FormContainer = styled.div(({ theme }) => ({
 }))
 
 const ButtonContainer = styled.div(({ theme }) => ({
-  marginTop: theme.spacing(3),
+  paddingTop: "18px",
+  [theme.breakpoints.down("md")]: {
+    paddingTop: "0",
+    paddingBottom: "34px",
+  },
 }))
 
 const UpdateButton = styled(Button)(({ theme }) => ({
