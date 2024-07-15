@@ -11,13 +11,11 @@ const RadioGroupStyled = styled(RadioGroup)({
   gap: "16px",
 })
 
-const Label = styled(FormLabel)(({ theme }) => ({
+const Label = styled(FormLabel)({
   marginTop: "0",
   marginBottom: "16px",
   width: "100%",
-  color: theme.custom.colors.darkGray2,
-  ...theme.typography.subtitle2,
-}))
+})
 
 interface RadioChoiceProps {
   value: string

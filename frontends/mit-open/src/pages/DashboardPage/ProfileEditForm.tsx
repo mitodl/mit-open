@@ -36,6 +36,11 @@ const FormContainer = styled.div(({ theme }) => ({
   },
 }))
 
+const RadioChoiceFieldStyled = styled(RadioChoiceField)(({ theme }) => ({
+  color: theme.custom.colors.darkGray2,
+  ...theme.typography.subtitle2,
+}))
+
 const ButtonContainer = styled.div(({ theme }) => ({
   paddingTop: "18px",
   [theme.breakpoints.down("md")]: {
@@ -122,7 +127,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
           values={formik.values.goals}
           onChange={formik.handleChange}
         />
-        <RadioChoiceField
+        <RadioChoiceFieldStyled
           name="certificate_desired"
           row={!isMobile}
           choices={CERTIFICATE_CHOICES}
