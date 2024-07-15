@@ -11,6 +11,8 @@ import {
   RadioChoiceField,
   SimpleSelectField,
   useMuiBreakpointAtLeast,
+  Input,
+  Skeleton,
 } from "ol-components"
 
 import { useLearningResourceTopics } from "api/hooks/learningResources"
@@ -20,6 +22,7 @@ import {
   GOALS_CHOICES,
   LEARNING_FORMAT_CHOICES,
 } from "@/page-components/Profile/constants"
+import { useUserMe } from "api/hooks/user"
 
 type Props = {
   profile: Profile
@@ -34,6 +37,23 @@ const FormContainer = styled.div(({ theme }) => ({
     paddingTop: "24px",
     gap: "32px",
   },
+}))
+
+const NameRow = styled.div({
+  display: "flex",
+  flexDirection: "row",
+  gap: "24px",
+})
+
+const NameColumn = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  flex: "1 1",
+})
+
+const NameLabel = styled.label(({ theme }) => ({
+  color: theme.custom.colors.darkGray2,
+  ...theme.typography.subtitle2,
 }))
 
 const RadioChoiceFieldStyled = styled(RadioChoiceField)(({ theme }) => ({
@@ -67,6 +87,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         profile?.topic_interests?.map((topic) => String(topic.id)) || [],
     }
   }, [profile])
+  const { isLoading: isLoadingUser, data: user } = useUserMe()
   const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
   const profileSchema = yup.object().shape({
     topic_interests: yup.array().of(yup.string()),
@@ -103,6 +124,36 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
   return (
     <form id={formId} onSubmit={formik.handleSubmit}>
       <FormContainer>
+        <NameRow>
+          <NameColumn>
+            <NameLabel>First Name</NameLabel>
+            {isLoadingUser ? (
+              <Skeleton variant="text" height={50} />
+            ) : (
+              <Input
+                fullWidth
+                type="text"
+                name="first_name"
+                value={user?.first_name}
+                disabled
+              />
+            )}
+          </NameColumn>
+          <NameColumn>
+            <NameLabel>Last Name</NameLabel>
+            {isLoadingUser ? (
+              <Skeleton variant="text" height={50} />
+            ) : (
+              <Input
+                fullWidth
+                type="text"
+                name="first_name"
+                value={user?.first_name}
+                disabled
+              />
+            )}
+          </NameColumn>
+        </NameRow>
         <CheckboxChoiceBoxField
           name="topic_interests"
           choices={topicChoices}
