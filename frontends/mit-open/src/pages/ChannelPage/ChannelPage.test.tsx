@@ -101,17 +101,43 @@ const setupApis = (
 
 describe("ChannelPage", () => {
   it("Displays the channel title, banner, and avatar", async () => {
-    const { channel } = setupApis()
+    const { channel } = setupApis({
+      search_filter: "offered_by=ocw",
+      channel_type: "unit",
+    })
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-
-    const title = await screen.findAllByText(channel.title)
-    const header = title[0].closest("header")
+    const findTitle = (titles: HTMLElement[]) => {
+      return titles[
+        titles.findIndex(
+          (title: HTMLElement) =>
+            title.textContent === channel.title ||
+            title.textContent === channel.configuration.heading,
+        )
+      ]
+    }
+    await waitFor(() => {
+      const titles = screen.getAllByRole("heading")
+      const title = findTitle(titles)
+      expect(title).toBeInTheDocument()
+    })
+    const titles = screen.getAllByRole("heading")
+    const title = findTitle(titles)
+    expect(title).toBeInTheDocument()
+    const header = title.closest("header")
     assertInstanceOf(header, HTMLElement)
     const images = within(header).getAllByRole("img") as HTMLImageElement[]
     const headerStyles = getComputedStyle(header)
-    expect(headerStyles.backgroundImage).toContain(
-      channel.configuration.banner_background,
-    )
+    if (channel.channel_type !== "unit") {
+      /*
+       * unit channels are filtered out from this assertion
+       * because they wrap the background image in a linear-gradient,
+       * which causes react testing library to not render the background-image
+       * property at all
+       */
+      expect(headerStyles.backgroundImage).toContain(
+        channel.configuration.banner_background,
+      )
+    }
     expect(images[0].src).toContain(channel.configuration.logo)
   })
   it("Displays a featured carousel if the channel type is 'unit'", async () => {
@@ -158,7 +184,7 @@ describe("ChannelPage", () => {
         "platform=ocw&platform=mitxonline&department=8&department=9",
     })
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findByText(channel.title)
+    await screen.findAllByText(channel.title)
     const expectedProps = expect.objectContaining({
       constantSearchParams: {
         platform: ["ocw", "mitxonline"],
@@ -176,7 +202,7 @@ describe("ChannelPage", () => {
     const { channel } = setupApis()
     channel.search_filter = undefined
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findByText(channel.title)
+    await screen.findAllByText(channel.title)
 
     expect(mockedChannelSearch).toHaveBeenCalledTimes(0)
   })
@@ -185,17 +211,17 @@ describe("ChannelPage", () => {
     const { channel } = setupApis()
     channel.search_filter = undefined
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findByText(channel.title)
+    await screen.findAllByText(channel.title)
 
     await waitFor(() => {
-      expect(
-        screen.getByText(channel.configuration.sub_heading),
-      ).toBeInTheDocument()
+      screen.getAllByText(channel.configuration.sub_heading).forEach((el) => {
+        expect(el).toBeInTheDocument()
+      })
     })
     await waitFor(() => {
-      expect(
-        screen.getByText(channel.configuration.heading),
-      ).toBeInTheDocument()
+      screen.getAllByText(channel.configuration.heading).forEach((el) => {
+        expect(el).toBeInTheDocument()
+      })
     })
   })
 

@@ -45,7 +45,7 @@ module.exports = {
           "**/*.test.ts",
           "**/*.test.tsx",
           "**/src/setupJest.ts",
-          "jest-shared-setup.ts",
+          "**/jest-shared-setup.ts",
           "**/test-utils/**",
           "**/test-utils/**",
           "**/webpack.config.js",

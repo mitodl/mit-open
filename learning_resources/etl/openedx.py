@@ -17,7 +17,6 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import COMMON_HEADERS
 from learning_resources.etl.utils import (
-    clean_data,
     extract_valid_department_from_id,
     generate_course_numbers_json,
     parse_certification,
@@ -25,6 +24,7 @@ from learning_resources.etl.utils import (
     without_none,
 )
 from learning_resources.utils import get_year_and_semester
+from main.utils import clean_data
 
 MIT_OWNER_KEYS = ["MITx", "MITx_PRO"]
 
@@ -220,7 +220,10 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "start_date": course_run.get("start") or course_run.get("enrollment_start"),
         "end_date": course_run.get("end"),
         "last_modified": last_modified,
-        "published": course_run.get("status", "") == "published",
+        "published": (
+            course_run.get("status", "") == "published"
+            and course_run.get("is_enrollable", False)
+        ),
         "enrollment_start": course_run.get("enrollment_start"),
         "enrollment_end": course_run.get("enrollment_end"),
         "image": _transform_image(course_run.get("image")),
@@ -280,9 +283,7 @@ def _transform_course(config, course):
         "course": {
             "course_numbers": generate_course_numbers_json(course.get("key")),
         },
-        "published": any(
-            run["status"] == "published" for run in course.get("course_runs", [])
-        ),
+        "published": any(run["published"] is True for run in runs),
         "certification": has_certification,
         "certification_type": CertificationType.completion.name
         if has_certification

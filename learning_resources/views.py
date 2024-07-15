@@ -429,7 +429,9 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     Topics covered by learning resources
     """
 
-    queryset = LearningResourceTopic.objects.all().order_by("name")
+    queryset = (
+        LearningResourceTopic.objects.all().order_by("name").annotate_channel_url()
+    )
     serializer_class = LearningResourceTopicSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)

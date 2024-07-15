@@ -138,6 +138,30 @@ const expectWindowNavigation = async (cb: () => void | Promise<void>) => {
   }
 }
 
+const ignoreError = (errorMessage: string, timeoutMs?: number) => {
+  const consoleError = console.error
+  const spy = jest.spyOn(console, "error").mockImplementation((...args) => {
+    if (args[0]?.includes(errorMessage)) {
+      return
+    }
+    return consoleError.call(console, args)
+  })
+
+  const timeout = setTimeout(() => {
+    throw new Error(
+      `Ignored console error not cleared after ${timeoutMs || 5000}ms: "${errorMessage}"`,
+    )
+  }, timeoutMs || 5000)
+
+  const clear = () => {
+    console.error = consoleError
+    spy.mockClear()
+    clearTimeout(timeout)
+  }
+
+  return { clear }
+}
+
 export {
   renderTestApp,
   renderWithProviders,
@@ -145,6 +169,7 @@ export {
   expectProps,
   expectLastProps,
   expectWindowNavigation,
+  ignoreError,
 }
 // Conveniences
 export { setMockResponse }

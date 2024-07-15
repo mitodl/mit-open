@@ -3,6 +3,7 @@
 import feedparser
 from bs4 import BeautifulSoup
 
+from main.utils import clean_data
 from news_events.constants import FeedType
 from news_events.etl.utils import stringify_time_struct
 
@@ -65,8 +66,8 @@ def transform_items(items_data: list[dict]) -> list[dict]:
             "guid": item.get("id"),
             "title": item.get("title", ""),
             "url": item.get("link", None),
-            "summary": item.get("summary", ""),
-            "content": content,
+            "summary": clean_data(item.get("summary", "")),
+            "content": clean_data(content),
             "image": image_data,
             "detail": {
                 "authors": [

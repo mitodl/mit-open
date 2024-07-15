@@ -26,13 +26,14 @@ const IMAGE_SIZES = {
   desktop: { width: 236, height: 122 },
 }
 
-const CardLabel = styled.span`
+export const CardLabel = styled.span`
+  color: ${theme.custom.colors.silverGrayDark};
   ${theme.breakpoints.down("sm")} {
     display: none;
   }
 `
 
-const Certificate = styled.div`
+export const Certificate = styled.div`
   border-radius: 4px;
   background-color: ${theme.custom.colors.lightGray1};
   padding: 4px;
@@ -65,7 +66,7 @@ const Certificate = styled.div`
   align-items: center;
 `
 
-const Price = styled.div`
+export const Price = styled.div`
   ${{ ...theme.typography.subtitle2 }}
   color: ${theme.custom.colors.darkGray2};
   ${theme.breakpoints.down("md")} {
@@ -73,7 +74,7 @@ const Price = styled.div`
   }
 `
 
-const BorderSeparator = styled.div`
+export const BorderSeparator = styled.div`
   div {
     display: inline;
   }
@@ -102,7 +103,7 @@ type Prices = {
   certificate: null | number
 }
 
-const getPrices = (resource: LearningResource) => {
+export const getPrices = (resource: LearningResource) => {
   const prices: Prices = {
     course: null,
     certificate: null,
@@ -198,7 +199,7 @@ const getDisplayPrecision = (price: number) => {
   return price.toFixed(2)
 }
 
-const getDisplayPrice = (price: number | number[] | null) => {
+export const getDisplayPrice = (price: number | number[] | null) => {
   if (price === null) {
     return null
   }
@@ -221,7 +222,6 @@ const getDisplayPrice = (price: number | number[] | null) => {
  */
 const Info = ({ resource }: { resource: LearningResource }) => {
   const prices = getPrices(resource)
-  getDisplayPrice(+Infinity)
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
@@ -237,7 +237,7 @@ const Info = ({ resource }: { resource: LearningResource }) => {
   )
 }
 
-const Count = ({ resource }: { resource: LearningResource }) => {
+export const Count = ({ resource }: { resource: LearningResource }) => {
   if (resource.resource_type !== ResourceTypeEnum.LearningPath) {
     return null
   }
@@ -270,7 +270,9 @@ const getStartDate = (resource: LearningResource) => {
   return formatDate(startDate, "MMMM DD, YYYY")
 }
 
-const StartDate: React.FC<{ resource: LearningResource }> = ({ resource }) => {
+export const StartDate: React.FC<{ resource: LearningResource }> = ({
+  resource,
+}) => {
   const startDate = getStartDate(resource)
 
   if (!startDate) return null
@@ -284,7 +286,7 @@ const StartDate: React.FC<{ resource: LearningResource }> = ({ resource }) => {
   )
 }
 
-const Format = ({ resource }: { resource: LearningResource }) => {
+export const Format = ({ resource }: { resource: LearningResource }) => {
   const format = resource.learning_format?.[0]?.name
   if (!format) return null
   return (
@@ -356,18 +358,26 @@ interface LearningResourceListCardProps {
   inLearningPath?: boolean
 }
 
-const FILLED_PROPS = { variant: "primary" } as const
-const UNFILLED_PROPS = { color: "secondary", variant: "secondary" } as const
-const CardActionButton: React.FC<
-  Pick<ActionButtonProps, "aria-label" | "onClick" | "children"> & {
-    filled?: boolean
-    isMobile?: boolean
-  }
-> = ({ filled, isMobile, ...props }) => {
+type CardActionButtonProps = Pick<
+  ActionButtonProps,
+  "aria-label" | "onClick" | "children"
+> & {
+  filled?: boolean
+  isMobile?: boolean
+}
+
+export const CardActionButton: React.FC<CardActionButtonProps> = ({
+  filled,
+  isMobile,
+  ...props
+}) => {
+  const FILLED_PROPS = { variant: "primary" } as const
+  const UNFILLED_PROPS = { color: "secondary", variant: "secondary" } as const
+
   return (
     <ListCard.Action
       edge="circular"
-      size={"small"}
+      size="small"
       {...(filled ? FILLED_PROPS : UNFILLED_PROPS)}
       {...props}
     />

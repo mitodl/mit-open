@@ -16,11 +16,11 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
-    clean_data,
     generate_course_numbers_json,
     transform_format,
     transform_topics,
 )
+from main.utils import clean_data
 
 log = logging.getLogger(__name__)
 
@@ -33,7 +33,7 @@ XPRO_PLATFORM_TRANSFORM = {
     "Simplilearn": PlatformType.simplilearn.name,
     "Susskind": PlatformType.susskind.name,
     "WHU": PlatformType.whu.name,
-    "MIT xPRO": PlatformType.xpro.name,
+    "xPRO": PlatformType.xpro.name,
 }
 
 

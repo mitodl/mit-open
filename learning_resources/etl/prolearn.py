@@ -11,9 +11,9 @@ from django.conf import settings
 
 from learning_resources.constants import CertificationType
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import clean_data, transform_format, transform_topics
+from learning_resources.etl.utils import transform_format, transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
-from main.utils import now_in_utc
+from main.utils import clean_data, now_in_utc
 
 log = logging.getLogger(__name__)
 

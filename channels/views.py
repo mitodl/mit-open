@@ -3,6 +3,7 @@
 import logging
 
 from django.contrib.auth.models import User
+from django.db.models import Prefetch
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
@@ -13,7 +14,7 @@ from rest_framework.views import APIView
 
 from channels.api import get_group_role_name, remove_user_role
 from channels.constants import CHANNEL_ROLE_MODERATORS
-from channels.models import Channel
+from channels.models import Channel, ChannelList
 from channels.permissions import ChannelModeratorPermissions, HasChannelPermission
 from channels.serializers import (
     ChannelCreateSerializer,
@@ -75,8 +76,19 @@ class ChannelViewSet(
         """Return a queryset"""
         return (
             Channel.objects.prefetch_related(
-                "lists", "sub_channels", "sub_channels__channel"
+                Prefetch(
+                    "lists",
+                    queryset=ChannelList.objects.prefetch_related(
+                        "channel_list", "channel__lists", "channel__featured_list"
+                    ).order_by("position"),
+                ),
+                "sub_channels",
+                Prefetch(
+                    "sub_channels__channel",
+                    queryset=Channel.objects.annotate_channel_url(),
+                ),
             )
+            .annotate_channel_url()
             .select_related(
                 "featured_list", "topic_detail", "department_detail", "unit_detail"
             )

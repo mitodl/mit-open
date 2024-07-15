@@ -1,12 +1,12 @@
 import React from "react"
 import { useParams } from "react-router"
-import ChannelPageSkeleton from "./ChannelPageSkeleton"
+import { ChannelPageTemplate } from "./ChannelPageTemplate"
 import { useChannelDetail } from "api/hooks/channels"
 import FieldSearch from "./ChannelSearch"
-import type {
-  Facets,
-  FacetKey,
-  BooleanFacets,
+import {
+  type Facets,
+  type FacetKey,
+  type BooleanFacets,
 } from "@mitodl/course-search-utils"
 import { ChannelTypeEnum } from "api/v0"
 import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
@@ -41,7 +41,7 @@ const ChannelPage: React.FC = () => {
   return (
     name &&
     channelType && (
-      <ChannelPageSkeleton name={name} channelType={channelType}>
+      <ChannelPageTemplate name={name} channelType={channelType}>
         <p>{channelQuery.data?.public_description}</p>
         {channelType === "unit" ? (
           <StyledTestimonialDisplay offerors={[name]} />
@@ -52,7 +52,7 @@ const ChannelPage: React.FC = () => {
             channelType={channelType}
           />
         )}
-      </ChannelPageSkeleton>
+      </ChannelPageTemplate>
     )
   )
 }

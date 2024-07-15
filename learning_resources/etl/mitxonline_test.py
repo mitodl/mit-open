@@ -31,11 +31,11 @@ from learning_resources.etl.mitxonline import (
 )
 from learning_resources.etl.utils import (
     UCC_TOPIC_MAPPINGS,
-    clean_data,
     extract_valid_department_from_id,
     parse_certification,
 )
 from main.test_utils import any_instance_of
+from main.utils import clean_data
 
 pytestmark = pytest.mark.django_db
 

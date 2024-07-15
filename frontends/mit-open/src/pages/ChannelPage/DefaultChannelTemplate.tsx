@@ -1,0 +1,165 @@
+import React from "react"
+import {
+  styled,
+  Container,
+  Typography,
+  Breadcrumbs,
+  Banner,
+} from "ol-components"
+import { MetaTags } from "ol-utilities"
+import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
+import { useChannelDetail } from "api/hooks/channels"
+import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
+import ChannelAvatar from "@/components/ChannelAvatar/ChannelAvatar"
+import { SourceTypeEnum } from "api"
+import { HOME as HOME_URL } from "../../common/urls"
+import {
+  CHANNEL_TYPE_BREADCRUMB_TARGETS,
+  ChannelControls,
+  ChannelTitleRow,
+} from "./ChannelPageTemplate"
+
+const HeadingTextContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "center",
+  flexGrow: 0,
+  flexShrink: 0,
+  order: 2,
+  my: 1,
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
+  [theme.breakpoints.up("md")]: {
+    width: "80%",
+  },
+}))
+
+const ChannelControlsContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  alignItems: "end",
+  flexGrow: 0,
+  flexShrink: 0,
+  order: 2,
+  [theme.breakpoints.down("xs")]: {
+    width: "100%",
+  },
+  [theme.breakpoints.down("sm")]: {
+    mt: "8px",
+    mb: "48px",
+  },
+  [theme.breakpoints.up("md")]: {
+    mt: "0px",
+    mb: "48px",
+    width: "15%",
+  },
+}))
+
+interface DefaultChannelTemplateProps {
+  children: React.ReactNode
+  channelType: string
+  name: string
+}
+
+/**
+ * Common structure for channel-oriented pages.
+ *
+ * Renders the channel title and avatar in a banner.
+ */
+const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
+  children,
+  channelType,
+  name,
+}) => {
+  const channel = useChannelDetail(String(channelType), String(name))
+  const urlParams = new URLSearchParams(channel.data?.search_filter)
+  const displayConfiguration = channel.data?.configuration
+
+  return (
+    <>
+      <MetaTags
+        title={
+          channel.data?.title ||
+          CHANNEL_TYPE_BREADCRUMB_TARGETS[channelType].label
+        }
+      />
+      <Banner
+        navText={
+          <Breadcrumbs
+            variant="dark"
+            ancestors={[
+              { href: HOME_URL, label: "Home" },
+              {
+                href: CHANNEL_TYPE_BREADCRUMB_TARGETS[channelType].href,
+                label: CHANNEL_TYPE_BREADCRUMB_TARGETS[channelType].label,
+              },
+            ]}
+            current={channel.data?.title}
+          />
+        }
+        avatar={
+          displayConfiguration?.logo &&
+          channel.data && (
+            <ChannelAvatar
+              imageVariant="inverted"
+              formImageUrl={displayConfiguration.logo}
+              imageSize="medium"
+              channel={channel.data}
+            />
+          )
+        }
+        header={channel.data?.title}
+        subheader={displayConfiguration?.heading}
+        extraHeader={displayConfiguration?.sub_heading}
+        backgroundUrl={
+          displayConfiguration?.banner_background ??
+          "/static/images/background_steps.jpeg"
+        }
+        extraRight={
+          <ChannelControlsContainer>
+            <ChannelControls>
+              {channel.data?.search_filter ? (
+                <SearchSubscriptionToggle
+                  sourceType={SourceTypeEnum.ChannelSubscriptionType}
+                  searchParams={urlParams}
+                />
+              ) : null}
+              {channel.data?.is_moderator ? (
+                <ChannelMenu
+                  channelType={String(channelType)}
+                  name={String(name)}
+                />
+              ) : null}
+            </ChannelControls>
+          </ChannelControlsContainer>
+        }
+      />
+      <Container>
+        <ChannelTitleRow data-testid="banner">
+          {displayConfiguration?.heading ? (
+            <HeadingTextContainer>
+              <Typography variant="h4">
+                {displayConfiguration.heading}
+              </Typography>
+            </HeadingTextContainer>
+          ) : (
+            <></>
+          )}
+          {displayConfiguration?.sub_heading ? (
+            <HeadingTextContainer>
+              <Typography variant="body1">
+                {displayConfiguration.sub_heading}
+              </Typography>
+            </HeadingTextContainer>
+          ) : (
+            <></>
+          )}
+        </ChannelTitleRow>
+      </Container>
+      {children}
+    </>
+  )
+}
+
+export default DefaultChannelTemplate

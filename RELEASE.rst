@@ -1,6 +1,53 @@
 Release Notes
 =============
 
+Version 0.13.19 (Released July 12, 2024)
+---------------
+
+- remove erronous export string (#1257)
+- Install django-silk nad fix topics api perf (#1250)
+- change xpro ETL dict key back (#1252)
+- reindexing fixes (#1247)
+- Pin dependencies (#1225)
+- Plain text news/events titles/authors; standardize html cleanup (#1248)
+- Condensed list card components for user lists (#1251)
+- Change readable_id values for podcasts and episodes (#1232)
+- adjust / refactor channel detail header (#1234)
+- use main not "$default-branch" (#1249)
+- Update dependency ruff to v0.5.1 (#1241)
+- Update dependency Django to v4.2.14 (#1240)
+
+Version 0.13.18 (Released July 10, 2024)
+---------------
+
+- Fix logout view (#1236)
+- remove manage widgets (#1239)
+- Unit and detail page copy updates (#1235)
+- Align departments listing colors to designs (#1238)
+- resource drawer UI fixes (#1237)
+- Remove "Top picks" carousel if no results (#1195)
+- fix learning path count, increase item page size (#1230)
+- Use ovewrite=True when calling pluggy function from upsert_offered_by (#1227)
+- open resources in new tab (#1220)
+- extra weight for instructors (#1231)
+- Homepage and nav drawer copy edits (#1233)
+- Update dependency eslint-plugin-jest to v28 (#1038)
+- Only publish enrollable mitxonline courses (#1229)
+- Navigation UI fixes (#1228)
+- better spacing around pagination component (#1219)
+- Update resource drawer text and URL for podcast episodes (#1191)
+- resource type (#1222)
+- Data fixtures app for loading static fixtures (#1218)
+- Webpack build config loads .env files for running outside of Docker (#1221)
+- Updates icons to use Remixicons where they don't already (#1157)
+- make primary buttons shadowy, remove edge=none (#1213)
+- resource category tabs (#1211)
+- Fix storybook github pages publishing (#1200)
+- Fix and reenable onboarding page tests (#1216)
+- Removed nginx serving of frontend locally (#1179)
+- Update actions/checkout digest to 692973e (#961)
+- Privacy policy updates (#1208)
+
 Version 0.13.17 (Released July 02, 2024)
 ---------------
 

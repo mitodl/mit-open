@@ -116,7 +116,7 @@ describe("ChannelSearch", () => {
     })
     setMockResponse.get(urls.userMe.get(), {})
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findByText(channel.title)
+    await screen.findAllByText(channel.title)
     const tabpanel = await screen.findByRole("tabpanel")
     for (const resource of resources) {
       await within(tabpanel).findByText(resource.title)

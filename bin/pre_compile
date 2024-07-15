@@ -2,6 +2,8 @@
 
 # Syntax bin/compile <build-dir> <cache-dir>
 
-echo "-----> Writing out SOURCE_VERSION ($SOURCE_VERSION) to $BUILD_DIR/frontends/mit-open/build/static"
-mkdir -p $BUILD_DIR/frontends/mit-open/build/static
-echo $SOURCE_VERSION >$BUILD_DIR/frontends/mit-open/build/static/hash.txt
+STATIC_DIR="$BUILD_DIR/static"
+
+echo "-----> Writing out SOURCE_VERSION ($SOURCE_VERSION) to $STATIC_DIR"
+mkdir -p $STATIC_DIR
+echo $SOURCE_VERSION >$STATIC_DIR/hash.txt

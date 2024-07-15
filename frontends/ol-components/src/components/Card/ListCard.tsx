@@ -12,7 +12,7 @@ import { Wrapper, containerStyles } from "./Card"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
 
-const LinkContainer = styled(Link)`
+export const LinkContainer = styled(Link)`
   ${containerStyles}
   display: flex;
 
@@ -26,13 +26,13 @@ const LinkContainer = styled(Link)`
   }
 `
 
-const Container = styled.div`
+export const Container = styled.div`
   ${containerStyles}
 `
 
 const Content = () => <></>
 
-const Body = styled.div`
+export const Body = styled.div`
   flex-grow: 1;
   overflow: hidden;
   margin: 24px;
@@ -63,7 +63,7 @@ const Image = styled.img`
   flex-shrink: 0;
 `
 
-const Info = styled.div`
+export const Info = styled.div`
   ${{ ...theme.typography.subtitle3 }}
   margin-bottom: 16px;
   ${theme.breakpoints.down("md")} {
@@ -77,35 +77,28 @@ const Info = styled.div`
   align-items: center;
 `
 
-const Title = styled.h3`
+export const Title = styled.h3`
   flex-grow: 1;
   color: ${theme.custom.colors.darkGray2};
   text-overflow: ellipsis;
   ${{ ...theme.typography.subtitle1 }}
   height: ${theme.typography.pxToRem(40)};
   ${theme.breakpoints.down("md")} {
-    ${{ ...theme.typography.subtitle3 }}
+    ${{ ...theme.typography.subtitle2 }}
     height: ${theme.typography.pxToRem(32)};
   }
 
   margin: 0;
 `
 
-const Footer = styled.span`
+export const Footer = styled.span`
   display: block;
-  ${{
-    ...theme.typography.body3,
-    color: theme.custom.colors.silverGrayDark,
-  }}
-
-  span {
-    color: ${theme.custom.colors.black};
-  }
-
+  ${{ ...theme.typography.body3 }}
+  color: ${theme.custom.colors.darkGray2};
   white-space: nowrap;
 `
 
-const Bottom = styled.div`
+export const Bottom = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -118,7 +111,7 @@ const Bottom = styled.div`
 /**
  * Slot intended to contain ListCardAction buttons.
  */
-const Actions = styled.div<{ hasImage?: boolean }>`
+export const Actions = styled.div<{ hasImage?: boolean }>`
   display: flex;
   gap: 8px;
   position: absolute;
@@ -152,7 +145,7 @@ type CardProps = {
   className?: string
   href?: string
 }
-type Card = FC<CardProps> & {
+export type Card = FC<CardProps> & {
   Content: FC<{ children: ReactNode }>
   Image: FC<ImgHTMLAttributes<HTMLImageElement>>
   Info: FC<{ children: ReactNode }>

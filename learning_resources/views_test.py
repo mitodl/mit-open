@@ -556,20 +556,24 @@ def test_ocw_webhook_endpoint_bad_key(settings, client):
         )
 
 
-def test_topics_list_endpoint(client):
+def test_topics_list_endpoint(client, django_assert_num_queries):
     """Test topics list endpoint"""
     topics = sorted(
-        LearningResourceTopicFactory.create_batch(3),
+        LearningResourceTopicFactory.create_batch(100),
         key=lambda topic: topic.name,
     )
 
-    resp = client.get(reverse("lr:v1:topics_api-list"))
-    assert resp.data.get("count") == 3
-    for i in range(3):
-        assert (
-            resp.data.get("results")[i]
-            == LearningResourceTopicSerializer(instance=topics[i]).data
-        )
+    with django_assert_num_queries(2):
+        resp = client.get(reverse("lr:v1:topics_api-list"))
+
+    assert resp.data == {
+        "count": 100,
+        "next": None,
+        "previous": None,
+        "results": [
+            LearningResourceTopicSerializer(instance=topic).data for topic in topics
+        ],
+    }
 
 
 def test_topics_detail_endpoint(client):

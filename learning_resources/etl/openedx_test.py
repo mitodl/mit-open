@@ -99,7 +99,15 @@ def test_extract_disabled(openedx_config, config_arg_idx):
 
 @pytest.mark.parametrize("has_runs", [True, False])
 @pytest.mark.parametrize("is_course_deleted", [True, False])
-@pytest.mark.parametrize("is_course_run_deleted", [True, False])
+@pytest.mark.parametrize(
+    ("is_run_deleted", "is_run_enrollable", "is_run_published"),
+    [
+        (False, False, True),
+        (True, False, True),
+        (False, True, True),
+        (False, False, False),
+    ],
+)
 @pytest.mark.parametrize(
     ("start_dt", "enrollment_dt", "expected_dt"),
     [
@@ -115,7 +123,9 @@ def test_transform_course(  # noqa: PLR0913
     mitx_course_data,
     has_runs,
     is_course_deleted,
-    is_course_run_deleted,
+    is_run_deleted,
+    is_run_enrollable,
+    is_run_published,
     start_dt,
     enrollment_dt,
     expected_dt,
@@ -123,17 +133,19 @@ def test_transform_course(  # noqa: PLR0913
     """Test that the transform function normalizes and filters out data"""
     extracted = mitx_course_data["results"]
     for course in extracted:
+        if is_course_deleted:
+            course["title"] = f"[delete] {course['title']}"
         if not has_runs:
             course["course_runs"] = []
         else:
             for run in course["course_runs"]:
                 run["start"] = start_dt
                 run["enrollment_start"] = enrollment_dt
-        if is_course_deleted:
-            course["title"] = f"[delete] {course['title']}"
-        if is_course_run_deleted:
-            for run in course["course_runs"]:
-                run["title"] = f"[delete] {run['title']}"
+                run["is_enrollable"] = is_run_enrollable
+                run["status"] = "published" if is_run_published else "unpublished"
+                if is_run_deleted:
+                    run["title"] = f"[delete] {run['title']}"
+
     transformed_courses = openedx_extract_transform.transform(extracted)
     if is_course_deleted or not has_runs:
         assert transformed_courses == []
@@ -155,12 +167,15 @@ def test_transform_course(  # noqa: PLR0913
             "last_modified": any_instance_of(datetime),
             "topics": [{"name": "Data Analysis & Statistics"}],
             "url": "http://localhost/fake-alt-url/this_course",
-            "published": True,
+            "published": is_run_published
+            and is_run_enrollable
+            and not is_run_deleted
+            and has_runs,
             "certification": False,
             "certification_type": CertificationType.none.name,
             "runs": (
                 []
-                if is_course_run_deleted or not has_runs
+                if is_run_deleted or not has_runs
                 else [
                     {
                         "availability": "Starting Soon",
@@ -187,7 +202,7 @@ def test_transform_course(  # noqa: PLR0913
                         "title": "The Analytics Edge",
                         "url": "http://localhost/fake-alt-url/this_course",
                         "year": 2019,
-                        "published": True,
+                        "published": is_run_enrollable and is_run_published,
                     }
                 ]
             ),
@@ -197,7 +212,7 @@ def test_transform_course(  # noqa: PLR0913
                         "value": "MITx+15.071x",
                         "department": {
                             "department_id": "15",
-                            "name": "Sloan School of Management",
+                            "name": "Management",
                         },
                         "listing_type": CourseNumberType.primary.value,
                         "primary": True,
@@ -206,6 +221,10 @@ def test_transform_course(  # noqa: PLR0913
                 ]
             },
         }
-        if not is_course_run_deleted:
-            assert transformed_courses[1]["published"] is False
-            assert transformed_courses[1]["runs"][0]["published"] is False
+        if not is_run_deleted:
+            assert transformed_courses[1]["published"] is (
+                is_run_enrollable and is_run_published
+            )
+            assert transformed_courses[1]["runs"][0]["published"] is (
+                is_run_enrollable and is_run_published
+            )

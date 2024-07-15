@@ -43,12 +43,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
     Serializer for LearningResourceTopic model
     """
 
-    channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
-
-    def get_channel_url(self, instance: models.LearningResourceTopic) -> str or None:
-        """Get the channel url for the topic if it exists"""
-        channel = Channel.objects.filter(topic_detail__topic=instance).first()
-        return channel.channel_url if channel else None
+    channel_url = serializers.CharField()
 
     class Meta:
         """Meta options for the serializer."""
@@ -100,7 +95,7 @@ class LearningResourceOfferorSerializer(serializers.ModelSerializer):
 
     channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
 
-    def get_channel_url(self, instance: models.LearningResourceOfferor) -> str or None:
+    def get_channel_url(self, instance: models.LearningResourceOfferor) -> str | None:
         """Get the channel url for the offeror if it exists"""
         channel = Channel.objects.filter(unit_detail__unit=instance).first()
         return channel.channel_url if channel else None
@@ -160,7 +155,7 @@ class LearningResourceBaseDepartmentSerializer(serializers.ModelSerializer):
 
     def get_channel_url(
         self, instance: models.LearningResourceDepartment
-    ) -> str or None:
+    ) -> str | None:
         """Get the channel url for the department if it exists"""
         channel = Channel.objects.filter(department_detail__department=instance).first()
         return channel.channel_url if channel else None

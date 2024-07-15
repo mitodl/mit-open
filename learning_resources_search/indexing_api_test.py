@@ -32,7 +32,7 @@ from learning_resources_search.indexing_api import (
     deindex_learning_resources,
     deindex_percolators,
     deindex_run_content_files,
-    delete_orphaned_indices,
+    delete_orphaned_indexes,
     get_reindexing_alias_name,
     index_content_files,
     index_course_content_files,
@@ -349,7 +349,8 @@ def test_index_items_size_limits(settings, mocker, max_size, chunks, exceeds_siz
     assert mock_log.call_count == (10 if exceeds_size else 0)
 
 
-def test_delete_orphaned_indices(mocker, mocked_es):
+@pytest.mark.parametrize("delete_reindexing_tags", [True, False])
+def test_delete_orphaned_indexes(mocker, mocked_es, delete_reindexing_tags):
     """
     Delete any indices without aliases and any reindexing aliases
     """
@@ -369,6 +370,12 @@ def test_delete_orphaned_indices(mocker, mocked_es):
                 "some_other_alias": {},
             }
         },
+        "discussions_local_podcast_1e61d15ff35b8c9b4f6884bba05484cb": {
+            "aliases": {
+                "discussions_local_program_reindexing": {},
+                "some_other_alias": {},
+            }
+        },
         "discussions_local_program_5484cbb8c9b1e61d15ff354f6884bba0": {"aliases": {}},
         "discussions_local_course_15ff354d6884bba05484cbb8c9b1e61d": {
             "aliases": {
@@ -380,23 +387,32 @@ def test_delete_orphaned_indices(mocker, mocked_es):
     mocked_es.conn.indices = mocker.Mock(
         delete_alias=mocker.Mock(), get_alias=mocker.Mock(return_value=mock_aliases)
     )
-    delete_orphaned_indices()
+    delete_orphaned_indexes(["program"], delete_reindexing_tags=delete_reindexing_tags)
     mocked_es.conn.indices.get_alias.assert_called_once_with(index="*")
-    mocked_es.conn.indices.delete_alias.assert_any_call(
-        name="discussions_local_program_reindexing",
-        index="discussions_local_program_b8c9b1e61d15ff354f6884bba05484cb",
-    )
-    mocked_es.conn.indices.delete_alias.assert_any_call(
-        name="discussions_local_program_reindexing",
-        index="discussions_local_program_1e61d15ff35b8c9b4f6884bba05484cb",
-    )
+
+    if delete_reindexing_tags:
+        mocked_es.conn.indices.delete_alias.assert_any_call(
+            name="discussions_local_program_reindexing",
+            index="discussions_local_program_b8c9b1e61d15ff354f6884bba05484cb",
+        )
+        mocked_es.conn.indices.delete_alias.assert_any_call(
+            name="discussions_local_program_reindexing",
+            index="discussions_local_program_1e61d15ff35b8c9b4f6884bba05484cb",
+        )
+    else:
+        mocked_es.conn.indices.delete_alias.assert_not_called()
+
     mocked_es.conn.indices.delete.assert_any_call(
         "discussions_local_program_5484cbb8c9b1e61d15ff354f6884bba0"
     )
-    mocked_es.conn.indices.delete.assert_any_call(
-        "discussions_local_program_b8c9b1e61d15ff354f6884bba05484cb"
-    )
-    assert mocked_es.conn.indices.delete.call_count == 2
+
+    if delete_reindexing_tags:
+        mocked_es.conn.indices.delete.assert_any_call(
+            "discussions_local_program_b8c9b1e61d15ff354f6884bba05484cb"
+        )
+        assert mocked_es.conn.indices.delete.call_count == 2
+    else:
+        assert mocked_es.conn.indices.delete.call_count == 1
 
 
 def test_bulk_content_file_deindex_on_course_deletion(mocker):
