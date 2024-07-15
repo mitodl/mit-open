@@ -40,6 +40,10 @@ const ButtonContainer = styled.div(({ theme }) => ({
   marginTop: theme.spacing(3),
 }))
 
+const UpdateButton = styled(Button)({
+  width: "200px",
+})
+
 const ProfileEditForm: React.FC<Props> = ({ profile }) => {
   const formId = useId()
   const initialFormData = useMemo(() => {
@@ -145,14 +149,16 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         </Grid>
       </Grid>
       <ButtonContainer>
-        <Button
+        <UpdateButton
           type="submit"
+          size="large"
+          variant="primary"
           endIcon={isSaving ? <CircularProgress /> : null}
           disabled={!formik.dirty}
           form={formId}
         >
           Update
-        </Button>
+        </UpdateButton>
       </ButtonContainer>
     </form>
   )
