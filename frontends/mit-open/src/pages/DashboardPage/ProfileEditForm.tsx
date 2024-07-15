@@ -5,13 +5,13 @@ import { Profile, useProfileMeMutation } from "api/hooks/profile"
 import {
   styled,
   Typography,
-  Grid,
   Button,
   CircularProgress,
   CheckboxChoiceBoxField,
   CheckboxChoiceField,
   RadioChoiceField,
   SimpleSelectField,
+  useMuiBreakpointAtLeast,
 } from "ol-components"
 
 import { useLearningResourceTopics } from "api/hooks/learningResources"
@@ -25,6 +25,11 @@ import {
 type Props = {
   profile: Profile
 }
+
+const FormContainer = styled.div({
+  display: "flex",
+  flexDirection: "column",
+})
 
 const FieldLabel = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
@@ -84,82 +89,78 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
     validateOnChange: false,
     validateOnBlur: false,
   })
+  const isMobile = !useMuiBreakpointAtLeast("md")
 
   return (
     <form id={formId} onSubmit={formik.handleSubmit}>
-      <CheckboxChoiceBoxField
-        name="topic_interests"
-        choices={topicChoices}
-        label={
-          <FieldLabel>What are you interested in learning about?</FieldLabel>
-        }
-        values={formik.values.topic_interests}
-        onChange={formik.handleChange}
-        gridProps={{
-          justifyContent: "left",
-          maxWidth: "lg",
-          columns: {
-            xl: 12,
-            lg: 9,
-            md: 6,
-            xs: 3,
-          },
-        }}
-        gridItemProps={{ xs: 3 }}
-      />
-      <CheckboxChoiceField
-        name="goals"
-        row={true}
-        choices={GOALS_CHOICES}
-        label={<FieldLabel>What do you want to reach?</FieldLabel>}
-        values={formik.values.goals}
-        onChange={formik.handleChange}
-      />
-      <RadioChoiceField
-        name="certificate_desired"
-        row={true}
-        choices={CERTIFICATE_CHOICES}
-        label={<FieldLabel>Are you seeking a certificate?</FieldLabel>}
-        value={formik.values.certificate_desired}
-        onChange={formik.handleChange}
-      />
-      <Grid container columns={{ lg: 12, xs: 6 }} columnSpacing={2}>
-        <Grid item xs={6}>
-          <SimpleSelectField
-            options={EDUCATION_LEVEL_OPTIONS}
-            name="current_education"
-            fullWidth
-            label={
-              <FieldLabel>What is your current level of education?</FieldLabel>
-            }
-            value={formik.values.current_education}
-            onChange={formik.handleChange}
-          />
-        </Grid>
-        <Grid item xs={6} />
-        <Grid item xs={6}>
-          <CheckboxChoiceField
-            name="learning_format"
-            row={true}
-            choices={LEARNING_FORMAT_CHOICES}
-            label={<FieldLabel>What format are you interested in?</FieldLabel>}
-            values={formik.values.learning_format}
-            onChange={formik.handleChange}
-          />
-        </Grid>
-      </Grid>
-      <ButtonContainer>
-        <UpdateButton
-          type="submit"
-          size="large"
-          variant="primary"
-          endIcon={isSaving ? <CircularProgress /> : null}
-          disabled={!formik.dirty}
-          form={formId}
-        >
-          Update
-        </UpdateButton>
-      </ButtonContainer>
+      <FormContainer>
+        <CheckboxChoiceBoxField
+          name="topic_interests"
+          choices={topicChoices}
+          label={
+            <FieldLabel>What are you interested in learning about?</FieldLabel>
+          }
+          values={formik.values.topic_interests}
+          onChange={formik.handleChange}
+          gridProps={{
+            justifyContent: "left",
+            maxWidth: "lg",
+            columns: {
+              xl: 12,
+              lg: 9,
+              md: 6,
+              xs: 3,
+            },
+          }}
+          gridItemProps={{ xs: 3 }}
+        />
+        <CheckboxChoiceField
+          name="goals"
+          row={!isMobile}
+          choices={GOALS_CHOICES}
+          label={<FieldLabel>What do you want to reach?</FieldLabel>}
+          values={formik.values.goals}
+          onChange={formik.handleChange}
+        />
+        <RadioChoiceField
+          name="certificate_desired"
+          row={!isMobile}
+          choices={CERTIFICATE_CHOICES}
+          label={<FieldLabel>Are you seeking a certificate?</FieldLabel>}
+          value={formik.values.certificate_desired}
+          onChange={formik.handleChange}
+        />
+        <SimpleSelectField
+          options={EDUCATION_LEVEL_OPTIONS}
+          name="current_education"
+          fullWidth
+          label={
+            <FieldLabel>What is your current level of education?</FieldLabel>
+          }
+          value={formik.values.current_education}
+          onChange={formik.handleChange}
+        />
+        <CheckboxChoiceField
+          name="learning_format"
+          row={!isMobile}
+          choices={LEARNING_FORMAT_CHOICES}
+          label={<FieldLabel>What format are you interested in?</FieldLabel>}
+          values={formik.values.learning_format}
+          onChange={formik.handleChange}
+        />
+        <ButtonContainer>
+          <UpdateButton
+            type="submit"
+            size="large"
+            variant="primary"
+            endIcon={isSaving ? <CircularProgress /> : null}
+            disabled={!formik.dirty}
+            form={formId}
+          >
+            Update
+          </UpdateButton>
+        </ButtonContainer>
+      </FormContainer>
     </form>
   )
 }
