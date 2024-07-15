@@ -28,8 +28,10 @@ type Props = {
 const FormContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
+  paddingTop: "40px",
   gap: "40px",
   [theme.breakpoints.down("md")]: {
+    paddingTop: "24px",
     gap: "32px",
   },
 }))
@@ -38,9 +40,12 @@ const ButtonContainer = styled.div(({ theme }) => ({
   marginTop: theme.spacing(3),
 }))
 
-const UpdateButton = styled(Button)({
+const UpdateButton = styled(Button)(({ theme }) => ({
   width: "200px",
-})
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
+}))
 
 const ProfileEditForm: React.FC<Props> = ({ profile }) => {
   const formId = useId()
