@@ -125,7 +125,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
           name="goals"
           row={!isMobile}
           choices={GOALS_CHOICES}
-          label={"What do you want to reach?"}
+          label={"What are your learning goals?"}
           values={formik.values.goals}
           onChange={formik.handleChange}
         />
@@ -149,7 +149,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
           name="learning_format"
           row={!isMobile}
           choices={LEARNING_FORMAT_CHOICES}
-          label={"What format are you interested in?"}
+          label={"What course format are you interested in?"}
           values={formik.values.learning_format}
           onChange={formik.handleChange}
         />
