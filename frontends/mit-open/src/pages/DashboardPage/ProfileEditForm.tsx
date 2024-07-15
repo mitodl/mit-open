@@ -4,7 +4,6 @@ import * as yup from "yup"
 import { Profile, useProfileMeMutation } from "api/hooks/profile"
 import {
   styled,
-  Typography,
   Button,
   CircularProgress,
   CheckboxChoiceBoxField,
@@ -32,16 +31,6 @@ const FormContainer = styled.div(({ theme }) => ({
   gap: "40px",
   [theme.breakpoints.down("md")]: {
     gap: "32px",
-  },
-}))
-
-const FieldLabel = styled(Typography)(({ theme }) => ({
-  color: theme.custom.colors.darkGray2,
-  ...theme.typography.body1,
-  marginTop: theme.spacing(3),
-  marginBottom: theme.spacing(1),
-  [theme.breakpoints.down("md")]: {
-    ...theme.typography.subtitle3,
   },
 }))
 
@@ -101,9 +90,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         <CheckboxChoiceBoxField
           name="topic_interests"
           choices={topicChoices}
-          label={
-            <FieldLabel>What are you interested in learning about?</FieldLabel>
-          }
+          label={"What are you interested in learning about?"}
           values={formik.values.topic_interests}
           onChange={formik.handleChange}
           gridProps={{
@@ -122,7 +109,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
           name="goals"
           row={!isMobile}
           choices={GOALS_CHOICES}
-          label={<FieldLabel>What do you want to reach?</FieldLabel>}
+          label={"What do you want to reach?"}
           values={formik.values.goals}
           onChange={formik.handleChange}
         />
@@ -130,7 +117,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
           name="certificate_desired"
           row={!isMobile}
           choices={CERTIFICATE_CHOICES}
-          label={<FieldLabel>Are you seeking a certificate?</FieldLabel>}
+          label={"Are you seeking a certificate?"}
           value={formik.values.certificate_desired}
           onChange={formik.handleChange}
         />
@@ -138,9 +125,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
           options={EDUCATION_LEVEL_OPTIONS}
           name="current_education"
           fullWidth
-          label={
-            <FieldLabel>What is your current level of education?</FieldLabel>
-          }
+          label={"What is your current level of education?"}
           value={formik.values.current_education}
           onChange={formik.handleChange}
         />
@@ -148,7 +133,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
           name="learning_format"
           row={!isMobile}
           choices={LEARNING_FORMAT_CHOICES}
-          label={<FieldLabel>What format are you interested in?</FieldLabel>}
+          label={"What format are you interested in?"}
           values={formik.values.learning_format}
           onChange={formik.handleChange}
         />

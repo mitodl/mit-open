@@ -28,6 +28,14 @@ const RowContainer = styled(Container)({
   flexDirection: "row",
 })
 
+const Label = styled(FormLabel)(({ theme }) => ({
+  marginTop: "0",
+  marginBottom: "16px",
+  width: "100%",
+  color: theme.custom.colors.darkGray2,
+  ...theme.typography.subtitle2,
+}))
+
 const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
   label,
   name,
@@ -46,9 +54,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
       sx={{ width: "100%" }}
       className={className}
     >
-      <FormLabel component="legend" sx={{ width: "100%" }}>
-        {label}
-      </FormLabel>
+      <Label>{label}</Label>
       <_Container>
         {choices.map((choice) => {
           return (

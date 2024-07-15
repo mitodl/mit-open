@@ -44,6 +44,7 @@ const Container = styled.div`
 
   && input[type="checkbox"] {
     margin: 0;
+    margin-right: 4px;
   }
 
   ${containerStyles}

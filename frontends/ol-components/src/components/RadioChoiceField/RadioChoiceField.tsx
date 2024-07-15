@@ -11,6 +11,14 @@ const RadioGroupStyled = styled(RadioGroup)({
   gap: "16px",
 })
 
+const Label = styled(FormLabel)(({ theme }) => ({
+  marginTop: "0",
+  marginBottom: "16px",
+  width: "100%",
+  color: theme.custom.colors.darkGray2,
+  ...theme.typography.subtitle2,
+}))
+
 interface RadioChoiceProps {
   value: string
   label: React.ReactNode
@@ -49,7 +57,7 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
   const labelId = useId()
   return (
     <FormControl className={className}>
-      <FormLabel id={labelId}>{label}</FormLabel>
+      <Label id={labelId}>{label}</Label>
       <RadioGroupStyled
         aria-labelledby={labelId}
         name={name}
