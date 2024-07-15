@@ -5,6 +5,11 @@ import FormLabel from "@mui/material/FormLabel"
 import Radio from "@mui/material/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
 import type { RadioGroupProps } from "@mui/material/RadioGroup"
+import styled from "@emotion/styled"
+
+const RadioGroupStyled = styled(RadioGroup)({
+  gap: "16px",
+})
 
 interface RadioChoiceProps {
   value: string
@@ -45,7 +50,7 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
   return (
     <FormControl className={className}>
       <FormLabel id={labelId}>{label}</FormLabel>
-      <RadioGroup
+      <RadioGroupStyled
         aria-labelledby={labelId}
         name={name}
         defaultValue={defaultValue}
@@ -65,7 +70,7 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
             />
           )
         })}
-      </RadioGroup>
+      </RadioGroupStyled>
     </FormControl>
   )
 }

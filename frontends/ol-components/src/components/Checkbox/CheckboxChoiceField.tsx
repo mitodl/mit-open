@@ -15,13 +15,16 @@ export type CheckboxChoiceFieldProps = {
   className?: string
 }
 
-const ColumnContainer = styled.div({
+const Container = styled.div({
   display: "flex",
+  gap: "32px",
+})
+
+const ColumnContainer = styled(Container)({
   flexDirection: "column",
 })
 
-const RowContainer = styled.div({
-  display: "flex",
+const RowContainer = styled(Container)({
   flexDirection: "row",
 })
 
@@ -34,7 +37,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
   row,
   className,
 }) => {
-  const Container = row ? RowContainer : ColumnContainer
+  const _Container = row ? RowContainer : ColumnContainer
   const isChecked = (choice: CheckboxProps) =>
     choice.value ? values?.includes(choice.value) ?? false : false
   return (
@@ -46,7 +49,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
       <FormLabel component="legend" sx={{ width: "100%" }}>
         {label}
       </FormLabel>
-      <Container>
+      <_Container>
         {choices.map((choice) => {
           return (
             <Checkbox
@@ -58,7 +61,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
             />
           )
         })}
-      </Container>
+      </_Container>
     </FormControl>
   )
 }
