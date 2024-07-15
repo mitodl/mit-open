@@ -134,7 +134,7 @@ def transform_item(event_data: dict) -> dict:
     attributes = event_data.get("contentNodes", {})
     guid = event_data["contentKey"]
     dt = event_data.get("publishedDate")
-    text_date = attributes["Image_Text"]["value"]
+    text_date = attributes.get("Image_Text", {}).get("value", "")
     try:
         dt_utc = (
             timefhuman(text_date)[0]
