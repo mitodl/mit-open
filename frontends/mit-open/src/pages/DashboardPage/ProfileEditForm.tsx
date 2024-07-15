@@ -26,10 +26,14 @@ type Props = {
   profile: Profile
 }
 
-const FormContainer = styled.div({
+const FormContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
-})
+  gap: "40px",
+  [theme.breakpoints.down("md")]: {
+    gap: "32px",
+  },
+}))
 
 const FieldLabel = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
