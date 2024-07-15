@@ -9,6 +9,7 @@ from zoneinfo import ZoneInfo
 import requests
 from dateutil import parser
 from django.utils.html import strip_tags
+from timefhuman import timefhuman
 
 from news_events.constants import FeedType
 
@@ -133,11 +134,21 @@ def transform_item(event_data: dict) -> dict:
     attributes = event_data.get("contentNodes", {})
     guid = event_data["contentKey"]
     dt = event_data.get("publishedDate")
-    dt_utc = (
-        parser.parse(dt).replace(tzinfo=ZoneInfo("US/Eastern")).astimezone(UTC)
-        if dt
-        else None
-    )
+    text_date = attributes["Image_Text"]["value"]
+    try:
+        dt_utc = (
+            timefhuman(text_date)[0]
+            .replace(tzinfo=ZoneInfo("US/Eastern"))
+            .astimezone(UTC)
+            if dt
+            else None
+        )
+    except:  # noqa: E722
+        dt_utc = (
+            parser.parse(dt).replace(tzinfo=ZoneInfo("US/Eastern")).astimezone(UTC)
+            if dt
+            else None
+        )
     cta_button = attributes.get("CTA_Button_URL", {}).get("value", "")
     return {
         "guid": guid,
