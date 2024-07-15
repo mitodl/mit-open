@@ -4,7 +4,7 @@ import FormControl from "@mui/material/FormControl"
 import FormLabel from "@mui/material/FormLabel"
 import styled from "@emotion/styled"
 
-export type CheckboxGroupFieldProps = {
+export type CheckboxChoiceFieldProps = {
   label: React.ReactNode // We could make this optional, but we should demand one of (label, aria-label, aria-labelledby)
   value?: string[]
   name: string
@@ -25,7 +25,7 @@ const RowContainer = styled.div({
   flexDirection: "row",
 })
 
-const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
+const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
   label,
   name,
   choices,
@@ -63,4 +63,4 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   )
 }
 
-export { CheckboxGroupField }
+export { CheckboxChoiceField }

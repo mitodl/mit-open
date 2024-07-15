@@ -1,12 +1,12 @@
 import React, { useState } from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import {
-  CheckboxGroupField,
-  CheckboxGroupFieldProps,
-} from "./CheckboxGroupField"
+  CheckboxChoiceField,
+  CheckboxChoiceFieldProps,
+} from "./CheckboxChoiceField"
 import Typography from "@mui/material/Typography"
 
-const StateWrapper = (props: CheckboxGroupFieldProps) => {
+const StateWrapper = (props: CheckboxChoiceFieldProps) => {
   const [value, setValue] = useState(props.value)
 
   const handleChange = () => {
@@ -19,7 +19,7 @@ const StateWrapper = (props: CheckboxGroupFieldProps) => {
 
   return (
     <>
-      <CheckboxGroupField
+      <CheckboxChoiceField
         {...props}
         name="checkbox-group"
         choices={[
@@ -37,8 +37,8 @@ const StateWrapper = (props: CheckboxGroupFieldProps) => {
   )
 }
 
-const meta: Meta<typeof CheckboxGroupField> = {
-  title: "smoot-design/CheckboxGroupField",
+const meta: Meta<typeof CheckboxChoiceField> = {
+  title: "smoot-design/CheckboxChoiceField",
   component: StateWrapper,
   argTypes: {
     onChange: {
@@ -49,7 +49,7 @@ const meta: Meta<typeof CheckboxGroupField> = {
 
 export default meta
 
-type Story = StoryObj<typeof CheckboxGroupField>
+type Story = StoryObj<typeof CheckboxChoiceField>
 
 export const Column: Story = {}
 
@@ -61,13 +61,13 @@ export const Row: Story = {
 
 export const ColumnWithLabel: Story = {
   args: {
-    label: "CheckboxGroupField",
+    label: "CheckboxChoiceField",
   },
 }
 
 export const RowWithLabel: Story = {
   args: {
     row: true,
-    label: "CheckboxGroupField",
+    label: "CheckboxChoiceField",
   },
 }

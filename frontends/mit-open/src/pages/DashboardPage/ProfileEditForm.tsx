@@ -9,7 +9,7 @@ import {
   Button,
   CircularProgress,
   CheckboxChoiceBoxField,
-  CheckboxGroupField,
+  CheckboxChoiceField,
   RadioChoiceField,
   SimpleSelectField,
 } from "ol-components"
@@ -103,7 +103,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         }}
         gridItemProps={{ xs: 3 }}
       />
-      <CheckboxGroupField
+      <CheckboxChoiceField
         name="goals"
         row={true}
         choices={GOALS_CHOICES}
@@ -134,7 +134,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         </Grid>
         <Grid item xs={6} />
         <Grid item xs={6}>
-          <CheckboxGroupField
+          <CheckboxChoiceField
             name="learning_format"
             row={true}
             choices={LEARNING_FORMAT_CHOICES}
