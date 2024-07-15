@@ -9,6 +9,7 @@ export type CheckboxGroupFieldProps = {
   value?: string[]
   name: string
   choices: Omit<CheckboxProps, "name" | "onChange">[]
+  values?: string[]
   onChange?: CheckboxProps["onChange"]
   row?: boolean
   className?: string
@@ -28,11 +29,14 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
   label,
   name,
   choices,
+  values,
   onChange,
   row,
   className,
 }) => {
   const Container = row ? RowContainer : ColumnContainer
+  const isChecked = (choice: CheckboxProps) =>
+    choice.value ? values?.includes(choice.value) ?? false : false
   return (
     <FormControl
       component="fieldset"
@@ -48,6 +52,7 @@ const CheckboxGroupField: React.FC<CheckboxGroupFieldProps> = ({
             <Checkbox
               key={choice.value}
               name={name}
+              checked={isChecked(choice)}
               onChange={onChange}
               {...choice}
             />

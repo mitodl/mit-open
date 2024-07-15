@@ -19,12 +19,6 @@ import {
 } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
-
-import { LEARNING_FORMAT_CHOICES } from "@/page-components/Profile/LearningFormatChoice"
-import { GOALS_CHOICES } from "@/page-components/Profile/GoalsChoice"
-
-import { EDUCATION_LEVEL_OPTIONS } from "@/page-components/Profile/EducationLevelChoice"
-import { CERTIFICATE_CHOICES } from "@/page-components/Profile/CertificateChoice"
 import { useProfileMeMutation, useProfileMeQuery } from "api/hooks/profile"
 import { DASHBOARD } from "@/common/urls"
 import * as yup from "yup"
@@ -32,6 +26,12 @@ import * as yup from "yup"
 import { useFormik } from "formik"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { useUserMe } from "api/hooks/user"
+import {
+  CERTIFICATE_CHOICES,
+  EDUCATION_LEVEL_OPTIONS,
+  GOALS_CHOICES,
+  LEARNING_FORMAT_CHOICES,
+} from "@/page-components/Profile/constants"
 
 const NUM_STEPS = 5
 

@@ -1,23 +1,26 @@
-import React from "react"
-import isEqual from "lodash/isEqual"
+import React, { useId, useMemo } from "react"
+import { useFormik } from "formik"
+import * as yup from "yup"
 import { Profile, useProfileMeMutation } from "api/hooks/profile"
-import type { PatchedProfileRequest } from "api/v0"
 import {
   styled,
   Typography,
   Grid,
   Button,
   CircularProgress,
+  CheckboxChoiceBoxField,
+  CheckboxGroupField,
+  RadioChoiceField,
+  SimpleSelectField,
 } from "ol-components"
 
-import { LearningFormatSelect } from "@/page-components/Profile/LearningFormatChoice"
-import { GoalsCheckboxChoiceField } from "@/page-components/Profile/GoalsChoice"
-import { TopicInterestsChoiceBoxField } from "@/page-components/Profile/TopicInterestsChoice"
-import { TimeCommitmentSelect } from "@/page-components/Profile/TimeCommitmentChoice"
-import { EducationLevelSelect } from "@/page-components/Profile/EducationLevelChoice"
-import { CertificateRadioChoiceField } from "@/page-components/Profile/CertificateChoice"
-
-import type { ProfileFieldUpdateFunc } from "@/page-components/Profile/types"
+import { useLearningResourceTopics } from "api/hooks/learningResources"
+import {
+  CERTIFICATE_CHOICES,
+  EDUCATION_LEVEL_OPTIONS,
+  GOALS_CHOICES,
+  LEARNING_FORMAT_CHOICES,
+} from "@/page-components/Profile/constants"
 
 type Props = {
   profile: Profile
@@ -38,47 +41,59 @@ const ButtonContainer = styled.div(({ theme }) => ({
 }))
 
 const ProfileEditForm: React.FC<Props> = ({ profile }) => {
-  const [updates, setUpdates] = React.useState<PatchedProfileRequest>({
-    learning_format: profile.learning_format,
-    time_commitment: profile.time_commitment,
-    goals: profile.goals,
-    topic_interests: profile.topic_interests?.map((topic) => topic.id) || [],
-    certificate_desired: profile.certificate_desired,
-    current_education: profile.current_education,
-  })
-  const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
-  const [hasChanges, setHasChanges] = React.useState<boolean>(false)
-
-  const handleUpdate: ProfileFieldUpdateFunc = <
-    T extends keyof PatchedProfileRequest,
-  >(
-    name: T,
-    value: PatchedProfileRequest[T],
-  ) => {
-    if (!isEqual(updates[name], value)) {
-      setUpdates((prevUpdates) => ({
-        ...prevUpdates,
-        [name]: value,
-      }))
-      setHasChanges(true)
+  const formId = useId()
+  const initialFormData = useMemo(() => {
+    return {
+      ...profile,
+      topic_interests:
+        profile?.topic_interests?.map((topic) => String(topic.id)) || [],
     }
-  }
-
-  const handleSave = () => {
-    mutateAsync(updates).then(() => {
-      setHasChanges(false)
-    })
-  }
+  }, [profile])
+  const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
+  const profileSchema = yup.object().shape({
+    topic_interests: yup.array().of(yup.string()),
+    goals: yup
+      .array()
+      .of(yup.string().oneOf(GOALS_CHOICES.map((choice) => choice.value))),
+    certificate_desired: yup.string(),
+    current_education: yup.string(),
+    learning_format: yup.array().of(yup.string()),
+  })
+  const { data: topics } = useLearningResourceTopics({ is_toplevel: true })
+  const topicChoices =
+    topics?.results?.map((topic) => ({
+      label: topic.name,
+      value: topic.id.toString(),
+    })) ?? []
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: initialFormData ?? profileSchema.getDefault(),
+    validationSchema: profileSchema,
+    onSubmit: async (values) => {
+      if (formik.dirty) {
+        await mutateAsync({
+          ...values,
+          topic_interests: values.topic_interests.map((id) => parseInt(id)),
+        })
+      }
+    },
+    validateOnChange: false,
+    validateOnBlur: false,
+  })
 
   return (
-    <>
-      <TopicInterestsChoiceBoxField
+    <form id={formId} onSubmit={formik.handleSubmit}>
+      <CheckboxChoiceBoxField
+        name="topic_interests"
+        choices={topicChoices}
         label={
           <FieldLabel>What are you interested in learning about?</FieldLabel>
         }
-        value={profile.topic_interests}
-        onUpdate={handleUpdate}
+        values={formik.values.topic_interests}
+        onChange={formik.handleChange}
         gridProps={{
+          justifyContent: "left",
+          maxWidth: "lg",
           columns: {
             xl: 12,
             lg: 9,
@@ -86,57 +101,60 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
             xs: 3,
           },
         }}
+        gridItemProps={{ xs: 3 }}
       />
-      <GoalsCheckboxChoiceField
+      <CheckboxGroupField
+        name="goals"
+        row={true}
+        choices={GOALS_CHOICES}
         label={<FieldLabel>What do you want to reach?</FieldLabel>}
-        value={profile.goals}
-        onUpdate={handleUpdate}
+        values={formik.values.goals}
+        onChange={formik.handleChange}
       />
-      <CertificateRadioChoiceField
+      <RadioChoiceField
+        name="certificate_desired"
+        row={true}
+        choices={CERTIFICATE_CHOICES}
         label={<FieldLabel>Are you seeking a certificate?</FieldLabel>}
-        value={profile.certificate_desired}
-        onUpdate={handleUpdate}
+        value={formik.values.certificate_desired}
+        onChange={formik.handleChange}
       />
       <Grid container columns={{ lg: 12, xs: 6 }} columnSpacing={2}>
         <Grid item xs={6}>
-          <EducationLevelSelect
+          <SimpleSelectField
+            options={EDUCATION_LEVEL_OPTIONS}
+            name="current_education"
+            fullWidth
             label={
               <FieldLabel>What is your current level of education?</FieldLabel>
             }
-            value={profile.current_education}
-            onUpdate={handleUpdate}
+            value={formik.values.current_education}
+            onChange={formik.handleChange}
           />
         </Grid>
         <Grid item xs={6} />
         <Grid item xs={6}>
-          <TimeCommitmentSelect
-            label={
-              <FieldLabel>
-                How much time per week do you want to commit to learning?
-              </FieldLabel>
-            }
-            value={profile.time_commitment}
-            onUpdate={handleUpdate}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <LearningFormatSelect
+          <CheckboxGroupField
+            name="learning_format"
+            row={true}
+            choices={LEARNING_FORMAT_CHOICES}
             label={<FieldLabel>What format are you interested in?</FieldLabel>}
-            value={profile.learning_format}
-            onUpdate={handleUpdate}
+            values={formik.values.learning_format}
+            onChange={formik.handleChange}
           />
         </Grid>
       </Grid>
       <ButtonContainer>
         <Button
+          type="submit"
           endIcon={isSaving ? <CircularProgress /> : null}
-          onClick={handleSave}
-          disabled={isSaving || !hasChanges}
+          disabled={!formik.dirty}
+          form={formId}
         >
           Update
         </Button>
       </ButtonContainer>
-    </>
+    </form>
   )
 }
 
