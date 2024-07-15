@@ -26,7 +26,6 @@ const containerStyles = css`
 
   input[type="checkbox"]:hover {
     ${hoverSprite}
-
     + .checkbox-label {
       color: ${theme.custom.colors.darkGray2};
     }
@@ -34,7 +33,6 @@ const containerStyles = css`
 
   input[type="checkbox"]:checked {
     ${checkedSprite}
-
     + .checkbox-label {
       color: ${theme.custom.colors.darkGray2};
     }
