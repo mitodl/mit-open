@@ -106,24 +106,10 @@ describe("ChannelPage", () => {
       channel_type: "unit",
     })
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    const findTitle = (titles: HTMLElement[]) => {
-      return titles[
-        titles.findIndex(
-          (title: HTMLElement) =>
-            title.textContent === channel.title ||
-            title.textContent === channel.configuration.heading,
-        )
-      ]
-    }
-    await waitFor(() => {
-      const titles = screen.getAllByRole("heading")
-      const title = findTitle(titles)
-      expect(title).toBeInTheDocument()
-    })
-    const titles = screen.getAllByRole("heading")
-    const title = findTitle(titles)
-    expect(title).toBeInTheDocument()
+
+    const title = await screen.findByRole("heading", { name: channel.title })
     const header = title.closest("header")
+    expect(title).toBeInTheDocument()
     assertInstanceOf(header, HTMLElement)
     const images = within(header).getAllByRole("img") as HTMLImageElement[]
     const headerStyles = getComputedStyle(header)
