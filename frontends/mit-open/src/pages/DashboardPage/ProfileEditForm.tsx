@@ -37,8 +37,10 @@ const FormContainer = styled.div(({ theme }) => ({
 }))
 
 const RadioChoiceFieldStyled = styled(RadioChoiceField)(({ theme }) => ({
-  color: theme.custom.colors.darkGray2,
-  ...theme.typography.subtitle2,
+  label: {
+    color: theme.custom.colors.darkGray2,
+    ...theme.typography.subtitle2,
+  },
 }))
 
 const ButtonContainer = styled.div(({ theme }) => ({
