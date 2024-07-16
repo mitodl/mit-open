@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useId } from "react"
 import FormControl from "@mui/material/FormControl"
 import FormControlLabel from "@mui/material/FormControlLabel"
-import FormLabel from "@mui/material/FormLabel"
 import Radio from "@mui/material/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
 import type { RadioGroupProps } from "@mui/material/RadioGroup"
@@ -11,11 +10,14 @@ const RadioGroupStyled = styled(RadioGroup)({
   gap: "16px",
 })
 
-const Label = styled(FormLabel)({
+const Label = styled.div(({ theme }) => ({
   marginTop: "0",
   marginBottom: "16px",
   width: "100%",
-})
+  cursor: "default",
+  color: theme.custom.colors.darkGray2,
+  ...theme.typography.subtitle2,
+}))
 
 interface RadioChoiceProps {
   value: string
