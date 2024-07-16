@@ -175,7 +175,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
             size="large"
             variant="primary"
             endIcon={isSaving ? <CircularProgress /> : null}
-            disabled={!formik.dirty}
+            disabled={!formik.dirty || isSaving}
             form={formId}
           >
             Update
