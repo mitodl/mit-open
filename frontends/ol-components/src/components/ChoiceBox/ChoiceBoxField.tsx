@@ -14,6 +14,7 @@ import type {
 
 const Label = styled.div`
   width: 100%;
+  cursor: default;
   ${{ ...theme.typography.subtitle2 }}
   color: ${theme.custom.colors.darkGray2};
   margin-bottom: 8px;
