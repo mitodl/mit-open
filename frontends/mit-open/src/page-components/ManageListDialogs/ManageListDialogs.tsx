@@ -233,7 +233,6 @@ const UpsertLearningPathDialog = NiceModal.create(
           label="Privacy"
           choices={LEARNING_PATH_PRIVACY_CHOICES}
           value={formik.values.published}
-          row
           onChange={(e) => formik.setFieldValue(e.name, e.value)}
         />
       </StyledFormDialog>

@@ -51,23 +51,10 @@ export default meta
 
 type Story = StoryObj<typeof CheckboxChoiceField>
 
-export const Column: Story = {}
+export const WithoutLabel: Story = {}
 
-export const Row: Story = {
+export const WithLabel: Story = {
   args: {
-    row: true,
-  },
-}
-
-export const ColumnWithLabel: Story = {
-  args: {
-    label: "CheckboxChoiceField",
-  },
-}
-
-export const RowWithLabel: Story = {
-  args: {
-    row: true,
     label: "CheckboxChoiceField",
   },
 }
