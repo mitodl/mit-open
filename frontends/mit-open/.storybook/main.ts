@@ -41,7 +41,7 @@ const config = {
     },
   }),
   webpackFinal: async (config: any) => {
-    config.output.publicPath = "mit-open/static"
+    config.output.publicPath = "https://mitodl.github.io/mit-open/static"
     return config
   },
 }
