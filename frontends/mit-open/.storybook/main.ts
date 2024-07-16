@@ -19,6 +19,7 @@ const config = {
     "../../ol-components/src/**/*.mdx",
     "../../ol-components/src/**/*.stories.@(tsx|ts)",
   ],
+  staticDirs: [{ from: "../public", to: "/static" }],
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
