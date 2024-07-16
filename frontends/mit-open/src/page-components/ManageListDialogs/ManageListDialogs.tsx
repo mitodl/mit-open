@@ -327,7 +327,6 @@ const UpsertUserListDialog = NiceModal.create(
           label="Privacy"
           choices={USER_LIST_PRIVACY_CHOICES}
           value={formik.values.privacy_level}
-          row
           onChange={(e) => formik.setFieldValue(e.target.name, e.target.value)}
         />
       </StyledFormDialog>
