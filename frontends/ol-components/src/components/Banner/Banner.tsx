@@ -19,7 +19,7 @@ type BannerBackgroundProps = {
 /**
  * This is a full-width banner component that takes a background image URL.
  */
-const BannerBackground = styled.header<BannerBackgroundProps>(
+const BannerBackground = styled.div<BannerBackgroundProps>(
   ({ theme, backgroundUrl, backgroundSize = "cover", backgroundDim = 0 }) => ({
     backgroundAttachment: "fixed",
     backgroundImage: backgroundDim

@@ -1,6 +1,5 @@
-import { assertInstanceOf } from "ol-utilities"
 import { urls, factories, makeRequest } from "api/test-utils"
-import type { Channel } from "api/v0"
+import { ChannelTypeEnum, type Channel } from "api/v0"
 import type { LearningResourcesSearchResponse } from "api"
 import {
   renderTestApp,
@@ -19,6 +18,15 @@ jest.mock("./ChannelSearch", () => {
   }
 })
 const mockedChannelSearch = jest.mocked(ChannelSearch)
+
+const someAncestor = (el: HTMLElement, cb: (el: HTMLElement) => boolean) => {
+  let ancestor = el.parentElement
+  while (ancestor) {
+    if (cb(ancestor)) return true
+    ancestor = ancestor.parentElement
+  }
+  return false
+}
 
 const setupApis = (
   channelPatch?: Partial<Channel>,
@@ -100,59 +108,35 @@ const setupApis = (
 }
 
 describe("ChannelPage", () => {
-  it("Displays the channel title, banner, and avatar", async () => {
-    const { channel } = setupApis({
-      search_filter: "offered_by=ocw",
-      channel_type: "unit",
-    })
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+  it.each(
+    Object.values(ChannelTypeEnum).filter((v) => v !== ChannelTypeEnum.Unit),
+  )(
+    "Displays the title, background, and avatar (channelType: %s)",
+    async (channelType) => {
+      const { channel } = setupApis({
+        search_filter: "offered_by=ocw",
+        channel_type: channelType,
+      })
 
-    const title = await screen.findByRole("heading", { name: channel.title })
-    const header = title.closest("header")
-    expect(title).toBeInTheDocument()
-    assertInstanceOf(header, HTMLElement)
-    const images = within(header).getAllByRole("img") as HTMLImageElement[]
-    const headerStyles = getComputedStyle(header)
-    if (channel.channel_type !== "unit") {
-      /*
-       * unit channels are filtered out from this assertion
-       * because they wrap the background image in a linear-gradient,
-       * which causes react testing library to not render the background-image
-       * property at all
-       */
-      expect(headerStyles.backgroundImage).toContain(
-        channel.configuration.banner_background,
+      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      const title = await screen.findByRole("heading", { name: channel.title })
+      // Banner background image
+      expect(
+        someAncestor(title, (el) =>
+          window
+            .getComputedStyle(el)
+            .backgroundImage.includes(channel.configuration.banner_background),
+        ),
+      ).toBe(true)
+      // logo
+      const images = screen.getAllByRole<HTMLImageElement>("img")
+      const logos = images.filter((img) =>
+        img.src.includes(channel.configuration.logo),
       )
-    }
-    expect(images[0].src).toContain(channel.configuration.logo)
-  })
-  it("Displays a featured carousel if the channel type is 'unit'", async () => {
-    const { channel } = setupApis({
-      search_filter: "offered_by=ocw",
-      channel_type: "unit",
-    })
+      expect(logos.length).toBe(1)
+    },
+  )
 
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findAllByText(channel.title)
-    const carousel = await screen.findByText("Featured Courses")
-    expect(carousel).toBeInTheDocument()
-
-    await waitFor(() => {
-      expect(makeRequest).toHaveBeenCalledWith(
-        "get",
-        urls.learningResources.featured({ limit: 12, offered_by: ["ocw"] }),
-        undefined,
-      )
-    })
-
-    await waitFor(() => {
-      expect(makeRequest).toHaveBeenCalledWith(
-        "get",
-        urls.learningResources.featured({ limit: 12 }),
-        undefined,
-      )
-    })
-  })
   it("Does not display a featured carousel if the channel type is not 'unit'", async () => {
     const { channel } = setupApis({
       search_filter: "topic=physics",
@@ -224,4 +208,45 @@ describe("ChannelPage", () => {
       expect(subscribedButton).toBeVisible()
     },
   )
+})
+
+describe("Unit Channel Pages", () => {
+  it("Displays the channel title, banner, and avatar", async () => {
+    const { channel } = setupApis({
+      search_filter: "offered_by=ocw",
+      channel_type: "unit",
+    })
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+
+    const title = await screen.findByRole("heading", { name: channel.title })
+    const image = within(title).getByRole<HTMLImageElement>("img")
+    expect(image.src).toContain(channel.configuration.logo)
+  })
+  it("Displays a featured carousel if the channel type is 'unit'", async () => {
+    const { channel } = setupApis({
+      search_filter: "offered_by=ocw",
+      channel_type: "unit",
+    })
+
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    await screen.findAllByText(channel.title)
+    const carousel = await screen.findByText("Featured Courses")
+    expect(carousel).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(makeRequest).toHaveBeenCalledWith(
+        "get",
+        urls.learningResources.featured({ limit: 12, offered_by: ["ocw"] }),
+        undefined,
+      )
+    })
+
+    await waitFor(() => {
+      expect(makeRequest).toHaveBeenCalledWith(
+        "get",
+        urls.learningResources.featured({ limit: 12 }),
+        undefined,
+      )
+    })
+  })
 })
