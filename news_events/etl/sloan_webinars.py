@@ -8,7 +8,6 @@ from zoneinfo import ZoneInfo
 
 import dateparser
 import requests
-from dateutil import parser
 from django.utils.html import strip_tags
 
 from news_events.constants import FeedType
@@ -144,11 +143,8 @@ def transform_item(event_data: dict) -> dict:
             else None
         )
     except:  # noqa: E722
-        dt_utc = (
-            parser.parse(dt).replace(tzinfo=ZoneInfo("US/Eastern")).astimezone(UTC)
-            if dt
-            else None
-        )
+        logging.exception("unparsable date received - ignoring webinar '%s'", guid)
+        return None
     cta_button = attributes.get("CTA_Button_URL", {}).get("value", "")
     return {
         "guid": guid,
