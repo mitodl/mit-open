@@ -69,7 +69,7 @@ const RoutedDrawer = <K extends string, R extends K = K>(
       })
       return newSearchParams
     })
-    document.location.hash = hash.trimStart("#")
+    document.location.hash = hash.substring(1)
   }, [setSearchParams, params, hash])
 
   return (
