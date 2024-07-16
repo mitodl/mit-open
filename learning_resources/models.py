@@ -68,6 +68,12 @@ class LearningResourceTopic(TimestampedModel):
         null=True,
         on_delete=models.CASCADE,
     )
+    icon = models.CharField(
+        max_length=128,
+        help_text="The icon to display for the topic.",
+        blank=True,
+        default="",
+    )
 
     def __str__(self):
         """Return the topic name."""
@@ -138,6 +144,22 @@ class LearningResourceOfferor(TimestampedModel):
 
     def __str__(self):
         return f"{self.code}: {self.name}"
+
+
+class LearningResourceTopicMapping(TimestampedModel):
+    """Stores offeror topic mappings for learning resource topics."""
+
+    topic = models.ForeignKey(
+        "LearningResourceTopic",
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    offeror = models.ForeignKey(
+        "LearningResourceOfferor",
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    topic_name = models.CharField(max_length=128)
 
 
 class LearningResourceImage(TimestampedModel):

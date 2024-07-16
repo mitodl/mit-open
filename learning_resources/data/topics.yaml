@@ -3,11 +3,19 @@ topics:
     id:
     icon:
     mappings:
+      ocw:
+        - Fine Arts
     children:
       - name: Architecture
         id:
         icon:
         mappings:
+          ocw:
+            - Architecture
+            - Architectural Design
+            - Architectural Engineering
+            - Architectural History and Criticism
+            - Religious Architecture
       - name: Environmental Deisgn
         id:
         icon:
@@ -436,7 +444,7 @@ topics:
         icon:
         mappings:
         children:
-      - name: LIterature
+      - name: Literature
         id:
         icon:
         mappings:

@@ -12,6 +12,7 @@ from botocore.exceptions import ClientError
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.db import transaction
+from django.db.models import Q
 from retry import retry
 
 from learning_resources.constants import (
@@ -29,6 +30,7 @@ from learning_resources.models import (
     LearningResourceRun,
     LearningResourceSchool,
     LearningResourceTopic,
+    LearningResourceTopicMapping,
     UserListRelationship,
 )
 from main.utils import generate_filepath
@@ -473,45 +475,59 @@ def offeror_delete_actions(offeror: LearningResourceOfferor):
     hook.offeror_delete(offeror=offeror)
 
 
-def _walk_ocw_topic_map(
-    topics: dict, parent: None | LearningResourceTopic = None
-) -> None:
+def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -> None:
     """
     Walk the topic map provided and create topic records accordingly.
 
     This will recursively walk through the topics list and create/update topic
-    records as appropriate. There's just names here so if the record exists with
-    the same name, it'll update; otherwise, it creates.
+    records as appropriate. The topic records are stored in this format:
+    - name - the name of the topic
+    - id - the ID for the topic
+    - icon - the icon we should display for the topic (a Remixicon, generally)
+    - mappings - mappings for topics found in offeror data
+    - children - child topics (records in this same format)
 
     Args:
-    - topics (dict): the topics to process
+    - topics (list of dict): the topics to process
     - parent (None or LearningResourceTopic): the parent topic (for inner loops)
     Returns:
     - None
     """
 
     for topic in topics:
-        lr_topic, _ = LearningResourceTopic.objects.filter(name=topic).update_or_create(
+        lr_topic, _ = LearningResourceTopic.objects.filter(
+            Q(name=topic["name"]) | Q(id=topic["id"])
+        ).update_or_create(
             defaults={
                 "parent": parent,
-                "name": topic,
+                "name": topic["name"],
+                "icon": topic["icon"] or "",
             }
         )
 
+        LearningResourceTopicMapping.objects.filter(topic=lr_topic).all().delete()
+
+        if topic["mappings"] and len(topic["mappings"]) > 0:
+            for offeror_code in topic["mappings"]:
+                offeror = LearningResourceOfferor.objects.filter(
+                    code=offeror_code
+                ).first()
+
+                if offeror:
+                    for mapping in topic["mappings"][offeror_code]:
+                        LearningResourceTopicMapping.objects.create(
+                            topic=lr_topic, offeror=offeror, topic_name=mapping
+                        )
+
         topic_upserted_actions(lr_topic)
 
-        try:
-            if len(topics[topic]) > 0:
-                _walk_ocw_topic_map(topics[topic], lr_topic)
-        except TypeError:
-            # the ends here are lists of str - if we get this, there's
-            # nothing else to process
-            pass
+        if "children" in topic and topic["children"] and len(topic["children"]) > 0:
+            _walk_topic_map(topic["children"], lr_topic)
 
 
 @transaction.atomic()
 def upsert_topic_data(
-    config_path: str = "learning_resources/data/ocw-topics.yaml",
+    config_path: str = "learning_resources/data/topics.yaml",
 ) -> None:
     """
     Load the topics from the OCW course site config file.
@@ -525,22 +541,12 @@ def upsert_topic_data(
     - None
     """
 
-    with Path.open(Path(config_path)) as ocw_config:
-        ocw_config_yaml = ocw_config.read()
+    with Path.open(Path(config_path)) as topic_file:
+        topic_file_yaml = topic_file.read()
 
-    ocw_config = yaml.safe_load(ocw_config_yaml)
-    topics = []
+    topics = yaml.safe_load(topic_file_yaml)
 
-    for collection in ocw_config["collections"]:
-        if collection["category"] == "Settings":
-            for file in collection["files"]:
-                for field in file["fields"]:
-                    if field["label"] == "Topics":
-                        topics = field["options_map"]
-                        # There should only be one here so stop after finding it.
-                        break
-
-    _walk_ocw_topic_map(topics)
+    _walk_topic_map(topics["topics"])
 
 
 def _walk_lr_topic_parents(
