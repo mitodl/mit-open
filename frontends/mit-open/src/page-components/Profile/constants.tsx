@@ -66,9 +66,17 @@ const ProfileSchema = yup.object().shape({
   goals: yup
     .array()
     .of(yup.string().oneOf(GOALS_CHOICES.map((choice) => choice.value))),
-  certificate_desired: yup.string(),
-  current_education: yup.string(),
-  learning_format: yup.array().of(yup.string()),
+  certificate_desired: yup
+    .string()
+    .oneOf(CERTIFICATE_CHOICES.map((choice) => choice.value)),
+  current_education: yup
+    .string()
+    .oneOf(EDUCATION_LEVEL_OPTIONS.map((choice) => choice.value)),
+  learning_format: yup
+    .array()
+    .of(
+      yup.string().oneOf(LEARNING_FORMAT_CHOICES.map((choice) => choice.value)),
+    ),
 })
 
 export {
