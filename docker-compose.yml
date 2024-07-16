@@ -98,7 +98,7 @@ services:
     command:
       - |
         yarn install --immutable
-        yarn workspace mit-open storybook &
+        yarn workspace mit-open storybook --no-open &
         yarn workspace mit-open watch:docker
     env_file:
       - path: env/shared.env
