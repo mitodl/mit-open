@@ -14,6 +14,7 @@ import type {
 
 const Label = styled.div`
   width: 100%;
+  cursor: default;
   ${{ ...theme.typography.subtitle2 }}
   color: ${theme.custom.colors.darkGray2};
   margin-bottom: 8px;
@@ -24,11 +25,11 @@ interface BaseChoiceBoxFieldProps extends ChoiceBoxGridProps {
   choices: ChoiceBoxChoice[]
   onChange: ChoiceBoxProps["onChange"]
   className?: string
+  name?: string
 }
 
 interface ChoiceBoxFieldProps extends BaseChoiceBoxFieldProps {
   type: ChoiceBoxProps["type"]
-  name?: string
   isChecked: (choice: ChoiceBoxChoice) => boolean
 }
 

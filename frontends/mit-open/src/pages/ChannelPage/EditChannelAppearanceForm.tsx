@@ -104,7 +104,6 @@ const EditChannelAppearanceForm = (props: FormProps): JSX.Element => {
         label="Channel Type"
         choices={CHANNEL_TYPE_CHOICES}
         value={formik.values.channel_type}
-        row
         onChange={(e) => formik.setFieldValue(e.target.name, e.target.value)}
       />
       <div className="form-row actions">

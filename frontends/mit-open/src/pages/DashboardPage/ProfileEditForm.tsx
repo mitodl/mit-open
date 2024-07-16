@@ -1,142 +1,183 @@
-import React from "react"
-import isEqual from "lodash/isEqual"
+import React, { useId, useMemo } from "react"
+import { useFormik } from "formik"
 import { Profile, useProfileMeMutation } from "api/hooks/profile"
-import type { PatchedProfileRequest } from "api/v0"
 import {
   styled,
-  Typography,
-  Grid,
   Button,
   CircularProgress,
+  CheckboxChoiceBoxField,
+  CheckboxChoiceField,
+  RadioChoiceField,
+  SimpleSelectField,
+  TextField,
 } from "ol-components"
 
-import { LearningFormatSelect } from "@/page-components/Profile/LearningFormatChoice"
-import { GoalsCheckboxChoiceField } from "@/page-components/Profile/GoalsChoice"
-import { TopicInterestsChoiceBoxField } from "@/page-components/Profile/TopicInterestsChoice"
-import { TimeCommitmentSelect } from "@/page-components/Profile/TimeCommitmentChoice"
-import { EducationLevelSelect } from "@/page-components/Profile/EducationLevelChoice"
-import { CertificateRadioChoiceField } from "@/page-components/Profile/CertificateChoice"
-
-import type { ProfileFieldUpdateFunc } from "@/page-components/Profile/types"
+import { useLearningResourceTopics } from "api/hooks/learningResources"
+import {
+  CERTIFICATE_CHOICES,
+  EDUCATION_LEVEL_OPTIONS,
+  GOALS_CHOICES,
+  LEARNING_FORMAT_CHOICES,
+  ProfileSchema,
+} from "@/common/profile"
+import { useUserMe } from "api/hooks/user"
 
 type Props = {
   profile: Profile
 }
 
-const FieldLabel = styled(Typography)(({ theme }) => ({
-  color: theme.custom.colors.darkGray2,
-  ...theme.typography.body1,
-  marginTop: theme.spacing(3),
-  marginBottom: theme.spacing(1),
+const FormContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  paddingTop: "40px",
+  gap: "40px",
   [theme.breakpoints.down("md")]: {
-    ...theme.typography.subtitle3,
+    paddingTop: "24px",
+    gap: "32px",
+  },
+}))
+
+const NameRow = styled.div({
+  display: "flex",
+  flexDirection: "row",
+  gap: "24px",
+})
+
+const RadioChoiceFieldStyled = styled(RadioChoiceField)(({ theme }) => ({
+  label: {
+    color: theme.custom.colors.darkGray2,
+    ...theme.typography.subtitle2,
   },
 }))
 
 const ButtonContainer = styled.div(({ theme }) => ({
-  marginTop: theme.spacing(3),
+  paddingTop: "18px",
+  [theme.breakpoints.down("md")]: {
+    paddingTop: "0",
+    paddingBottom: "34px",
+  },
+}))
+
+const UpdateButton = styled(Button)(({ theme }) => ({
+  width: "200px",
+  [theme.breakpoints.down("md")]: {
+    width: "100%",
+  },
 }))
 
 const ProfileEditForm: React.FC<Props> = ({ profile }) => {
-  const [updates, setUpdates] = React.useState<PatchedProfileRequest>({
-    learning_format: profile.learning_format,
-    time_commitment: profile.time_commitment,
-    goals: profile.goals,
-    topic_interests: profile.topic_interests?.map((topic) => topic.id) || [],
-    certificate_desired: profile.certificate_desired,
-    current_education: profile.current_education,
-  })
-  const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
-  const [hasChanges, setHasChanges] = React.useState<boolean>(false)
-
-  const handleUpdate: ProfileFieldUpdateFunc = <
-    T extends keyof PatchedProfileRequest,
-  >(
-    name: T,
-    value: PatchedProfileRequest[T],
-  ) => {
-    if (!isEqual(updates[name], value)) {
-      setUpdates((prevUpdates) => ({
-        ...prevUpdates,
-        [name]: value,
-      }))
-      setHasChanges(true)
+  const formId = useId()
+  const initialFormData = useMemo(() => {
+    return {
+      ...profile,
+      topic_interests:
+        profile?.topic_interests?.map((topic) => String(topic.id)) || [],
     }
-  }
-
-  const handleSave = () => {
-    mutateAsync(updates).then(() => {
-      setHasChanges(false)
-    })
-  }
+  }, [profile])
+  const { data: user } = useUserMe()
+  const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
+  const { data: topics } = useLearningResourceTopics({ is_toplevel: true })
+  const topicChoices =
+    topics?.results?.map((topic) => ({
+      label: topic.name,
+      value: topic.id.toString(),
+    })) ?? []
+  const formik = useFormik({
+    enableReinitialize: true,
+    initialValues: initialFormData ?? ProfileSchema.getDefault(),
+    validationSchema: ProfileSchema,
+    onSubmit: async (values) => {
+      if (formik.dirty) {
+        await mutateAsync({
+          ...values,
+          topic_interests: values.topic_interests.map((id) => parseInt(id)),
+        })
+      }
+    },
+    validateOnChange: false,
+    validateOnBlur: false,
+  })
 
   return (
-    <>
-      <TopicInterestsChoiceBoxField
-        label={
-          <FieldLabel>What are you interested in learning about?</FieldLabel>
-        }
-        value={profile.topic_interests}
-        onUpdate={handleUpdate}
-        gridProps={{
-          columns: {
-            xl: 12,
-            lg: 9,
-            md: 6,
-            xs: 3,
-          },
-        }}
-      />
-      <GoalsCheckboxChoiceField
-        label={<FieldLabel>What do you want to reach?</FieldLabel>}
-        value={profile.goals}
-        onUpdate={handleUpdate}
-      />
-      <CertificateRadioChoiceField
-        label={<FieldLabel>Are you seeking a certificate?</FieldLabel>}
-        value={profile.certificate_desired}
-        onUpdate={handleUpdate}
-      />
-      <Grid container columns={{ lg: 12, xs: 6 }} columnSpacing={2}>
-        <Grid item xs={6}>
-          <EducationLevelSelect
-            label={
-              <FieldLabel>What is your current level of education?</FieldLabel>
-            }
-            value={profile.current_education}
-            onUpdate={handleUpdate}
+    <form id={formId} onSubmit={formik.handleSubmit}>
+      <FormContainer>
+        <NameRow>
+          <TextField
+            label="First Name"
+            name="first_name"
+            fullWidth
+            value={user?.first_name}
+            disabled
           />
-        </Grid>
-        <Grid item xs={6} />
-        <Grid item xs={6}>
-          <TimeCommitmentSelect
-            label={
-              <FieldLabel>
-                How much time per week do you want to commit to learning?
-              </FieldLabel>
-            }
-            value={profile.time_commitment}
-            onUpdate={handleUpdate}
+          <TextField
+            label="Last Name"
+            fullWidth
+            name="last_name"
+            value={user?.last_name}
+            disabled
           />
-        </Grid>
-        <Grid item xs={6}>
-          <LearningFormatSelect
-            label={<FieldLabel>What format are you interested in?</FieldLabel>}
-            value={profile.learning_format}
-            onUpdate={handleUpdate}
-          />
-        </Grid>
-      </Grid>
-      <ButtonContainer>
-        <Button
-          endIcon={isSaving ? <CircularProgress /> : null}
-          onClick={handleSave}
-          disabled={isSaving || !hasChanges}
-        >
-          Update
-        </Button>
-      </ButtonContainer>
-    </>
+        </NameRow>
+        <CheckboxChoiceBoxField
+          name="topic_interests"
+          choices={topicChoices}
+          label={"What are you interested in learning about?"}
+          values={formik.values.topic_interests}
+          onChange={formik.handleChange}
+          gridProps={{
+            justifyContent: "left",
+            maxWidth: "lg",
+            columns: {
+              xl: 12,
+              lg: 9,
+              md: 6,
+              xs: 3,
+            },
+          }}
+          gridItemProps={{ xs: 3 }}
+        />
+        <CheckboxChoiceField
+          name="goals"
+          choices={GOALS_CHOICES}
+          label={"What are your learning goals?"}
+          values={formik.values.goals}
+          onChange={formik.handleChange}
+        />
+        <RadioChoiceFieldStyled
+          name="certificate_desired"
+          choices={CERTIFICATE_CHOICES}
+          label={"Are you seeking a certificate?"}
+          value={formik.values.certificate_desired}
+          onChange={formik.handleChange}
+        />
+        <SimpleSelectField
+          options={EDUCATION_LEVEL_OPTIONS}
+          name="current_education"
+          fullWidth
+          label={"What is your current level of education?"}
+          value={formik.values.current_education}
+          onChange={formik.handleChange}
+        />
+        <CheckboxChoiceField
+          name="learning_format"
+          choices={LEARNING_FORMAT_CHOICES}
+          label={"What course format are you interested in?"}
+          values={formik.values.learning_format}
+          onChange={formik.handleChange}
+        />
+        <ButtonContainer>
+          <UpdateButton
+            type="submit"
+            size="large"
+            variant="primary"
+            endIcon={isSaving ? <CircularProgress /> : null}
+            disabled={!formik.dirty || isSaving}
+            form={formId}
+          >
+            Update
+          </UpdateButton>
+        </ButtonContainer>
+      </FormContainer>
+    </form>
   )
 }
 

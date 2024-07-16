@@ -160,28 +160,28 @@ export interface CKEditorSettings {
   token: string | null
 }
 /**
- * * `yes` - Yes * `no` - No * `not-sure-yet` - Not Sure Yet
+ * * `yes` - Yes, I am looking for a certificate * `no` - No, I am not looking for a certificate * `not-sure-yet` - Not Sure
  * @export
  * @enum {string}
  */
 
 export const CertificateDesiredEnumDescriptions = {
-  yes: "Yes",
-  no: "No",
-  "not-sure-yet": "Not Sure Yet",
+  yes: "Yes, I am looking for a certificate",
+  no: "No, I am not looking for a certificate",
+  "not-sure-yet": "Not Sure",
 } as const
 
 export const CertificateDesiredEnum = {
   /**
-   * Yes
+   * Yes, I am looking for a certificate
    */
   Yes: "yes",
   /**
-   * No
+   * No, I am not looking for a certificate
    */
   No: "no",
   /**
-   * Not Sure Yet
+   * Not Sure
    */
   NotSureYet: "not-sure-yet",
 } as const
@@ -938,36 +938,36 @@ export type FeedSourceFeedTypeEnum =
   (typeof FeedSourceFeedTypeEnum)[keyof typeof FeedSourceFeedTypeEnum]
 
 /**
- * * `career-growth` - Career Growth * `supplemental-learning` - Supplemental Learning * `just-to-learn` - Just to Learn
+ * * `academic-excellence` - Academic Excellence * `career-growth` - Career Growth * `lifelong-learning` - Lifelong Learning
  * @export
  * @enum {string}
  */
 
 export const GoalsEnumDescriptions = {
+  "academic-excellence": "Academic Excellence",
   "career-growth": "Career Growth",
-  "supplemental-learning": "Supplemental Learning",
-  "just-to-learn": "Just to Learn",
+  "lifelong-learning": "Lifelong Learning",
 } as const
 
 export const GoalsEnum = {
+  /**
+   * Academic Excellence
+   */
+  AcademicExcellence: "academic-excellence",
   /**
    * Career Growth
    */
   CareerGrowth: "career-growth",
   /**
-   * Supplemental Learning
+   * Lifelong Learning
    */
-  SupplementalLearning: "supplemental-learning",
-  /**
-   * Just to Learn
-   */
-  JustToLearn: "just-to-learn",
+  LifelongLearning: "lifelong-learning",
 } as const
 
 export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
 
 /**
- * * `online` - Online * `hybrid` - Hybrid * `in_person` - In person
+ * * `online` - Online * `hybrid` - Hybrid * `in_person` - In-Person
  * @export
  * @enum {string}
  */
@@ -975,7 +975,7 @@ export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
 export const LearningFormatEnumDescriptions = {
   online: "Online",
   hybrid: "Hybrid",
-  in_person: "In person",
+  in_person: "In-Person",
 } as const
 
 export const LearningFormatEnum = {
@@ -988,7 +988,7 @@ export const LearningFormatEnum = {
    */
   Hybrid: "hybrid",
   /**
-   * In person
+   * In-Person
    */
   InPerson: "in_person",
 } as const
@@ -1591,10 +1591,10 @@ export interface PatchedProfileRequest {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestLearningFormat}
+   * @type {Array<LearningFormatEnum>}
    * @memberof PatchedProfileRequest
    */
-  learning_format?: PatchedProfileRequestLearningFormat
+  learning_format?: Array<LearningFormatEnum>
 }
 /**
  * @type PatchedProfileRequestCertificateDesired
@@ -1611,12 +1611,6 @@ export type PatchedProfileRequestCertificateDesired =
 export type PatchedProfileRequestCurrentEducation =
   | BlankEnum
   | CurrentEducationEnum
-
-/**
- * @type PatchedProfileRequestLearningFormat
- * @export
- */
-export type PatchedProfileRequestLearningFormat = BlankEnum | LearningFormatEnum
 
 /**
  * @type PatchedProfileRequestTimeCommitment
@@ -1951,10 +1945,10 @@ export interface Profile {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestLearningFormat}
+   * @type {Array<LearningFormatEnum>}
    * @memberof Profile
    */
-  learning_format?: PatchedProfileRequestLearningFormat
+  learning_format?: Array<LearningFormatEnum>
   /**
    *
    * @type {PreferencesSearch}
@@ -2054,10 +2048,10 @@ export interface ProfileRequest {
   time_commitment?: PatchedProfileRequestTimeCommitment
   /**
    *
-   * @type {PatchedProfileRequestLearningFormat}
+   * @type {Array<LearningFormatEnum>}
    * @memberof ProfileRequest
    */
-  learning_format?: PatchedProfileRequestLearningFormat
+  learning_format?: Array<LearningFormatEnum>
 }
 /**
  * Serializer for Program Certificates

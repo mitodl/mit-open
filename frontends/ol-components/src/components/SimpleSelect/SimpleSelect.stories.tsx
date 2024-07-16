@@ -32,7 +32,7 @@ type Story = StoryObj<typeof SimpleSelect>
 const options: SimpleSelectOption[] = [
   {
     value: "",
-    label: "Please select",
+    label: "Please Select",
     disabled: true,
   },
   {

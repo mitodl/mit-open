@@ -124,7 +124,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         if obj.topic_interests and obj.topic_interests.count() > 0:
             filters["topic"] = obj.topic_interests.values_list("name", flat=True)
         if obj.learning_format:
-            filters["learning_format"] = [obj.learning_format]
+            filters["learning_format"] = obj.learning_format
         return PreferencesSearchSerializer(instance=filters).data
 
     def validate_location(self, location):
