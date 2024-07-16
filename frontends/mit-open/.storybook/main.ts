@@ -19,9 +19,7 @@ const config = {
     "../../ol-components/src/**/*.mdx",
     "../../ol-components/src/**/*.stories.@(tsx|ts)",
   ],
-  staticDirs: [
-    { from: "../public", to: `${process.env.STORYBOOK_ROOT_URL ?? ""}/static` },
-  ],
+  staticDirs: [{ from: "../public", to: "/static" }],
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
@@ -42,6 +40,10 @@ const config = {
       embedlyKey: process.env.EMBEDLY_KEY || "",
     },
   }),
+  webpackFinal: async (config: any) => {
+    config.output.publicPath = "mit-open/static"
+    return config
+  },
 }
 
 export default config
