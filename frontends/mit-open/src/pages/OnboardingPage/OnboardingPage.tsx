@@ -21,7 +21,6 @@ import { MetaTags } from "ol-utilities"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import { useProfileMeMutation, useProfileMeQuery } from "api/hooks/profile"
 import { DASHBOARD } from "@/common/urls"
-import * as yup from "yup"
 
 import { useFormik } from "formik"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
@@ -31,6 +30,7 @@ import {
   EDUCATION_LEVEL_OPTIONS,
   GOALS_CHOICES,
   LEARNING_FORMAT_CHOICES,
+  ProfileSchema,
 } from "@/page-components/Profile/constants"
 
 const NUM_STEPS = 5
@@ -121,16 +121,6 @@ const Label = styled.div({
   margin: "0 0 40px",
 })
 
-const profileSchema = yup.object().shape({
-  topic_interests: yup.array().of(yup.string()),
-  goals: yup
-    .array()
-    .of(yup.string().oneOf(GOALS_CHOICES.map((choice) => choice.value))),
-  certificate_desired: yup.string(),
-  current_education: yup.string(),
-  learning_format: yup.array().of(yup.string()),
-})
-
 const GridStyle = (
   justifyContent = "center",
   columns = {
@@ -166,8 +156,8 @@ const OnboardingPage: React.FC = () => {
   const navigate = useNavigate()
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: initialFormData ?? profileSchema.getDefault(),
-    validationSchema: profileSchema,
+    initialValues: initialFormData ?? ProfileSchema.getDefault(),
+    validationSchema: ProfileSchema,
     onSubmit: async (values) => {
       if (formik.dirty) {
         await mutateAsync({

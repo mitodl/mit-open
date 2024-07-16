@@ -1,6 +1,5 @@
 import React, { useId, useMemo } from "react"
 import { useFormik } from "formik"
-import * as yup from "yup"
 import { Profile, useProfileMeMutation } from "api/hooks/profile"
 import {
   styled,
@@ -21,6 +20,7 @@ import {
   EDUCATION_LEVEL_OPTIONS,
   GOALS_CHOICES,
   LEARNING_FORMAT_CHOICES,
+  ProfileSchema,
 } from "@/page-components/Profile/constants"
 import { useUserMe } from "api/hooks/user"
 
@@ -89,15 +89,6 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
   }, [profile])
   const { isLoading: isLoadingUser, data: user } = useUserMe()
   const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
-  const profileSchema = yup.object().shape({
-    topic_interests: yup.array().of(yup.string()),
-    goals: yup
-      .array()
-      .of(yup.string().oneOf(GOALS_CHOICES.map((choice) => choice.value))),
-    certificate_desired: yup.string(),
-    current_education: yup.string(),
-    learning_format: yup.array().of(yup.string()),
-  })
   const { data: topics } = useLearningResourceTopics({ is_toplevel: true })
   const topicChoices =
     topics?.results?.map((topic) => ({
@@ -106,8 +97,8 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
     })) ?? []
   const formik = useFormik({
     enableReinitialize: true,
-    initialValues: initialFormData ?? profileSchema.getDefault(),
-    validationSchema: profileSchema,
+    initialValues: initialFormData ?? ProfileSchema.getDefault(),
+    validationSchema: ProfileSchema,
     onSubmit: async (values) => {
       if (formik.dirty) {
         await mutateAsync({

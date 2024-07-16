@@ -1,4 +1,5 @@
 import React from "react"
+import * as yup from "yup"
 import {
   CertificateDesiredEnum,
   CertificateDesiredEnumDescriptions,
@@ -60,9 +61,20 @@ const CERTIFICATE_CHOICES = [
   label: CertificateDesiredEnumDescriptions[value],
 }))
 
+const ProfileSchema = yup.object().shape({
+  topic_interests: yup.array().of(yup.string()),
+  goals: yup
+    .array()
+    .of(yup.string().oneOf(GOALS_CHOICES.map((choice) => choice.value))),
+  certificate_desired: yup.string(),
+  current_education: yup.string(),
+  learning_format: yup.array().of(yup.string()),
+})
+
 export {
   LEARNING_FORMAT_CHOICES,
   GOALS_CHOICES,
   EDUCATION_LEVEL_OPTIONS,
   CERTIFICATE_CHOICES,
+  ProfileSchema,
 }
