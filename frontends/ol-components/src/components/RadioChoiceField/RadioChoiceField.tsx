@@ -6,9 +6,12 @@ import RadioGroup from "@mui/material/RadioGroup"
 import type { RadioGroupProps } from "@mui/material/RadioGroup"
 import styled from "@emotion/styled"
 
-const RadioGroupStyled = styled(RadioGroup)({
+const RadioGroupStyled = styled(RadioGroup)(({ theme }) => ({
   gap: "16px",
-})
+  ".MuiRadio-root:not(.Mui-checked) + .MuiFormControlLabel-label": {
+    color: theme.custom.colors.silverGrayDark,
+  },
+}))
 
 const Label = styled.div(({ theme }) => ({
   marginTop: "0",
