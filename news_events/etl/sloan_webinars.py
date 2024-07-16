@@ -6,10 +6,10 @@ from datetime import UTC
 from urllib.parse import urlencode, urljoin
 from zoneinfo import ZoneInfo
 
+import dateparser
 import requests
 from dateutil import parser
 from django.utils.html import strip_tags
-from timefhuman import timefhuman
 
 from news_events.constants import FeedType
 
@@ -137,7 +137,7 @@ def transform_item(event_data: dict) -> dict:
     text_date = attributes.get("Image_Text", {}).get("value", "")
     try:
         dt_utc = (
-            timefhuman(text_date)[0]
+            dateparser.parse(text_date)
             .replace(tzinfo=ZoneInfo("US/Eastern"))
             .astimezone(UTC)
             if dt
