@@ -10,8 +10,7 @@ import {
   RadioChoiceField,
   SimpleSelectField,
   useMuiBreakpointAtLeast,
-  Input,
-  Skeleton,
+  TextField,
 } from "ol-components"
 
 import { useLearningResourceTopics } from "api/hooks/learningResources"
@@ -45,17 +44,6 @@ const NameRow = styled.div({
   gap: "24px",
 })
 
-const NameColumn = styled.div({
-  display: "flex",
-  flexDirection: "column",
-  flex: "1 1",
-})
-
-const NameLabel = styled.label(({ theme }) => ({
-  color: theme.custom.colors.darkGray2,
-  ...theme.typography.subtitle2,
-}))
-
 const RadioChoiceFieldStyled = styled(RadioChoiceField)(({ theme }) => ({
   label: {
     color: theme.custom.colors.darkGray2,
@@ -87,7 +75,7 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         profile?.topic_interests?.map((topic) => String(topic.id)) || [],
     }
   }, [profile])
-  const { isLoading: isLoadingUser, data: user } = useUserMe()
+  const { data: user } = useUserMe()
   const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
   const { data: topics } = useLearningResourceTopics({ is_toplevel: true })
   const topicChoices =
@@ -116,34 +104,20 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
     <form id={formId} onSubmit={formik.handleSubmit}>
       <FormContainer>
         <NameRow>
-          <NameColumn>
-            <NameLabel>First Name</NameLabel>
-            {isLoadingUser ? (
-              <Skeleton variant="text" height={50} />
-            ) : (
-              <Input
-                fullWidth
-                type="text"
-                name="first_name"
-                value={user?.first_name}
-                disabled
-              />
-            )}
-          </NameColumn>
-          <NameColumn>
-            <NameLabel>Last Name</NameLabel>
-            {isLoadingUser ? (
-              <Skeleton variant="text" height={50} />
-            ) : (
-              <Input
-                fullWidth
-                type="text"
-                name="first_name"
-                value={user?.first_name}
-                disabled
-              />
-            )}
-          </NameColumn>
+          <TextField
+            label="First Name"
+            name="first_name"
+            fullWidth
+            value={user?.first_name}
+            disabled
+          />
+          <TextField
+            label="Last Name"
+            fullWidth
+            name="last_name"
+            value={user?.last_name}
+            disabled
+          />
         </NameRow>
         <CheckboxChoiceBoxField
           name="topic_interests"
