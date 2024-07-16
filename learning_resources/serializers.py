@@ -93,12 +93,7 @@ class LearningResourceTypeField(serializers.ReadOnlyField):
 class LearningResourceOfferorSerializer(serializers.ModelSerializer):
     """Serializer for LearningResourceOfferor with basic details"""
 
-    channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
-
-    def get_channel_url(self, instance: models.LearningResourceOfferor) -> str | None:
-        """Get the channel url for the offeror if it exists"""
-        channel = Channel.objects.filter(unit_detail__unit=instance).first()
-        return channel.channel_url if channel else None
+    channel_url = serializers.CharField(read_only=True, allow_null=True)
 
     class Meta:
         model = models.LearningResourceOfferor
@@ -107,6 +102,8 @@ class LearningResourceOfferorSerializer(serializers.ModelSerializer):
 
 class LearningResourceOfferorDetailSerializer(LearningResourceOfferorSerializer):
     """Serializer for LearningResourceOfferor with all details"""
+
+    channel_url = serializers.CharField(read_only=True, allow_null=True)
 
     class Meta:
         model = models.LearningResourceOfferor

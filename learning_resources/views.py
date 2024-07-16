@@ -747,7 +747,9 @@ class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     MIT organizations that offer learning resources
     """
 
-    queryset = LearningResourceOfferor.objects.all().order_by("code")
+    queryset = (
+        LearningResourceOfferor.objects.all().order_by("code").annotate_channel_url()
+    )
     serializer_class = LearningResourceOfferorDetailSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)

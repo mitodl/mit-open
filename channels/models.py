@@ -164,7 +164,10 @@ class ChannelUnitDetail(TimestampedModel):
         related_name="unit_detail",
     )
     unit = models.ForeignKey(
-        LearningResourceOfferor, null=True, on_delete=models.SET_NULL
+        LearningResourceOfferor,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="channel_unit_details",
     )
 
 

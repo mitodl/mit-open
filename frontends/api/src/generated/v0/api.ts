@@ -1034,7 +1034,7 @@ export interface LearningResourceOfferorDetail {
    */
   code: string
   /**
-   * Get the channel url for the offeror if it exists
+   *
    * @type {string}
    * @memberof LearningResourceOfferorDetail
    */
