@@ -1,7 +1,7 @@
 on:
   # Runs on pushes targeting the default branch
   push:
-    branches: [main]
+    branches: [main, cc/fix-storybook-static-dir]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -9,6 +9,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      STORYBOOK_ROOT_URL: ${{ github.event.repository.name }}
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
