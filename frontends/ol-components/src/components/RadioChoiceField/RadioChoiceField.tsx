@@ -7,7 +7,12 @@ import type { RadioGroupProps } from "@mui/material/RadioGroup"
 import styled from "@emotion/styled"
 
 const RadioGroupStyled = styled(RadioGroup)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
   gap: "16px",
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+  },
   ".MuiRadio-root:not(.Mui-checked) + .MuiFormControlLabel-label": {
     color: theme.custom.colors.silverGrayDark,
   },
@@ -34,7 +39,6 @@ interface RadioChoiceFieldProps {
   defaultValue?: string
   name: string
   choices: RadioChoiceProps[]
-  row?: boolean
   onChange?: RadioGroupProps["onChange"]
   className?: string
 }
@@ -50,7 +54,6 @@ interface RadioChoiceFieldProps {
 const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
   label,
   value,
-  row,
   defaultValue,
   name,
   choices,
@@ -65,7 +68,6 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
         aria-labelledby={labelId}
         name={name}
         defaultValue={defaultValue}
-        row={row}
         value={value}
         onChange={onChange}
       >
@@ -97,7 +99,6 @@ interface BooleanRadioChoiceFieldProps {
   defaultValue?: string
   name: string
   choices: BooleanRadioChoiceProps[]
-  row?: boolean
   onChange?: (event: { name: string; value: boolean }) => void
   className?: string
 }

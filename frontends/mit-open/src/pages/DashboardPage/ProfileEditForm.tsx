@@ -9,7 +9,6 @@ import {
   CheckboxChoiceField,
   RadioChoiceField,
   SimpleSelectField,
-  useMuiBreakpointAtLeast,
   TextField,
 } from "ol-components"
 
@@ -98,7 +97,6 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
     validateOnChange: false,
     validateOnBlur: false,
   })
-  const isMobile = !useMuiBreakpointAtLeast("md")
 
   return (
     <form id={formId} onSubmit={formik.handleSubmit}>
@@ -139,7 +137,6 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         />
         <CheckboxChoiceField
           name="goals"
-          row={!isMobile}
           choices={GOALS_CHOICES}
           label={"What are your learning goals?"}
           values={formik.values.goals}
@@ -147,7 +144,6 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         />
         <RadioChoiceFieldStyled
           name="certificate_desired"
-          row={!isMobile}
           choices={CERTIFICATE_CHOICES}
           label={"Are you seeking a certificate?"}
           value={formik.values.certificate_desired}
@@ -163,7 +159,6 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
         />
         <CheckboxChoiceField
           name="learning_format"
-          row={!isMobile}
           choices={LEARNING_FORMAT_CHOICES}
           label={"What course format are you interested in?"}
           values={formik.values.learning_format}

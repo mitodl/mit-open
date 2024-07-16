@@ -11,22 +11,17 @@ export type CheckboxChoiceFieldProps = {
   choices: Omit<CheckboxProps, "name" | "onChange">[]
   values?: string[]
   onChange?: CheckboxProps["onChange"]
-  row?: boolean
   className?: string
 }
 
-const Container = styled.div({
+const Container = styled.div(({ theme }) => ({
   display: "flex",
   gap: "32px",
-})
-
-const ColumnContainer = styled(Container)({
-  flexDirection: "column",
-})
-
-const RowContainer = styled(Container)({
   flexDirection: "row",
-})
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+  },
+}))
 
 const Label = styled(FormLabel)(({ theme }) => ({
   marginTop: "0",
@@ -42,10 +37,8 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
   choices,
   values,
   onChange,
-  row,
   className,
 }) => {
-  const _Container = row ? RowContainer : ColumnContainer
   const isChecked = (choice: CheckboxProps) =>
     choice.value ? values?.includes(choice.value) ?? false : false
   return (
@@ -55,7 +48,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
       className={className}
     >
       <Label>{label}</Label>
-      <_Container>
+      <Container>
         {choices.map((choice) => {
           return (
             <Checkbox
@@ -67,7 +60,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
             />
           )
         })}
-      </_Container>
+      </Container>
     </FormControl>
   )
 }

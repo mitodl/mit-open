@@ -2,6 +2,7 @@ import React from "react"
 import { render, screen } from "@testing-library/react"
 import user from "@testing-library/user-event"
 import { BooleanRadioChoiceField } from "./RadioChoiceField"
+import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 describe("BooleanRadioChoiceField", () => {
   it.each([
@@ -30,6 +31,7 @@ describe("BooleanRadioChoiceField", () => {
         ]}
         onChange={onChange}
       />,
+      { wrapper: ThemeProvider },
     )
     const yes = screen.getByLabelText<HTMLInputElement>("Yes")
     const no = screen.getByLabelText<HTMLInputElement>("No")
@@ -49,6 +51,7 @@ describe("BooleanRadioChoiceField", () => {
         ]}
         onChange={onChange}
       />,
+      { wrapper: ThemeProvider },
     )
     await user.click(screen.getByLabelText("Yes"))
     expect(onChange).toHaveBeenCalledWith({ name: "test", value: true })
