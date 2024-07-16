@@ -31,7 +31,7 @@ import {
   GOALS_CHOICES,
   LEARNING_FORMAT_CHOICES,
   ProfileSchema,
-} from "@/page-components/Profile/constants"
+} from "@/common/profile"
 
 const NUM_STEPS = 5
 

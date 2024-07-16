@@ -20,7 +20,7 @@ import {
   GOALS_CHOICES,
   LEARNING_FORMAT_CHOICES,
   ProfileSchema,
-} from "@/page-components/Profile/constants"
+} from "@/common/profile"
 import { useUserMe } from "api/hooks/user"
 
 type Props = {
