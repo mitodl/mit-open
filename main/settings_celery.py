@@ -106,8 +106,8 @@ CELERY_BEAT_SCHEDULE = {
     "update_sloan_webinars": {
         "task": "news_events.tasks.get_sloan_exec_webinars",
         "schedule": get_int(
-            "NEWS_EVENTS_SLOAN_EXEC_WEBINAR_SCHEDULE_SECONDS", 60 * 60 * 3
-        ),  # default is every 3 hours
+            "NEWS_EVENTS_SLOAN_EXEC_WEBINAR_SCHEDULE_SECONDS", 60 * 60 * 12
+        ),  # default is every 12 hours
     },
     "update_ol_events": {
         "task": "news_events.tasks.get_ol_events",
