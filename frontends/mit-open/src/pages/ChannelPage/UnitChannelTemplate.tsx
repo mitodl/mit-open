@@ -13,7 +13,6 @@ import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionTo
 import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
 import { useChannelDetail } from "api/hooks/channels"
 import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
-import ChannelAvatar from "@/components/ChannelAvatar/ChannelAvatar"
 import ResourceCarousel, {
   ResourceCarouselProps,
 } from "@/page-components/ResourceCarousel/ResourceCarousel"
@@ -25,7 +24,7 @@ import { ChannelControls, UNITS_LABEL } from "./ChannelPageTemplate"
 
 const StyledBannerBackground = styled(BannerBackground)(({ theme }) => ({
   padding: "48px 0 64px 0",
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     padding: "32px 0 16px 0",
   },
 }))
@@ -35,6 +34,16 @@ const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     marginTop: "32px",
     marginBottom: "32px",
+  },
+}))
+
+const UnitLogo = styled.img(({ theme }) => ({
+  filter: "saturate(0%) invert(100%)",
+  maxWidth: "100%",
+  width: "auto",
+  height: "50px",
+  [theme.breakpoints.down("md")]: {
+    height: "40px",
   },
 }))
 
@@ -120,12 +129,7 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
             <Stack gap={{ xs: "16px", lg: "24px" }}>
               <ChannelHeader aria-label={channel.data?.title}>
                 {channel.data ? (
-                  <ChannelAvatar
-                    imageVariant="inverted"
-                    formImageUrl={displayConfiguration.logo}
-                    imageSize="medium"
-                    channel={channel.data}
-                  />
+                  <UnitLogo alt="" src={displayConfiguration.logo} />
                 ) : null}
               </ChannelHeader>
               <Stack gap={{ xs: "16px", lg: "32px" }}>
