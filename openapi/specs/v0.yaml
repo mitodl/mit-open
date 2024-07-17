@@ -1847,10 +1847,8 @@ components:
           items:
             $ref: '#/components/schemas/GoalsEnum'
         notification_preference:
-          type: array
-          items:
-            type: string
-            minLength: 1
+          type: string
+          minLength: 1
         current_education:
           oneOf:
           - $ref: '#/components/schemas/CurrentEducationEnum'
@@ -2072,9 +2070,7 @@ components:
           items:
             $ref: '#/components/schemas/GoalsEnum'
         notification_preference:
-          type: array
-          items:
-            type: string
+          type: string
         current_education:
           oneOf:
           - $ref: '#/components/schemas/CurrentEducationEnum'
@@ -2148,10 +2144,8 @@ components:
           items:
             $ref: '#/components/schemas/GoalsEnum'
         notification_preference:
-          type: array
-          items:
-            type: string
-            minLength: 1
+          type: string
+          minLength: 1
         current_education:
           oneOf:
           - $ref: '#/components/schemas/CurrentEducationEnum'

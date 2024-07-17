@@ -1567,10 +1567,10 @@ export interface PatchedProfileRequest {
   goals?: Array<GoalsEnum>
   /**
    *
-   * @type {Array<string>}
+   * @type {string}
    * @memberof PatchedProfileRequest
    */
-  notification_preference?: Array<string>
+  notification_preference?: string
   /**
    *
    * @type {PatchedProfileRequestCurrentEducation}
@@ -1927,10 +1927,10 @@ export interface Profile {
   goals?: Array<GoalsEnum>
   /**
    *
-   * @type {Array<string>}
+   * @type {string}
    * @memberof Profile
    */
-  notification_preference?: Array<string>
+  notification_preference?: string
   /**
    *
    * @type {PatchedProfileRequestCurrentEducation}
@@ -2030,10 +2030,10 @@ export interface ProfileRequest {
   goals?: Array<GoalsEnum>
   /**
    *
-   * @type {Array<string>}
+   * @type {string}
    * @memberof ProfileRequest
    */
-  notification_preference?: Array<string>
+  notification_preference?: string
   /**
    *
    * @type {PatchedProfileRequestCurrentEducation}
