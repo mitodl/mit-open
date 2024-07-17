@@ -8514,10 +8514,6 @@ components:
           type: string
           nullable: true
           maxLength: 1024
-        availability:
-          type: string
-          nullable: true
-          maxLength: 128
         semester:
           type: string
           nullable: true
@@ -8621,10 +8617,6 @@ components:
           type: string
           nullable: true
           maxLength: 1024
-        availability:
-          type: string
-          nullable: true
-          maxLength: 128
         semester:
           type: string
           nullable: true

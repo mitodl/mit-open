@@ -2025,12 +2025,6 @@ export interface LearningResourceRun {
    * @type {string}
    * @memberof LearningResourceRun
    */
-  availability?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceRun
-   */
   semester?: string | null
   /**
    *
@@ -2174,12 +2168,6 @@ export interface LearningResourceRunRequest {
    * @memberof LearningResourceRunRequest
    */
   slug?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceRunRequest
-   */
-  availability?: string | null
   /**
    *
    * @type {string}
