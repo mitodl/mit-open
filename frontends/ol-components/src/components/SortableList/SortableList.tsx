@@ -61,6 +61,7 @@ const SortableItem = <I extends UniqueIdentifier = UniqueIdentifier>(
     isDragging,
     setActivatorNodeRef,
   } = useSortable({ id: props.id, data: props.data, disabled: props.disabled })
+
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,

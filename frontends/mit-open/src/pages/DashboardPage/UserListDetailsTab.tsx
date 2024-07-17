@@ -29,6 +29,7 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}
       handleEdit={() => manageListDialogs.upsertUserList(listQuery.data)}
+      condensed
     />
   )
 }
