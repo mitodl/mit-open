@@ -4,7 +4,7 @@ import styled from "@emotion/styled"
 import type { DrawerProps } from "@mui/material/Drawer"
 import { ActionButton } from "../Button/Button"
 import { RiCloseLargeLine } from "@remixicon/react"
-import { useSearchParams, useLocation, useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useToggle } from "ol-utilities"
 
 const closeSx: React.CSSProperties = {
@@ -38,17 +38,17 @@ const RoutedDrawer = <K extends string, R extends K = K>(
 ) => {
   const { requiredParams, children, onView, ...others } = props
   const { params = requiredParams } = props
-  const [searchParams, setSearchParams] = useSearchParams()
 
   const [open, setOpen] = useToggle(false)
   const location = useLocation()
   const navigate = useNavigate()
 
   const childParams = useMemo(() => {
+    const searchParams = new URLSearchParams(location.search)
     return Object.fromEntries(
       params.map((name) => [name, searchParams.get(name)] as const),
     ) as Record<K, string | null>
-  }, [searchParams, params])
+  }, [location, params])
 
   const requiredArePresent = requiredParams.every(
     (name) => childParams[name] !== null,
@@ -71,12 +71,11 @@ const RoutedDrawer = <K extends string, R extends K = K>(
       return newSearchParams
     }
     const newParams = getNewParams(location.search)
-    setSearchParams(newParams)
     navigate({
       ...location,
       search: newParams.toString(),
     })
-  }, [setSearchParams, params, navigate, location])
+  }, [params, navigate, location])
 
   return (
     <Drawer
