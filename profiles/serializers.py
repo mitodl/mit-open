@@ -83,7 +83,6 @@ class PreferencesSearchSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
     """Serializer for Profile"""
 
-    email_optin = serializers.BooleanField(write_only=True, required=False)
     toc_optin = serializers.BooleanField(write_only=True, required=False)
     username = serializers.SerializerMethodField(read_only=True)
     profile_image_medium = serializers.SerializerMethodField(read_only=True)
@@ -91,6 +90,9 @@ class ProfileSerializer(serializers.ModelSerializer):
     placename = serializers.SerializerMethodField(read_only=True)
     topic_interests = TopicInterestsField(default=list)
     preference_search_filters = serializers.SerializerMethodField(read_only=True)
+    notification_preference = serializers.ListField(
+        child=serializers.CharField(), required=False
+    )
 
     def get_username(self, obj) -> str:
         """Custom getter for the username"""  # noqa: D401
@@ -175,7 +177,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             "image_medium_file",
             "profile_image_small",
             "profile_image_medium",
-            "email_optin",
             "toc_optin",
             "bio",
             "headline",
@@ -184,6 +185,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "location",
             "topic_interests",
             "goals",
+            "notification_preference",
             "current_education",
             "certificate_desired",
             "time_commitment",
