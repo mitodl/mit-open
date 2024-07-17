@@ -1,14 +1,14 @@
 topics:
   - name: Art, Design & Architecture
     id:
-    icon:
+    icon: RiPaletteLine
     mappings:
       ocw:
         - Fine Arts
     children:
       - name: Architecture
         id:
-        icon:
+        icon: RiPaletteLine
         mappings:
           ocw:
             - Architecture
@@ -18,450 +18,450 @@ topics:
             - Religious Architecture
       - name: Environmental Deisgn
         id:
-        icon:
+        icon: RiPaletteLine
         mappings:
       - name: Game Design
         id:
-        icon:
+        icon: RiPaletteLine
         mappings:
       - name: Performing Arts
         id:
-        icon:
+        icon: RiPaletteLine
         mappings:
       - name: Visual Arts
         id:
-        icon:
+        icon: RiPaletteLine
         mappings:
       - name: Media Studies
         id:
-        icon:
+        icon: RiPaletteLine
         mappings:
       - name: Real Estate
         id:
-        icon:
+        icon: RiPaletteLine
         mappings:
       - name: Art History
         id:
-        icon:
+        icon: RiPaletteLine
         mappings:
   - name: Business & Management
     id:
-    icon:
+    icon: RiBriefcase3Line
     mappings:
     children:
       - name: Entrepreneurship
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Organizations & Leadership
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Negotiation & Communication
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Marketing
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Supply Chain
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Finance & Accounting
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Operations
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Family Enterprise
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Business Analytics
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Systems Thinking
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Strategy & Innovation
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Digital Business & IT
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
       - name: Management
         id:
-        icon:
+        icon: RiBriefcase3Line
         mappings:
         children:
   - name: Data Science, Analytics & Computer Technology
     id:
-    icon:
+    icon: RiRobot2Line
     mappings:
     children:
       - name: AI
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Programming & Coding
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Software Design and Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Algorithms and Data Structures
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Networks and Security
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Machine Learning
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: User Experience
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Blockchain
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: AR/VR/MR/XR
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: CyberSecurity
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Machine Learning
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Visualization
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Computer Science
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Data Science
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
   - name: Education & Teaching
     id:
-    icon:
+    icon: RiShakeHandsLine
     mappings:
     children:
       - name: Pedagogy and Curriculum
         id:
-        icon:
+        icon: RiShakeHandsLine
         mappings:
         children:
       - name: Education Policy
         id:
-        icon:
+        icon: RiShakeHandsLine
         mappings:
         children:
       - name: Educational Technology
         id:
-        icon:
+        icon: RiShakeHandsLine
         mappings:
         children:
       - name: Digital Learning
         id:
-        icon:
+        icon: RiShakeHandsLine
         mappings:
         children:
       - name: Faculty Leadership
         id:
-        icon:
+        icon: RiShakeHandsLine
         mappings:
         children:
   - name: Social Sciences
     id:
-    icon:
+    icon: RiUserSearchLine
     mappings:
     children:
       - name: Anthropology
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Communication
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Economics
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Geography
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Law
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Political Science
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Psychology
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Policy and Administration
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Sociology
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Urban Studies
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: Gender Studies
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
       - name: International Development
         id:
-        icon:
+        icon: RiUserSearchLine
         mappings:
         children:
   - name: Science & Math
     id:
-    icon:
+    icon: RiTestTubeLine
     mappings:
     children:
       - name: Biology
         id:
-        icon:
+        icon: RiTestTubeLine
         mappings:
         children:
       - name: Chemistry
         id:
-        icon:
+        icon: RiTestTubeLine
         mappings:
         children:
       - name: Cognitive Science
         id:
-        icon:
+        icon: RiTestTubeLine
         mappings:
         children:
       - name: Earth Science
         id:
-        icon:
+        icon: RiTestTubeLine
         mappings:
         children:
       - name: Physics
         id:
-        icon:
+        icon: RiTestTubeLine
         mappings:
         children:
       - name: Mathematics
         id:
-        icon:
+        icon: RiTestTubeLine
         mappings:
         children:
   - name: Energy, Climate & Sustainability
     id:
-    icon:
+    icon: RiLightbulbFlashLine
     mappings:
     children:
       - name: Energy
         id:
-        icon:
+        icon: RiLightbulbFlashLine
         mappings:
         children:
       - name: Environmental and Climate Justice
         id:
-        icon:
+        icon: RiLightbulbFlashLine
         mappings:
         children:
       - name: Climate Science
         id:
-        icon:
+        icon: RiLightbulbFlashLine
         mappings:
         children:
       - name: Built Environment
         id:
-        icon:
+        icon: RiLightbulbFlashLine
         mappings:
         children:
       - name: Natural Systems
         id:
-        icon:
+        icon: RiLightbulbFlashLine
         mappings:
         children:
       - name: Adaptation and Resilience
         id:
-        icon:
+        icon: RiLightbulbFlashLine
         mappings:
         children:
       - name: Climate and Energy Policy
         id:
-        icon:
+        icon: RiLightbulbFlashLine
         mappings:
         children:
       - name: Sustainable Business
         id:
-        icon:
+        icon: RiLightbulbFlashLine
         mappings:
         children:
   - name: Engineering
     id:
-    icon:
+    icon: RiRobot2Line
     mappings:
     children:
       - name: Aerospace Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Biological Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Chemical Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Civil Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Electrical Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Environmental Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Materials Science and Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Nuclear Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Ocean Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Systems Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
       - name: Mechanical Engineering
         id:
-        icon:
+        icon: RiRobot2Line
         mappings:
         children:
   - name: Humanities
     id:
-    icon:
+    icon: RiQuillPenLine
     mappings:
     children:
       - name: History
         id:
-        icon:
+        icon: RiQuillPenLine
         mappings:
         children:
       - name: Language
         id:
-        icon:
+        icon: RiQuillPenLine
         mappings:
         children:
       - name: Linguistics
         id:
-        icon:
+        icon: RiQuillPenLine
         mappings:
         children:
       - name: Literature
         id:
-        icon:
+        icon: RiQuillPenLine
         mappings:
         children:
       - name: Philosophy
         id:
-        icon:
+        icon: RiQuillPenLine
         mappings:
         children:
       - name: Music
         id:
-        icon:
+        icon: RiQuillPenLine
         mappings:
         children:
       - name: Religion
         id:
-        icon:
+        icon: RiQuillPenLine
         mappings:
         children:
   - name: Innovation & Entrepreneurship
@@ -501,46 +501,46 @@ topics:
         children:
   - name: Health & Medicine
     id:
-    icon:
+    icon: RiStethoscopeLine
     mappings:
     children:
       - name: Biomedical Technologies
         id:
-        icon:
+        icon: RiStethoscopeLine
         mappings:
         children:
       - name: Health Care Management
         id:
-        icon:
+        icon: RiStethoscopeLine
         mappings:
         children:
       - name: Immunology
         id:
-        icon:
+        icon: RiStethoscopeLine
         mappings:
         children:
       - name: Imaging
         id:
-        icon:
+        icon: RiStethoscopeLine
         mappings:
         children:
       - name: Mental Health
         id:
-        icon:
+        icon: RiStethoscopeLine
         mappings:
         children:
       - name: Pathology and Pathophysiology
         id:
-        icon:
+        icon: RiStethoscopeLine
         mappings:
         children:
       - name: Pharmacology & Toxicology
         id:
-        icon:
+        icon: RiStethoscopeLine
         mappings:
         children:
       - name: Public Health
         id:
-        icon:
+        icon: RiStethoscopeLine
         mappings:
         children:

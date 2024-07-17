@@ -526,17 +526,18 @@ def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -
 
 
 @transaction.atomic()
-def upsert_topic_data(
+def upsert_topic_data_file(
     config_path: str = "learning_resources/data/topics.yaml",
 ) -> None:
     """
-    Load the topics from the OCW course site config file.
+    Load the topics from a yaml file.
 
-    The OCW settings are in a YAML file. We're specifically looking at the field
-    named "Topics" and walking the list from there.
+    The yaml file should have a root "topics" key, and then any number of topic
+    records beneath it. See _walk_topic_map for an explanation of the record
+    format.
 
     Args:
-    - config_path (str): the path to the OCW course site config file.
+    - config_path (str): the path to the topics file.
     Returns:
     - None
     """
@@ -545,6 +546,27 @@ def upsert_topic_data(
         topic_file_yaml = topic_file.read()
 
     topics = yaml.safe_load(topic_file_yaml)
+
+    _walk_topic_map(topics["topics"])
+
+
+@transaction.atomic()
+def upsert_topic_data_string(yaml_data: str) -> None:
+    """
+    Load the topics from a yaml string.
+
+    The yaml string should be formatted in the same way that it is for
+    upsert_topic_data_file - this function exists just to allow you to specify
+    the data as a string so you can roll it into a migration file in the
+    data_fixtures app.
+
+    Args:
+    - yaml_data (str): the yaml to process
+    Returns:
+    - None
+    """
+
+    topics = yaml.safe_load(yaml_data)
 
     _walk_topic_map(topics["topics"])
 

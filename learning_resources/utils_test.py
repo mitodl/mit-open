@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 
 import pytest
+import yaml
 
 from learning_resources import utils
 from learning_resources.constants import (
@@ -19,6 +20,7 @@ from learning_resources.factories import (
     CourseFactory,
     LearningPathFactory,
     LearningResourceFactory,
+    LearningResourceOfferorFactory,
     LearningResourceRunFactory,
     LearningResourceTopicFactory,
     UserListFactory,
@@ -28,11 +30,13 @@ from learning_resources.models import (
     LearningResourceOfferor,
     LearningResourcePlatform,
     LearningResourceTopic,
+    LearningResourceTopicMapping,
 )
 from learning_resources.utils import (
     add_parent_topics_to_learning_resource,
     transfer_list_resources,
-    upsert_topic_data,
+    upsert_topic_data_file,
+    upsert_topic_data_string,
 )
 
 pytestmark = pytest.mark.django_db
@@ -264,41 +268,120 @@ def test_resource_run_delete_actions(mock_plugin_manager, fixture_resource_run):
     )
 
 
-def test_upsert_topic_data(mocker):
+def test_upsert_topic_data_file(mocker):
     """
-    upsert_topic_data should properly process the OCW JSON file, and trigger the
-    topic_upserted_actions hook when it does.
+    upsert_topic_data should properly process the topics yaml file, and trigger
+    the topic_upserted_actions hook when it does. The upserted topics should
+    have mappings where applicable and also icon names (again, if applicable).
     """
 
-    test_file_location = "test_json/ocw-course-site-config.json"
+    test_file_location = "test_json/test_topics.yaml"
     mock_pluggy = mocker.patch("learning_resources.utils.topic_upserted_actions")
+    # does the data_fixtures app run in test mode? not sure so clearing out topics
+    LearningResourceTopic.objects.all().delete()
 
-    with Path.open(Path(test_file_location)) as ocw_config:
-        ocw_config_json = ocw_config.read()
+    # Create an OCW Offeror for mappings. The test file contains some mappings
+    # for OCW, and _one_ invalid one.
+    LearningResourceOfferorFactory.create(is_ocw=True)
 
-    ocw_config = json.loads(ocw_config_json)["collections"][0]["files"][0]["fields"][0][
-        "options_map"
-    ]
+    with Path.open(Path(test_file_location)) as topic_file:
+        topic_file_yaml = topic_file.read()
 
-    def _walk_ocw_config(config_point):
+    topics = yaml.safe_load(topic_file_yaml)
+
+    def _get_topic_count(topics):
         """Walk the test OCW config file."""
 
-        item_count = len(config_point)
+        if not topics:
+            return (0, 0)
 
-        for item in config_point:
-            if isinstance(item, dict):
-                item_count += _walk_ocw_config(item)
+        item_count = len(topics)
+        mapping_count = 0
 
-        return item_count
+        for topic in topics:
+            if topic["mappings"]:
+                for offeror in topic["mappings"]:
+                    for _ in topic["mappings"][offeror]:
+                        mapping_count += 1
 
-    item_count = _walk_ocw_config(ocw_config)
+            if "children" in topic:
+                (children_count, children_mapping_count) = _get_topic_count(
+                    topic["children"]
+                )
+                item_count += children_count
+                mapping_count += children_mapping_count
+
+        return (item_count, mapping_count)
+
+    (item_count, mapping_count) = _get_topic_count(topics["topics"])
 
     assert LearningResourceTopic.objects.count() == 0
+    assert LearningResourceTopicMapping.objects.count() == 0
 
-    upsert_topic_data(test_file_location)
+    upsert_topic_data_file(test_file_location)
 
     assert mock_pluggy.called
-    assert LearningResourceTopic.objects.count() > item_count
+    assert LearningResourceTopic.objects.count() == item_count
+    # The test file has one invalid code mapping in it - mappings have to relate
+    # to a LearningResourceOfferor so we should get one less persisted mapping
+    # than is in the file.
+    assert LearningResourceTopicMapping.objects.count() == (mapping_count - 1)
+
+
+def test_modify_topic_data_string(mocker):
+    """
+    Test that upserting topic data from a string also works.
+
+    This does two things, really:
+    - It tests that the upserter parses a yaml string successfully
+    - It tests that modifying a topic using upserted data works
+    """
+
+    test_file_location = "test_json/test_topics.yaml"
+    test_update_file_location = "test_json/test_topic_update.almost-yaml"
+    # does the data_fixtures app run in test mode? not sure so clearing out topics
+    LearningResourceTopic.objects.all().delete()
+
+    # Create offerors for mappings
+    LearningResourceOfferorFactory.create(is_ocw=True)
+    see_offeror = LearningResourceOfferorFactory.create(is_see=True)
+
+    upsert_topic_data_file(test_file_location)
+
+    mock_pluggy = mocker.patch("learning_resources.utils.topic_upserted_actions")
+
+    art_topic = LearningResourceTopic.objects.filter(
+        name="Art, Design & Architecture"
+    ).first()
+    architecture_topic = LearningResourceTopic.objects.filter(
+        name="Architecture"
+    ).first()
+
+    with Path.open(Path(test_update_file_location)) as topic_file:
+        update_file_yaml = topic_file.read()
+
+    update_yaml_string = update_file_yaml.replace(
+        "%%ARCHITECTURE_ID%%", str(architecture_topic.id)
+    )
+
+    upsert_topic_data_string(update_yaml_string)
+
+    assert mock_pluggy.called
+
+    assert LearningResourceTopic.objects.filter(name="Sports & Practice").count() == 1
+
+    architecture_topic.refresh_from_db()
+    art_topic.refresh_from_db()
+
+    assert architecture_topic.icon == "RiArtboardFill"
+    assert art_topic.icon == "RiArtboardLine"
+
+    assert (
+        LearningResourceTopicMapping.objects.filter(
+            topic=architecture_topic, offeror=see_offeror
+        ).count()
+        == 1
+    )
 
 
 def test_add_parent_topics_to_learning_resource(fixture_resource):
