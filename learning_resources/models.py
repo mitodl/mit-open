@@ -89,8 +89,26 @@ class LearningResourceTopic(TimestampedModel):
         constraints = [models.UniqueConstraint(Lower("name"), name="unique_lower_name")]
 
 
+class LearningResourceOfferorQuerySet(TimestampedModelQuerySet):
+    """QuerySet for LearningResourceOfferor"""
+
+    def annotate_channel_url(self):
+        """Annotate with the channel url"""
+        from channels.models import Channel
+
+        return self.annotate(
+            _channel_url=(
+                Channel.objects.filter(unit_detail__unit=OuterRef("pk"))
+                .annotate_channel_url()
+                .values_list("_channel_url", flat=True)[:1]
+            ),
+        )
+
+
 class LearningResourceOfferor(TimestampedModel):
     """Represents who is offering a learning resource"""
+
+    objects = LearningResourceOfferorQuerySet.as_manager()
 
     # Old fields
     code = models.CharField(max_length=12, primary_key=True)
@@ -107,6 +125,16 @@ class LearningResourceOfferor(TimestampedModel):
     more_information = models.URLField(blank=True)
     # This field name means "value proposition"
     value_prop = models.TextField(blank=True)
+
+    @property
+    def channel_url(self):
+        """Return the offeror's channel url"""
+        if hasattr(self, "_channel_url"):
+            return self._channel_url
+
+        unit_detail = self.channel_unit_details.first()
+
+        return unit_detail.channel.channel_url if unit_detail is not None else None
 
     def __str__(self):
         return f"{self.code}: {self.name}"

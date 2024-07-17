@@ -1485,9 +1485,8 @@ components:
           maxLength: 12
         channel_url:
           type: string
-          nullable: true
-          description: Get the channel url for the offeror if it exists
           readOnly: true
+          nullable: true
         name:
           type: string
           maxLength: 256

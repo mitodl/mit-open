@@ -250,6 +250,27 @@ def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
         assert len(results) == course_count
 
 
+@pytest.mark.parametrize("offeror_count", [1, 2, 4])
+def test_no_excess_offeror_queries(client, django_assert_num_queries, offeror_count):
+    """
+    There should be a constant number of queries made (based on number of
+    related models), regardless of number of offeror results returned.
+    """
+    for offeror_code in OfferedBy.names()[:offeror_count]:
+        ChannelUnitDetailFactory.create(
+            unit=LearningResourceOfferorFactory.create(code=offeror_code)
+        )
+
+    assert LearningResourceOfferor.objects.count() == offeror_count
+    assert Channel.objects.count() == offeror_count
+
+    with django_assert_num_queries(2):
+        results = client.get(reverse("lr:v1:offerors_api-list"))
+        assert len(results.data["results"]) == offeror_count
+        for result in results.data["results"]:
+            assert result["channel_url"] is not None
+
+
 def test_list_content_files_list_endpoint(client):
     """Test ContentFile list endpoint"""
     course = CourseFactory.create()
