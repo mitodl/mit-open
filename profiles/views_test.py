@@ -46,14 +46,12 @@ def test_list_users(staff_client, staff_user):
 
 
 # These can be removed once all clients have been updated and are sending both these fields
-@pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
-def test_create_user(staff_client, staff_user, email_optin, toc_optin):  # pylint: disable=too-many-arguments
+def test_create_user(staff_client, staff_user, toc_optin):  # pylint: disable=too-many-arguments
     """
     Create a user and assert the response
     """
     staff_user.email = ""
-    staff_user.profile.email_optin = None
     staff_user.profile.save()
     staff_user.save()
     url = reverse("profile:v0:user_api-list")
@@ -70,8 +68,7 @@ def test_create_user(staff_client, staff_user, email_optin, toc_optin):  # pylin
             "placename": "",
         },
     }
-    if email_optin is not None:
-        payload["profile"]["email_optin"] = email_optin
+
     if toc_optin is not None:
         payload["profile"]["toc_optin"] = toc_optin
 
@@ -80,7 +77,6 @@ def test_create_user(staff_client, staff_user, email_optin, toc_optin):  # pylin
     assert resp.status_code == 201
     assert resp.json()["profile"] == ProfileSerializer(user.profile).data
     assert user.email == email
-    assert user.profile.email_optin is email_optin
     assert user.profile.toc_optin is toc_optin
 
 
@@ -156,22 +152,18 @@ def test_get_profile_automatically_creates_profile(user, user_client):
 
 
 @pytest.mark.parametrize("email", ["", "test.email@example.com"])
-@pytest.mark.parametrize("email_optin", [None, True, False])
 @pytest.mark.parametrize("toc_optin", [None, True, False])
-def test_patch_user(staff_client, user, email, email_optin, toc_optin):
+def test_patch_user(staff_client, user, email, toc_optin):
     """
     Update a users' profile
     """
     user.email = ""
     user.save()
     profile = user.profile
-    profile.email_optin = None
     profile.save()
     payload = {"profile": {"name": "othername"}}
     if email:
         payload["email"] = email
-    if email_optin is not None:
-        payload["profile"]["email_optin"] = email_optin
     if toc_optin is not None:
         payload["profile"]["toc_optin"] = toc_optin
     url = reverse("profile:v0:user_api-detail", kwargs={"username": user.username})
@@ -191,7 +183,6 @@ def test_patch_user(staff_client, user, email, email_optin, toc_optin):
     user.refresh_from_db()
     profile.refresh_from_db()
     assert user.email == email
-    assert profile.email_optin is email_optin
     assert profile.toc_optin is toc_optin
 
 
