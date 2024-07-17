@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.21
+Version 0.13.21 (Released July 17, 2024)
 ---------------
 
 - Unit Detail Banner Updates (#1272)
