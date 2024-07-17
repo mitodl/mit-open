@@ -83,7 +83,6 @@ class PreferencesSearchSerializer(serializers.Serializer):
 class ProfileSerializer(serializers.ModelSerializer):
     """Serializer for Profile"""
 
-    email_optin = serializers.BooleanField(write_only=True, required=False)
     toc_optin = serializers.BooleanField(write_only=True, required=False)
     username = serializers.SerializerMethodField(read_only=True)
     profile_image_medium = serializers.SerializerMethodField(read_only=True)
@@ -175,7 +174,6 @@ class ProfileSerializer(serializers.ModelSerializer):
             "image_medium_file",
             "profile_image_small",
             "profile_image_medium",
-            "email_optin",
             "toc_optin",
             "bio",
             "headline",

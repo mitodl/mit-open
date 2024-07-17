@@ -51,7 +51,6 @@ def test_serialize_create_user(db, mocker):
     """
     profile = {
         "name": "name",
-        "email_optin": True,
         "toc_optin": True,
         "bio": "bio",
         "headline": "headline",
@@ -62,7 +61,6 @@ def test_serialize_create_user(db, mocker):
     serializer.is_valid(raise_exception=True)
     user = serializer.save()
 
-    del profile["email_optin"]  # is write-only
     del profile["toc_optin"]  # is write-only
 
     profile.update(
@@ -101,8 +99,6 @@ def test_serialize_create_user(db, mocker):
     ("key", "value"),
     [
         ("name", "name_value"),
-        ("email_optin", True),
-        ("email_optin", False),
         ("bio", "bio_value"),
         ("headline", "headline_value"),
         ("toc_optin", True),
@@ -128,7 +124,6 @@ def test_update_user_profile(mocker, user, key, value):
         "image",
         "image_small",
         "image_medium",
-        "email_optin",
         "toc_optin",
         "bio",
         "headline",
@@ -218,7 +213,6 @@ def test_update_profile(mocker, user, key, value):
 
     for prop in (
         "name",
-        "email_optin",
         "toc_optin",
         "bio",
         "headline",

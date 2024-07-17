@@ -40,8 +40,6 @@ class ProfileFactory(DjangoModelFactory):
     image_small_file = None
     image_medium_file = None
 
-    email_optin = Faker("boolean")
-
     location = Faker("location")
 
     learning_format = [key for key, _ in Profile.LearningResourceFormat.choices]

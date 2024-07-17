@@ -25,7 +25,6 @@ PROFILE_PROPS = (
     "image",
     "image_small",
     "image_medium",
-    "email_optin",
     "toc_optin",
     "headline",
     "bio",
@@ -153,7 +152,6 @@ class Profile(AbstractSCIMUserMixin):
         editable=False,
     )
 
-    email_optin = models.BooleanField(null=True)
     toc_optin = models.BooleanField(null=True)
 
     headline = models.CharField(blank=True, null=True, max_length=60)  # noqa: DJ001
