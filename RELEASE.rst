@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.13.20 (Released July 17, 2024)
+---------------
+
+- Make static/hash.txt served again (#1259)
+- Update actions/checkout digest to 692973e (#1263)
+- adjust department names (#1253)
+- Update eslint-config and friends (#1246)
+
 Version 0.13.19 (Released July 12, 2024)
 ---------------
 
