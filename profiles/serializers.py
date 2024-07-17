@@ -90,9 +90,7 @@ class ProfileSerializer(serializers.ModelSerializer):
     placename = serializers.SerializerMethodField(read_only=True)
     topic_interests = TopicInterestsField(default=list)
     preference_search_filters = serializers.SerializerMethodField(read_only=True)
-    notification_preference = serializers.ListField(
-        child=serializers.CharField(), required=False
-    )
+    notification_preference = serializers.CharField(required=False)
 
     def get_username(self, obj) -> str:
         """Custom getter for the username"""  # noqa: D401
