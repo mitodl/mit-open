@@ -1,6 +1,23 @@
 Release Notes
 =============
 
+Version 0.13.21
+---------------
+
+- Unit Detail Banner Updates (#1272)
+- Shanbady/clicking item routes away from list fix (#1280)
+- adding migrations for copy update (#1276)
+- Shanbady/ingest sloan events (#1270)
+- fix keyboard drag and drop (#1279)
+- Use newer Learning Resource list cards in Learning Paths lists (#1256)
+- Improve offeror api performance (#1274)
+- Shanbady/clicking item routes away from list (#1273)
+- refactor profile and onboarding (#1266)
+- add a story showing platform logos (#1277)
+- Add profile option for silky to settings (#1271)
+- Take is_enrollable attribute into account for publish status of edx resources (#1264)
+- Update react monorepo to v18.3.1 (#874)
+
 Version 0.13.20 (Released July 17, 2024)
 ---------------
 
