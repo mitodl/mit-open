@@ -69,16 +69,17 @@ const SortableItem = <I extends UniqueIdentifier = UniqueIdentifier>(
   const handleProps: HandleProps = useMemo(
     () => ({
       ...listeners,
+      ...attributes,
       ref: setActivatorNodeRef,
       className: !props.disabled ? "ol-draggable" : undefined,
     }),
-    [setActivatorNodeRef, listeners, props.disabled],
+    [setActivatorNodeRef, attributes, listeners, props.disabled],
   )
 
   const { Component = "div" } = props
 
   return (
-    <Component ref={setNodeRef} style={style} {...attributes}>
+    <Component ref={setNodeRef} style={style}>
       <DragStyles>{props.children && props.children(handleProps)}</DragStyles>
     </Component>
   )
