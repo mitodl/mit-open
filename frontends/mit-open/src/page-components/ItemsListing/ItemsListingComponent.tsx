@@ -1,11 +1,21 @@
 import React from "react"
-import { Grid, Button, Typography } from "ol-components"
+import { Grid, Button, Typography, styled } from "ol-components"
 import { RiPencilFill, RiArrowUpDownLine } from "@remixicon/react"
 import { useUserMe } from "api/hooks/user"
 import { useToggle, pluralize } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import ItemsListing from "./ItemsListing"
 import type { LearningResourceListItem } from "./ItemsListing"
+
+const Container = styled(GridContainer)`
+  margin-top: 30px;
+  margin-bottom: 100px;
+`
+
+const TitleContainer = styled(Grid)`
+  margin-top: 10px;
+  margin-bottom: 20px;
+`
 
 type OnEdit = () => void
 type ListData = {
@@ -41,15 +51,15 @@ const ItemsListingComponent: React.FC<ItemsListingComponentProps> = ({
   const count = list?.item_count
 
   return (
-    <GridContainer>
+    <Container>
       <GridColumn variant="single-full">
         <Grid container>
-          <Grid item xs={12}>
+          <TitleContainer item xs={12}>
             <Typography variant="h3" component="h1">
               {list?.title}
             </Typography>
             {list?.description && <p>{list.description}</p>}
-          </Grid>
+          </TitleContainer>
           <Grid
             item
             xs={6}
@@ -100,7 +110,7 @@ const ItemsListingComponent: React.FC<ItemsListingComponentProps> = ({
           condensed={condensed}
         />
       </GridColumn>
-    </GridContainer>
+    </Container>
   )
 }
 
