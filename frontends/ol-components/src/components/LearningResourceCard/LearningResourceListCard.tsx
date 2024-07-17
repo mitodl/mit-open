@@ -411,7 +411,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   if (!resource) {
     return null
   }
-  console.log("draggable", draggable)
+
   return (
     <ListCard href={href} className={className} draggable={draggable}>
       <ListCard.Image

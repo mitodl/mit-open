@@ -4,6 +4,7 @@ import {
   SortableList,
   SortableItem,
   LearningResourceListCard,
+  LearningResourceListCardCondensed,
 } from "ol-components"
 import { factories, urls, makeRequest } from "api/test-utils"
 import {
@@ -30,10 +31,17 @@ jest.mock("ol-components", () => {
     ...actual,
     SortableList: jest.fn(actual.SortableList),
     SortableItem: jest.fn(actual.SortableItem),
+    LearningResourceListCard: jest.fn(actual.LearningResourceListCard),
+    LearningResourceListCardCondensed: jest.fn(
+      actual.LearningResourceListCardCondensed,
+    ),
   }
 })
 
 const spyLearningResourceListCard = jest.mocked(LearningResourceListCard)
+const spyLearningResourceListCardCondensed = jest.mocked(
+  LearningResourceListCardCondensed,
+)
 
 const spySortableList = jest.mocked(SortableList)
 const spySortableItem = jest.mocked(SortableItem)
@@ -117,21 +125,39 @@ describe("ItemsListing", () => {
   )
 
   test.each([
-    { listType: ListType.LearningPath, sortable: false, cardProps: {} },
+    {
+      listType: ListType.LearningPath,
+      sortable: false,
+      condensed: false,
+      cardProps: {},
+    },
     {
       listType: ListType.LearningPath,
       sortable: true,
-      cardProps: { sortable: true },
+      condensed: false,
+      cardProps: { draggable: true },
     },
-    { listType: ListType.UserList, sortable: false, cardProps: {} },
+    {
+      listType: ListType.UserList,
+      sortable: false,
+      condensed: false,
+      cardProps: {},
+    },
     {
       listType: ListType.UserList,
       sortable: true,
-      cardProps: { sortable: true },
+      condensed: false,
+      cardProps: { draggable: true },
+    },
+    {
+      listType: ListType.LearningPath,
+      sortable: true,
+      condensed: true,
+      cardProps: { draggable: true },
     },
   ])(
-    "Shows a list of $listType LearningResourceCards with sortable=$sortable",
-    ({ listType, sortable, cardProps }) => {
+    "Shows a list of $listType LearningResourceCards with sortable=$sortable and condensed=$condensed",
+    ({ listType, sortable, condensed, cardProps }) => {
       const emptyMessage = faker.lorem.sentence()
       const paginatedRelationships = getPaginatedRelationships(
         listType,
@@ -145,6 +171,7 @@ describe("ItemsListing", () => {
           emptyMessage={emptyMessage}
           items={items}
           sortable={sortable}
+          condensed={condensed}
         />,
         { user: {} },
       )
@@ -156,7 +183,14 @@ describe("ItemsListing", () => {
 
       if (sortable) {
         items.forEach(({ resource }) => {
-          expectProps(spyLearningResourceListCard, { resource, ...cardProps })
+          if (condensed) {
+            expectProps(spyLearningResourceListCardCondensed, {
+              resource,
+              ...cardProps,
+            })
+          } else {
+            expectProps(spyLearningResourceListCard, { resource, ...cardProps })
+          }
         })
       }
     },
