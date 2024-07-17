@@ -80,6 +80,8 @@ youtube-transcript-api = "^0.6.2"
 posthog = "^3.5.0"
 ruff = "0.5.1"
 django-silk = "^5.1.0"
+dateparser = "^1.2.0"
+
 
 [tool.poetry.group.dev.dependencies]
 bpython = "^0.24"

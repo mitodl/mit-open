@@ -20,3 +20,9 @@ def get_ol_events():
 def get_sloan_exec_news():
     """Run the Sloan executive education news ETL pipeline"""
     pipelines.sloan_exec_news_etl()
+
+
+@app.task
+def get_sloan_exec_webinars():
+    """Run the Sloan webinars ETL pipeline"""
+    pipelines.sloan_webinars_etl()
