@@ -1,11 +1,12 @@
 """Models for learning resources and related entities"""
 
 from decimal import Decimal
+from functools import cached_property
 
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models import JSONField, OuterRef, Q
+from django.db.models import Count, JSONField, OuterRef, Prefetch, Q
 from django.db.models.functions import Lower
 from django.utils import timezone
 
@@ -46,10 +47,10 @@ class LearningResourceTopicQuerySet(TimestampedModelQuerySet):
         from channels.models import Channel
 
         return self.annotate(
-            _channel_url=(
+            channel_url=(
                 Channel.objects.filter(topic_detail__topic=OuterRef("pk"))
                 .annotate_channel_url()
-                .values_list("_channel_url", flat=True)[:1]
+                .values_list("channel_url", flat=True)[:1]
             ),
         )
 
@@ -73,12 +74,9 @@ class LearningResourceTopic(TimestampedModel):
         """Return the topic name."""
         return self.name
 
-    @property
+    @cached_property
     def channel_url(self):
         """Return the topic's channel url"""
-        if hasattr(self, "_channel_url"):
-            return self._channel_url
-
         topic_detail = self.channel_topic_details.first()
 
         return topic_detail.channel.channel_url if topic_detail is not None else None
@@ -182,35 +180,36 @@ class LearningResourceInstructor(TimestampedModel):
         return self.full_name or f"{self.first_name} {self.last_name}"
 
 
+def _map_resource_type_prefetch(name: str) -> Prefetch:
+    if name == LearningResourceType.program.name:
+        return Prefetch(
+            name,
+            queryset=Program.objects.annotate(
+                course_count=Count(
+                    "learning_resource__children",
+                    filter=Q(
+                        learning_resource__children__relation_type=LearningResourceRelationTypes.PROGRAM_COURSES
+                    ),
+                )
+            ),
+        )
+    elif name == LearningResourceType.podcast.name:
+        return Prefetch(
+            name,
+            queryset=Podcast.objects.annotate(
+                episode_count=Count(
+                    "learning_resource__children",
+                    filter=Q(
+                        learning_resource__children__relation_type=LearningResourceRelationTypes.PODCAST_EPISODES
+                    ),
+                )
+            ),
+        )
+    return Prefetch(name)
+
+
 class LearningResource(TimestampedModel):
     """Core model for all learning resources"""
-
-    prefetches = [
-        "topics",
-        "offered_by",
-        "departments",
-        "departments__school",
-        "content_tags",
-        "runs",
-        "runs__instructors",
-        "runs__image",
-        "children__child",
-        "children__child__runs",
-        "children__child__runs__instructors",
-        "children__child__departments",
-        "children__child__platform",
-        "children__child__topics",
-        "children__child__image",
-        "children__child__offered_by",
-        "children__child__content_tags",
-        *[f"children__child__{item.name}" for item in LearningResourceType],
-    ]
-
-    related_selects = [
-        "image",
-        "platform",
-        *([item.name for item in LearningResourceType]),
-    ]
 
     readable_id = models.CharField(max_length=512, null=False, blank=False)
     title = models.CharField(max_length=256)
@@ -259,14 +258,36 @@ class LearningResource(TimestampedModel):
     professional = models.BooleanField(default=False)
     next_start_date = models.DateTimeField(null=True, blank=True, db_index=True)
 
-    @property
+    @staticmethod
+    def get_prefetches() -> list[str | Prefetch]:
+        """Get the list of prefetches for LearningResource"""
+        return [
+            "topics",
+            "offered_by",
+            "departments",
+            "departments__school",
+            "content_tags",
+            "runs",
+            "runs__instructors",
+            "runs__image",
+            "image",
+            "platform",
+            *(
+                [
+                    _map_resource_type_prefetch(name)
+                    for name in LearningResourceType.names()
+                ]
+            ),
+        ]
+
+    @cached_property
     def audience(self) -> str | None:
         """Returns the audience for the learning resource"""
         if self.platform:
             return self.platform.audience
         return None
 
-    @property
+    @cached_property
     def next_run(self):
         """Returns the next run for the learning resource"""
         return (
@@ -275,7 +296,7 @@ class LearningResource(TimestampedModel):
             .first()
         )
 
-    @property
+    @cached_property
     def prices(self) -> list[Decimal]:
         """Returns the prices for the learning resource"""
         if self.resource_type in [
@@ -381,6 +402,13 @@ class Program(TimestampedModel):
     def courses(self):
         """Get the associated resources (should all be courses)"""
         return self.learning_resource.children
+
+    @cached_property
+    def course_count(self) -> int:
+        """Return the course count"""
+        return self.learning_resource.children.filter(
+            relation_type=LearningResourceRelationTypes.PROGRAM_COURSES
+        ).count()
 
 
 class LearningPath(TimestampedModel):
@@ -519,6 +547,13 @@ class Podcast(TimestampedModel):
     apple_podcasts_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     google_podcasts_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     rss_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
+
+    @cached_property
+    def episode_count(self) -> int:
+        """Return the number of episodes in the podcast"""
+        return self.learning_resource.children.filter(
+            relation_type=constants.LearningResourceRelationTypes.PODCAST_EPISODES.value
+        ).count()
 
     def __str__(self):
         return f"Podcast {self.id}"

@@ -140,13 +140,13 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         Returns:
             QuerySet of LearningResource objects matching the query parameters
         """
-        # Valid fields to filter by, just resource_type for now
-
-        lr_query = LearningResource.objects.all()
-        if resource_type:
-            lr_query = lr_query.filter(resource_type=resource_type)
-        lr_query = lr_query.select_related(*LearningResource.related_selects)
-        return lr_query.prefetch_related(*LearningResource.prefetches).distinct()
+        return (
+            LearningResource.objects.filter(
+                Q(resource_type=resource_type) if resource_type is not None else Q()
+            )
+            .prefetch_related(*LearningResource.get_prefetches())
+            .distinct()
+        )
 
     def get_queryset(self) -> QuerySet:
         """

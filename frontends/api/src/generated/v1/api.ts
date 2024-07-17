@@ -3586,7 +3586,7 @@ export interface Podcast {
    */
   id: number
   /**
-   * Return the number of episodes in the podcast
+   *
    * @type {number}
    * @memberof Podcast
    */
@@ -4268,10 +4268,10 @@ export type PrivacyLevelEnum =
 export interface Program {
   /**
    *
-   * @type {Array<CourseResource>}
+   * @type {number}
    * @memberof Program
    */
-  courses: Array<CourseResource> | null
+  course_count: number
 }
 /**
  * Serializer for Program Certificates
@@ -5005,7 +5005,7 @@ export interface UserList {
    * @type {{ [key: string]: any; }}
    * @memberof UserList
    */
-  image: { [key: string]: any }
+  image: { [key: string]: any } | null
   /**
    *
    * @type {string}

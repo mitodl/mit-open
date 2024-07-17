@@ -9625,7 +9625,6 @@ components:
           readOnly: true
         episode_count:
           type: integer
-          description: Return the number of episodes in the podcast
           readOnly: true
         apple_podcasts_url:
           type: string
@@ -10180,14 +10179,11 @@ components:
       type: object
       description: Serializer for the Program model
       properties:
-        courses:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseResource'
-          nullable: true
+        course_count:
+          type: integer
           readOnly: true
       required:
-      - courses
+      - course_count
     ProgramCertificate:
       type: object
       description: Serializer for Program Certificates
@@ -10685,6 +10681,7 @@ components:
         image:
           type: object
           additionalProperties: {}
+          nullable: true
           description: Return the image of the first item
           readOnly: true
         title:
