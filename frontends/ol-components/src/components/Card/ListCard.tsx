@@ -60,7 +60,7 @@ export const DragArea = styled.div`
   border-right: 1px solid ${theme.custom.colors.lightGray2};
 
   ${theme.breakpoints.down("md")} {
-    margin: 12px 0px 12px 12px;
+    margin: 12px 0 12px 12px;
     padding-right: 4px;
   }
 
