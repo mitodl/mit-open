@@ -1825,9 +1825,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 1024
-        email_optin:
-          type: boolean
-          writeOnly: true
         toc_optin:
           type: boolean
           writeOnly: true
@@ -1849,6 +1846,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GoalsEnum'
+        notification_preference:
+          type: array
+          items:
+            type: string
+            minLength: 1
         current_education:
           oneOf:
           - $ref: '#/components/schemas/CurrentEducationEnum'
@@ -2069,6 +2071,10 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GoalsEnum'
+        notification_preference:
+          type: array
+          items:
+            type: string
         current_education:
           oneOf:
           - $ref: '#/components/schemas/CurrentEducationEnum'
@@ -2120,9 +2126,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 1024
-        email_optin:
-          type: boolean
-          writeOnly: true
         toc_optin:
           type: boolean
           writeOnly: true
@@ -2144,6 +2147,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/GoalsEnum'
+        notification_preference:
+          type: array
+          items:
+            type: string
+            minLength: 1
         current_education:
           oneOf:
           - $ref: '#/components/schemas/CurrentEducationEnum'

@@ -1534,12 +1534,6 @@ export interface PatchedProfileRequest {
    * @type {boolean}
    * @memberof PatchedProfileRequest
    */
-  email_optin?: boolean
-  /**
-   *
-   * @type {boolean}
-   * @memberof PatchedProfileRequest
-   */
   toc_optin?: boolean
   /**
    *
@@ -1571,6 +1565,12 @@ export interface PatchedProfileRequest {
    * @memberof PatchedProfileRequest
    */
   goals?: Array<GoalsEnum>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PatchedProfileRequest
+   */
+  notification_preference?: Array<string>
   /**
    *
    * @type {PatchedProfileRequestCurrentEducation}
@@ -1927,6 +1927,12 @@ export interface Profile {
   goals?: Array<GoalsEnum>
   /**
    *
+   * @type {Array<string>}
+   * @memberof Profile
+   */
+  notification_preference?: Array<string>
+  /**
+   *
    * @type {PatchedProfileRequestCurrentEducation}
    * @memberof Profile
    */
@@ -1991,12 +1997,6 @@ export interface ProfileRequest {
    * @type {boolean}
    * @memberof ProfileRequest
    */
-  email_optin?: boolean
-  /**
-   *
-   * @type {boolean}
-   * @memberof ProfileRequest
-   */
   toc_optin?: boolean
   /**
    *
@@ -2028,6 +2028,12 @@ export interface ProfileRequest {
    * @memberof ProfileRequest
    */
   goals?: Array<GoalsEnum>
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ProfileRequest
+   */
+  notification_preference?: Array<string>
   /**
    *
    * @type {PatchedProfileRequestCurrentEducation}
