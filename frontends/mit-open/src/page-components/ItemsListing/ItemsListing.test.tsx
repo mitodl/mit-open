@@ -1,7 +1,10 @@
 import React from "react"
 import { faker } from "@faker-js/faker/locale/en"
-import { SortableList, SortableItem } from "ol-components"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
+import {
+  SortableList,
+  SortableItem,
+  LearningResourceListCard,
+} from "ol-components"
 import { factories, urls, makeRequest } from "api/test-utils"
 import {
   screen,
@@ -30,7 +33,7 @@ jest.mock("ol-components", () => {
   }
 })
 
-const spyLearningResourceCardOld = jest.mocked(LearningResourceCard)
+const spyLearningResourceListCard = jest.mocked(LearningResourceListCard)
 
 const spySortableList = jest.mocked(SortableList)
 const spySortableItem = jest.mocked(SortableItem)
@@ -153,7 +156,7 @@ describe("ItemsListing", () => {
 
       if (sortable) {
         items.forEach(({ resource }) => {
-          expectProps(spyLearningResourceCardOld, { resource, ...cardProps })
+          expectProps(spyLearningResourceListCard, { resource, ...cardProps })
         })
       }
     },

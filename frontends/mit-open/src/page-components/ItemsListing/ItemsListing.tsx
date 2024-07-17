@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from "react"
 import type { LearningResource } from "api"
-// import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import {
   SortableItem,
   SortableList,
