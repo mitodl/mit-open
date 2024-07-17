@@ -22,7 +22,6 @@ class ProfileForm(forms.ModelForm):
             "headline",
             "bio",
             "location",
-            "email_optin",
             "toc_optin",
             "topic_interests",
             "goals",

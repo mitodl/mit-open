@@ -14,8 +14,8 @@ class ProfileAdmin(admin.ModelAdmin):
     model = Profile
     form = ProfileForm
 
-    list_display = ["user", "name", "email_optin", "toc_optin"]
-    list_filter = ["email_optin", "toc_optin", "user__is_active"]
+    list_display = ["user", "name", "toc_optin"]
+    list_filter = ["toc_optin", "user__is_active"]
 
     search_fields = ["name", "user__email", "user__username"]
     raw_id_fields = ("user",)
