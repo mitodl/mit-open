@@ -186,6 +186,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "goals",
             "current_education",
             "certificate_desired",
+            "notification_preference",
             "time_commitment",
             "learning_format",
             "preference_search_filters",

@@ -1655,6 +1655,20 @@ components:
       type: string
       enum:
       - news
+    NotificationPreferenceEnum:
+      enum:
+      - never
+      - daily
+      - weekly
+      type: string
+      description: |-
+        * `never` - Never/Unsubscribe
+        * `daily` - Daily
+        * `weekly` - Weekly
+      x-enum-descriptions:
+      - Never/Unsubscribe
+      - Daily
+      - Weekly
     PaginatedAttestationList:
       type: object
       required:
@@ -1855,6 +1869,10 @@ components:
         certificate_desired:
           oneOf:
           - $ref: '#/components/schemas/CertificateDesiredEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        notification_preference:
+          oneOf:
+          - $ref: '#/components/schemas/NotificationPreferenceEnum'
           - $ref: '#/components/schemas/BlankEnum'
         time_commitment:
           oneOf:
@@ -2076,6 +2094,10 @@ components:
           oneOf:
           - $ref: '#/components/schemas/CertificateDesiredEnum'
           - $ref: '#/components/schemas/BlankEnum'
+        notification_preference:
+          oneOf:
+          - $ref: '#/components/schemas/NotificationPreferenceEnum'
+          - $ref: '#/components/schemas/BlankEnum'
         time_commitment:
           oneOf:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
@@ -2150,6 +2172,10 @@ components:
         certificate_desired:
           oneOf:
           - $ref: '#/components/schemas/CertificateDesiredEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+        notification_preference:
+          oneOf:
+          - $ref: '#/components/schemas/NotificationPreferenceEnum'
           - $ref: '#/components/schemas/BlankEnum'
         time_commitment:
           oneOf:

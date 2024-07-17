@@ -1290,6 +1290,36 @@ export type NewsFeedItemFeedTypeEnum =
   (typeof NewsFeedItemFeedTypeEnum)[keyof typeof NewsFeedItemFeedTypeEnum]
 
 /**
+ * * `never` - Never/Unsubscribe * `daily` - Daily * `weekly` - Weekly
+ * @export
+ * @enum {string}
+ */
+
+export const NotificationPreferenceEnumDescriptions = {
+  never: "Never/Unsubscribe",
+  daily: "Daily",
+  weekly: "Weekly",
+} as const
+
+export const NotificationPreferenceEnum = {
+  /**
+   * Never/Unsubscribe
+   */
+  Never: "never",
+  /**
+   * Daily
+   */
+  Daily: "daily",
+  /**
+   * Weekly
+   */
+  Weekly: "weekly",
+} as const
+
+export type NotificationPreferenceEnum =
+  (typeof NotificationPreferenceEnum)[keyof typeof NotificationPreferenceEnum]
+
+/**
  *
  * @export
  * @interface PaginatedAttestationList
@@ -1585,6 +1615,12 @@ export interface PatchedProfileRequest {
   certificate_desired?: PatchedProfileRequestCertificateDesired
   /**
    *
+   * @type {PatchedProfileRequestNotificationPreference}
+   * @memberof PatchedProfileRequest
+   */
+  notification_preference?: PatchedProfileRequestNotificationPreference
+  /**
+   *
    * @type {PatchedProfileRequestTimeCommitment}
    * @memberof PatchedProfileRequest
    */
@@ -1611,6 +1647,14 @@ export type PatchedProfileRequestCertificateDesired =
 export type PatchedProfileRequestCurrentEducation =
   | BlankEnum
   | CurrentEducationEnum
+
+/**
+ * @type PatchedProfileRequestNotificationPreference
+ * @export
+ */
+export type PatchedProfileRequestNotificationPreference =
+  | BlankEnum
+  | NotificationPreferenceEnum
 
 /**
  * @type PatchedProfileRequestTimeCommitment
@@ -1939,6 +1983,12 @@ export interface Profile {
   certificate_desired?: PatchedProfileRequestCertificateDesired
   /**
    *
+   * @type {PatchedProfileRequestNotificationPreference}
+   * @memberof Profile
+   */
+  notification_preference?: PatchedProfileRequestNotificationPreference
+  /**
+   *
    * @type {PatchedProfileRequestTimeCommitment}
    * @memberof Profile
    */
@@ -2040,6 +2090,12 @@ export interface ProfileRequest {
    * @memberof ProfileRequest
    */
   certificate_desired?: PatchedProfileRequestCertificateDesired
+  /**
+   *
+   * @type {PatchedProfileRequestNotificationPreference}
+   * @memberof ProfileRequest
+   */
+  notification_preference?: PatchedProfileRequestNotificationPreference
   /**
    *
    * @type {PatchedProfileRequestTimeCommitment}
