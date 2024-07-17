@@ -63,16 +63,18 @@ const RoutedDrawer = <K extends string, R extends K = K>(
   }, [requiredArePresent, setOpen, requiredParams])
 
   const removeUrlParams = useCallback(() => {
-    setSearchParams((current) => {
+    const getNewParams = (current) => {
       const newSearchParams = new URLSearchParams(current)
       params.forEach((param) => {
         newSearchParams.delete(param)
       })
       return newSearchParams
-    })
+    }
+    const newParams = getNewParams(location.search)
+    setSearchParams(newParams)
     navigate({
       ...location,
-      search: searchParams.toString(),
+      search: newParams.toString(),
     })
   }, [setSearchParams, params, navigate, location])
 
