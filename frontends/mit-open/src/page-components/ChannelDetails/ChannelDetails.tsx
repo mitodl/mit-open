@@ -152,6 +152,7 @@ const ChannelDetailsCard = styled(Box)(({ theme }) => ({
   },
   [theme.breakpoints.down("md")]: {
     padding: "16px",
+    marginTop: "16px",
     width: "100%",
   },
 }))

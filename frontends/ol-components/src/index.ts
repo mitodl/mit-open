@@ -19,8 +19,11 @@ export type { BadgeProps } from "@mui/material/Badge"
 export { default as AppBar } from "@mui/material/AppBar"
 export type { AppBarProps } from "@mui/material/AppBar"
 
-export { Banner } from "./components/Banner/Banner"
-export type { BannerProps } from "./components/Banner/Banner"
+export { Banner, BannerBackground } from "./components/Banner/Banner"
+export type {
+  BannerProps,
+  BannerBackgroundProps,
+} from "./components/Banner/Banner"
 
 export {
   Button,
