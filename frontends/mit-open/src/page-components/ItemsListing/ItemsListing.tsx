@@ -27,10 +27,6 @@ const StyledPlainList = styled(PlainList)({
   marginTop: "8px",
 })
 
-// const DraggableWrapper = styled.div<{condensed?: boolean}>(({ condensed }) => ({
-//   marginBottom: condensed ? "8px" : "16px"
-// }))
-
 type LearningResourceListItem = {
   id: number
   resource: LearningResource
