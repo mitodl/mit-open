@@ -116,6 +116,13 @@ class Profile(AbstractSCIMUserMixin):
         HYBRID = "hybrid", "Hybrid"
         IN_PERSON = "in_person", "In-Person"
 
+    class NotificationFrequency(models.TextChoices):
+        """User notification frequency preference"""
+
+        NEVER = "never", "Never/Unsubscribe"
+        DAILY = "daily", "Daily"
+        WEEKLY = "weekly", "Weekly"
+
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     name = models.TextField(blank=True, null=True)  # noqa: DJ001
@@ -173,6 +180,12 @@ class Profile(AbstractSCIMUserMixin):
         models.CharField(max_length=50, choices=LearningResourceFormat.choices),
         default=list,
         blank=True,
+    )
+
+    notification_preference = models.CharField(
+        max_length=50,
+        choices=NotificationFrequency.choices,
+        default="daily",
     )
 
     @transaction.atomic
