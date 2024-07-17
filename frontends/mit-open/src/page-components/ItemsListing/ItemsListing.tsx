@@ -33,17 +33,19 @@ type ItemsListingProps = {
   isRefetching?: boolean
   emptyMessage: string
   sortable?: boolean
+  condensed?: boolean
 }
 
 const ItemsListingViewOnly: React.FC<{
   items: NonNullable<ItemsListingProps["items"]>
-}> = ({ items }) => {
+  condensed?: boolean
+}> = ({ items, condensed }) => {
   return (
-    <PlainList itemSpacing={1}>
+    <PlainList itemSpacing={condensed ? 1 : 2}>
       {items.map((item) => {
         return (
           <li key={item.id}>
-            <ResourceListCard resource={item.resource} condensed />
+            <ResourceListCard resource={item.resource} condensed={condensed} />
           </li>
         )
       })}
@@ -139,11 +141,13 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
   isRefetching,
   emptyMessage,
   sortable = false,
+  condensed = false,
 }) => {
   return (
     <>
-      {isLoading && <LoadingSpinner loading />}
-      {items.length === 0 ? (
+      {isLoading ? (
+        <LoadingSpinner loading />
+      ) : items.length === 0 ? (
         <EmptyMessage>{emptyMessage}</EmptyMessage>
       ) : sortable ? (
         <ItemsListingSortable
@@ -152,7 +156,7 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
           isRefetching={isRefetching}
         />
       ) : (
-        <ItemsListingViewOnly items={items} />
+        <ItemsListingViewOnly items={items} condensed={condensed} />
       )}
     </>
   )
