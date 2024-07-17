@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.20
+Version 0.13.20 (Released July 17, 2024)
 ---------------
 
 - Make static/hash.txt served again (#1259)
