@@ -1,4 +1,5 @@
-import { createMemoryRouter, RouterProvider } from "react-router"
+import { RouterProvider } from "react-router"
+import { createBrowserRouter } from "react-router-dom"
 import { RoutedDrawer } from "./RoutedDrawer"
 import type { RoutedDrawerProps } from "./RoutedDrawer"
 import {
@@ -24,20 +25,19 @@ const getDrawerContent = () =>
 const renderRoutedDrawer = <P extends string, R extends P>(
   props: Omit<RoutedDrawerProps<P, R>, "children">,
   initialSearchParams: string,
+  initialHashParams: string,
 ) => {
   const childFn = jest.fn(TestDrawerContents)
-  const router = createMemoryRouter(
+  const router = createBrowserRouter(
     [
       {
         path: "*",
         element: <RoutedDrawer {...props}>{childFn}</RoutedDrawer>,
       },
     ],
-    {
-      initialEntries: [{ search: initialSearchParams }],
-    },
+    {},
   )
-
+  router.navigate(`${initialSearchParams}${initialHashParams}`)
   render(<RouterProvider router={router}></RouterProvider>, {
     wrapper: ThemeProvider,
   })
@@ -75,6 +75,7 @@ describe("RoutedDrawer", () => {
       const { childFn } = renderRoutedDrawer(
         { params, requiredParams },
         initialSearch,
+        "",
       )
       expect(childFn.mock.calls.length > 0).toBe(called)
     },
@@ -105,6 +106,7 @@ describe("RoutedDrawer", () => {
       const { childFn } = renderRoutedDrawer(
         { params, requiredParams },
         initialSearch,
+        "",
       )
       expect(childFn).toHaveBeenCalledWith(childProps)
     },
@@ -117,6 +119,7 @@ describe("RoutedDrawer", () => {
     const { location } = renderRoutedDrawer(
       { params, requiredParams },
       initialSearch,
+      "",
     )
 
     const content = getDrawerContent()
@@ -134,6 +137,7 @@ describe("RoutedDrawer", () => {
     const { location } = renderRoutedDrawer(
       { params, requiredParams },
       initialSearch,
+      "",
     )
 
     const content = getDrawerContent()
@@ -141,5 +145,24 @@ describe("RoutedDrawer", () => {
     await waitForElementToBeRemoved(content)
 
     expect(location.current.search).toBe("")
+  })
+
+  it("Restores any hash params that were in the initial request", async () => {
+    const params = ["a"]
+    const requiredParams = ["a"]
+    const initialSearch = "?a=1"
+    const initialHashParams = "#test=1"
+    const { location } = renderRoutedDrawer(
+      { params, requiredParams },
+      initialSearch,
+      initialHashParams,
+    )
+
+    const content = getDrawerContent()
+    await user.click(screen.getByRole("button", { name: "CloseFn" }))
+
+    await waitForElementToBeRemoved(content)
+
+    expect(location.current.hash).toBe(initialHashParams)
   })
 })
