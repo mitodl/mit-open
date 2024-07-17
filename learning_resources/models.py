@@ -8,6 +8,7 @@ from django.db import models
 from django.db.models import Count, JSONField, OuterRef, Prefetch, Q
 from django.db.models.functions import Lower
 from django.utils import timezone
+from django.utils.functional import cached_property
 
 from learning_resources import constants
 from learning_resources.constants import (
@@ -88,6 +89,21 @@ class LearningResourceTopic(TimestampedModel):
         topic_detail = self.channel_topic_details.first()
 
         return topic_detail.channel.channel_url if topic_detail is not None else None
+
+    @cached_property
+    def full_name(self):
+        """
+        Return the topic's full name (with parents).
+
+        This is potentially expensive, so you should limit your use of it.
+        """
+
+        parent_name = ""
+
+        if self.parent:
+            parent_name = f"{self.parent.full_name}:"
+
+        return f"{parent_name}{self.name}"
 
     class Meta:
         """Meta options for LearningResourceTopic"""

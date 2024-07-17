@@ -1,6 +1,5 @@
 """Helper functions for ETL"""
 
-import csv
 import glob
 import logging
 import mimetypes
@@ -21,7 +20,6 @@ import boto3
 import rapidjson
 import requests
 from django.conf import settings
-from django.utils.functional import SimpleLazyObject
 from django.utils.text import slugify
 from tika import parser as tika_parser
 from xbundle import XBundle
@@ -48,37 +46,36 @@ from learning_resources.models import (
     Course,
     LearningResource,
     LearningResourceRun,
+    LearningResourceTopicMapping,
 )
 
 log = logging.getLogger(__name__)
 
 
-def _load_ucc_topic_mappings():
-    """# noqa: D401
-    Loads the topic mappings from the crosswalk CSV file
+def load_offeror_topic_map(offeror_code: str):
+    """
+    Load the topic mappings from the database.
 
     Returns:
-        dict:
-            the mapping dictionary
+    - dict, the mapping dictionary
     """
-    with Path.open(
-        Path("learning_resources/data/ucc-topic-mappings.csv")
-    ) as mapping_file:
-        rows = list(csv.reader(mapping_file))
-        # drop the column headers (first row)
-        rows = rows[1:]
-        mapping = {}
-        for row in rows:
-            ocw_topics = list(filter(lambda item: item, row[2:]))
-            mapping[f"{row[0]}:{row[1]}"] = ocw_topics
-            mapping[row[1]] = ocw_topics
-        return mapping
+
+    pmt_mappings = (
+        LearningResourceTopicMapping.objects.filter(offeror__code=offeror_code)
+        .prefetch_related("topic")
+        .all()
+    )
+
+    mappings = {}
+
+    for pmt_mapping in pmt_mappings:
+        mappings[pmt_mapping.topic.name] = pmt_mapping.topic_name
+        mappings[pmt_mapping.topic.full_name] = pmt_mapping.topic_name
+
+    return mappings
 
 
-UCC_TOPIC_MAPPINGS = SimpleLazyObject(_load_ucc_topic_mappings)
-
-
-def transform_topics(topics):
+def transform_topics(topics: list, offeror_code: str):
     """
     Transform topics by using our crosswalk mapping
 
@@ -89,11 +86,13 @@ def transform_topics(topics):
     Return:
         list of dict: the transformed topics
     """
+    topic_mappings = load_offeror_topic_map(offeror_code)
+
     return [
         {"name": topic_name}
         for topic_name in chain.from_iterable(
             [
-                UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
+                topic_mappings.get(topic["name"], [topic["name"]])
                 for topic in topics
                 if topic is not None
             ]

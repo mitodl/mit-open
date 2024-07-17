@@ -217,7 +217,7 @@ def _transform_course(course):
         "resource_type": LearningResourceType.course.name,
         "title": course["title"],
         "offered_by": copy.deepcopy(OFFERED_BY),
-        "topics": transform_topics(course.get("topics", [])),
+        "topics": transform_topics(course.get("topics", []), OFFERED_BY["code"]),
         "departments": extract_valid_department_from_id(course["readable_id"]),
         "runs": runs,
         "course": {
@@ -293,7 +293,7 @@ def transform_programs(programs):
             "certification_type": CertificationType.completion.name
             if bool(parse_page_attribute(program, "page_url"))
             else CertificationType.none.name,
-            "topics": transform_topics(program.get("topics", [])),
+            "topics": transform_topics(program.get("topics", []), OFFERED_BY["code"]),
             "description": clean_data(parse_page_attribute(program, "description")),
             "url": parse_page_attribute(program, "page_url", is_url=True),
             "image": _transform_image(program),
