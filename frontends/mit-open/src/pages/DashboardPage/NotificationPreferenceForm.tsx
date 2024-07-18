@@ -44,7 +44,7 @@ const ButtonContainer = styled.div(({ theme }) => ({
 }))
 
 const UpdateButton = styled(Button)(({ theme }) => ({
-  width: "200px",
+  width: "250px",
   [theme.breakpoints.down("md")]: {
     width: "100%",
   },
