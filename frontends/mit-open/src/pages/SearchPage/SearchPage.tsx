@@ -26,6 +26,8 @@ const ColoredHeader = styled.div`
     height: 75px;
   }
 
+  position: relative;
+  z-index: -1;
   display: flex;
   align-items: center;
   background: #eb01a5;
@@ -40,7 +42,7 @@ const BackgroundImage = styled.img`
   position: absolute;
   float: left;
   width: 35%;
-  top: 60px;
+  top: 0;
   left: 0;
   ${({ theme }) => theme.breakpoints.down("md")} {
     display: none;
