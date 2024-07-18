@@ -15,7 +15,7 @@ from learning_resources.constants import (
 )
 from learning_resources.etl import xpro
 from learning_resources.etl.constants import CourseNumberType, ETLSource
-from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS, transform_format
+from learning_resources.etl.utils import load_offeror_topic_map, transform_format
 from learning_resources.etl.xpro import _parse_datetime
 from main.test_utils import any_instance_of
 
@@ -100,7 +100,9 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                 {"name": topic_name}
                 for topic_name in chain.from_iterable(
                     [
-                        UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
+                        load_offeror_topic_map(xpro.OFFERED_BY["code"]).get(
+                            topic["name"], [topic["name"]]
+                        )
                         for topic in program_data.get("topics", [])
                     ]
                 )
@@ -147,7 +149,9 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                         {"name": topic_name}
                         for topic_name in chain.from_iterable(
                             [
-                                UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
+                                load_offeror_topic_map(xpro.OFFERED_BY["code"]).get(
+                                    topic["name"], [topic["name"]]
+                                )
                                 for topic in course_data.get("topics", [])
                             ]
                         )
@@ -221,7 +225,9 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                 {"name": topic_name}
                 for topic_name in chain.from_iterable(
                     [
-                        UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
+                        load_offeror_topic_map(xpro.OFFERED_BY["code"]).get(
+                            topic["name"], [topic["name"]]
+                        )
                         for topic in course_data.get("topics", [])
                     ]
                 )

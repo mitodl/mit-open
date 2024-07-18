@@ -93,3 +93,7 @@ Use the `data_fixtures` app. Create a migration there that calls `RunPython` and
 
 - `upsert_topic_data_file` - if you've got an external file of changes
 - `upsert_topic_data_string` - if you've got a string instead
+
+## In tests
+
+If you're working with tests that require topic data to be there, it's best to run the `upsert_topic_data_file` to get the baseline topics in place. Depending on your test, you may need to add or remove topic mappings. The `data_fixtures` migrations don't necessarily run in the test environment.

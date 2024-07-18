@@ -4,6 +4,7 @@ import json
 
 # pylint: disable=redefined-outer-name
 from datetime import datetime
+from itertools import chain
 from unittest.mock import ANY
 from urllib.parse import urljoin
 
@@ -146,7 +147,14 @@ def test_mitxonline_transform_programs(
             "url": parse_page_attribute(program_data, "page_url", is_url=True),
             "topics": [
                 {"name": topic_name}
-                for topic_name in load_offeror_topic_map(OFFERED_BY["code"])
+                for topic_name in chain.from_iterable(
+                    [
+                        load_offeror_topic_map(OFFERED_BY["code"]).get(
+                            topic["name"], [topic["name"]]
+                        )
+                        for topic in program_data.get("topics", [])
+                    ]
+                )
             ],
             "runs": [
                 {
@@ -203,7 +211,14 @@ def test_mitxonline_transform_programs(
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
                     "topics": [
                         {"name": topic_name}
-                        for topic_name in load_offeror_topic_map(OFFERED_BY["code"])
+                        for topic_name in chain.from_iterable(
+                            [
+                                load_offeror_topic_map(OFFERED_BY["code"]).get(
+                                    topic["name"], [topic["name"]]
+                                )
+                                for topic in course_data.get("topics", [])
+                            ]
+                        )
                     ],
                     "runs": [
                         {
@@ -325,7 +340,14 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             else CertificationType.none.name,
             "topics": [
                 {"name": topic_name}
-                for topic_name in load_offeror_topic_map(OFFERED_BY["code"])
+                for topic_name in chain.from_iterable(
+                    [
+                        load_offeror_topic_map(OFFERED_BY["code"]).get(
+                            topic["name"], [topic["name"]]
+                        )
+                        for topic in course_data.get("topics", [])
+                    ]
+                )
             ],
             "url": (
                 urljoin(
