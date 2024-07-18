@@ -3,10 +3,10 @@ import { useParams } from "react-router"
 import { ChannelPageTemplate } from "./ChannelPageTemplate"
 import { useChannelDetail } from "api/hooks/channels"
 import FieldSearch from "./ChannelSearch"
-import {
-  type Facets,
-  type FacetKey,
-  type BooleanFacets,
+import type {
+  Facets,
+  FacetKey,
+  BooleanFacets,
 } from "@mitodl/course-search-utils"
 import { ChannelTypeEnum } from "api/v0"
 import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"

@@ -121,6 +121,7 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
             <ChannelControls>
               {channel.data?.search_filter ? (
                 <SearchSubscriptionToggle
+                  itemName={channel.data?.title}
                   sourceType={SourceTypeEnum.ChannelSubscriptionType}
                   searchParams={urlParams}
                 />

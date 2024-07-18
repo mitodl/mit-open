@@ -170,7 +170,7 @@ const useToggleItemInUserList = (resource?: LearningResource) => {
 
 const StyledBasicDialog = styled(BasicDialog)`
   .MuiDialog-paper {
-    width: 325px;
+    width: 600px;
   }
 
   .MuiDialogContent-root {
@@ -178,10 +178,7 @@ const StyledBasicDialog = styled(BasicDialog)`
   }
 `
 
-const Description = styled.div({
-  marginLeft: 20,
-  marginRight: 20,
-})
+const Description = styled.div({})
 
 const ResourceTitle = styled.span({
   fontStyle: "italic",

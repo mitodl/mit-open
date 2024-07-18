@@ -1,17 +1,28 @@
 import React, { useCallback, useState } from "react"
+import styled from "@emotion/styled"
+import { theme } from "../ThemeProvider/ThemeProvider"
 import Dialog from "@mui/material/Dialog"
 import type { DialogProps } from "@mui/material/Dialog"
-import DialogContent from "@mui/material/DialogContent"
-import DialogTitle from "@mui/material/DialogTitle"
 import { Button, ActionButton } from "../Button/Button"
 import DialogActions from "@mui/material/DialogActions"
 import { RiCloseLine } from "@remixicon/react"
+import Typography from "@mui/material/Typography"
 
 const topRightStyle: React.CSSProperties = {
   position: "absolute",
   top: 0,
   right: 0,
 }
+
+const Header = styled.div`
+  border-bottom: 1px solid ${theme.custom.colors.lightGray2};
+  background-color: ${theme.custom.colors.lightGray1};
+  padding: 20px 54px 20px 28px;
+`
+
+const Content = styled.div`
+  margin: 28px;
+`
 
 type BasicDialogProps = {
   className?: string
@@ -23,6 +34,7 @@ type BasicDialogProps = {
   TransitionProps?: DialogProps["TransitionProps"]
   onConfirm?: () => void | Promise<void>
   title: string
+  message?: string
   children?: React.ReactNode
   /**
    * The text to display on the cancel button. Defaults to "Cancel".
@@ -53,6 +65,7 @@ type BasicDialogProps = {
 const BasicDialog: React.FC<BasicDialogProps> = ({
   title,
   children,
+  message,
   open,
   onClose,
   onConfirm,
@@ -81,13 +94,19 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
       open={open}
       onClose={onClose}
     >
-      <DialogTitle>{title}</DialogTitle>
+      {/* <StyledDialogTitle>ME {title}</StyledDialogTitle> */}
       <div style={topRightStyle}>
         <ActionButton variant="text" color="secondary" onClick={onClose}>
           <RiCloseLine />
         </ActionButton>
       </div>
-      <DialogContent>{children}</DialogContent>
+      <Header>
+        <Typography variant="h5">{title}</Typography>
+      </Header>
+      <Content>
+        {message && <Typography variant="body1">{message}</Typography>}
+        {children}
+      </Content>
       {showFooter && (
         <DialogActions>
           <Button variant="secondary" onClick={onClose}>

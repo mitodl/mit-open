@@ -159,6 +159,7 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
                 <ChannelControls>
                   {channel.data?.search_filter ? (
                     <SearchSubscriptionToggle
+                      itemName={channel.data?.title}
                       sourceType={SourceTypeEnum.ChannelSubscriptionType}
                       searchParams={urlParams}
                     />
