@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.13.23
+---------------
+
+- Revert "Fix bug with background image obscuring search controls (#1286)" (#1289)
+- Improve channels api performance (#1278)
+
 Version 0.13.22 (Released July 18, 2024)
 ---------------
 
