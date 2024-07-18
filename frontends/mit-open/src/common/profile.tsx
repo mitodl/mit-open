@@ -9,6 +9,8 @@ import {
   GoalsEnumDescriptions,
   LearningFormatEnum,
   LearningFormatEnumDescriptions,
+  NotificationPreferenceEnum,
+  NotificationPreferenceEnumDescriptions,
 } from "api/v0"
 import { SimpleSelectOption } from "ol-components"
 
@@ -52,6 +54,15 @@ const EDUCATION_LEVEL_OPTIONS: SimpleSelectOption[] = [
   })),
 ]
 
+const NOTIFICATION_PREFERENCE_CHOICES = [
+  NotificationPreferenceEnum.NEVER,
+  NotificationPreferenceEnum.DAILY,
+  NotificationPreferenceEnum.WEEKLY,
+].map((value) => ({
+  value,
+  label: NotificationPreferenceEnumDescriptions[value],
+}))
+
 const CERTIFICATE_CHOICES = [
   CertificateDesiredEnum.Yes,
   CertificateDesiredEnum.No,
@@ -84,5 +95,6 @@ export {
   GOALS_CHOICES,
   EDUCATION_LEVEL_OPTIONS,
   CERTIFICATE_CHOICES,
+  NOTIFICATION_PREFERENCE_CHOICES,
   ProfileSchema,
 }

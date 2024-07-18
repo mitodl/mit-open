@@ -3,6 +3,7 @@ import {
   RiAccountCircleFill,
   RiDashboardLine,
   RiBookMarkedLine,
+  RiNotificationLine,
   RiEditLine,
 } from "@remixicon/react"
 import {
@@ -27,6 +28,7 @@ import { UserListListingComponent } from "../UserListListingPage/UserListListing
 import { UserList } from "api"
 
 import { ProfileEditForm } from "./ProfileEditForm"
+import { NotificationPreferenceForm } from "./NotificationPreferenceForm"
 import { useProfileMeQuery } from "api/hooks/profile"
 import {
   TopPicksCarouselConfig,
@@ -284,17 +286,24 @@ const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
 enum TabValues {
   HOME = "home",
   MY_LISTS = "my-lists",
+  NOTIFICATION_PREFERENCES = "notification-preferences",
   PROFILE = "profile",
 }
 
 const TabLabels = {
   [TabValues.HOME.toString()]: "Home",
   [TabValues.MY_LISTS.toString()]: "My Lists",
+  [TabValues.NOTIFICATION_PREFERENCES.toString()]: "Email Preferences",
   [TabValues.PROFILE.toString()]: "Profile",
 }
 
 const keyFromHash = (hash: string) => {
-  const keys = [TabValues.HOME, TabValues.MY_LISTS, TabValues.PROFILE]
+  const keys = [
+    TabValues.HOME,
+    TabValues.MY_LISTS,
+    TabValues.NOTIFICATION_PREFERENCES,
+    TabValues.PROFILE,
+  ]
   const match = keys.find((key) => `#${key}` === hash)
   return match ?? "home"
 }
@@ -347,6 +356,12 @@ const DashboardPage: React.FC = () => {
             onClick={() => setUserListAction("list")}
           />
           <UserMenuTab
+            icon={<RiNotificationLine />}
+            text={TabLabels[TabValues.NOTIFICATION_PREFERENCES]}
+            value={TabValues.NOTIFICATION_PREFERENCES}
+            currentValue={tabValue}
+          />
+          <UserMenuTab
             icon={<RiEditLine />}
             text={TabLabels[TabValues.PROFILE]}
             value={TabValues.PROFILE}
@@ -371,6 +386,12 @@ const DashboardPage: React.FC = () => {
         href={`#${TabValues.MY_LISTS}`}
         label="My Lists"
         onClick={() => setUserListAction("list")}
+      />
+      <TabButtonLink
+        data-testid={`mobile-tab-${TabValues.NOTIFICATION_PREFERENCES}`}
+        value={TabValues.NOTIFICATION_PREFERENCES}
+        href={`#${TabValues.NOTIFICATION_PREFERENCES}`}
+        label="Profile"
       />
       <TabButtonLink
         data-testid={`mobile-tab-${TabValues.PROFILE}`}
@@ -464,6 +485,19 @@ const DashboardPage: React.FC = () => {
                   ) : (
                     <div id="user-list-detail">
                       <UserListDetailsTab userListId={userListId} />
+                    </div>
+                  )}
+                </TabPanelStyled>
+                <TabPanelStyled
+                  key={TabValues.NOTIFICATION_PREFERENCES}
+                  value={TabValues.NOTIFICATION_PREFERENCES}
+                >
+                  <TitleText role="heading">Email Preferences</TitleText>
+                  {isLoadingProfile || typeof profile === "undefined" ? (
+                    <Skeleton variant="text" width={128} height={32} />
+                  ) : (
+                    <div id="user-profile-edit">
+                      <NotificationPreferenceForm profile={profile} />
                     </div>
                   )}
                 </TabPanelStyled>
