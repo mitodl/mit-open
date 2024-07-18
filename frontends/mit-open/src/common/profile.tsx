@@ -55,9 +55,9 @@ const EDUCATION_LEVEL_OPTIONS: SimpleSelectOption[] = [
 ]
 
 const NOTIFICATION_PREFERENCE_CHOICES = [
-  NotificationPreferenceEnum.NEVER,
-  NotificationPreferenceEnum.DAILY,
-  NotificationPreferenceEnum.WEEKLY,
+  NotificationPreferenceEnum.Never,
+  NotificationPreferenceEnum.Daily,
+  NotificationPreferenceEnum.Weekly,
 ].map((value) => ({
   value,
   label: NotificationPreferenceEnumDescriptions[value],
