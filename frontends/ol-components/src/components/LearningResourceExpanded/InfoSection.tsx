@@ -154,7 +154,7 @@ const INFO_ITEMS: InfoItemConfig = [
     Icon: RiListOrdered2,
     selector: (resource: LearningResource) => {
       if (resource.resource_type === ResourceTypeEnum.Program) {
-        return resource.program?.courses?.length || null
+        return resource.program.course_count
       }
       return null
     },

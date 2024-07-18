@@ -64,15 +64,7 @@ def test_serialize_program_to_json():
     serializer = serializers.ProgramSerializer(instance=program)
     assert_json_equal(
         serializer.data,
-        {
-            "courses": [
-                # this is currently messy because program.courses is a list of LearningResourceRelationships
-                serializers.CourseResourceSerializer(instance=course_rel.child).data
-                for course_rel in program.courses.filter(
-                    child__published=True
-                ).order_by("child__next_start_date", "child__id")
-            ]
-        },
+        {"course_count": program.courses.filter(child__published=True).count()},
     )
 
 

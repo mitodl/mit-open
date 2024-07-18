@@ -4268,10 +4268,10 @@ export type PrivacyLevelEnum =
 export interface Program {
   /**
    *
-   * @type {Array<CourseResource>}
+   * @type {number}
    * @memberof Program
    */
-  courses: Array<CourseResource> | null
+  course_count: number
 }
 /**
  * Serializer for Program Certificates

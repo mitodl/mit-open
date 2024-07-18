@@ -1606,6 +1606,7 @@ components:
           nullable: true
         channel_url:
           type: string
+          readOnly: true
       required:
       - channel_url
       - id
