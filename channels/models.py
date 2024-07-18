@@ -89,7 +89,9 @@ class Channel(TimestampedModel):
         null=True, blank=True, max_length=2083, upload_to=banner_uri
     )
     about = JSONField(blank=True, null=True)
-    channel_type = models.CharField(max_length=100, choices=ChannelType.as_tuple())
+    channel_type = models.CharField(
+        max_length=100, choices=ChannelType.as_tuple(), db_index=True
+    )
     configuration = models.JSONField(null=True, default=dict, blank=True)
     search_filter = models.CharField(max_length=2048, blank=True, default="")
     public_description = models.TextField(blank=True, default="")

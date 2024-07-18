@@ -1,6 +1,7 @@
 """Tests for channels.views"""
 
 import os
+from math import ceil
 
 import pytest
 from django.contrib.auth.models import Group, User
@@ -30,8 +31,8 @@ def test_list_channels(user_client):
     channels = sorted(ChannelFactory.create_batch(15), key=lambda f: f.id)
     url = reverse("channels:v0:channels_api-list")
     channel_list = sorted(user_client.get(url).json()["results"], key=lambda f: f["id"])
-    assert len(channel_list) == len(channels)
-    for idx, channel in enumerate(channels):
+    assert len(channel_list) == 10
+    for idx, channel in enumerate(channels[:10]):
         assert channel_list[idx] == ChannelSerializer(instance=channel).data
 
 
@@ -372,13 +373,15 @@ def test_delete_moderator_forbidden(channel, user_client):
 
 
 @pytest.mark.parametrize("related_count", [1, 5, 10])
-def test_no_excess_queries(user_client, django_assert_num_queries, related_count):
+def test_no_excess_detail_queries(
+    user_client, django_assert_num_queries, related_count
+):
     """
     There should be a constant number of queries made, independent of number of
     sub_channels / lists.
     """
     # This isn't too important; we care it does not scale with number of related items
-    expected_query_count = 10
+    expected_query_count = 9
 
     topic_channel = ChannelFactory.create(is_topic=True)
     ChannelListFactory.create_batch(related_count, channel=topic_channel)
@@ -390,6 +393,28 @@ def test_no_excess_queries(user_client, django_assert_num_queries, related_count
     )
     with django_assert_num_queries(expected_query_count):
         user_client.get(url)
+
+
+@pytest.mark.parametrize("channel_count", [2, 20, 200])
+def test_no_excess_list_queries(client, user, django_assert_num_queries, channel_count):
+    """
+    There should be a constant number of queries made (based on number of
+    related models), regardless of number of channel results returned.
+    """
+    ChannelFactory.create_batch(channel_count, is_pathway=True)
+
+    assert Channel.objects.count() == channel_count
+
+    client.force_login(user)
+    for page in range(ceil(channel_count / 10)):
+        with django_assert_num_queries(6):
+            results = client.get(
+                reverse("channels:v0:channels_api-list"),
+                data={"limit": 10, "offset": page * 10},
+            )
+            assert len(results.data["results"]) == min(channel_count, 10)
+            for result in results.data["results"]:
+                assert result["channel_url"] is not None
 
 
 def test_channel_configuration_is_not_editable(client, channel):
