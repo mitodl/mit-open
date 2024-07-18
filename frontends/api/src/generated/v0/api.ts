@@ -1564,12 +1564,6 @@ export interface PatchedProfileRequest {
    * @type {boolean}
    * @memberof PatchedProfileRequest
    */
-  email_optin?: boolean
-  /**
-   *
-   * @type {boolean}
-   * @memberof PatchedProfileRequest
-   */
   toc_optin?: boolean
   /**
    *
@@ -2036,12 +2030,6 @@ export interface ProfileRequest {
    * @memberof ProfileRequest
    */
   image_medium?: string | null
-  /**
-   *
-   * @type {boolean}
-   * @memberof ProfileRequest
-   */
-  email_optin?: boolean
   /**
    *
    * @type {boolean}

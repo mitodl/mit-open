@@ -1838,9 +1838,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 1024
-        email_optin:
-          type: boolean
-          writeOnly: true
         toc_optin:
           type: boolean
           writeOnly: true
@@ -2141,9 +2138,6 @@ components:
           nullable: true
           minLength: 1
           maxLength: 1024
-        email_optin:
-          type: boolean
-          writeOnly: true
         toc_optin:
           type: boolean
           writeOnly: true
