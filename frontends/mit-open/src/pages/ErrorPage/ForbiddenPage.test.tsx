@@ -1,7 +1,7 @@
 import React from "react"
 import { waitFor } from "@testing-library/react"
 import { renderWithProviders, screen } from "../../test-utils"
-import { HOME, login } from "@/common/urls"
+import { HOME, login, next } from "@/common/urls"
 import ForbiddenPage from "./ForbiddenPage"
 import { setMockResponse, urls } from "api/test-utils"
 import { Permissions } from "@/common/permissions"
@@ -62,7 +62,7 @@ test("Redirects unauthenticated users to login", async () => {
   renderWithProviders(<ForbiddenPage />)
 
   const expectedUrl = login({
-    pathname: `/login/ol-oidc/?next=${location.pathname}`,
+    pathname: next(),
   })
   expect(window.location.assign).toHaveBeenCalledWith(expectedUrl)
 })
