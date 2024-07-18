@@ -66,6 +66,13 @@ export const login = ({
   return `${LOGIN}?next=${next}`
 }
 
+export const next = () => {
+  const path = window.location.pathname
+  const search = window.location.search
+  const hash = window.location.hash
+  return encodeURIComponent(`${path}${search}${hash}`)
+}
+
 export const DASHBOARD = "/dashboard/"
 
 export const SEARCH = "/search/"

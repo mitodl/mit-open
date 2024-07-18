@@ -2,7 +2,7 @@ import React from "react"
 import { Outlet } from "react-router"
 import { ForbiddenError, Permissions } from "@/common/permissions"
 import { useUserMe } from "api/hooks/user"
-import { login } from "@/common/urls"
+import { login, next } from "@/common/urls"
 
 type RestrictedRouteProps = {
   children?: React.ReactNode
@@ -43,9 +43,7 @@ const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
   if (isLoading) return null
   if (!user?.is_authenticated) {
     // Redirect unauthenticated users to login
-    window.location.assign(
-      login({ pathname: `/login/ol-oidc/?next=${location.pathname}` }),
-    )
+    window.location.assign(login({ pathname: next() }))
     return null
   }
   if (!isLoading && !user?.[requires]) {
