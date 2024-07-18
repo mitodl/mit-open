@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.23
+Version 0.13.23 (Released July 18, 2024)
 ---------------
 
 - Revert "Fix bug with background image obscuring search controls (#1286)" (#1289)
