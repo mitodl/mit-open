@@ -8,20 +8,29 @@ import DialogActions from "@mui/material/DialogActions"
 import { RiCloseLine } from "@remixicon/react"
 import Typography from "@mui/material/Typography"
 
-const topRightStyle: React.CSSProperties = {
-  position: "absolute",
-  top: 0,
-  right: 0,
-}
+const Close = styled.div`
+  position: absolute;
+  top: 11px;
+  right: 20px;
+`
 
 const Header = styled.div`
   border-bottom: 1px solid ${theme.custom.colors.lightGray2};
   background-color: ${theme.custom.colors.lightGray1};
-  padding: 20px 54px 20px 28px;
+  padding: 20px 58px 20px 28px;
 `
 
 const Content = styled.div`
-  margin: 28px;
+  margin: 28px 28px 40px 28px;
+`
+
+const Actions = styled(DialogActions)`
+  margin: 0 28px 28px 28px;
+  padding: 0;
+  gap: 4px;
+  button {
+    margin-left: 0;
+  }
 `
 
 type BasicDialogProps = {
@@ -76,6 +85,7 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
   showFooter = true,
 }) => {
   const [confirming, setConfirming] = useState(false)
+
   const handleConfirm = useCallback(async () => {
     try {
       setConfirming(true)
@@ -87,6 +97,7 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
       setConfirming(false)
     }
   }, [onClose, onConfirm])
+
   return (
     <Dialog
       className={className}
@@ -94,12 +105,11 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
       open={open}
       onClose={onClose}
     >
-      {/* <StyledDialogTitle>ME {title}</StyledDialogTitle> */}
-      <div style={topRightStyle}>
-        <ActionButton variant="text" color="secondary" onClick={onClose}>
+      <Close>
+        <ActionButton variant="text" color="primary" onClick={onClose}>
           <RiCloseLine />
         </ActionButton>
-      </div>
+      </Close>
       <Header>
         <Typography variant="h5">{title}</Typography>
       </Header>
@@ -108,7 +118,7 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
         {children}
       </Content>
       {showFooter && (
-        <DialogActions>
+        <Actions>
           <Button variant="secondary" onClick={onClose}>
             {cancelText}
           </Button>
@@ -119,7 +129,7 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
           >
             {confirmText}
           </Button>
-        </DialogActions>
+        </Actions>
       )}
     </Dialog>
   )

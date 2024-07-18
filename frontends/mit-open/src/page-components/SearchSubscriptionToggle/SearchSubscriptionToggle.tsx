@@ -65,8 +65,8 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
     }
   }
 
-  const onConfirmClick = () => {
-    subscriptionCreate.mutateAsync({
+  const onConfirmClick = async () => {
+    await subscriptionCreate.mutateAsync({
       PercolateQuerySubscriptionRequestRequest: subscribeParams,
     })
   }
