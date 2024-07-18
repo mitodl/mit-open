@@ -10,10 +10,10 @@ from urllib.parse import urljoin
 import pytest
 
 from learning_resources.constants import (
-    AvailabilityType,
     CertificationType,
     LearningResourceType,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.mitxonline import (
@@ -165,9 +165,9 @@ def test_mitxonline_transform_programs(
                         program_data.get("page", {}).get("description", None)
                     ),
                     "url": parse_page_attribute(program_data, "page_url", is_url=True),
-                    "availability": AvailabilityType.current.value
+                    "availability": RunAvailability.current.value
                     if parse_page_attribute(program_data, "page_url")
-                    else AvailabilityType.archived.value,
+                    else RunAvailability.archived.value,
                 }
             ],
             "courses": [
@@ -242,9 +242,9 @@ def test_mitxonline_transform_programs(
                                     course_run_data, "instructors", is_list=True
                                 )
                             ],
-                            "availability": AvailabilityType.current.value
+                            "availability": RunAvailability.current.value
                             if parse_page_attribute(course_data, "page_url")
-                            else AvailabilityType.archived.value,
+                            else RunAvailability.archived.value,
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
@@ -376,9 +376,9 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                             course_run_data, "instructors", is_list=True
                         )
                     ],
-                    "availability": AvailabilityType.current.value
+                    "availability": RunAvailability.current.value
                     if parse_page_attribute(course_data, "page_url")
-                    else AvailabilityType.archived.value,
+                    else RunAvailability.archived.value,
                 }
                 for course_run_data in course_data["courseruns"]
             ],

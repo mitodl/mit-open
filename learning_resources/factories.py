@@ -473,10 +473,10 @@ class LearningResourceRunFactory(DjangoModelFactory):
     image = factory.SubFactory(LearningResourceImageFactory)
     availability = FuzzyChoice(
         (
-            constants.AvailabilityType.current.value,
-            constants.AvailabilityType.upcoming.value,
-            constants.AvailabilityType.starting_soon.value,
-            constants.AvailabilityType.archived.value,
+            constants.RunAvailability.current.value,
+            constants.RunAvailability.upcoming.value,
+            constants.RunAvailability.starting_soon.value,
+            constants.RunAvailability.archived.value,
         )
     )
     enrollment_start = factory.Faker("future_datetime", tzinfo=UTC)

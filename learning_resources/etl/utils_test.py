@@ -13,11 +13,11 @@ from lxml import etree
 from learning_resources.constants import (
     CONTENT_TYPE_FILE,
     CONTENT_TYPE_VERTICAL,
-    AvailabilityType,
     LearningResourceFormat,
     LearningResourceType,
     OfferedBy,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl import utils
 from learning_resources.etl.utils import parse_certification
@@ -387,27 +387,27 @@ def test_parse_bad_format(mocker):
     [
         [  # noqa: PT007
             OfferedBy.ocw.name,
-            AvailabilityType.archived.value,
+            RunAvailability.archived.value,
             False,
         ],
         [  # noqa: PT007
             OfferedBy.ocw.name,
-            AvailabilityType.current.value,
+            RunAvailability.current.value,
             False,
         ],
         [  # noqa: PT007
             OfferedBy.mitx.name,
-            AvailabilityType.archived.value,
+            RunAvailability.archived.value,
             False,
         ],
         [  # noqa: PT007
             OfferedBy.mitx.name,
-            AvailabilityType.current.value,
+            RunAvailability.current.value,
             True,
         ],
         [  # noqa: PT007
             OfferedBy.mitx.name,
-            AvailabilityType.upcoming.value,
+            RunAvailability.upcoming.value,
             True,
         ],
     ],

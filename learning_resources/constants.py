@@ -6,20 +6,15 @@ from named_enum import ExtendedEnum
 FAVORITES_TITLE = "Favorites"
 
 
-class AvailabilityType(ExtendedEnum):
+class RunAvailability(ExtendedEnum):
     """
     Enum for Course availability options dictated by edX API values.
-    While these are the options coming in from edX that we store as is, we
-    display some values differently. Namely "Current" is displayed to the user
-    as "Available Now" and "Archived" is displayed as "Prior".
-    As of 06/21/2019, the above mapping occurs in `learning_resources.js:availabilityLabel()`.
-    All OCW courses should be set to "Current".
-    """  # noqa: E501
+    """
 
-    current = "Current"  # displayed as "Available Now"
+    current = "Current"
     upcoming = "Upcoming"
     starting_soon = "Starting Soon"
-    archived = "Archived"  # displayed as "Prior"
+    archived = "Archived"
 
 
 class LearningResourceType(ExtendedEnum):

@@ -11,11 +11,11 @@ from dateutil.parser import parse
 from django.conf import settings
 
 from learning_resources.constants import (
-    AvailabilityType,
     CertificationType,
     LearningResourceType,
     OfferedBy,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
@@ -211,9 +211,9 @@ def _transform_run(course_run: dict, course: dict) -> dict:
             {"full_name": instructor["name"]}
             for instructor in parse_page_attribute(course, "instructors", is_list=True)
         ],
-        "availability": AvailabilityType.current.value
+        "availability": RunAvailability.current.value
         if parse_page_attribute(course, "page_url")
-        else AvailabilityType.archived.value,
+        else RunAvailability.archived.value,
     }
 
 
@@ -340,9 +340,9 @@ def transform_programs(programs):
                         parse_page_attribute(program, "description")
                     ),
                     "prices": parse_program_prices(program),
-                    "availability": AvailabilityType.current.value
+                    "availability": RunAvailability.current.value
                     if parse_page_attribute(program, "page_url")
-                    else AvailabilityType.archived.value,
+                    else RunAvailability.archived.value,
                 }
             ],
             "courses": transform_courses(

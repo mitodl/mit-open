@@ -31,10 +31,10 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
     DEPARTMENTS,
     VALID_TEXT_FILE_TYPES,
-    AvailabilityType,
     LearningResourceFormat,
     LevelType,
     OfferedBy,
+    RunAvailability,
 )
 from learning_resources.etl.constants import (
     RESOURCE_FORMAT_MAPPING,
@@ -703,7 +703,7 @@ def parse_certification(offeror, runs_data):
                 for run in runs_data
                 if run.get("published", True)
             ]
-            if (availability and availability != AvailabilityType.archived.value)
+            if (availability and availability != RunAvailability.archived.value)
         ]
     )
 
