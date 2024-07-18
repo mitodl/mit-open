@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.13.22
+Version 0.13.22 (Released July 18, 2024)
 ---------------
 
 - Optimize queries for learning resource APIs
