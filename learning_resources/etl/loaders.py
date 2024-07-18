@@ -123,6 +123,23 @@ def load_next_start_date(resource: LearningResource) -> datetime.time | None:
     return resource.next_start_date
 
 
+def load_prices(resource: LearningResource):
+    """Return the prices for the learning resource"""
+    if resource.resource_type in [
+        LearningResourceType.course.name,
+        LearningResourceType.program.name,
+    ]:
+        best_run = (
+            resource.next_run
+            or resource.runs.filter(published=True).order_by("-start_date").first()
+        )
+        resource.prices = best_run.prices if best_run and best_run.prices else []
+    else:
+        resource.prices = []
+    resource.save()
+    return resource.prices
+
+
 def load_instructors(
     run: LearningResourceRun, instructors_data: list[dict]
 ) -> list[LearningResourceInstructor]:
@@ -353,6 +370,7 @@ def load_course(
                 run.save()
 
         load_next_start_date(learning_resource)
+        load_prices(learning_resource)
         load_topics(learning_resource, topics_data)
         load_offered_by(learning_resource, offered_bys_data)
         load_image(learning_resource, image_data)

@@ -21,7 +21,7 @@ from learning_resources.tasks import (
     get_ocw_data,
     get_youtube_data,
     get_youtube_transcripts,
-    update_next_start_date,
+    update_next_start_date_and_prices,
 )
 
 pytestmark = pytest.mark.django_db
@@ -349,5 +349,5 @@ def test_update_next_start_date(mocker):
     mock_load_next_start_date = mocker.patch(
         "learning_resources.tasks.load_next_start_date"
     )
-    update_next_start_date()
+    update_next_start_date_and_prices()
     mock_load_next_start_date.assert_called_once_with(learning_resource)
