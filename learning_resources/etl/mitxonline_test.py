@@ -4,7 +4,6 @@ import json
 
 # pylint: disable=redefined-outer-name
 from datetime import datetime
-from itertools import chain
 from unittest.mock import ANY
 from urllib.parse import urljoin
 
@@ -30,8 +29,8 @@ from learning_resources.etl.mitxonline import (
     transform_programs,
 )
 from learning_resources.etl.utils import (
-    UCC_TOPIC_MAPPINGS,
     extract_valid_department_from_id,
+    load_offeror_topic_map,
     parse_certification,
 )
 from main.test_utils import any_instance_of
@@ -147,12 +146,7 @@ def test_mitxonline_transform_programs(
             "url": parse_page_attribute(program_data, "page_url", is_url=True),
             "topics": [
                 {"name": topic_name}
-                for topic_name in chain.from_iterable(
-                    [
-                        UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                        for topic in program_data.get("topics", [])
-                    ]
-                )
+                for topic_name in load_offeror_topic_map(OFFERED_BY["code"])
             ],
             "runs": [
                 {
@@ -209,12 +203,7 @@ def test_mitxonline_transform_programs(
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
                     "topics": [
                         {"name": topic_name}
-                        for topic_name in chain.from_iterable(
-                            [
-                                UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                                for topic in course_data.get("topics", [])
-                            ]
-                        )
+                        for topic_name in load_offeror_topic_map(OFFERED_BY["code"])
                     ],
                     "runs": [
                         {
@@ -336,12 +325,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             else CertificationType.none.name,
             "topics": [
                 {"name": topic_name}
-                for topic_name in chain.from_iterable(
-                    [
-                        UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                        for topic in course_data.get("topics", [])
-                    ]
-                )
+                for topic_name in load_offeror_topic_map(OFFERED_BY["code"])
             ],
             "url": (
                 urljoin(
