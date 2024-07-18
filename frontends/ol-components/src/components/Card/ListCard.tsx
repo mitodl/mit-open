@@ -5,9 +5,10 @@ import React, {
   ImgHTMLAttributes,
   isValidElement,
 } from "react"
-import styled from "@emotion/styled"
-import { theme } from "../ThemeProvider/ThemeProvider"
 import { Link } from "react-router-dom"
+import styled from "@emotion/styled"
+import { RiDraggable } from "@remixicon/react"
+import { theme } from "../ThemeProvider/ThemeProvider"
 import { Wrapper, containerStyles } from "./Card"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
@@ -30,6 +31,11 @@ export const Container = styled.div`
   ${containerStyles}
 `
 
+export const DraggableContainer = styled.div`
+  ${containerStyles}
+  display: flex;
+`
+
 const Content = () => <></>
 
 export const Body = styled.div`
@@ -43,6 +49,30 @@ export const Body = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+`
+
+export const DragArea = styled.div`
+  margin: 16px -6px 16px 16px;
+  padding-right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid ${theme.custom.colors.lightGray2};
+
+  ${theme.breakpoints.down("md")} {
+    margin: 12px 0 12px 12px;
+    padding-right: 4px;
+  }
+
+  svg {
+    fill: ${theme.custom.colors.silverGrayDark};
+    width: 24px;
+    height: 24px;
+    ${theme.breakpoints.down("md")} {
+      width: 20px;
+      height: 20px;
+    }
+  }
 `
 
 const Image = styled.img`
@@ -144,6 +174,7 @@ type CardProps = {
   children: ReactNode[] | ReactNode
   className?: string
   href?: string
+  draggable?: boolean
 }
 export type Card = FC<CardProps> & {
   Content: FC<{ children: ReactNode }>
@@ -155,8 +186,12 @@ export type Card = FC<CardProps> & {
   Action: FC<ActionButtonProps>
 }
 
-const ListCard: Card = ({ children, className, href }) => {
-  const _Container = href ? LinkContainer : Container
+const ListCard: Card = ({ children, className, href, draggable }) => {
+  const _Container = draggable
+    ? DraggableContainer
+    : href
+      ? LinkContainer
+      : Container
 
   let content, imageProps, info, title, footer, actions
 
@@ -181,6 +216,11 @@ const ListCard: Card = ({ children, className, href }) => {
   return (
     <Wrapper className={className}>
       <_Container to={href!}>
+        {draggable && (
+          <DragArea>
+            <RiDraggable />
+          </DragArea>
+        )}
         <Body>
           <Info>{info}</Info>
           <Title>

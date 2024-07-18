@@ -100,6 +100,7 @@ const LearningResourceListCardCondensed: React.FC<
   editMenu,
   inLearningPath,
   inUserList,
+  draggable,
 }) => {
   const isMobile = !useMuiBreakpointAtLeast("md")
 
@@ -116,7 +117,7 @@ const LearningResourceListCardCondensed: React.FC<
     return null
   }
   return (
-    <ListCardCondensed href={href} className={className}>
+    <ListCardCondensed href={href} className={className} draggable={draggable}>
       <ListCardCondensed.Info>
         <Info resource={resource} />
       </ListCardCondensed.Info>

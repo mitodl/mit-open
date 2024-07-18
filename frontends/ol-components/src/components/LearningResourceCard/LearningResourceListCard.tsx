@@ -356,6 +356,7 @@ interface LearningResourceListCardProps {
   editMenu?: React.ReactNode | null
   inUserList?: boolean
   inLearningPath?: boolean
+  draggable?: boolean
 }
 
 type CardActionButtonProps = Pick<
@@ -394,6 +395,7 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   editMenu,
   inLearningPath,
   inUserList,
+  draggable,
 }) => {
   const isMobile = !useMuiBreakpointAtLeast("md")
 
@@ -409,8 +411,9 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   if (!resource) {
     return null
   }
+
   return (
-    <ListCard href={href} className={className}>
+    <ListCard href={href} className={className} draggable={draggable}>
       <ListCard.Image
         src={
           resource.image?.url

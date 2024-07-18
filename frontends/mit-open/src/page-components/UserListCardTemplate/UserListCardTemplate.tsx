@@ -2,7 +2,15 @@ import React, { useCallback } from "react"
 import CardTemplate from "../CardTemplate/CardTemplate"
 import { UserList } from "api"
 import { EmbedlyConfig, pluralize } from "ol-utilities"
-import { TypeRow } from "../LearningResourceCardTemplate/LearningResourceCardTemplate"
+import { styled } from "ol-components"
+
+const TypeRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 1.5em; /* ensure consistent height even if no certificate */
+`
 
 type CardVariant = "column" | "row" | "row-reverse"
 type OnActivateCard = (userList: UserList) => void

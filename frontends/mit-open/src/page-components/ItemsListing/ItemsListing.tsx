@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from "react"
 import type { LearningResource } from "api"
-import LearningResourceCard from "@/page-components/LearningResourceCard/LearningResourceCard"
 import {
   SortableItem,
   SortableList,
@@ -10,12 +9,22 @@ import {
   LoadingSpinner,
   styled,
   PlainList,
+  LearningResourceListCard,
+  LearningResourceListCardCondensed,
 } from "ol-components"
 import { ResourceListCard } from "@/page-components/ResourceCard/ResourceCard"
 import { useListItemMove } from "api/hooks/learningResources"
 
 const EmptyMessage = styled.p({
   fontStyle: "italic",
+})
+
+const Loading = styled.div({
+  marginTop: "150px",
+})
+
+const StyledPlainList = styled(PlainList)({
+  marginTop: "8px",
 })
 
 type LearningResourceListItem = {
@@ -36,30 +45,19 @@ type ItemsListingProps = {
   condensed?: boolean
 }
 
-const ItemsListingViewOnly: React.FC<{
-  items: NonNullable<ItemsListingProps["items"]>
-  condensed?: boolean
-}> = ({ items, condensed }) => {
-  return (
-    <PlainList itemSpacing={condensed ? 1 : 2}>
-      {items.map((item) => {
-        return (
-          <li key={item.id}>
-            <ResourceListCard resource={item.resource} condensed={condensed} />
-          </li>
-        )
-      })}
-    </PlainList>
-  )
-}
-
 const ItemsListingSortable: React.FC<{
   listType: NonNullable<ItemsListingProps["listType"]>
   items: NonNullable<ItemsListingProps["items"]>
   isRefetching?: boolean
-}> = ({ listType, items, isRefetching }) => {
+  condensed: boolean
+}> = ({ listType, items, isRefetching, condensed }) => {
   const move = useListItemMove()
   const [sorted, setSorted] = React.useState<LearningResourceListItem[]>([])
+
+  const ListCardComponent = condensed
+    ? LearningResourceListCardCondensed
+    : LearningResourceListCard
+
   /**
    * `sorted` is a local copy of `items`:
    *  - `onSortEnd`, we'll update `sorted` copy immediately to prevent UI from
@@ -68,17 +66,15 @@ const ItemsListingSortable: React.FC<{
    *    so sync `items` -> `sorted` when `items` changes.
    */
   useEffect(() => setSorted(items), [items])
-  const renderDragging: RenderActive = useCallback((active) => {
-    const item = active.data.current as LearningResourceListItem
-    return (
-      <LearningResourceCard
-        sortable
-        suppressImage
-        variant="row-reverse"
-        resource={item.resource}
-      />
-    )
-  }, [])
+
+  const renderDragging: RenderActive = useCallback(
+    (active) => {
+      const item = active.data.current as LearningResourceListItem
+      return <ListCardComponent resource={item.resource} draggable />
+    },
+    [ListCardComponent],
+  )
+
   const onSortEnd: OnSortEnd<number> = useCallback(
     async (e) => {
       const active = e.active.data
@@ -97,9 +93,11 @@ const ItemsListingSortable: React.FC<{
     },
     [listType, move],
   )
+
   const disabled = isRefetching || move.isLoading
+
   return (
-    <PlainList disabled={disabled}>
+    <StyledPlainList disabled={disabled} itemSpacing={condensed ? 1 : 2}>
       <SortableList
         itemIds={sorted.map((item) => item.id)}
         onSortEnd={onSortEnd}
@@ -114,23 +112,16 @@ const ItemsListingSortable: React.FC<{
               data={item}
               disabled={disabled}
             >
-              {(handleProps) => {
-                return (
-                  <div {...handleProps}>
-                    <LearningResourceCard
-                      sortable
-                      suppressImage
-                      variant="row-reverse"
-                      resource={item.resource}
-                    />
-                  </div>
-                )
-              }}
+              {(handleProps) => (
+                <div {...handleProps}>
+                  <ListCardComponent resource={item.resource} draggable />
+                </div>
+              )}
             </SortableItem>
           )
         })}
       </SortableList>
-    </PlainList>
+    </StyledPlainList>
   )
 }
 
@@ -146,7 +137,9 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
   return (
     <>
       {isLoading ? (
-        <LoadingSpinner loading />
+        <Loading>
+          <LoadingSpinner loading />
+        </Loading>
       ) : items.length === 0 ? (
         <EmptyMessage>{emptyMessage}</EmptyMessage>
       ) : sortable ? (
@@ -154,9 +147,19 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
           listType={listType}
           items={items}
           isRefetching={isRefetching}
+          condensed={condensed}
         />
       ) : (
-        <ItemsListingViewOnly items={items} condensed={condensed} />
+        <StyledPlainList itemSpacing={condensed ? 1 : 2}>
+          {items.map((item) => (
+            <li key={item.id}>
+              <ResourceListCard
+                resource={item.resource}
+                condensed={condensed}
+              />
+            </li>
+          ))}
+        </StyledPlainList>
       )}
     </>
   )

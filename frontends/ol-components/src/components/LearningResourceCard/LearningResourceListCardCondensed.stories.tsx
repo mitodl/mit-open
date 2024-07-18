@@ -57,6 +57,7 @@ const meta: Meta<typeof LearningResourceListCardCondensed> = {
     isLoading,
     onAddToLearningPathClick,
     onAddToUserListClick,
+    draggable,
   }) => (
     <LearningResourceListCardCondensed
       resource={resource}
@@ -64,6 +65,7 @@ const meta: Meta<typeof LearningResourceListCardCondensed> = {
       href={`/?resource=${resource?.id}`}
       onAddToLearningPathClick={onAddToLearningPathClick}
       onAddToUserListClick={onAddToUserListClick}
+      draggable={draggable}
     />
   ),
   decorators: [withRouter],
@@ -149,5 +151,15 @@ export const VideoPlaylist: Story = {
 export const Loading: Story = {
   args: {
     isLoading: true,
+  },
+}
+
+export const Draggable: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [factories.learningResources.run()],
+    }),
+    draggable: true,
   },
 }

@@ -1,5 +1,6 @@
 import React, { FC, ReactNode, Children, isValidElement } from "react"
 import styled from "@emotion/styled"
+import { RiDraggable } from "@remixicon/react"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { Wrapper } from "./Card"
 import { TruncateText } from "../TruncateText/TruncateText"
@@ -8,6 +9,8 @@ import {
   Body as BaseBody,
   LinkContainer,
   Container,
+  DraggableContainer,
+  DragArea as BaseDragArea,
   Info as BaseInfo,
   Title as BaseTitle,
   Footer,
@@ -15,6 +18,15 @@ import {
   Bottom as BaseBottom,
 } from "./ListCard"
 import type { Card as BaseCard } from "./ListCard"
+
+const DragArea = styled(BaseDragArea)`
+  padding-right: 4px;
+  margin-right: -4px;
+  ${theme.breakpoints.down("md")} {
+    margin: 12px -4px 12px 12px;
+    padding-right: 4px;
+  }
+`
 
 const Body = styled(BaseBody)`
   margin: 16px;
@@ -59,12 +71,17 @@ type CardProps = {
   children: ReactNode[] | ReactNode
   className?: string
   href?: string
+  draggable?: boolean
 }
 
 type Card = FC<CardProps> & Omit<BaseCard, "Image">
 
-const ListCardCondensed: Card = ({ children, className, href }) => {
-  const _Container = href ? LinkContainer : Container
+const ListCardCondensed: Card = ({ children, className, href, draggable }) => {
+  const _Container = draggable
+    ? DraggableContainer
+    : href
+      ? LinkContainer
+      : Container
 
   let content, info, title, footer, actions
 
@@ -88,6 +105,11 @@ const ListCardCondensed: Card = ({ children, className, href }) => {
   return (
     <Wrapper className={className}>
       <_Container to={href!}>
+        {draggable && (
+          <DragArea>
+            <RiDraggable />
+          </DragArea>
+        )}
         <Body>
           <Info>{info}</Info>
           <Title>
