@@ -2,6 +2,7 @@ import React from "react"
 import { Outlet } from "react-router"
 import { ForbiddenError, Permissions } from "@/common/permissions"
 import { useUserMe } from "api/hooks/user"
+import { login } from "@/common/urls"
 
 type RestrictedRouteProps = {
   children?: React.ReactNode
@@ -40,6 +41,13 @@ const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
 }) => {
   const { isLoading, data: user } = useUserMe()
   if (isLoading) return null
+  if (!user?.is_authenticated) {
+    // Redirect unauthenticated users to login
+    window.location.assign(
+      login({ pathname: `/login/ol-oidc/?next=${location.pathname}` }),
+    )
+    return null
+  }
   if (!isLoading && !user?.[requires]) {
     // This error should be caught by an [`errorElement`](https://reactrouter.com/en/main/route/error-element).
     throw new ForbiddenError("Not allowed.")
