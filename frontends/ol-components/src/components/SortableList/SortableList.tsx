@@ -29,11 +29,10 @@ const DragStyles = styled.div`
   .ol-draggable {
     cursor: grab;
   }
+`
 
-  .ol-dragging,
-  .ol-dragging * {
-    cursor: grabbing;
-  }
+const DraggingContainer = styled.div`
+  cursor: grabbing;
 `
 
 type SortableItemProps<I extends UniqueIdentifier = UniqueIdentifier> = {
@@ -235,7 +234,7 @@ const SortableList = <I extends UniqueIdentifier = UniqueIdentifier>({
         {children}
       </SortableContext>
       <DragOverlay dropAnimation={dropAnimationConfig}>
-        <div className="ol-dragging">{active && renderActive(active)}</div>
+        <DraggingContainer>{active && renderActive(active)}</DraggingContainer>
       </DragOverlay>
     </DndContext>
   )
