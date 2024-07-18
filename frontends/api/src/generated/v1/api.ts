@@ -609,12 +609,6 @@ export interface CourseResource {
   certification_type: CourseResourceCertificationType
   /**
    *
-   * @type {Array<string>}
-   * @memberof CourseResource
-   */
-  prices: Array<string>
-  /**
-   *
    * @type {Array<LearningResourceRun>}
    * @memberof CourseResource
    */
@@ -733,6 +727,12 @@ export interface CourseResource {
    * @memberof CourseResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof CourseResource
+   */
+  prices: Array<string>
 }
 
 /**
@@ -1245,12 +1245,6 @@ export interface LearningPathResource {
   certification_type: CourseResourceCertificationType
   /**
    *
-   * @type {Array<string>}
-   * @memberof LearningPathResource
-   */
-  prices: Array<string>
-  /**
-   *
    * @type {Array<LearningResourceRun>}
    * @memberof LearningPathResource
    */
@@ -1369,6 +1363,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResource
+   */
+  prices?: Array<string>
 }
 
 /**
@@ -1437,6 +1437,12 @@ export interface LearningPathResourceRequest {
    * @memberof LearningPathResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof LearningPathResourceRequest
+   */
+  prices?: Array<string>
 }
 /**
  *
@@ -3201,6 +3207,12 @@ export interface PatchedLearningPathResourceRequest {
    * @memberof PatchedLearningPathResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  prices?: Array<string>
 }
 /**
  * Serializer for UserListRelationship model
@@ -3740,12 +3752,6 @@ export interface PodcastEpisodeResource {
   certification_type: CourseResourceCertificationType
   /**
    *
-   * @type {Array<string>}
-   * @memberof PodcastEpisodeResource
-   */
-  prices: Array<string>
-  /**
-   *
    * @type {Array<LearningResourceRun>}
    * @memberof PodcastEpisodeResource
    */
@@ -3864,6 +3870,12 @@ export interface PodcastEpisodeResource {
    * @memberof PodcastEpisodeResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PodcastEpisodeResource
+   */
+  prices: Array<string>
 }
 
 /**
@@ -4031,12 +4043,6 @@ export interface PodcastResource {
   certification_type: CourseResourceCertificationType
   /**
    *
-   * @type {Array<string>}
-   * @memberof PodcastResource
-   */
-  prices: Array<string>
-  /**
-   *
    * @type {Array<LearningResourceRun>}
    * @memberof PodcastResource
    */
@@ -4155,6 +4161,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof PodcastResource
+   */
+  prices: Array<string>
 }
 
 /**
@@ -4548,12 +4560,6 @@ export interface ProgramResource {
   certification_type: CourseResourceCertificationType
   /**
    *
-   * @type {Array<string>}
-   * @memberof ProgramResource
-   */
-  prices: Array<string>
-  /**
-   *
    * @type {Array<LearningResourceRun>}
    * @memberof ProgramResource
    */
@@ -4672,6 +4678,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof ProgramResource
+   */
+  prices: Array<string>
 }
 
 /**
@@ -5276,12 +5288,6 @@ export interface VideoPlaylistResource {
   certification_type: CourseResourceCertificationType
   /**
    *
-   * @type {Array<string>}
-   * @memberof VideoPlaylistResource
-   */
-  prices: Array<string>
-  /**
-   *
    * @type {Array<LearningResourceRun>}
    * @memberof VideoPlaylistResource
    */
@@ -5400,6 +5406,12 @@ export interface VideoPlaylistResource {
    * @memberof VideoPlaylistResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof VideoPlaylistResource
+   */
+  prices: Array<string>
 }
 
 /**
@@ -5561,12 +5573,6 @@ export interface VideoResource {
   certification_type: CourseResourceCertificationType
   /**
    *
-   * @type {Array<string>}
-   * @memberof VideoResource
-   */
-  prices: Array<string>
-  /**
-   *
    * @type {Array<LearningResourceRun>}
    * @memberof VideoResource
    */
@@ -5685,6 +5691,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof VideoResource
+   */
+  prices: Array<string>
 }
 
 /**

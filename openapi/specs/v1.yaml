@@ -7498,13 +7498,6 @@ components:
           - code
           - name
           readOnly: true
-        prices:
-          type: array
-          items:
-            type: string
-            format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          readOnly: true
         runs:
           type: array
           items:
@@ -7601,6 +7594,13 @@ components:
           type: string
           format: date-time
           nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
       required:
       - certification
       - certification_type
@@ -7909,13 +7909,6 @@ components:
           - code
           - name
           readOnly: true
-        prices:
-          type: array
-          items:
-            type: string
-            format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          readOnly: true
         runs:
           type: array
           items:
@@ -8011,6 +8004,12 @@ components:
           type: string
           format: date-time
           nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
       required:
       - certification
       - certification_type
@@ -8024,7 +8023,6 @@ components:
       - learning_path_parents
       - offered_by
       - platform
-      - prices
       - readable_id
       - resource_category
       - resource_type
@@ -8075,6 +8073,12 @@ components:
           type: string
           format: date-time
           nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
       required:
       - title
     LearningPathResourceResourceTypeEnum:
@@ -9374,6 +9378,12 @@ components:
           type: string
           format: date-time
           nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
     PatchedUserListRelationshipRequest:
       type: object
       description: Serializer for UserListRelationship model
@@ -9785,13 +9795,6 @@ components:
           - code
           - name
           readOnly: true
-        prices:
-          type: array
-          items:
-            type: string
-            format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          readOnly: true
         runs:
           type: array
           items:
@@ -9888,6 +9891,13 @@ components:
           type: string
           format: date-time
           nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
       required:
       - certification
       - certification_type
@@ -10035,13 +10045,6 @@ components:
           - code
           - name
           readOnly: true
-        prices:
-          type: array
-          items:
-            type: string
-            format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          readOnly: true
         runs:
           type: array
           items:
@@ -10138,6 +10141,13 @@ components:
           type: string
           format: date-time
           nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
       required:
       - certification
       - certification_type
@@ -10419,13 +10429,6 @@ components:
           - code
           - name
           readOnly: true
-        prices:
-          type: array
-          items:
-            type: string
-            format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          readOnly: true
         runs:
           type: array
           items:
@@ -10522,6 +10525,13 @@ components:
           type: string
           format: date-time
           nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
       required:
       - certification
       - certification_type
@@ -10918,13 +10928,6 @@ components:
           - code
           - name
           readOnly: true
-        prices:
-          type: array
-          items:
-            type: string
-            format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          readOnly: true
         runs:
           type: array
           items:
@@ -11021,6 +11024,13 @@ components:
           type: string
           format: date-time
           nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
       required:
       - certification
       - certification_type
@@ -11158,13 +11168,6 @@ components:
           - code
           - name
           readOnly: true
-        prices:
-          type: array
-          items:
-            type: string
-            format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
-          readOnly: true
         runs:
           type: array
           items:
@@ -11261,6 +11264,13 @@ components:
           type: string
           format: date-time
           nullable: true
+        prices:
+          type: array
+          items:
+            type: string
+            format: decimal
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
+          readOnly: true
       required:
       - certification
       - certification_type
