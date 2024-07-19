@@ -46,6 +46,7 @@ from learning_resources.models import (
     Course,
     LearningResource,
     LearningResourceRun,
+    LearningResourceTopic,
     LearningResourceTopicMapping,
 )
 
@@ -69,15 +70,15 @@ def load_offeror_topic_map(offeror_code: str):
     mappings = {}
 
     for pmt_mapping in pmt_mappings:
-        mappings[pmt_mapping.topic.name] = pmt_mapping.topic_name
-        mappings[pmt_mapping.topic.full_name] = pmt_mapping.topic_name
+        mappings[pmt_mapping.topic_name] = pmt_mapping.topic.name
 
     return mappings
 
 
 def transform_topics(topics: list, offeror_code: str):
     """
-    Transform topics by using our crosswalk mapping
+    Transform topics by using the data from LearningResourceTopics and the
+    persisted mappings.
 
     Args:
         topics (list of dict):
@@ -88,16 +89,17 @@ def transform_topics(topics: list, offeror_code: str):
     """
     topic_mappings = load_offeror_topic_map(offeror_code)
 
-    return [
-        {"name": topic_name}
-        for topic_name in chain.from_iterable(
-            [
-                topic_mappings.get(topic["name"], [topic["name"]])
-                for topic in topics
-                if topic is not None
-            ]
-        )
-    ]
+    transformed_topics = []
+
+    for topic in topics:
+        if topic["name"] in topic_mappings:
+            transformed_topics.append(topic_mappings.get(topic["name"]))
+        else:
+            base_topic = LearningResourceTopic.objects.filter(name=topic["name"]).exists()
+
+            transformed_topics.append(topic["name"]) if base_topic else None
+
+    return transformed_topics
 
 
 def without_none(values) -> list:

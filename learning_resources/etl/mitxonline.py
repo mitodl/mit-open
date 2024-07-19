@@ -30,7 +30,7 @@ log = logging.getLogger(__name__)
 
 EXCLUDE_REGEX = r"PROCTORED EXAM"
 
-OFFERED_BY = {"code": OfferedBy.mitx.name}
+OFFERED_BY = {"code": OfferedBy.mitxonline.name}
 
 
 def _fetch_data(url, params=None):
