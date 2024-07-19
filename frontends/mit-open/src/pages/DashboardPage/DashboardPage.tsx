@@ -391,7 +391,7 @@ const DashboardPage: React.FC = () => {
         data-testid={`mobile-tab-${TabValues.NOTIFICATION_PREFERENCES}`}
         value={TabValues.NOTIFICATION_PREFERENCES}
         href={`#${TabValues.NOTIFICATION_PREFERENCES}`}
-        label="Profile"
+        label="Email Preferences"
       />
       <TabButtonLink
         data-testid={`mobile-tab-${TabValues.PROFILE}`}
