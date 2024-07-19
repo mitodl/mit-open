@@ -1,9 +1,30 @@
 import { LearningResource } from "api"
 
+/*
+ * This constant represents the value displayed when a course is free.
+ */
+const FREE = "Free"
+
+/*
+ * This constant represents the value displayed when a course is paid, but the price is not specified.
+ */
 const PAID = "Paid"
 
 type Prices = {
+  /**
+   * The price of the course, which can be a number or a range of numbers.
+   * If the course is free, the value is 0. If the course is paid, the value is "Paid".
+   *
+   * @type {null | number | number[] | typeof PAID}
+   * @memberof Prices
+   */
   course: null | number | number[] | typeof PAID
+  /**
+   * The price of the certificate, which can be a number or a range of numbers.
+   *
+   * @type {null | number | number[]}
+   * @memberof Prices
+   */
   certificate: null | number | number[]
 }
 
@@ -18,6 +39,9 @@ const getPrices = (resource: LearningResource): Prices => {
   }
 
   if (resource.free && !resource.certification) {
+    /* The resource is free and does not offer a paid certificate option, e.g.
+     * { prices: [0], free: true, certification: false }
+     */
     return {
       course: 0,
       certificate: null,
@@ -110,12 +134,12 @@ const getDisplayPrecision = (price: number) => {
   return price.toFixed(2)
 }
 
-const getDisplayPrice = (price: Prices["course"]) => {
+const getDisplayPrice = (price: Prices["course"] | Prices["certificate"]) => {
   if (price === null) {
     return null
   }
   if (price === 0) {
-    return "Free"
+    return FREE
   }
   if (price === PAID) {
     return PAID
