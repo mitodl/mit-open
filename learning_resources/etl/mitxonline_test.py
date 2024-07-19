@@ -147,7 +147,17 @@ def test_mitxonline_transform_programs(
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
             "url": parse_page_attribute(program_data, "page_url", is_url=True),
+<<<<<<< HEAD
             "topics": transform_topics(program_data["topics"], OFFERED_BY["code"]),
+=======
+            "topics": [
+                {"name": topic_name}
+                for topic_name in [
+                    topic_map.get(topic["name"], topic["name"])
+                    for topic in program_data.get("topics", [])
+                ]
+            ],
+>>>>>>> 3a72e8505 ([pre-commit.ci] auto fixes from pre-commit.com hooks)
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
@@ -207,9 +217,19 @@ def test_mitxonline_transform_programs(
                     )
                     else CertificationType.none.name,
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
+<<<<<<< HEAD
                     "topics": transform_topics(
                         course_data["topics"], OFFERED_BY["code"]
                     ),
+=======
+                    "topics": [
+                        {"name": topic_name}
+                        for topic_name in [
+                            topic_map.get(topic["name"], topic["name"])
+                            for topic in program_data.get("topics", [])
+                        ]
+                    ],
+>>>>>>> 3a72e8505 ([pre-commit.ci] auto fixes from pre-commit.com hooks)
                     "runs": [
                         {
                             "run_id": course_run_data["courseware_id"],
@@ -329,7 +349,17 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                 ],
             )
             else CertificationType.none.name,
+<<<<<<< HEAD
             "topics": transform_topics(course_data["topics"], OFFERED_BY["code"]),
+=======
+            "topics": [
+                {"name": topic_name}
+                for topic_name in [
+                    topic_map.get(topic["name"], [topic["name"]])
+                    for topic in course_data.get("topics", [])
+                ]
+            ],
+>>>>>>> 3a72e8505 ([pre-commit.ci] auto fixes from pre-commit.com hooks)
             "url": (
                 urljoin(
                     settings.MITX_ONLINE_BASE_URL,
