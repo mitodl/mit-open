@@ -13,7 +13,11 @@ EDX_LEARNING_COURSE_BUCKET_NAME = get_string("EDX_LEARNING_COURSE_BUCKET_NAME", 
 EDX_LEARNING_COURSE_BUCKET_PREFIX = get_string(
     "EDX_LEARNING_COURSE_BUCKET_PREFIX", "simeon-mitx-course-tarballs"
 )
+# EdX API is rate limited. This setting can be used to read from a local datafile
+# isntead of the API. DEVELOPMENT ONLY.
 EDX_LOCAL_API_DATAFILE = get_string("EDX_LOCAL_API_DATAFILE", None)
+
+
 # Authentication for the github api
 GITHUB_ACCESS_TOKEN = get_string("GITHUB_ACCESS_TOKEN", None)
 
@@ -68,7 +72,10 @@ OLL_LEARNING_COURSE_BUCKET_NAME = get_string("OLL_LEARNING_COURSE_BUCKET_NAME", 
 OLL_LEARNING_COURSE_BUCKET_PREFIX = get_string(
     "OLL_LEARNING_COURSE_BUCKET_PREFIX", "open-learning-library/courses"
 )
+# Read from a local datafile isntead of the API. DEVELOPMENT ONLY.
+# See also EDX_LOCAL_API_DATAFILE
 OLL_LOCAL_API_DATAFILE = get_string("OLL_LOCAL_API_DATAFILE", None)
+
 # More MIT URLs
 SEE_BASE_URL = get_string("SEE_BASE_URL", None)
 MITPE_BASE_URL = get_string("MITPE_BASE_URL", None)
