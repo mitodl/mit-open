@@ -3,6 +3,7 @@
 import datetime
 import json
 import logging
+from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
@@ -112,32 +113,21 @@ def load_departments(
     return resource.departments.all()
 
 
-def load_next_start_date(resource: LearningResource) -> datetime.time | None:
+def load_next_start_date_and_prices(
+    resource: LearningResource,
+) -> tuple[datetime.time | None, list[Decimal]]:
     next_upcoming_run = resource.next_run
     if next_upcoming_run:
         resource.next_start_date = next_upcoming_run.start_date
     else:
         resource.next_start_date = None
-
+    best_run = (
+        next_upcoming_run
+        or resource.runs.filter(published=True).order_by("-start_date").first()
+    )
+    resource.prices = best_run.prices if best_run and best_run.prices else []
     resource.save()
-    return resource.next_start_date
-
-
-def load_prices(resource: LearningResource):
-    """Return the prices for the learning resource"""
-    if resource.resource_type in [
-        LearningResourceType.course.name,
-        LearningResourceType.program.name,
-    ]:
-        best_run = (
-            resource.next_run
-            or resource.runs.filter(published=True).order_by("-start_date").first()
-        )
-        resource.prices = best_run.prices if best_run and best_run.prices else []
-    else:
-        resource.prices = []
-    resource.save()
-    return resource.prices
+    return resource.next_start_date, resource.prices
 
 
 def load_instructors(
@@ -369,8 +359,7 @@ def load_course(
                 run.published = False
                 run.save()
 
-        load_next_start_date(learning_resource)
-        load_prices(learning_resource)
+        load_next_start_date_and_prices(learning_resource)
         load_topics(learning_resource, topics_data)
         load_offered_by(learning_resource, offered_bys_data)
         load_image(learning_resource, image_data)
@@ -499,7 +488,7 @@ def load_program(
                 run.published = False
                 run.save()
 
-        load_next_start_date(learning_resource)
+        load_next_start_date_and_prices(learning_resource)
 
         for course_data in courses_data:
             # skip courses that don't define a readable_id

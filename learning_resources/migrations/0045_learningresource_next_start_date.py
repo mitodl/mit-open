@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 
-from learning_resources.etl.loaders import load_next_start_date
+from learning_resources.etl.loaders import load_next_start_date_and_prices
 
 
 def assign_next_start_date(apps, schema_editor):
@@ -14,7 +14,7 @@ def assign_next_start_date(apps, schema_editor):
     for resource in LearningResource.objects.filter(
         resource_type__in=["course", "program"]
     ).iterator():
-        load_next_start_date(resource)
+        load_next_start_date_and_prices(resource)
 
 
 class Migration(migrations.Migration):
