@@ -5,7 +5,7 @@ import {
   useSearchSubscriptionDelete,
   useSearchSubscriptionList,
 } from "api/hooks/searchSubscription"
-import { Button, SimpleMenu, BasicDialog, styled } from "ol-components"
+import { Button, SimpleMenu, Dialog, styled } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import { RiArrowDownSLine, RiMailLine } from "@remixicon/react"
 import { useUserMe } from "api/hooks/user"
@@ -97,7 +97,7 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
       >
         Follow
       </StyledButton>
-      <BasicDialog
+      <Dialog
         title={`Follow ${itemName}?`}
         message="You will get emailed when new courses are available. Go to Email Notifications in your account profile to manage settings."
         confirmText="Got it!"

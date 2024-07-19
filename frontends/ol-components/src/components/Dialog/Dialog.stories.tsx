@@ -1,14 +1,14 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { BasicDialog } from "./BasicDialog"
+import { Dialog } from "./Dialog"
 import Typography from "@mui/material/Typography"
 
-const meta: Meta<typeof BasicDialog> = {
-  title: "smoot-design/BasicDialog",
+const meta: Meta<typeof Dialog> = {
+  title: "smoot-design/Dialog",
   render: (props) => (
-    <BasicDialog {...props}>
+    <Dialog {...props}>
       <Typography variant="h1">Dialog Content</Typography>
-    </BasicDialog>
+    </Dialog>
   ),
   argTypes: {
     onClose: {
@@ -22,7 +22,7 @@ const meta: Meta<typeof BasicDialog> = {
 
 export default meta
 
-type Story = StoryObj<typeof BasicDialog>
+type Story = StoryObj<typeof Dialog>
 
 const args = {
   title: "Dialog Title",

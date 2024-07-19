@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from "react"
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
-import Dialog from "@mui/material/Dialog"
-import type { DialogProps } from "@mui/material/Dialog"
+import { default as MuiDialog } from "@mui/material/Dialog"
+import type { DialogProps as MuiDialogProps } from "@mui/material/Dialog"
 import { Button, ActionButton } from "../Button/Button"
 import DialogActions from "@mui/material/DialogActions"
 import { RiCloseLine } from "@remixicon/react"
@@ -33,14 +33,14 @@ const Actions = styled(DialogActions)`
   }
 `
 
-type BasicDialogProps = {
+type DialogProps = {
   className?: string
   open: boolean
   onClose: () => void
   /**
    * MUI Dialog's [TransitionProps](https://mui.com/material-ui/api/dialog/#props)
    */
-  TransitionProps?: DialogProps["TransitionProps"]
+  TransitionProps?: MuiDialogProps["TransitionProps"]
   onConfirm?: () => void | Promise<void>
   title: string
   message?: string
@@ -71,7 +71,7 @@ type BasicDialogProps = {
  * particularly good for forms, where a <form /> element should wrap the inputs
  * and footer buttons.
  */
-const BasicDialog: React.FC<BasicDialogProps> = ({
+const Dialog: React.FC<DialogProps> = ({
   title,
   children,
   message,
@@ -99,7 +99,7 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
   }, [onClose, onConfirm])
 
   return (
-    <Dialog
+    <MuiDialog
       className={className}
       fullWidth={fullWidth}
       open={open}
@@ -131,9 +131,9 @@ const BasicDialog: React.FC<BasicDialogProps> = ({
           </Button>
         </Actions>
       )}
-    </Dialog>
+    </MuiDialog>
   )
 }
 
-export { BasicDialog }
-export type { BasicDialogProps }
+export { Dialog }
+export type { DialogProps }

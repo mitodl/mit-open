@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import {
-  BasicDialog,
+  Dialog,
   Chip,
   MuiCheckbox,
   List,
@@ -168,7 +168,7 @@ const useToggleItemInUserList = (resource?: LearningResource) => {
   return { handleToggle, isChecked, isAdding, isRemoving }
 }
 
-const StyledBasicDialog = styled(BasicDialog)`
+const StyledDialog = styled(Dialog)`
   .MuiDialog-paper {
     width: 600px;
   }
@@ -228,7 +228,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
     dialogTitle = "Add to User List"
   }
   return (
-    <StyledBasicDialog
+    <StyledDialog
       title={dialogTitle}
       showFooter={false}
       {...NiceModal.muiDialogV5(modal)}
@@ -274,7 +274,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
       ) : (
         <LoadingSpinner loading={!isReady} />
       )}
-    </StyledBasicDialog>
+    </StyledDialog>
   )
 }
 
