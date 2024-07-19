@@ -38,31 +38,25 @@ type DialogProps = {
   className?: string
   open: boolean
   onClose: () => void
-  /**
-   * MUI Dialog's [TransitionProps](https://mui.com/material-ui/api/dialog/#props)
-   */
-  TransitionProps?: MuiDialogProps["TransitionProps"]
   onConfirm?: () => void | Promise<void>
-  title: string
+  title?: string
   message?: string
   children?: React.ReactNode
-  /**
-   * The text to display on the cancel button. Defaults to "Cancel".
-   */
   cancelText?: string
-  /**
-   * The text to display on the confirm button. Defaults to "Confirm".
-   */
   confirmText?: string
   /**
    * Defaults to `true`. If `true`, dialog grows to `maxWidth`. See
    * [Dialog Props](https://mui.com/material-ui/api/dialog/#props).
    */
   fullWidth?: boolean
-  /**
-   * Whether to show the footer buttons. Defaults to `true`.
-   */
   showFooter?: boolean
+
+  /**
+   * MUI Dialog's [TransitionProps](https://mui.com/material-ui/api/dialog/#props)
+   */
+  TransitionProps?: MuiDialogProps["TransitionProps"]
+
+  disableEnforceFocus?: MuiDialogProps["disableEnforceFocus"]
 }
 
 /**
@@ -84,6 +78,8 @@ const Dialog: React.FC<DialogProps> = ({
   fullWidth,
   className,
   showFooter = true,
+  TransitionProps,
+  disableEnforceFocus,
 }) => {
   const [confirming, setConfirming] = useState(false)
 
@@ -105,15 +101,19 @@ const Dialog: React.FC<DialogProps> = ({
       fullWidth={fullWidth}
       open={open}
       onClose={onClose}
+      TransitionProps={TransitionProps}
+      disableEnforceFocus={disableEnforceFocus}
     >
       <Close>
         <ActionButton variant="text" color="primary" onClick={onClose}>
           <RiCloseLine />
         </ActionButton>
       </Close>
-      <Header>
-        <Typography variant="h5">{title}</Typography>
-      </Header>
+      {title && (
+        <Header>
+          <Typography variant="h5">{title}</Typography>
+        </Header>
+      )}
       <Content>
         {message && <Typography variant="body1">{message}</Typography>}
         {children}
