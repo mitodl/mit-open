@@ -15,7 +15,6 @@ import {
   Certificate,
   Price,
   BorderSeparator,
-  getPrices,
   getDisplayPrice,
   Count,
   StartDate,
@@ -23,6 +22,7 @@ import {
 } from "./LearningResourceListCard"
 import type { LearningResourceListCardProps } from "./LearningResourceListCard"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
+import { getPrices } from "./utils"
 
 const ResourceType = styled.span`
   align-self: flex-start;
