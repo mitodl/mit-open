@@ -20,7 +20,7 @@ import { ListCard } from "../Card/ListCard"
 import { ActionButtonProps } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
-import { getPrices } from "./utils"
+import { getDisplayPrices } from "./utils"
 
 const IMAGE_SIZES = {
   mobile: { width: 116, height: 104 },
@@ -99,47 +99,23 @@ const getEmbedlyUrl = (url: string, isMobile: boolean) => {
   })
 }
 
-const getDisplayPrecision = (price: number) => {
-  if (Number.isInteger(price)) {
-    return price.toFixed(0)
-  }
-  return price.toFixed(2)
-}
-
-export const getDisplayPrice = (price: number | number[] | null) => {
-  if (price === null) {
-    return null
-  }
-  if (price === 0) {
-    return "Free"
-  }
-  if (price === +Infinity) {
-    return "Paid"
-  }
-  if (Array.isArray(price)) {
-    return `$${getDisplayPrecision(price[0])} - $${getDisplayPrecision(price[1])}`
-  }
-  return `$${getDisplayPrecision(price)}`
-}
-
 /* This displays a single price for courses with no free option
  * (price includes the certificate). For free courses with the
  * option of a paid certificate, the certificate price displayed
  * in the certificate badge alongside the course "Free" price.
  */
 const Info = ({ resource }: { resource: LearningResource }) => {
-  const prices = getPrices(resource)
+  const prices = getDisplayPrices(resource)
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
       {resource.certification && (
         <Certificate>
           <RiAwardFill />
-          Certificate{prices?.certificate ? ":" : ""}{" "}
-          {getDisplayPrice(prices?.certificate)}
+          Certificate{prices?.certificate ? ":" : ""} {prices?.certificate}
         </Certificate>
       )}
-      <Price>{getDisplayPrice(prices?.course)}</Price>
+      <Price>{prices?.course}</Price>
     </>
   )
 }

@@ -1,11 +1,13 @@
 import { LearningResource } from "api"
 
-export type Prices = {
-  course: null | number
-  certificate: null | number
+const PAID = "Paid"
+
+type Prices = {
+  course: null | number | number[] | typeof PAID
+  certificate: null | number | number[]
 }
 
-export const getPrices = (resource: LearningResource) => {
+const getPrices = (resource: LearningResource): Prices => {
   const prices: Prices = {
     course: null,
     certificate: null,
@@ -59,7 +61,7 @@ export const getPrices = (resource: LearningResource) => {
      */
     if (!resource.free && !Number(resourcePrices[0])) {
       return {
-        course: +Infinity,
+        course: PAID,
         certificate: null,
       }
     }
@@ -73,7 +75,7 @@ export const getPrices = (resource: LearningResource) => {
        */
       if (!resource.free) {
         return {
-          course: +Infinity,
+          course: PAID,
           certificate: null,
         }
       }
@@ -93,10 +95,41 @@ export const getPrices = (resource: LearningResource) => {
     }
   } else if (resourcePrices.length === 0) {
     return {
-      course: resource.free ? 0 : +Infinity,
+      course: resource.free ? 0 : PAID,
       certificate: null,
     }
   }
 
   return prices
+}
+
+const getDisplayPrecision = (price: number) => {
+  if (Number.isInteger(price)) {
+    return price.toFixed(0)
+  }
+  return price.toFixed(2)
+}
+
+const getDisplayPrice = (price: Prices["course"]) => {
+  if (price === null) {
+    return null
+  }
+  if (price === 0) {
+    return "Free"
+  }
+  if (price === PAID) {
+    return PAID
+  }
+  if (Array.isArray(price)) {
+    return `$${getDisplayPrecision(price[0])} - $${getDisplayPrecision(price[1])}`
+  }
+  return `$${getDisplayPrecision(price)}`
+}
+
+export const getDisplayPrices = (resource: LearningResource) => {
+  const prices = getPrices(resource)
+  return {
+    course: getDisplayPrice(prices.course),
+    certificate: getDisplayPrice(prices.certificate),
+  }
 }
