@@ -55,6 +55,7 @@ def test_serialize_create_user(db, mocker):
         "bio": "bio",
         "headline": "headline",
         "placename": "",
+        "notification_preference": "daily",
     }
 
     serializer = UserSerializer(data={"email": "test@localhost", "profile": profile})
