@@ -21,13 +21,14 @@ const Header = styled.div`
 `
 
 const Content = styled.div`
-  margin: 28px 28px 40px 28px;
+  margin: 28px 28px 40px;
 `
 
 const Actions = styled(DialogActions)`
-  margin: 0 28px 28px 28px;
+  margin: 0 28px 28px;
   padding: 0;
   gap: 4px;
+
   button {
     margin-left: 0;
   }
