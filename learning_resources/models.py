@@ -1,11 +1,12 @@
 """Models for learning resources and related entities"""
 
 from decimal import Decimal
+from functools import cached_property
 
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models import JSONField, OuterRef, Q
+from django.db.models import Count, JSONField, OuterRef, Prefetch, Q
 from django.db.models.functions import Lower
 from django.utils import timezone
 
@@ -46,10 +47,10 @@ class LearningResourceTopicQuerySet(TimestampedModelQuerySet):
         from channels.models import Channel
 
         return self.annotate(
-            _channel_url=(
+            channel_url=(
                 Channel.objects.filter(topic_detail__topic=OuterRef("pk"))
                 .annotate_channel_url()
-                .values_list("_channel_url", flat=True)[:1]
+                .values_list("channel_url", flat=True)[:1]
             ),
         )
 
@@ -73,7 +74,7 @@ class LearningResourceTopic(TimestampedModel):
         """Return the topic name."""
         return self.name
 
-    @property
+    @cached_property
     def channel_url(self):
         """Return the topic's channel url"""
         if hasattr(self, "_channel_url"):
@@ -97,10 +98,10 @@ class LearningResourceOfferorQuerySet(TimestampedModelQuerySet):
         from channels.models import Channel
 
         return self.annotate(
-            _channel_url=(
+            channel_url=(
                 Channel.objects.filter(unit_detail__unit=OuterRef("pk"))
                 .annotate_channel_url()
-                .values_list("_channel_url", flat=True)[:1]
+                .values_list("channel_url", flat=True)[:1]
             ),
         )
 
@@ -126,7 +127,7 @@ class LearningResourceOfferor(TimestampedModel):
     # This field name means "value proposition"
     value_prop = models.TextField(blank=True)
 
-    @property
+    @cached_property
     def channel_url(self):
         """Return the offeror's channel url"""
         if hasattr(self, "_channel_url"):
@@ -210,34 +211,29 @@ class LearningResourceInstructor(TimestampedModel):
         return self.full_name or f"{self.first_name} {self.last_name}"
 
 
+def _map_resource_type_prefetch(name) -> Prefetch:
+    if name == LearningResourceType.program.name:
+        return Prefetch(
+            name,
+            queryset=Program.objects.annotate(
+                course_count=Count(
+                    "learning_resource__children",
+                    filter=Q(
+                        learning_resource__children__relation_type=LearningResourceRelationTypes.PROGRAM_COURSES.value,
+                        learning_resource__children__child__published=True,
+                    ),
+                )
+            ),
+        )
+    return Prefetch(name)
+
+
 class LearningResource(TimestampedModel):
     """Core model for all learning resources"""
-
-    prefetches = [
-        "topics",
-        "offered_by",
-        "departments",
-        "departments__school",
-        "content_tags",
-        "runs",
-        "runs__instructors",
-        "runs__image",
-        "children__child",
-        "children__child__runs",
-        "children__child__runs__instructors",
-        "children__child__departments",
-        "children__child__platform",
-        "children__child__topics",
-        "children__child__image",
-        "children__child__offered_by",
-        "children__child__content_tags",
-        *[f"children__child__{item.name}" for item in LearningResourceType],
-    ]
 
     related_selects = [
         "image",
         "platform",
-        *([item.name for item in LearningResourceType]),
     ]
 
     readable_id = models.CharField(max_length=512, null=False, blank=False)
@@ -286,6 +282,28 @@ class LearningResource(TimestampedModel):
     etl_source = models.CharField(max_length=12, default="")
     professional = models.BooleanField(default=False)
     next_start_date = models.DateTimeField(null=True, blank=True, db_index=True)
+
+    @staticmethod
+    def get_prefetches():
+        """Return the list of prefetches"""
+        return [
+            Prefetch(
+                "topics", queryset=LearningResourceTopic.objects.annotate_channel_url()
+            ),
+            "offered_by",
+            "departments",
+            "departments__school",
+            "content_tags",
+            "runs",
+            "runs__instructors",
+            "runs__image",
+            *(
+                [
+                    _map_resource_type_prefetch(item.name)
+                    for item in LearningResourceType
+                ]
+            ),
+        ]
 
     @property
     def audience(self) -> str | None:
@@ -409,6 +427,14 @@ class Program(TimestampedModel):
     def courses(self):
         """Get the associated resources (should all be courses)"""
         return self.learning_resource.children
+
+    @cached_property
+    def course_count(self):
+        """Return the number of courses in the program"""
+        return self.learning_resource.children.filter(
+            relation_type=LearningResourceRelationTypes.PROGRAM_COURSES,
+            child__published=True,
+        ).count()
 
 
 class LearningPath(TimestampedModel):

@@ -1,6 +1,22 @@
 Release Notes
 =============
 
+Version 0.13.23 (Released July 18, 2024)
+---------------
+
+- Revert "Fix bug with background image obscuring search controls (#1286)" (#1289)
+- Improve channels api performance (#1278)
+
+Version 0.13.22 (Released July 18, 2024)
+---------------
+
+- Optimize queries for learning resource APIs
+- Fix bug with background image obscuring search controls (#1286)
+- Draggable list card styles (#1282)
+- Update actions/setup-node digest to 1e60f62 (#1267)
+- Update actions/upload-artifact digest to 0b2256b (#1269)
+- Update actions/setup-python digest to 39cd149 (#1268)
+
 Version 0.13.21 (Released July 17, 2024)
 ---------------
 

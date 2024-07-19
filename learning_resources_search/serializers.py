@@ -606,7 +606,7 @@ def serialize_bulk_learning_resources(ids):
     """
     for learning_resource in (
         LearningResource.objects.select_related(*LearningResource.related_selects)
-        .prefetch_related(*LearningResource.prefetches)
+        .prefetch_related(*LearningResource.get_prefetches())
         .filter(id__in=ids)
     ):
         yield serialize_learning_resource_for_bulk(learning_resource)

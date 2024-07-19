@@ -1,5 +1,7 @@
 """Models for channels"""
 
+from functools import cached_property
+
 from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
 from django.db import models
@@ -30,7 +32,7 @@ class ChannelQuerySet(TimestampedModelQuerySet):
     def annotate_channel_url(self):
         """Annotate the channel for serialization"""
         return self.annotate(
-            _channel_url=Concat(
+            channel_url=Concat(
                 models.Value(frontend_absolute_url("/c/")),
                 "channel_type",
                 models.Value("/"),
@@ -87,7 +89,9 @@ class Channel(TimestampedModel):
         null=True, blank=True, max_length=2083, upload_to=banner_uri
     )
     about = JSONField(blank=True, null=True)
-    channel_type = models.CharField(max_length=100, choices=ChannelType.as_tuple())
+    channel_type = models.CharField(
+        max_length=100, choices=ChannelType.as_tuple(), db_index=True
+    )
     configuration = models.JSONField(null=True, default=dict, blank=True)
     search_filter = models.CharField(max_length=2048, blank=True, default="")
     public_description = models.TextField(blank=True, default="")
@@ -110,7 +114,7 @@ class Channel(TimestampedModel):
         """Str representation of channel"""
         return self.title
 
-    @property
+    @cached_property
     def channel_url(self) -> str:
         """Return the channel url"""
         return getattr(

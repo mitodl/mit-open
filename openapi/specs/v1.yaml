@@ -8664,6 +8664,7 @@ components:
           nullable: true
         channel_url:
           type: string
+          readOnly: true
       required:
       - channel_url
       - id
@@ -10178,14 +10179,11 @@ components:
       type: object
       description: Serializer for the Program model
       properties:
-        courses:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseResource'
-          nullable: true
+        course_count:
+          type: integer
           readOnly: true
       required:
-      - courses
+      - course_count
     ProgramCertificate:
       type: object
       description: Serializer for Program Certificates

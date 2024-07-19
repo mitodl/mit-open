@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 
 from channels.api import get_group_role_name, remove_user_role
 from channels.constants import CHANNEL_ROLE_MODERATORS
-from channels.models import Channel, ChannelList
+from channels.models import Channel, ChannelGroupRole, ChannelList
 from channels.permissions import ChannelModeratorPermissions, HasChannelPermission
 from channels.serializers import (
     ChannelCreateSerializer,
@@ -22,7 +22,7 @@ from channels.serializers import (
     ChannelSerializer,
     ChannelWriteSerializer,
 )
-from learning_resources.views import LargePagination
+from learning_resources.views import DefaultPagination
 from main.constants import VALID_HTTP_METHODS
 from main.permissions import AnonymousAccessReadonlyPermission
 
@@ -64,13 +64,26 @@ class ChannelViewSet(
     or organizations at MIT and are a high-level categorization of content.
     """
 
-    pagination_class = LargePagination
+    pagination_class = DefaultPagination
     permission_classes = (HasChannelPermission,)
     http_method_names = VALID_HTTP_METHODS
     lookup_field = "id"
     lookup_url_kwarg = "id"
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["channel_type"]
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        """Return the context data"""
+        moderated_channel_ids = []
+        if self.request.user and self.request.user.is_authenticated:
+            moderated_channel_ids = (
+                ChannelGroupRole.objects.select_related("group")
+                .filter(role=CHANNEL_ROLE_MODERATORS, group__user=self.request.user)
+                .values_list("channel_id", flat=True)
+            )
+        context["moderated_channel_ids"] = moderated_channel_ids
+        return context
 
     def get_queryset(self):
         """Return a queryset"""
@@ -90,7 +103,11 @@ class ChannelViewSet(
             )
             .annotate_channel_url()
             .select_related(
-                "featured_list", "topic_detail", "department_detail", "unit_detail"
+                "featured_list",
+                "topic_detail",
+                "department_detail",
+                "unit_detail",
+                "pathway_detail",
             )
             .all()
         )
