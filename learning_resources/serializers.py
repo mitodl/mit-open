@@ -410,6 +410,10 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     )
     certification = serializers.ReadOnlyField(read_only=True)
     certification_type = CertificateTypeField(read_only=True)
+    prices = serializers.ListField(
+        child=serializers.DecimalField(max_digits=12, decimal_places=2),
+        read_only=True,
+    )
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     image = serializers.SerializerMethodField()
     learning_path_parents = serializers.SerializerMethodField()
