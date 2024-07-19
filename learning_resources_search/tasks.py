@@ -163,7 +163,7 @@ def _group_percolated_rows(rows):
     return grouped_data
 
 
-def _get_percolated_rows(resources, subscription_type):
+def _get_percolated_rows(resources, subscription_type, notification_preference="daily"):
     """
     Get percolated rows for a list of learning resources and subscription type
     """
@@ -188,6 +188,7 @@ def _get_percolated_rows(resources, subscription_type):
                         "search_url": _infer_search_url(query),
                     }
                     for user in percolated_users
+                    if user.profile.notification_preference == notification_preference
                 ]
             )
 
@@ -207,7 +208,9 @@ def send_subscription_emails(self, subscription_type, period="daily"):
     new_learning_resources = LearningResource.objects.filter(
         published=True, created_on__gt=since
     )
-    rows = _get_percolated_rows(new_learning_resources, subscription_type)
+    rows = _get_percolated_rows(
+        new_learning_resources, subscription_type, notification_preference=period
+    )
     template_data = _group_percolated_rows(rows)
 
     email_tasks = celery.group(
