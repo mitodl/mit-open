@@ -30,6 +30,7 @@ const {
   ENVIRONMENT,
   PORT,
   MITOPEN_API_BASE_URL,
+  API_DEV_PROXY_BASE_URL,
   WEBPACK_ANALYZE,
   SITE_NAME,
   MITOPEN_SUPPORT_EMAIL,
@@ -48,6 +49,11 @@ const {
   }),
   MITOPEN_API_BASE_URL: str({
     desc: "Base URL for API requests",
+    devDefault: "",
+  }),
+  API_DEV_PROXY_BASE_URL: str({
+    desc: "API base URL to proxy to in development mode",
+    default: "",
     devDefault: "",
   }),
   WEBPACK_ANALYZE: bool({
@@ -263,6 +269,26 @@ module.exports = (env, argv) => {
         writeToDisk: true,
       },
       host: "0.0.0.0",
+      proxy: API_DEV_PROXY_BASE_URL
+        ? [
+            {
+              context: [
+                "/api",
+                "/login",
+                "/logout",
+                "/admin",
+                "/static/admin",
+                "/static/hijack",
+              ],
+              target: API_DEV_PROXY_BASE_URL,
+              changeOrigin: true,
+              secure: false,
+              headers: {
+                Origin: API_DEV_PROXY_BASE_URL,
+              },
+            },
+          ]
+        : [],
     },
   }
   return withCKEditor(config)
