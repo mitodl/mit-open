@@ -2,13 +2,16 @@
 ETL extract and transformations for openedx
 """
 
+import json
 import logging
 import re
 from collections import namedtuple
 from datetime import UTC
+from pathlib import Path
 
 import requests
 from dateutil.parser import parse
+from django.conf import settings
 from toolz import compose
 
 from learning_resources.constants import (
@@ -37,6 +40,7 @@ OpenEdxConfiguration = namedtuple(  # noqa: PYI024
         "api_url",
         "base_url",
         "alt_url",
+        "local_api_results_datafile",
         "platform",
         "offered_by",
         "etl_source",
@@ -323,12 +327,22 @@ def openedx_extract_transform_factory(get_config):
         ):
             return []
 
-        access_token = _get_access_token(config)
-        url = config.api_url
+        if config.local_api_results_datafile:
+            if settings.ENVIRONMENT != "dev":
+                msg = "local_api_results_datafile should only be used in development."
+                raise ValueError(msg)
+            with Path(config.local_api_results_datafile).open("r") as file:
+                log.info(
+                    "Loading local API data from %s", config.local_api_results_datafile
+                )
+                yield from json.load(file)
+        else:
+            access_token = _get_access_token(config)
+            url = config.api_url
 
-        while url:
-            courses, url = _get_openedx_catalog_page(url, access_token)
-            yield from courses
+            while url:
+                courses, url = _get_openedx_catalog_page(url, access_token)
+                yield from courses
 
     def transform(courses):
         """

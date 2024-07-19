@@ -25,6 +25,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate oll courses"""
+
         if options["delete"]:
             self.stdout.write(
                 "Deleting all existing OLL courses from database and opensearch"

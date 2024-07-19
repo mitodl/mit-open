@@ -36,6 +36,7 @@ def get_open_edx_config():
         settings.OLL_API_URL,
         settings.OLL_BASE_URL,
         settings.OLL_ALT_URL,
+        settings.OLL_LOCAL_API_DATAFILE,
         PlatformType.oll.name,
         OfferedBy.mitx.name,
         ETLSource.oll.name,

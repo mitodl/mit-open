@@ -27,6 +27,7 @@ def openedx_config():
         "http://localhost/fake-api-url/",
         "http://localhost/fake-base-url/",
         "http://localhost/fake-alt-url/",
+        "",  # OLL_LOCAL_API_DATAFILE,
         "fake-platform-type",
         "fake-offered-by",
         "fake-etl-source",

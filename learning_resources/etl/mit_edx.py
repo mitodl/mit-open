@@ -101,6 +101,7 @@ def get_open_edx_config():
         settings.EDX_API_URL,
         settings.EDX_BASE_URL,
         settings.EDX_ALT_URL,
+        settings.EDX_LOCAL_API_DATAFILE,
         PlatformType.edx.name,
         OfferedBy.mitx.name,
         ETLSource.mit_edx.name,
