@@ -50,9 +50,11 @@ export const LOGOUT = `${process.env.MITOPEN_API_BASE_URL}/logout/`
 export const login = ({
   pathname = "/",
   search = "",
+  hash = "",
 }: {
   pathname?: string
   search?: string
+  hash?: string
 } = {}) => {
   /**
    * To include search parameters in the next URL, we need to encode them.
@@ -62,15 +64,8 @@ export const login = ({
    * There's no need to encode the path parameter (it might contain slashes,
    * but those are allowed in search parameters) so let's keep it readable.
    */
-  const next = `${window.location.origin}${pathname}${encodeURIComponent(search)}`
+  const next = `${window.location.origin}${pathname}${encodeURIComponent(search)}${encodeURIComponent(hash)}`
   return `${LOGIN}?next=${next}`
-}
-
-export const next = () => {
-  const path = window.location.pathname
-  const search = window.location.search
-  const hash = window.location.hash
-  return encodeURIComponent(`${path}${search}${hash}`)
 }
 
 export const DASHBOARD = "/dashboard/"

@@ -1,7 +1,7 @@
 import React from "react"
 import { waitFor } from "@testing-library/react"
 import { renderWithProviders, screen } from "../../test-utils"
-import { HOME, login, next } from "@/common/urls"
+import { HOME, login } from "@/common/urls"
 import ForbiddenPage from "./ForbiddenPage"
 import { setMockResponse, urls } from "api/test-utils"
 import { Permissions } from "@/common/permissions"
@@ -59,10 +59,12 @@ test("Redirects unauthenticated users to login", async () => {
   setMockResponse.get(urls.userMe.get(), {
     [Permissions.Authenticated]: false,
   })
-  renderWithProviders(<ForbiddenPage />)
+  renderWithProviders(<ForbiddenPage />, { url: "/some/url?foo=bar#baz" })
 
   const expectedUrl = login({
-    pathname: next(),
+    pathname: "/some/url",
+    search: "?foo=bar",
+    hash: "#baz",
   })
   expect(window.location.assign).toHaveBeenCalledWith(expectedUrl)
 })

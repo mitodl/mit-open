@@ -1,8 +1,8 @@
 import React from "react"
-import { Outlet } from "react-router"
+import { Outlet, useLocation } from "react-router"
 import { ForbiddenError, Permissions } from "@/common/permissions"
 import { useUserMe } from "api/hooks/user"
-import { login, next } from "@/common/urls"
+import { login } from "@/common/urls"
 
 type RestrictedRouteProps = {
   children?: React.ReactNode
@@ -39,11 +39,12 @@ const RestrictedRoute: React.FC<RestrictedRouteProps> = ({
   children,
   requires,
 }) => {
+  const location = useLocation()
   const { isLoading, data: user } = useUserMe()
   if (isLoading) return null
   if (!user?.is_authenticated) {
     // Redirect unauthenticated users to login
-    window.location.assign(login({ pathname: next() }))
+    window.location.assign(login(location))
     return null
   }
   if (!isLoading && !user?.[requires]) {
