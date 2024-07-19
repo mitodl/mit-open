@@ -175,7 +175,11 @@ def _get_percolated_rows(resources, subscription_type, notification_preference="
             source_type=subscription_type
         )
         if percolated.count() > 0:
-            percolated_users = set(percolated.values_list("users", flat=True))
+            percolated_users = set(
+                percolated.filter(
+                    users__profile__notification_preference=notification_preference
+                ).values_list("users", flat=True)
+            )
             all_users.update(percolated_users)
             query = percolated.first()
             rows.extend(
@@ -188,7 +192,6 @@ def _get_percolated_rows(resources, subscription_type, notification_preference="
                         "search_url": _infer_search_url(query),
                     }
                     for user in percolated_users
-                    if user.profile.notification_preference == notification_preference
                 ]
             )
 

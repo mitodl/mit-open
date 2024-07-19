@@ -886,6 +886,58 @@ def test_email_grouping_function(mocked_api, mocker):
     assert len(template_data[user_ids[0]]) == 1
 
 
+def test_notification_preference(mocked_api, mocker):
+    """
+    Test that we percolate according to a user profile's
+    notification preference
+    """
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+        "Systems Engineering",
+    ]
+    notificaiton_prefs = ["daily", "weekly", "never"]
+
+    LearningResource.objects.all().delete()
+    new_resources = LearningResourceFactory.create_batch(len(topics), is_course=True)
+
+    queries = []
+    query_ids = []
+    user_ids = []
+    for topic in topics:
+        user = UserFactory.create()
+        profile = user.profile
+        profile.notification_preference = notificaiton_prefs.pop()
+        profile.save()
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topic]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        user_ids.append(user.id)
+        query.save()
+        queries.append(query)
+        query_ids.append(query.id)
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        return PercolateQuery.objects.all()
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+
+    for notification_period in ["daily", "weekly", "never"]:
+        user = User.objects.get(profile__notification_preference=notification_period)
+        rows = _get_percolated_rows(
+            new_resources,
+            PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+            notification_preference=notification_period,
+        )
+        assert user.id == rows[0]["user_id"]
+
+
 def test_digest_email_template(mocked_api, mocker, mocked_celery):
     """
     Test that email digest for percolated matches contains the
