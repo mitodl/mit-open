@@ -51,7 +51,6 @@ const UpdateButton = styled(Button)(({ theme }) => ({
 }))
 
 const NotificationPreferenceForm: React.FC<Props> = ({ profile }) => {
-  console.log(profile)
   const formId = useId()
   const initialFormData = useMemo(() => {
     return {
@@ -78,7 +77,7 @@ const NotificationPreferenceForm: React.FC<Props> = ({ profile }) => {
     validateOnChange: false,
     validateOnBlur: false,
   })
-  console.log("formik.values", formik.values)
+
   return (
     <form id={formId} onSubmit={formik.handleSubmit}>
       <FormContainer>
