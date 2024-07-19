@@ -15,6 +15,13 @@ export const getPrices = (resource: LearningResource) => {
     return prices
   }
 
+  if (resource.free && !resource.certification) {
+    return {
+      course: 0,
+      certificate: null,
+    }
+  }
+
   const resourcePrices = resource.prices
     .map((price) => Number(price))
     .sort((a, b) => a - b)
