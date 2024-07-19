@@ -121,6 +121,7 @@ def test_get_profile(logged_in, user, user_client):
         "bio": profile.bio,
         "headline": profile.headline,
         "username": profile.user.username,
+        "notification_preference": profile.notification_preference,
         "placename": profile.location.get("value", ""),
         "user_websites": [],
         "topic_interests": LearningResourceTopicSerializer(
