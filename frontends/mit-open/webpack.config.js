@@ -54,7 +54,7 @@ const {
   API_DEV_PROXY_BASE_URL: str({
     desc: "API base URL to proxy to in development mode",
     default: "",
-    devDefault: process.env.MITOPEN_APP_BASE_URL,
+    devDefault: "",
   }),
   WEBPACK_ANALYZE: bool({
     desc: "Whether to run webpack bundle analyzer",
@@ -269,24 +269,26 @@ module.exports = (env, argv) => {
         writeToDisk: true,
       },
       host: "0.0.0.0",
-      proxy: [
-        {
-          context: [
-            "/api",
-            "/login",
-            "/logout",
-            "/admin",
-            "/static/admin",
-            "/static/hijack",
-          ],
-          target: API_DEV_PROXY_BASE_URL || MITOPEN_API_BASE_URL,
-          changeOrigin: true,
-          secure: false,
-          headers: {
-            Origin: API_DEV_PROXY_BASE_URL || MITOPEN_API_BASE_URL,
-          },
-        },
-      ],
+      proxy: API_DEV_PROXY_BASE_URL
+        ? [
+            {
+              context: [
+                "/api",
+                "/login",
+                "/logout",
+                "/admin",
+                "/static/admin",
+                "/static/hijack",
+              ],
+              target: API_DEV_PROXY_BASE_URL,
+              changeOrigin: true,
+              secure: false,
+              headers: {
+                Origin: API_DEV_PROXY_BASE_URL,
+              },
+            },
+          ]
+        : [],
     },
   }
   return withCKEditor(config)
