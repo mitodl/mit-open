@@ -126,6 +126,14 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute=30, hour=18),  # 2:30pm EST
         "kwargs": {"period": "daily", "subscription_type": "channel_subscription_type"},
     },
+    "send-subscription-emails-every-1-weeks": {
+        "task": "learning_resources_search.tasks.send_subscription_emails",
+        "schedule": crontab(minute=30, hour=18, day_of_week=3),  # 2:30pm EST
+        "kwargs": {
+            "period": "weekly",
+            "subscription_type": "channel_subscription_type",
+        },
+    },
 }
 
 
