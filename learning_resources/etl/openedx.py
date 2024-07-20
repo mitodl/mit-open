@@ -40,7 +40,6 @@ OpenEdxConfiguration = namedtuple(  # noqa: PYI024
         "api_url",
         "base_url",
         "alt_url",
-        "local_api_results_datafile",
         "platform",
         "offered_by",
         "etl_source",
@@ -306,9 +305,13 @@ def openedx_extract_transform_factory(get_config):
         OpenEdxExtractTransform: the generated extract and transform functions
     """  # noqa: D401, E501
 
-    def extract():
+    def extract(api_datafile=str | None):
         """
         Extract the OpenEdx catalog by walking all the pages
+
+        Args:
+            api_datafile (str): optional path to a local file containing the API
+                data. If omitted, the API will be queried.
 
         Yields:
             dict: an object representing each course
@@ -327,14 +330,12 @@ def openedx_extract_transform_factory(get_config):
         ):
             return []
 
-        if config.local_api_results_datafile:
+        if api_datafile:
             if settings.ENVIRONMENT != "dev":
-                msg = "local_api_results_datafile should only be used in development."
+                msg = "api_datafile should only be used in development."
                 raise ValueError(msg)
-            with Path(config.local_api_results_datafile).open("r") as file:
-                log.info(
-                    "Loading local API data from %s", config.local_api_results_datafile
-                )
+            with Path(api_datafile).open("r") as file:
+                log.info("Loading local API data from %s", api_datafile)
                 yield from json.load(file)
         else:
             access_token = _get_access_token(config)
