@@ -305,7 +305,7 @@ def openedx_extract_transform_factory(get_config):
         OpenEdxExtractTransform: the generated extract and transform functions
     """  # noqa: D401, E501
 
-    def extract(api_datafile=str | None):
+    def extract(api_datafile=None):
         """
         Extract the OpenEdx catalog by walking all the pages
 
