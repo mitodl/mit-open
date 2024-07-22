@@ -816,6 +816,16 @@ def finish_recreate_index(results, backing_indices):
     log.info("recreate_index has finished successfully!")
 
 
+def _generate_subscription_digest_subject(total_count, unique_resource_types):
+    if len(unique_resource_types) == 1:
+        return (
+            f"{total_count} New"
+            "  {unique_resource_types.pop()}{pluralize(total_count)} from MIT"
+        )
+    else:
+        return f"{total_count} New courses & learning materials from MIT"
+
+
 @app.task(
     acks_late=True,
     reject_on_worker_lost=True,
@@ -825,8 +835,17 @@ def attempt_send_digest_email_batch(user_template_items):
     for user_id, template_data in user_template_items:
         log.info("Sending email to user %s", user_id)
         user = User.objects.get(id=user_id)
-        total_count = sum([len(template_data[group]) for group in template_data])
-        subject = f"{settings.MITOPEN_TITLE} New Learning Resources for You"
+        total_count = 0
+        unique_resource_types = set()
+        for group in template_data:
+            total_count += len(template_data[group])
+            unique_resource_types.update(
+                [resource["resource_type"] for resource in template_data[group]]
+            )
+
+        subject = _generate_subscription_digest_subject(
+            total_count, unique_resource_types
+        )
         send_template_email(
             [user.email],
             subject,
