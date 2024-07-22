@@ -183,6 +183,7 @@ def _get_percolated_rows(resources, subscription_type):
                     {
                         "resource_url": resource.url,
                         "resource_title": resource.title,
+                        "resource_type": resource.resource_type,
                         "user_id": user,
                         "group": _infer_percolate_group(query),
                         "search_url": _infer_search_url(query),
@@ -209,7 +210,6 @@ def send_subscription_emails(self, subscription_type, period="daily"):
     )
     rows = _get_percolated_rows(new_learning_resources, subscription_type)
     template_data = _group_percolated_rows(rows)
-
     email_tasks = celery.group(
         [
             attempt_send_digest_email_batch.si(user_template_items)
