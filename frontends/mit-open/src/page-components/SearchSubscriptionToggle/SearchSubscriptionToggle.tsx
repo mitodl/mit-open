@@ -99,7 +99,7 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
       </StyledButton>
       <Dialog
         title={`Follow ${itemName}?`}
-        message="You will get emailed when new courses are available. Go to Email Notifications in your account profile to manage settings."
+        message="You will be emailed when new courses are available."
         confirmText="Got it!"
         open={confirmationOpen}
         onConfirm={onConfirmClick}
