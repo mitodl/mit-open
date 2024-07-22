@@ -9,11 +9,12 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 
 from learning_resources.constants import (
-    AvailabilityType,
+    Availability,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import (
     READABLE_ID_FIELD,
@@ -233,7 +234,7 @@ def load_run(
     instructors_data = run_data.pop("instructors", [])
 
     if (
-        run_data.get("availability") == AvailabilityType.archived.value
+        run_data.get("availability") == RunAvailability.archived.value
         or learning_resource.certification is False
     ):
         # Archived runs or runs of resources w/out certificates should not have prices
@@ -259,7 +260,7 @@ def load_run(
     return learning_resource_run
 
 
-def load_course(
+def load_course(  # noqa: C901
     resource_data: dict,
     blocklist: list[str],
     duplicates: list[dict],
@@ -296,6 +297,7 @@ def load_course(
     unique_field_name = resource_data.pop("unique_field", READABLE_ID_FIELD)
     unique_field_value = resource_data.get(unique_field_name)
     readable_id = resource_data.pop("readable_id")
+    availability = resource_data.pop("availability")
 
     if readable_id in blocklist or not runs_data:
         resource_data["published"] = False
@@ -315,6 +317,14 @@ def load_course(
             log.exception(
                 "Platform %s is null or not in database: %s",
                 platform_name,
+                json.dumps(readable_id),
+            )
+            return None
+
+        if availability and availability not in Availability:
+            log.exception(
+                "Availability %s is not a valid choice: %s",
+                availability,
                 json.dumps(readable_id),
             )
             return None

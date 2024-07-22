@@ -257,6 +257,7 @@ def _transform_course(course):
         "image": _transform_image(course),
         "url": parse_page_attribute(course, "page_url", is_url=True),
         "description": clean_data(parse_page_attribute(course, "description")),
+        "availability": course.get("availability"),
     }
 
 

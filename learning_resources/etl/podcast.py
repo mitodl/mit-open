@@ -10,7 +10,7 @@ from dateutil.parser import parse
 from django.conf import settings
 from requests.exceptions import HTTPError
 
-from learning_resources.constants import LearningResourceType
+from learning_resources.constants import Availability, LearningResourceType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import iso8601_duration
 from learning_resources.models import PodcastEpisode
@@ -181,6 +181,7 @@ def transform_episode(rss_data, offered_by, topics, parent_image):
             ),
             "rss": rss_data.prettify(),
         },
+        "availability": Availability.anytime.name,
     }
 
 
@@ -236,6 +237,7 @@ def transform(extracted_podcasts):
                     "google_podcasts_url": google_podcasts_url,
                     "rss_url": config_data["rss_url"],
                 },
+                "availability": Availability.anytime.name,
             }
         except AttributeError:
             log.exception("Error parsing podcast data from %s", config_data["rss_url"])

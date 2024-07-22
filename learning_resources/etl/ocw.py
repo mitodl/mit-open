@@ -19,6 +19,7 @@ from learning_resources.constants import (
     CONTENT_TYPE_PAGE,
     CONTENT_TYPE_VIDEO,
     VALID_TEXT_FILE_TYPES,
+    Availability,
     LearningResourceType,
     OfferedBy,
     PlatformType,
@@ -346,6 +347,7 @@ def transform_course(course_data: dict) -> dict:
         "runs": [transform_run(course_data)],
         "resource_type": LearningResourceType.course.name,
         "unique_field": UNIQUE_FIELD,
+        "availability": Availability.anytime.name,
     }
 
 

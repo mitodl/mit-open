@@ -9,7 +9,7 @@ from urllib.parse import urljoin, urlparse
 import requests
 from django.conf import settings
 
-from learning_resources.constants import CertificationType
+from learning_resources.constants import Availability, CertificationType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import transform_format, transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
@@ -350,6 +350,7 @@ def _transform_course(
             "topics": parse_topic(course, offered_by.code) if offered_by else None,
             "runs": runs,
             "unique_field": UNIQUE_FIELD,
+            "availability": Availability.scheduled.name,
         }
     return None
 
