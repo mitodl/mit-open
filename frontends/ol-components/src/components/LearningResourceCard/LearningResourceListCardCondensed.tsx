@@ -8,15 +8,16 @@ import {
   RiBookmarkFill,
 } from "@remixicon/react"
 import { LearningResource } from "api"
-import { getReadableResourceType } from "ol-utilities"
+import {
+  getReadableResourceType,
+  getLearningResourcePrices,
+} from "ol-utilities"
 import { ListCardCondensed } from "../Card/ListCardCondensed"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
 import {
   Certificate,
   Price,
   BorderSeparator,
-  getPrices,
-  getDisplayPrice,
   Count,
   StartDate,
   Format,
@@ -32,7 +33,7 @@ const ResourceType = styled.span`
  * Info is the ResourceType flex alignment
  */
 const Info = ({ resource }: { resource: LearningResource }) => {
-  const prices = getPrices(resource)
+  const prices = getLearningResourcePrices(resource)
   return (
     <>
       <ResourceType>
@@ -42,10 +43,10 @@ const Info = ({ resource }: { resource: LearningResource }) => {
         <Certificate>
           <RiAwardFill />
           Certificate{prices?.certificate ? ":" : ""}{" "}
-          {getDisplayPrice(prices?.certificate)}
+          {prices.displayCertificate}
         </Certificate>
       )}
-      <Price>{getDisplayPrice(prices?.course)}</Price>
+      <Price>{prices.displayCourse}</Price>
     </>
   )
 }
