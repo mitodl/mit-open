@@ -28,7 +28,7 @@ type Prices = {
   certificate: null | number[]
 }
 
-const getPrices = (resource: LearningResource): Prices => {
+export const getPrices = (resource: LearningResource): Prices => {
   const prices: Prices = {
     course: null,
     certificate: null,
