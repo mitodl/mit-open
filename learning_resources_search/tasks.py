@@ -183,6 +183,7 @@ def _get_percolated_rows(resources, subscription_type):
                     {
                         "resource_url": resource.url,
                         "resource_title": resource.title,
+                        "resource_image_url": resource.image.url,
                         "resource_type": resource.resource_type,
                         "user_id": user,
                         "group": _infer_percolate_group(query),

@@ -24,10 +24,7 @@
         font-weight: bold;
       "
     >
-      {{total_count}}
-      new course{{ total_count|pluralize:'s' }}
-      in MIT Open that match{{ total_count|pluralize:'es,' }}
-      your preferences
+      {{subject}}
     </h4>
   </td>
 </tr>
@@ -60,7 +57,7 @@
               font-weight: bold;
             "
           >
-            {{resource_group}}
+            Results for "{{resource_group}}"
           </h1>
         </td>
       </tr>
@@ -82,6 +79,23 @@
       width="100%"
     >
       <tr>
+        <td>
+          <img
+            src="{{item.resource_image_url}}"
+            height="60"
+            alt="{{item.resource_title}}"
+            style="
+              height: 60px;
+              width: 113px;
+              background: #ffffff;
+              font-family: sans-serif;
+              font-size: 15px;
+              line-height: 15px;
+              color: #a31f34;
+              margin-bottom: -10px;
+            "
+          />
+        </td>
         <td
           style="
             padding: 10px 20px;
