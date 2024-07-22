@@ -17,6 +17,15 @@ class RunAvailability(ExtendedEnum):
     archived = "Archived"
 
 
+class Availability(ExtendedEnum):
+    """
+    Describes when a resource is available to users.
+    """
+
+    scheduled = "Scheduled"  # available within specific date ranges
+    anytime = "Anytime"  # available any time
+
+
 class LearningResourceType(ExtendedEnum):
     """Enum for LearningResource resource_type values"""
 
