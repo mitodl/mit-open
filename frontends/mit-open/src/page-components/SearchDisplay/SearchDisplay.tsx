@@ -415,7 +415,7 @@ const StyledGridContainer = styled(GridContainer)`
   width: 100% !important;
 `
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 20
 const MAX_PAGE = 50
 
 const getLastPage = (count: number): number => {
@@ -531,6 +531,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
         "resource_category",
       ]) as LRSearchRequest["aggregations"],
       offset: (page - 1) * PAGE_SIZE,
+      limit: PAGE_SIZE,
     }
   }, [
     searchParams,
