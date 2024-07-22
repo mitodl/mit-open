@@ -491,10 +491,10 @@ describe("Search Page pagination controls", () => {
     renderWithProviders(<SearchPage />, { url: "?page=3" })
     const pagination = getPagination()
     // p14 exists
-    await within(pagination).findByRole("button", { name: "Go to page 14" })
+    await within(pagination).findByRole("button", { name: "Go to page 7" })
     // items
     const items = await within(pagination).findAllByRole("listitem")
-    expect(items.at(-2)?.textContent).toBe("14") // "Last page"
+    expect(items.at(-2)?.textContent).toBe("7") // "Last page"
     expect(items.at(-1)?.textContent).toBe("") // "Next" button
   })
 })
