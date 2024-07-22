@@ -2,6 +2,7 @@
 
 import json
 from datetime import timedelta
+from decimal import Decimal
 
 # pylint: disable=redefined-outer-name,too-many-locals,too-many-lines
 from types import SimpleNamespace
@@ -149,7 +150,7 @@ def test_load_program(  # noqa: PLR0913
     courses_exist,
     has_retired_course,
     resource_format,
-):  # pylint: disable=too-many-arguments
+):
     """Test that load_program loads the program"""
     platform = LearningResourcePlatformFactory.create()
 
@@ -324,15 +325,26 @@ def test_load_course(  # noqa: PLR0913
         if has_upcoming_run
         else timezone.now() - timedelta(1)
     )
+    old_start_date = timezone.now() - timedelta(365)
 
     if course_exists:
         run = LearningResourceRunFactory.create(
             learning_resource=learning_resource, published=True, start_date=start_date
         )
+        old_run = LearningResourceRunFactory.create(
+            learning_resource=learning_resource,
+            published=True,
+            start_date=old_start_date,
+        )
         learning_resource.runs.set([run])
         learning_resource.save()
     else:
         run = LearningResourceRunFactory.build(start_date=start_date)
+        old_run = LearningResourceRunFactory.build(
+            learning_resource=learning_resource,
+            published=True,
+            start_date=old_start_date,
+        )
     assert Course.objects.count() == (1 if course_exists else 0)
 
     format_data = {"learning_format": [resource_format]} if resource_format else {}
@@ -349,13 +361,23 @@ def test_load_course(  # noqa: PLR0913
     }
 
     if is_run_published:
-        run = {
-            "run_id": run.run_id,
-            "enrollment_start": run.enrollment_start,
-            "start_date": start_date,
-            "end_date": run.end_date,
-        }
-        props["runs"] = [run]
+        runs = [
+            {
+                "run_id": old_run.run_id,
+                "enrollment_start": old_run.enrollment_start,
+                "start_date": old_run.start_date,
+                "end_date": old_run.end_date,
+                "prices": [30.00, 120.00],
+            },
+            {
+                "run_id": run.run_id,
+                "enrollment_start": run.enrollment_start,
+                "start_date": start_date,
+                "end_date": run.end_date,
+                "prices": [0.00, 49.00],
+            },
+        ]
+        props["runs"] = runs
     else:
         props["runs"] = []
 
@@ -368,6 +390,9 @@ def test_load_course(  # noqa: PLR0913
         start_date if has_upcoming_run and is_run_published else None
     )
     assert result.next_start_date == expected_next_start_date
+    assert result.prices == (
+        [Decimal(0.00), Decimal(49.00)] if is_run_published else []
+    )
 
     if course_exists and ((not is_published or not is_run_published) or blocklisted):
         mock_upsert_tasks.deindex_learning_resource.assert_called_with(
@@ -391,7 +416,7 @@ def test_load_course(  # noqa: PLR0913
 
     assert Course.objects.count() == 1
     assert LearningResourceRun.objects.filter(published=True).count() == (
-        1 if is_run_published else 0
+        2 if is_run_published else 0
     )
 
     # assert we got a course back

@@ -411,7 +411,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     certification = serializers.ReadOnlyField(read_only=True)
     certification_type = CertificateTypeField(read_only=True)
     prices = serializers.ListField(
-        child=serializers.DecimalField(max_digits=10, decimal_places=2),
+        child=serializers.DecimalField(max_digits=12, decimal_places=2),
         read_only=True,
     )
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
@@ -529,6 +529,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         model = models.LearningResource
         read_only_fields = [
             "free",
+            "prices",
             "resource_category",
             "certification",
             "certification_type",

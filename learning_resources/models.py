@@ -1,6 +1,5 @@
 """Models for learning resources and related entities"""
 
-from decimal import Decimal
 from functools import cached_property
 
 from django.contrib.auth.models import User
@@ -282,6 +281,9 @@ class LearningResource(TimestampedModel):
     etl_source = models.CharField(max_length=12, default="")
     professional = models.BooleanField(default=False)
     next_start_date = models.DateTimeField(null=True, blank=True, db_index=True)
+    prices = ArrayField(
+        models.DecimalField(decimal_places=2, max_digits=12), default=list
+    )
 
     @staticmethod
     def get_prefetches():
@@ -320,21 +322,6 @@ class LearningResource(TimestampedModel):
             .order_by("start_date")
             .first()
         )
-
-    @property
-    def prices(self) -> list[Decimal]:
-        """Returns the prices for the learning resource"""
-        if self.resource_type in [
-            LearningResourceType.course.name,
-            LearningResourceType.program.name,
-        ]:
-            next_run = (
-                self.next_run
-                or self.runs.filter(published=True).order_by("-start_date").first()
-            )
-            return next_run.prices if next_run and next_run.prices else []
-        else:
-            return [Decimal(0.00)]
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
