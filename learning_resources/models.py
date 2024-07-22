@@ -8,7 +8,6 @@ from django.db import models
 from django.db.models import Count, JSONField, OuterRef, Prefetch, Q
 from django.db.models.functions import Lower
 from django.utils import timezone
-from django.utils.functional import cached_property
 
 from learning_resources import constants
 from learning_resources.constants import (
