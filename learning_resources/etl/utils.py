@@ -11,7 +11,6 @@ from collections import Counter
 from collections.abc import Generator
 from datetime import UTC, datetime
 from hashlib import md5
-from itertools import chain
 from pathlib import Path
 from subprocess import check_call
 from tempfile import TemporaryDirectory
@@ -93,11 +92,13 @@ def transform_topics(topics: list, offeror_code: str):
 
     for topic in topics:
         if topic["name"] in topic_mappings:
-            transformed_topics.append(topic_mappings.get(topic["name"]))
+            transformed_topics.append({"name": topic_mappings.get(topic["name"])})
         else:
-            base_topic = LearningResourceTopic.objects.filter(name=topic["name"]).exists()
+            base_topic = LearningResourceTopic.objects.filter(
+                name=topic["name"]
+            ).exists()
 
-            transformed_topics.append(topic["name"]) if base_topic else None
+            transformed_topics.append({"name": topic["name"]}) if base_topic else None
 
     return transformed_topics
 

@@ -149,7 +149,9 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             ),
             "image": parse_image(program),
             "platform": PlatformType.csail.name,
-            "offered_by": None,
+            "offered_by": {"name": parse_offered_by(program).name}
+            if parse_offered_by(program)
+            else None,
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
             "learning_format": transform_format(program["format_name"]),
@@ -175,7 +177,9 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                     program["start_value"], program["end_value"]
                 )
             ],
-            "topics": parse_topic(program, ""),
+            "topics": parse_topic(program, parse_offered_by(program))
+            if parse_offered_by(program)
+            else None,
             # all we need for course data is the relative positioning of courses by course_id
             "courses": [
                 {
@@ -288,7 +292,7 @@ def test_parse_price(price_str, price_list):
     [
         ["Blockchain", "Blockchain"],  # noqa: PT007
         ["Systems Engineering", "Systems Engineering"],  # noqa: PT007
-        ["Other Business", "Mangement"],  # noqa: PT007
+        ["Other Business", "Management"],  # noqa: PT007
         ["Other Technology", "Digital Business & IT"],  # noqa: PT007
     ],
 )

@@ -495,7 +495,7 @@ def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -
     """
 
     for topic in topics:
-        lr_topic, _ = LearningResourceTopic.objects.filter(
+        lr_topic, created = LearningResourceTopic.objects.filter(
             Q(name=topic["name"]) | Q(id=topic["id"])
         ).update_or_create(
             defaults={
@@ -504,6 +504,8 @@ def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -
                 "icon": topic["icon"] or "",
             }
         )
+
+        log.debug("%s topic %s", "Created" if created else "Updated", lr_topic.name)
 
         LearningResourceTopicMapping.objects.filter(topic=lr_topic).all().delete()
 
@@ -515,6 +517,12 @@ def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -
 
                 if offeror:
                     for mapping in topic["mappings"][offeror_code]:
+                        log.debug(
+                            "Created mapping for %s from %s to %s",
+                            offeror_code,
+                            mapping,
+                            lr_topic.name,
+                        )
                         LearningResourceTopicMapping.objects.create(
                             topic=lr_topic, offeror=offeror, topic_name=mapping
                         )

@@ -171,6 +171,10 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
         is_see = factory.Trait(
             code=constants.OfferedBy.see.name, name=constants.OfferedBy.see.value
         )
+        is_mitxonline = factory.Trait(
+            code=constants.OfferedBy.mitxonline.name,
+            name=constants.OfferedBy.mitxonline.value,
+        )
 
 
 class LearningResourceFactory(DjangoModelFactory):

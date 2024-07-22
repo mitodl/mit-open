@@ -4,7 +4,6 @@ import json
 
 # pylint: disable=redefined-outer-name
 from datetime import datetime
-from itertools import chain
 from unittest.mock import ANY
 from urllib.parse import urljoin
 
@@ -28,13 +27,13 @@ from learning_resources.etl.mitxonline import (
     parse_program_prices,
     transform_courses,
     transform_programs,
+    transform_topics,
 )
 from learning_resources.etl.utils import (
     extract_valid_department_from_id,
-    load_offeror_topic_map,
     parse_certification,
 )
-from learning_resources.utils import upsert_topic_data_file
+from learning_resources.test_utils import set_up_topics
 from main.test_utils import any_instance_of
 from main.utils import clean_data
 
@@ -111,7 +110,8 @@ def test_mitxonline_transform_programs(
     mock_mitxonline_programs_data, mock_mitxonline_courses_data, mocker, settings
 ):
     """Test that mitxonline program data is correctly transformed into our normalized structure"""
-    upsert_topic_data_file()
+    set_up_topics(is_mitxonline=True)
+
     settings.MITX_ONLINE_PROGRAMS_API_URL = "http://localhost/test/programs/api"
     settings.MITX_ONLINE_COURSES_API_URL = "http://localhost/test/courses/api"
     mocker.patch(
@@ -120,7 +120,6 @@ def test_mitxonline_transform_programs(
     )
 
     result = transform_programs(mock_mitxonline_programs_data["results"])
-    topic_map = load_offeror_topic_map(OFFERED_BY["code"])
 
     expected = [
         {
@@ -148,15 +147,7 @@ def test_mitxonline_transform_programs(
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
             "url": parse_page_attribute(program_data, "page_url", is_url=True),
-            "topics": [
-                {"name": topic_name}
-                for topic_name in [
-                        topic_map.get(
-                            topic["name"], topic["name"]
-                        )
-                        for topic in program_data.get("topics", [])
-                    ]
-            ],
+            "topics": transform_topics(program_data["topics"], OFFERED_BY["code"]),
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
@@ -207,18 +198,18 @@ def test_mitxonline_transform_programs(
                         )
                         > 0
                     ),
-                    "certification": True,
-                    "certification_type": CertificationType.completion.name,
+                    "certification": parse_certification(
+                        OFFERED_BY["code"], course_data["courseruns"]
+                    ),
+                    "certification_type": CertificationType.completion.name
+                    if parse_certification(
+                        OFFERED_BY["code"], course_data["courseruns"]
+                    )
+                    else CertificationType.none.name,
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
-                    "topics": [
-                        {"name": topic_name}
-                        for topic_name in [
-                                topic_map.get(
-                                    topic["name"], topic["name"]
-                                )
-                                for topic in program_data.get("topics", [])
-                            ]
-                    ],
+                    "topics": transform_topics(
+                        course_data["topics"], OFFERED_BY["code"]
+                    ),
                     "runs": [
                         {
                             "run_id": course_run_data["courseware_id"],
@@ -302,8 +293,8 @@ def test_mitxonline_transform_programs(
 
 def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
     """Test that mitxonline courses data is correctly transformed into our normalized structure"""
+    set_up_topics(is_mitxonline=True)
     result = transform_courses(mock_mitxonline_courses_data["results"])
-    topic_map = load_offeror_topic_map(OFFERED_BY["code"])
     expected = [
         {
             "readable_id": course_data["readable_id"],
@@ -323,7 +314,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             ),
             "professional": False,
             "certification": parse_certification(
-                "mitx",
+                "mitxonline",
                 [
                     _transform_run(course_run, course_data)
                     for course_run in course_data["courseruns"]
@@ -331,22 +322,14 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             ),
             "certification_type": CertificationType.completion.name
             if parse_certification(
-                "mitx",
+                "mitxonline",
                 [
                     _transform_run(course_run, course_data)
                     for course_run in course_data["courseruns"]
                 ],
             )
             else CertificationType.none.name,
-            "topics": [
-                {"name": topic_name}
-                for topic_name in [
-                    topic_map.get(
-                        topic["name"], [topic["name"]]
-                    )
-                    for topic in course_data.get("topics", [])
-                ]
-            ],
+            "topics": transform_topics(course_data["topics"], OFFERED_BY["code"]),
             "url": (
                 urljoin(
                     settings.MITX_ONLINE_BASE_URL,
