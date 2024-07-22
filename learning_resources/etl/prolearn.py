@@ -134,11 +134,7 @@ def parse_topic(document: dict, offeror_code: str) -> list[dict]:
         list of dict: list containing one topic dict with a name attribute
     """
     topic = document.get("ucc_name")
-    return (
-        [{"name": topic} for topic in transform_topics([{"name": topic}], offeror_code)]
-        if topic
-        else []
-    )
+    return transform_topics([{"name": topic}], offeror_code) if topic else []
 
 
 def parse_image(document: dict) -> dict:
