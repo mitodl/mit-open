@@ -238,11 +238,11 @@ describe("manageListDialogs.upsertUserList", () => {
   test.each([
     {
       userList: undefined,
-      expectedTitle: "Create User List",
+      expectedTitle: "Create List",
     },
     {
       userList: factories.userLists.userList(),
-      expectedTitle: "Edit User List",
+      expectedTitle: "Edit List",
     },
   ])(
     "Dialog title is $expectedTitle when userList=$userList",
