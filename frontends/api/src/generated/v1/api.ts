@@ -3364,6 +3364,12 @@ export interface PercolateQuerySubscriptionRequestRequest {
    */
   professional?: boolean | null
   /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  yearly_decay_percent?: number | null
+  /**
    * True if the learning resource offers a certificate
    * @type {boolean}
    * @memberof PercolateQuerySubscriptionRequestRequest
@@ -11517,6 +11523,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesSearchRetrieveResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11540,6 +11547,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       resource_type?: Array<LearningResourcesSearchRetrieveResourceTypeEnum>,
       sortby?: LearningResourcesSearchRetrieveSortbyEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources_search/`
@@ -11634,6 +11642,10 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         localVarQueryParameter["topic"] = topic
       }
 
+      if (yearly_decay_percent !== undefined) {
+        localVarQueryParameter["yearly_decay_percent"] = yearly_decay_percent
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -11683,6 +11695,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<LearningResourcesSearchRetrieveResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11706,6 +11719,7 @@ export const LearningResourcesSearchApiFp = function (
       resource_type?: Array<LearningResourcesSearchRetrieveResourceTypeEnum>,
       sortby?: LearningResourcesSearchRetrieveSortbyEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -11734,6 +11748,7 @@ export const LearningResourcesSearchApiFp = function (
           resource_type,
           sortby,
           topic,
+          yearly_decay_percent,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -11795,6 +11810,7 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
+          requestParameters.yearly_decay_percent,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -11940,6 +11956,13 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly topic?: Array<string>
+
+  /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly yearly_decay_percent?: number | null
 }
 
 /**
@@ -11982,6 +12005,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
+        requestParameters.yearly_decay_percent,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -12202,6 +12226,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionCheckListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12226,6 +12251,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       sortby?: LearningResourcesUserSubscriptionCheckListSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionCheckListSourceTypeEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources_user_subscription/check/`
@@ -12324,6 +12350,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         localVarQueryParameter["topic"] = topic
       }
 
+      if (yearly_decay_percent !== undefined) {
+        localVarQueryParameter["yearly_decay_percent"] = yearly_decay_percent
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -12360,6 +12390,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12383,6 +12414,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>,
       sortby?: LearningResourcesUserSubscriptionListSortbyEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources_user_subscription/`
@@ -12477,6 +12509,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         localVarQueryParameter["topic"] = topic
       }
 
+      if (yearly_decay_percent !== undefined) {
+        localVarQueryParameter["yearly_decay_percent"] = yearly_decay_percent
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -12514,6 +12550,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {PercolateQuerySubscriptionRequestRequest} [PercolateQuerySubscriptionRequestRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12539,6 +12576,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       PercolateQuerySubscriptionRequestRequest?: PercolateQuerySubscriptionRequestRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -12636,6 +12674,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (topic) {
         localVarQueryParameter["topic"] = topic
+      }
+
+      if (yearly_decay_percent !== undefined) {
+        localVarQueryParameter["yearly_decay_percent"] = yearly_decay_percent
       }
 
       localVarHeaderParameter["Content-Type"] = "application/json"
@@ -12746,6 +12788,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionCheckListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12770,6 +12813,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       sortby?: LearningResourcesUserSubscriptionCheckListSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionCheckListSourceTypeEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -12799,6 +12843,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           sortby,
           source_type,
           topic,
+          yearly_decay_percent,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -12836,6 +12881,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12859,6 +12905,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>,
       sortby?: LearningResourcesUserSubscriptionListSortbyEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -12887,6 +12934,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           resource_type,
           sortby,
           topic,
+          yearly_decay_percent,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -12925,6 +12973,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {PercolateQuerySubscriptionRequestRequest} [PercolateQuerySubscriptionRequestRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12950,6 +12999,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       PercolateQuerySubscriptionRequestRequest?: PercolateQuerySubscriptionRequestRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
@@ -12977,6 +13027,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           sortby,
           source_type,
           topic,
+          yearly_decay_percent,
           PercolateQuerySubscriptionRequestRequest,
           options,
         )
@@ -13071,6 +13122,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.sortby,
           requestParameters.source_type,
           requestParameters.topic,
+          requestParameters.yearly_decay_percent,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -13107,6 +13159,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
+          requestParameters.yearly_decay_percent,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -13144,6 +13197,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.sortby,
           requestParameters.source_type,
           requestParameters.topic,
+          requestParameters.yearly_decay_percent,
           requestParameters.PercolateQuerySubscriptionRequestRequest,
           options,
         )
@@ -13315,6 +13369,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly topic?: Array<string>
+
+  /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly yearly_decay_percent?: number | null
 }
 
 /**
@@ -13455,6 +13516,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
    */
   readonly topic?: Array<string>
+
+  /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly yearly_decay_percent?: number | null
 }
 
 /**
@@ -13604,6 +13672,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly topic?: Array<string>
 
   /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly yearly_decay_percent?: number | null
+
+  /**
    *
    * @type {PercolateQuerySubscriptionRequestRequest}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
@@ -13666,6 +13741,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.sortby,
         requestParameters.source_type,
         requestParameters.topic,
+        requestParameters.yearly_decay_percent,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -13704,6 +13780,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
+        requestParameters.yearly_decay_percent,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -13743,6 +13820,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.sortby,
         requestParameters.source_type,
         requestParameters.topic,
+        requestParameters.yearly_decay_percent,
         requestParameters.PercolateQuerySubscriptionRequestRequest,
         options,
       )
