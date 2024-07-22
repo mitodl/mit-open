@@ -21,10 +21,17 @@ class Command(BaseCommand):
             action="store_true",
             help="Delete all existing records first",
         )
+        parser.add_argument(
+            "--api_datafile",
+            dest="api_datafile",
+            help="If provided, use this file as the source of API data",
+            default=None,
+        )
         super().add_arguments(parser)
 
     def handle(self, *args, **options):  # noqa: ARG002
         """Run Populate oll courses"""
+
         if options["delete"]:
             self.stdout.write(
                 "Deleting all existing OLL courses from database and opensearch"
@@ -34,7 +41,7 @@ class Command(BaseCommand):
             ):
                 resource_delete_actions(learning_resource)
         else:
-            task = get_oll_data.delay()
+            task = get_oll_data.delay(options["api_datafile"])
             self.stdout.write(f"Started task {task} to get oll course data")
             self.stdout.write("Waiting on task...")
             start = now_in_utc()

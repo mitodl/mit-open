@@ -46,9 +46,14 @@ def get_micromasters_data():
 
 
 @app.task
-def get_mit_edx_data() -> int:
-    """Task to sync MIT edX data with the database"""
-    courses = pipelines.mit_edx_etl()
+def get_mit_edx_data(api_datafile=None) -> int:
+    """Task to sync MIT edX data with the database
+
+    Args:
+        api_datafile (str): If provided, use this file as the source of API data
+            Otherwise, the API is queried directly.
+    """
+    courses = pipelines.mit_edx_etl(api_datafile)
     return len(courses)
 
 
@@ -61,9 +66,15 @@ def get_mitxonline_data() -> int:
 
 
 @app.task
-def get_oll_data():
-    """Execute the OLL ETL pipeline"""
-    courses = pipelines.oll_etl()
+def get_oll_data(api_datafile=None):
+    """Execute the OLL ETL pipeline.
+
+    Args:
+        api_datafile (str): If provided, use this file as the source of API data
+            Otherwise, the API is queried directly.
+
+    """
+    courses = pipelines.oll_etl(api_datafile)
     return len(courses)
 
 

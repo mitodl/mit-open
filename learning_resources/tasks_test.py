@@ -65,7 +65,7 @@ def test_get_mit_edx_data_valid(mocker):
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
 
     tasks.get_mit_edx_data.delay()
-    mock_pipelines.mit_edx_etl.assert_called_once_with()
+    mock_pipelines.mit_edx_etl.assert_called_once_with(None)
 
 
 def test_get_mitxonline_data(mocker):
@@ -80,7 +80,7 @@ def test_get_oll_data(mocker):
     """Verify that the get_oll_data invokes the OLL ETL pipeline"""
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_oll_data.delay()
-    mock_pipelines.oll_etl.assert_called_once_with()
+    mock_pipelines.oll_etl.assert_called_once_with(None)
 
 
 def test_get_prolearn_data(mocker):
