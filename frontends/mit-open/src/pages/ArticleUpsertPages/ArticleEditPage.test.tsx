@@ -4,7 +4,6 @@ import {
   screen,
   user,
   waitFor,
-  within,
 } from "../../test-utils"
 import type { Article } from "api"
 import { articles as factory } from "api/test-utils/factories"
@@ -100,16 +99,18 @@ describe("ArticleEditPage", () => {
     async ({ confirmed }) => {
       const article = factory.article()
       setup({ article })
-      const deleteButton = await screen.findByRole("button", { name: "Delete" })
 
+      const deleteButton = await screen.findByRole("button", { name: "Delete" })
       await user.click(deleteButton)
-      const dialog = await screen.findByRole("dialog", {
+
+      await screen.findByRole("heading", {
         name: "Are you sure?",
       })
-      const cancelButton = within(dialog).getByRole("button", {
+
+      const cancelButton = await screen.findByRole("button", {
         name: "Cancel",
       })
-      const confirmButton = within(dialog).getByRole("button", {
+      const confirmButton = await screen.findByRole("button", {
         name: "Yes, delete",
       })
       makeRequest.mockClear()

@@ -78,6 +78,12 @@ test.each(Object.values(SourceTypeEnum))(
       name: "Follow",
     })
     await user.click(subscribeButton)
+
+    const okButton = await screen.findByRole("button", {
+      name: "Got it!",
+    })
+    await user.click(okButton)
+
     expect(makeRequest).toHaveBeenCalledWith("post", subscribeUrl, {
       source_type: sourceType,
       offered_by: ["ocw"],
