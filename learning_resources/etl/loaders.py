@@ -126,7 +126,11 @@ def load_next_start_date_and_prices(
         next_upcoming_run
         or resource.runs.filter(published=True).order_by("-start_date").first()
     )
-    resource.prices = best_run.prices if best_run and best_run.prices else []
+    resource.prices = (
+        best_run.prices
+        if resource.certification and best_run and best_run.prices
+        else []
+    )
     resource.save()
     return resource.next_start_date, resource.prices
 

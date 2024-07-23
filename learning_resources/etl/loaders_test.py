@@ -32,6 +32,7 @@ from learning_resources.etl.loaders import (
     load_courses,
     load_image,
     load_instructors,
+    load_next_start_date_and_prices,
     load_offered_by,
     load_playlist,
     load_playlists,
@@ -1385,3 +1386,19 @@ def test_load_course_percolation(
         mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
             result.id
         )
+
+
+@pytest.mark.parametrize("certification", [True, False])
+def test_load_prices_by_certificate(certification):
+    """Prices should be empty for a course without certificates, else equal to only published run"""
+    course = LearningResourceFactory.create(
+        is_course=True, certification=certification, runs=[]
+    )
+    run = LearningResourceRunFactory.create(
+        learning_resource=course,
+        published=True,
+        availability=AvailabilityType.current.value,
+        prices=[Decimal("0.00"), Decimal("20.00")],
+    )
+    load_next_start_date_and_prices(course)
+    assert course.prices == ([] if not certification else run.prices)
