@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.14.0
+Version 0.14.0 (Released July 23, 2024)
 --------------
 
 - Save resource prices in a new database model and calculate during ETL/nightly task (#1290)
