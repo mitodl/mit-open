@@ -88,11 +88,98 @@ export default meta
 
 type Story = StoryObj<typeof LearningResourceCard>
 
-export const Course: Story = {
+export const FreeCourseNoCertificate: Story = {
   args: {
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
+      free: true,
+      certification: false,
+      prices: [],
+    }),
+  },
+}
+
+export const FreeCourseWithCertificateOnePrice: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [factories.learningResources.run()],
+      free: true,
+      certification: true,
+      prices: ["250"],
+    }),
+  },
+}
+
+export const FreeCourseWithCertificatePriceRange: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [factories.learningResources.run()],
+      free: true,
+      certification: true,
+      prices: ["250", "1000"],
+    }),
+  },
+}
+
+export const UnknownPriceCourseWithoutCertificate: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [factories.learningResources.run()],
+      free: false,
+      certification: false,
+      prices: [],
+    }),
+  },
+}
+
+export const UnknownPriceCourseWithCertificate: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [factories.learningResources.run()],
+      free: false,
+      certification: true,
+      prices: [],
+    }),
+  },
+}
+
+export const PaidCourseWithoutCertificate: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [factories.learningResources.run()],
+      free: false,
+      certification: false,
+      prices: ["1000"],
+    }),
+  },
+}
+
+export const PaidCourseWithCertificateOnePrice: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [factories.learningResources.run()],
+      free: false,
+      certification: true,
+      prices: ["1000"],
+    }),
+  },
+}
+
+export const PaidCourseWithCertificatePriceRange: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [factories.learningResources.run()],
+      free: false,
+      certification: true,
+      prices: ["250", "1000"],
     }),
   },
 }
