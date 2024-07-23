@@ -57,7 +57,6 @@ class OfferedBy(ExtendedEnum):
     xpro = "MIT xPRO"
     mitpe = "MIT Professional Education"
     see = "MIT Sloan Executive Education"
-    mitxonline = "MITx Online"
 
 
 class PlatformType(ExtendedEnum):

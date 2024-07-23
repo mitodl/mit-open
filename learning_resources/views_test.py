@@ -933,7 +933,7 @@ def test_featured_view(client, offeror_featured_lists):
     """The featured api endpoint should return resources in expected order"""
     url = reverse("lr:v1:featured_api-list")
     resp_1 = client.get(f"{url}?limit=12")
-    assert resp_1.data.get("count") == 21
+    assert resp_1.data.get("count") == 18
     assert len(resp_1.data.get("results")) == 12
 
     # Second request should return same resources in different order
@@ -946,7 +946,7 @@ def test_featured_view(client, offeror_featured_lists):
     for resp in [resp_1, resp_2]:
         # Should get 1st resource from every featured list, then 2nd, etc.
         for idx, resource in enumerate(resp.data.get("results")):
-            position = int(idx / 7)  # 6 offerors: 0,0,0,0,0,0,1,1,1,1,1,1
+            position = int(idx / 6)  # 6 offerors: 0,0,0,0,0,0,1,1,1,1,1,1
             offeror = LearningResourceOfferor.objects.get(
                 code=resource["offered_by"]["code"]
             )

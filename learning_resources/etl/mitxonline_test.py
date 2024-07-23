@@ -110,7 +110,7 @@ def test_mitxonline_transform_programs(
     mock_mitxonline_programs_data, mock_mitxonline_courses_data, mocker, settings
 ):
     """Test that mitxonline program data is correctly transformed into our normalized structure"""
-    set_up_topics(is_mitxonline=True)
+    set_up_topics(is_mitx=True)
 
     settings.MITX_ONLINE_PROGRAMS_API_URL = "http://localhost/test/programs/api"
     settings.MITX_ONLINE_COURSES_API_URL = "http://localhost/test/courses/api"
@@ -208,14 +208,8 @@ def test_mitxonline_transform_programs(
                         )
                         > 0
                     ),
-                    "certification": parse_certification(
-                        OFFERED_BY["code"], course_data["courseruns"]
-                    ),
-                    "certification_type": CertificationType.completion.name
-                    if parse_certification(
-                        OFFERED_BY["code"], course_data["courseruns"]
-                    )
-                    else CertificationType.none.name,
+                    "certification": True,
+                    "certification_type": CertificationType.completion.name,
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
 <<<<<<< HEAD
                     "topics": transform_topics(
@@ -313,7 +307,7 @@ def test_mitxonline_transform_programs(
 
 def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
     """Test that mitxonline courses data is correctly transformed into our normalized structure"""
-    set_up_topics(is_mitxonline=True)
+    set_up_topics(is_mitx=True)
     result = transform_courses(mock_mitxonline_courses_data["results"])
     expected = [
         {
@@ -334,7 +328,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             ),
             "professional": False,
             "certification": parse_certification(
-                "mitxonline",
+                OFFERED_BY["code"],
                 [
                     _transform_run(course_run, course_data)
                     for course_run in course_data["courseruns"]
@@ -342,7 +336,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             ),
             "certification_type": CertificationType.completion.name
             if parse_certification(
-                "mitxonline",
+                OFFERED_BY["code"],
                 [
                     _transform_run(course_run, course_data)
                     for course_run in course_data["courseruns"]

@@ -5,7 +5,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Architecture
             - Architectural Design
@@ -20,7 +19,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -30,7 +28,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Game Design
           see: []
@@ -41,7 +38,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Performance Arts
             - Dance
@@ -56,8 +52,6 @@ topics:
           mitpe: []
           mitx:
             - Design
-          mitxonline:
-            - Design
           ocw:
             - Visual Arts
             - Film and Video
@@ -71,7 +65,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Media Studies
             - Digital Media
@@ -84,7 +77,6 @@ topics:
           mitpe:
             - Real Estate
           mitx: []
-          mitxonline: []
           ocw:
             - Real Estate
           see:
@@ -97,7 +89,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Art History
           see: []
@@ -108,7 +99,6 @@ topics:
     mappings:
       mitpe: []
       mitx: []
-      mitxonline: []
       ocw:
         - Fine Arts
       see: []
@@ -122,7 +112,6 @@ topics:
           mitpe:
             - Entrepreneurship
           mitx: []
-          mitxonline: []
           ocw:
             - Entrepreneurship
           see:
@@ -137,7 +126,6 @@ topics:
           mitpe:
             - Leadership & Organizations
           mitx: []
-          mitxonline: []
           ocw:
             - Business Ethics
             - Industrial Relations and Human Resource Management
@@ -154,7 +142,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -166,7 +153,6 @@ topics:
           mitpe:
             - Marketing & Communications
           mitx: []
-          mitxonline: []
           ocw:
             - Marketing
           see:
@@ -180,7 +166,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Supply Chain Management
           see: []
@@ -193,7 +178,6 @@ topics:
           mitpe:
             - Finance
           mitx: []
-          mitxonline: []
           ocw:
             - Accounting
             - Finance
@@ -210,7 +194,6 @@ topics:
             - Operations
             - Manufacturing
           mitx: []
-          mitxonline: []
           ocw:
             - Operations Management
           see:
@@ -226,7 +209,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -238,7 +220,6 @@ topics:
           mitpe:
             - Business Analytics
           mitx: []
-          mitxonline: []
           ocw: []
           see:
             - Business Analytics
@@ -252,7 +233,6 @@ topics:
           mitpe:
             - Systems Thinking
           mitx: []
-          mitxonline: []
           ocw:
             - Systems Design
             - Systems Optimization
@@ -268,7 +248,6 @@ topics:
           mitpe:
             - Strategy
           mitx: []
-          mitxonline: []
           ocw:
             - Innovation
           see:
@@ -285,7 +264,6 @@ topics:
             - Tech Management & Business
             - Other Technology
           mitx: []
-          mitxonline: []
           ocw:
             - Information Technology
           see:
@@ -305,7 +283,6 @@ topics:
             - Management
             - Other Business
           mitx: []
-          mitxonline: []
           ocw:
             - Industrial Relations and Human Resource Management
             - Management
@@ -322,8 +299,6 @@ topics:
       mitpe: []
       mitx:
         - Business & Management
-      mitxonline:
-        - Business & Management
       ocw: []
       see: []
       xpro: []
@@ -336,7 +311,6 @@ topics:
           mitpe:
             - AI/Machine Learning
           mitx: []
-          mitxonline: []
           ocw:
             - Artificial Intelligence
           see:
@@ -350,7 +324,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Programming Languages
           see: []
@@ -362,7 +335,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Computer Design and Engineering
             - Software Design and Engineering
@@ -375,7 +347,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Algorithms and Data Structures
           see: []
@@ -387,7 +358,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Computer Networks
             - Cryptography
@@ -401,7 +371,6 @@ topics:
           mitpe:
             - AI/Machine Learning
           mitx: []
-          mitxonline: []
           ocw:
             - Artificial Intelligence
           see:
@@ -415,7 +384,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Human-Computer Interfaces
           see: []
@@ -428,7 +396,6 @@ topics:
           mitpe:
             - Blockchain
           mitx: []
-          mitxonline: []
           ocw: []
           see:
             - Blockchain
@@ -441,7 +408,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -452,7 +418,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -464,7 +429,6 @@ topics:
           mitpe:
             - AI/Machine Learning
           mitx: []
-          mitxonline: []
           ocw:
             - Artificial Intelligence
           see:
@@ -478,8 +442,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - Design
-          mitxonline:
             - Design
           ocw:
             - Graphics and Visualization
@@ -493,8 +455,6 @@ topics:
           mitpe:
             - Quantum Computing
           mitx:
-            - Computer Science
-          mitxonline:
             - Computer Science
           ocw:
             - Computer Science
@@ -514,8 +474,6 @@ topics:
             - Data Science
           mitx:
             - Data Analysis & Statistics
-          mitxonline:
-            - Data Analysis & Statistics
           ocw:
             - Data Mining
           see:
@@ -528,8 +486,6 @@ topics:
     mappings:
       mitpe: []
       mitx:
-        - Electronics
-      mitxonline:
         - Electronics
       ocw:
         - Technology
@@ -545,8 +501,6 @@ topics:
             - Educators
           mitx:
             - Education & Teacher Training
-          mitxonline:
-            - Education & Teacher Training
           ocw:
             - Curriculum and Teaching
             - Higher Education
@@ -561,7 +515,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Education Policy
           see: []
@@ -573,7 +526,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Educational Technology
           see: []
@@ -585,7 +537,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -596,7 +547,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Higher Education
           see: []
@@ -607,7 +557,6 @@ topics:
     mappings:
       mitpe: []
       mitx: []
-      mitxonline: []
       ocw: []
       see: []
       xpro: []
@@ -619,7 +568,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Anthropology
             - Biological Anthropology
@@ -639,8 +587,6 @@ topics:
             - Marketing & Communications
           mitx:
             - Communication
-          mitxonline:
-            - Communication
           ocw:
             - Communication
           see:
@@ -654,8 +600,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - Economics & Finance
-          mitxonline:
             - Economics & Finance
           ocw:
             - Economics
@@ -680,7 +624,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Geography
           see: []
@@ -693,8 +636,6 @@ topics:
           mitpe: []
           mitx:
             - Law
-          mitxonline:
-            - Law
           ocw:
             - Legal Studies
           see: []
@@ -706,7 +647,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Political Science
             - American Politics
@@ -721,7 +661,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Psychology
           see: []
@@ -733,7 +672,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Public Administration
             - Environmental Policy
@@ -752,7 +690,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Sociology
             - Community Development
@@ -772,7 +709,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Urban Studies
             - Housing Development
@@ -788,7 +724,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Gender Studies
           see: []
@@ -800,7 +735,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Global Poverty
             - The Developing World
@@ -812,7 +746,6 @@ topics:
     mappings:
       mitpe: []
       mitx: []
-      mitxonline: []
       ocw: []
       see: []
       xpro: []
@@ -824,8 +757,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - Biology & Life Sciences
-          mitxonline:
             - Biology & Life Sciences
           ocw:
             - Biology
@@ -854,8 +785,6 @@ topics:
           mitpe: []
           mitx:
             - Chemistry
-          mitxonline:
-            - Chemistry
           ocw:
             - Chemistry
             - Analytical Chemistry
@@ -871,7 +800,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Cognitive Science
           see: []
@@ -883,9 +811,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - Energy & Earth Sciences
-            - Environmental Studies
-          mitxonline:
             - Energy & Earth Sciences
             - Environmental Studies
           ocw:
@@ -909,8 +834,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - Physics
-          mitxonline:
             - Physics
           ocw:
             - Physics
@@ -936,8 +859,6 @@ topics:
           mitpe: []
           mitx:
             - Math
-          mitxonline:
-            - Math
           ocw:
             - Algebra and Number Theory
             - Applied Mathematics
@@ -958,8 +879,6 @@ topics:
       mitpe: []
       mitx:
         - Science
-      mitxonline:
-        - Science
       ocw: []
       see: []
       xpro: []
@@ -971,8 +890,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - Energy & Earth Sciences
-          mitxonline:
             - Energy & Earth Sciences
           ocw:
             - Combustion
@@ -991,7 +908,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -1002,8 +918,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - Environmental Studies
-          mitxonline:
             - Environmental Studies
           ocw:
             - Climate
@@ -1018,7 +932,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Buildings
             - Transportation
@@ -1031,7 +944,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -1042,7 +954,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Sustainability
           see: []
@@ -1054,7 +965,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Transportation
             - Environmental Policy
@@ -1067,7 +977,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -1077,7 +986,6 @@ topics:
     mappings:
       mitpe: []
       mitx: []
-      mitxonline: []
       ocw: []
       see: []
       xpro: []
@@ -1089,7 +997,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Aerospace Engineering
             - Aerodynamics
@@ -1109,7 +1016,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Biological Engineering
             - Biomechanics
@@ -1127,7 +1033,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Chemical Engineering
             - Molecular Engineering
@@ -1144,7 +1049,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Buildings
             - Civil Engineering
@@ -1163,8 +1067,6 @@ topics:
           mitpe: []
           mitx:
             - Electronics
-          mitxonline:
-            - Electronics
           ocw:
             - Electrical Engineering
             - Digital Systems
@@ -1182,7 +1084,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Environmental Engineering
             - Aquatic Sciences and Water Quality Control
@@ -1198,7 +1099,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Materials Science and Engineering
             - Composite Materials
@@ -1214,7 +1114,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Nuclear Engineering
             - Nuclear Materials
@@ -1229,7 +1128,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Ocean Engineering
             - Hydrodynamics
@@ -1246,7 +1144,6 @@ topics:
           mitpe:
             - Systems Engineering
           mitx: []
-          mitxonline: []
           ocw:
             - Systems Engineering
             - Computational Modeling and Simulation
@@ -1265,7 +1162,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Mechanical Engineering
             - Dynamics and Control
@@ -1283,8 +1179,6 @@ topics:
       mitpe: []
       mitx:
         - Engineering
-      mitxonline:
-        - Engineering
       ocw: []
       see: []
       xpro: []
@@ -1296,8 +1190,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - History
-          mitxonline:
             - History
           ocw:
             - History
@@ -1328,8 +1220,6 @@ topics:
           mitpe: []
           mitx:
             - Language
-          mitxonline:
-            - Language
           ocw:
             - Language
             - Chinese
@@ -1350,7 +1240,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Linguistics
             - Phonology
@@ -1365,8 +1254,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - Literature
-          mitxonline:
             - Literature
           ocw:
             - Literature
@@ -1397,10 +1284,6 @@ topics:
             - Ethics
             - Philosophy & Ethics
             - Philanthropy
-          mitxonline:
-            - Ethics
-            - Philosophy & Ethics
-            - Philanthropy
           ocw:
             - Philosophy
             - Epistemology
@@ -1419,8 +1302,6 @@ topics:
           mitpe: []
           mitx:
             - Music
-          mitxonline:
-            - Music
           ocw:
             - Music
             - Music History
@@ -1435,7 +1316,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Religion
           see: []
@@ -1446,8 +1326,6 @@ topics:
     mappings:
       mitpe: []
       mitx:
-        - Humanities
-      mitxonline:
         - Humanities
       ocw: []
       see: []
@@ -1460,7 +1338,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Entrepreneurship
           see: []
@@ -1473,7 +1350,6 @@ topics:
           mitpe:
             - Business Innovation
           mitx: []
-          mitxonline: []
           ocw: []
           see:
             - Business Innovation
@@ -1486,7 +1362,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -1499,7 +1374,6 @@ topics:
             - Prototype/Lab
             - Technology Innovation
           mitx: []
-          mitxonline: []
           ocw: []
           see:
             - Prototype/Lab
@@ -1514,7 +1388,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -1525,7 +1398,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -1535,7 +1407,6 @@ topics:
     mappings:
       mitpe: []
       mitx: []
-      mitxonline: []
       ocw: []
       see: []
       xpro: []
@@ -1548,7 +1419,6 @@ topics:
           mitpe:
             - BioTech
           mitx: []
-          mitxonline: []
           ocw:
             - Biomedical Enterprise
             - Biomedical Instrumentation
@@ -1568,8 +1438,6 @@ topics:
           mitpe: []
           mitx:
             - Medicine
-          mitxonline:
-            - Medicine
           ocw:
             - Health Care Management
             - Speech Pathology
@@ -1582,7 +1450,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Cancer
             - Immunology
@@ -1595,7 +1462,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Biomedical Signal and Image Processing
             - Medical Imaging
@@ -1608,7 +1474,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Mental Health
           see: []
@@ -1620,7 +1485,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw:
             - Anatomy and Physiology
             - Cancer
@@ -1634,7 +1498,6 @@ topics:
         mappings:
           mitpe: []
           mitx: []
-          mitxonline: []
           ocw: []
           see: []
           xpro: []
@@ -1645,9 +1508,6 @@ topics:
         mappings:
           mitpe: []
           mitx:
-            - Food & Nutrition
-            - Health & Safety
-          mitxonline:
             - Food & Nutrition
             - Health & Safety
           ocw:
@@ -1664,7 +1524,6 @@ topics:
     mappings:
       mitpe: []
       mitx: []
-      mitxonline: []
       ocw: []
       see: []
       xpro: []
