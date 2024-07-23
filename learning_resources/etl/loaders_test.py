@@ -392,7 +392,9 @@ def test_load_course(  # noqa: PLR0913
     )
     assert result.next_start_date == expected_next_start_date
     assert result.prices == (
-        [Decimal(0.00), Decimal(49.00)] if is_run_published else []
+        [Decimal(0.00), Decimal(49.00)]
+        if is_run_published and result.certification
+        else []
     )
 
     if course_exists and ((not is_published or not is_run_published) or blocklisted):
@@ -597,11 +599,14 @@ def test_load_course_dupe_urls(unique_url):
 @pytest.mark.parametrize(
     "availability", [AvailabilityType.archived.value, AvailabilityType.current.value]
 )
-def test_load_run(run_exists, availability):
+@pytest.mark.parametrize("certification", [True, False])
+def test_load_run(run_exists, availability, certification):
     """Test that load_run loads the course run"""
-    course = CourseFactory.create(learning_resource__runs=[])
+    course = LearningResourceFactory.create(
+        is_course=True, runs=[], certification=certification
+    )
     learning_resource_run = (
-        LearningResourceRunFactory.create(learning_resource=course.learning_resource)
+        LearningResourceRunFactory.create(learning_resource=course)
         if run_exists
         else LearningResourceRunFactory.build()
     )
@@ -617,18 +622,19 @@ def test_load_run(run_exists, availability):
     del props["learning_resource"]
 
     assert LearningResourceRun.objects.count() == (1 if run_exists else 0)
+    assert course.certification == certification
 
-    result = load_run(course.learning_resource, props)
+    result = load_run(course, props)
 
     assert LearningResourceRun.objects.count() == 1
 
-    assert result.learning_resource == course.learning_resource
+    assert result.learning_resource == course
 
     assert isinstance(result, LearningResourceRun)
 
     assert result.prices == (
         []
-        if availability == AvailabilityType.archived.value
+        if (availability == AvailabilityType.archived.value or certification is False)
         else sorted(props["prices"])
     )
     props.pop("prices")

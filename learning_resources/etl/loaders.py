@@ -228,8 +228,11 @@ def load_run(
     image_data = run_data.pop("image", None)
     instructors_data = run_data.pop("instructors", [])
 
-    if run_data.get("availability") == AvailabilityType.archived.value:
-        # Archived runs should not have prices
+    if (
+        run_data.get("availability") == AvailabilityType.archived.value
+        or learning_resource.certification is False
+    ):
+        # Archived runs or runs of resources w/out certificates should not have prices
         run_data["prices"] = []
     else:
         # Make sure any prices are unique and sorted in ascending order
