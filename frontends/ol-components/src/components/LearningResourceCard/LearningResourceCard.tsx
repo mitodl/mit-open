@@ -21,6 +21,7 @@ import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
+import { getDisplayPrices } from "./utils"
 
 const EllipsisTitle = styled(TruncateText)({
   margin: 0,
@@ -55,22 +56,30 @@ type ResourceIdCallback = (
 ) => void
 
 const Info = ({ resource }: { resource: LearningResource }) => {
+  const prices = getDisplayPrices(resource)
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
-      {resource.certification && (
-        <Certificate>
-          <RiAwardFill />
-          Certificate
-        </Certificate>
-      )}
+      <PriceContainer>
+        {resource.certification && (
+          <Certificate>
+            <RiAwardFill />
+            Certificate{prices?.certificate ? ":" : ""} {prices?.certificate}
+          </Certificate>
+        )}
+        <Price>{prices?.course}</Price>
+      </PriceContainer>
     </>
   )
 }
 
+const PriceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`
+
 const Certificate = styled.div`
-  border-radius: 4px;
-  background-color: ${theme.custom.colors.lightGray1};
   padding: 2px 4px;
   color: ${theme.custom.colors.silverGrayDark};
 
@@ -83,6 +92,11 @@ const Certificate = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+`
+
+export const Price = styled.div`
+  ${{ ...theme.typography.subtitle3 }}
+  color: ${theme.custom.colors.darkGray2};
 `
 
 const isOcw = (resource: LearningResource) =>
