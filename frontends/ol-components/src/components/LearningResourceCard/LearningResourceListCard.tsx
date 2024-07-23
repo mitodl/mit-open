@@ -40,7 +40,7 @@ export const Certificate = styled.div`
   padding: 4px;
   color: ${theme.custom.colors.silverGrayDark};
   gap: 4px;
-  margin: 0 8px 0 auto;
+  margin: 0 16px 0 auto;
 
   ${{ ...theme.typography.subtitle3 }}
 
@@ -65,6 +65,13 @@ export const Certificate = styled.div`
 
   display: flex;
   align-items: center;
+`
+
+const CertificatePrice = styled.div`
+  ${{ ...theme.typography.body3 }}
+  ${theme.breakpoints.down("md")} {
+    ${{ ...theme.typography.body4 }}
+  }
 `
 
 export const Price = styled.div`
@@ -112,7 +119,10 @@ const Info = ({ resource }: { resource: LearningResource }) => {
       {resource.certification && (
         <Certificate>
           <RiAwardFill />
-          Certificate{prices?.certificate ? ":" : ""} {prices?.certificate}
+          Certificate
+          <CertificatePrice>
+            {prices?.certificate ? ":" : ""} {prices?.certificate}
+          </CertificatePrice>
         </Certificate>
       )}
       <Price>{prices?.course}</Price>
