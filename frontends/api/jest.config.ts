@@ -9,8 +9,8 @@ const config: Config.InitialOptions = {
   ],
   globals: {
     APP_SETTINGS: {
-      axios_with_credentials: "False",
-      axios_base_path: "",
+      MITOPEN_AXIOS_WITH_CREDENTIALS: false,
+      MIT_OPEN_API_BASE_URL: "",
     },
   },
 }

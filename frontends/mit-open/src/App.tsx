@@ -8,10 +8,12 @@ import routes from "./routes"
 import AppProviders from "./AppProviders"
 
 Sentry.init({
-  dsn: APP_SETTINGS.sentry_dsn,
-  release: APP_SETTINGS.release_version,
-  environment: APP_SETTINGS.environment,
+  dsn: APP_SETTINGS.SENTRY_DSN,
+  release: APP_SETTINGS.VERSION,
+  environment: APP_SETTINGS.ENVIRONMENT,
 })
+
+console.log("APP_SETTINGS", APP_SETTINGS)
 
 const container = document.getElementById("app-container")
 invariant(container, "Could not find container element")

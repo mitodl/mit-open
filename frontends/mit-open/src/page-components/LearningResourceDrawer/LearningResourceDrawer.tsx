@@ -12,16 +12,14 @@ import { usePostHog } from "posthog-js/react"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
+const { POSTHOG } = APP_SETTINGS
+
 const useCapturePageView = (resourceId: number) => {
   const { data, isSuccess } = useLearningResourcesDetail(Number(resourceId))
   const posthog = usePostHog()
 
   useEffect(() => {
-    if (
-      !APP_SETTINGS.posthog?.api_key ||
-      APP_SETTINGS.posthog.api_key.length < 1
-    )
-      return
+    if (!POSTHOG?.api_key || POSTHOG.api_key.length < 1) return
     if (!isSuccess) return
     posthog.capture("lrd_view", {
       resourceId: data?.id,

@@ -1,4 +1,3 @@
-/* eslint-disable no-var */
 export type User = {
   id: number | null
   first_name: string | null
@@ -15,22 +14,10 @@ export type PostHogSettings = {
 }
 
 export declare global {
-  interface Window {
-    SETTINGS: SETTINGS
-  }
-
-  /**
-   * Settings injected by Django
-   */
-  interface SETTINGS {
-    user: User
-    posthog?: PostHogSettings
-  }
   const APP_SETTINGS: {
-    search_page_size: number
-    sentry_dsn?: string
-    release_version?: string
-    environment?: string
-    embedlyKey: string
+    SENTRY_DSN?: string
+    VERSION?: string
+    ENVIRONMENT?: string
+    posthog?: PostHogSettings
   }
 }

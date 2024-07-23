@@ -56,11 +56,3 @@ yarn watch
 ```
 
 **Warning:** Depending on your host operating system (e.g., Macs), node packages installed on your host vs on the container may not be compatible. You may need to reinstall node_modules in order to run on host.
-
-### Running locally against RC
-
-For frontend-only work, you can run your frontend against the RC backend via
-
-```bash
-yarn workspace frontends watch:rc
-```

@@ -6,7 +6,7 @@ const config: Config.InitialOptions = {
   setupFilesAfterEnv: [...baseConfig.setupFilesAfterEnv, "./setupJest.ts"],
   globals: {
     APP_SETTINGS: {
-      embedlyKey: "fake-embedly-key",
+      EMBEDLY_KEY: "fake-embedly-key",
     },
   },
 }

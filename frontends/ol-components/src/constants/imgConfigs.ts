@@ -1,28 +1,30 @@
 import type { EmbedlyConfig } from "ol-utilities"
 
+const { EMBEDLY_KEY } = APP_SETTINGS
+
 const imgConfigs = {
   row: {
-    key: APP_SETTINGS.embedlyKey,
+    key: EMBEDLY_KEY,
     width: 170,
     height: 130,
   },
   "row-reverse": {
-    key: APP_SETTINGS.embedlyKey,
+    key: EMBEDLY_KEY,
     width: 170,
     height: 130,
   },
   "row-reverse-small": {
-    key: APP_SETTINGS.embedlyKey,
+    key: EMBEDLY_KEY,
     width: 160,
     height: 100,
   },
   column: {
-    key: APP_SETTINGS.embedlyKey,
+    key: EMBEDLY_KEY,
     width: 302,
     height: 182,
   },
   large: {
-    key: APP_SETTINGS.embedlyKey,
+    key: EMBEDLY_KEY,
     width: 385,
     height: 200,
   },

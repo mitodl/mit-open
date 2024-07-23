@@ -2,9 +2,9 @@
 
 export declare global {
   const APP_SETTINGS: {
-    embedlyKey: string
-    ckeditor_upload_url?: string
-    axios_with_credentials: string
-    axios_base_path: string
+    EMBEDLY_KEY: string
+    CKEDITOR_UPLOAD_URL?: string
+    MITOPEN_AXIOS_WITH_CREDENTIALS: boolean
+    MITOPEN_API_BASE_URL: string
   }
 }

@@ -14,7 +14,6 @@
   "scripts": {
     "build": "yarn workspace mit-open run build",
     "watch": "yarn workspace mit-open run watch",
-    "watch:rc": "yarn workspace mit-open run watch:rc",
     "style-lint": "yarn workspace frontends run style-lint",
     "test": "MITOPEN_API_BASE_URL=https://api.mitopen-test.odl.mit.edu yarn workspace frontends global:test",
     "test-watch": "MITOPEN_API_BASE_URL=https://api.mitopen-test.odl.mit.edu yarn workspace frontends test-watch",
