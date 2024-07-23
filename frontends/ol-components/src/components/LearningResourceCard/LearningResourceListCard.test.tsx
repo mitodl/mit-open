@@ -211,7 +211,7 @@ describe("Learning Resource List Card", () => {
       })
       setup(resource)
       screen.getByText("Certificate")
-      screen.getByText(": $49 - $99")
+      screen.getByText(": $49 – $99")
       screen.getByText("Free")
     })
 
