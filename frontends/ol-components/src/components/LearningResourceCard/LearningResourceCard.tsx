@@ -108,7 +108,9 @@ const PriceContainer = styled.div`
 
 const Certificate = styled.div`
   padding: 2px 4px;
+  border-radius: 4px;
   color: ${theme.custom.colors.silverGrayDark};
+  background-color: ${theme.custom.colors.lightGray1};
 
   ${{ ...theme.typography.subtitle4 }}
   svg {
