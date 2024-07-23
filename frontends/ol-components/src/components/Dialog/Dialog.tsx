@@ -105,7 +105,12 @@ const Dialog: React.FC<DialogProps> = ({
       disableEnforceFocus={disableEnforceFocus}
     >
       <Close>
-        <ActionButton variant="text" color="primary" onClick={onClose}>
+        <ActionButton
+          variant="text"
+          color="primary"
+          onClick={onClose}
+          aria-label="Close"
+        >
           <RiCloseLine />
         </ActionButton>
       </Close>
