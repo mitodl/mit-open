@@ -14,6 +14,7 @@ from django.contrib.auth import get_user_model
 from django.db.models import Q
 from django.template.defaultfilters import pluralize
 from opensearchpy.exceptions import NotFoundError, RequestError
+from requests.models import PreparedRequest
 
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
 from learning_resources.models import (
@@ -179,16 +180,20 @@ def _get_percolated_rows(resources, subscription_type):
             percolated_users = set(percolated.values_list("users", flat=True))
             all_users.update(percolated_users)
             query = percolated.first()
+            search_url = _infer_search_url(query)
+            req = PreparedRequest()
+            req.prepare_url(search_url, {"resource": resource.id})
+            resource_url = req.url
             rows.extend(
                 [
                     {
-                        "resource_url": resource.url,
+                        "resource_url": resource_url,
                         "resource_title": resource.title,
                         "resource_image_url": resource.image.url,
                         "resource_type": resource.resource_type,
                         "user_id": user,
                         "group": _infer_percolate_group(query),
-                        "search_url": _infer_search_url(query),
+                        "search_url": search_url,
                     }
                     for user in percolated_users
                 ]
