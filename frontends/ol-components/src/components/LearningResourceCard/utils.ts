@@ -130,7 +130,7 @@ const getDisplayPrice = (price: Prices["course"] | Prices["certificate"]) => {
     return PAID
   }
   if (price.length > 1) {
-    return `$${getDisplayPrecision(price[0])} - $${getDisplayPrecision(price[1])}`
+    return `$${getDisplayPrecision(price[0])} – $${getDisplayPrecision(price[1])}`
   } else if (price.length === 1) {
     if (price[0] === 0) {
       return FREE
