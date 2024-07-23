@@ -22,6 +22,7 @@ import { ActionButton, ActionButtonProps } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { getDisplayPrices } from "./utils"
+import Tooltip from "@mui/material/Tooltip"
 
 const EllipsisTitle = styled(TruncateText)({
   margin: 0,
@@ -55,16 +56,37 @@ type ResourceIdCallback = (
   resourceId: number,
 ) => void
 
-const Info = ({ resource }: { resource: LearningResource }) => {
+const Info = ({
+  resource,
+  size,
+}: {
+  resource: LearningResource
+  size: Size
+}) => {
   const prices = getDisplayPrices(resource)
+  const certificatePrice =
+    size === "small" && prices?.certificate?.includes("–")
+      ? ""
+      : prices?.certificate
+        ? prices?.certificate
+        : ""
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
       <PriceContainer>
         {resource.certification && (
           <Certificate>
-            <RiAwardFill />
-            Certificate{prices?.certificate ? ":" : ""} {prices?.certificate}
+            {size === "small" ? (
+              <Tooltip title="Certificate">
+                <CertificateIconContainer>
+                  <RiAwardFill />
+                </CertificateIconContainer>
+              </Tooltip>
+            ) : (
+              <RiAwardFill />
+            )}
+            {size === "small" ? "" : "Certificate"}
+            {certificatePrice ? `: ${certificatePrice}` : ""}
           </Certificate>
         )}
         <Price>{prices?.course}</Price>
@@ -72,6 +94,11 @@ const Info = ({ resource }: { resource: LearningResource }) => {
     </>
   )
 }
+
+const CertificateIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
 
 const PriceContainer = styled.div`
   display: flex;
@@ -209,7 +236,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
         height={getImageDimensions(size, isMedia).height}
       />
       <Card.Info>
-        <Info resource={resource} />
+        <Info resource={resource} size={size} />
       </Card.Info>
       <Card.Title>
         <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>
