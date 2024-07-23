@@ -198,7 +198,8 @@ describe("Learning Resource List Card", () => {
         prices: ["0", "49"],
       })
       setup(resource)
-      screen.getByText("Certificate: $49")
+      screen.getByText("Certificate")
+      screen.getByText(": $49")
       screen.getByText("Free")
     })
 
@@ -209,7 +210,8 @@ describe("Learning Resource List Card", () => {
         prices: ["0", "99", "49"],
       })
       setup(resource)
-      screen.getByText("Certificate: $49 – $99")
+      screen.getByText("Certificate")
+      screen.getByText(": $49 - $99")
       screen.getByText("Free")
     })
 
