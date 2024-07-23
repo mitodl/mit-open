@@ -87,7 +87,9 @@ const Info = ({
               <RiAwardFill />
             )}
             {size === "small" ? "" : "Certificate"}
-            {certificatePrice ? `${separator}${certificatePrice}` : ""}
+            <CertificatePrice>
+              {certificatePrice ? `${separator}${certificatePrice}` : ""}
+            </CertificatePrice>
           </Certificate>
         )}
         <Price>{prices?.course}</Price>
@@ -122,6 +124,10 @@ const Certificate = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+`
+
+const CertificatePrice = styled.div`
+  ${{ ...theme.typography.body4 }}
 `
 
 export const Price = styled.div`
