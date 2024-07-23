@@ -67,6 +67,10 @@ export const Certificate = styled.div`
   align-items: center;
 `
 
+const CertificateText = styled.div`
+  display: flex;
+`
+
 const CertificatePrice = styled.div`
   ${{ ...theme.typography.body3 }}
   ${theme.breakpoints.down("md")} {
@@ -119,10 +123,12 @@ const Info = ({ resource }: { resource: LearningResource }) => {
       {resource.certification && (
         <Certificate>
           <RiAwardFill />
-          Certificate
-          <CertificatePrice>
-            {prices?.certificate ? ":" : ""} {prices?.certificate}
-          </CertificatePrice>
+          <CertificateText>
+            Certificate
+            <CertificatePrice>
+              {prices?.certificate ? ": " : ""} {prices?.certificate}
+            </CertificatePrice>
+          </CertificateText>
         </Certificate>
       )}
       <Price>{prices?.course}</Price>
