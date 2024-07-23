@@ -117,11 +117,7 @@ class Channel(TimestampedModel):
     @cached_property
     def channel_url(self) -> str:
         """Return the channel url"""
-        return getattr(
-            self,
-            "_channel_url",
-            frontend_absolute_url(f"/c/{self.channel_type}/{self.name}/"),
-        )
+        return frontend_absolute_url(f"/c/{self.channel_type}/{self.name}/")
 
     class Meta:
         unique_together = ("name", "channel_type")
@@ -154,7 +150,10 @@ class ChannelDepartmentDetail(TimestampedModel):
         related_name="department_detail",
     )
     department = models.ForeignKey(
-        LearningResourceDepartment, null=True, on_delete=models.SET_NULL
+        LearningResourceDepartment,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="channel_department_details",
     )
 
 

@@ -42,6 +42,7 @@ from learning_resources_search.serializers import (
     ContentFileSerializer,
     LearningResourcesSearchRequestSerializer,
     LearningResourcesSearchResponseSerializer,
+    SearchCourseNumberSerializer,
     extract_values,
     get_resource_age_date,
     serialize_percolate_query,
@@ -555,17 +556,43 @@ def test_serialize_bulk_learning_resources(mocker):
     Test that serialize_bulk_learning_resource calls serialize_learning_resource_for_bulk for
     every existing learning resource
     """
-    mock_serialize_program = mocker.patch(
-        "learning_resources_search.serializers.serialize_learning_resource_for_bulk"
-    )
-    resources = factories.LearningResourceFactory.create_batch(5)
-    list(
+    # NOTE: explicitly creating a fixed number per type for a deterministic query count
+    resources = [
+        *factories.LearningResourceFactory.create_batch(5, is_course=True),
+        *factories.LearningResourceFactory.create_batch(5, is_program=True),
+        *factories.LearningResourceFactory.create_batch(5, is_podcast=True),
+        *factories.LearningResourceFactory.create_batch(5, is_podcast_episode=True),
+        *factories.LearningResourceFactory.create_batch(5, is_video=True),
+        *factories.LearningResourceFactory.create_batch(5, is_video_playlist=True),
+    ]
+    resources = LearningResource.objects.for_serialization()
+    results = list(
         serializers.serialize_bulk_learning_resources(
-            [resource.id for resource in LearningResource.objects.all()]
+            [resource.id for resource in resources]
         )
     )
+
+    expected = []
+
     for resource in resources:
-        mock_serialize_program.assert_any_call(resource)
+        data = {
+            "_id": mocker.ANY,
+            "resource_relations": mocker.ANY,
+            "created_on": mocker.ANY,
+            "resource_age_date": mocker.ANY,
+            "is_learning_material": mocker.ANY,
+            **LearningResourceSerializer(instance=resource).data,
+        }
+
+        if resource.resource_type == LearningResourceType.course.name:
+            data["course"]["course_numbers"] = [
+                SearchCourseNumberSerializer(instance=num).data
+                for num in resource.course.course_numbers
+            ]
+        expected.append(data)
+
+    for result, exp in zip(results, expected):
+        assert result == exp
 
 
 @pytest.mark.django_db()
@@ -598,6 +625,7 @@ def test_serialize_learning_resource_for_bulk(
         "learning_resources_search.serializers.get_resource_age_date",
         return_value=datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
     )
+    resource = LearningResource.objects.for_serialization().get(pk=resource.pk)
 
     assert serializers.serialize_learning_resource_for_bulk(resource) == {
         "_id": resource.id,
@@ -710,6 +738,7 @@ def test_serialize_course_numbers_for_bulk(
     resource = factories.CourseFactory.create(
         course_numbers=course_numbers
     ).learning_resource
+    resource = LearningResource.objects.for_serialization().get(pk=resource.pk)
     assert resource.course.course_numbers == course_numbers
 
     mocker.patch(
