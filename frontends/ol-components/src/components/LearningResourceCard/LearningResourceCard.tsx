@@ -70,6 +70,7 @@ const Info = ({
       : prices?.certificate
         ? prices?.certificate
         : ""
+  const separator = size === "small" ? "" : ": "
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
@@ -86,7 +87,7 @@ const Info = ({
               <RiAwardFill />
             )}
             {size === "small" ? "" : "Certificate"}
-            {certificatePrice ? `: ${certificatePrice}` : ""}
+            {certificatePrice ? `${separator}${certificatePrice}` : ""}
           </Certificate>
         )}
         <Price>{prices?.course}</Price>
