@@ -22,4 +22,15 @@ class Migration(migrations.Migration):
         ("data_fixtures", "0003_unit_page_copy_updates"),
     ]
 
-    operations = [migrations.RunPython(perform_topic_upsert, perform_topic_unupsert)]
+    operations = [
+        migrations.RunSQL(
+            sql=[
+                (
+                    "TRUNCATE learning_resources_learningresourcetopic "
+                    "RESTART IDENTITY CASCADE"
+                )
+            ],
+            reverse_sql="",
+        ),
+        migrations.RunPython(perform_topic_upsert, perform_topic_unupsert),
+    ]
