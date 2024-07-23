@@ -12,6 +12,7 @@ from celery.exceptions import Ignore
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.template.defaultfilters import pluralize
 from opensearchpy.exceptions import NotFoundError, RequestError
 
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
@@ -821,7 +822,7 @@ def _generate_subscription_digest_subject(total_count, unique_resource_types):
     if len(unique_resource_types) == 1:
         return (
             f"{total_count} New"
-            "  {unique_resource_types.pop()}{pluralize(total_count)} from MIT"
+            f"  {unique_resource_types.pop()}{pluralize(total_count)} from MIT"
         )
     else:
         return f"{total_count} New courses & learning materials from MIT"
