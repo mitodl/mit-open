@@ -4,15 +4,18 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('learning_resources', '0057_learningresource_next_prices'),
+        ("learning_resources", "0057_learningresource_next_prices"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='learningresource',
-            name='availability',
-            field=models.CharField(choices=[('scheduled', 'Scheduled'), ('anytime', 'Anytime')], max_length=24, null=True),
+            model_name="learningresource",
+            name="availability",
+            field=models.CharField(
+                choices=[("scheduled", "Scheduled"), ("anytime", "Anytime")],
+                max_length=24,
+                null=True,
+            ),
         ),
     ]

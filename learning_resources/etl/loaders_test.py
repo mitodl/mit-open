@@ -213,10 +213,12 @@ def test_load_program(  # noqa: PLR0913
             "image": {"url": program.learning_resource.image.url},
             "published": is_published,
             "runs": [run_data],
+            "availability": program.learning_resource.availability,
             "courses": [
                 {
                     "readable_id": course.learning_resource.readable_id,
                     "platform": platform.code,
+                    "availability": course.learning_resource.availability,
                 }
                 for course in courses
             ],

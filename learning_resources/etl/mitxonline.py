@@ -317,6 +317,7 @@ def transform_programs(programs):
             "description": clean_data(parse_page_attribute(program, "description")),
             "url": parse_page_attribute(program, "page_url", is_url=True),
             "image": _transform_image(program),
+            "availability": program.get("availability"),
             "published": bool(
                 parse_page_attribute(program, "page_url")
             ),  # a program is only considered published if it has a page url

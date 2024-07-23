@@ -13,6 +13,7 @@ from factory.fuzzy import FuzzyChoice, FuzzyText
 from learning_resources import constants, models
 from learning_resources.constants import (
     DEPARTMENTS,
+    Availability,
     LearningResourceFormat,
     LevelType,
     PlatformType,
@@ -278,6 +279,8 @@ class LearningResourceFactory(DjangoModelFactory):
             size=2,
         ),
     )
+
+    availability = FuzzyChoice(Availability.names())
 
     class Meta:
         model = models.LearningResource

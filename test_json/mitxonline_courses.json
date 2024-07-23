@@ -62,7 +62,8 @@
           "products": [],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 47,
@@ -114,7 +115,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "scheduled"
     },
     {
       "id": 50,
@@ -166,7 +168,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "scheduled"
     },
     {
       "id": 52,
@@ -218,7 +221,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "scheduled"
     },
     {
       "id": 49,
@@ -270,7 +274,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "scheduled"
     },
     {
       "id": 45,
@@ -322,7 +327,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 44,
@@ -374,7 +380,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 51,
@@ -426,7 +433,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 46,
@@ -478,7 +486,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "scheduled"
     },
     {
       "id": 48,
@@ -530,7 +539,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "scheduled"
     },
     {
       "id": 54,
@@ -611,7 +621,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 96,
@@ -663,7 +674,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "scheduled"
     }
   ]
 }

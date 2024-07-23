@@ -262,6 +262,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
             for lr_format in resource.learning_format
         ],
         "next_start_date": resource.next_start_date,
+        "availability": resource.availability,
     }
 
 

@@ -8,6 +8,7 @@ from urllib.parse import urljoin, urlparse
 import pytest
 
 from learning_resources.constants import (
+    Availability,
     CertificationType,
     LearningResourceFormat,
     OfferedBy,
@@ -231,6 +232,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                 course["course_application_url"]
                 or urljoin(PROLEARN_BASE_URL, course["url"])
             ),
+            "availability": Availability.scheduled.name,
             "runs": [
                 {
                     "run_id": f"{course['nid']}_{start_val}",

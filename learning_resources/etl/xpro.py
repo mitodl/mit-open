@@ -195,6 +195,7 @@ def transform_programs(programs):
             "courses": transform_courses(program["courses"]),
             "certification": True,
             "certification_type": CertificationType.professional.name,
+            "availability": Availability.scheduled.name,
         }
         for program in programs
     ]

@@ -28,7 +28,6 @@ from learning_resources.factories import (
     LearningResourceRunFactory,
     LearningResourceTopicFactory,
 )
-from learning_resources.serializers import LearningResourceSerializer
 
 pytestmark = pytest.mark.django_db
 
@@ -426,13 +425,8 @@ def test_parse_certification(offered_by, availability, has_cert):
     ).learning_resource
     assert resource.runs.first().availability == availability
     assert resource.runs.count() == 1
-    assert (
-        parse_certification(
-            offered_by_obj.code,
-            LearningResourceSerializer(instance=resource).data["runs"],
-        )
-        == has_cert
-    )
+    runs = resource.runs.all().values()
+    assert parse_certification(offered_by_obj.code, runs) == has_cert
 
 
 @pytest.mark.parametrize(
