@@ -648,3 +648,47 @@ def transfer_list_resources(
     if delete_unpublished:
         unpublished_resources.delete()
     return unpublished_count, published_count
+
+
+def dump_topics_to_yaml(topic_id: int | None = None):
+    """
+    Dump the topic data to a yaml file.
+
+    Args:
+    * topic_id (int or None): the topic to dump, or None for all.
+    Returns:
+    * str: the yaml document
+    """
+
+    def _dump_subtopic_to_yaml(topic: LearningResourceTopic):
+        """Dump subtopic data to yaml recursively."""
+
+        yaml_ready_data = {
+            "id": topic.id,
+            "name": topic.name,
+            "icon": topic.icon,
+            "mappings": {},
+            "children": [],
+        }
+
+        for mapping in LearningResourceTopicMapping.objects.filter(topic=topic).all():
+            if mapping.offeror.code not in yaml_ready_data["mappings"]:
+                yaml_ready_data["mappings"][mapping.offeror.code] = []
+
+            yaml_ready_data["mappings"][mapping.offeror.code].append(mapping.topic_name)
+
+        for child in LearningResourceTopic.objects.filter(parent=topic).all():
+            yaml_ready_data["children"].append(_dump_subtopic_to_yaml(child))
+
+        return yaml_ready_data
+
+    if topic_id:
+        parent_topics = LearningResourceTopic.objects.get(pk=topic_id)
+    else:
+        parent_topics = LearningResourceTopic.objects.filter(parent__isnull=True).all()
+
+    root_level_topics = {
+        "topics": [_dump_subtopic_to_yaml(topic) for topic in parent_topics]
+    }
+
+    return yaml.dump(root_level_topics)

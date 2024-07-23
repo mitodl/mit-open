@@ -1,55 +1,42 @@
 topics:
   - children:
-      - icon: RiPaletteLine
-        id: null
+      - children: []
+        icon: RiPaletteLine
+        id: 2
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Architecture
             - Architectural Design
             - Architectural Engineering
             - Architectural History and Criticism
             - Religious Architecture
-          see: []
-          xpro: []
         name: Architecture
-      - icon: RiPaletteLine
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+      - children: []
+        icon: RiPaletteLine
+        id: 3
+        mappings: {}
         name: Environmental Deisgn
-      - icon: RiPaletteLine
-        id: null
+      - children: []
+        icon: RiPaletteLine
+        id: 4
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Game Design
-          see: []
-          xpro: []
         name: Game Design
-      - icon: RiPaletteLine
-        id: null
+      - children: []
+        icon: RiPaletteLine
+        id: 5
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Performance Arts
             - Dance
             - Theater
             - Theatrical Design
-          see: []
-          xpro: []
         name: Performing Arts
-      - icon: RiPaletteLine
-        id: null
+      - children: []
+        icon: RiPaletteLine
+        id: 6
         mappings:
-          mitpe: []
           mitx:
             - Design
           ocw:
@@ -57,26 +44,21 @@ topics:
             - Film and Video
             - Graphic Design
             - Photography
-          see: []
-          xpro: []
         name: Visual Arts
-      - icon: RiPaletteLine
-        id: null
+      - children: []
+        icon: RiPaletteLine
+        id: 7
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Media Studies
             - Digital Media
-          see: []
-          xpro: []
         name: Media Studies
-      - icon: RiPaletteLine
-        id: null
+      - children: []
+        icon: RiPaletteLine
+        id: 8
         mappings:
           mitpe:
             - Real Estate
-          mitx: []
           ocw:
             - Real Estate
           see:
@@ -84,34 +66,26 @@ topics:
           xpro:
             - Real Estate
         name: Real Estate
-      - icon: RiPaletteLine
-        id: null
+      - children: []
+        icon: RiPaletteLine
+        id: 9
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Art History
-          see: []
-          xpro: []
         name: Art History
     icon: RiPaletteLine
-    id: null
+    id: 1
     mappings:
-      mitpe: []
-      mitx: []
       ocw:
         - Fine Arts
-      see: []
-      xpro: []
     name: Art, Design & Architecture
   - children:
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 11
         mappings:
           mitpe:
             - Entrepreneurship
-          mitx: []
           ocw:
             - Entrepreneurship
           see:
@@ -119,13 +93,12 @@ topics:
           xpro:
             - Entrepreneurship
         name: Entrepreneurship
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 12
         mappings:
           mitpe:
             - Leadership & Organizations
-          mitx: []
           ocw:
             - Business Ethics
             - Industrial Relations and Human Resource Management
@@ -136,23 +109,17 @@ topics:
           xpro:
             - Leadership & Organizations
         name: Organizations & Leadership
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+        id: 13
+        mappings: {}
         name: Negotiation & Communication
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 14
         mappings:
           mitpe:
             - Marketing & Communications
-          mitx: []
           ocw:
             - Marketing
           see:
@@ -160,24 +127,19 @@ topics:
           xpro:
             - Marketing & Communications
         name: Marketing
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 15
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Supply Chain Management
-          see: []
-          xpro: []
         name: Supply Chain
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 16
         mappings:
           mitpe:
             - Finance
-          mitx: []
           ocw:
             - Accounting
             - Finance
@@ -186,14 +148,13 @@ topics:
           xpro:
             - Finance
         name: Finance & Accounting
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 17
         mappings:
           mitpe:
             - Operations
             - Manufacturing
-          mitx: []
           ocw:
             - Operations Management
           see:
@@ -203,36 +164,28 @@ topics:
             - Operations
             - Manufacturing
         name: Operations
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+        id: 18
+        mappings: {}
         name: Family Enterprise
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 19
         mappings:
           mitpe:
             - Business Analytics
-          mitx: []
-          ocw: []
           see:
             - Business Analytics
           xpro:
             - Business Analytics
         name: Business Analytics
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 20
         mappings:
           mitpe:
             - Systems Thinking
-          mitx: []
           ocw:
             - Systems Design
             - Systems Optimization
@@ -241,13 +194,12 @@ topics:
           xpro:
             - Systems Thinking
         name: Systems Thinking
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 21
         mappings:
           mitpe:
             - Strategy
-          mitx: []
           ocw:
             - Innovation
           see:
@@ -255,15 +207,14 @@ topics:
           xpro:
             - Strategy
         name: Strategy & Innovation
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 22
         mappings:
           mitpe:
             - Digital Business/IT
             - Tech Management & Business
             - Other Technology
-          mitx: []
           ocw:
             - Information Technology
           see:
@@ -275,14 +226,13 @@ topics:
             - Tech Management & Business
             - Other Technology
         name: Digital Business & IT
-      - children: null
+      - children: []
         icon: RiBriefcase3Line
-        id: null
+        id: 23
         mappings:
           mitpe:
             - Management
             - Other Business
-          mitx: []
           ocw:
             - Industrial Relations and Human Resource Management
             - Management
@@ -294,23 +244,18 @@ topics:
             - Other Business
         name: Management
     icon: RiBriefcase3Line
-    id: null
+    id: 10
     mappings:
-      mitpe: []
       mitx:
         - Business & Management
-      ocw: []
-      see: []
-      xpro: []
     name: Business & Management
   - children:
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 25
         mappings:
           mitpe:
             - AI/Machine Learning
-          mitx: []
           ocw:
             - Artificial Intelligence
           see:
@@ -318,117 +263,70 @@ topics:
           xpro:
             - AI/Machine Learning
         name: AI
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 26
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Programming Languages
-          see: []
-          xpro: []
         name: Programming & Coding
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 27
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Computer Design and Engineering
             - Software Design and Engineering
-          see: []
-          xpro: []
         name: Software Design and Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 28
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Algorithms and Data Structures
-          see: []
-          xpro: []
         name: Algorithms and Data Structures
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 29
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Computer Networks
             - Cryptography
-          see: []
-          xpro: []
         name: Networks and Security
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 31
         mappings:
-          mitpe:
-            - AI/Machine Learning
-          mitx: []
-          ocw:
-            - Artificial Intelligence
-          see:
-            - AI/Machine Learning
-          xpro:
-            - AI/Machine Learning
-        name: Machine Learning
-      - children: null
-        icon: RiRobot2Line
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Human-Computer Interfaces
-          see: []
-          xpro: []
         name: User Experience
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 32
         mappings:
           mitpe:
             - Blockchain
-          mitx: []
-          ocw: []
           see:
             - Blockchain
           xpro:
             - Blockchain
         name: Blockchain
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+        id: 33
+        mappings: {}
         name: AR/VR/MR/XR
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+        id: 34
+        mappings: {}
         name: CyberSecurity
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 30
         mappings:
           mitpe:
             - AI/Machine Learning
-          mitx: []
           ocw:
             - Artificial Intelligence
           see:
@@ -436,21 +334,18 @@ topics:
           xpro:
             - AI/Machine Learning
         name: Machine Learning
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 35
         mappings:
-          mitpe: []
           mitx:
             - Design
           ocw:
             - Graphics and Visualization
-          see: []
-          xpro: []
         name: Visualization
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 36
         mappings:
           mitpe:
             - Quantum Computing
@@ -466,9 +361,9 @@ topics:
           xpro:
             - Quantum Computing
         name: Computer Science
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 37
         mappings:
           mitpe:
             - Data Science
@@ -482,20 +377,17 @@ topics:
             - Data Science
         name: Data Science
     icon: RiRobot2Line
-    id: null
+    id: 24
     mappings:
-      mitpe: []
       mitx:
         - Electronics
       ocw:
         - Technology
-      see: []
-      xpro: []
     name: Data Science, Analytics & Computer Technology
   - children:
-      - children: null
+      - children: []
         icon: RiShakeHandsLine
-        id: null
+        id: 39
         mappings:
           mitpe:
             - Educators
@@ -509,65 +401,41 @@ topics:
           xpro:
             - Educators
         name: Pedagogy and Curriculum
-      - children: null
+      - children: []
         icon: RiShakeHandsLine
-        id: null
+        id: 40
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Education Policy
-          see: []
-          xpro: []
         name: Education Policy
-      - children: null
+      - children: []
         icon: RiShakeHandsLine
-        id: null
+        id: 41
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Educational Technology
-          see: []
-          xpro: []
         name: Educational Technology
-      - children: null
+      - children: []
         icon: RiShakeHandsLine
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+        id: 42
+        mappings: {}
         name: Digital Learning
-      - children: null
+      - children: []
         icon: RiShakeHandsLine
-        id: null
+        id: 43
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Higher Education
-          see: []
-          xpro: []
         name: Faculty Leadership
     icon: RiShakeHandsLine
-    id: null
-    mappings:
-      mitpe: []
-      mitx: []
-      ocw: []
-      see: []
-      xpro: []
+    id: 38
+    mappings: {}
     name: Education & Teaching
   - children:
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 45
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Anthropology
             - Biological Anthropology
@@ -576,12 +444,10 @@ topics:
             - Social Anthropology
             - Archaeology
             - Indigenous Studies
-          see: []
-          xpro: []
         name: Anthropology
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 46
         mappings:
           mitpe:
             - Marketing & Communications
@@ -594,11 +460,10 @@ topics:
           xpro:
             - Marketing & Communications
         name: Communication
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 47
         mappings:
-          mitpe: []
           mitx:
             - Economics & Finance
           ocw:
@@ -615,63 +480,44 @@ topics:
             - Political Economy
             - Public Economics
             - Game Theory
-          see: []
-          xpro: []
         name: Economics
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 48
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Geography
-          see: []
-          xpro: []
         name: Geography
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 49
         mappings:
-          mitpe: []
           mitx:
             - Law
           ocw:
             - Legal Studies
-          see: []
-          xpro: []
         name: Law
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 50
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Political Science
             - American Politics
             - Comparative Politics
             - International Relations
-          see: []
-          xpro: []
         name: Political Science
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 51
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Psychology
-          see: []
-          xpro: []
         name: Psychology
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 52
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Public Administration
             - Environmental Policy
@@ -681,15 +527,11 @@ topics:
             - Science and Technology Policy
             - Security Studies
             - Social Welfare
-          see: []
-          xpro: []
         name: Policy and Administration
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 53
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Sociology
             - Community Development
@@ -700,62 +542,42 @@ topics:
             - Gender Studies
             - Latin and Caribbean Studies
             - Middle Eastern Studies
-          see: []
-          xpro: []
         name: Sociology
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 54
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Urban Studies
             - Housing Development
             - Regional Planning
             - Transportation Planning
             - Urban Planning
-          see: []
-          xpro: []
         name: Urban Studies
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 55
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Gender Studies
-          see: []
-          xpro: []
         name: Gender Studies
-      - children: null
+      - children: []
         icon: RiUserSearchLine
-        id: null
+        id: 56
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Global Poverty
             - The Developing World
-          see: []
-          xpro: []
         name: International Development
     icon: RiUserSearchLine
-    id: null
-    mappings:
-      mitpe: []
-      mitx: []
-      ocw: []
-      see: []
-      xpro: []
+    id: 44
+    mappings: {}
     name: Social Sciences
   - children:
-      - children: null
+      - children: []
         icon: RiTestTubeLine
-        id: null
+        id: 58
         mappings:
-          mitpe: []
           mitx:
             - Biology & Life Sciences
           ocw:
@@ -775,14 +597,11 @@ topics:
             - Stem Cells
             - Structural Biology
             - Virology
-          see: []
-          xpro: []
         name: Biology
-      - children: null
+      - children: []
         icon: RiTestTubeLine
-        id: null
+        id: 59
         mappings:
-          mitpe: []
           mitx:
             - Chemistry
           ocw:
@@ -791,25 +610,18 @@ topics:
             - Inorganic Chemistry
             - Organic Chemistry
             - Physical Chemistry
-          see: []
-          xpro: []
         name: Chemistry
-      - children: null
+      - children: []
         icon: RiTestTubeLine
-        id: null
+        id: 60
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Cognitive Science
-          see: []
-          xpro: []
         name: Cognitive Science
-      - children: null
+      - children: []
         icon: RiTestTubeLine
-        id: null
+        id: 61
         mappings:
-          mitpe: []
           mitx:
             - Energy & Earth Sciences
             - Environmental Studies
@@ -825,14 +637,11 @@ topics:
             - Geophysics
             - Oceanography
             - Planetary Science
-          see: []
-          xpro: []
         name: Earth Science
-      - children: null
+      - children: []
         icon: RiTestTubeLine
-        id: null
+        id: 62
         mappings:
-          mitpe: []
           mitx:
             - Physics
           ocw:
@@ -849,14 +658,11 @@ topics:
             - Relativity
             - Theoretical Physics
             - Thermodynamics
-          see: []
-          xpro: []
         name: Physics
-      - children: null
+      - children: []
         icon: RiTestTubeLine
-        id: null
+        id: 63
         mappings:
-          mitpe: []
           mitx:
             - Math
           ocw:
@@ -870,25 +676,18 @@ topics:
             - Mathematical Logic
             - Probability and Statistics
             - Topology and Geometry
-          see: []
-          xpro: []
         name: Mathematics
     icon: RiTestTubeLine
-    id: null
+    id: 57
     mappings:
-      mitpe: []
       mitx:
         - Science
-      ocw: []
-      see: []
-      xpro: []
     name: Science & Math
   - children:
-      - children: null
+      - children: []
         icon: RiLightbulbFlashLine
-        id: null
+        id: 65
         mappings:
-          mitpe: []
           mitx:
             - Energy & Earth Sciences
           ocw:
@@ -899,104 +698,65 @@ topics:
             - Hydrogen and Alternatives
             - Nuclear
             - Renewables
-          see: []
-          xpro: []
         name: Energy
-      - children: null
+      - children: []
         icon: RiLightbulbFlashLine
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+        id: 66
+        mappings: {}
         name: Environmental and Climate Justice
-      - children: null
+      - children: []
         icon: RiLightbulbFlashLine
-        id: null
+        id: 67
         mappings:
-          mitpe: []
           mitx:
             - Environmental Studies
           ocw:
             - Climate
             - Climate Studies
             - Sustainability
-          see: []
-          xpro: []
         name: Climate Science
-      - children: null
+      - children: []
         icon: RiLightbulbFlashLine
-        id: null
+        id: 68
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Buildings
             - Transportation
-          see: []
-          xpro: []
         name: Built Environment
-      - children: null
+      - children: []
         icon: RiLightbulbFlashLine
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+        id: 69
+        mappings: {}
         name: Natural Systems
-      - children: null
+      - children: []
         icon: RiLightbulbFlashLine
-        id: null
+        id: 70
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Sustainability
-          see: []
-          xpro: []
         name: Adaptation and Resilience
-      - children: null
+      - children: []
         icon: RiLightbulbFlashLine
-        id: null
+        id: 71
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Transportation
             - Environmental Policy
-          see: []
-          xpro: []
         name: Climate and Energy Policy
-      - children: null
+      - children: []
         icon: RiLightbulbFlashLine
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+        id: 72
+        mappings: {}
         name: Sustainable Business
     icon: RiLightbulbFlashLine
-    id: null
-    mappings:
-      mitpe: []
-      mitx: []
-      ocw: []
-      see: []
-      xpro: []
+    id: 64
+    mappings: {}
     name: Energy, Climate & Sustainability
   - children:
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 74
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Aerospace Engineering
             - Aerodynamics
@@ -1007,15 +767,11 @@ topics:
             - Materials Selection
             - Propulsion Systems
             - Structural Mechanics
-          see: []
-          xpro: []
         name: Aerospace Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 75
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Biological Engineering
             - Biomechanics
@@ -1024,15 +780,11 @@ topics:
             - Cell and Tissue Engineering
             - Computational Biology
             - Synthetic Biology
-          see: []
-          xpro: []
         name: Biological Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 76
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Chemical Engineering
             - Molecular Engineering
@@ -1040,15 +792,11 @@ topics:
             - Process Control Systems
             - Separation Processes
             - Transport Processes
-          see: []
-          xpro: []
         name: Chemical Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 77
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Buildings
             - Civil Engineering
@@ -1057,14 +805,11 @@ topics:
             - Structural Engineering
             - Surveying
             - Transportation Engineering
-          see: []
-          xpro: []
         name: Civil Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 78
         mappings:
-          mitpe: []
           mitx:
             - Electronics
           ocw:
@@ -1075,75 +820,56 @@ topics:
             - Robotics and Control Systems
             - Signal Processing
             - Telecommunications
-          see: []
-          xpro: []
         name: Electrical Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 79
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Environmental Engineering
             - Aquatic Sciences and Water Quality Control
             - Environmental Management
             - Hydrodynamics and Coastal Engineering
             - Hydrology and Water Resource Systems
-          see: []
-          xpro: []
         name: Environmental Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 80
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Materials Science and Engineering
             - Composite Materials
             - Electronic Materials
             - Metallurgical Engineering
             - Polymeric Materials
-          see: []
-          xpro: []
         name: Materials Science and Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 81
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Nuclear Engineering
             - Nuclear Materials
             - Nuclear Systems, Policy, and Economics
             - Radiological Engineering
-          see: []
-          xpro: []
         name: Nuclear Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 82
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Ocean Engineering
             - Hydrodynamics
             - Ocean Exploration
             - Ocean Structures
             - Oceanic Pollution Control
-          see: []
-          xpro: []
         name: Ocean Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 83
         mappings:
           mitpe:
             - Systems Engineering
-          mitx: []
           ocw:
             - Systems Engineering
             - Computational Modeling and Simulation
@@ -1156,12 +882,10 @@ topics:
           xpro:
             - Systems Engineering
         name: Systems Engineering
-      - children: null
+      - children: []
         icon: RiRobot2Line
-        id: null
+        id: 84
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Mechanical Engineering
             - Dynamics and Control
@@ -1170,25 +894,18 @@ topics:
             - Microtechnology
             - Solid Mechanics
             - Nanotechnology
-          see: []
-          xpro: []
         name: Mechanical Engineering
     icon: RiRobot2Line
-    id: null
+    id: 73
     mappings:
-      mitpe: []
       mitx:
         - Engineering
-      ocw: []
-      see: []
-      xpro: []
     name: Engineering
   - children:
-      - children: null
+      - children: []
         icon: RiQuillPenLine
-        id: null
+        id: 86
         mappings:
-          mitpe: []
           mitx:
             - History
           ocw:
@@ -1210,14 +927,11 @@ topics:
             - Military History
             - Modern History
             - World History
-          see: []
-          xpro: []
         name: History
-      - children: null
+      - children: []
         icon: RiQuillPenLine
-        id: null
+        id: 87
         mappings:
-          mitpe: []
           mitx:
             - Language
           ocw:
@@ -1231,28 +945,21 @@ topics:
             - Quechua
             - Russian
             - Spanish
-          see: []
-          xpro: []
         name: Language
-      - children: null
+      - children: []
         icon: RiQuillPenLine
-        id: null
+        id: 88
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Linguistics
             - Phonology
             - Semantics
             - Syntax
-          see: []
-          xpro: []
         name: Linguistics
-      - children: null
+      - children: []
         icon: RiQuillPenLine
-        id: null
+        id: 89
         mappings:
-          mitpe: []
           mitx:
             - Literature
           ocw:
@@ -1272,14 +979,11 @@ topics:
             - Poetry
             - Rhetoric
             - Technical Writing
-          see: []
-          xpro: []
         name: Literature
-      - children: null
+      - children: []
         icon: RiQuillPenLine
-        id: null
+        id: 90
         mappings:
-          mitpe: []
           mitx:
             - Ethics
             - Philosophy & Ethics
@@ -1292,14 +996,11 @@ topics:
             - Metaphysics
             - Philosophy of Language
             - Political Philosophy
-          see: []
-          xpro: []
         name: Philosophy
-      - children: null
+      - children: []
         icon: RiQuillPenLine
-        id: null
+        id: 91
         mappings:
-          mitpe: []
           mitx:
             - Music
           ocw:
@@ -1307,74 +1008,51 @@ topics:
             - Music History
             - Music Performance
             - Music Theory
-          see: []
-          xpro: []
         name: Music
-      - children: null
+      - children: []
         icon: RiQuillPenLine
-        id: null
+        id: 92
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Religion
-          see: []
-          xpro: []
         name: Religion
     icon: RiQuillPenLine
-    id: null
+    id: 85
     mappings:
-      mitpe: []
       mitx:
         - Humanities
-      ocw: []
-      see: []
-      xpro: []
     name: Humanities
   - children:
-      - children: null
-        icon: null
-        id: null
+      - children: []
+        icon: ""
+        id: 94
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Entrepreneurship
-          see: []
-          xpro: []
         name: Startups/New Enterprises
-      - children: null
-        icon: null
-        id: null
+      - children: []
+        icon: ""
+        id: 95
         mappings:
           mitpe:
             - Business Innovation
-          mitx: []
-          ocw: []
           see:
             - Business Innovation
           xpro:
             - Business Innovation
         name: Corporate Innovation
-      - children: null
-        icon: null
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+      - children: []
+        icon: ""
+        id: 96
+        mappings: {}
         name: Innovation Process
-      - children: null
-        icon: null
-        id: null
+      - children: []
+        icon: ""
+        id: 97
         mappings:
           mitpe:
             - Prototype/Lab
             - Technology Innovation
-          mitx: []
-          ocw: []
           see:
             - Prototype/Lab
             - Technology Innovation
@@ -1382,43 +1060,27 @@ topics:
             - Prototype/Lab
             - Technology Innovation
         name: Product Innovation
-      - children: null
-        icon: null
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+      - children: []
+        icon: ""
+        id: 98
+        mappings: {}
         name: Inventions & Patents
-      - children: null
-        icon: null
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+      - children: []
+        icon: ""
+        id: 99
+        mappings: {}
         name: Innovation Ecosystems
-    icon: null
-    id: null
-    mappings:
-      mitpe: []
-      mitx: []
-      ocw: []
-      see: []
-      xpro: []
+    icon: ""
+    id: 93
+    mappings: {}
     name: Innovation & Entrepreneurship
   - children:
-      - children: null
+      - children: []
         icon: RiStethoscopeLine
-        id: null
+        id: 101
         mappings:
           mitpe:
             - BioTech
-          mitx: []
           ocw:
             - Biomedical Enterprise
             - Biomedical Instrumentation
@@ -1431,82 +1093,57 @@ topics:
           xpro:
             - BioTech
         name: Biomedical Technologies
-      - children: null
+      - children: []
         icon: RiStethoscopeLine
-        id: null
+        id: 102
         mappings:
-          mitpe: []
           mitx:
             - Medicine
           ocw:
             - Health Care Management
             - Speech Pathology
-          see: []
-          xpro: []
         name: Health Care Management
-      - children: null
+      - children: []
         icon: RiStethoscopeLine
-        id: null
+        id: 103
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Cancer
             - Immunology
-          see: []
-          xpro: []
         name: Immunology
-      - children: null
+      - children: []
         icon: RiStethoscopeLine
-        id: null
+        id: 104
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Biomedical Signal and Image Processing
             - Medical Imaging
-          see: []
-          xpro: []
         name: Imaging
-      - children: null
+      - children: []
         icon: RiStethoscopeLine
-        id: null
+        id: 105
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Mental Health
-          see: []
-          xpro: []
         name: Mental Health
-      - children: null
+      - children: []
         icon: RiStethoscopeLine
-        id: null
+        id: 106
         mappings:
-          mitpe: []
-          mitx: []
           ocw:
             - Anatomy and Physiology
             - Cancer
             - Pathology and Pathophysiology
-          see: []
-          xpro: []
         name: Pathology and Pathophysiology
-      - children: null
+      - children: []
         icon: RiStethoscopeLine
-        id: null
-        mappings:
-          mitpe: []
-          mitx: []
-          ocw: []
-          see: []
-          xpro: []
+        id: 107
+        mappings: {}
         name: Pharmacology & Toxicology
-      - children: null
+      - children: []
         icon: RiStethoscopeLine
-        id: null
+        id: 108
         mappings:
-          mitpe: []
           mitx:
             - Food & Nutrition
             - Health & Safety
@@ -1516,15 +1153,8 @@ topics:
             - Physical Education and Recreation
             - Public Health
             - Social Medicine
-          see: []
-          xpro: []
         name: Public Health
     icon: RiStethoscopeLine
-    id: null
-    mappings:
-      mitpe: []
-      mitx: []
-      ocw: []
-      see: []
-      xpro: []
+    id: 100
+    mappings: {}
     name: Health & Medicine
