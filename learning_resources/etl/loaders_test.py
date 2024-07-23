@@ -12,6 +12,7 @@ from django.forms.models import model_to_dict
 from django.utils import timezone
 
 from learning_resources.constants import (
+    AvailabilityType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -593,7 +594,10 @@ def test_load_course_dupe_urls(unique_url):
 
 
 @pytest.mark.parametrize("run_exists", [True, False])
-def test_load_run(run_exists):
+@pytest.mark.parametrize(
+    "availability", [AvailabilityType.archived.value, AvailabilityType.current.value]
+)
+def test_load_run(run_exists, availability):
     """Test that load_run loads the course run"""
     course = CourseFactory.create(learning_resource__runs=[])
     learning_resource_run = (
@@ -602,7 +606,11 @@ def test_load_run(run_exists):
         else LearningResourceRunFactory.build()
     )
     props = model_to_dict(
-        LearningResourceRunFactory.build(run_id=learning_resource_run.run_id)
+        LearningResourceRunFactory.build(
+            run_id=learning_resource_run.run_id,
+            availability=availability,
+            prices=["70.00", "20.00"],
+        )
     )
 
     del props["id"]
@@ -618,6 +626,12 @@ def test_load_run(run_exists):
 
     assert isinstance(result, LearningResourceRun)
 
+    assert result.prices == (
+        []
+        if availability == AvailabilityType.archived.value
+        else sorted(props["prices"])
+    )
+    props.pop("prices")
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"
 

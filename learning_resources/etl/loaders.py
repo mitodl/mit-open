@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 
 from learning_resources.constants import (
+    AvailabilityType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -227,8 +228,14 @@ def load_run(
     image_data = run_data.pop("image", None)
     instructors_data = run_data.pop("instructors", [])
 
-    # Make sure any prices are unique and sorted in ascending order
-    run_data["prices"] = sorted(set(run_data.get("prices", [])), key=lambda x: float(x))
+    if run_data.get("availability") == AvailabilityType.archived.value:
+        # Archived runs should not have prices
+        run_data["prices"] = []
+    else:
+        # Make sure any prices are unique and sorted in ascending order
+        run_data["prices"] = sorted(
+            set(run_data.get("prices", [])), key=lambda x: float(x)
+        )
 
     with transaction.atomic():
         (
