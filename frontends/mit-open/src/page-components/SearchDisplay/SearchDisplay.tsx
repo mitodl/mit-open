@@ -250,13 +250,13 @@ const FacetStyles = styled.div`
   }
 
   .multi-facet-group {
-    background: none;
+    background: white;
     margin-top: 8px;
     margin-bottom: 8px;
     border-radius: 8px;
     border-bottom: solid 1px ${({ theme }) => theme.custom.colors.lightGray2};
     padding-bottom: 12px;
-    padding-top: 10px;
+    padding-top: 5px;
 
     /* stylelint-disable no-descending-specificity */
     .facet-visible {
