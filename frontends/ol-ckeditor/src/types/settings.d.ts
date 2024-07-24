@@ -6,5 +6,6 @@ export declare global {
     CKEDITOR_UPLOAD_URL?: string
     MITOPEN_AXIOS_WITH_CREDENTIALS: boolean
     MITOPEN_API_BASE_URL: string
+    PUBLIC_URL: string
   }
 }
