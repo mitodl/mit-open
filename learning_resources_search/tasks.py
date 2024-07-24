@@ -841,6 +841,8 @@ def _generate_subscription_digest_subject(total_count, unique_resource_types):
 def attempt_send_digest_email_batch(user_template_items):
     for user_id, template_data in user_template_items:
         log.info("Sending email to user %s", user_id)
+        if not user_id:
+            continue
         user = User.objects.get(id=user_id)
         total_count = 0
         unique_resource_types = set()

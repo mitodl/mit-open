@@ -261,9 +261,9 @@
           <tr>
             <td style="padding: 20px">
               {% block logo %}
-              <h1>
+              <h1 style="text-align: center">
                 <img
-                  src="https://mitopen.odl.mit.edu/static/images/mit-logo-transparent5.jpg"
+                  src="{{STATIC_URL}}/static/images/mit-logo-transparent5.jpg"
                   width="113"
                   height="60"
                   alt="MIT-Open"
@@ -274,7 +274,9 @@
                     font-family: sans-serif;
                     font-size: 15px;
                     line-height: 15px;
+                    display: block;
                     color: #a31f34;
+                    margin: 0 auto;
                     margin-bottom: -10px;
                   "
                 />
@@ -319,21 +321,21 @@
                 font-family: sans-serif;
                 font-size: 12px;
                 line-height: 15px;
-                color: #b0b0b0;
+                color: #000;
               "
             >
               {% block footer %}
 
               If you don't want to receive these emails in the future, you can
               <a
-                href="/dashboard/#notification-preferences"
-                style="color: #b0b0b0; text-decoration: underline"
+                href="{{APP_BASE_URL}}/dashboard/#notification-preferences"
+                style="text-decoration: underline"
                 >edit your settings</a
               >
               or
               <a
-                href="/dashboard/#notification-preferences"
-                style="color: #b0b0b0; text-decoration: underline"
+                href="{{APP_BASE_URL}}/dashboard/#notification-preferences"
+                style="text-decoration: underline"
                 >unsubscribe</a
               >. <br /><br />
 
