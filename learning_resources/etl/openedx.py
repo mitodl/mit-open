@@ -160,16 +160,15 @@ def _get_run_availability(course_run):
 
 
 def _get_course_availability(course):
+    published_runs = [
+        run for run in course.get("course_runs", []) if _get_run_published(run)
+    ]
     if any(
-        _get_run_availability(run) == Availability.scheduled
-        for run in course.get("course_runs", [])
-        if _get_run_published(run)
+        _get_run_availability(run) == Availability.scheduled for run in published_runs
     ):
         return Availability.scheduled.name
-    elif all(
-        _get_run_availability(run) == Availability.anytime
-        for run in course.get("course_runs", [])
-        if _get_run_published(run)
+    elif published_runs and all(
+        _get_run_availability(run) == Availability.anytime for run in published_runs
     ):
         return Availability.anytime.name
     return None

@@ -6,7 +6,12 @@ from urllib.parse import urlencode
 
 import pytest
 
-from learning_resources.constants import CertificationType, LearningResourceType
+from learning_resources.constants import (
+    Availability,
+    CertificationType,
+    LearningResourceType,
+    RunAvailability,
+)
 from learning_resources.etl.constants import COMMON_HEADERS, CourseNumberType
 from learning_resources.etl.openedx import (
     OpenEdxConfiguration,
@@ -150,7 +155,9 @@ def test_transform_course(  # noqa: PLR0913
     if is_course_deleted or not has_runs:
         assert transformed_courses == []
     else:
-        assert transformed_courses[0] == {
+        transformed_course = transformed_courses[0].copy()
+        transformed_course.pop("availability")  # Tested separately
+        assert transformed_course == {
             "title": "The Analytics Edge",
             "readable_id": "MITx+15.071x",
             "resource_type": LearningResourceType.course.name,
@@ -228,3 +235,60 @@ def test_transform_course(  # noqa: PLR0913
             assert transformed_courses[1]["runs"][0]["published"] is (
                 is_run_enrollable and is_run_published
             )
+
+
+@pytest.mark.parametrize(
+    ("run_overrides", "expected_availability"),
+    [
+        (
+            {
+                "availability": RunAvailability.current.value,
+                "pacing_type": "self_paced",
+                "start": "2021-01-01T00:00:00Z",  # past
+            },
+            Availability.anytime.name,
+        ),
+        (
+            {
+                "availability": RunAvailability.current.value,
+                "pacing_type": "self_paced",
+                "start": "2221-01-01T00:00:00Z",  # future
+            },
+            Availability.scheduled.name,
+        ),
+        (
+            {
+                "availability": RunAvailability.archived.value,
+            },
+            Availability.anytime.name,
+        ),
+    ],
+)
+@pytest.mark.parametrize("status", ["published", "other"])
+@pytest.mark.parametrize("is_enrollable", [True, False])
+def test_transform_course_availability_with_single_run(  # noqa: PLR0913
+    openedx_extract_transform,
+    mitx_course_data,
+    run_overrides,
+    expected_availability,
+    status,
+    is_enrollable,
+):
+    """
+    Test transforming openedx courses with a single run into our course-level
+    availability field.
+    """
+    extracted = mitx_course_data["results"]
+    run = {
+        **extracted[0]["course_runs"][0],
+        **run_overrides,
+        "is_enrollable": is_enrollable,
+        "status": status,
+    }
+    extracted[0]["course_runs"] = [run]
+    transformed_courses = openedx_extract_transform.transform([extracted[0]])
+
+    if status == "published" and is_enrollable:
+        assert transformed_courses[0]["availability"] == expected_availability
+    else:
+        assert transformed_courses[0]["availability"] is None
