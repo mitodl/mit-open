@@ -722,18 +722,12 @@ def iso8601_duration(duration_str: str) -> str or None:
     if delta is None:
         return None
 
-    # Extract components
     hours, remainder = divmod(delta.total_seconds(), 3600)
     minutes, seconds = divmod(remainder, 60)
 
-    # Build the duration string
     if hours or minutes or seconds:
-        duration = "PT"
-        if hours:
-            duration += f"{int(hours)}H"
-        if minutes:
-            duration += f"{int(minutes)}M"
-        if seconds:
-            duration += f"{int(seconds or 0)}S"
-        return duration
+        hour_duration = f"{int(hours)}H" if hours else ""
+        minute_duration = f"{int(minutes)}M" if minutes else ""
+        second_duration = f"{int(seconds)}S" if seconds else ""
+        return f"PT{hour_duration}{minute_duration}{second_duration}"
     return "PT0S"
