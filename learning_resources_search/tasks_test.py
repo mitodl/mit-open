@@ -35,6 +35,7 @@ from learning_resources_search.serializers import (
     serialize_learning_resource_for_update,
 )
 from learning_resources_search.tasks import (
+    _generate_subscription_digest_subject,
     _get_percolated_rows,
     _group_percolated_rows,
     _infer_percolate_group,
@@ -929,3 +930,22 @@ def test_digest_email_template(mocked_api, mocker, mocked_celery):
     assert user.id == task_args[0]
     for topic in topics:
         assert topic in template_data
+
+
+def test_subscription_digest_subject():
+    """
+    Test that email generates a dynamic subject based
+    on the unique resource types included
+    """
+    resource_types = {"course", "program", "podcast"}
+
+    subject_line = _generate_subscription_digest_subject(13, resource_types)
+    assert subject_line == "13 New courses & learning materials from MIT"
+
+    resource_types = {"program"}
+    subject_line = _generate_subscription_digest_subject(1, resource_types)
+    assert subject_line == "1 New  program from MIT"
+
+    resource_types = {"podcast"}
+    subject_line = _generate_subscription_digest_subject(15, resource_types)
+    assert subject_line == "15 New  podcasts from MIT"
