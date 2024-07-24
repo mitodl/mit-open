@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.14.1
+Version 0.14.1 (Released July 24, 2024)
 --------------
 
 - Add a database index on FeedEventDetail.event_datetime (#1304)
