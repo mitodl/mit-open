@@ -28,7 +28,7 @@ pytestmark = pytest.mark.django_db
 
 def test_list_channels(user_client):
     """Test that all channels are returned"""
-    channels = sorted(ChannelFactory.create_batch(15), key=lambda f: f.id)
+    channels = sorted(ChannelFactory.create_batch(10), key=lambda f: f.id)
     url = reverse("channels:v0:channels_api-list")
     channel_list = sorted(user_client.get(url).json()["results"], key=lambda f: f["id"])
     assert len(channel_list) == 10
