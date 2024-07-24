@@ -15,18 +15,17 @@ interface AppProps {
   queryClient: QueryClient
 }
 
-const { POSTHOG } = APP_SETTINGS
-
 /**
  * Renders child with Router, QueryClientProvider, and other such context provides.
  */
 const AppProviders: React.FC<AppProps> = ({ router, queryClient }) => {
-  const phSettings: PostHogSettings =
-    POSTHOG?.api_key && POSTHOG.api_key.length > 0
-      ? POSTHOG
-      : {
-          api_key: "",
-        }
+  const { POSTHOG } = APP_SETTINGS
+
+  const phSettings: PostHogSettings = POSTHOG?.api_key?.length
+    ? POSTHOG
+    : {
+        api_key: "",
+      }
 
   const phOptions = {
     feature_flag_request_timeout_ms: phSettings.timeout || 3000,

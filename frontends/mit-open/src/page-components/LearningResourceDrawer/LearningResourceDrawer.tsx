@@ -12,11 +12,11 @@ import { usePostHog } from "posthog-js/react"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
-const { POSTHOG } = APP_SETTINGS
-
 const useCapturePageView = (resourceId: number) => {
   const { data, isSuccess } = useLearningResourcesDetail(Number(resourceId))
   const posthog = usePostHog()
+
+  const { POSTHOG } = APP_SETTINGS
 
   useEffect(() => {
     if (!POSTHOG?.api_key || POSTHOG.api_key.length < 1) return
@@ -34,6 +34,7 @@ const useCapturePageView = (resourceId: number) => {
     data?.readable_id,
     data?.platform?.code,
     data?.resource_type,
+    POSTHOG?.api_key,
   ])
 }
 
