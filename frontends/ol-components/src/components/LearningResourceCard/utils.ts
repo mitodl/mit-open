@@ -29,90 +29,25 @@ type Prices = {
 }
 
 export const getPrices = (resource: LearningResource): Prices => {
-  const prices: Prices = {
-    course: null,
-    certificate: null,
-  }
-
-  if (!resource) {
-    return prices
-  }
-
-  if (resource.free && !resource.certification) {
-    /* The resource is free and does not offer a paid certificate option, e.g.
-     * { prices: [0], free: true, certification: false }
-     */
-    return {
-      course: [0],
-      certificate: null,
-    }
-  }
-
-  const resourcePrices = resource.prices
+  const sortedNonzero = resource.prices
     .map((price) => Number(price))
     .sort((a, b) => a - b)
     .filter((price) => price > 0)
 
-  if (resourcePrices.length > 0) {
-    /* The resource is free and offers a paid certificate option, e.g.
-     * { prices: [49, 249], free: true, certification: true }
-     */
-    if (resource.certification && resource.free) {
-      return {
-        course: [0],
-        certificate:
-          resourcePrices.length === 1
-            ? [resourcePrices[0]]
-            : [resourcePrices[0], resourcePrices[resourcePrices.length - 1]],
-      }
-    }
+  const priceRange = sortedNonzero.filter(
+    (price, index, arr) => index === 0 || index === arr.length - 1,
+  )
+  const prices = priceRange.length > 0 ? priceRange : null
 
-    /* The resource is not free and has a range of prices, e.g.
-     * { prices: [950, 999], free: false, certification: true|false }
-     */
-    if (resource.certification && !resource.free && resourcePrices.length > 1) {
-      return {
-        course: [resourcePrices[0], resourcePrices[resourcePrices.length - 1]],
-        certificate: null,
-      }
-    }
-
-    /* We are not expecting multiple prices for courses with no certificate option.
-     * For resources always certificated, there is one price that includes the certificate.
-     */
-    if (resourcePrices.length === 1) {
-      if (!Number(resourcePrices[0])) {
-        /* Sometimes price info is missing, but the free flag is reliable.
-         */
-        if (!resource.free) {
-          return {
-            course: PAID,
-            certificate: null,
-          }
-        }
-
-        return {
-          course: [0],
-          certificate: null,
-        }
-      } else {
-        /* If the course has no free option, the price of the certificate
-         * is included in the price of the course.
-         */
-        return {
-          course: [Number(resourcePrices[0])],
-          certificate: null,
-        }
-      }
-    }
-  } else if (resourcePrices.length === 0) {
-    return {
-      course: resource.free ? [0] : PAID,
-      certificate: null,
-    }
+  if (resource.free) {
+    return resource.certification
+      ? { course: [0], certificate: prices }
+      : { course: [0], certificate: null }
   }
-
-  return prices
+  return {
+    course: prices ?? PAID,
+    certificate: null,
+  }
 }
 
 const getDisplayPrecision = (price: number) => {
