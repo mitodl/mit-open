@@ -2,7 +2,7 @@ topics:
   - children:
       - children: []
         icon: RiPaletteLine
-        id: 2
+        id: de563de2-a548-4a41-9fe5-9b6be9511c01
         mappings:
           ocw:
             - Architecture
@@ -13,19 +13,19 @@ topics:
         name: Architecture
       - children: []
         icon: RiPaletteLine
-        id: 3
+        id: 5c25e4e0-f02b-4ac9-80db-498e07918254
         mappings: {}
-        name: Environmental Deisgn
+        name: Environmental Design
       - children: []
         icon: RiPaletteLine
-        id: 4
+        id: e1f5da26-b4f2-46d1-9aa3-4b6fc010d568
         mappings:
           ocw:
             - Game Design
         name: Game Design
       - children: []
         icon: RiPaletteLine
-        id: 5
+        id: 598fd5dc-9e5b-4e87-8cb5-40dd51a579af
         mappings:
           ocw:
             - Performance Arts
@@ -35,7 +35,7 @@ topics:
         name: Performing Arts
       - children: []
         icon: RiPaletteLine
-        id: 6
+        id: 9235984d-c8b0-47be-98bb-dc01f24cab8f
         mappings:
           mitx:
             - Design
@@ -47,7 +47,7 @@ topics:
         name: Visual Arts
       - children: []
         icon: RiPaletteLine
-        id: 7
+        id: 1f08bfa5-4c61-48ad-8d30-f65edd3b6873
         mappings:
           ocw:
             - Media Studies
@@ -55,7 +55,7 @@ topics:
         name: Media Studies
       - children: []
         icon: RiPaletteLine
-        id: 8
+        id: a303a156-41de-4845-8e40-4e25cc215c87
         mappings:
           mitpe:
             - Real Estate
@@ -68,13 +68,13 @@ topics:
         name: Real Estate
       - children: []
         icon: RiPaletteLine
-        id: 9
+        id: 84b6a959-5699-4fc4-814b-e48cfcca01ce
         mappings:
           ocw:
             - Art History
         name: Art History
     icon: RiPaletteLine
-    id: 1
+    id: 2d7e3f48-c34f-45c6-96dd-f46570f40778
     mappings:
       ocw:
         - Fine Arts
@@ -82,7 +82,7 @@ topics:
   - children:
       - children: []
         icon: RiBriefcase3Line
-        id: 11
+        id: 10355812-996d-4c5d-aa7f-8f4f84e89286
         mappings:
           mitpe:
             - Entrepreneurship
@@ -95,7 +95,7 @@ topics:
         name: Entrepreneurship
       - children: []
         icon: RiBriefcase3Line
-        id: 12
+        id: 7c305170-3216-42b2-8518-35ce88a7f780
         mappings:
           mitpe:
             - Leadership & Organizations
@@ -111,12 +111,12 @@ topics:
         name: Organizations & Leadership
       - children: []
         icon: RiBriefcase3Line
-        id: 13
+        id: 18be729f-bad6-4f27-a619-e2076337c1ec
         mappings: {}
         name: Negotiation & Communication
       - children: []
         icon: RiBriefcase3Line
-        id: 14
+        id: 13f8a623-e373-4fa2-9c23-89a20890291e
         mappings:
           mitpe:
             - Marketing & Communications
@@ -129,14 +129,14 @@ topics:
         name: Marketing
       - children: []
         icon: RiBriefcase3Line
-        id: 15
+        id: ae8fa718-3efc-45ce-9928-ab66adbb31e0
         mappings:
           ocw:
             - Supply Chain Management
         name: Supply Chain
       - children: []
         icon: RiBriefcase3Line
-        id: 16
+        id: b84810f6-b232-4443-9471-eff7823a5f93
         mappings:
           mitpe:
             - Finance
@@ -150,7 +150,7 @@ topics:
         name: Finance & Accounting
       - children: []
         icon: RiBriefcase3Line
-        id: 17
+        id: 339ae048-105a-4cf6-b823-37b7c0f0c089
         mappings:
           mitpe:
             - Operations
@@ -166,12 +166,12 @@ topics:
         name: Operations
       - children: []
         icon: RiBriefcase3Line
-        id: 18
+        id: 2dbae50d-5389-4ba3-9876-3d67fc9b0170
         mappings: {}
         name: Family Enterprise
       - children: []
         icon: RiBriefcase3Line
-        id: 19
+        id: af54f0cf-1e8c-414b-ac98-8d93494239a1
         mappings:
           mitpe:
             - Business Analytics
@@ -182,7 +182,7 @@ topics:
         name: Business Analytics
       - children: []
         icon: RiBriefcase3Line
-        id: 20
+        id: 1870ce0f-029f-458b-bd90-a650f46877eb
         mappings:
           mitpe:
             - Systems Thinking
@@ -196,7 +196,7 @@ topics:
         name: Systems Thinking
       - children: []
         icon: RiBriefcase3Line
-        id: 21
+        id: c927602f-4ced-4bdd-ae11-62c5c0d75454
         mappings:
           mitpe:
             - Strategy
@@ -209,7 +209,7 @@ topics:
         name: Strategy & Innovation
       - children: []
         icon: RiBriefcase3Line
-        id: 22
+        id: 85d20f8f-0fff-41b0-9b59-8a999e6e6d46
         mappings:
           mitpe:
             - Digital Business/IT
@@ -228,7 +228,7 @@ topics:
         name: Digital Business & IT
       - children: []
         icon: RiBriefcase3Line
-        id: 23
+        id: d18752a9-9163-4536-9eba-ec77e654ffc5
         mappings:
           mitpe:
             - Management
@@ -244,7 +244,7 @@ topics:
             - Other Business
         name: Management
     icon: RiBriefcase3Line
-    id: 10
+    id: 99ec5b40-e929-4ad9-bccf-7305ef6938b1
     mappings:
       mitx:
         - Business & Management
@@ -252,7 +252,7 @@ topics:
   - children:
       - children: []
         icon: RiRobot2Line
-        id: 25
+        id: d5936b40-07ce-4dcc-bc67-8f893fbedb50
         mappings:
           mitpe:
             - AI/Machine Learning
@@ -265,14 +265,14 @@ topics:
         name: AI
       - children: []
         icon: RiRobot2Line
-        id: 26
+        id: 4cd6156e-51a0-4da4-add4-6f81e106cd43
         mappings:
           ocw:
             - Programming Languages
         name: Programming & Coding
       - children: []
         icon: RiRobot2Line
-        id: 27
+        id: 59db0d7b-b056-47c4-a7f4-3ebd2a31aecf
         mappings:
           ocw:
             - Computer Design and Engineering
@@ -280,14 +280,14 @@ topics:
         name: Software Design and Engineering
       - children: []
         icon: RiRobot2Line
-        id: 28
+        id: d2d550b7-ade2-4dd5-b1df-929d511f4772
         mappings:
           ocw:
             - Algorithms and Data Structures
         name: Algorithms and Data Structures
       - children: []
         icon: RiRobot2Line
-        id: 29
+        id: ae7aa09c-68f7-4622-b9d4-d3bb378dd323
         mappings:
           ocw:
             - Computer Networks
@@ -295,14 +295,14 @@ topics:
         name: Networks and Security
       - children: []
         icon: RiRobot2Line
-        id: 31
+        id: bda97261-3d5f-410f-ab8b-9f0c316da6a8
         mappings:
           ocw:
             - Human-Computer Interfaces
         name: User Experience
       - children: []
         icon: RiRobot2Line
-        id: 32
+        id: 7ae3435f-b162-4460-9b15-aceb4e242d11
         mappings:
           mitpe:
             - Blockchain
@@ -313,17 +313,17 @@ topics:
         name: Blockchain
       - children: []
         icon: RiRobot2Line
-        id: 33
+        id: 3d3af584-54a8-4144-b10b-2a2a61c3a053
         mappings: {}
         name: AR/VR/MR/XR
       - children: []
         icon: RiRobot2Line
-        id: 34
+        id: 068a7bf4-0c22-4d6c-8636-92f37b1e47f5
         mappings: {}
         name: CyberSecurity
       - children: []
         icon: RiRobot2Line
-        id: 30
+        id: 3e48abd0-b55b-47e8-8691-606c6efd61bf
         mappings:
           mitpe:
             - AI/Machine Learning
@@ -336,7 +336,7 @@ topics:
         name: Machine Learning
       - children: []
         icon: RiRobot2Line
-        id: 35
+        id: 99bd46f0-d4da-43d3-96e5-1d63771d1c4a
         mappings:
           mitx:
             - Design
@@ -345,7 +345,7 @@ topics:
         name: Visualization
       - children: []
         icon: RiRobot2Line
-        id: 36
+        id: 29ba1dbc-5bf4-4bc5-be89-824eb604e281
         mappings:
           mitpe:
             - Quantum Computing
@@ -363,7 +363,7 @@ topics:
         name: Computer Science
       - children: []
         icon: RiRobot2Line
-        id: 37
+        id: 8d664b63-5d0b-4181-9a10-c41180a0c0c7
         mappings:
           mitpe:
             - Data Science
@@ -377,7 +377,7 @@ topics:
             - Data Science
         name: Data Science
     icon: RiRobot2Line
-    id: 24
+    id: c06109bf-cff8-4873-b04b-f5e66e3e1764
     mappings:
       mitx:
         - Electronics
@@ -386,55 +386,8 @@ topics:
     name: Data Science, Analytics & Computer Technology
   - children:
       - children: []
-        icon: RiShakeHandsLine
-        id: 39
-        mappings:
-          mitpe:
-            - Educators
-          mitx:
-            - Education & Teacher Training
-          ocw:
-            - Curriculum and Teaching
-            - Higher Education
-          see:
-            - Educators
-          xpro:
-            - Educators
-        name: Pedagogy and Curriculum
-      - children: []
-        icon: RiShakeHandsLine
-        id: 40
-        mappings:
-          ocw:
-            - Education Policy
-        name: Education Policy
-      - children: []
-        icon: RiShakeHandsLine
-        id: 41
-        mappings:
-          ocw:
-            - Educational Technology
-        name: Educational Technology
-      - children: []
-        icon: RiShakeHandsLine
-        id: 42
-        mappings: {}
-        name: Digital Learning
-      - children: []
-        icon: RiShakeHandsLine
-        id: 43
-        mappings:
-          ocw:
-            - Higher Education
-        name: Faculty Leadership
-    icon: RiShakeHandsLine
-    id: 38
-    mappings: {}
-    name: Education & Teaching
-  - children:
-      - children: []
         icon: RiUserSearchLine
-        id: 45
+        id: 2d5d6d26-3f61-4e66-85bf-03168e982d41
         mappings:
           ocw:
             - Anthropology
@@ -447,7 +400,7 @@ topics:
         name: Anthropology
       - children: []
         icon: RiUserSearchLine
-        id: 46
+        id: 6c3cf991-cfd6-4293-86dd-8e1cea682065
         mappings:
           mitpe:
             - Marketing & Communications
@@ -462,7 +415,7 @@ topics:
         name: Communication
       - children: []
         icon: RiUserSearchLine
-        id: 47
+        id: 8d0a8bc3-fb72-4e18-8879-ece7a779dcb9
         mappings:
           mitx:
             - Economics & Finance
@@ -483,14 +436,14 @@ topics:
         name: Economics
       - children: []
         icon: RiUserSearchLine
-        id: 48
+        id: 170e9d0e-2195-470b-b743-0b13d3ee034e
         mappings:
           ocw:
             - Geography
         name: Geography
       - children: []
         icon: RiUserSearchLine
-        id: 49
+        id: 7396a987-d7ed-4947-819b-a0f6e1df4682
         mappings:
           mitx:
             - Law
@@ -499,7 +452,7 @@ topics:
         name: Law
       - children: []
         icon: RiUserSearchLine
-        id: 50
+        id: 5d51196b-88c7-41a2-a951-c04f9af7ae62
         mappings:
           ocw:
             - Political Science
@@ -509,14 +462,14 @@ topics:
         name: Political Science
       - children: []
         icon: RiUserSearchLine
-        id: 51
+        id: d4f16d57-b312-4088-8da7-7db9d1920991
         mappings:
           ocw:
             - Psychology
         name: Psychology
       - children: []
         icon: RiUserSearchLine
-        id: 52
+        id: ee6d80cf-c1fd-44c7-9551-475b04e2d6ee
         mappings:
           ocw:
             - Public Administration
@@ -530,7 +483,7 @@ topics:
         name: Policy and Administration
       - children: []
         icon: RiUserSearchLine
-        id: 53
+        id: 77bb6f11-0036-45e9-913a-00789b27ba17
         mappings:
           ocw:
             - Sociology
@@ -545,7 +498,7 @@ topics:
         name: Sociology
       - children: []
         icon: RiUserSearchLine
-        id: 54
+        id: 55e47e91-75ef-4369-80be-a726d084ce0d
         mappings:
           ocw:
             - Urban Studies
@@ -556,27 +509,74 @@ topics:
         name: Urban Studies
       - children: []
         icon: RiUserSearchLine
-        id: 55
+        id: 246f8a67-7e5a-4231-8e70-27900354eec7
         mappings:
           ocw:
             - Gender Studies
         name: Gender Studies
       - children: []
         icon: RiUserSearchLine
-        id: 56
+        id: 05426c52-eeb7-4abd-9215-884c11441da3
         mappings:
           ocw:
             - Global Poverty
             - The Developing World
         name: International Development
     icon: RiUserSearchLine
-    id: 44
+    id: bbf9880d-8761-4747-8bf7-76b633afc8ac
     mappings: {}
     name: Social Sciences
   - children:
       - children: []
+        icon: RiShakeHandsLine
+        id: 69ce72a6-049d-4380-b4d9-978e5c8b3fff
+        mappings:
+          mitpe:
+            - Educators
+          mitx:
+            - Education & Teacher Training
+          ocw:
+            - Curriculum and Teaching
+            - Higher Education
+          see:
+            - Educators
+          xpro:
+            - Educators
+        name: Pedagogy and Curriculum
+      - children: []
+        icon: RiShakeHandsLine
+        id: 24807a26-7f06-4017-b663-98dc2448e815
+        mappings:
+          ocw:
+            - Education Policy
+        name: Education Policy
+      - children: []
+        icon: RiShakeHandsLine
+        id: a3b492a0-f2a9-4225-8721-1f9e53468b65
+        mappings:
+          ocw:
+            - Educational Technology
+        name: Educational Technology
+      - children: []
+        icon: RiShakeHandsLine
+        id: c2d5e178-ec33-45f2-93b1-1978a09c7338
+        mappings: {}
+        name: Digital Learning
+      - children: []
+        icon: RiShakeHandsLine
+        id: 0a4ae84b-9552-4c85-8e3c-1ad21233d7d5
+        mappings:
+          ocw:
+            - Higher Education
+        name: Faculty Leadership
+    icon: RiShakeHandsLine
+    id: 97de7fb3-a934-496d-90cc-1ab3ea6f7660
+    mappings: {}
+    name: Education & Teaching
+  - children:
+      - children: []
         icon: RiTestTubeLine
-        id: 58
+        id: 69995333-6068-4190-913c-a394b48ad233
         mappings:
           mitx:
             - Biology & Life Sciences
@@ -600,7 +600,7 @@ topics:
         name: Biology
       - children: []
         icon: RiTestTubeLine
-        id: 59
+        id: 63c236c0-17cb-4a5b-ab6d-23c9176738ff
         mappings:
           mitx:
             - Chemistry
@@ -613,14 +613,14 @@ topics:
         name: Chemistry
       - children: []
         icon: RiTestTubeLine
-        id: 60
+        id: 1a3be8fd-5d59-4a8a-85e5-153f794bfb24
         mappings:
           ocw:
             - Cognitive Science
         name: Cognitive Science
       - children: []
         icon: RiTestTubeLine
-        id: 61
+        id: 3ed6c5ae-2dbf-4119-abf1-1e985e5d6fea
         mappings:
           mitx:
             - Energy & Earth Sciences
@@ -640,7 +640,7 @@ topics:
         name: Earth Science
       - children: []
         icon: RiTestTubeLine
-        id: 62
+        id: 46b96e82-66ce-443a-af36-5757c1dbdb1b
         mappings:
           mitx:
             - Physics
@@ -661,7 +661,7 @@ topics:
         name: Physics
       - children: []
         icon: RiTestTubeLine
-        id: 63
+        id: b8553297-f6a0-4964-b1ad-2c555ea66302
         mappings:
           mitx:
             - Math
@@ -678,7 +678,7 @@ topics:
             - Topology and Geometry
         name: Mathematics
     icon: RiTestTubeLine
-    id: 57
+    id: 1fab5205-d2f2-4719-bfce-04b4fd2d8f04
     mappings:
       mitx:
         - Science
@@ -686,7 +686,7 @@ topics:
   - children:
       - children: []
         icon: RiLightbulbFlashLine
-        id: 65
+        id: 26fb26b7-326e-4d8e-87c9-3eaf775e9ef4
         mappings:
           mitx:
             - Energy & Earth Sciences
@@ -701,12 +701,12 @@ topics:
         name: Energy
       - children: []
         icon: RiLightbulbFlashLine
-        id: 66
+        id: 0eb57d6e-d94f-401b-ad77-6a85864eb9d6
         mappings: {}
         name: Environmental and Climate Justice
       - children: []
         icon: RiLightbulbFlashLine
-        id: 67
+        id: ca9e5834-f3ac-4bdd-b42c-4495f321a1b5
         mappings:
           mitx:
             - Environmental Studies
@@ -717,7 +717,7 @@ topics:
         name: Climate Science
       - children: []
         icon: RiLightbulbFlashLine
-        id: 68
+        id: f8260659-5b06-411c-92e0-4303e7a26108
         mappings:
           ocw:
             - Buildings
@@ -725,19 +725,19 @@ topics:
         name: Built Environment
       - children: []
         icon: RiLightbulbFlashLine
-        id: 69
+        id: 93442753-ec61-44c8-96d7-50c5133040c3
         mappings: {}
         name: Natural Systems
       - children: []
         icon: RiLightbulbFlashLine
-        id: 70
+        id: 6de6133e-1484-4c44-a0da-bebfba14ebe7
         mappings:
           ocw:
             - Sustainability
         name: Adaptation and Resilience
       - children: []
         icon: RiLightbulbFlashLine
-        id: 71
+        id: 03e70cb3-6c6d-4fd0-842c-69cc307e8ef2
         mappings:
           ocw:
             - Transportation
@@ -745,17 +745,17 @@ topics:
         name: Climate and Energy Policy
       - children: []
         icon: RiLightbulbFlashLine
-        id: 72
+        id: d18ae735-9eb0-42ec-982d-798590f78b68
         mappings: {}
         name: Sustainable Business
     icon: RiLightbulbFlashLine
-    id: 64
+    id: 58eeca97-031c-432f-89f5-5b6493bf0dd2
     mappings: {}
     name: Energy, Climate & Sustainability
   - children:
       - children: []
         icon: RiRobot2Line
-        id: 74
+        id: 6ce56c4e-d3c3-49ff-84b4-52f6e583e6e5
         mappings:
           ocw:
             - Aerospace Engineering
@@ -770,7 +770,7 @@ topics:
         name: Aerospace Engineering
       - children: []
         icon: RiRobot2Line
-        id: 75
+        id: 236bb608-be91-4dee-8b66-c9dfb7f9840a
         mappings:
           ocw:
             - Biological Engineering
@@ -783,7 +783,7 @@ topics:
         name: Biological Engineering
       - children: []
         icon: RiRobot2Line
-        id: 76
+        id: b58df8d8-bd87-48fc-9acc-f0fce158dda9
         mappings:
           ocw:
             - Chemical Engineering
@@ -795,7 +795,7 @@ topics:
         name: Chemical Engineering
       - children: []
         icon: RiRobot2Line
-        id: 77
+        id: 287c2f78-4f6c-4a8a-a6a6-c497eb553bc5
         mappings:
           ocw:
             - Buildings
@@ -808,7 +808,7 @@ topics:
         name: Civil Engineering
       - children: []
         icon: RiRobot2Line
-        id: 78
+        id: e6dd36cd-a778-451a-933e-9aa7995e6892
         mappings:
           mitx:
             - Electronics
@@ -823,7 +823,7 @@ topics:
         name: Electrical Engineering
       - children: []
         icon: RiRobot2Line
-        id: 79
+        id: de7bb282-6cde-4af4-8ae6-fdc9de8323ef
         mappings:
           ocw:
             - Environmental Engineering
@@ -834,7 +834,7 @@ topics:
         name: Environmental Engineering
       - children: []
         icon: RiRobot2Line
-        id: 80
+        id: f9b619a4-7507-4e73-98e6-c367879b0961
         mappings:
           ocw:
             - Materials Science and Engineering
@@ -845,7 +845,7 @@ topics:
         name: Materials Science and Engineering
       - children: []
         icon: RiRobot2Line
-        id: 81
+        id: 4ce508b8-fbda-408c-b33f-9860d799c62c
         mappings:
           ocw:
             - Nuclear Engineering
@@ -855,7 +855,7 @@ topics:
         name: Nuclear Engineering
       - children: []
         icon: RiRobot2Line
-        id: 82
+        id: ae8c329b-e9ce-4a93-a1c8-370ba39cf0c7
         mappings:
           ocw:
             - Ocean Engineering
@@ -866,7 +866,7 @@ topics:
         name: Ocean Engineering
       - children: []
         icon: RiRobot2Line
-        id: 83
+        id: ba15c07b-96de-48b9-97c6-97d985cb1716
         mappings:
           mitpe:
             - Systems Engineering
@@ -884,7 +884,7 @@ topics:
         name: Systems Engineering
       - children: []
         icon: RiRobot2Line
-        id: 84
+        id: 7f69df17-1c01-4c1e-a27c-1b18da921508
         mappings:
           ocw:
             - Mechanical Engineering
@@ -896,7 +896,7 @@ topics:
             - Nanotechnology
         name: Mechanical Engineering
     icon: RiRobot2Line
-    id: 73
+    id: 952604ab-ae23-45b3-a040-0e5f26fe42df
     mappings:
       mitx:
         - Engineering
@@ -904,7 +904,7 @@ topics:
   - children:
       - children: []
         icon: RiQuillPenLine
-        id: 86
+        id: f161ef04-8ee0-437d-b50e-a3d1f68c8874
         mappings:
           mitx:
             - History
@@ -930,7 +930,7 @@ topics:
         name: History
       - children: []
         icon: RiQuillPenLine
-        id: 87
+        id: b12016dc-4645-47ef-991c-31063eb67338
         mappings:
           mitx:
             - Language
@@ -948,7 +948,7 @@ topics:
         name: Language
       - children: []
         icon: RiQuillPenLine
-        id: 88
+        id: afa33b3e-df92-4412-ad26-e35b0a9b8b3d
         mappings:
           ocw:
             - Linguistics
@@ -958,7 +958,7 @@ topics:
         name: Linguistics
       - children: []
         icon: RiQuillPenLine
-        id: 89
+        id: d9fc08d3-bd3a-4e08-b195-add3c436f726
         mappings:
           mitx:
             - Literature
@@ -982,7 +982,7 @@ topics:
         name: Literature
       - children: []
         icon: RiQuillPenLine
-        id: 90
+        id: 90e4deaf-1780-47e7-b784-0843c45c64b5
         mappings:
           mitx:
             - Ethics
@@ -999,7 +999,7 @@ topics:
         name: Philosophy
       - children: []
         icon: RiQuillPenLine
-        id: 91
+        id: 2276370a-040b-4af9-a4be-2462a833cc07
         mappings:
           mitx:
             - Music
@@ -1011,13 +1011,13 @@ topics:
         name: Music
       - children: []
         icon: RiQuillPenLine
-        id: 92
+        id: 6d8c46d8-d774-4e8a-90bf-c09c895d853a
         mappings:
           ocw:
             - Religion
         name: Religion
     icon: RiQuillPenLine
-    id: 85
+    id: aedb383a-4825-4f88-803a-990f9eb8aa45
     mappings:
       mitx:
         - Humanities
@@ -1025,14 +1025,14 @@ topics:
   - children:
       - children: []
         icon: ""
-        id: 94
+        id: 49358bd7-4e8c-4b37-bcc0-cf3b20d3b9a2
         mappings:
           ocw:
             - Entrepreneurship
         name: Startups/New Enterprises
       - children: []
         icon: ""
-        id: 95
+        id: edbd13c5-3e99-4c5e-bf26-187c9b123df9
         mappings:
           mitpe:
             - Business Innovation
@@ -1043,12 +1043,12 @@ topics:
         name: Corporate Innovation
       - children: []
         icon: ""
-        id: 96
+        id: 70057133-8b3a-4f40-a882-6c9c443cd44f
         mappings: {}
         name: Innovation Process
       - children: []
         icon: ""
-        id: 97
+        id: f497f6d2-48cd-4aa1-95aa-7597d800833d
         mappings:
           mitpe:
             - Prototype/Lab
@@ -1062,22 +1062,22 @@ topics:
         name: Product Innovation
       - children: []
         icon: ""
-        id: 98
+        id: 56e5023a-4823-4838-90d6-3c7e5c4878fd
         mappings: {}
         name: Inventions & Patents
       - children: []
         icon: ""
-        id: 99
+        id: 9ff164e0-c3e9-4d00-a76e-1240f201eaf6
         mappings: {}
         name: Innovation Ecosystems
     icon: ""
-    id: 93
+    id: c0f67cd5-c3f2-458c-85e7-a2144c6e5e9d
     mappings: {}
     name: Innovation & Entrepreneurship
   - children:
       - children: []
         icon: RiStethoscopeLine
-        id: 101
+        id: f5111658-124e-4d2a-b0fc-ba30b8910239
         mappings:
           mitpe:
             - BioTech
@@ -1095,7 +1095,7 @@ topics:
         name: Biomedical Technologies
       - children: []
         icon: RiStethoscopeLine
-        id: 102
+        id: a725a04c-254c-4378-a1c8-2f55b10ae84a
         mappings:
           mitx:
             - Medicine
@@ -1105,7 +1105,7 @@ topics:
         name: Health Care Management
       - children: []
         icon: RiStethoscopeLine
-        id: 103
+        id: 7e1a310f-9bea-4f03-a103-729fba207d16
         mappings:
           ocw:
             - Cancer
@@ -1113,7 +1113,7 @@ topics:
         name: Immunology
       - children: []
         icon: RiStethoscopeLine
-        id: 104
+        id: 3f5b5755-5c75-4e06-9990-6d790f784538
         mappings:
           ocw:
             - Biomedical Signal and Image Processing
@@ -1121,14 +1121,14 @@ topics:
         name: Imaging
       - children: []
         icon: RiStethoscopeLine
-        id: 105
+        id: 702c31e5-acae-4b16-aa85-9d83965587a0
         mappings:
           ocw:
             - Mental Health
         name: Mental Health
       - children: []
         icon: RiStethoscopeLine
-        id: 106
+        id: 13d99dba-f9d6-456a-a3aa-5b7e8604c187
         mappings:
           ocw:
             - Anatomy and Physiology
@@ -1137,12 +1137,12 @@ topics:
         name: Pathology and Pathophysiology
       - children: []
         icon: RiStethoscopeLine
-        id: 107
+        id: d3b05499-06ab-46c6-a1a7-0d4446c7e3b3
         mappings: {}
         name: Pharmacology & Toxicology
       - children: []
         icon: RiStethoscopeLine
-        id: 108
+        id: 8f7cfd8b-1764-4d6f-aa57-b815be7140dd
         mappings:
           mitx:
             - Food & Nutrition
@@ -1155,6 +1155,6 @@ topics:
             - Social Medicine
         name: Public Health
     icon: RiStethoscopeLine
-    id: 100
+    id: 7a48848c-8254-4644-a718-ea7951272b2f
     mappings: {}
     name: Health & Medicine

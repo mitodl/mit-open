@@ -482,10 +482,11 @@ def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -
     This will recursively walk through the topics list and create/update topic
     records as appropriate. The topic records are stored in this format:
     - name - the name of the topic
-    - id - the ID for the topic
+    - id - the UUID for the topic
     - icon - the icon we should display for the topic (a Remixicon, generally)
     - mappings - mappings for topics found in offeror data
     - children - child topics (records in this same format)
+    A more detailed definition of this is in data/README-topics.md.
 
     Args:
     - topics (list of dict): the topics to process
@@ -495,15 +496,18 @@ def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -
     """
 
     for topic in topics:
+        defaults = {
+            "parent": parent,
+            "name": topic["name"],
+            "icon": topic["icon"] or "",
+        }
+
+        if topic["id"]:
+            defaults["topic_uuid"] = topic["id"]
+
         lr_topic, created = LearningResourceTopic.objects.filter(
-            Q(name=topic["name"]) | Q(id=topic["id"])
-        ).update_or_create(
-            defaults={
-                "parent": parent,
-                "name": topic["name"],
-                "icon": topic["icon"] or "",
-            }
-        )
+            Q(name=topic["name"]) | Q(topic_uuid=topic["id"])
+        ).update_or_create(defaults=defaults)
 
         log.debug("%s topic %s", "Created" if created else "Updated", lr_topic.name)
 
@@ -664,7 +668,7 @@ def dump_topics_to_yaml(topic_id: int | None = None):
         """Dump subtopic data to yaml recursively."""
 
         yaml_ready_data = {
-            "id": topic.id,
+            "id": str(topic.topic_uuid),
             "name": topic.name,
             "icon": topic.icon,
             "mappings": {},

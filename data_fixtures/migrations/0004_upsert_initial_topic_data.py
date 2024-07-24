@@ -6,7 +6,20 @@ from learning_resources.utils import upsert_topic_data_file
 
 
 def perform_topic_upsert(apps, schema_editor):
-    """Upsert the topic data from the default location."""
+    """
+    Upsert the topic data from the default location.
+
+    This clears existing topics before upserting, and clears topic channels.
+    After this migration runs, you will need to repopulate these things.
+    """
+
+    LearningResourceTopic = apps.get_model(
+        "learning_resources", "LearningResourceTopic"
+    )
+    ChannelTopicDetail = apps.get_model("channels", "ChannelTopicDetail")
+
+    LearningResourceTopic.objects.all().delete()
+    ChannelTopicDetail.objects.all().delete()
 
     upsert_topic_data_file()
 
@@ -23,14 +36,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL(
-            sql=[
-                (
-                    "TRUNCATE learning_resources_learningresourcetopic "
-                    "RESTART IDENTITY CASCADE"
-                )
-            ],
-            reverse_sql="",
-        ),
         migrations.RunPython(perform_topic_upsert, perform_topic_unupsert),
     ]

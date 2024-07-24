@@ -1,5 +1,6 @@
 """Models for learning resources and related entities"""
 
+import uuid
 from functools import cached_property
 
 from django.contrib.auth.models import User
@@ -61,6 +62,14 @@ class LearningResourceTopic(TimestampedModel):
 
     objects = LearningResourceTopicQuerySet.as_manager()
 
+    topic_uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        help_text=(
+            "An immutable ID for the topic, used if the topic needs to"
+            " be changed via migration."
+        ),
+    )
     name = models.CharField(max_length=128)
     parent = models.ForeignKey(
         "LearningResourceTopic",
@@ -88,21 +97,6 @@ class LearningResourceTopic(TimestampedModel):
         topic_detail = self.channel_topic_details.first()
 
         return topic_detail.channel.channel_url if topic_detail is not None else None
-
-    @cached_property
-    def full_name(self):
-        """
-        Return the topic's full name (with parents).
-
-        This is potentially expensive, so you should limit your use of it.
-        """
-
-        parent_name = ""
-
-        if self.parent:
-            parent_name = f"{self.parent.full_name}:"
-
-        return f"{parent_name}{self.name}"
 
     class Meta:
         """Meta options for LearningResourceTopic"""
