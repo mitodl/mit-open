@@ -55,7 +55,7 @@ const {
   }),
   VERSION: str({
     desc: "The current release version",
-    devDefault: "",
+    default: "0.0.0",
   }),
   MITOPEN_API_BASE_URL: str({
     desc: "Base URL for API requests",
@@ -88,7 +88,7 @@ const {
   }),
   EMBEDLY_KEY: str({
     desc: "Public API key for Embedly",
-    devDefault: "",
+    default: "EMBEDLY_KEY",
   }),
   CKEDITOR_UPLOAD_URL: str({
     desc: "Location of the CKEditor uploads handler",

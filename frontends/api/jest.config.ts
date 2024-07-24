@@ -10,7 +10,7 @@ const config: Config.InitialOptions = {
   globals: {
     APP_SETTINGS: {
       MITOPEN_AXIOS_WITH_CREDENTIALS: false,
-      MIT_OPEN_API_BASE_URL: "",
+      MITOPEN_API_BASE_URL: "https://api.mitopen-test.odl.mit.edu",
     },
   },
 }
