@@ -21,6 +21,7 @@ import boto3
 import rapidjson
 import requests
 from django.conf import settings
+from django.utils.dateparse import parse_duration
 from django.utils.functional import SimpleLazyObject
 from django.utils.text import slugify
 from tika import parser as tika_parser
@@ -703,3 +704,36 @@ def parse_certification(offeror, runs_data):
             if (availability and availability != AvailabilityType.archived.value)
         ]
     )
+
+
+def iso8601_duration(duration_str: str) -> str or None:
+    """
+    Parse the duration from a string and return it in ISO-8601 format
+
+    Args:
+        duration_str (str): The duration as a string in one of various formats
+
+    Returns:
+        str: the duration in ISO-8601 format
+    """
+    if not duration_str:
+        return None
+    delta = parse_duration(duration_str)
+    if delta is None:
+        return None
+
+    # Extract components
+    hours, remainder = divmod(delta.total_seconds(), 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    # Build the duration string
+    if hours or minutes or seconds:
+        duration = "PT"
+        if hours:
+            duration += f"{int(hours)}H"
+        if minutes:
+            duration += f"{int(minutes)}M"
+        if seconds:
+            duration += f"{int(seconds or 0)}S"
+        return duration
+    return "PT0S"
