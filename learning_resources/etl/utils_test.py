@@ -452,3 +452,11 @@ def test_calc_checksum(previous_archive, identical):
         "test_json/course-v1:MITxT+8.01.3x+3T2022.tar.gz"
     )
     assert (utils.calc_checksum(previous_archive) == reference_checksum) is identical
+
+
+@pytest.mark.parametrize(
+    ("dept_name", "dept_id"), [("Biology", "7"), ("Metaphysics", None)]
+)
+def test_get_department_id_by_name(dept_name, dept_id):
+    """Test that the correct department ID (if any) is returned"""
+    assert utils.get_department_id_by_name(dept_name) == dept_id
