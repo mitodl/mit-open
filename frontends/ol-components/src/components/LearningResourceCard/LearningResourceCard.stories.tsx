@@ -4,23 +4,12 @@ import {
   LearningResourceCard,
   LearningResourceCardProps,
 } from "./LearningResourceCard"
-import { LearningResource, ResourceTypeEnum } from "api"
+import { LearningResource } from "api"
 import styled from "@emotion/styled"
-import { factories } from "api/test-utils"
 import { withRouter } from "storybook-addon-react-router-v6"
 import Stack from "@mui/system/Stack"
 import _ from "lodash"
-
-const _makeResource = factories.learningResources.resource
-
-const makeResource: typeof _makeResource = (overrides) => {
-  const resource = _makeResource(overrides)
-  if (resource.image) {
-    resource.image.url =
-      "https://ocw.mit.edu/courses/res-hso-001-mit-haystack-observatory-k12-stem-lesson-plans/mitres_hso_001.jpg"
-  }
-  return resource
-}
+import { resources, courses, resourceArgType } from "./story_utils"
 
 const LearningResourceCardStyled = styled(LearningResourceCard)`
   width: 300px;
@@ -32,37 +21,7 @@ type StoryProps = LearningResourceCardProps & {
 const meta: Meta<StoryProps> = {
   title: "smoot-design/Cards/LearningResourceCard",
   argTypes: {
-    resource: {
-      options: ["Loading", "Without Image", ...Object.values(ResourceTypeEnum)],
-      mapping: {
-        Loading: undefined,
-        "Without Image": makeResource({
-          image: null,
-        }),
-        [ResourceTypeEnum.Course]: makeResource({
-          resource_type: ResourceTypeEnum.Course,
-        }),
-        [ResourceTypeEnum.Program]: makeResource({
-          resource_type: ResourceTypeEnum.Program,
-        }),
-        [ResourceTypeEnum.Video]: makeResource({
-          resource_type: ResourceTypeEnum.Video,
-          url: "https://www.youtube.com/watch?v=-E9hf5RShzQ",
-        }),
-        [ResourceTypeEnum.VideoPlaylist]: makeResource({
-          resource_type: ResourceTypeEnum.VideoPlaylist,
-        }),
-        [ResourceTypeEnum.Podcast]: makeResource({
-          resource_type: ResourceTypeEnum.Podcast,
-        }),
-        [ResourceTypeEnum.PodcastEpisode]: makeResource({
-          resource_type: ResourceTypeEnum.PodcastEpisode,
-        }),
-        [ResourceTypeEnum.LearningPath]: makeResource({
-          resource_type: ResourceTypeEnum.LearningPath,
-        }),
-      },
-    },
+    resource: resourceArgType,
     size: {
       options: ["small", "medium"],
       control: { type: "select" },
@@ -74,24 +33,11 @@ const meta: Meta<StoryProps> = {
       action: "click-add-to-user-list",
     },
   },
-  render: ({
-    resource,
-    isLoading,
-    size,
-    onAddToLearningPathClick,
-    onAddToUserListClick,
-    excerpt,
-  }) => {
-    const excerptObj = _.pick(resource, excerpt)
+  render: ({ excerpt, ...args }) => {
+    const excerptObj = _.pick(args.resource, excerpt)
     return (
       <Stack direction="row" gap="16px">
-        <LearningResourceCardStyled
-          resource={resource}
-          isLoading={isLoading}
-          size={size}
-          onAddToLearningPathClick={onAddToLearningPathClick}
-          onAddToUserListClick={onAddToUserListClick}
-        />
+        <LearningResourceCardStyled {...args} />
         {excerpt && <pre>{JSON.stringify(excerptObj, null, 2)}</pre>}
       </Stack>
     )
@@ -110,148 +56,95 @@ const priceArgs: Partial<Story["args"]> = {
 export const FreeCourseNoCertificate: Story = {
   args: {
     ...priceArgs,
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.Course,
-      runs: [factories.learningResources.run()],
-      free: true,
-      certification: false,
-      prices: [],
-    }),
+    resource: courses.free.noCertificate,
   },
 }
 
 export const FreeCourseWithCertificateOnePrice: Story = {
   args: {
     ...priceArgs,
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.Course,
-      runs: [factories.learningResources.run()],
-      free: true,
-      certification: true,
-      prices: ["250"],
-    }),
+    resource: courses.free.withCertificateOnePrice,
   },
 }
 
 export const FreeCourseWithCertificatePriceRange: Story = {
   args: {
     ...priceArgs,
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.Course,
-      runs: [factories.learningResources.run()],
-      free: true,
-      certification: true,
-      prices: ["250", "1000"],
-    }),
+    resource: courses.free.withCertificatePriceRange,
   },
 }
 
 export const UnknownPriceCourseWithoutCertificate: Story = {
   args: {
     ...priceArgs,
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.Course,
-      runs: [factories.learningResources.run()],
-      free: false,
-      certification: false,
-      prices: [],
-    }),
+    resource: courses.unknownPrice.noCertificate,
   },
 }
 
 export const UnknownPriceCourseWithCertificate: Story = {
   args: {
     ...priceArgs,
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.Course,
-      runs: [factories.learningResources.run()],
-      free: false,
-      certification: true,
-      prices: [],
-    }),
+    resource: courses.unknownPrice.withCertificate,
   },
 }
 
 export const PaidCourseWithoutCertificate: Story = {
   args: {
     ...priceArgs,
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.Course,
-      runs: [factories.learningResources.run()],
-      free: false,
-      certification: false,
-      prices: ["1000"],
-    }),
+    resource: courses.paid.withoutCertificate,
   },
 }
 
 export const PaidCourseWithCertificateOnePrice: Story = {
   args: {
     ...priceArgs,
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.Course,
-      runs: [factories.learningResources.run()],
-      free: false,
-      certification: true,
-      prices: ["1000"],
-    }),
+    resource: courses.paid.withCerticateOnePrice,
   },
 }
 
 export const PaidCourseWithCertificatePriceRange: Story = {
   args: {
     ...priceArgs,
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.Course,
-      runs: [factories.learningResources.run()],
-      free: false,
-      certification: true,
-      prices: ["250", "1000"],
-    }),
+    resource: courses.paid.withCertificatePriceRange,
   },
 }
 
 export const LearningPath: Story = {
   args: {
-    resource: makeResource({ resource_type: ResourceTypeEnum.LearningPath }),
+    resource: resources.learningPath,
   },
 }
 
 export const Program: Story = {
   args: {
-    resource: makeResource({ resource_type: ResourceTypeEnum.Program }),
+    resource: resources.program,
   },
 }
 
 export const Podcast: Story = {
   args: {
-    resource: makeResource({ resource_type: ResourceTypeEnum.Podcast }),
+    resource: resources.podcast,
     size: "small",
   },
 }
 
 export const PodcastEpisode: Story = {
   args: {
-    resource: makeResource({ resource_type: ResourceTypeEnum.PodcastEpisode }),
+    resource: resources.podcastEpisode,
     size: "small",
   },
 }
 
 export const Video: Story = {
   args: {
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.Video,
-      url: "https://www.youtube.com/watch?v=4A9bGL-_ilA",
-    }),
+    resource: resources.video,
     size: "small",
   },
 }
 
 export const VideoPlaylist: Story = {
   args: {
-    resource: makeResource({
-      resource_type: ResourceTypeEnum.VideoPlaylist,
-    }),
+    resource: resources.videoPlaylist,
     size: "small",
   },
 }
