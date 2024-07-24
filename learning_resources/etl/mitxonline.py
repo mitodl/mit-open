@@ -19,8 +19,8 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
-    extract_valid_department_from_id,
     generate_course_numbers_json,
+    get_department_id_by_name,
     parse_certification,
     transform_topics,
 )
@@ -138,6 +138,25 @@ def parse_program_prices(program_data: dict) -> list[float]:
     return sorted(set(prices))
 
 
+def parse_departments(departments_data: list[dict or str]) -> list[str]:
+    """
+    Return a list of department ids for a course/program
+
+    Args:
+        departments_data (list of dict or str): list of extracted department data
+
+    Returns:
+        list of str: list of department ids
+    """
+    dept_ids = []
+    for department in departments_data:
+        name = department["name"] if isinstance(department, dict) else department
+        dept_id = get_department_id_by_name(name)
+        if dept_id:
+            dept_ids.append(dept_id)
+    return dept_ids
+
+
 def _transform_image(mitxonline_data: dict) -> dict:
     """
     Transforms an image into our normalized data structure
@@ -218,7 +237,7 @@ def _transform_course(course):
         "title": course["title"],
         "offered_by": copy.deepcopy(OFFERED_BY),
         "topics": transform_topics(course.get("topics", [])),
-        "departments": extract_valid_department_from_id(course["readable_id"]),
+        "departments": parse_departments(course.get("departments", [])),
         "runs": runs,
         "course": {
             "course_numbers": generate_course_numbers_json(
@@ -286,7 +305,7 @@ def transform_programs(programs):
             "offered_by": OFFERED_BY,
             "etl_source": ETLSource.mitxonline.name,
             "resource_type": LearningResourceType.program.name,
-            "departments": extract_valid_department_from_id(program["readable_id"]),
+            "departments": parse_departments(program.get("departments", [])),
             "platform": PlatformType.mitxonline.name,
             "professional": False,
             "certification": bool(parse_page_attribute(program, "page_url")),
