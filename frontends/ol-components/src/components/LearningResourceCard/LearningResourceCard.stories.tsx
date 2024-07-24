@@ -1,10 +1,15 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { LearningResourceCard } from "./LearningResourceCard"
-import { ResourceTypeEnum } from "api"
+import {
+  LearningResourceCard,
+  LearningResourceCardProps,
+} from "./LearningResourceCard"
+import { LearningResource, ResourceTypeEnum } from "api"
 import styled from "@emotion/styled"
 import { factories } from "api/test-utils"
 import { withRouter } from "storybook-addon-react-router-v6"
+import Stack from "@mui/system/Stack"
+import _ from "lodash"
 
 const _makeResource = factories.learningResources.resource
 
@@ -20,8 +25,11 @@ const makeResource: typeof _makeResource = (overrides) => {
 const LearningResourceCardStyled = styled(LearningResourceCard)`
   width: 300px;
 `
+type StoryProps = LearningResourceCardProps & {
+  excerpt: (keyof LearningResource)[]
+}
 
-const meta: Meta<typeof LearningResourceCard> = {
+const meta: Meta<StoryProps> = {
   title: "smoot-design/Cards/LearningResourceCard",
   argTypes: {
     resource: {
@@ -72,24 +80,36 @@ const meta: Meta<typeof LearningResourceCard> = {
     size,
     onAddToLearningPathClick,
     onAddToUserListClick,
-  }) => (
-    <LearningResourceCardStyled
-      resource={resource}
-      isLoading={isLoading}
-      size={size}
-      onAddToLearningPathClick={onAddToLearningPathClick}
-      onAddToUserListClick={onAddToUserListClick}
-    />
-  ),
+    excerpt,
+  }) => {
+    const excerptObj = _.pick(resource, excerpt)
+    return (
+      <Stack direction="row" gap="16px">
+        <LearningResourceCardStyled
+          resource={resource}
+          isLoading={isLoading}
+          size={size}
+          onAddToLearningPathClick={onAddToLearningPathClick}
+          onAddToUserListClick={onAddToUserListClick}
+        />
+        {excerpt && <pre>{JSON.stringify(excerptObj, null, 2)}</pre>}
+      </Stack>
+    )
+  },
   decorators: [withRouter],
 }
 
 export default meta
 
-type Story = StoryObj<typeof LearningResourceCard>
+type Story = StoryObj<StoryProps>
+
+const priceArgs: Partial<Story["args"]> = {
+  excerpt: ["certification", "free", "prices"],
+}
 
 export const FreeCourseNoCertificate: Story = {
   args: {
+    ...priceArgs,
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
@@ -102,6 +122,7 @@ export const FreeCourseNoCertificate: Story = {
 
 export const FreeCourseWithCertificateOnePrice: Story = {
   args: {
+    ...priceArgs,
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
@@ -114,6 +135,7 @@ export const FreeCourseWithCertificateOnePrice: Story = {
 
 export const FreeCourseWithCertificatePriceRange: Story = {
   args: {
+    ...priceArgs,
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
@@ -126,6 +148,7 @@ export const FreeCourseWithCertificatePriceRange: Story = {
 
 export const UnknownPriceCourseWithoutCertificate: Story = {
   args: {
+    ...priceArgs,
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
@@ -138,6 +161,7 @@ export const UnknownPriceCourseWithoutCertificate: Story = {
 
 export const UnknownPriceCourseWithCertificate: Story = {
   args: {
+    ...priceArgs,
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
@@ -150,6 +174,7 @@ export const UnknownPriceCourseWithCertificate: Story = {
 
 export const PaidCourseWithoutCertificate: Story = {
   args: {
+    ...priceArgs,
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
@@ -162,6 +187,7 @@ export const PaidCourseWithoutCertificate: Story = {
 
 export const PaidCourseWithCertificateOnePrice: Story = {
   args: {
+    ...priceArgs,
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
@@ -174,6 +200,7 @@ export const PaidCourseWithCertificateOnePrice: Story = {
 
 export const PaidCourseWithCertificatePriceRange: Story = {
   args: {
+    ...priceArgs,
     resource: makeResource({
       resource_type: ResourceTypeEnum.Course,
       runs: [factories.learningResources.run()],
