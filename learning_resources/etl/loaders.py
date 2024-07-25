@@ -367,6 +367,10 @@ def load_course(
 
         if config.prune:
             # mark runs no longer included here as unpublished
+            # This generally should not be done when loading courses
+            # from a program (config.prune=False).
+            # The course ETL should be the ultimate source of truth for
+            # courses and their runs.
             for run in learning_resource.runs.exclude(
                 run_id__in=run_ids_to_update_or_create
             ).filter(published=True):
@@ -427,8 +431,6 @@ def load_courses(
 
 def load_program(
     program_data: dict,
-    blocklist: list[str],
-    duplicates: list[dict],
     *,
     config=ProgramLoaderConfig(),
 ) -> LearningResource:
@@ -508,10 +510,12 @@ def load_program(
             # skip courses that don't define a readable_id
             if not course_data.get("readable_id", None):
                 continue
-
-            course_resource = load_course(
-                course_data, blocklist, duplicates, config=config.courses
-            )
+            course_resource = LearningResource.objects.filter(
+                resource_type="course",
+                readable_id=course_data["readable_id"],
+                platform__code=course_data["platform"],
+                offered_by__code=course_data["offered_by"]["name"],
+            ).first()
             if course_resource:
                 course_resources.append(course_resource)
         program.learning_resource.resources.set(
