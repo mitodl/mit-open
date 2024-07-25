@@ -14,7 +14,7 @@ import {
 import React from "react"
 
 /* TODO Using any icons until we have a solution for specifying them */
-const ICON_MAP = {
+export const ICON_MAP = {
   Business: RiBriefcase3Line,
   Energy: RiLightbulbFlashLine,
   Engineering: RiRobot2Line,
