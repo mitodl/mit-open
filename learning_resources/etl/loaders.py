@@ -9,6 +9,7 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 
 from learning_resources.constants import (
+    AvailabilityType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -125,7 +126,11 @@ def load_next_start_date_and_prices(
         next_upcoming_run
         or resource.runs.filter(published=True).order_by("-start_date").first()
     )
-    resource.prices = best_run.prices if best_run and best_run.prices else []
+    resource.prices = (
+        best_run.prices
+        if resource.certification and best_run and best_run.prices
+        else []
+    )
     resource.save()
     return resource.next_start_date, resource.prices
 
@@ -227,8 +232,17 @@ def load_run(
     image_data = run_data.pop("image", None)
     instructors_data = run_data.pop("instructors", [])
 
-    # Make sure any prices are unique and sorted in ascending order
-    run_data["prices"] = sorted(set(run_data.get("prices", [])), key=lambda x: float(x))
+    if (
+        run_data.get("availability") == AvailabilityType.archived.value
+        or learning_resource.certification is False
+    ):
+        # Archived runs or runs of resources w/out certificates should not have prices
+        run_data["prices"] = []
+    else:
+        # Make sure any prices are unique and sorted in ascending order
+        run_data["prices"] = sorted(
+            set(run_data.get("prices", [])), key=lambda x: float(x)
+        )
 
     with transaction.atomic():
         (
