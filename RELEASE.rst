@@ -1,6 +1,17 @@
 Release Notes
 =============
 
+Version 0.14.2
+--------------
+
+- Reorder where the testimonial displays in the unit/offeror page to fix spacing and background (#1314)
+- fix banner background width (#1315)
+- fix price display and update vertical cards (#1296)
+- Fix channel views test (#1318)
+- free section css (#1312)
+- Extract department info for mitxonline from correct external API fields (#1308)
+- Determine can edit and can sort permission upstream (#1299)
+
 Version 0.14.1 (Released July 24, 2024)
 --------------
 
