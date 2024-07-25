@@ -899,7 +899,7 @@ def test_notification_preference(mocked_api, mocker):
         "Environmental Engineering",
         "Systems Engineering",
     ]
-    notificaiton_prefs = ["daily", "weekly", "never"]
+    notification_prefs = ["daily", "weekly", "never"]
 
     LearningResource.objects.all().delete()
     new_resources = LearningResourceFactory.create_batch(len(topics), is_course=True)
@@ -910,7 +910,7 @@ def test_notification_preference(mocked_api, mocker):
     for topic in topics:
         user = UserFactory.create()
         profile = user.profile
-        profile.notification_preference = notificaiton_prefs.pop()
+        profile.notification_preference = notification_prefs.pop()
         profile.save()
         query = PercolateQueryFactory.create()
         query.original_query["topic"] = [topic]
@@ -997,7 +997,7 @@ def test_get_percolated_rows_match_notification_preferences(mocked_api, mocker):
         "Environmental Engineering",
         "Systems Engineering",
     ]
-    notificaiton_prefs = ["daily", "weekly", "never"]
+    notification_prefs = ["daily", "weekly", "never"]
 
     LearningResource.objects.all().delete()
     new_resources = LearningResourceFactory.create_batch(len(topics), is_course=True)
@@ -1008,7 +1008,7 @@ def test_get_percolated_rows_match_notification_preferences(mocked_api, mocker):
     for topic in topics:
         user = UserFactory.create()
         profile = user.profile
-        profile.notification_preference = notificaiton_prefs.pop()
+        profile.notification_preference = notification_prefs.pop()
         profile.save()
         query = PercolateQueryFactory.create()
         query.original_query["topic"] = [topic]
@@ -1103,10 +1103,10 @@ def test_get_percolated_rows_match_notification_period(mocked_api, mocker):
         for row in rows:
             resource = LearningResource.objects.get(id=row["resource_id"])
             if notification_period == "daily":
-                assert resource.created_on > now.replace(tz=None) - datetime.timedelta(
-                    days=1
-                )
+                assert resource.created_on > now.replace(
+                    tzinfo=None
+                ) - datetime.timedelta(days=1)
             elif notification_period == "weekly":
-                assert resource.created_on > now.replace(tz=None) - datetime.timedelta(
-                    days=7
-                )
+                assert resource.created_on > now.replace(
+                    tzinfo=None
+                ) - datetime.timedelta(days=7)
