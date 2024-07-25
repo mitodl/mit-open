@@ -7207,6 +7207,17 @@ components:
       required:
       - html
       - title
+    AvailabilityEnum:
+      enum:
+      - scheduled
+      - anytime
+      type: string
+      description: |-
+        * `scheduled` - Scheduled
+        * `anytime` - Anytime
+      x-enum-descriptions:
+      - Scheduled
+      - Anytime
     CertificationTypeEnum:
       enum:
       - micromasters
@@ -7601,6 +7612,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -7668,6 +7684,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -8011,6 +8032,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -8075,6 +8101,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - title
     LearningPathResourceResourceTypeEnum:
@@ -8822,6 +8853,9 @@ components:
       - child
       - id
       - parent
+    NullEnum:
+      enum:
+      - null
     OfferedByEnum:
       enum:
       - mitx
@@ -9370,6 +9404,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
     PatchedUserListRelationshipRequest:
       type: object
       description: Serializer for UserListRelationship model
@@ -9884,6 +9923,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -9951,6 +9995,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -10134,6 +10183,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -10201,6 +10255,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -10518,6 +10577,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -10585,6 +10649,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -11017,6 +11086,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -11084,6 +11158,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -11257,6 +11336,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -11324,6 +11408,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title

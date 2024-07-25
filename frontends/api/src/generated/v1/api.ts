@@ -164,6 +164,31 @@ export interface ArticleRequest {
   title: string
 }
 /**
+ * * `scheduled` - Scheduled * `anytime` - Anytime
+ * @export
+ * @enum {string}
+ */
+
+export const AvailabilityEnumDescriptions = {
+  scheduled: "Scheduled",
+  anytime: "Anytime",
+} as const
+
+export const AvailabilityEnum = {
+  /**
+   * Scheduled
+   */
+  Scheduled: "scheduled",
+  /**
+   * Anytime
+   */
+  Anytime: "anytime",
+} as const
+
+export type AvailabilityEnum =
+  (typeof AvailabilityEnum)[keyof typeof AvailabilityEnum]
+
+/**
  * * `micromasters` - Micromasters Credential * `professional` - Professional Certificate * `completion` - Certificate of Completion * `none` - No Certificate
  * @export
  * @enum {string}
@@ -733,6 +758,12 @@ export interface CourseResource {
    * @memberof CourseResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof CourseResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -860,7 +891,14 @@ export interface CourseResourceRequest {
    * @memberof CourseResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof CourseResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -1369,6 +1407,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof LearningPathResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -1437,7 +1481,14 @@ export interface LearningPathResourceRequest {
    * @memberof LearningPathResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof LearningPathResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -2422,6 +2473,22 @@ export interface MicroUserListRelationship {
   child: number
 }
 /**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const NullEnumDescriptions = {
+  null: "",
+} as const
+
+export const NullEnum = {
+  Null: "null",
+} as const
+
+export type NullEnum = (typeof NullEnum)[keyof typeof NullEnum]
+
+/**
  * * `mitx` - MITx * `ocw` - MIT OpenCourseWare * `bootcamps` - Bootcamps * `xpro` - MIT xPRO * `mitpe` - MIT Professional Education * `see` - MIT Sloan Executive Education
  * @export
  * @enum {string}
@@ -3195,7 +3262,14 @@ export interface PatchedLearningPathResourceRequest {
    * @memberof PatchedLearningPathResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  * Serializer for UserListRelationship model
  * @export
@@ -3858,6 +3932,12 @@ export interface PodcastEpisodeResource {
    * @memberof PodcastEpisodeResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PodcastEpisodeResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -3926,7 +4006,14 @@ export interface PodcastEpisodeResourceRequest {
    * @memberof PodcastEpisodeResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PodcastEpisodeResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -4149,6 +4236,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PodcastResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -4217,7 +4310,14 @@ export interface PodcastResourceRequest {
    * @memberof PodcastResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PodcastResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -4666,6 +4766,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof ProgramResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -4734,7 +4840,14 @@ export interface ProgramResourceRequest {
    * @memberof ProgramResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof ProgramResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -5394,6 +5507,12 @@ export interface VideoPlaylistResource {
    * @memberof VideoPlaylistResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof VideoPlaylistResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -5462,7 +5581,14 @@ export interface VideoPlaylistResourceRequest {
    * @memberof VideoPlaylistResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof VideoPlaylistResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -5679,6 +5805,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof VideoResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -5747,7 +5879,14 @@ export interface VideoResourceRequest {
    * @memberof VideoResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof VideoResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
