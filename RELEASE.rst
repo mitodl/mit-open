@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.14.2
+Version 0.14.2 (Released July 25, 2024)
 --------------
 
 - Reorder where the testimonial displays in the unit/offeror page to fix spacing and background (#1314)
