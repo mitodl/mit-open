@@ -52,6 +52,7 @@ def _mock_offerors_platforms():
     LearningResourcePlatformFactory.create(
         code="mitpe", name="MIT Professional Education"
     )
+    upsert_topic_data_file()
 
 
 @pytest.fixture(autouse=True)
@@ -134,7 +135,6 @@ def test_prolearn_extract_courses_disabled(settings):
 
 def test_prolearn_transform_programs(mock_csail_programs_data):
     """Test that prolearn program data is correctly transformed into our normalized structure"""
-    upsert_topic_data_file()
     extracted_data = mock_csail_programs_data["data"]["searchAPISearch"]["documents"]
     result = transform_programs(extracted_data)
     expected = [
@@ -208,7 +208,6 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
 
 def test_prolearn_transform_courses(mock_mitpe_courses_data):
     """Test that prolearn courses data is correctly transformed into our normalized structure"""
-    upsert_topic_data_file()
     extracted_data = mock_mitpe_courses_data["data"]["searchAPISearch"]["documents"]
     result = list(transform_courses(extracted_data))
     expected = [
@@ -298,7 +297,6 @@ def test_parse_price(price_str, price_list):
 )
 def test_parse_topic(topic, expected):
     """parse_topic should return the matching OCW topic"""
-    upsert_topic_data_file()
 
     document = {"ucc_name": topic}
     if expected:
