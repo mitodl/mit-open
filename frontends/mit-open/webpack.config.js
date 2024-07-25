@@ -92,7 +92,7 @@ const {
   }),
   CKEDITOR_UPLOAD_URL: str({
     desc: "Location of the CKEditor uploads handler",
-    default: "https://35904.cke-cs.com/easyimage/upload/",
+    default: "",
   }),
   SENTRY_DSN: str({
     desc: "Sentry Data Source Name",

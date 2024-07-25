@@ -27,7 +27,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({
 
   return (
     <Helmet>
-      <title>{[...title, process.env.SITE_NAME].join(" | ")}</title>
+      <title>{[...title, APP_SETTINGS.SITE_NAME].join(" | ")}</title>
       {children}
       {canonicalLink ? (
         <link rel="canonical" href={getCanonicalUrl(canonicalLink)} />
