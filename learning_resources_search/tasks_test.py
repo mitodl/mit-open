@@ -1103,10 +1103,10 @@ def test_get_percolated_rows_match_notification_period(mocked_api, mocker):
         for row in rows:
             resource = LearningResource.objects.get(id=row["resource_id"])
             if notification_period == "daily":
-                assert resource.created_on > now - datetime.replace(tz=None).timedelta(
+                assert resource.created_on > now.replace(tz=None) - datetime.timedelta(
                     days=1
                 )
             elif notification_period == "weekly":
-                assert resource.created_on > now - datetime.replace(tz=None).timedelta(
+                assert resource.created_on > now.replace(tz=None) - datetime.timedelta(
                     days=7
                 )
