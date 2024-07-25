@@ -13,8 +13,6 @@ Sentry.init({
   environment: APP_SETTINGS.ENVIRONMENT,
 })
 
-console.log("APP_SETTINGS", APP_SETTINGS)
-
 const container = document.getElementById("app-container")
 invariant(container, "Could not find container element")
 const root = createRoot(container)
