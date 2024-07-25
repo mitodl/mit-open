@@ -10,7 +10,7 @@ import {
 import { LearningResource } from "api"
 import {
   getReadableResourceType,
-  getLearningResourcePrices,
+  // getLearningResourcePrices,
 } from "ol-utilities"
 import { ListCardCondensed } from "../Card/ListCardCondensed"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
@@ -24,6 +24,7 @@ import {
 } from "./LearningResourceListCard"
 import type { LearningResourceListCardProps } from "./LearningResourceListCard"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
+import { getDisplayPrices } from "./utils"
 
 const ResourceType = styled.span`
   align-self: flex-start;
@@ -33,7 +34,7 @@ const ResourceType = styled.span`
  * Info is the ResourceType flex alignment
  */
 const Info = ({ resource }: { resource: LearningResource }) => {
-  const prices = getLearningResourcePrices(resource)
+  const prices = getDisplayPrices(resource)
   return (
     <>
       <ResourceType>
@@ -42,11 +43,10 @@ const Info = ({ resource }: { resource: LearningResource }) => {
       {resource.certification && (
         <Certificate>
           <RiAwardFill />
-          Certificate{prices?.certificate ? ":" : ""}{" "}
-          {prices.displayCertificate}
+          Certificate{prices?.certificate ? ":" : ""} {prices?.certificate}
         </Certificate>
       )}
-      <Price>{prices.displayCourse}</Price>
+      <Price>{prices?.course}</Price>
     </>
   )
 }

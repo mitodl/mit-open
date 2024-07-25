@@ -128,6 +128,7 @@ const Description = styled.p`
 
 const StyledPlatformLogo = styled(PlatformLogo)`
   height: 26px;
+  max-width: 180px;
 `
 
 const OnPlatform = styled.span`

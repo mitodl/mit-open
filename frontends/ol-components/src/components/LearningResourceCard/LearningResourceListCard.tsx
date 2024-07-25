@@ -15,12 +15,13 @@ import {
   embedlyCroppedImage,
   DEFAULT_RESOURCE_IMG,
   pluralize,
-  getLearningResourcePrices,
+  // getLearningResourcePrices,
 } from "ol-utilities"
 import { ListCard } from "../Card/ListCard"
 import { ActionButtonProps } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
+import { getDisplayPrices } from "./utils"
 
 const IMAGE_SIZES = {
   mobile: { width: 116, height: 104 },
@@ -40,7 +41,7 @@ export const Certificate = styled.div`
   padding: 4px;
   color: ${theme.custom.colors.silverGrayDark};
   gap: 4px;
-  margin: 0 8px 0 auto;
+  margin: 0 16px 0 auto;
 
   ${{ ...theme.typography.subtitle3 }}
 
@@ -65,6 +66,17 @@ export const Certificate = styled.div`
 
   display: flex;
   align-items: center;
+`
+
+const CertificateText = styled.div`
+  display: flex;
+`
+
+const CertificatePrice = styled.div`
+  ${{ ...theme.typography.body3 }}
+  ${theme.breakpoints.down("md")} {
+    ${{ ...theme.typography.body4 }}
+  }
 `
 
 export const Price = styled.div`
@@ -105,17 +117,22 @@ const getEmbedlyUrl = (url: string, isMobile: boolean) => {
  * in the certificate badge alongside the course "Free" price.
  */
 const Info = ({ resource }: { resource: LearningResource }) => {
-  const prices = getLearningResourcePrices(resource)
+  const prices = getDisplayPrices(resource)
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
       {resource.certification && (
         <Certificate>
           <RiAwardFill />
-          Certificate{prices.certificate ? ":" : ""} {prices.displayCertificate}
+          <CertificateText>
+            Certificate
+            <CertificatePrice>
+              {prices?.certificate ? ": " : ""} {prices?.certificate}
+            </CertificatePrice>
+          </CertificateText>
         </Certificate>
       )}
-      <Price>{prices.displayCourse}</Price>
+      <Price>{prices?.course}</Price>
     </>
   )
 }

@@ -4,6 +4,7 @@ import {
   useUserListsDetail,
 } from "api/hooks/learningResources"
 import { ListType } from "api/constants"
+import { useUserMe } from "api/hooks/user"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import ItemsListingComponent from "@/page-components/ItemsListing/ItemsListingComponent"
 
@@ -13,6 +14,8 @@ interface UserListDetailsTabProps {
 
 const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
   const { userListId } = props
+
+  const { data: user } = useUserMe()
   const listQuery = useUserListsDetail(userListId)
   const itemsQuery = useInfiniteUserListItems({ userlist_id: userListId })
 
@@ -28,6 +31,8 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
       items={items}
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}
+      showSort={!!user?.is_authenticated}
+      canEdit={!!user?.is_authenticated}
       handleEdit={() => manageListDialogs.upsertUserList(listQuery.data)}
       condensed
     />

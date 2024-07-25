@@ -17,7 +17,7 @@ from learning_resources.etl.edx_shared import (
     get_most_recent_course_archives,
     sync_edx_course_files,
 )
-from learning_resources.etl.loaders import load_next_start_date
+from learning_resources.etl.loaders import load_next_start_date_and_prices
 from learning_resources.etl.pipelines import ocw_courses_etl
 from learning_resources.etl.utils import get_learning_course_bucket_name
 from learning_resources.models import LearningResource
@@ -30,11 +30,11 @@ log = logging.getLogger(__name__)
 
 
 @app.task
-def update_next_start_date():
-    """Update expired next start dates"""
+def update_next_start_date_and_prices():
+    """Update expired next start dates and prices"""
     resources = LearningResource.objects.filter(next_start_date__lt=timezone.now())
     for resource in resources:
-        load_next_start_date(resource)
+        load_next_start_date_and_prices(resource)
     return len(resources)
 
 

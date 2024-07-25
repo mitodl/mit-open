@@ -1,7 +1,6 @@
 import React from "react"
 import { Grid, Button, Typography, styled } from "ol-components"
 import { RiPencilFill, RiArrowUpDownLine } from "@remixicon/react"
-import { useUserMe } from "api/hooks/user"
 import { useToggle, pluralize } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import ItemsListing from "./ItemsListing"
@@ -28,6 +27,8 @@ type ItemsListingComponentProps = {
   listType: string
   list?: ListData
   items: LearningResourceListItem[]
+  showSort: boolean
+  canEdit: boolean
   isLoading: boolean
   isFetching: boolean
   handleEdit: OnEdit
@@ -38,16 +39,15 @@ const ItemsListingComponent: React.FC<ItemsListingComponentProps> = ({
   listType,
   list,
   items,
+  showSort,
+  canEdit,
   isLoading,
   isFetching,
   handleEdit,
   condensed = false,
 }) => {
-  const { data: user } = useUserMe()
   const [isSorting, toggleIsSorting] = useToggle(false)
 
-  const canEdit = user?.is_learning_path_editor
-  const showSort = canEdit && !!items.length
   const count = list?.item_count
 
   return (
@@ -67,7 +67,7 @@ const ItemsListingComponent: React.FC<ItemsListingComponentProps> = ({
             alignItems="center"
             justifyContent="space-between"
           >
-            {showSort && (
+            {showSort && !!items.length && (
               <Button
                 variant="text"
                 disabled={count === 0}

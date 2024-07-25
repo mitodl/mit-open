@@ -31,7 +31,7 @@ from learning_resources.etl.mitxonline import (
 )
 from learning_resources.etl.utils import (
     UCC_TOPIC_MAPPINGS,
-    extract_valid_department_from_id,
+    get_department_id_by_name,
     parse_certification,
 )
 from main.test_utils import any_instance_of
@@ -127,9 +127,9 @@ def test_mitxonline_transform_programs(
             "etl_source": ETLSource.mitxonline.name,
             "platform": PlatformType.mitxonline.name,
             "resource_type": LearningResourceType.program.name,
-            "departments": extract_valid_department_from_id(
-                program_data["readable_id"]
-            ),
+            "departments": [get_department_id_by_name(program_data["departments"][0])]
+            if program_data["departments"]
+            else [],
             "professional": False,
             "certification": bool(
                 program_data.get("page", {}).get("page_url", None) is not None
@@ -184,9 +184,9 @@ def test_mitxonline_transform_programs(
                     "resource_type": LearningResourceType.course.name,
                     "professional": False,
                     "etl_source": ETLSource.mitxonline.value,
-                    "departments": extract_valid_department_from_id(
-                        course_data["readable_id"]
-                    ),
+                    "departments": [
+                        get_department_id_by_name(course_data["departments"][0]["name"])
+                    ],
                     "title": course_data["title"],
                     "image": _transform_image(course_data),
                     "description": clean_data(
@@ -306,7 +306,9 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             "platform": PlatformType.mitxonline.name,
             "etl_source": ETLSource.mitxonline.name,
             "resource_type": LearningResourceType.course.name,
-            "departments": extract_valid_department_from_id(course_data["readable_id"]),
+            "departments": [
+                get_department_id_by_name(course_data["departments"][0]["name"])
+            ],
             "title": course_data["title"],
             "image": _transform_image(course_data),
             "description": clean_data(

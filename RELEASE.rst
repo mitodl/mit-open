@@ -1,6 +1,22 @@
 Release Notes
 =============
 
+Version 0.14.1 (Released July 24, 2024)
+--------------
+
+- Add a database index on FeedEventDetail.event_datetime (#1304)
+- Update platform logos (#1302)
+
+Version 0.14.0 (Released July 23, 2024)
+--------------
+
+- Save resource prices in a new database model and calculate during ETL/nightly task (#1290)
+- set search page size to 20 (#1298)
+- Add a slider to prioritize newer resources (#1283)
+- Fix bug with background image obscuring search controls (#1293)
+- allow hitting local edx datafile in dev mode (#1297)
+- fix restricted redirect (#1287)
+
 Version 0.13.23 (Released July 18, 2024)
 ---------------
 
