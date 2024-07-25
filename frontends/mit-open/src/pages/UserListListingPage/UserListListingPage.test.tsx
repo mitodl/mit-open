@@ -9,7 +9,6 @@ import {
   expectProps,
   waitFor,
 } from "../../test-utils"
-// import type { User } from "../../types/settings"
 import type { User } from "../../test-utils"
 
 import { UserListListingPage } from "./UserListListingPage"
