@@ -94,14 +94,14 @@ const INFO_ITEMS: InfoItemConfig = [
 
       return (
         <>
-          {prices.displayCourse}
+          {prices.course.display}
           {resource.certification && (
             <Certificate>
               <RiAwardLine />
-              {prices.certificate
+              {prices.certificate.display
                 ? "Earn a certificate:"
                 : "Certificate included"}
-              <CertificatePrice>{prices.displayCertificate}</CertificatePrice>
+              <CertificatePrice>{prices.certificate.display}</CertificatePrice>
             </Certificate>
           )}
         </>

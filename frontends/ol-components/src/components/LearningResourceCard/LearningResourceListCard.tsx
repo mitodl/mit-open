@@ -15,13 +15,12 @@ import {
   embedlyCroppedImage,
   DEFAULT_RESOURCE_IMG,
   pluralize,
-  // getLearningResourcePrices,
+  getLearningResourcePrices,
 } from "ol-utilities"
 import { ListCard } from "../Card/ListCard"
 import { ActionButtonProps } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
-import { getDisplayPrices } from "./utils"
 
 const IMAGE_SIZES = {
   mobile: { width: 116, height: 104 },
@@ -117,7 +116,7 @@ const getEmbedlyUrl = (url: string, isMobile: boolean) => {
  * in the certificate badge alongside the course "Free" price.
  */
 const Info = ({ resource }: { resource: LearningResource }) => {
-  const prices = getDisplayPrices(resource)
+  const prices = getLearningResourcePrices(resource)
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
@@ -127,12 +126,13 @@ const Info = ({ resource }: { resource: LearningResource }) => {
           <CertificateText>
             Certificate
             <CertificatePrice>
-              {prices?.certificate ? ": " : ""} {prices?.certificate}
+              {prices.certificate.display ? ": " : ""}{" "}
+              {prices.certificate.display}
             </CertificatePrice>
           </CertificateText>
         </Certificate>
       )}
-      <Price>{prices?.course}</Price>
+      <Price>{prices.course.display}</Price>
     </>
   )
 }

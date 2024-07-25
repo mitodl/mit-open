@@ -14,6 +14,7 @@ import {
   getReadableResourceType,
   embedlyCroppedImage,
   DEFAULT_RESOURCE_IMG,
+  getLearningResourcePrices,
 } from "ol-utilities"
 import { Card } from "../Card/Card"
 import type { Size } from "../Card/Card"
@@ -21,7 +22,6 @@ import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
-import { getDisplayPrices } from "./utils"
 import Tooltip from "@mui/material/Tooltip"
 
 const EllipsisTitle = styled(TruncateText)({
@@ -63,12 +63,12 @@ const Info = ({
   resource: LearningResource
   size: Size
 }) => {
-  const prices = getDisplayPrices(resource)
+  const prices = getLearningResourcePrices(resource)
   const certificatePrice =
-    size === "small" && prices?.certificate?.includes("–")
+    size === "small" && prices.certificate.display?.includes("–")
       ? ""
-      : prices?.certificate
-        ? prices?.certificate
+      : prices.certificate.display
+        ? prices.certificate.display
         : ""
   const separator = size === "small" ? "" : ": "
   return (
@@ -92,7 +92,7 @@ const Info = ({
             </CertificatePrice>
           </Certificate>
         )}
-        <Price>{prices?.course}</Price>
+        <Price>{prices.course.display}</Price>
       </PriceContainer>
     </>
   )
