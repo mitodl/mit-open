@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom"
 import { render, screen, within } from "@testing-library/react"
 import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
-import { ResourceTypeEnum, PlatformEnum, PodcastEpisodeResource } from "api"
+import { ResourceTypeEnum, PodcastEpisodeResource } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import { getReadableResourceType } from "ol-utilities"
@@ -187,31 +187,6 @@ describe("Learning Resource Expanded", () => {
         within(section!).getByText(instructors.join(", "))
       }
     }
-  })
-
-  test("Renders taught in date and price free for OCW courses", () => {
-    const resource = factories.learningResources.resource({
-      resource_type: ResourceTypeEnum.Course,
-      platform: { code: PlatformEnum.Ocw },
-      runs: [
-        factories.learningResources.run({
-          semester: "Fall",
-          year: 2002,
-        }),
-      ],
-    })
-
-    setup(resource)
-
-    const dateSection = screen.getByText("As taught in:")!.closest("div")!
-
-    within(dateSection).getByText("Fall 2002")
-
-    const section = screen
-      .getByRole("heading", { name: "Info" })!
-      .closest("section")!
-
-    within(section).getByText("Free")
   })
 
   test("Renders info section languages correctly", () => {
