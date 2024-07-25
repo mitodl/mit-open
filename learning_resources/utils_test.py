@@ -361,7 +361,7 @@ def test_modify_topic_data_string(mocker):
         update_file_yaml = topic_file.read()
 
     update_yaml_string = update_file_yaml.replace(
-        "%%ARCHITECTURE_ID%%", str(architecture_topic.id)
+        "%%ARCHITECTURE_ID%%", str(architecture_topic.topic_uuid)
     )
 
     upsert_topic_data_string(update_yaml_string)
