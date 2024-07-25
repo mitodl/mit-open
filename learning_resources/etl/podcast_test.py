@@ -162,7 +162,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "published": True,
                     "podcast_episode": {
                         "episode_link": "https://soundcloud.com/podcast/episode1",
-                        "duration": "00:17:16",
+                        "duration": "PT17M16S",
                         "rss": episodes_rss[0].prettify(),
                     },
                     "resource_type": LearningResourceType.podcast_episode.name,
@@ -185,7 +185,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "published": True,
                     "podcast_episode": {
                         "episode_link": "https://soundcloud.com/podcast/episode2",
-                        "duration": "00:17:16",
+                        "duration": "PT17M16S",
                         "rss": episodes_rss[1].prettify(),
                     },
                     "resource_type": LearningResourceType.podcast_episode.name,
