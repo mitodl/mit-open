@@ -292,3 +292,46 @@ def test_transform_course_availability_with_single_run(  # noqa: PLR0913
         assert transformed_courses[0]["availability"] == expected_availability
     else:
         assert transformed_courses[0]["availability"] is None
+
+
+@pytest.mark.parametrize("has_dated", [True, False])
+def test_transform_course_availability_with_multiple_runs(
+    openedx_extract_transform, mitx_course_data, has_dated
+):
+    """
+    Test that if course includes a single run corresponding to availability: "dated",
+    then the overall course availability is "dated".
+    """
+    extracted = mitx_course_data["results"]
+    run0 = {  # anytime run
+        **extracted[0]["course_runs"][0],
+        "availability": RunAvailability.current.value,
+        "pacing_type": "self_paced",
+        "start": "2021-01-01T00:00:00Z",  # past
+        "is_enrollable": True,
+        "status": "published",
+    }
+    run1 = {  # anytime run
+        **extracted[0]["course_runs"][0],
+        "availability": RunAvailability.archived.value,
+        "is_enrollable": True,
+        "status": "published",
+    }
+    run2 = {  # dated run
+        **extracted[0]["course_runs"][0],
+        "availability": RunAvailability.current.value,
+        "pacing_type": "instructor_paced",
+        "start": "2221-01-01T00:00:00Z",
+        "is_enrollable": True,
+        "status": "published",
+    }
+    runs = [run0, run1]
+    if has_dated:
+        runs.append(run2)
+    extracted[0]["course_runs"] = runs
+    transformed_courses = openedx_extract_transform.transform([extracted[0]])
+
+    if has_dated:
+        assert transformed_courses[0]["availability"] == Availability.scheduled.name
+    else:
+        assert transformed_courses[0]["availability"] is Availability.anytime.name
