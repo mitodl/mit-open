@@ -557,6 +557,20 @@ def extract_valid_department_from_id(
     return []
 
 
+def get_department_id_by_name(name: str) -> str:
+    """
+    Return a department id based on provided name
+
+    Args:
+        name (str): The department name
+
+    Returns:
+        str: The department id
+    """
+    reverse_dept_map = {v: k for k, v in DEPARTMENTS.items()}
+    return reverse_dept_map.get(name)
+
+
 def generate_course_numbers_json(
     course_num: str,
     extra_nums: list[str] | None = None,

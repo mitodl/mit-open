@@ -21,6 +21,8 @@ import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
+import { getDisplayPrices } from "./utils"
+import Tooltip from "@mui/material/Tooltip"
 
 const EllipsisTitle = styled(TruncateText)({
   margin: 0,
@@ -54,25 +56,64 @@ type ResourceIdCallback = (
   resourceId: number,
 ) => void
 
-const Info = ({ resource }: { resource: LearningResource }) => {
+const Info = ({
+  resource,
+  size,
+}: {
+  resource: LearningResource
+  size: Size
+}) => {
+  const prices = getDisplayPrices(resource)
+  const certificatePrice =
+    size === "small" && prices?.certificate?.includes("–")
+      ? ""
+      : prices?.certificate
+        ? prices?.certificate
+        : ""
+  const separator = size === "small" ? "" : ": "
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
-      {resource.certification && (
-        <Certificate>
-          <RiAwardFill />
-          Certificate
-        </Certificate>
-      )}
+      <PriceContainer>
+        {resource.certification && (
+          <Certificate>
+            {size === "small" ? (
+              <Tooltip title="Certificate">
+                <CertificateIconContainer>
+                  <RiAwardFill />
+                </CertificateIconContainer>
+              </Tooltip>
+            ) : (
+              <RiAwardFill />
+            )}
+            {size === "small" ? "" : "Certificate"}
+            <CertificatePrice>
+              {certificatePrice ? `${separator}${certificatePrice}` : ""}
+            </CertificatePrice>
+          </Certificate>
+        )}
+        <Price>{prices?.course}</Price>
+      </PriceContainer>
     </>
   )
 }
 
+const CertificateIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const PriceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`
+
 const Certificate = styled.div`
-  border-radius: 4px;
-  background-color: ${theme.custom.colors.lightGray1};
   padding: 2px 4px;
+  border-radius: 4px;
   color: ${theme.custom.colors.silverGrayDark};
+  background-color: ${theme.custom.colors.lightGray1};
 
   ${{ ...theme.typography.subtitle4 }}
   svg {
@@ -83,6 +124,15 @@ const Certificate = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+`
+
+const CertificatePrice = styled.div`
+  ${{ ...theme.typography.body4 }}
+`
+
+export const Price = styled.div`
+  ${{ ...theme.typography.subtitle3 }}
+  color: ${theme.custom.colors.darkGray2};
 `
 
 const isOcw = (resource: LearningResource) =>
@@ -195,7 +245,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
         height={getImageDimensions(size, isMedia).height}
       />
       <Card.Info>
-        <Info resource={resource} />
+        <Info resource={resource} size={size} />
       </Card.Info>
       <Card.Title>
         <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>

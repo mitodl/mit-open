@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.14.1 (Released July 24, 2024)
+--------------
+
+- Add a database index on FeedEventDetail.event_datetime (#1304)
+- Update platform logos (#1302)
+
 Version 0.14.0 (Released July 23, 2024)
 --------------
 
