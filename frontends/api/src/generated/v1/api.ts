@@ -164,21 +164,21 @@ export interface ArticleRequest {
   title: string
 }
 /**
- * * `scheduled` - Scheduled * `anytime` - Anytime
+ * * `dated` - Dated * `anytime` - Anytime
  * @export
  * @enum {string}
  */
 
 export const AvailabilityEnumDescriptions = {
-  scheduled: "Scheduled",
+  dated: "Dated",
   anytime: "Anytime",
 } as const
 
 export const AvailabilityEnum = {
   /**
-   * Scheduled
+   * Dated
    */
-  Scheduled: "scheduled",
+  Dated: "dated",
   /**
    * Anytime
    */

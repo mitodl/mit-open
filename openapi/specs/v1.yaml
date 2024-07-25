@@ -7209,14 +7209,14 @@ components:
       - title
     AvailabilityEnum:
       enum:
-      - scheduled
+      - dated
       - anytime
       type: string
       description: |-
-        * `scheduled` - Scheduled
+        * `dated` - Dated
         * `anytime` - Anytime
       x-enum-descriptions:
-      - Scheduled
+      - Dated
       - Anytime
     CertificationTypeEnum:
       enum:
