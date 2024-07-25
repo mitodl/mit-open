@@ -16,10 +16,10 @@ def perform_topic_upsert(apps, schema_editor):
     LearningResourceTopic = apps.get_model(
         "learning_resources", "LearningResourceTopic"
     )
-    ChannelTopicDetail = apps.get_model("channels", "ChannelTopicDetail")
+    Channel = apps.get_model("channels", "Channel")
 
     LearningResourceTopic.objects.all().delete()
-    ChannelTopicDetail.objects.all().delete()
+    Channel.objects.filter(channel_type="topic").delete()
 
     upsert_topic_data_file()
 
