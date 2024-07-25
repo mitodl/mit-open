@@ -720,6 +720,7 @@ def iso8601_duration(duration_str: str) -> str or None:
         return None
     delta = parse_duration(duration_str)
     if delta is None:
+        log.warning("Could not parse duration string %s", duration_str)
         return None
 
     hours, remainder = divmod(delta.total_seconds(), 3600)

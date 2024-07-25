@@ -483,6 +483,8 @@ def test_get_department_id_by_name(dept_name, dept_id):
         ("PTBarnum", None),
     ],
 )
-def test_parse_duration(duration_str, expected):
+def test_parse_duration(mocker, duration_str, expected):
     """Test that parse_duration returns the expected duration"""
+    mock_warn = mocker.patch("learning_resources.etl.utils.log.warning")
     assert utils.iso8601_duration(duration_str) == expected
+    assert mock_warn.call_count == (1 if duration_str and expected is None else 0)
