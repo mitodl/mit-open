@@ -1,5 +1,7 @@
 """Search task tests"""
 
+import datetime
+import random
 from collections import OrderedDict
 
 import pytest
@@ -981,3 +983,130 @@ def test_digest_email_template(mocked_api, mocker, mocked_celery):
     assert user.id == task_args[0]
     for topic in topics:
         assert topic in template_data
+
+
+def test_get_percolated_rows_match_notification_preferences(mocked_api, mocker):
+    """
+    Test that we percolate according to a user profile's
+    notification preference
+    """
+
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+        "Systems Engineering",
+    ]
+    notificaiton_prefs = ["daily", "weekly", "never"]
+
+    LearningResource.objects.all().delete()
+    new_resources = LearningResourceFactory.create_batch(len(topics), is_course=True)
+
+    queries = []
+    query_ids = []
+    user_ids = []
+    for topic in topics:
+        user = UserFactory.create()
+        profile = user.profile
+        profile.notification_preference = notificaiton_prefs.pop()
+        profile.save()
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topic]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        user_ids.append(user.id)
+        query.save()
+        queries.append(query)
+        query_ids.append(query.id)
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        return PercolateQuery.objects.all()
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+
+    for notification_period in ["daily", "weekly"]:
+        user = User.objects.get(profile__notification_preference=notification_period)
+        rows = _get_percolated_rows(
+            new_resources,
+            PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+            notification_preference=notification_period,
+        )
+        for row in rows:
+            assert row["user_id"] == user.id
+
+
+def test_get_percolated_rows_match_notification_period(mocked_api, mocker):
+    """
+    Test that we percolate according to a user profile's
+    notification preference
+    """
+
+    settings.USE_TZ = False
+    topics = [
+        "Mechanical Engineering",
+        "Environmental Engineering",
+    ]
+    notification_prefs = ["daily", "weekly"]
+    LearningResource.objects.all().delete()
+    now = datetime.datetime.now(tz=datetime.UTC)
+    new_resources = []
+    for _i in range(3):
+        resources = LearningResourceFactory.create_batch(
+            len(topics),
+            is_course=True,
+            created_on=now - datetime.timedelta(days=random.randint(2, 6)),  # noqa: S311
+        )
+        new_resources.extend(resources)
+    for _i in range(3):
+        resources = LearningResourceFactory.create_batch(
+            len(topics), is_course=True, created_on=now - datetime.timedelta(hours=4)
+        )
+        new_resources.extend(resources)
+
+    queries = []
+    query_ids = []
+    user_ids = []
+    for topic in topics:
+        user = UserFactory.create()
+        profile = user.profile
+        profile.notification_preference = notification_prefs.pop()
+        profile.save()
+        query = PercolateQueryFactory.create()
+        query.original_query["topic"] = [topic]
+        query.source_type = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+        query.users.set([user])
+        user_ids.append(user.id)
+        query.save()
+        queries.append(query)
+        query_ids.append(query.id)
+
+    percolate_matches_for_document_mock = mocker.patch(
+        "learning_resources_search.tasks.percolate_matches_for_document",
+    )
+
+    def get_percolator(res):
+        return PercolateQuery.objects.all()
+
+    percolate_matches_for_document_mock.side_effect = get_percolator
+
+    for notification_period in ["daily", "weekly"]:
+        user = User.objects.get(profile__notification_preference=notification_period)
+        rows = _get_percolated_rows(
+            new_resources,
+            PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+            notification_preference=notification_period,
+        )
+        for row in rows:
+            resource = LearningResource.objects.get(id=row["resource_id"])
+            if notification_period == "daily":
+                assert resource.created_on > now - datetime.replace(tz=None).timedelta(
+                    days=1
+                )
+            elif notification_period == "weekly":
+                assert resource.created_on > now - datetime.replace(tz=None).timedelta(
+                    days=7
+                )
