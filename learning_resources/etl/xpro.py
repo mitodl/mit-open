@@ -133,7 +133,7 @@ def _transform_learning_resource_course(course):
         },
         "certification": True,
         "certification_type": CertificationType.professional.name,
-        "availability": Availability.scheduled.name,
+        "availability": Availability.dated.name,
     }
 
 
@@ -195,7 +195,7 @@ def transform_programs(programs):
             "courses": transform_courses(program["courses"]),
             "certification": True,
             "certification_type": CertificationType.professional.name,
-            "availability": Availability.scheduled.name,
+            "availability": Availability.dated.name,
         }
         for program in programs
     ]

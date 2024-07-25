@@ -102,7 +102,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             "professional": True,
             "published": bool(program_data["current_price"]),
             "url": program_data["url"],
-            "availability": Availability.scheduled.name,
+            "availability": Availability.dated.name,
             "topics": transform_topics(program_data["topics"], xpro.OFFERED_BY["code"]),
             "platform": PlatformType.xpro.name,
             "resource_type": LearningResourceType.program.name,
@@ -142,7 +142,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                         course_run.get("current_price", None)
                         for course_run in course_data["courseruns"]
                     ),
-                    "availability": Availability.scheduled.name,
+                    "availability": Availability.dated.name,
                     "topics": transform_topics(
                         course_data["topics"], xpro.OFFERED_BY["code"]
                     ),
@@ -213,7 +213,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                 course_run.get("current_price", None)
                 for course_run in course_data["courseruns"]
             ),
-            "availability": Availability.scheduled.name,
+            "availability": Availability.dated.name,
             "topics": transform_topics(course_data["topics"], xpro.OFFERED_BY["code"]),
             "resource_type": LearningResourceType.course.name,
             "runs": [

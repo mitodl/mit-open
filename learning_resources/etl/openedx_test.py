@@ -254,7 +254,7 @@ def test_transform_course(  # noqa: PLR0913
                 "pacing_type": "self_paced",
                 "start": "2221-01-01T00:00:00Z",  # future
             },
-            Availability.scheduled.name,
+            Availability.dated.name,
         ),
         (
             {
@@ -332,6 +332,6 @@ def test_transform_course_availability_with_multiple_runs(
     transformed_courses = openedx_extract_transform.transform([extracted[0]])
 
     if has_dated:
-        assert transformed_courses[0]["availability"] == Availability.scheduled.name
+        assert transformed_courses[0]["availability"] == Availability.dated.name
     else:
         assert transformed_courses[0]["availability"] is Availability.anytime.name

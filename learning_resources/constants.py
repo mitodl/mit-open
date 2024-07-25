@@ -22,7 +22,7 @@ class Availability(ExtendedEnum):
     Describes when a resource is available to users.
     """
 
-    scheduled = "Scheduled"  # available within specific date ranges
+    dated = "Dated"  # available within specific date ranges
     anytime = "Anytime"  # available any time
 
 
