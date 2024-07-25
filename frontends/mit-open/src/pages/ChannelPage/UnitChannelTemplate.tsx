@@ -110,7 +110,6 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
           displayConfiguration?.banner_background ??
           "/static/images/background_steps.jpeg"
         }
-        backgroundSize="2000px auto"
         backgroundDim={30}
       >
         <Container>
