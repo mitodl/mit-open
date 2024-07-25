@@ -7,5 +7,6 @@ export declare global {
     MITOPEN_AXIOS_WITH_CREDENTIALS: boolean
     MITOPEN_API_BASE_URL: string
     PUBLIC_URL: string
+    SITE_NAME: string
   }
 }
