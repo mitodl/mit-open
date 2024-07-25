@@ -186,6 +186,7 @@ def _get_percolated_rows(resources, subscription_type, notification_preference="
                 [
                     {
                         "resource_url": resource.url,
+                        "resource_id": resource.id,
                         "resource_title": resource.title,
                         "user_id": user,
                         "group": _infer_percolate_group(query),
