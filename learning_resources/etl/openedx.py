@@ -18,6 +18,7 @@ from learning_resources.constants import (
     Availability,
     CertificationType,
     LearningResourceType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import COMMON_HEADERS
 from learning_resources.etl.utils import (
@@ -144,7 +145,7 @@ def _get_run_published(course_run):
 
 
 def _get_run_availability(course_run):
-    if course_run.get("availability") == "Archived":
+    if course_run.get("availability") == RunAvailability.archived.value:
         # Enrollable, archived courses can be started anytime
         return Availability.anytime
 
