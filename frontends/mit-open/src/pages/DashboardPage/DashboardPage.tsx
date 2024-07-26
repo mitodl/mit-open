@@ -38,6 +38,7 @@ import {
 } from "./carousels"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 import UserListDetailsTab from "./UserListDetailsTab"
+import { PreferencesPage } from "./PreferencesPage"
 
 /**
  *
@@ -284,12 +285,14 @@ const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
 enum TabValues {
   HOME = "home",
   MY_LISTS = "my-lists",
+  PREFERENCES = "preferences",
   PROFILE = "profile",
 }
 
 const TabLabels = {
   [TabValues.HOME.toString()]: "Home",
   [TabValues.MY_LISTS.toString()]: "My Lists",
+  [TabValues.PREFERENCES.toString()]: "Preferences",
   [TabValues.PROFILE.toString()]: "Profile",
 }
 
@@ -464,6 +467,19 @@ const DashboardPage: React.FC = () => {
                   ) : (
                     <div id="user-list-detail">
                       <UserListDetailsTab userListId={userListId} />
+                    </div>
+                  )}
+                </TabPanelStyled>
+                <TabPanelStyled
+                  key={TabValues.PREFERENCES}
+                  value={TabValues.PREFERENCES}
+                >
+                  <TitleText role="heading">Preferences</TitleText>
+                  {isLoadingProfile || typeof profile === "undefined" ? (
+                    <Skeleton variant="text" width={128} height={32} />
+                  ) : (
+                    <div id="user-preferences">
+                      <PreferencesPage />
                     </div>
                   )}
                 </TabPanelStyled>
