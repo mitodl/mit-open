@@ -4,7 +4,6 @@ import json
 
 # pylint: disable=redefined-outer-name
 from datetime import datetime
-from itertools import chain
 
 import pytest
 
@@ -15,8 +14,12 @@ from learning_resources.constants import (
 )
 from learning_resources.etl import xpro
 from learning_resources.etl.constants import CourseNumberType, ETLSource
-from learning_resources.etl.utils import UCC_TOPIC_MAPPINGS, transform_format
+from learning_resources.etl.utils import (
+    transform_format,
+    transform_topics,
+)
 from learning_resources.etl.xpro import _parse_datetime
+from learning_resources.test_utils import set_up_topics
 from main.test_utils import any_instance_of
 
 pytestmark = pytest.mark.django_db
@@ -84,6 +87,8 @@ def test_xpro_extract_courses_disabled(settings):
 
 def test_xpro_transform_programs(mock_xpro_programs_data):
     """Test that xpro program data is correctly transformed into our normalized structure"""
+    set_up_topics(is_xpro=True)
+
     result = xpro.transform_programs(mock_xpro_programs_data)
     expected = [
         {
@@ -96,15 +101,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             "professional": True,
             "published": bool(program_data["current_price"]),
             "url": program_data["url"],
-            "topics": [
-                {"name": topic_name}
-                for topic_name in chain.from_iterable(
-                    [
-                        UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                        for topic in program_data.get("topics", [])
-                    ]
-                )
-            ],
+            "topics": transform_topics(program_data["topics"], xpro.OFFERED_BY["code"]),
             "platform": PlatformType.xpro.name,
             "resource_type": LearningResourceType.program.name,
             "learning_format": transform_format(program_data.get("format")),
@@ -143,15 +140,9 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                         course_run.get("current_price", None)
                         for course_run in course_data["courseruns"]
                     ),
-                    "topics": [
-                        {"name": topic_name}
-                        for topic_name in chain.from_iterable(
-                            [
-                                UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                                for topic in course_data.get("topics", [])
-                            ]
-                        )
-                    ],
+                    "topics": transform_topics(
+                        course_data["topics"], xpro.OFFERED_BY["code"]
+                    ),
                     "resource_type": LearningResourceType.course.name,
                     "runs": [
                         {
@@ -200,6 +191,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
 
 def test_xpro_transform_courses(mock_xpro_courses_data):
     """Test that xpro courses data is correctly transformed into our normalized structure"""
+    set_up_topics(is_xpro=True)
+
     result = xpro.transform_courses(mock_xpro_courses_data)
     expected = [
         {
@@ -217,15 +210,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                 course_run.get("current_price", None)
                 for course_run in course_data["courseruns"]
             ),
-            "topics": [
-                {"name": topic_name}
-                for topic_name in chain.from_iterable(
-                    [
-                        UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                        for topic in course_data.get("topics", [])
-                    ]
-                )
-            ],
+            "topics": transform_topics(course_data["topics"], xpro.OFFERED_BY["code"]),
             "resource_type": LearningResourceType.course.name,
             "runs": [
                 {

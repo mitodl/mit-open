@@ -168,6 +168,9 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
         is_ocw = factory.Trait(
             code=constants.OfferedBy.ocw.name, name=constants.OfferedBy.ocw.value
         )
+        is_see = factory.Trait(
+            code=constants.OfferedBy.see.name, name=constants.OfferedBy.see.value
+        )
 
 
 class LearningResourceFactory(DjangoModelFactory):

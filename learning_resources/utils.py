@@ -12,6 +12,7 @@ from botocore.exceptions import ClientError
 from django.conf import settings
 from django.contrib.auth.models import Group, User
 from django.db import transaction
+from django.db.models import Q
 from retry import retry
 
 from learning_resources.constants import (
@@ -29,6 +30,7 @@ from learning_resources.models import (
     LearningResourceRun,
     LearningResourceSchool,
     LearningResourceTopic,
+    LearningResourceTopicMapping,
     UserListRelationship,
 )
 from main.utils import generate_filepath
@@ -473,74 +475,112 @@ def offeror_delete_actions(offeror: LearningResourceOfferor):
     hook.offeror_delete(offeror=offeror)
 
 
-def _walk_ocw_topic_map(
-    topics: dict, parent: None | LearningResourceTopic = None
-) -> None:
+def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -> None:
     """
     Walk the topic map provided and create topic records accordingly.
 
     This will recursively walk through the topics list and create/update topic
-    records as appropriate. There's just names here so if the record exists with
-    the same name, it'll update; otherwise, it creates.
+    records as appropriate. The topic records are stored in this format:
+    - name - the name of the topic
+    - id - the UUID for the topic
+    - icon - the icon we should display for the topic (a Remixicon, generally)
+    - mappings - mappings for topics found in offeror data
+    - children - child topics (records in this same format)
+    A more detailed definition of this is in data/README-topics.md.
 
     Args:
-    - topics (dict): the topics to process
+    - topics (list of dict): the topics to process
     - parent (None or LearningResourceTopic): the parent topic (for inner loops)
     Returns:
     - None
     """
 
     for topic in topics:
-        lr_topic, _ = LearningResourceTopic.objects.filter(name=topic).update_or_create(
-            defaults={
-                "parent": parent,
-                "name": topic,
-            }
-        )
+        defaults = {
+            "parent": parent,
+            "name": topic["name"],
+            "icon": topic["icon"] or "",
+        }
+
+        if topic["id"]:
+            defaults["topic_uuid"] = topic["id"]
+
+        lr_topic, created = LearningResourceTopic.objects.filter(
+            Q(name=topic["name"]) | Q(topic_uuid=topic["id"])
+        ).update_or_create(defaults=defaults)
+
+        log.debug("%s topic %s", "Created" if created else "Updated", lr_topic.name)
+
+        LearningResourceTopicMapping.objects.filter(topic=lr_topic).all().delete()
+
+        if topic["mappings"] and len(topic["mappings"]) > 0:
+            for offeror_code in topic["mappings"]:
+                offeror = LearningResourceOfferor.objects.filter(
+                    code=offeror_code
+                ).first()
+
+                if offeror:
+                    for mapping in topic["mappings"][offeror_code]:
+                        log.debug(
+                            "Created mapping for %s from %s to %s",
+                            offeror_code,
+                            mapping,
+                            lr_topic.name,
+                        )
+                        LearningResourceTopicMapping.objects.create(
+                            topic=lr_topic, offeror=offeror, topic_name=mapping
+                        )
 
         topic_upserted_actions(lr_topic)
 
-        try:
-            if len(topics[topic]) > 0:
-                _walk_ocw_topic_map(topics[topic], lr_topic)
-        except TypeError:
-            # the ends here are lists of str - if we get this, there's
-            # nothing else to process
-            pass
+        if "children" in topic and topic["children"] and len(topic["children"]) > 0:
+            _walk_topic_map(topic["children"], lr_topic)
 
 
 @transaction.atomic()
-def upsert_topic_data(
-    config_path: str = "learning_resources/data/ocw-topics.yaml",
+def upsert_topic_data_file(
+    config_path: str = "learning_resources/data/topics.yaml",
 ) -> None:
     """
-    Load the topics from the OCW course site config file.
+    Load the topics from a yaml file.
 
-    The OCW settings are in a YAML file. We're specifically looking at the field
-    named "Topics" and walking the list from there.
+    The yaml file should have a root "topics" key, and then any number of topic
+    records beneath it. See _walk_topic_map for an explanation of the record
+    format.
 
     Args:
-    - config_path (str): the path to the OCW course site config file.
+    - config_path (str): the path to the topics file.
     Returns:
     - None
     """
 
-    with Path.open(Path(config_path)) as ocw_config:
-        ocw_config_yaml = ocw_config.read()
+    with Path.open(Path(config_path)) as topic_file:
+        topic_file_yaml = topic_file.read()
 
-    ocw_config = yaml.safe_load(ocw_config_yaml)
-    topics = []
+    topics = yaml.safe_load(topic_file_yaml)
 
-    for collection in ocw_config["collections"]:
-        if collection["category"] == "Settings":
-            for file in collection["files"]:
-                for field in file["fields"]:
-                    if field["label"] == "Topics":
-                        topics = field["options_map"]
-                        # There should only be one here so stop after finding it.
-                        break
+    _walk_topic_map(topics["topics"])
 
-    _walk_ocw_topic_map(topics)
+
+@transaction.atomic()
+def upsert_topic_data_string(yaml_data: str) -> None:
+    """
+    Load the topics from a yaml string.
+
+    The yaml string should be formatted in the same way that it is for
+    upsert_topic_data_file - this function exists just to allow you to specify
+    the data as a string so you can roll it into a migration file in the
+    data_fixtures app.
+
+    Args:
+    - yaml_data (str): the yaml to process
+    Returns:
+    - None
+    """
+
+    topics = yaml.safe_load(yaml_data)
+
+    _walk_topic_map(topics["topics"])
 
 
 def _walk_lr_topic_parents(
@@ -612,3 +652,47 @@ def transfer_list_resources(
     if delete_unpublished:
         unpublished_resources.delete()
     return unpublished_count, published_count
+
+
+def dump_topics_to_yaml(topic_id: int | None = None):
+    """
+    Dump the topic data to a yaml file.
+
+    Args:
+    * topic_id (int or None): the topic to dump, or None for all.
+    Returns:
+    * str: the yaml document
+    """
+
+    def _dump_subtopic_to_yaml(topic: LearningResourceTopic):
+        """Dump subtopic data to yaml recursively."""
+
+        yaml_ready_data = {
+            "id": str(topic.topic_uuid),
+            "name": topic.name,
+            "icon": topic.icon,
+            "mappings": {},
+            "children": [],
+        }
+
+        for mapping in LearningResourceTopicMapping.objects.filter(topic=topic).all():
+            if mapping.offeror.code not in yaml_ready_data["mappings"]:
+                yaml_ready_data["mappings"][mapping.offeror.code] = []
+
+            yaml_ready_data["mappings"][mapping.offeror.code].append(mapping.topic_name)
+
+        for child in LearningResourceTopic.objects.filter(parent=topic).all():
+            yaml_ready_data["children"].append(_dump_subtopic_to_yaml(child))
+
+        return yaml_ready_data
+
+    if topic_id:
+        parent_topics = LearningResourceTopic.objects.get(pk=topic_id)
+    else:
+        parent_topics = LearningResourceTopic.objects.filter(parent__isnull=True).all()
+
+    root_level_topics = {
+        "topics": [_dump_subtopic_to_yaml(topic) for topic in parent_topics]
+    }
+
+    return yaml.dump(root_level_topics)

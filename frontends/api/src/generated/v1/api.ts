@@ -2279,6 +2279,12 @@ export interface LearningResourceTopic {
    */
   name: string
   /**
+   * The icon to display for the topic.
+   * @type {string}
+   * @memberof LearningResourceTopic
+   */
+  icon?: string
+  /**
    *
    * @type {number}
    * @memberof LearningResourceTopic
