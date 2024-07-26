@@ -23,13 +23,13 @@ from learning_resources.models import (
 @pytest.mark.parametrize("overwrite", [True, False])
 def test_search_index_plugin_topic_upserted(overwrite):
     """The plugin function should create a topic channel"""
-    topic = LearningResourceTopicFactory.create()
+    topic = LearningResourceTopicFactory.create(name="Test & Testing Topic")
     channel, created = ChannelPlugin().topic_upserted(topic, overwrite)
     assert created is True
     assert channel.topic_detail.topic == topic
     assert channel.title == topic.name
     assert channel.channel_type == ChannelType.topic.name
-    assert channel.search_filter == f"topic={topic.name}"
+    assert channel.search_filter == "topic=Test+%26+Testing+Topic"
     same_channel, upserted = ChannelPlugin().topic_upserted(topic, overwrite)
     assert channel == same_channel
     assert upserted is overwrite
