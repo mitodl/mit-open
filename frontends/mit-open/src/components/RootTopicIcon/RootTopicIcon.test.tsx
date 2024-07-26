@@ -10,7 +10,7 @@ describe("TopicIcon", () => {
    * at least make sure we have an icon for each of them.
    */
   test.each(rootTopicNames)("Root topics all have an icon", (name) => {
-    expect(rootTopicNames.length).toBe(11)
+    expect(rootTopicNames.length).toBe(12)
     render(<RootTopicIcon name={name} />)
     const svg = document.querySelector("svg")
     expect(svg).toBeVisible()
