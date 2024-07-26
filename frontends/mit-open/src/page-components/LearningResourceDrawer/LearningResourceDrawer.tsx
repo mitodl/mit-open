@@ -16,12 +16,10 @@ const useCapturePageView = (resourceId: number) => {
   const { data, isSuccess } = useLearningResourcesDetail(Number(resourceId))
   const posthog = usePostHog()
 
+  const { POSTHOG } = APP_SETTINGS
+
   useEffect(() => {
-    if (
-      !APP_SETTINGS.posthog?.api_key ||
-      APP_SETTINGS.posthog.api_key.length < 1
-    )
-      return
+    if (!POSTHOG?.api_key || POSTHOG.api_key.length < 1) return
     if (!isSuccess) return
     posthog.capture("lrd_view", {
       resourceId: data?.id,
@@ -36,6 +34,7 @@ const useCapturePageView = (resourceId: number) => {
     data?.readable_id,
     data?.platform?.code,
     data?.resource_type,
+    POSTHOG?.api_key,
   ])
 }
 

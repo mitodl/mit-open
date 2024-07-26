@@ -247,4 +247,19 @@ describe("Learning Resource Expanded", () => {
 
     within(section).getByText("1:13:44")
   })
+
+  test("Renders info section podcast episode duration correctly", () => {
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.PodcastEpisode,
+      podcast_episode: { duration: "PT13M44S" },
+    })
+
+    setup(resource)
+
+    const section = screen
+      .getByRole("heading", { name: "Info" })!
+      .closest("section")!
+
+    within(section).getByText("13:44")
+  })
 })

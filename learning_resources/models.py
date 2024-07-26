@@ -1,5 +1,6 @@
 """Models for learning resources and related entities"""
 
+import uuid
 from functools import cached_property
 
 from django.contrib.auth.models import User
@@ -61,12 +62,26 @@ class LearningResourceTopic(TimestampedModel):
 
     objects = LearningResourceTopicQuerySet.as_manager()
 
+    topic_uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        help_text=(
+            "An immutable ID for the topic, used if the topic needs to"
+            " be changed via migration."
+        ),
+    )
     name = models.CharField(max_length=128)
     parent = models.ForeignKey(
         "LearningResourceTopic",
         blank=True,
         null=True,
         on_delete=models.CASCADE,
+    )
+    icon = models.CharField(
+        max_length=128,
+        help_text="The icon to display for the topic.",
+        blank=True,
+        default="",
     )
 
     def __str__(self):
@@ -138,6 +153,22 @@ class LearningResourceOfferor(TimestampedModel):
 
     def __str__(self):
         return f"{self.code}: {self.name}"
+
+
+class LearningResourceTopicMapping(TimestampedModel):
+    """Stores offeror topic mappings for learning resource topics."""
+
+    topic = models.ForeignKey(
+        "LearningResourceTopic",
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    offeror = models.ForeignKey(
+        "LearningResourceOfferor",
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    topic_name = models.CharField(max_length=128)
 
 
 class LearningResourceImage(TimestampedModel):

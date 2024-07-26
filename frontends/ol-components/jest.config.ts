@@ -5,7 +5,7 @@ const config: Config.InitialOptions = {
   ...baseConfig,
   globals: {
     APP_SETTINGS: {
-      embedlyKey: "fake-embedly-key",
+      EMBEDLY_KEY: "fake-embedly-key",
     },
   },
 }

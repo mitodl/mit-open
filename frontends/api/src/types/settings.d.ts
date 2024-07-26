@@ -2,7 +2,7 @@
 
 export declare global {
   const APP_SETTINGS: {
-    axios_with_credentials?: string
-    axios_base_path?: string
+    MITOPEN_AXIOS_WITH_CREDENTIALS?: boolean
+    MITOPEN_API_BASE_URL?: string
   }
 }
