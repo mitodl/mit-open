@@ -66,7 +66,7 @@
     "jest-watch-typeahead": "^2.2.2",
     "jest-when": "^3.6.0",
     "postcss-styled-syntax": "^0.6.4",
-    "prettier": "^3.0.3",
+    "prettier": "v4.0.0-alpha.8",
     "prettier-plugin-django-alpine": "^1.2.6",
     "stylelint": "^15.2.0",
     "stylelint-config-standard-scss": "^7.0.1",
