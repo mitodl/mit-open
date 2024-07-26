@@ -154,7 +154,7 @@ describe("Learning Resource Card", () => {
   test.each([
     {
       image: null,
-      expected: { src: DEFAULT_RESOURCE_IMG, alt: "", role: "presentation" },
+      expected: { src: DEFAULT_RESOURCE_IMG, alt: "", role: "img" },
     },
     {
       image: { url: "https://example.com/image.jpg", alt: "An image" },
