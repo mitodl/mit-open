@@ -295,9 +295,9 @@ const TabLabels = {
   [TabValues.PREFERENCES.toString()]: "Preferences",
   [TabValues.PROFILE.toString()]: "Profile",
 }
-
+console.log("TabLabels", TabLabels)
 const keyFromHash = (hash: string) => {
-  const keys = [TabValues.HOME, TabValues.MY_LISTS, TabValues.PROFILE]
+  const keys = Object.values(TabValues)
   const match = keys.find((key) => `#${key}` === hash)
   return match ?? "home"
 }
@@ -350,6 +350,12 @@ const DashboardPage: React.FC = () => {
             onClick={() => setUserListAction("list")}
           />
           <UserMenuTab
+            icon={<RiBookMarkedLine />}
+            text={TabLabels[TabValues.PREFERENCES]}
+            value={TabValues.PREFERENCES}
+            currentValue={tabValue}
+          />
+          <UserMenuTab
             icon={<RiEditLine />}
             text={TabLabels[TabValues.PROFILE]}
             value={TabValues.PROFILE}
@@ -374,6 +380,12 @@ const DashboardPage: React.FC = () => {
         href={`#${TabValues.MY_LISTS}`}
         label="My Lists"
         onClick={() => setUserListAction("list")}
+      />
+      <TabButtonLink
+        data-testid={`mobile-tab-${TabValues.PREFERENCES}`}
+        value={TabValues.PREFERENCES}
+        href={`#${TabValues.PREFERENCES}`}
+        label="Preferences"
       />
       <TabButtonLink
         data-testid={`mobile-tab-${TabValues.PROFILE}`}
