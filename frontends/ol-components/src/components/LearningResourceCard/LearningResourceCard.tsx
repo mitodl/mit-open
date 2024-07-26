@@ -46,7 +46,7 @@ const getEmbedlyUrl = (
   isMedia: boolean,
 ) => {
   return embedlyCroppedImage(resource.image!.url!, {
-    key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
+    key: APP_SETTINGS.EMBEDLY_KEY,
     ...getImageDimensions(size, isMedia),
   })
 }

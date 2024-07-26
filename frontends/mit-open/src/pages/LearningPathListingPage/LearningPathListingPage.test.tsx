@@ -10,7 +10,7 @@ import {
   user,
   waitFor,
 } from "../../test-utils"
-import type { User } from "../../types/settings"
+import type { User } from "../../test-utils"
 
 /**
  * Set up the mock API responses for lists pages.
