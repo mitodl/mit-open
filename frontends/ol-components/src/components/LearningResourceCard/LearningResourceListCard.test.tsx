@@ -164,7 +164,7 @@ describe("Learning Resource List Card", () => {
 
     setup(resource)
 
-    const imageEls = screen.getAllByRole<HTMLImageElement>("img")
+    const imageEls = screen.getAllByTestId<HTMLImageElement>("card-image")
 
     const matching = imageEls.filter((im) =>
       expected.src === DEFAULT_RESOURCE_IMG
