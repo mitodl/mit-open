@@ -20,7 +20,6 @@ import rapidjson
 import requests
 from django.conf import settings
 from django.utils.dateparse import parse_duration
-from django.utils.functional import SimpleLazyObject
 from django.utils.text import slugify
 from tika import parser as tika_parser
 from xbundle import XBundle
