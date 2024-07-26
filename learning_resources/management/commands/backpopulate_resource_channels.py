@@ -105,7 +105,7 @@ class Command(BaseCommand):
             self.stdout.write("Creating topic channels")
             for topic in LearningResourceTopic.objects.filter(
                 learningresource__isnull=False
-            ):
+            ).distinct():
                 if hook.topic_upserted(topic=topic, overwrite=overwrite)[0][1]:
                     created += 1
             self.stdout.write(f"Finished creating channels for {created} topics")
