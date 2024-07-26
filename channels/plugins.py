@@ -1,5 +1,7 @@
 """Plugins for channels"""
 
+from urllib.parse import urlencode
+
 from django.apps import apps
 from django.utils.text import slugify
 
@@ -34,7 +36,10 @@ class ChannelPlugin:
             channel, _ = Channel.objects.update_or_create(
                 name=slugify(topic.name),
                 channel_type=ChannelType.topic.name,
-                defaults={"title": topic.name, "search_filter": f"topic={topic.name}"},
+                defaults={
+                    "title": topic.name,
+                    "search_filter": urlencode({"topic": topic.name}),
+                },
             )
             ChannelTopicDetail.objects.update_or_create(channel=channel, topic=topic)
             return channel, True
@@ -73,7 +78,7 @@ class ChannelPlugin:
             channel = None
         elif department.school and (overwrite or not channel):
             channel, _ = Channel.objects.update_or_create(
-                search_filter=f"department={department.department_id}",
+                search_filter=urlencode({"department": department.department_id}),
                 channel_type=ChannelType.department.name,
                 defaults={
                     "name": slugify(department.name),
@@ -117,7 +122,7 @@ class ChannelPlugin:
                 channel_type=ChannelType.unit.name,
                 defaults={
                     "title": offeror.name,
-                    "search_filter": f"offered_by={offeror.code}",
+                    "search_filter": urlencode({"offered_by": offeror.code}),
                 },
             )
             ChannelUnitDetail.objects.update_or_create(channel=channel, unit=offeror)
