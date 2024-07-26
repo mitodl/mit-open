@@ -26,9 +26,11 @@ const UnitCardContent = styled.div({
 })
 
 const LogoContainer = styled.div({
-  height: "128px",
   padding: "40px 32px",
   backgroundColor: theme.custom.colors.white,
+  [theme.breakpoints.down("md")]: {
+    padding: "34px 0 14px",
+  },
 })
 
 const UnitLogo = styled.img({
