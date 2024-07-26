@@ -1,3 +1,5 @@
+from urllib.parse import unquote_plus, urlencode
+
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import JSONField
@@ -30,3 +32,11 @@ class PercolateQuery(TimestampedModel):
 
     class Meta:
         unique_together = (("source_type", "original_query"),)
+
+    def original_url_params(self):
+        ignore_params = ["endpoint"]
+        query = self.original_query
+        defined_params = {
+            key: query[key] for key in query if query[key] and key not in ignore_params
+        }
+        unquote_plus(urlencode(defined_params, doseq=True))
