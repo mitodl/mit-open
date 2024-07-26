@@ -10,6 +10,7 @@ import {
   Typography,
   styled,
   Breadcrumbs,
+  theme,
 } from "ol-components"
 import { RiBookOpenLine, RiSuitcaseLine } from "@remixicon/react"
 import React from "react"
@@ -61,7 +62,7 @@ const PageContent = styled.div(({ theme }) => ({
   flexDirection: "column",
   alignItems: "center",
   padding: "40px 10px 80px 10px",
-  gap: "80px",
+  gap: "48px",
   [theme.breakpoints.down("md")]: {
     padding: "40px 0px 30px 0px",
     gap: "40px",
@@ -84,6 +85,15 @@ const PageHeaderContainerInner = styled.div({
   display: "flex",
   flexDirection: "column",
   maxWidth: "1000px",
+  border: `1px solid ${theme.custom.colors.lightGray2}`,
+  backgroundColor: theme.custom.colors.white,
+  borderRadius: "8px",
+  padding: "32px",
+  [theme.breakpoints.down("md")]: {
+    backgroundColor: "transparent",
+    border: "none",
+    padding: "0",
+  },
 })
 
 const PageHeaderText = styled(Typography)(({ theme }) => ({
