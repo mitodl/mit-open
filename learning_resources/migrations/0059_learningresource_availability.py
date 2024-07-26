@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("learning_resources", "0057_learningresource_next_prices"),
+        ("learning_resources", "0058_add_icon_uuid_and_mappings_to_topics"),
     ]
 
     operations = [

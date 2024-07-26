@@ -30,7 +30,7 @@ def partially_populate_availability(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("learning_resources", "0058_learningresource_availability"),
+        ("learning_resources", "0059_learningresource_availability"),
     ]
 
     operations = [
