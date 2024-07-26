@@ -215,7 +215,6 @@ const Card: Card = ({ children, className, size, href }) => {
       <_Container to={href!}>
         {image && (
           <Image
-            data-testid="card-image"
             size={size}
             height={image.height}
             {...(image as ImgHTMLAttributes<HTMLImageElement>)}

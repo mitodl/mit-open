@@ -231,10 +231,7 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
           </Bottom>
         </Body>
         {imageProps && (
-          <Image
-            data-testid="card-image"
-            {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)}
-          />
+          <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
         )}
       </_Container>
       {actions && <Actions hasImage={!!imageProps}>{actions}</Actions>}
