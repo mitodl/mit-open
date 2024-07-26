@@ -61,8 +61,9 @@ fixtures = [
         },
         "channel_configuration": {
             "heading": (
-                "Join a powerful network of innovators and master "
-                "skills the global market needs in years to come."
+                "Offering lifelong learning opportunities that prepare engineering, "
+                "science, and technology professionals to address complex industry "
+                "challenges."
             ),
             "sub_heading": (
                 "MIT Professional Education is a leader in technology and engineering "
