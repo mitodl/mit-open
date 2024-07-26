@@ -12,6 +12,7 @@ from requests.exceptions import HTTPError
 
 from learning_resources.constants import LearningResourceType
 from learning_resources.etl.constants import ETLSource
+from learning_resources.etl.utils import iso8601_duration
 from learning_resources.models import PodcastEpisode
 from main.utils import clean_data, frontend_absolute_url, now_in_utc
 
@@ -174,7 +175,7 @@ def transform_episode(rss_data, offered_by, topics, parent_image):
         "podcast_episode": {
             "episode_link": rss_data.link.text if rss_data.link else None,
             "duration": (
-                rss_data.find("itunes:duration").text
+                iso8601_duration(rss_data.find("itunes:duration").text)
                 if rss_data.find("itunes:duration")
                 else None
             ),

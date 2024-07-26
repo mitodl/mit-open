@@ -56,7 +56,7 @@ const QuoteBlock = styled.div(() => ({
   width: "100%",
   maxWidth: "1328px",
   margin: "0 auto",
-  padding: "0 22px",
+  padding: "0 28px",
 }))
 
 const QuoteLeader = styled.div(({ theme }) => ({

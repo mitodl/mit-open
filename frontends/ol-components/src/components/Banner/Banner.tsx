@@ -20,12 +20,12 @@ type BannerBackgroundProps = {
  * This is a full-width banner component that takes a background image URL.
  */
 const BannerBackground = styled.div<BannerBackgroundProps>(
-  ({ theme, backgroundUrl, backgroundSize = "cover", backgroundDim = 0 }) => ({
+  ({ theme, backgroundUrl, backgroundDim = 0 }) => ({
     backgroundAttachment: "fixed",
     backgroundImage: backgroundDim
       ? `linear-gradient(rgba(0 0 0 / ${backgroundDim}%), rgba(0 0 0 / ${backgroundDim}%)), url('${backgroundUrl}')`
       : `url(${backgroundUrl})`,
-    backgroundSize: backgroundSize,
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
     color: theme.custom.colors.white,
     padding: "48px 0 48px 0",

@@ -12,6 +12,7 @@ from django.forms.models import model_to_dict
 from django.utils import timezone
 
 from learning_resources.constants import (
+    AvailabilityType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -31,6 +32,7 @@ from learning_resources.etl.loaders import (
     load_courses,
     load_image,
     load_instructors,
+    load_next_start_date_and_prices,
     load_offered_by,
     load_playlist,
     load_playlists,
@@ -391,7 +393,9 @@ def test_load_course(  # noqa: PLR0913
     )
     assert result.next_start_date == expected_next_start_date
     assert result.prices == (
-        [Decimal(0.00), Decimal(49.00)] if is_run_published else []
+        [Decimal(0.00), Decimal(49.00)]
+        if is_run_published and result.certification
+        else []
     )
 
     if course_exists and ((not is_published or not is_run_published) or blocklisted):
@@ -593,31 +597,48 @@ def test_load_course_dupe_urls(unique_url):
 
 
 @pytest.mark.parametrize("run_exists", [True, False])
-def test_load_run(run_exists):
+@pytest.mark.parametrize(
+    "availability", [AvailabilityType.archived.value, AvailabilityType.current.value]
+)
+@pytest.mark.parametrize("certification", [True, False])
+def test_load_run(run_exists, availability, certification):
     """Test that load_run loads the course run"""
-    course = CourseFactory.create(learning_resource__runs=[])
+    course = LearningResourceFactory.create(
+        is_course=True, runs=[], certification=certification
+    )
     learning_resource_run = (
-        LearningResourceRunFactory.create(learning_resource=course.learning_resource)
+        LearningResourceRunFactory.create(learning_resource=course)
         if run_exists
         else LearningResourceRunFactory.build()
     )
     props = model_to_dict(
-        LearningResourceRunFactory.build(run_id=learning_resource_run.run_id)
+        LearningResourceRunFactory.build(
+            run_id=learning_resource_run.run_id,
+            availability=availability,
+            prices=["70.00", "20.00"],
+        )
     )
 
     del props["id"]
     del props["learning_resource"]
 
     assert LearningResourceRun.objects.count() == (1 if run_exists else 0)
+    assert course.certification == certification
 
-    result = load_run(course.learning_resource, props)
+    result = load_run(course, props)
 
     assert LearningResourceRun.objects.count() == 1
 
-    assert result.learning_resource == course.learning_resource
+    assert result.learning_resource == course
 
     assert isinstance(result, LearningResourceRun)
 
+    assert result.prices == (
+        []
+        if (availability == AvailabilityType.archived.value or certification is False)
+        else sorted(props["prices"])
+    )
+    props.pop("prices")
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"
 
@@ -1365,3 +1386,19 @@ def test_load_course_percolation(
         mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
             result.id
         )
+
+
+@pytest.mark.parametrize("certification", [True, False])
+def test_load_prices_by_certificate(certification):
+    """Prices should be empty for a course without certificates, else equal to only published run"""
+    course = LearningResourceFactory.create(
+        is_course=True, certification=certification, runs=[]
+    )
+    run = LearningResourceRunFactory.create(
+        learning_resource=course,
+        published=True,
+        availability=AvailabilityType.current.value,
+        prices=[Decimal("0.00"), Decimal("20.00")],
+    )
+    load_next_start_date_and_prices(course)
+    assert course.prices == ([] if not certification else run.prices)
