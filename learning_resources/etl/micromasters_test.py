@@ -4,6 +4,7 @@
 import pytest
 
 from learning_resources.constants import (
+    Availability,
     CertificationType,
     LearningResourceType,
     PlatformType,
@@ -127,6 +128,7 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
                 "etl_source": ETLSource.micromasters.name,
                 "certification": True,
                 "certification_type": CertificationType.micromasters.name,
+                "availability": Availability.dated.name,
                 "courses": [
                     {
                         "readable_id": "1",
