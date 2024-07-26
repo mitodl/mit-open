@@ -164,7 +164,11 @@ describe("Learning Resource List Card", () => {
     },
     {
       image: { url: "https://example.com/image.jpg", alt: null },
-      expected: { src: "https://example.com/image.jpg", alt: "", role: "img" },
+      expected: {
+        src: "https://example.com/image.jpg",
+        alt: "",
+        role: "presentation",
+      },
     },
   ])("Image is displayed if present", ({ expected, image }) => {
     const resource = factories.learningResources.resource({ image })
