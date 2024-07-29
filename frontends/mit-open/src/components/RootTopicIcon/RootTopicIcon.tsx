@@ -10,6 +10,8 @@ import {
   RiInfinityLine,
   RiTestTubeLine,
   RiUserSearchLine,
+  RiTeamLine,
+  RiLineChartLine,
 } from "@remixicon/react"
 import React from "react"
 
@@ -17,7 +19,7 @@ import React from "react"
 export const ICON_MAP = {
   "Business & Management": RiBriefcase3Line,
   "Energy, Climate & Sustainability": RiLightbulbFlashLine,
-  "Data Science, Analytics & Computer Technology": RiRobot2Line,
+  "Data Science, Analytics & Computer Technology": RiLineChartLine,
   "Art, Design & Architecture": RiPaletteLine,
   "Health & Medicine": RiStethoscopeLine,
   Humanities: RiQuillPenLine,
@@ -27,6 +29,7 @@ export const ICON_MAP = {
   Society: RiEarthLine,
   "Education & Teaching": RiShakeHandsLine,
   Engineering: RiRobot2Line,
+  "Innovation & Entrepreneurship": RiTeamLine,
 }
 
 type RootTopicIconProps = { name: string }
