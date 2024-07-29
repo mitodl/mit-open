@@ -12,7 +12,7 @@ import {
   FormHelperText,
   Grid,
   TextField,
-  BasicDialog,
+  Dialog,
   styled,
 } from "ol-components"
 import * as Yup from "yup"
@@ -151,7 +151,7 @@ const ArticleUpsertForm = ({
           </Button>
         </FormControls>
       </FormFooter>
-      <BasicDialog
+      <Dialog
         open={confirmationOpen}
         onClose={toggleConfirmationOpen.off}
         title="Are you sure?"
@@ -159,7 +159,7 @@ const ArticleUpsertForm = ({
         confirmText="Yes, delete"
       >
         Are you sure you want to delete {article.data?.title}?
-      </BasicDialog>
+      </Dialog>
     </form>
   )
 }
