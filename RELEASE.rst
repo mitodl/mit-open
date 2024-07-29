@@ -1,6 +1,20 @@
 Release Notes
 =============
 
+Version 0.14.3 (Released July 29, 2024)
+--------------
+
+- Remove some styling for topic box names so they wrap, adjusting icons (#1328)
+- Lock file maintenance (#1262)
+- fix flaky tests (#1324)
+- urlencode search_filter (#1326)
+- Moves all env vars to global APP_SETTINGS (#1310)
+- Remap topic icons according to what's in the topics listing (#1322)
+- Fix podcast duration frontend display (#1321)
+- Update topics code for PWT topic mappings (#1275)
+- Convert durations to ISO8601 format (podcast episodes) (#1317)
+- No prices for archived runs or resources w/out certificates (#1305)
+
 Version 0.14.2 (Released July 25, 2024)
 --------------
 
