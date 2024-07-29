@@ -23,6 +23,7 @@ from learning_resources.etl.mitxonline import (
     _transform_run,
     extract_courses,
     extract_programs,
+    parse_certificate_type,
     parse_page_attribute,
     parse_program_prices,
     transform_courses,
@@ -136,9 +137,9 @@ def test_mitxonline_transform_programs(
             "certification": bool(
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
-            "certification_type": CertificationType.completion.name
-            if program_data.get("page", {}).get("page_url", None) is not None
-            else CertificationType.none.name,
+            "certification_type": parse_certificate_type(
+                program_data["certificate_type"]
+            ),
             "image": _transform_image(program_data),
             "description": clean_data(
                 program_data.get("page", {}).get("description", None)
@@ -318,15 +319,9 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                     for course_run in course_data["courseruns"]
                 ],
             ),
-            "certification_type": CertificationType.completion.name
-            if parse_certification(
-                OFFERED_BY["code"],
-                [
-                    _transform_run(course_run, course_data)
-                    for course_run in course_data["courseruns"]
-                ],
-            )
-            else CertificationType.none.name,
+            "certification_type": parse_certificate_type(
+                course_data["certificate_type"]
+            ),
             "topics": transform_topics(course_data["topics"], OFFERED_BY["code"]),
             "url": (
                 urljoin(
@@ -488,3 +483,16 @@ def test_parse_prices(current_price, page_price, expected):
     assert parse_program_prices(program_data) == sorted(
         [float(price) for price in expected]
     )
+
+
+@pytest.mark.parametrize(
+    ("cert_type", "expected_cert_type"),
+    [
+        ("Certificate of Completion", CertificationType.completion.name),
+        ("MicroMasters Credential", CertificationType.micromasters.name),
+        ("Pro Cert", CertificationType.none.name),
+    ],
+)
+def test_parse_certificate_type(cert_type, expected_cert_type):
+    """Test that the certificate type is correctly parsed"""
+    assert parse_certificate_type(cert_type) == expected_cert_type

@@ -59,6 +59,24 @@ def _parse_datetime(value):
     return parse(value).replace(tzinfo=UTC) if value else None
 
 
+def parse_certificate_type(certification_type: str) -> str:
+    """
+    Parse the certification type
+
+    Args:
+        certification_type(str): the certification type
+
+    Returns:
+        str: the parsed certification type
+    """
+    cert_map = {
+        "micromasters credential": CertificationType.micromasters.name,
+        "certificate of completion": CertificationType.completion.name,
+    }
+
+    return cert_map.get(certification_type.lower(), CertificationType.none.name)
+
+
 def parse_page_attribute(
     mitx_json,
     attribute,
@@ -251,7 +269,9 @@ def _transform_course(course):
         ),  # a course is only published if it has a live url and published runs
         "professional": False,
         "certification": has_certification,
-        "certification_type": CertificationType.completion.name
+        "certification_type": parse_certificate_type(
+            course.get("certificate_type", CertificationType.none.name)
+        )
         if has_certification
         else CertificationType.none.name,
         "image": _transform_image(course),
@@ -309,10 +329,10 @@ def transform_programs(programs):
             "departments": parse_departments(program.get("departments", [])),
             "platform": PlatformType.mitxonline.name,
             "professional": False,
-            "certification": bool(parse_page_attribute(program, "page_url")),
-            "certification_type": CertificationType.completion.name
-            if bool(parse_page_attribute(program, "page_url"))
-            else CertificationType.none.name,
+            "certification": program.get("certificate_type") is not None,
+            "certification_type": parse_certificate_type(
+                program.get("certificate_type", CertificationType.none.name)
+            ),
             "topics": transform_topics(program.get("topics", []), OFFERED_BY["code"]),
             "description": clean_data(parse_page_attribute(program, "description")),
             "url": parse_page_attribute(program, "page_url", is_url=True),
