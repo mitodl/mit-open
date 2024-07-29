@@ -48,6 +48,7 @@ const BodyText = styled(Typography)(({ theme }) => ({
 }))
 
 const UnorderedList = styled.ul(({ theme }) => ({
+  width: "100%",
   ...theme.typography.body1,
 }))
 
@@ -83,20 +84,8 @@ const PrivacyPage: React.FC = () => {
           </BodyText>
           <UnorderedList>
             <li>
-              Biographic information - name, gender, date of birth, email
-              address, country of residence, education level, employer,
-              title/position, household income, CV, company size, job function,
-              industry, university name, enrollment status, anticipated degree,
-              anticipated date of graduation, pre-retirement career, year of
-              retirement, and other demographic info
-            </li>
-            <li>
-              Demographics and Interests - Affinity categories, Product Purchase
-              Interests, and Other Categories of interest
-            </li>
-            <li>
-              Contact information - home and business addresses, phone numbers,
-              email addresses, phone numbers, and social media information
+              Biographic information – name, email address, education level and
+              other demographic info
             </li>
             <li>IP addresses</li>
             <li>Course progress and performance</li>
