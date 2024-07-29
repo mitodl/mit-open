@@ -1601,11 +1601,16 @@ components:
         name:
           type: string
           maxLength: 128
+        icon:
+          type: string
+          description: The icon to display for the topic.
+          maxLength: 128
         parent:
           type: integer
           nullable: true
         channel_url:
           type: string
+          readOnly: true
       required:
       - channel_url
       - id

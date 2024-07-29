@@ -1,52 +1,48 @@
+import _ from "lodash"
 import React, { useCallback, useMemo } from "react"
-import { styled, Container, Grid } from "ol-components"
-import { MetaTags, capitalize } from "ol-utilities"
-import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
-import { SearchInput } from "@/page-components/SearchDisplay/SearchInput"
-import type { LearningResourceOfferor } from "api"
-import { useOfferorsList } from "api/hooks/learningResources"
-
-import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
+import type { FacetManifest } from "@mitodl/course-search-utils"
+import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import {
   useResourceSearchParams,
   UseResourceSearchParamsProps,
   getCertificationTypeName,
   getDepartmentName,
 } from "@mitodl/course-search-utils"
-import type { FacetManifest } from "@mitodl/course-search-utils"
-import { useSearchParams } from "@mitodl/course-search-utils/react-router"
+import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
+import { SearchInput } from "@/page-components/SearchDisplay/SearchInput"
+import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
+import type { LearningResourceOfferor } from "api"
+import { useOfferorsList } from "api/hooks/learningResources"
+import { styled, Container, Grid, theme } from "ol-components"
+import { MetaTags, capitalize } from "ol-utilities"
 
-import _ from "lodash"
+const cssGradient = `
+  linear-gradient(
+    to bottom,
+    ${theme.custom.colors.lightGray2} 0%,
+    ${theme.custom.colors.lightGray1} 165px
+  )
+`
 
-const ColoredHeader = styled.div`
+const Page = styled.div`
+  background: ${cssGradient};
+
   ${({ theme }) => theme.breakpoints.up("md")} {
-    height: 165px;
+    background:
+      url("/static/images/search_page_vector.png") no-repeat top left / 35%,
+      ${cssGradient};
   }
+`
+
+const Header = styled.div`
+  height: 165px;
+
   ${({ theme }) => theme.breakpoints.down("md")} {
     height: 75px;
   }
 
-  position: relative;
-  z-index: -1;
   display: flex;
   align-items: center;
-  background: #eb01a5;
-  background: linear-gradient(
-    0deg,
-    ${({ theme }) => theme.custom.colors.lightGray1} 0%,
-    ${({ theme }) => theme.custom.colors.lightGray2} 100%
-  );
-`
-
-const BackgroundImage = styled.img`
-  position: absolute;
-  float: left;
-  width: 35%;
-  top: 0;
-  left: 0;
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    display: none;
-  }
 `
 
 const SearchField = styled(SearchInput)`
@@ -205,10 +201,9 @@ const SearchPage: React.FC = () => {
   const page = +(searchParams.get("page") ?? "1")
 
   return (
-    <>
+    <Page>
       <MetaTags title="Search" />
-      <ColoredHeader>
-        <BackgroundImage src="/static/images/search_page_vector.png" />
+      <Header>
         <Container>
           <GridContainer>
             <GridColumn variant="sidebar-2"></GridColumn>
@@ -227,7 +222,7 @@ const SearchPage: React.FC = () => {
             </Grid>
           </GridContainer>
         </Container>
-      </ColoredHeader>
+      </Header>
       <SearchDisplay
         page={page}
         setSearchParams={setSearchParams}
@@ -242,7 +237,7 @@ const SearchPage: React.FC = () => {
         toggleParamValue={toggleParamValue}
         showProfessionalToggle
       />
-    </>
+    </Page>
   )
 }
 

@@ -190,26 +190,17 @@ def test_program_endpoint(client, url, params):
 @pytest.mark.parametrize(
     "url", ["lr:v1:programs_api-detail", "lr:v1:learning_resources_api-detail"]
 )
-def test_program_detail_endpoint(client, url):
+def test_program_detail_endpoint(client, django_assert_num_queries, url):
     """Test program endpoint"""
     program = ProgramFactory.create()
-    resp = client.get(reverse(url, args=[program.learning_resource.id]))
+    with django_assert_num_queries(19):
+        resp = client.get(reverse(url, args=[program.learning_resource.id]))
     assert resp.data.get("title") == program.learning_resource.title
     assert resp.data.get("resource_type") == LearningResourceType.program.name
-    response_courses = sorted(resp.data["program"]["courses"], key=lambda i: i["id"])
-
-    courses = sorted(
-        [relation.child for relation in program.courses.all()], key=lambda lr: lr.id
+    assert (
+        resp.data["program"]["course_count"]
+        == program.learning_resource.children.count()
     )
-    assert len(response_courses) == len(courses)
-    assert [course.id for course in courses] == [
-        course["id"] for course in response_courses
-    ]
-    for idx, course in enumerate(courses):
-        assert course.id == response_courses[idx]["id"]
-        assert (
-            response_courses[idx]["resource_type"] == LearningResourceType.course.name
-        )
 
 
 def test_list_resources_endpoint(client):
@@ -244,7 +235,7 @@ def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
 
     CourseFactory.create_batch(course_count)
 
-    with django_assert_num_queries(10):
+    with django_assert_num_queries(16):
         view = CourseViewSet(request=mocker.Mock(query_params=[]))
         results = view.get_queryset().all()
         assert len(results) == course_count

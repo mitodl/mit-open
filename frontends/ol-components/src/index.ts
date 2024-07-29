@@ -158,6 +158,7 @@ export type { StepIconProps } from "@mui/material/StepIcon"
 
 export { default as CircularProgress } from "@mui/material/CircularProgress"
 export { default as FormGroup } from "@mui/material/FormGroup"
+export { default as Slider } from "@mui/material/Slider"
 
 export * from "./components/Alert/Alert"
 export * from "./components/BannerPage/BannerPage"

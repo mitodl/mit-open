@@ -7,7 +7,6 @@ from uuid import uuid4
 from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import F, Max
-from drf_spectacular.helpers import lazy_serializer
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -22,7 +21,7 @@ from learning_resources.constants import (
     LevelType,
 )
 from learning_resources.etl.loaders import update_index
-from learning_resources.models import LearningResource, LearningResourceRelationship
+from learning_resources.models import LearningResourceRelationship
 from main.serializers import COMMON_IGNORED_FIELDS, WriteableSerializerMethodField
 
 log = logging.getLogger(__name__)
@@ -43,13 +42,13 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
     Serializer for LearningResourceTopic model
     """
 
-    channel_url = serializers.CharField()
+    channel_url = serializers.CharField(read_only=True)
 
     class Meta:
         """Meta options for the serializer."""
 
         model = models.LearningResourceTopic
-        fields = ["id", "name", "parent", "channel_url"]
+        fields = ["id", "name", "icon", "parent", "channel_url"]
 
 
 class WriteableTopicsMixin(serializers.Serializer):
@@ -279,34 +278,11 @@ class CourseNumberSerializer(serializers.Serializer):
 class ProgramSerializer(serializers.ModelSerializer):
     """Serializer for the Program model"""
 
-    courses = serializers.SerializerMethodField()
-
-    @extend_schema_field(
-        lazy_serializer("learning_resources.serializers.CourseResourceSerializer")(
-            many=True, allow_null=True
-        )
-    )
-    def get_courses(self, obj):
-        """Get the learning resource courses for a program"""
-        ids = (
-            LearningResourceRelationship.objects.filter(
-                parent_id=obj.learning_resource.id, child__published=True
-            )
-            .values_list("child_id", flat=True)
-            .distinct()
-        )
-        return CourseResourceSerializer(
-            list(
-                LearningResource.objects.filter(id__in=ids)
-                .select_related(*LearningResource.related_selects)
-                .prefetch_related(*LearningResource.prefetches)
-                .order_by("next_start_date", "id")
-            ),
-            many=True,
-        ).data
+    course_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = models.Program
+        include = ("course_count",)
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
@@ -435,7 +411,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     certification = serializers.ReadOnlyField(read_only=True)
     certification_type = CertificateTypeField(read_only=True)
     prices = serializers.ListField(
-        child=serializers.DecimalField(max_digits=10, decimal_places=2),
+        child=serializers.DecimalField(max_digits=12, decimal_places=2),
         read_only=True,
     )
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
@@ -553,6 +529,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         model = models.LearningResource
         read_only_fields = [
             "free",
+            "prices",
             "resource_category",
             "certification",
             "certification_type",

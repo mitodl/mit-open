@@ -26,14 +26,20 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 const { cleanEnv, str, bool, port } = require("envalid")
 
 const {
-  NODE_ENV,
   ENVIRONMENT,
+  NODE_ENV,
   PORT,
+  VERSION,
   MITOPEN_API_BASE_URL,
   API_DEV_PROXY_BASE_URL,
   WEBPACK_ANALYZE,
   SITE_NAME,
+  PUBLIC_URL,
   MITOPEN_SUPPORT_EMAIL,
+  MITOPEN_AXIOS_WITH_CREDENTIALS,
+  EMBEDLY_KEY,
+  CKEDITOR_UPLOAD_URL,
+  SENTRY_DSN,
 } = cleanEnv(process.env, {
   ENVIRONMENT: str({
     choices: ["local", "docker", "production"],
@@ -47,6 +53,10 @@ const {
     desc: "Port to run the development server on",
     default: 8062,
   }),
+  VERSION: str({
+    desc: "The current release version",
+    default: "0.0.0",
+  }),
   MITOPEN_API_BASE_URL: str({
     desc: "Base URL for API requests",
     devDefault: "",
@@ -54,19 +64,39 @@ const {
   API_DEV_PROXY_BASE_URL: str({
     desc: "API base URL to proxy to in development mode",
     default: "",
-    devDefault: process.env.MITOPEN_APP_BASE_URL,
+    devDefault: "",
   }),
   WEBPACK_ANALYZE: bool({
     desc: "Whether to run webpack bundle analyzer",
     default: false,
   }),
   SITE_NAME: str({
-    desc: ["The name of the site, used in page titles"],
+    desc: "The name of the site, used in page titles",
     default: "MIT Open",
+  }),
+  PUBLIC_URL: str({
+    desc: "The site URL, for display",
+    default: "",
   }),
   MITOPEN_SUPPORT_EMAIL: str({
     desc: "Email address for support",
     default: "mitopen-support@mit.edu",
+  }),
+  MITOPEN_AXIOS_WITH_CREDENTIALS: bool({
+    desc: "Instructs the Axios API client to send credentials with requests",
+    default: false,
+  }),
+  EMBEDLY_KEY: str({
+    desc: "Public API key for Embedly",
+    default: "EMBEDLY_KEY",
+  }),
+  CKEDITOR_UPLOAD_URL: str({
+    desc: "Location of the CKEditor uploads handler",
+    default: "",
+  }),
+  SENTRY_DSN: str({
+    desc: "Sentry Data Source Name",
+    default: "",
   }),
 })
 
@@ -182,27 +212,18 @@ module.exports = (env, argv) => {
       }),
       new webpack.DefinePlugin({
         APP_SETTINGS: {
-          axios_with_credentials: JSON.stringify(
-            process.env.MITOPEN_AXIOS_WITH_CREDENTIALS,
-          ),
-          axios_base_path: JSON.stringify(process.env.MITOPEN_API_BASE_URL),
-          embedlyKey: JSON.stringify(process.env.EMBEDLY_KEY),
-          search_page_size: JSON.stringify(
-            process.env.OPENSEARCH_DEFAULT_PAGE_SIZE,
-          ),
-          ckeditor_upload_url: JSON.stringify(process.env.CKEDITOR_UPLOAD_URL),
-          environment: JSON.stringify(process.env.ENVIRONMENT),
-          sentry_dsn: JSON.stringify(process.env.SENTRY_DSN),
-          release_version: JSON.stringify(process.env.VERSION),
-          posthog: getPostHogSettings(),
+          MITOPEN_AXIOS_WITH_CREDENTIALS,
+          MITOPEN_API_BASE_URL: JSON.stringify(MITOPEN_API_BASE_URL),
+          EMBEDLY_KEY: JSON.stringify(EMBEDLY_KEY),
+          CKEDITOR_UPLOAD_URL: JSON.stringify(CKEDITOR_UPLOAD_URL),
+          ENVIRONMENT: JSON.stringify(ENVIRONMENT),
+          VERSION: JSON.stringify(VERSION),
+          SENTRY_DSN: JSON.stringify(SENTRY_DSN),
+          POSTHOG: getPostHogSettings(),
+          SITE_NAME: JSON.stringify(SITE_NAME),
+          MITOPEN_SUPPORT_EMAIL: JSON.stringify(MITOPEN_SUPPORT_EMAIL),
+          PUBLIC_URL: JSON.stringify(PUBLIC_URL),
         },
-      }),
-      new webpack.EnvironmentPlugin({
-        // within app, define process.env.VAR_NAME with default from cleanEnv
-        MITOPEN_API_BASE_URL,
-        ENVIRONMENT,
-        SITE_NAME,
-        MITOPEN_SUPPORT_EMAIL,
       }),
     ]
       .concat(
@@ -269,24 +290,26 @@ module.exports = (env, argv) => {
         writeToDisk: true,
       },
       host: "0.0.0.0",
-      proxy: [
-        {
-          context: [
-            "/api",
-            "/login",
-            "/logout",
-            "/admin",
-            "/static/admin",
-            "/static/hijack",
-          ],
-          target: API_DEV_PROXY_BASE_URL || MITOPEN_API_BASE_URL,
-          changeOrigin: true,
-          secure: false,
-          headers: {
-            Origin: API_DEV_PROXY_BASE_URL || MITOPEN_API_BASE_URL,
-          },
-        },
-      ],
+      proxy: API_DEV_PROXY_BASE_URL
+        ? [
+            {
+              context: [
+                "/api",
+                "/login",
+                "/logout",
+                "/admin",
+                "/static/admin",
+                "/static/hijack",
+              ],
+              target: API_DEV_PROXY_BASE_URL,
+              changeOrigin: true,
+              secure: false,
+              headers: {
+                Origin: API_DEV_PROXY_BASE_URL,
+              },
+            },
+          ]
+        : [],
     },
   }
   return withCKEditor(config)

@@ -2534,6 +2534,16 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_search
       responses:
@@ -2953,6 +2963,16 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_user_subscription
       responses:
@@ -3411,6 +3431,16 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_user_subscription
       responses:
@@ -3846,6 +3876,16 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_user_subscription
       requestBody:
@@ -7463,7 +7503,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -7874,7 +7914,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -8659,11 +8699,16 @@ components:
         name:
           type: string
           maxLength: 128
+        icon:
+          type: string
+          description: The icon to display for the topic.
+          maxLength: 128
         parent:
           type: integer
           nullable: true
         channel_url:
           type: string
+          readOnly: true
       required:
       - channel_url
       - id
@@ -9459,6 +9504,14 @@ components:
         professional:
           type: boolean
           nullable: true
+        yearly_decay_percent:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+          description: Relevance score penalty percent per year for for resources
+            without upcoming runs. Only affects results if there is a search term.
         certification:
           type: boolean
           nullable: true
@@ -9741,7 +9794,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -9991,7 +10044,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -10178,14 +10231,11 @@ components:
       type: object
       description: Serializer for the Program model
       properties:
-        courses:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseResource'
-          nullable: true
+        course_count:
+          type: integer
           readOnly: true
       required:
-      - courses
+      - course_count
     ProgramCertificate:
       type: object
       description: Serializer for Program Certificates
@@ -10378,7 +10428,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -10877,7 +10927,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -11117,7 +11167,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array

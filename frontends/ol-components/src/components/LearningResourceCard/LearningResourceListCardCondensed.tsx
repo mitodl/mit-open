@@ -15,14 +15,13 @@ import {
   Certificate,
   Price,
   BorderSeparator,
-  getPrices,
-  getDisplayPrice,
   Count,
   StartDate,
   Format,
 } from "./LearningResourceListCard"
 import type { LearningResourceListCardProps } from "./LearningResourceListCard"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
+import { getDisplayPrices } from "./utils"
 
 const ResourceType = styled.span`
   align-self: flex-start;
@@ -32,7 +31,7 @@ const ResourceType = styled.span`
  * Info is the ResourceType flex alignment
  */
 const Info = ({ resource }: { resource: LearningResource }) => {
-  const prices = getPrices(resource)
+  const prices = getDisplayPrices(resource)
   return (
     <>
       <ResourceType>
@@ -41,11 +40,10 @@ const Info = ({ resource }: { resource: LearningResource }) => {
       {resource.certification && (
         <Certificate>
           <RiAwardFill />
-          Certificate{prices?.certificate ? ":" : ""}{" "}
-          {getDisplayPrice(prices?.certificate)}
+          Certificate{prices?.certificate ? ":" : ""} {prices?.certificate}
         </Certificate>
       )}
-      <Price>{getDisplayPrice(prices?.course)}</Price>
+      <Price>{prices?.course}</Price>
     </>
   )
 }

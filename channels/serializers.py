@@ -9,7 +9,7 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from channels.api import add_user_role, is_moderator
+from channels.api import add_user_role
 from channels.constants import CHANNEL_ROLE_MODERATORS, ChannelType
 from channels.models import (
     Channel,
@@ -78,9 +78,10 @@ class ChannelAppearanceMixin(serializers.Serializer):
     def get_is_moderator(self, instance) -> bool:
         """Return true if user is a moderator for the channel"""
         request = self.context.get("request")
-        if request and is_moderator(request.user, instance.id):
-            return True
-        return False
+        if not request or not request.user or not instance:
+            return False
+        moderated_channel_ids = self.context.get("moderated_channel_ids", [])
+        return request.user.is_staff or instance.id in moderated_channel_ids
 
     def get_avatar(self, channel) -> str | None:
         """Get the avatar image URL"""

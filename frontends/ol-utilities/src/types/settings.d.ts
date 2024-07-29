@@ -8,13 +8,16 @@ export type PostHogSettings = {
 
 export declare global {
   declare const APP_SETTINGS: {
-    axios_with_credentials?: string
-    axios_base_path?: string
-    embedlyKey: string
-    ckeditor_upload_url?: string
-    sentry_dsn?: string
-    release_version?: string
-    environment?: string
-    posthog?: PostHogSettings
+    MITOPEN_AXIOS_WITH_CREDENTIALS?: boolean
+    MITOPEN_API_BASE_URL: string
+    EMBEDLY_KEY: string
+    CKEDITOR_UPLOAD_URL?: string
+    SENTRY_DSN?: string
+    VERSION?: string
+    ENVIRONMENT?: string
+    POSTHOG?: PostHogSettings
+    SITE_NAME: string
+    MITOPEN_SUPPORT_EMAIL: string
+    PUBLIC_URL: string
   }
 }

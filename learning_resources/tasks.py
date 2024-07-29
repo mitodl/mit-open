@@ -17,7 +17,7 @@ from learning_resources.etl.edx_shared import (
     get_most_recent_course_archives,
     sync_edx_course_files,
 )
-from learning_resources.etl.loaders import load_next_start_date
+from learning_resources.etl.loaders import load_next_start_date_and_prices
 from learning_resources.etl.pipelines import ocw_courses_etl
 from learning_resources.etl.utils import get_learning_course_bucket_name
 from learning_resources.models import LearningResource
@@ -30,11 +30,11 @@ log = logging.getLogger(__name__)
 
 
 @app.task
-def update_next_start_date():
-    """Update expired next start dates"""
+def update_next_start_date_and_prices():
+    """Update expired next start dates and prices"""
     resources = LearningResource.objects.filter(next_start_date__lt=timezone.now())
     for resource in resources:
-        load_next_start_date(resource)
+        load_next_start_date_and_prices(resource)
     return len(resources)
 
 
@@ -46,9 +46,14 @@ def get_micromasters_data():
 
 
 @app.task
-def get_mit_edx_data() -> int:
-    """Task to sync MIT edX data with the database"""
-    courses = pipelines.mit_edx_etl()
+def get_mit_edx_data(api_datafile=None) -> int:
+    """Task to sync MIT edX data with the database
+
+    Args:
+        api_datafile (str): If provided, use this file as the source of API data
+            Otherwise, the API is queried directly.
+    """
+    courses = pipelines.mit_edx_etl(api_datafile)
     return len(courses)
 
 
@@ -61,9 +66,15 @@ def get_mitxonline_data() -> int:
 
 
 @app.task
-def get_oll_data():
-    """Execute the OLL ETL pipeline"""
-    courses = pipelines.oll_etl()
+def get_oll_data(api_datafile=None):
+    """Execute the OLL ETL pipeline.
+
+    Args:
+        api_datafile (str): If provided, use this file as the source of API data
+            Otherwise, the API is queried directly.
+
+    """
+    courses = pipelines.oll_etl(api_datafile)
     return len(courses)
 
 

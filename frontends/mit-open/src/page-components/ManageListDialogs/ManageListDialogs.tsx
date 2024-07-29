@@ -400,7 +400,7 @@ const manageListDialogs = {
   destroyLearningPath: (resource: LearningPathResource) =>
     NiceModal.show(DeleteLearningPathDialog, { resource }),
   upsertUserList: (userList?: UserList) => {
-    const title = userList ? "Edit User List" : "Create User List"
+    const title = userList ? "Edit List" : "Create List"
     NiceModal.show(UpsertUserListDialog, { title, userList })
   },
   destroyUserList: (userList: UserList) =>

@@ -20,6 +20,7 @@ import { ListCard } from "../Card/ListCard"
 import { ActionButtonProps } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
+import { getDisplayPrices } from "./utils"
 
 const IMAGE_SIZES = {
   mobile: { width: 116, height: 104 },
@@ -39,7 +40,7 @@ export const Certificate = styled.div`
   padding: 4px;
   color: ${theme.custom.colors.silverGrayDark};
   gap: 4px;
-  margin: 0 8px 0 auto;
+  margin: 0 16px 0 auto;
 
   ${{ ...theme.typography.subtitle3 }}
 
@@ -64,6 +65,17 @@ export const Certificate = styled.div`
 
   display: flex;
   align-items: center;
+`
+
+const CertificateText = styled.div`
+  display: flex;
+`
+
+const CertificatePrice = styled.div`
+  ${{ ...theme.typography.body3 }}
+  ${theme.breakpoints.down("md")} {
+    ${{ ...theme.typography.body4 }}
+  }
 `
 
 export const Price = styled.div`
@@ -93,126 +105,9 @@ type ResourceIdCallback = (
 
 const getEmbedlyUrl = (url: string, isMobile: boolean) => {
   return embedlyCroppedImage(url, {
-    key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
+    key: APP_SETTINGS.EMBEDLY_KEY,
     ...IMAGE_SIZES[isMobile ? "mobile" : "desktop"],
   })
-}
-
-type Prices = {
-  course: null | number
-  certificate: null | number
-}
-
-export const getPrices = (resource: LearningResource) => {
-  const prices: Prices = {
-    course: null,
-    certificate: null,
-  }
-
-  if (!resource) {
-    return prices
-  }
-
-  const resourcePrices = resource.prices
-    .map((price) => Number(price))
-    .sort((a, b) => a - b)
-
-  if (resourcePrices.length > 1) {
-    /* The resource is free and offers a paid certificate option, e.g.
-     * { prices: [0, 49], free: true, certification: true }
-     */
-    if (resource.certification && resource.free) {
-      const certificatedPrices = resourcePrices.filter((price) => price > 0)
-      return {
-        course: 0,
-        certificate:
-          certificatedPrices.length === 1
-            ? certificatedPrices[0]
-            : [
-                certificatedPrices[0],
-                certificatedPrices[certificatedPrices.length - 1],
-              ],
-      }
-    }
-
-    /* The resource is not free and has a range of prices, e.g.
-     * { prices: [950, 999], free: false, certification: true|false }
-     */
-    if (resource.certification && !resource.free && Number(resourcePrices[0])) {
-      return {
-        course: [resourcePrices[0], resourcePrices[resourcePrices.length - 1]],
-        certificate: null,
-      }
-    }
-
-    /* The resource is not free but has a zero price option (prices not ingested correctly)
-     * { prices: [0, 999], free: false, certification: true|false }
-     */
-    if (!resource.free && !Number(resourcePrices[0])) {
-      return {
-        course: +Infinity,
-        certificate: null,
-      }
-    }
-
-    /* We are not expecting multiple prices for courses with no certificate option.
-     * For resourses always certificated, there is one price that includes the certificate.
-     */
-  } else if (resourcePrices.length === 1) {
-    if (!Number(resourcePrices[0])) {
-      /* Sometimes price info is missing, but the free flag is reliable.
-       */
-      if (!resource.free) {
-        return {
-          course: +Infinity,
-          certificate: null,
-        }
-      }
-
-      return {
-        course: 0,
-        certificate: null,
-      }
-    } else {
-      /* If the course has no free option, the price of the certificate
-       * is included in the price of the course.
-       */
-      return {
-        course: Number(resourcePrices[0]),
-        certificate: null,
-      }
-    }
-  } else if (resourcePrices.length === 0) {
-    return {
-      course: resource.free ? 0 : +Infinity,
-      certificate: null,
-    }
-  }
-
-  return prices
-}
-
-const getDisplayPrecision = (price: number) => {
-  if (Number.isInteger(price)) {
-    return price.toFixed(0)
-  }
-  return price.toFixed(2)
-}
-
-export const getDisplayPrice = (price: number | number[] | null) => {
-  if (price === null) {
-    return null
-  }
-  if (price === 0) {
-    return "Free"
-  }
-  if (price === +Infinity) {
-    return "Paid"
-  }
-  if (Array.isArray(price)) {
-    return `$${getDisplayPrecision(price[0])} - $${getDisplayPrecision(price[1])}`
-  }
-  return `$${getDisplayPrecision(price)}`
 }
 
 /* This displays a single price for courses with no free option
@@ -221,18 +116,22 @@ export const getDisplayPrice = (price: number | number[] | null) => {
  * in the certificate badge alongside the course "Free" price.
  */
 const Info = ({ resource }: { resource: LearningResource }) => {
-  const prices = getPrices(resource)
+  const prices = getDisplayPrices(resource)
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
       {resource.certification && (
         <Certificate>
           <RiAwardFill />
-          Certificate{prices?.certificate ? ":" : ""}{" "}
-          {getDisplayPrice(prices?.certificate)}
+          <CertificateText>
+            Certificate
+            <CertificatePrice>
+              {prices?.certificate ? ": " : ""} {prices?.certificate}
+            </CertificatePrice>
+          </CertificateText>
         </Certificate>
       )}
-      <Price>{getDisplayPrice(prices?.course)}</Price>
+      <Price>{prices?.course}</Price>
     </>
   )
 }

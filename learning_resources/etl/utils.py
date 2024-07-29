@@ -1,6 +1,5 @@
 """Helper functions for ETL"""
 
-import csv
 import glob
 import logging
 import mimetypes
@@ -12,7 +11,6 @@ from collections import Counter
 from collections.abc import Generator
 from datetime import UTC, datetime
 from hashlib import md5
-from itertools import chain
 from pathlib import Path
 from subprocess import check_call
 from tempfile import TemporaryDirectory
@@ -21,7 +19,7 @@ import boto3
 import rapidjson
 import requests
 from django.conf import settings
-from django.utils.functional import SimpleLazyObject
+from django.utils.dateparse import parse_duration
 from django.utils.text import slugify
 from tika import parser as tika_parser
 from xbundle import XBundle
@@ -48,39 +46,39 @@ from learning_resources.models import (
     Course,
     LearningResource,
     LearningResourceRun,
+    LearningResourceTopic,
+    LearningResourceTopicMapping,
 )
 
 log = logging.getLogger(__name__)
 
 
-def _load_ucc_topic_mappings():
-    """# noqa: D401
-    Loads the topic mappings from the crosswalk CSV file
+def load_offeror_topic_map(offeror_code: str):
+    """
+    Load the topic mappings from the database.
 
     Returns:
-        dict:
-            the mapping dictionary
+    - dict, the mapping dictionary
     """
-    with Path.open(
-        Path("learning_resources/data/ucc-topic-mappings.csv")
-    ) as mapping_file:
-        rows = list(csv.reader(mapping_file))
-        # drop the column headers (first row)
-        rows = rows[1:]
-        mapping = {}
-        for row in rows:
-            ocw_topics = list(filter(lambda item: item, row[2:]))
-            mapping[f"{row[0]}:{row[1]}"] = ocw_topics
-            mapping[row[1]] = ocw_topics
-        return mapping
+
+    pmt_mappings = (
+        LearningResourceTopicMapping.objects.filter(offeror__code=offeror_code)
+        .prefetch_related("topic")
+        .all()
+    )
+
+    mappings = {}
+
+    for pmt_mapping in pmt_mappings:
+        mappings[pmt_mapping.topic_name] = pmt_mapping.topic.name
+
+    return mappings
 
 
-UCC_TOPIC_MAPPINGS = SimpleLazyObject(_load_ucc_topic_mappings)
-
-
-def transform_topics(topics):
+def transform_topics(topics: list, offeror_code: str):
     """
-    Transform topics by using our crosswalk mapping
+    Transform topics by using the data from LearningResourceTopics and the
+    persisted mappings.
 
     Args:
         topics (list of dict):
@@ -89,16 +87,21 @@ def transform_topics(topics):
     Return:
         list of dict: the transformed topics
     """
-    return [
-        {"name": topic_name}
-        for topic_name in chain.from_iterable(
-            [
-                UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                for topic in topics
-                if topic is not None
-            ]
-        )
-    ]
+    topic_mappings = load_offeror_topic_map(offeror_code)
+
+    transformed_topics = []
+
+    for topic in topics:
+        if topic["name"] in topic_mappings:
+            transformed_topics.append({"name": topic_mappings.get(topic["name"])})
+        else:
+            base_topic = LearningResourceTopic.objects.filter(
+                name=topic["name"]
+            ).exists()
+
+            transformed_topics.append({"name": topic["name"]}) if base_topic else None
+
+    return transformed_topics
 
 
 def without_none(values) -> list:
@@ -555,6 +558,20 @@ def extract_valid_department_from_id(
     return []
 
 
+def get_department_id_by_name(name: str) -> str:
+    """
+    Return a department id based on provided name
+
+    Args:
+        name (str): The department name
+
+    Returns:
+        str: The department id
+    """
+    reverse_dept_map = {v: k for k, v in DEPARTMENTS.items()}
+    return reverse_dept_map.get(name)
+
+
 def generate_course_numbers_json(
     course_num: str,
     extra_nums: list[str] | None = None,
@@ -689,3 +706,31 @@ def parse_certification(offeror, runs_data):
             if (availability and availability != AvailabilityType.archived.value)
         ]
     )
+
+
+def iso8601_duration(duration_str: str) -> str or None:
+    """
+    Parse the duration from a string and return it in ISO-8601 format
+
+    Args:
+        duration_str (str): The duration as a string in one of various formats
+
+    Returns:
+        str: the duration in ISO-8601 format
+    """
+    if not duration_str:
+        return None
+    delta = parse_duration(duration_str)
+    if delta is None:
+        log.warning("Could not parse duration string %s", duration_str)
+        return None
+
+    hours, remainder = divmod(delta.total_seconds(), 3600)
+    minutes, seconds = divmod(remainder, 60)
+
+    if hours or minutes or seconds:
+        hour_duration = f"{int(hours)}H" if hours else ""
+        minute_duration = f"{int(minutes)}M" if minutes else ""
+        second_duration = f"{int(seconds)}S" if seconds else ""
+        return f"PT{hour_duration}{minute_duration}{second_duration}"
+    return "PT0S"

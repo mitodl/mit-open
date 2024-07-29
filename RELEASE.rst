@@ -1,6 +1,49 @@
 Release Notes
 =============
 
+Version 0.14.2 (Released July 25, 2024)
+--------------
+
+- Reorder where the testimonial displays in the unit/offeror page to fix spacing and background (#1314)
+- fix banner background width (#1315)
+- fix price display and update vertical cards (#1296)
+- Fix channel views test (#1318)
+- free section css (#1312)
+- Extract department info for mitxonline from correct external API fields (#1308)
+- Determine can edit and can sort permission upstream (#1299)
+
+Version 0.14.1 (Released July 24, 2024)
+--------------
+
+- Add a database index on FeedEventDetail.event_datetime (#1304)
+- Update platform logos (#1302)
+
+Version 0.14.0 (Released July 23, 2024)
+--------------
+
+- Save resource prices in a new database model and calculate during ETL/nightly task (#1290)
+- set search page size to 20 (#1298)
+- Add a slider to prioritize newer resources (#1283)
+- Fix bug with background image obscuring search controls (#1293)
+- allow hitting local edx datafile in dev mode (#1297)
+- fix restricted redirect (#1287)
+
+Version 0.13.23 (Released July 18, 2024)
+---------------
+
+- Revert "Fix bug with background image obscuring search controls (#1286)" (#1289)
+- Improve channels api performance (#1278)
+
+Version 0.13.22 (Released July 18, 2024)
+---------------
+
+- Optimize queries for learning resource APIs
+- Fix bug with background image obscuring search controls (#1286)
+- Draggable list card styles (#1282)
+- Update actions/setup-node digest to 1e60f62 (#1267)
+- Update actions/upload-artifact digest to 0b2256b (#1269)
+- Update actions/setup-python digest to 39cd149 (#1268)
+
 Version 0.13.21 (Released July 17, 2024)
 ---------------
 

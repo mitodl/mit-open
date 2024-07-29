@@ -2,10 +2,12 @@
 
 import logging
 from collections import OrderedDict, defaultdict
+from datetime import UTC, datetime
 from typing import TypedDict
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from drf_spectacular.plumbing import build_choice_description_list
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
@@ -50,11 +52,62 @@ from main.serializers import (
 log = logging.getLogger()
 
 
+OCW_SEMESTER_TO_MONTH_MAPPING = {
+    "Fall": 9,
+    "Spring": 3,
+    "January IAP": 1,
+    "Summer": 6,
+    None: 1,
+}
+
+
 class SearchCourseNumberSerializer(CourseNumberSerializer):
     """Serializer for CourseNumber, including extra fields for search"""
 
     primary = serializers.BooleanField()
     sort_coursenum = serializers.CharField()
+
+
+def get_resource_age_date(learning_resource_obj, resource_category):
+    """
+    Get the internal resource_age_date which measures how stale a resource is.
+    Resources with upcoming runs have a resource_age_date of null. Otherwise the
+    date is the last modified date for learning materials or the start date of the
+    last run for courses.
+    """
+
+    resource_age_date = None
+
+    if resource_category == LEARNING_MATERIAL_RESOURCE_CATEGORY:
+        resource_age_date = learning_resource_obj.last_modified
+    elif (
+        learning_resource_obj.resource_type == LearningResourceType.course.name
+        and not learning_resource_obj.next_start_date
+    ):
+        last_run = (
+            learning_resource_obj.runs.filter(Q(published=True))
+            .order_by("start_date")
+            .last()
+        )
+
+        if last_run:
+            if (
+                last_run.year is not None
+                and learning_resource_obj.offered_by
+                and learning_resource_obj.offered_by.code == OfferedBy.ocw.name
+            ):
+                resource_age_date = datetime(
+                    last_run.year,
+                    OCW_SEMESTER_TO_MONTH_MAPPING.get(last_run.semester),
+                    1,
+                    0,
+                    0,
+                    tzinfo=UTC,
+                )
+            else:
+                resource_age_date = last_run.start_date
+
+    return resource_age_date
 
 
 def serialize_learning_resource_for_update(
@@ -71,8 +124,7 @@ def serialize_learning_resource_for_update(
 
     """
     serialized_data = LearningResourceSerializer(instance=learning_resource_obj).data
-    # Note: this is an ES-specific field that is filtered out on retrieval
-    #       see SOURCE_EXCLUDED_FIELDS in learning_resources_search/constants.py
+
     if learning_resource_obj.resource_type == LearningResourceType.course.name:
         serialized_data["course"]["course_numbers"] = [
             SearchCourseNumberSerializer(instance=num).data
@@ -83,6 +135,9 @@ def serialize_learning_resource_for_update(
         "created_on": learning_resource_obj.created_on,
         "is_learning_material": serialized_data["resource_category"]
         == LEARNING_MATERIAL_RESOURCE_CATEGORY,
+        "resource_age_date": get_resource_age_date(
+            learning_resource_obj, serialized_data["resource_category"]
+        ),
         **serialized_data,
     }
 
@@ -248,6 +303,18 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         allow_null=True,
         default=None,
     )
+    yearly_decay_percent = serializers.FloatField(
+        max_value=10,
+        min_value=0,
+        required=False,
+        allow_null=True,
+        default=None,
+        help_text=(
+            "Relevance score penalty percent per year for for resources without "
+            "upcoming runs. Only affects results if there is a search term."
+        ),
+    )
+
     certification = ArrayWrappedBoolean(
         required=False,
         allow_null=True,
@@ -606,7 +673,7 @@ def serialize_bulk_learning_resources(ids):
     """
     for learning_resource in (
         LearningResource.objects.select_related(*LearningResource.related_selects)
-        .prefetch_related(*LearningResource.prefetches)
+        .prefetch_related(*LearningResource.get_prefetches())
         .filter(id__in=ids)
     ):
         yield serialize_learning_resource_for_bulk(learning_resource)

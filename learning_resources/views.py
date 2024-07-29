@@ -146,7 +146,7 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         if resource_type:
             lr_query = lr_query.filter(resource_type=resource_type)
         lr_query = lr_query.select_related(*LearningResource.related_selects)
-        return lr_query.prefetch_related(*LearningResource.prefetches).distinct()
+        return lr_query.prefetch_related(*LearningResource.get_prefetches()).distinct()
 
     def get_queryset(self) -> QuerySet:
         """

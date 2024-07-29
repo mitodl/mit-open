@@ -21,7 +21,7 @@ from learning_resources.tasks import (
     get_ocw_data,
     get_youtube_data,
     get_youtube_transcripts,
-    update_next_start_date,
+    update_next_start_date_and_prices,
 )
 
 pytestmark = pytest.mark.django_db
@@ -65,7 +65,7 @@ def test_get_mit_edx_data_valid(mocker):
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
 
     tasks.get_mit_edx_data.delay()
-    mock_pipelines.mit_edx_etl.assert_called_once_with()
+    mock_pipelines.mit_edx_etl.assert_called_once_with(None)
 
 
 def test_get_mitxonline_data(mocker):
@@ -80,7 +80,7 @@ def test_get_oll_data(mocker):
     """Verify that the get_oll_data invokes the OLL ETL pipeline"""
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_oll_data.delay()
-    mock_pipelines.oll_etl.assert_called_once_with()
+    mock_pipelines.oll_etl.assert_called_once_with(None)
 
 
 def test_get_prolearn_data(mocker):
@@ -347,7 +347,7 @@ def test_update_next_start_date(mocker):
     LearningResourceFactory.create(next_start_date=(timezone.now() + timedelta(1)))
 
     mock_load_next_start_date = mocker.patch(
-        "learning_resources.tasks.load_next_start_date"
+        "learning_resources.tasks.load_next_start_date_and_prices"
     )
-    update_next_start_date()
+    update_next_start_date_and_prices()
     mock_load_next_start_date.assert_called_once_with(learning_resource)

@@ -452,3 +452,39 @@ def test_calc_checksum(previous_archive, identical):
         "test_json/course-v1:MITxT+8.01.3x+3T2022.tar.gz"
     )
     assert (utils.calc_checksum(previous_archive) == reference_checksum) is identical
+
+
+@pytest.mark.parametrize(
+    ("dept_name", "dept_id"), [("Biology", "7"), ("Metaphysics", None)]
+)
+def test_get_department_id_by_name(dept_name, dept_id):
+    """Test that the correct department ID (if any) is returned"""
+    assert utils.get_department_id_by_name(dept_name) == dept_id
+
+
+@pytest.mark.parametrize(
+    ("duration_str", "expected"),
+    [
+        ("1:00:00", "PT1H"),
+        ("1:30:04", "PT1H30M4S"),
+        ("00:00", "PT0S"),
+        ("00:00:00", "PT0S"),
+        ("00:01:00", "PT1M"),
+        ("01:00:00", "PT1H"),
+        ("00:00:01", "PT1S"),
+        ("02:59", "PT2M59S"),
+        ("72:59", "PT1H12M59S"),
+        ("3675", "PT1H1M15S"),
+        ("5", "PT5S"),
+        ("PT1H30M4S", "PT1H30M4S"),
+        ("", None),
+        (None, None),
+        ("bad_duration", None),
+        ("PTBarnum", None),
+    ],
+)
+def test_parse_duration(mocker, duration_str, expected):
+    """Test that parse_duration returns the expected duration"""
+    mock_warn = mocker.patch("learning_resources.etl.utils.log.warning")
+    assert utils.iso8601_duration(duration_str) == expected
+    assert mock_warn.call_count == (1 if duration_str and expected is None else 0)

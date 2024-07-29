@@ -3,11 +3,13 @@
 import datetime
 import json
 import logging
+from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
 
 from learning_resources.constants import (
+    AvailabilityType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -112,15 +114,25 @@ def load_departments(
     return resource.departments.all()
 
 
-def load_next_start_date(resource: LearningResource) -> datetime.time | None:
+def load_next_start_date_and_prices(
+    resource: LearningResource,
+) -> tuple[datetime.time | None, list[Decimal]]:
     next_upcoming_run = resource.next_run
     if next_upcoming_run:
         resource.next_start_date = next_upcoming_run.start_date
     else:
         resource.next_start_date = None
-
+    best_run = (
+        next_upcoming_run
+        or resource.runs.filter(published=True).order_by("-start_date").first()
+    )
+    resource.prices = (
+        best_run.prices
+        if resource.certification and best_run and best_run.prices
+        else []
+    )
     resource.save()
-    return resource.next_start_date
+    return resource.next_start_date, resource.prices
 
 
 def load_instructors(
@@ -220,8 +232,17 @@ def load_run(
     image_data = run_data.pop("image", None)
     instructors_data = run_data.pop("instructors", [])
 
-    # Make sure any prices are unique and sorted in ascending order
-    run_data["prices"] = sorted(set(run_data.get("prices", [])), key=lambda x: float(x))
+    if (
+        run_data.get("availability") == AvailabilityType.archived.value
+        or learning_resource.certification is False
+    ):
+        # Archived runs or runs of resources w/out certificates should not have prices
+        run_data["prices"] = []
+    else:
+        # Make sure any prices are unique and sorted in ascending order
+        run_data["prices"] = sorted(
+            set(run_data.get("prices", [])), key=lambda x: float(x)
+        )
 
     with transaction.atomic():
         (
@@ -352,7 +373,7 @@ def load_course(
                 run.published = False
                 run.save()
 
-        load_next_start_date(learning_resource)
+        load_next_start_date_and_prices(learning_resource)
         load_topics(learning_resource, topics_data)
         load_offered_by(learning_resource, offered_bys_data)
         load_image(learning_resource, image_data)
@@ -481,7 +502,7 @@ def load_program(
                 run.published = False
                 run.save()
 
-        load_next_start_date(learning_resource)
+        load_next_start_date_and_prices(learning_resource)
 
         for course_data in courses_data:
             # skip courses that don't define a readable_id

@@ -42,10 +42,13 @@ import type {
 import _ from "lodash"
 import { ResourceCategoryTabs } from "./ResourceCategoryTabs"
 import ProfessionalToggle from "./ProfessionalToggle"
+import StalenessPenaltySlider from "./StalenessPenaltySlider"
+
 import type { TabConfig } from "./ResourceCategoryTabs"
 
 import { ResourceListCard } from "../ResourceCard/ResourceCard"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
+import { useUserMe } from "api/hooks/user"
 
 export const StyledSelect = styled(SimpleSelect)`
   min-width: 160px;
@@ -247,13 +250,13 @@ const FacetStyles = styled.div`
   }
 
   .multi-facet-group {
-    background: none;
+    background: white;
     margin-top: 8px;
     margin-bottom: 8px;
     border-radius: 8px;
     border-bottom: solid 1px ${({ theme }) => theme.custom.colors.lightGray2};
     padding-bottom: 12px;
-    padding-top: 10px;
+    padding-top: 5px;
 
     /* stylelint-disable no-descending-specificity */
     .facet-visible {
@@ -280,6 +283,10 @@ const FilterTitle = styled.div`
   align-items: center;
   margin-bottom: 8px;
   color: ${({ theme }) => theme.custom.colors.darkGray2};
+`
+
+const AdminOptionsTitle = styled(FilterTitle)`
+  margin-top: 20px;
 `
 
 const FacetsTitleContainer = styled.div`
@@ -408,7 +415,7 @@ const StyledGridContainer = styled(GridContainer)`
   width: 100% !important;
 `
 
-const PAGE_SIZE = 10
+const PAGE_SIZE = 20
 const MAX_PAGE = 50
 
 const getLastPage = (count: number): number => {
@@ -518,13 +525,16 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
       resource_category: activeTab.resource_category
         ? [activeTab.resource_category]
         : undefined,
+      yearly_decay_percent: searchParams.get("yearly_decay_percent"),
       ...requestParams,
       aggregations: (facetNames || []).concat([
         "resource_category",
       ]) as LRSearchRequest["aggregations"],
       offset: (page - 1) * PAGE_SIZE,
+      limit: PAGE_SIZE,
     }
   }, [
+    searchParams,
     requestParams,
     constantSearchParams,
     activeTab?.resource_category,
@@ -536,6 +546,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     allParams as LRSearchRequest,
     { keepPreviousData: true },
   )
+
+  const { data: user } = useUserMe()
 
   const [mobileDrawerOpen, setMobileDrawerOpen] = React.useState(false)
 
@@ -601,6 +613,23 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               ) : null}
             </FacetsTitleContainer>
             {filterContents}
+            {user?.is_learning_path_editor ? (
+              <div>
+                <AdminOptionsTitle>
+                  <div>
+                    <Typography variant="subtitle1">Admin Options</Typography>
+                  </div>
+                </AdminOptionsTitle>
+                <StalenessPenaltySlider
+                  stalenessSliderSetting={
+                    searchParams.get("yearly_decay_percent")
+                      ? Number(searchParams.get("yearly_decay_percent"))
+                      : 0
+                  }
+                  setSearchParams={setSearchParams}
+                />
+              </div>
+            ) : null}
           </DesktopFiltersColumn>
           <StyledMainColumn variant="main-2">
             <DesktopSortContainer>{sortDropdown}</DesktopSortContainer>
@@ -656,6 +685,25 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                     </MobileFacetSearchButtons>
                   ) : null}
                   {filterContents}
+                  {user?.is_learning_path_editor ? (
+                    <div>
+                      <AdminOptionsTitle>
+                        <div>
+                          <Typography variant="subtitle3">
+                            Admin Options
+                          </Typography>
+                        </div>
+                      </AdminOptionsTitle>
+                      <StalenessPenaltySlider
+                        stalenessSliderSetting={
+                          searchParams.get("yearly_decay_percent")
+                            ? Number(searchParams.get("yearly_decay_percent"))
+                            : 0
+                        }
+                        setSearchParams={setSearchParams}
+                      />
+                    </div>
+                  ) : null}
                 </StyledDrawer>
                 <MobileSortContainer>{sortDropdown}</MobileSortContainer>
               </MobileFilter>

@@ -35,6 +35,7 @@ from learning_resources.factories import (
     LearningResourcePlatformFactory,
 )
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
+from learning_resources.utils import upsert_topic_data_file
 from main.test_utils import assert_json_equal
 from main.utils import clean_data
 
@@ -51,6 +52,7 @@ def _mock_offerors_platforms():
     LearningResourcePlatformFactory.create(
         code="mitpe", name="MIT Professional Education"
     )
+    upsert_topic_data_file()
 
 
 @pytest.fixture(autouse=True)
@@ -147,7 +149,9 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             ),
             "image": parse_image(program),
             "platform": PlatformType.csail.name,
-            "offered_by": None,
+            "offered_by": {"name": parse_offered_by(program).name}
+            if parse_offered_by(program)
+            else None,
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
             "learning_format": transform_format(program["format_name"]),
@@ -173,7 +177,9 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                     program["start_value"], program["end_value"]
                 )
             ],
-            "topics": parse_topic(program),
+            "topics": parse_topic(program, parse_offered_by(program))
+            if parse_offered_by(program)
+            else None,
             # all we need for course data is the relative positioning of courses by course_id
             "courses": [
                 {
@@ -218,7 +224,7 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "certification": True,
             "certification_type": CertificationType.professional.name,
             "learning_format": transform_format(course["format_name"]),
-            "topics": parse_topic(course),
+            "topics": parse_topic(course, "mitpe"),
             "url": course["course_link"]
             if urlparse(course["course_link"]).path
             else (
@@ -283,19 +289,20 @@ def test_parse_price(price_str, price_list):
 @pytest.mark.parametrize(
     ("topic", "expected"),
     [
-        ["Blockchain", "Computer Science"],  # noqa: PT007
+        ["Blockchain", "Blockchain"],  # noqa: PT007
         ["Systems Engineering", "Systems Engineering"],  # noqa: PT007
-        ["Other Business", "Business"],  # noqa: PT007
-        ["Other Technology", None],  # noqa: PT007
+        ["Other Business", "Management"],  # noqa: PT007
+        ["Other Technology", "Digital Business & IT"],  # noqa: PT007
     ],
 )
 def test_parse_topic(topic, expected):
     """parse_topic should return the matching OCW topic"""
+
     document = {"ucc_name": topic}
     if expected:
-        assert parse_topic(document)[0]["name"] == expected
+        assert parse_topic(document, "mitpe")[0]["name"] == expected
     else:
-        assert parse_topic(document) == []
+        assert parse_topic(document, "mitpe") == []
 
 
 @pytest.mark.parametrize(

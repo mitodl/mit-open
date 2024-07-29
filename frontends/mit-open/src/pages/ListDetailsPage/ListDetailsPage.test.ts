@@ -94,7 +94,7 @@ describe("ListDetailsPage", () => {
       canEdit: true,
     },
   ])(
-    "Users can edit/reorder if and only if is_learning_path_editor=true",
+    "Users can edit if and only if is_learning_path_editor",
     async ({ userSettings, canEdit }) => {
       const path = factories.learningResources.learningPath()
       setup({ path, userSettings })
@@ -102,8 +102,27 @@ describe("ListDetailsPage", () => {
 
       const editButton = screen.queryByRole("button", { name: "Edit" })
       expect(!!editButton).toBe(canEdit)
+    },
+  )
+
+  test.each([
+    {
+      userSettings: { is_authenticated: false },
+      canSort: false,
+    },
+    {
+      userSettings: { is_authenticated: true },
+      canSort: true,
+    },
+  ])(
+    "Users can reorder if and only if authenticated",
+    async ({ userSettings, canSort }) => {
+      const path = factories.learningResources.learningPath()
+      setup({ path, userSettings })
+      await screen.findByRole("heading", { name: path.title })
+
       const reorderButton = screen.queryByRole("button", { name: "Reorder" })
-      expect(!!reorderButton).toBe(canEdit)
+      expect(!!reorderButton).toBe(canSort)
     },
   )
 

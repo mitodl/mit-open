@@ -3,6 +3,7 @@
 import logging
 import re
 from collections import Counter
+from datetime import UTC, datetime
 
 from opensearch_dsl import Search
 from opensearch_dsl.query import MoreLikeThis, Percolate
@@ -512,6 +513,43 @@ def percolate_matches_for_document(document_id):
     return percolated_queries
 
 
+def add_text_query_to_search(
+    search, text, endpoint, yearly_decay_percent, query_type_query
+):
+    if endpoint == CONTENT_FILE_TYPE:
+        text_query = generate_content_file_text_clause(text)
+    else:
+        text_query = generate_learning_resources_text_clause(text)
+
+    if yearly_decay_percent and yearly_decay_percent > 0:
+        d = {
+            "script_score": {
+                "query": {"bool": {"must": [text_query], "filter": query_type_query}},
+                "script": {
+                    "source": (
+                        "doc['resource_age_date'].size() == 0 ? _score : "
+                        "_score * decayDateLinear(params.origin, params.scale, "
+                        "params.offset, params.decay, doc['resource_age_date'].value)"
+                    ),
+                    "params": {
+                        "origin": datetime.now(tz=UTC).strftime(
+                            "%Y-%m-%dT%H:%M:%S.%fZ"
+                        ),
+                        "offset": "0",
+                        "scale": "354d",
+                        "decay": 1 - (yearly_decay_percent / 100),
+                    },
+                },
+            }
+        }
+
+        search = search.query(d)
+    else:
+        search = search.query("bool", must=[text_query], filter=query_type_query)
+
+    return search
+
+
 def construct_search(search_params):
     """
     Construct a learning resources search based on the query
@@ -560,13 +598,16 @@ def construct_search(search_params):
 
     if search_params.get("q"):
         text = re.sub("[\u201c\u201d]", '"', search_params.get("q"))
-        if search_params.get("endpoint") == CONTENT_FILE_TYPE:
-            text_query = generate_content_file_text_clause(text)
-        else:
-            text_query = generate_learning_resources_text_clause(text)
+
+        search = add_text_query_to_search(
+            search,
+            text,
+            search_params.get("endpoint"),
+            search_params.get("yearly_decay_percent"),
+            query_type_query,
+        )
 
         suggest = generate_suggest_clause(text)
-        search = search.query("bool", must=[text_query], filter=query_type_query)
         search = search.extra(suggest=suggest)
     else:
         search = search.query(query_type_query)
@@ -596,7 +637,6 @@ def execute_learn_search(search_params):
     Returns:
         dict: The opensearch response dict
     """
-
     search = construct_search(search_params)
     return search.execute().to_dict()
 

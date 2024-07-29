@@ -1,0 +1,1160 @@
+topics:
+  - children:
+      - children: []
+        icon: RiPaletteLine
+        id: de563de2-a548-4a41-9fe5-9b6be9511c01
+        mappings:
+          ocw:
+            - Architecture
+            - Architectural Design
+            - Architectural Engineering
+            - Architectural History and Criticism
+            - Religious Architecture
+        name: Architecture
+      - children: []
+        icon: RiPaletteLine
+        id: 5c25e4e0-f02b-4ac9-80db-498e07918254
+        mappings: {}
+        name: Environmental Design
+      - children: []
+        icon: RiPaletteLine
+        id: e1f5da26-b4f2-46d1-9aa3-4b6fc010d568
+        mappings:
+          ocw:
+            - Game Design
+        name: Game Design
+      - children: []
+        icon: RiPaletteLine
+        id: 598fd5dc-9e5b-4e87-8cb5-40dd51a579af
+        mappings:
+          ocw:
+            - Performance Arts
+            - Dance
+            - Theater
+            - Theatrical Design
+        name: Performing Arts
+      - children: []
+        icon: RiPaletteLine
+        id: 9235984d-c8b0-47be-98bb-dc01f24cab8f
+        mappings:
+          mitx:
+            - Design
+          ocw:
+            - Visual Arts
+            - Film and Video
+            - Graphic Design
+            - Photography
+        name: Visual Arts
+      - children: []
+        icon: RiPaletteLine
+        id: 1f08bfa5-4c61-48ad-8d30-f65edd3b6873
+        mappings:
+          ocw:
+            - Media Studies
+            - Digital Media
+        name: Media Studies
+      - children: []
+        icon: RiPaletteLine
+        id: a303a156-41de-4845-8e40-4e25cc215c87
+        mappings:
+          mitpe:
+            - Real Estate
+          ocw:
+            - Real Estate
+          see:
+            - Real Estate
+          xpro:
+            - Real Estate
+        name: Real Estate
+      - children: []
+        icon: RiPaletteLine
+        id: 84b6a959-5699-4fc4-814b-e48cfcca01ce
+        mappings:
+          ocw:
+            - Art History
+        name: Art History
+    icon: RiPaletteLine
+    id: 2d7e3f48-c34f-45c6-96dd-f46570f40778
+    mappings:
+      ocw:
+        - Fine Arts
+    name: Art, Design & Architecture
+  - children:
+      - children: []
+        icon: RiBriefcase3Line
+        id: 10355812-996d-4c5d-aa7f-8f4f84e89286
+        mappings:
+          mitpe:
+            - Entrepreneurship
+          ocw:
+            - Entrepreneurship
+          see:
+            - Entrepreneurship
+          xpro:
+            - Entrepreneurship
+        name: Entrepreneurship
+      - children: []
+        icon: RiBriefcase3Line
+        id: 7c305170-3216-42b2-8518-35ce88a7f780
+        mappings:
+          mitpe:
+            - Leadership & Organizations
+          ocw:
+            - Business Ethics
+            - Industrial Relations and Human Resource Management
+            - Leadership
+            - Organizational Behavior
+          see:
+            - Leadership & Organizations
+          xpro:
+            - Leadership & Organizations
+        name: Organizations & Leadership
+      - children: []
+        icon: RiBriefcase3Line
+        id: 18be729f-bad6-4f27-a619-e2076337c1ec
+        mappings: {}
+        name: Negotiation & Communication
+      - children: []
+        icon: RiBriefcase3Line
+        id: 13f8a623-e373-4fa2-9c23-89a20890291e
+        mappings:
+          mitpe:
+            - Marketing & Communications
+          ocw:
+            - Marketing
+          see:
+            - Marketing & Communications
+          xpro:
+            - Marketing & Communications
+        name: Marketing
+      - children: []
+        icon: RiBriefcase3Line
+        id: ae8fa718-3efc-45ce-9928-ab66adbb31e0
+        mappings:
+          ocw:
+            - Supply Chain Management
+        name: Supply Chain
+      - children: []
+        icon: RiBriefcase3Line
+        id: b84810f6-b232-4443-9471-eff7823a5f93
+        mappings:
+          mitpe:
+            - Finance
+          ocw:
+            - Accounting
+            - Finance
+          see:
+            - Finance
+          xpro:
+            - Finance
+        name: Finance & Accounting
+      - children: []
+        icon: RiBriefcase3Line
+        id: 339ae048-105a-4cf6-b823-37b7c0f0c089
+        mappings:
+          mitpe:
+            - Operations
+            - Manufacturing
+          ocw:
+            - Operations Management
+          see:
+            - Operations
+            - Manufacturing
+          xpro:
+            - Operations
+            - Manufacturing
+        name: Operations
+      - children: []
+        icon: RiBriefcase3Line
+        id: 2dbae50d-5389-4ba3-9876-3d67fc9b0170
+        mappings: {}
+        name: Family Enterprise
+      - children: []
+        icon: RiBriefcase3Line
+        id: af54f0cf-1e8c-414b-ac98-8d93494239a1
+        mappings:
+          mitpe:
+            - Business Analytics
+          see:
+            - Business Analytics
+          xpro:
+            - Business Analytics
+        name: Business Analytics
+      - children: []
+        icon: RiBriefcase3Line
+        id: 1870ce0f-029f-458b-bd90-a650f46877eb
+        mappings:
+          mitpe:
+            - Systems Thinking
+          ocw:
+            - Systems Design
+            - Systems Optimization
+          see:
+            - Systems Thinking
+          xpro:
+            - Systems Thinking
+        name: Systems Thinking
+      - children: []
+        icon: RiBriefcase3Line
+        id: c927602f-4ced-4bdd-ae11-62c5c0d75454
+        mappings:
+          mitpe:
+            - Strategy
+          ocw:
+            - Innovation
+          see:
+            - Strategy
+          xpro:
+            - Strategy
+        name: Strategy & Innovation
+      - children: []
+        icon: RiBriefcase3Line
+        id: 85d20f8f-0fff-41b0-9b59-8a999e6e6d46
+        mappings:
+          mitpe:
+            - Digital Business/IT
+            - Tech Management & Business
+            - Other Technology
+          ocw:
+            - Information Technology
+          see:
+            - Digital Business/IT
+            - Tech Management & Business
+            - Other Technology
+          xpro:
+            - Digital Business/IT
+            - Tech Management & Business
+            - Other Technology
+        name: Digital Business & IT
+      - children: []
+        icon: RiBriefcase3Line
+        id: d18752a9-9163-4536-9eba-ec77e654ffc5
+        mappings:
+          mitpe:
+            - Management
+            - Other Business
+          ocw:
+            - Industrial Relations and Human Resource Management
+            - Management
+          see:
+            - Management
+            - Other Business
+          xpro:
+            - Management
+            - Other Business
+        name: Management
+    icon: RiBriefcase3Line
+    id: 99ec5b40-e929-4ad9-bccf-7305ef6938b1
+    mappings:
+      mitx:
+        - Business & Management
+    name: Business & Management
+  - children:
+      - children: []
+        icon: RiRobot2Line
+        id: d5936b40-07ce-4dcc-bc67-8f893fbedb50
+        mappings:
+          mitpe:
+            - AI/Machine Learning
+          ocw:
+            - Artificial Intelligence
+          see:
+            - AI/Machine Learning
+          xpro:
+            - AI/Machine Learning
+        name: AI
+      - children: []
+        icon: RiRobot2Line
+        id: 4cd6156e-51a0-4da4-add4-6f81e106cd43
+        mappings:
+          ocw:
+            - Programming Languages
+        name: Programming & Coding
+      - children: []
+        icon: RiRobot2Line
+        id: 59db0d7b-b056-47c4-a7f4-3ebd2a31aecf
+        mappings:
+          ocw:
+            - Computer Design and Engineering
+            - Software Design and Engineering
+        name: Software Design and Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: d2d550b7-ade2-4dd5-b1df-929d511f4772
+        mappings:
+          ocw:
+            - Algorithms and Data Structures
+        name: Algorithms and Data Structures
+      - children: []
+        icon: RiRobot2Line
+        id: ae7aa09c-68f7-4622-b9d4-d3bb378dd323
+        mappings:
+          ocw:
+            - Computer Networks
+            - Cryptography
+        name: Networks and Security
+      - children: []
+        icon: RiRobot2Line
+        id: bda97261-3d5f-410f-ab8b-9f0c316da6a8
+        mappings:
+          ocw:
+            - Human-Computer Interfaces
+        name: User Experience
+      - children: []
+        icon: RiRobot2Line
+        id: 7ae3435f-b162-4460-9b15-aceb4e242d11
+        mappings:
+          mitpe:
+            - Blockchain
+          see:
+            - Blockchain
+          xpro:
+            - Blockchain
+        name: Blockchain
+      - children: []
+        icon: RiRobot2Line
+        id: 3d3af584-54a8-4144-b10b-2a2a61c3a053
+        mappings: {}
+        name: AR/VR/MR/XR
+      - children: []
+        icon: RiRobot2Line
+        id: 068a7bf4-0c22-4d6c-8636-92f37b1e47f5
+        mappings: {}
+        name: CyberSecurity
+      - children: []
+        icon: RiRobot2Line
+        id: 3e48abd0-b55b-47e8-8691-606c6efd61bf
+        mappings:
+          mitpe:
+            - AI/Machine Learning
+          ocw:
+            - Artificial Intelligence
+          see:
+            - AI/Machine Learning
+          xpro:
+            - AI/Machine Learning
+        name: Machine Learning
+      - children: []
+        icon: RiRobot2Line
+        id: 99bd46f0-d4da-43d3-96e5-1d63771d1c4a
+        mappings:
+          mitx:
+            - Design
+          ocw:
+            - Graphics and Visualization
+        name: Visualization
+      - children: []
+        icon: RiRobot2Line
+        id: 29ba1dbc-5bf4-4bc5-be89-824eb604e281
+        mappings:
+          mitpe:
+            - Quantum Computing
+          mitx:
+            - Computer Science
+          ocw:
+            - Computer Science
+            - Computer Design and Engineering
+            - Operating Systems
+            - Theory of Computation
+          see:
+            - Quantum Computing
+          xpro:
+            - Quantum Computing
+        name: Computer Science
+      - children: []
+        icon: RiRobot2Line
+        id: 8d664b63-5d0b-4181-9a10-c41180a0c0c7
+        mappings:
+          mitpe:
+            - Data Science
+          mitx:
+            - Data Analysis & Statistics
+          ocw:
+            - Data Mining
+          see:
+            - Data Science
+          xpro:
+            - Data Science
+        name: Data Science
+    icon: RiRobot2Line
+    id: c06109bf-cff8-4873-b04b-f5e66e3e1764
+    mappings:
+      mitx:
+        - Electronics
+      ocw:
+        - Technology
+    name: Data Science, Analytics & Computer Technology
+  - children:
+      - children: []
+        icon: RiUserSearchLine
+        id: 2d5d6d26-3f61-4e66-85bf-03168e982d41
+        mappings:
+          ocw:
+            - Anthropology
+            - Biological Anthropology
+            - Cultural Anthropology
+            - Ethnography
+            - Social Anthropology
+            - Archaeology
+            - Indigenous Studies
+        name: Anthropology
+      - children: []
+        icon: RiUserSearchLine
+        id: 6c3cf991-cfd6-4293-86dd-8e1cea682065
+        mappings:
+          mitpe:
+            - Marketing & Communications
+          mitx:
+            - Communication
+          ocw:
+            - Communication
+          see:
+            - Marketing & Communications
+          xpro:
+            - Marketing & Communications
+        name: Communication
+      - children: []
+        icon: RiUserSearchLine
+        id: 8d0a8bc3-fb72-4e18-8879-ece7a779dcb9
+        mappings:
+          mitx:
+            - Economics & Finance
+          ocw:
+            - Economics
+            - Developmental Economics
+            - Econometrics
+            - Financial Economics
+            - Industrial Organization
+            - International Development
+            - International Economics
+            - Labor Economics
+            - Macroeconomics
+            - Microeconomics
+            - Political Economy
+            - Public Economics
+            - Game Theory
+        name: Economics
+      - children: []
+        icon: RiUserSearchLine
+        id: 170e9d0e-2195-470b-b743-0b13d3ee034e
+        mappings:
+          ocw:
+            - Geography
+        name: Geography
+      - children: []
+        icon: RiUserSearchLine
+        id: 7396a987-d7ed-4947-819b-a0f6e1df4682
+        mappings:
+          mitx:
+            - Law
+          ocw:
+            - Legal Studies
+        name: Law
+      - children: []
+        icon: RiUserSearchLine
+        id: 5d51196b-88c7-41a2-a951-c04f9af7ae62
+        mappings:
+          ocw:
+            - Political Science
+            - American Politics
+            - Comparative Politics
+            - International Relations
+        name: Political Science
+      - children: []
+        icon: RiUserSearchLine
+        id: d4f16d57-b312-4088-8da7-7db9d1920991
+        mappings:
+          ocw:
+            - Psychology
+        name: Psychology
+      - children: []
+        icon: RiUserSearchLine
+        id: ee6d80cf-c1fd-44c7-9551-475b04e2d6ee
+        mappings:
+          ocw:
+            - Public Administration
+            - Environmental Policy
+            - Military Studies
+            - Public Policy
+            - Regional Politics
+            - Science and Technology Policy
+            - Security Studies
+            - Social Welfare
+        name: Policy and Administration
+      - children: []
+        icon: RiUserSearchLine
+        id: 77bb6f11-0036-45e9-913a-00789b27ba17
+        mappings:
+          ocw:
+            - Sociology
+            - Community Development
+            - Social Justice
+            - African-American Studies
+            - Asian Studies
+            - European and Russian Studies
+            - Gender Studies
+            - Latin and Caribbean Studies
+            - Middle Eastern Studies
+        name: Sociology
+      - children: []
+        icon: RiUserSearchLine
+        id: 55e47e91-75ef-4369-80be-a726d084ce0d
+        mappings:
+          ocw:
+            - Urban Studies
+            - Housing Development
+            - Regional Planning
+            - Transportation Planning
+            - Urban Planning
+        name: Urban Studies
+      - children: []
+        icon: RiUserSearchLine
+        id: 246f8a67-7e5a-4231-8e70-27900354eec7
+        mappings:
+          ocw:
+            - Gender Studies
+        name: Gender Studies
+      - children: []
+        icon: RiUserSearchLine
+        id: 05426c52-eeb7-4abd-9215-884c11441da3
+        mappings:
+          ocw:
+            - Global Poverty
+            - The Developing World
+        name: International Development
+    icon: RiUserSearchLine
+    id: bbf9880d-8761-4747-8bf7-76b633afc8ac
+    mappings: {}
+    name: Social Sciences
+  - children:
+      - children: []
+        icon: RiShakeHandsLine
+        id: 69ce72a6-049d-4380-b4d9-978e5c8b3fff
+        mappings:
+          mitpe:
+            - Educators
+          mitx:
+            - Education & Teacher Training
+          ocw:
+            - Curriculum and Teaching
+            - Higher Education
+          see:
+            - Educators
+          xpro:
+            - Educators
+        name: Pedagogy and Curriculum
+      - children: []
+        icon: RiShakeHandsLine
+        id: 24807a26-7f06-4017-b663-98dc2448e815
+        mappings:
+          ocw:
+            - Education Policy
+        name: Education Policy
+      - children: []
+        icon: RiShakeHandsLine
+        id: a3b492a0-f2a9-4225-8721-1f9e53468b65
+        mappings:
+          ocw:
+            - Educational Technology
+        name: Educational Technology
+      - children: []
+        icon: RiShakeHandsLine
+        id: c2d5e178-ec33-45f2-93b1-1978a09c7338
+        mappings: {}
+        name: Digital Learning
+      - children: []
+        icon: RiShakeHandsLine
+        id: 0a4ae84b-9552-4c85-8e3c-1ad21233d7d5
+        mappings:
+          ocw:
+            - Higher Education
+        name: Faculty Leadership
+    icon: RiShakeHandsLine
+    id: 97de7fb3-a934-496d-90cc-1ab3ea6f7660
+    mappings: {}
+    name: Education & Teaching
+  - children:
+      - children: []
+        icon: RiTestTubeLine
+        id: 69995333-6068-4190-913c-a394b48ad233
+        mappings:
+          mitx:
+            - Biology & Life Sciences
+          ocw:
+            - Biology
+            - Biochemistry
+            - Biophysics
+            - Cell Biology
+            - Computation and Systems Biology
+            - Developmental Biology
+            - Ecology
+            - Genetics
+            - Microbiology
+            - Molecular Biology
+            - Neurobiology
+            - Neuroscience
+            - Proteomics
+            - Stem Cells
+            - Structural Biology
+            - Virology
+        name: Biology
+      - children: []
+        icon: RiTestTubeLine
+        id: 63c236c0-17cb-4a5b-ab6d-23c9176738ff
+        mappings:
+          mitx:
+            - Chemistry
+          ocw:
+            - Chemistry
+            - Analytical Chemistry
+            - Inorganic Chemistry
+            - Organic Chemistry
+            - Physical Chemistry
+        name: Chemistry
+      - children: []
+        icon: RiTestTubeLine
+        id: 1a3be8fd-5d59-4a8a-85e5-153f794bfb24
+        mappings:
+          ocw:
+            - Cognitive Science
+        name: Cognitive Science
+      - children: []
+        icon: RiTestTubeLine
+        id: 3ed6c5ae-2dbf-4119-abf1-1e985e5d6fea
+        mappings:
+          mitx:
+            - Energy & Earth Sciences
+            - Environmental Studies
+          ocw:
+            - Climate
+            - Earth Science
+            - Atmospheric Science
+            - Climate Studies
+            - Environmental Science
+            - Geobiology
+            - Geochemistry
+            - Geology
+            - Geophysics
+            - Oceanography
+            - Planetary Science
+        name: Earth Science
+      - children: []
+        icon: RiTestTubeLine
+        id: 46b96e82-66ce-443a-af36-5757c1dbdb1b
+        mappings:
+          mitx:
+            - Physics
+          ocw:
+            - Physics
+            - Astrophysics
+            - Atomic, Molecular, Optical Physics
+            - Classical Mechanics
+            - Condensed Matter Physics
+            - Electromagnetism
+            - High Energy Physics
+            - Nuclear Physics
+            - Particle Physics
+            - Quantum Mechanics
+            - Relativity
+            - Theoretical Physics
+            - Thermodynamics
+        name: Physics
+      - children: []
+        icon: RiTestTubeLine
+        id: b8553297-f6a0-4964-b1ad-2c555ea66302
+        mappings:
+          mitx:
+            - Math
+          ocw:
+            - Algebra and Number Theory
+            - Applied Mathematics
+            - Calculus
+            - Computation
+            - Differential Equations
+            - Linear Algebra
+            - Mathematical Analysis
+            - Mathematical Logic
+            - Probability and Statistics
+            - Topology and Geometry
+        name: Mathematics
+    icon: RiTestTubeLine
+    id: 1fab5205-d2f2-4719-bfce-04b4fd2d8f04
+    mappings:
+      mitx:
+        - Science
+    name: Science & Math
+  - children:
+      - children: []
+        icon: RiLightbulbFlashLine
+        id: 26fb26b7-326e-4d8e-87c9-3eaf775e9ef4
+        mappings:
+          mitx:
+            - Energy & Earth Sciences
+          ocw:
+            - Combustion
+            - Electricity
+            - Fossil Fuels
+            - Fuel Cells
+            - Hydrogen and Alternatives
+            - Nuclear
+            - Renewables
+        name: Energy
+      - children: []
+        icon: RiLightbulbFlashLine
+        id: 0eb57d6e-d94f-401b-ad77-6a85864eb9d6
+        mappings: {}
+        name: Environmental and Climate Justice
+      - children: []
+        icon: RiLightbulbFlashLine
+        id: ca9e5834-f3ac-4bdd-b42c-4495f321a1b5
+        mappings:
+          mitx:
+            - Environmental Studies
+          ocw:
+            - Climate
+            - Climate Studies
+            - Sustainability
+        name: Climate Science
+      - children: []
+        icon: RiLightbulbFlashLine
+        id: f8260659-5b06-411c-92e0-4303e7a26108
+        mappings:
+          ocw:
+            - Buildings
+            - Transportation
+        name: Built Environment
+      - children: []
+        icon: RiLightbulbFlashLine
+        id: 93442753-ec61-44c8-96d7-50c5133040c3
+        mappings: {}
+        name: Natural Systems
+      - children: []
+        icon: RiLightbulbFlashLine
+        id: 6de6133e-1484-4c44-a0da-bebfba14ebe7
+        mappings:
+          ocw:
+            - Sustainability
+        name: Adaptation and Resilience
+      - children: []
+        icon: RiLightbulbFlashLine
+        id: 03e70cb3-6c6d-4fd0-842c-69cc307e8ef2
+        mappings:
+          ocw:
+            - Transportation
+            - Environmental Policy
+        name: Climate and Energy Policy
+      - children: []
+        icon: RiLightbulbFlashLine
+        id: d18ae735-9eb0-42ec-982d-798590f78b68
+        mappings: {}
+        name: Sustainable Business
+    icon: RiLightbulbFlashLine
+    id: 58eeca97-031c-432f-89f5-5b6493bf0dd2
+    mappings: {}
+    name: Energy, Climate & Sustainability
+  - children:
+      - children: []
+        icon: RiRobot2Line
+        id: 6ce56c4e-d3c3-49ff-84b4-52f6e583e6e5
+        mappings:
+          ocw:
+            - Aerospace Engineering
+            - Aerodynamics
+            - Astrodynamics
+            - Avionics
+            - Bioastronautics
+            - Guidance and Control Systems
+            - Materials Selection
+            - Propulsion Systems
+            - Structural Mechanics
+        name: Aerospace Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: 236bb608-be91-4dee-8b66-c9dfb7f9840a
+        mappings:
+          ocw:
+            - Biological Engineering
+            - Biomechanics
+            - Biostatistics
+            - Biotechnology
+            - Cell and Tissue Engineering
+            - Computational Biology
+            - Synthetic Biology
+        name: Biological Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: b58df8d8-bd87-48fc-9acc-f0fce158dda9
+        mappings:
+          ocw:
+            - Chemical Engineering
+            - Molecular Engineering
+            - Polymers
+            - Process Control Systems
+            - Separation Processes
+            - Transport Processes
+        name: Chemical Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: 287c2f78-4f6c-4a8a-a6a6-c497eb553bc5
+        mappings:
+          ocw:
+            - Buildings
+            - Civil Engineering
+            - Construction Management
+            - Geotechnical Engineering
+            - Structural Engineering
+            - Surveying
+            - Transportation Engineering
+        name: Civil Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: e6dd36cd-a778-451a-933e-9aa7995e6892
+        mappings:
+          mitx:
+            - Electronics
+          ocw:
+            - Electrical Engineering
+            - Digital Systems
+            - Electric Power
+            - Electronics
+            - Robotics and Control Systems
+            - Signal Processing
+            - Telecommunications
+        name: Electrical Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: de7bb282-6cde-4af4-8ae6-fdc9de8323ef
+        mappings:
+          ocw:
+            - Environmental Engineering
+            - Aquatic Sciences and Water Quality Control
+            - Environmental Management
+            - Hydrodynamics and Coastal Engineering
+            - Hydrology and Water Resource Systems
+        name: Environmental Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: f9b619a4-7507-4e73-98e6-c367879b0961
+        mappings:
+          ocw:
+            - Materials Science and Engineering
+            - Composite Materials
+            - Electronic Materials
+            - Metallurgical Engineering
+            - Polymeric Materials
+        name: Materials Science and Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: 4ce508b8-fbda-408c-b33f-9860d799c62c
+        mappings:
+          ocw:
+            - Nuclear Engineering
+            - Nuclear Materials
+            - Nuclear Systems, Policy, and Economics
+            - Radiological Engineering
+        name: Nuclear Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: ae8c329b-e9ce-4a93-a1c8-370ba39cf0c7
+        mappings:
+          ocw:
+            - Ocean Engineering
+            - Hydrodynamics
+            - Ocean Exploration
+            - Ocean Structures
+            - Oceanic Pollution Control
+        name: Ocean Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: ba15c07b-96de-48b9-97c6-97d985cb1716
+        mappings:
+          mitpe:
+            - Systems Engineering
+          ocw:
+            - Systems Engineering
+            - Computational Modeling and Simulation
+            - Computational Science and Engineering
+            - Numerical Simulation
+            - Systems Design
+            - Systems Optimization
+          see:
+            - Systems Engineering
+          xpro:
+            - Systems Engineering
+        name: Systems Engineering
+      - children: []
+        icon: RiRobot2Line
+        id: 7f69df17-1c01-4c1e-a27c-1b18da921508
+        mappings:
+          ocw:
+            - Mechanical Engineering
+            - Dynamics and Control
+            - Fluid Mechanics
+            - Mechanical Design
+            - Microtechnology
+            - Solid Mechanics
+            - Nanotechnology
+        name: Mechanical Engineering
+    icon: RiRobot2Line
+    id: 952604ab-ae23-45b3-a040-0e5f26fe42df
+    mappings:
+      mitx:
+        - Engineering
+    name: Engineering
+  - children:
+      - children: []
+        icon: RiQuillPenLine
+        id: f161ef04-8ee0-437d-b50e-a3d1f68c8874
+        mappings:
+          mitx:
+            - History
+          ocw:
+            - History
+            - African History
+            - American History
+            - Ancient History
+            - Asian History
+            - Comparative History
+            - European History
+            - Historical Methods
+            - Historiography
+            - History of Science and Technology
+            - Intellectual History
+            - Jewish History
+            - Latin American History
+            - Medieval History
+            - Middle Eastern History
+            - Military History
+            - Modern History
+            - World History
+        name: History
+      - children: []
+        icon: RiQuillPenLine
+        id: b12016dc-4645-47ef-991c-31063eb67338
+        mappings:
+          mitx:
+            - Language
+          ocw:
+            - Language
+            - Chinese
+            - English as a Second Language
+            - French
+            - German
+            - Japanese
+            - Portuguese
+            - Quechua
+            - Russian
+            - Spanish
+        name: Language
+      - children: []
+        icon: RiQuillPenLine
+        id: afa33b3e-df92-4412-ad26-e35b0a9b8b3d
+        mappings:
+          ocw:
+            - Linguistics
+            - Phonology
+            - Semantics
+            - Syntax
+        name: Linguistics
+      - children: []
+        icon: RiQuillPenLine
+        id: d9fc08d3-bd3a-4e08-b195-add3c436f726
+        mappings:
+          mitx:
+            - Literature
+          ocw:
+            - Literature
+            - Academic Writing
+            - American Literature
+            - Biography
+            - Classics
+            - Comedy
+            - Comparative Literature
+            - Creative Writing
+            - Criticism
+            - Drama
+            - Fiction
+            - International Literature
+            - Nonfiction Prose *Periodic Literature
+            - Poetry
+            - Rhetoric
+            - Technical Writing
+        name: Literature
+      - children: []
+        icon: RiQuillPenLine
+        id: 90e4deaf-1780-47e7-b784-0843c45c64b5
+        mappings:
+          mitx:
+            - Ethics
+            - Philosophy & Ethics
+            - Philanthropy
+          ocw:
+            - Philosophy
+            - Epistemology
+            - Ethics
+            - Logic
+            - Metaphysics
+            - Philosophy of Language
+            - Political Philosophy
+        name: Philosophy
+      - children: []
+        icon: RiQuillPenLine
+        id: 2276370a-040b-4af9-a4be-2462a833cc07
+        mappings:
+          mitx:
+            - Music
+          ocw:
+            - Music
+            - Music History
+            - Music Performance
+            - Music Theory
+        name: Music
+      - children: []
+        icon: RiQuillPenLine
+        id: 6d8c46d8-d774-4e8a-90bf-c09c895d853a
+        mappings:
+          ocw:
+            - Religion
+        name: Religion
+    icon: RiQuillPenLine
+    id: aedb383a-4825-4f88-803a-990f9eb8aa45
+    mappings:
+      mitx:
+        - Humanities
+    name: Humanities
+  - children:
+      - children: []
+        icon: ""
+        id: 49358bd7-4e8c-4b37-bcc0-cf3b20d3b9a2
+        mappings:
+          ocw:
+            - Entrepreneurship
+        name: Startups/New Enterprises
+      - children: []
+        icon: ""
+        id: edbd13c5-3e99-4c5e-bf26-187c9b123df9
+        mappings:
+          mitpe:
+            - Business Innovation
+          see:
+            - Business Innovation
+          xpro:
+            - Business Innovation
+        name: Corporate Innovation
+      - children: []
+        icon: ""
+        id: 70057133-8b3a-4f40-a882-6c9c443cd44f
+        mappings: {}
+        name: Innovation Process
+      - children: []
+        icon: ""
+        id: f497f6d2-48cd-4aa1-95aa-7597d800833d
+        mappings:
+          mitpe:
+            - Prototype/Lab
+            - Technology Innovation
+          see:
+            - Prototype/Lab
+            - Technology Innovation
+          xpro:
+            - Prototype/Lab
+            - Technology Innovation
+        name: Product Innovation
+      - children: []
+        icon: ""
+        id: 56e5023a-4823-4838-90d6-3c7e5c4878fd
+        mappings: {}
+        name: Inventions & Patents
+      - children: []
+        icon: ""
+        id: 9ff164e0-c3e9-4d00-a76e-1240f201eaf6
+        mappings: {}
+        name: Innovation Ecosystems
+    icon: ""
+    id: c0f67cd5-c3f2-458c-85e7-a2144c6e5e9d
+    mappings: {}
+    name: Innovation & Entrepreneurship
+  - children:
+      - children: []
+        icon: RiStethoscopeLine
+        id: f5111658-124e-4d2a-b0fc-ba30b8910239
+        mappings:
+          mitpe:
+            - BioTech
+          ocw:
+            - Biomedical Enterprise
+            - Biomedical Instrumentation
+            - Biomedicine
+            - Cellular and Molecular Medicine
+            - Functional Genomics
+            - Sensory-Neural Systems
+          see:
+            - BioTech
+          xpro:
+            - BioTech
+        name: Biomedical Technologies
+      - children: []
+        icon: RiStethoscopeLine
+        id: a725a04c-254c-4378-a1c8-2f55b10ae84a
+        mappings:
+          mitx:
+            - Medicine
+          ocw:
+            - Health Care Management
+            - Speech Pathology
+        name: Health Care Management
+      - children: []
+        icon: RiStethoscopeLine
+        id: 7e1a310f-9bea-4f03-a103-729fba207d16
+        mappings:
+          ocw:
+            - Cancer
+            - Immunology
+        name: Immunology
+      - children: []
+        icon: RiStethoscopeLine
+        id: 3f5b5755-5c75-4e06-9990-6d790f784538
+        mappings:
+          ocw:
+            - Biomedical Signal and Image Processing
+            - Medical Imaging
+        name: Imaging
+      - children: []
+        icon: RiStethoscopeLine
+        id: 702c31e5-acae-4b16-aa85-9d83965587a0
+        mappings:
+          ocw:
+            - Mental Health
+        name: Mental Health
+      - children: []
+        icon: RiStethoscopeLine
+        id: 13d99dba-f9d6-456a-a3aa-5b7e8604c187
+        mappings:
+          ocw:
+            - Anatomy and Physiology
+            - Cancer
+            - Pathology and Pathophysiology
+        name: Pathology and Pathophysiology
+      - children: []
+        icon: RiStethoscopeLine
+        id: d3b05499-06ab-46c6-a1a7-0d4446c7e3b3
+        mappings: {}
+        name: Pharmacology & Toxicology
+      - children: []
+        icon: RiStethoscopeLine
+        id: 8f7cfd8b-1764-4d6f-aa57-b815be7140dd
+        mappings:
+          mitx:
+            - Food & Nutrition
+            - Health & Safety
+          ocw:
+            - Epidemiology
+            - Health and Exercise Science
+            - Physical Education and Recreation
+            - Public Health
+            - Social Medicine
+        name: Public Health
+    icon: RiStethoscopeLine
+    id: 7a48848c-8254-4644-a718-ea7951272b2f
+    mappings: {}
+    name: Health & Medicine

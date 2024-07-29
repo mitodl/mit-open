@@ -65,6 +65,10 @@ test("Renders child routes if permission check satisfied.", () => {
 test.each(Object.values(Permissions))(
   "Throws error if and only if lacking required permission",
   async (permission) => {
+    // if a user is not authenticated they are redirected to login before an error is thrown
+    if (permission === Permissions.Authenticated) {
+      return
+    }
     const errors: unknown[] = []
 
     allowConsoleErrors()

@@ -1,0 +1,28 @@
+# This is not really a yaml file. It looks pretty close to one, though.
+topics:
+  - name: Art, Design & Architecture
+    id:
+    icon: RiArtboardLine
+    mappings:
+      ocw:
+        - Fine Arts
+      xpro:
+        - Underwater Basketweaving
+    children:
+      - name: Architecture
+        id: %%ARCHITECTURE_ID%%
+        icon: RiArtboardFill
+        mappings:
+          ocw:
+            - Architecture
+            - Architectural Design
+            - Architectural Engineering
+            - Architectural History and Criticism
+            - Religious Architecture
+          see:
+            - Modern Architecture
+  - name: Sports & Practice
+    id:
+    icon: RiBasketballLine
+    mappings:
+    children:

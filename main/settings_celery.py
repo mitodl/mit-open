@@ -22,7 +22,7 @@ CELERY_WORKER_MAX_MEMORY_PER_CHILD = get_int(
 
 CELERY_BEAT_SCHEDULE = {
     "update_next-start-date-every-1-days": {
-        "task": "learning_resources.tasks.update_next_start_date",
+        "task": "learning_resources.tasks.update_next_start_date_and_prices",
         "schedule": crontab(minute=0, hour=4),  # midnight EST
     },
     "update_edx-courses-every-1-days": {

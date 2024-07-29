@@ -21,6 +21,7 @@ import { getSearchParamMap } from "@/common/utils"
 import { HOME as HOME_URL, UNITS as UNITS_URL } from "../../common/urls"
 import { ChannelTypeEnum } from "api/v0"
 import { ChannelControls, UNITS_LABEL } from "./ChannelPageTemplate"
+import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
 
 const StyledBannerBackground = styled(BannerBackground)(({ theme }) => ({
   padding: "48px 0 64px 0",
@@ -110,7 +111,6 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
           displayConfiguration?.banner_background ??
           "/static/images/background_steps.jpeg"
         }
-        backgroundSize="2000px auto"
         backgroundDim={30}
       >
         <Container>
@@ -183,8 +183,9 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
           config={FEATURED_RESOURCES_CAROUSEL}
           isLoading={channel.isLoading}
         />
-        {children}
       </Container>
+      <TestimonialDisplay offerors={[name]} />
+      <Container>{children}</Container>
     </>
   )
 }
