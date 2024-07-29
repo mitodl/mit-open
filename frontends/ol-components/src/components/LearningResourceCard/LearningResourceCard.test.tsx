@@ -152,21 +152,32 @@ describe("Learning Resource Card", () => {
   })
 
   test.each([
-    { image: null, expected: { src: DEFAULT_RESOURCE_IMG, alt: "" } },
+    {
+      image: null,
+      expected: { src: DEFAULT_RESOURCE_IMG, alt: "", role: "presentation" },
+    },
     {
       image: { url: "https://example.com/image.jpg", alt: "An image" },
-      expected: { src: "https://example.com/image.jpg", alt: "An image" },
+      expected: {
+        src: "https://example.com/image.jpg",
+        alt: "An image",
+        role: "img",
+      },
     },
     {
       image: { url: "https://example.com/image.jpg", alt: null },
-      expected: { src: "https://example.com/image.jpg", alt: "" },
+      expected: {
+        src: "https://example.com/image.jpg",
+        alt: "",
+        role: "presentation",
+      },
     },
   ])("Image is displayed if present", ({ expected, image }) => {
     const resource = factories.learningResources.resource({ image })
 
     setup(resource)
 
-    const imageEls = screen.getAllByRole<HTMLImageElement>("img")
+    const imageEls = screen.getAllByRole<HTMLImageElement>(expected.role)
 
     const matching = imageEls.filter((im) =>
       expected.src === DEFAULT_RESOURCE_IMG

@@ -242,7 +242,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
             : DEFAULT_RESOURCE_IMG
         }
         alt={resource.image?.alt ?? ""}
-        height={getImageDimensions(size, isMedia).height}
+        height={`${getImageDimensions(size, isMedia).height}px`}
       />
       <Card.Info>
         <Info resource={resource} size={size} />
