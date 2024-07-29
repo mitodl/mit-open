@@ -205,16 +205,17 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
     else if (child.type === Actions) actions = child.props.children
   })
 
+  const classNames = ["MitListCard-root", className ?? ""].join(" ")
   if (content) {
     return (
-      <_Container className={className} to={href!}>
+      <_Container className={classNames} to={href!}>
         {content}
       </_Container>
     )
   }
 
   return (
-    <Wrapper className={`MitListCard-root ${className}`}>
+    <Wrapper className={classNames}>
       <_Container to={href!}>
         {draggable && (
           <DragArea>

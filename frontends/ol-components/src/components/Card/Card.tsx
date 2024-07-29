@@ -196,7 +196,7 @@ const Card: Card = ({ children, className, size, href }) => {
     else if (child.type === Actions) actions = child.props
   })
 
-  const allClassNames = `MitCard-root ${className}`
+  const allClassNames = ["MitCard-root", className ?? ""].join(" ")
 
   if (content) {
     return (
