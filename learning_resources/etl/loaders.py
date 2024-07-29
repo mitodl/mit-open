@@ -441,6 +441,8 @@ def load_courses(
 
 def load_program(
     program_data: dict,
+    blocklist: list[str],
+    duplicates: list[dict],
     *,
     config=ProgramLoaderConfig(),
 ) -> LearningResource:
@@ -520,14 +522,14 @@ def load_program(
             # skip courses that don't define a readable_id
             if not course_data.get("readable_id", None):
                 continue
-            course_resource = LearningResource.objects.filter(
-                resource_type="course",
-                readable_id=course_data["readable_id"],
-                platform__code=course_data["platform"],
-                offered_by__code=course_data["offered_by"]["name"],
-            ).first()
+
+            course_resource = load_course(
+                course_data, blocklist, duplicates, config=config.courses
+            )
             if course_resource:
                 course_resources.append(course_resource)
+            else:
+                log.warning("Program course not found: %s", course_data["readable_id"])
         program.learning_resource.resources.set(
             course_resources,
             through_defaults={
