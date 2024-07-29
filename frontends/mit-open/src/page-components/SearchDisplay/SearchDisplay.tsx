@@ -628,7 +628,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   stalenessSliderSetting={
                     searchParams.get("yearly_decay_percent")
                       ? Number(searchParams.get("yearly_decay_percent"))
-                      : 0
+                      : 2.5
                   }
                   setSearchParams={setSearchParams}
                 />

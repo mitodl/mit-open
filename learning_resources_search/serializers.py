@@ -308,7 +308,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         min_value=0,
         required=False,
         allow_null=True,
-        default=None,
+        default=2.5,
         help_text=(
             "Relevance score penalty percent per year for for resources without "
             "upcoming runs. Only affects results if there is a search term."

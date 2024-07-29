@@ -2542,6 +2542,7 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -2971,6 +2972,7 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -3439,6 +3441,7 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -3884,6 +3887,7 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -9541,6 +9545,7 @@ components:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
           description: Relevance score penalty percent per year for for resources
             without upcoming runs. Only affects results if there is a search term.
         certification:
