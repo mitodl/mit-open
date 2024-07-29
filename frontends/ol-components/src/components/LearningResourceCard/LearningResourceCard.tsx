@@ -7,9 +7,8 @@ import {
   RiBookmarkFill,
   RiAwardFill,
 } from "@remixicon/react"
-import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
+import { LearningResource } from "api"
 import {
-  findBestRun,
   formatDate,
   getReadableResourceType,
   embedlyCroppedImage,
@@ -21,7 +20,7 @@ import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
-import { getDisplayPrices } from "./utils"
+import { getDisplayPrices, getResourceDate, showStartAnytime } from "./utils"
 import Tooltip from "@mui/material/Tooltip"
 
 const EllipsisTitle = styled(TruncateText)({
@@ -31,6 +30,22 @@ const EllipsisTitle = styled(TruncateText)({
 const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
+
+const Label = styled.span(({ theme }) => ({
+  color: theme.custom.colors.silverGrayDark,
+}))
+
+const Value = styled.span<{ size?: Size }>(({ theme, size }) => [
+  {
+    color: theme.custom.colors.darkGray2,
+  },
+  size === "small" && {
+    color: theme.custom.colors.silverGrayDark,
+    ".MitCard-root:hover &": {
+      color: theme.custom.colors.darkGray2,
+    },
+  },
+])
 
 const getImageDimensions = (size: Size, isMedia: boolean) => {
   const dimensions = {
@@ -135,41 +150,23 @@ export const Price = styled.div`
   color: ${theme.custom.colors.darkGray2};
 `
 
-const isOcw = (resource: LearningResource) =>
-  resource.resource_type === ResourceTypeEnum.Course &&
-  resource.platform?.code === PlatformEnum.Ocw
-
-const getStartDate = (resource: LearningResource, size: Size = "medium") => {
-  let startDate = resource.next_start_date
-
-  if (!startDate) {
-    const bestRun = findBestRun(resource.runs ?? [])
-
-    if (isOcw(resource) && bestRun?.semester && bestRun?.year) {
-      return `${bestRun?.semester} ${bestRun?.year}`
-    }
-    startDate = bestRun?.start_date
-  }
-
-  if (!startDate) return null
-
-  return formatDate(startDate, `MMM${size === "medium" ? "M" : ""} DD, YYYY`)
-}
-
 const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
   resource,
   size,
 }) => {
-  const startDate = getStartDate(resource, size)
+  const anytime = showStartAnytime(resource)
+  const startDate = getResourceDate(resource)
+  const format = size === "small" ? "MMM DD, YYYY" : "MMMM DD, YYYY"
+  const formatted = anytime
+    ? "Anytime"
+    : startDate && formatDate(startDate, format)
+  if (!formatted) return null
 
-  if (!startDate) return null
-
-  const label =
-    size === "medium" ? (isOcw(resource) ? "As taught in:" : "Starts:") : ""
-
+  const showLabel = size !== "small" || anytime
   return (
     <>
-      {label} <span>{startDate}</span>
+      {showLabel ? <Label>Starts: </Label> : null}
+      <Value size={size}>{formatted}</Value>
     </>
   )
 }

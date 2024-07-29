@@ -154,3 +154,15 @@ export const Loading: Story = {
     isLoading: true,
   },
 }
+
+export const StartAnytime: Story = {
+  args: {
+    resource: courses.start.anytime,
+  },
+}
+
+export const StartDated: Story = {
+  args: {
+    resource: courses.start.dated,
+  },
+}
