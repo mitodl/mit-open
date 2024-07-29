@@ -528,8 +528,6 @@ def load_program(
             )
             if course_resource:
                 course_resources.append(course_resource)
-            else:
-                log.warning("Program course not found: %s", course_data["readable_id"])
         program.learning_resource.resources.set(
             course_resources,
             through_defaults={
