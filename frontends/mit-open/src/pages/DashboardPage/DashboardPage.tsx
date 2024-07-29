@@ -296,7 +296,6 @@ const TabLabels = {
   [TabValues.PREFERENCES.toString()]: "Preferences",
   [TabValues.PROFILE.toString()]: "Profile",
 }
-console.log("TabLabels", TabLabels)
 const keyFromHash = (hash: string) => {
   const keys = Object.values(TabValues)
   const match = keys.find((key) => `#${key}` === hash)
