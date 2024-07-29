@@ -7,16 +7,11 @@ import {
   Link,
   styled,
 } from "ol-components"
-import { Profile } from "api/hooks/profile"
 import { useUserMe } from "api/hooks/user"
 import {
   useSearchSubscriptionDelete,
   useSearchSubscriptionList,
 } from "api/hooks/searchSubscription"
-
-type Props = {
-  profile: Profile
-}
 
 const SOURCE_LABEL_DISPLAY = {
   topic: "Topic",
@@ -37,11 +32,11 @@ const StyledLink = styled(Link)(({ theme }) => ({
 }))
 
 const TitleText = styled(Typography)(({ theme }) => ({
-  marginTop: "10px",
-  marginBottom: "10px",
+  marginTop: "20px",
+  marginBottom: "5px",
 
   color: theme.custom.colors.darkGray2,
-  ...theme.typography.h5,
+  ...theme.typography.subtitle1,
   [theme.breakpoints.down("md")]: {
     ...theme.typography.h5,
   },
@@ -51,13 +46,13 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
   marginBottom: "10px",
   color: theme.custom.colors.darkGray2,
   fontSize: "14px",
-  ...theme.typography.p2,
+  ...theme.typography.body2,
   [theme.breakpoints.down("md")]: {
     ...theme.typography.subtitle3,
   },
 }))
 
-const PreferencesPage: React.FC<Props> = () => {
+const PreferencesPage: React.FC = () => {
   const { data: user } = useUserMe()
   const subscriptionDelete = useSearchSubscriptionDelete()
   const subscriptionList = useSearchSubscriptionList({
@@ -66,7 +61,6 @@ const PreferencesPage: React.FC<Props> = () => {
 
   const unsubscribe = subscriptionDelete.mutate
   if (!user || subscriptionList.isLoading) return null
-  console.log(subscriptionList.data[0])
 
   return (
     <>
@@ -75,7 +69,7 @@ const PreferencesPage: React.FC<Props> = () => {
         All topics, academic departments, and MIT units you are following.
       </SubTitleText>
       <FollowList>
-        {subscriptionList.data.map((subscriptionItem) => (
+        {subscriptionList?.data?.map((subscriptionItem) => (
           <ListItem
             divider={true}
             key={subscriptionItem.id}
@@ -87,7 +81,11 @@ const PreferencesPage: React.FC<Props> = () => {
           >
             <ListItemText
               primary={subscriptionItem.source_description}
-              secondary={SOURCE_LABEL_DISPLAY[subscriptionItem.source_label]}
+              secondary={
+                SOURCE_LABEL_DISPLAY[
+                  subscriptionItem.source_label as keyof typeof SOURCE_LABEL_DISPLAY
+                ]
+              }
             />
           </ListItem>
         ))}
