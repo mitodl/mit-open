@@ -39,7 +39,7 @@ import {
 } from "./carousels"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 import UserListDetailsTab from "./UserListDetailsTab"
-import { PreferencesPage } from "./PreferencesPage"
+import { SettingsPage } from "./SettingsPage"
 
 /**
  *
@@ -286,15 +286,15 @@ const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
 enum TabValues {
   HOME = "home",
   MY_LISTS = "my-lists",
-  PREFERENCES = "preferences",
+  SETTINGS = "settings",
   PROFILE = "profile",
 }
 
 const TabLabels = {
   [TabValues.HOME.toString()]: "Home",
   [TabValues.MY_LISTS.toString()]: "My Lists",
-  [TabValues.PREFERENCES.toString()]: "Preferences",
   [TabValues.PROFILE.toString()]: "Profile",
+  [TabValues.SETTINGS.toString()]: "Settings",
 }
 const keyFromHash = (hash: string) => {
   const keys = Object.values(TabValues)
@@ -350,15 +350,15 @@ const DashboardPage: React.FC = () => {
             onClick={() => setUserListAction("list")}
           />
           <UserMenuTab
-            icon={<RiNotificationLine />}
-            text={TabLabels[TabValues.PREFERENCES]}
-            value={TabValues.PREFERENCES}
-            currentValue={tabValue}
-          />
-          <UserMenuTab
             icon={<RiEditLine />}
             text={TabLabels[TabValues.PROFILE]}
             value={TabValues.PROFILE}
+            currentValue={tabValue}
+          />
+          <UserMenuTab
+            icon={<RiNotificationLine />}
+            text={TabLabels[TabValues.SETTINGS]}
+            value={TabValues.SETTINGS}
             currentValue={tabValue}
           />
         </TabsContainer>
@@ -382,16 +382,16 @@ const DashboardPage: React.FC = () => {
         onClick={() => setUserListAction("list")}
       />
       <TabButtonLink
-        data-testid={`mobile-tab-${TabValues.PREFERENCES}`}
-        value={TabValues.PREFERENCES}
-        href={`#${TabValues.PREFERENCES}`}
-        label="Preferences"
-      />
-      <TabButtonLink
         data-testid={`mobile-tab-${TabValues.PROFILE}`}
         value={TabValues.PROFILE}
         href={`#${TabValues.PROFILE}`}
         label="Profile"
+      />
+      <TabButtonLink
+        data-testid={`mobile-tab-${TabValues.SETTINGS}`}
+        value={TabValues.SETTINGS}
+        href={`#${TabValues.SETTINGS}`}
+        label="Settings"
       />
     </TabButtonList>
   )
@@ -483,19 +483,6 @@ const DashboardPage: React.FC = () => {
                   )}
                 </TabPanelStyled>
                 <TabPanelStyled
-                  key={TabValues.PREFERENCES}
-                  value={TabValues.PREFERENCES}
-                >
-                  <TitleText role="heading">Preferences</TitleText>
-                  {isLoadingProfile || typeof profile === "undefined" ? (
-                    <Skeleton variant="text" width={128} height={32} />
-                  ) : (
-                    <div id="user-preferences">
-                      <PreferencesPage />
-                    </div>
-                  )}
-                </TabPanelStyled>
-                <TabPanelStyled
                   key={TabValues.PROFILE}
                   value={TabValues.PROFILE}
                 >
@@ -505,6 +492,19 @@ const DashboardPage: React.FC = () => {
                   ) : (
                     <div id="user-profile-edit">
                       <ProfileEditForm profile={profile} />
+                    </div>
+                  )}
+                </TabPanelStyled>
+                <TabPanelStyled
+                  key={TabValues.SETTINGS}
+                  value={TabValues.SETTINGS}
+                >
+                  <TitleText role="heading">Settings</TitleText>
+                  {isLoadingProfile || typeof profile === "undefined" ? (
+                    <Skeleton variant="text" width={128} height={32} />
+                  ) : (
+                    <div id="user-settings">
+                      <SettingsPage />
                     </div>
                   )}
                 </TabPanelStyled>

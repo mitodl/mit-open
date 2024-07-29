@@ -44,12 +44,9 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
   fontSize: "14px",
   ...theme.typography.body2,
-  [theme.breakpoints.down("md")]: {
-    ...theme.typography.subtitle3,
-  },
 }))
 
-const PreferencesPage: React.FC = () => {
+const SettingsPage: React.FC = () => {
   const { data: user } = useUserMe()
   const subscriptionDelete = useSearchSubscriptionDelete()
   const subscriptionList = useSearchSubscriptionList({
@@ -96,4 +93,4 @@ const PreferencesPage: React.FC = () => {
   )
 }
 
-export { PreferencesPage }
+export { SettingsPage }
