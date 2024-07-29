@@ -214,7 +214,7 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
   }
 
   return (
-    <Wrapper className={className}>
+    <Wrapper className={`MitListCard-root ${className}`}>
       <_Container to={href!}>
         {draggable && (
           <DragArea>

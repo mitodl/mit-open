@@ -117,10 +117,6 @@ const Footer = styled.span`
     ...theme.typography.body3,
     color: theme.custom.colors.silverGrayDark,
   }}
-
-  span {
-    color: ${theme.custom.colors.black};
-  }
 `
 
 const Bottom = styled.div`
@@ -200,9 +196,11 @@ const Card: Card = ({ children, className, size, href }) => {
     else if (child.type === Actions) actions = child.props
   })
 
+  const allClassNames = `MitCard-root ${className}`
+
   if (content) {
     return (
-      <Wrapper className={className} size={size}>
+      <Wrapper className={allClassNames} size={size}>
         <_Container className={className} to={href!}>
           {content}
         </_Container>
@@ -211,7 +209,7 @@ const Card: Card = ({ children, className, size, href }) => {
   }
 
   return (
-    <Wrapper className={className} size={size}>
+    <Wrapper className={allClassNames} size={size}>
       <_Container to={href!}>
         {image && (
           <Image
