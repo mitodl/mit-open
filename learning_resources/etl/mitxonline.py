@@ -74,7 +74,11 @@ def parse_certificate_type(certification_type: str) -> str:
         "certificate of completion": CertificationType.completion.name,
     }
 
-    return cert_map.get(certification_type.lower(), CertificationType.none.name)
+    certification_code = cert_map.get(certification_type.lower())
+    if not certification_code:
+        log.error("Unknown MITx Online certification type: %s", certification_type)
+        return CertificationType.completion.name
+    return certification_code
 
 
 def parse_page_attribute(

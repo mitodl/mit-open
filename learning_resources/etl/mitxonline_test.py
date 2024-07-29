@@ -486,13 +486,15 @@ def test_parse_prices(current_price, page_price, expected):
 
 
 @pytest.mark.parametrize(
-    ("cert_type", "expected_cert_type"),
+    ("cert_type", "expected_cert_type", "error"),
     [
-        ("Certificate of Completion", CertificationType.completion.name),
-        ("MicroMasters Credential", CertificationType.micromasters.name),
-        ("Pro Cert", CertificationType.none.name),
+        ("Certificate of Completion", CertificationType.completion.name, False),
+        ("MicroMasters Credential", CertificationType.micromasters.name, False),
+        ("Pro Cert", CertificationType.completion.name, True),
     ],
 )
-def test_parse_certificate_type(cert_type, expected_cert_type):
+def test_parse_certificate_type(mocker, cert_type, expected_cert_type, error):
     """Test that the certificate type is correctly parsed"""
+    mock_log = mocker.patch("learning_resources.etl.mitxonline.log.error")
     assert parse_certificate_type(cert_type) == expected_cert_type
+    assert mock_log.call_count == (1 if error else 0)
