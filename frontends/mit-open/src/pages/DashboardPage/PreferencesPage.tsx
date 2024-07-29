@@ -72,7 +72,6 @@ const PreferencesPage: React.FC = () => {
             key={subscriptionItem.id}
             secondaryAction={
               <StyledLink
-                component="button"
                 onClick={(event) => {
                   event.preventDefault()
                   unsubscribe(subscriptionItem.id)
