@@ -259,7 +259,7 @@ def load_run(
     return learning_resource_run
 
 
-def load_course(
+def load_course(  # noqa: C901
     resource_data: dict,
     blocklist: list[str],
     duplicates: list[dict],
@@ -346,6 +346,16 @@ def load_course(
                 resource.published = False
                 resource.save()
                 resource_unpublished_actions(resource)
+
+        if config.fetch_only:
+            # Do not upsert the course, it should already exist.
+            # Just find it and return it.
+            return LearningResource.objects.filter(
+                readable_id=resource_id,
+                platform=platform,
+                resource_type=LearningResourceType.course.name,
+            ).first()
+
         (
             learning_resource,
             created,

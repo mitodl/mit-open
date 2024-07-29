@@ -35,7 +35,9 @@ load_courses = curry(loaders.load_courses)
 micromasters_etl = compose(
     load_programs(
         ETLSource.micromasters.name,
-        config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig(prune=False)),
+        config=ProgramLoaderConfig(
+            prune=True, courses=CourseLoaderConfig(fetch_only=True)
+        ),
     ),
     micromasters.transform,
     micromasters.extract,
@@ -53,7 +55,9 @@ mit_edx_etl = compose(
 mitxonline_programs_etl = compose(
     load_programs(
         ETLSource.mitxonline.name,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=False), prune=True),
+        config=ProgramLoaderConfig(
+            courses=CourseLoaderConfig(fetch_only=True), prune=True
+        ),
     ),
     mitxonline.transform_programs,
     mitxonline.extract_programs,
@@ -74,7 +78,7 @@ oll_etl = compose(
 prolearn_programs_etl = compose(
     load_programs(
         ETLSource.prolearn.name,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=False)),
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(fetch_only=True)),
     ),
     prolearn.transform_programs,
     prolearn.extract_programs,
@@ -91,7 +95,7 @@ prolearn_courses_etl = compose(
 xpro_programs_etl = compose(
     load_programs(
         ETLSource.xpro.name,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=False)),
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(fetch_only=True)),
     ),
     xpro.transform_programs,
     xpro.extract_programs,
