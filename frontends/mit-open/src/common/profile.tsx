@@ -25,7 +25,7 @@ const GOALS_CHOICES = [
   {
     value: GoalsEnum.AcademicExcellence,
     label: GoalsEnumDescriptions[GoalsEnum.AcademicExcellence],
-    description: "Supplemental learning to support me in earning a degree.",
+    description: "Support my degree studies with supplemental learning.",
   },
   {
     value: GoalsEnum.CareerGrowth,
