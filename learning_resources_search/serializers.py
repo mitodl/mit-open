@@ -259,6 +259,12 @@ class SearchRequestSerializer(serializers.Serializer):
         child=serializers.CharField(),
         help_text="The topic name. To see a list of options go to api/v1/topics/",
     )
+    dev_mode = serializers.BooleanField(
+        required=False,
+        allow_null=True,
+        default=False,
+        help_text="If true return raw open search results with score explanations",
+    )
 
     def validate(self, attrs):
         unknown = set(self.initial_data) - set(self.fields)

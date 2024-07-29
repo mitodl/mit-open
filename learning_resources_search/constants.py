@@ -57,7 +57,7 @@ class FilterConfig:
     case_sensitive: bool = False
 
 
-LEARNING_RESOURCE_SEARCH_FILTERS = {
+SEARCH_FILTERS = {
     "resource_type": FilterConfig("resource_type"),
     "certification": FilterConfig("certification"),
     "certification_type": FilterConfig("certification_type.code"),
@@ -67,7 +67,7 @@ LEARNING_RESOURCE_SEARCH_FILTERS = {
     "course_feature": FilterConfig("course_feature"),
     "content_feature_type": FilterConfig("content_feature_type"),
     "run_id": FilterConfig("run_id", case_sensitive=True),
-    "resource_id": FilterConfig("resource_id"),
+    "resource_id": FilterConfig("resource_id", case_sensitive=True),
     "topic": FilterConfig("topics.name"),
     "level": FilterConfig("runs.level.code"),
     "department": FilterConfig("departments.department_id"),

@@ -157,6 +157,13 @@ paths:
         description: The feature type of the content file. Possible options are at
           api/v1/course_features/
       - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
+      - in: query
         name: id
         schema:
           type: array
@@ -2299,6 +2306,13 @@ paths:
           \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
           \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
+      - in: query
         name: free
         schema:
           type: boolean
@@ -2728,6 +2742,13 @@ paths:
           \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
           \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
           \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+      - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
       - in: query
         name: free
         schema:
@@ -3184,6 +3205,13 @@ paths:
           \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
           \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
+      - in: query
         name: free
         schema:
           type: boolean
@@ -3629,6 +3657,13 @@ paths:
           \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
           \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
           \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+      - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
       - in: query
         name: free
         schema:
@@ -9500,6 +9535,11 @@ components:
             type: string
             minLength: 1
           description: The topic name. To see a list of options go to api/v1/topics/
+        dev_mode:
+          type: boolean
+          nullable: true
+          default: false
+          description: If true return raw open search results with score explanations
         id:
           type: array
           items:
