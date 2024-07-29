@@ -37,9 +37,6 @@ const TitleText = styled(Typography)(({ theme }) => ({
 
   color: theme.custom.colors.darkGray2,
   ...theme.typography.subtitle1,
-  [theme.breakpoints.down("md")]: {
-    ...theme.typography.h5,
-  },
 }))
 
 const SubTitleText = styled(Typography)(({ theme }) => ({
@@ -74,7 +71,13 @@ const PreferencesPage: React.FC = () => {
             divider={true}
             key={subscriptionItem.id}
             secondaryAction={
-              <StyledLink onClick={() => unsubscribe(subscriptionItem.id)}>
+              <StyledLink
+                component="button"
+                onClick={(event) => {
+                  event.preventDefault()
+                  unsubscribe(subscriptionItem.id)
+                }}
+              >
                 Unfollow
               </StyledLink>
             }
