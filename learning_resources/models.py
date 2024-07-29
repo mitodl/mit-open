@@ -12,6 +12,7 @@ from django.utils import timezone
 
 from learning_resources import constants
 from learning_resources.constants import (
+    Availability,
     CertificationType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
@@ -314,6 +315,11 @@ class LearningResource(TimestampedModel):
     next_start_date = models.DateTimeField(null=True, blank=True, db_index=True)
     prices = ArrayField(
         models.DecimalField(decimal_places=2, max_digits=12), default=list
+    )
+    availability = models.CharField(  # noqa: DJ001
+        max_length=24,
+        null=True,
+        choices=((member.name, member.value) for member in Availability),
     )
 
     @staticmethod

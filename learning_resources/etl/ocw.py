@@ -19,10 +19,11 @@ from learning_resources.constants import (
     CONTENT_TYPE_PAGE,
     CONTENT_TYPE_VIDEO,
     VALID_TEXT_FILE_TYPES,
-    AvailabilityType,
+    Availability,
     LearningResourceType,
     OfferedBy,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
@@ -244,7 +245,7 @@ def transform_run(course_data: dict) -> dict:
         "description": clean_data(course_data.get("course_description_html")),
         "year": year,
         "semester": semester,
-        "availability": AvailabilityType.current.value,
+        "availability": RunAvailability.current.value,
         "image": {
             "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
             "description": course_data.get("course_image_metadata", {}).get(
@@ -346,6 +347,7 @@ def transform_course(course_data: dict) -> dict:
         "runs": [transform_run(course_data)],
         "resource_type": LearningResourceType.course.name,
         "unique_field": UNIQUE_FIELD,
+        "availability": Availability.anytime.name,
     }
 
 

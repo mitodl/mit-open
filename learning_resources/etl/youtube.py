@@ -18,7 +18,12 @@ from youtube_transcript_api import (
 )
 from youtube_transcript_api.formatters import TextFormatter
 
-from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
+from learning_resources.constants import (
+    Availability,
+    LearningResourceType,
+    OfferedBy,
+    PlatformType,
+)
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.loaders import update_index
@@ -424,6 +429,7 @@ def transform_video(video_data: dict, offered_by_code: str) -> dict:
         "video": {
             "duration": video_data["contentDetails"]["duration"],
         },
+        "availability": Availability.anytime.name,
     }
 
 
@@ -452,6 +458,7 @@ def transform_playlist(
             transform_video(extracted_video, offered_by_code)
             for extracted_video in videos
         ),
+        "availability": Availability.anytime.name,
     }
 
 

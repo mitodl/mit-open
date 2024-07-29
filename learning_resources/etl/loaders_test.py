@@ -12,12 +12,12 @@ from django.forms.models import model_to_dict
 from django.utils import timezone
 
 from learning_resources.constants import (
-    AvailabilityType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     OfferedBy,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
@@ -213,10 +213,12 @@ def test_load_program(  # noqa: PLR0913
             "image": {"url": program.learning_resource.image.url},
             "published": is_published,
             "runs": [run_data],
+            "availability": program.learning_resource.availability,
             "courses": [
                 {
                     "readable_id": course.learning_resource.readable_id,
                     "platform": platform.code,
+                    "availability": course.learning_resource.availability,
                 }
                 for course in courses
             ],
@@ -598,7 +600,7 @@ def test_load_course_dupe_urls(unique_url):
 
 @pytest.mark.parametrize("run_exists", [True, False])
 @pytest.mark.parametrize(
-    "availability", [AvailabilityType.archived.value, AvailabilityType.current.value]
+    "availability", [RunAvailability.archived.value, RunAvailability.current.value]
 )
 @pytest.mark.parametrize("certification", [True, False])
 def test_load_run(run_exists, availability, certification):
@@ -635,7 +637,7 @@ def test_load_run(run_exists, availability, certification):
 
     assert result.prices == (
         []
-        if (availability == AvailabilityType.archived.value or certification is False)
+        if (availability == RunAvailability.archived.value or certification is False)
         else sorted(props["prices"])
     )
     props.pop("prices")
@@ -1397,7 +1399,7 @@ def test_load_prices_by_certificate(certification):
     run = LearningResourceRunFactory.create(
         learning_resource=course,
         published=True,
-        availability=AvailabilityType.current.value,
+        availability=RunAvailability.current.value,
         prices=[Decimal("0.00"), Decimal("20.00")],
     )
     load_next_start_date_and_prices(course)
