@@ -237,6 +237,16 @@ const PrivacyPage: React.FC = () => {
             maintains, or transmits. Nonetheless, no method of transmission over
             the Internet or method of electronic storage is 100% secure, and
             therefore we do not guarantee its absolute security.
+            <br />
+            <br />
+            All data transferred between systems, from the moment of first
+            collection, is encrypted using industry-standard TLS protocols with
+            high-strength private keys. All data at rest is stored on encrypted
+            media using AWS KMS encryption keys that are only accessible by
+            infrastructure administrators. All data access is based on a least
+            privilege model with a default deny policy. Permissions are granted
+            based on verified business use cases and subject to auditing to
+            verify appropriate applications.
           </BodyText>
           <BodyText variant="h4">
             How long we keep your personal information
