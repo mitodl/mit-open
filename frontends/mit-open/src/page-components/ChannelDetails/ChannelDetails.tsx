@@ -33,6 +33,17 @@ const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Pathway]: [],
 }
 
+const ChannelLink = styled.a({
+  display: "flex",
+  alignItems: "center",
+  span: {
+    paddingRight: "2px",
+  },
+  svg: {
+    marginBottom: "2px",
+  },
+})
+
 const getFacetManifest = (channelType: ChannelTypeEnum) => {
   return [
     {
@@ -91,9 +102,10 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
 
       labelFunction: (key: string, channelTitle: string) => (
         // eslint-disable react/jsx-no-target-blank
-        <a target="_blank" href={key} rel="noopener noreferrer">
-          {channelTitle} Website <RiExternalLinkLine size={18} />
-        </a>
+        <ChannelLink target="_blank" href={key} rel="noopener noreferrer">
+          <span>{channelTitle} Website</span>
+          <RiExternalLinkLine size={16} />
+        </ChannelLink>
       ),
       order: 1,
     },

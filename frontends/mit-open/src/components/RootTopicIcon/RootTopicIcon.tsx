@@ -1,6 +1,6 @@
 import {
   RiPaletteLine,
-  RiShakeHandsLine,
+  RiSeedlingLine,
   RiEarthLine,
   RiQuillPenLine,
   RiBriefcase3Line,
@@ -27,7 +27,7 @@ export const ICON_MAP = {
   "Science & Math": RiTestTubeLine,
   "Social Sciences": RiUserSearchLine,
   Society: RiEarthLine,
-  "Education & Teaching": RiShakeHandsLine,
+  "Education & Teaching": RiSeedlingLine,
   Engineering: RiRobot2Line,
   "Innovation & Entrepreneurship": RiTeamLine,
 }
