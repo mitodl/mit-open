@@ -35,7 +35,7 @@ const GOALS_CHOICES = [
   {
     value: GoalsEnum.LifelongLearning,
     label: GoalsEnumDescriptions[GoalsEnum.LifelongLearning],
-    description: "Learning about topics that interest me just for fun.",
+    description: "Learn about topics that spark my curiosity.",
   },
 ]
 
