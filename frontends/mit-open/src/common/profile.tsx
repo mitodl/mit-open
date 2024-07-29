@@ -30,8 +30,7 @@ const GOALS_CHOICES = [
   {
     value: GoalsEnum.CareerGrowth,
     label: GoalsEnumDescriptions[GoalsEnum.CareerGrowth],
-    description:
-      "Looking for career growth through new skills & certification.",
+    description: "Advance my career through new skills and certifications.",
   },
   {
     value: GoalsEnum.LifelongLearning,
