@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.14.3
+Version 0.14.3 (Released July 29, 2024)
 --------------
 
 - Remove some styling for topic box names so they wrap, adjusting icons (#1328)
