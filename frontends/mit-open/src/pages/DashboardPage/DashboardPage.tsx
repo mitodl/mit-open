@@ -4,6 +4,7 @@ import {
   RiDashboardLine,
   RiBookMarkedLine,
   RiEditLine,
+  RiNotificationLine,
 } from "@remixicon/react"
 import {
   ButtonLink,
@@ -350,7 +351,7 @@ const DashboardPage: React.FC = () => {
             onClick={() => setUserListAction("list")}
           />
           <UserMenuTab
-            icon={<RiBookMarkedLine />}
+            icon={<RiNotificationLine />}
             text={TabLabels[TabValues.PREFERENCES]}
             value={TabValues.PREFERENCES}
             currentValue={tabValue}
