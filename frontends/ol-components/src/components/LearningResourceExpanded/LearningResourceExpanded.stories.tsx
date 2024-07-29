@@ -22,7 +22,7 @@ const meta: Meta<typeof LearningResourceExpanded> = {
   component: LearningResourceExpanded,
   args: {
     imgConfig: {
-      key: process.env.EMBEDLY_KEY!,
+      key: APP_SETTINGS.EMBEDLY_KEY,
       width: 385,
       height: 200,
     },
@@ -132,5 +132,31 @@ export const VideoPlaylist: Story = {
 export const Loading: Story = {
   args: {
     resource: undefined,
+  },
+}
+
+export const AsTaughtIn: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: LRT.Course,
+      availability: "anytime",
+      runs: [factories.learningResources.run()],
+    }),
+  },
+}
+
+export const AsTaughtInMultipleRuns: Story = {
+  args: {
+    resource: makeResource({
+      resource_type: LRT.Course,
+      availability: "anytime",
+      runs: [
+        factories.learningResources.run({
+          semester: "Fall",
+          year: 2023,
+        }),
+        factories.learningResources.run(),
+      ],
+    }),
   },
 }
