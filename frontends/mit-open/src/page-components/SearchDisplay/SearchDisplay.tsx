@@ -429,21 +429,25 @@ const TABS: TabConfig[] = [
     label: "All",
     defaultTab: true,
     resource_category: null,
+    minWidth: 85,
   },
   {
     name: "courses",
     label: "Courses",
     resource_category: ResourceCategoryEnum.Course,
+    minWidth: 112,
   },
   {
     name: "programs",
     label: "Programs",
     resource_category: ResourceCategoryEnum.Program,
+    minWidth: 118,
   },
   {
     name: "learning-materials",
     label: "Learning Materials",
     resource_category: ResourceCategoryEnum.LearningMaterial,
+    minWidth: 172,
   },
 ]
 

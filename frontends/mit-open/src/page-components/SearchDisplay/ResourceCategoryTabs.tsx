@@ -8,21 +8,27 @@ import {
 } from "ol-components"
 import { ResourceCategoryEnum, LearningResourcesSearchResponse } from "api"
 
-const TabsList = styled(TabButtonList)({
+const TabsList = styled(TabButtonList)(({ theme }) => ({
   ".MuiTabScrollButton-root.Mui-disabled": {
     display: "none",
   },
-})
+  [theme.breakpoints.down("md")]: {
+    "div div button": {
+      minWidth: "0 !important",
+    },
+  },
+}))
 
-const CountSpan = styled.span`
-  min-width: 35px;
-  text-align: left;
-`
+const CountSpan = styled.span(({ theme }) => ({
+  ...theme.typography.body3,
+}))
+
 type TabConfig = {
   label: string
   name: string
   defaultTab?: boolean
   resource_category: ResourceCategoryEnum | null
+  minWidth: number
 }
 
 type Aggregations = LearningResourcesSearchResponse["metadata"]["aggregations"]
@@ -110,6 +116,7 @@ const ResourceCategoryTabList: React.FC<ResourceCategoryTabsProps> = ({
         }
         return (
           <TabButton
+            style={{ minWidth: t.minWidth }}
             key={t.name}
             value={t.name}
             label={appendCount(t.label, count)}
