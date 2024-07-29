@@ -5,12 +5,11 @@ import {
   useSearchSubscriptionDelete,
   useSearchSubscriptionList,
 } from "api/hooks/searchSubscription"
-import { Button, SimpleMenu, Dialog, styled } from "ol-components"
+import { Button, SimpleMenu, styled } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import { RiArrowDownSLine, RiMailLine } from "@remixicon/react"
 import { useUserMe } from "api/hooks/user"
 import { SourceTypeEnum } from "api"
-
 import { SignupPopover } from "../SignupPopover/SignupPopover"
 
 const StyledButton = styled(Button)({
@@ -24,12 +23,10 @@ type SearchSubscriptionToggleProps = {
 }
 
 const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
-  itemName,
   searchParams,
   sourceType,
 }) => {
   const [buttonEl, setButtonEl] = useState<null | HTMLElement>(null)
-  const [confirmationOpen, setConfirmationOpen] = useState(false)
 
   const subscribeParams: Record<string, string[] | string> = useMemo(() => {
     return { source_type: sourceType, ...getSearchParamMap(searchParams) }
@@ -57,18 +54,14 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
     ]
   }, [unsubscribe, subscriptionId])
 
-  const onFollowClick = (event: React.MouseEvent<HTMLElement>) => {
+  const onFollowClick = async (event: React.MouseEvent<HTMLElement>) => {
     if (user?.is_authenticated) {
-      setConfirmationOpen(true)
+      await subscriptionCreate.mutateAsync({
+        PercolateQuerySubscriptionRequestRequest: subscribeParams,
+      })
     } else {
       setButtonEl(event.currentTarget)
     }
-  }
-
-  const onConfirmClick = async () => {
-    await subscriptionCreate.mutateAsync({
-      PercolateQuerySubscriptionRequestRequest: subscribeParams,
-    })
   }
 
   if (user?.is_authenticated && subscriptionList.isLoading) return null
@@ -97,14 +90,6 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
       >
         Follow
       </StyledButton>
-      <Dialog
-        title={`Follow ${itemName}?`}
-        message="You will receive email notifications when new courses are available."
-        confirmText="Got it!"
-        open={confirmationOpen}
-        onConfirm={onConfirmClick}
-        onClose={() => setConfirmationOpen(false)}
-      />
       <SignupPopover anchorEl={buttonEl} onClose={() => setButtonEl(null)} />
     </>
   )
