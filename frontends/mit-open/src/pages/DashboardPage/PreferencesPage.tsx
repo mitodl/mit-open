@@ -3,8 +3,8 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemButton,
   Typography,
+  Link,
   styled,
 } from "ol-components"
 import { Profile } from "api/hooks/profile"
@@ -29,6 +29,11 @@ const FollowList = styled(List)(() => ({
   borderRadius: "4px",
   background: "#fff",
   padding: "0px",
+  margin: "0px",
+}))
+
+const StyledLink = styled(Link)(({ theme }) => ({
+  color: theme.custom.colors.red,
 }))
 
 const TitleText = styled(Typography)(({ theme }) => ({
@@ -46,7 +51,7 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
   marginBottom: "10px",
   color: theme.custom.colors.darkGray2,
   fontSize: "14px",
-  ...theme.typography.body2,
+  ...theme.typography.p2,
   [theme.breakpoints.down("md")]: {
     ...theme.typography.subtitle3,
   },
@@ -75,9 +80,9 @@ const PreferencesPage: React.FC<Props> = () => {
             divider={true}
             key={subscriptionItem.id}
             secondaryAction={
-              <ListItemButton onClick={() => unsubscribe(subscriptionItem.id)}>
+              <StyledLink onClick={() => unsubscribe(subscriptionItem.id)}>
                 Unfollow
-              </ListItemButton>
+              </StyledLink>
             }
           >
             <ListItemText
