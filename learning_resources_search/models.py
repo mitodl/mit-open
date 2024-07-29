@@ -49,7 +49,7 @@ class PercolateQuery(TimestampedModel):
         if channels_filtered.exists():
             return channels_filtered.first().channel_type
         else:
-            return "custom_search"
+            return "saved search"
 
     def source_description(self):
         original_query_params = self.original_url_params()
