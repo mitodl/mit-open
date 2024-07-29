@@ -335,6 +335,16 @@ def load_course(  # noqa: C901
             unique_field_value,
         )
         resource_id = deduplicated_course_id or readable_id
+
+        if config.fetch_only:
+            # Do not upsert the course, it should already exist.
+            # Just find it and return it.
+            return LearningResource.objects.filter(
+                readable_id=resource_id,
+                platform=platform,
+                resource_type=LearningResourceType.course.name,
+            ).first()
+
         if unique_field_name != READABLE_ID_FIELD:
             # Some dupes may result, so we need to unpublish resources
             # with matching unique values and different readable_ids
@@ -346,16 +356,6 @@ def load_course(  # noqa: C901
                 resource.published = False
                 resource.save()
                 resource_unpublished_actions(resource)
-
-        if config.fetch_only:
-            # Do not upsert the course, it should already exist.
-            # Just find it and return it.
-            return LearningResource.objects.filter(
-                readable_id=resource_id,
-                platform=platform,
-                resource_type=LearningResourceType.course.name,
-            ).first()
-
         (
             learning_resource,
             created,

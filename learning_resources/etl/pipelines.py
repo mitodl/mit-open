@@ -95,7 +95,9 @@ prolearn_courses_etl = compose(
 xpro_programs_etl = compose(
     load_programs(
         ETLSource.xpro.name,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(fetch_only=True)),
+        config=ProgramLoaderConfig(
+            courses=CourseLoaderConfig(fetch_only=True), prune=True
+        ),
     ),
     xpro.transform_programs,
     xpro.extract_programs,

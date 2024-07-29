@@ -79,7 +79,9 @@ def test_mitxonline_programs_etl():
     mock_load_programs.assert_called_once_with(
         ETLSource.mitxonline.name,
         mock_transform.return_value,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True), prune=True),
+        config=ProgramLoaderConfig(
+            courses=CourseLoaderConfig(fetch_only=True), prune=True
+        ),
     )
 
     assert result == mock_load_programs.return_value
@@ -146,7 +148,9 @@ def test_xpro_programs_etl():
     mock_load_programs.assert_called_once_with(
         ETLSource.xpro.name,
         mock_transform.return_value,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+        config=ProgramLoaderConfig(
+            courses=CourseLoaderConfig(fetch_only=True), prune=True
+        ),
     )
 
     assert result == mock_load_programs.return_value
@@ -296,7 +300,9 @@ def test_micromasters_etl():
     mock_load_programs.assert_called_once_with(
         ETLSource.micromasters.name,
         mock_transform.return_value,
-        config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig()),
+        config=ProgramLoaderConfig(
+            prune=True, courses=CourseLoaderConfig(fetch_only=True)
+        ),
     )
 
     assert result == mock_load_programs.return_value
@@ -317,7 +323,7 @@ def test_prolearn_programs_etl():
     mock_load_programs.assert_called_once_with(
         ETLSource.prolearn.name,
         mock_transform.return_value,
-        config=ProgramLoaderConfig(courses=CourseLoaderConfig(prune=True)),
+        config=ProgramLoaderConfig(courses=CourseLoaderConfig(fetch_only=True)),
     )
 
     assert result == mock_load_programs.return_value
