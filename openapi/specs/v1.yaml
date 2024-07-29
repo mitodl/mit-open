@@ -9413,6 +9413,12 @@ components:
         id:
           type: integer
           readOnly: true
+        source_description:
+          type: string
+          readOnly: true
+        source_label:
+          type: string
+          readOnly: true
         original_query: {}
         query: {}
         source_type:
@@ -9421,6 +9427,8 @@ components:
       - id
       - original_query
       - query
+      - source_description
+      - source_label
       - source_type
     PercolateQuerySubscriptionRequestRequest:
       type: object

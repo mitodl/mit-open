@@ -544,6 +544,9 @@ class PercolateQuerySerializer(serializers.ModelSerializer):
     Serializer for PercolateQuery objects
     """
 
+    source_description = serializers.ReadOnlyField()
+    source_label = serializers.ReadOnlyField()
+
     class Meta:
         model = PercolateQuery
         exclude = (*COMMON_IGNORED_FIELDS, "users")

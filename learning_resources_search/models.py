@@ -4,6 +4,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.db.models import JSONField
 
+from channels.constants import ChannelType
+from channels.models import Channel
 from main.models import TimestampedModel
 
 User = get_user_model()
@@ -39,4 +41,21 @@ class PercolateQuery(TimestampedModel):
         defined_params = {
             key: query[key] for key in query if query[key] and key not in ignore_params
         }
-        unquote_plus(urlencode(defined_params, doseq=True))
+        return unquote_plus(urlencode(defined_params, doseq=True))
+
+    def source_label(self):
+        original_query_params = self.original_url_params()
+        channels_filtered = Channel.objects.filter(search_filter=original_query_params)
+        if channels_filtered.exists():
+            return channels_filtered.first().channel_type
+        else:
+            return "custom_search"
+
+    def source_description(self):
+        original_query_params = self.original_url_params()
+        source_label = self.source_label()
+
+        if source_label in ChannelType:
+            channel = Channel.objects.get(search_filter=original_query_params)
+            return channel.title
+        return self.original_url_params()
