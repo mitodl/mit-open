@@ -8,6 +8,11 @@ import { Theme } from "../ThemeProvider/ThemeProvider"
 const SubHeader = styled(Typography)({
   maxWidth: "700px",
   marginTop: "8px",
+  marginBottom: "16px",
+})
+
+const ExtraHeader = styled(Typography)({
+  marginBottom: "16px",
 })
 
 type BannerBackgroundProps = {
@@ -120,7 +125,13 @@ const Banner = ({
             >
               {subheader}
             </SubHeader>
-            <div>{extraHeader}</div>
+            <ExtraHeader
+              variant="body1"
+              typography={subheaderTypography || defaultSubHeaderTypography}
+              sx={subheaderStyles}
+            >
+              {extraHeader}
+            </ExtraHeader>
           </HeaderContainer>
           <RightContainer>{extraRight}</RightContainer>
         </InnerContainer>
