@@ -1,6 +1,5 @@
 """Tests for ETL loaders"""
 
-import json
 from datetime import timedelta
 from decimal import Decimal
 
@@ -228,20 +227,6 @@ def test_load_program(  # noqa: PLR0913
         [],
     )
 
-    if program_exists and not is_published:
-        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
-            result.id, result.resource_type
-        )
-    elif is_published:
-        if program_exists:
-            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
-        else:
-            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
-                result.id
-            )
-    else:
-        mock_upsert_tasks.upsert_learning_resource.assert_not_called()
-
     assert Program.objects.count() == 1
     assert Course.objects.count() == after_course_count
 
@@ -273,6 +258,20 @@ def test_load_program(  # noqa: PLR0913
         assert isinstance(relationship.child, LearningResource)
         assert relationship.child.readable_id == data.learning_resource.readable_id
 
+    if program_exists and not is_published:
+        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
+            result.id, result.resource_type
+        )
+    elif is_published:
+        if program_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
+    else:
+        mock_upsert_tasks.upsert_learning_resource.assert_not_called()
+
 
 def test_load_program_bad_platform(mocker):
     """A bad platform should log an exception and not create the program"""
@@ -292,7 +291,7 @@ def test_load_program_bad_platform(mocker):
     result = load_program(props, [], [], config=ProgramLoaderConfig(prune=True))
     assert result is None
     mock_log.assert_called_once_with(
-        "Platform %s is null or not in database: %s", bad_platform, json.dumps(props)
+        "Platform %s is null or not in database: %s", bad_platform, "abc123"
     )
 
 
@@ -466,7 +465,7 @@ def test_load_course_bad_platform(mocker):
     result = load_course(props, [], [], config=CourseLoaderConfig(prune=True))
     assert result is None
     mock_log.assert_called_once_with(
-        "Platform %s is null or not in database: %s", bad_platform, '"abc123"'
+        "Platform %s is null or not in database: %s", bad_platform, "abc123"
     )
 
 
