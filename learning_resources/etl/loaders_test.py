@@ -564,13 +564,19 @@ def test_load_duplicate_course(
 
 
 @pytest.mark.parametrize("unique_url", [True, False])
-def test_load_course_dupe_urls(unique_url):
-    """If url is supposed to be unique field, unpublish old courses with same url"""
+def test_load_course_unique_urls(unique_url):
+    """
+    If url is supposed to be unique field, unpublish unpublished courses with same url
+    and update the published course with the new readable id
+    """
     unique_url = "https://mit.edu/unique.html"
     readable_id = "new_unique_course_id"
     platform = LearningResourcePlatformFactory.create(code=PlatformType.ocw.name)
-    old_courses = LearningResourceFactory.create_batch(
-        2, url=unique_url, platform=platform, is_course=True
+    old_unpublished_courses = LearningResourceFactory.create_batch(
+        2, url=unique_url, platform=platform, is_course=True, published=False
+    )
+    old_course = LearningResourceFactory.create(
+        url=unique_url, platform=platform, is_course=True
     )
     props = {
         "readable_id": readable_id,
@@ -593,9 +599,12 @@ def test_load_course_dupe_urls(unique_url):
     assert result.readable_id == readable_id
     assert result.url == unique_url
     assert result.published is True
-    for course in old_courses:
-        course.refresh_from_db()
-        assert course.published is (unique_url is False)
+    for unpublished_course in old_unpublished_courses:
+        assert (
+            LearningResource.objects.filter(pk=unpublished_course.id).exists() is False
+        )
+    old_course.refresh_from_db()
+    assert old_course == result
 
 
 @pytest.mark.parametrize("course_exists", [True, False])

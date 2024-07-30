@@ -350,21 +350,24 @@ def load_course(  # noqa: C901
             return resource
 
         if unique_field_name != READABLE_ID_FIELD:
-            # Some dupes may result, so we need to unpublish resources
-            # with matching unique values and different readable_ids
-            for resource in LearningResource.objects.filter(
+            resource_data[READABLE_ID_FIELD] = resource_id
+            # Some dupes may result, so we should delete all but the
+            # most recently updated resource w/matching unique value
+            existing_courses = LearningResource.objects.filter(
                 **{unique_field_name: unique_field_value},
                 platform=platform,
                 resource_type=LearningResourceType.course.name,
-            ).exclude(readable_id=resource_id):
-                resource.published = False
-                resource.save()
-                resource_unpublished_actions(resource)
+            ).order_by("-updated_on")
+            if existing_courses.count() > 1:
+                for course in existing_courses[1:]:
+                    course.delete()
+        else:
+            unique_field_value = resource_id
         (
             learning_resource,
             created,
         ) = LearningResource.objects.select_for_update().update_or_create(
-            readable_id=resource_id,
+            **{unique_field_name: unique_field_value},
             platform=platform,
             resource_type=LearningResourceType.course.name,
             defaults=resource_data,
