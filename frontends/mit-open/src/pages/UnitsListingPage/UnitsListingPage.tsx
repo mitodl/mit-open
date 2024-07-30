@@ -149,6 +149,7 @@ const GridContainer = styled.div(({ theme }) => ({
   display: "grid",
   gap: "25px",
   gridTemplateColumns: "repeat(2, 1fr)",
+  width: "100%",
   [theme.breakpoints.down("md")]: {
     gridTemplateColumns: "1fr",
   },

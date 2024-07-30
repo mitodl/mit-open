@@ -27,7 +27,7 @@ def update_copy(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("data_fixtures", "0005_unit_page_copy_updates"),
+        ("data_fixtures", "0004_upsert_initial_topic_data"),
     ]
 
     operations = [

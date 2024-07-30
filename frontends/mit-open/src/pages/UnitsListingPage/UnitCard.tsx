@@ -35,10 +35,10 @@ const LogoContainer = styled.div({
 
 const UnitLogo = styled.img({
   height: "50px",
+  display: "block",
   [theme.breakpoints.down("md")]: {
     height: "40px",
     margin: "0 auto",
-    display: "block",
   },
 })
 
@@ -128,8 +128,6 @@ const UnitCard: React.FC<UnitCardProps> = (props) => {
   const channelDetailQuery = useChannelDetail("unit", unit.code)
   const channelDetail = channelDetailQuery.data
   const unitUrl = channelDetail?.channel_url
-
-  console.log("hannelDetail?.configuration", channelDetail?.configuration)
 
   return channelDetailQuery.isLoading ? (
     <UnitCardLoading />
