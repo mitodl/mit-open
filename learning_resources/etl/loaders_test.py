@@ -598,6 +598,36 @@ def test_load_course_dupe_urls(unique_url):
         assert course.published is (unique_url is False)
 
 
+@pytest.mark.parametrize("course_exists", [True, False])
+def test_load_course_fetch_only(mocker, course_exists):
+    """When fetch_only is True, course should just be fetched from db"""
+    mock_next_runs_prices = mocker.patch(
+        "learning_resources.etl.loaders.load_next_start_date_and_prices"
+    )
+    mock_warn = mocker.patch("learning_resources.etl.loaders.log.warning")
+    platform = LearningResourcePlatformFactory.create(code=PlatformType.mitpe.name)
+    if course_exists:
+        resource = LearningResourceFactory.create(is_course=True, platform=platform)
+    else:
+        resource = LearningResourceFactory.build(is_course=True, platform=platform)
+
+    props = {
+        "readable_id": resource.readable_id,
+        "platform": platform.code,
+        "offered_by": {"code": OfferedBy.ocw.name},
+    }
+    result = load_course(props, [], [], config=CourseLoaderConfig(fetch_only=True))
+    if course_exists:
+        assert result == resource
+        mock_warn.assert_not_called()
+    else:
+        assert result is None
+        mock_warn.assert_called_once_with(
+            "No published resource found for %s", resource.readable_id
+        )
+    mock_next_runs_prices.assert_not_called()
+
+
 @pytest.mark.parametrize("run_exists", [True, False])
 @pytest.mark.parametrize(
     "availability", [RunAvailability.archived.value, RunAvailability.current.value]

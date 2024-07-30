@@ -259,7 +259,7 @@ def load_run(
     return learning_resource_run
 
 
-def load_course(
+def load_course(  # noqa: C901
     resource_data: dict,
     blocklist: list[str],
     duplicates: list[dict],
@@ -335,6 +335,20 @@ def load_course(
             unique_field_value,
         )
         resource_id = deduplicated_course_id or readable_id
+
+        if config.fetch_only:
+            # Do not upsert the course, it should already exist.
+            # Just find it and return it.
+            resource = LearningResource.objects.filter(
+                readable_id=resource_id,
+                platform=platform,
+                resource_type=LearningResourceType.course.name,
+                published=True,
+            ).first()
+            if not resource:
+                log.warning("No published resource found for %s", resource_id)
+            return resource
+
         if unique_field_name != READABLE_ID_FIELD:
             # Some dupes may result, so we need to unpublish resources
             # with matching unique values and different readable_ids
@@ -367,6 +381,10 @@ def load_course(
 
         if config.prune:
             # mark runs no longer included here as unpublished
+            # This generally should not be done when loading courses
+            # from a program (config.prune=False).
+            # The course ETL should be the ultimate source of truth for
+            # courses and their runs.
             for run in learning_resource.runs.exclude(
                 run_id__in=run_ids_to_update_or_create
             ).filter(published=True):
