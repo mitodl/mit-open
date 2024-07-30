@@ -116,7 +116,8 @@
       "departments": ["Mathematics"],
       "live": true,
       "topics": [],
-      "availability": "scheduled"
+      "availability": "scheduled",
+      "certificate_type": "MicroMasters Credential"
     },
     {
       "title": "Analysis of Transport Phenomena",
@@ -279,7 +280,8 @@
       "departments": ["Chemical Engineering"],
       "live": true,
       "topics": [],
-      "availability": "anytime"
+      "availability": "anytime",
+      "certificate_type": "Certificate of Completion"
     },
     {
       "title": "Data, Economics, and Design of Policy",
@@ -442,7 +444,8 @@
           "name": "Social Sciences"
         }
       ],
-      "availability": null
+      "availability": null,
+      "certificate_type": "Certificate of Completion"
     },
     {
       "title": "Data, Economics, and Design of Policy: International Development",
@@ -593,7 +596,8 @@
           "name": "Social Sciences"
         }
       ],
-      "availability": "scheduled"
+      "availability": "scheduled",
+      "certificate_type": "Certificate of Completion"
     },
     {
       "title": "Data, Economics, and Design of Policy: Public Policy",
@@ -722,7 +726,8 @@
       "departments": ["Economics"],
       "live": true,
       "topics": [],
-      "availability": null
+      "availability": null,
+      "certificate_type": "Certificate of Completion"
     },
     {
       "title": "Differential Calculus",
@@ -813,7 +818,8 @@
       "departments": ["Mathematics"],
       "live": true,
       "topics": [],
-      "availability": "scheduled"
+      "availability": "scheduled",
+      "certificate_type": "Certificate of Completion"
     },
     {
       "title": "Introductory Electricity and Magnetics",
@@ -904,7 +910,8 @@
       "departments": ["Materials Science and Engineering"],
       "live": true,
       "topics": [],
-      "availability": "anytime"
+      "availability": "anytime",
+      "certificate_type": "Certificate of Completion"
     },
     {
       "title": "xMinor in Materials for Electronic, Optical, and Magnetic Devices",
@@ -995,7 +1002,8 @@
       "departments": ["Materials Science and Engineering"],
       "live": true,
       "topics": [],
-      "availability": "scheduled"
+      "availability": "scheduled",
+      "certificate_type": "Certificate of Completion"
     },
     {
       "title": "xSeries in Introduction to Mechanics",
@@ -1098,7 +1106,8 @@
       "departments": [],
       "live": true,
       "topics": [],
-      "availability": "anytime"
+      "availability": "anytime",
+      "certificate_type": "MicroMasters Credential"
     }
   ]
 }
