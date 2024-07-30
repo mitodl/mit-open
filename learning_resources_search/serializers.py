@@ -3,6 +3,7 @@
 import logging
 from collections import OrderedDict, defaultdict
 from datetime import UTC, datetime
+from random import random
 from typing import TypedDict
 
 from django.conf import settings
@@ -17,7 +18,6 @@ from learning_resources.constants import (
     DEPARTMENTS,
     GROUP_STAFF_LISTS_EDITORS,
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
-    LEARNING_RESOURCE_SORTBY_OPTIONS,
     RESOURCE_CATEGORY_VALUES,
     CertificationType,
     LearningResourceFormat,
@@ -42,6 +42,7 @@ from learning_resources.serializers import (
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
+    LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS,
 )
 from learning_resources_search.models import PercolateQuery
 from learning_resources_search.utils import remove_child_queries
@@ -117,7 +118,8 @@ def serialize_learning_resource_for_update(
     Add any special search-related fields to the serializer data here
 
     Args:
-        learning_resource_obj(LearningResource): The learning resource object
+        learning_resource_obj(LearningResource): The learning resource object.
+        Must have a in_featured_lists annotated property
 
     Returns:
         dict: The serialized and transformed resource data
@@ -130,6 +132,20 @@ def serialize_learning_resource_for_update(
             SearchCourseNumberSerializer(instance=num).data
             for num in learning_resource_obj.course.course_numbers
         ]
+
+    if learning_resource_obj.in_featured_lists > 0:
+        featured_rank = (
+            LearningResourceRelationship.objects.filter(
+                child_id=learning_resource_obj.id, parent__channel__isnull=False
+            )
+            .order_by("position")
+            .first()
+            .position
+            + random()  # noqa: S311
+        )
+    else:
+        featured_rank = None
+
     return {
         "resource_relations": {"name": "resource"},
         "created_on": learning_resource_obj.created_on,
@@ -138,6 +154,7 @@ def serialize_learning_resource_for_update(
         "resource_age_date": get_resource_age_date(
             learning_resource_obj, serialized_data["resource_category"]
         ),
+        "featured_rank": featured_rank,
         **serialized_data,
     }
 
@@ -283,8 +300,8 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     sortby = serializers.ChoiceField(
         required=False,
         choices=[
-            (key, LEARNING_RESOURCE_SORTBY_OPTIONS[key]["title"])
-            for key in LEARNING_RESOURCE_SORTBY_OPTIONS
+            (key, LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS[key]["title"])
+            for key in LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS
         ],
         help_text="If the parameter starts with '-' the sort is in descending order",
     )
@@ -681,9 +698,11 @@ def serialize_bulk_learning_resources(ids):
     Args:
         ids(list of int): List of learning_resource id's
     """
-    for learning_resource in LearningResource.objects.filter(
-        id__in=ids
-    ).for_serialization():
+    for learning_resource in (
+        LearningResource.objects.filter(id__in=ids)
+        .for_serialization()
+        .for_search_serialization()
+    ):
         yield serialize_learning_resource_for_bulk(learning_resource)
 
 
