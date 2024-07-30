@@ -12,6 +12,7 @@ import type {
 import { ResourceTypeEnum, PlatformEnum } from "api"
 import {
   formatDate,
+  capitalize,
   resourceThumbnailSrc,
   getReadableResourceType,
   DEFAULT_RESOURCE_IMG,
@@ -337,11 +338,12 @@ const formatRunDate = (
   asTaughtIn: boolean,
 ): string | null => {
   if (asTaughtIn) {
-    if (run.semester && run.year) {
-      return `${run.semester} ${run.year}`
+    const semester = capitalize(run.semester ?? "")
+    if (semester && run.year) {
+      return `${semester} ${run.year}`
     }
-    if (run.semester && run.start_date) {
-      return `${run.semester} ${formatDate(run.start_date, "YYYY")}`
+    if (semester && run.start_date) {
+      return `${semester} ${formatDate(run.start_date, "YYYY")}`
     }
     if (run.start_date) {
       return formatDate(run.start_date, "MMMM, YYYY")

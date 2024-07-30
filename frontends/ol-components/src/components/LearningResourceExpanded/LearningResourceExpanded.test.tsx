@@ -206,6 +206,14 @@ describe("Learning Resource Expanded", () => {
     },
     {
       run: factories.learningResources.run({
+        semester: "fall",
+        year: null,
+        start_date: "2002-09-01",
+      }),
+      expectedDate: "Fall 2002", // capitalized
+    },
+    {
+      run: factories.learningResources.run({
         semester: null,
         year: null,
         start_date: "2003-09-01",
