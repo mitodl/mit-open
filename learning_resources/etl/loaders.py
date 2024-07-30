@@ -339,11 +339,15 @@ def load_course(  # noqa: C901
         if config.fetch_only:
             # Do not upsert the course, it should already exist.
             # Just find it and return it.
-            return LearningResource.objects.filter(
+            resource = LearningResource.objects.filter(
                 readable_id=resource_id,
                 platform=platform,
                 resource_type=LearningResourceType.course.name,
+                published=True,
             ).first()
+            if not resource:
+                log.warning("No published resource found for %s", resource_id)
+            return resource
 
         if unique_field_name != READABLE_ID_FIELD:
             # Some dupes may result, so we need to unpublish resources

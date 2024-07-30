@@ -599,8 +599,9 @@ def test_load_course_dupe_urls(unique_url):
 
 
 @pytest.mark.parametrize("course_exists", [True, False])
-def test_load_course_no_fetch(mocker, course_exists):
-    """When no_fetch is True, course should just be fetched from db"""
+def test_load_course_fetch_only(mocker, course_exists):
+    """When fetch_only is True, course should just be fetched from db"""
+    mock_warn = mocker.patch("learning_resources.etl.loaders.log.warning")
     mock_next_runs_prices = mocker.patch(
         "learning_resources.etl.loaders.load_next_start_date_and_prices"
     )
@@ -619,6 +620,7 @@ def test_load_course_no_fetch(mocker, course_exists):
         assert result == resource
     else:
         assert result is None
+    assert mock_warn.call_count == (0 if course_exists else 1)
     mock_next_runs_prices.assert_not_called()
 
 
