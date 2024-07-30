@@ -30,6 +30,9 @@ const LogoContainer = styled.div({
   backgroundColor: theme.custom.colors.white,
   [theme.breakpoints.down("md")]: {
     padding: "34px 0 14px",
+    ".MuiSkeleton-root": {
+      margin: "0 auto",
+    },
   },
 })
 
@@ -63,6 +66,10 @@ const ValuePropContainer = styled.div({
   justifyContent: "flex-start",
   flexGrow: 1,
   paddingBottom: "16px",
+})
+
+const LoadingContent = styled.div({
+  padding: "24px",
 })
 
 const HeadingText = styled(Typography)(({ theme }) => ({
@@ -171,11 +178,11 @@ export const UnitCardLoading = () => {
         <UnitCardContainer>
           <UnitCardContent>
             <LogoContainer>
-              <Skeleton variant="rectangular" width={500} height={50} />
+              <Skeleton variant="rectangular" width="60%" height={50} />
             </LogoContainer>
-            <ValuePropContainer>
-              <Skeleton variant="text" width={500} height={200} />
-            </ValuePropContainer>
+            <LoadingContent>
+              <Skeleton variant="text" height={100} />
+            </LoadingContent>
           </UnitCardContent>
         </UnitCardContainer>
       </Card.Content>
