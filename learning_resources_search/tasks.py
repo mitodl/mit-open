@@ -122,6 +122,8 @@ def _infer_percolate_group(percolate_query):
     Infer the heading name for the percolate query to be
     grouped under in the email
     """
+    if percolate_query.source_label() != "saved search":
+        return percolate_query.source_description()
     group_keys = ["department", "topic", "offered_by"]
     original_query = OrderedDict(percolate_query.original_query)
     for key, val in original_query.items():
@@ -134,10 +136,13 @@ def _infer_percolate_group(percolate_query):
     return None
 
 
-def _infer_search_url(percolate_query):
+def _infer_percolate_group_url(percolate_query):
     """
     Infer the search URL for the percolate query
     """
+    source_channel = percolate_query.source_channel()
+    if source_channel:
+        return frontend_absolute_url(source_channel.channel_url)
     original_query = OrderedDict(percolate_query.original_query)
     query_string_params = {k: v for k, v in original_query.items() if v}
     if "endpoint" in query_string_params:
@@ -180,7 +185,7 @@ def _get_percolated_rows(resources, subscription_type):
             percolated_users = set(percolated.values_list("users", flat=True))
             all_users.update(percolated_users)
             query = percolated.first()
-            search_url = _infer_search_url(query)
+            search_url = _infer_percolate_group_url(query)
             req = PreparedRequest()
             req.prepare_url(search_url, {"resource": resource.id})
             resource_url = req.url
