@@ -849,24 +849,25 @@ def attempt_send_digest_email_batch(user_template_items):
         if not user_id:
             continue
         user = User.objects.get(id=user_id)
-        total_count = 0
+
         unique_resource_types = set()
         for group in template_data:
-            total_count += len(template_data[group])
+            total_count = len(template_data[group])
             unique_resource_types.update(
                 [resource["resource_type"] for resource in template_data[group]]
             )
 
-        subject = _generate_subscription_digest_subject(
-            total_count, unique_resource_types
-        )
-        send_template_email(
-            [user.email],
-            subject,
-            "email/subscribed_channel_digest.html",
-            context={
-                "documents": template_data,
-                "total_count": total_count,
-                "subject": subject,
-            },
-        )
+            subject = _generate_subscription_digest_subject(
+                total_count, unique_resource_types
+            )
+            send_template_email(
+                [user.email],
+                subject,
+                "email/subscribed_channel_digest.html",
+                context={
+                    "documents": template_data[group],
+                    "total_count": total_count,
+                    "subject": subject,
+                    "resource_group": group,
+                },
+            )

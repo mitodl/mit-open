@@ -27,7 +27,7 @@
     </h4>
   </td>
 </tr>
-{% for resource_group, items in documents.items %}
+
 <tr>
   <td style="background-color: #ffffff">
     <table
@@ -57,7 +57,7 @@
 </tr>
 <!-- 1 Column Text : END -->
 
-{% for item in items|slice:":5" %}
+{% for item in documents|slice:":5" %}
 
 <!-- 1 Column Text + Button : BEGIN -->
 <tr>
@@ -179,7 +179,5 @@
     <p style="border-top: thin solid"></p>
   </td>
 </tr>
-
-{% endfor %}
 
 {% endblock %}
