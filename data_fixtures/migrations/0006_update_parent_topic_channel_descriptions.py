@@ -56,7 +56,7 @@ def update_parent_topic_channel_descriptions(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("data_fixtures", "0004_upsert_initial_topic_data"),
+        ("data_fixtures", "0005_unit_page_copy_updates"),
     ]
 
     operations = [
