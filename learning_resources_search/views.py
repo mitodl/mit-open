@@ -245,7 +245,7 @@ class ContentFileSearchView(ESView):
                 return Response(response)
             else:
                 return Response(
-                    LearningResourcesSearchResponseSerializer(
+                    ContentFileSearchResponseSerializer(
                         response, context={"request": request}
                     ).data
                 )
