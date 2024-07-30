@@ -70,7 +70,10 @@ def load_offeror_topic_map(offeror_code: str):
     mappings = {}
 
     for pmt_mapping in pmt_mappings:
-        mappings[pmt_mapping.topic_name] = pmt_mapping.topic.name
+        if pmt_mapping.topic_name not in mappings:
+            mappings[pmt_mapping.topic_name] = []
+
+        mappings[pmt_mapping.topic_name].append(pmt_mapping.topic.name)
 
     return mappings
 
@@ -93,7 +96,10 @@ def transform_topics(topics: list, offeror_code: str):
 
     for topic in topics:
         if topic["name"] in topic_mappings:
-            transformed_topics.append({"name": topic_mappings.get(topic["name"])})
+            [
+                transformed_topics.append({"name": mapped_topic})
+                for mapped_topic in topic_mappings.get(topic["name"])
+            ]
         else:
             base_topic = LearningResourceTopic.objects.filter(
                 name=topic["name"]
