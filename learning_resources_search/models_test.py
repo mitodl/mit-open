@@ -1,7 +1,42 @@
+from types import SimpleNamespace
+
 import pytest
 
 from channels.factories import ChannelFactory
+from learning_resources_search.connection import get_default_alias_name
+from learning_resources_search.constants import (
+    COURSE_TYPE,
+)
 from learning_resources_search.factories import PercolateQueryFactory
+from learning_resources_search.indexing_api import (
+    get_reindexing_alias_name,
+)
+
+pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures("mocked_es")]
+
+
+@pytest.fixture()
+def mocked_es(mocker, settings):
+    """ES client objects/functions mock"""
+    index_name = "test"
+    settings.OPENSEARCH_INDEX = index_name
+    conn = mocker.Mock()
+    get_conn_patch = mocker.patch(
+        "learning_resources_search.indexing_api.get_conn",
+        autospec=True,
+        return_value=conn,
+    )
+    mocker.patch("learning_resources_search.connection.get_conn", autospec=True)
+    default_alias = get_default_alias_name(COURSE_TYPE)
+    reindex_alias = get_reindexing_alias_name(COURSE_TYPE)
+    return SimpleNamespace(
+        get_conn=get_conn_patch,
+        conn=conn,
+        index_name=index_name,
+        default_alias=default_alias,
+        reindex_alias=reindex_alias,
+        active_aliases=[default_alias, reindex_alias],
+    )
 
 
 @pytest.mark.django_db()
