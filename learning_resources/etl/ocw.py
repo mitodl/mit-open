@@ -305,10 +305,7 @@ def transform_course(course_data: dict) -> dict:
     # The json returns basically a tuple of topics with subtopics - we only need
     # to care about the subtopic, unless there's not one.
     topics = transform_topics(
-        [
-            {"name": topic[1] if len(topic) > 1 else topic[0]}
-            for topic in course_data.get("topics")
-        ],
+        [{"name": topic} for topics in course_data.get("topics") for topic in topics],
         OFFERED_BY["code"],
     )
     image_src = course_data.get("image_src")
