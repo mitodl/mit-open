@@ -71,11 +71,15 @@ class LearningResourcesSearchView(ESView):
             response = execute_learn_search(
                 request_data.data | {"endpoint": LEARNING_RESOURCE}
             )
-            return Response(
-                LearningResourcesSearchResponseSerializer(
-                    response, context={"request": request}
-                ).data
-            )
+
+            if request_data.data.get("dev_mode"):
+                return Response(response)
+            else:
+                return Response(
+                    LearningResourcesSearchResponseSerializer(
+                        response, context={"request": request}
+                    ).data
+                )
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():
@@ -237,11 +241,14 @@ class ContentFileSearchView(ESView):
             response = execute_learn_search(
                 request_data.data | {"endpoint": CONTENT_FILE_TYPE}
             )
-            return Response(
-                ContentFileSearchResponseSerializer(
-                    response, context={"request": request}
-                ).data
-            )
+            if request_data.data.get("dev_mode"):
+                return Response(response)
+            else:
+                return Response(
+                    LearningResourcesSearchResponseSerializer(
+                        response, context={"request": request}
+                    ).data
+                )
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():

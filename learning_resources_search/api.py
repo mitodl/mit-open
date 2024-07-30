@@ -21,11 +21,11 @@ from learning_resources_search.constants import (
     DEPARTMENT_QUERY_FIELDS,
     LEARNING_RESOURCE,
     LEARNING_RESOURCE_QUERY_FIELDS,
-    LEARNING_RESOURCE_SEARCH_FILTERS,
     LEARNING_RESOURCE_TYPES,
     RESOURCEFILE_QUERY_FIELDS,
     RUN_INSTRUCTORS_QUERY_FIELDS,
     RUNS_QUERY_FIELDS,
+    SEARCH_FILTERS,
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
@@ -340,7 +340,7 @@ def generate_filter_clauses(search_params):
     """
     all_filter_clauses = {}
 
-    for filter_name, filter_config in LEARNING_RESOURCE_SEARCH_FILTERS.items():
+    for filter_name, filter_config in SEARCH_FILTERS.items():
         if search_params.get(filter_name):
             clauses_for_filter = [
                 generate_filter_clause(
@@ -447,7 +447,7 @@ def generate_aggregation_clauses(search_params, filter_clauses):
         for aggregation in search_params.get("aggregations"):
             # Each aggregation clause contains a filter which includes all the filters
             # except it's own
-            path = LEARNING_RESOURCE_SEARCH_FILTERS[aggregation].path
+            path = SEARCH_FILTERS[aggregation].path
             unfiltered_aggs = generate_aggregation_clause(aggregation, path)
             other_filters = [
                 filter_clauses[key] for key in filter_clauses if key != aggregation
@@ -486,7 +486,7 @@ def adjust_original_query_for_percolate(query):
     Remove keys that are irrelevent when storing original queries
     for percolate uniqueness such as "limit" and "offset"
     """
-    for key in ["limit", "offset", "sortby", "yearly_decay_percent"]:
+    for key in ["limit", "offset", "sortby", "yearly_decay_percent", "dev_mode"]:
         query.pop(key, None)
     return order_params(query)
 
@@ -621,6 +621,9 @@ def construct_search(search_params):
             search_params, filter_clauses
         )
         search = search.extra(aggs=aggregation_clauses)
+
+    if search_params.get("dev_mode"):
+        search = search.extra(explain=True)
 
     return search
 

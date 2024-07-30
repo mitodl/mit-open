@@ -831,6 +831,7 @@ def test_learning_resources_search_request_serializer():
         "course_feature": ["Lecture Videos"],
         "aggregations": ["resource_type", "platform", "level", "resource_category"],
         "yearly_decay_percent": 0.25,
+        "dev_mode": False,
     }
 
     serialized = LearningResourcesSearchRequestSerializer(data=data)
@@ -867,6 +868,7 @@ def test_content_file_search_request_serializer():
         "resource_id": [1, 2, 3],
         "offered_by": ["xpro", "ocw"],
         "platform": ["xpro", "edx", "ocw"],
+        "dev_mode": False,
     }
 
     serialized = ContentFileSearchRequestSerializer(data=data)
