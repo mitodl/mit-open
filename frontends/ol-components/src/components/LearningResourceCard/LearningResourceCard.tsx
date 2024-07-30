@@ -201,6 +201,14 @@ const CardActionButton: React.FC<
   )
 }
 
+const StyledCard = styled(Card)<{ size: Size }>(({ size }) => [
+  size === "medium" && {
+    ".MitCard-info": {
+      height: "18px",
+    },
+  },
+])
+
 const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   isLoading,
   resource,
@@ -217,21 +225,21 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     const { width, height } = imgConfigs["column"]
     const aspect = isMedia ? 1 : width / height
     return (
-      <Card className={className} size={size}>
+      <StyledCard className={className} size={size}>
         <Card.Content>
           <SkeletonImage variant="rectangular" aspect={aspect} />
           <Skeleton height={25} width="65%" sx={{ margin: "23px 16px 0" }} />
           <Skeleton height={25} width="80%" sx={{ margin: "0 16px 35px" }} />
           <Skeleton height={25} width="30%" sx={{ margin: "0 16px 16px" }} />
         </Card.Content>
-      </Card>
+      </StyledCard>
     )
   }
   if (!resource) {
     return null
   }
   return (
-    <Card href={href} className={className} size={size}>
+    <StyledCard href={href} className={className} size={size}>
       <Card.Image
         src={
           resource.image?.url
@@ -272,7 +280,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       <Card.Footer>
         <StartDate resource={resource} size={size} />
       </Card.Footer>
-    </Card>
+    </StyledCard>
   )
 }
 

@@ -213,6 +213,7 @@ const Card: Card = ({ children, className, size, href }) => {
       <_Container to={href!}>
         {image && (
           <Image
+            className="MitCard-image"
             size={size}
             height={image.height}
             {...(image as ImgHTMLAttributes<HTMLImageElement>)}
@@ -220,19 +221,25 @@ const Card: Card = ({ children, className, size, href }) => {
         )}
         <Body>
           {info.children && (
-            <Info size={size} {...info}>
+            <Info className="MitCard-info" size={size} {...info}>
               {info.children}
             </Info>
           )}
-          <Title size={size} {...title}>
+          <Title className="MitCard-title" size={size} {...title}>
             {title.children}
           </Title>
         </Body>
         <Bottom>
-          <Footer {...footer}>{footer.children}</Footer>
+          <Footer className="MitCard-footer" {...footer}>
+            {footer.children}
+          </Footer>
         </Bottom>
       </_Container>
-      {actions.children && <Actions {...actions}>{actions.children}</Actions>}
+      {actions.children && (
+        <Actions className="MitCard-actions" {...actions}>
+          {actions.children}
+        </Actions>
+      )}
     </Wrapper>
   )
 }
