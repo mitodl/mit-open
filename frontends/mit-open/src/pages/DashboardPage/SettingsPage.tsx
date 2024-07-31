@@ -105,7 +105,7 @@ const SettingsPage: React.FC = () => {
       </SubTitleText>
       <FollowList>
         {subscriptionList?.data?.map((subscriptionItem) => (
-          <ListItem divider={true} key={subscriptionItem.id}>
+          <ListItem key={subscriptionItem.id}>
             <ListItemBody
               title={subscriptionItem.source_description}
               subtitle={
