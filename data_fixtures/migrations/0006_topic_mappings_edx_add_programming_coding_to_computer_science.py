@@ -25,6 +25,7 @@ topics:
         mappings:
           ocw:
             - Programming Languages
+            - Software Design and Engineering
           mitx:
             - Computer Science
         name: Programming & Coding
