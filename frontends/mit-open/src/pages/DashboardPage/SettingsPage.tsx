@@ -1,12 +1,5 @@
 import React from "react"
-import {
-  PlainList,
-  ListItem,
-  ListItemText,
-  Typography,
-  Link,
-  styled,
-} from "ol-components"
+import { PlainList, Typography, Link, styled } from "ol-components"
 import { useUserMe } from "api/hooks/user"
 import {
   useSearchSubscriptionDelete,
@@ -45,6 +38,55 @@ const SubTitleText = styled(Typography)(({ theme }) => ({
   ...theme.typography.body2,
 }))
 
+const ListItem = styled.li(({ theme }) => [
+  {
+    padding: "16px 32px",
+    display: "flex",
+    gap: "16px",
+    alignItems: "center",
+    border: `1px solid ${theme.custom.colors.lightGray2}`,
+    ":not(:last-child)": {
+      borderBottom: "none",
+    },
+    ":first-child, :last-child": {
+      borderRadius: "4px",
+    },
+  },
+])
+const _ListItemBody = styled.div({
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
+  gap: "4px",
+  flex: "1 0 0",
+})
+const Title = styled.span(({ theme }) => ({
+  ...theme.typography.subtitle1,
+  color: theme.custom.colors.darkGray2,
+}))
+const Subtitle = styled.span(({ theme }) => ({
+  ...theme.typography.body2,
+  color: theme.custom.colors.silverGrayDark,
+}))
+type ListItemBodyProps = {
+  children?: React.ReactNode
+  title?: string
+  subtitle?: string
+}
+const ListItemBody: React.FC<ListItemBodyProps> = ({
+  children,
+  title,
+  subtitle,
+}) => {
+  return (
+    <_ListItemBody>
+      {children}
+      <Title>{title}</Title>
+      <Subtitle>{subtitle}</Subtitle>
+    </_ListItemBody>
+  )
+}
+
 const SettingsPage: React.FC = () => {
   const { data: user } = useUserMe()
   const subscriptionDelete = useSearchSubscriptionDelete()
@@ -63,28 +105,23 @@ const SettingsPage: React.FC = () => {
       </SubTitleText>
       <FollowList>
         {subscriptionList?.data?.map((subscriptionItem) => (
-          <ListItem
-            divider={true}
-            key={subscriptionItem.id}
-            secondaryAction={
-              <StyledLink
-                onClick={(event) => {
-                  event.preventDefault()
-                  unsubscribe(subscriptionItem.id)
-                }}
-              >
-                Unfollow
-              </StyledLink>
-            }
-          >
-            <ListItemText
-              primary={subscriptionItem.source_description}
-              secondary={
+          <ListItem divider={true} key={subscriptionItem.id}>
+            <ListItemBody
+              title={subscriptionItem.source_description}
+              subtitle={
                 SOURCE_LABEL_DISPLAY[
                   subscriptionItem.source_label as keyof typeof SOURCE_LABEL_DISPLAY
                 ]
               }
             />
+            <StyledLink
+              onClick={(event) => {
+                event.preventDefault()
+                unsubscribe(subscriptionItem.id)
+              }}
+            >
+              Unfollow
+            </StyledLink>
           </ListItem>
         ))}
       </FollowList>
