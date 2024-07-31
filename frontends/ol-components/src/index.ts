@@ -178,6 +178,7 @@ export { LearningResourceListCard } from "./components/LearningResourceCard/Lear
 export type { LearningResourceListCardProps } from "./components/LearningResourceCard/LearningResourceListCard"
 export * from "./components/LearningResourceCard/LearningResourceListCardCondensed"
 export * from "./components/LearningResourceExpanded/LearningResourceExpanded"
+export * from "./components/UserListCard/UserListCardCondensed"
 export * from "./components/LoadingSpinner/LoadingSpinner"
 export * from "./components/Logo/Logo"
 export * from "./components/NavDrawer/NavDrawer"

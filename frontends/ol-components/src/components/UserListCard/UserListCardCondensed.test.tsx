@@ -1,6 +1,6 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
-import UserListCardTemplate from "./UserListCardTemplate"
+import UserListCardCondensed from "./UserListCardCondensed"
 import * as factories from "api/test-utils/factories"
 import { makeImgConfig } from "ol-utilities/test-utils/factories"
 
@@ -11,7 +11,7 @@ describe("UserListCard", () => {
     const userList = userListFactory.userList()
     const imgConfig = makeImgConfig()
     render(
-      <UserListCardTemplate
+      <UserListCardCondensed
         variant="column"
         userList={userList}
         imgConfig={imgConfig}
