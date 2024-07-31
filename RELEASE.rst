@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.14.6
+--------------
+
+- Handle alternate unique id fields better in load_course (#1342)
+- topic / privacy / onboarding / profile copy updates (#1334)
+
 Version 0.14.5 (Released July 31, 2024)
 --------------
 
