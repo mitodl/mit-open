@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 0.14.5
+--------------
+
+- Flatten OCW topics so all of them get mapped to PWT topics when running the ETL pipeline (#1343)
+
 Version 0.14.4 (Released July 31, 2024)
 --------------
 
