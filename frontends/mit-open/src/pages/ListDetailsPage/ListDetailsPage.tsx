@@ -1,8 +1,12 @@
 import React from "react"
-import { Container, BannerPage } from "ol-components"
+import { Container, BannerPage, styled } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import ItemsListingComponent from "@/page-components/ItemsListing/ItemsListingComponent"
 import type { ItemsListingComponentProps } from "@/page-components/ItemsListing/ItemsListingComponent"
+
+const StyledContainer = styled(Container)({
+  paddingTop: "24px",
+})
 
 const ListDetailsPage: React.FC<ItemsListingComponentProps> = ({
   listType,
@@ -20,7 +24,7 @@ const ListDetailsPage: React.FC<ItemsListingComponentProps> = ({
       className="learningpaths-page"
     >
       <MetaTags title={list?.title} />
-      <Container maxWidth="md">
+      <StyledContainer maxWidth="md">
         <ItemsListingComponent
           listType={listType}
           list={list}
@@ -31,7 +35,7 @@ const ListDetailsPage: React.FC<ItemsListingComponentProps> = ({
           isFetching={isFetching}
           handleEdit={handleEdit}
         />
-      </Container>
+      </StyledContainer>
     </BannerPage>
   )
 }
