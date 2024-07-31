@@ -41,7 +41,7 @@ class PercolateQuery(TimestampedModel):
         defined_params = {
             key: query[key] for key in query if query[key] and key not in ignore_params
         }
-        return unquote_plus(urlencode(defined_params, doseq=True))
+        return urlencode(defined_params, doseq=True)
 
     def source_label(self):
         original_query_params = self.original_url_params()
