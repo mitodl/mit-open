@@ -1,4 +1,4 @@
-from urllib.parse import unquote_plus, urlencode
+from urllib.parse import urlencode
 
 from django.contrib.auth import get_user_model
 from django.db import models
