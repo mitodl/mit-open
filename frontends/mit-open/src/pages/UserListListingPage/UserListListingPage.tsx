@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from "react"
 import {
   Button,
-  Grid,
   LoadingSpinner,
   BannerPage,
   Container,
@@ -30,8 +29,13 @@ const PageContainer = styled(Container)({
   marginTop: "1rem",
 })
 
-const ListHeaderGrid = styled(Grid)({
-  marginBottom: "1rem",
+const Header = styled(Typography)({
+  marginBottom: "16px",
+})
+
+const NewListButton = styled(Button)({
+  marginTop: "24px",
+  width: "200px",
 })
 
 type EditUserListMenuProps = {
@@ -90,23 +94,7 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
   return (
     <GridContainer>
       <GridColumn variant="single-full">
-        <ListHeaderGrid container justifyContent="space-between">
-          <Grid item>
-            <Typography variant="h3" component="h1">
-              {title}
-            </Typography>
-          </Grid>
-          <Grid
-            item
-            justifyContent="flex-end"
-            alignItems="center"
-            display="flex"
-          >
-            <Button variant="primary" onClick={handleCreate}>
-              Create new list
-            </Button>
-          </Grid>
-        </ListHeaderGrid>
+        <Header variant="h3">{title}</Header>
         <section>
           <LoadingSpinner loading={listingQuery.isLoading} />
           {listingQuery.data && (
@@ -127,6 +115,9 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
               })}
             </PlainList>
           )}
+          <NewListButton variant="primary" onClick={handleCreate}>
+            Create new list
+          </NewListButton>
         </section>
       </GridColumn>
     </GridContainer>
