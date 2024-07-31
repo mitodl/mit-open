@@ -1,6 +1,6 @@
 import React from "react"
 import {
-  List,
+  PlainList,
   ListItem,
   ListItemText,
   Typography,
@@ -20,7 +20,7 @@ const SOURCE_LABEL_DISPLAY = {
   saved_search: "Saved Search",
 }
 
-const FollowList = styled(List)(() => ({
+const FollowList = styled(PlainList)(() => ({
   borderRadius: "4px",
   background: "#fff",
   padding: "0px",
