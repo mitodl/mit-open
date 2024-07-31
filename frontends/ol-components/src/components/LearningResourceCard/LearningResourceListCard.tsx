@@ -7,9 +7,8 @@ import {
   RiAwardFill,
   RiBookmarkFill,
 } from "@remixicon/react"
-import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
+import { LearningResource, ResourceTypeEnum } from "api"
 import {
-  findBestRun,
   formatDate,
   getReadableResourceType,
   embedlyCroppedImage,
@@ -20,7 +19,7 @@ import { ListCard } from "../Card/ListCard"
 import { ActionButtonProps } from "../Button/Button"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { useMuiBreakpointAtLeast } from "../../hooks/useBreakpoint"
-import { getDisplayPrices } from "./utils"
+import { getDisplayPrices, getResourceDate, showStartAnytime } from "./utils"
 
 const IMAGE_SIZES = {
   mobile: { width: 116, height: 104 },
@@ -33,6 +32,9 @@ export const CardLabel = styled.span`
     display: none;
   }
 `
+const CardValue = styled.span(({ theme }) => ({
+  color: theme.custom.colors.darkGray2,
+}))
 
 export const Certificate = styled.div`
   border-radius: 4px;
@@ -148,39 +150,19 @@ export const Count = ({ resource }: { resource: LearningResource }) => {
   )
 }
 
-const isOcw = (resource: LearningResource) =>
-  resource.resource_type === ResourceTypeEnum.Course &&
-  resource.platform?.code === PlatformEnum.Ocw
-
-const getStartDate = (resource: LearningResource) => {
-  let startDate = resource.next_start_date
-
-  if (!startDate) {
-    const bestRun = findBestRun(resource.runs ?? [])
-
-    if (isOcw(resource) && bestRun?.semester && bestRun?.year) {
-      return `${bestRun?.semester} ${bestRun?.year}`
-    }
-    startDate = bestRun?.start_date
-  }
-
-  if (!startDate) return null
-
-  return formatDate(startDate, "MMMM DD, YYYY")
-}
-
 export const StartDate: React.FC<{ resource: LearningResource }> = ({
   resource,
 }) => {
-  const startDate = getStartDate(resource)
-
-  if (!startDate) return null
-
-  const label = isOcw(resource) ? "As taught in:" : "Starts:"
+  const anytime = showStartAnytime(resource)
+  const startDate = getResourceDate(resource)
+  const formatted = anytime
+    ? "Anytime"
+    : startDate && formatDate(startDate, "MMMM DD, YYYY")
+  if (!formatted) return null
 
   return (
     <div>
-      <CardLabel>{label}</CardLabel> <span>{startDate}</span>
+      <CardLabel>Starts:</CardLabel> <CardValue>{formatted}</CardValue>
     </div>
   )
 }
@@ -190,7 +172,7 @@ export const Format = ({ resource }: { resource: LearningResource }) => {
   if (!format) return null
   return (
     <div>
-      <CardLabel>Format:</CardLabel> <span>{format}</span>
+      <CardLabel>Format:</CardLabel> <CardValue>{format}</CardValue>
     </div>
   )
 }

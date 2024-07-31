@@ -117,10 +117,6 @@ const Footer = styled.span`
     ...theme.typography.body3,
     color: theme.custom.colors.silverGrayDark,
   }}
-
-  span {
-    color: ${theme.custom.colors.black};
-  }
 `
 
 const Bottom = styled.div`
@@ -200,9 +196,11 @@ const Card: Card = ({ children, className, size, href }) => {
     else if (child.type === Actions) actions = child.props
   })
 
+  const allClassNames = ["MitCard-root", className ?? ""].join(" ")
+
   if (content) {
     return (
-      <Wrapper className={className} size={size}>
+      <Wrapper className={allClassNames} size={size}>
         <_Container className={className} to={href!}>
           {content}
         </_Container>
@@ -211,10 +209,11 @@ const Card: Card = ({ children, className, size, href }) => {
   }
 
   return (
-    <Wrapper className={className} size={size}>
+    <Wrapper className={allClassNames} size={size}>
       <_Container to={href!}>
         {image && (
           <Image
+            className="MitCard-image"
             size={size}
             height={image.height}
             {...(image as ImgHTMLAttributes<HTMLImageElement>)}
@@ -222,19 +221,25 @@ const Card: Card = ({ children, className, size, href }) => {
         )}
         <Body>
           {info.children && (
-            <Info size={size} {...info}>
+            <Info className="MitCard-info" size={size} {...info}>
               {info.children}
             </Info>
           )}
-          <Title size={size} {...title}>
+          <Title className="MitCard-title" size={size} {...title}>
             {title.children}
           </Title>
         </Body>
         <Bottom>
-          <Footer {...footer}>{footer.children}</Footer>
+          <Footer className="MitCard-footer" {...footer}>
+            {footer.children}
+          </Footer>
         </Bottom>
       </_Container>
-      {actions.children && <Actions {...actions}>{actions.children}</Actions>}
+      {actions.children && (
+        <Actions className="MitCard-actions" {...actions}>
+          {actions.children}
+        </Actions>
+      )}
     </Wrapper>
   )
 }
