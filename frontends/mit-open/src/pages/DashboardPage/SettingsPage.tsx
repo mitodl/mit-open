@@ -24,7 +24,6 @@ const FollowList = styled(PlainList)(() => ({
   borderRadius: "4px",
   background: "#fff",
   padding: "0px",
-  margin: "0px",
 }))
 
 const StyledLink = styled(Link)(({ theme }) => ({
@@ -32,15 +31,15 @@ const StyledLink = styled(Link)(({ theme }) => ({
 }))
 
 const TitleText = styled(Typography)(({ theme }) => ({
-  marginTop: "20px",
-  marginBottom: "5px",
+  marginTop: "16px",
+  marginBottom: "8px",
 
   color: theme.custom.colors.darkGray2,
   ...theme.typography.h5,
 }))
 
 const SubTitleText = styled(Typography)(({ theme }) => ({
-  marginBottom: "10px",
+  marginBottom: "16px",
   color: theme.custom.colors.darkGray2,
   fontSize: theme.typography.p3,
   ...theme.typography.body2,

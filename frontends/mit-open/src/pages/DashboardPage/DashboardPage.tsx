@@ -291,10 +291,10 @@ enum TabValues {
 }
 
 const TabLabels = {
-  [TabValues.HOME.toString()]: "Home",
-  [TabValues.MY_LISTS.toString()]: "My Lists",
-  [TabValues.PROFILE.toString()]: "Profile",
-  [TabValues.SETTINGS.toString()]: "Settings",
+  [TabValues.HOME]: "Home",
+  [TabValues.MY_LISTS]: "My Lists",
+  [TabValues.PROFILE]: "Profile",
+  [TabValues.SETTINGS]: "Settings",
 }
 const keyFromHash = (hash: string) => {
   const keys = Object.values(TabValues)
