@@ -46,9 +46,9 @@ def update_parent_topic_channel_descriptions(apps, schema_editor):
     )
 
     for parent_topic in LearningResourceTopic.objects.filter(parent=None):
-        channel = Channel.objects.filter(
+        channel = Channel.objects.get(
             channel_type=ChannelType.topic.name, title=parent_topic.name
-        ).first()
+        )
         if channel:
             channel.configuration["heading"] = CHANNEL_UPDATES[parent_topic.name]
             channel.save()
