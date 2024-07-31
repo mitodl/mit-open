@@ -11,7 +11,7 @@ import {
 } from "../../test-utils"
 import type { User } from "../../test-utils"
 
-import { UserListListingPage } from "./UserListListingPage"
+import { UserListListingPage } from "./UserListListingComponent"
 import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserListCardTemplate"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 

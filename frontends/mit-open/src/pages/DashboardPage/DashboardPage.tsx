@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useState } from "react"
 import {
   RiAccountCircleFill,
   RiDashboardLine,
@@ -24,8 +24,7 @@ import { MetaTags } from "ol-utilities"
 import { Link } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 import { useLocation } from "react-router"
-import { UserListListingComponent } from "../UserListListingPage/UserListListingPage"
-import { UserList } from "api"
+import { UserListListingComponent } from "../UserListListingComponent/UserListListingComponent"
 
 import { ProfileEditForm } from "./ProfileEditForm"
 import { useProfileMeQuery } from "api/hooks/profile"
@@ -305,15 +304,10 @@ const DashboardPage: React.FC = () => {
   const { pathname } = useLocation()
   const tabValue = pathname
   const [userListAction, setUserListAction] = useState("list")
-  const [userListId, setUserListId] = useState(0)
+  const [userListId] = useState(0)
 
   const topics = profile?.preference_search_filters.topic
   const certification = profile?.preference_search_filters.certification
-
-  const handleActivateUserList = useCallback((userList: UserList) => {
-    setUserListId(userList.id)
-    setUserListAction("detail")
-  }, [])
 
   const desktopMenu = (
     <ProfileSidebar>
@@ -465,10 +459,7 @@ const DashboardPage: React.FC = () => {
                 <TabPanelStyled value={MY_LISTS}>
                   {userListAction === "list" ? (
                     <div id="user-list-listing">
-                      <UserListListingComponent
-                        title="My Lists"
-                        onActivate={handleActivateUserList}
-                      />
+                      <UserListListingComponent title="My Lists" />
                     </div>
                   ) : (
                     <div id="user-list-detail">

@@ -2,27 +2,18 @@ import React, { useCallback } from "react"
 import {
   Button,
   LoadingSpinner,
-  BannerPage,
-  Container,
   styled,
   Typography,
   PlainList,
   UserListCardCondensed,
 } from "ol-components"
 
-import { MetaTags } from "ol-utilities"
-import type { UserList } from "api"
 import { useUserListList } from "api/hooks/learningResources"
 
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
-import { useNavigate } from "react-router"
-import * as urls from "@/common/urls"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-
-const PageContainer = styled(Container)({
-  marginTop: "1rem",
-})
+import { userListView } from "@/common/urls"
 
 const Header = styled(Typography)({
   marginBottom: "16px",
@@ -35,13 +26,12 @@ const NewListButton = styled(Button)({
 
 type UserListListingComponentProps = {
   title?: string
-  onActivate: (userList: UserList) => void
 }
 
 const UserListListingComponent: React.FC<UserListListingComponentProps> = (
   props,
 ) => {
-  const { title, onActivate } = props
+  const { title } = props
   const listingQuery = useUserListList()
   const handleCreate = useCallback(() => {
     manageListDialogs.upsertUserList()
@@ -59,8 +49,8 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
                 return (
                   <li key={list.id}>
                     <UserListCardCondensed
+                      href={userListView(list.id)}
                       userList={list}
-                      onActivate={onActivate}
                     />
                   </li>
                 )
@@ -76,29 +66,4 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
   )
 }
 
-const UserListListingPage: React.FC = () => {
-  const navigate = useNavigate()
-  const handleActivate = useCallback(
-    (userList: UserList) => {
-      const path = urls.userListView(userList.id)
-      navigate(path)
-    },
-    [navigate],
-  )
-  return (
-    <BannerPage
-      src="/static/images/course_search_banner.png"
-      className="learningpaths-page"
-    >
-      <MetaTags title="My Lists" />
-      <PageContainer maxWidth="sm">
-        <UserListListingComponent
-          title="User Lists"
-          onActivate={handleActivate}
-        />
-      </PageContainer>
-    </BannerPage>
-  )
-}
-
-export { UserListListingComponent, UserListListingPage }
+export { UserListListingComponent }

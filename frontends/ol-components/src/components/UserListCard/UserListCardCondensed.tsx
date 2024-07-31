@@ -40,20 +40,19 @@ const IconContainer = styled.div(({ theme }) => ({
   background: theme.custom.colors.lightGray1,
 }))
 
-type OnActivateCard = (userList: UserList) => void
 export type UserListCardCondensedProps<U extends UserList = UserList> = {
   userList: U
+  href?: string
   className?: string
-  onActivate?: OnActivateCard
-  footerActionSlot?: React.ReactNode
 }
 
 const UserListCardCondensed = <U extends UserList>({
   userList,
+  href,
   className,
 }: UserListCardCondensedProps<U>) => {
   return (
-    <StyledCard className={className}>
+    <StyledCard href={href} className={className}>
       <ListCardCondensed.Content>
         <TextContainer>
           <TitleText variant="subtitle1">{userList.title}</TitleText>

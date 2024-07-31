@@ -7,7 +7,6 @@ import LearningPathListingPage from "@/pages/LearningPathListingPage/LearningPat
 import ChannelPage from "@/pages/ChannelPage/ChannelPage"
 import EditChannelPage from "@/pages/ChannelPage/EditChannelPage"
 
-import { UserListListingPage } from "./pages/UserListListingPage/UserListListingPage"
 import ArticleDetailsPage from "@/pages/ArticleDetailsPage/ArticleDetailsPage"
 import { ArticleCreatePage, ArticleEditPage } from "@/pages/ArticleUpsertPages"
 import ProgramLetterPage from "@/pages/ProgramLetterPage/ProgramLetterPage"
@@ -21,7 +20,6 @@ import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
 import { Permissions } from "@/common/permissions"
 import SearchPage from "./pages/SearchPage/SearchPage"
-import UserListDetailsPage from "./pages/ListDetailsPage/UserListDetailsPage"
 import LearningPathDetailsPage from "./pages/ListDetailsPage/LearningPathDetailsPage"
 import LearningResourceDrawer from "./page-components/LearningResourceDrawer/LearningResourceDrawer"
 import DepartmentListingPage from "./pages/DepartmentListingPage/DepartmentListingPage"
@@ -84,22 +82,6 @@ const routes: RouteObject[] = [
         element: <LearningPathDetailsPage />,
       },
       {
-        path: urls.USERLIST_LISTING,
-        element: (
-          <RestrictedRoute requires={Permissions.Authenticated}>
-            <UserListListingPage />
-          </RestrictedRoute>
-        ),
-      },
-      {
-        path: urls.USERLIST_VIEW,
-        element: (
-          <RestrictedRoute requires={Permissions.Authenticated}>
-            <UserListDetailsPage />
-          </RestrictedRoute>
-        ),
-      },
-      {
         path: urls.DASHBOARD_HOME,
         element: (
           <RestrictedRoute requires={Permissions.Authenticated}>
@@ -109,6 +91,14 @@ const routes: RouteObject[] = [
       },
       {
         path: urls.MY_LISTS,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <DashboardPage />
+          </RestrictedRoute>
+        ),
+      },
+      {
+        path: urls.USERLIST_VIEW,
         element: (
           <RestrictedRoute requires={Permissions.Authenticated}>
             <DashboardPage />
