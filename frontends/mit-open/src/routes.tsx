@@ -100,7 +100,23 @@ const routes: RouteObject[] = [
         ),
       },
       {
-        path: urls.DASHBOARD,
+        path: urls.DASHBOARD_HOME,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <DashboardPage />
+          </RestrictedRoute>
+        ),
+      },
+      {
+        path: urls.MY_LISTS,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <DashboardPage />
+          </RestrictedRoute>
+        ),
+      },
+      {
+        path: urls.PROFILE,
         element: (
           <RestrictedRoute requires={Permissions.Authenticated}>
             <DashboardPage />

@@ -40,6 +40,7 @@ import {
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 import UserListDetailsTab from "./UserListDetailsTab"
 import { SettingsPage } from "./SettingsPage"
+import { DASHBOARD_HOME, MY_LISTS, PROFILE } from "@/common/urls"
 
 /**
  *
@@ -267,7 +268,7 @@ const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
   return (
     <Tab
       component={Link}
-      to={`#${value}`}
+      to={value}
       data-testid={`desktop-tab-${value}`}
       label={
         <TabContainer
@@ -297,17 +298,12 @@ const TabLabels = {
   [TabValues.PROFILE]: "Profile",
   [TabValues.SETTINGS]: "Settings",
 }
-const keyFromHash = (hash: string) => {
-  const keys = Object.values(TabValues)
-  const match = keys.find((key) => `#${key}` === hash)
-  return match ?? "home"
-}
 
 const DashboardPage: React.FC = () => {
   const { isLoading: isLoadingUser, data: user } = useUserMe()
   const { isLoading: isLoadingProfile, data: profile } = useProfileMeQuery()
-  const { hash } = useLocation()
-  const tabValue = keyFromHash(hash)
+  const { pathname } = useLocation()
+  const tabValue = pathname
   const [userListAction, setUserListAction] = useState("list")
   const [userListId, setUserListId] = useState(0)
 
@@ -340,20 +336,20 @@ const DashboardPage: React.FC = () => {
           <UserMenuTab
             icon={<RiDashboardLine />}
             text={TabLabels[TabValues.HOME]}
-            value={TabValues.HOME}
+            value={DASHBOARD_HOME}
             currentValue={tabValue}
           />
           <UserMenuTab
             icon={<RiBookmarkLine />}
             text={TabLabels[TabValues.MY_LISTS]}
-            value={TabValues.MY_LISTS}
+            value={MY_LISTS}
             currentValue={tabValue}
             onClick={() => setUserListAction("list")}
           />
           <UserMenuTab
             icon={<RiEditLine />}
             text={TabLabels[TabValues.PROFILE]}
-            value={TabValues.PROFILE}
+            value={PROFILE}
             currentValue={tabValue}
           />
           <UserMenuTab
@@ -372,20 +368,20 @@ const DashboardPage: React.FC = () => {
       <TabButtonLink
         data-testid={`mobile-tab-${TabValues.HOME}`}
         value={TabValues.HOME}
-        href={`#${TabValues.HOME}`}
+        href={DASHBOARD_HOME}
         label="Home"
       />
       <TabButtonLink
         data-testid={`mobile-tab-${TabValues.MY_LISTS}`}
         value={TabValues.MY_LISTS}
-        href={`#${TabValues.MY_LISTS}`}
+        href={MY_LISTS}
         label="My Lists"
         onClick={() => setUserListAction("list")}
       />
       <TabButtonLink
         data-testid={`mobile-tab-${TabValues.PROFILE}`}
         value={TabValues.PROFILE}
-        href={`#${TabValues.PROFILE}`}
+        href={PROFILE}
         label="Profile"
       />
       <TabButtonLink
@@ -409,7 +405,7 @@ const DashboardPage: React.FC = () => {
                 <DesktopOnly>{desktopMenu}</DesktopOnly>
               </DashboardGridItem>
               <DashboardGridItem>
-                <TabPanelStyled value={TabValues.HOME}>
+                <TabPanelStyled value={DASHBOARD_HOME}>
                   <HomeHeader>
                     <HomeHeaderLeft>
                       <TitleText role="heading">
@@ -420,10 +416,7 @@ const DashboardPage: React.FC = () => {
                       </SubTitleText>
                     </HomeHeaderLeft>
                     <HomeHeaderRight>
-                      <ButtonLink
-                        variant="tertiary"
-                        href={`#${TabValues.PROFILE}`}
-                      >
+                      <ButtonLink variant="tertiary" href={TabValues.PROFILE}>
                         Edit Profile
                       </ButtonLink>
                     </HomeHeaderRight>
@@ -469,7 +462,7 @@ const DashboardPage: React.FC = () => {
                     data-testid="popular-learning-resources-carousel"
                   />
                 </TabPanelStyled>
-                <TabPanelStyled value={TabValues.MY_LISTS}>
+                <TabPanelStyled value={MY_LISTS}>
                   {userListAction === "list" ? (
                     <div id="user-list-listing">
                       <UserListListingComponent
@@ -483,10 +476,7 @@ const DashboardPage: React.FC = () => {
                     </div>
                   )}
                 </TabPanelStyled>
-                <TabPanelStyled
-                  key={TabValues.PROFILE}
-                  value={TabValues.PROFILE}
-                >
+                <TabPanelStyled key={PROFILE} value={PROFILE}>
                   <TitleText role="heading">Profile</TitleText>
                   {isLoadingProfile || typeof profile === "undefined" ? (
                     <Skeleton variant="text" width={128} height={32} />

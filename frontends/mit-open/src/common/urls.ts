@@ -70,7 +70,13 @@ export const login = ({
   return `${LOGIN}?next=${next}`
 }
 
-export const DASHBOARD = "/dashboard/"
+export const DASHBOARD_HOME = "/dashboard/"
+
+export const MY_LISTS = "/dashboard/my-lists/"
+
+export const PROFILE = "/dashboard/profile/"
+
+export const SETTINGS = "/dashboard/settings/"
 
 export const SEARCH = "/search/"
 
