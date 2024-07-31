@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.14.4
+Version 0.14.4 (Released July 31, 2024)
 --------------
 
 - fix bug (#1340)
