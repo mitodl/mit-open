@@ -198,8 +198,8 @@ const PrivacyPage: React.FC = () => {
             maintains, or transmits. Nonetheless, no method of transmission over
             the Internet or method of electronic storage is 100% secure, and
             therefore we do not guarantee its absolute security.
-            <br />
-            <br />
+          </BodyText>
+          <BodyText variant="body1">
             All data transferred between systems, from the moment of first
             collection, is encrypted using industry-standard TLS protocols with
             high-strength private keys. All data at rest is stored on encrypted
