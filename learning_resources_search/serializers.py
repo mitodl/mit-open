@@ -138,7 +138,7 @@ def serialize_learning_resource_for_update(
         "resource_age_date": get_resource_age_date(
             learning_resource_obj, serialized_data["resource_category"]
         ),
-        **serialized_data,
+        "featured_rank": None**serialized_data,
     }
 
 

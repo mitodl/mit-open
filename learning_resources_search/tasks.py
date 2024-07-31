@@ -25,6 +25,7 @@ from learning_resources.models import (
     LearningResourceOfferor,
 )
 from learning_resources.utils import load_course_blocklist
+from learning_resources.views import FeaturedViewSet
 from learning_resources_search import indexing_api as api
 from learning_resources_search.api import (
     gen_content_file_id,
@@ -68,6 +69,20 @@ PARTIAL_UPDATE_TASK_SETTINGS = {
     "retry_kwargs": {"max_retries": 5},
     "default_retry_delay": 2,
 }
+
+
+@app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
+def update_featured_rank():
+    featured_view_set = FeaturedViewSet()
+    featured_resources = featured_view_set.list_all_for_opensearch_update()
+
+    for rank, resource in enumerate(featured_resources):
+        api.clear_featured_rank(rank, clear_all_greater_then=False)
+        api.update_document_with_partial(
+            resource.get("id"), {"featured_rank": rank}, resource.get("resouce_type")
+        )
+
+    api.clear_featured_rank(len(featured_resources), clear_all_greater_then=True)
 
 
 @app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
