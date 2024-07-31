@@ -208,6 +208,7 @@ const TabPanelStyled = styled(TabPanel)({
 
 const TitleText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.black,
+  paddingBottom: "16px",
   ...theme.typography.h3,
   [theme.breakpoints.down("md")]: {
     ...theme.typography.h5,
