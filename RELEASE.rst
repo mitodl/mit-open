@@ -1,6 +1,20 @@
 Release Notes
 =============
 
+Version 0.14.4 (Released July 31, 2024)
+--------------
+
+- fix bug (#1340)
+- dev mode (#1333)
+- Updated designs for the unit page (#1325)
+- Avoid course overwrites in program ETL pipelines (#1332)
+- Assign mitxonline certificate type from api values (#1335)
+- add default yearly_decay_percent (#1330)
+- Modal dialog component and styles
+- tab widths (#1309)
+- Resource availability: backend changes (#1301)
+- styling and icon updates (#1316)
+
 Version 0.14.3 (Released July 29, 2024)
 --------------
 
