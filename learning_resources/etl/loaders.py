@@ -258,7 +258,7 @@ def load_run(
     return learning_resource_run
 
 
-def upsert_course_program(
+def upsert_course_or_program(
     resource_data: dict,
     blocklist: list[str],
     duplicates: list[dict],
@@ -266,7 +266,26 @@ def upsert_course_program(
     *,
     config: CourseLoaderConfig = None,
 ) -> tuple[LearningResource, bool]:
-    """Return a resource object and whether it was created or not"""
+    """
+    Return a resource object and whether it was created or not
+
+    Args:
+        resource_data (dict):
+            a dict of course/program data values
+        blocklist (list of str):
+            list of course/program ids not to load
+        duplicates (list of dict):
+            list of duplicate course/program data
+        resource_type (str):
+            the type of resource to load (course or program)
+        config (CourseLoaderConfig):
+            configuration on how to load a course
+
+    Returns:
+        tuple(LearningResource, bool):
+            the created/updated course and whether it was created or not
+
+    """
     platform_name = resource_data.pop("platform")
     unique_field_name = resource_data.pop("unique_field", READABLE_ID_FIELD)
     unique_field_value = resource_data.get(unique_field_name)
@@ -374,7 +393,7 @@ def load_course(
     runs_data = resource_data.get("runs", [])
 
     with transaction.atomic():
-        learning_resource, created = upsert_course_program(
+        learning_resource, created = upsert_course_or_program(
             resource_data,
             blocklist,
             duplicates,
@@ -493,7 +512,7 @@ def load_program(
 
     course_resources = []
     with transaction.atomic():
-        learning_resource, created = upsert_course_program(
+        learning_resource, created = upsert_course_or_program(
             program_data, [], [], LearningResourceType.program.name
         )
         if not learning_resource:
