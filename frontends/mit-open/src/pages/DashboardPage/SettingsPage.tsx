@@ -17,7 +17,7 @@ const SOURCE_LABEL_DISPLAY = {
   topic: "Topic",
   unit: "MIT Unit",
   department: "MIT Academic Department",
-  "saved search": "Saved Search",
+  saved_search: "Saved Search",
 }
 
 const FollowList = styled(List)(() => ({
@@ -42,7 +42,7 @@ const TitleText = styled(Typography)(({ theme }) => ({
 const SubTitleText = styled(Typography)(({ theme }) => ({
   marginBottom: "10px",
   color: theme.custom.colors.darkGray2,
-  fontSize: "14px",
+  fontSize: theme.typography.p3,
   ...theme.typography.body2,
 }))
 
