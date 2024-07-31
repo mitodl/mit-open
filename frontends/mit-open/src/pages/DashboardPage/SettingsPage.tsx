@@ -34,7 +34,6 @@ const TitleText = styled(Typography)(({ theme }) => ({
 const SubTitleText = styled(Typography)(({ theme }) => ({
   marginBottom: "16px",
   color: theme.custom.colors.darkGray2,
-  fontSize: theme.typography.p3,
   ...theme.typography.body2,
 }))
 
