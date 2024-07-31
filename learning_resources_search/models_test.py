@@ -149,6 +149,6 @@ def test_percolate_query_search_labels(mocker, mocked_es):
     )
     assert (
         query.original_url_params()
-        == "q=testing search filter&department=physics&topic=math"
+        == "q=testing+search+filter&department=physics&topic=math"
     )
     assert query.source_label() == "saved_search"
