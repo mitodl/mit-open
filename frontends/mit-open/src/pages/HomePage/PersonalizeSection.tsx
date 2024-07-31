@@ -70,7 +70,7 @@ const AUTH_TEXT_DATA = {
   },
   anonymous: {
     title: "Personalize Your Journey",
-    text: "Find courses that match your interests and goals, get personalized recommendations, and save courses for later. Fill out a free profile to get started.",
+    text: "As a member, get personalized recommendations, curate learning lists, and follow your areas of interest.",
     linkProps: {
       children: "Sign Up for Free",
       reloadDocument: true,
