@@ -88,7 +88,7 @@ const PrivacyPage: React.FC = () => {
               other demographic info
             </li>
             <li>
-              Demographics and Interests - Affinity categories, Product Purchase 
+              Demographics and Interests - Affinity categories, Product Purchase
               Interests, and Other Categories of interest
             </li>
             <li>IP addresses</li>
