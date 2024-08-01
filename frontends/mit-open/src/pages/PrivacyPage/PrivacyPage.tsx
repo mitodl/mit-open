@@ -87,6 +87,10 @@ const PrivacyPage: React.FC = () => {
               Biographic information – name, email address, education level and
               other demographic info
             </li>
+            <li>
+              Demographics and Interests - Affinity categories, Product Purchase 
+              Interests, and Other Categories of interest
+            </li>
             <li>IP addresses</li>
             <li>Course progress and performance</li>
           </UnorderedList>
