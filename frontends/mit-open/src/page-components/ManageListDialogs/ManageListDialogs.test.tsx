@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker/locale/en"
 import { factories, urls, makeRequest } from "api/test-utils"
 import {
-  PrivacyLevelEnum,
   type LearningPathResource,
   type PaginatedLearningResourceTopicList,
   type UserList,
@@ -124,17 +123,17 @@ describe("manageListDialogs.upsertLearningPath", () => {
     const titleInput = inputs.title()
     const titleFeedback = getDescriptionFor(titleInput)
     expect(titleInput).toBeInvalid()
-    expect(titleFeedback).toHaveTextContent("Title is required.")
+    expect(titleFeedback).toHaveTextContent("Title is required")
 
     const descriptionInput = inputs.description()
     const descriptionFeedback = getDescriptionFor(descriptionInput)
     expect(descriptionInput).toBeInvalid()
-    expect(descriptionFeedback).toHaveTextContent("Description is required.")
+    expect(descriptionFeedback).toHaveTextContent("Description is required")
 
     const topicsInput = inputs.topics()
     const topicsFeedback = getDescriptionFor(topicsInput)
     expect(topicsInput).toBeInvalid()
-    expect(topicsFeedback).toHaveTextContent("Select between 1 and 3 subjects.")
+    expect(topicsFeedback).toHaveTextContent("Select between 1 and 3 subjects")
   })
 
   test("Form defaults are set", () => {
@@ -276,20 +275,18 @@ describe("manageListDialogs.upsertUserList", () => {
     const titleInput = inputs.title()
     const titleFeedback = getDescriptionFor(titleInput)
     expect(titleInput).toBeInvalid()
-    expect(titleFeedback).toHaveTextContent("Title is required.")
+    expect(titleFeedback).toHaveTextContent("Title is required")
 
     const descriptionInput = inputs.description()
     const descriptionFeedback = getDescriptionFor(descriptionInput)
     expect(descriptionInput).toBeInvalid()
-    expect(descriptionFeedback).toHaveTextContent("Description is required.")
+    expect(descriptionFeedback).toHaveTextContent("Description is required")
   })
 
   test("Form defaults are set", () => {
     setup()
     expect(inputs.title()).toHaveValue("")
     expect(inputs.description()).toHaveValue("")
-    expect(inputs.privacy_level(PrivacyLevelEnum.Private).checked).toBe(true)
-    expect(inputs.privacy_level(PrivacyLevelEnum.Unlisted).checked).toBe(false)
   })
 
   test("Editing form values", async () => {
@@ -298,7 +295,6 @@ describe("manageListDialogs.upsertUserList", () => {
     const patch = {
       title: faker.lorem.words(),
       description: faker.lorem.paragraph(),
-      privacy_level: PrivacyLevelEnum.Unlisted,
     }
 
     // Title
@@ -313,19 +309,10 @@ describe("manageListDialogs.upsertUserList", () => {
     await user.clear(inputs.description())
     await user.paste(patch.description)
 
-    // Privacy Level
-    expect(inputs.privacy_level(PrivacyLevelEnum.Private).checked).toBe(
-      userList.privacy_level === PrivacyLevelEnum.Private,
-    )
-    expect(inputs.privacy_level(PrivacyLevelEnum.Unlisted).checked).toBe(
-      userList.privacy_level === PrivacyLevelEnum.Unlisted,
-    )
-    await user.click(inputs.privacy_level(patch.privacy_level))
-
     // Submit
     const patchUrl = urls.userLists.details({ id: userList.id })
     setMockResponse.patch(patchUrl, { ...userList, ...patch })
-    await user.click(inputs.submit())
+    await user.click(inputs.submit("Update"))
 
     expect(makeRequest).toHaveBeenCalledWith(
       "patch",
@@ -341,7 +328,7 @@ describe("manageListDialogs.upsertUserList", () => {
 
     const patchUrl = urls.userLists.details({ id: userList.id })
     setMockResponse.patch(patchUrl, {}, { code: 408 })
-    await user.click(inputs.submit())
+    await user.click(inputs.submit("Update"))
 
     expect(makeRequest).toHaveBeenCalledWith(
       "patch",
@@ -353,6 +340,31 @@ describe("manageListDialogs.upsertUserList", () => {
     expect(alertMessage).toHaveTextContent(
       "There was a problem saving your list.",
     )
+  })
+
+  test("Delete from upsert user list", async () => {
+    setup({
+      userList: factories.userLists.userList(),
+    })
+
+    screen.getByRole("heading", { name: "Edit List" })
+
+    const deleteButton = screen.getByRole("button", { name: "Delete" })
+
+    await user.click(deleteButton)
+
+    const dialog = screen.getByRole("heading", { name: "Delete List" })
+    expect(dialog).toBeVisible()
+  })
+
+  test("No delete button on create list", async () => {
+    setup()
+
+    screen.getByRole("heading", { name: "Create List" })
+
+    const deleteButton = screen.queryByRole("button", { name: "Delete" })
+
+    expect(deleteButton).toBeNull()
   })
 })
 
@@ -407,7 +419,7 @@ describe("manageListDialogs.destroyUserList", () => {
 
   test("Dialog title is 'Delete list'", async () => {
     setup()
-    const dialog = screen.getByRole("heading", { name: "Delete User List" })
+    const dialog = screen.getByRole("heading", { name: "Delete List" })
     expect(dialog).toBeVisible()
   })
 

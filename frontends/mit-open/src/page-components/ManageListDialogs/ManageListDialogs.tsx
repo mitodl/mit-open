@@ -28,9 +28,9 @@ import {
 const learningPathFormSchema = Yup.object().shape({
   published: Yup.boolean()
     .default(false)
-    .required("Published is a required field."),
-  title: Yup.string().default("").required("Title is required."),
-  description: Yup.string().default("").required("Description is required."),
+    .required("Published is a required field"),
+  title: Yup.string().default("").required("Title is required"),
+  description: Yup.string().default("").required("Description is required"),
   topics: Yup.array()
     .of(
       Yup.object().shape({
@@ -39,8 +39,8 @@ const learningPathFormSchema = Yup.object().shape({
         channel_url: Yup.string().nullable().required(),
       }),
     )
-    .min(1, "Select between 1 and 3 subjects.")
-    .max(3, "Select between 1 and 3 subjects.")
+    .min(1, "Select between 1 and 3 subjects")
+    .max(3, "Select between 1 and 3 subjects")
     .default([])
     .nonNullable()
     .required(),
@@ -51,8 +51,8 @@ const userListFormSchema = Yup.object().shape({
     .oneOf(Object.values(PrivacyLevelEnum))
     .default(PrivacyLevelEnum.Private)
     .required("Privacy Level is required"),
-  title: Yup.string().default("").required("Title is required."),
-  description: Yup.string().default("").required("Description is required."),
+  title: Yup.string().default("").required("Title is required"),
+  description: Yup.string().default("").required("Description is required"),
 })
 
 const LEARNING_PATH_PRIVACY_CHOICES = [
@@ -279,13 +279,15 @@ const UpsertUserListDialog = NiceModal.create(
         {userList && (
           <div>
             <Button
-              type="submit"
               variant="tertiary"
               edge="rounded"
               size="small"
               startIcon={<RiDeleteBinLine />}
               disabled={formik.isSubmitting}
-              onClick={() => manageListDialogs.destroyUserList(userList!)}
+              onClick={() => {
+                modal.hide()
+                manageListDialogs.destroyUserList(userList!)
+              }}
             >
               Delete
             </Button>

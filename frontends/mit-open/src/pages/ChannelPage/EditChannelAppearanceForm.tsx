@@ -30,14 +30,14 @@ const CHANNEL_TYPE_CHOICES = [
   },
 ]
 const postSchema = Yup.object().shape({
-  title: Yup.string().default("").required("Title is required."),
+  title: Yup.string().default("").required("Title is required"),
   public_description: Yup.string()
     .default("")
-    .required("Description is required."),
+    .required("Description is required"),
   channel_type: Yup.string()
     .oneOf(Object.values(ChannelTypeEnum))
     .default("pathway")
-    .required("Channel Type is required."),
+    .required("Channel Type is required"),
 })
 type FormData = Yup.InferType<typeof postSchema>
 
