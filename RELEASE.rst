@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.14.6
+Version 0.14.6 (Released August 01, 2024)
 --------------
 
 - Use resource_delete_actions instead of resource.delete directly (#1347)
