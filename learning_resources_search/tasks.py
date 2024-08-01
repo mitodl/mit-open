@@ -841,14 +841,15 @@ def _generate_subscription_digest_subject(
     if sample_course["source_channel_type"] == "saved_search":
         return (
             f"MIT Learn: New"
-            f' "{source_name}" {unique_resource_types.pop()}{pluralize(total_count)}'
+            f' "{source_name}" '
+            f"{unique_resource_types.pop().capitalize()}{pluralize(total_count)}"
         )
     preposition = "from"
     if sample_course["source_channel_type"] == "topic":
         preposition = "in"
     return (
         f"MIT Learn: New"
-        f"  {unique_resource_types.pop()}{pluralize(total_count)} "
+        f"  {unique_resource_types.pop().capitalize()}{pluralize(total_count)} "
         f"{preposition} {source_name}: {sample_course['resource_title']}"
     )
 
