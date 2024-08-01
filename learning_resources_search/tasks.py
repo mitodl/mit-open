@@ -189,6 +189,7 @@ def _get_percolated_rows(resources, subscription_type):
             req = PreparedRequest()
             req.prepare_url(search_url, {"resource": resource.id})
             resource_url = req.url
+            source_channel = query.source_channel()
             rows.extend(
                 [
                     {
@@ -199,6 +200,10 @@ def _get_percolated_rows(resources, subscription_type):
                         else "",
                         "resource_type": resource.resource_type,
                         "user_id": user,
+                        "source_label": query.source_label(),
+                        "source_channel_type": source_channel.channel_type
+                        if source_channel
+                        else "saved_search",
                         "group": _infer_percolate_group(query),
                         "search_url": search_url,
                     }
@@ -830,14 +835,22 @@ def finish_recreate_index(results, backing_indices):
     log.info("recreate_index has finished successfully!")
 
 
-def _generate_subscription_digest_subject(total_count, unique_resource_types):
-    if len(unique_resource_types) == 1:
+def _generate_subscription_digest_subject(
+    sample_course, source_name, unique_resource_types, total_count
+):
+    if sample_course["source_channel_type"] == "saved_search":
         return (
-            f"{total_count} New"
-            f"  {unique_resource_types.pop()}{pluralize(total_count)} from MIT"
+            f"MIT Learn: New"
+            f' "{source_name}" {unique_resource_types.pop()}{pluralize(total_count)}'
         )
-    else:
-        return f"{total_count} New courses & learning materials from MIT"
+    preposition = "from"
+    if sample_course["source_channel_type"] == "topic":
+        preposition = "in"
+    return (
+        f"MIT Learn: New"
+        f"  {unique_resource_types.pop()}{pluralize(total_count)} "
+        f"{preposition} {source_name}: {sample_course['resource_title']}"
+    )
 
 
 @app.task(
@@ -858,9 +871,11 @@ def attempt_send_digest_email_batch(user_template_items):
             unique_resource_types.update(
                 [resource["resource_type"] for resource in template_data[group]]
             )
-
             subject = _generate_subscription_digest_subject(
-                total_count, unique_resource_types
+                template_data[group][0],
+                group,
+                unique_resource_types,
+                total_count,
             )
             send_template_email(
                 [user.email],
