@@ -3,7 +3,7 @@ import { UserList } from "api"
 import { pluralize } from "ol-utilities"
 import styled from "@emotion/styled"
 import { ListCardCondensed } from "../Card/ListCardCondensed"
-import Typography from "@mui/material/Typography/Typography"
+import Typography from "@mui/material/Typography"
 import { RiListCheck3 } from "@remixicon/react"
 
 const StyledCard = styled(ListCardCondensed)({
