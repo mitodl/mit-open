@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.14.7
+--------------
+
+- Renaming my topic update migration from 0006 to 0007 (#1353)
+- Update the mappings for PWT topic "Programming & Coding"  (#1344)
+
 Version 0.14.6 (Released August 01, 2024)
 --------------
 
