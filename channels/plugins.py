@@ -28,7 +28,7 @@ def unpublish_topics_for_resource(resource):
 
     channels = Channel.objects.filter(
         topic_detail__topic__in=resource.topics.all(),
-        type=ChannelType.topic.name,  # Redundant, but left for clarity
+        channel_type=ChannelType.topic.name,  # Redundant, but left for clarity
         published=True,
     ).exclude(topic_detail__topic__learningresource__in=other_published)
 
