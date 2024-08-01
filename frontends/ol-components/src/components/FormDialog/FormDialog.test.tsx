@@ -102,34 +102,28 @@ test("The submit button is disabled while submitting", async () => {
 
 test.each([
   {
-    submitButtonContent: undefined,
+    confirmText: undefined,
     expected: "Save",
   },
   {
-    submitButtonContent: "Yes, save!",
+    confirmText: "Yes, save!",
     expected: "Yes, save!",
   },
-])(
-  "The 'Save' button text is customizable",
-  ({ submitButtonContent, expected }) => {
-    setup({ submitButtonContent })
-    screen.getByRole("button", { name: expected })
-  },
-)
+])("The 'Save' button text is customizable", ({ confirmText, expected }) => {
+  setup({ confirmText })
+  screen.getByRole("button", { name: expected })
+})
 
 test.each([
   {
-    submitButtonContent: undefined,
+    confirmText: undefined,
     expected: "Cancel",
   },
   {
-    submitButtonContent: "No, cancel!",
+    confirmText: "No, cancel!",
     expected: "No, cancel!",
   },
-])(
-  "The 'Cancel' button text is customizable",
-  ({ submitButtonContent, expected }) => {
-    setup({ submitButtonContent })
-    screen.getByRole("button", { name: expected })
-  },
-)
+])("The 'Cancel' button text is customizable", ({ confirmText, expected }) => {
+  setup({ confirmText })
+  screen.getByRole("button", { name: expected })
+})

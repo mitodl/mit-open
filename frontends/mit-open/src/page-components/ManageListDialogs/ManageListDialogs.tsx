@@ -8,8 +8,6 @@ import {
   BooleanRadioChoiceField,
   FormDialog,
   Dialog,
-  styled,
-  RadioChoiceField,
   MenuItem,
 } from "ol-components"
 import * as Yup from "yup"
@@ -24,32 +22,6 @@ import {
   useUserListUpdate,
   useUserListDestroy,
 } from "api/hooks/learningResources"
-
-/*
-  TODO Refactor to avoid passing classnames to nested components
-  We should at minimum be able to target child components within the css
-  or access and pass the generated classname dynamically, see
-  https://emotion.sh/docs/styled#targeting-another-emotion-component
-*/
-const StyledFormDialog = styled(FormDialog)`
-  .manage-list-form {
-    .radio-option {
-      .MuiFormControlLabel-label {
-        width: 150px;
-      }
-
-      .option-header {
-        font-weight: bold;
-        font-size: theme.$font-normal;
-        display: block;
-      }
-
-      .option-detail {
-        font-size: theme.$font-sm;
-      }
-    }
-  }
-`
 
 const learningPathFormSchema = Yup.object().shape({
   published: Yup.boolean()
@@ -85,25 +57,10 @@ const LEARNING_PATH_PRIVACY_CHOICES = [
   {
     value: false,
     label: "Private",
-    className: "radio-option",
   },
   {
     value: true,
     label: "Public",
-    className: "radio-option",
-  },
-]
-
-const USER_LIST_PRIVACY_CHOICES = [
-  {
-    value: PrivacyLevelEnum.Private,
-    label: "Private",
-    className: "radio-option",
-  },
-  {
-    value: PrivacyLevelEnum.Unlisted,
-    label: "Unlisted",
-    className: "radio-option",
   },
 ]
 
@@ -154,7 +111,7 @@ const UpsertLearningPathDialog = NiceModal.create(
     const topics = topicsQuery.data?.results ?? []
 
     return (
-      <StyledFormDialog
+      <FormDialog
         {...NiceModal.muiDialogV5(modal)}
         title={title}
         fullWidth
@@ -235,7 +192,7 @@ const UpsertLearningPathDialog = NiceModal.create(
           value={formik.values.published}
           onChange={(e) => formik.setFieldValue(e.name, e.value)}
         />
-      </StyledFormDialog>
+      </FormDialog>
     )
   },
 )
@@ -276,7 +233,7 @@ const UpsertUserListDialog = NiceModal.create(
     })
 
     return (
-      <StyledFormDialog
+      <FormDialog
         {...NiceModal.muiDialogV5(modal)}
         title={title}
         fullWidth
@@ -298,7 +255,7 @@ const UpsertUserListDialog = NiceModal.create(
           className="form-row"
           name="title"
           label="Title"
-          placeholder="List Title"
+          placeholder="My list of favorite courses"
           value={formik.values.title}
           error={!!formik.errors.title}
           errorText={formik.errors.title}
@@ -311,7 +268,7 @@ const UpsertUserListDialog = NiceModal.create(
           className="form-row"
           label="Description"
           name="description"
-          placeholder="List Description"
+          placeholder="List of all courses I wanted to check out"
           value={formik.values.description}
           error={!!formik.errors.description}
           errorText={formik.errors.description}
@@ -321,15 +278,7 @@ const UpsertUserListDialog = NiceModal.create(
           multiline
           minRows={3}
         />
-        <RadioChoiceField
-          className="form-row"
-          name="privacy_level"
-          label="Privacy"
-          choices={USER_LIST_PRIVACY_CHOICES}
-          value={formik.values.privacy_level}
-          onChange={(e) => formik.setFieldValue(e.target.name, e.target.value)}
-        />
-      </StyledFormDialog>
+      </FormDialog>
     )
   },
 )
@@ -379,11 +328,12 @@ const DeleteUserListDialog = NiceModal.create(
       })
       hideModal()
     }, [destroyList, hideModal, userList])
+
     return (
       <Dialog
         {...NiceModal.muiDialogV5(modal)}
         onConfirm={handleConfirm}
-        title="Delete User List"
+        title="Delete List"
         confirmText="Yes, delete"
       >
         Are you sure you want to delete this list?

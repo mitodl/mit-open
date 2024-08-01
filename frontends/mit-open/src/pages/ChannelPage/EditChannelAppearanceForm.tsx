@@ -15,22 +15,18 @@ const CHANNEL_TYPE_CHOICES = [
   {
     value: "department",
     label: "Department",
-    className: "radio-option",
   },
   {
     value: "topic",
     label: "Topic",
-    className: "radio-option",
   },
   {
     value: "unit",
     label: "Unit",
-    className: "radio-option",
   },
   {
     value: "pathway",
     label: "Pathway",
-    className: "radio-option",
   },
 ]
 const postSchema = Yup.object().shape({
