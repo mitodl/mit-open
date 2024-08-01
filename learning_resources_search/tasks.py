@@ -122,7 +122,7 @@ def _infer_percolate_group(percolate_query):
     Infer the heading name for the percolate query to be
     grouped under in the email
     """
-    if percolate_query.source_label() != "saved search":
+    if percolate_query.source_label() != "saved_search":
         return percolate_query.source_description()
     group_keys = ["department", "topic", "offered_by"]
     original_query = OrderedDict(percolate_query.original_query)
