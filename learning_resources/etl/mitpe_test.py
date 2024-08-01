@@ -3,146 +3,172 @@
 import datetime
 import json
 from pathlib import Path
-from random import randint
 
 import pytest
 
-from learning_resources.constants import LearningResourceFormat
 from learning_resources.etl import mitpe
-from main.test_utils import any_instance_of, assert_json_equal
-from main.utils import now_in_utc
+from main.test_utils import assert_json_equal
 
-EXPECTED_COURSE = {
-    "readable_id": "6d8f9727-beb3-4def-bfb6-bc0f7e270d58",
-    "offered_by": {"code": "mitpe"},
-    "platform": "mitpe",
-    "etl_source": "mitpe",
-    "professional": True,
-    "certification": True,
-    "certification_type": "professional",
-    "title": "Product Innovation in the Age of AI",
-    "url": "https://professional.mit.edu/course-catalog/product-innovation-age-ai",
-    "image": {
-        "alt": "product innovation in the age of AI",
-        "description": "",
-        "url": "https://professional.mit.edu/sites/default/files/2024-04/MITPE-ProductInnovationAgeOfAI-website-banner-1600x800.jpg",
+EXPECTED_COURSES = [
+    {
+        "readable_id": "a44c8b47-552c-45f9-b91b-854172201889",
+        "offered_by": {"code": "mitpe"},
+        "platform": "mitpe",
+        "etl_source": "mitpe",
+        "professional": True,
+        "certification": True,
+        "certification_type": "professional",
+        "title": "Comunicação Persuasiva: Pensamento Crítico para Aprimorar a Mensagem (Portuguese)",
+        "url": "https://professional.mit.edu/course-catalog/comunicacao-persuasiva-pensamento-critico-para-aprimorar-mensagem-portuguese",
+        "image": {
+            "alt": " Persuasive Communication Critical Thinking -web banner",
+            "url": "https://professional.mit.edu/sites/default/files/2022-01/1600x800.png",
+        },
+        "description": "Profissionais de áreas técnicas estão acostumados a falar ou apresentar dados para perfis que compartem os mesmos interesses e campo de atuação, mas podem encontrar dificuldades em transmitir suas ideias para pessoas de outros setores.\n",
+        "course": {"course_numbers": []},
+        "learning_format": ["online"],
+        "published": True,
+        "topics": [],
+        "runs": [
+            {
+                "run_id": "7802023070620230907",
+                "title": "Comunicação Persuasiva: Pensamento Crítico para Aprimorar a Mensagem (Portuguese)",
+                "description": "Profissionais de áreas técnicas estão acostumados a falar ou apresentar dados para perfis que compartem os mesmos interesses e campo de atuação, mas podem encontrar dificuldades em transmitir suas ideias para pessoas de outros setores.\n",
+                "start_date": datetime.datetime(2023, 7, 6, 4, 0, tzinfo=datetime.UTC),
+                "end_date": datetime.datetime(2023, 9, 7, 4, 0, tzinfo=datetime.UTC),
+                "enrollment_end": datetime.datetime(
+                    2023, 4, 25, 4, 0, tzinfo=datetime.UTC
+                ),
+                "published": True,
+                "prices": ["1870"],
+                "url": "https://professional.mit.edu/course-catalog/comunicacao-persuasiva-pensamento-critico-para-aprimorar-mensagem-portuguese",
+                "instructors": [{"full_name": "Edward Schiappa"}, {"full_name": ""}],
+            }
+        ],
     },
-    "description": "The featured course summary.",
-    "full_description": "The full course description.",
-    "course": {"course_numbers": []},
-    "learning_format": ["in_person"],
-    "published": True,
-    "topics": [{"name": "Innovation"}],
-    "runs": [
-        {
-            "run_id": "6d8f9727-beb3-4def-bfb6-bc0f7e270d58_69fccd43e465859229fe22dc61f54b9a",
-            "title": "Product Innovation in the Age of AI",
-            "start_date": any_instance_of(datetime.datetime),
-            "end_date": any_instance_of(datetime.datetime),
-            "enrollment_end": any_instance_of(datetime.datetime),
-            "published": True,
-            "prices": [3600],
-            "url": "https://professional.mit.edu/course-catalog/product-innovation-age-ai",
-            "instructors": [
-                {
-                    "full_name": "Eric von Hippel",
-                    "last_name": "von Hippel",
-                    "first_name": "Eric",
-                },
-                {
-                    "full_name": "Erdin Beshimov",
-                    "last_name": " Beshimov",
-                    "first_name": "Erdin",
-                },
-            ],
-        }
-    ],
-    "unique_field": "url",
-}
-EXPECTED_PROGRAM = {
-    "readable_id": "9c0692c9-7216-4be1-b432-fbeefec1da1f",
-    "offered_by": {"code": "mitpe"},
-    "platform": "mitpe",
-    "etl_source": "mitpe",
-    "professional": True,
-    "certification": True,
-    "certification_type": "professional",
-    "title": "Professional Certificate Program in Innovation & Technology",
-    "url": "https://professional.mit.edu/course-catalog/professional-certificate-program-innovation-technology",
-    "image": {
-        "alt": "Innovation & Technology - Header Image",
-        "description": "",
-        "url": "https://professional.mit.edu/sites/default/files/2021-01/MITPE-InnovationCertificateProgram-website-banner-1600x800.jpg",
+    {
+        "readable_id": "e3be75f6-f7c9-432b-9c24-70c7132e1583",
+        "offered_by": {"code": "mitpe"},
+        "platform": "mitpe",
+        "etl_source": "mitpe",
+        "professional": True,
+        "certification": True,
+        "certification_type": "professional",
+        "title": "Design-Thinking and Innovation for Technical Leaders",
+        "url": "https://professional.mit.edu/course-catalog/design-thinking-and-innovation-technical-leaders",
+        "image": {
+            "alt": "Mastering Innovation &amp;amp; Design-Thinking header ",
+            "url": "https://professional.mit.edu/sites/default/files/2020-08/MITPE-MasteringInnovationDesignThinking-website-banner-1600x800.jpg",
+        },
+        "description": "Become a stronger leader of innovation and design-thinking in your workplace. Join us for a highly interactive and engaging course that will teach you powerful new approaches for creating innovative solutions, crafting vision that gets buy-in, and developing solutions that people love. You'll learn our proven 10-Step Design Process and gain the strategies and hands-on experience to make your mark as a leader of innovation. Don't miss this opportunity to take your leadership capabilities to the next level.\n\nThis course&nbsp;may be taken individually or as part of the&nbsp;Professional Certificate Program in Innovation and Technology.\n",
+        "course": {"course_numbers": []},
+        "learning_format": ["in_person"],
+        "published": True,
+        "topics": [],
+        "runs": [
+            {
+                "run_id": "4172023071720230719",
+                "title": "Design-Thinking and Innovation for Technical Leaders",
+                "description": "Become a stronger leader of innovation and design-thinking in your workplace. Join us for a highly interactive and engaging course that will teach you powerful new approaches for creating innovative solutions, crafting vision that gets buy-in, and developing solutions that people love. You'll learn our proven 10-Step Design Process and gain the strategies and hands-on experience to make your mark as a leader of innovation. Don't miss this opportunity to take your leadership capabilities to the next level.\n\nThis course&nbsp;may be taken individually or as part of the&nbsp;Professional Certificate Program in Innovation and Technology.\n",
+                "start_date": datetime.datetime(2023, 7, 17, 4, 0, tzinfo=datetime.UTC),
+                "end_date": datetime.datetime(2023, 7, 19, 4, 0, tzinfo=datetime.UTC),
+                "enrollment_end": datetime.datetime(
+                    2023, 6, 17, 4, 0, tzinfo=datetime.UTC
+                ),
+                "published": True,
+                "prices": ["3600"],
+                "url": "https://professional.mit.edu/course-catalog/design-thinking-and-innovation-technical-leaders",
+                "instructors": [
+                    {"full_name": "Blade Kotelly"},
+                    {"full_name": "Reza Rahaman"},
+                    {"full_name": ""},
+                ],
+            }
+        ],
     },
-    "description": "The featured program summary.",
-    "full_description": "The full program description.",
-    "learning_format": ["hybrid"],
-    "published": True,
-    "topics": [{"name": "Innovation"}],
-    "runs": [
-        {
-            "run_id": "9c0692c9-7216-4be1-b432-fbeefec1da1f_5e5dcf98bcd8e20096b79a761de23dc6",
-            "title": "Professional Certificate Program in Innovation & Technology",
-            "start_date": any_instance_of(datetime.datetime),
-            "end_date": any_instance_of(datetime.datetime),
-            "enrollment_end": any_instance_of(datetime.datetime),
-            "published": True,
-            "prices": [28000],
-            "url": "https://professional.mit.edu/course-catalog/professional-certificate-program-innovation-technology",
-            "instructors": [
-                {
-                    "full_name": "Blade Kotelly",
-                    "last_name": "Kotelly",
-                    "first_name": "Blade",
+]
+EXPECTED_PROGRAMS = [
+    {
+        "readable_id": "790a82a4-8967-4b77-9342-4f6be5809abd",
+        "offered_by": {"code": "mitpe"},
+        "platform": "mitpe",
+        "etl_source": "mitpe",
+        "professional": True,
+        "certification": True,
+        "certification_type": "professional",
+        "title": "Manufatura Inteligente: Produção na Indústria 4.0 (Portuguese)",
+        "url": "https://professional.mit.edu/course-catalog/manufatura-inteligente-producao-na-industria-40-portuguese",
+        "image": {
+            "alt": "Smart Manufacturing Header Image",
+            "url": "https://professional.mit.edu/sites/default/files/2020-08/Smart%20Manufacturing.jpg",
+        },
+        "description": "A fábrica do futuro já está aqui. Participe do programa online Manufatura Inteligente: Produção na Indústria 4.0 e aproveite a experiência de mais de cem anos de colaboração do MIT com vários setores. Aprenda as chaves para criar uma indústria inteligente em qualquer escala e saiba como software, sensores e sistemas são integrados para essa finalidade. Com este programa interativo, você passará da criação de modelos a sistemas de fabricação e análise avançada de dados para desenvolver estratégias que gerem uma vantagem competitiva.\n",
+        "learning_format": ["online"],
+        "published": True,
+        "topics": [],
+        "runs": [
+            {
+                "run_id": "7192023070620230914",
+                "title": "Manufatura Inteligente: Produção na Indústria 4.0 (Portuguese)",
+                "description": "A fábrica do futuro já está aqui. Participe do programa online Manufatura Inteligente: Produção na Indústria 4.0 e aproveite a experiência de mais de cem anos de colaboração do MIT com vários setores. Aprenda as chaves para criar uma indústria inteligente em qualquer escala e saiba como software, sensores e sistemas são integrados para essa finalidade. Com este programa interativo, você passará da criação de modelos a sistemas de fabricação e análise avançada de dados para desenvolver estratégias que gerem uma vantagem competitiva.\n",
+                "start_date": datetime.datetime(2023, 7, 6, 4, 0, tzinfo=datetime.UTC),
+                "end_date": datetime.datetime(2023, 9, 14, 4, 0, tzinfo=datetime.UTC),
+                "enrollment_end": datetime.datetime(
+                    2023, 7, 6, 4, 0, tzinfo=datetime.UTC
+                ),
+                "published": True,
+                "prices": ["1870"],
+                "url": "https://professional.mit.edu/course-catalog/manufatura-inteligente-producao-na-industria-40-portuguese",
+                "instructors": [{"full_name": ""}, {"full_name": "Brian Anthony"}],
+            }
+        ],
+        "courses": [
+            {
+                "readable_id": "a44c8b47-552c-45f9-b91b-854172201889",
+                "offered_by": {"code": "mitpe"},
+                "platform": "mitpe",
+                "etl_source": "mitpe",
+                "professional": True,
+                "certification": True,
+                "certification_type": "professional",
+                "title": "Comunicação Persuasiva: Pensamento Crítico para Aprimorar a Mensagem (Portuguese)",
+                "url": "https://professional.mit.edu/course-catalog/comunicacao-persuasiva-pensamento-critico-para-aprimorar-mensagem-portuguese",
+                "image": {
+                    "alt": " Persuasive Communication Critical Thinking -web banner",
+                    "url": "https://professional.mit.edu/sites/default/files/2022-01/1600x800.png",
                 },
-                {
-                    "full_name": "Reza Rahaman",
-                    "last_name": "Rahaman",
-                    "first_name": "Reza",
-                },
-                {
-                    "full_name": "Michael Davies",
-                    "last_name": "Davies",
-                    "first_name": "Michael",
-                },
-                {
-                    "full_name": "Sang-Gook Kim",
-                    "last_name": "Kim",
-                    "first_name": "Sang-Gook",
-                },
-                {
-                    "full_name": "Eric von Hippel",
-                    "last_name": "von Hippel",
-                    "first_name": "Eric",
-                },
-                {
-                    "full_name": "Erdin Beshimov",
-                    "last_name": " Beshimov",
-                    "first_name": "Erdin",
-                },
-                {
-                    "full_name": "Adam Berinsky",
-                    "last_name": "Berinsky",
-                    "first_name": "Adam",
-                },
-                {"full_name": "David Niño", "last_name": "Niño", "first_name": "David"},
-                {
-                    "full_name": "Markus J. Buehler",
-                    "last_name": "Buehler",
-                    "first_name": "Markus J.",
-                },
-                {
-                    "full_name": "Edward Schiappa",
-                    "last_name": "Schiappa",
-                    "first_name": "Edward",
-                },
-                {"full_name": "John Hart", "last_name": "Hart", "first_name": "John"},
-            ],
-        }
-    ],
-    "courses": [EXPECTED_COURSE],
-    "unique_field": "url",
-}
+                "description": "Profissionais de áreas técnicas estão acostumados a falar ou apresentar dados para perfis que compartem os mesmos interesses e campo de atuação, mas podem encontrar dificuldades em transmitir suas ideias para pessoas de outros setores.\n",
+                "course": {"course_numbers": []},
+                "learning_format": ["online"],
+                "published": True,
+                "topics": [],
+                "runs": [
+                    {
+                        "run_id": "7802023070620230907",
+                        "title": "Comunicação Persuasiva: Pensamento Crítico para Aprimorar a Mensagem (Portuguese)",
+                        "description": "Profissionais de áreas técnicas estão acostumados a falar ou apresentar dados para perfis que compartem os mesmos interesses e campo de atuação, mas podem encontrar dificuldades em transmitir suas ideias para pessoas de outros setores.\n",
+                        "start_date": datetime.datetime(
+                            2023, 7, 6, 4, 0, tzinfo=datetime.UTC
+                        ),
+                        "end_date": datetime.datetime(
+                            2023, 9, 7, 4, 0, tzinfo=datetime.UTC
+                        ),
+                        "enrollment_end": datetime.datetime(
+                            2023, 4, 25, 4, 0, tzinfo=datetime.UTC
+                        ),
+                        "published": True,
+                        "prices": ["1870"],
+                        "url": "https://professional.mit.edu/course-catalog/comunicacao-persuasiva-pensamento-critico-para-aprimorar-mensagem-portuguese",
+                        "instructors": [
+                            {"full_name": "Edward Schiappa"},
+                            {"full_name": ""},
+                        ],
+                    }
+                ],
+            }
+        ],
+    }
+]
 
 
 @pytest.fixture()
@@ -163,29 +189,9 @@ def mock_fetch_data(mocker):
     return mocker.patch(
         "learning_resources.etl.mitpe.requests.get",
         side_effect=[
-            read_json("./test_json/professional_ed/professional_ed_resources.json"),
-            read_json(
-                "./test_json/professional_ed/professional_ed_program_instructors.json"
-            ),
-            read_json(
-                "./test_json/professional_ed/professional_ed_program_image_1.json"
-            ),
-            read_json(
-                "./test_json/professional_ed/professional_ed_program_image_2.json"
-            ),
-            read_json(
-                "./test_json/professional_ed/professional_ed_program_topics.json"
-            ),
-            read_json(
-                "./test_json/professional_ed/professional_ed_course_instructors.json"
-            ),
-            read_json(
-                "./test_json/professional_ed/professional_ed_course_image_1.json"
-            ),
-            read_json(
-                "./test_json/professional_ed/professional_ed_course_image_2.json"
-            ),
-            read_json("./test_json/professional_ed/professional_ed_course_topics.json"),
+            read_json("./test_json/professional_ed/professional_ed_resources_0.json"),
+            read_json("./test_json/professional_ed/professional_ed_resources_1.json"),
+            read_json("./test_json/professional_ed/professional_ed_resources_2.json"),
         ],
     )
 
@@ -194,68 +200,26 @@ def mock_fetch_data(mocker):
 def test_extract(settings, mock_fetch_data, prof_ed_api_url):
     """Test extract function"""
     settings.PROFESSIONAL_EDUCATION_RESOURCES_API_URL = prof_ed_api_url
-    with Path.open(
-        Path("./test_json/professional_ed/professional_ed_resources.json"), "r"
-    ) as file:
-        expected = json.load(file)["data"]
+    expected = []
+    for page in range(3):
+        with Path.open(
+            Path(f"./test_json/professional_ed/professional_ed_resources_{page}.json"),
+            "r",
+        ) as file:
+            expected.extend(json.load(file))
     results = mitpe.extract()
     if prof_ed_api_url:
-        assert len(results) == 2
+        assert len(results) == 3
         assert_json_equal(results, expected)
     else:
         assert len(results) == 0
 
 
+@pytest.mark.django_db()
 def test_transform(mocker, mock_fetch_data, prof_ed_settings):
     """Test transform function, and effectivelu most other functions"""
-    mocker.patch(
-        "learning_resources.etl.mitpe.parse_date",
-        return_value=now_in_utc() + datetime.timedelta(days=randint(5, 10)),  # noqa: S311
-    )
-    courses, programs = mitpe.transform(mitpe.extract())
-    assert courses == [EXPECTED_COURSE]
-    assert programs == [EXPECTED_PROGRAM]
-
-
-@pytest.mark.parametrize(
-    ("format_str", "expected"),
-    [
-        ("On Campus", [LearningResourceFormat.in_person.name]),
-        ("Online", [LearningResourceFormat.online.name]),
-        (
-            "Live Virtual OR On Campus",
-            [LearningResourceFormat.online.name, LearningResourceFormat.in_person.name],
-        ),
-        (
-            "Live Virtual And On Campus",
-            [LearningResourceFormat.hybrid.name],
-        ),
-        ("Unrecognized", [LearningResourceFormat.online.name]),
-    ],
-)
-def test_parse_format(format_str, expected):
-    """Test parse_format function"""
-    assert sorted(mitpe.parse_format(format_str)) == sorted(expected)
-
-
-@pytest.mark.parametrize(
-    ("enrollment_end", "end_date", "published_count"),
-    [
-        (None, None, 1),
-        (None, "2020-01-01", 0),
-        ("2020-01-01", None, 0),
-        ("2020-01-01", "2120-01-01", 0),
-        ("2120-01-01", None, 1),
-        ("2120-01-01", "2020-01-01", 0),
-    ],
-)
-def test_transform_by_dates(
-    mock_fetch_data, prof_ed_settings, enrollment_end, end_date, published_count
-):
-    """Transform should unpublish resources with past enrollment_end or end_dates"""
-    resource_data = mitpe.extract()
-    course_data = resource_data[1]
-    course_data["attributes"]["field_registration_deadline"] = enrollment_end
-    course_data["attributes"]["field_course_dates"][0]["end_value"] = end_date
-    courses = mitpe.transform([course_data])[0]
-    assert len(courses) == published_count
+    extracted = mitpe.extract()
+    assert len(extracted) == 3
+    courses, programs = mitpe.transform(extracted)
+    assert courses == EXPECTED_COURSES
+    assert programs == EXPECTED_PROGRAMS
