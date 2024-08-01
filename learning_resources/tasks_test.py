@@ -113,9 +113,20 @@ def test_get_oll_data(mocker):
     mock_pipelines.oll_etl.assert_called_once_with(None)
 
 
-def test_get_prolearn_data(mocker):
-    """Verify that the get_prolearn_data invokes the Prolearn ETL pipeline"""
+def test_get_mitpe_data(mocker):
+    """Verify that the get_mitpe_data task invokes the Professional Ed pipeline"""
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
+    mock_pipelines.mitpe_etl.return_value = (
+        LearningResourceFactory.create_batch(2),
+        LearningResourceFactory.create_batch(1),
+    )
+    task = tasks.get_mitpe_data.delay()
+    mock_pipelines.mitpe_etl.assert_called_once_with()
+    assert task.result == 3
+
+
+def test_get_prolearn_data(mock_pipelines):
+    """Verify that the get_prolearn_data invokes the Prolearn ETL pipeline"""
     tasks.get_prolearn_data.delay()
     mock_pipelines.prolearn_programs_etl.assert_called_once_with()
     mock_pipelines.prolearn_courses_etl.assert_called_once_with()

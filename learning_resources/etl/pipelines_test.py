@@ -379,6 +379,32 @@ def test_prolearn_programs_etl():
     assert result == mock_load_programs.return_value
 
 
+def test_mitpe_etl(mocker):
+    """Verify that the professional education etl pipeline executes correctly"""
+    mocker.patch("learning_resources.etl.mitpe.extract")
+    mock_transform = mocker.patch(
+        "learning_resources.etl.mitpe.transform",
+        return_value=(
+            [{"a": "b"}, {"c": "d"}],
+            [{"e": "f"}, {"g": "h"}],
+        ),
+    )
+    mock_load_courses = mocker.patch("learning_resources.etl.loaders.load_courses")
+    mock_load_programs = mocker.patch("learning_resources.etl.loaders.load_programs")
+    results = pipelines.mitpe_etl()
+    mock_load_courses.assert_called_once_with(
+        ETLSource.mitpe.name,
+        mock_transform.return_value[0],
+        config=CourseLoaderConfig(prune=True),
+    )
+    mock_load_programs.assert_called_once_with(
+        ETLSource.mitpe.name,
+        mock_transform.return_value[1],
+        config=ProgramLoaderConfig(prune=True, courses=CourseLoaderConfig()),
+    )
+    assert results == (mock_load_courses.return_value, mock_load_programs.return_value)
+
+
 def test_prolearn_courses_etl():
     """Verify that prolearn courses etl pipeline executes correctly"""
     with reload_mocked_pipeline(

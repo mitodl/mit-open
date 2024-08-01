@@ -48,6 +48,7 @@ query {
                         {operator: \"=\", name: \"field_course_or_program\", value: \"%s\"},
                         {operator: \"<>\", name: \"department\", value: \"MIT xPRO\"}
                         %s
+                       {operator: \"<>\", name: \"department\", value: \"MIT Professional Education\"}
                     ]
                 }
             ]
