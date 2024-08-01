@@ -1208,7 +1208,7 @@ export interface LearningResourceTopic {
    * @type {string}
    * @memberof LearningResourceTopic
    */
-  channel_url: string
+  channel_url: string | null
 }
 /**
  * Serializer for News FeedItem

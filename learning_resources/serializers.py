@@ -40,7 +40,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
     Serializer for LearningResourceTopic model
     """
 
-    channel_url = serializers.CharField(read_only=True)
+    channel_url = serializers.CharField(read_only=True, allow_null=True)
 
     class Meta:
         """Meta options for the serializer."""

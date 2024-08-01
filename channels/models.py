@@ -116,9 +116,11 @@ class Channel(TimestampedModel):
         return self.title
 
     @cached_property
-    def channel_url(self) -> str:
+    def channel_url(self) -> str | None:
         """Return the channel url"""
-        return frontend_absolute_url(f"/c/{self.channel_type}/{self.name}/")
+        if self.published:
+            return frontend_absolute_url(f"/c/{self.channel_type}/{self.name}/")
+        return None
 
     class Meta:
         unique_together = ("name", "channel_type")

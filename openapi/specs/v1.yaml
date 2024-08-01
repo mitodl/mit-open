@@ -8770,6 +8770,7 @@ components:
         channel_url:
           type: string
           readOnly: true
+          nullable: true
       required:
       - channel_url
       - id

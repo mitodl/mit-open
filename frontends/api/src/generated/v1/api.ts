@@ -2334,7 +2334,7 @@ export interface LearningResourceTopic {
    * @type {string}
    * @memberof LearningResourceTopic
    */
-  channel_url: string
+  channel_url: string | null
 }
 /**
  * SearchResponseSerializer with OpenAPI annotations for Learning Resources search
