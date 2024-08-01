@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.14.6
+--------------
+
+- Use resource_delete_actions instead of resource.delete directly (#1347)
+- Show "Start Anytime" based on resource "availability" property (#1336)
+- Handle alternate unique id fields better in load_course (#1342)
+- topic / privacy / onboarding / profile copy updates (#1334)
+
 Version 0.14.5 (Released July 31, 2024)
 --------------
 
