@@ -303,7 +303,7 @@ const DashboardPage: React.FC = () => {
   const showUserListDetail = pathname.includes(MY_LISTS) && id !== -1
   const tabValue = showUserListDetail
     ? MY_LISTS
-    : pathname in [DASHBOARD_HOME, MY_LISTS, PROFILE]
+    : [DASHBOARD_HOME, MY_LISTS, PROFILE].includes(pathname)
       ? pathname
       : DASHBOARD_HOME
 
