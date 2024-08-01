@@ -36,26 +36,6 @@ def unpublish_topics_for_resource(resource):
         channel.save()
 
 
-def unpublish_topics_for_resource(resource):
-    """
-    Unpublish channels for topics that are used exclusively by the resource
-
-    Args:
-        resource(LearningResource): The resource that was unpublished
-    """
-    channels = Channel.objects.filter(
-        topic_detail__topic__in=resource.topics.all(),
-        published=True,
-        topic_detail__topic__learningresource__isnull=True,
-    ).exclude(
-        topic_detail__topic__learningresource__learningresource__published=True,
-        topic_detail__topic__learningresource__learningresource=resource,
-    )
-    for channel in channels:
-        channel.published = False
-        channel.save()
-
-
 class ChannelPlugin:
     """Create/delete channels based on learning_resources models"""
 

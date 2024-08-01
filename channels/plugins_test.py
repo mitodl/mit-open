@@ -151,9 +151,9 @@ def test_search_index_plugin_offeror_delete():
 @pytest.mark.parametrize(
     ("published_resources", "to_remove", "expect_channel_published"),
     [
-        (2, 0, True),  # 3 published resources remain
-        (2, 1, True),  # 2 published resources remain
-        (2, 2, False),  # 1 published resource remains
+        (2, 0, True),  # 2 published resources remain
+        (2, 1, True),  # 1 published resources remain
+        (2, 2, False),  # 0 published resource remains
     ],
 )
 @pytest.mark.django_db()
