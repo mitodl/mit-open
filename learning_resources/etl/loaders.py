@@ -46,6 +46,7 @@ from learning_resources.utils import (
     bulk_resources_unpublished_actions,
     load_course_blocklist,
     load_course_duplicates,
+    resource_delete_actions,
     resource_run_unpublished_actions,
     resource_run_upserted_actions,
     resource_unpublished_actions,
@@ -347,7 +348,7 @@ def upsert_course_or_program(
         ).order_by("-updated_on")
         if existing_courses.count() > 1:
             for course in existing_courses[1:]:
-                course.delete()
+                resource_delete_actions(course)
     else:
         unique_field_value = resource_id
     return LearningResource.objects.select_for_update().update_or_create(
