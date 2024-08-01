@@ -5,7 +5,7 @@ from functools import cached_property
 from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
 from django.db import models
-from django.db.models import JSONField, deletion
+from django.db.models import Case, JSONField, When, deletion
 from django.db.models.functions import Concat
 from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
@@ -32,12 +32,18 @@ class ChannelQuerySet(TimestampedModelQuerySet):
     def annotate_channel_url(self):
         """Annotate the channel for serialization"""
         return self.annotate(
-            channel_url=Concat(
-                models.Value(frontend_absolute_url("/c/")),
-                "channel_type",
-                models.Value("/"),
-                "name",
-                models.Value("/"),
+            channel_url=Case(
+                When(
+                    published=True,
+                    then=Concat(
+                        models.Value(frontend_absolute_url("/c/")),
+                        "channel_type",
+                        models.Value("/"),
+                        "name",
+                        models.Value("/"),
+                    ),
+                ),
+                default=None,
             )
         )
 
