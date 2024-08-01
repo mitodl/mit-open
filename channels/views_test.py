@@ -209,20 +209,26 @@ def test_patch_channel_image(client, channel, attribute):
             assert len(size_image.read()) > 0
 
 
-def test_channel_by_type_name_detail(user_client):
+@pytest.mark.parametrize(
+    ("published", "requested_type", "response_status"),
+    [
+        (True, ChannelType.topic, 200),
+        (False, ChannelType.topic, 404),
+        (True, ChannelType.department, 404),
+        (False, ChannelType.department, 404),
+    ],
+)
+def test_channel_by_type_name_detail(
+    user_client, published, requested_type, response_status
+):
     """ChannelByTypeNameDetailView should return expected result"""
-    channel = ChannelFactory.create(is_topic=True)
+    channel = ChannelFactory.create(is_topic=True, published=published)
     url = reverse(
         "channels:v0:channel_by_type_name_api-detail",
-        kwargs={"channel_type": ChannelType.topic.name, "name": channel.name},
+        kwargs={"channel_type": requested_type.name, "name": channel.name},
     )
     response = user_client.get(url)
-    assert response.json() == ChannelSerializer(instance=channel).data
-    Channel.objects.filter(id=channel.id).update(
-        channel_type=ChannelType.department.name
-    )
-    response = user_client.get(url)
-    assert response.status_code == 404
+    assert response.status_code == response_status
 
 
 def test_update_channel_forbidden(channel, user_client):

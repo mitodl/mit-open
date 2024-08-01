@@ -145,6 +145,7 @@ class ChannelByTypeNameDetailView(mixins.RetrieveModelMixin, viewsets.GenericVie
             Channel,
             channel_type=self.kwargs["channel_type"],
             name=self.kwargs["name"],
+            published=True,
         )
 
 
