@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.14.7
+Version 0.14.7 (Released August 01, 2024)
 --------------
 
 - Renaming my topic update migration from 0006 to 0007 (#1353)
