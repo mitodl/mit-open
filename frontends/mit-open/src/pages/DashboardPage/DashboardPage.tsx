@@ -301,7 +301,11 @@ const DashboardPage: React.FC = () => {
   const { pathname } = useLocation()
   const id = Number(useParams<RouteParams>().id) || -1
   const showUserListDetail = pathname.includes(MY_LISTS) && id !== -1
-  const tabValue = showUserListDetail ? MY_LISTS : pathname
+  const tabValue = showUserListDetail
+    ? MY_LISTS
+    : pathname in [DASHBOARD_HOME, MY_LISTS, PROFILE]
+      ? pathname
+      : DASHBOARD_HOME
 
   const topics = profile?.preference_search_filters.topic
   const certification = profile?.preference_search_filters.certification
