@@ -7,6 +7,11 @@ from pathlib import Path
 import pytest
 
 from learning_resources.etl import mitpe
+from learning_resources.factories import (
+    LearningResourceOfferorFactory,
+    LearningResourceTopicFactory,
+    LearningResourceTopicMappingFactory,
+)
 from main.test_utils import assert_json_equal
 
 EXPECTED_COURSES = [
@@ -28,7 +33,7 @@ EXPECTED_COURSES = [
         "course": {"course_numbers": []},
         "learning_format": ["online"],
         "published": True,
-        "topics": [],
+        "topics": [{"name": "Data Science"}],
         "runs": [
             {
                 "run_id": "7802023070620230907",
@@ -64,7 +69,7 @@ EXPECTED_COURSES = [
         "course": {"course_numbers": []},
         "learning_format": ["in_person"],
         "published": True,
-        "topics": [],
+        "topics": [{"name": "Data Science"}, {"name": "Product Innovation"}],
         "runs": [
             {
                 "run_id": "4172023071720230719",
@@ -105,7 +110,7 @@ EXPECTED_PROGRAMS = [
         "description": "A fábrica do futuro já está aqui. Participe do programa online Manufatura Inteligente: Produção na Indústria 4.0 e aproveite a experiência de mais de cem anos de colaboração do MIT com vários setores. Aprenda as chaves para criar uma indústria inteligente em qualquer escala e saiba como software, sensores e sistemas são integrados para essa finalidade. Com este programa interativo, você passará da criação de modelos a sistemas de fabricação e análise avançada de dados para desenvolver estratégias que gerem uma vantagem competitiva.\n",
         "learning_format": ["online"],
         "published": True,
-        "topics": [],
+        "topics": [{"name": "Product Innovation"}],
         "runs": [
             {
                 "run_id": "7192023070620230914",
@@ -122,51 +127,7 @@ EXPECTED_PROGRAMS = [
                 "instructors": [{"full_name": ""}, {"full_name": "Brian Anthony"}],
             }
         ],
-        "courses": [
-            {
-                "readable_id": "a44c8b47-552c-45f9-b91b-854172201889",
-                "offered_by": {"code": "mitpe"},
-                "platform": "mitpe",
-                "etl_source": "mitpe",
-                "professional": True,
-                "certification": True,
-                "certification_type": "professional",
-                "title": "Comunicação Persuasiva: Pensamento Crítico para Aprimorar a Mensagem (Portuguese)",
-                "url": "https://professional.mit.edu/course-catalog/comunicacao-persuasiva-pensamento-critico-para-aprimorar-mensagem-portuguese",
-                "image": {
-                    "alt": " Persuasive Communication Critical Thinking -web banner",
-                    "url": "https://professional.mit.edu/sites/default/files/2022-01/1600x800.png",
-                },
-                "description": "Profissionais de áreas técnicas estão acostumados a falar ou apresentar dados para perfis que compartem os mesmos interesses e campo de atuação, mas podem encontrar dificuldades em transmitir suas ideias para pessoas de outros setores.\n",
-                "course": {"course_numbers": []},
-                "learning_format": ["online"],
-                "published": True,
-                "topics": [],
-                "runs": [
-                    {
-                        "run_id": "7802023070620230907",
-                        "title": "Comunicação Persuasiva: Pensamento Crítico para Aprimorar a Mensagem (Portuguese)",
-                        "description": "Profissionais de áreas técnicas estão acostumados a falar ou apresentar dados para perfis que compartem os mesmos interesses e campo de atuação, mas podem encontrar dificuldades em transmitir suas ideias para pessoas de outros setores.\n",
-                        "start_date": datetime.datetime(
-                            2023, 7, 6, 4, 0, tzinfo=datetime.UTC
-                        ),
-                        "end_date": datetime.datetime(
-                            2023, 9, 7, 4, 0, tzinfo=datetime.UTC
-                        ),
-                        "enrollment_end": datetime.datetime(
-                            2023, 4, 25, 4, 0, tzinfo=datetime.UTC
-                        ),
-                        "published": True,
-                        "prices": ["1870"],
-                        "url": "https://professional.mit.edu/course-catalog/comunicacao-persuasiva-pensamento-critico-para-aprimorar-mensagem-portuguese",
-                        "instructors": [
-                            {"full_name": "Edward Schiappa"},
-                            {"full_name": ""},
-                        ],
-                    }
-                ],
-            }
-        ],
+        "courses": [EXPECTED_COURSES[0]],
     }
 ]
 
@@ -218,8 +179,21 @@ def test_extract(settings, mock_fetch_data, prof_ed_api_url):
 @pytest.mark.django_db()
 def test_transform(mocker, mock_fetch_data, prof_ed_settings):
     """Test transform function, and effectivelu most other functions"""
+    offeror = LearningResourceOfferorFactory.create(code="mitpe")
+    LearningResourceTopicMappingFactory.create(
+        offeror=offeror,
+        topic=LearningResourceTopicFactory.create(name="Product Innovation"),
+        topic_name="Technology Innovation",
+    )
+    LearningResourceTopicMappingFactory.create(
+        offeror=offeror,
+        topic=LearningResourceTopicFactory.create(name="Data Science"),
+        topic_name="Data Science",
+    )
     extracted = mitpe.extract()
     assert len(extracted) == 3
     courses, programs = mitpe.transform(extracted)
-    assert courses == EXPECTED_COURSES
-    assert programs == EXPECTED_PROGRAMS
+    assert_json_equal(
+        sorted(courses, key=lambda course: course["readable_id"]), EXPECTED_COURSES
+    )
+    assert_json_equal(programs, EXPECTED_PROGRAMS)
