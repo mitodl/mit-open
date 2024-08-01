@@ -148,7 +148,7 @@ EXPECTED_PROGRAM = {
 @pytest.fixture()
 def prof_ed_settings(settings):
     """Fixture to set Professional Education API URL"""
-    settings.PROFESSIONAL_EDUCATION_API_URL = "http://pro_edu_api.com"
+    settings.PROFESSIONAL_EDUCATION_RESOURCES_API_URL = "http://pro_edu_api.com"
     return settings
 
 
@@ -193,7 +193,7 @@ def mock_fetch_data(mocker):
 @pytest.mark.parametrize("prof_ed_api_url", ["http://pro_edd_api.com", None])
 def test_extract(settings, mock_fetch_data, prof_ed_api_url):
     """Test extract function"""
-    settings.PROFESSIONAL_EDUCATION_API_URL = prof_ed_api_url
+    settings.PROFESSIONAL_EDUCATION_RESOURCES_API_URL = prof_ed_api_url
     with Path.open(
         Path("./test_json/professional_ed/professional_ed_resources.json"), "r"
     ) as file:
