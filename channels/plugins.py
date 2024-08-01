@@ -12,6 +12,28 @@ from channels.models import (
     ChannelTopicDetail,
     ChannelUnitDetail,
 )
+from learning_resources.models import LearningResource
+
+
+def unpublish_topics_for_resource(resource):
+    """
+    Unpublish channels for topics that are used exclusively by the resource
+
+    Args:
+        resource(LearningResource): The resource that was unpublished
+    """
+    other_published = LearningResource.objects.filter(
+        published=True,
+    ).exclude(id=resource.id)
+
+    channels = Channel.objects.filter(
+        topic_detail__topic__in=resource.topics.all(),
+        published=True,
+    ).exclude(topic_detail__topic__learningresource__in=other_published)
+
+    for channel in channels:
+        channel.published = False
+        channel.save()
 
 
 class ChannelPlugin:

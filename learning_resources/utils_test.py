@@ -233,7 +233,11 @@ def test_resource_delete_actions(mock_plugin_manager, fixture_resource):
     resource_delete_actions function should trigger plugin hook's resource_deleted function
     """
     utils.resource_delete_actions(fixture_resource)
-    mock_plugin_manager.hook.resource_delete.assert_called_once_with(
+
+    with pytest.raises(LearningResource.DoesNotExist):
+        fixture_resource.refresh_from_db()
+
+    mock_plugin_manager.hook.resource_before_delete.assert_called_once_with(
         resource=fixture_resource
     )
 
