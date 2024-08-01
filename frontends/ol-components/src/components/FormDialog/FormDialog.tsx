@@ -19,8 +19,13 @@ interface FormDialogProps {
    * Dialog title.
    */
   title: string
-
+  /**
+   * Content (e.g., text) of confirm button in DialogActions
+   */
   confirmText?: string
+  /**
+   * Content (e.g., text) of cancel button in DialogActions
+   */
   cancelText?: string
   /**
    * Called when modal is closed.
@@ -70,7 +75,7 @@ interface FormDialogProps {
 }
 
 /**
- * A wrapper around MUI's Dialog components to be used with forms. Includes a
+ * A wrapper around the Dialog components to be used with forms. Includes a
  * `<form />` element as well as cancel and submit buttons.
  *
  * See Also
@@ -135,8 +140,10 @@ const FormDialog: React.FC<FormDialogProps> = ({
       className={className}
       PaperProps={paperProps}
     >
-      <FormContent>{children}</FormContent>
-      {footerContent}
+      <FormContent>
+        {children}
+        {footerContent}
+      </FormContent>
     </Dialog>
   )
 }

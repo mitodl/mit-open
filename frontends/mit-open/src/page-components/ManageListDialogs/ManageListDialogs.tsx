@@ -1,6 +1,7 @@
 import React, { useCallback } from "react"
 import { useFormik, FormikConfig } from "formik"
 import * as NiceModal from "@ebay/nice-modal-react"
+import { RiDeleteBinLine } from "@remixicon/react"
 import {
   Alert,
   TextField,
@@ -9,6 +10,7 @@ import {
   FormDialog,
   Dialog,
   MenuItem,
+  Button,
 } from "ol-components"
 import * as Yup from "yup"
 import { PrivacyLevelEnum, type LearningPathResource, UserList } from "api"
@@ -130,7 +132,6 @@ const UpsertLearningPathDialog = NiceModal.create(
       >
         <TextField
           required
-          className="form-row"
           name="title"
           label="Title"
           placeholder="List Title"
@@ -143,7 +144,6 @@ const UpsertLearningPathDialog = NiceModal.create(
         />
         <TextField
           required
-          className="form-row"
           label="Description"
           name="description"
           placeholder="List Description"
@@ -157,7 +157,6 @@ const UpsertLearningPathDialog = NiceModal.create(
           minRows={3}
         />
         <Autocomplete
-          className="form-row"
           multiple
           options={topics}
           isOptionEqualToValue={(option, value) => option.id === value.id}
@@ -185,7 +184,6 @@ const UpsertLearningPathDialog = NiceModal.create(
           }}
         />
         <BooleanRadioChoiceField
-          className="form-row"
           name="published"
           label="Privacy"
           choices={LEARNING_PATH_PRIVACY_CHOICES}
@@ -252,7 +250,6 @@ const UpsertUserListDialog = NiceModal.create(
       >
         <TextField
           required
-          className="form-row"
           name="title"
           label="Title"
           placeholder="My list of favorite courses"
@@ -265,7 +262,6 @@ const UpsertUserListDialog = NiceModal.create(
         />
         <TextField
           required
-          className="form-row"
           label="Description"
           name="description"
           placeholder="List of all courses I wanted to check out"
@@ -278,6 +274,19 @@ const UpsertUserListDialog = NiceModal.create(
           multiline
           minRows={3}
         />
+        <div>
+          <Button
+            type="submit"
+            variant="tertiary"
+            edge="rounded"
+            size="small"
+            startIcon={<RiDeleteBinLine />}
+            disabled={formik.isSubmitting}
+            onClick={() => manageListDialogs.destroyUserList(userList!)}
+          >
+            Delete
+          </Button>
+        </div>
       </FormDialog>
     )
   },
