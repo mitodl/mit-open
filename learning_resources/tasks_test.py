@@ -52,48 +52,57 @@ def mock_blocklist(mocker):
     )
 
 
-def test_get_micromasters_data(mocker):
-    """Verify that the get_micromasters_data invokes the MicroMasters ETL pipeline"""
-    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
+@pytest.fixture()
+def mock_pipelines(mocker):
+    """Fixture to mock pipelines"""
+    return mocker.patch("learning_resources.tasks.pipelines")
 
+
+def test_get_micromasters_data(mock_pipelines):
+    """Verify that the get_micromasters_data invokes the MicroMasters ETL pipeline"""
     tasks.get_micromasters_data.delay()
     mock_pipelines.micromasters_etl.assert_called_once_with()
 
 
-def test_get_mit_edx_data_valid(mocker):
+def test_get_mit_edx_data_valid(mock_pipelines):
     """Verify that the get_mit_edx_data invokes the MIT edX ETL pipeline"""
-    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
-
     tasks.get_mit_edx_data.delay()
     mock_pipelines.mit_edx_etl.assert_called_once_with(None)
 
 
-def test_get_mitxonline_data(mocker):
+def test_get_mitxonline_data(mock_pipelines):
     """Verify that the get_mitxonline_data invokes the MITx Online ETL pipeline"""
-    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_mitxonline_data.delay()
     mock_pipelines.mitxonline_programs_etl.assert_called_once_with()
     mock_pipelines.mitxonline_courses_etl.assert_called_once_with()
 
 
-def test_get_oll_data(mocker):
+def test_get_oll_data(mock_pipelines):
     """Verify that the get_oll_data invokes the OLL ETL pipeline"""
-    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_oll_data.delay()
     mock_pipelines.oll_etl.assert_called_once_with(None)
 
 
-def test_get_prolearn_data(mocker):
+def test_get_mitpe_data(mock_pipelines):
+    """Verify that the get_mitpe_data task invokes the Professional Ed pipeline"""
+    mock_pipelines.mitpe_etl.return_value = (
+        LearningResourceFactory.create_batch(2),
+        LearningResourceFactory.create_batch(1),
+    )
+    task = tasks.get_mitpe_data.delay()
+    mock_pipelines.mitpe_etl.assert_called_once_with()
+    assert task.result == 3
+
+
+def test_get_prolearn_data(mock_pipelines):
     """Verify that the get_prolearn_data invokes the Prolearn ETL pipeline"""
-    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_prolearn_data.delay()
     mock_pipelines.prolearn_programs_etl.assert_called_once_with()
     mock_pipelines.prolearn_courses_etl.assert_called_once_with()
 
 
-def test_get_xpro_data(mocker):
+def test_get_xpro_data(mock_pipelines):
     """Verify that the get_xpro_data invokes the xPro ETL pipeline"""
-    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_xpro_data.delay()
     mock_pipelines.xpro_programs_etl.assert_called_once_with()
     mock_pipelines.xpro_courses_etl.assert_called_once_with()
@@ -223,9 +232,8 @@ def test_get_content_files_missing_settings(mocker, settings):
     mock_log.assert_called_once_with("Required settings missing for %s files", platform)
 
 
-def test_get_podcast_data(mocker):
+def test_get_podcast_data(mock_pipelines):
     """Verify that get_podcast_data invokes the podcast ETL pipeline with expected params"""
-    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_podcast_data.delay()
     mock_pipelines.podcast_etl.assert_called_once()
 
@@ -317,9 +325,8 @@ def test_get_ocw_courses(settings, mocker, mocked_celery, timestamp, overwrite):
 
 
 @pytest.mark.parametrize("channel_ids", [["abc", "123"], None])
-def test_get_youtube_data(mocker, settings, channel_ids):
+def test_get_youtube_data(mock_pipelines, channel_ids):
     """Verify that the get_youtube_data invokes the YouTube ETL pipeline with expected params"""
-    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     get_youtube_data.delay(channel_ids=channel_ids)
     mock_pipelines.youtube_etl.assert_called_once_with(channel_ids=channel_ids)
 

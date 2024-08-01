@@ -43,6 +43,7 @@ query {
                     conditions: [
                         {operator: \"=\", name: \"field_course_or_program\", value: \"%s\"},
                         {operator: \"<>\", name: \"department\", value: \"MIT xPRO\"}
+                        {operator: \"<>\", name: \"department\", value: \"MIT Professional Education\"}
                     ]
                 }
             ]

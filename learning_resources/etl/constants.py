@@ -47,12 +47,13 @@ class ETLSource(Enum):
 
     micromasters = "micromasters"
     mit_edx = "mit_edx"
+    mitpe = "mitpe"
     mitxonline = "mitxonline"
     oll = "oll"
-    xpro = "xpro"
     ocw = "ocw"
     prolearn = "prolearn"
     podcast = "podcast"
+    xpro = "xpro"
     youtube = "youtube"
 
 
@@ -75,6 +76,9 @@ RESOURCE_FORMAT_MAPPING = {
     None: LearningResourceFormat.online.name,
     "": LearningResourceFormat.online.name,
     "Blended": LearningResourceFormat.hybrid.name,
+    "In Person": LearningResourceFormat.in_person.name,
+    "Live Virtual": LearningResourceFormat.online.name,
+    "On Campus": LearningResourceFormat.in_person.name,
     **{
         value: LearningResourceFormat(value).name
         for value in LearningResourceFormat.values()

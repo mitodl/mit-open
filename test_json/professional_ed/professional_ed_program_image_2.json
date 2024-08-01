@@ -1,0 +1,59 @@
+{
+  "jsonapi": {
+    "version": "1.0",
+    "meta": {
+      "links": {
+        "self": {
+          "href": "http://jsonapi.org/format/1.0/"
+        }
+      }
+    }
+  },
+  "data": {
+    "type": "file--file",
+    "id": "1689991a-7999-40f0-9063-7c739f8d81cb",
+    "links": {
+      "self": {
+        "href": "https://professional.mit.edu/jsonapi/file/file/1689991a-7999-40f0-9063-7c739f8d81cb"
+      }
+    },
+    "attributes": {
+      "drupal_internal__fid": 875,
+      "langcode": "en",
+      "filename": "MITPE-InnovationCertificateProgram-website-banner-1600x800.jpg",
+      "uri": {
+        "value": "public://2021-01/MITPE-InnovationCertificateProgram-website-banner-1600x800.jpg",
+        "url": "/sites/default/files/2021-01/MITPE-InnovationCertificateProgram-website-banner-1600x800.jpg"
+      },
+      "filemime": "image/jpeg",
+      "filesize": 1031478,
+      "status": true,
+      "created": "2021-01-30T02:03:35+00:00",
+      "changed": "2021-01-30T02:04:01+00:00"
+    },
+    "relationships": {
+      "uid": {
+        "data": {
+          "type": "user--user",
+          "id": "36a239b4-cc6b-487f-b44c-1e98d92e4c19",
+          "meta": {
+            "drupal_internal__target_id": 46
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://professional.mit.edu/jsonapi/file/file/1689991a-7999-40f0-9063-7c739f8d81cb/uid"
+          },
+          "self": {
+            "href": "https://professional.mit.edu/jsonapi/file/file/1689991a-7999-40f0-9063-7c739f8d81cb/relationships/uid"
+          }
+        }
+      }
+    }
+  },
+  "links": {
+    "self": {
+      "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/field_media_image?resourceVersion=id%3A653"
+    }
+  }
+}
