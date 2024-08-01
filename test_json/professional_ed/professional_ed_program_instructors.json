@@ -1,0 +1,1760 @@
+{
+  "jsonapi": {
+    "version": "1.0",
+    "meta": {
+      "links": {
+        "self": {
+          "href": "http://jsonapi.org/format/1.0/"
+        }
+      }
+    }
+  },
+  "data": [
+    {
+      "type": "node--faculty",
+      "id": "0d18fecb-0274-4268-b4dd-6ea7ac6a36de",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de?resourceVersion=id%3A820"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 286,
+        "drupal_internal__vid": 820,
+        "langcode": "en",
+        "revision_timestamp": "2019-05-01T18:03:52+00:00",
+        "status": true,
+        "title": "Blade Kotelly",
+        "created": "2019-05-01T18:01:34+00:00",
+        "changed": "2024-02-06T19:39:11+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/blade-kotelly",
+          "pid": 284,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003E\u003Ca href=\"http://www.bladekotelly.com\"\u003EBlade\u003C/a\u003E is an innovation and user-experience expert &amp; Senior Lecturer at MIT on Design-Thinking and Innovation. Blade provides consulting service in Design-Thinking and helps top brands to innovate radically on their product and services, and teaches corporate teams how to create solutions that customers love. Customers include Bose, CPI International, Whirlpool, Lufthansa, The D.C. Department of Homeland Security and Emergency Management, and others.\u003C/p\u003E\u003Cp\u003EPrior to that, Blade led the Advanced Concept Lab at Sonos where he defined the future experience that will fill your home with music. Prior to joining Sonos, Blade was the VP Design &amp; Consumer Experience at Jibo, Inc. where he was in charge of the industrial-design, human-factors, user-interface, brand, packaging, web experience supporting Jibo, the world’s first social robot for the home. Blade has also designed a variety of technologies including ones at Rapid7, an enterprise security-software company, &nbsp;StorytellingMachines, a software firm enabling anyone to make high-impact movies, Endeca Technologies, a search and information access software technology company, Edify and SpeechWorks, companies that provided speech-recognition solutions to the Fortune 1000.\u003C/p\u003E\u003Cp\u003EBlade wrote the book on speech-recognition interface design (Addison Wesley, 2003), The Art and Business of Speech Recognition: Creating the Noble Voice and his work and thoughts have been featured in publications including The New York Times, the Wall Street Journal, and on media including TechTV, NPR, and the BBC.\u003Cbr\u003E&nbsp;\u003Cbr\u003ESince 2003, Blade has taught courses on design-thinking to thousands of students and professionals, and holds a Bachelors of Science in Human-Factors Engineering from Tufts University and a Master of Science in Engineering and Management from MIT.\u003C/p\u003E",
+          "format": "full_html",
+          "processed": "\u003Cp\u003E\u003Ca href=\"http://www.bladekotelly.com\"\u003EBlade\u003C/a\u003E is an innovation and user-experience expert &amp; Senior Lecturer at MIT on Design-Thinking and Innovation. Blade provides consulting service in Design-Thinking and helps top brands to innovate radically on their product and services, and teaches corporate teams how to create solutions that customers love. Customers include Bose, CPI International, Whirlpool, Lufthansa, The D.C. Department of Homeland Security and Emergency Management, and others.\u003C/p\u003E\u003Cp\u003EPrior to that, Blade led the Advanced Concept Lab at Sonos where he defined the future experience that will fill your home with music. Prior to joining Sonos, Blade was the VP Design &amp; Consumer Experience at Jibo, Inc. where he was in charge of the industrial-design, human-factors, user-interface, brand, packaging, web experience supporting Jibo, the world’s first social robot for the home. Blade has also designed a variety of technologies including ones at Rapid7, an enterprise security-software company, &nbsp;StorytellingMachines, a software firm enabling anyone to make high-impact movies, Endeca Technologies, a search and information access software technology company, Edify and SpeechWorks, companies that provided speech-recognition solutions to the Fortune 1000.\u003C/p\u003E\u003Cp\u003EBlade wrote the book on speech-recognition interface design (Addison Wesley, 2003), The Art and Business of Speech Recognition: Creating the Noble Voice and his work and thoughts have been featured in publications including The New York Times, the Wall Street Journal, and on media including TechTV, NPR, and the BBC.\u003Cbr\u003E&nbsp;\u003Cbr\u003ESince 2003, Blade has taught courses on design-thinking to thousands of students and professionals, and holds a Bachelors of Science in Human-Factors Engineering from Tufts University and a Master of Science in Engineering and Management from MIT.\u003C/p\u003E",
+          "summary": ""
+        },
+        "field_featured_card_summary": "Blade is an innovation and user-experience expert & Senior Lecturer at MIT on Design-Thinking and Innovation. Blade provides consulting service in Design-Thinking and helps top brands to innovate radically on their product and services, and teaches corporate teams how to create solutions that customers love. Customers include Bose, CPI International, Whirlpool, Lufthansa, The D.C. Department of Homeland Security and Emergency Management, and others.",
+        "field_first_name": "Blade",
+        "field_last_name": "Kotelly",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003EBlade is an innovation and user-experience expert &amp; Senior Lecturer at MIT on Design-Thinking and Innovation. Blade provides consulting service in Design-Thinking and helps top brands to innovate radically on their product and services, and teaches corporate teams how to create solutions that customers love. Customers include Bose, CPI International, Whirlpool, Lufthansa, The D.C. Department of Homeland Security and Emergency Management, and others.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EBlade is an innovation and user-experience expert &amp; Senior Lecturer at MIT on Design-Thinking and Innovation. Blade provides consulting service in Design-Thinking and helps top brands to innovate radically on their product and services, and teaches corporate teams how to create solutions that customers love. Customers include Bose, CPI International, Whirlpool, Lufthansa, The D.C. Department of Homeland Security and Emergency Management, and others.\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          "Senior Lecturer, Bernard M. Gordon-MIT Engineering Leadership Program"
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/node_type?resourceVersion=id%3A820"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/relationships/node_type?resourceVersion=id%3A820"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/revision_uid?resourceVersion=id%3A820"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/relationships/revision_uid?resourceVersion=id%3A820"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/uid?resourceVersion=id%3A820"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/relationships/uid?resourceVersion=id%3A820"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "b4e13512-ed69-4bbc-8d07-a61ac9fa59e6",
+              "meta": {
+                "drupal_internal__target_id": 25
+              }
+            },
+            {
+              "type": "taxonomy_term--topics",
+              "id": "cf85788c-a012-4683-ae98-686e9d89a2b7",
+              "meta": {
+                "drupal_internal__target_id": 28
+              }
+            },
+            {
+              "type": "taxonomy_term--topics",
+              "id": "6feeb1ce-0162-4836-93b8-705d73800cb6",
+              "meta": {
+                "drupal_internal__target_id": 29
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/field_course_topics?resourceVersion=id%3A820"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/relationships/field_course_topics?resourceVersion=id%3A820"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "886b8510-d2fa-42e6-8299-ecf785ca5b9b",
+            "meta": {
+              "drupal_internal__target_id": 185
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/field_faculty_photo?resourceVersion=id%3A820"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/relationships/field_faculty_photo?resourceVersion=id%3A820"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [
+            {
+              "type": "taxonomy_term--programs",
+              "id": "4b48c28f-fae1-402f-ac3d-8bf97af6baf3",
+              "meta": {
+                "drupal_internal__target_id": 38
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/field_programs?resourceVersion=id%3A820"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0d18fecb-0274-4268-b4dd-6ea7ac6a36de/relationships/field_programs?resourceVersion=id%3A820"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "9447ac66-9a89-400d-ac70-cdd1492f32c9",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9?resourceVersion=id%3A855"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 319,
+        "drupal_internal__vid": 855,
+        "langcode": "en",
+        "revision_timestamp": "2019-05-22T13:36:49+00:00",
+        "status": true,
+        "title": "Reza Rahaman",
+        "created": "2019-05-22T13:33:16+00:00",
+        "changed": "2021-03-24T13:56:53+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/reza-rahaman",
+          "pid": 317,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003EDr.&nbsp;\u003Ca href=\"https://gelp.mit.edu/about-gel/program-staff/reza-rahaman\" target=\"_blank\"\u003EReza Rahaman\u003C/a\u003E, is the Bernard M. Gordon Industry Co-Director and Senior Lecturer. Dr. Rahaman returned to MIT in 2018 after a 29-year career in the Consumer Packaged Goods, Pharmaceuticals, and Agricultural Chemical Industries. Immediately prior to MIT, Reza was the Vice-president of Research, Development, and Innovation for the Specialty Division of the Clorox Company. In that role he was accountable for developing innovation strategies for a diverse set of businesses and ensuring robust technology roadmaps and innovation pipelines to deliver growth and profit targets for 45% of the Clorox Company portfolio ($2.7bn in net customer sales). Among his businesses were Brita, Burt’s Bees, Glad, Hidden Valley Ranch, Fresh Step, and Kingsford Charcoal. Notable product platforms developed and launched under his leadership include Brita filter-as-you-pour, Burt’s Bees Natural Cosmetics, Glad Force Flex Plus and Force Flex Plus Advanced Protection (dual-layer technology), and Fresh Step Clean Paws.\u003C/p\u003E\r\n\r\n\u003Cp\u003EIn addition to his passion for developing leaders, Reza is passionate about workplace equality and is the Vice-Chair of the Board of Out &amp; Equal Workplace Advocates, the world’s premier nonprofit promoting LGBT+ workplace equality. He and his husband James enjoy travel and hiking. Reza received his BSc.(Eng.) in Chemical Engineering from Imperial College, University of London, and his MSCEP in Chemical Engineering Practice and Ph.D. in Chemical Engineering from MIT.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EDr.&nbsp;\u003Ca href=\"https://gelp.mit.edu/about-gel/program-staff/reza-rahaman\" target=\"_blank\"\u003EReza Rahaman\u003C/a\u003E, is the Bernard M. Gordon Industry Co-Director and Senior Lecturer. Dr. Rahaman returned to MIT in 2018 after a 29-year career in the Consumer Packaged Goods, Pharmaceuticals, and Agricultural Chemical Industries. Immediately prior to MIT, Reza was the Vice-president of Research, Development, and Innovation for the Specialty Division of the Clorox Company. In that role he was accountable for developing innovation strategies for a diverse set of businesses and ensuring robust technology roadmaps and innovation pipelines to deliver growth and profit targets for 45% of the Clorox Company portfolio ($2.7bn in net customer sales). Among his businesses were Brita, Burt’s Bees, Glad, Hidden Valley Ranch, Fresh Step, and Kingsford Charcoal. Notable product platforms developed and launched under his leadership include Brita filter-as-you-pour, Burt’s Bees Natural Cosmetics, Glad Force Flex Plus and Force Flex Plus Advanced Protection (dual-layer technology), and Fresh Step Clean Paws.\u003C/p\u003E\n\n\u003Cp\u003EIn addition to his passion for developing leaders, Reza is passionate about workplace equality and is the Vice-Chair of the Board of Out &amp; Equal Workplace Advocates, the world’s premier nonprofit promoting LGBT+ workplace equality. He and his husband James enjoy travel and hiking. Reza received his BSc.(Eng.) in Chemical Engineering from Imperial College, University of London, and his MSCEP in Chemical Engineering Practice and Ph.D. in Chemical Engineering from MIT.\u003C/p\u003E\n",
+          "summary": ""
+        },
+        "field_featured_card_summary": "Dr. Reza Rahaman, Industry Co-Director and Senior Lecturer. Dr. Rahaman returned to MIT in 2018 after a 29 year career in the Consumer Packaged Goods, Pharmaceuticals, and Agricultural Chemical Industries. Immediately prior to MIT, Reza was the Vice-president of Research, Development, and Innovation for the Specialty Division of the Clorox Company. ",
+        "field_first_name": "Reza",
+        "field_last_name": "Rahaman",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003EDr. Reza Rahaman, Bernard M. Gordon Industry Co-Director and Senior Lecturer. Dr. Rahaman returned to MIT in 2018 after a 29-year career in the Consumer Packaged Goods, Pharmaceuticals, and Agricultural Chemical Industries. Immediately prior to MIT, Reza was the Vice-president of Research, Development, and Innovation for the Specialty Division of the Clorox Company.&nbsp;\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EDr. Reza Rahaman, Bernard M. Gordon Industry Co-Director and Senior Lecturer. Dr. Rahaman returned to MIT in 2018 after a 29-year career in the Consumer Packaged Goods, Pharmaceuticals, and Agricultural Chemical Industries. Immediately prior to MIT, Reza was the Vice-president of Research, Development, and Innovation for the Specialty Division of the Clorox Company.&nbsp;\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          "Bernard M. Gordon Industry Co-Director and senior lecturer, MIT"
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/node_type?resourceVersion=id%3A855"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/relationships/node_type?resourceVersion=id%3A855"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/revision_uid?resourceVersion=id%3A855"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/relationships/revision_uid?resourceVersion=id%3A855"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/uid?resourceVersion=id%3A855"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/relationships/uid?resourceVersion=id%3A855"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "cf85788c-a012-4683-ae98-686e9d89a2b7",
+              "meta": {
+                "drupal_internal__target_id": 28
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/field_course_topics?resourceVersion=id%3A855"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/relationships/field_course_topics?resourceVersion=id%3A855"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "d227e5d0-9e69-4286-85b2-f0737cf4e8e8",
+            "meta": {
+              "drupal_internal__target_id": 206
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/field_faculty_photo?resourceVersion=id%3A855"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/relationships/field_faculty_photo?resourceVersion=id%3A855"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [
+            {
+              "type": "taxonomy_term--programs",
+              "id": "4b48c28f-fae1-402f-ac3d-8bf97af6baf3",
+              "meta": {
+                "drupal_internal__target_id": 38
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/field_programs?resourceVersion=id%3A855"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/9447ac66-9a89-400d-ac70-cdd1492f32c9/relationships/field_programs?resourceVersion=id%3A855"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "0aba6bed-3f64-4f54-936c-c3e551eb003e",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e?resourceVersion=id%3A821"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 287,
+        "drupal_internal__vid": 821,
+        "langcode": "en",
+        "revision_timestamp": "2019-05-01T18:09:02+00:00",
+        "status": true,
+        "title": "Michael Davies",
+        "created": "2019-05-01T18:06:06+00:00",
+        "changed": "2019-05-01T18:11:43+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/michael-davies",
+          "pid": 285,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003E\u003Ca href=\"http://mamd.mit.edu/\"\u003EMichael A M Davies\u003C/a\u003E teaches the engineering and business elements of the&nbsp;\u003Ca href=\"http://idm.mit.edu/\"\u003EIntegrated Design and Management\u003C/a\u003E&nbsp;(IDM) program at MIT.\u003C/p\u003E\r\n\r\n\u003Cp\u003EHe is the founder and chairman of&nbsp;\u003Ca href=\"http://endeavourpartners.net/\"\u003EEndeavour Partners\u003C/a\u003E, a boutique business strategy consulting firm that enables leaders in high-tech businesses and businesses being affected by technology worldwide to create value and drive growth through innovation. Endeavour Partners helps its clients anticipate, navigate, and innovate through insight and foresight in order to make better strategic decisions.Its clients include nearly all of the top-tier device vendors, network operators, service providers, and semiconductor businesses. Beyond high-tech, its clients include some of the world’s leading e-commerce, information services, oil and gas, packaging and logistics businesses, along with world-class sports teams.\u003C/p\u003E\r\n\r\n\u003Cp\u003EHe is an expert on the connections between technology, innovation, product development, consumer choice and behavior, the adoption and diffusion of new products, intellectual property, and the emergence and evolution of platforms and business ecosystems. Michael has spent his career helping top management make strategic decisions and drive innovation. Nowadays, he is focused on the rapid shift toward smartphones, cloud services, the Internet of Things, artificial intelligence, and robotics, particularly the forces driving this shift and its impact and implications over the next few years.\u003C/p\u003E\r\n\r\n\u003Cp\u003EMichael also runs the New Technology Ventures program at the London Business School. Additionally, he is an Advisor to the Department of Systems Engineering at the United States Military Academy at West Point.\u003C/p\u003E\r\n\r\n\u003Cp\u003EHe also is a co-founder and the Chairman of&nbsp;\u003Ca href=\"https://silverthreadinc.com/\"\u003Esilverthread, Inc.\u003C/a\u003E, and angel-baked business commercializing research on software engineering from MIT and Harvard Business School, a member of the Board of the Kendall Square Association, the business group for this world leading innovation hub, the Chairman of the Mobile Cluster for Massachusetts Technology Leadership Council and an advisor to several other companies on digital business.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003E\u003Ca href=\"http://mamd.mit.edu/\"\u003EMichael A M Davies\u003C/a\u003E teaches the engineering and business elements of the&nbsp;\u003Ca href=\"http://idm.mit.edu/\"\u003EIntegrated Design and Management\u003C/a\u003E&nbsp;(IDM) program at MIT.\u003C/p\u003E\n\n\u003Cp\u003EHe is the founder and chairman of&nbsp;\u003Ca href=\"http://endeavourpartners.net/\"\u003EEndeavour Partners\u003C/a\u003E, a boutique business strategy consulting firm that enables leaders in high-tech businesses and businesses being affected by technology worldwide to create value and drive growth through innovation. Endeavour Partners helps its clients anticipate, navigate, and innovate through insight and foresight in order to make better strategic decisions.Its clients include nearly all of the top-tier device vendors, network operators, service providers, and semiconductor businesses. Beyond high-tech, its clients include some of the world’s leading e-commerce, information services, oil and gas, packaging and logistics businesses, along with world-class sports teams.\u003C/p\u003E\n\n\u003Cp\u003EHe is an expert on the connections between technology, innovation, product development, consumer choice and behavior, the adoption and diffusion of new products, intellectual property, and the emergence and evolution of platforms and business ecosystems. Michael has spent his career helping top management make strategic decisions and drive innovation. Nowadays, he is focused on the rapid shift toward smartphones, cloud services, the Internet of Things, artificial intelligence, and robotics, particularly the forces driving this shift and its impact and implications over the next few years.\u003C/p\u003E\n\n\u003Cp\u003EMichael also runs the New Technology Ventures program at the London Business School. Additionally, he is an Advisor to the Department of Systems Engineering at the United States Military Academy at West Point.\u003C/p\u003E\n\n\u003Cp\u003EHe also is a co-founder and the Chairman of&nbsp;\u003Ca href=\"https://silverthreadinc.com/\"\u003Esilverthread, Inc.\u003C/a\u003E, and angel-baked business commercializing research on software engineering from MIT and Harvard Business School, a member of the Board of the Kendall Square Association, the business group for this world leading innovation hub, the Chairman of the Mobile Cluster for Massachusetts Technology Leadership Council and an advisor to several other companies on digital business.\u003C/p\u003E\n",
+          "summary": ""
+        },
+        "field_featured_card_summary": "Michael A M Davies teaches the engineering and business elements of the Integrated Design and Management (IDM) program at MIT. He is an expert on the connections between technology, innovation, product development, consumer choice and behavior, the adoption and diffusion of new products, intellectual property, and the emergence and evolution of platforms and business ecosystems. ",
+        "field_first_name": "Michael",
+        "field_last_name": "Davies",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003EMichael A M Davies teaches the engineering and business elements of the&nbsp;Integrated Design and Management&nbsp;(IDM) program at MIT.&nbsp;He is an expert on the connections between technology, innovation, product development, consumer choice and behavior, the adoption and diffusion of new products, intellectual property, and the emergence and evolution of platforms and business ecosystems.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EMichael A M Davies teaches the engineering and business elements of the&nbsp;Integrated Design and Management&nbsp;(IDM) program at MIT.&nbsp;He is an expert on the connections between technology, innovation, product development, consumer choice and behavior, the adoption and diffusion of new products, intellectual property, and the emergence and evolution of platforms and business ecosystems.\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          "Senior Lecturer, MIT",
+          "Founder and Chairman, Endeavour Partners",
+          "Co-founder and Chairman, silverthread, Inc."
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/node_type?resourceVersion=id%3A821"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/relationships/node_type?resourceVersion=id%3A821"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/revision_uid?resourceVersion=id%3A821"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/relationships/revision_uid?resourceVersion=id%3A821"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/uid?resourceVersion=id%3A821"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/relationships/uid?resourceVersion=id%3A821"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "cf85788c-a012-4683-ae98-686e9d89a2b7",
+              "meta": {
+                "drupal_internal__target_id": 28
+              }
+            },
+            {
+              "type": "taxonomy_term--topics",
+              "id": "6feeb1ce-0162-4836-93b8-705d73800cb6",
+              "meta": {
+                "drupal_internal__target_id": 29
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/field_course_topics?resourceVersion=id%3A821"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/relationships/field_course_topics?resourceVersion=id%3A821"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "1e94d940-8639-4049-8e0c-537638c5ba87",
+            "meta": {
+              "drupal_internal__target_id": 186
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/field_faculty_photo?resourceVersion=id%3A821"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/relationships/field_faculty_photo?resourceVersion=id%3A821"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/field_programs?resourceVersion=id%3A821"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aba6bed-3f64-4f54-936c-c3e551eb003e/relationships/field_programs?resourceVersion=id%3A821"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "0aa425c3-531b-4115-8dcb-efd680a81550",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550?resourceVersion=id%3A1974"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 528,
+        "drupal_internal__vid": 1974,
+        "langcode": "en",
+        "revision_timestamp": "2020-02-05T21:41:04+00:00",
+        "status": true,
+        "title": "Sang-Gook Kim",
+        "created": "2020-02-05T21:37:18+00:00",
+        "changed": "2020-02-05T21:41:04+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/sang-gook-kim",
+          "pid": 526,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003ESang-Gook Kim is a professor in the Department of Mechanical Engineering.&nbsp; He received his B.S. degree from Seoul National University (1978), M.S. from KAIST (1980), and Ph.D. from MIT (1985).&nbsp; He held positions at Axiomatics Co., Cambridge, MA (1986) and Korea Institute of Science and Technology (1986-1991). Then he became a corporate executive director at Daewoo Corporation, Korea, and directed the Central Research Institute of Daewoo Electronics Co. until 2000 when he joined MIT. He is currently the Micro/Nano Area Head of the Department of Mechanical Engineering at MIT. Prof. Kim’s research has been in the field of product realization throughout his career at both the industry and academia. His recent research includes piezoelectric MEMS energy harvesting, micro ultrasonic transducers and nano-engineered energy conversion for carbon neutrality and solar water splitting systems. He is a fellow of CIRP (International Academy for Production Engineering), fellow of ASME, and overseas member of Korean National Academy of Engineering.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003ESang-Gook Kim is a professor in the Department of Mechanical Engineering.&nbsp; He received his B.S. degree from Seoul National University (1978), M.S. from KAIST (1980), and Ph.D. from MIT (1985).&nbsp; He held positions at Axiomatics Co., Cambridge, MA (1986) and Korea Institute of Science and Technology (1986-1991). Then he became a corporate executive director at Daewoo Corporation, Korea, and directed the Central Research Institute of Daewoo Electronics Co. until 2000 when he joined MIT. He is currently the Micro/Nano Area Head of the Department of Mechanical Engineering at MIT. Prof. Kim’s research has been in the field of product realization throughout his career at both the industry and academia. His recent research includes piezoelectric MEMS energy harvesting, micro ultrasonic transducers and nano-engineered energy conversion for carbon neutrality and solar water splitting systems. He is a fellow of CIRP (International Academy for Production Engineering), fellow of ASME, and overseas member of Korean National Academy of Engineering.\u003C/p\u003E\n",
+          "summary": ""
+        },
+        "field_featured_card_summary": "Sang-Gook Kim is a professor in the Department of Mechanical Engineering. He is currently the Micro/Nano Area Head of the Department of Mechanical Engineering at MIT. Prof. Kim’s research has been in the field of product realization throughout his career at both the industry and academia. His recent research includes piezoelectric MEMS energy harvesting, micro ultrasonic transducers and nano-engineered energy conversion for carbon neutrality and solar water splitting systems. ",
+        "field_first_name": "Sang-Gook",
+        "field_last_name": "Kim",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003ESang-Gook Kim is a professor in the Department of Mechanical Engineering. He is currently the Micro/Nano Area Head of the Department of Mechanical Engineering at MIT. Prof. Kim’s research has been in the field of product realization throughout his career at both the industry and academia. His recent research includes piezoelectric MEMS energy harvesting, micro ultrasonic transducers and nano-engineered energy conversion for carbon neutrality and solar water splitting systems.&nbsp;\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003ESang-Gook Kim is a professor in the Department of Mechanical Engineering. He is currently the Micro/Nano Area Head of the Department of Mechanical Engineering at MIT. Prof. Kim’s research has been in the field of product realization throughout his career at both the industry and academia. His recent research includes piezoelectric MEMS energy harvesting, micro ultrasonic transducers and nano-engineered energy conversion for carbon neutrality and solar water splitting systems.&nbsp;\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          "Professor of Mechanical Engineering, MIT"
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/node_type?resourceVersion=id%3A1974"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/relationships/node_type?resourceVersion=id%3A1974"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/revision_uid?resourceVersion=id%3A1974"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/relationships/revision_uid?resourceVersion=id%3A1974"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/uid?resourceVersion=id%3A1974"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/relationships/uid?resourceVersion=id%3A1974"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "b4e13512-ed69-4bbc-8d07-a61ac9fa59e6",
+              "meta": {
+                "drupal_internal__target_id": 25
+              }
+            },
+            {
+              "type": "taxonomy_term--topics",
+              "id": "cf85788c-a012-4683-ae98-686e9d89a2b7",
+              "meta": {
+                "drupal_internal__target_id": 28
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/field_course_topics?resourceVersion=id%3A1974"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/relationships/field_course_topics?resourceVersion=id%3A1974"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "3a491f9b-1650-4c3a-ab14-5b459fc10ee9",
+            "meta": {
+              "drupal_internal__target_id": 417
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/field_faculty_photo?resourceVersion=id%3A1974"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/relationships/field_faculty_photo?resourceVersion=id%3A1974"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [
+            {
+              "type": "taxonomy_term--programs",
+              "id": "4b48c28f-fae1-402f-ac3d-8bf97af6baf3",
+              "meta": {
+                "drupal_internal__target_id": 38
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/field_programs?resourceVersion=id%3A1974"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0aa425c3-531b-4115-8dcb-efd680a81550/relationships/field_programs?resourceVersion=id%3A1974"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "0079dcfc-7828-49dc-b60a-abd147b6972e",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e?resourceVersion=id%3A10253"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 1033,
+        "drupal_internal__vid": 10253,
+        "langcode": "en",
+        "revision_timestamp": "2022-11-18T22:43:49+00:00",
+        "status": true,
+        "title": "Eric von Hippel",
+        "created": "2022-11-18T22:43:05+00:00",
+        "changed": "2022-11-18T22:50:07+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/eric-von-hippel",
+          "pid": 1070,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003EThe T. Wilson (1953) Professor of Management of Innovation and Engineering Systems at MIT Sloan School of Management, Professor Eric von Hippel’s research focuses on patterns of innovation across industries. Author of eight books and numerous articles, he has spent his career investigating the impact of user innovation communities on product development—a topic he explores in-depth in Democratizing Innovation (MIT Press, 2005). In his most recent book, Free Innovation (MIT Press, 2017), he examines the phenomenon of consumers giving away their designs for free, and the positive impact this can have on social welfare.\u003Cbr /\u003E\r\n\u003Cbr /\u003E\r\nProfessor von Hippel’s current work focuses on the nature and economics of distributed and free innovation. He also develops and teaches practical methods that individuals, open user communities, and organizations can use to enhance innovation processes. He holds a BA in economics from Harvard College, an SM in mechanical engineering from MIT, and a PhD in business and engineering from Carnegie Mellon University.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EThe T. Wilson (1953) Professor of Management of Innovation and Engineering Systems at MIT Sloan School of Management, Professor Eric von Hippel’s research focuses on patterns of innovation across industries. Author of eight books and numerous articles, he has spent his career investigating the impact of user innovation communities on product development—a topic he explores in-depth in Democratizing Innovation (MIT Press, 2005). In his most recent book, Free Innovation (MIT Press, 2017), he examines the phenomenon of consumers giving away their designs for free, and the positive impact this can have on social welfare.\u003Cbr\u003E\n\u003Cbr\u003E\nProfessor von Hippel’s current work focuses on the nature and economics of distributed and free innovation. He also develops and teaches practical methods that individuals, open user communities, and organizations can use to enhance innovation processes. He holds a BA in economics from Harvard College, an SM in mechanical engineering from MIT, and a PhD in business and engineering from Carnegie Mellon University.\u003C/p\u003E\n",
+          "summary": ""
+        },
+        "field_featured_card_summary": null,
+        "field_first_name": "Eric",
+        "field_last_name": "von Hippel",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003EThe T. Wilson (1953) Professor of Management of Innovation and Engineering Systems at MIT Sloan School of Management, Professor Eric von Hippel’s research focuses on patterns of innovation across industries. Professor von Hippel’s current work focuses on the nature and economics of distributed and free innovation. He also develops and teaches practical methods that individuals, open user communities, and organizations can use to enhance innovation processes.&nbsp;\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EThe T. Wilson (1953) Professor of Management of Innovation and Engineering Systems at MIT Sloan School of Management, Professor Eric von Hippel’s research focuses on patterns of innovation across industries. Professor von Hippel’s current work focuses on the nature and economics of distributed and free innovation. He also develops and teaches practical methods that individuals, open user communities, and organizations can use to enhance innovation processes.&nbsp;\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          "Lead Instructor, Entrepreneurship and Product Innovation via the Lead User Method",
+          "Professor of Management of Innovation and Engineering Systems, MIT Sloan School of Management"
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/node_type?resourceVersion=id%3A10253"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/relationships/node_type?resourceVersion=id%3A10253"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "791d42b0-c13c-4d92-8f6a-5c337a4fb5c0",
+            "meta": {
+              "drupal_internal__target_id": 78
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/revision_uid?resourceVersion=id%3A10253"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/relationships/revision_uid?resourceVersion=id%3A10253"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "791d42b0-c13c-4d92-8f6a-5c337a4fb5c0",
+            "meta": {
+              "drupal_internal__target_id": 78
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/uid?resourceVersion=id%3A10253"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/relationships/uid?resourceVersion=id%3A10253"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "cf85788c-a012-4683-ae98-686e9d89a2b7",
+              "meta": {
+                "drupal_internal__target_id": 28
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/field_course_topics?resourceVersion=id%3A10253"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/relationships/field_course_topics?resourceVersion=id%3A10253"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "17e87485-4772-44dd-a046-a85499662e8e",
+            "meta": {
+              "drupal_internal__target_id": 1253
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/field_faculty_photo?resourceVersion=id%3A10253"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/relationships/field_faculty_photo?resourceVersion=id%3A10253"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/field_programs?resourceVersion=id%3A10253"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/0079dcfc-7828-49dc-b60a-abd147b6972e/relationships/field_programs?resourceVersion=id%3A10253"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde?resourceVersion=id%3A10254"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 1034,
+        "drupal_internal__vid": 10254,
+        "langcode": "en",
+        "revision_timestamp": "2022-11-18T23:56:30+00:00",
+        "status": true,
+        "title": "Erdin Beshimov",
+        "created": "2022-11-18T22:51:21+00:00",
+        "changed": "2022-11-18T23:57:54+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/erdin-beshimov",
+          "pid": 1072,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003EA Lecturer at MIT and a Senior Director of Experiential Learning at MIT Open Learning, Erdin Beshimov is committed to creating new pathways for learners worldwide to study innovation, technology, and entrepreneurship. He founded MIT Bootcamps and the MITxMicroMasters program, and the Incubation Group in the Office of Digital Learning. He also co-developed MIT’s open online courses in entrepreneurship, which have enrolled hundreds of thousands of learners from around the world.&nbsp;\u003C/p\u003E\r\n\r\n\u003Cp\u003EBeshimov is a graduate of the MIT Sloan School of Management, where he earned the Patrick J. McGovern Entrepreneurship Award for his contributions to student life, as well as the Carol and Howard Anderson Fellowship and the MIT Sloan Peer Recognition Award. Before joining MIT’s faculty, he served as Principal at Flagship Pioneering, where he focused on ventures in water, energy, and materials. He also co-founded Ubiquitous Energy—a solar technologies spinout from MIT.\u003C/p\u003E\r\n\r\n\u003Cp\u003EHe holds an MA in area studies of the former Soviet Union from Harvard University, and a BA in development and peace studies from the University of Bradford.&nbsp;\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EA Lecturer at MIT and a Senior Director of Experiential Learning at MIT Open Learning, Erdin Beshimov is committed to creating new pathways for learners worldwide to study innovation, technology, and entrepreneurship. He founded MIT Bootcamps and the MITxMicroMasters program, and the Incubation Group in the Office of Digital Learning. He also co-developed MIT’s open online courses in entrepreneurship, which have enrolled hundreds of thousands of learners from around the world.&nbsp;\u003C/p\u003E\n\n\u003Cp\u003EBeshimov is a graduate of the MIT Sloan School of Management, where he earned the Patrick J. McGovern Entrepreneurship Award for his contributions to student life, as well as the Carol and Howard Anderson Fellowship and the MIT Sloan Peer Recognition Award. Before joining MIT’s faculty, he served as Principal at Flagship Pioneering, where he focused on ventures in water, energy, and materials. He also co-founded Ubiquitous Energy—a solar technologies spinout from MIT.\u003C/p\u003E\n\n\u003Cp\u003EHe holds an MA in area studies of the former Soviet Union from Harvard University, and a BA in development and peace studies from the University of Bradford.&nbsp;\u003C/p\u003E\n",
+          "summary": ""
+        },
+        "field_featured_card_summary": null,
+        "field_first_name": "Erdin",
+        "field_last_name": " Beshimov",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003EA Lecturer at MIT and a Senior Director of Experiential Learning at MIT Open Learning, Erdin Beshimov is committed to creating new pathways for learners worldwide to study innovation, technology, and entrepreneurship. He founded MIT Bootcamps and the MITxMicroMasters program, and the Incubation Group in the Office of Digital Learning.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EA Lecturer at MIT and a Senior Director of Experiential Learning at MIT Open Learning, Erdin Beshimov is committed to creating new pathways for learners worldwide to study innovation, technology, and entrepreneurship. He founded MIT Bootcamps and the MITxMicroMasters program, and the Incubation Group in the Office of Digital Learning.\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          "Lead Instructor, Entrepreneurship and Product Innovation via the Lead User Method",
+          "Innovation via the Lead User Method Lecturer and Senior Director, Experiential Learning, MIT Open Learning",
+          "Lecturer, Massachusetts Institute of Technology"
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/node_type?resourceVersion=id%3A10254"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/relationships/node_type?resourceVersion=id%3A10254"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "791d42b0-c13c-4d92-8f6a-5c337a4fb5c0",
+            "meta": {
+              "drupal_internal__target_id": 78
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/revision_uid?resourceVersion=id%3A10254"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/relationships/revision_uid?resourceVersion=id%3A10254"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "791d42b0-c13c-4d92-8f6a-5c337a4fb5c0",
+            "meta": {
+              "drupal_internal__target_id": 78
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/uid?resourceVersion=id%3A10254"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/relationships/uid?resourceVersion=id%3A10254"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "cf85788c-a012-4683-ae98-686e9d89a2b7",
+              "meta": {
+                "drupal_internal__target_id": 28
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/field_course_topics?resourceVersion=id%3A10254"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/relationships/field_course_topics?resourceVersion=id%3A10254"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "7552a40a-6556-4061-beff-f4fac9dfebcc",
+            "meta": {
+              "drupal_internal__target_id": 1254
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/field_faculty_photo?resourceVersion=id%3A10254"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/relationships/field_faculty_photo?resourceVersion=id%3A10254"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/field_programs?resourceVersion=id%3A10254"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/e07c7ecd-4c5e-4510-8bb3-ee8d4f79adde/relationships/field_programs?resourceVersion=id%3A10254"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "6a2844f3-439d-4a1d-95b0-ab6fb41887ca",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca?resourceVersion=id%3A13116"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 1171,
+        "drupal_internal__vid": 13116,
+        "langcode": "en",
+        "revision_timestamp": "2023-11-13T22:27:50+00:00",
+        "status": true,
+        "title": "Adam Berinsky",
+        "created": "2023-11-13T22:19:32+00:00",
+        "changed": "2023-11-13T22:31:11+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/adam-berinsky",
+          "pid": 1230,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003EAdam Berinsky is the Mitsui Professor of Political Science at MIT and serves as the director of the MIT Political Experiments Research Lab (PERL). He is also a Faculty Affiliate at the Institute for Data, Systems, and Society (IDSS). Berinsky received his PhD from the University of Michigan in 2000. He is the author of \"In Time of War: Understanding American Public Opinion from World War II to Iraq\" (University of Chicago Press, 2009). He is also the author of \"Silent Voices: Public Opinion and Political Participation in America\u003Cem\u003E\"\u003C/em\u003E&nbsp;(Princeton University Press, 2004) and has published articles in many journals.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EAdam Berinsky is the Mitsui Professor of Political Science at MIT and serves as the director of the MIT Political Experiments Research Lab (PERL). He is also a Faculty Affiliate at the Institute for Data, Systems, and Society (IDSS). Berinsky received his PhD from the University of Michigan in 2000. He is the author of \"In Time of War: Understanding American Public Opinion from World War II to Iraq\" (University of Chicago Press, 2009). He is also the author of \"Silent Voices: Public Opinion and Political Participation in America\u003Cem\u003E\"\u003C/em\u003E&nbsp;(Princeton University Press, 2004) and has published articles in many journals.\u003C/p\u003E\n",
+          "summary": ""
+        },
+        "field_featured_card_summary": null,
+        "field_first_name": "Adam",
+        "field_last_name": "Berinsky",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003EAdam Berinsky is the Mitsui Professor of Political Science at MIT and serves as the director of the MIT Political Experiments Research Lab (PERL). He is also a Faculty Affiliate at the Institute for Data, Systems, and Society (IDSS). Berinsky received his PhD from the University of Michigan in 2000. He is the author of \"In Time of War: Understanding American Public Opinion from World War II to Iraq\" (University of Chicago Press, 2009). He is also the author of \"Silent Voices: Public Opinion and Political Participation in America\u003Cem\u003E\"\u003C/em\u003E&nbsp;(Princeton University Press, 2004) and has published articles in many journals.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EAdam Berinsky is the Mitsui Professor of Political Science at MIT and serves as the director of the MIT Political Experiments Research Lab (PERL). He is also a Faculty Affiliate at the Institute for Data, Systems, and Society (IDSS). Berinsky received his PhD from the University of Michigan in 2000. He is the author of \"In Time of War: Understanding American Public Opinion from World War II to Iraq\" (University of Chicago Press, 2009). He is also the author of \"Silent Voices: Public Opinion and Political Participation in America\u003Cem\u003E\"\u003C/em\u003E&nbsp;(Princeton University Press, 2004) and has published articles in many journals.\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          " Mitsui Professor of Political Science and Director of the MIT Political Experiments Research Lab (PERL)"
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/node_type?resourceVersion=id%3A13116"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/relationships/node_type?resourceVersion=id%3A13116"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "5b74860c-679a-46f8-876b-56fdcceca3a2",
+            "meta": {
+              "drupal_internal__target_id": 82
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/revision_uid?resourceVersion=id%3A13116"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/relationships/revision_uid?resourceVersion=id%3A13116"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "5b74860c-679a-46f8-876b-56fdcceca3a2",
+            "meta": {
+              "drupal_internal__target_id": 82
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/uid?resourceVersion=id%3A13116"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/relationships/uid?resourceVersion=id%3A13116"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/field_course_topics?resourceVersion=id%3A13116"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/relationships/field_course_topics?resourceVersion=id%3A13116"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "4e5cb810-bce8-4739-af5f-3ee0a55d78c7",
+            "meta": {
+              "drupal_internal__target_id": 1525
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/field_faculty_photo?resourceVersion=id%3A13116"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/relationships/field_faculty_photo?resourceVersion=id%3A13116"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/field_programs?resourceVersion=id%3A13116"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/6a2844f3-439d-4a1d-95b0-ab6fb41887ca/relationships/field_programs?resourceVersion=id%3A13116"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "161081c5-3346-4ad0-b108-c5b6592d0098",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098?resourceVersion=id%3A11544"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 340,
+        "drupal_internal__vid": 11544,
+        "langcode": "en",
+        "revision_timestamp": "2023-03-17T15:45:16+00:00",
+        "status": true,
+        "title": "David Niño",
+        "created": "2019-05-22T18:28:33+00:00",
+        "changed": "2024-05-24T21:18:53+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/david-nino",
+          "pid": 338,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003EDavid Niño is a Senior Lecturer in MIT’s Daniel J. Riccio Graduate Program in Engineering Leadership. He has served in this role since 2015, when he launched this program to provide academic leadership education for MIT graduate students in engineering and other disciplines. Under his leadership, the program has grown from one graduate class and to a variety of highly-rated academic classes and workshops that educate over 200 graduate students annually. David received a School of Engineering “Infinite Mile Award” for his work in establishing this program, which received a $10 million gift of support in 2022.\u003Cbr\u003E\u003Cbr\u003EIn addition to teaching academic classes, he has also served a leading role nationally in the emerging field of engineering leadership, most recently as Chair of the Engineering Leadership Development Division of the American Society of Engineering Education. This is the nation’s largest organization of engineering leadership educators.\u003Cbr\u003E\u003Cbr\u003EPrior to joining MIT, David was a faculty member in the schools of engineering and business at Rice University in Houston, Texas. He was Director of Rice’s university-wide leadership program and later played a leading role in designing and establishing the university’s first four-year academic certificate in engineering leadership.&nbsp;\u003Cbr\u003E\u003Cbr\u003EDavid consults with technology executives on topics related to developing leadership among engineers, researchers, and other technical experts. He has published on the topics of organizational culture, ethics, engineering leadership, and the development of management and leadership skills. David holds a Ph.D. in Management from the University of Texas at Austin, where he earned his B.A., B.B.A., and M.A. degrees. He lives in Weston Massachusetts with this wife and three children.\u003C/p\u003E",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EDavid Niño is a Senior Lecturer in MIT’s Daniel J. Riccio Graduate Program in Engineering Leadership. He has served in this role since 2015, when he launched this program to provide academic leadership education for MIT graduate students in engineering and other disciplines. Under his leadership, the program has grown from one graduate class and to a variety of highly-rated academic classes and workshops that educate over 200 graduate students annually. David received a School of Engineering “Infinite Mile Award” for his work in establishing this program, which received a $10 million gift of support in 2022.\u003Cbr\u003E\u003Cbr\u003EIn addition to teaching academic classes, he has also served a leading role nationally in the emerging field of engineering leadership, most recently as Chair of the Engineering Leadership Development Division of the American Society of Engineering Education. This is the nation’s largest organization of engineering leadership educators.\u003Cbr\u003E\u003Cbr\u003EPrior to joining MIT, David was a faculty member in the schools of engineering and business at Rice University in Houston, Texas. He was Director of Rice’s university-wide leadership program and later played a leading role in designing and establishing the university’s first four-year academic certificate in engineering leadership.&nbsp;\u003Cbr\u003E\u003Cbr\u003EDavid consults with technology executives on topics related to developing leadership among engineers, researchers, and other technical experts. He has published on the topics of organizational culture, ethics, engineering leadership, and the development of management and leadership skills. David holds a Ph.D. in Management from the University of Texas at Austin, where he earned his B.A., B.B.A., and M.A. degrees. He lives in Weston Massachusetts with this wife and three children.\u003C/p\u003E",
+          "summary": ""
+        },
+        "field_featured_card_summary": "David Niño is a Senior Lecturer in MIT’s Daniel J. Riccio Graduate Program in Engineering Leadership. He has served in this role since 2015, when he launched this program to provide academic leadership education for MIT graduate students in engineering and other disciplines. Under his leadership, the program has grown from one graduate class and to a variety of highly-rated academic classes and workshops that educate over 200 graduate students annually.",
+        "field_first_name": "David",
+        "field_last_name": "Niño",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003EDavid Niño is a Senior Lecturer in MIT’s Daniel J. Riccio Graduate Program in Engineering Leadership. He has served in this role since 2015, when he launched this program to provide academic leadership education for MIT graduate students in engineering and other disciplines. Under his leadership, the program has grown from one graduate class and to a variety of highly-rated academic classes and workshops that educate over 200 graduate students annually.\u003C/p\u003E",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EDavid Niño is a Senior Lecturer in MIT’s Daniel J. Riccio Graduate Program in Engineering Leadership. He has served in this role since 2015, when he launched this program to provide academic leadership education for MIT graduate students in engineering and other disciplines. Under his leadership, the program has grown from one graduate class and to a variety of highly-rated academic classes and workshops that educate over 200 graduate students annually.\u003C/p\u003E"
+        },
+        "field_professional_titles": [
+          "Senior Lecturer in the Daniel J. Riccio Graduate Engineering Leadership Program at MIT"
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/node_type?resourceVersion=id%3A11544"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/relationships/node_type?resourceVersion=id%3A11544"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "791d42b0-c13c-4d92-8f6a-5c337a4fb5c0",
+            "meta": {
+              "drupal_internal__target_id": 78
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/revision_uid?resourceVersion=id%3A11544"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/relationships/revision_uid?resourceVersion=id%3A11544"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/uid?resourceVersion=id%3A11544"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/relationships/uid?resourceVersion=id%3A11544"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "cf85788c-a012-4683-ae98-686e9d89a2b7",
+              "meta": {
+                "drupal_internal__target_id": 28
+              }
+            },
+            {
+              "type": "taxonomy_term--topics",
+              "id": "6feeb1ce-0162-4836-93b8-705d73800cb6",
+              "meta": {
+                "drupal_internal__target_id": 29
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/field_course_topics?resourceVersion=id%3A11544"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/relationships/field_course_topics?resourceVersion=id%3A11544"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "238266bf-e43c-4727-a23a-5a3820d8e859",
+            "meta": {
+              "drupal_internal__target_id": 1729
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/field_faculty_photo?resourceVersion=id%3A11544"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/relationships/field_faculty_photo?resourceVersion=id%3A11544"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [
+            {
+              "type": "taxonomy_term--programs",
+              "id": "4fd60d67-5f72-4772-937e-9fdce34cfac9",
+              "meta": {
+                "drupal_internal__target_id": 39
+              }
+            },
+            {
+              "type": "taxonomy_term--programs",
+              "id": "9fabedbc-bb7b-4842-9e59-7ab6923d7b3b",
+              "meta": {
+                "drupal_internal__target_id": 36
+              }
+            },
+            {
+              "type": "taxonomy_term--programs",
+              "id": "8fcad186-e796-4503-b97e-0e304ad16a06",
+              "meta": {
+                "drupal_internal__target_id": 37
+              }
+            },
+            {
+              "type": "taxonomy_term--programs",
+              "id": "4b48c28f-fae1-402f-ac3d-8bf97af6baf3",
+              "meta": {
+                "drupal_internal__target_id": 38
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/field_programs?resourceVersion=id%3A11544"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/161081c5-3346-4ad0-b108-c5b6592d0098/relationships/field_programs?resourceVersion=id%3A11544"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "b6a1440a-6482-486b-b631-2d0feac530f8",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8?resourceVersion=id%3A13914"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 302,
+        "drupal_internal__vid": 13914,
+        "langcode": "en",
+        "revision_timestamp": "2024-03-29T16:03:24+00:00",
+        "status": true,
+        "title": "Markus J. Buehler",
+        "created": "2019-05-03T20:31:11+00:00",
+        "changed": "2024-03-29T16:03:24+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/markus-j-buehler",
+          "pid": 300,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003E\u003Ca href=\"http://cee.mit.edu/buehler\" target=\"_blank\"\u003EMarkus J. Buehler\u003C/a\u003E&nbsp;is the McAfee Professor of Engineering at MIT. Involved with startups, innovation and a frequent collaborator with industry, his primary research interest is to identify and apply innovative approaches to design better materials from less, using a combination of high-performance computing and AI, new manufacturing techniques, and advanced experimental testing. &nbsp;He directs the&nbsp;\u003Ca href=\"http://web.mit.edu/mbuehler/www/\" target=\"_blank\"\u003ELaboratory for Atomistic and Molecular Mechanics\u003C/a\u003E&nbsp;(LAMM), and is Principal Investigator on numerous national and international research programs. He combines bio-inspired materials design with high-throughput approaches to create materials with architectural features from the nano- to the macro-scale, and applies them to various domains that include composites for vehicles, coatings for energy technologies, and innovative and sustainable biomaterials. Using an array of theoretical, computational and experimental methods, his work seeks to understand the means by which nature creates materials, with applications in bio-inspired engineering. His most recent book, Biomateriomics, presents a new design paradigm for the analysis of biomaterials using a categorization approach that translates insights from disparate fields. In recent work he has developed a new framework to compose music based on proteins – the basic molecules of all life, as well as other physical phenomena such as fracture singularities, to explore similarities and differences across species, scales and between philosophical and physical models. &nbsp;One of his goals is to use musical and sound design, aided by AI, as an abstract way to model, optimize and create new forms of autonomous matter from the bottom up – across scales (e.g., from nano to macro) and species (e.g., from humans to spiders). His work spans multiple disciplines and straddles the interface of science and art in multiple dimensions, both as a tool to educate and as a tool to understand and design.\u003C/p\u003E\u003Cp\u003EBuehler is a sought-after lecturer and has given hundreds of invited, keynote, and plenary talks throughout the world. His scholarly work is highly-cited and includes more than 450 articles on computational materials science, biomaterials, and nanotechnology, many in high-impact journals such as Nature, and Proceedings of the National Academy of Sciences. He authored two monographs in the areas of computational materials science and bio-inspired materials design, and is a founder of the emerging research area of materiomics. He is a dedicated educator and a gifted teacher, and has appeared on numerous TV and radio shows to explain the impact of his research to broad audiences. Buehler is the recipient of many awards including the Harold E. Edgerton Faculty Achievement Award, the Alfred Noble Prize, the Feynman Prize in Nanotechnology, the Leonardo da Vinci Award, and the Thomas J.R. Hughes Young Investigator Award. He is a recipient of the National Science Foundation CAREER award, the United States Air Force Young Investigator Award, the Navy Young Investigator Award, and the Defense Advanced Research Projects Agency (DARPA) Young Faculty Award, as well as the Presidential Early Career Award for Scientists and Engineers (PECASE). In 2016 Prof. Buehler was awarded the&nbsp;the \u003Ca href=\"https://news.mit.edu/2016/markus-buehler-awarded-foresight-institute-feynman-prize-0524\"\u003EForesight Institute Feynman Prize\u003C/a\u003E for his advances in nanotechnology. In 2018, Buehler was selected as a Highly Cited Researcher by Clarivate Analytics. In 2019, he received the Materials Horizons Outstanding Paper Prize, and his work was recognized as a highly cited author by the Royal Society of Chemistry. A frequent collaborator with artists, he is a member of the MIT Center for Art, Science and Technology (CAST) Executive Committee. Buehler is heavily involved with startups and innovation, such as through his role on the Board of Directors of \u003Ca href=\"https://www.sweetwater.us/sweetwater-energy-announces-dr-markus-buehler-of-mit-as-newest-board-member/\"\u003ESweetwater Energy, Inc.\u003C/a\u003E and as a member of the Scientific Advisor Board of \u003Ca href=\"https://www.safar.partners/#team\"\u003ESafar Partners\u003C/a\u003E (A Technology Venture Fund with Private Equity Vision).&nbsp;\u003C/p\u003E\u003Ch3\u003ELinks &amp; Resources\u003C/h3\u003E\u003Cp\u003E\u003Ca href=\"https://www.rdworldonline.com/six-keys-to-generative-ai-success/\" title=\"Six keys to generative AI success\"\u003ESix keys to generative AI success\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2020/machine-learning-develop-materials-0520 \" title=\"Machine-learning tool could help develop tougher materials\"\u003EMachine-learning tool could help develop tougher materials\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"http://news.mit.edu/2020/qa-markus-buehler-setting-coronavirus-and-ai-inspired-proteins-to-music-0402\"\u003EQ&amp;A: Markus Buehler on setting coronavirus and AI-inspired proteins to music\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://www.machinedesign.com/community/article/21120279/a-natural-approach-to-engineered-materials\"\u003EA “Natural” Approach to Engineered Materials\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2019/translating-proteins-music-0626\" title=\"Translating proteins into music, and back\"\u003ETranslating proteins into music, and back\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2017/conch-shells-better-helmets-body-armor-0526 \" title=\"Conch shells spill the secret to their toughness\"\u003EConch shells spill the secret to their toughness\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2019/paraffin-wrinkles-manufacture-graphene-0306\" title=\"Smoothing out the wrinkles in graphene\"\u003ESmoothing out the wrinkles in graphene\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2017/3-d-graphene-strongest-lightest-materials-0106\" title=\"Researchers design one of the strongest, lightest materials known\"\u003EResearchers design one of the strongest, lightest materials known\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2018/researchers-decode-molecule-gives-living-tissues-flexibility-0625\" title=\"Researchers decode molecule that gives living tissues their flexibility\"\u003EResearchers decode molecule that gives living tissues their flexibility\u003C/a\u003E&nbsp;\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2017/how-build-better-silk-1109\" title=\"How to build better silk\"\u003EHow to build better silk\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2017/bio-inspired-material-changes-shape-and-strengthens-in-response-to-environment-0320 \" title=\"Worm-inspired material strengthens, changes shape in response to its environment\"\u003EWorm-inspired material strengthens, changes shape in response to its environment\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2016/silk-based-filtration-material-breaks-barriers-0623 \" title=\"Silk-based filtration material breaks barriers\"\u003ESilk-based filtration material breaks barriers\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2015/collagen-mechanics-water-0122 \" title=\"New analysis explains collagen’s force\"\u003ENew analysis explains collagen’s force\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://www.sweetwater.us/sweetwater-energy-announces-dr-markus-buehler-of-mit-as-newest-board-member/\"\u003ESweetwater Energy, Inc.\u003C/a\u003E&nbsp;\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://www.safar.partners/#team \"\u003EScientific Advisor Board, Safar Partners (A Technology Venture Fund with Private Equity Vision)\u003C/a\u003E\u003Cbr\u003E&nbsp;\u003C/p\u003E",
+          "format": "full_html",
+          "processed": "\u003Cp\u003E\u003Ca href=\"http://cee.mit.edu/buehler\" target=\"_blank\"\u003EMarkus J. Buehler\u003C/a\u003E&nbsp;is the McAfee Professor of Engineering at MIT. Involved with startups, innovation and a frequent collaborator with industry, his primary research interest is to identify and apply innovative approaches to design better materials from less, using a combination of high-performance computing and AI, new manufacturing techniques, and advanced experimental testing. &nbsp;He directs the&nbsp;\u003Ca href=\"http://web.mit.edu/mbuehler/www/\" target=\"_blank\"\u003ELaboratory for Atomistic and Molecular Mechanics\u003C/a\u003E&nbsp;(LAMM), and is Principal Investigator on numerous national and international research programs. He combines bio-inspired materials design with high-throughput approaches to create materials with architectural features from the nano- to the macro-scale, and applies them to various domains that include composites for vehicles, coatings for energy technologies, and innovative and sustainable biomaterials. Using an array of theoretical, computational and experimental methods, his work seeks to understand the means by which nature creates materials, with applications in bio-inspired engineering. His most recent book, Biomateriomics, presents a new design paradigm for the analysis of biomaterials using a categorization approach that translates insights from disparate fields. In recent work he has developed a new framework to compose music based on proteins – the basic molecules of all life, as well as other physical phenomena such as fracture singularities, to explore similarities and differences across species, scales and between philosophical and physical models. &nbsp;One of his goals is to use musical and sound design, aided by AI, as an abstract way to model, optimize and create new forms of autonomous matter from the bottom up – across scales (e.g., from nano to macro) and species (e.g., from humans to spiders). His work spans multiple disciplines and straddles the interface of science and art in multiple dimensions, both as a tool to educate and as a tool to understand and design.\u003C/p\u003E\u003Cp\u003EBuehler is a sought-after lecturer and has given hundreds of invited, keynote, and plenary talks throughout the world. His scholarly work is highly-cited and includes more than 450 articles on computational materials science, biomaterials, and nanotechnology, many in high-impact journals such as Nature, and Proceedings of the National Academy of Sciences. He authored two monographs in the areas of computational materials science and bio-inspired materials design, and is a founder of the emerging research area of materiomics. He is a dedicated educator and a gifted teacher, and has appeared on numerous TV and radio shows to explain the impact of his research to broad audiences. Buehler is the recipient of many awards including the Harold E. Edgerton Faculty Achievement Award, the Alfred Noble Prize, the Feynman Prize in Nanotechnology, the Leonardo da Vinci Award, and the Thomas J.R. Hughes Young Investigator Award. He is a recipient of the National Science Foundation CAREER award, the United States Air Force Young Investigator Award, the Navy Young Investigator Award, and the Defense Advanced Research Projects Agency (DARPA) Young Faculty Award, as well as the Presidential Early Career Award for Scientists and Engineers (PECASE). In 2016 Prof. Buehler was awarded the&nbsp;the \u003Ca href=\"https://news.mit.edu/2016/markus-buehler-awarded-foresight-institute-feynman-prize-0524\"\u003EForesight Institute Feynman Prize\u003C/a\u003E for his advances in nanotechnology. In 2018, Buehler was selected as a Highly Cited Researcher by Clarivate Analytics. In 2019, he received the Materials Horizons Outstanding Paper Prize, and his work was recognized as a highly cited author by the Royal Society of Chemistry. A frequent collaborator with artists, he is a member of the MIT Center for Art, Science and Technology (CAST) Executive Committee. Buehler is heavily involved with startups and innovation, such as through his role on the Board of Directors of \u003Ca href=\"https://www.sweetwater.us/sweetwater-energy-announces-dr-markus-buehler-of-mit-as-newest-board-member/\"\u003ESweetwater Energy, Inc.\u003C/a\u003E and as a member of the Scientific Advisor Board of \u003Ca href=\"https://www.safar.partners/#team\"\u003ESafar Partners\u003C/a\u003E (A Technology Venture Fund with Private Equity Vision).&nbsp;\u003C/p\u003E\u003Ch3\u003ELinks &amp; Resources\u003C/h3\u003E\u003Cp\u003E\u003Ca href=\"https://www.rdworldonline.com/six-keys-to-generative-ai-success/\" title=\"Six keys to generative AI success\"\u003ESix keys to generative AI success\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2020/machine-learning-develop-materials-0520 \" title=\"Machine-learning tool could help develop tougher materials\"\u003EMachine-learning tool could help develop tougher materials\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"http://news.mit.edu/2020/qa-markus-buehler-setting-coronavirus-and-ai-inspired-proteins-to-music-0402\"\u003EQ&amp;A: Markus Buehler on setting coronavirus and AI-inspired proteins to music\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://www.machinedesign.com/community/article/21120279/a-natural-approach-to-engineered-materials\"\u003EA “Natural” Approach to Engineered Materials\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2019/translating-proteins-music-0626\" title=\"Translating proteins into music, and back\"\u003ETranslating proteins into music, and back\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2017/conch-shells-better-helmets-body-armor-0526&nbsp;\" title=\"Conch shells spill the secret to their toughness\"\u003EConch shells spill the secret to their toughness\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2019/paraffin-wrinkles-manufacture-graphene-0306\" title=\"Smoothing out the wrinkles in graphene\"\u003ESmoothing out the wrinkles in graphene\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2017/3-d-graphene-strongest-lightest-materials-0106\" title=\"Researchers design one of the strongest, lightest materials known\"\u003EResearchers design one of the strongest, lightest materials known\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2018/researchers-decode-molecule-gives-living-tissues-flexibility-0625\" title=\"Researchers decode molecule that gives living tissues their flexibility\"\u003EResearchers decode molecule that gives living tissues their flexibility\u003C/a\u003E&nbsp;\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2017/how-build-better-silk-1109\" title=\"How to build better silk\"\u003EHow to build better silk\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2017/bio-inspired-material-changes-shape-and-strengthens-in-response-to-environment-0320&nbsp;\" title=\"Worm-inspired material strengthens, changes shape in response to its environment\"\u003EWorm-inspired material strengthens, changes shape in response to its environment\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2016/silk-based-filtration-material-breaks-barriers-0623&nbsp;\" title=\"Silk-based filtration material breaks barriers\"\u003ESilk-based filtration material breaks barriers\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://news.mit.edu/2015/collagen-mechanics-water-0122&nbsp;\" title=\"New analysis explains collagen’s force\"\u003ENew analysis explains collagen’s force\u003C/a\u003E\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://www.sweetwater.us/sweetwater-energy-announces-dr-markus-buehler-of-mit-as-newest-board-member/\"\u003ESweetwater Energy, Inc.\u003C/a\u003E&nbsp;\u003C/p\u003E\u003Cp\u003E\u003Ca href=\"https://www.safar.partners/#team&nbsp;\"\u003EScientific Advisor Board, Safar Partners (A Technology Venture Fund with Private Equity Vision)\u003C/a\u003E\u003Cbr\u003E&nbsp;\u003C/p\u003E",
+          "summary": ""
+        },
+        "field_featured_card_summary": "Markus J. Buehler is the McAfee Professor of Engineering and Head of the MIT Department of Civil and Environmental Engineering. His primary research interest is to identify and apply innovative approaches to design better materials from less, using a combination of high-performance computing, new manufacturing techniques, and advanced experimental testing.",
+        "field_first_name": "Markus J.",
+        "field_last_name": "Buehler",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp class=\"MsoNormal\"\u003E\u003Cspan style=\"font-size:12.0pt;font-family:&quot;Arial&quot;,sans-serif\"\u003EMarkus J. Buehler is the McAfee Professor of Engineering. Involved with startups, innovation, and a frequent collaborator with industry, his primary research interest is to identify and apply innovative approaches to design better materials from less, using a combination of high-performance computing and AI, new manufacturing techniques, and advanced experimental testing. &nbsp;\u003Co:p\u003E\u003C/o:p\u003E\u003C/span\u003E\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp class=\"MsoNormal\"\u003E\u003Cspan style=\"font-size:12.0pt;font-family:&quot;Arial&quot;,sans-serif\"\u003EMarkus J. Buehler is the McAfee Professor of Engineering. Involved with startups, innovation, and a frequent collaborator with industry, his primary research interest is to identify and apply innovative approaches to design better materials from less, using a combination of high-performance computing and AI, new manufacturing techniques, and advanced experimental testing. &nbsp;\u003Co:p\u003E\u003C/o:p\u003E\u003C/span\u003E\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          "Jerry McAfee (1940) Professor of Engineering, MIT"
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/node_type?resourceVersion=id%3A13914"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/relationships/node_type?resourceVersion=id%3A13914"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "5b74860c-679a-46f8-876b-56fdcceca3a2",
+            "meta": {
+              "drupal_internal__target_id": 82
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/revision_uid?resourceVersion=id%3A13914"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/relationships/revision_uid?resourceVersion=id%3A13914"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/uid?resourceVersion=id%3A13914"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/relationships/uid?resourceVersion=id%3A13914"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "b4e13512-ed69-4bbc-8d07-a61ac9fa59e6",
+              "meta": {
+                "drupal_internal__target_id": 25
+              }
+            },
+            {
+              "type": "taxonomy_term--topics",
+              "id": "cf85788c-a012-4683-ae98-686e9d89a2b7",
+              "meta": {
+                "drupal_internal__target_id": 28
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/field_course_topics?resourceVersion=id%3A13914"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/relationships/field_course_topics?resourceVersion=id%3A13914"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "ec791786-4c3a-4e82-b217-4a20a9d88e00",
+            "meta": {
+              "drupal_internal__target_id": 195
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/field_faculty_photo?resourceVersion=id%3A13914"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/relationships/field_faculty_photo?resourceVersion=id%3A13914"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [
+            {
+              "type": "taxonomy_term--programs",
+              "id": "4b48c28f-fae1-402f-ac3d-8bf97af6baf3",
+              "meta": {
+                "drupal_internal__target_id": 38
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/field_programs?resourceVersion=id%3A13914"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/b6a1440a-6482-486b-b631-2d0feac530f8/relationships/field_programs?resourceVersion=id%3A13914"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "734d2123-fc20-4582-b026-e6c78f428510",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510?resourceVersion=id%3A11545"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 303,
+        "drupal_internal__vid": 11545,
+        "langcode": "en",
+        "revision_timestamp": "2023-03-17T15:49:45+00:00",
+        "status": true,
+        "title": "Edward Schiappa",
+        "created": "2019-05-06T14:35:44+00:00",
+        "changed": "2023-03-23T17:14:50+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/edward-schiappa",
+          "pid": 301,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003E\u003Ca href=\"http://cmsw.mit.edu/profile/ed-schiappa/\" target=\"_blank\"\u003EEdward Schiappa\u003C/a\u003E&nbsp;is Professor and former Head of Comparative Media Studies/Writing and is MIT’s John E. Burchard Professor of the Humanities. He conducts research in argumentation, persuasion, media influence, and contemporary rhetorical theory. He has published 10 books and his research has appeared in such journals as&nbsp;\u003Cem\u003EPhilosophy &amp; Rhetoric, Argumentation, Communication Monographs\u003C/em\u003E, and&nbsp;\u003Cem\u003ECommunication Theory\u003C/em\u003E. He has served as editor of Argumentation and Advocacy&nbsp;and has received the Douglas W. Ehninger Distinguished Rhetorical Scholar Award in 2000 and the Rhetorical and Communication Theory Distinguished Scholar Award in 2006. He was named a National Communication Association Distinguished Scholar in 2009.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003E\u003Ca href=\"http://cmsw.mit.edu/profile/ed-schiappa/\" target=\"_blank\"\u003EEdward Schiappa\u003C/a\u003E&nbsp;is Professor and former Head of Comparative Media Studies/Writing and is MIT’s John E. Burchard Professor of the Humanities. He conducts research in argumentation, persuasion, media influence, and contemporary rhetorical theory. He has published 10 books and his research has appeared in such journals as&nbsp;\u003Cem\u003EPhilosophy &amp; Rhetoric, Argumentation, Communication Monographs\u003C/em\u003E, and&nbsp;\u003Cem\u003ECommunication Theory\u003C/em\u003E. He has served as editor of Argumentation and Advocacy&nbsp;and has received the Douglas W. Ehninger Distinguished Rhetorical Scholar Award in 2000 and the Rhetorical and Communication Theory Distinguished Scholar Award in 2006. He was named a National Communication Association Distinguished Scholar in 2009.\u003C/p\u003E\n",
+          "summary": ""
+        },
+        "field_featured_card_summary": "Edward Schiappa is Professor and former Head of Comparative Media Studies/Writing and is MIT’s John E. Burchard Professor of the Humanities. He conducts research in argumentation, persuasion, media influence, and contemporary rhetorical theory.",
+        "field_first_name": "Edward",
+        "field_last_name": "Schiappa",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003EEdward Schiappa is Professor and former Head of Comparative Media Studies/Writing and is MIT’s John E. Burchard Professor of the Humanities. He conducts research in argumentation, persuasion, media influence, and contemporary rhetorical theory.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EEdward Schiappa is Professor and former Head of Comparative Media Studies/Writing and is MIT’s John E. Burchard Professor of the Humanities. He conducts research in argumentation, persuasion, media influence, and contemporary rhetorical theory.\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          "John E. Burchard Professor of Humanities and Co-chair of the Gender Equity Committee of the School of Humanities, Arts, & Social Sciences, MIT "
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/node_type?resourceVersion=id%3A11545"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/relationships/node_type?resourceVersion=id%3A11545"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "791d42b0-c13c-4d92-8f6a-5c337a4fb5c0",
+            "meta": {
+              "drupal_internal__target_id": 78
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/revision_uid?resourceVersion=id%3A11545"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/relationships/revision_uid?resourceVersion=id%3A11545"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/uid?resourceVersion=id%3A11545"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/relationships/uid?resourceVersion=id%3A11545"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "6feeb1ce-0162-4836-93b8-705d73800cb6",
+              "meta": {
+                "drupal_internal__target_id": 29
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/field_course_topics?resourceVersion=id%3A11545"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/relationships/field_course_topics?resourceVersion=id%3A11545"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "41e4a128-9190-4bf7-8d85-46e5f74a3bc5",
+            "meta": {
+              "drupal_internal__target_id": 196
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/field_faculty_photo?resourceVersion=id%3A11545"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/relationships/field_faculty_photo?resourceVersion=id%3A11545"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [
+            {
+              "type": "taxonomy_term--programs",
+              "id": "9fabedbc-bb7b-4842-9e59-7ab6923d7b3b",
+              "meta": {
+                "drupal_internal__target_id": 36
+              }
+            },
+            {
+              "type": "taxonomy_term--programs",
+              "id": "4b48c28f-fae1-402f-ac3d-8bf97af6baf3",
+              "meta": {
+                "drupal_internal__target_id": 38
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/field_programs?resourceVersion=id%3A11545"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/734d2123-fc20-4582-b026-e6c78f428510/relationships/field_programs?resourceVersion=id%3A11545"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "node--faculty",
+      "id": "d0ff76b3-7150-47a5-8991-9924d3261a93",
+      "links": {
+        "self": {
+          "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93?resourceVersion=id%3A735"
+        }
+      },
+      "attributes": {
+        "drupal_internal__nid": 251,
+        "drupal_internal__vid": 735,
+        "langcode": "en",
+        "revision_timestamp": "2019-04-29T14:08:22+00:00",
+        "status": true,
+        "title": "John Hart",
+        "created": "2019-04-29T14:07:12+00:00",
+        "changed": "2021-05-19T13:54:48+00:00",
+        "promote": false,
+        "sticky": false,
+        "default_langcode": true,
+        "revision_translation_affected": true,
+        "metatag": null,
+        "path": {
+          "alias": "/programs/faculty-profiles/john-hart",
+          "pid": 249,
+          "langcode": "en"
+        },
+        "body": {
+          "value": "\u003Cp\u003E\u003Ca href=\"http://meche.mit.edu/people/faculty/ajhart@mit.edu\"\u003EJohn Hart\u003C/a\u003E&nbsp;is Professor of Mechanical Engineering and Director of the Laboratory for Manufacturing and Productivity and Center for Additive and Digital Advanced Production Technologies (APT) at MIT. John’s research focuses on additive manufacturing, nanostructured materials, and the integration of computation and automation in process discovery.\u003C/p\u003E\r\n\r\n\u003Cp\u003EJohn has published more than 125 papers in peer-reviewed journals and is co-inventor on over 50 patents, many of which have been licensed commercially. He has also co-founded three advanced manufacturing startup companies, including Desktop Metal. John has been recognized by prestigious awards from NSF, ONR, AFOSR, DARPA, ASME, and SME, by two R&amp;D 100 awards, by several best paper awards, and most recently by the MIT Ruth and Joel Spira Award for Distinguished Teaching.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003E\u003Ca href=\"http://meche.mit.edu/people/faculty/ajhart@mit.edu\"\u003EJohn Hart\u003C/a\u003E&nbsp;is Professor of Mechanical Engineering and Director of the Laboratory for Manufacturing and Productivity and Center for Additive and Digital Advanced Production Technologies (APT) at MIT. John’s research focuses on additive manufacturing, nanostructured materials, and the integration of computation and automation in process discovery.\u003C/p\u003E\n\n\u003Cp\u003EJohn has published more than 125 papers in peer-reviewed journals and is co-inventor on over 50 patents, many of which have been licensed commercially. He has also co-founded three advanced manufacturing startup companies, including Desktop Metal. John has been recognized by prestigious awards from NSF, ONR, AFOSR, DARPA, ASME, and SME, by two R&amp;D 100 awards, by several best paper awards, and most recently by the MIT Ruth and Joel Spira Award for Distinguished Teaching.\u003C/p\u003E\n",
+          "summary": ""
+        },
+        "field_featured_card_summary": "John Hart is Associate Professor of Mechanical Engineering and Mitsui Career Development Professor of Contemporary Technology at MIT. John leads the Mechanosynthesis Group, which aims to accelerate the science and technology of advanced manufacturing in areas including additive manufacturing, nanostructured materials, and the integration of computation and automation in process discovery.",
+        "field_first_name": "John",
+        "field_last_name": "Hart",
+        "field_meta_tags": null,
+        "field_person_summary": {
+          "value": "\u003Cp\u003EJohn Hart&nbsp;is Professor of Mechanical Engineering and Director of the Laboratory for Manufacturing and Productivity and Center for Additive and Digital Advanced Production Technologies (APT) at MIT.&nbsp;John’s research focuses on additive manufacturing, nanostructured materials, and the integration of computation and automation in process discovery.\u003C/p\u003E\r\n",
+          "format": "full_html",
+          "processed": "\u003Cp\u003EJohn Hart&nbsp;is Professor of Mechanical Engineering and Director of the Laboratory for Manufacturing and Productivity and Center for Additive and Digital Advanced Production Technologies (APT) at MIT.&nbsp;John’s research focuses on additive manufacturing, nanostructured materials, and the integration of computation and automation in process discovery.\u003C/p\u003E\n"
+        },
+        "field_professional_titles": [
+          "Professor of Mechanical Engineering, MIT",
+          "Mitsui Career Development Professor of Contemporary Technology, MIT"
+        ]
+      },
+      "relationships": {
+        "node_type": {
+          "data": {
+            "type": "node_type--node_type",
+            "id": "9ebc3566-c0be-4ad8-b407-138bee605352",
+            "meta": {
+              "drupal_internal__target_id": "faculty"
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/node_type?resourceVersion=id%3A735"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/relationships/node_type?resourceVersion=id%3A735"
+            }
+          }
+        },
+        "revision_uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/revision_uid?resourceVersion=id%3A735"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/relationships/revision_uid?resourceVersion=id%3A735"
+            }
+          }
+        },
+        "uid": {
+          "data": {
+            "type": "user--user",
+            "id": "2e1ed9b2-0539-45dc-8107-02714722578b",
+            "meta": {
+              "drupal_internal__target_id": 7
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/uid?resourceVersion=id%3A735"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/relationships/uid?resourceVersion=id%3A735"
+            }
+          }
+        },
+        "field_course_topics": {
+          "data": [
+            {
+              "type": "taxonomy_term--topics",
+              "id": "b4e13512-ed69-4bbc-8d07-a61ac9fa59e6",
+              "meta": {
+                "drupal_internal__target_id": 25
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/field_course_topics?resourceVersion=id%3A735"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/relationships/field_course_topics?resourceVersion=id%3A735"
+            }
+          }
+        },
+        "field_faculty_photo": {
+          "data": {
+            "type": "media--person_photo",
+            "id": "20ef9f9a-7804-4521-9bd9-8d9f57d7b725",
+            "meta": {
+              "drupal_internal__target_id": 164
+            }
+          },
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/field_faculty_photo?resourceVersion=id%3A735"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/relationships/field_faculty_photo?resourceVersion=id%3A735"
+            }
+          }
+        },
+        "field_programs": {
+          "data": [
+            {
+              "type": "taxonomy_term--programs",
+              "id": "4b48c28f-fae1-402f-ac3d-8bf97af6baf3",
+              "meta": {
+                "drupal_internal__target_id": 38
+              }
+            }
+          ],
+          "links": {
+            "related": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/field_programs?resourceVersion=id%3A735"
+            },
+            "self": {
+              "href": "https://professional.mit.edu/jsonapi/node/faculty/d0ff76b3-7150-47a5-8991-9924d3261a93/relationships/field_programs?resourceVersion=id%3A735"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "links": {
+    "self": {
+      "href": "https://professional.mit.edu/jsonapi/node/course/9c0692c9-7216-4be1-b432-fbeefec1da1f/field_lead_instructors?resourceVersion=id%3A14202"
+    }
+  }
+}

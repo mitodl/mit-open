@@ -1,0 +1,133 @@
+{
+  "jsonapi": {
+    "version": "1.0",
+    "meta": {
+      "links": {
+        "self": {
+          "href": "http://jsonapi.org/format/1.0/"
+        }
+      }
+    }
+  },
+  "data": {
+    "type": "media--header_image",
+    "id": "ec734233-e506-47f6-bd87-93ca4a62f26e",
+    "links": {
+      "self": {
+        "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e?resourceVersion=id%3A653"
+      }
+    },
+    "attributes": {
+      "drupal_internal__mid": 594,
+      "drupal_internal__vid": 653,
+      "langcode": "en",
+      "revision_created": "2021-01-30T02:04:01+00:00",
+      "status": true,
+      "name": "Innovation & Technology - Header Image",
+      "created": "2021-01-30T02:03:22+00:00",
+      "changed": "2021-01-30T02:04:01+00:00",
+      "default_langcode": true,
+      "revision_translation_affected": true,
+      "metatag": null,
+      "path": {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    },
+    "relationships": {
+      "bundle": {
+        "data": {
+          "type": "media_type--media_type",
+          "id": "ae6c4031-0599-4953-847d-c6aeb0681305",
+          "meta": {
+            "drupal_internal__target_id": "header_image"
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/bundle?resourceVersion=id%3A653"
+          },
+          "self": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/relationships/bundle?resourceVersion=id%3A653"
+          }
+        }
+      },
+      "revision_user": {
+        "data": null,
+        "links": {
+          "related": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/revision_user?resourceVersion=id%3A653"
+          },
+          "self": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/relationships/revision_user?resourceVersion=id%3A653"
+          }
+        }
+      },
+      "uid": {
+        "data": {
+          "type": "user--user",
+          "id": "36a239b4-cc6b-487f-b44c-1e98d92e4c19",
+          "meta": {
+            "drupal_internal__target_id": 46
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/uid?resourceVersion=id%3A653"
+          },
+          "self": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/relationships/uid?resourceVersion=id%3A653"
+          }
+        }
+      },
+      "thumbnail": {
+        "data": {
+          "type": "file--file",
+          "id": "1689991a-7999-40f0-9063-7c739f8d81cb",
+          "meta": {
+            "alt": "Innovation & Technology - Header Image",
+            "title": null,
+            "width": 3200,
+            "height": 1600,
+            "drupal_internal__target_id": 875
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/thumbnail?resourceVersion=id%3A653"
+          },
+          "self": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/relationships/thumbnail?resourceVersion=id%3A653"
+          }
+        }
+      },
+      "field_media_image": {
+        "data": {
+          "type": "file--file",
+          "id": "1689991a-7999-40f0-9063-7c739f8d81cb",
+          "meta": {
+            "alt": "Innovation & Technology - Header Image",
+            "title": "",
+            "width": 3200,
+            "height": 1600,
+            "drupal_internal__target_id": 875
+          }
+        },
+        "links": {
+          "related": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/field_media_image?resourceVersion=id%3A653"
+          },
+          "self": {
+            "href": "https://professional.mit.edu/jsonapi/media/header_image/ec734233-e506-47f6-bd87-93ca4a62f26e/relationships/field_media_image?resourceVersion=id%3A653"
+          }
+        }
+      }
+    }
+  },
+  "links": {
+    "self": {
+      "href": "https://professional.mit.edu/jsonapi/node/course/9c0692c9-7216-4be1-b432-fbeefec1da1f/field_header_image?resourceVersion=id%3A14202"
+    }
+  }
+}
