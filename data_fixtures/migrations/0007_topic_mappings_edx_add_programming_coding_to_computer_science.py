@@ -69,7 +69,7 @@ class Migration(migrations.Migration):
     """Perform the migration."""
 
     dependencies = [
-        ("data_fixtures", "0005_unit_page_copy_updates"),
+        ("data_fixtures", "0006_update_parent_topic_channel_descriptions"),
     ]
 
     operations = [migrations.RunPython(add_new_mapping, rollback_new_mapping)]
