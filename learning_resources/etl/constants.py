@@ -78,6 +78,7 @@ RESOURCE_FORMAT_MAPPING = {
     "Blended": LearningResourceFormat.hybrid.name,
     "In Person": LearningResourceFormat.in_person.name,
     "Live Virtual": LearningResourceFormat.online.name,
+    "Live Online": LearningResourceFormat.online.name,
     "On Campus": LearningResourceFormat.in_person.name,
     **{
         value: LearningResourceFormat(value).name
