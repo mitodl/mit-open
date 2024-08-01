@@ -120,6 +120,7 @@ const UpsertLearningPathDialog = NiceModal.create(
         formClassName="manage-list-form"
         onReset={formik.resetForm}
         onSubmit={formik.handleSubmit}
+        confirmText="Save"
         noValidate
         footerContent={
           mutation.isError &&
@@ -238,6 +239,7 @@ const UpsertUserListDialog = NiceModal.create(
         formClassName="manage-list-form"
         onReset={formik.resetForm}
         onSubmit={formik.handleSubmit}
+        confirmText={userList ? "Update" : "Create"}
         noValidate
         footerContent={
           mutation.isError &&
@@ -274,19 +276,21 @@ const UpsertUserListDialog = NiceModal.create(
           multiline
           minRows={3}
         />
-        <div>
-          <Button
-            type="submit"
-            variant="tertiary"
-            edge="rounded"
-            size="small"
-            startIcon={<RiDeleteBinLine />}
-            disabled={formik.isSubmitting}
-            onClick={() => manageListDialogs.destroyUserList(userList!)}
-          >
-            Delete
-          </Button>
-        </div>
+        {userList && (
+          <div>
+            <Button
+              type="submit"
+              variant="tertiary"
+              edge="rounded"
+              size="small"
+              startIcon={<RiDeleteBinLine />}
+              disabled={formik.isSubmitting}
+              onClick={() => manageListDialogs.destroyUserList(userList!)}
+            >
+              Delete
+            </Button>
+          </div>
+        )}
       </FormDialog>
     )
   },

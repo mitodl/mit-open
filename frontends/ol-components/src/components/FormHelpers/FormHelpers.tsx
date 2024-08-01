@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "@emotion/styled"
-import { RiInformationLine } from "@remixicon/react"
+import { RiErrorWarningLine } from "@remixicon/react"
 import Typography from "@mui/material/Typography"
 
 const Required = styled.span(({ theme }) => ({
@@ -16,9 +16,16 @@ const Description = styled.div<{ error?: boolean }>(({ theme, error }) => [
       : theme.custom.colors.silverGrayDark,
   },
   error && {
+    textIndent: "-24px",
+    paddingLeft: "24px",
+
     "> svg:first-of-type": {
       marginRight: "4px",
       transform: "translateY(2px)",
+      width: "18px",
+      height: "18px",
+      position: "relative",
+      top: "2px",
     },
   },
 ])
@@ -132,7 +139,7 @@ const FormFieldWrapper: React.FC<FormFieldWrapperProps> = ({
       {helpText && <Description id={helpId}>{helpText}</Description>}
       {error && errorText && (
         <Description id={errorId} error>
-          <RiInformationLine fontSize="inherit" />
+          <RiErrorWarningLine fontSize="inherit" />
           {errorText}
         </Description>
       )}

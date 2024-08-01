@@ -49,7 +49,8 @@ const inputs = {
   title: () => screen.getByLabelText("Title", { exact: false }),
   description: () => screen.getByLabelText("Description", { exact: false }),
   topics: () => screen.getByLabelText("Subjects", { exact: false }),
-  submit: () => screen.getByRole("button", { name: "Save" }),
+  submit: (buttonText?: string) =>
+    screen.getByRole("button", { name: buttonText || "Save" }),
   cancel: () => screen.getByRole("button", { name: "Cancel" }),
   delete: () => screen.getByRole("button", { name: "Yes, delete" }),
 }
@@ -270,7 +271,7 @@ describe("manageListDialogs.upsertUserList", () => {
 
   test("Validates required fields", async () => {
     setup()
-    await user.click(inputs.submit())
+    await user.click(inputs.submit("Create"))
 
     const titleInput = inputs.title()
     const titleFeedback = getDescriptionFor(titleInput)
