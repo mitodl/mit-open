@@ -41,7 +41,7 @@ test("It renders form content", () => {
 test("It calls submit when pressing submit", async () => {
   const { onSubmit } = setup()
   expect(onSubmit).not.toHaveBeenCalled()
-  await user.click(screen.getByRole("button", { name: "Save" }))
+  await user.click(screen.getByRole("button", { name: "Submit" }))
   expect(onSubmit).toHaveBeenCalledWith(
     expect.objectContaining({ type: "submit" }),
   )
@@ -91,7 +91,7 @@ test("The submit button is disabled while submitting", async () => {
     return submission
   })
   setup({ onSubmit })
-  const submitButton = screen.getByRole("button", { name: "Save" })
+  const submitButton = screen.getByRole("button", { name: "Submit" })
   expect(submitButton).not.toBeDisabled()
   await user.click(submitButton)
   expect(submitButton).toBeDisabled()
@@ -103,13 +103,13 @@ test("The submit button is disabled while submitting", async () => {
 test.each([
   {
     confirmText: undefined,
-    expected: "Save",
+    expected: "Submit",
   },
   {
     confirmText: "Yes, save!",
     expected: "Yes, save!",
   },
-])("The 'Save' button text is customizable", ({ confirmText, expected }) => {
+])("The 'Submit' button text is customizable", ({ confirmText, expected }) => {
   setup({ confirmText })
   screen.getByRole("button", { name: expected })
 })

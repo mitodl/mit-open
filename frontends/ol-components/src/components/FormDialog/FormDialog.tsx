@@ -94,7 +94,7 @@ const FormDialog: React.FC<FormDialogProps> = ({
   noValidate,
   children,
   footerContent,
-  confirmText = "OK",
+  confirmText = "Submit",
   cancelText = "Cancel",
   className,
 }) => {
