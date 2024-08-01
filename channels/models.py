@@ -95,6 +95,7 @@ class Channel(TimestampedModel):
     configuration = models.JSONField(null=True, default=dict, blank=True)
     search_filter = models.CharField(max_length=2048, blank=True, default="")
     public_description = models.TextField(blank=True, default="")
+    published = models.BooleanField(default=True, db_index=True)
 
     featured_list = models.ForeignKey(
         LearningResource, null=True, blank=True, on_delete=deletion.SET_NULL

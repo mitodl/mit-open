@@ -88,7 +88,8 @@ class ChannelViewSet(
     def get_queryset(self):
         """Return a queryset"""
         return (
-            Channel.objects.prefetch_related(
+            Channel.objects.filter(published=True)
+            .prefetch_related(
                 Prefetch(
                     "lists",
                     queryset=ChannelList.objects.prefetch_related(

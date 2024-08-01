@@ -26,6 +26,7 @@ class ChannelFactory(DjangoModelFactory):
 
     name = factory.fuzzy.FuzzyText(length=21)
     title = factory.Faker("text", max_nb_chars=50)
+    published = True
     public_description = factory.Faker("text", max_nb_chars=50)
     channel_type = factory.fuzzy.FuzzyChoice(ChannelType.names())
 

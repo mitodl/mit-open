@@ -28,11 +28,14 @@ pytestmark = pytest.mark.django_db
 
 def test_list_channels(user_client):
     """Test that all channels are returned"""
-    channels = sorted(ChannelFactory.create_batch(10), key=lambda f: f.id)
+    ChannelFactory.create_batch(2, published=False)  # should be filtered out
+    channels = sorted(ChannelFactory.create_batch(3), key=lambda f: f.id)
+    ChannelFactory.create_batch(2, published=False)  # should be filtered out
+
     url = reverse("channels:v0:channels_api-list")
     channel_list = sorted(user_client.get(url).json()["results"], key=lambda f: f["id"])
-    assert len(channel_list) == 10
-    for idx, channel in enumerate(channels[:10]):
+    assert len(channel_list) == 3
+    for idx, channel in enumerate(channels[:3]):
         assert channel_list[idx] == ChannelSerializer(instance=channel).data
 
 
