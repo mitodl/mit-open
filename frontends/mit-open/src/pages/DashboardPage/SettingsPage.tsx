@@ -99,7 +99,7 @@ const SettingsPage: React.FC = () => {
       <SubTitleText>
         All topics, academic departments, and MIT units you are following.
       </SubTitleText>
-      <FollowList>
+      <FollowList data-testid="follow-list">
         {subscriptionList?.data?.map((subscriptionItem) => (
           <ListItem key={subscriptionItem.id}>
             <ListItemBody
