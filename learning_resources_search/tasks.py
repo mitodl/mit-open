@@ -882,6 +882,7 @@ def attempt_send_digest_email_batch(user_template_items):
                 group,
                 list(unique_resource_types),
                 total_count,
+                shortform=False,
             )
             # generate a shorter subject for use in the template
             short_subject = _generate_subscription_digest_subject(
