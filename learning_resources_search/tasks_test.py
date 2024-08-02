@@ -937,15 +937,24 @@ def test_subscription_digest_subject():
     Test that email generates a dynamic subject based
     on the unique resource types included
     """
-    resource_types = {"course", "program", "podcast"}
-
-    subject_line = _generate_subscription_digest_subject(13, resource_types)
-    assert subject_line == "13 New courses & learning materials from MIT"
-
     resource_types = {"program"}
-    subject_line = _generate_subscription_digest_subject(1, resource_types)
-    assert subject_line == "1 New  program from MIT"
+    sample_course = {"source_channel_type": "topic", "resource_title": "robotics"}
+
+    subject_line = _generate_subscription_digest_subject(
+        sample_course, "topic", resource_types, 1
+    )
+    assert subject_line == "MIT Learn: New Program in topic: robotics"
+
+    sample_course = {"source_channel_type": "podcast", "resource_title": "robotics"}
+    resource_types = {"program"}
+
+    subject_line = _generate_subscription_digest_subject(
+        sample_course, "department", resource_types, 9
+    )
+    assert subject_line == "MIT Learn: New Programs from department: robotics"
 
     resource_types = {"podcast"}
-    subject_line = _generate_subscription_digest_subject(15, resource_types)
-    assert subject_line == "15 New  podcasts from MIT"
+    subject_line = _generate_subscription_digest_subject(
+        sample_course, "podcast", resource_types, 19
+    )
+    assert subject_line == "MIT Learn: New Podcasts from podcast: robotics"
