@@ -12,8 +12,15 @@ import {
   Typography,
   PlainList,
   imgConfigs,
+  Card,
+  theme,
 } from "ol-components"
-import { RiPencilFill, RiMore2Fill, RiDeleteBin7Fill } from "@remixicon/react"
+import {
+  RiPencilFill,
+  RiMore2Fill,
+  RiDeleteBin7Fill,
+  RiListCheck3,
+} from "@remixicon/react"
 
 import { MetaTags } from "ol-utilities"
 import type { UserList } from "api"
@@ -33,6 +40,33 @@ const PageContainer = styled(Container)({
 const ListHeaderGrid = styled(Grid)({
   marginBottom: "1rem",
 })
+
+const EmptyListCard = styled(Card)`
+  margin-top: 16px;
+`
+
+const EmptyList = styled.div`
+  display: flex;
+  padding: 32px;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  text-align: center;
+`
+
+const IconContainer = styled.div`
+  display: inline-block;
+  margin: 0 auto;
+  padding: 12px;
+  height: 56px;
+  border-radius: 4px;
+  color: ${theme.custom.colors.silverGrayDark};
+  background: ${theme.custom.colors.lightGray1};
+  svg {
+    width: 32px;
+    height: 32px;
+  }
+`
 
 type EditUserListMenuProps = {
   userList: UserList
@@ -82,7 +116,7 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
   props,
 ) => {
   const { title, onActivate } = props
-  const listingQuery = useUserListList()
+  const { data, isLoading } = useUserListList()
   const handleCreate = useCallback(() => {
     manageListDialogs.upsertUserList()
   }, [])
@@ -102,16 +136,40 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
             alignItems="center"
             display="flex"
           >
-            <Button variant="primary" onClick={handleCreate}>
-              Create new list
-            </Button>
+            {data?.results.length && !isLoading && (
+              <Button variant="primary" onClick={handleCreate}>
+                Create new list
+              </Button>
+            )}
           </Grid>
         </ListHeaderGrid>
         <section>
-          <LoadingSpinner loading={listingQuery.isLoading} />
-          {listingQuery.data && (
+          <LoadingSpinner loading={isLoading} />
+
+          {!data?.results.length && !isLoading && (
+            <EmptyListCard>
+              <Card.Content>
+                <EmptyList>
+                  <IconContainer>
+                    <RiListCheck3 />
+                  </IconContainer>
+                  <Typography variant="body2">
+                    Create lists to save your courses and materials.{" "}
+                    <Typography variant="subtitle2" component="strong">
+                      Create new list
+                    </Typography>{" "}
+                    to start!
+                  </Typography>
+                  <Button variant="primary" size="large" onClick={handleCreate}>
+                    Create new list
+                  </Button>
+                </EmptyList>
+              </Card.Content>
+            </EmptyListCard>
+          )}
+          {data && (
             <PlainList itemSpacing={3}>
-              {listingQuery.data.results?.map((list) => {
+              {data.results?.map((list) => {
                 return (
                   <li key={list.id}>
                     <UserListCardTemplate
