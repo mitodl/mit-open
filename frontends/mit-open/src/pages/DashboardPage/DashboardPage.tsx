@@ -24,7 +24,7 @@ import { MetaTags } from "ol-utilities"
 import { Link } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 import { useLocation, useParams } from "react-router"
-import { UserListListingComponent } from "../UserListListingComponent/UserListListingComponent"
+import UserListListingComponent from "../UserListListingComponent/UserListListingComponent"
 
 import { ProfileEditForm } from "./ProfileEditForm"
 import { useProfileMeQuery } from "api/hooks/profile"

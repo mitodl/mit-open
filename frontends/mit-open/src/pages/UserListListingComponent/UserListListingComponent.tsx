@@ -66,4 +66,4 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
   )
 }
 
-export { UserListListingComponent }
+export default UserListListingComponent

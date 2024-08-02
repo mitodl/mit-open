@@ -6,11 +6,14 @@ import {
   renderWithProviders,
   setMockResponse,
   user,
+  expectProps,
 } from "../../test-utils"
 import type { User } from "../../test-utils"
 
-import { UserListListingComponent } from "./UserListListingComponent"
+import UserListListingComponent from "./UserListListingComponent"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { UserListCardCondensed } from "@/page-components/UserListCard/UserListCardCondensed"
+import { userListView } from "@/common/urls"
 
 jest.mock("../../page-components/UserListCard/UserListCardCondensed", () => {
   const actual = jest.requireActual(
@@ -22,6 +25,7 @@ jest.mock("../../page-components/UserListCard/UserListCardCondensed", () => {
     default: jest.fn(actual.default),
   }
 })
+const spyULCardCondensed = jest.mocked(UserListCardCondensed)
 
 /**
  * Set up the mock API responses for lists pages.
@@ -57,14 +61,20 @@ describe("UserListListingPage", () => {
   it("Renders a card for each user list", async () => {
     const { paths } = setup()
     const titles = paths.results.map((userList) => userList.title)
-    const headings = []
-    for (const title of titles) {
-      headings.push(await screen.findByText(title))
-    }
+    const headings = await screen.findAllByRole("heading", {
+      name: (value) => titles.includes(value),
+    })
 
     // for sanity
     expect(headings.length).toBeGreaterThan(0)
     expect(titles.length).toBe(headings.length)
+
+    paths.results.forEach((userList) => {
+      expectProps(spyULCardCondensed, {
+        href: userListView(userList.id),
+        userList: userList,
+      })
+    })
   })
 
   test("Clicking new list opens the creation dialog", async () => {

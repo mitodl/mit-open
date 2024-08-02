@@ -34,7 +34,7 @@ const IconContainer = styled.div(({ theme }) => ({
   background: theme.custom.colors.lightGray1,
 }))
 
-export type UserListCardCondensedProps<U extends UserList = UserList> = {
+type UserListCardCondensedProps<U extends UserList = UserList> = {
   userList: U
   href?: string
   className?: string
@@ -69,3 +69,4 @@ const UserListCardCondensed = <U extends UserList>({
 }
 
 export { UserListCardCondensed }
+export type { UserListCardCondensedProps }
