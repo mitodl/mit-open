@@ -230,9 +230,9 @@ describe("DashboardPage", () => {
     const tabPanels = await screen.findAllByRole("tabpanel", { hidden: true })
     // 1 for mobile, 1 for desktop
     expect(tabLists).toHaveLength(2)
-    expect(mobileTabs).toHaveLength(3)
-    expect(desktopTabs).toHaveLength(3)
-    expect(tabPanels).toHaveLength(3)
+    expect(mobileTabs).toHaveLength(4)
+    expect(desktopTabs).toHaveLength(4)
+    expect(tabPanels).toHaveLength(4)
     Object.values(DashboardTabLabels).forEach((label) => {
       const desktopLabel = within(desktopTabList).getByText(label)
       const mobileLabel = within(mobileTabList).getByText(label)

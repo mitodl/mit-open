@@ -3341,6 +3341,18 @@ export interface PercolateQuery {
   id: number
   /**
    *
+   * @type {string}
+   * @memberof PercolateQuery
+   */
+  source_description: string
+  /**
+   *
+   * @type {string}
+   * @memberof PercolateQuery
+   */
+  source_label: string
+  /**
+   *
    * @type {any}
    * @memberof PercolateQuery
    */
