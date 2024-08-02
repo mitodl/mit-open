@@ -1,4 +1,4 @@
-from urllib.parse import unquote_plus, urlencode
+from urllib.parse import urlencode
 
 from django.contrib.auth import get_user_model
 from django.db import models
@@ -28,14 +28,6 @@ class PercolateQuery(TimestampedModel):
     )
     users = models.ManyToManyField(User, related_name="percolate_queries")
 
-    def original_url_params(self):
-        ignore_params = ["endpoint"]
-        query = self.original_query
-        defined_params = {
-            key: query[key] for key in query if query[key] and key not in ignore_params
-        }
-        return unquote_plus(urlencode(defined_params, doseq=True))
-
     def source_label(self):
         source_channel = self.source_channel()
         if source_channel:
@@ -55,6 +47,14 @@ class PercolateQuery(TimestampedModel):
         if channels_filtered.exists():
             return channels_filtered.first()
         return None
+
+    def original_url_params(self):
+        ignore_params = ["endpoint"]
+        query = self.original_query
+        defined_params = {
+            key: query[key] for key in query if query[key] and key not in ignore_params
+        }
+        return urlencode(defined_params, doseq=True)
 
     def __str__(self):
         return f"Percolate query {self.id}: {self.query}"

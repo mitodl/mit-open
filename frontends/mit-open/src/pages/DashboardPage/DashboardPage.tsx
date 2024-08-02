@@ -4,6 +4,7 @@ import {
   RiDashboardLine,
   RiBookmarkLine,
   RiEditLine,
+  RiNotificationLine,
 } from "@remixicon/react"
 import {
   ButtonLink,
@@ -38,6 +39,7 @@ import {
 } from "./carousels"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 import UserListDetailsTab from "./UserListDetailsTab"
+import { SettingsPage } from "./SettingsPage"
 
 /**
  *
@@ -206,6 +208,7 @@ const TabPanelStyled = styled(TabPanel)({
 
 const TitleText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.black,
+  paddingBottom: "16px",
   ...theme.typography.h3,
   [theme.breakpoints.down("md")]: {
     ...theme.typography.h5,
@@ -284,17 +287,18 @@ const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
 enum TabValues {
   HOME = "home",
   MY_LISTS = "my-lists",
+  SETTINGS = "settings",
   PROFILE = "profile",
 }
 
 const TabLabels = {
-  [TabValues.HOME.toString()]: "Home",
-  [TabValues.MY_LISTS.toString()]: "My Lists",
-  [TabValues.PROFILE.toString()]: "Profile",
+  [TabValues.HOME]: "Home",
+  [TabValues.MY_LISTS]: "My Lists",
+  [TabValues.PROFILE]: "Profile",
+  [TabValues.SETTINGS]: "Settings",
 }
-
 const keyFromHash = (hash: string) => {
-  const keys = [TabValues.HOME, TabValues.MY_LISTS, TabValues.PROFILE]
+  const keys = Object.values(TabValues)
   const match = keys.find((key) => `#${key}` === hash)
   return match ?? "home"
 }
@@ -352,6 +356,12 @@ const DashboardPage: React.FC = () => {
             value={TabValues.PROFILE}
             currentValue={tabValue}
           />
+          <UserMenuTab
+            icon={<RiNotificationLine />}
+            text={TabLabels[TabValues.SETTINGS]}
+            value={TabValues.SETTINGS}
+            currentValue={tabValue}
+          />
         </TabsContainer>
       </Card.Content>
     </ProfileSidebar>
@@ -377,6 +387,12 @@ const DashboardPage: React.FC = () => {
         value={TabValues.PROFILE}
         href={`#${TabValues.PROFILE}`}
         label="Profile"
+      />
+      <TabButtonLink
+        data-testid={`mobile-tab-${TabValues.SETTINGS}`}
+        value={TabValues.SETTINGS}
+        href={`#${TabValues.SETTINGS}`}
+        label="Settings"
       />
     </TabButtonList>
   )
@@ -477,6 +493,19 @@ const DashboardPage: React.FC = () => {
                   ) : (
                     <div id="user-profile-edit">
                       <ProfileEditForm profile={profile} />
+                    </div>
+                  )}
+                </TabPanelStyled>
+                <TabPanelStyled
+                  key={TabValues.SETTINGS}
+                  value={TabValues.SETTINGS}
+                >
+                  <TitleText role="heading">Settings</TitleText>
+                  {isLoadingProfile || !profile ? (
+                    <Skeleton variant="text" width={128} height={32} />
+                  ) : (
+                    <div id="user-settings">
+                      <SettingsPage />
                     </div>
                   )}
                 </TabPanelStyled>

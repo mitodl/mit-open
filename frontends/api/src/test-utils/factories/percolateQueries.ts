@@ -9,6 +9,8 @@ const percolateQuery: Factory<PercolateQuery> = (overrides = {}) => {
     original_query: {},
     query: {},
     source_type: SourceTypeEnum.SearchSubscriptionType,
+    source_description: "",
+    source_label: "",
     ...overrides,
   }
   return percolateQuery

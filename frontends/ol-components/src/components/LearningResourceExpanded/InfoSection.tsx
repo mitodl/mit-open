@@ -11,14 +11,13 @@ import {
   RiDashboard3Line,
   RiGraduationCapLine,
   RiTranslate2,
+  RiAwardLine,
 } from "@remixicon/react"
+import { LearningResource, LearningResourceRun, ResourceTypeEnum } from "api"
 import {
-  LearningResource,
-  LearningResourceRun,
-  ResourceTypeEnum,
-  PlatformEnum,
-} from "api"
-import { formatDurationClockTime } from "ol-utilities"
+  formatDurationClockTime,
+  getLearningResourcePrices,
+} from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import Typography from "@mui/material/Typography"
 
@@ -51,16 +50,38 @@ const InfoLabel = styled.div`
 const InfoValue = styled.div`
   ${{ ...theme.typography.body2 }}
   color: ${theme.custom.colors.black};
+  flex-grow: 1;
+`
+
+const Certificate = styled.div`
+  display: flex;
+  gap: 4px;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-top: 8px;
+  background-color: ${theme.custom.colors.lightGray1};
+  color: ${theme.custom.colors.darkGray2};
+
+  ${{ ...theme.typography.subtitle2 }}
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+`
+
+const CertificatePrice = styled.span`
+  ${{ ...theme.typography.body2 }}
 `
 
 type InfoSelector = (
   resource: LearningResource,
   run?: LearningResourceRun,
-) => string | number | null
+) => React.ReactNode
 
 type InfoItemConfig = {
   label: string
-  Icon: RemixiconComponentType
+  Icon: RemixiconComponentType | null
   selector: InfoSelector
 }[]
 
@@ -68,18 +89,23 @@ const INFO_ITEMS: InfoItemConfig = [
   {
     label: "Price:",
     Icon: RiPriceTag3Line,
-    selector: (resource: LearningResource, run?: LearningResourceRun) => {
-      if (!resource || !run) {
-        return null
-      }
-      const price = run.prices?.[0]
-      if (
-        resource.platform?.code === PlatformEnum.Ocw ||
-        parseFloat(price!) === 0
-      ) {
-        return "Free"
-      }
-      return price ? `$${price}` : null
+    selector: (resource: LearningResource) => {
+      const prices = getLearningResourcePrices(resource)
+
+      return (
+        <>
+          {prices.course.display}
+          {resource.certification && (
+            <Certificate>
+              <RiAwardLine />
+              {prices.certificate.display
+                ? "Earn a certificate:"
+                : "Certificate included"}
+              <CertificatePrice>{prices.certificate.display}</CertificatePrice>
+            </Certificate>
+          )}
+        </>
+      )
     },
   },
 
@@ -165,8 +191,8 @@ const INFO_ITEMS: InfoItemConfig = [
 
 type InfoItemProps = {
   label: string
-  Icon: RemixiconComponentType
-  value: string | number | null
+  Icon: RemixiconComponentType | null
+  value: React.ReactNode
 }
 
 const InfoItem = ({ label, Icon, value }: InfoItemProps) => {
@@ -175,7 +201,7 @@ const InfoItem = ({ label, Icon, value }: InfoItemProps) => {
   }
   return (
     <InfoItemContainer>
-      <Icon />
+      {Icon && <Icon />}
       <InfoLabel>{label}</InfoLabel>
       <InfoValue>{value}</InfoValue>
     </InfoItemContainer>
