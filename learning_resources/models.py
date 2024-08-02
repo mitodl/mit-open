@@ -1,6 +1,6 @@
 """Models for learning resources and related entities"""
 
-from decimal import Decimal
+import uuid
 from functools import cached_property
 
 from django.contrib.auth.models import User
@@ -12,6 +12,7 @@ from django.utils import timezone
 
 from learning_resources import constants
 from learning_resources.constants import (
+    Availability,
     CertificationType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
@@ -62,12 +63,26 @@ class LearningResourceTopic(TimestampedModel):
 
     objects = LearningResourceTopicQuerySet.as_manager()
 
+    topic_uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        help_text=(
+            "An immutable ID for the topic, used if the topic needs to"
+            " be changed via migration."
+        ),
+    )
     name = models.CharField(max_length=128)
     parent = models.ForeignKey(
         "LearningResourceTopic",
         blank=True,
         null=True,
         on_delete=models.CASCADE,
+    )
+    icon = models.CharField(
+        max_length=128,
+        help_text="The icon to display for the topic.",
+        blank=True,
+        default="",
     )
 
     def __str__(self):
@@ -139,6 +154,22 @@ class LearningResourceOfferor(TimestampedModel):
 
     def __str__(self):
         return f"{self.code}: {self.name}"
+
+
+class LearningResourceTopicMapping(TimestampedModel):
+    """Stores offeror topic mappings for learning resource topics."""
+
+    topic = models.ForeignKey(
+        "LearningResourceTopic",
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    offeror = models.ForeignKey(
+        "LearningResourceOfferor",
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    topic_name = models.CharField(max_length=128)
 
 
 class LearningResourceImage(TimestampedModel):
@@ -282,6 +313,14 @@ class LearningResource(TimestampedModel):
     etl_source = models.CharField(max_length=12, default="")
     professional = models.BooleanField(default=False)
     next_start_date = models.DateTimeField(null=True, blank=True, db_index=True)
+    prices = ArrayField(
+        models.DecimalField(decimal_places=2, max_digits=12), default=list
+    )
+    availability = models.CharField(  # noqa: DJ001
+        max_length=24,
+        null=True,
+        choices=((member.name, member.value) for member in Availability),
+    )
 
     @staticmethod
     def get_prefetches():
@@ -320,21 +359,6 @@ class LearningResource(TimestampedModel):
             .order_by("start_date")
             .first()
         )
-
-    @property
-    def prices(self) -> list[Decimal]:
-        """Returns the prices for the learning resource"""
-        if self.resource_type in [
-            LearningResourceType.course.name,
-            LearningResourceType.program.name,
-        ]:
-            next_run = (
-                self.next_run
-                or self.runs.filter(published=True).order_by("-start_date").first()
-            )
-            return next_run.prices if next_run and next_run.prices else []
-        else:
-            return [Decimal(0.00)]
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)

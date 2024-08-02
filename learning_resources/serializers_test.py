@@ -262,6 +262,7 @@ def test_learning_resource_serializer(  # noqa: PLR0913
             for lr_format in resource.learning_format
         ],
         "next_start_date": resource.next_start_date,
+        "availability": resource.availability,
     }
 
 
@@ -523,6 +524,7 @@ def test_content_file_serializer(settings, expected_types, has_channels):
                 {
                     "name": topic.name,
                     "id": topic.id,
+                    "icon": topic.icon,
                     "parent": topic.parent,
                     "channel_url": frontend_absolute_url(
                         f"/c/topic/{Channel.objects.get(topic_detail__topic=topic).name}/"

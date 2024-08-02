@@ -2,20 +2,6 @@
 
 from django.db import migrations, models
 
-from learning_resources.etl.loaders import load_next_start_date
-
-
-def assign_next_start_date(apps, schema_editor):
-    """
-    Assign next start dates
-    """
-    LearningResource = apps.get_model("learning_resources", "LearningResource")
-
-    for resource in LearningResource.objects.filter(
-        resource_type__in=["course", "program"]
-    ).iterator():
-        load_next_start_date(resource)
-
 
 class Migration(migrations.Migration):
     dependencies = [
@@ -32,8 +18,5 @@ class Migration(migrations.Migration):
             model_name="learningresourcerun",
             name="start_date",
             field=models.DateTimeField(blank=True, null=True),
-        ),
-        migrations.RunPython(
-            assign_next_start_date, reverse_code=migrations.RunPython.noop
         ),
     ]

@@ -1,6 +1,7 @@
 """Tests for opensearch serializers"""
 
 from copy import deepcopy
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from types import SimpleNamespace
 
@@ -15,6 +16,7 @@ from rest_framework.test import APIRequestFactory
 from learning_resources import factories
 from learning_resources.constants import (
     DEPARTMENTS,
+    LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
     LearningResourceType,
 )
@@ -41,6 +43,7 @@ from learning_resources_search.serializers import (
     LearningResourcesSearchRequestSerializer,
     LearningResourcesSearchResponseSerializer,
     extract_values,
+    get_resource_age_date,
     serialize_percolate_query,
 )
 from main.factories import UserFactory
@@ -572,7 +575,9 @@ def test_serialize_bulk_learning_resources(mocker):
 )
 @pytest.mark.parametrize("is_professional", [True, False])
 @pytest.mark.parametrize("no_price", [True, False])
-def test_serialize_learning_resource_for_bulk(resource_type, is_professional, no_price):
+def test_serialize_learning_resource_for_bulk(
+    mocker, resource_type, is_professional, no_price
+):
     """
     Test that serialize_program_for_bulk yields a valid LearningResourceSerializer for resource types other than "course"
     The "course" resource type is tested by `test_serialize_course_numbers_for_bulk` below.
@@ -588,14 +593,86 @@ def test_serialize_learning_resource_for_bulk(resource_type, is_professional, no
         not in [LearningResourceType.program.name, LearningResourceType.course.name]
         or (no_price and not is_professional)
     }
+
+    mocker.patch(
+        "learning_resources_search.serializers.get_resource_age_date",
+        return_value=datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
+    )
+
     assert serializers.serialize_learning_resource_for_bulk(resource) == {
         "_id": resource.id,
         "resource_relations": {"name": "resource"},
         "created_on": resource.created_on,
         "is_learning_material": resource.resource_type not in ["course", "program"],
+        "resource_age_date": datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
         **free_dict,
         **LearningResourceSerializer(resource).data,
     }
+
+
+@pytest.mark.django_db()
+def test_get_resource_age_date():
+    ocw_offeror = factories.LearningResourceOfferorFactory.create(is_ocw=True)
+
+    mitx_offeror = factories.LearningResourceOfferorFactory.create(is_mitx=True)
+
+    podcast = factories.LearningResourceFactory.create(
+        resource_type=LearningResourceType.podcast_episode.name
+    )
+    assert (
+        get_resource_age_date(podcast, LEARNING_MATERIAL_RESOURCE_CATEGORY)
+        == podcast.last_modified
+    )
+
+    program = factories.LearningResourceFactory.create(
+        resource_type=LearningResourceType.program.name
+    )
+    assert get_resource_age_date(program, LearningResourceType.program.name) is None
+
+    upcoming_course = factories.LearningResourceFactory.create(
+        is_course=True,
+        next_start_date=datetime.now(tz=UTC) + timedelta(days=1),
+    )
+    assert (
+        get_resource_age_date(upcoming_course, LearningResourceType.course.name) is None
+    )
+
+    past_course = factories.LearningResourceFactory.create(
+        is_course=True, runs=[], offered_by=mitx_offeror, next_start_date=None
+    )
+    last_run = LearningResourceRunFactory.create(
+        learning_resource=past_course,
+        start_date=datetime.now(tz=UTC) - timedelta(days=1),
+    )
+    LearningResourceRunFactory.create(
+        learning_resource=past_course,
+        start_date=datetime.now(tz=UTC) - timedelta(days=100),
+    )
+    assert (
+        get_resource_age_date(past_course, LearningResourceType.course.name)
+        == last_run.start_date
+    )
+
+    ocw_course = factories.LearningResourceFactory.create(
+        is_course=True, runs=[], offered_by=ocw_offeror, next_start_date=None
+    )
+    ocw_run = LearningResourceRunFactory.create(
+        learning_resource=ocw_course,
+        start_date=datetime.now(tz=UTC) - timedelta(days=1),
+        semester="Spring",
+        year=2024,
+    )
+
+    assert get_resource_age_date(
+        ocw_course, LearningResourceType.course.name
+    ) == datetime(
+        ocw_run.year,
+        3,
+        1,
+        0,
+        0,
+        tzinfo=UTC,
+    )
 
 
 @pytest.mark.django_db()
@@ -606,7 +683,7 @@ def test_serialize_learning_resource_for_bulk(resource_type, is_professional, no
     ("extra_num", "sorted_extra_num"), [("2", "02"), ("16", "16"), ("CC", "CC")]
 )
 def test_serialize_course_numbers_for_bulk(
-    readable_id, sort_course_num, extra_num, sorted_extra_num
+    mocker, readable_id, sort_course_num, extra_num, sorted_extra_num
 ):
     """
     Test that serialize_course_for_bulk yields a valid LearningResourceSerializer
@@ -634,12 +711,18 @@ def test_serialize_course_numbers_for_bulk(
         course_numbers=course_numbers
     ).learning_resource
     assert resource.course.course_numbers == course_numbers
+
+    mocker.patch(
+        "learning_resources_search.serializers.get_resource_age_date",
+        return_value=datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
+    )
     expected_data = {
         "_id": resource.id,
         "resource_relations": {"name": "resource"},
         "created_on": resource.created_on,
         "free": False,
         "is_learning_material": False,
+        "resource_age_date": datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
         **LearningResourceSerializer(resource).data,
     }
     expected_data["course"]["course_numbers"][0] = {
@@ -726,6 +809,7 @@ def test_learning_resources_search_request_serializer():
         "level": ["high_school", "undergraduate"],
         "course_feature": ["Lecture Videos"],
         "aggregations": ["resource_type", "platform", "level", "resource_category"],
+        "yearly_decay_percent": "0.25",
     }
 
     cleaned = {
@@ -746,6 +830,8 @@ def test_learning_resources_search_request_serializer():
         "level": ["high_school", "undergraduate"],
         "course_feature": ["Lecture Videos"],
         "aggregations": ["resource_type", "platform", "level", "resource_category"],
+        "yearly_decay_percent": 0.25,
+        "dev_mode": False,
     }
 
     serialized = LearningResourcesSearchRequestSerializer(data=data)
@@ -782,6 +868,7 @@ def test_content_file_search_request_serializer():
         "resource_id": [1, 2, 3],
         "offered_by": ["xpro", "ocw"],
         "platform": ["xpro", "edx", "ocw"],
+        "dev_mode": False,
     }
 
     serialized = ContentFileSearchRequestSerializer(data=data)

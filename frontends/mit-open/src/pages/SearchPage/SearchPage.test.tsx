@@ -213,6 +213,98 @@ describe("SearchPage", () => {
     await user.click(screen.getByRole("button", { name: "Search" }))
     expect(location.current.search).toBe("?q=woof")
   })
+
+  test("unathenticated users do not see admin options", async () => {
+    setMockApiResponses({
+      search: {
+        count: 700,
+        metadata: {
+          aggregations: {
+            resource_category: [
+              { key: "course", doc_count: 100 },
+              { key: "learning_material", doc_count: 200 },
+            ],
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 100 },
+              { key: "video", doc_count: 100 },
+            ],
+          },
+          suggestions: [],
+        },
+      },
+    })
+
+    setMockResponse.get(urls.userMe.get(), {})
+
+    renderWithProviders(<SearchPage />)
+    await waitFor(() => {
+      const adminOptions = screen.queryByText("Admin Options")
+      expect(adminOptions).toBeNull()
+    })
+  })
+
+  test("non admin users do not see admin options", async () => {
+    setMockApiResponses({
+      search: {
+        count: 700,
+        metadata: {
+          aggregations: {
+            resource_category: [
+              { key: "course", doc_count: 100 },
+              { key: "learning_material", doc_count: 200 },
+            ],
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 100 },
+              { key: "video", doc_count: 100 },
+            ],
+          },
+          suggestions: [],
+        },
+      },
+    })
+    setMockResponse.get(urls.userMe.get(), {
+      is_authenticated: true,
+      is_learning_path_editor: false,
+    })
+    renderWithProviders(<SearchPage />)
+
+    await waitFor(() => {
+      const adminOptions = screen.queryByText("Admin Options")
+      expect(adminOptions).toBeNull()
+    })
+  })
+
+  test("admin users can set the staleness slider", async () => {
+    setMockApiResponses({
+      search: {
+        count: 700,
+        metadata: {
+          aggregations: {
+            resource_category: [
+              { key: "course", doc_count: 100 },
+              { key: "learning_material", doc_count: 200 },
+            ],
+            resource_type: [
+              { key: "course", doc_count: 100 },
+              { key: "podcast", doc_count: 100 },
+              { key: "video", doc_count: 100 },
+            ],
+          },
+          suggestions: [],
+        },
+      },
+    })
+    setMockResponse.get(urls.userMe.get(), {
+      is_learning_path_editor: true,
+    })
+    renderWithProviders(<SearchPage />)
+    await waitFor(() => {
+      screen.getByText("Admin Options")
+      screen.getByTestId("staleness-slider")
+    })
+  })
 })
 
 describe("Search Page Tabs", () => {
@@ -491,10 +583,10 @@ describe("Search Page pagination controls", () => {
     renderWithProviders(<SearchPage />, { url: "?page=3" })
     const pagination = getPagination()
     // p14 exists
-    await within(pagination).findByRole("button", { name: "Go to page 14" })
+    await within(pagination).findByRole("button", { name: "Go to page 7" })
     // items
     const items = await within(pagination).findAllByRole("listitem")
-    expect(items.at(-2)?.textContent).toBe("14") // "Last page"
+    expect(items.at(-2)?.textContent).toBe("7") // "Last page"
     expect(items.at(-1)?.textContent).toBe("") // "Next" button
   })
 })

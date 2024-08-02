@@ -9,7 +9,8 @@ import {
   expectProps,
   waitFor,
 } from "../../test-utils"
-import type { User } from "../../types/settings"
+import type { User } from "../../test-utils"
+
 import { UserListListingPage } from "./UserListListingPage"
 import UserListCardTemplate from "@/page-components/UserListCardTemplate/UserListCardTemplate"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"

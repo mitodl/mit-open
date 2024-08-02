@@ -8,6 +8,8 @@ const ListDetailsPage: React.FC<ItemsListingComponentProps> = ({
   listType,
   list,
   items,
+  showSort,
+  canEdit,
   isLoading,
   isFetching,
   handleEdit,
@@ -23,6 +25,8 @@ const ListDetailsPage: React.FC<ItemsListingComponentProps> = ({
           listType={listType}
           list={list}
           items={items}
+          showSort={showSort}
+          canEdit={canEdit}
           isLoading={isLoading}
           isFetching={isFetching}
           handleEdit={handleEdit}

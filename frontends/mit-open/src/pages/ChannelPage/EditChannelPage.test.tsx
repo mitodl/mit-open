@@ -51,6 +51,11 @@ describe("EditChannelPage", () => {
       apiUrls.channels.details(channel.channel_type, channel.name),
       channel,
     )
+    setMockResponse.get(
+      apiUrls.testimonials.list({ offerors: [channel.name] }),
+      channel,
+    )
+    setMockResponse.get(apiUrls.testimonials.details(channel.id), channel)
     renderTestApp({
       url: `${makeChannelEditPath(channel.channel_type, channel.name)}/`,
     })
@@ -62,6 +67,11 @@ describe("EditChannelPage", () => {
   it("Displays the correct tab and form for the #appearance hash", async () => {
     const channel = setup()
     setMockResponse.get(apiUrls.userMe.get(), {})
+    setMockResponse.get(
+      apiUrls.testimonials.list({ offerors: [channel.name] }),
+      channel,
+    )
+    setMockResponse.get(apiUrls.testimonials.details(channel.id), channel)
     renderTestApp({
       url: `${makeChannelEditPath(channel.channel_type, channel.name)}/#appearance`,
     })

@@ -3,9 +3,9 @@
 from django.db import migrations, models
 
 from learning_resources.constants import (
-    AvailabilityType,
     LearningResourceType,
     OfferedBy,
+    RunAvailability,
 )
 
 
@@ -27,7 +27,7 @@ def populate_certification(apps, schema_editor):
                 and lr.offered_by.name == OfferedBy.mitx.value
                 and (
                     any(
-                        availability != AvailabilityType.archived.value
+                        availability != RunAvailability.archived.value
                         for availability in lr.runs.values_list(
                             "availability", flat=True
                         )

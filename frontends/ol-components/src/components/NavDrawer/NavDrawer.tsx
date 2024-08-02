@@ -30,13 +30,14 @@ const NavSectionHeader = styled.div(({ theme }) => ({
   ...theme.typography.subtitle3,
 }))
 
-const NavItemsContainer = styled.div({
+const NavItemsContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "flex-start",
   alignSelf: "stretch",
   gap: "12px",
-})
+  color: theme.custom.colors.silverGrayDark,
+}))
 
 const NavItemLink = styled.a({
   display: "flex",
@@ -52,6 +53,7 @@ const NavItemContainer = styled.div(({ theme }) => ({
   alignSelf: "stretch",
   gap: "16px",
   "&:hover": {
+    color: theme.custom.colors.darkGray2,
     ".nav-link-icon": {
       opacity: "1",
     },
@@ -59,9 +61,6 @@ const NavItemContainer = styled.div(({ theme }) => ({
       color: theme.custom.colors.red,
       textDecorationLine: "underline",
       textDecorationColor: theme.custom.colors.red,
-    },
-    ".nav-link-description": {
-      color: theme.custom.colors.darkGray1,
     },
   },
 }))
@@ -93,7 +92,6 @@ const NavLinkText = styled.div(({ theme }) => ({
 
 const NavLinkDescription = styled.div(({ theme }) => ({
   alignSelf: "stretch",
-  color: theme.custom.colors.darkGray1,
   ...theme.typography.body3,
 }))
 
@@ -132,10 +130,7 @@ const NavItem: React.FC<NavItem> = (props) => {
           {title} {href ? "" : "(Coming Soon)"}
         </NavLinkText>
         {description ? (
-          <NavLinkDescription
-            className="nav-link-description"
-            data-testid="nav-link-description"
-          >
+          <NavLinkDescription data-testid="nav-link-description">
             {description}
           </NavLinkDescription>
         ) : null}

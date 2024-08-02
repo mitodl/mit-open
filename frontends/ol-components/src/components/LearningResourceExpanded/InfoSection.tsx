@@ -126,7 +126,9 @@ const INFO_ITEMS: InfoItemConfig = [
           : null
       }
       if (resource.resource_type === ResourceTypeEnum.PodcastEpisode) {
-        return resource.podcast_episode.duration || null
+        return resource.podcast_episode.duration
+          ? formatDurationClockTime(resource.podcast_episode.duration)
+          : null
       }
       return null
     },

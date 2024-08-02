@@ -9,6 +9,7 @@
       "readable_id": "course-v1:MITxT+14.100PEx",
       "next_run_id": null,
       "departments": [],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/14.100x_xGKvQiK.jpg?v=8fe621cc0d80ebe4e57fd1b240e9f95d8c2b31db",
         "page_url": "/courses/course-v1:MITxT+14.100PEx/",
@@ -62,7 +63,8 @@
           "products": [],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 47,
@@ -74,6 +76,7 @@
           "name": "Chemical Engineering"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/4-drkpurple.jpg?v=b6024e4bdf229b618e36f2e942f2ae6f173dd9d3",
         "page_url": "/courses/course-v1:MITxT+10.50.CH04x/",
@@ -114,7 +117,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "dated"
     },
     {
       "id": 50,
@@ -126,6 +130,7 @@
           "name": "Chemical Engineering"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/7-drkBlue_5uVzT1f.jpg?v=0f9790b2ce8c75e91f5fbf01c5373d36fb75a81e",
         "page_url": "/courses/course-v1:MITxT+10.50.CH07x/",
@@ -166,7 +171,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "dated"
     },
     {
       "id": 52,
@@ -178,6 +184,7 @@
           "name": "Chemical Engineering"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/9-red.jpg?v=71fc9e04b14d210d7f5062dee34dc4e32db6967a",
         "page_url": "/courses/course-v1:MITxT+10.50.CH09x/",
@@ -218,7 +225,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "dated"
     },
     {
       "id": 49,
@@ -230,6 +238,7 @@
           "name": "Chemical Engineering"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/6-ltBlue.jpg?v=af26cc60badb0a7b289813f9ccbf4c8f77ad8490",
         "page_url": "/courses/course-v1:MITxT+10.50.CH06x/",
@@ -270,7 +279,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "dated"
     },
     {
       "id": 45,
@@ -282,6 +292,7 @@
           "name": "Chemical Engineering"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/drkGreen_375.png?v=67357416dbff6268f5463acc4ea8847b8a08428a",
         "page_url": "/courses/course-v1:MITxT+10.50.CH02x/",
@@ -322,7 +333,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 44,
@@ -334,6 +346,7 @@
           "name": "Chemical Engineering"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/1-ltGreen.jpg?v=f40e3581924ca77414ae3977c8cdb1a94765e46e",
         "page_url": "/courses/course-v1:MITxT+10.50.CH01x/",
@@ -374,7 +387,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 51,
@@ -386,6 +400,7 @@
           "name": "Chemical Engineering"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/8-orange.jpg?v=0be48100571b661b7c8a5b8de061f25232d91301",
         "page_url": "/courses/course-v1:MITxT+10.50.CH08x/",
@@ -426,7 +441,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 46,
@@ -438,6 +454,7 @@
           "name": "Chemical Engineering"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/3-purple.jpg?v=82c25a37e88b44529a7f4439348f07f099308d1a",
         "page_url": "/courses/course-v1:MITxT+10.50.CH03x/",
@@ -478,7 +495,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "dated"
     },
     {
       "id": 48,
@@ -490,6 +508,7 @@
           "name": "Chemical Engineering"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/5-brown_2.2.jpg?v=ff1b83927266cef6dcfe8c0c30c0adf18205847b",
         "page_url": "/courses/course-v1:MITxT+10.50.CH05x/",
@@ -530,7 +549,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "dated"
     },
     {
       "id": 54,
@@ -542,6 +562,7 @@
           "name": "Economics"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/14.01x_Course_Image_MITxO.png?v=f6aacc1df41d983b5cda78201a7fc86751229a62",
         "page_url": "/courses/course-v1:MITxT+14.01x/",
@@ -611,7 +632,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "anytime"
     },
     {
       "id": 96,
@@ -623,6 +645,7 @@
           "name": "Management"
         }
       ],
+      "certificate_type": "Certificate of Completion",
       "page": {
         "feature_image_src": "/media/original_images/15-356-2x_Image.jpg?v=3a1d8836abb252670315f0cf70875d8a2feda19a",
         "page_url": "/courses/course-v1:MITxT+15.356.2x/",
@@ -663,7 +686,8 @@
           ],
           "approved_flexible_price_exists": false
         }
-      ]
+      ],
+      "availability": "dated"
     }
   ]
 }

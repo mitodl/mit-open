@@ -10,7 +10,7 @@ from dateutil.tz import tzutc
 from django.conf import settings
 from freezegun import freeze_time
 
-from learning_resources.constants import LearningResourceType, OfferedBy
+from learning_resources.constants import Availability, LearningResourceType, OfferedBy
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.podcast import (
     extract,
@@ -144,11 +144,13 @@ def test_transform(mock_github_client, title, topics, offered_by):
             },
             "resource_type": LearningResourceType.podcast.name,
             "topics": expected_topics,
+            "availability": Availability.anytime.name,
             "episodes": [
                 {
                     "readable_id": "tag:soundcloud,2010:tracks/numbers1",
                     "etl_source": ETLSource.podcast.name,
                     "title": "Episode1",
+                    "availability": Availability.anytime.name,
                     "offered_by": expected_offered_by,
                     "description": (
                         "SMorbi id consequat nisl. Morbi leo elit, vulputate nec"
@@ -162,7 +164,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "published": True,
                     "podcast_episode": {
                         "episode_link": "https://soundcloud.com/podcast/episode1",
-                        "duration": "00:17:16",
+                        "duration": "PT17M16S",
                         "rss": episodes_rss[0].prettify(),
                     },
                     "resource_type": LearningResourceType.podcast_episode.name,
@@ -172,6 +174,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "readable_id": "tag:soundcloud,2010:tracks/numbers2",
                     "etl_source": ETLSource.podcast.name,
                     "title": "Episode2",
+                    "availability": Availability.anytime.name,
                     "offered_by": expected_offered_by,
                     "description": (
                         "Praesent fermentum suscipit metus nec aliquam. Proin hendrerit"
@@ -185,7 +188,7 @@ def test_transform(mock_github_client, title, topics, offered_by):
                     "published": True,
                     "podcast_episode": {
                         "episode_link": "https://soundcloud.com/podcast/episode2",
-                        "duration": "00:17:16",
+                        "duration": "PT17M16S",
                         "rss": episodes_rss[1].prettify(),
                     },
                     "resource_type": LearningResourceType.podcast_episode.name,

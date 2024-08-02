@@ -6,6 +6,7 @@ import requests
 from django.conf import settings
 
 from learning_resources.constants import (
+    Availability,
     CertificationType,
     LearningResourceType,
     OfferedBy,
@@ -92,6 +93,7 @@ def transform(programs_data):
                         }
                     ],
                     "topics": program["topics"],
+                    "availability": Availability.dated.name,
                     # only need positioning of courses by course_id for course data
                     "courses": [
                         {

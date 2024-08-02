@@ -193,7 +193,7 @@ def test_program_endpoint(client, url, params):
 def test_program_detail_endpoint(client, django_assert_num_queries, url):
     """Test program endpoint"""
     program = ProgramFactory.create()
-    with django_assert_num_queries(21):
+    with django_assert_num_queries(19):
         resp = client.get(reverse(url, args=[program.learning_resource.id]))
     assert resp.data.get("title") == program.learning_resource.title
     assert resp.data.get("resource_type") == LearningResourceType.program.name

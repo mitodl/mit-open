@@ -4,10 +4,15 @@ import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
 import { ButtonLink } from "../Button/Button"
 import Chip from "@mui/material/Chip"
-import type { LearningResource, LearningResourceTopic } from "api"
+import type {
+  LearningResource,
+  LearningResourceRun,
+  LearningResourceTopic,
+} from "api"
 import { ResourceTypeEnum, PlatformEnum } from "api"
 import {
   formatDate,
+  capitalize,
   resourceThumbnailSrc,
   getReadableResourceType,
   DEFAULT_RESOURCE_IMG,
@@ -20,6 +25,7 @@ import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
 import { ChipLink } from "../Chips/ChipLink"
 import InfoSection from "./InfoSection"
+import { showStartAnytime } from "../LearningResourceCard/utils"
 
 const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
@@ -128,6 +134,7 @@ const Description = styled.p`
 
 const StyledPlatformLogo = styled(PlatformLogo)`
   height: 26px;
+  max-width: 180px;
 `
 
 const OnPlatform = styled.span`
@@ -326,6 +333,28 @@ const TopicsSection: React.FC<{ topics?: LearningResourceTopic[] }> = ({
   )
 }
 
+const formatRunDate = (
+  run: LearningResourceRun,
+  asTaughtIn: boolean,
+): string | null => {
+  if (asTaughtIn) {
+    const semester = capitalize(run.semester ?? "")
+    if (semester && run.year) {
+      return `${semester} ${run.year}`
+    }
+    if (semester && run.start_date) {
+      return `${semester} ${formatDate(run.start_date, "YYYY")}`
+    }
+    if (run.start_date) {
+      return formatDate(run.start_date, "MMMM, YYYY")
+    }
+  }
+  if (run.start_date) {
+    return formatDate(run.start_date, "MMMM DD, YYYY")
+  }
+  return null
+}
+
 const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   resource,
   imgConfig,
@@ -333,6 +362,8 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
 
   const multipleRuns = resource?.runs && resource.runs.length > 1
+  const asTaughtIn = resource ? showStartAnytime(resource) : false
+  const label = asTaughtIn ? "As taught in:" : "Start Date:"
 
   useEffect(() => {
     if (resource) {
@@ -355,10 +386,12 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       return <Skeleton height={40} style={{ marginTop: 0, width: "60%" }} />
     }
     const dateOptions: SimpleSelectProps["options"] =
-      resource.runs?.map((run) => ({
-        value: run.id.toString(),
-        label: formatDate(run.start_date!, "MMMM DD, YYYY"),
-      })) ?? []
+      resource.runs?.map((run) => {
+        return {
+          value: run.id.toString(),
+          label: formatRunDate(run, asTaughtIn),
+        }
+      }) ?? []
 
     if (
       [ResourceTypeEnum.Course, ResourceTypeEnum.Program].includes(
@@ -368,7 +401,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     ) {
       return (
         <Date>
-          <DateLabel>Start Date:</DateLabel>
+          <DateLabel>{label}</DateLabel>
           <SimpleSelect
             value={selectedRun?.id.toString() ?? ""}
             onChange={onDateChange}
@@ -378,22 +411,17 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       )
     }
 
-    const isOcw =
-      resource.resource_type === ResourceTypeEnum.Course &&
-      resource.platform?.code === PlatformEnum.Ocw
+    if (!selectedRun) return <NoDateSpacer />
 
-    const nextStart = resource.next_start_date || selectedRun?.start_date
-
-    if (!isOcw && !nextStart && !(selectedRun?.semester && selectedRun?.year)) {
+    const formatted = formatRunDate(selectedRun, asTaughtIn)
+    if (!formatted) {
       return <NoDateSpacer />
     }
 
     return (
       <DateSingle>
-        <DateLabel>{isOcw ? "As taught in:" : "Start Date:"}</DateLabel>
-        {isOcw
-          ? `${selectedRun?.semester} ${selectedRun?.year}`
-          : formatDate(nextStart!, "MMMM DD, YYYY")}
+        <DateLabel>{label}</DateLabel>
+        {formatted}
       </DateSingle>
     )
   }

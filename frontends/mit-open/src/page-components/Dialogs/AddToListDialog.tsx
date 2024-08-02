@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import {
-  BasicDialog,
+  Dialog,
   Chip,
   MuiCheckbox,
   List,
@@ -8,6 +8,7 @@ import {
   ListItemButton,
   ListItemText,
   LoadingSpinner,
+  Typography,
   styled,
 } from "ol-components"
 
@@ -168,21 +169,6 @@ const useToggleItemInUserList = (resource?: LearningResource) => {
   return { handleToggle, isChecked, isAdding, isRemoving }
 }
 
-const StyledBasicDialog = styled(BasicDialog)`
-  .MuiDialog-paper {
-    width: 325px;
-  }
-
-  .MuiDialogContent-root {
-    padding: 0;
-  }
-`
-
-const Description = styled.div({
-  marginLeft: 20,
-  marginRight: 20,
-})
-
 const ResourceTitle = styled.span({
   fontStyle: "italic",
 })
@@ -231,16 +217,17 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
     dialogTitle = "Add to User List"
   }
   return (
-    <StyledBasicDialog
+    <Dialog
       title={dialogTitle}
       showFooter={false}
+      fullWidth
       {...NiceModal.muiDialogV5(modal)}
     >
       {isReady ? (
         <>
-          <Description>
+          <Typography variant="body1">
             Adding <ResourceTitle>{resource?.title}</ResourceTitle>
-          </Description>
+          </Typography>
           {listType === ListType.LearningPath ? (
             <Listing>
               <LearningPathToggleList
@@ -277,7 +264,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
       ) : (
         <LoadingSpinner loading={!isReady} />
       )}
-    </StyledBasicDialog>
+    </Dialog>
   )
 }
 

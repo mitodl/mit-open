@@ -15,7 +15,6 @@
   "scripts": {
     "watch": "yarn workspace mit-open watch",
     "watch:docker": "yarn workspace mit-open watch:docker",
-    "watch:rc": "yarn workspace mit-open watch:rc",
     "build": "yarn workspace mit-open build",
     "lint-check": "eslint . --ext .js,.jsx,.ts,.tsx,.mdx",
     "lint-fix": "yarn lint-check --fix",
@@ -66,7 +65,7 @@
     "jest-watch-typeahead": "^2.2.2",
     "jest-when": "^3.6.0",
     "postcss-styled-syntax": "^0.6.4",
-    "prettier": "^3.0.3",
+    "prettier": "v4.0.0-alpha.8",
     "prettier-plugin-django-alpine": "^1.2.6",
     "stylelint": "^15.2.0",
     "stylelint-config-standard-scss": "^7.0.1",

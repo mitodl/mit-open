@@ -7,7 +7,7 @@ import {
   Autocomplete,
   BooleanRadioChoiceField,
   FormDialog,
-  BasicDialog,
+  Dialog,
   styled,
   RadioChoiceField,
   MenuItem,
@@ -351,14 +351,14 @@ const DeleteLearningPathDialog = NiceModal.create(
       hideModal()
     }, [destroyList, hideModal, resource])
     return (
-      <BasicDialog
+      <Dialog
         {...NiceModal.muiDialogV5(modal)}
         onConfirm={handleConfirm}
         title="Delete Learning Path"
         confirmText="Yes, delete"
       >
         Are you sure you want to delete this list?
-      </BasicDialog>
+      </Dialog>
     )
   },
 )
@@ -380,14 +380,14 @@ const DeleteUserListDialog = NiceModal.create(
       hideModal()
     }, [destroyList, hideModal, userList])
     return (
-      <BasicDialog
+      <Dialog
         {...NiceModal.muiDialogV5(modal)}
         onConfirm={handleConfirm}
         title="Delete User List"
         confirmText="Yes, delete"
       >
         Are you sure you want to delete this list?
-      </BasicDialog>
+      </Dialog>
     )
   },
 )
@@ -400,7 +400,7 @@ const manageListDialogs = {
   destroyLearningPath: (resource: LearningPathResource) =>
     NiceModal.show(DeleteLearningPathDialog, { resource }),
   upsertUserList: (userList?: UserList) => {
-    const title = userList ? "Edit User List" : "Create User List"
+    const title = userList ? "Edit List" : "Create List"
     NiceModal.show(UpsertUserListDialog, { title, userList })
   },
   destroyUserList: (userList: UserList) =>

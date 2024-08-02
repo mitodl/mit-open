@@ -48,7 +48,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
         """Meta options for the serializer."""
 
         model = models.LearningResourceTopic
-        fields = ["id", "name", "parent", "channel_url"]
+        fields = ["id", "name", "icon", "parent", "channel_url"]
 
 
 class WriteableTopicsMixin(serializers.Serializer):
@@ -251,7 +251,7 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourceRun
-        exclude = ["learning_resource", *COMMON_IGNORED_FIELDS]
+        exclude = ["learning_resource", "availability", *COMMON_IGNORED_FIELDS]
 
 
 class ResourceListMixin(serializers.Serializer):
@@ -411,7 +411,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     certification = serializers.ReadOnlyField(read_only=True)
     certification_type = CertificateTypeField(read_only=True)
     prices = serializers.ListField(
-        child=serializers.DecimalField(max_digits=10, decimal_places=2),
+        child=serializers.DecimalField(max_digits=12, decimal_places=2),
         read_only=True,
     )
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
@@ -529,6 +529,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
         model = models.LearningResource
         read_only_fields = [
             "free",
+            "prices",
             "resource_category",
             "certification",
             "certification_type",

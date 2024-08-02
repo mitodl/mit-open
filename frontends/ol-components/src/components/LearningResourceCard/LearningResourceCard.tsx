@@ -7,9 +7,8 @@ import {
   RiBookmarkFill,
   RiAwardFill,
 } from "@remixicon/react"
-import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
+import { LearningResource } from "api"
 import {
-  findBestRun,
   formatDate,
   getReadableResourceType,
   embedlyCroppedImage,
@@ -21,6 +20,8 @@ import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
 import { theme } from "../ThemeProvider/ThemeProvider"
+import { getDisplayPrices, getResourceDate, showStartAnytime } from "./utils"
+import Tooltip from "@mui/material/Tooltip"
 
 const EllipsisTitle = styled(TruncateText)({
   margin: 0,
@@ -29,6 +30,22 @@ const EllipsisTitle = styled(TruncateText)({
 const SkeletonImage = styled(Skeleton)<{ aspect: number }>`
   padding-bottom: ${({ aspect }) => 100 / aspect}%;
 `
+
+const Label = styled.span(({ theme }) => ({
+  color: theme.custom.colors.silverGrayDark,
+}))
+
+const Value = styled.span<{ size?: Size }>(({ theme, size }) => [
+  {
+    color: theme.custom.colors.darkGray2,
+  },
+  size === "small" && {
+    color: theme.custom.colors.silverGrayDark,
+    ".MitCard-root:hover &": {
+      color: theme.custom.colors.darkGray2,
+    },
+  },
+])
 
 const getImageDimensions = (size: Size, isMedia: boolean) => {
   const dimensions = {
@@ -44,7 +61,7 @@ const getEmbedlyUrl = (
   isMedia: boolean,
 ) => {
   return embedlyCroppedImage(resource.image!.url!, {
-    key: APP_SETTINGS.embedlyKey || process.env.EMBEDLY_KEY!,
+    key: APP_SETTINGS.EMBEDLY_KEY,
     ...getImageDimensions(size, isMedia),
   })
 }
@@ -54,25 +71,64 @@ type ResourceIdCallback = (
   resourceId: number,
 ) => void
 
-const Info = ({ resource }: { resource: LearningResource }) => {
+const Info = ({
+  resource,
+  size,
+}: {
+  resource: LearningResource
+  size: Size
+}) => {
+  const prices = getDisplayPrices(resource)
+  const certificatePrice =
+    size === "small" && prices?.certificate?.includes("–")
+      ? ""
+      : prices?.certificate
+        ? prices?.certificate
+        : ""
+  const separator = size === "small" ? "" : ": "
   return (
     <>
       <span>{getReadableResourceType(resource.resource_type)}</span>
-      {resource.certification && (
-        <Certificate>
-          <RiAwardFill />
-          Certificate
-        </Certificate>
-      )}
+      <PriceContainer>
+        {resource.certification && (
+          <Certificate>
+            {size === "small" ? (
+              <Tooltip title="Certificate">
+                <CertificateIconContainer>
+                  <RiAwardFill />
+                </CertificateIconContainer>
+              </Tooltip>
+            ) : (
+              <RiAwardFill />
+            )}
+            {size === "small" ? "" : "Certificate"}
+            <CertificatePrice>
+              {certificatePrice ? `${separator}${certificatePrice}` : ""}
+            </CertificatePrice>
+          </Certificate>
+        )}
+        <Price>{prices?.course}</Price>
+      </PriceContainer>
     </>
   )
 }
 
+const CertificateIconContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+const PriceContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`
+
 const Certificate = styled.div`
-  border-radius: 4px;
-  background-color: ${theme.custom.colors.lightGray1};
   padding: 2px 4px;
+  border-radius: 4px;
   color: ${theme.custom.colors.silverGrayDark};
+  background-color: ${theme.custom.colors.lightGray1};
 
   ${{ ...theme.typography.subtitle4 }}
   svg {
@@ -85,41 +141,32 @@ const Certificate = styled.div`
   gap: 4px;
 `
 
-const isOcw = (resource: LearningResource) =>
-  resource.resource_type === ResourceTypeEnum.Course &&
-  resource.platform?.code === PlatformEnum.Ocw
+const CertificatePrice = styled.div`
+  ${{ ...theme.typography.body4 }}
+`
 
-const getStartDate = (resource: LearningResource, size: Size = "medium") => {
-  let startDate = resource.next_start_date
-
-  if (!startDate) {
-    const bestRun = findBestRun(resource.runs ?? [])
-
-    if (isOcw(resource) && bestRun?.semester && bestRun?.year) {
-      return `${bestRun?.semester} ${bestRun?.year}`
-    }
-    startDate = bestRun?.start_date
-  }
-
-  if (!startDate) return null
-
-  return formatDate(startDate, `MMM${size === "medium" ? "M" : ""} DD, YYYY`)
-}
+export const Price = styled.div`
+  ${{ ...theme.typography.subtitle3 }}
+  color: ${theme.custom.colors.darkGray2};
+`
 
 const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
   resource,
   size,
 }) => {
-  const startDate = getStartDate(resource, size)
+  const anytime = showStartAnytime(resource)
+  const startDate = getResourceDate(resource)
+  const format = size === "small" ? "MMM DD, YYYY" : "MMMM DD, YYYY"
+  const formatted = anytime
+    ? "Anytime"
+    : startDate && formatDate(startDate, format)
+  if (!formatted) return null
 
-  if (!startDate) return null
-
-  const label =
-    size === "medium" ? (isOcw(resource) ? "As taught in:" : "Starts:") : ""
-
+  const showLabel = size !== "small" || anytime
   return (
     <>
-      {label} <span>{startDate}</span>
+      {showLabel ? <Label>Starts: </Label> : null}
+      <Value size={size}>{formatted}</Value>
     </>
   )
 }
@@ -154,6 +201,14 @@ const CardActionButton: React.FC<
   )
 }
 
+const StyledCard = styled(Card)<{ size: Size }>(({ size }) => [
+  size === "medium" && {
+    ".MitCard-info": {
+      height: "18px",
+    },
+  },
+])
+
 const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   isLoading,
   resource,
@@ -170,21 +225,21 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     const { width, height } = imgConfigs["column"]
     const aspect = isMedia ? 1 : width / height
     return (
-      <Card className={className} size={size}>
+      <StyledCard className={className} size={size}>
         <Card.Content>
           <SkeletonImage variant="rectangular" aspect={aspect} />
           <Skeleton height={25} width="65%" sx={{ margin: "23px 16px 0" }} />
           <Skeleton height={25} width="80%" sx={{ margin: "0 16px 35px" }} />
           <Skeleton height={25} width="30%" sx={{ margin: "0 16px 16px" }} />
         </Card.Content>
-      </Card>
+      </StyledCard>
     )
   }
   if (!resource) {
     return null
   }
   return (
-    <Card href={href} className={className} size={size}>
+    <StyledCard href={href} className={className} size={size}>
       <Card.Image
         src={
           resource.image?.url
@@ -192,10 +247,10 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
             : DEFAULT_RESOURCE_IMG
         }
         alt={resource.image?.alt ?? ""}
-        height={getImageDimensions(size, isMedia).height}
+        height={`${getImageDimensions(size, isMedia).height}px`}
       />
       <Card.Info>
-        <Info resource={resource} />
+        <Info resource={resource} size={size} />
       </Card.Info>
       <Card.Title>
         <EllipsisTitle lineClamp={size === "small" ? 2 : 3}>
@@ -225,7 +280,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
       <Card.Footer>
         <StartDate resource={resource} size={size} />
       </Card.Footer>
-    </Card>
+    </StyledCard>
   )
 }
 

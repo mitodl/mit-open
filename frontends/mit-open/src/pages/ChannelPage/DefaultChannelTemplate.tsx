@@ -1,11 +1,5 @@
 import React from "react"
-import {
-  styled,
-  Container,
-  Typography,
-  Breadcrumbs,
-  Banner,
-} from "ol-components"
+import { styled, Breadcrumbs, Banner } from "ol-components"
 import { MetaTags } from "ol-utilities"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { useChannelDetail } from "api/hooks/channels"
@@ -16,24 +10,7 @@ import { HOME as HOME_URL } from "../../common/urls"
 import {
   CHANNEL_TYPE_BREADCRUMB_TARGETS,
   ChannelControls,
-  ChannelTitleRow,
 } from "./ChannelPageTemplate"
-
-const HeadingTextContainer = styled.div(({ theme }) => ({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  flexGrow: 0,
-  flexShrink: 0,
-  order: 2,
-  my: 1,
-  [theme.breakpoints.down("sm")]: {
-    width: "100%",
-  },
-  [theme.breakpoints.up("md")]: {
-    width: "80%",
-  },
-}))
 
 const ChannelControlsContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -121,6 +98,7 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
             <ChannelControls>
               {channel.data?.search_filter ? (
                 <SearchSubscriptionToggle
+                  itemName={channel.data?.title}
                   sourceType={SourceTypeEnum.ChannelSubscriptionType}
                   searchParams={urlParams}
                 />
@@ -135,28 +113,6 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
           </ChannelControlsContainer>
         }
       />
-      <Container>
-        <ChannelTitleRow data-testid="banner">
-          {displayConfiguration?.heading ? (
-            <HeadingTextContainer>
-              <Typography variant="h4">
-                {displayConfiguration.heading}
-              </Typography>
-            </HeadingTextContainer>
-          ) : (
-            <></>
-          )}
-          {displayConfiguration?.sub_heading ? (
-            <HeadingTextContainer>
-              <Typography variant="body1">
-                {displayConfiguration.sub_heading}
-              </Typography>
-            </HeadingTextContainer>
-          ) : (
-            <></>
-          )}
-        </ChannelTitleRow>
-      </Container>
       {children}
     </>
   )

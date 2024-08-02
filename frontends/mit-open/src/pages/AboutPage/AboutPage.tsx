@@ -165,11 +165,11 @@ const AboutPage: React.FC = () => {
               component="h2"
               id={WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER}
             >
-              What is {process.env.SITE_NAME}?
+              What is {APP_SETTINGS.SITE_NAME}?
             </Typography>
             <Typography variant="body1">
-              {process.env.SITE_NAME} offers a single platform for accessing all
-              of MIT's non-degree learning resources. This includes courses,
+              {APP_SETTINGS.SITE_NAME} offers a single platform for accessing
+              all of MIT's non-degree learning resources. This includes courses,
               programs, and various educational materials from different MIT
               units such as MITx, MIT Bootcamps, MIT OpenCourseWare, MIT
               Professional Education, MIT Sloan Executive Education, MIT xPRO,

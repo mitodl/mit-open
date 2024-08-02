@@ -164,6 +164,31 @@ export interface ArticleRequest {
   title: string
 }
 /**
+ * * `dated` - Dated * `anytime` - Anytime
+ * @export
+ * @enum {string}
+ */
+
+export const AvailabilityEnumDescriptions = {
+  dated: "Dated",
+  anytime: "Anytime",
+} as const
+
+export const AvailabilityEnum = {
+  /**
+   * Dated
+   */
+  Dated: "dated",
+  /**
+   * Anytime
+   */
+  Anytime: "anytime",
+} as const
+
+export type AvailabilityEnum =
+  (typeof AvailabilityEnum)[keyof typeof AvailabilityEnum]
+
+/**
  * * `micromasters` - Micromasters Credential * `professional` - Professional Certificate * `completion` - Certificate of Completion * `none` - No Certificate
  * @export
  * @enum {string}
@@ -733,6 +758,12 @@ export interface CourseResource {
    * @memberof CourseResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof CourseResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -860,7 +891,14 @@ export interface CourseResourceRequest {
    * @memberof CourseResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof CourseResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -1369,6 +1407,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof LearningPathResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -1437,7 +1481,14 @@ export interface LearningPathResourceRequest {
    * @memberof LearningPathResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof LearningPathResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -2025,12 +2076,6 @@ export interface LearningResourceRun {
    * @type {string}
    * @memberof LearningResourceRun
    */
-  availability?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceRun
-   */
   semester?: string | null
   /**
    *
@@ -2179,12 +2224,6 @@ export interface LearningResourceRunRequest {
    * @type {string}
    * @memberof LearningResourceRunRequest
    */
-  availability?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceRunRequest
-   */
   semester?: string | null
   /**
    *
@@ -2278,6 +2317,12 @@ export interface LearningResourceTopic {
    * @memberof LearningResourceTopic
    */
   name: string
+  /**
+   * The icon to display for the topic.
+   * @type {string}
+   * @memberof LearningResourceTopic
+   */
+  icon?: string
   /**
    *
    * @type {number}
@@ -2427,6 +2472,22 @@ export interface MicroUserListRelationship {
    */
   child: number
 }
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const NullEnumDescriptions = {
+  null: "",
+} as const
+
+export const NullEnum = {
+  Null: "null",
+} as const
+
+export type NullEnum = (typeof NullEnum)[keyof typeof NullEnum]
+
 /**
  * * `mitx` - MITx * `ocw` - MIT OpenCourseWare * `bootcamps` - Bootcamps * `xpro` - MIT xPRO * `mitpe` - MIT Professional Education * `see` - MIT Sloan Executive Education
  * @export
@@ -3201,7 +3262,14 @@ export interface PatchedLearningPathResourceRequest {
    * @memberof PatchedLearningPathResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  * Serializer for UserListRelationship model
  * @export
@@ -3334,6 +3402,12 @@ export interface PercolateQuerySubscriptionRequestRequest {
    */
   topic?: Array<string>
   /**
+   * If true return raw open search results with score explanations
+   * @type {boolean}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  dev_mode?: boolean | null
+  /**
    * The id value for the learning resource
    * @type {Array<number>}
    * @memberof PercolateQuerySubscriptionRequestRequest
@@ -3363,6 +3437,12 @@ export interface PercolateQuerySubscriptionRequestRequest {
    * @memberof PercolateQuerySubscriptionRequestRequest
    */
   professional?: boolean | null
+  /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  yearly_decay_percent?: number | null
   /**
    * True if the learning resource offers a certificate
    * @type {boolean}
@@ -3858,6 +3938,12 @@ export interface PodcastEpisodeResource {
    * @memberof PodcastEpisodeResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PodcastEpisodeResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -3926,7 +4012,14 @@ export interface PodcastEpisodeResourceRequest {
    * @memberof PodcastEpisodeResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PodcastEpisodeResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -4149,6 +4242,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PodcastResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -4217,7 +4316,14 @@ export interface PodcastResourceRequest {
    * @memberof PodcastResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof PodcastResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -4666,6 +4772,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof ProgramResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -4734,7 +4846,14 @@ export interface ProgramResourceRequest {
    * @memberof ProgramResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof ProgramResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -5394,6 +5513,12 @@ export interface VideoPlaylistResource {
    * @memberof VideoPlaylistResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof VideoPlaylistResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -5462,7 +5587,14 @@ export interface VideoPlaylistResourceRequest {
    * @memberof VideoPlaylistResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof VideoPlaylistResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -5679,6 +5811,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof VideoResource
+   */
+  availability?: AvailabilityEnum | null
 }
 
 /**
@@ -5747,7 +5885,14 @@ export interface VideoResourceRequest {
    * @memberof VideoResourceRequest
    */
   next_start_date?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof VideoResourceRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -6473,6 +6618,7 @@ export const ContentFileSearchApiAxiosParamCreator = function (
      * @summary Search
      * @param {Array<ContentFileSearchRetrieveAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {Array<string>} [content_feature_type] The feature type of the content file. Possible options are at api/v1/course_features/
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
      * @param {Array<ContentFileSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
@@ -6489,6 +6635,7 @@ export const ContentFileSearchApiAxiosParamCreator = function (
     contentFileSearchRetrieve: async (
       aggregations?: Array<ContentFileSearchRetrieveAggregationsEnum>,
       content_feature_type?: Array<string>,
+      dev_mode?: boolean | null,
       id?: Array<number>,
       limit?: number,
       offered_by?: Array<ContentFileSearchRetrieveOfferedByEnum>,
@@ -6523,6 +6670,10 @@ export const ContentFileSearchApiAxiosParamCreator = function (
 
       if (content_feature_type) {
         localVarQueryParameter["content_feature_type"] = content_feature_type
+      }
+
+      if (dev_mode !== undefined) {
+        localVarQueryParameter["dev_mode"] = dev_mode
       }
 
       if (id) {
@@ -6595,6 +6746,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
      * @summary Search
      * @param {Array<ContentFileSearchRetrieveAggregationsEnum>} [aggregations] Show resource counts by category
      * @param {Array<string>} [content_feature_type] The feature type of the content file. Possible options are at api/v1/course_features/
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {Array<number>} [id] The id value for the content file
      * @param {number} [limit] Number of results to return per page
      * @param {Array<ContentFileSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
@@ -6611,6 +6763,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
     async contentFileSearchRetrieve(
       aggregations?: Array<ContentFileSearchRetrieveAggregationsEnum>,
       content_feature_type?: Array<string>,
+      dev_mode?: boolean | null,
       id?: Array<number>,
       limit?: number,
       offered_by?: Array<ContentFileSearchRetrieveOfferedByEnum>,
@@ -6632,6 +6785,7 @@ export const ContentFileSearchApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.contentFileSearchRetrieve(
           aggregations,
           content_feature_type,
+          dev_mode,
           id,
           limit,
           offered_by,
@@ -6686,6 +6840,7 @@ export const ContentFileSearchApiFactory = function (
         .contentFileSearchRetrieve(
           requestParameters.aggregations,
           requestParameters.content_feature_type,
+          requestParameters.dev_mode,
           requestParameters.id,
           requestParameters.limit,
           requestParameters.offered_by,
@@ -6722,6 +6877,13 @@ export interface ContentFileSearchApiContentFileSearchRetrieveRequest {
    * @memberof ContentFileSearchApiContentFileSearchRetrieve
    */
   readonly content_feature_type?: Array<string>
+
+  /**
+   * If true return raw open search results with score explanations
+   * @type {boolean}
+   * @memberof ContentFileSearchApiContentFileSearchRetrieve
+   */
+  readonly dev_mode?: boolean | null
 
   /**
    * The id value for the content file
@@ -6817,6 +6979,7 @@ export class ContentFileSearchApi extends BaseAPI {
       .contentFileSearchRetrieve(
         requestParameters.aggregations,
         requestParameters.content_feature_type,
+        requestParameters.dev_mode,
         requestParameters.id,
         requestParameters.limit,
         requestParameters.offered_by,
@@ -11503,6 +11666,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesSearchRetrieveCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesSearchRetrieveDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<LearningResourcesSearchRetrieveLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -11517,6 +11681,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesSearchRetrieveResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11526,6 +11691,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       certification_type?: Array<LearningResourcesSearchRetrieveCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesSearchRetrieveDepartmentEnum>,
+      dev_mode?: boolean | null,
       free?: boolean | null,
       id?: Array<number>,
       learning_format?: Array<LearningResourcesSearchRetrieveLearningFormatEnum>,
@@ -11540,6 +11706,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       resource_type?: Array<LearningResourcesSearchRetrieveResourceTypeEnum>,
       sortby?: LearningResourcesSearchRetrieveSortbyEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources_search/`
@@ -11576,6 +11743,10 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
 
       if (department) {
         localVarQueryParameter["department"] = department
+      }
+
+      if (dev_mode !== undefined) {
+        localVarQueryParameter["dev_mode"] = dev_mode
       }
 
       if (free !== undefined) {
@@ -11634,6 +11805,10 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         localVarQueryParameter["topic"] = topic
       }
 
+      if (yearly_decay_percent !== undefined) {
+        localVarQueryParameter["yearly_decay_percent"] = yearly_decay_percent
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -11669,6 +11844,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<LearningResourcesSearchRetrieveCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesSearchRetrieveDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<LearningResourcesSearchRetrieveLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -11683,6 +11859,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<LearningResourcesSearchRetrieveResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -11692,6 +11869,7 @@ export const LearningResourcesSearchApiFp = function (
       certification_type?: Array<LearningResourcesSearchRetrieveCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesSearchRetrieveDepartmentEnum>,
+      dev_mode?: boolean | null,
       free?: boolean | null,
       id?: Array<number>,
       learning_format?: Array<LearningResourcesSearchRetrieveLearningFormatEnum>,
@@ -11706,6 +11884,7 @@ export const LearningResourcesSearchApiFp = function (
       resource_type?: Array<LearningResourcesSearchRetrieveResourceTypeEnum>,
       sortby?: LearningResourcesSearchRetrieveSortbyEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -11720,6 +11899,7 @@ export const LearningResourcesSearchApiFp = function (
           certification_type,
           course_feature,
           department,
+          dev_mode,
           free,
           id,
           learning_format,
@@ -11734,6 +11914,7 @@ export const LearningResourcesSearchApiFp = function (
           resource_type,
           sortby,
           topic,
+          yearly_decay_percent,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -11781,6 +11962,7 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
+          requestParameters.dev_mode,
           requestParameters.free,
           requestParameters.id,
           requestParameters.learning_format,
@@ -11795,6 +11977,7 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
+          requestParameters.yearly_decay_percent,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -11842,6 +12025,13 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly department?: Array<LearningResourcesSearchRetrieveDepartmentEnum>
+
+  /**
+   * If true return raw open search results with score explanations
+   * @type {boolean}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly dev_mode?: boolean | null
 
   /**
    *
@@ -11940,6 +12130,13 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly topic?: Array<string>
+
+  /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly yearly_decay_percent?: number | null
 }
 
 /**
@@ -11968,6 +12165,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
+        requestParameters.dev_mode,
         requestParameters.free,
         requestParameters.id,
         requestParameters.learning_format,
@@ -11982,6 +12180,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
+        requestParameters.yearly_decay_percent,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -12187,6 +12386,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -12202,6 +12402,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionCheckListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12211,6 +12412,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       certification_type?: Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>,
+      dev_mode?: boolean | null,
       free?: boolean | null,
       id?: Array<number>,
       learning_format?: Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>,
@@ -12226,6 +12428,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       sortby?: LearningResourcesUserSubscriptionCheckListSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionCheckListSourceTypeEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources_user_subscription/check/`
@@ -12262,6 +12465,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (department) {
         localVarQueryParameter["department"] = department
+      }
+
+      if (dev_mode !== undefined) {
+        localVarQueryParameter["dev_mode"] = dev_mode
       }
 
       if (free !== undefined) {
@@ -12324,6 +12531,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         localVarQueryParameter["topic"] = topic
       }
 
+      if (yearly_decay_percent !== undefined) {
+        localVarQueryParameter["yearly_decay_percent"] = yearly_decay_percent
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -12346,6 +12557,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<LearningResourcesUserSubscriptionListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -12360,6 +12572,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12369,6 +12582,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       certification_type?: Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionListDepartmentEnum>,
+      dev_mode?: boolean | null,
       free?: boolean | null,
       id?: Array<number>,
       learning_format?: Array<LearningResourcesUserSubscriptionListLearningFormatEnum>,
@@ -12383,6 +12597,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>,
       sortby?: LearningResourcesUserSubscriptionListSortbyEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/learning_resources_user_subscription/`
@@ -12419,6 +12634,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (department) {
         localVarQueryParameter["department"] = department
+      }
+
+      if (dev_mode !== undefined) {
+        localVarQueryParameter["dev_mode"] = dev_mode
       }
 
       if (free !== undefined) {
@@ -12477,6 +12696,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         localVarQueryParameter["topic"] = topic
       }
 
+      if (yearly_decay_percent !== undefined) {
+        localVarQueryParameter["yearly_decay_percent"] = yearly_decay_percent
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions =
         baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -12499,6 +12722,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -12514,6 +12738,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {PercolateQuerySubscriptionRequestRequest} [PercolateQuerySubscriptionRequestRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12524,6 +12749,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       certification_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
+      dev_mode?: boolean | null,
       free?: boolean | null,
       id?: Array<number>,
       learning_format?: Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>,
@@ -12539,6 +12765,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       PercolateQuerySubscriptionRequestRequest?: PercolateQuerySubscriptionRequestRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -12578,6 +12805,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         localVarQueryParameter["department"] = department
       }
 
+      if (dev_mode !== undefined) {
+        localVarQueryParameter["dev_mode"] = dev_mode
+      }
+
       if (free !== undefined) {
         localVarQueryParameter["free"] = free
       }
@@ -12636,6 +12867,10 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (topic) {
         localVarQueryParameter["topic"] = topic
+      }
+
+      if (yearly_decay_percent !== undefined) {
+        localVarQueryParameter["yearly_decay_percent"] = yearly_decay_percent
       }
 
       localVarHeaderParameter["Content-Type"] = "application/json"
@@ -12731,6 +12966,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -12746,6 +12982,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionCheckListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12755,6 +12992,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       certification_type?: Array<LearningResourcesUserSubscriptionCheckListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>,
+      dev_mode?: boolean | null,
       free?: boolean | null,
       id?: Array<number>,
       learning_format?: Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>,
@@ -12770,6 +13008,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       sortby?: LearningResourcesUserSubscriptionCheckListSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionCheckListSourceTypeEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -12784,6 +13023,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           certification_type,
           course_feature,
           department,
+          dev_mode,
           free,
           id,
           learning_format,
@@ -12799,6 +13039,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           sortby,
           source_type,
           topic,
+          yearly_decay_percent,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -12822,6 +13063,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionListDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<LearningResourcesUserSubscriptionListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -12836,6 +13078,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
      * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -12845,6 +13088,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       certification_type?: Array<LearningResourcesUserSubscriptionListCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionListDepartmentEnum>,
+      dev_mode?: boolean | null,
       free?: boolean | null,
       id?: Array<number>,
       learning_format?: Array<LearningResourcesUserSubscriptionListLearningFormatEnum>,
@@ -12859,6 +13103,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>,
       sortby?: LearningResourcesUserSubscriptionListSortbyEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -12873,6 +13118,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           certification_type,
           course_feature,
           department,
+          dev_mode,
           free,
           id,
           learning_format,
@@ -12887,6 +13133,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           resource_type,
           sortby,
           topic,
+          yearly_decay_percent,
           options,
         )
       const index = configuration?.serverIndex ?? 0
@@ -12910,6 +13157,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>} [certification_type] The type of certificate               * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] The course feature. Possible options are at api/v1/course_features/
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>} [department] The department that offers the learning resource               * &#x60;1&#x60; - Civil and Environmental Engineering * &#x60;2&#x60; - Mechanical Engineering * &#x60;3&#x60; - Materials Science and Engineering * &#x60;4&#x60; - Architecture * &#x60;5&#x60; - Chemistry * &#x60;6&#x60; - Electrical Engineering and Computer Science * &#x60;7&#x60; - Biology * &#x60;8&#x60; - Physics * &#x60;9&#x60; - Brain and Cognitive Sciences * &#x60;10&#x60; - Chemical Engineering * &#x60;11&#x60; - Urban Studies and Planning * &#x60;12&#x60; - Earth, Atmospheric, and Planetary Sciences * &#x60;14&#x60; - Economics * &#x60;15&#x60; - Management * &#x60;16&#x60; - Aeronautics and Astronautics * &#x60;17&#x60; - Political Science * &#x60;18&#x60; - Mathematics * &#x60;20&#x60; - Biological Engineering * &#x60;21A&#x60; - Anthropology * &#x60;21G&#x60; - Global Languages * &#x60;21H&#x60; - History * &#x60;21L&#x60; - Literature * &#x60;21M&#x60; - Music and Theater Arts * &#x60;22&#x60; - Nuclear Science and Engineering * &#x60;24&#x60; - Linguistics and Philosophy * &#x60;CC&#x60; - Concourse * &#x60;CMS-W&#x60; - Comparative Media Studies/Writing * &#x60;EC&#x60; - Edgerton Center * &#x60;ES&#x60; - Experimental Study Group * &#x60;ESD&#x60; - Engineering Systems Division * &#x60;HST&#x60; - Medical Engineering and Science * &#x60;IDS&#x60; - Data, Systems, and Society * &#x60;MAS&#x60; - Media Arts and Sciences * &#x60;PE&#x60; - Athletics, Physical Education and Recreation * &#x60;RES&#x60; - Supplemental Resources * &#x60;STS&#x60; - Science, Technology, and Society * &#x60;WGS&#x60; - Women\&#39;s and Gender Studies
+     * @param {boolean | null} [dev_mode] If true return raw open search results with score explanations
      * @param {boolean | null} [free]
      * @param {Array<number>} [id] The id value for the learning resource
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
@@ -12925,6 +13173,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
+     * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {PercolateQuerySubscriptionRequestRequest} [PercolateQuerySubscriptionRequestRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -12935,6 +13184,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       certification_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateCertificationTypeEnum>,
       course_feature?: Array<string>,
       department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>,
+      dev_mode?: boolean | null,
       free?: boolean | null,
       id?: Array<number>,
       learning_format?: Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>,
@@ -12950,6 +13200,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum,
       topic?: Array<string>,
+      yearly_decay_percent?: number | null,
       PercolateQuerySubscriptionRequestRequest?: PercolateQuerySubscriptionRequestRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
@@ -12962,6 +13213,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           certification_type,
           course_feature,
           department,
+          dev_mode,
           free,
           id,
           learning_format,
@@ -12977,6 +13229,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           sortby,
           source_type,
           topic,
+          yearly_decay_percent,
           PercolateQuerySubscriptionRequestRequest,
           options,
         )
@@ -13056,6 +13309,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
+          requestParameters.dev_mode,
           requestParameters.free,
           requestParameters.id,
           requestParameters.learning_format,
@@ -13071,6 +13325,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.sortby,
           requestParameters.source_type,
           requestParameters.topic,
+          requestParameters.yearly_decay_percent,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -13093,6 +13348,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
+          requestParameters.dev_mode,
           requestParameters.free,
           requestParameters.id,
           requestParameters.learning_format,
@@ -13107,6 +13363,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.resource_type,
           requestParameters.sortby,
           requestParameters.topic,
+          requestParameters.yearly_decay_percent,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -13129,6 +13386,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.certification_type,
           requestParameters.course_feature,
           requestParameters.department,
+          requestParameters.dev_mode,
           requestParameters.free,
           requestParameters.id,
           requestParameters.learning_format,
@@ -13144,6 +13402,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.sortby,
           requestParameters.source_type,
           requestParameters.topic,
+          requestParameters.yearly_decay_percent,
           requestParameters.PercolateQuerySubscriptionRequestRequest,
           options,
         )
@@ -13210,6 +13469,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly department?: Array<LearningResourcesUserSubscriptionCheckListDepartmentEnum>
+
+  /**
+   * If true return raw open search results with score explanations
+   * @type {boolean}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly dev_mode?: boolean | null
 
   /**
    *
@@ -13315,6 +13581,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly topic?: Array<string>
+
+  /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly yearly_decay_percent?: number | null
 }
 
 /**
@@ -13357,6 +13630,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
    */
   readonly department?: Array<LearningResourcesUserSubscriptionListDepartmentEnum>
+
+  /**
+   * If true return raw open search results with score explanations
+   * @type {boolean}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly dev_mode?: boolean | null
 
   /**
    *
@@ -13455,6 +13735,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
    */
   readonly topic?: Array<string>
+
+  /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly yearly_decay_percent?: number | null
 }
 
 /**
@@ -13497,6 +13784,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
   readonly department?: Array<LearningResourcesUserSubscriptionSubscribeCreateDepartmentEnum>
+
+  /**
+   * If true return raw open search results with score explanations
+   * @type {boolean}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly dev_mode?: boolean | null
 
   /**
    *
@@ -13604,6 +13898,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly topic?: Array<string>
 
   /**
+   * Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly yearly_decay_percent?: number | null
+
+  /**
    *
    * @type {PercolateQuerySubscriptionRequestRequest}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
@@ -13651,6 +13952,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
+        requestParameters.dev_mode,
         requestParameters.free,
         requestParameters.id,
         requestParameters.learning_format,
@@ -13666,6 +13968,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.sortby,
         requestParameters.source_type,
         requestParameters.topic,
+        requestParameters.yearly_decay_percent,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -13690,6 +13993,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
+        requestParameters.dev_mode,
         requestParameters.free,
         requestParameters.id,
         requestParameters.learning_format,
@@ -13704,6 +14008,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.resource_type,
         requestParameters.sortby,
         requestParameters.topic,
+        requestParameters.yearly_decay_percent,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -13728,6 +14033,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.certification_type,
         requestParameters.course_feature,
         requestParameters.department,
+        requestParameters.dev_mode,
         requestParameters.free,
         requestParameters.id,
         requestParameters.learning_format,
@@ -13743,6 +14049,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.sortby,
         requestParameters.source_type,
         requestParameters.topic,
+        requestParameters.yearly_decay_percent,
         requestParameters.PercolateQuerySubscriptionRequestRequest,
         options,
       )
