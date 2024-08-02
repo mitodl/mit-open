@@ -41,7 +41,7 @@ class PercolateQuery(TimestampedModel):
         if source_channel:
             return source_channel.channel_type
         else:
-            return "saved search"
+            return "saved_search"
 
     def source_description(self):
         channel = self.source_channel()
