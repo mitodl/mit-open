@@ -2,7 +2,7 @@ import React from "react"
 import { UserList } from "api"
 import { pluralize } from "ol-utilities"
 import { RiListCheck3 } from "@remixicon/react"
-import { ListCardCondensed, styled, Typography } from "ol-components"
+import { ListCardCondensed, styled, theme, Typography } from "ol-components"
 
 const StyledCard = styled(ListCardCondensed)({
   display: "flex",
@@ -20,10 +20,6 @@ const TextContainer = styled.div({
   gap: "8px",
   flex: "1 0 0",
 })
-
-const TitleText = styled(Typography)(({ theme }) => ({
-  color: theme.custom.colors.darkGray2,
-}))
 
 const ItemsText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.silverGrayDark,
@@ -53,7 +49,13 @@ const UserListCardCondensed = <U extends UserList>({
     <StyledCard href={href} className={className}>
       <ListCardCondensed.Content>
         <TextContainer>
-          <TitleText variant="subtitle1">{userList.title}</TitleText>
+          <Typography
+            variant="subtitle1"
+            color={theme.custom.colors.darkGray2}
+            component="h1"
+          >
+            {userList.title}
+          </Typography>
           <ItemsText variant="body3">
             {userList.item_count} {pluralize("item", userList.item_count)}
           </ItemsText>
