@@ -849,7 +849,7 @@ def _generate_subscription_digest_subject(
         preposition = "in"
     return (
         f"MIT Learn: New"
-        f"  {unique_resource_types.pop().capitalize()}{pluralize(total_count)} "
+        f" {unique_resource_types.pop().capitalize()}{pluralize(total_count)} "
         f"{preposition} {source_name}: {sample_course['resource_title']}"
     )
 
