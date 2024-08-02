@@ -43,12 +43,9 @@ const ListItem = styled.li(({ theme }) => [
     display: "flex",
     gap: "16px",
     alignItems: "center",
-    border: `1px solid ${theme.custom.colors.lightGray2}`,
-    ":not(:last-child)": {
+    borderBottom: `1px solid ${theme.custom.colors.lightGray2}`,
+    ":last-child": {
       borderBottom: "none",
-    },
-    ":first-child, :last-child": {
-      borderRadius: "4px",
     },
   },
 ])
