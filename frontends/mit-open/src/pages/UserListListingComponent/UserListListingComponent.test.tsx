@@ -7,6 +7,7 @@ import {
   setMockResponse,
   user,
   expectProps,
+  within,
 } from "../../test-utils"
 import type { User } from "../../test-utils"
 
@@ -91,5 +92,16 @@ describe("UserListListingPage", () => {
 
     // Check details of this dialog elsewhere
     expect(createList).toHaveBeenCalledWith()
+  })
+
+  test("Clicking on the card shows the list detail view", async () => {
+    const { paths, location } = setup()
+    const card = await screen.findByTestId(
+      `user-list-card-condensed-${paths.results[0].id}`,
+    )
+    const cardLink = within(card).getByRole("link")
+
+    await user.click(cardLink)
+    expect(location.current.pathname).toBe(userListView(paths.results[0].id))
   })
 })

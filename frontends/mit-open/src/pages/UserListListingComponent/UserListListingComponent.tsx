@@ -47,7 +47,10 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
             <PlainList itemSpacing={3}>
               {listingQuery.data.results?.map((list) => {
                 return (
-                  <li key={list.id}>
+                  <li
+                    key={list.id}
+                    data-testid={`user-list-card-condensed-${list.id}`}
+                  >
                     <UserListCardCondensed
                       href={userListView(list.id)}
                       userList={list}
