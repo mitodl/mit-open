@@ -6,7 +6,7 @@ import json
 import logging
 import re
 from collections import namedtuple
-from datetime import UTC
+from datetime import UTC, datetime
 from pathlib import Path
 
 import requests
@@ -15,8 +15,10 @@ from django.conf import settings
 from toolz import compose
 
 from learning_resources.constants import (
+    Availability,
     CertificationType,
     LearningResourceType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import COMMON_HEADERS
 from learning_resources.etl.utils import (
@@ -27,7 +29,7 @@ from learning_resources.etl.utils import (
     without_none,
 )
 from learning_resources.utils import get_year_and_semester
-from main.utils import clean_data
+from main.utils import clean_data, now_in_utc
 
 MIT_OWNER_KEYS = ["MITx", "MITx_PRO"]
 
@@ -136,6 +138,41 @@ def _get_course_marketing_url(config, course):
     return None
 
 
+def _get_run_published(course_run):
+    return course_run.get("status", "") == "published" and course_run.get(
+        "is_enrollable", False
+    )
+
+
+def _get_run_availability(course_run):
+    if course_run.get("availability") == RunAvailability.archived.value:
+        # Enrollable, archived courses can be started anytime
+        return Availability.anytime
+
+    start = course_run.get("start")
+    if (
+        course_run.get("pacing_type") == "self_paced"
+        and start
+        and datetime.fromisoformat(start) < now_in_utc()
+    ):
+        return Availability.anytime
+
+    return Availability.dated
+
+
+def _get_course_availability(course):
+    published_runs = [
+        run for run in course.get("course_runs", []) if _get_run_published(run)
+    ]
+    if any(_get_run_availability(run) == Availability.dated for run in published_runs):
+        return Availability.dated.name
+    elif published_runs and all(
+        _get_run_availability(run) == Availability.anytime for run in published_runs
+    ):
+        return Availability.anytime.name
+    return None
+
+
 def _is_course_or_run_deleted(title):
     """
     Returns True if '[delete]', 'delete ' (note the ending space character)
@@ -223,10 +260,7 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "start_date": course_run.get("start") or course_run.get("enrollment_start"),
         "end_date": course_run.get("end"),
         "last_modified": last_modified,
-        "published": (
-            course_run.get("status", "") == "published"
-            and course_run.get("is_enrollable", False)
-        ),
+        "published": _get_run_published(course_run),
         "enrollment_start": course_run.get("enrollment_start"),
         "enrollment_end": course_run.get("enrollment_end"),
         "image": _transform_image(course_run.get("image")),
@@ -291,6 +325,7 @@ def _transform_course(config, course):
         "certification_type": CertificationType.completion.name
         if has_certification
         else CertificationType.none.name,
+        "availability": _get_course_availability(course),
     }
 
 

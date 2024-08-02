@@ -11,11 +11,11 @@ from dateutil.parser import parse
 from django.conf import settings
 
 from learning_resources.constants import (
-    AvailabilityType,
     CertificationType,
     LearningResourceType,
     OfferedBy,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
@@ -57,6 +57,28 @@ def _parse_datetime(value):
         datetime: the parsed datetime
     """  # noqa: D401
     return parse(value).replace(tzinfo=UTC) if value else None
+
+
+def parse_certificate_type(certification_type: str) -> str:
+    """
+    Parse the certification type
+
+    Args:
+        certification_type(str): the certification type
+
+    Returns:
+        str: the parsed certification type
+    """
+    cert_map = {
+        "micromasters credential": CertificationType.micromasters.name,
+        "certificate of completion": CertificationType.completion.name,
+    }
+
+    certification_code = cert_map.get(certification_type.lower())
+    if not certification_code:
+        log.error("Unknown MITx Online certification type: %s", certification_type)
+        return CertificationType.completion.name
+    return certification_code
 
 
 def parse_page_attribute(
@@ -211,9 +233,9 @@ def _transform_run(course_run: dict, course: dict) -> dict:
             {"full_name": instructor["name"]}
             for instructor in parse_page_attribute(course, "instructors", is_list=True)
         ],
-        "availability": AvailabilityType.current.value
+        "availability": RunAvailability.current.value
         if parse_page_attribute(course, "page_url")
-        else AvailabilityType.archived.value,
+        else RunAvailability.archived.value,
     }
 
 
@@ -236,7 +258,7 @@ def _transform_course(course):
         "resource_type": LearningResourceType.course.name,
         "title": course["title"],
         "offered_by": copy.deepcopy(OFFERED_BY),
-        "topics": transform_topics(course.get("topics", [])),
+        "topics": transform_topics(course.get("topics", []), OFFERED_BY["code"]),
         "departments": parse_departments(course.get("departments", [])),
         "runs": runs,
         "course": {
@@ -251,12 +273,15 @@ def _transform_course(course):
         ),  # a course is only published if it has a live url and published runs
         "professional": False,
         "certification": has_certification,
-        "certification_type": CertificationType.completion.name
+        "certification_type": parse_certificate_type(
+            course.get("certificate_type", CertificationType.none.name)
+        )
         if has_certification
         else CertificationType.none.name,
         "image": _transform_image(course),
         "url": parse_page_attribute(course, "page_url", is_url=True),
         "description": clean_data(parse_page_attribute(course, "description")),
+        "availability": course.get("availability"),
     }
 
 
@@ -308,14 +333,15 @@ def transform_programs(programs):
             "departments": parse_departments(program.get("departments", [])),
             "platform": PlatformType.mitxonline.name,
             "professional": False,
-            "certification": bool(parse_page_attribute(program, "page_url")),
-            "certification_type": CertificationType.completion.name
-            if bool(parse_page_attribute(program, "page_url"))
-            else CertificationType.none.name,
-            "topics": transform_topics(program.get("topics", [])),
+            "certification": program.get("certificate_type") is not None,
+            "certification_type": parse_certificate_type(
+                program.get("certificate_type", CertificationType.none.name)
+            ),
+            "topics": transform_topics(program.get("topics", []), OFFERED_BY["code"]),
             "description": clean_data(parse_page_attribute(program, "description")),
             "url": parse_page_attribute(program, "page_url", is_url=True),
             "image": _transform_image(program),
+            "availability": program.get("availability"),
             "published": bool(
                 parse_page_attribute(program, "page_url")
             ),  # a program is only considered published if it has a page url
@@ -340,9 +366,9 @@ def transform_programs(programs):
                         parse_page_attribute(program, "description")
                     ),
                     "prices": parse_program_prices(program),
-                    "availability": AvailabilityType.current.value
+                    "availability": RunAvailability.current.value
                     if parse_page_attribute(program, "page_url")
-                    else AvailabilityType.archived.value,
+                    else RunAvailability.archived.value,
                 }
             ],
             "courses": transform_courses(

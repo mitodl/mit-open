@@ -19,10 +19,11 @@ from learning_resources.constants import (
     CONTENT_TYPE_PAGE,
     CONTENT_TYPE_VIDEO,
     VALID_TEXT_FILE_TYPES,
-    AvailabilityType,
+    Availability,
     LearningResourceType,
     OfferedBy,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
@@ -30,6 +31,7 @@ from learning_resources.etl.utils import (
     generate_course_numbers_json,
     get_content_type,
     transform_levels,
+    transform_topics,
 )
 from learning_resources.models import ContentFile, LearningResource
 from learning_resources.utils import (
@@ -243,7 +245,7 @@ def transform_run(course_data: dict) -> dict:
         "description": clean_data(course_data.get("course_description_html")),
         "year": year,
         "semester": semester,
-        "availability": AvailabilityType.current.value,
+        "availability": RunAvailability.current.value,
         "image": {
             "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
             "description": course_data.get("course_image_metadata", {}).get(
@@ -300,16 +302,10 @@ def transform_course(course_data: dict) -> dict:
     readable_term = f"+{slugify(term)}" if term else ""
     readable_year = f"_{course_data.get('year')}" if year else ""
     readable_id = f"{course_data[PRIMARY_COURSE_ID]}{readable_term}{readable_year}"
-    topics = [
-        {"name": topic_name}
-        for topic_name in list(
-            {
-                topic
-                for topic_sublist in course_data.get("topics", [])
-                for topic in topic_sublist
-            }
-        )
-    ]
+    topics = transform_topics(
+        [{"name": topic} for topics in course_data.get("topics") for topic in topics],
+        OFFERED_BY["code"],
+    )
     image_src = course_data.get("image_src")
 
     return {
@@ -346,6 +342,7 @@ def transform_course(course_data: dict) -> dict:
         "runs": [transform_run(course_data)],
         "resource_type": LearningResourceType.course.name,
         "unique_field": UNIQUE_FIELD,
+        "availability": Availability.anytime.name,
     }
 
 

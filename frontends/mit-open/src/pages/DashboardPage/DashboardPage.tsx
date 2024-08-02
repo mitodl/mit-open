@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react"
 import {
   RiAccountCircleFill,
   RiDashboardLine,
-  RiBookMarkedLine,
+  RiBookmarkLine,
   RiEditLine,
 } from "@remixicon/react"
 import {
@@ -340,7 +340,7 @@ const DashboardPage: React.FC = () => {
             currentValue={tabValue}
           />
           <UserMenuTab
-            icon={<RiBookMarkedLine />}
+            icon={<RiBookmarkLine />}
             text={TabLabels[TabValues.MY_LISTS]}
             value={TabValues.MY_LISTS}
             currentValue={tabValue}

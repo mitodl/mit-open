@@ -48,7 +48,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
         """Meta options for the serializer."""
 
         model = models.LearningResourceTopic
-        fields = ["id", "name", "parent", "channel_url"]
+        fields = ["id", "name", "icon", "parent", "channel_url"]
 
 
 class WriteableTopicsMixin(serializers.Serializer):
@@ -251,7 +251,7 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.LearningResourceRun
-        exclude = ["learning_resource", *COMMON_IGNORED_FIELDS]
+        exclude = ["learning_resource", "availability", *COMMON_IGNORED_FIELDS]
 
 
 class ResourceListMixin(serializers.Serializer):

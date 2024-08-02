@@ -1,6 +1,6 @@
 import { login } from "./urls"
 
-const { MITOPEN_API_BASE_URL } = process.env
+const { MITOPEN_API_BASE_URL } = APP_SETTINGS
 
 test("login encodes the next parameter appropriately", () => {
   expect(login()).toBe(

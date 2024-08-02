@@ -9,6 +9,7 @@ from dateutil.parser import parse
 from django.conf import settings
 
 from learning_resources.constants import (
+    Availability,
     CertificationType,
     LearningResourceType,
     OfferedBy,
@@ -121,7 +122,7 @@ def _transform_learning_resource_course(course):
         "published": any(
             course_run.get("current_price", None) for course_run in course["courseruns"]
         ),
-        "topics": transform_topics(course.get("topics", [])),
+        "topics": transform_topics(course.get("topics", []), OFFERED_BY["code"]),
         "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
         "resource_type": LearningResourceType.course.name,
         "learning_format": transform_format(course.get("format")),
@@ -132,6 +133,7 @@ def _transform_learning_resource_course(course):
         },
         "certification": True,
         "certification_type": CertificationType.professional.name,
+        "availability": Availability.dated.name,
     }
 
 
@@ -165,7 +167,7 @@ def transform_programs(programs):
                 program["current_price"]
             ),  # a program is only considered published if it has a product/price
             "url": program["url"],
-            "topics": transform_topics(program.get("topics", [])),
+            "topics": transform_topics(program.get("topics", []), OFFERED_BY["code"]),
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.name,
             "learning_format": transform_format(program.get("format")),
@@ -193,6 +195,7 @@ def transform_programs(programs):
             "courses": transform_courses(program["courses"]),
             "certification": True,
             "certification_type": CertificationType.professional.name,
+            "availability": Availability.dated.name,
         }
         for program in programs
     ]

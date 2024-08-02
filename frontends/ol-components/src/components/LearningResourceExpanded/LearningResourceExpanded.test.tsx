@@ -1,14 +1,16 @@
 import React from "react"
 import { BrowserRouter } from "react-router-dom"
 import { render, screen, within } from "@testing-library/react"
+import user from "@testing-library/user-event"
 import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
-import { ResourceTypeEnum, PodcastEpisodeResource } from "api"
+import { ResourceTypeEnum, PodcastEpisodeResource, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import { getReadableResourceType } from "ol-utilities"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
+import { faker } from "@faker-js/faker/locale/en"
 
 const IMG_CONFIG: LearningResourceExpandedProps["imgConfig"] = {
   key: "fake-key",
@@ -189,6 +191,106 @@ describe("Learning Resource Expanded", () => {
     }
   })
 
+  test.each([
+    {
+      run: factories.learningResources.run({ semester: "Fall", year: 2001 }),
+      expectedDate: "Fall 2001",
+    },
+    {
+      run: factories.learningResources.run({
+        semester: "Fall",
+        year: null,
+        start_date: "2002-09-01",
+      }),
+      expectedDate: "Fall 2002",
+    },
+    {
+      run: factories.learningResources.run({
+        semester: "fall",
+        year: null,
+        start_date: "2002-09-01",
+      }),
+      expectedDate: "Fall 2002", // capitalized
+    },
+    {
+      run: factories.learningResources.run({
+        semester: null,
+        year: null,
+        start_date: "2003-09-01",
+      }),
+      expectedDate: "September, 2003",
+    },
+  ])(
+    "Renders 'As taught in' and Month+Year for availability: anytime",
+    ({ run, expectedDate }) => {
+      const resource = factories.learningResources.resource({
+        resource_type: faker.helpers.arrayElement([
+          ResourceTypeEnum.Course,
+          ResourceTypeEnum.Program,
+        ]),
+        runs: [run],
+        availability: "anytime",
+      })
+
+      setup(resource)
+
+      const dateSection = screen.getByText("As taught in:")!.closest("div")!
+
+      within(dateSection).getByText(expectedDate)
+    },
+  )
+
+  test.each([
+    {
+      expectedLabel: "Start Date:",
+      resource: factories.learningResources.resource({
+        resource_type: ResourceTypeEnum.Course,
+        availability: AvailabilityEnum.Dated,
+        runs: [
+          factories.learningResources.run({ start_date: "2024-02-03" }),
+          factories.learningResources.run({ start_date: "2024-04-05" }),
+        ],
+      }),
+      expectedDates: ["February 03, 2024", "April 05, 2024"],
+    },
+    {
+      expectedLabel: "As taught in:",
+      resource: factories.learningResources.resource({
+        resource_type: ResourceTypeEnum.Course,
+        availability: AvailabilityEnum.Anytime,
+        runs: [
+          factories.learningResources.run({ semester: "Fall", year: 2020 }),
+          factories.learningResources.run({
+            semester: "Spring",
+            year: null,
+            start_date: "2021-02-03",
+          }),
+          factories.learningResources.run({
+            semester: null,
+            year: null,
+            start_date: "2022-05-06",
+          }),
+        ],
+      }),
+      expectedDates: ["Fall 2020", "Spring 2021", "May, 2022"],
+    },
+  ])(
+    "Renders a dropdown for run picker",
+    async ({ resource, expectedDates, expectedLabel }) => {
+      setup(resource)
+
+      screen.getByText(expectedLabel)
+      const select = screen.getByRole("combobox")
+      await user.click(select)
+
+      const options = screen.getAllByRole("option")
+
+      expectedDates.forEach((date, index) => {
+        expect(options[index]).toHaveTextContent(date)
+      })
+    },
+  )
+
   test("Renders info section languages correctly", () => {
     const resource = factories.learningResources.resource({
       resource_type: ResourceTypeEnum.Course,
@@ -221,5 +323,20 @@ describe("Learning Resource Expanded", () => {
       .closest("section")!
 
     within(section).getByText("1:13:44")
+  })
+
+  test("Renders info section podcast episode duration correctly", () => {
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.PodcastEpisode,
+      podcast_episode: { duration: "PT13M44S" },
+    })
+
+    setup(resource)
+
+    const section = screen
+      .getByRole("heading", { name: "Info" })!
+      .closest("section")!
+
+    within(section).getByText("13:44")
   })
 })

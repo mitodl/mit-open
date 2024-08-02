@@ -78,11 +78,12 @@ const TopicBoxContent = styled.div`
   }}
 `
 
+// This should have these rules - temporarily disabled for now:
+// white-space: nowrap;
+// text-overflow: ellipsis;
+// overflow: hidden;
 const TopicBoxName = styled.p`
   flex-grow: 1;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
   margin: 0;
 `
 

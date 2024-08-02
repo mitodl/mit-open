@@ -13,11 +13,11 @@ from lxml import etree
 from learning_resources.constants import (
     CONTENT_TYPE_FILE,
     CONTENT_TYPE_VERTICAL,
-    AvailabilityType,
     LearningResourceFormat,
     LearningResourceType,
     OfferedBy,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl import utils
 from learning_resources.etl.utils import parse_certification
@@ -28,7 +28,6 @@ from learning_resources.factories import (
     LearningResourceRunFactory,
     LearningResourceTopicFactory,
 )
-from learning_resources.serializers import LearningResourceSerializer
 
 pytestmark = pytest.mark.django_db
 
@@ -387,27 +386,27 @@ def test_parse_bad_format(mocker):
     [
         [  # noqa: PT007
             OfferedBy.ocw.name,
-            AvailabilityType.archived.value,
+            RunAvailability.archived.value,
             False,
         ],
         [  # noqa: PT007
             OfferedBy.ocw.name,
-            AvailabilityType.current.value,
+            RunAvailability.current.value,
             False,
         ],
         [  # noqa: PT007
             OfferedBy.mitx.name,
-            AvailabilityType.archived.value,
+            RunAvailability.archived.value,
             False,
         ],
         [  # noqa: PT007
             OfferedBy.mitx.name,
-            AvailabilityType.current.value,
+            RunAvailability.current.value,
             True,
         ],
         [  # noqa: PT007
             OfferedBy.mitx.name,
-            AvailabilityType.upcoming.value,
+            RunAvailability.upcoming.value,
             True,
         ],
     ],
@@ -426,13 +425,8 @@ def test_parse_certification(offered_by, availability, has_cert):
     ).learning_resource
     assert resource.runs.first().availability == availability
     assert resource.runs.count() == 1
-    assert (
-        parse_certification(
-            offered_by_obj.code,
-            LearningResourceSerializer(instance=resource).data["runs"],
-        )
-        == has_cert
-    )
+    runs = resource.runs.all().values()
+    assert parse_certification(offered_by_obj.code, runs) == has_cert
 
 
 @pytest.mark.parametrize(
@@ -460,3 +454,31 @@ def test_calc_checksum(previous_archive, identical):
 def test_get_department_id_by_name(dept_name, dept_id):
     """Test that the correct department ID (if any) is returned"""
     assert utils.get_department_id_by_name(dept_name) == dept_id
+
+
+@pytest.mark.parametrize(
+    ("duration_str", "expected"),
+    [
+        ("1:00:00", "PT1H"),
+        ("1:30:04", "PT1H30M4S"),
+        ("00:00", "PT0S"),
+        ("00:00:00", "PT0S"),
+        ("00:01:00", "PT1M"),
+        ("01:00:00", "PT1H"),
+        ("00:00:01", "PT1S"),
+        ("02:59", "PT2M59S"),
+        ("72:59", "PT1H12M59S"),
+        ("3675", "PT1H1M15S"),
+        ("5", "PT5S"),
+        ("PT1H30M4S", "PT1H30M4S"),
+        ("", None),
+        (None, None),
+        ("bad_duration", None),
+        ("PTBarnum", None),
+    ],
+)
+def test_parse_duration(mocker, duration_str, expected):
+    """Test that parse_duration returns the expected duration"""
+    mock_warn = mocker.patch("learning_resources.etl.utils.log.warning")
+    assert utils.iso8601_duration(duration_str) == expected
+    assert mock_warn.call_count == (1 if duration_str and expected is None else 0)

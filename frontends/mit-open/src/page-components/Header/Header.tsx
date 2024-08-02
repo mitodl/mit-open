@@ -275,10 +275,14 @@ const Header: FunctionComponent = () => {
           <DesktopOnly>
             <LogoLink />
             <LeftDivider orientation="vertical" flexItem />
-            <MenuButton text="Explore MIT" onClick={toggler} />
+            <MenuButton
+              text="Explore MIT"
+              onClick={toggler}
+              drawerOpen={drawerOpen}
+            />
           </DesktopOnly>
           <MobileOnly>
-            <MenuButton onClick={toggler} />
+            <MenuButton onClick={toggler} drawerOpen={drawerOpen} />
             <LogoLink />
           </MobileOnly>
           <Spacer />

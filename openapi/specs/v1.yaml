@@ -157,6 +157,13 @@ paths:
         description: The feature type of the content file. Possible options are at
           api/v1/course_features/
       - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
+      - in: query
         name: id
         schema:
           type: array
@@ -2299,6 +2306,13 @@ paths:
           \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
           \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
+      - in: query
         name: free
         schema:
           type: boolean
@@ -2542,6 +2556,7 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -2728,6 +2743,13 @@ paths:
           \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
           \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
+      - in: query
         name: free
         schema:
           type: boolean
@@ -2971,6 +2993,7 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -3182,6 +3205,13 @@ paths:
           \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
           \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
+      - in: query
         name: free
         schema:
           type: boolean
@@ -3439,6 +3469,7 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -3627,6 +3658,13 @@ paths:
           \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
           \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
+      - in: query
         name: free
         schema:
           type: boolean
@@ -3884,6 +3922,7 @@ paths:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
         description: Relevance score penalty percent per year for for resources without
           upcoming runs. Only affects results if there is a search term.
       tags:
@@ -7207,6 +7246,17 @@ components:
       required:
       - html
       - title
+    AvailabilityEnum:
+      enum:
+      - dated
+      - anytime
+      type: string
+      description: |-
+        * `dated` - Dated
+        * `anytime` - Anytime
+      x-enum-descriptions:
+      - Dated
+      - Anytime
     CertificationTypeEnum:
       enum:
       - micromasters
@@ -7601,6 +7651,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -7668,6 +7723,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -8011,6 +8071,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -8075,6 +8140,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - title
     LearningPathResourceResourceTypeEnum:
@@ -8514,10 +8584,6 @@ components:
           type: string
           nullable: true
           maxLength: 1024
-        availability:
-          type: string
-          nullable: true
-          maxLength: 128
         semester:
           type: string
           nullable: true
@@ -8621,10 +8687,6 @@ components:
           type: string
           nullable: true
           maxLength: 1024
-        availability:
-          type: string
-          nullable: true
-          maxLength: 128
         semester:
           type: string
           nullable: true
@@ -8698,6 +8760,10 @@ components:
           readOnly: true
         name:
           type: string
+          maxLength: 128
+        icon:
+          type: string
+          description: The icon to display for the topic.
           maxLength: 128
         parent:
           type: integer
@@ -8826,6 +8892,9 @@ components:
       - child
       - id
       - parent
+    NullEnum:
+      enum:
+      - null
     OfferedByEnum:
       enum:
       - mitx
@@ -9374,6 +9443,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
     PatchedUserListRelationshipRequest:
       type: object
       description: Serializer for UserListRelationship model
@@ -9461,6 +9535,11 @@ components:
             type: string
             minLength: 1
           description: The topic name. To see a list of options go to api/v1/topics/
+        dev_mode:
+          type: boolean
+          nullable: true
+          default: false
+          description: If true return raw open search results with score explanations
         id:
           type: array
           items:
@@ -9506,6 +9585,7 @@ components:
           maximum: 10
           minimum: 0
           nullable: true
+          default: 2.5
           description: Relevance score penalty percent per year for for resources
             without upcoming runs. Only affects results if there is a search term.
         certification:
@@ -9888,6 +9968,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -9955,6 +10040,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -10138,6 +10228,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -10205,6 +10300,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -10522,6 +10622,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -10589,6 +10694,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -11021,6 +11131,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -11088,6 +11203,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -11261,6 +11381,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -11328,6 +11453,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title

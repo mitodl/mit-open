@@ -4,17 +4,16 @@ import json
 
 # pylint: disable=redefined-outer-name
 from datetime import datetime
-from itertools import chain
 from unittest.mock import ANY
 from urllib.parse import urljoin
 
 import pytest
 
 from learning_resources.constants import (
-    AvailabilityType,
     CertificationType,
     LearningResourceType,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.mitxonline import (
@@ -24,16 +23,18 @@ from learning_resources.etl.mitxonline import (
     _transform_run,
     extract_courses,
     extract_programs,
+    parse_certificate_type,
     parse_page_attribute,
     parse_program_prices,
     transform_courses,
     transform_programs,
+    transform_topics,
 )
 from learning_resources.etl.utils import (
-    UCC_TOPIC_MAPPINGS,
     get_department_id_by_name,
     parse_certification,
 )
+from learning_resources.test_utils import set_up_topics
 from main.test_utils import any_instance_of
 from main.utils import clean_data
 
@@ -110,6 +111,8 @@ def test_mitxonline_transform_programs(
     mock_mitxonline_programs_data, mock_mitxonline_courses_data, mocker, settings
 ):
     """Test that mitxonline program data is correctly transformed into our normalized structure"""
+    set_up_topics(is_mitx=True)
+
     settings.MITX_ONLINE_PROGRAMS_API_URL = "http://localhost/test/programs/api"
     settings.MITX_ONLINE_COURSES_API_URL = "http://localhost/test/courses/api"
     mocker.patch(
@@ -134,9 +137,9 @@ def test_mitxonline_transform_programs(
             "certification": bool(
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
-            "certification_type": CertificationType.completion.name
-            if program_data.get("page", {}).get("page_url", None) is not None
-            else CertificationType.none.name,
+            "certification_type": parse_certificate_type(
+                program_data["certificate_type"]
+            ),
             "image": _transform_image(program_data),
             "description": clean_data(
                 program_data.get("page", {}).get("description", None)
@@ -145,15 +148,8 @@ def test_mitxonline_transform_programs(
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
             "url": parse_page_attribute(program_data, "page_url", is_url=True),
-            "topics": [
-                {"name": topic_name}
-                for topic_name in chain.from_iterable(
-                    [
-                        UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                        for topic in program_data.get("topics", [])
-                    ]
-                )
-            ],
+            "availability": program_data["availability"],
+            "topics": transform_topics(program_data["topics"], OFFERED_BY["code"]),
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
@@ -171,9 +167,9 @@ def test_mitxonline_transform_programs(
                         program_data.get("page", {}).get("description", None)
                     ),
                     "url": parse_page_attribute(program_data, "page_url", is_url=True),
-                    "availability": AvailabilityType.current.value
+                    "availability": RunAvailability.current.value
                     if parse_page_attribute(program_data, "page_url")
-                    else AvailabilityType.archived.value,
+                    else RunAvailability.archived.value,
                 }
             ],
             "courses": [
@@ -207,15 +203,10 @@ def test_mitxonline_transform_programs(
                     "certification": True,
                     "certification_type": CertificationType.completion.name,
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
-                    "topics": [
-                        {"name": topic_name}
-                        for topic_name in chain.from_iterable(
-                            [
-                                UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                                for topic in course_data.get("topics", [])
-                            ]
-                        )
-                    ],
+                    "availability": course_data["availability"],
+                    "topics": transform_topics(
+                        course_data["topics"], OFFERED_BY["code"]
+                    ),
                     "runs": [
                         {
                             "run_id": course_run_data["courseware_id"],
@@ -254,9 +245,9 @@ def test_mitxonline_transform_programs(
                                     course_run_data, "instructors", is_list=True
                                 )
                             ],
-                            "availability": AvailabilityType.current.value
+                            "availability": RunAvailability.current.value
                             if parse_page_attribute(course_data, "page_url")
-                            else AvailabilityType.archived.value,
+                            else RunAvailability.archived.value,
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
@@ -299,6 +290,7 @@ def test_mitxonline_transform_programs(
 
 def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
     """Test that mitxonline courses data is correctly transformed into our normalized structure"""
+    set_up_topics(is_mitx=True)
     result = transform_courses(mock_mitxonline_courses_data["results"])
     expected = [
         {
@@ -321,30 +313,16 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
             ),
             "professional": False,
             "certification": parse_certification(
-                "mitx",
+                OFFERED_BY["code"],
                 [
                     _transform_run(course_run, course_data)
                     for course_run in course_data["courseruns"]
                 ],
             ),
-            "certification_type": CertificationType.completion.name
-            if parse_certification(
-                "mitx",
-                [
-                    _transform_run(course_run, course_data)
-                    for course_run in course_data["courseruns"]
-                ],
-            )
-            else CertificationType.none.name,
-            "topics": [
-                {"name": topic_name}
-                for topic_name in chain.from_iterable(
-                    [
-                        UCC_TOPIC_MAPPINGS.get(topic["name"], [topic["name"]])
-                        for topic in course_data.get("topics", [])
-                    ]
-                )
-            ],
+            "certification_type": parse_certificate_type(
+                course_data["certificate_type"]
+            ),
+            "topics": transform_topics(course_data["topics"], OFFERED_BY["code"]),
             "url": (
                 urljoin(
                     settings.MITX_ONLINE_BASE_URL,
@@ -395,9 +373,9 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                             course_run_data, "instructors", is_list=True
                         )
                     ],
-                    "availability": AvailabilityType.current.value
+                    "availability": RunAvailability.current.value
                     if parse_page_attribute(course_data, "page_url")
-                    else AvailabilityType.archived.value,
+                    else RunAvailability.archived.value,
                 }
                 for course_run_data in course_data["courseruns"]
             ],
@@ -412,6 +390,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                     }
                 ]
             },
+            "availability": course_data["availability"],
         }
         for course_data in mock_mitxonline_courses_data["results"]
         if "PROCTORED EXAM" not in course_data["title"]
@@ -504,3 +483,18 @@ def test_parse_prices(current_price, page_price, expected):
     assert parse_program_prices(program_data) == sorted(
         [float(price) for price in expected]
     )
+
+
+@pytest.mark.parametrize(
+    ("cert_type", "expected_cert_type", "error"),
+    [
+        ("Certificate of Completion", CertificationType.completion.name, False),
+        ("MicroMasters Credential", CertificationType.micromasters.name, False),
+        ("Pro Cert", CertificationType.completion.name, True),
+    ],
+)
+def test_parse_certificate_type(mocker, cert_type, expected_cert_type, error):
+    """Test that the certificate type is correctly parsed"""
+    mock_log = mocker.patch("learning_resources.etl.mitxonline.log.error")
+    assert parse_certificate_type(cert_type) == expected_cert_type
+    assert mock_log.call_count == (1 if error else 0)

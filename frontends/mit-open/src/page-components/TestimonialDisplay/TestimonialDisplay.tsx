@@ -136,6 +136,7 @@ const TestimonialDisplay: React.FC<TestimonialDisplayProps> = ({
   ]
 
   if (!data) return null
+  if (!data.results) return null
   if (data.results.length === 0) return null
 
   return (

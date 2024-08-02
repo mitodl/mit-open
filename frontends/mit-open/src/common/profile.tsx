@@ -25,18 +25,17 @@ const GOALS_CHOICES = [
   {
     value: GoalsEnum.AcademicExcellence,
     label: GoalsEnumDescriptions[GoalsEnum.AcademicExcellence],
-    description: "Supplemental learning to support me in earning a degree.",
+    description: "Support my degree studies with supplemental learning.",
   },
   {
     value: GoalsEnum.CareerGrowth,
     label: GoalsEnumDescriptions[GoalsEnum.CareerGrowth],
-    description:
-      "Looking for career growth through new skills & certification.",
+    description: "Advance my career through new skills and certifications.",
   },
   {
     value: GoalsEnum.LifelongLearning,
     label: GoalsEnumDescriptions[GoalsEnum.LifelongLearning],
-    description: "Learning about topics that interest me just for fun.",
+    description: "Learn about topics that spark my curiosity.",
   },
 ]
 
