@@ -13,10 +13,10 @@ const SOURCE_LABEL_DISPLAY = {
   saved_search: "Saved Search",
 }
 
-const FollowList = styled(PlainList)(() => ({
-  borderRadius: "4px",
-  background: "#fff",
-  padding: "0px",
+const FollowList = styled(PlainList)(({ theme } ) => ({
+  borderRadius: "8px",
+  background: theme.custom.colors.white,
+  border: `1px solid ${theme.custom.colors.lightGray2}`,
 }))
 
 const StyledLink = styled(Link)(({ theme }) => ({
