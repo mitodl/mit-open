@@ -99,7 +99,7 @@ services:
       - |
         yarn install --immutable
         yarn workspace mit-open storybook --no-open &
-        yarn workspace mit-open watch:docker
+        yarn workspace mit-open watch
     env_file:
       - path: env/shared.env
       - path: env/shared.local.env
