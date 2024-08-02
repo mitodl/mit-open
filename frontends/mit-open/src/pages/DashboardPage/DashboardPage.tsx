@@ -253,22 +253,36 @@ const StyledResourceCarousel = styled(ResourceCarousel)(({ theme }) => ({
   },
 }))
 
+const TabKeys = {
+  [DASHBOARD_HOME]: "home",
+  [MY_LISTS]: "my-lists",
+  [PROFILE]: "profile",
+}
+
+const TabLabels = {
+  [DASHBOARD_HOME]: "Home",
+  [MY_LISTS]: "My Lists",
+  [PROFILE]: "Profile",
+  [SETTINGS]: "Settings",
+}
+
 interface UserMenuTabProps {
   icon: React.ReactNode
   text: string
+  tabKey: string
   value: string
   currentValue: string
   onClick?: () => void
 }
 
 const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
-  const { icon, text, value, currentValue, onClick } = props
+  const { icon, text, tabKey, value, currentValue, onClick } = props
   const selected = value === currentValue
   return (
     <Tab
       component={Link}
       to={value}
-      data-testid={`desktop-tab-${value}`}
+      data-testid={`desktop-tab-${tabKey}`}
       label={
         <TabContainer
           onClick={onClick}
@@ -282,13 +296,6 @@ const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
       }
     ></Tab>
   )
-}
-
-const TabLabels = {
-  [DASHBOARD_HOME]: "Home",
-  [MY_LISTS]: "My Lists",
-  [PROFILE]: "Profile",
-  [SETTINGS]: 
 }
 
 type RouteParams = {
@@ -331,18 +338,21 @@ const DashboardPage: React.FC = () => {
           <UserMenuTab
             icon={<RiDashboardLine />}
             text={TabLabels[DASHBOARD_HOME]}
+            tabKey={TabKeys[DASHBOARD_HOME]}
             value={DASHBOARD_HOME}
             currentValue={tabValue}
           />
           <UserMenuTab
             icon={<RiBookmarkLine />}
             text={TabLabels[MY_LISTS]}
+            tabKey={TabKeys[MY_LISTS]}
             value={MY_LISTS}
             currentValue={tabValue}
           />
           <UserMenuTab
             icon={<RiEditLine />}
             text={TabLabels[PROFILE]}
+            tabKey={TabKeys[PROFILE]}
             value={PROFILE}
             currentValue={tabValue}
           />
@@ -360,19 +370,19 @@ const DashboardPage: React.FC = () => {
   const mobileMenu = (
     <TabButtonList data-testid="mobile-tab-list">
       <TabButtonLink
-        data-testid={"mobile-tab-home"}
+        data-testid={`mobile-tab-${TabKeys[DASHBOARD_HOME]}`}
         value={DASHBOARD_HOME}
         href={DASHBOARD_HOME}
         label="Home"
       />
       <TabButtonLink
-        data-testid={"mobile-tab-my-lists"}
+        data-testid={`mobile-tab-${TabKeys[MY_LISTS]}`}
         value={MY_LISTS}
         href={MY_LISTS}
         label="My Lists"
       />
       <TabButtonLink
-        data-testid={"mobile-tab-profile"}
+        data-testid={`mobile-tab-${TabKeys[PROFILE]}`}
         value={PROFILE}
         href={PROFILE}
         label="Profile"
@@ -496,4 +506,8 @@ const DashboardPage: React.FC = () => {
   )
 }
 
-export { DashboardPage, TabLabels as DashboardTabLabels }
+export {
+  DashboardPage,
+  TabKeys as DashboardTabKeys,
+  TabLabels as DashboardTabLabels,
+}
