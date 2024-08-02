@@ -1,10 +1,11 @@
 import React from "react"
-import { Grid, Button, Typography, styled } from "ol-components"
-import { RiArrowUpDownLine } from "@remixicon/react"
+import { Grid, Button, Typography, styled, ButtonLink } from "ol-components"
+import { RiArrowLeftLine, RiArrowUpDownLine } from "@remixicon/react"
 import { useToggle, pluralize } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import ItemsListing from "./ItemsListing"
 import type { LearningResourceListItem } from "./ItemsListing"
+import { MY_LISTS } from "@/common/urls"
 
 type OnEdit = () => void
 type ListData = {
@@ -24,6 +25,14 @@ type ItemsListingComponentProps = {
   handleEdit: OnEdit
   condensed?: boolean
 }
+
+const HeaderText = styled(Typography)(({ theme }) => ({
+  ...theme.typography.h3,
+  [theme.breakpoints.down("sm")]: {
+    marginBottom: "24px",
+    ...theme.typography.h5,
+  },
+}))
 
 const DescriptionText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.silverGrayDark,
@@ -83,10 +92,25 @@ const ItemsListingComponent: React.FC<ItemsListingComponentProps> = ({
             justifyContent="space-between"
             marginBottom="24px"
           >
+            <Grid item>
+              <ButtonLink
+                variant="tertiary"
+                startIcon={<RiArrowLeftLine />}
+                href={MY_LISTS}
+              >
+                My Lists
+              </ButtonLink>
+            </Grid>
+          </Grid>
+          <Grid
+            item
+            container
+            alignItems="center"
+            justifyContent="space-between"
+            marginBottom="24px"
+          >
             <HeaderGrid item>
-              <Typography variant="h3" component="h1">
-                {list?.title}
-              </Typography>
+              <HeaderText>{list?.title}</HeaderText>
               {list?.description && (
                 <DescriptionText>{list.description}</DescriptionText>
               )}
