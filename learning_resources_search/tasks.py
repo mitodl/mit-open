@@ -836,21 +836,26 @@ def finish_recreate_index(results, backing_indices):
 
 
 def _generate_subscription_digest_subject(
-    sample_course, source_name, unique_resource_types, total_count
+    sample_course, source_name, unique_resource_types, total_count, shortform
 ):
+    prefix = "" if shortform else "MIT Learn: "
+
     if sample_course["source_channel_type"] == "saved_search":
         return (
-            f"MIT Learn: New"
+            f"{prefix}New"
             f' "{source_name}" '
             f"{unique_resource_types.pop().capitalize()}{pluralize(total_count)}"
         )
     preposition = "from"
     if sample_course["source_channel_type"] == "topic":
         preposition = "in"
+
+    suffix = "" if shortform else f": {sample_course['resource_title']}"
+
     return (
-        f"MIT Learn: New"
+        f"{prefix}New"
         f" {unique_resource_types.pop().capitalize()}{pluralize(total_count)} "
-        f"{preposition} {source_name}: {sample_course['resource_title']}"
+        f"{preposition} {source_name}{suffix}"
     )
 
 
@@ -875,8 +880,16 @@ def attempt_send_digest_email_batch(user_template_items):
             subject = _generate_subscription_digest_subject(
                 template_data[group][0],
                 group,
-                unique_resource_types,
+                list(unique_resource_types),
                 total_count,
+            )
+            # generate a shorter subject for use in the template
+            short_subject = _generate_subscription_digest_subject(
+                template_data[group][0],
+                group,
+                list(unique_resource_types),
+                total_count,
+                shortform=True,
             )
             send_template_email(
                 [user.email],
@@ -887,5 +900,6 @@ def attempt_send_digest_email_batch(user_template_items):
                     "total_count": total_count,
                     "subject": subject,
                     "resource_group": group,
+                    "short_subject": short_subject,
                 },
             )

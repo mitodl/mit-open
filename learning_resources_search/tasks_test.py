@@ -941,20 +941,26 @@ def test_subscription_digest_subject():
     sample_course = {"source_channel_type": "topic", "resource_title": "robotics"}
 
     subject_line = _generate_subscription_digest_subject(
-        sample_course, "topic", resource_types, 1
+        sample_course, "electronics", resource_types, 1
     )
-    assert subject_line == "MIT Learn: New Program in topic: robotics"
+    assert subject_line == "MIT Learn: New Program in electronics: robotics"
 
     sample_course = {"source_channel_type": "podcast", "resource_title": "robotics"}
     resource_types = {"program"}
 
     subject_line = _generate_subscription_digest_subject(
-        sample_course, "department", resource_types, 9
+        sample_course, "xpro", resource_types, 9
     )
-    assert subject_line == "MIT Learn: New Programs from department: robotics"
+    assert subject_line == "MIT Learn: New Programs from xpro: robotics"
 
     resource_types = {"podcast"}
     subject_line = _generate_subscription_digest_subject(
-        sample_course, "podcast", resource_types, 19
+        sample_course, "engineering", resource_types, 19
     )
-    assert subject_line == "MIT Learn: New Podcasts from podcast: robotics"
+    assert subject_line == "MIT Learn: New Podcasts from engineering: robotics"
+
+    resource_types = {"course"}
+    subject_line = _generate_subscription_digest_subject(
+        sample_course, "management", resource_types, 19, shortform=True
+    )
+    assert subject_line == "New Courses from management"
