@@ -501,7 +501,7 @@ const DashboardPage: React.FC = () => {
                   value={TabValues.SETTINGS}
                 >
                   <TitleText role="heading">Settings</TitleText>
-                  {isLoadingProfile || typeof profile === "undefined" ? (
+                  {isLoadingProfile || !profile ? (
                     <Skeleton variant="text" width={128} height={32} />
                   ) : (
                     <div id="user-settings">
