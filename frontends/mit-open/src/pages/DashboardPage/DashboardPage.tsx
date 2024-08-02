@@ -257,6 +257,7 @@ const TabKeys = {
   [DASHBOARD_HOME]: "home",
   [MY_LISTS]: "my-lists",
   [PROFILE]: "profile",
+  [SETTINGS]: "settings",
 }
 
 const TabLabels = {
@@ -310,7 +311,7 @@ const DashboardPage: React.FC = () => {
   const showUserListDetail = pathname.includes(MY_LISTS) && id !== -1
   const tabValue = showUserListDetail
     ? MY_LISTS
-    : [DASHBOARD_HOME, MY_LISTS, PROFILE].includes(pathname)
+    : [DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS].includes(pathname)
       ? pathname
       : DASHBOARD_HOME
 
@@ -359,6 +360,7 @@ const DashboardPage: React.FC = () => {
           <UserMenuTab
             icon={<RiNotificationLine />}
             text={TabLabels[SETTINGS]}
+            tabKey={TabKeys[SETTINGS]}
             value={SETTINGS}
             currentValue={tabValue}
           />
@@ -388,7 +390,7 @@ const DashboardPage: React.FC = () => {
         label="Profile"
       />
       <TabButtonLink
-        data-testid={`mobile-tab-settings`}
+        data-testid={`mobile-tab-${TabKeys[SETTINGS]}`}
         value={SETTINGS}
         href={SETTINGS}
         label="Settings"
@@ -473,7 +475,7 @@ const DashboardPage: React.FC = () => {
                   <TabPanelStyled value={MY_LISTS}>
                     <UserListListingComponent title="My Lists" />
                   </TabPanelStyled>
-                  <TabPanelStyled key={PROFILE} value={PROFILE}>
+                  <TabPanelStyled value={PROFILE}>
                     <TitleText role="heading">Profile</TitleText>
                     {isLoadingProfile || typeof profile === "undefined" ? (
                       <Skeleton variant="text" width={128} height={32} />
@@ -483,10 +485,7 @@ const DashboardPage: React.FC = () => {
                       </div>
                     )}
                   </TabPanelStyled>
-                  <TabPanelStyled
-                    key={SETTINGS}
-                    value={SETTINGS}
-                  >
+                  <TabPanelStyled value={SETTINGS}>
                     <TitleText role="heading">Settings</TitleText>
                     {isLoadingProfile || !profile ? (
                       <Skeleton variant="text" width={128} height={32} />

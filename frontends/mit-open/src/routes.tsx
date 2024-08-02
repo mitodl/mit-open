@@ -114,6 +114,14 @@ const routes: RouteObject[] = [
         ),
       },
       {
+        path: urls.SETTINGS,
+        element: (
+          <RestrictedRoute requires={Permissions.Authenticated}>
+            <DashboardPage />
+          </RestrictedRoute>
+        ),
+      },
+      {
         path: urls.ABOUT,
         element: <AboutPage />,
       },
