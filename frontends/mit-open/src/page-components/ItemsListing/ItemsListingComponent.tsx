@@ -1,5 +1,5 @@
 import React from "react"
-import { Grid, Button, Typography, styled, ButtonLink } from "ol-components"
+import { Grid, Button, Typography, styled, Link } from "ol-components"
 import { RiArrowLeftLine, RiArrowUpDownLine } from "@remixicon/react"
 import { useToggle, pluralize } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
@@ -26,11 +26,13 @@ type ItemsListingComponentProps = {
   condensed?: boolean
 }
 
-const HeaderText = styled(Typography)(({ theme }) => ({
-  ...theme.typography.h3,
-  [theme.breakpoints.down("sm")]: {
-    marginBottom: "24px",
-    ...theme.typography.h5,
+const HeaderText = styled.div(({ theme }) => ({
+  h3: {
+    ...theme.typography.h3,
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "24px",
+      ...theme.typography.h5,
+    },
   },
 }))
 
@@ -93,13 +95,11 @@ const ItemsListingComponent: React.FC<ItemsListingComponentProps> = ({
             marginBottom="24px"
           >
             <Grid item>
-              <ButtonLink
-                variant="tertiary"
-                startIcon={<RiArrowLeftLine />}
-                href={MY_LISTS}
-              >
-                My Lists
-              </ButtonLink>
+              <Link href={MY_LISTS}>
+                <Button variant="tertiary" startIcon={<RiArrowLeftLine />}>
+                  My Lists
+                </Button>
+              </Link>
             </Grid>
           </Grid>
           <Grid
@@ -110,7 +110,9 @@ const ItemsListingComponent: React.FC<ItemsListingComponentProps> = ({
             marginBottom="24px"
           >
             <HeaderGrid item>
-              <HeaderText>{list?.title}</HeaderText>
+              <HeaderText>
+                <Typography component="h3">{list?.title}</Typography>
+              </HeaderText>
               {list?.description && (
                 <DescriptionText>{list.description}</DescriptionText>
               )}
