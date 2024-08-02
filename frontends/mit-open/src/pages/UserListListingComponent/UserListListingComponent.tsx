@@ -13,7 +13,7 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { userListView } from "@/common/urls"
-import { UserListCardCondensed } from "@/page-components/UserListCard/UserListCardCondensed"
+import UserListCardCondensed from "@/page-components/UserListCard/UserListCardCondensed"
 
 const Header = styled(Typography)({
   marginBottom: "16px",

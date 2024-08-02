@@ -1,6 +1,6 @@
 import React from "react"
 import { screen } from "@testing-library/react"
-import { UserListCardCondensed } from "./UserListCardCondensed"
+import UserListCardCondensed from "./UserListCardCondensed"
 import * as factories from "api/test-utils/factories"
 import { userListView } from "@/common/urls"
 import { renderWithProviders } from "@/test-utils"

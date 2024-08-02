@@ -12,7 +12,7 @@ import type { User } from "../../test-utils"
 
 import UserListListingComponent from "./UserListListingComponent"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import { UserListCardCondensed } from "@/page-components/UserListCard/UserListCardCondensed"
+import UserListCardCondensed from "@/page-components/UserListCard/UserListCardCondensed"
 import { userListView } from "@/common/urls"
 
 jest.mock("../../page-components/UserListCard/UserListCardCondensed", () => {

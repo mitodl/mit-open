@@ -68,5 +68,5 @@ const UserListCardCondensed = <U extends UserList>({
   )
 }
 
-export { UserListCardCondensed }
+export default UserListCardCondensed
 export type { UserListCardCondensedProps }
