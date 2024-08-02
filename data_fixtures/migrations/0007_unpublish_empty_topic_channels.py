@@ -3,7 +3,7 @@
 from django.db import migrations
 
 
-def remove_empty_topic_channels(apps, schema_editor):
+def unpublish_empty_topic_channels(apps, schema_editor):
     """
     Set a topic channel to unpublished if it has no published learning resources.
     """
@@ -29,5 +29,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(remove_empty_topic_channels, migrations.RunPython.noop),
+        migrations.RunPython(unpublish_empty_topic_channels, migrations.RunPython.noop),
     ]
