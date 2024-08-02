@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react"
+import React from "react"
 import styled from "@emotion/styled"
 import ISO6391 from "iso-639-1"
 import {
@@ -77,7 +77,7 @@ const CertificatePrice = styled.span`
 type InfoSelector = (
   resource: LearningResource,
   run?: LearningResourceRun,
-) => string | number | null | ReactElement
+) => React.ReactNode
 
 type InfoItemConfig = {
   label: string
@@ -192,7 +192,7 @@ const INFO_ITEMS: InfoItemConfig = [
 type InfoItemProps = {
   label: string
   Icon: RemixiconComponentType | null
-  value: string | number | null | ReactElement
+  value: React.ReactNode
 }
 
 const InfoItem = ({ label, Icon, value }: InfoItemProps) => {
