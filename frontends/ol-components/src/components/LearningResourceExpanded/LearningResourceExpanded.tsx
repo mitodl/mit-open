@@ -16,6 +16,7 @@ import {
   resourceThumbnailSrc,
   getReadableResourceType,
   DEFAULT_RESOURCE_IMG,
+  showStartAnytime,
 } from "ol-utilities"
 import type { EmbedlyConfig } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
@@ -25,7 +26,6 @@ import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
 import { ChipLink } from "../Chips/ChipLink"
 import InfoSection from "./InfoSection"
-import { showStartAnytime } from "../LearningResourceCard/utils"
 
 const Container = styled.div<{ padTop?: boolean }>`
   display: flex;

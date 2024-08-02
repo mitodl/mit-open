@@ -51,6 +51,7 @@ const Title = styled(BaseTitle)`
 
 const Bottom = styled(BaseBottom)`
   height: auto;
+  min-height: 16px;
   ${theme.breakpoints.down("md")} {
     height: auto;
   }
