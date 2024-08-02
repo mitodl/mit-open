@@ -138,7 +138,8 @@ def serialize_learning_resource_for_update(
         "resource_age_date": get_resource_age_date(
             learning_resource_obj, serialized_data["resource_category"]
         ),
-        "featured_rank": None**serialized_data,
+        "featured_rank": None,
+        **serialized_data,
     }
 
 
@@ -227,6 +228,14 @@ LEARNING_RESOURCE_AGGREGATIONS = [
 
 CONTENT_FILE_AGGREGATIONS = ["topic", "content_feature_type", "platform", "offered_by"]
 
+LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS = {
+    "featured": {
+        "title": "Featured",
+        "sort": "featured_rank",
+    },
+    **LEARNING_RESOURCE_SORTBY_OPTIONS,
+}
+
 
 class SearchRequestSerializer(serializers.Serializer):
     q = serializers.CharField(required=False, help_text="The search text")
@@ -283,8 +292,8 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     sortby = serializers.ChoiceField(
         required=False,
         choices=[
-            (key, LEARNING_RESOURCE_SORTBY_OPTIONS[key]["title"])
-            for key in LEARNING_RESOURCE_SORTBY_OPTIONS
+            (key, LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS[key]["title"])
+            for key in LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS
         ],
         help_text="If the parameter starts with '-' the sort is in descending order",
     )

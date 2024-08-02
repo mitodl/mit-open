@@ -16,7 +16,6 @@ class Command(BaseCommand):
         self.stdout.write("Waiting on task...")
         start = now_in_utc()
         errors = task.get()
-        errors = [error for error in errors if error is not None]
         if errors:
             msg = f"Update featured ranks errored: {errors}"
             raise CommandError(msg)

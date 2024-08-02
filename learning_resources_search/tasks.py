@@ -79,7 +79,7 @@ def update_featured_rank():
     for rank, resource in enumerate(featured_resources):
         api.clear_featured_rank(rank, clear_all_greater_then=False)
         api.update_document_with_partial(
-            resource.get("id"), {"featured_rank": rank}, resource.get("resouce_type")
+            resource.get("id"), {"featured_rank": rank}, resource.get("resource_type")
         )
 
     api.clear_featured_rank(len(featured_resources), clear_all_greater_then=True)
