@@ -3864,6 +3864,41 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prettier/cli@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@prettier/cli@npm:0.5.0"
+  dependencies:
+    "@iarna/toml": "npm:^2.2.5"
+    atomically: "npm:^2.0.3"
+    fast-ignore: "npm:^1.1.3"
+    find-up-json: "npm:^2.0.4"
+    function-once: "npm:^3.0.0"
+    import-meta-resolve: "npm:^4.0.0"
+    is-binary-path: "npm:^2.1.0"
+    js-yaml: "npm:^4.1.0"
+    json-sorted-stringify: "npm:^1.0.0"
+    json5: "npm:^2.2.3"
+    kasi: "npm:^1.1.0"
+    lomemo: "npm:^1.0.0"
+    pioppo: "npm:^1.1.1"
+    promise-resolve-timeout: "npm:^2.0.0"
+    specialist: "npm:^1.4.0"
+    tiny-editorconfig: "npm:^1.0.0"
+    tiny-jsonc: "npm:^1.0.1"
+    tiny-readdir-glob: "npm:^1.22.24"
+    tiny-spinner: "npm:^2.0.3"
+    worktank: "npm:^2.6.1"
+    zeptomatch: "npm:^2.0.0"
+    zeptomatch-escape: "npm:^1.0.0"
+    zeptomatch-is-static: "npm:^1.0.0"
+  peerDependencies:
+    prettier: ^3.1.0 || ^4.0.0
+  bin:
+    prettier-next: dist/bin.js
+  checksum: 10/3cfa74a68c942fbe67d98fd8316056c46f72feadaf3a0808117cf79726050c5ab5e6bcc3b22b89b59b8f88409f003f795ad996a08f312c390b9496eaffcdd15e
+  languageName: node
+  linkType: hard
+
 "@rc-component/portal@npm:^1.1.0":
   version: 1.1.2
   resolution: "@rc-component/portal@npm:1.1.2"
@@ -6676,7 +6711,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"atomically@npm:^2.0.2":
+"atomically@npm:^2.0.2, atomically@npm:^2.0.3":
   version: 2.0.3
   resolution: "atomically@npm:2.0.3"
   dependencies:
@@ -10069,7 +10104,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-ignore@npm:^1.1.1":
+"fast-ignore@npm:^1.1.1, fast-ignore@npm:^1.1.3":
   version: 1.1.3
   resolution: "fast-ignore@npm:1.1.3"
   dependencies:
@@ -10260,7 +10295,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"find-up-json@npm:^2.0.1, find-up-json@npm:^2.0.2":
+"find-up-json@npm:^2.0.1, find-up-json@npm:^2.0.2, find-up-json@npm:^2.0.4":
   version: 2.0.4
   resolution: "find-up-json@npm:2.0.4"
   dependencies:
@@ -10525,7 +10560,7 @@ __metadata:
     jest-watch-typeahead: "npm:^2.2.2"
     jest-when: "npm:^3.6.0"
     postcss-styled-syntax: "npm:^0.6.4"
-    prettier: "npm:v4.0.0-alpha.8"
+    prettier: "npm:4.0.0-alpha.9"
     prettier-plugin-django-alpine: "npm:^1.2.6"
     stylelint: "npm:^15.2.0"
     stylelint-config-standard-scss: "npm:^7.0.1"
@@ -10624,6 +10659,13 @@ __metadata:
   version: 1.1.2
   resolution: "function-bind@npm:1.1.2"
   checksum: 10/185e20d20f10c8d661d59aac0f3b63b31132d492e1b11fcc2a93cb2c47257ebaee7407c38513efd2b35cafdf972d9beb2ea4593c1e0f3bf8f2744836928d7454
+  languageName: node
+  linkType: hard
+
+"function-once@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "function-once@npm:3.0.0"
+  checksum: 10/6dc7fb815af792a4ea55d5b3ae4519ea5f94f45d1bd334389b41f7be3102bb642a1ae77f7f414440dea412c0489e6625db9ae2e81f47c9cfb70419227089a61d
   languageName: node
   linkType: hard
 
@@ -13517,6 +13559,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lomemo@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "lomemo@npm:1.0.0"
+  checksum: 10/34c784f9940cf0db889cf0fc674f4a77914c6359b2dfaae74c5172bf66f02b0f50bdaa3cec96d2124a045a7f96ac6ea21123a69e9ac570c64dec8c2a670acae7
+  languageName: node
+  linkType: hard
+
 "longest-streak@npm:^2.0.0":
   version: 2.0.4
   resolution: "longest-streak@npm:2.0.4"
@@ -15985,7 +16034,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pioppo@npm:^1.1.0":
+"pioppo@npm:^1.1.0, pioppo@npm:^1.1.1":
   version: 1.1.1
   resolution: "pioppo@npm:1.1.1"
   dependencies:
@@ -16598,6 +16647,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"prettier@npm:4.0.0-alpha.9":
+  version: 4.0.0-alpha.9
+  resolution: "prettier@npm:4.0.0-alpha.9"
+  dependencies:
+    "@prettier/cli": "npm:^0.5.0"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: 10/99d78fcd76df8277488c518fb571f853c1fcba5eeec298d3137c5116eb6b547be568dcbdfa01a25e9e1338ec1192a776cf2ea1568b94f86dbd7c274cff2edda6
+  languageName: node
+  linkType: hard
+
 "prettier@npm:^3.1.1":
   version: 3.3.3
   resolution: "prettier@npm:3.3.3"
@@ -16698,6 +16758,13 @@ __metadata:
   version: 3.0.0
   resolution: "promise-make-naked@npm:3.0.0"
   checksum: 10/a215e9c6b241c1aa10fa660fff76ff666382bf9acabb8120e8b00261922189c135de2d8cf17d80be0e90af26ae04158c85c7f0087ef4f6f42d67a87fabb1d5bc
+  languageName: node
+  linkType: hard
+
+"promise-resolve-timeout@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "promise-resolve-timeout@npm:2.0.0"
+  checksum: 10/c2b43ac9cb1ed5d495e4806f00f1feaf0e4abeda846b2170237e9ee4b9ff829063de2af5cece3264174ea46a0bc9d048ad0c19dbcdf2e25bee58a36b85c15fbb
   languageName: node
   linkType: hard
 
@@ -19408,7 +19475,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tiny-readdir-glob@npm:^1.2.1":
+"tiny-readdir-glob@npm:^1.2.1, tiny-readdir-glob@npm:^1.22.24":
   version: 1.22.24
   resolution: "tiny-readdir-glob@npm:1.22.24"
   dependencies:
@@ -21106,7 +21173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"worktank@npm:^2.6.0":
+"worktank@npm:^2.6.0, worktank@npm:^2.6.1":
   version: 2.7.3
   resolution: "worktank@npm:2.7.3"
   dependencies:
@@ -21337,6 +21404,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"zeptomatch-escape@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "zeptomatch-escape@npm:1.0.0"
+  checksum: 10/1b11252743f054e7d565e5b6f6e47a32d1e5109975584e695cef436104e21886e614805cfd1c9e07f0b61e0aafc16f17f5f6af411ff6f2e5d9c2d5dc0fce799b
+  languageName: node
+  linkType: hard
+
 "zeptomatch-explode@npm:^1.0.0":
   version: 1.0.0
   resolution: "zeptomatch-explode@npm:1.0.0"
@@ -21364,6 +21438,15 @@ __metadata:
   dependencies:
     grammex: "npm:^3.1.1"
   checksum: 10/2a260200f857462264222c8cba1dc955e60a7f6cbcf9d57c7ac94fe874f52029a4efe8ff24b29497925a492151fe7ee56e63b3b31874c5d138ee1c11f0052f18
+  languageName: node
+  linkType: hard
+
+"zeptomatch@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "zeptomatch@npm:2.0.0"
+  dependencies:
+    grammex: "npm:^3.1.1"
+  checksum: 10/0c590c42d9d65b9064e9195c5066b50d5719c623d3fa41822e3972904c0e7969f7f9ca62b8b501d91fd9642fa9c1e6ebeeb49f41044d491619cc3e3ded9a96c1
   languageName: node
   linkType: hard
 
