@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path")
 
-if (process.env.LOAD_ENV_FILES.toLowerCase() === "true") {
+if (process.env.LOAD_ENV_FILES?.toLowerCase() === "true") {
   console.info("Loading environment from .env files")
   require("dotenv").config({
     path: [
