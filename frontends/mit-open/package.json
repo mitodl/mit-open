@@ -8,7 +8,8 @@
     "url": "https://github.com/mitodl/mit-open.git"
   },
   "scripts": {
-    "watch": "NODE_ENV=development webpack serve",
+    "watch": "NODE_ENV=development LOAD_ENV_FILES=true webpack serve",
+    "watch:docker": "NODE_ENV=development webpack serve",
     "build": "webpack --config webpack.config.js --bail",
     "build-exports": "webpack --config webpack.exports.js --bail",
     "storybook": "storybook dev -p 6006",

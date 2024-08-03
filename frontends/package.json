@@ -14,6 +14,7 @@
   ],
   "scripts": {
     "watch": "yarn workspace mit-open watch",
+    "watch:docker": "yarn workspace mit-open watch:docker",
     "build": "yarn workspace mit-open build",
     "lint-check": "eslint . --ext .js,.jsx,.ts,.tsx,.mdx",
     "lint-fix": "yarn lint-check --fix",
