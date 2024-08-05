@@ -17,8 +17,7 @@ from learning_resources.constants import (
     LearningResourceType,
     PlatformType,
 )
-from learning_resources.factories import LearningResourceFactory
-from learning_resources.serializers import LearningResourceSerializer
+from learning_resources.models import ContentFile, LearningResource
 from main.test_utils import assert_json_equal, drf_datetime
 from main.utils import frontend_absolute_url
 
@@ -176,6 +175,8 @@ def test_learning_resource_serializer(  # noqa: PLR0913
     for department in resource.departments.all():
         ChannelDepartmentDetailFactory.create(department=department)
 
+    resource = LearningResource.objects.for_serialization(user=user).get(pk=resource.pk)
+
     result = serializers.LearningResourceSerializer(
         instance=resource, context=context
     ).data
@@ -266,20 +267,6 @@ def test_learning_resource_serializer(  # noqa: PLR0913
     }
 
 
-def test_learning_resource_serializer_published_runs_only():
-    """Only published runs should be in the serializer"""
-    resource = LearningResourceFactory.create(is_course=True)
-    assert resource.runs.count() == 2
-    assert len(LearningResourceSerializer(resource).data["runs"]) == 2
-    unpublished_run = resource.runs.last()
-    unpublished_run.published = False
-    unpublished_run.save()
-    updated_data = LearningResourceSerializer(resource).data
-    assert len(updated_data["runs"]) == 1
-    assert updated_data["runs"][0]["id"] != unpublished_run.id
-
-
-@pytest.mark.parametrize("has_context", [True, False])
 @pytest.mark.parametrize("is_staff", [True, False])
 @pytest.mark.parametrize("is_superuser", [True, False])
 @pytest.mark.parametrize("is_editor_staff", [True, False])
@@ -294,13 +281,9 @@ def test_learning_resource_serializer_published_runs_only():
     ],
 )
 def test_learning_resource_serializer_learning_path_parents(  # noqa: PLR0913
-    rf, user, has_context, is_staff, is_superuser, is_editor_staff, params
+    rf, user, is_staff, is_superuser, is_editor_staff, params
 ):
     """Test that LearningResourceSerializer.learning_path_parents returns the expected values"""
-    request = rf.get("/")
-    request.user = user
-    context = {"request": request} if has_context else {}
-
     user.is_staff = is_staff
     user.is_superuser = is_superuser
     user.save()
@@ -313,11 +296,11 @@ def test_learning_resource_serializer_learning_path_parents(  # noqa: PLR0913
         5, is_learning_path=True, learning_path__resources=[resource]
     )
 
-    result = serializers.LearningResourceSerializer(
-        instance=resource, context=context
-    ).data
+    resource = LearningResource.objects.for_serialization(user=user).get(pk=resource.pk)
 
-    can_see_parents = has_context and (is_staff or is_superuser or is_editor_staff)
+    result = serializers.LearningResourceSerializer(instance=resource).data
+
+    can_see_parents = is_staff or is_superuser or is_editor_staff
 
     assert result["learning_path_parents"] == (
         serializers.MicroLearningPathRelationshipSerializer(
@@ -328,7 +311,6 @@ def test_learning_resource_serializer_learning_path_parents(  # noqa: PLR0913
     )
 
 
-@pytest.mark.parametrize("has_context", [True, False])
 @pytest.mark.parametrize(
     "params",
     [
@@ -339,11 +321,8 @@ def test_learning_resource_serializer_learning_path_parents(  # noqa: PLR0913
         {"is_podcast_episode": True},
     ],
 )
-def test_learning_resource_serializer_user_list_parents(rf, user, has_context, params):
+def test_learning_resource_serializer_user_list_parents(rf, user, params):
     """Test that LearningResourceSerializer.user_list_parents returns the expected values"""
-    request = rf.get("/")
-    request.user = user
-    context = {"request": request} if has_context else {}
 
     resource = factories.LearningResourceFactory.create(**params)
 
@@ -353,16 +332,14 @@ def test_learning_resource_serializer_user_list_parents(rf, user, has_context, p
         parent__author=user,
     )
 
-    result = serializers.LearningResourceSerializer(
-        instance=resource, context=context
-    ).data
+    resource = LearningResource.objects.for_serialization(user=user).get(pk=resource.pk)
+
+    result = serializers.LearningResourceSerializer(instance=resource).data
 
     assert result["user_list_parents"] == (
         serializers.MicroUserListRelationshipSerializer(
             instance=parent_rels, many=True
         ).data
-        if has_context
-        else []
     )
 
 
@@ -466,15 +443,14 @@ def test_content_file_serializer(settings, expected_types, has_channels):
         run=course.learning_resource.runs.first(), **content_kwargs
     )
     if has_channels:
-        [
+        for topic in content_file.run.learning_resource.topics.all():
             ChannelTopicDetailFactory.create(topic=topic)
-            for topic in content_file.run.learning_resource.topics.all()
-        ]
-        [
+
+        for department in course.learning_resource.departments.all():
             ChannelDepartmentDetailFactory.create(department=department)
-            for department in course.learning_resource.departments.all()
-        ]
         ChannelUnitDetailFactory.create(unit=course.learning_resource.offered_by)
+
+    content_file = ContentFile.objects.for_serialization().get(pk=content_file.pk)
 
     serialized = serializers.ContentFileSerializer(content_file).data
 

@@ -193,7 +193,7 @@ def test_program_endpoint(client, url, params):
 def test_program_detail_endpoint(client, django_assert_num_queries, url):
     """Test program endpoint"""
     program = ProgramFactory.create()
-    with django_assert_num_queries(19):
+    with django_assert_num_queries(14):
         resp = client.get(reverse(url, args=[program.learning_resource.id]))
     assert resp.data.get("title") == program.learning_resource.title
     assert resp.data.get("resource_type") == LearningResourceType.program.name
@@ -225,8 +225,8 @@ def test_list_resources_endpoint(client):
         assert result["id"] in resource_ids
 
 
-@pytest.mark.parametrize("course_count", [1, 5, 10])
-def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
+@pytest.mark.parametrize("course_count", [1, 5, 20])
+def test_no_excess_queries(rf, user, mocker, django_assert_num_queries, course_count):
     """
     There should be a constant number of queries made (based on number of
     related models), regardless of number of results returned.
@@ -235,8 +235,11 @@ def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
 
     CourseFactory.create_batch(course_count)
 
+    request = rf.get("/")
+    request.user = user
+
     with django_assert_num_queries(16):
-        view = CourseViewSet(request=mocker.Mock(query_params=[]))
+        view = CourseViewSet(request=request)
         results = view.get_queryset().all()
         assert len(results) == course_count
 

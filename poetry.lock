@@ -26,6 +26,17 @@ files = [
 ]
 
 [[package]]
+name = "anys"
+version = "0.3.0"
+description = "Matchers for pytest"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "anys-0.3.0-py3-none-any.whl", hash = "sha256:ae4124d98ab0449a457d1563e86c9f9baa059707bf7bd65248d594b1fdc2a5c2"},
+    {file = "anys-0.3.0.tar.gz", hash = "sha256:56c04f76afe5379a5058aec067befa1fb93070d63cabbd342e04b3d5aff739f8"},
+]
+
+[[package]]
 name = "asgiref"
 version = "3.8.1"
 description = "ASGI specs, helper code, and adapters"
@@ -4240,4 +4251,4 @@ test = ["big-O", "importlib-resources", "jaraco.functools", "jaraco.itertools", 
 [metadata]
 lock-version = "2.0"
 python-versions = "3.12.4"
-content-hash = "aa6f615bb26a72ce586a9481a13ed28147eebb137cf85f4d11ff2465fa1310bf"
+content-hash = "5ebc43011f480317ecad1c132f568bb2a8a6793ab8240557f4664f9d66bbafd3"

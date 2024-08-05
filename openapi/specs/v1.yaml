@@ -7570,17 +7570,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -7991,17 +7988,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -8172,7 +8166,10 @@ components:
           video_playlist: '#/components/schemas/VideoPlaylistResource'
     LearningResourceBaseDepartment:
       type: object
-      description: Serializer for LearningResourceDepartment, minus school
+      description: |-
+        Serializer for LearningResourceDepartment, minus school
+
+        The absence of the departments list is to avoid a circular serialization structure.
       properties:
         department_id:
           type: string
@@ -8182,17 +8179,18 @@ components:
           maxLength: 256
         channel_url:
           type: string
-          nullable: true
-          description: Get the channel url for the department if it exists
           readOnly: true
+          nullable: true
       required:
       - channel_url
       - department_id
       - name
     LearningResourceBaseSchool:
       type: object
-      description: Base serializer for LearningResourceSchool model, minus departments
-        list
+      description: |-
+        Base serializer for LearningResourceSchool model, minus departments list
+
+        The absence of the departments list is to avoid a circular serialization structure.
       properties:
         id:
           type: integer
@@ -8210,8 +8208,10 @@ components:
       - url
     LearningResourceBaseSchoolRequest:
       type: object
-      description: Base serializer for LearningResourceSchool model, minus departments
-        list
+      description: |-
+        Base serializer for LearningResourceSchool model, minus departments list
+
+        The absence of the departments list is to avoid a circular serialization structure.
       properties:
         name:
           type: string
@@ -8250,9 +8250,8 @@ components:
           maxLength: 256
         channel_url:
           type: string
-          nullable: true
-          description: Get the channel url for the department if it exists
           readOnly: true
+          nullable: true
         school:
           allOf:
           - $ref: '#/components/schemas/LearningResourceBaseSchool'
@@ -9760,8 +9759,6 @@ components:
           readOnly: true
         episode_count:
           type: integer
-          description: Return the number of episodes in the podcast
-          readOnly: true
         apple_podcasts_url:
           type: string
           format: uri
@@ -9895,17 +9892,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -10064,6 +10058,8 @@ components:
       type: object
       description: Serializer for Podcasts
       properties:
+        episode_count:
+          type: integer
         apple_podcasts_url:
           type: string
           format: uri
@@ -10082,6 +10078,8 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+      required:
+      - episode_count
     PodcastResource:
       type: object
       description: Serializer for podcast resources
@@ -10155,17 +10153,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -10549,17 +10544,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -10979,11 +10971,17 @@ components:
           nullable: true
         video_count:
           type: integer
-          description: Return the number of videos in the playlist
-          readOnly: true
       required:
       - channel
       - id
+      - video_count
+    VideoPlaylistRequest:
+      type: object
+      description: Serializer for the VideoPlaylist model
+      properties:
+        video_count:
+          type: integer
+      required:
       - video_count
     VideoPlaylistResource:
       type: object
@@ -11058,17 +11056,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -11308,17 +11303,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
