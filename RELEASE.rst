@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.15.0
+Version 0.15.0 (Released August 05, 2024)
 --------------
 
 - Performance fixes on LR queries (#1303)
