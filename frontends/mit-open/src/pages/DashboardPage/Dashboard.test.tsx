@@ -7,7 +7,11 @@ import {
 } from "../../test-utils"
 import { factories, urls } from "api/test-utils"
 import { Permissions } from "@/common/permissions"
-import { DashboardPage, DashboardTabLabels } from "./DashboardPage"
+import {
+  DashboardPage,
+  DashboardTabKeys,
+  DashboardTabLabels,
+} from "./DashboardPage"
 import { faker } from "@faker-js/faker/locale/en"
 import {
   CourseResource,
@@ -16,6 +20,7 @@ import {
 } from "api"
 import { ControlledPromise } from "ol-test-utilities"
 import React from "react"
+import { DASHBOARD_HOME, MY_LISTS, PROFILE } from "@/common/urls"
 
 describe("DashboardPage", () => {
   const makeSearchResponse = (
@@ -244,13 +249,15 @@ describe("DashboardPage", () => {
   test("Renders the expected tab links", async () => {
     setupAPIs()
     renderWithProviders(<DashboardPage />)
-    Object.keys(DashboardTabLabels).forEach((key) => {
+    const urls = [DASHBOARD_HOME, MY_LISTS, PROFILE]
+    urls.forEach((url: string) => {
+      const key = DashboardTabKeys[url as keyof typeof DashboardTabKeys]
       const desktopTab = screen.getByTestId(`desktop-tab-${key}`)
       const mobileTab = screen.getByTestId(`mobile-tab-${key}`)
       expect(desktopTab).toBeInTheDocument()
       expect(mobileTab).toBeInTheDocument()
-      expect(desktopTab).toHaveAttribute("href", `/#${key}`)
-      expect(mobileTab).toHaveAttribute("href", `/#${key}`)
+      expect(desktopTab).toHaveAttribute("href", url)
+      expect(mobileTab).toHaveAttribute("href", url)
     })
   })
 

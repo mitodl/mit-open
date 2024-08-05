@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React from "react"
 import {
   RiAccountCircleFill,
   RiDashboardLine,
@@ -23,9 +23,8 @@ import {
 import { MetaTags } from "ol-utilities"
 import { Link } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
-import { useLocation } from "react-router"
-import { UserListListingComponent } from "../UserListListingPage/UserListListingPage"
-import { UserList } from "api"
+import { useLocation, useParams } from "react-router"
+import UserListListingComponent from "../UserListListingComponent/UserListListingComponent"
 
 import { ProfileEditForm } from "./ProfileEditForm"
 import { useProfileMeQuery } from "api/hooks/profile"
@@ -40,6 +39,7 @@ import {
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 import UserListDetailsTab from "./UserListDetailsTab"
 import { SettingsPage } from "./SettingsPage"
+import { DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS } from "@/common/urls"
 
 /**
  *
@@ -253,22 +253,37 @@ const StyledResourceCarousel = styled(ResourceCarousel)(({ theme }) => ({
   },
 }))
 
+const TabKeys = {
+  [DASHBOARD_HOME]: "home",
+  [MY_LISTS]: "my-lists",
+  [PROFILE]: "profile",
+  [SETTINGS]: "settings",
+}
+
+const TabLabels = {
+  [DASHBOARD_HOME]: "Home",
+  [MY_LISTS]: "My Lists",
+  [PROFILE]: "Profile",
+  [SETTINGS]: "Settings",
+}
+
 interface UserMenuTabProps {
   icon: React.ReactNode
   text: string
+  tabKey: string
   value: string
   currentValue: string
   onClick?: () => void
 }
 
 const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
-  const { icon, text, value, currentValue, onClick } = props
+  const { icon, text, tabKey, value, currentValue, onClick } = props
   const selected = value === currentValue
   return (
     <Tab
       component={Link}
-      to={`#${value}`}
-      data-testid={`desktop-tab-${value}`}
+      to={value}
+      data-testid={`desktop-tab-${tabKey}`}
       label={
         <TabContainer
           onClick={onClick}
@@ -284,40 +299,24 @@ const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
   )
 }
 
-enum TabValues {
-  HOME = "home",
-  MY_LISTS = "my-lists",
-  SETTINGS = "settings",
-  PROFILE = "profile",
-}
-
-const TabLabels = {
-  [TabValues.HOME]: "Home",
-  [TabValues.MY_LISTS]: "My Lists",
-  [TabValues.PROFILE]: "Profile",
-  [TabValues.SETTINGS]: "Settings",
-}
-const keyFromHash = (hash: string) => {
-  const keys = Object.values(TabValues)
-  const match = keys.find((key) => `#${key}` === hash)
-  return match ?? "home"
+type RouteParams = {
+  id: string
 }
 
 const DashboardPage: React.FC = () => {
   const { isLoading: isLoadingUser, data: user } = useUserMe()
   const { isLoading: isLoadingProfile, data: profile } = useProfileMeQuery()
-  const { hash } = useLocation()
-  const tabValue = keyFromHash(hash)
-  const [userListAction, setUserListAction] = useState("list")
-  const [userListId, setUserListId] = useState(0)
+  const { pathname } = useLocation()
+  const id = Number(useParams<RouteParams>().id) || -1
+  const showUserListDetail = pathname.includes(MY_LISTS) && id !== -1
+  const tabValue = showUserListDetail
+    ? MY_LISTS
+    : [DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS].includes(pathname)
+      ? pathname
+      : DASHBOARD_HOME
 
   const topics = profile?.preference_search_filters.topic
   const certification = profile?.preference_search_filters.certification
-
-  const handleActivateUserList = useCallback((userList: UserList) => {
-    setUserListId(userList.id)
-    setUserListAction("detail")
-  }, [])
 
   const desktopMenu = (
     <ProfileSidebar>
@@ -339,27 +338,30 @@ const DashboardPage: React.FC = () => {
         >
           <UserMenuTab
             icon={<RiDashboardLine />}
-            text={TabLabels[TabValues.HOME]}
-            value={TabValues.HOME}
+            text={TabLabels[DASHBOARD_HOME]}
+            tabKey={TabKeys[DASHBOARD_HOME]}
+            value={DASHBOARD_HOME}
             currentValue={tabValue}
           />
           <UserMenuTab
             icon={<RiBookmarkLine />}
-            text={TabLabels[TabValues.MY_LISTS]}
-            value={TabValues.MY_LISTS}
+            text={TabLabels[MY_LISTS]}
+            tabKey={TabKeys[MY_LISTS]}
+            value={MY_LISTS}
             currentValue={tabValue}
-            onClick={() => setUserListAction("list")}
           />
           <UserMenuTab
             icon={<RiEditLine />}
-            text={TabLabels[TabValues.PROFILE]}
-            value={TabValues.PROFILE}
+            text={TabLabels[PROFILE]}
+            tabKey={TabKeys[PROFILE]}
+            value={PROFILE}
             currentValue={tabValue}
           />
           <UserMenuTab
             icon={<RiNotificationLine />}
-            text={TabLabels[TabValues.SETTINGS]}
-            value={TabValues.SETTINGS}
+            text={TabLabels[SETTINGS]}
+            tabKey={TabKeys[SETTINGS]}
+            value={SETTINGS}
             currentValue={tabValue}
           />
         </TabsContainer>
@@ -370,28 +372,27 @@ const DashboardPage: React.FC = () => {
   const mobileMenu = (
     <TabButtonList data-testid="mobile-tab-list">
       <TabButtonLink
-        data-testid={`mobile-tab-${TabValues.HOME}`}
-        value={TabValues.HOME}
-        href={`#${TabValues.HOME}`}
+        data-testid={`mobile-tab-${TabKeys[DASHBOARD_HOME]}`}
+        value={DASHBOARD_HOME}
+        href={DASHBOARD_HOME}
         label="Home"
       />
       <TabButtonLink
-        data-testid={`mobile-tab-${TabValues.MY_LISTS}`}
-        value={TabValues.MY_LISTS}
-        href={`#${TabValues.MY_LISTS}`}
+        data-testid={`mobile-tab-${TabKeys[MY_LISTS]}`}
+        value={MY_LISTS}
+        href={MY_LISTS}
         label="My Lists"
-        onClick={() => setUserListAction("list")}
       />
       <TabButtonLink
-        data-testid={`mobile-tab-${TabValues.PROFILE}`}
-        value={TabValues.PROFILE}
-        href={`#${TabValues.PROFILE}`}
+        data-testid={`mobile-tab-${TabKeys[PROFILE]}`}
+        value={PROFILE}
+        href={PROFILE}
         label="Profile"
       />
       <TabButtonLink
-        data-testid={`mobile-tab-${TabValues.SETTINGS}`}
-        value={TabValues.SETTINGS}
-        href={`#${TabValues.SETTINGS}`}
+        data-testid={`mobile-tab-${TabKeys[SETTINGS]}`}
+        value={SETTINGS}
+        href={SETTINGS}
         label="Settings"
       />
     </TabButtonList>
@@ -408,108 +409,94 @@ const DashboardPage: React.FC = () => {
                 <MobileOnly>{mobileMenu}</MobileOnly>
                 <DesktopOnly>{desktopMenu}</DesktopOnly>
               </DashboardGridItem>
-              <DashboardGridItem>
-                <TabPanelStyled value={TabValues.HOME}>
-                  <HomeHeader>
-                    <HomeHeaderLeft>
-                      <TitleText role="heading">
-                        Your MIT Learning Journey
-                      </TitleText>
-                      <SubTitleText>
-                        A customized course list based on your preferences.
-                      </SubTitleText>
-                    </HomeHeaderLeft>
-                    <HomeHeaderRight>
-                      <ButtonLink
-                        variant="tertiary"
-                        href={`#${TabValues.PROFILE}`}
-                      >
-                        Edit Profile
-                      </ButtonLink>
-                    </HomeHeaderRight>
-                  </HomeHeader>
-                  <StyledResourceCarousel
-                    title="Top picks for you"
-                    isLoading={isLoadingProfile}
-                    config={TopPicksCarouselConfig(profile)}
-                    data-testid="top-picks-carousel"
-                  />
-                  {topics?.map((topic, index) => (
+              {showUserListDetail ? (
+                <DashboardGridItem>
+                  <UserListDetailsTab userListId={id} />
+                </DashboardGridItem>
+              ) : (
+                <DashboardGridItem>
+                  <TabPanelStyled value={DASHBOARD_HOME}>
+                    <HomeHeader>
+                      <HomeHeaderLeft>
+                        <TitleText role="heading">
+                          Your MIT Learning Journey
+                        </TitleText>
+                        <SubTitleText>
+                          A customized course list based on your preferences.
+                        </SubTitleText>
+                      </HomeHeaderLeft>
+                      <HomeHeaderRight>
+                        <ButtonLink variant="tertiary" href={PROFILE}>
+                          Edit Profile
+                        </ButtonLink>
+                      </HomeHeaderRight>
+                    </HomeHeader>
                     <StyledResourceCarousel
-                      key={index}
-                      title={`Popular courses in ${topic}`}
+                      title="Top picks for you"
                       isLoading={isLoadingProfile}
-                      config={TopicCarouselConfig(topic)}
-                      data-testid={`topic-carousel-${topic}`}
+                      config={TopPicksCarouselConfig(profile)}
+                      data-testid="top-picks-carousel"
                     />
-                  ))}
-                  {certification === true ? (
-                    <StyledResourceCarousel
-                      title="Courses with Certificates"
-                      isLoading={isLoadingProfile}
-                      config={CERTIFICATE_COURSES_CAROUSEL}
-                      data-testid="certification-carousel"
-                    />
-                  ) : (
-                    <StyledResourceCarousel
-                      title="Free courses"
-                      isLoading={isLoadingProfile}
-                      config={FREE_COURSES_CAROUSEL}
-                      data-testid="free-carousel"
-                    />
-                  )}
-                  <StyledResourceCarousel
-                    title="New"
-                    config={NEW_LEARNING_RESOURCES_CAROUSEL}
-                    data-testid="new-learning-resources-carousel"
-                  />
-                  <StyledResourceCarousel
-                    title="Popular"
-                    config={POPULAR_LEARNING_RESOURCES_CAROUSEL}
-                    data-testid="popular-learning-resources-carousel"
-                  />
-                </TabPanelStyled>
-                <TabPanelStyled value={TabValues.MY_LISTS}>
-                  {userListAction === "list" ? (
-                    <div id="user-list-listing">
-                      <UserListListingComponent
-                        title="My Lists"
-                        onActivate={handleActivateUserList}
+                    {topics?.map((topic, index) => (
+                      <StyledResourceCarousel
+                        key={index}
+                        title={`Popular courses in ${topic}`}
+                        isLoading={isLoadingProfile}
+                        config={TopicCarouselConfig(topic)}
+                        data-testid={`topic-carousel-${topic}`}
                       />
-                    </div>
-                  ) : (
-                    <div id="user-list-detail">
-                      <UserListDetailsTab userListId={userListId} />
-                    </div>
-                  )}
-                </TabPanelStyled>
-                <TabPanelStyled
-                  key={TabValues.PROFILE}
-                  value={TabValues.PROFILE}
-                >
-                  <TitleText role="heading">Profile</TitleText>
-                  {isLoadingProfile || typeof profile === "undefined" ? (
-                    <Skeleton variant="text" width={128} height={32} />
-                  ) : (
-                    <div id="user-profile-edit">
-                      <ProfileEditForm profile={profile} />
-                    </div>
-                  )}
-                </TabPanelStyled>
-                <TabPanelStyled
-                  key={TabValues.SETTINGS}
-                  value={TabValues.SETTINGS}
-                >
-                  <TitleText role="heading">Settings</TitleText>
-                  {isLoadingProfile || !profile ? (
-                    <Skeleton variant="text" width={128} height={32} />
-                  ) : (
-                    <div id="user-settings">
-                      <SettingsPage />
-                    </div>
-                  )}
-                </TabPanelStyled>
-              </DashboardGridItem>
+                    ))}
+                    {certification === true ? (
+                      <StyledResourceCarousel
+                        title="Courses with Certificates"
+                        isLoading={isLoadingProfile}
+                        config={CERTIFICATE_COURSES_CAROUSEL}
+                        data-testid="certification-carousel"
+                      />
+                    ) : (
+                      <StyledResourceCarousel
+                        title="Free courses"
+                        isLoading={isLoadingProfile}
+                        config={FREE_COURSES_CAROUSEL}
+                        data-testid="free-carousel"
+                      />
+                    )}
+                    <StyledResourceCarousel
+                      title="New"
+                      config={NEW_LEARNING_RESOURCES_CAROUSEL}
+                      data-testid="new-learning-resources-carousel"
+                    />
+                    <StyledResourceCarousel
+                      title="Popular"
+                      config={POPULAR_LEARNING_RESOURCES_CAROUSEL}
+                      data-testid="popular-learning-resources-carousel"
+                    />
+                  </TabPanelStyled>
+                  <TabPanelStyled value={MY_LISTS}>
+                    <UserListListingComponent title="My Lists" />
+                  </TabPanelStyled>
+                  <TabPanelStyled value={PROFILE}>
+                    <TitleText role="heading">Profile</TitleText>
+                    {isLoadingProfile || !profile ? (
+                      <Skeleton variant="text" width={128} height={32} />
+                    ) : (
+                      <div id="user-profile-edit">
+                        <ProfileEditForm profile={profile} />
+                      </div>
+                    )}
+                  </TabPanelStyled>
+                  <TabPanelStyled value={SETTINGS}>
+                    <TitleText role="heading">Settings</TitleText>
+                    {isLoadingProfile || !profile ? (
+                      <Skeleton variant="text" width={128} height={32} />
+                    ) : (
+                      <div id="user-settings">
+                        <SettingsPage />
+                      </div>
+                    )}
+                  </TabPanelStyled>
+                </DashboardGridItem>
+              )}
             </DashboardGrid>
           </TabContext>
         </DashboardContainer>
@@ -518,4 +505,8 @@ const DashboardPage: React.FC = () => {
   )
 }
 
-export { DashboardPage, TabLabels as DashboardTabLabels }
+export {
+  DashboardPage,
+  TabKeys as DashboardTabKeys,
+  TabLabels as DashboardTabLabels,
+}

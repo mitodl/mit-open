@@ -65,7 +65,7 @@ const AUTH_TEXT_DATA = {
     text: "Ready to keep learning? Choose from your saved courses, find personalized recommendations, and see what's trending on your dashboard.",
     linkProps: {
       children: "My Dashboard",
-      href: urls.DASHBOARD,
+      href: urls.DASHBOARD_HOME,
     },
   },
   anonymous: {
@@ -75,7 +75,7 @@ const AUTH_TEXT_DATA = {
       children: "Sign Up for Free",
       reloadDocument: true,
       href: urls.login({
-        pathname: urls.DASHBOARD,
+        pathname: urls.DASHBOARD_HOME,
       }),
     },
   },

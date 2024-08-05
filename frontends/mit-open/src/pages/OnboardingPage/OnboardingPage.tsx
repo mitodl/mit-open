@@ -20,7 +20,7 @@ import {
 import { MetaTags } from "ol-utilities"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import { useProfileMeMutation, useProfileMeQuery } from "api/hooks/profile"
-import { DASHBOARD } from "@/common/urls"
+import { DASHBOARD_HOME } from "@/common/urls"
 
 import { useFormik } from "formik"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
@@ -168,7 +168,7 @@ const OnboardingPage: React.FC = () => {
       if (activeStep < NUM_STEPS - 1) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
       } else {
-        navigate(DASHBOARD)
+        navigate(DASHBOARD_HOME)
       }
     },
     validateOnChange: false,
