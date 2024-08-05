@@ -32,6 +32,9 @@ const IconContainer = styled.div(({ theme }) => ({
   borderRadius: "4px",
   color: theme.custom.colors.silverGrayDark,
   background: theme.custom.colors.lightGray1,
+  [theme.breakpoints.down("sm")]: {
+    display: "none",
+  },
 }))
 
 type UserListCardCondensedProps<U extends UserList = UserList> = {
