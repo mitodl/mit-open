@@ -108,17 +108,6 @@ def load_feed_item(source: FeedSource, item_data: dict) -> FeedItem:
 
     load_image(item, image_data)
 
-    if image_data:
-        image, _ = FeedImage.objects.get_or_create(
-            url=image_data.get("url"),
-            defaults={
-                "description": image_data.get("description"),
-                "alt": image_data.get("alt"),
-            },
-        )
-        item.image = image
-        item.save()
-
     return item
 
 

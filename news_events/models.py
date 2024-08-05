@@ -14,6 +14,9 @@ class FeedImage(TimestampedModel):
     description = models.CharField(max_length=1024, blank=True)
     alt = models.CharField(max_length=1024, blank=True)
 
+    class Meta:
+        unique_together = ["url", "description", "alt"]
+
     def __str__(self):
         return self.url
 
@@ -64,6 +67,7 @@ class FeedEventDetail(TimestampedModel):
     location = ArrayField(models.CharField(max_length=255, blank=True))
     event_type = ArrayField(models.CharField(max_length=255, blank=True))
     event_datetime = models.DateTimeField(db_index=True)
+    event_end_datetime = models.DateTimeField(db_index=True, null=True)
 
 
 class FeedNewsDetail(TimestampedModel):

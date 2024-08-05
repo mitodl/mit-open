@@ -3,7 +3,9 @@
 import logging
 from datetime import UTC, datetime
 from time import mktime, struct_time
+from zoneinfo import ZoneInfo
 
+import dateparser
 import requests
 from bs4 import BeautifulSoup as Soup
 from bs4 import Tag
@@ -86,3 +88,46 @@ def get_request_json(url: str, *, raise_on_error: bool = False) -> dict:
             log.error("Failed to get data from %s: %s", url, response.reason)
         return {}
     return response.json()
+
+
+def fetch_data_by_page(url, page=0) -> list[dict]:
+    """
+    Fetch data from the Professional Education API
+    Args:
+        url(str): The url to fetch data from
+        params(dict): The query parameters to include in the request
+    Yields:
+        list[dict]: A list of course or program data
+    """
+    params = {"page": page}
+    has_results = True
+    while has_results:
+        results = requests.get(
+            url, params=params, timeout=settings.REQUESTS_TIMEOUT
+        ).json()
+        has_results = len(results) > 0
+        yield from results
+        params["page"] += 1
+
+
+def parse_date(text_date: str) -> datetime:
+    """
+    Parse a date string into a datetime object
+
+    Args:
+        text_date (str): The date string to parse
+
+    Returns:
+        datetime: The parsed datetime object
+    """
+    dt_utc = None
+    if text_date:
+        try:
+            dt_utc = (
+                dateparser.parse(text_date)
+                .replace(tzinfo=ZoneInfo("US/Eastern"))
+                .astimezone(UTC)
+            )
+        except:  # noqa: E722
+            logging.exception("unparsable date received - ignoring '%s'", text_date)
+    return dt_utc

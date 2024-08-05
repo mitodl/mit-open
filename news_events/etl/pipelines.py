@@ -6,6 +6,8 @@ from news_events.constants import FeedType
 from news_events.etl import (
     loaders,
     medium_mit_news,
+    mitpe_events,
+    mitpe_news,
     ol_events,
     sloan_exec_news,
     sloan_webinars,
@@ -38,4 +40,18 @@ ol_events_etl = compose(
     load_sources(FeedType.events.name),
     ol_events.transform,
     ol_events.extract,
+)
+
+# Pipeline for MITPE News
+mitpe_news_etl = compose(
+    load_sources(FeedType.news.name),
+    mitpe_news.transform,
+    mitpe_news.extract,
+)
+
+# Pipeline for MITPE Events
+mitpe_events_etl = compose(
+    load_sources(FeedType.events.name),
+    mitpe_events.transform,
+    mitpe_events.extract,
 )

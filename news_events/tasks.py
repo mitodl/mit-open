@@ -26,3 +26,9 @@ def get_sloan_exec_news():
 def get_sloan_exec_webinars():
     """Run the Sloan webinars ETL pipeline"""
     pipelines.sloan_webinars_etl()
+
+
+@app.task
+def get_mitpe_news():
+    """Run the MIT Professional Education news ETL pipeline"""
+    pipelines.mitpe_news_etl()
