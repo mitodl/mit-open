@@ -19,10 +19,13 @@ const Header = styled(Typography)({
   marginBottom: "16px",
 })
 
-const NewListButton = styled(Button)({
+const NewListButton = styled(Button)(({ theme }) => ({
   marginTop: "24px",
   width: "200px",
-})
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
+}))
 
 type UserListListingComponentProps = {
   title?: string
