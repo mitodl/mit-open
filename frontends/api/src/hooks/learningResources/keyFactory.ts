@@ -155,7 +155,24 @@ const listHasResource =
           (page: PaginatedLearningResourceList) => page.results,
         )
       : data.results
+
     return resources.some((res) => res.id === resourceId)
+  }
+
+const resourceHasUserList =
+  (userListId: number) =>
+  (query: Query): boolean => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const data = query.state.data as any
+    const resources: LearningResource[] = data.pages
+      ? data.pages.flatMap(
+          (page: PaginatedLearningResourceList) => page.results,
+        )
+      : data.results
+
+    return resources?.some((res) =>
+      res.user_list_parents?.some((userList) => userList.parent === userListId),
+    )
   }
 
 /**
@@ -202,6 +219,31 @@ const invalidateResourceQueries = (
   })
 }
 
+/**
+ * Invalidate Resource queries that a resource that belongs to user list appears in.
+ */
+const invalidateResourceWithUserListQueries = (
+  queryClient: QueryClient,
+  userListId: LearningResource["id"],
+  { skipFeatured = false } = {},
+) => {
+  /**
+   * Invalidate lists with a resource that is in the user list.
+   */
+  const lists = [
+    learningResources.list._def,
+    learningResources.learningpaths._ctx.list._def,
+    learningResources.search._def,
+    ...(skipFeatured ? [] : [learningResources.featured._def]),
+  ]
+  lists.forEach((queryKey) => {
+    queryClient.invalidateQueries({
+      queryKey,
+      predicate: resourceHasUserList(userListId),
+    })
+  })
+}
+
 const invalidateUserListQueries = (
   queryClient: QueryClient,
   userListId: UserList["id"],
@@ -210,6 +252,7 @@ const invalidateUserListQueries = (
     learningResources.userlists._ctx.detail(userListId).queryKey,
   )
   const lists = [learningResources.userlists._ctx.list._def]
+
   lists.forEach((queryKey) => {
     queryClient.invalidateQueries({
       queryKey,
@@ -275,6 +318,7 @@ export default learningResources
 export {
   invalidateResourceQueries,
   invalidateUserListQueries,
+  invalidateResourceWithUserListQueries,
   updateListParentsOnAdd,
   updateListParentsOnDestroy,
 }

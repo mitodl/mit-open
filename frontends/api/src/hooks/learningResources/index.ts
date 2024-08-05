@@ -32,6 +32,7 @@ import type {
 import learningResources, {
   invalidateResourceQueries,
   invalidateUserListQueries,
+  invalidateResourceWithUserListQueries,
   updateListParentsOnAdd,
   updateListParentsOnDestroy,
 } from "./keyFactory"
@@ -251,8 +252,10 @@ const useUserListUpdate = () => {
         PatchedUserListRequest: params,
       }),
     onSettled: (_data, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.id)
       queryClient.invalidateQueries(learningResources.userlists._ctx.list._def)
+      queryClient.invalidateQueries(
+        learningResources.userlists._ctx.detail(vars.id).queryKey,
+      )
     },
   })
 }
@@ -262,8 +265,9 @@ const useUserListDestroy = () => {
   return useMutation({
     mutationFn: (params: ULDestroyRequest) =>
       userListsApi.userlistsDestroy(params),
-    onSettled: (_data, _err) => {
-      queryClient.invalidateQueries(learningResources.userlists._ctx.list._def)
+    onSettled: (_data, _err, vars) => {
+      invalidateUserListQueries(queryClient, vars.id)
+      invalidateResourceWithUserListQueries(queryClient, vars.id)
     },
   })
 }
