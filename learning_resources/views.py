@@ -871,14 +871,3 @@ class FeaturedViewSet(
 
         serializer = self.get_serializer(self._randomize_results(queryset), many=True)
         return Response(serializer.data)
-
-    def list_all_for_opensearch_update(self):
-        """
-        Get a list of all featured resources to update the
-        open search featured_rank field
-        """
-        queryset = self.get_queryset()
-        serializer = LearningResourceSerializer(
-            self._randomize_results(queryset), many=True
-        )
-        return serializer.data

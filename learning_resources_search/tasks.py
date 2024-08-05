@@ -5,6 +5,8 @@ import itertools
 import logging
 from collections import OrderedDict
 from contextlib import contextmanager
+from itertools import groupby
+from random import random
 from urllib.parse import urlencode
 
 import celery
@@ -74,13 +76,17 @@ PARTIAL_UPDATE_TASK_SETTINGS = {
 @app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
 def update_featured_rank():
     featured_view_set = FeaturedViewSet()
-    featured_resources = featured_view_set.list_all_for_opensearch_update()
-
-    for rank, resource in enumerate(featured_resources):
-        api.clear_featured_rank(rank, clear_all_greater_then=False)
-        api.update_document_with_partial(
-            resource.get("id"), {"featured_rank": rank}, resource.get("resource_type")
-        )
+    featured_resources = featured_view_set.get_queryset()
+    for position, resources_with_position in groupby(
+        featured_resources, key=lambda x: x.position
+    ):
+        api.clear_featured_rank(position, clear_all_greater_then=False)
+        for resource in resources_with_position:
+            api.update_document_with_partial(
+                resource.id,
+                {"featured_rank": position + random()},  # noqa: S311
+                resource.resource_type,
+            )
 
     api.clear_featured_rank(len(featured_resources), clear_all_greater_then=True)
 

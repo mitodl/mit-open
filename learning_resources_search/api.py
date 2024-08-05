@@ -9,7 +9,6 @@ from opensearch_dsl import Search
 from opensearch_dsl.query import MoreLikeThis, Percolate
 from opensearchpy.exceptions import NotFoundError
 
-from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
 from learning_resources.models import LearningResource
 from learning_resources_search.connection import (
     get_default_alias_name,
@@ -30,6 +29,9 @@ from learning_resources_search.constants import (
     TOPICS_QUERY_FIELDS,
 )
 from learning_resources_search.models import PercolateQuery
+from learning_resources_search.serializers import (
+    LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS,
+)
 from learning_resources_search.utils import (
     adjust_search_for_percolator,
     document_percolated_actions,
@@ -89,7 +91,7 @@ def generate_sort_clause(search_params):
     """
 
     sort = (
-        LEARNING_RESOURCE_SORTBY_OPTIONS.get(search_params.get("sortby"), {})
+        LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS.get(search_params.get("sortby"), {})
         .get("sort")
         .replace("0__", "")
         .replace("__", ".")

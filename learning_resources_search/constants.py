@@ -249,7 +249,7 @@ LEARNING_RESOURCE_MAP = {
     },
     "next_start_date": {"type": "date"},
     "resource_age_date": {"type": "date"},
-    "featured_rank": {"type": "long"},
+    "featured_rank": {"type": "float"},
 }
 
 
