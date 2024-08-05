@@ -477,7 +477,7 @@ const DashboardPage: React.FC = () => {
                   </TabPanelStyled>
                   <TabPanelStyled value={PROFILE}>
                     <TitleText role="heading">Profile</TitleText>
-                    {isLoadingProfile || typeof profile === "undefined" ? (
+                    {isLoadingProfile || !profile ? (
                       <Skeleton variant="text" width={128} height={32} />
                     ) : (
                       <div id="user-profile-edit">
