@@ -48,6 +48,7 @@ const IconContainer = styled.div`
   border-radius: 4px;
   color: ${theme.custom.colors.silverGrayDark};
   background: ${theme.custom.colors.lightGray1};
+
   svg {
     width: 32px;
     height: 32px;
