@@ -41,6 +41,7 @@ const baseInputStyles = (theme: Theme) => ({
   },
   "& input::placeholder": {
     color: theme.custom.colors.silverGrayDark,
+    opacity: 1, // some browsers apply opacity to placeholder text
   },
   "& input:placeholder-shown": {
     textOverflow: "ellipsis",
