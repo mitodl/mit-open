@@ -81,7 +81,9 @@ def test_upsert_learning_resource(mocked_api):
     """Test that upsert_learning_resourc will serialize the learning resource data and upsert it to the OS index"""
     resource = LearningResourceFactory.create()
     upsert_learning_resource(resource.id)
-    data = serialize_learning_resource_for_update(resource)
+    data = serialize_learning_resource_for_update(
+        LearningResource.objects.for_search_serialization().get(id=resource.id)
+    )
     mocked_api.upsert_document.assert_called_once_with(
         resource.id,
         data,

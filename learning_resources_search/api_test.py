@@ -1431,6 +1431,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                 "resource_relations",
                 "is_learning_material",
                 "resource_age_date",
+                "featured_rank",
             ]
         },
     }
@@ -1865,6 +1866,7 @@ def test_execute_learn_search_with_yearly_decay_percent(mocker, opensearch):
                 "resource_relations",
                 "is_learning_material",
                 "resource_age_date",
+                "featured_rank",
             ]
         },
     }
@@ -2069,6 +2071,7 @@ def test_execute_learn_search_for_content_file_query(opensearch):
                 "resource_relations",
                 "is_learning_material",
                 "resource_age_date",
+                "featured_rank",
             ]
         },
     }
@@ -2199,7 +2202,7 @@ def test_document_percolation(opensearch, mocker):
     [
         ("-views", None, [{"views": {"order": "desc"}}]),
         ("-views", "text", [{"views": {"order": "desc"}}]),
-        (None, None, ["is_learning_material", {"views": {"order": "desc"}}]),
+        (None, None, ["featured_rank", "is_learning_material"]),
         (None, "text", None),
     ],
 )

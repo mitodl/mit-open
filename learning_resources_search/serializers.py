@@ -8,7 +8,7 @@ from typing import TypedDict
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.db.models import Count, Q
+from django.db.models import Q
 from drf_spectacular.plumbing import build_choice_description_list
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
@@ -118,7 +118,8 @@ def serialize_learning_resource_for_update(
     Add any special search-related fields to the serializer data here
 
     Args:
-        learning_resource_obj(LearningResource): The learning resource object
+        learning_resource_obj(LearningResource): The learning resource object.
+        Must have a in_featured_lists annotated property
 
     Returns:
         dict: The serialized and transformed resource data
@@ -700,7 +701,7 @@ def serialize_bulk_learning_resources(ids):
     for learning_resource in (
         LearningResource.objects.filter(id__in=ids)
         .for_serialization()
-        .annotate(in_featured_lists=Count("parents__parent__channel"))
+        .for_search_serialization()
     ):
         yield serialize_learning_resource_for_bulk(learning_resource)
 

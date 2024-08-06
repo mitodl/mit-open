@@ -581,6 +581,7 @@ def test_serialize_bulk_learning_resources(mocker):
             "created_on": mocker.ANY,
             "resource_age_date": mocker.ANY,
             "is_learning_material": mocker.ANY,
+            "featured_rank": None,
             **LearningResourceSerializer(instance=resource).data,
         }
 
@@ -625,7 +626,11 @@ def test_serialize_learning_resource_for_bulk(
         "learning_resources_search.serializers.get_resource_age_date",
         return_value=datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
     )
-    resource = LearningResource.objects.for_serialization().get(pk=resource.pk)
+    resource = (
+        LearningResource.objects.for_serialization()
+        .for_search_serialization()
+        .get(pk=resource.pk)
+    )
 
     assert serializers.serialize_learning_resource_for_bulk(resource) == {
         "_id": resource.id,
@@ -633,6 +638,7 @@ def test_serialize_learning_resource_for_bulk(
         "created_on": resource.created_on,
         "is_learning_material": resource.resource_type not in ["course", "program"],
         "resource_age_date": datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
+        "featured_rank": None,
         **free_dict,
         **LearningResourceSerializer(resource).data,
     }
@@ -738,7 +744,11 @@ def test_serialize_course_numbers_for_bulk(
     resource = factories.CourseFactory.create(
         course_numbers=course_numbers
     ).learning_resource
-    resource = LearningResource.objects.for_serialization().get(pk=resource.pk)
+    resource = (
+        LearningResource.objects.for_serialization()
+        .for_search_serialization()
+        .get(pk=resource.pk)
+    )
     assert resource.course.course_numbers == course_numbers
 
     mocker.patch(
@@ -752,6 +762,7 @@ def test_serialize_course_numbers_for_bulk(
         "free": False,
         "is_learning_material": False,
         "resource_age_date": datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
+        "featured_rank": None,
         **LearningResourceSerializer(resource).data,
     }
     expected_data["course"]["course_numbers"][0] = {

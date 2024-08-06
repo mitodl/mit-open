@@ -377,6 +377,7 @@ SOURCE_EXCLUDED_FIELDS = [
     "resource_relations",
     "is_learning_material",
     "resource_age_date",
+    "featured_rank",
 ]
 
 LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS = {
