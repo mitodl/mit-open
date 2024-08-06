@@ -1,6 +1,26 @@
 Release Notes
 =============
 
+Version 0.15.1
+--------------
+
+- Update dependency redis to v5 (#1244)
+- sort before comparing (#1372)
+- Rename my 0008 to 0009 to prevent conflict (#1374)
+- Add Manufacturing topic; update upserter to make adding child topics easier (#1364)
+- Publish topic channels based on resource count (#1349)
+- Update dependency opensearch-dsl to v2 (#1242)
+- Update dependency opensearch-py to v2 (#1243)
+- Fix issue with User List cards not updating on edit (#1361)
+- Update dependency django-anymail to v11 (#1207)
+- Update CI to check data migrations for conflicts (#1368)
+- Fix frontend sentry configuration (#1362)
+- Migrate config renovate.json (#1367)
+- Update dependency sentry-sdk to v2 [SECURITY] (#1366)
+- add a bullet about collecting demographics to PrivacyPage.tsx (#1355)
+- user list UI updates (#1348)
+- Subscription email template updates (#1311)
+
 Version 0.15.0 (Released August 05, 2024)
 --------------
 
