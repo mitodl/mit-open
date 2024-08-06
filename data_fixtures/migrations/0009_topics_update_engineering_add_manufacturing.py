@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
     dependencies = [
         (
             "data_fixtures",
-            "0007_topic_mappings_edx_add_programming_coding_to_computer_science",
+            "0008_unpublish_empty_topic_channels",
         ),
     ]
 
