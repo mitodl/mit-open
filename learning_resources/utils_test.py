@@ -388,6 +388,103 @@ def test_modify_topic_data_string(mocker):
     )
 
 
+def test_modify_topic_with_parent(mocker):
+    """Test that the parent option is processed correctly when upserting topics"""
+
+    mock_pluggy = mocker.patch("learning_resources.utils.topic_upserted_actions")
+
+    base_topic_file = """
+---
+topics:
+    - icon: RiRobot2Line
+      id: c06109bf-cff8-4873-b04b-f5e66e3e1764
+      mappings:
+        mitx:
+          - Electronics
+        ocw:
+          - Technology
+      name: Data Science, Analytics & Computer Technology
+      children:
+      - children: []
+        icon: RiRobot2Line
+        id: 4cd6156e-51a0-4da4-add4-6f81e106cd43
+        mappings:
+          ocw:
+            - Programming Languages
+            - Software Design and Engineering
+          mitx:
+            - Computer Science
+        name: Programming & Coding
+"""
+
+    new_topic_file = """
+---
+topics:
+    - children: []
+      icon: RiRobot2Line
+      id: d335c250-1292-4391-a7cb-3181f803e0f3
+      mappings: []
+      name: Debugging
+      parent: 4cd6156e-51a0-4da4-add4-6f81e106cd43
+"""
+
+    new_topic_nested_parent_file = """
+topics:
+    - icon: RiRobot2Line
+      id: c06109bf-cff8-4873-b04b-f5e66e3e1764
+      mappings:
+        mitx:
+          - Electronics
+        ocw:
+          - Technology
+      name: Data Science, Analytics & Computer Technology
+      children:
+      - children: []
+        icon: RiRobot2Line
+        id: ea647bfc-cc83-42c7-b685-b5c2088b30af
+        mappings: []
+        name: Google Analytics
+"""
+
+    upsert_topic_data_string(base_topic_file)
+
+    assert mock_pluggy.called
+
+    main_topic = LearningResourceTopic.objects.filter(
+        topic_uuid="c06109bf-cff8-4873-b04b-f5e66e3e1764"
+    )
+
+    assert main_topic.exists()
+    main_topic = main_topic.get()
+
+    sub_topic = LearningResourceTopic.objects.filter(parent=main_topic)
+
+    assert sub_topic.exists()
+    sub_topic = sub_topic.get()
+
+    upsert_topic_data_string(new_topic_file)
+
+    new_topic = LearningResourceTopic.objects.filter(
+        topic_uuid="d335c250-1292-4391-a7cb-3181f803e0f3"
+    )
+
+    assert new_topic.exists()
+    assert new_topic.get().parent == sub_topic
+
+    upsert_topic_data_string(new_topic_nested_parent_file)
+
+    main_topic.refresh_from_db()
+
+    sub_topic = LearningResourceTopic.objects.filter(parent=main_topic)
+    assert sub_topic.count() == 2
+
+    for topic in sub_topic.all():
+        assert str(topic.topic_uuid) in [
+            "ea647bfc-cc83-42c7-b685-b5c2088b30af",
+            "4cd6156e-51a0-4da4-add4-6f81e106cd43",
+        ]
+
+
 def test_add_parent_topics_to_learning_resource(fixture_resource):
     """Ensure the parent topics get added to the resource."""
 
