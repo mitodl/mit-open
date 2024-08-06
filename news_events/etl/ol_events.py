@@ -185,7 +185,6 @@ def transform_event(event_data: dict) -> dict or None:
                 extract_relationship(event_data, "field_event_category")
             ),
             "event_datetime": dt_utc,
-            "event_end_datetime": dt_utc,
         },
     }
 
