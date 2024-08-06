@@ -238,7 +238,7 @@ describe("manageListDialogs.upsertUserList", () => {
   test.each([
     {
       userList: undefined,
-      expectedTitle: "Create List",
+      expectedTitle: "Create New List",
     },
     {
       userList: factories.userLists.userList(),
@@ -360,7 +360,7 @@ describe("manageListDialogs.upsertUserList", () => {
   test("No delete button on create list", async () => {
     setup()
 
-    screen.getByRole("heading", { name: "Create List" })
+    screen.getByRole("heading", { name: "Create New List" })
 
     const deleteButton = screen.queryByRole("button", { name: "Delete" })
 

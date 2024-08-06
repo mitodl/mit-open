@@ -73,7 +73,7 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
         <Header variant="h3">{title}</Header>
         <section>
           <LoadingSpinner loading={isLoading} />
-          {!data?.results.length && !isLoading && (
+          {!data?.results.length && !isLoading ? (
             <EmptyListCard>
               <Card.Content>
                 <EmptyList>
@@ -93,8 +93,8 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
                 </EmptyList>
               </Card.Content>
             </EmptyListCard>
-          )}
-          {data && (
+          ) : null}
+          {data ? (
             <PlainList itemSpacing={3}>
               {data.results?.map((list) => {
                 return (
@@ -110,12 +110,12 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
                 )
               })}
             </PlainList>
-          )}
-          {data?.results.length && !isLoading && (
+          ) : null}
+          {data?.results.length && !isLoading ? (
             <NewListButton variant="primary" onClick={handleCreate}>
               Create new list
             </NewListButton>
-          )}
+          ) : null}
         </section>
       </GridColumn>
     </GridContainer>

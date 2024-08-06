@@ -56,7 +56,7 @@ const Bottom = styled(BaseBottom)`
     height: auto;
   }
 `
-export const Actions = styled(BaseActions)`
+const Actions = styled(BaseActions)`
   bottom: 16px;
   right: 16px;
   gap: 16px;
