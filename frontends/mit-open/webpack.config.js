@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require("path")
 
-if (process.env.ENVIRONMENT === "local") {
+if (process.env.LOAD_ENV_FILES?.toLowerCase() === "true") {
   console.info("Loading environment from .env files")
   require("dotenv").config({
     path: [
@@ -26,7 +26,6 @@ const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"
 const { cleanEnv, str, bool, port } = require("envalid")
 
 const {
-  ENVIRONMENT,
   NODE_ENV,
   PORT,
   VERSION,
@@ -41,10 +40,6 @@ const {
   CKEDITOR_UPLOAD_URL,
   SENTRY_DSN,
 } = cleanEnv(process.env, {
-  ENVIRONMENT: str({
-    choices: ["local", "docker", "production"],
-    default: "production",
-  }),
   NODE_ENV: str({
     choices: ["development", "production", "test"],
     default: "production",
@@ -92,6 +87,10 @@ const {
   }),
   CKEDITOR_UPLOAD_URL: str({
     desc: "Location of the CKEditor uploads handler",
+    default: "",
+  }),
+  SENTRY_ENV: str({
+    desc: "A label for the environment used for grouping errors in Sentry",
     default: "",
   }),
   SENTRY_DSN: str({
@@ -216,7 +215,6 @@ module.exports = (env, argv) => {
           MITOPEN_API_BASE_URL: JSON.stringify(MITOPEN_API_BASE_URL),
           EMBEDLY_KEY: JSON.stringify(EMBEDLY_KEY),
           CKEDITOR_UPLOAD_URL: JSON.stringify(CKEDITOR_UPLOAD_URL),
-          ENVIRONMENT: JSON.stringify(ENVIRONMENT),
           VERSION: JSON.stringify(VERSION),
           SENTRY_DSN: JSON.stringify(SENTRY_DSN),
           POSTHOG: getPostHogSettings(),
@@ -238,7 +236,7 @@ module.exports = (env, argv) => {
           : [new ReactRefreshWebpackPlugin()],
       )
       .concat(
-        ENVIRONMENT !== "local" && WEBPACK_ANALYZE === "True"
+        WEBPACK_ANALYZE
           ? [
               new BundleAnalyzerPlugin({
                 analyzerMode: "static",

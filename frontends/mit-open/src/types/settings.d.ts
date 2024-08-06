@@ -12,12 +12,3 @@ export type PostHogSettings = {
   timeout?: int
   bootstrap_flags?: Record<string, string | boolean>
 }
-
-export declare global {
-  const APP_SETTINGS: {
-    SENTRY_DSN?: string
-    VERSION?: string
-    ENVIRONMENT?: string
-    posthog?: PostHogSettings
-  }
-}
