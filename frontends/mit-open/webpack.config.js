@@ -236,7 +236,7 @@ module.exports = (env, argv) => {
           : [new ReactRefreshWebpackPlugin()],
       )
       .concat(
-        WEBPACK_ANALYZE === "True"
+        WEBPACK_ANALYZE
           ? [
               new BundleAnalyzerPlugin({
                 analyzerMode: "static",
