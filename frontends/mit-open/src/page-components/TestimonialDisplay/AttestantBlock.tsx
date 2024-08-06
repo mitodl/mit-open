@@ -77,7 +77,7 @@ const AttestantNameBlock = styled.div<AttestantBlockChildProps>((props) => {
       color:
         props.color === "light"
           ? theme.custom.colors.lightGray2
-          : theme.custom.colors.silverGray,
+          : theme.custom.colors.silverGrayDark,
     },
   ]
 })
