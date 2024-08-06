@@ -199,10 +199,11 @@ const UpsertLearningPathDialog = NiceModal.create(
 interface UpsertUserListDialogProps {
   title: string
   userList?: UserList | null
+  onDestroy?: () => void
 }
 
 const UpsertUserListDialog = NiceModal.create(
-  ({ userList, title }: UpsertUserListDialogProps) => {
+  ({ userList, title, onDestroy }: UpsertUserListDialogProps) => {
     const modal = NiceModal.useModal()
     const createList = useUserListCreate()
     const updateList = useUserListUpdate()
@@ -286,7 +287,7 @@ const UpsertUserListDialog = NiceModal.create(
               disabled={formik.isSubmitting}
               onClick={() => {
                 modal.hide()
-                manageListDialogs.destroyUserList(userList!)
+                manageListDialogs.destroyUserList(userList!, onDestroy)
               }}
             >
               Delete
@@ -329,10 +330,11 @@ const DeleteLearningPathDialog = NiceModal.create(
 
 type DeleteUserListDialogProps = {
   userList: UserList
+  onDestroy?: () => void
 }
 
 const DeleteUserListDialog = NiceModal.create(
-  ({ userList }: DeleteUserListDialogProps) => {
+  ({ userList, onDestroy }: DeleteUserListDialogProps) => {
     const modal = NiceModal.useModal()
     const hideModal = modal.hide
     const destroyList = useUserListDestroy()
@@ -342,7 +344,8 @@ const DeleteUserListDialog = NiceModal.create(
         id: userList.id,
       })
       hideModal()
-    }, [destroyList, hideModal, userList])
+      onDestroy?.()
+    }, [destroyList, hideModal, userList, onDestroy])
 
     return (
       <Dialog
@@ -364,12 +367,12 @@ const manageListDialogs = {
   },
   destroyLearningPath: (resource: LearningPathResource) =>
     NiceModal.show(DeleteLearningPathDialog, { resource }),
-  upsertUserList: (userList?: UserList) => {
+  upsertUserList: (userList?: UserList, onDestroy?: () => void) => {
     const title = userList ? "Edit List" : "Create List"
-    NiceModal.show(UpsertUserListDialog, { title, userList })
+    NiceModal.show(UpsertUserListDialog, { title, userList, onDestroy })
   },
-  destroyUserList: (userList: UserList) =>
-    NiceModal.show(DeleteUserListDialog, { userList }),
+  destroyUserList: (userList: UserList, onDestroy?: () => void) =>
+    NiceModal.show(DeleteUserListDialog, { userList, onDestroy }),
 }
 
 export { manageListDialogs }
