@@ -7,9 +7,9 @@ from urllib.parse import urljoin
 from zoneinfo import ZoneInfo
 
 import dateparser
+from django.conf import settings
 
-from main import settings
-from main.utils import clean_data, now_in_utc
+from main.utils import now_in_utc
 from news_events.constants import ALL_AUDIENCES, FeedType
 from news_events.etl.utils import fetch_data_by_page, parse_date
 
@@ -18,8 +18,6 @@ MITPE_EVENTS_TITLE = "MIT Professional Education Events"
 MITPE_EVENTS_DESCRIPTION = """
 MIT Professional Education events.
 """
-MITPE_EVENTS_URL = urljoin(settings.MITPE_BASE_URL, "/events")
-MITPE_EVENTS_API_URL = urljoin(settings.MITPE_BASE_API_URL, "/feeds/events/")
 
 
 def extract() -> list[dict]:
@@ -30,7 +28,9 @@ def extract() -> list[dict]:
         list[dict]: News data in JSON format.
     """
     if settings.MITPE_BASE_API_URL:
-        return list(fetch_data_by_page(MITPE_EVENTS_API_URL))
+        return list(
+            fetch_data_by_page(urljoin(settings.MITPE_BASE_API_URL, "/feeds/events/"))
+        )
     else:
         log.warning("Missing required setting MITPE_BASE_API_URL")
 
@@ -111,10 +111,10 @@ def transform_item(item: dict) -> dict:
 
     return {
         "guid": item["id"],
-        "title": item["title"],
+        "title": html.unescape(item["title"]),
         "url": urljoin(settings.MITPE_BASE_URL, item["url"]),
-        "summary": clean_data(html.unescape(item["summary"])),
-        "content": clean_data(html.unescape(item["summary"])),
+        "summary": html.unescape(item["summary"]),
+        "content": html.unescape(item["summary"]),
         "image": transform_image(item),
         "detail": {
             "location": [],
@@ -155,9 +155,9 @@ def transform(events_data: list[dict]) -> list[dict]:
     return [
         {
             "title": MITPE_EVENTS_TITLE,
-            "url": MITPE_EVENTS_URL,
+            "url": urljoin(settings.MITPE_BASE_URL, "/events"),
             "feed_type": FeedType.events.name,
             "description": MITPE_EVENTS_DESCRIPTION,
-            "items": transform_items(events_data),
+            "items": [item for item in transform_items(events_data) if item],
         }
     ]

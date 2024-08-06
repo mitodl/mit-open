@@ -131,10 +131,8 @@ def transform_item(event_data: dict) -> dict:
     attributes = event_data.get("contentNodes", {})
     guid = event_data["contentKey"]
     text_date = attributes.get("Image_Text", {}).get("value", "")
-    try:
-        dt_utc = parse_date(text_date)
-    except:  # noqa: E722
-        logging.exception("unparsable date received - ignoring webinar '%s'", guid)
+    dt_utc = parse_date(text_date)
+    if not dt_utc:
         return None
     cta_button = attributes.get("CTA_Button_URL", {}).get("value", "")
     return {
@@ -149,7 +147,6 @@ def transform_item(event_data: dict) -> dict:
         "detail": {
             "location": ["Online"],
             "event_datetime": dt_utc,
-            "event_end_datetime": dt_utc,
             "event_type": [
                 topic["name"]
                 for topic in event_data.get("associations", {}).get("topics", [])

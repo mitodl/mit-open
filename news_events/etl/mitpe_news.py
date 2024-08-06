@@ -14,8 +14,6 @@ MITPE_NEWS_TITLE = "MIT Professional Education News"
 MITPE_NEWS_DESCRIPTION = """
 News and updates from MIT Professional Education.
 """
-MITPE_NEWS_URL = urljoin(settings.MITPE_BASE_URL, "/news")
-MITPE_NEWS_API_URL = urljoin(settings.MITPE_BASE_API_URL, "/feeds/news/")
 
 
 def extract() -> list[dict]:
@@ -26,7 +24,9 @@ def extract() -> list[dict]:
         list[dict]: News data in JSON format.
     """
     if settings.MITPE_BASE_API_URL:
-        return list(fetch_data_by_page(MITPE_NEWS_API_URL))
+        return list(
+            fetch_data_by_page(urljoin(settings.MITPE_BASE_API_URL, "/feeds/news/"))
+        )
     else:
         log.warning("Missing required setting MITPE_BASE_API_URL")
     return []
@@ -128,9 +128,9 @@ def transform(news_data: list[dict]) -> list[dict]:
     return [
         {
             "title": MITPE_NEWS_TITLE,
-            "url": MITPE_NEWS_URL,
+            "url": urljoin(settings.MITPE_BASE_URL, "/news"),
             "feed_type": FeedType.news.name,
             "description": MITPE_NEWS_DESCRIPTION,
-            "items": transform_items(news_data),
+            "items": [item for item in transform_items(news_data) if item],
         }
     ]
