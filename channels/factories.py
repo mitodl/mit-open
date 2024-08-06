@@ -26,6 +26,7 @@ class ChannelFactory(DjangoModelFactory):
 
     name = factory.fuzzy.FuzzyText(length=21)
     title = factory.Faker("text", max_nb_chars=50)
+    published = True
     public_description = factory.Faker("text", max_nb_chars=50)
     channel_type = factory.fuzzy.FuzzyChoice(ChannelType.names())
 
@@ -116,6 +117,9 @@ class ChannelTopicDetailFactory(DjangoModelFactory):
     class Meta:
         model = ChannelTopicDetail
 
+    class Params:
+        is_unpublished = factory.Trait(channel__published=False)
+
 
 class ChannelDepartmentDetailFactory(DjangoModelFactory):
     """Factory for a channels.models.ChannelDepartmentDetail object"""
@@ -128,6 +132,9 @@ class ChannelDepartmentDetailFactory(DjangoModelFactory):
     class Meta:
         model = ChannelDepartmentDetail
 
+    class Params:
+        is_unpublished = factory.Trait(channel__published=False)
+
 
 class ChannelUnitDetailFactory(DjangoModelFactory):
     """Factory for a channels.models.ChannelUnitDetail object"""
@@ -137,6 +144,9 @@ class ChannelUnitDetailFactory(DjangoModelFactory):
 
     class Meta:
         model = ChannelUnitDetail
+
+    class Params:
+        is_unpublished = factory.Trait(channel__published=False)
 
 
 class ChannelPathwayDetailFactory(DjangoModelFactory):

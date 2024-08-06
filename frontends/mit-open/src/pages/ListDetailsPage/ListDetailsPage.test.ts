@@ -100,7 +100,7 @@ describe("ListDetailsPage", () => {
       setup({ path, userSettings })
       await screen.findByRole("heading", { name: path.title })
 
-      const editButton = screen.queryByRole("button", { name: "Edit" })
+      const editButton = screen.queryByRole("button", { name: "Edit List" })
       expect(!!editButton).toBe(canEdit)
     },
   )
@@ -168,7 +168,7 @@ describe("ListDetailsPage", () => {
   test("Edit buttons opens editing dialog", async () => {
     const path = factories.learningResources.learningPath()
     setup({ path, userSettings: { is_learning_path_editor: true } })
-    const editButton = await screen.findByRole("button", { name: "Edit" })
+    const editButton = await screen.findByRole("button", { name: "Edit List" })
 
     const editList = jest.spyOn(manageListDialogs, "upsertLearningPath")
     editList.mockImplementationOnce(jest.fn())

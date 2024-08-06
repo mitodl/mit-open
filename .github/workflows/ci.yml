@@ -62,7 +62,7 @@ jobs:
           cache: "poetry"
 
       - name: Validate lockfile
-        run: poetry lock --check
+        run: poetry check --lock
 
       - name: Install dependencies
         run: poetry install --no-interaction

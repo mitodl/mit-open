@@ -293,7 +293,7 @@ describe("Home Page personalize section", () => {
     expect(link).toHaveAttribute(
       "href",
       routes.login({
-        pathname: routes.DASHBOARD,
+        pathname: routes.DASHBOARD_HOME,
       }),
     )
   })

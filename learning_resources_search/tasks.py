@@ -12,7 +12,9 @@ from celery.exceptions import Ignore
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from django.template.defaultfilters import pluralize
 from opensearchpy.exceptions import NotFoundError, RequestError
+from requests.models import PreparedRequest
 
 from learning_resources.etl.constants import RESOURCE_FILE_ETL_SOURCES
 from learning_resources.models import (
@@ -120,6 +122,8 @@ def _infer_percolate_group(percolate_query):
     Infer the heading name for the percolate query to be
     grouped under in the email
     """
+    if percolate_query.source_label() != "saved_search":
+        return percolate_query.source_description()
     group_keys = ["department", "topic", "offered_by"]
     original_query = OrderedDict(percolate_query.original_query)
     for key, val in original_query.items():
@@ -132,10 +136,13 @@ def _infer_percolate_group(percolate_query):
     return None
 
 
-def _infer_search_url(percolate_query):
+def _infer_percolate_group_url(percolate_query):
     """
     Infer the search URL for the percolate query
     """
+    source_channel = percolate_query.source_channel()
+    if source_channel:
+        return frontend_absolute_url(source_channel.channel_url)
     original_query = OrderedDict(percolate_query.original_query)
     query_string_params = {k: v for k, v in original_query.items() if v}
     if "endpoint" in query_string_params:
@@ -178,14 +185,27 @@ def _get_percolated_rows(resources, subscription_type):
             percolated_users = set(percolated.values_list("users", flat=True))
             all_users.update(percolated_users)
             query = percolated.first()
+            search_url = _infer_percolate_group_url(query)
+            req = PreparedRequest()
+            req.prepare_url(search_url, {"resource": resource.id})
+            resource_url = req.url
+            source_channel = query.source_channel()
             rows.extend(
                 [
                     {
-                        "resource_url": resource.url,
+                        "resource_url": resource_url,
                         "resource_title": resource.title,
+                        "resource_image_url": resource.image.url
+                        if resource.image
+                        else "",
+                        "resource_type": resource.resource_type,
                         "user_id": user,
+                        "source_label": query.source_label(),
+                        "source_channel_type": source_channel.channel_type
+                        if source_channel
+                        else "saved_search",
                         "group": _infer_percolate_group(query),
-                        "search_url": _infer_search_url(query),
+                        "search_url": search_url,
                     }
                     for user in percolated_users
                 ]
@@ -209,7 +229,6 @@ def send_subscription_emails(self, subscription_type, period="daily"):
     )
     rows = _get_percolated_rows(new_learning_resources, subscription_type)
     template_data = _group_percolated_rows(rows)
-
     email_tasks = celery.group(
         [
             attempt_send_digest_email_batch.si(user_template_items)
@@ -816,6 +835,30 @@ def finish_recreate_index(results, backing_indices):
     log.info("recreate_index has finished successfully!")
 
 
+def _generate_subscription_digest_subject(
+    sample_course, source_name, unique_resource_types, total_count, shortform
+):
+    prefix = "" if shortform else "MIT Learn: "
+
+    if sample_course["source_channel_type"] == "saved_search":
+        return (
+            f"{prefix}New"
+            f' "{source_name}" '
+            f"{unique_resource_types.pop().capitalize()}{pluralize(total_count)}"
+        )
+    preposition = "from"
+    if sample_course["source_channel_type"] == "topic":
+        preposition = "in"
+
+    suffix = "" if shortform else f": {sample_course['resource_title']}"
+
+    return (
+        f"{prefix}New"
+        f" {unique_resource_types.pop().capitalize()}{pluralize(total_count)} "
+        f"{preposition} {source_name}{suffix}"
+    )
+
+
 @app.task(
     acks_late=True,
     reject_on_worker_lost=True,
@@ -824,16 +867,40 @@ def finish_recreate_index(results, backing_indices):
 def attempt_send_digest_email_batch(user_template_items):
     for user_id, template_data in user_template_items:
         log.info("Sending email to user %s", user_id)
+        if not user_id:
+            continue
         user = User.objects.get(id=user_id)
-        total_count = sum([len(template_data[group]) for group in template_data])
-        subject = f"{settings.MITOPEN_TITLE} New Learning Resources for You"
-        send_template_email(
-            [user.email],
-            subject,
-            "email/subscribed_channel_digest.html",
-            context={
-                "documents": template_data,
-                "total_count": total_count,
-                "subject": subject,
-            },
-        )
+
+        unique_resource_types = set()
+        for group in template_data:
+            total_count = len(template_data[group])
+            unique_resource_types.update(
+                [resource["resource_type"] for resource in template_data[group]]
+            )
+            subject = _generate_subscription_digest_subject(
+                template_data[group][0],
+                group,
+                list(unique_resource_types),
+                total_count,
+                shortform=False,
+            )
+            # generate a shorter subject for use in the template
+            short_subject = _generate_subscription_digest_subject(
+                template_data[group][0],
+                group,
+                list(unique_resource_types),
+                total_count,
+                shortform=True,
+            )
+            send_template_email(
+                [user.email],
+                subject,
+                "email/subscribed_channel_digest.html",
+                context={
+                    "documents": template_data[group],
+                    "total_count": total_count,
+                    "subject": subject,
+                    "resource_group": group,
+                    "short_subject": short_subject,
+                },
+            )

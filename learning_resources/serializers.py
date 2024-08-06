@@ -11,7 +11,6 @@ from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from channels.models import Channel
 from learning_resources import constants, models
 from learning_resources.constants import (
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
@@ -21,7 +20,6 @@ from learning_resources.constants import (
     LevelType,
 )
 from learning_resources.etl.loaders import update_index
-from learning_resources.models import LearningResourceRelationship
 from main.serializers import COMMON_IGNORED_FIELDS, WriteableSerializerMethodField
 
 log = logging.getLogger(__name__)
@@ -42,7 +40,7 @@ class LearningResourceTopicSerializer(serializers.ModelSerializer):
     Serializer for LearningResourceTopic model
     """
 
-    channel_url = serializers.CharField(read_only=True)
+    channel_url = serializers.CharField(read_only=True, allow_null=True)
 
     class Meta:
         """Meta options for the serializer."""
@@ -145,16 +143,13 @@ class LearningResourcePlatformSerializer(serializers.ModelSerializer):
 
 
 class LearningResourceBaseDepartmentSerializer(serializers.ModelSerializer):
-    """Serializer for LearningResourceDepartment, minus school"""
+    """
+    Serializer for LearningResourceDepartment, minus school
 
-    channel_url = serializers.SerializerMethodField(read_only=True, allow_null=True)
+    The absence of the departments list is to avoid a circular serialization structure.
+    """
 
-    def get_channel_url(
-        self, instance: models.LearningResourceDepartment
-    ) -> str | None:
-        """Get the channel url for the department if it exists"""
-        channel = Channel.objects.filter(department_detail__department=instance).first()
-        return channel.channel_url if channel else None
+    channel_url = serializers.CharField(read_only=True, allow_null=True)
 
     class Meta:
         model = models.LearningResourceDepartment
@@ -164,6 +159,8 @@ class LearningResourceBaseDepartmentSerializer(serializers.ModelSerializer):
 class LearningResourceBaseSchoolSerializer(serializers.ModelSerializer):
     """
     Base serializer for LearningResourceSchool model, minus departments list
+
+    The absence of the departments list is to avoid a circular serialization structure.
     """
 
     class Meta:
@@ -319,13 +316,7 @@ class PodcastSerializer(serializers.ModelSerializer):
     Serializer for Podcasts
     """
 
-    episode_count = serializers.SerializerMethodField()
-
-    def get_episode_count(self, instance) -> int:
-        """Return the number of episodes in the podcast"""
-        return instance.learning_resource.children.filter(
-            relation_type=constants.LearningResourceRelationTypes.PODCAST_EPISODES.value
-        ).count()
+    episode_count = serializers.IntegerField()
 
     class Meta:
         model = models.Podcast
@@ -353,16 +344,11 @@ class VideoPlaylistSerializer(serializers.ModelSerializer):
 
     channel = VideoChannelSerializer(read_only=True, allow_null=True)
 
-    video_count = serializers.SerializerMethodField()
-
-    def get_video_count(self, instance) -> int:
-        """Return the number of videos in the playlist"""
-        return instance.learning_resource.children.filter(
-            relation_type=constants.LearningResourceRelationTypes.PLAYLIST_VIDEOS.value
-        ).count()
+    video_count = serializers.IntegerField()
 
     class Meta:
         model = models.VideoPlaylist
+        include = ("video_count",)
         exclude = ("learning_resource", *COMMON_IGNORED_FIELDS)
 
 
@@ -416,9 +402,11 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     )
     runs = LearningResourceRunSerializer(read_only=True, many=True, allow_null=True)
     image = serializers.SerializerMethodField()
-    learning_path_parents = serializers.SerializerMethodField()
-    user_list_parents = serializers.SerializerMethodField()
-    views = serializers.SerializerMethodField()
+    learning_path_parents = MicroLearningPathRelationshipSerializer(
+        many=True, read_only=True
+    )
+    user_list_parents = MicroUserListRelationshipSerializer(many=True, read_only=True)
+    views = serializers.IntegerField(source="views_count", read_only=True)
     learning_format = serializers.ListField(
         child=LearningResourceFormatSerializer(), read_only=True
     )
@@ -449,7 +437,7 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
             return True
 
     @extend_schema_field(LearningResourceImageSerializer(allow_null=True))
-    def get_image(self, instance) -> dict:
+    def get_image(self, instance) -> dict | None:
         """
         Return the resource.image if it exists. Otherwise, for learning paths only,
         return the image of the first child resource.
@@ -467,64 +455,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
             return None
         return None
 
-    @extend_schema_field(
-        MicroLearningPathRelationshipSerializer(many=True, allow_null=True)
-    )
-    def get_learning_path_parents(self, instance):
-        """# noqa: D401
-        Returns list of learning paths that resource is in, if the user has permission
-        """
-        request = self.context.get("request")
-        user = request.user if request else None
-        if (
-            user
-            and user.is_authenticated
-            and (
-                user.is_staff
-                or user.is_superuser
-                or user.groups.filter(name=constants.GROUP_STAFF_LISTS_EDITORS).first()
-                is not None
-            )
-        ):
-            return MicroLearningPathRelationshipSerializer(
-                LearningResourceRelationship.objects.filter(
-                    child=instance,
-                    relation_type=constants.LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value,
-                ),
-                many=True,
-            ).data
-        return []
-
-    @extend_schema_field(
-        MicroUserListRelationshipSerializer(many=True, allow_null=True)
-    )
-    def get_user_list_parents(self, instance):
-        """Return a list of user lists that the resource is in, for specific user"""
-        request = self.context.get("request")
-        user = request.user if request else None
-        if user and user.is_authenticated:
-            return MicroUserListRelationshipSerializer(
-                models.UserListRelationship.objects.filter(
-                    parent__author=user, child=instance
-                ),
-                many=True,
-            ).data
-        return []
-
-    @extend_schema_field(int)
-    def get_views(self, instance):
-        """Return the number of views for the resource."""
-
-        return models.LearningResourceViewEvent.objects.filter(
-            learning_resource=instance
-        ).count()
-
-    def to_representation(self, instance):
-        """Filter out unpublished runs"""
-        data = super().to_representation(instance)
-        data["runs"] = [run for run in data["runs"] if run["published"]]
-        return data
-
     class Meta:
         model = models.LearningResource
         read_only_fields = [
@@ -535,6 +465,8 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
             "certification_type",
             "professional",
             "views",
+            "learning_path_parents",
+            "user_list_parents",
         ]
         exclude = ["content_tags", "resources", "etl_source", *COMMON_IGNORED_FIELDS]
 

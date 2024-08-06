@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 0.15.0 (Released August 05, 2024)
+--------------
+
+- Performance fixes on LR queries (#1303)
+- Subscription management page (#1331)
+- Add certificate badge to drawer (#1307)
+- Lock file maintenance (#1360)
+- Update mcr.microsoft.com/playwright Docker tag to v1.45.3 (#1358)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.23 (#1357)
+
 Version 0.14.7 (Released August 01, 2024)
 --------------
 
