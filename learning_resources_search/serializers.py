@@ -17,7 +17,6 @@ from learning_resources.constants import (
     DEPARTMENTS,
     GROUP_STAFF_LISTS_EDITORS,
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
-    LEARNING_RESOURCE_SORTBY_OPTIONS,
     RESOURCE_CATEGORY_VALUES,
     CertificationType,
     LearningResourceFormat,
@@ -42,6 +41,7 @@ from learning_resources.serializers import (
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
+    LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS,
 )
 from learning_resources_search.models import PercolateQuery
 from learning_resources_search.utils import remove_child_queries
@@ -227,14 +227,6 @@ LEARNING_RESOURCE_AGGREGATIONS = [
 ]
 
 CONTENT_FILE_AGGREGATIONS = ["topic", "content_feature_type", "platform", "offered_by"]
-
-LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS = {
-    "featured": {
-        "title": "Featured",
-        "sort": "featured_rank",
-    },
-    **LEARNING_RESOURCE_SORTBY_OPTIONS,
-}
 
 
 class SearchRequestSerializer(serializers.Serializer):

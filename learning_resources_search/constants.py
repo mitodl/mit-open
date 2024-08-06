@@ -6,6 +6,8 @@ from enum import Enum
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
 from urllib3.exceptions import TimeoutError as UrlTimeoutError
 
+from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
+
 ALIAS_ALL_INDICES = "all"
 COURSE_TYPE = "course"
 PROGRAM_TYPE = "program"
@@ -376,3 +378,11 @@ SOURCE_EXCLUDED_FIELDS = [
     "is_learning_material",
     "resource_age_date",
 ]
+
+LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS = {
+    "featured": {
+        "title": "Featured",
+        "sort": "featured_rank",
+    },
+    **LEARNING_RESOURCE_SORTBY_OPTIONS,
+}

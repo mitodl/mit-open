@@ -20,6 +20,7 @@ from learning_resources_search.constants import (
     DEPARTMENT_QUERY_FIELDS,
     LEARNING_RESOURCE,
     LEARNING_RESOURCE_QUERY_FIELDS,
+    LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS,
     LEARNING_RESOURCE_TYPES,
     RESOURCEFILE_QUERY_FIELDS,
     RUN_INSTRUCTORS_QUERY_FIELDS,
@@ -29,9 +30,6 @@ from learning_resources_search.constants import (
     TOPICS_QUERY_FIELDS,
 )
 from learning_resources_search.models import PercolateQuery
-from learning_resources_search.serializers import (
-    LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS,
-)
 from learning_resources_search.utils import (
     adjust_search_for_percolator,
     document_percolated_actions,

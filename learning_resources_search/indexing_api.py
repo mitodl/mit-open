@@ -53,16 +53,17 @@ def clear_featured_rank(rank, clear_all_greater_then):
     """
 
     conn = get_conn()
-    if clear_all_greater_then:
-        query = {
-            "range": {
-                "featured_rank": {
-                    "gte": rank,
-                }
+    query = {
+        "range": {
+            "featured_rank": {
+                "gte": rank,
             }
         }
-    else:
-        query = {"term": {"featured_rank": rank}}
+    }
+
+    if not clear_all_greater_then:
+        query["range"]["featured_rank"]["lt"] = rank + 1
+
     for alias in get_active_aliases(conn):
         es_response = conn.update_by_query(
             index=alias,
