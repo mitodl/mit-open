@@ -14,9 +14,6 @@ class FeedImage(TimestampedModel):
     description = models.CharField(max_length=1024, blank=True)
     alt = models.CharField(max_length=1024, blank=True)
 
-    class Meta:
-        unique_together = ["url", "description", "alt"]
-
     def __str__(self):
         return self.url
 

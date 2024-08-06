@@ -22,9 +22,5 @@ class Migration(migrations.Migration):
             name="event_end_datetime",
             field=models.DateTimeField(db_index=True, null=True),
         ),
-        migrations.AlterUniqueTogether(
-            name="feedimage",
-            unique_together={("url", "description", "alt")},
-        ),
         migrations.RunPython(set_end_datetime, reverse_code=migrations.RunPython.noop),
     ]

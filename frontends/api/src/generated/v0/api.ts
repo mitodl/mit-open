@@ -798,19 +798,19 @@ export interface FeedImage {
      * @type {string}
      * @memberof FeedImage
      */
-    'url': string;
+    'url'?: string;
     /**
      *
      * @type {string}
      * @memberof FeedImage
      */
-    'description': string;
+    'description'?: string;
     /**
      *
      * @type {string}
      * @memberof FeedImage
      */
-    'alt': string;
+    'alt'?: string;
 }
 /**
  * @type FeedItem
