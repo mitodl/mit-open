@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
     dependencies = [
         ("learning_resources", "0060_partially_populate_availability"),
-        ("channels", "0013_alter_channel_channel_type"),
+        ("channels", "0015_channel_published"),
     ]
 
     operations = [
