@@ -1364,10 +1364,7 @@ components:
           type: string
           maxLength: 1024
       required:
-      - alt
-      - description
       - id
-      - url
     FeedItem:
       oneOf:
       - $ref: '#/components/schemas/NewsFeedItem'
