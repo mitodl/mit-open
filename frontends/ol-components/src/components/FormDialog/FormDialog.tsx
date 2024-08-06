@@ -1,15 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import styled from "@emotion/styled"
-import { Dialog } from "../Dialog/Dialog"
+import { Button, ActionButton } from "../Button/Button"
+import type { ButtonProps } from "../Button/Button"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from "@mui/material/DialogTitle"
 import type { DialogProps } from "@mui/material/Dialog"
+import { RiCloseLine } from "@remixicon/react"
 
-const FormContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  margin-bottom: -12px;
-`
+const topRightStyle: React.CSSProperties = {
+  position: "absolute",
+  top: 0,
+  right: 0,
+}
 interface FormDialogProps {
   /**
    * Whether the dialog is currently open.
@@ -19,14 +22,6 @@ interface FormDialogProps {
    * Dialog title.
    */
   title: string
-  /**
-   * Content (e.g., text) of confirm button in DialogActions
-   */
-  confirmText?: string
-  /**
-   * Content (e.g., text) of cancel button in DialogActions
-   */
-  cancelText?: string
   /**
    * Called when modal is closed.
    */
@@ -59,7 +54,22 @@ interface FormDialogProps {
    * Class applied to the `<form />` element.
    */
   formClassName?: string
-
+  /**
+   * Content (e.g., text) of cancel button in DialogActions
+   */
+  cancelButtonContent?: React.ReactNode
+  /**
+   * Content (e.g., text) of submit button in DialogActions
+   */
+  submitButtonContent?: React.ReactNode
+  /**
+   * Extra props passed to the cancel button
+   */
+  cancelButtonProps?: ButtonProps
+  /**
+   * Extra props passed to the cancel button
+   */
+  submitButtonProps?: ButtonProps
   /**
    * MUI Dialog's [TransitionProps](https://mui.com/material-ui/api/dialog/#props)
    */
@@ -70,12 +80,10 @@ interface FormDialogProps {
    * See [fullWidth](https://mui.com/material-ui/api/dialog/#Dialog-prop-fullWidth)
    */
   fullWidth?: boolean
-
-  className?: string
 }
 
 /**
- * A wrapper around the Dialog components to be used with forms. Includes a
+ * A wrapper around MUI's Dialog components to be used with forms. Includes a
  * `<form />` element as well as cancel and submit buttons.
  *
  * See Also
@@ -92,28 +100,32 @@ const FormDialog: React.FC<FormDialogProps> = ({
   fullWidth,
   title,
   noValidate,
+  formClassName,
   children,
   footerContent,
-  confirmText = "Submit",
-  cancelText = "Cancel",
-  className,
+  cancelButtonContent = "Cancel",
+  submitButtonContent = "Save",
+  cancelButtonProps,
+  submitButtonProps,
+  TransitionProps,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const handleSubmit: React.FormEventHandler<HTMLFormElement> = useCallback(
-    async (event) => {
+    async (e) => {
       setIsSubmitting(true)
       try {
-        await onSubmit(event)
+        await onSubmit(e)
       } finally {
         setIsSubmitting(false)
       }
     },
     [onSubmit],
   )
-
   const paperProps = useMemo(() => {
+    const className = formClassName ? { className: formClassName } : {}
     const props: DialogProps["PaperProps"] = {
       component: "form",
+      ...className,
       // when component is "form", as above, PaperProps should include
       // `onSubmit` and other form properties but does not.
       // This is the recommended approach for ensuring modal form content is
@@ -122,7 +134,7 @@ const FormDialog: React.FC<FormDialogProps> = ({
       noValidate,
     }
     return props
-  }, [handleSubmit, noValidate])
+  }, [formClassName, handleSubmit, noValidate])
 
   useEffect(() => {
     onReset()
@@ -130,20 +142,39 @@ const FormDialog: React.FC<FormDialogProps> = ({
 
   return (
     <Dialog
-      title={title}
+      keepMounted={false}
       open={open}
       fullWidth={fullWidth}
-      confirmText={confirmText}
-      cancelText={cancelText}
       onClose={onClose}
-      isSubmitting={isSubmitting}
-      className={className}
       PaperProps={paperProps}
+      TransitionProps={TransitionProps}
     >
-      <FormContent>
-        {children}
-        {footerContent}
-      </FormContent>
+      <DialogTitle>{title}</DialogTitle>
+      <div style={topRightStyle}>
+        <ActionButton
+          variant="text"
+          color="secondary"
+          onClick={onClose}
+          aria-label="Close"
+        >
+          <RiCloseLine />
+        </ActionButton>
+      </div>
+      <DialogContent dividers={true}>{children}</DialogContent>
+      <DialogActions>
+        <Button variant="secondary" onClick={onClose} {...cancelButtonProps}>
+          {cancelButtonContent}
+        </Button>
+        <Button
+          variant="primary"
+          type="submit"
+          disabled={isSubmitting}
+          {...submitButtonProps}
+        >
+          {submitButtonContent}
+        </Button>
+      </DialogActions>
+      {footerContent && <DialogContent>{footerContent}</DialogContent>}
     </Dialog>
   )
 }

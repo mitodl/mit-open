@@ -41,7 +41,7 @@ test("It renders form content", () => {
 test("It calls submit when pressing submit", async () => {
   const { onSubmit } = setup()
   expect(onSubmit).not.toHaveBeenCalled()
-  await user.click(screen.getByRole("button", { name: "Submit" }))
+  await user.click(screen.getByRole("button", { name: "Save" }))
   expect(onSubmit).toHaveBeenCalledWith(
     expect.objectContaining({ type: "submit" }),
   )
@@ -91,7 +91,7 @@ test("The submit button is disabled while submitting", async () => {
     return submission
   })
   setup({ onSubmit })
-  const submitButton = screen.getByRole("button", { name: "Submit" })
+  const submitButton = screen.getByRole("button", { name: "Save" })
   expect(submitButton).not.toBeDisabled()
   await user.click(submitButton)
   expect(submitButton).toBeDisabled()
@@ -102,28 +102,34 @@ test("The submit button is disabled while submitting", async () => {
 
 test.each([
   {
-    confirmText: undefined,
-    expected: "Submit",
+    submitButtonContent: undefined,
+    expected: "Save",
   },
   {
-    confirmText: "Yes, save!",
+    submitButtonContent: "Yes, save!",
     expected: "Yes, save!",
   },
-])("The 'Submit' button text is customizable", ({ confirmText, expected }) => {
-  setup({ confirmText })
-  screen.getByRole("button", { name: expected })
-})
+])(
+  "The 'Save' button text is customizable",
+  ({ submitButtonContent, expected }) => {
+    setup({ submitButtonContent })
+    screen.getByRole("button", { name: expected })
+  },
+)
 
 test.each([
   {
-    confirmText: undefined,
+    submitButtonContent: undefined,
     expected: "Cancel",
   },
   {
-    confirmText: "No, cancel!",
+    submitButtonContent: "No, cancel!",
     expected: "No, cancel!",
   },
-])("The 'Cancel' button text is customizable", ({ confirmText, expected }) => {
-  setup({ confirmText })
-  screen.getByRole("button", { name: expected })
-})
+])(
+  "The 'Cancel' button text is customizable",
+  ({ submitButtonContent, expected }) => {
+    setup({ submitButtonContent })
+    screen.getByRole("button", { name: expected })
+  },
+)

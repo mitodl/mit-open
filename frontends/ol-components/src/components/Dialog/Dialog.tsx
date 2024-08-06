@@ -7,8 +7,6 @@ import { Button, ActionButton } from "../Button/Button"
 import DialogActions from "@mui/material/DialogActions"
 import { RiCloseLine } from "@remixicon/react"
 import Typography from "@mui/material/Typography"
-import Slide from "@mui/material/Slide"
-import { TransitionProps } from "@mui/material/transitions"
 
 const Close = styled.div`
   position: absolute;
@@ -26,7 +24,7 @@ const Content = styled.div`
   margin: 28px 28px 40px;
 `
 
-export const Actions = styled(DialogActions)`
+const Actions = styled(DialogActions)`
   margin: 0 28px 28px;
   padding: 0;
   gap: 4px;
@@ -35,17 +33,6 @@ export const Actions = styled(DialogActions)`
     margin-left: 0;
   }
 `
-
-const Transition = React.forwardRef(
-  (
-    props: TransitionProps & {
-      children: React.ReactElement
-    },
-    ref: React.Ref<unknown>,
-  ) => {
-    return <Slide direction="down" ref={ref} {...props} timeout={400} />
-  },
-)
 
 type DialogProps = {
   className?: string
@@ -63,8 +50,11 @@ type DialogProps = {
    */
   fullWidth?: boolean
   showFooter?: boolean
-  isSubmitting?: boolean
-  PaperProps?: MuiDialogProps["PaperProps"]
+
+  /**
+   * MUI Dialog's [TransitionProps](https://mui.com/material-ui/api/dialog/#props)
+   */
+  TransitionProps?: MuiDialogProps["TransitionProps"]
 
   disableEnforceFocus?: MuiDialogProps["disableEnforceFocus"]
 }
@@ -88,11 +78,10 @@ const Dialog: React.FC<DialogProps> = ({
   fullWidth,
   className,
   showFooter = true,
-  isSubmitting = false,
-  PaperProps,
+  TransitionProps,
   disableEnforceFocus,
 }) => {
-  const [confirming, setConfirming] = useState(isSubmitting)
+  const [confirming, setConfirming] = useState(false)
 
   const handleConfirm = useCallback(async () => {
     try {
@@ -112,9 +101,8 @@ const Dialog: React.FC<DialogProps> = ({
       fullWidth={fullWidth}
       open={open}
       onClose={onClose}
+      TransitionProps={TransitionProps}
       disableEnforceFocus={disableEnforceFocus}
-      PaperProps={PaperProps}
-      TransitionComponent={Transition}
     >
       <Close>
         <ActionButton
@@ -142,9 +130,8 @@ const Dialog: React.FC<DialogProps> = ({
           </Button>
           <Button
             variant="primary"
-            type="submit"
-            onClick={onConfirm && handleConfirm}
-            disabled={confirming || isSubmitting}
+            onClick={handleConfirm}
+            disabled={confirming}
           >
             {confirmText}
           </Button>

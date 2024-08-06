@@ -46,10 +46,6 @@ const baseInputStyles = (theme: Theme) => ({
   "& input:placeholder-shown": {
     textOverflow: "ellipsis",
   },
-  "& textarea": {
-    paddingTop: "6px",
-    paddingBottom: "7px",
-  },
 })
 
 /**

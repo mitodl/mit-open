@@ -23,8 +23,8 @@ import invariant from "tiny-invariant"
 const configOverrides = { placeholder: "Write your article here..." }
 
 const postSchema = Yup.object().shape({
-  title: Yup.string().default("").required("Title is required"),
-  html: Yup.string().default("").required("Article body is required"),
+  title: Yup.string().default("").required("Title is required."),
+  html: Yup.string().default("").required("Article body is required."),
 })
 
 type FormValues = Yup.InferType<typeof postSchema>
