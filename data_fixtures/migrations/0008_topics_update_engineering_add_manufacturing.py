@@ -37,7 +37,7 @@ def rollback_new_mapping(apps, schema_editor):
     Channel = apps.get_model("channels", "Channel")
 
     topic = LearningResourceTopic.objects.filter(
-        parent__topic_uuid="952604ab-ae23-45b3-a040-0e5f26fe42df", name="Manufacturing"
+        topic_uuid="4176e385-92c5-4e02-b3cc-4f34d9a4bf40",
     ).get()
 
     Channel.objects.filter(
