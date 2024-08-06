@@ -9,7 +9,7 @@ fail() {
 	exit 1
 }
 
-poetry run python ./manage.py makemigrations --no-input --dry-run >&"$TMPFILE"
+RUN_DATA_MIGRATIONS=True poetry run python ./manage.py makemigrations --no-input --dry-run >&"$TMPFILE"
 if [[ $? -ne 0 ]]; then
 	# makemigrations has returned a non-zero for some reason, possibly
 	# because it needs input but --no-input is set
