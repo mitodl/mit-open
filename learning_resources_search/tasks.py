@@ -13,7 +13,7 @@ import celery
 from celery.exceptions import Ignore
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db.models import Q, Count
+from django.db.models import Count, Q
 from django.template.defaultfilters import pluralize
 from opensearchpy.exceptions import NotFoundError, RequestError
 from requests.models import PreparedRequest

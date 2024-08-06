@@ -697,9 +697,11 @@ def serialize_bulk_learning_resources(ids):
     Args:
         ids(list of int): List of learning_resource id's
     """
-    for learning_resource in LearningResource.objects.filter(
-        id__in=ids
-    ).for_serialization().annotate(in_featured_lists=Count("parents__parent__channel")):
+    for learning_resource in (
+        LearningResource.objects.filter(id__in=ids)
+        .for_serialization()
+        .annotate(in_featured_lists=Count("parents__parent__channel"))
+    ):
         yield serialize_learning_resource_for_bulk(learning_resource)
 
 
