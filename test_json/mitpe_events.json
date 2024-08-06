@@ -1,0 +1,42 @@
+[
+  {
+    "id": "69bbc887-54ee-493d-8cd5-3287565817de",
+    "title": "EmTech",
+    "start_date": "2023-11-14",
+    "end_date": "2023-11-15",
+    "summary": "MIT Technology Review&#039;s flagship event on emerging technology and global trends.",
+    "time_range": "9:00 AM - 5:00 PM",
+    "image": "/sites/default/files/2023-11/emtech%20mit%202023_0.jpeg",
+    "url": "/events/emtech"
+  },
+  {
+    "id": "61054869-2300-4300-b702-c478056b8b82",
+    "title": "Advanced Study Program - MIT Employee Open House",
+    "start_date": "2023-04-25",
+    "end_date": "2023-04-25",
+    "summary": "MIT Professional Education’s Advanced Study Program (ASP) offers working professionals or qualified students the opportunity to study at MIT as non-degree students—either part time or full time—for a semester, year, or longer. \r\nWondering if the ASP is right for you? Join us for our Virtual Open House on April 25.",
+    "time_range": "12:00- 1:00 PM EDT",
+    "image": "/sites/default/files/2023-04/MITPE-OpenHouse-AdvStudyProgram-facebook-1200x628.jpg",
+    "url": "/events/advanced-study-program-mit-employee-open-house"
+  },
+  {
+    "id": "91480b20-af8b-4b74-938f-86c6b46bffcb",
+    "title": "OnDemand Open House: Professional Certificate Program Design &amp; Manufacturing",
+    "start_date": "2023-05-12",
+    "end_date": "2023-05-12",
+    "summary": "Missed our Virtual Open House for the Professional Certificate Program in Design &amp; Manufacturing? Learn how this certificate prepares you to reduce time to market while adapting the latest materials and technologies in our on-demand recording.",
+    "time_range": "Available On Demand",
+    "image": "/sites/default/files/2023-04/MITPE-OnDemand-OpenHouse-DesignAndManufacturing-CertificateProgram-homepage-1368x916%20%281%29.jpg",
+    "url": "/node/1106"
+  },
+  {
+    "id": "43db0ed3-ce74-43ff-ac61-2d469a02c023",
+    "title": "Professor Ramesh Raskar speaks at NextMed Health 2023 on decentralized AI for health",
+    "start_date": "2023-03-13",
+    "end_date": "2023-03-16",
+    "summary": "Join a unique interdisciplinary community to discuss the ways emerging technologies can improve healthcare.",
+    "time_range": "Hotel Del Coronado",
+    "image": "/sites/default/files/2023-02/Screenshot%202023-02-24%20at%2011.50.12_1.png",
+    "url": "/events/professor-ramesh-raskar-speaks-nextmed-health-2023-decentralized-ai-health"
+  }
+]

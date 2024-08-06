@@ -1337,6 +1337,10 @@ components:
         event_datetime:
           type: string
           format: date-time
+        event_end_datetime:
+          type: string
+          format: date-time
+          nullable: true
       required:
       - audience
       - event_datetime
@@ -1360,7 +1364,10 @@ components:
           type: string
           maxLength: 1024
       required:
+      - alt
+      - description
       - id
+      - url
     FeedItem:
       oneOf:
       - $ref: '#/components/schemas/NewsFeedItem'

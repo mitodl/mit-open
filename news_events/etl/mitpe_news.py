@@ -4,10 +4,10 @@ import html
 import logging
 from urllib.parse import urljoin
 
-from main import settings
-from main.utils import clean_data
+from django.conf import settings
+
 from news_events.constants import FeedType
-from news_events.etl.utils import fetch_data_by_page
+from news_events.etl.utils import fetch_data_by_page, parse_date
 
 log = logging.getLogger(__name__)
 MITPE_NEWS_TITLE = "MIT Professional Education News"
@@ -29,7 +29,6 @@ def extract() -> list[dict]:
         return list(fetch_data_by_page(MITPE_NEWS_API_URL))
     else:
         log.warning("Missing required setting MITPE_BASE_API_URL")
-
     return []
 
 
@@ -45,12 +44,33 @@ def transform_image(news_dict: dict) -> dict:
 
     """
     if news_dict.get("image"):
+        img_text = html.unescape(news_dict["title"])
         return {
             "url": urljoin(settings.MITPE_BASE_URL, news_dict["image"]),
-            "alt": news_dict.get("title"),
-            "description": news_dict.get("title"),
+            "alt": img_text,
+            "description": img_text,
         }
     return {}
+
+
+def parse_authors(authors_str: str) -> list[str]:
+    """
+    Parse the authors from the MIT Professional Education news API.
+
+    Args:
+        authors_str (str): extracted news item authors data
+
+    Returns:
+        list[str]: list of authors
+
+    """
+    authors = authors_str.strip()
+    for splitter in ["and", "|"]:
+        if splitter in authors:
+            return [
+                author.strip() for author in authors.split(splitter) if author.strip()
+            ]
+    return [authors] if authors else []
 
 
 def transform_item(item: list[dict]) -> dict:
@@ -66,15 +86,15 @@ def transform_item(item: list[dict]) -> dict:
     """
     return {
         "guid": item["id"],
-        "title": item["title"],
+        "title": html.unescape(item["title"]),
         "url": urljoin(settings.MITPE_BASE_URL, item["url"]),
-        "summary": clean_data(html.unescape(item["summary"])),
-        "content": clean_data(html.unescape(item["summary"])),
+        "summary": html.unescape(item["summary"]),
+        "content": html.unescape(item["summary"]),
         "image": transform_image(item),
         "detail": {
-            "authors": [html.unescape(item["author"])],
+            "authors": parse_authors(item["author"]),
             "topics": [],
-            "publish_date": item["date"],
+            "publish_date": parse_date(item["date"]),
         },
     }
 

@@ -797,6 +797,12 @@ export interface FeedEventDetail {
    * @memberof FeedEventDetail
    */
   event_datetime: string
+  /**
+   *
+   * @type {string}
+   * @memberof FeedEventDetail
+   */
+  event_end_datetime?: string | null
 }
 /**
  * Serializer for FeedImage
@@ -815,19 +821,19 @@ export interface FeedImage {
    * @type {string}
    * @memberof FeedImage
    */
-  url?: string
+  url: string
   /**
    *
    * @type {string}
    * @memberof FeedImage
    */
-  description?: string
+  description: string
   /**
    *
    * @type {string}
    * @memberof FeedImage
    */
-  alt?: string
+  alt: string
 }
 /**
  * @type FeedItem
