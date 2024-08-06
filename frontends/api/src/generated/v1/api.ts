@@ -5005,12 +5005,13 @@ export type ResourceTypeEnum =
   (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
 
 /**
- * * `id` - Object ID ascending * `-id` - Object ID descending * `readable_id` - Readable ID ascending * `-readable_id` - Readable ID descending * `last_modified` - Last Modified Date ascending * `-last_modified` - Last Modified Date descending * `new` - Newest resources first * `start_date` - Start Date ascending * `-start_date` - Start Date descending * `mitcoursenumber` - MIT course number ascending * `-mitcoursenumber` - MIT course number descending * `views` - Popularity ascending * `-views` - Popularity descending * `upcoming` - Next start date ascending
+ * * `featured` - Featured * `id` - Object ID ascending * `-id` - Object ID descending * `readable_id` - Readable ID ascending * `-readable_id` - Readable ID descending * `last_modified` - Last Modified Date ascending * `-last_modified` - Last Modified Date descending * `new` - Newest resources first * `start_date` - Start Date ascending * `-start_date` - Start Date descending * `mitcoursenumber` - MIT course number ascending * `-mitcoursenumber` - MIT course number descending * `views` - Popularity ascending * `-views` - Popularity descending * `upcoming` - Next start date ascending
  * @export
  * @enum {string}
  */
 
 export const SortbyEnumDescriptions = {
+  featured: "Featured",
   id: "Object ID ascending",
   "-id": "Object ID descending",
   readable_id: "Readable ID ascending",
@@ -5028,6 +5029,10 @@ export const SortbyEnumDescriptions = {
 } as const
 
 export const SortbyEnum = {
+  /**
+   * Featured
+   */
+  Featured: "featured",
   /**
    * Object ID ascending
    */
@@ -9409,7 +9414,6 @@ export const FeaturedApiAxiosParamCreator = function (
   return {
     /**
      * Get a paginated list of featured resources
-     * @summary List
      * @param {boolean} [certification]
      * @param {Array<FeaturedListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
@@ -9610,7 +9614,6 @@ export const FeaturedApiFp = function (configuration?: Configuration) {
   return {
     /**
      * Get a paginated list of featured resources
-     * @summary List
      * @param {boolean} [certification]
      * @param {Array<FeaturedListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
@@ -9732,7 +9735,6 @@ export const FeaturedApiFactory = function (
   return {
     /**
      * Get a paginated list of featured resources
-     * @summary List
      * @param {FeaturedApiFeaturedListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9931,7 +9933,6 @@ export interface FeaturedApiFeaturedRetrieveRequest {
 export class FeaturedApi extends BaseAPI {
   /**
    * Get a paginated list of featured resources
-   * @summary List
    * @param {FeaturedApiFeaturedListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -11710,7 +11711,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesSearchRetrieveResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesSearchRetrieveResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
@@ -11888,7 +11889,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesSearchRetrieveResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesSearchRetrieveResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
@@ -12149,8 +12150,8 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   readonly resource_type?: Array<LearningResourcesSearchRetrieveResourceTypeEnum>
 
   /**
-   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
-   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
+   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+   * @type {'featured' | 'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly sortby?: LearningResourcesSearchRetrieveSortbyEnum
@@ -12383,6 +12384,7 @@ export type LearningResourcesSearchRetrieveResourceTypeEnum =
  * @export
  */
 export const LearningResourcesSearchRetrieveSortbyEnum = {
+  Featured: "featured",
   Id: "id",
   Id2: "-id",
   ReadableId: "readable_id",
@@ -12430,7 +12432,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionCheckListResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionCheckListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionCheckListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
@@ -12601,7 +12603,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionListResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
@@ -12766,7 +12768,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
@@ -13010,7 +13012,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionCheckListResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionCheckListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionCheckListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
@@ -13107,7 +13109,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionListResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
      * @param {*} [options] Override http request option.
@@ -13201,7 +13203,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
-     * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+     * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
@@ -13593,8 +13595,8 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly resource_type?: Array<LearningResourcesUserSubscriptionCheckListResourceTypeEnum>
 
   /**
-   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
-   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
+   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+   * @type {'featured' | 'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly sortby?: LearningResourcesUserSubscriptionCheckListSortbyEnum
@@ -13754,8 +13756,8 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>
 
   /**
-   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
-   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
+   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+   * @type {'featured' | 'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
    */
   readonly sortby?: LearningResourcesUserSubscriptionListSortbyEnum
@@ -13908,8 +13910,8 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly resource_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>
 
   /**
-   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
-   * @type {'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
+   * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
+   * @type {'featured' | 'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
    */
   readonly sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum
@@ -14273,6 +14275,7 @@ export type LearningResourcesUserSubscriptionCheckListResourceTypeEnum =
  * @export
  */
 export const LearningResourcesUserSubscriptionCheckListSortbyEnum = {
+  Featured: "featured",
   Id: "id",
   Id2: "-id",
   ReadableId: "readable_id",
@@ -14464,6 +14467,7 @@ export type LearningResourcesUserSubscriptionListResourceTypeEnum =
  * @export
  */
 export const LearningResourcesUserSubscriptionListSortbyEnum = {
+  Featured: "featured",
   Id: "id",
   Id2: "-id",
   ReadableId: "readable_id",
@@ -14651,6 +14655,7 @@ export type LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum =
  * @export
  */
 export const LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum = {
+  Featured: "featured",
   Id: "id",
   Id2: "-id",
   ReadableId: "readable_id",

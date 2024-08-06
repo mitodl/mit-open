@@ -1124,7 +1124,6 @@ paths:
     get:
       operationId: featured_list
       description: Get a paginated list of featured resources
-      summary: List
       parameters:
       - in: query
         name: certification
@@ -2507,6 +2506,7 @@ paths:
         name: sortby
         schema:
           enum:
+          - featured
           - id
           - -id
           - readable_id
@@ -2526,6 +2526,7 @@ paths:
         description: |-
           If the parameter starts with '-' the sort is in descending order
 
+          * `featured` - Featured
           * `id` - Object ID ascending
           * `-id` - Object ID descending
           * `readable_id` - Readable ID ascending
@@ -2944,6 +2945,7 @@ paths:
         name: sortby
         schema:
           enum:
+          - featured
           - id
           - -id
           - readable_id
@@ -2963,6 +2965,7 @@ paths:
         description: |-
           If the parameter starts with '-' the sort is in descending order
 
+          * `featured` - Featured
           * `id` - Object ID ascending
           * `-id` - Object ID descending
           * `readable_id` - Readable ID ascending
@@ -3406,6 +3409,7 @@ paths:
         name: sortby
         schema:
           enum:
+          - featured
           - id
           - -id
           - readable_id
@@ -3425,6 +3429,7 @@ paths:
         description: |-
           If the parameter starts with '-' the sort is in descending order
 
+          * `featured` - Featured
           * `id` - Object ID ascending
           * `-id` - Object ID descending
           * `readable_id` - Readable ID ascending
@@ -3859,6 +3864,7 @@ paths:
         name: sortby
         schema:
           enum:
+          - featured
           - id
           - -id
           - readable_id
@@ -3878,6 +3884,7 @@ paths:
         description: |-
           If the parameter starts with '-' the sort is in descending order
 
+          * `featured` - Featured
           * `id` - Object ID ascending
           * `-id` - Object ID descending
           * `readable_id` - Readable ID ascending
@@ -9559,6 +9566,7 @@ components:
           description: |-
             If the parameter starts with '-' the sort is in descending order
 
+            * `featured` - Featured
             * `id` - Object ID ascending
             * `-id` - Object ID descending
             * `readable_id` - Readable ID ascending
@@ -10766,6 +10774,7 @@ components:
       - video_playlist
     SortbyEnum:
       enum:
+      - featured
       - id
       - -id
       - readable_id
@@ -10782,6 +10791,7 @@ components:
       - upcoming
       type: string
       description: |-
+        * `featured` - Featured
         * `id` - Object ID ascending
         * `-id` - Object ID descending
         * `readable_id` - Readable ID ascending
@@ -10797,6 +10807,7 @@ components:
         * `-views` - Popularity descending
         * `upcoming` - Next start date ascending
       x-enum-descriptions:
+      - Featured
       - Object ID ascending
       - Object ID descending
       - Readable ID ascending
