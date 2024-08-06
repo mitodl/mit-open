@@ -47,7 +47,7 @@ const TopicBox = styled(Link)`
   overflow: hidden;
 
   svg:last-child {
-    display: none;
+    color: ${theme.custom.colors.white};
     flex: 0 0 20px;
   }
 
@@ -65,7 +65,7 @@ const TopicBox = styled(Link)`
 const TopicBoxContent = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   gap: 10px;
 
   svg {
@@ -78,10 +78,6 @@ const TopicBoxContent = styled.div`
   }}
 `
 
-// This should have these rules - temporarily disabled for now:
-// white-space: nowrap;
-// text-overflow: ellipsis;
-// overflow: hidden;
 const TopicBoxName = styled.p`
   flex-grow: 1;
   margin: 0;
@@ -102,17 +98,19 @@ const BrowseTopicsSection: React.FC = () => {
       <Container>
         <Title variant="h2">Browse by Topic</Title>
         <Topics>
-          {topics?.results.map(({ id, name, channel_url: channelUrl }) => {
-            return (
-              <TopicBox key={id} to={channelUrl!}>
-                <TopicBoxContent>
-                  <RootTopicIcon name={name} />
-                  <TopicBoxName>{name}</TopicBoxName>
-                  <RiArrowRightLine />
-                </TopicBoxContent>
-              </TopicBox>
-            )
-          })}
+          {topics?.results.map(
+            ({ id, name, channel_url: channelUrl, icon }) => {
+              return (
+                <TopicBox key={id} to={channelUrl!}>
+                  <TopicBoxContent>
+                    <RootTopicIcon icon={icon} />
+                    <TopicBoxName>{name}</TopicBoxName>
+                    <RiArrowRightLine />
+                  </TopicBoxContent>
+                </TopicBox>
+              )
+            },
+          )}
         </Topics>
         <SeeAllButton href="/topics/" size="large" responsive>
           See all
