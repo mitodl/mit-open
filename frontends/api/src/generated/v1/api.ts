@@ -9414,6 +9414,7 @@ export const FeaturedApiAxiosParamCreator = function (
   return {
     /**
      * Get a paginated list of featured resources
+     * @summary List
      * @param {boolean} [certification]
      * @param {Array<FeaturedListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
@@ -9614,6 +9615,7 @@ export const FeaturedApiFp = function (configuration?: Configuration) {
   return {
     /**
      * Get a paginated list of featured resources
+     * @summary List
      * @param {boolean} [certification]
      * @param {Array<FeaturedListCertificationTypeEnum>} [certification_type] The type of certification offered  * &#x60;micromasters&#x60; - Micromasters Credential * &#x60;professional&#x60; - Professional Certificate * &#x60;completion&#x60; - Certificate of Completion * &#x60;none&#x60; - No Certificate
      * @param {Array<string>} [course_feature] Multiple values may be separated by commas.
@@ -9735,6 +9737,7 @@ export const FeaturedApiFactory = function (
   return {
     /**
      * Get a paginated list of featured resources
+     * @summary List
      * @param {FeaturedApiFeaturedListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -9933,6 +9936,7 @@ export interface FeaturedApiFeaturedRetrieveRequest {
 export class FeaturedApi extends BaseAPI {
   /**
    * Get a paginated list of featured resources
+   * @summary List
    * @param {FeaturedApiFeaturedListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

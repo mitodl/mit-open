@@ -1124,6 +1124,7 @@ paths:
     get:
       operationId: featured_list
       description: Get a paginated list of featured resources
+      summary: List
       parameters:
       - in: query
         name: certification

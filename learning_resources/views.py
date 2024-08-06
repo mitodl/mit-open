@@ -861,6 +861,10 @@ class FeaturedViewSet(
             .distinct()
         )
 
+    @extend_schema(
+        summary="List",
+        description="Get a paginated list of featured resources",
+    )
     def list(self, request, *args, **kwargs):  # noqa: ARG002
         """Get a paginated list of featured resources"""
         queryset = self.filter_queryset(self.get_queryset())
