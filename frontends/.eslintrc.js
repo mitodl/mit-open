@@ -2,11 +2,12 @@ module.exports = {
   extends: [
     "eslint-config-mitodl",
     "eslint-config-mitodl/jest",
+    "plugin:styled-components-a11y/recommended",
     "plugin:import/typescript",
     "plugin:mdx/recommended",
     "prettier",
   ],
-  plugins: ["testing-library", "import"],
+  plugins: ["testing-library", "import", "styled-components-a11y"],
   ignorePatterns: [
     "**/build/**",
     "ol-ckeditor-2/dist",
