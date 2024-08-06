@@ -40,8 +40,7 @@ const baseInputStyles = (theme: Theme) => ({
     borderColor: theme.custom.colors.red,
   },
   "& input::placeholder": {
-    opacity: "0.3",
-    color: theme.custom.colors.black,
+    color: theme.custom.colors.silverGrayDark,
   },
   "& input:placeholder-shown": {
     textOverflow: "ellipsis",
