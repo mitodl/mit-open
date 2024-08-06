@@ -32,3 +32,9 @@ def get_sloan_exec_webinars():
 def get_mitpe_news():
     """Run the MIT Professional Education news ETL pipeline"""
     pipelines.mitpe_news_etl()
+
+
+@app.task
+def get_mitpe_events():
+    """Run the MIT Professional Education events ETL pipeline"""
+    pipelines.mitpe_events_etl()

@@ -12,32 +12,16 @@
  * Do not edit the class manually.
  */
 
-import type { Configuration } from "./configuration"
-import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from "axios"
-import globalAxios from "axios"
+
+import type { Configuration } from './configuration';
+import type { AxiosPromise, AxiosInstance, RawAxiosRequestConfig } from 'axios';
+import globalAxios from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import {
-  DUMMY_BASE_URL,
-  assertParamExists,
-  setApiKeyToObject,
-  setBasicAuthToObject,
-  setBearerAuthToObject,
-  setOAuthToObject,
-  setSearchParams,
-  serializeDataIfNeeded,
-  toPathString,
-  createRequestFunction,
-} from "./common"
-import type { RequestArgs } from "./base"
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
+import type { RequestArgs } from './base';
 // @ts-ignore
-import {
-  BASE_PATH,
-  COLLECTION_FORMATS,
-  BaseAPI,
-  RequiredError,
-  operationServerMap,
-} from "./base"
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base';
 
 /**
  * Serializer for attestations.
@@ -45,90 +29,90 @@ import {
  * @interface Attestation
  */
 export interface Attestation {
-  /**
-   *
-   * @type {number}
-   * @memberof Attestation
-   */
-  id: number
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof Attestation
-   */
-  avatar: string | null
-  /**
-   * Get the avatar_small image URL
-   * @type {string}
-   * @memberof Attestation
-   */
-  avatar_small: string | null
-  /**
-   * Get the avatar_medium image URL
-   * @type {string}
-   * @memberof Attestation
-   */
-  avatar_medium: string | null
-  /**
-   * Get the cover image URL
-   * @type {string}
-   * @memberof Attestation
-   */
-  cover: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Attestation
-   */
-  created_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof Attestation
-   */
-  updated_on: string
-  /**
-   * The name of the attestant
-   * @type {string}
-   * @memberof Attestation
-   */
-  attestant_name: string
-  /**
-   * The attestant\'s title
-   * @type {string}
-   * @memberof Attestation
-   */
-  title: string
-  /**
-   * The testimonial attestation
-   * @type {string}
-   * @memberof Attestation
-   */
-  quote: string
-  /**
-   * The position the attestation should occupy
-   * @type {number}
-   * @memberof Attestation
-   */
-  position?: number
-  /**
-   * The datetime to show the testimonial
-   * @type {string}
-   * @memberof Attestation
-   */
-  publish_date?: string | null
-  /**
-   * Channels that the testimonial belongs to
-   * @type {Array<number>}
-   * @memberof Attestation
-   */
-  channels?: Array<number>
-  /**
-   * The offerors that this attestation can appear on
-   * @type {Array<string>}
-   * @memberof Attestation
-   */
-  offerors?: Array<string>
+    /**
+     *
+     * @type {number}
+     * @memberof Attestation
+     */
+    'id': number;
+    /**
+     * Get the avatar image URL
+     * @type {string}
+     * @memberof Attestation
+     */
+    'avatar': string | null;
+    /**
+     * Get the avatar_small image URL
+     * @type {string}
+     * @memberof Attestation
+     */
+    'avatar_small': string | null;
+    /**
+     * Get the avatar_medium image URL
+     * @type {string}
+     * @memberof Attestation
+     */
+    'avatar_medium': string | null;
+    /**
+     * Get the cover image URL
+     * @type {string}
+     * @memberof Attestation
+     */
+    'cover': string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof Attestation
+     */
+    'created_on': string;
+    /**
+     *
+     * @type {string}
+     * @memberof Attestation
+     */
+    'updated_on': string;
+    /**
+     * The name of the attestant
+     * @type {string}
+     * @memberof Attestation
+     */
+    'attestant_name': string;
+    /**
+     * The attestant\'s title
+     * @type {string}
+     * @memberof Attestation
+     */
+    'title': string;
+    /**
+     * The testimonial attestation
+     * @type {string}
+     * @memberof Attestation
+     */
+    'quote': string;
+    /**
+     * The position the attestation should occupy
+     * @type {number}
+     * @memberof Attestation
+     */
+    'position'?: number;
+    /**
+     * The datetime to show the testimonial
+     * @type {string}
+     * @memberof Attestation
+     */
+    'publish_date'?: string | null;
+    /**
+     * Channels that the testimonial belongs to
+     * @type {Array<number>}
+     * @memberof Attestation
+     */
+    'channels'?: Array<number>;
+    /**
+     * The offerors that this attestation can appear on
+     * @type {Array<string>}
+     * @memberof Attestation
+     */
+    'offerors'?: Array<string>;
 }
 /**
  *
@@ -137,14 +121,15 @@ export interface Attestation {
  */
 
 export const BlankEnumDescriptions = {
-  "": "",
-} as const
+    '': "",
+} as const;
 
 export const BlankEnum = {
-  Empty: "",
-} as const
+    Empty: ''
+} as const;
 
-export type BlankEnum = (typeof BlankEnum)[keyof typeof BlankEnum]
+export type BlankEnum = typeof BlankEnum[keyof typeof BlankEnum];
+
 
 /**
  * Serializer for CKEditor settings
@@ -152,12 +137,12 @@ export type BlankEnum = (typeof BlankEnum)[keyof typeof BlankEnum]
  * @interface CKEditorSettings
  */
 export interface CKEditorSettings {
-  /**
-   * Get the JWT token
-   * @type {string}
-   * @memberof CKEditorSettings
-   */
-  token: string | null
+    /**
+     * Get the JWT token
+     * @type {string}
+     * @memberof CKEditorSettings
+     */
+    'token': string | null;
 }
 /**
  * * `yes` - Yes, I am looking for a certificate * `no` - No, I am not looking for a certificate * `not-sure-yet` - Not Sure
@@ -166,38 +151,34 @@ export interface CKEditorSettings {
  */
 
 export const CertificateDesiredEnumDescriptions = {
-  yes: "Yes, I am looking for a certificate",
-  no: "No, I am not looking for a certificate",
-  "not-sure-yet": "Not Sure",
-} as const
+    'yes': "Yes, I am looking for a certificate",
+    'no': "No, I am not looking for a certificate",
+    'not-sure-yet': "Not Sure",
+} as const;
 
 export const CertificateDesiredEnum = {
-  /**
-   * Yes, I am looking for a certificate
-   */
-  Yes: "yes",
-  /**
-   * No, I am not looking for a certificate
-   */
-  No: "no",
-  /**
-   * Not Sure
-   */
-  NotSureYet: "not-sure-yet",
-} as const
+    /**
+    * Yes, I am looking for a certificate
+    */
+    Yes: 'yes',
+    /**
+    * No, I am not looking for a certificate
+    */
+    No: 'no',
+    /**
+    * Not Sure
+    */
+    NotSureYet: 'not-sure-yet'
+} as const;
 
-export type CertificateDesiredEnum =
-  (typeof CertificateDesiredEnum)[keyof typeof CertificateDesiredEnum]
+export type CertificateDesiredEnum = typeof CertificateDesiredEnum[keyof typeof CertificateDesiredEnum];
+
 
 /**
  * @type Channel
  * @export
  */
-export type Channel =
-  | ({ channel_type: "department" } & DepartmentChannel)
-  | ({ channel_type: "pathway" } & PathwayChannel)
-  | ({ channel_type: "topic" } & TopicChannel)
-  | ({ channel_type: "unit" } & UnitChannel)
+export type Channel = { channel_type: 'department' } & DepartmentChannel | { channel_type: 'pathway' } & PathwayChannel | { channel_type: 'topic' } & TopicChannel | { channel_type: 'unit' } & UnitChannel;
 
 /**
  * Write serializer for Channel. Uses primary keys for referenced objects during requests, and delegates to ChannelSerializer for responses.
@@ -205,85 +186,86 @@ export type Channel =
  * @interface ChannelCreateRequest
  */
 export interface ChannelCreateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelCreateRequest
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelCreateRequest
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelCreateRequest
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof ChannelCreateRequest
-   */
-  sub_channels?: Array<string>
-  /**
-   * Learning path featured in this channel.
-   * @type {number}
-   * @memberof ChannelCreateRequest
-   */
-  featured_list?: number | null
-  /**
-   * Learning paths in this channel.
-   * @type {Array<number>}
-   * @memberof ChannelCreateRequest
-   */
-  lists?: Array<number>
-  /**
-   *
-   * @type {File}
-   * @memberof ChannelCreateRequest
-   */
-  avatar?: File | null
-  /**
-   *
-   * @type {File}
-   * @memberof ChannelCreateRequest
-   */
-  banner?: File | null
-  /**
-   *
-   * @type {any}
-   * @memberof ChannelCreateRequest
-   */
-  about?: any | null
-  /**
-   *
-   * @type {ChannelTypeEnum}
-   * @memberof ChannelCreateRequest
-   */
-  channel_type: ChannelTypeEnum
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelCreateRequest
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {ChannelTopicDetailRequest}
-   * @memberof ChannelCreateRequest
-   */
-  topic_detail?: ChannelTopicDetailRequest | null
-  /**
-   *
-   * @type {ChannelDepartmentDetailRequest}
-   * @memberof ChannelCreateRequest
-   */
-  department_detail?: ChannelDepartmentDetailRequest | null
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelCreateRequest
+     */
+    'name': string;
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelCreateRequest
+     */
+    'title': string;
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelCreateRequest
+     */
+    'public_description'?: string;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof ChannelCreateRequest
+     */
+    'sub_channels'?: Array<string>;
+    /**
+     * Learning path featured in this channel.
+     * @type {number}
+     * @memberof ChannelCreateRequest
+     */
+    'featured_list'?: number | null;
+    /**
+     * Learning paths in this channel.
+     * @type {Array<number>}
+     * @memberof ChannelCreateRequest
+     */
+    'lists'?: Array<number>;
+    /**
+     *
+     * @type {File}
+     * @memberof ChannelCreateRequest
+     */
+    'avatar'?: File | null;
+    /**
+     *
+     * @type {File}
+     * @memberof ChannelCreateRequest
+     */
+    'banner'?: File | null;
+    /**
+     *
+     * @type {any}
+     * @memberof ChannelCreateRequest
+     */
+    'about'?: any | null;
+    /**
+     *
+     * @type {ChannelTypeEnum}
+     * @memberof ChannelCreateRequest
+     */
+    'channel_type': ChannelTypeEnum;
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelCreateRequest
+     */
+    'search_filter'?: string;
+    /**
+     *
+     * @type {ChannelTopicDetailRequest}
+     * @memberof ChannelCreateRequest
+     */
+    'topic_detail'?: ChannelTopicDetailRequest | null;
+    /**
+     *
+     * @type {ChannelDepartmentDetailRequest}
+     * @memberof ChannelCreateRequest
+     */
+    'department_detail'?: ChannelDepartmentDetailRequest | null;
 }
+
 
 /**
  * Serializer for the ChannelDepartmentDetail model
@@ -291,12 +273,12 @@ export interface ChannelCreateRequest {
  * @interface ChannelDepartmentDetail
  */
 export interface ChannelDepartmentDetail {
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelDepartmentDetail
-   */
-  department?: string | null
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelDepartmentDetail
+     */
+    'department'?: string | null;
 }
 /**
  * Serializer for the ChannelDepartmentDetail model
@@ -304,12 +286,12 @@ export interface ChannelDepartmentDetail {
  * @interface ChannelDepartmentDetailRequest
  */
 export interface ChannelDepartmentDetailRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelDepartmentDetailRequest
-   */
-  department?: string | null
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelDepartmentDetailRequest
+     */
+    'department'?: string | null;
 }
 /**
  * Serializer for moderators
@@ -317,24 +299,24 @@ export interface ChannelDepartmentDetailRequest {
  * @interface ChannelModerator
  */
 export interface ChannelModerator {
-  /**
-   * Returns the name for the moderator
-   * @type {string}
-   * @memberof ChannelModerator
-   */
-  moderator_name?: string
-  /**
-   * Get the email from the associated user
-   * @type {string}
-   * @memberof ChannelModerator
-   */
-  email?: string
-  /**
-   * Get the full name of the associated user
-   * @type {string}
-   * @memberof ChannelModerator
-   */
-  full_name: string
+    /**
+     * Returns the name for the moderator
+     * @type {string}
+     * @memberof ChannelModerator
+     */
+    'moderator_name'?: string;
+    /**
+     * Get the email from the associated user
+     * @type {string}
+     * @memberof ChannelModerator
+     */
+    'email'?: string;
+    /**
+     * Get the full name of the associated user
+     * @type {string}
+     * @memberof ChannelModerator
+     */
+    'full_name': string;
 }
 /**
  * Serializer for moderators
@@ -342,18 +324,18 @@ export interface ChannelModerator {
  * @interface ChannelModeratorRequest
  */
 export interface ChannelModeratorRequest {
-  /**
-   * Returns the name for the moderator
-   * @type {string}
-   * @memberof ChannelModeratorRequest
-   */
-  moderator_name?: string
-  /**
-   * Get the email from the associated user
-   * @type {string}
-   * @memberof ChannelModeratorRequest
-   */
-  email?: string
+    /**
+     * Returns the name for the moderator
+     * @type {string}
+     * @memberof ChannelModeratorRequest
+     */
+    'moderator_name'?: string;
+    /**
+     * Get the email from the associated user
+     * @type {string}
+     * @memberof ChannelModeratorRequest
+     */
+    'email'?: string;
 }
 /**
  * Serializer for the ChannelTopicDetail model
@@ -361,12 +343,12 @@ export interface ChannelModeratorRequest {
  * @interface ChannelTopicDetail
  */
 export interface ChannelTopicDetail {
-  /**
-   *
-   * @type {number}
-   * @memberof ChannelTopicDetail
-   */
-  topic?: number | null
+    /**
+     *
+     * @type {number}
+     * @memberof ChannelTopicDetail
+     */
+    'topic'?: number | null;
 }
 /**
  * Serializer for the ChannelTopicDetail model
@@ -374,12 +356,12 @@ export interface ChannelTopicDetail {
  * @interface ChannelTopicDetailRequest
  */
 export interface ChannelTopicDetailRequest {
-  /**
-   *
-   * @type {number}
-   * @memberof ChannelTopicDetailRequest
-   */
-  topic?: number | null
+    /**
+     *
+     * @type {number}
+     * @memberof ChannelTopicDetailRequest
+     */
+    'topic'?: number | null;
 }
 /**
  * * `topic` - Topic * `department` - Department * `unit` - Unit * `pathway` - Pathway
@@ -388,33 +370,33 @@ export interface ChannelTopicDetailRequest {
  */
 
 export const ChannelTypeEnumDescriptions = {
-  topic: "Topic",
-  department: "Department",
-  unit: "Unit",
-  pathway: "Pathway",
-} as const
+    'topic': "Topic",
+    'department': "Department",
+    'unit': "Unit",
+    'pathway': "Pathway",
+} as const;
 
 export const ChannelTypeEnum = {
-  /**
-   * Topic
-   */
-  Topic: "topic",
-  /**
-   * Department
-   */
-  Department: "department",
-  /**
-   * Unit
-   */
-  Unit: "unit",
-  /**
-   * Pathway
-   */
-  Pathway: "pathway",
-} as const
+    /**
+    * Topic
+    */
+    Topic: 'topic',
+    /**
+    * Department
+    */
+    Department: 'department',
+    /**
+    * Unit
+    */
+    Unit: 'unit',
+    /**
+    * Pathway
+    */
+    Pathway: 'pathway'
+} as const;
 
-export type ChannelTypeEnum =
-  (typeof ChannelTypeEnum)[keyof typeof ChannelTypeEnum]
+export type ChannelTypeEnum = typeof ChannelTypeEnum[keyof typeof ChannelTypeEnum];
+
 
 /**
  * Serializer for the ChannelOfferorDetail model
@@ -422,12 +404,12 @@ export type ChannelTypeEnum =
  * @interface ChannelUnitDetail
  */
 export interface ChannelUnitDetail {
-  /**
-   *
-   * @type {LearningResourceOfferorDetail}
-   * @memberof ChannelUnitDetail
-   */
-  unit: LearningResourceOfferorDetail
+    /**
+     *
+     * @type {LearningResourceOfferorDetail}
+     * @memberof ChannelUnitDetail
+     */
+    'unit': LearningResourceOfferorDetail;
 }
 /**
  * * `` - ---- * `Doctorate` - Doctorate * `Master\'s or professional degree` - Master\'s or professional degree * `Bachelor\'s degree` - Bachelor\'s degree * `Associate degree` - Associate degree * `Secondary/high school` - Secondary/high school * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school * `No formal education` - No formal education * `Other education` - Other education
@@ -436,55 +418,53 @@ export interface ChannelUnitDetail {
  */
 
 export const CurrentEducationEnumDescriptions = {
-  Doctorate: "Doctorate",
-  "Master's or professional degree": "Master's or professional degree",
-  "Bachelor's degree": "Bachelor's degree",
-  "Associate degree": "Associate degree",
-  "Secondary/high school": "Secondary/high school",
-  "Junior secondary/junior high/middle school":
-    "Junior secondary/junior high/middle school",
-  "No formal education": "No formal education",
-  "Other education": "Other education",
-} as const
+    'Doctorate': "Doctorate",
+    'Master\'s or professional degree': "Master's or professional degree",
+    'Bachelor\'s degree': "Bachelor's degree",
+    'Associate degree': "Associate degree",
+    'Secondary/high school': "Secondary/high school",
+    'Junior secondary/junior high/middle school': "Junior secondary/junior high/middle school",
+    'No formal education': "No formal education",
+    'Other education': "Other education",
+} as const;
 
 export const CurrentEducationEnum = {
-  /**
-   * Doctorate
-   */
-  Doctorate: "Doctorate",
-  /**
-   * Master&#39;s or professional degree
-   */
-  MastersOrProfessionalDegree: "Master's or professional degree",
-  /**
-   * Bachelor&#39;s degree
-   */
-  BachelorsDegree: "Bachelor's degree",
-  /**
-   * Associate degree
-   */
-  AssociateDegree: "Associate degree",
-  /**
-   * Secondary/high school
-   */
-  SecondaryHighSchool: "Secondary/high school",
-  /**
-   * Junior secondary/junior high/middle school
-   */
-  JuniorSecondaryJuniorHighMiddleSchool:
-    "Junior secondary/junior high/middle school",
-  /**
-   * No formal education
-   */
-  NoFormalEducation: "No formal education",
-  /**
-   * Other education
-   */
-  OtherEducation: "Other education",
-} as const
+    /**
+    * Doctorate
+    */
+    Doctorate: 'Doctorate',
+    /**
+    * Master&#39;s or professional degree
+    */
+    MastersOrProfessionalDegree: 'Master\'s or professional degree',
+    /**
+    * Bachelor&#39;s degree
+    */
+    BachelorsDegree: 'Bachelor\'s degree',
+    /**
+    * Associate degree
+    */
+    AssociateDegree: 'Associate degree',
+    /**
+    * Secondary/high school
+    */
+    SecondaryHighSchool: 'Secondary/high school',
+    /**
+    * Junior secondary/junior high/middle school
+    */
+    JuniorSecondaryJuniorHighMiddleSchool: 'Junior secondary/junior high/middle school',
+    /**
+    * No formal education
+    */
+    NoFormalEducation: 'No formal education',
+    /**
+    * Other education
+    */
+    OtherEducation: 'Other education'
+} as const;
 
-export type CurrentEducationEnum =
-  (typeof CurrentEducationEnum)[keyof typeof CurrentEducationEnum]
+export type CurrentEducationEnum = typeof CurrentEducationEnum[keyof typeof CurrentEducationEnum];
+
 
 /**
  * Serializer for Channel model of type department
@@ -492,139 +472,140 @@ export type CurrentEducationEnum =
  * @interface DepartmentChannel
  */
 export interface DepartmentChannel {
-  /**
-   *
-   * @type {number}
-   * @memberof DepartmentChannel
-   */
-  id: number
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  avatar?: string | null
-  /**
-   * Get the avatar image small URL
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  avatar_small: string | null
-  /**
-   * Get the avatar image medium URL
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  avatar_medium: string | null
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  banner?: string | null
-  /**
-   * Return true if user is a moderator for the channel
-   * @type {boolean}
-   * @memberof DepartmentChannel
-   */
-  is_moderator: boolean
-  /**
-   *
-   * @type {Array<LearningPathPreview>}
-   * @memberof DepartmentChannel
-   */
-  lists: Array<LearningPathPreview>
-  /**
-   * Get the URL for the channel
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  channel_url: string
-  /**
-   *
-   * @type {DepartmentChannelFeaturedList}
-   * @memberof DepartmentChannel
-   */
-  featured_list: DepartmentChannelFeaturedList | null
-  /**
-   *
-   * @type {Array<SubChannel>}
-   * @memberof DepartmentChannel
-   */
-  sub_channels: Array<SubChannel>
-  /**
-   *
-   * @type {DepartmentChannelTypeEnum}
-   * @memberof DepartmentChannel
-   */
-  channel_type: DepartmentChannelTypeEnum
-  /**
-   *
-   * @type {ChannelDepartmentDetail}
-   * @memberof DepartmentChannel
-   */
-  department_detail: ChannelDepartmentDetail
-  /**
-   *
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  created_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  updated_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  title: string
-  /**
-   *
-   * @type {any}
-   * @memberof DepartmentChannel
-   */
-  about?: any | null
-  /**
-   *
-   * @type {any}
-   * @memberof DepartmentChannel
-   */
-  configuration?: any | null
-  /**
-   *
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  public_description?: string
-  /**
-   *
-   * @type {string}
-   * @memberof DepartmentChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
-   * @type {number}
-   * @memberof DepartmentChannel
-   */
-  widget_list?: number | null
+    /**
+     *
+     * @type {number}
+     * @memberof DepartmentChannel
+     */
+    'id': number;
+    /**
+     * Get the avatar image URL
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'avatar'?: string | null;
+    /**
+     * Get the avatar image small URL
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'avatar_small': string | null;
+    /**
+     * Get the avatar image medium URL
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'avatar_medium': string | null;
+    /**
+     * Get the banner image URL
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'banner'?: string | null;
+    /**
+     * Return true if user is a moderator for the channel
+     * @type {boolean}
+     * @memberof DepartmentChannel
+     */
+    'is_moderator': boolean;
+    /**
+     *
+     * @type {Array<LearningPathPreview>}
+     * @memberof DepartmentChannel
+     */
+    'lists': Array<LearningPathPreview>;
+    /**
+     * Get the URL for the channel
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'channel_url': string;
+    /**
+     *
+     * @type {DepartmentChannelFeaturedList}
+     * @memberof DepartmentChannel
+     */
+    'featured_list': DepartmentChannelFeaturedList | null;
+    /**
+     *
+     * @type {Array<SubChannel>}
+     * @memberof DepartmentChannel
+     */
+    'sub_channels': Array<SubChannel>;
+    /**
+     *
+     * @type {DepartmentChannelTypeEnum}
+     * @memberof DepartmentChannel
+     */
+    'channel_type': DepartmentChannelTypeEnum;
+    /**
+     *
+     * @type {ChannelDepartmentDetail}
+     * @memberof DepartmentChannel
+     */
+    'department_detail': ChannelDepartmentDetail;
+    /**
+     *
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'created_on': string;
+    /**
+     *
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'updated_on': string;
+    /**
+     *
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'name': string;
+    /**
+     *
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'title': string;
+    /**
+     *
+     * @type {any}
+     * @memberof DepartmentChannel
+     */
+    'about'?: any | null;
+    /**
+     *
+     * @type {any}
+     * @memberof DepartmentChannel
+     */
+    'configuration'?: any | null;
+    /**
+     *
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'search_filter'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'public_description'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof DepartmentChannel
+     */
+    'ga_tracking_id'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof DepartmentChannel
+     */
+    'widget_list'?: number | null;
 }
+
 
 /**
  * Learning path featured in this channel.
@@ -632,24 +613,24 @@ export interface DepartmentChannel {
  * @interface DepartmentChannelFeaturedList
  */
 export interface DepartmentChannelFeaturedList {
-  /**
-   *
-   * @type {string}
-   * @memberof DepartmentChannelFeaturedList
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof DepartmentChannelFeaturedList
-   */
-  url?: string | null
-  /**
-   *
-   * @type {number}
-   * @memberof DepartmentChannelFeaturedList
-   */
-  id: number
+    /**
+     *
+     * @type {string}
+     * @memberof DepartmentChannelFeaturedList
+     */
+    'title': string;
+    /**
+     *
+     * @type {string}
+     * @memberof DepartmentChannelFeaturedList
+     */
+    'url'?: string | null;
+    /**
+     *
+     * @type {number}
+     * @memberof DepartmentChannelFeaturedList
+     */
+    'id': number;
 }
 /**
  * * `department` - Department
@@ -658,18 +639,18 @@ export interface DepartmentChannelFeaturedList {
  */
 
 export const DepartmentChannelTypeEnumDescriptions = {
-  department: "Department",
-} as const
+    'department': "Department",
+} as const;
 
 export const DepartmentChannelTypeEnum = {
-  /**
-   * Department
-   */
-  Department: "department",
-} as const
+    /**
+    * Department
+    */
+    Department: 'department'
+} as const;
 
-export type DepartmentChannelTypeEnum =
-  (typeof DepartmentChannelTypeEnum)[keyof typeof DepartmentChannelTypeEnum]
+export type DepartmentChannelTypeEnum = typeof DepartmentChannelTypeEnum[keyof typeof DepartmentChannelTypeEnum];
+
 
 /**
  * Serializer for News FeedItem
@@ -677,67 +658,68 @@ export type DepartmentChannelTypeEnum =
  * @interface EventFeedItem
  */
 export interface EventFeedItem {
-  /**
-   *
-   * @type {number}
-   * @memberof EventFeedItem
-   */
-  id: number
-  /**
-   *
-   * @type {EventFeedItemFeedTypeEnum}
-   * @memberof EventFeedItem
-   */
-  feed_type: EventFeedItemFeedTypeEnum
-  /**
-   *
-   * @type {FeedImage}
-   * @memberof EventFeedItem
-   */
-  image: FeedImage
-  /**
-   *
-   * @type {FeedEventDetail}
-   * @memberof EventFeedItem
-   */
-  event_details: FeedEventDetail
-  /**
-   *
-   * @type {string}
-   * @memberof EventFeedItem
-   */
-  guid: string
-  /**
-   *
-   * @type {string}
-   * @memberof EventFeedItem
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof EventFeedItem
-   */
-  url: string
-  /**
-   *
-   * @type {string}
-   * @memberof EventFeedItem
-   */
-  summary?: string
-  /**
-   *
-   * @type {string}
-   * @memberof EventFeedItem
-   */
-  content?: string
-  /**
-   *
-   * @type {number}
-   * @memberof EventFeedItem
-   */
-  source: number
+    /**
+     *
+     * @type {number}
+     * @memberof EventFeedItem
+     */
+    'id': number;
+    /**
+     *
+     * @type {EventFeedItemFeedTypeEnum}
+     * @memberof EventFeedItem
+     */
+    'feed_type': EventFeedItemFeedTypeEnum;
+    /**
+     *
+     * @type {FeedImage}
+     * @memberof EventFeedItem
+     */
+    'image': FeedImage;
+    /**
+     *
+     * @type {FeedEventDetail}
+     * @memberof EventFeedItem
+     */
+    'event_details': FeedEventDetail;
+    /**
+     *
+     * @type {string}
+     * @memberof EventFeedItem
+     */
+    'guid': string;
+    /**
+     *
+     * @type {string}
+     * @memberof EventFeedItem
+     */
+    'title': string;
+    /**
+     *
+     * @type {string}
+     * @memberof EventFeedItem
+     */
+    'url': string;
+    /**
+     *
+     * @type {string}
+     * @memberof EventFeedItem
+     */
+    'summary'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof EventFeedItem
+     */
+    'content'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof EventFeedItem
+     */
+    'source': number;
 }
+
 
 /**
  *
@@ -746,15 +728,15 @@ export interface EventFeedItem {
  */
 
 export const EventFeedItemFeedTypeEnumDescriptions = {
-  events: "",
-} as const
+    'events': "",
+} as const;
 
 export const EventFeedItemFeedTypeEnum = {
-  Events: "events",
-} as const
+    Events: 'events'
+} as const;
 
-export type EventFeedItemFeedTypeEnum =
-  (typeof EventFeedItemFeedTypeEnum)[keyof typeof EventFeedItemFeedTypeEnum]
+export type EventFeedItemFeedTypeEnum = typeof EventFeedItemFeedTypeEnum[keyof typeof EventFeedItemFeedTypeEnum];
+
 
 /**
  * FeedEventDetail serializer
@@ -762,36 +744,42 @@ export type EventFeedItemFeedTypeEnum =
  * @interface FeedEventDetail
  */
 export interface FeedEventDetail {
-  /**
-   *
-   * @type {number}
-   * @memberof FeedEventDetail
-   */
-  id: number
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FeedEventDetail
-   */
-  audience: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FeedEventDetail
-   */
-  location: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FeedEventDetail
-   */
-  event_type: Array<string>
-  /**
-   *
-   * @type {string}
-   * @memberof FeedEventDetail
-   */
-  event_datetime: string
+    /**
+     *
+     * @type {number}
+     * @memberof FeedEventDetail
+     */
+    'id': number;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof FeedEventDetail
+     */
+    'audience': Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof FeedEventDetail
+     */
+    'location': Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof FeedEventDetail
+     */
+    'event_type': Array<string>;
+    /**
+     *
+     * @type {string}
+     * @memberof FeedEventDetail
+     */
+    'event_datetime': string;
+    /**
+     *
+     * @type {string}
+     * @memberof FeedEventDetail
+     */
+    'event_end_datetime'?: string | null;
 }
 /**
  * Serializer for FeedImage
@@ -799,38 +787,36 @@ export interface FeedEventDetail {
  * @interface FeedImage
  */
 export interface FeedImage {
-  /**
-   *
-   * @type {number}
-   * @memberof FeedImage
-   */
-  id: number
-  /**
-   *
-   * @type {string}
-   * @memberof FeedImage
-   */
-  url?: string
-  /**
-   *
-   * @type {string}
-   * @memberof FeedImage
-   */
-  description?: string
-  /**
-   *
-   * @type {string}
-   * @memberof FeedImage
-   */
-  alt?: string
+    /**
+     *
+     * @type {number}
+     * @memberof FeedImage
+     */
+    'id': number;
+    /**
+     *
+     * @type {string}
+     * @memberof FeedImage
+     */
+    'url': string;
+    /**
+     *
+     * @type {string}
+     * @memberof FeedImage
+     */
+    'description': string;
+    /**
+     *
+     * @type {string}
+     * @memberof FeedImage
+     */
+    'alt': string;
 }
 /**
  * @type FeedItem
  * @export
  */
-export type FeedItem =
-  | ({ resource_type: "events" } & EventFeedItem)
-  | ({ resource_type: "news" } & NewsFeedItem)
+export type FeedItem = { resource_type: 'events' } & EventFeedItem | { resource_type: 'news' } & NewsFeedItem;
 
 /**
  * FeedNewsDetail serializer
@@ -838,30 +824,30 @@ export type FeedItem =
  * @interface FeedNewsDetail
  */
 export interface FeedNewsDetail {
-  /**
-   *
-   * @type {number}
-   * @memberof FeedNewsDetail
-   */
-  id: number
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FeedNewsDetail
-   */
-  authors?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof FeedNewsDetail
-   */
-  topics?: Array<string>
-  /**
-   *
-   * @type {string}
-   * @memberof FeedNewsDetail
-   */
-  publish_date: string
+    /**
+     *
+     * @type {number}
+     * @memberof FeedNewsDetail
+     */
+    'id': number;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof FeedNewsDetail
+     */
+    'authors'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof FeedNewsDetail
+     */
+    'topics'?: Array<string>;
+    /**
+     *
+     * @type {string}
+     * @memberof FeedNewsDetail
+     */
+    'publish_date': string;
 }
 /**
  * FeedSource serializer
@@ -869,43 +855,44 @@ export interface FeedNewsDetail {
  * @interface FeedSource
  */
 export interface FeedSource {
-  /**
-   *
-   * @type {number}
-   * @memberof FeedSource
-   */
-  id: number
-  /**
-   *
-   * @type {FeedImage}
-   * @memberof FeedSource
-   */
-  image: FeedImage
-  /**
-   *
-   * @type {string}
-   * @memberof FeedSource
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof FeedSource
-   */
-  url: string
-  /**
-   *
-   * @type {string}
-   * @memberof FeedSource
-   */
-  description?: string
-  /**
-   *
-   * @type {FeedSourceFeedTypeEnum}
-   * @memberof FeedSource
-   */
-  feed_type: FeedSourceFeedTypeEnum
+    /**
+     *
+     * @type {number}
+     * @memberof FeedSource
+     */
+    'id': number;
+    /**
+     *
+     * @type {FeedImage}
+     * @memberof FeedSource
+     */
+    'image': FeedImage;
+    /**
+     *
+     * @type {string}
+     * @memberof FeedSource
+     */
+    'title': string;
+    /**
+     *
+     * @type {string}
+     * @memberof FeedSource
+     */
+    'url': string;
+    /**
+     *
+     * @type {string}
+     * @memberof FeedSource
+     */
+    'description'?: string;
+    /**
+     *
+     * @type {FeedSourceFeedTypeEnum}
+     * @memberof FeedSource
+     */
+    'feed_type': FeedSourceFeedTypeEnum;
 }
+
 
 /**
  * * `news` - News * `events` - Events
@@ -914,23 +901,23 @@ export interface FeedSource {
  */
 
 export const FeedSourceFeedTypeEnumDescriptions = {
-  news: "News",
-  events: "Events",
-} as const
+    'news': "News",
+    'events': "Events",
+} as const;
 
 export const FeedSourceFeedTypeEnum = {
-  /**
-   * News
-   */
-  News: "news",
-  /**
-   * Events
-   */
-  Events: "events",
-} as const
+    /**
+    * News
+    */
+    News: 'news',
+    /**
+    * Events
+    */
+    Events: 'events'
+} as const;
 
-export type FeedSourceFeedTypeEnum =
-  (typeof FeedSourceFeedTypeEnum)[keyof typeof FeedSourceFeedTypeEnum]
+export type FeedSourceFeedTypeEnum = typeof FeedSourceFeedTypeEnum[keyof typeof FeedSourceFeedTypeEnum];
+
 
 /**
  * * `academic-excellence` - Academic Boost * `career-growth` - Career Growth * `lifelong-learning` - Lifelong Learning
@@ -939,27 +926,28 @@ export type FeedSourceFeedTypeEnum =
  */
 
 export const GoalsEnumDescriptions = {
-  "academic-excellence": "Academic Boost",
-  "career-growth": "Career Growth",
-  "lifelong-learning": "Lifelong Learning",
-} as const
+    'academic-excellence': "Academic Boost",
+    'career-growth': "Career Growth",
+    'lifelong-learning': "Lifelong Learning",
+} as const;
 
 export const GoalsEnum = {
-  /**
-   * Academic Boost
-   */
-  AcademicExcellence: "academic-excellence",
-  /**
-   * Career Growth
-   */
-  CareerGrowth: "career-growth",
-  /**
-   * Lifelong Learning
-   */
-  LifelongLearning: "lifelong-learning",
-} as const
+    /**
+    * Academic Boost
+    */
+    AcademicExcellence: 'academic-excellence',
+    /**
+    * Career Growth
+    */
+    CareerGrowth: 'career-growth',
+    /**
+    * Lifelong Learning
+    */
+    LifelongLearning: 'lifelong-learning'
+} as const;
 
-export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
+export type GoalsEnum = typeof GoalsEnum[keyof typeof GoalsEnum];
+
 
 /**
  * * `online` - Online * `hybrid` - Hybrid * `in_person` - In-Person
@@ -968,28 +956,28 @@ export type GoalsEnum = (typeof GoalsEnum)[keyof typeof GoalsEnum]
  */
 
 export const LearningFormatEnumDescriptions = {
-  online: "Online",
-  hybrid: "Hybrid",
-  in_person: "In-Person",
-} as const
+    'online': "Online",
+    'hybrid': "Hybrid",
+    'in_person': "In-Person",
+} as const;
 
 export const LearningFormatEnum = {
-  /**
-   * Online
-   */
-  Online: "online",
-  /**
-   * Hybrid
-   */
-  Hybrid: "hybrid",
-  /**
-   * In-Person
-   */
-  InPerson: "in_person",
-} as const
+    /**
+    * Online
+    */
+    Online: 'online',
+    /**
+    * Hybrid
+    */
+    Hybrid: 'hybrid',
+    /**
+    * In-Person
+    */
+    InPerson: 'in_person'
+} as const;
 
-export type LearningFormatEnum =
-  (typeof LearningFormatEnum)[keyof typeof LearningFormatEnum]
+export type LearningFormatEnum = typeof LearningFormatEnum[keyof typeof LearningFormatEnum];
+
 
 /**
  * Serializer for a minimal preview of Learning Paths
@@ -997,24 +985,24 @@ export type LearningFormatEnum =
  * @interface LearningPathPreview
  */
 export interface LearningPathPreview {
-  /**
-   *
-   * @type {string}
-   * @memberof LearningPathPreview
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof LearningPathPreview
-   */
-  url?: string | null
-  /**
-   *
-   * @type {number}
-   * @memberof LearningPathPreview
-   */
-  id: number
+    /**
+     *
+     * @type {string}
+     * @memberof LearningPathPreview
+     */
+    'title': string;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningPathPreview
+     */
+    'url'?: string | null;
+    /**
+     *
+     * @type {number}
+     * @memberof LearningPathPreview
+     */
+    'id': number;
 }
 /**
  * Serializer for LearningResourceOfferor with all details
@@ -1022,78 +1010,78 @@ export interface LearningPathPreview {
  * @interface LearningResourceOfferorDetail
  */
 export interface LearningResourceOfferorDetail {
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceOfferorDetail
-   */
-  code: string
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceOfferorDetail
-   */
-  channel_url: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceOfferorDetail
-   */
-  name: string
-  /**
-   *
-   * @type {boolean}
-   * @memberof LearningResourceOfferorDetail
-   */
-  professional?: boolean
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetail
-   */
-  offerings?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetail
-   */
-  audience?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetail
-   */
-  formats?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetail
-   */
-  fee?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetail
-   */
-  certifications?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetail
-   */
-  content_types?: Array<string>
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceOfferorDetail
-   */
-  more_information?: string
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceOfferorDetail
-   */
-  value_prop?: string
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'code': string;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'channel_url': string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'name': string;
+    /**
+     *
+     * @type {boolean}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'professional'?: boolean;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'offerings'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'audience'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'formats'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'fee'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'certifications'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'content_types'?: Array<string>;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'more_information'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceOfferorDetail
+     */
+    'value_prop'?: string;
 }
 /**
  * Serializer for LearningResourceOfferor with all details
@@ -1101,72 +1089,72 @@ export interface LearningResourceOfferorDetail {
  * @interface LearningResourceOfferorDetailRequest
  */
 export interface LearningResourceOfferorDetailRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  code: string
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  name: string
-  /**
-   *
-   * @type {boolean}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  professional?: boolean
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  offerings?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  audience?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  formats?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  fee?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  certifications?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  content_types?: Array<string>
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  more_information?: string
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceOfferorDetailRequest
-   */
-  value_prop?: string
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'code': string;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'name': string;
+    /**
+     *
+     * @type {boolean}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'professional'?: boolean;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'offerings'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'audience'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'formats'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'fee'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'certifications'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'content_types'?: Array<string>;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'more_information'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceOfferorDetailRequest
+     */
+    'value_prop'?: string;
 }
 /**
  * Serializer for LearningResourceTopic model
@@ -1174,36 +1162,36 @@ export interface LearningResourceOfferorDetailRequest {
  * @interface LearningResourceTopic
  */
 export interface LearningResourceTopic {
-  /**
-   *
-   * @type {number}
-   * @memberof LearningResourceTopic
-   */
-  id: number
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceTopic
-   */
-  name: string
-  /**
-   * The icon to display for the topic.
-   * @type {string}
-   * @memberof LearningResourceTopic
-   */
-  icon?: string
-  /**
-   *
-   * @type {number}
-   * @memberof LearningResourceTopic
-   */
-  parent?: number | null
-  /**
-   *
-   * @type {string}
-   * @memberof LearningResourceTopic
-   */
-  channel_url: string | null
+    /**
+     *
+     * @type {number}
+     * @memberof LearningResourceTopic
+     */
+    'id': number;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceTopic
+     */
+    'name': string;
+    /**
+     * The icon to display for the topic.
+     * @type {string}
+     * @memberof LearningResourceTopic
+     */
+    'icon'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof LearningResourceTopic
+     */
+    'parent'?: number | null;
+    /**
+     *
+     * @type {string}
+     * @memberof LearningResourceTopic
+     */
+    'channel_url': string | null;
 }
 /**
  * Serializer for News FeedItem
@@ -1211,67 +1199,68 @@ export interface LearningResourceTopic {
  * @interface NewsFeedItem
  */
 export interface NewsFeedItem {
-  /**
-   *
-   * @type {number}
-   * @memberof NewsFeedItem
-   */
-  id: number
-  /**
-   *
-   * @type {NewsFeedItemFeedTypeEnum}
-   * @memberof NewsFeedItem
-   */
-  feed_type: NewsFeedItemFeedTypeEnum
-  /**
-   *
-   * @type {FeedImage}
-   * @memberof NewsFeedItem
-   */
-  image: FeedImage
-  /**
-   *
-   * @type {FeedNewsDetail}
-   * @memberof NewsFeedItem
-   */
-  news_details: FeedNewsDetail
-  /**
-   *
-   * @type {string}
-   * @memberof NewsFeedItem
-   */
-  guid: string
-  /**
-   *
-   * @type {string}
-   * @memberof NewsFeedItem
-   */
-  title: string
-  /**
-   *
-   * @type {string}
-   * @memberof NewsFeedItem
-   */
-  url: string
-  /**
-   *
-   * @type {string}
-   * @memberof NewsFeedItem
-   */
-  summary?: string
-  /**
-   *
-   * @type {string}
-   * @memberof NewsFeedItem
-   */
-  content?: string
-  /**
-   *
-   * @type {number}
-   * @memberof NewsFeedItem
-   */
-  source: number
+    /**
+     *
+     * @type {number}
+     * @memberof NewsFeedItem
+     */
+    'id': number;
+    /**
+     *
+     * @type {NewsFeedItemFeedTypeEnum}
+     * @memberof NewsFeedItem
+     */
+    'feed_type': NewsFeedItemFeedTypeEnum;
+    /**
+     *
+     * @type {FeedImage}
+     * @memberof NewsFeedItem
+     */
+    'image': FeedImage;
+    /**
+     *
+     * @type {FeedNewsDetail}
+     * @memberof NewsFeedItem
+     */
+    'news_details': FeedNewsDetail;
+    /**
+     *
+     * @type {string}
+     * @memberof NewsFeedItem
+     */
+    'guid': string;
+    /**
+     *
+     * @type {string}
+     * @memberof NewsFeedItem
+     */
+    'title': string;
+    /**
+     *
+     * @type {string}
+     * @memberof NewsFeedItem
+     */
+    'url': string;
+    /**
+     *
+     * @type {string}
+     * @memberof NewsFeedItem
+     */
+    'summary'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof NewsFeedItem
+     */
+    'content'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof NewsFeedItem
+     */
+    'source': number;
 }
+
 
 /**
  *
@@ -1280,15 +1269,15 @@ export interface NewsFeedItem {
  */
 
 export const NewsFeedItemFeedTypeEnumDescriptions = {
-  news: "",
-} as const
+    'news': "",
+} as const;
 
 export const NewsFeedItemFeedTypeEnum = {
-  News: "news",
-} as const
+    News: 'news'
+} as const;
 
-export type NewsFeedItemFeedTypeEnum =
-  (typeof NewsFeedItemFeedTypeEnum)[keyof typeof NewsFeedItemFeedTypeEnum]
+export type NewsFeedItemFeedTypeEnum = typeof NewsFeedItemFeedTypeEnum[keyof typeof NewsFeedItemFeedTypeEnum];
+
 
 /**
  *
@@ -1296,30 +1285,30 @@ export type NewsFeedItemFeedTypeEnum =
  * @interface PaginatedAttestationList
  */
 export interface PaginatedAttestationList {
-  /**
-   *
-   * @type {number}
-   * @memberof PaginatedAttestationList
-   */
-  count: number
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedAttestationList
-   */
-  next?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedAttestationList
-   */
-  previous?: string | null
-  /**
-   *
-   * @type {Array<Attestation>}
-   * @memberof PaginatedAttestationList
-   */
-  results: Array<Attestation>
+    /**
+     *
+     * @type {number}
+     * @memberof PaginatedAttestationList
+     */
+    'count': number;
+    /**
+     *
+     * @type {string}
+     * @memberof PaginatedAttestationList
+     */
+    'next'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof PaginatedAttestationList
+     */
+    'previous'?: string | null;
+    /**
+     *
+     * @type {Array<Attestation>}
+     * @memberof PaginatedAttestationList
+     */
+    'results': Array<Attestation>;
 }
 /**
  *
@@ -1327,30 +1316,30 @@ export interface PaginatedAttestationList {
  * @interface PaginatedChannelList
  */
 export interface PaginatedChannelList {
-  /**
-   *
-   * @type {number}
-   * @memberof PaginatedChannelList
-   */
-  count: number
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedChannelList
-   */
-  next?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedChannelList
-   */
-  previous?: string | null
-  /**
-   *
-   * @type {Array<Channel>}
-   * @memberof PaginatedChannelList
-   */
-  results: Array<Channel>
+    /**
+     *
+     * @type {number}
+     * @memberof PaginatedChannelList
+     */
+    'count': number;
+    /**
+     *
+     * @type {string}
+     * @memberof PaginatedChannelList
+     */
+    'next'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof PaginatedChannelList
+     */
+    'previous'?: string | null;
+    /**
+     *
+     * @type {Array<Channel>}
+     * @memberof PaginatedChannelList
+     */
+    'results': Array<Channel>;
 }
 /**
  *
@@ -1358,30 +1347,30 @@ export interface PaginatedChannelList {
  * @interface PaginatedFeedItemList
  */
 export interface PaginatedFeedItemList {
-  /**
-   *
-   * @type {number}
-   * @memberof PaginatedFeedItemList
-   */
-  count: number
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedFeedItemList
-   */
-  next?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedFeedItemList
-   */
-  previous?: string | null
-  /**
-   *
-   * @type {Array<FeedItem>}
-   * @memberof PaginatedFeedItemList
-   */
-  results: Array<FeedItem>
+    /**
+     *
+     * @type {number}
+     * @memberof PaginatedFeedItemList
+     */
+    'count': number;
+    /**
+     *
+     * @type {string}
+     * @memberof PaginatedFeedItemList
+     */
+    'next'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof PaginatedFeedItemList
+     */
+    'previous'?: string | null;
+    /**
+     *
+     * @type {Array<FeedItem>}
+     * @memberof PaginatedFeedItemList
+     */
+    'results': Array<FeedItem>;
 }
 /**
  *
@@ -1389,30 +1378,30 @@ export interface PaginatedFeedItemList {
  * @interface PaginatedFeedSourceList
  */
 export interface PaginatedFeedSourceList {
-  /**
-   *
-   * @type {number}
-   * @memberof PaginatedFeedSourceList
-   */
-  count: number
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedFeedSourceList
-   */
-  next?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PaginatedFeedSourceList
-   */
-  previous?: string | null
-  /**
-   *
-   * @type {Array<FeedSource>}
-   * @memberof PaginatedFeedSourceList
-   */
-  results: Array<FeedSource>
+    /**
+     *
+     * @type {number}
+     * @memberof PaginatedFeedSourceList
+     */
+    'count': number;
+    /**
+     *
+     * @type {string}
+     * @memberof PaginatedFeedSourceList
+     */
+    'next'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof PaginatedFeedSourceList
+     */
+    'previous'?: string | null;
+    /**
+     *
+     * @type {Array<FeedSource>}
+     * @memberof PaginatedFeedSourceList
+     */
+    'results': Array<FeedSource>;
 }
 /**
  * Similar to ChannelCreateSerializer, with read-only name
@@ -1420,85 +1409,86 @@ export interface PaginatedFeedSourceList {
  * @interface PatchedChannelWriteRequest
  */
 export interface PatchedChannelWriteRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedChannelWriteRequest
-   */
-  name?: string
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedChannelWriteRequest
-   */
-  title?: string
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedChannelWriteRequest
-   */
-  public_description?: string
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof PatchedChannelWriteRequest
-   */
-  sub_channels?: Array<string>
-  /**
-   * Learning path featured in this channel.
-   * @type {number}
-   * @memberof PatchedChannelWriteRequest
-   */
-  featured_list?: number | null
-  /**
-   * Learning paths in this channel.
-   * @type {Array<number>}
-   * @memberof PatchedChannelWriteRequest
-   */
-  lists?: Array<number>
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof PatchedChannelWriteRequest
-   */
-  avatar?: string | null
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof PatchedChannelWriteRequest
-   */
-  banner?: string | null
-  /**
-   *
-   * @type {any}
-   * @memberof PatchedChannelWriteRequest
-   */
-  about?: any | null
-  /**
-   *
-   * @type {ChannelTypeEnum}
-   * @memberof PatchedChannelWriteRequest
-   */
-  channel_type?: ChannelTypeEnum
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedChannelWriteRequest
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {ChannelTopicDetailRequest}
-   * @memberof PatchedChannelWriteRequest
-   */
-  topic_detail?: ChannelTopicDetailRequest | null
-  /**
-   *
-   * @type {ChannelDepartmentDetailRequest}
-   * @memberof PatchedChannelWriteRequest
-   */
-  department_detail?: ChannelDepartmentDetailRequest | null
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'name'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'title'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'public_description'?: string;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'sub_channels'?: Array<string>;
+    /**
+     * Learning path featured in this channel.
+     * @type {number}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'featured_list'?: number | null;
+    /**
+     * Learning paths in this channel.
+     * @type {Array<number>}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'lists'?: Array<number>;
+    /**
+     * Get the avatar image URL
+     * @type {string}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'avatar'?: string | null;
+    /**
+     * Get the banner image URL
+     * @type {string}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'banner'?: string | null;
+    /**
+     *
+     * @type {any}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'about'?: any | null;
+    /**
+     *
+     * @type {ChannelTypeEnum}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'channel_type'?: ChannelTypeEnum;
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'search_filter'?: string;
+    /**
+     *
+     * @type {ChannelTopicDetailRequest}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'topic_detail'?: ChannelTopicDetailRequest | null;
+    /**
+     *
+     * @type {ChannelDepartmentDetailRequest}
+     * @memberof PatchedChannelWriteRequest
+     */
+    'department_detail'?: ChannelDepartmentDetailRequest | null;
 }
+
 
 /**
  * Serializer for Profile
@@ -1506,118 +1496,114 @@ export interface PatchedChannelWriteRequest {
  * @interface PatchedProfileRequest
  */
 export interface PatchedProfileRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedProfileRequest
-   */
-  name?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedProfileRequest
-   */
-  image?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedProfileRequest
-   */
-  image_small?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedProfileRequest
-   */
-  image_medium?: string | null
-  /**
-   *
-   * @type {boolean}
-   * @memberof PatchedProfileRequest
-   */
-  email_optin?: boolean
-  /**
-   *
-   * @type {boolean}
-   * @memberof PatchedProfileRequest
-   */
-  toc_optin?: boolean
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedProfileRequest
-   */
-  bio?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedProfileRequest
-   */
-  headline?: string | null
-  /**
-   *
-   * @type {any}
-   * @memberof PatchedProfileRequest
-   */
-  location?: any | null
-  /**
-   *
-   * @type {Array<number>}
-   * @memberof PatchedProfileRequest
-   */
-  topic_interests?: Array<number>
-  /**
-   *
-   * @type {Array<GoalsEnum>}
-   * @memberof PatchedProfileRequest
-   */
-  goals?: Array<GoalsEnum>
-  /**
-   *
-   * @type {PatchedProfileRequestCurrentEducation}
-   * @memberof PatchedProfileRequest
-   */
-  current_education?: PatchedProfileRequestCurrentEducation
-  /**
-   *
-   * @type {PatchedProfileRequestCertificateDesired}
-   * @memberof PatchedProfileRequest
-   */
-  certificate_desired?: PatchedProfileRequestCertificateDesired
-  /**
-   *
-   * @type {PatchedProfileRequestTimeCommitment}
-   * @memberof PatchedProfileRequest
-   */
-  time_commitment?: PatchedProfileRequestTimeCommitment
-  /**
-   *
-   * @type {Array<LearningFormatEnum>}
-   * @memberof PatchedProfileRequest
-   */
-  learning_format?: Array<LearningFormatEnum>
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedProfileRequest
+     */
+    'name'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedProfileRequest
+     */
+    'image'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedProfileRequest
+     */
+    'image_small'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedProfileRequest
+     */
+    'image_medium'?: string | null;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PatchedProfileRequest
+     */
+    'email_optin'?: boolean;
+    /**
+     *
+     * @type {boolean}
+     * @memberof PatchedProfileRequest
+     */
+    'toc_optin'?: boolean;
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedProfileRequest
+     */
+    'bio'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedProfileRequest
+     */
+    'headline'?: string | null;
+    /**
+     *
+     * @type {any}
+     * @memberof PatchedProfileRequest
+     */
+    'location'?: any | null;
+    /**
+     *
+     * @type {Array<number>}
+     * @memberof PatchedProfileRequest
+     */
+    'topic_interests'?: Array<number>;
+    /**
+     *
+     * @type {Array<GoalsEnum>}
+     * @memberof PatchedProfileRequest
+     */
+    'goals'?: Array<GoalsEnum>;
+    /**
+     *
+     * @type {PatchedProfileRequestCurrentEducation}
+     * @memberof PatchedProfileRequest
+     */
+    'current_education'?: PatchedProfileRequestCurrentEducation;
+    /**
+     *
+     * @type {PatchedProfileRequestCertificateDesired}
+     * @memberof PatchedProfileRequest
+     */
+    'certificate_desired'?: PatchedProfileRequestCertificateDesired;
+    /**
+     *
+     * @type {PatchedProfileRequestTimeCommitment}
+     * @memberof PatchedProfileRequest
+     */
+    'time_commitment'?: PatchedProfileRequestTimeCommitment;
+    /**
+     *
+     * @type {Array<LearningFormatEnum>}
+     * @memberof PatchedProfileRequest
+     */
+    'learning_format'?: Array<LearningFormatEnum>;
 }
 /**
  * @type PatchedProfileRequestCertificateDesired
  * @export
  */
-export type PatchedProfileRequestCertificateDesired =
-  | BlankEnum
-  | CertificateDesiredEnum
+export type PatchedProfileRequestCertificateDesired = BlankEnum | CertificateDesiredEnum;
 
 /**
  * @type PatchedProfileRequestCurrentEducation
  * @export
  */
-export type PatchedProfileRequestCurrentEducation =
-  | BlankEnum
-  | CurrentEducationEnum
+export type PatchedProfileRequestCurrentEducation = BlankEnum | CurrentEducationEnum;
 
 /**
  * @type PatchedProfileRequestTimeCommitment
  * @export
  */
-export type PatchedProfileRequestTimeCommitment = BlankEnum | TimeCommitmentEnum
+export type PatchedProfileRequestTimeCommitment = BlankEnum | TimeCommitmentEnum;
 
 /**
  * Serializer for User
@@ -1625,18 +1611,18 @@ export type PatchedProfileRequestTimeCommitment = BlankEnum | TimeCommitmentEnum
  * @interface PatchedUserRequest
  */
 export interface PatchedUserRequest {
-  /**
-   *
-   * @type {ProfileRequest}
-   * @memberof PatchedUserRequest
-   */
-  profile?: ProfileRequest
-  /**
-   *
-   * @type {string}
-   * @memberof PatchedUserRequest
-   */
-  email?: string
+    /**
+     *
+     * @type {ProfileRequest}
+     * @memberof PatchedUserRequest
+     */
+    'profile'?: ProfileRequest;
+    /**
+     *
+     * @type {string}
+     * @memberof PatchedUserRequest
+     */
+    'email'?: string;
 }
 /**
  * Serializer for WidgetLists
@@ -1644,12 +1630,12 @@ export interface PatchedUserRequest {
  * @interface PatchedWidgetListRequest
  */
 export interface PatchedWidgetListRequest {
-  /**
-   *
-   * @type {Array<WidgetInstance>}
-   * @memberof PatchedWidgetListRequest
-   */
-  widgets?: Array<WidgetInstance> | null
+    /**
+     *
+     * @type {Array<WidgetInstance>}
+     * @memberof PatchedWidgetListRequest
+     */
+    'widgets'?: Array<WidgetInstance> | null;
 }
 /**
  * Serializer for Channel model of type pathway
@@ -1657,133 +1643,134 @@ export interface PatchedWidgetListRequest {
  * @interface PathwayChannel
  */
 export interface PathwayChannel {
-  /**
-   *
-   * @type {number}
-   * @memberof PathwayChannel
-   */
-  id: number
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  avatar?: string | null
-  /**
-   * Get the avatar image small URL
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  avatar_small: string | null
-  /**
-   * Get the avatar image medium URL
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  avatar_medium: string | null
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  banner?: string | null
-  /**
-   * Return true if user is a moderator for the channel
-   * @type {boolean}
-   * @memberof PathwayChannel
-   */
-  is_moderator: boolean
-  /**
-   *
-   * @type {Array<LearningPathPreview>}
-   * @memberof PathwayChannel
-   */
-  lists: Array<LearningPathPreview>
-  /**
-   * Get the URL for the channel
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  channel_url: string
-  /**
-   *
-   * @type {DepartmentChannelFeaturedList}
-   * @memberof PathwayChannel
-   */
-  featured_list: DepartmentChannelFeaturedList | null
-  /**
-   *
-   * @type {Array<SubChannel>}
-   * @memberof PathwayChannel
-   */
-  sub_channels: Array<SubChannel>
-  /**
-   *
-   * @type {PathwayChannelTypeEnum}
-   * @memberof PathwayChannel
-   */
-  channel_type: PathwayChannelTypeEnum
-  /**
-   *
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  created_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  updated_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  title: string
-  /**
-   *
-   * @type {any}
-   * @memberof PathwayChannel
-   */
-  about?: any | null
-  /**
-   *
-   * @type {any}
-   * @memberof PathwayChannel
-   */
-  configuration?: any | null
-  /**
-   *
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  public_description?: string
-  /**
-   *
-   * @type {string}
-   * @memberof PathwayChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
-   * @type {number}
-   * @memberof PathwayChannel
-   */
-  widget_list?: number | null
+    /**
+     *
+     * @type {number}
+     * @memberof PathwayChannel
+     */
+    'id': number;
+    /**
+     * Get the avatar image URL
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'avatar'?: string | null;
+    /**
+     * Get the avatar image small URL
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'avatar_small': string | null;
+    /**
+     * Get the avatar image medium URL
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'avatar_medium': string | null;
+    /**
+     * Get the banner image URL
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'banner'?: string | null;
+    /**
+     * Return true if user is a moderator for the channel
+     * @type {boolean}
+     * @memberof PathwayChannel
+     */
+    'is_moderator': boolean;
+    /**
+     *
+     * @type {Array<LearningPathPreview>}
+     * @memberof PathwayChannel
+     */
+    'lists': Array<LearningPathPreview>;
+    /**
+     * Get the URL for the channel
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'channel_url': string;
+    /**
+     *
+     * @type {DepartmentChannelFeaturedList}
+     * @memberof PathwayChannel
+     */
+    'featured_list': DepartmentChannelFeaturedList | null;
+    /**
+     *
+     * @type {Array<SubChannel>}
+     * @memberof PathwayChannel
+     */
+    'sub_channels': Array<SubChannel>;
+    /**
+     *
+     * @type {PathwayChannelTypeEnum}
+     * @memberof PathwayChannel
+     */
+    'channel_type': PathwayChannelTypeEnum;
+    /**
+     *
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'created_on': string;
+    /**
+     *
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'updated_on': string;
+    /**
+     *
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'name': string;
+    /**
+     *
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'title': string;
+    /**
+     *
+     * @type {any}
+     * @memberof PathwayChannel
+     */
+    'about'?: any | null;
+    /**
+     *
+     * @type {any}
+     * @memberof PathwayChannel
+     */
+    'configuration'?: any | null;
+    /**
+     *
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'search_filter'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'public_description'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof PathwayChannel
+     */
+    'ga_tracking_id'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof PathwayChannel
+     */
+    'widget_list'?: number | null;
 }
+
 
 /**
  * * `pathway` - Pathway
@@ -1792,18 +1779,18 @@ export interface PathwayChannel {
  */
 
 export const PathwayChannelTypeEnumDescriptions = {
-  pathway: "Pathway",
-} as const
+    'pathway': "Pathway",
+} as const;
 
 export const PathwayChannelTypeEnum = {
-  /**
-   * Pathway
-   */
-  Pathway: "pathway",
-} as const
+    /**
+    * Pathway
+    */
+    Pathway: 'pathway'
+} as const;
 
-export type PathwayChannelTypeEnum =
-  (typeof PathwayChannelTypeEnum)[keyof typeof PathwayChannelTypeEnum]
+export type PathwayChannelTypeEnum = typeof PathwayChannelTypeEnum[keyof typeof PathwayChannelTypeEnum];
+
 
 /**
  * Serializer for profile search preference filters
@@ -1811,24 +1798,24 @@ export type PathwayChannelTypeEnum =
  * @interface PreferencesSearch
  */
 export interface PreferencesSearch {
-  /**
-   *
-   * @type {boolean}
-   * @memberof PreferencesSearch
-   */
-  certification?: boolean
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof PreferencesSearch
-   */
-  topic?: Array<string>
-  /**
-   *
-   * @type {Array<string>}
-   * @memberof PreferencesSearch
-   */
-  learning_format?: Array<string>
+    /**
+     *
+     * @type {boolean}
+     * @memberof PreferencesSearch
+     */
+    'certification'?: boolean;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof PreferencesSearch
+     */
+    'topic'?: Array<string>;
+    /**
+     *
+     * @type {Array<string>}
+     * @memberof PreferencesSearch
+     */
+    'learning_format'?: Array<string>;
 }
 /**
  * Serializer for Profile
@@ -1836,126 +1823,126 @@ export interface PreferencesSearch {
  * @interface Profile
  */
 export interface Profile {
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  name?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  image?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  image_small?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  image_medium?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  image_file: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  image_small_file: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  image_medium_file: string | null
-  /**
-   * Custom getter for small profile image
-   * @type {string}
-   * @memberof Profile
-   */
-  profile_image_small: string
-  /**
-   * Custom getter for medium profile image
-   * @type {string}
-   * @memberof Profile
-   */
-  profile_image_medium: string
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  bio?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof Profile
-   */
-  headline?: string | null
-  /**
-   * Custom getter for the username
-   * @type {string}
-   * @memberof Profile
-   */
-  username: string
-  /**
-   * Custom getter for location text
-   * @type {string}
-   * @memberof Profile
-   */
-  placename: string
-  /**
-   *
-   * @type {Array<LearningResourceTopic>}
-   * @memberof Profile
-   */
-  topic_interests?: Array<LearningResourceTopic>
-  /**
-   *
-   * @type {Array<GoalsEnum>}
-   * @memberof Profile
-   */
-  goals?: Array<GoalsEnum>
-  /**
-   *
-   * @type {PatchedProfileRequestCurrentEducation}
-   * @memberof Profile
-   */
-  current_education?: PatchedProfileRequestCurrentEducation
-  /**
-   *
-   * @type {PatchedProfileRequestCertificateDesired}
-   * @memberof Profile
-   */
-  certificate_desired?: PatchedProfileRequestCertificateDesired
-  /**
-   *
-   * @type {PatchedProfileRequestTimeCommitment}
-   * @memberof Profile
-   */
-  time_commitment?: PatchedProfileRequestTimeCommitment
-  /**
-   *
-   * @type {Array<LearningFormatEnum>}
-   * @memberof Profile
-   */
-  learning_format?: Array<LearningFormatEnum>
-  /**
-   *
-   * @type {PreferencesSearch}
-   * @memberof Profile
-   */
-  preference_search_filters: PreferencesSearch
+    /**
+     *
+     * @type {string}
+     * @memberof Profile
+     */
+    'name'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof Profile
+     */
+    'image'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof Profile
+     */
+    'image_small'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof Profile
+     */
+    'image_medium'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof Profile
+     */
+    'image_file': string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof Profile
+     */
+    'image_small_file': string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof Profile
+     */
+    'image_medium_file': string | null;
+    /**
+     * Custom getter for small profile image
+     * @type {string}
+     * @memberof Profile
+     */
+    'profile_image_small': string;
+    /**
+     * Custom getter for medium profile image
+     * @type {string}
+     * @memberof Profile
+     */
+    'profile_image_medium': string;
+    /**
+     *
+     * @type {string}
+     * @memberof Profile
+     */
+    'bio'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof Profile
+     */
+    'headline'?: string | null;
+    /**
+     * Custom getter for the username
+     * @type {string}
+     * @memberof Profile
+     */
+    'username': string;
+    /**
+     * Custom getter for location text
+     * @type {string}
+     * @memberof Profile
+     */
+    'placename': string;
+    /**
+     *
+     * @type {Array<LearningResourceTopic>}
+     * @memberof Profile
+     */
+    'topic_interests'?: Array<LearningResourceTopic>;
+    /**
+     *
+     * @type {Array<GoalsEnum>}
+     * @memberof Profile
+     */
+    'goals'?: Array<GoalsEnum>;
+    /**
+     *
+     * @type {PatchedProfileRequestCurrentEducation}
+     * @memberof Profile
+     */
+    'current_education'?: PatchedProfileRequestCurrentEducation;
+    /**
+     *
+     * @type {PatchedProfileRequestCertificateDesired}
+     * @memberof Profile
+     */
+    'certificate_desired'?: PatchedProfileRequestCertificateDesired;
+    /**
+     *
+     * @type {PatchedProfileRequestTimeCommitment}
+     * @memberof Profile
+     */
+    'time_commitment'?: PatchedProfileRequestTimeCommitment;
+    /**
+     *
+     * @type {Array<LearningFormatEnum>}
+     * @memberof Profile
+     */
+    'learning_format'?: Array<LearningFormatEnum>;
+    /**
+     *
+     * @type {PreferencesSearch}
+     * @memberof Profile
+     */
+    'preference_search_filters': PreferencesSearch;
 }
 /**
  * Serializer for Profile
@@ -1963,96 +1950,96 @@ export interface Profile {
  * @interface ProfileRequest
  */
 export interface ProfileRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ProfileRequest
-   */
-  name?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProfileRequest
-   */
-  image?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProfileRequest
-   */
-  image_small?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProfileRequest
-   */
-  image_medium?: string | null
-  /**
-   *
-   * @type {boolean}
-   * @memberof ProfileRequest
-   */
-  email_optin?: boolean
-  /**
-   *
-   * @type {boolean}
-   * @memberof ProfileRequest
-   */
-  toc_optin?: boolean
-  /**
-   *
-   * @type {string}
-   * @memberof ProfileRequest
-   */
-  bio?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProfileRequest
-   */
-  headline?: string | null
-  /**
-   *
-   * @type {any}
-   * @memberof ProfileRequest
-   */
-  location?: any | null
-  /**
-   *
-   * @type {Array<number>}
-   * @memberof ProfileRequest
-   */
-  topic_interests?: Array<number>
-  /**
-   *
-   * @type {Array<GoalsEnum>}
-   * @memberof ProfileRequest
-   */
-  goals?: Array<GoalsEnum>
-  /**
-   *
-   * @type {PatchedProfileRequestCurrentEducation}
-   * @memberof ProfileRequest
-   */
-  current_education?: PatchedProfileRequestCurrentEducation
-  /**
-   *
-   * @type {PatchedProfileRequestCertificateDesired}
-   * @memberof ProfileRequest
-   */
-  certificate_desired?: PatchedProfileRequestCertificateDesired
-  /**
-   *
-   * @type {PatchedProfileRequestTimeCommitment}
-   * @memberof ProfileRequest
-   */
-  time_commitment?: PatchedProfileRequestTimeCommitment
-  /**
-   *
-   * @type {Array<LearningFormatEnum>}
-   * @memberof ProfileRequest
-   */
-  learning_format?: Array<LearningFormatEnum>
+    /**
+     *
+     * @type {string}
+     * @memberof ProfileRequest
+     */
+    'name'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProfileRequest
+     */
+    'image'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProfileRequest
+     */
+    'image_small'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProfileRequest
+     */
+    'image_medium'?: string | null;
+    /**
+     *
+     * @type {boolean}
+     * @memberof ProfileRequest
+     */
+    'email_optin'?: boolean;
+    /**
+     *
+     * @type {boolean}
+     * @memberof ProfileRequest
+     */
+    'toc_optin'?: boolean;
+    /**
+     *
+     * @type {string}
+     * @memberof ProfileRequest
+     */
+    'bio'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProfileRequest
+     */
+    'headline'?: string | null;
+    /**
+     *
+     * @type {any}
+     * @memberof ProfileRequest
+     */
+    'location'?: any | null;
+    /**
+     *
+     * @type {Array<number>}
+     * @memberof ProfileRequest
+     */
+    'topic_interests'?: Array<number>;
+    /**
+     *
+     * @type {Array<GoalsEnum>}
+     * @memberof ProfileRequest
+     */
+    'goals'?: Array<GoalsEnum>;
+    /**
+     *
+     * @type {PatchedProfileRequestCurrentEducation}
+     * @memberof ProfileRequest
+     */
+    'current_education'?: PatchedProfileRequestCurrentEducation;
+    /**
+     *
+     * @type {PatchedProfileRequestCertificateDesired}
+     * @memberof ProfileRequest
+     */
+    'certificate_desired'?: PatchedProfileRequestCertificateDesired;
+    /**
+     *
+     * @type {PatchedProfileRequestTimeCommitment}
+     * @memberof ProfileRequest
+     */
+    'time_commitment'?: PatchedProfileRequestTimeCommitment;
+    /**
+     *
+     * @type {Array<LearningFormatEnum>}
+     * @memberof ProfileRequest
+     */
+    'learning_format'?: Array<LearningFormatEnum>;
 }
 /**
  * Serializer for Program Certificates
@@ -2060,120 +2047,120 @@ export interface ProfileRequest {
  * @interface ProgramCertificate
  */
 export interface ProgramCertificate {
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  record_hash: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  program_title: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_full_name?: string
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_email: string
-  /**
-   *
-   * @type {number}
-   * @memberof ProgramCertificate
-   */
-  user_edxorg_id?: number | null
-  /**
-   *
-   * @type {number}
-   * @memberof ProgramCertificate
-   */
-  micromasters_program_id?: number | null
-  /**
-   *
-   * @type {number}
-   * @memberof ProgramCertificate
-   */
-  mitxonline_program_id?: number | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_edxorg_username?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_gender?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_address_city?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_first_name?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_last_name?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_year_of_birth?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_country?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_address_postal_code?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_street_address?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_address_state_or_territory?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  user_mitxonline_username?: string | null
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificate
-   */
-  program_completion_timestamp?: string | null
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'record_hash': string;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'program_title': string;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_full_name'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_email': string;
+    /**
+     *
+     * @type {number}
+     * @memberof ProgramCertificate
+     */
+    'user_edxorg_id'?: number | null;
+    /**
+     *
+     * @type {number}
+     * @memberof ProgramCertificate
+     */
+    'micromasters_program_id'?: number | null;
+    /**
+     *
+     * @type {number}
+     * @memberof ProgramCertificate
+     */
+    'mitxonline_program_id'?: number | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_edxorg_username'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_gender'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_address_city'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_first_name'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_last_name'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_year_of_birth'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_country'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_address_postal_code'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_street_address'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_address_state_or_territory'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'user_mitxonline_username'?: string | null;
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificate
+     */
+    'program_completion_timestamp'?: string | null;
 }
 /**
  * * `news` - news * `events` - events
@@ -2182,23 +2169,23 @@ export interface ProgramCertificate {
  */
 
 export const ResourceTypeEnumDescriptions = {
-  news: "news",
-  events: "events",
-} as const
+    'news': "news",
+    'events': "events",
+} as const;
 
 export const ResourceTypeEnum = {
-  /**
-   * news
-   */
-  News: "news",
-  /**
-   * events
-   */
-  Events: "events",
-} as const
+    /**
+    * news
+    */
+    News: 'news',
+    /**
+    * events
+    */
+    Events: 'events'
+} as const;
 
-export type ResourceTypeEnum =
-  (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
+export type ResourceTypeEnum = typeof ResourceTypeEnum[keyof typeof ResourceTypeEnum];
+
 
 /**
  * * `facebook` - facebook * `linkedin` - linkedin * `personal` - personal * `twitter` - twitter
@@ -2207,32 +2194,33 @@ export type ResourceTypeEnum =
  */
 
 export const SiteTypeEnumDescriptions = {
-  facebook: "facebook",
-  linkedin: "linkedin",
-  personal: "personal",
-  twitter: "twitter",
-} as const
+    'facebook': "facebook",
+    'linkedin': "linkedin",
+    'personal': "personal",
+    'twitter': "twitter",
+} as const;
 
 export const SiteTypeEnum = {
-  /**
-   * facebook
-   */
-  Facebook: "facebook",
-  /**
-   * linkedin
-   */
-  Linkedin: "linkedin",
-  /**
-   * personal
-   */
-  Personal: "personal",
-  /**
-   * twitter
-   */
-  Twitter: "twitter",
-} as const
+    /**
+    * facebook
+    */
+    Facebook: 'facebook',
+    /**
+    * linkedin
+    */
+    Linkedin: 'linkedin',
+    /**
+    * personal
+    */
+    Personal: 'personal',
+    /**
+    * twitter
+    */
+    Twitter: 'twitter'
+} as const;
 
-export type SiteTypeEnum = (typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]
+export type SiteTypeEnum = typeof SiteTypeEnum[keyof typeof SiteTypeEnum];
+
 
 /**
  * Serializer for SubChannels
@@ -2240,24 +2228,24 @@ export type SiteTypeEnum = (typeof SiteTypeEnum)[keyof typeof SiteTypeEnum]
  * @interface SubChannel
  */
 export interface SubChannel {
-  /**
-   *
-   * @type {string}
-   * @memberof SubChannel
-   */
-  parent_channel: string
-  /**
-   *
-   * @type {string}
-   * @memberof SubChannel
-   */
-  channel: string
-  /**
-   *
-   * @type {number}
-   * @memberof SubChannel
-   */
-  position?: number
+    /**
+     *
+     * @type {string}
+     * @memberof SubChannel
+     */
+    'parent_channel': string;
+    /**
+     *
+     * @type {string}
+     * @memberof SubChannel
+     */
+    'channel': string;
+    /**
+     *
+     * @type {number}
+     * @memberof SubChannel
+     */
+    'position'?: number;
 }
 /**
  * * `0-to-5-hours` - <5 hours/week * `5-to-10-hours` - 5-10 hours/week * `10-to-20-hours` - 10-20 hours/week * `20-to-30-hours` - 20-30 hours/week * `30-plus-hours` - 30+ hours/week
@@ -2266,38 +2254,38 @@ export interface SubChannel {
  */
 
 export const TimeCommitmentEnumDescriptions = {
-  "0-to-5-hours": "<5 hours/week",
-  "5-to-10-hours": "5-10 hours/week",
-  "10-to-20-hours": "10-20 hours/week",
-  "20-to-30-hours": "20-30 hours/week",
-  "30-plus-hours": "30+ hours/week",
-} as const
+    '0-to-5-hours': "<5 hours/week",
+    '5-to-10-hours': "5-10 hours/week",
+    '10-to-20-hours': "10-20 hours/week",
+    '20-to-30-hours': "20-30 hours/week",
+    '30-plus-hours': "30+ hours/week",
+} as const;
 
 export const TimeCommitmentEnum = {
-  /**
-   * &lt;5 hours/week
-   */
-  _0To5Hours: "0-to-5-hours",
-  /**
-   * 5-10 hours/week
-   */
-  _5To10Hours: "5-to-10-hours",
-  /**
-   * 10-20 hours/week
-   */
-  _10To20Hours: "10-to-20-hours",
-  /**
-   * 20-30 hours/week
-   */
-  _20To30Hours: "20-to-30-hours",
-  /**
-   * 30+ hours/week
-   */
-  _30PlusHours: "30-plus-hours",
-} as const
+    /**
+    * &lt;5 hours/week
+    */
+    _0To5Hours: '0-to-5-hours',
+    /**
+    * 5-10 hours/week
+    */
+    _5To10Hours: '5-to-10-hours',
+    /**
+    * 10-20 hours/week
+    */
+    _10To20Hours: '10-to-20-hours',
+    /**
+    * 20-30 hours/week
+    */
+    _20To30Hours: '20-to-30-hours',
+    /**
+    * 30+ hours/week
+    */
+    _30PlusHours: '30-plus-hours'
+} as const;
 
-export type TimeCommitmentEnum =
-  (typeof TimeCommitmentEnum)[keyof typeof TimeCommitmentEnum]
+export type TimeCommitmentEnum = typeof TimeCommitmentEnum[keyof typeof TimeCommitmentEnum];
+
 
 /**
  * Serializer for Channel model of type topic
@@ -2305,139 +2293,140 @@ export type TimeCommitmentEnum =
  * @interface TopicChannel
  */
 export interface TopicChannel {
-  /**
-   *
-   * @type {number}
-   * @memberof TopicChannel
-   */
-  id: number
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  avatar?: string | null
-  /**
-   * Get the avatar image small URL
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  avatar_small: string | null
-  /**
-   * Get the avatar image medium URL
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  avatar_medium: string | null
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  banner?: string | null
-  /**
-   * Return true if user is a moderator for the channel
-   * @type {boolean}
-   * @memberof TopicChannel
-   */
-  is_moderator: boolean
-  /**
-   *
-   * @type {Array<LearningPathPreview>}
-   * @memberof TopicChannel
-   */
-  lists: Array<LearningPathPreview>
-  /**
-   * Get the URL for the channel
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  channel_url: string
-  /**
-   *
-   * @type {DepartmentChannelFeaturedList}
-   * @memberof TopicChannel
-   */
-  featured_list: DepartmentChannelFeaturedList | null
-  /**
-   *
-   * @type {Array<SubChannel>}
-   * @memberof TopicChannel
-   */
-  sub_channels: Array<SubChannel>
-  /**
-   *
-   * @type {TopicChannelTypeEnum}
-   * @memberof TopicChannel
-   */
-  channel_type: TopicChannelTypeEnum
-  /**
-   *
-   * @type {ChannelTopicDetail}
-   * @memberof TopicChannel
-   */
-  topic_detail: ChannelTopicDetail
-  /**
-   *
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  created_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  updated_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  title: string
-  /**
-   *
-   * @type {any}
-   * @memberof TopicChannel
-   */
-  about?: any | null
-  /**
-   *
-   * @type {any}
-   * @memberof TopicChannel
-   */
-  configuration?: any | null
-  /**
-   *
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  public_description?: string
-  /**
-   *
-   * @type {string}
-   * @memberof TopicChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
-   * @type {number}
-   * @memberof TopicChannel
-   */
-  widget_list?: number | null
+    /**
+     *
+     * @type {number}
+     * @memberof TopicChannel
+     */
+    'id': number;
+    /**
+     * Get the avatar image URL
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'avatar'?: string | null;
+    /**
+     * Get the avatar image small URL
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'avatar_small': string | null;
+    /**
+     * Get the avatar image medium URL
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'avatar_medium': string | null;
+    /**
+     * Get the banner image URL
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'banner'?: string | null;
+    /**
+     * Return true if user is a moderator for the channel
+     * @type {boolean}
+     * @memberof TopicChannel
+     */
+    'is_moderator': boolean;
+    /**
+     *
+     * @type {Array<LearningPathPreview>}
+     * @memberof TopicChannel
+     */
+    'lists': Array<LearningPathPreview>;
+    /**
+     * Get the URL for the channel
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'channel_url': string;
+    /**
+     *
+     * @type {DepartmentChannelFeaturedList}
+     * @memberof TopicChannel
+     */
+    'featured_list': DepartmentChannelFeaturedList | null;
+    /**
+     *
+     * @type {Array<SubChannel>}
+     * @memberof TopicChannel
+     */
+    'sub_channels': Array<SubChannel>;
+    /**
+     *
+     * @type {TopicChannelTypeEnum}
+     * @memberof TopicChannel
+     */
+    'channel_type': TopicChannelTypeEnum;
+    /**
+     *
+     * @type {ChannelTopicDetail}
+     * @memberof TopicChannel
+     */
+    'topic_detail': ChannelTopicDetail;
+    /**
+     *
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'created_on': string;
+    /**
+     *
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'updated_on': string;
+    /**
+     *
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'name': string;
+    /**
+     *
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'title': string;
+    /**
+     *
+     * @type {any}
+     * @memberof TopicChannel
+     */
+    'about'?: any | null;
+    /**
+     *
+     * @type {any}
+     * @memberof TopicChannel
+     */
+    'configuration'?: any | null;
+    /**
+     *
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'search_filter'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'public_description'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof TopicChannel
+     */
+    'ga_tracking_id'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof TopicChannel
+     */
+    'widget_list'?: number | null;
 }
+
 
 /**
  * * `topic` - Topic
@@ -2446,18 +2435,18 @@ export interface TopicChannel {
  */
 
 export const TopicChannelTypeEnumDescriptions = {
-  topic: "Topic",
-} as const
+    'topic': "Topic",
+} as const;
 
 export const TopicChannelTypeEnum = {
-  /**
-   * Topic
-   */
-  Topic: "topic",
-} as const
+    /**
+    * Topic
+    */
+    Topic: 'topic'
+} as const;
 
-export type TopicChannelTypeEnum =
-  (typeof TopicChannelTypeEnum)[keyof typeof TopicChannelTypeEnum]
+export type TopicChannelTypeEnum = typeof TopicChannelTypeEnum[keyof typeof TopicChannelTypeEnum];
+
 
 /**
  * Serializer for Channel model of type unit
@@ -2465,139 +2454,140 @@ export type TopicChannelTypeEnum =
  * @interface UnitChannel
  */
 export interface UnitChannel {
-  /**
-   *
-   * @type {number}
-   * @memberof UnitChannel
-   */
-  id: number
-  /**
-   * Get the avatar image URL
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  avatar?: string | null
-  /**
-   * Get the avatar image small URL
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  avatar_small: string | null
-  /**
-   * Get the avatar image medium URL
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  avatar_medium: string | null
-  /**
-   * Get the banner image URL
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  banner?: string | null
-  /**
-   * Return true if user is a moderator for the channel
-   * @type {boolean}
-   * @memberof UnitChannel
-   */
-  is_moderator: boolean
-  /**
-   *
-   * @type {Array<LearningPathPreview>}
-   * @memberof UnitChannel
-   */
-  lists: Array<LearningPathPreview>
-  /**
-   * Get the URL for the channel
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  channel_url: string
-  /**
-   *
-   * @type {DepartmentChannelFeaturedList}
-   * @memberof UnitChannel
-   */
-  featured_list: DepartmentChannelFeaturedList | null
-  /**
-   *
-   * @type {Array<SubChannel>}
-   * @memberof UnitChannel
-   */
-  sub_channels: Array<SubChannel>
-  /**
-   *
-   * @type {UnitChannelTypeEnum}
-   * @memberof UnitChannel
-   */
-  channel_type: UnitChannelTypeEnum
-  /**
-   *
-   * @type {ChannelUnitDetail}
-   * @memberof UnitChannel
-   */
-  unit_detail: ChannelUnitDetail
-  /**
-   *
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  created_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  updated_on: string
-  /**
-   *
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  name: string
-  /**
-   *
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  title: string
-  /**
-   *
-   * @type {any}
-   * @memberof UnitChannel
-   */
-  about?: any | null
-  /**
-   *
-   * @type {any}
-   * @memberof UnitChannel
-   */
-  configuration?: any | null
-  /**
-   *
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  search_filter?: string
-  /**
-   *
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  public_description?: string
-  /**
-   *
-   * @type {string}
-   * @memberof UnitChannel
-   */
-  ga_tracking_id?: string
-  /**
-   *
-   * @type {number}
-   * @memberof UnitChannel
-   */
-  widget_list?: number | null
+    /**
+     *
+     * @type {number}
+     * @memberof UnitChannel
+     */
+    'id': number;
+    /**
+     * Get the avatar image URL
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'avatar'?: string | null;
+    /**
+     * Get the avatar image small URL
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'avatar_small': string | null;
+    /**
+     * Get the avatar image medium URL
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'avatar_medium': string | null;
+    /**
+     * Get the banner image URL
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'banner'?: string | null;
+    /**
+     * Return true if user is a moderator for the channel
+     * @type {boolean}
+     * @memberof UnitChannel
+     */
+    'is_moderator': boolean;
+    /**
+     *
+     * @type {Array<LearningPathPreview>}
+     * @memberof UnitChannel
+     */
+    'lists': Array<LearningPathPreview>;
+    /**
+     * Get the URL for the channel
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'channel_url': string;
+    /**
+     *
+     * @type {DepartmentChannelFeaturedList}
+     * @memberof UnitChannel
+     */
+    'featured_list': DepartmentChannelFeaturedList | null;
+    /**
+     *
+     * @type {Array<SubChannel>}
+     * @memberof UnitChannel
+     */
+    'sub_channels': Array<SubChannel>;
+    /**
+     *
+     * @type {UnitChannelTypeEnum}
+     * @memberof UnitChannel
+     */
+    'channel_type': UnitChannelTypeEnum;
+    /**
+     *
+     * @type {ChannelUnitDetail}
+     * @memberof UnitChannel
+     */
+    'unit_detail': ChannelUnitDetail;
+    /**
+     *
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'created_on': string;
+    /**
+     *
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'updated_on': string;
+    /**
+     *
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'name': string;
+    /**
+     *
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'title': string;
+    /**
+     *
+     * @type {any}
+     * @memberof UnitChannel
+     */
+    'about'?: any | null;
+    /**
+     *
+     * @type {any}
+     * @memberof UnitChannel
+     */
+    'configuration'?: any | null;
+    /**
+     *
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'search_filter'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'public_description'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof UnitChannel
+     */
+    'ga_tracking_id'?: string;
+    /**
+     *
+     * @type {number}
+     * @memberof UnitChannel
+     */
+    'widget_list'?: number | null;
 }
+
 
 /**
  * * `unit` - Unit
@@ -2606,18 +2596,18 @@ export interface UnitChannel {
  */
 
 export const UnitChannelTypeEnumDescriptions = {
-  unit: "Unit",
-} as const
+    'unit': "Unit",
+} as const;
 
 export const UnitChannelTypeEnum = {
-  /**
-   * Unit
-   */
-  Unit: "unit",
-} as const
+    /**
+    * Unit
+    */
+    Unit: 'unit'
+} as const;
 
-export type UnitChannelTypeEnum =
-  (typeof UnitChannelTypeEnum)[keyof typeof UnitChannelTypeEnum]
+export type UnitChannelTypeEnum = typeof UnitChannelTypeEnum[keyof typeof UnitChannelTypeEnum];
+
 
 /**
  * Serializer for User
@@ -2625,48 +2615,48 @@ export type UnitChannelTypeEnum =
  * @interface User
  */
 export interface User {
-  /**
-   *
-   * @type {number}
-   * @memberof User
-   */
-  id: number
-  /**
-   *
-   * @type {string}
-   * @memberof User
-   */
-  username: string
-  /**
-   *
-   * @type {Profile}
-   * @memberof User
-   */
-  profile: Profile
-  /**
-   *
-   * @type {string}
-   * @memberof User
-   */
-  first_name: string
-  /**
-   *
-   * @type {string}
-   * @memberof User
-   */
-  last_name: string
-  /**
-   *
-   * @type {boolean}
-   * @memberof User
-   */
-  is_article_editor: boolean
-  /**
-   *
-   * @type {boolean}
-   * @memberof User
-   */
-  is_learning_path_editor: boolean
+    /**
+     *
+     * @type {number}
+     * @memberof User
+     */
+    'id': number;
+    /**
+     *
+     * @type {string}
+     * @memberof User
+     */
+    'username': string;
+    /**
+     *
+     * @type {Profile}
+     * @memberof User
+     */
+    'profile': Profile;
+    /**
+     *
+     * @type {string}
+     * @memberof User
+     */
+    'first_name': string;
+    /**
+     *
+     * @type {string}
+     * @memberof User
+     */
+    'last_name': string;
+    /**
+     *
+     * @type {boolean}
+     * @memberof User
+     */
+    'is_article_editor': boolean;
+    /**
+     *
+     * @type {boolean}
+     * @memberof User
+     */
+    'is_learning_path_editor': boolean;
 }
 /**
  * Serializer for User
@@ -2674,18 +2664,18 @@ export interface User {
  * @interface UserRequest
  */
 export interface UserRequest {
-  /**
-   *
-   * @type {ProfileRequest}
-   * @memberof UserRequest
-   */
-  profile: ProfileRequest
-  /**
-   *
-   * @type {string}
-   * @memberof UserRequest
-   */
-  email: string
+    /**
+     *
+     * @type {ProfileRequest}
+     * @memberof UserRequest
+     */
+    'profile': ProfileRequest;
+    /**
+     *
+     * @type {string}
+     * @memberof UserRequest
+     */
+    'email': string;
 }
 /**
  * Serializer for UserWebsite
@@ -2693,31 +2683,32 @@ export interface UserRequest {
  * @interface UserWebsite
  */
 export interface UserWebsite {
-  /**
-   *
-   * @type {number}
-   * @memberof UserWebsite
-   */
-  id: number
-  /**
-   *
-   * @type {number}
-   * @memberof UserWebsite
-   */
-  profile: number
-  /**
-   *
-   * @type {string}
-   * @memberof UserWebsite
-   */
-  url: string
-  /**
-   *
-   * @type {SiteTypeEnum}
-   * @memberof UserWebsite
-   */
-  site_type: SiteTypeEnum
+    /**
+     *
+     * @type {number}
+     * @memberof UserWebsite
+     */
+    'id': number;
+    /**
+     *
+     * @type {number}
+     * @memberof UserWebsite
+     */
+    'profile': number;
+    /**
+     *
+     * @type {string}
+     * @memberof UserWebsite
+     */
+    'url': string;
+    /**
+     *
+     * @type {SiteTypeEnum}
+     * @memberof UserWebsite
+     */
+    'site_type': SiteTypeEnum;
 }
+
 
 /**
  * Serializer for UserWebsite
@@ -2725,18 +2716,18 @@ export interface UserWebsite {
  * @interface UserWebsiteRequest
  */
 export interface UserWebsiteRequest {
-  /**
-   *
-   * @type {number}
-   * @memberof UserWebsiteRequest
-   */
-  profile: number
-  /**
-   *
-   * @type {string}
-   * @memberof UserWebsiteRequest
-   */
-  url: string
+    /**
+     *
+     * @type {number}
+     * @memberof UserWebsiteRequest
+     */
+    'profile': number;
+    /**
+     *
+     * @type {string}
+     * @memberof UserWebsiteRequest
+     */
+    'url': string;
 }
 /**
  * WidgetInstance serializer
@@ -2744,37 +2735,38 @@ export interface UserWebsiteRequest {
  * @interface WidgetInstance
  */
 export interface WidgetInstance {
-  /**
-   *
-   * @type {number}
-   * @memberof WidgetInstance
-   */
-  id: number
-  /**
-   *
-   * @type {WidgetTypeEnum}
-   * @memberof WidgetInstance
-   */
-  widget_type: WidgetTypeEnum
-  /**
-   *
-   * @type {string}
-   * @memberof WidgetInstance
-   */
-  title: string
-  /**
-   * Returns the configuration to serialize
-   * @type {{ [key: string]: any; }}
-   * @memberof WidgetInstance
-   */
-  configuration?: { [key: string]: any }
-  /**
-   * Renders the widget to json based on configuration
-   * @type {{ [key: string]: any; }}
-   * @memberof WidgetInstance
-   */
-  json: { [key: string]: any } | null
+    /**
+     *
+     * @type {number}
+     * @memberof WidgetInstance
+     */
+    'id': number;
+    /**
+     *
+     * @type {WidgetTypeEnum}
+     * @memberof WidgetInstance
+     */
+    'widget_type': WidgetTypeEnum;
+    /**
+     *
+     * @type {string}
+     * @memberof WidgetInstance
+     */
+    'title': string;
+    /**
+     * Returns the configuration to serialize
+     * @type {{ [key: string]: any; }}
+     * @memberof WidgetInstance
+     */
+    'configuration'?: { [key: string]: any; };
+    /**
+     * Renders the widget to json based on configuration
+     * @type {{ [key: string]: any; }}
+     * @memberof WidgetInstance
+     */
+    'json': { [key: string]: any; } | null;
 }
+
 
 /**
  * Serializer for WidgetLists
@@ -2782,24 +2774,24 @@ export interface WidgetInstance {
  * @interface WidgetList
  */
 export interface WidgetList {
-  /**
-   *
-   * @type {number}
-   * @memberof WidgetList
-   */
-  id: number
-  /**
-   *
-   * @type {Array<WidgetInstance>}
-   * @memberof WidgetList
-   */
-  widgets?: Array<WidgetInstance> | null
-  /**
-   *
-   * @type {Array<WidgetListAvailableWidgetsInner>}
-   * @memberof WidgetList
-   */
-  available_widgets: Array<WidgetListAvailableWidgetsInner>
+    /**
+     *
+     * @type {number}
+     * @memberof WidgetList
+     */
+    'id': number;
+    /**
+     *
+     * @type {Array<WidgetInstance>}
+     * @memberof WidgetList
+     */
+    'widgets'?: Array<WidgetInstance> | null;
+    /**
+     *
+     * @type {Array<WidgetListAvailableWidgetsInner>}
+     * @memberof WidgetList
+     */
+    'available_widgets': Array<WidgetListAvailableWidgetsInner>;
 }
 /**
  *
@@ -2807,24 +2799,24 @@ export interface WidgetList {
  * @interface WidgetListAvailableWidgetsInner
  */
 export interface WidgetListAvailableWidgetsInner {
-  /**
-   *
-   * @type {string}
-   * @memberof WidgetListAvailableWidgetsInner
-   */
-  widget_type?: string
-  /**
-   *
-   * @type {string}
-   * @memberof WidgetListAvailableWidgetsInner
-   */
-  description?: string
-  /**
-   *
-   * @type {object}
-   * @memberof WidgetListAvailableWidgetsInner
-   */
-  form_spec?: object
+    /**
+     *
+     * @type {string}
+     * @memberof WidgetListAvailableWidgetsInner
+     */
+    'widget_type'?: string;
+    /**
+     *
+     * @type {string}
+     * @memberof WidgetListAvailableWidgetsInner
+     */
+    'description'?: string;
+    /**
+     *
+     * @type {object}
+     * @memberof WidgetListAvailableWidgetsInner
+     */
+    'form_spec'?: object;
 }
 /**
  * Serializer for WidgetLists
@@ -2832,12 +2824,12 @@ export interface WidgetListAvailableWidgetsInner {
  * @interface WidgetListRequest
  */
 export interface WidgetListRequest {
-  /**
-   *
-   * @type {Array<WidgetInstance>}
-   * @memberof WidgetListRequest
-   */
-  widgets?: Array<WidgetInstance> | null
+    /**
+     *
+     * @type {Array<WidgetInstance>}
+     * @memberof WidgetListRequest
+     */
+    'widgets'?: Array<WidgetInstance> | null;
 }
 /**
  * * `Markdown` - Markdown * `URL` - URL * `RSS Feed` - RSS Feed * `People` - People
@@ -2846,971 +2838,611 @@ export interface WidgetListRequest {
  */
 
 export const WidgetTypeEnumDescriptions = {
-  Markdown: "Markdown",
-  URL: "URL",
-  "RSS Feed": "RSS Feed",
-  People: "People",
-} as const
+    'Markdown': "Markdown",
+    'URL': "URL",
+    'RSS Feed': "RSS Feed",
+    'People': "People",
+} as const;
 
 export const WidgetTypeEnum = {
-  /**
-   * Markdown
-   */
-  Markdown: "Markdown",
-  /**
-   * URL
-   */
-  Url: "URL",
-  /**
-   * RSS Feed
-   */
-  RssFeed: "RSS Feed",
-  /**
-   * People
-   */
-  People: "People",
-} as const
+    /**
+    * Markdown
+    */
+    Markdown: 'Markdown',
+    /**
+    * URL
+    */
+    Url: 'URL',
+    /**
+    * RSS Feed
+    */
+    RssFeed: 'RSS Feed',
+    /**
+    * People
+    */
+    People: 'People'
+} as const;
 
-export type WidgetTypeEnum =
-  (typeof WidgetTypeEnum)[keyof typeof WidgetTypeEnum]
+export type WidgetTypeEnum = typeof WidgetTypeEnum[keyof typeof WidgetTypeEnum];
+
+
 
 /**
  * ChannelsApi - axios parameter creator
  * @export
  */
-export const ChannelsApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Create
-     * @param {ChannelCreateRequest} ChannelCreateRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsCreate: async (
-      ChannelCreateRequest: ChannelCreateRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'ChannelCreateRequest' is not null or undefined
-      assertParamExists(
-        "channelsCreate",
-        "ChannelCreateRequest",
-        ChannelCreateRequest,
-      )
-      const localVarPath = `/api/v0/channels/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const ChannelsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Create
+         * @param {ChannelCreateRequest} ChannelCreateRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsCreate: async (ChannelCreateRequest: ChannelCreateRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'ChannelCreateRequest' is not null or undefined
+            assertParamExists('channelsCreate', 'ChannelCreateRequest', ChannelCreateRequest)
+            const localVarPath = `/api/v0/channels/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        ChannelCreateRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Destroy
-     * @param {number} id A unique integer value identifying this channel.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsDestroy: async (
-      id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("channelsDestroy", "id", id)
-      const localVarPath = `/api/v0/channels/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-      const localVarRequestOptions = {
-        method: "DELETE",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(ChannelCreateRequest, localVarRequestOptions, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Destroy
+         * @param {number} id A unique integer value identifying this channel.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsDestroy: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('channelsDestroy', 'id', id)
+            const localVarPath = `/api/v0/channels/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary List
-     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsList: async (
-      channel_type?: ChannelsListChannelTypeEnum,
-      limit?: number,
-      offset?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/channels/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
 
-      if (channel_type !== undefined) {
-        localVarQueryParameter["channel_type"] = channel_type
-      }
 
-      if (limit !== undefined) {
-        localVarQueryParameter["limit"] = limit
-      }
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      if (offset !== undefined) {
-        localVarQueryParameter["offset"] = offset
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary List
+         * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
+         * @param {number} [limit] Number of results to return per page.
+         * @param {number} [offset] The initial index from which to return the results.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsList: async (channel_type?: ChannelsListChannelTypeEnum, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v0/channels/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for listing and adding moderators
-     * @summary Channel Moderators Create
-     * @param {string} id
-     * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsModeratorsCreate: async (
-      id: string,
-      ChannelModeratorRequest?: ChannelModeratorRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("channelsModeratorsCreate", "id", id)
-      const localVarPath = `/api/v0/channels/{id}/moderators/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            if (channel_type !== undefined) {
+                localVarQueryParameter['channel_type'] = channel_type;
+            }
 
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        ChannelModeratorRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Remove the user from the moderator groups for this website
-     * @summary Channel Moderators Destroy
-     * @param {string} id
-     * @param {string} moderator_name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsModeratorsDestroy: async (
-      id: string,
-      moderator_name: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("channelsModeratorsDestroy", "id", id)
-      // verify required parameter 'moderator_name' is not null or undefined
-      assertParamExists(
-        "channelsModeratorsDestroy",
-        "moderator_name",
-        moderator_name,
-      )
-      const localVarPath = `/api/v0/channels/{id}/moderators/{moderator_name}/`
-        .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-        .replace(
-          `{${"moderator_name"}}`,
-          encodeURIComponent(String(moderator_name)),
-        )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
 
-      const localVarRequestOptions = {
-        method: "DELETE",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for listing and adding moderators
+         * @summary Channel Moderators Create
+         * @param {string} id
+         * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsModeratorsCreate: async (id: string, ChannelModeratorRequest?: ChannelModeratorRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('channelsModeratorsCreate', 'id', id)
+            const localVarPath = `/api/v0/channels/{id}/moderators/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for listing and adding moderators
-     * @summary Channel Moderators List
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsModeratorsList: async (
-      id: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("channelsModeratorsList", "id", id)
-      const localVarPath = `/api/v0/channels/{id}/moderators/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Update
-     * @param {number} id A unique integer value identifying this channel.
-     * @param {PatchedChannelWriteRequest} [PatchedChannelWriteRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsPartialUpdate: async (
-      id: number,
-      PatchedChannelWriteRequest?: PatchedChannelWriteRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("channelsPartialUpdate", "id", id)
-      const localVarPath = `/api/v0/channels/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-      const localVarRequestOptions = {
-        method: "PATCH",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(ChannelModeratorRequest, localVarRequestOptions, configuration)
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Remove the user from the moderator groups for this website
+         * @summary Channel Moderators Destroy
+         * @param {string} id
+         * @param {string} moderator_name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsModeratorsDestroy: async (id: string, moderator_name: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('channelsModeratorsDestroy', 'id', id)
+            // verify required parameter 'moderator_name' is not null or undefined
+            assertParamExists('channelsModeratorsDestroy', 'moderator_name', moderator_name)
+            const localVarPath = `/api/v0/channels/{id}/moderators/{moderator_name}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)))
+                .replace(`{${"moderator_name"}}`, encodeURIComponent(String(moderator_name)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        PatchedChannelWriteRequest,
-        localVarRequestOptions,
-        configuration,
-      )
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Retrieve
-     * @param {number} id A unique integer value identifying this channel.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsRetrieve: async (
-      id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("channelsRetrieve", "id", id)
-      const localVarPath = `/api/v0/channels/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for retrieving an individual channel by type and name
-     * @summary Channel Detail Lookup by channel type and name
-     * @param {string} channel_type
-     * @param {string} name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsTypeRetrieve: async (
-      channel_type: string,
-      name: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'channel_type' is not null or undefined
-      assertParamExists("channelsTypeRetrieve", "channel_type", channel_type)
-      // verify required parameter 'name' is not null or undefined
-      assertParamExists("channelsTypeRetrieve", "name", name)
-      const localVarPath = `/api/v0/channels/type/{channel_type}/{name}/`
-        .replace(
-          `{${"channel_type"}}`,
-          encodeURIComponent(String(channel_type)),
-        )
-        .replace(`{${"name"}}`, encodeURIComponent(String(name)))
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for listing and adding moderators
+         * @summary Channel Moderators List
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsModeratorsList: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('channelsModeratorsList', 'id', id)
+            const localVarPath = `/api/v0/channels/{id}/moderators/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Update
+         * @param {number} id A unique integer value identifying this channel.
+         * @param {PatchedChannelWriteRequest} [PatchedChannelWriteRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsPartialUpdate: async (id: number, PatchedChannelWriteRequest?: PatchedChannelWriteRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('channelsPartialUpdate', 'id', id)
+            const localVarPath = `/api/v0/channels/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(PatchedChannelWriteRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Retrieve
+         * @param {number} id A unique integer value identifying this channel.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('channelsRetrieve', 'id', id)
+            const localVarPath = `/api/v0/channels/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for retrieving an individual channel by type and name
+         * @summary Channel Detail Lookup by channel type and name
+         * @param {string} channel_type
+         * @param {string} name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsTypeRetrieve: async (channel_type: string, name: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'channel_type' is not null or undefined
+            assertParamExists('channelsTypeRetrieve', 'channel_type', channel_type)
+            // verify required parameter 'name' is not null or undefined
+            assertParamExists('channelsTypeRetrieve', 'name', name)
+            const localVarPath = `/api/v0/channels/type/{channel_type}/{name}/`
+                .replace(`{${"channel_type"}}`, encodeURIComponent(String(channel_type)))
+                .replace(`{${"name"}}`, encodeURIComponent(String(name)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * ChannelsApi - functional programming interface
  * @export
  */
-export const ChannelsApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = ChannelsApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Create
-     * @param {ChannelCreateRequest} ChannelCreateRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async channelsCreate(
-      ChannelCreateRequest: ChannelCreateRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.channelsCreate(
-        ChannelCreateRequest,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ChannelsApi.channelsCreate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Destroy
-     * @param {number} id A unique integer value identifying this channel.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async channelsDestroy(
-      id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.channelsDestroy(
-        id,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ChannelsApi.channelsDestroy"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary List
-     * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async channelsList(
-      channel_type?: ChannelsListChannelTypeEnum,
-      limit?: number,
-      offset?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<PaginatedChannelList>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.channelsList(
-        channel_type,
-        limit,
-        offset,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ChannelsApi.channelsList"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for listing and adding moderators
-     * @summary Channel Moderators Create
-     * @param {string} id
-     * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async channelsModeratorsCreate(
-      id: string,
-      ChannelModeratorRequest?: ChannelModeratorRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<ChannelModerator>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.channelsModeratorsCreate(
-          id,
-          ChannelModeratorRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ChannelsApi.channelsModeratorsCreate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Remove the user from the moderator groups for this website
-     * @summary Channel Moderators Destroy
-     * @param {string} id
-     * @param {string} moderator_name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async channelsModeratorsDestroy(
-      id: string,
-      moderator_name: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.channelsModeratorsDestroy(
-          id,
-          moderator_name,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ChannelsApi.channelsModeratorsDestroy"]?.[index]
-          ?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for listing and adding moderators
-     * @summary Channel Moderators List
-     * @param {string} id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async channelsModeratorsList(
-      id: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<Array<ChannelModerator>>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.channelsModeratorsList(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ChannelsApi.channelsModeratorsList"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Update
-     * @param {number} id A unique integer value identifying this channel.
-     * @param {PatchedChannelWriteRequest} [PatchedChannelWriteRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async channelsPartialUpdate(
-      id: number,
-      PatchedChannelWriteRequest?: PatchedChannelWriteRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.channelsPartialUpdate(
-          id,
-          PatchedChannelWriteRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ChannelsApi.channelsPartialUpdate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Retrieve
-     * @param {number} id A unique integer value identifying this channel.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async channelsRetrieve(
-      id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.channelsRetrieve(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ChannelsApi.channelsRetrieve"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for retrieving an individual channel by type and name
-     * @summary Channel Detail Lookup by channel type and name
-     * @param {string} channel_type
-     * @param {string} name
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async channelsTypeRetrieve(
-      channel_type: string,
-      name: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.channelsTypeRetrieve(
-          channel_type,
-          name,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ChannelsApi.channelsTypeRetrieve"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const ChannelsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ChannelsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Create
+         * @param {ChannelCreateRequest} ChannelCreateRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async channelsCreate(ChannelCreateRequest: ChannelCreateRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.channelsCreate(ChannelCreateRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ChannelsApi.channelsCreate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Destroy
+         * @param {number} id A unique integer value identifying this channel.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async channelsDestroy(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.channelsDestroy(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ChannelsApi.channelsDestroy']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary List
+         * @param {ChannelsListChannelTypeEnum} [channel_type] * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
+         * @param {number} [limit] Number of results to return per page.
+         * @param {number} [offset] The initial index from which to return the results.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async channelsList(channel_type?: ChannelsListChannelTypeEnum, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedChannelList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.channelsList(channel_type, limit, offset, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ChannelsApi.channelsList']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for listing and adding moderators
+         * @summary Channel Moderators Create
+         * @param {string} id
+         * @param {ChannelModeratorRequest} [ChannelModeratorRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async channelsModeratorsCreate(id: string, ChannelModeratorRequest?: ChannelModeratorRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChannelModerator>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.channelsModeratorsCreate(id, ChannelModeratorRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ChannelsApi.channelsModeratorsCreate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Remove the user from the moderator groups for this website
+         * @summary Channel Moderators Destroy
+         * @param {string} id
+         * @param {string} moderator_name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async channelsModeratorsDestroy(id: string, moderator_name: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.channelsModeratorsDestroy(id, moderator_name, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ChannelsApi.channelsModeratorsDestroy']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for listing and adding moderators
+         * @summary Channel Moderators List
+         * @param {string} id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async channelsModeratorsList(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ChannelModerator>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.channelsModeratorsList(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ChannelsApi.channelsModeratorsList']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Update
+         * @param {number} id A unique integer value identifying this channel.
+         * @param {PatchedChannelWriteRequest} [PatchedChannelWriteRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async channelsPartialUpdate(id: number, PatchedChannelWriteRequest?: PatchedChannelWriteRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.channelsPartialUpdate(id, PatchedChannelWriteRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ChannelsApi.channelsPartialUpdate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Retrieve
+         * @param {number} id A unique integer value identifying this channel.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async channelsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.channelsRetrieve(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ChannelsApi.channelsRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for retrieving an individual channel by type and name
+         * @summary Channel Detail Lookup by channel type and name
+         * @param {string} channel_type
+         * @param {string} name
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async channelsTypeRetrieve(channel_type: string, name: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Channel>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.channelsTypeRetrieve(channel_type, name, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ChannelsApi.channelsTypeRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * ChannelsApi - factory interface
  * @export
  */
-export const ChannelsApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = ChannelsApiFp(configuration)
-  return {
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Create
-     * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsCreate(
-      requestParameters: ChannelsApiChannelsCreateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Channel> {
-      return localVarFp
-        .channelsCreate(requestParameters.ChannelCreateRequest, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Destroy
-     * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsDestroy(
-      requestParameters: ChannelsApiChannelsDestroyRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .channelsDestroy(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary List
-     * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsList(
-      requestParameters: ChannelsApiChannelsListRequest = {},
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedChannelList> {
-      return localVarFp
-        .channelsList(
-          requestParameters.channel_type,
-          requestParameters.limit,
-          requestParameters.offset,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for listing and adding moderators
-     * @summary Channel Moderators Create
-     * @param {ChannelsApiChannelsModeratorsCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsModeratorsCreate(
-      requestParameters: ChannelsApiChannelsModeratorsCreateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<ChannelModerator> {
-      return localVarFp
-        .channelsModeratorsCreate(
-          requestParameters.id,
-          requestParameters.ChannelModeratorRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Remove the user from the moderator groups for this website
-     * @summary Channel Moderators Destroy
-     * @param {ChannelsApiChannelsModeratorsDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsModeratorsDestroy(
-      requestParameters: ChannelsApiChannelsModeratorsDestroyRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .channelsModeratorsDestroy(
-          requestParameters.id,
-          requestParameters.moderator_name,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for listing and adding moderators
-     * @summary Channel Moderators List
-     * @param {ChannelsApiChannelsModeratorsListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsModeratorsList(
-      requestParameters: ChannelsApiChannelsModeratorsListRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<ChannelModerator>> {
-      return localVarFp
-        .channelsModeratorsList(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Update
-     * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsPartialUpdate(
-      requestParameters: ChannelsApiChannelsPartialUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Channel> {
-      return localVarFp
-        .channelsPartialUpdate(
-          requestParameters.id,
-          requestParameters.PatchedChannelWriteRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-     * @summary Retrieve
-     * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsRetrieve(
-      requestParameters: ChannelsApiChannelsRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Channel> {
-      return localVarFp
-        .channelsRetrieve(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for retrieving an individual channel by type and name
-     * @summary Channel Detail Lookup by channel type and name
-     * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    channelsTypeRetrieve(
-      requestParameters: ChannelsApiChannelsTypeRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Channel> {
-      return localVarFp
-        .channelsTypeRetrieve(
-          requestParameters.channel_type,
-          requestParameters.name,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const ChannelsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ChannelsApiFp(configuration)
+    return {
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Create
+         * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsCreate(requestParameters: ChannelsApiChannelsCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Channel> {
+            return localVarFp.channelsCreate(requestParameters.ChannelCreateRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Destroy
+         * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsDestroy(requestParameters: ChannelsApiChannelsDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.channelsDestroy(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary List
+         * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsList(requestParameters: ChannelsApiChannelsListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedChannelList> {
+            return localVarFp.channelsList(requestParameters.channel_type, requestParameters.limit, requestParameters.offset, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for listing and adding moderators
+         * @summary Channel Moderators Create
+         * @param {ChannelsApiChannelsModeratorsCreateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsModeratorsCreate(requestParameters: ChannelsApiChannelsModeratorsCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<ChannelModerator> {
+            return localVarFp.channelsModeratorsCreate(requestParameters.id, requestParameters.ChannelModeratorRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Remove the user from the moderator groups for this website
+         * @summary Channel Moderators Destroy
+         * @param {ChannelsApiChannelsModeratorsDestroyRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsModeratorsDestroy(requestParameters: ChannelsApiChannelsModeratorsDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.channelsModeratorsDestroy(requestParameters.id, requestParameters.moderator_name, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for listing and adding moderators
+         * @summary Channel Moderators List
+         * @param {ChannelsApiChannelsModeratorsListRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsModeratorsList(requestParameters: ChannelsApiChannelsModeratorsListRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<ChannelModerator>> {
+            return localVarFp.channelsModeratorsList(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Update
+         * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsPartialUpdate(requestParameters: ChannelsApiChannelsPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Channel> {
+            return localVarFp.channelsPartialUpdate(requestParameters.id, requestParameters.PatchedChannelWriteRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+         * @summary Retrieve
+         * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsRetrieve(requestParameters: ChannelsApiChannelsRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<Channel> {
+            return localVarFp.channelsRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for retrieving an individual channel by type and name
+         * @summary Channel Detail Lookup by channel type and name
+         * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        channelsTypeRetrieve(requestParameters: ChannelsApiChannelsTypeRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<Channel> {
+            return localVarFp.channelsTypeRetrieve(requestParameters.channel_type, requestParameters.name, options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * Request parameters for channelsCreate operation in ChannelsApi.
@@ -3818,12 +3450,12 @@ export const ChannelsApiFactory = function (
  * @interface ChannelsApiChannelsCreateRequest
  */
 export interface ChannelsApiChannelsCreateRequest {
-  /**
-   *
-   * @type {ChannelCreateRequest}
-   * @memberof ChannelsApiChannelsCreate
-   */
-  readonly ChannelCreateRequest: ChannelCreateRequest
+    /**
+     *
+     * @type {ChannelCreateRequest}
+     * @memberof ChannelsApiChannelsCreate
+     */
+    readonly ChannelCreateRequest: ChannelCreateRequest
 }
 
 /**
@@ -3832,12 +3464,12 @@ export interface ChannelsApiChannelsCreateRequest {
  * @interface ChannelsApiChannelsDestroyRequest
  */
 export interface ChannelsApiChannelsDestroyRequest {
-  /**
-   * A unique integer value identifying this channel.
-   * @type {number}
-   * @memberof ChannelsApiChannelsDestroy
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this channel.
+     * @type {number}
+     * @memberof ChannelsApiChannelsDestroy
+     */
+    readonly id: number
 }
 
 /**
@@ -3846,26 +3478,26 @@ export interface ChannelsApiChannelsDestroyRequest {
  * @interface ChannelsApiChannelsListRequest
  */
 export interface ChannelsApiChannelsListRequest {
-  /**
-   * * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
-   * @type {'department' | 'pathway' | 'topic' | 'unit'}
-   * @memberof ChannelsApiChannelsList
-   */
-  readonly channel_type?: ChannelsListChannelTypeEnum
+    /**
+     * * &#x60;topic&#x60; - Topic * &#x60;department&#x60; - Department * &#x60;unit&#x60; - Unit * &#x60;pathway&#x60; - Pathway
+     * @type {'department' | 'pathway' | 'topic' | 'unit'}
+     * @memberof ChannelsApiChannelsList
+     */
+    readonly channel_type?: ChannelsListChannelTypeEnum
 
-  /**
-   * Number of results to return per page.
-   * @type {number}
-   * @memberof ChannelsApiChannelsList
-   */
-  readonly limit?: number
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof ChannelsApiChannelsList
+     */
+    readonly limit?: number
 
-  /**
-   * The initial index from which to return the results.
-   * @type {number}
-   * @memberof ChannelsApiChannelsList
-   */
-  readonly offset?: number
+    /**
+     * The initial index from which to return the results.
+     * @type {number}
+     * @memberof ChannelsApiChannelsList
+     */
+    readonly offset?: number
 }
 
 /**
@@ -3874,19 +3506,19 @@ export interface ChannelsApiChannelsListRequest {
  * @interface ChannelsApiChannelsModeratorsCreateRequest
  */
 export interface ChannelsApiChannelsModeratorsCreateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelsApiChannelsModeratorsCreate
-   */
-  readonly id: string
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelsApiChannelsModeratorsCreate
+     */
+    readonly id: string
 
-  /**
-   *
-   * @type {ChannelModeratorRequest}
-   * @memberof ChannelsApiChannelsModeratorsCreate
-   */
-  readonly ChannelModeratorRequest?: ChannelModeratorRequest
+    /**
+     *
+     * @type {ChannelModeratorRequest}
+     * @memberof ChannelsApiChannelsModeratorsCreate
+     */
+    readonly ChannelModeratorRequest?: ChannelModeratorRequest
 }
 
 /**
@@ -3895,19 +3527,19 @@ export interface ChannelsApiChannelsModeratorsCreateRequest {
  * @interface ChannelsApiChannelsModeratorsDestroyRequest
  */
 export interface ChannelsApiChannelsModeratorsDestroyRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelsApiChannelsModeratorsDestroy
-   */
-  readonly id: string
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelsApiChannelsModeratorsDestroy
+     */
+    readonly id: string
 
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelsApiChannelsModeratorsDestroy
-   */
-  readonly moderator_name: string
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelsApiChannelsModeratorsDestroy
+     */
+    readonly moderator_name: string
 }
 
 /**
@@ -3916,12 +3548,12 @@ export interface ChannelsApiChannelsModeratorsDestroyRequest {
  * @interface ChannelsApiChannelsModeratorsListRequest
  */
 export interface ChannelsApiChannelsModeratorsListRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelsApiChannelsModeratorsList
-   */
-  readonly id: string
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelsApiChannelsModeratorsList
+     */
+    readonly id: string
 }
 
 /**
@@ -3930,19 +3562,19 @@ export interface ChannelsApiChannelsModeratorsListRequest {
  * @interface ChannelsApiChannelsPartialUpdateRequest
  */
 export interface ChannelsApiChannelsPartialUpdateRequest {
-  /**
-   * A unique integer value identifying this channel.
-   * @type {number}
-   * @memberof ChannelsApiChannelsPartialUpdate
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this channel.
+     * @type {number}
+     * @memberof ChannelsApiChannelsPartialUpdate
+     */
+    readonly id: number
 
-  /**
-   *
-   * @type {PatchedChannelWriteRequest}
-   * @memberof ChannelsApiChannelsPartialUpdate
-   */
-  readonly PatchedChannelWriteRequest?: PatchedChannelWriteRequest
+    /**
+     *
+     * @type {PatchedChannelWriteRequest}
+     * @memberof ChannelsApiChannelsPartialUpdate
+     */
+    readonly PatchedChannelWriteRequest?: PatchedChannelWriteRequest
 }
 
 /**
@@ -3951,12 +3583,12 @@ export interface ChannelsApiChannelsPartialUpdateRequest {
  * @interface ChannelsApiChannelsRetrieveRequest
  */
 export interface ChannelsApiChannelsRetrieveRequest {
-  /**
-   * A unique integer value identifying this channel.
-   * @type {number}
-   * @memberof ChannelsApiChannelsRetrieve
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this channel.
+     * @type {number}
+     * @memberof ChannelsApiChannelsRetrieve
+     */
+    readonly id: number
 }
 
 /**
@@ -3965,19 +3597,19 @@ export interface ChannelsApiChannelsRetrieveRequest {
  * @interface ChannelsApiChannelsTypeRetrieveRequest
  */
 export interface ChannelsApiChannelsTypeRetrieveRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelsApiChannelsTypeRetrieve
-   */
-  readonly channel_type: string
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelsApiChannelsTypeRetrieve
+     */
+    readonly channel_type: string
 
-  /**
-   *
-   * @type {string}
-   * @memberof ChannelsApiChannelsTypeRetrieve
-   */
-  readonly name: string
+    /**
+     *
+     * @type {string}
+     * @memberof ChannelsApiChannelsTypeRetrieve
+     */
+    readonly name: string
 }
 
 /**
@@ -3987,303 +3619,203 @@ export interface ChannelsApiChannelsTypeRetrieveRequest {
  * @extends {BaseAPI}
  */
 export class ChannelsApi extends BaseAPI {
-  /**
-   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-   * @summary Create
-   * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ChannelsApi
-   */
-  public channelsCreate(
-    requestParameters: ChannelsApiChannelsCreateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ChannelsApiFp(this.configuration)
-      .channelsCreate(requestParameters.ChannelCreateRequest, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Create
+     * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApi
+     */
+    public channelsCreate(requestParameters: ChannelsApiChannelsCreateRequest, options?: RawAxiosRequestConfig) {
+        return ChannelsApiFp(this.configuration).channelsCreate(requestParameters.ChannelCreateRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-   * @summary Destroy
-   * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ChannelsApi
-   */
-  public channelsDestroy(
-    requestParameters: ChannelsApiChannelsDestroyRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ChannelsApiFp(this.configuration)
-      .channelsDestroy(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Destroy
+     * @param {ChannelsApiChannelsDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApi
+     */
+    public channelsDestroy(requestParameters: ChannelsApiChannelsDestroyRequest, options?: RawAxiosRequestConfig) {
+        return ChannelsApiFp(this.configuration).channelsDestroy(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-   * @summary List
-   * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ChannelsApi
-   */
-  public channelsList(
-    requestParameters: ChannelsApiChannelsListRequest = {},
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ChannelsApiFp(this.configuration)
-      .channelsList(
-        requestParameters.channel_type,
-        requestParameters.limit,
-        requestParameters.offset,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary List
+     * @param {ChannelsApiChannelsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApi
+     */
+    public channelsList(requestParameters: ChannelsApiChannelsListRequest = {}, options?: RawAxiosRequestConfig) {
+        return ChannelsApiFp(this.configuration).channelsList(requestParameters.channel_type, requestParameters.limit, requestParameters.offset, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for listing and adding moderators
-   * @summary Channel Moderators Create
-   * @param {ChannelsApiChannelsModeratorsCreateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ChannelsApi
-   */
-  public channelsModeratorsCreate(
-    requestParameters: ChannelsApiChannelsModeratorsCreateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ChannelsApiFp(this.configuration)
-      .channelsModeratorsCreate(
-        requestParameters.id,
-        requestParameters.ChannelModeratorRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for listing and adding moderators
+     * @summary Channel Moderators Create
+     * @param {ChannelsApiChannelsModeratorsCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApi
+     */
+    public channelsModeratorsCreate(requestParameters: ChannelsApiChannelsModeratorsCreateRequest, options?: RawAxiosRequestConfig) {
+        return ChannelsApiFp(this.configuration).channelsModeratorsCreate(requestParameters.id, requestParameters.ChannelModeratorRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * Remove the user from the moderator groups for this website
-   * @summary Channel Moderators Destroy
-   * @param {ChannelsApiChannelsModeratorsDestroyRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ChannelsApi
-   */
-  public channelsModeratorsDestroy(
-    requestParameters: ChannelsApiChannelsModeratorsDestroyRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ChannelsApiFp(this.configuration)
-      .channelsModeratorsDestroy(
-        requestParameters.id,
-        requestParameters.moderator_name,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * Remove the user from the moderator groups for this website
+     * @summary Channel Moderators Destroy
+     * @param {ChannelsApiChannelsModeratorsDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApi
+     */
+    public channelsModeratorsDestroy(requestParameters: ChannelsApiChannelsModeratorsDestroyRequest, options?: RawAxiosRequestConfig) {
+        return ChannelsApiFp(this.configuration).channelsModeratorsDestroy(requestParameters.id, requestParameters.moderator_name, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for listing and adding moderators
-   * @summary Channel Moderators List
-   * @param {ChannelsApiChannelsModeratorsListRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ChannelsApi
-   */
-  public channelsModeratorsList(
-    requestParameters: ChannelsApiChannelsModeratorsListRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ChannelsApiFp(this.configuration)
-      .channelsModeratorsList(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for listing and adding moderators
+     * @summary Channel Moderators List
+     * @param {ChannelsApiChannelsModeratorsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApi
+     */
+    public channelsModeratorsList(requestParameters: ChannelsApiChannelsModeratorsListRequest, options?: RawAxiosRequestConfig) {
+        return ChannelsApiFp(this.configuration).channelsModeratorsList(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-   * @summary Update
-   * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ChannelsApi
-   */
-  public channelsPartialUpdate(
-    requestParameters: ChannelsApiChannelsPartialUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ChannelsApiFp(this.configuration)
-      .channelsPartialUpdate(
-        requestParameters.id,
-        requestParameters.PatchedChannelWriteRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Update
+     * @param {ChannelsApiChannelsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApi
+     */
+    public channelsPartialUpdate(requestParameters: ChannelsApiChannelsPartialUpdateRequest, options?: RawAxiosRequestConfig) {
+        return ChannelsApiFp(this.configuration).channelsPartialUpdate(requestParameters.id, requestParameters.PatchedChannelWriteRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
-   * @summary Retrieve
-   * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ChannelsApi
-   */
-  public channelsRetrieve(
-    requestParameters: ChannelsApiChannelsRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ChannelsApiFp(this.configuration)
-      .channelsRetrieve(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
+     * @summary Retrieve
+     * @param {ChannelsApiChannelsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApi
+     */
+    public channelsRetrieve(requestParameters: ChannelsApiChannelsRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return ChannelsApiFp(this.configuration).channelsRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for retrieving an individual channel by type and name
-   * @summary Channel Detail Lookup by channel type and name
-   * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ChannelsApi
-   */
-  public channelsTypeRetrieve(
-    requestParameters: ChannelsApiChannelsTypeRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ChannelsApiFp(this.configuration)
-      .channelsTypeRetrieve(
-        requestParameters.channel_type,
-        requestParameters.name,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
+     * @param {ChannelsApiChannelsTypeRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ChannelsApi
+     */
+    public channelsTypeRetrieve(requestParameters: ChannelsApiChannelsTypeRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return ChannelsApiFp(this.configuration).channelsTypeRetrieve(requestParameters.channel_type, requestParameters.name, options).then((request) => request(this.axios, this.basePath));
+    }
 }
 
 /**
  * @export
  */
 export const ChannelsListChannelTypeEnum = {
-  Department: "department",
-  Pathway: "pathway",
-  Topic: "topic",
-  Unit: "unit",
-} as const
-export type ChannelsListChannelTypeEnum =
-  (typeof ChannelsListChannelTypeEnum)[keyof typeof ChannelsListChannelTypeEnum]
+    Department: 'department',
+    Pathway: 'pathway',
+    Topic: 'topic',
+    Unit: 'unit'
+} as const;
+export type ChannelsListChannelTypeEnum = typeof ChannelsListChannelTypeEnum[keyof typeof ChannelsListChannelTypeEnum];
+
 
 /**
  * CkeditorApi - axios parameter creator
  * @export
  */
-export const CkeditorApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * Get the settings response
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    ckeditorRetrieve: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/ckeditor`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const CkeditorApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Get the settings response
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        ckeditorRetrieve: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v0/ckeditor`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * CkeditorApi - functional programming interface
  * @export
  */
-export const CkeditorApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = CkeditorApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * Get the settings response
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async ckeditorRetrieve(
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<CKEditorSettings>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.ckeditorRetrieve(options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["CkeditorApi.ckeditorRetrieve"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const CkeditorApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CkeditorApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Get the settings response
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async ckeditorRetrieve(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CKEditorSettings>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.ckeditorRetrieve(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['CkeditorApi.ckeditorRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * CkeditorApi - factory interface
  * @export
  */
-export const CkeditorApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = CkeditorApiFp(configuration)
-  return {
-    /**
-     * Get the settings response
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    ckeditorRetrieve(
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<CKEditorSettings> {
-      return localVarFp
-        .ckeditorRetrieve(options)
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const CkeditorApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CkeditorApiFp(configuration)
+    return {
+        /**
+         * Get the settings response
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        ckeditorRetrieve(options?: RawAxiosRequestConfig): AxiosPromise<CKEditorSettings> {
+            return localVarFp.ckeditorRetrieve(options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * CkeditorApi - object-oriented interface
@@ -4292,259 +3824,174 @@ export const CkeditorApiFactory = function (
  * @extends {BaseAPI}
  */
 export class CkeditorApi extends BaseAPI {
-  /**
-   * Get the settings response
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof CkeditorApi
-   */
-  public ckeditorRetrieve(options?: RawAxiosRequestConfig) {
-    return CkeditorApiFp(this.configuration)
-      .ckeditorRetrieve(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * Get the settings response
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CkeditorApi
+     */
+    public ckeditorRetrieve(options?: RawAxiosRequestConfig) {
+        return CkeditorApiFp(this.configuration).ckeditorRetrieve(options).then((request) => request(this.axios, this.basePath));
+    }
 }
+
+
 
 /**
  * NewsEventsApi - axios parameter creator
  * @export
  */
-export const NewsEventsApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * Get a paginated list of feed items.
-     * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    newsEventsList: async (
-      feed_type?: Array<NewsEventsListFeedTypeEnum>,
-      limit?: number,
-      offset?: number,
-      sortby?: NewsEventsListSortbyEnum,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/news_events/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const NewsEventsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Get a paginated list of feed items.
+         * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+         * @param {number} [limit] Number of results to return per page.
+         * @param {number} [offset] The initial index from which to return the results.
+         * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newsEventsList: async (feed_type?: Array<NewsEventsListFeedTypeEnum>, limit?: number, offset?: number, sortby?: NewsEventsListSortbyEnum, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v0/news_events/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      if (feed_type) {
-        localVarQueryParameter["feed_type"] = feed_type
-      }
+            if (feed_type) {
+                localVarQueryParameter['feed_type'] = feed_type;
+            }
 
-      if (limit !== undefined) {
-        localVarQueryParameter["limit"] = limit
-      }
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
 
-      if (offset !== undefined) {
-        localVarQueryParameter["offset"] = offset
-      }
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
 
-      if (sortby !== undefined) {
-        localVarQueryParameter["sortby"] = sortby
-      }
+            if (sortby !== undefined) {
+                localVarQueryParameter['sortby'] = sortby;
+            }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Retrieve a single feed item.
-     * @param {number} id A unique integer value identifying this feed item.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    newsEventsRetrieve: async (
-      id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("newsEventsRetrieve", "id", id)
-      const localVarPath = `/api/v0/news_events/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retrieve a single feed item.
+         * @param {number} id A unique integer value identifying this feed item.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newsEventsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('newsEventsRetrieve', 'id', id)
+            const localVarPath = `/api/v0/news_events/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * NewsEventsApi - functional programming interface
  * @export
  */
-export const NewsEventsApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator =
-    NewsEventsApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * Get a paginated list of feed items.
-     * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async newsEventsList(
-      feed_type?: Array<NewsEventsListFeedTypeEnum>,
-      limit?: number,
-      offset?: number,
-      sortby?: NewsEventsListSortbyEnum,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<PaginatedFeedItemList>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.newsEventsList(
-        feed_type,
-        limit,
-        offset,
-        sortby,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["NewsEventsApi.newsEventsList"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Retrieve a single feed item.
-     * @param {number} id A unique integer value identifying this feed item.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async newsEventsRetrieve(
-      id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedItem>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.newsEventsRetrieve(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["NewsEventsApi.newsEventsRetrieve"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const NewsEventsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = NewsEventsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Get a paginated list of feed items.
+         * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+         * @param {number} [limit] Number of results to return per page.
+         * @param {number} [offset] The initial index from which to return the results.
+         * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newsEventsList(feed_type?: Array<NewsEventsListFeedTypeEnum>, limit?: number, offset?: number, sortby?: NewsEventsListSortbyEnum, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedFeedItemList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newsEventsList(feed_type, limit, offset, sortby, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['NewsEventsApi.newsEventsList']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Retrieve a single feed item.
+         * @param {number} id A unique integer value identifying this feed item.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newsEventsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedItem>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newsEventsRetrieve(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['NewsEventsApi.newsEventsRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * NewsEventsApi - factory interface
  * @export
  */
-export const NewsEventsApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = NewsEventsApiFp(configuration)
-  return {
-    /**
-     * Get a paginated list of feed items.
-     * @param {NewsEventsApiNewsEventsListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    newsEventsList(
-      requestParameters: NewsEventsApiNewsEventsListRequest = {},
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedFeedItemList> {
-      return localVarFp
-        .newsEventsList(
-          requestParameters.feed_type,
-          requestParameters.limit,
-          requestParameters.offset,
-          requestParameters.sortby,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Retrieve a single feed item.
-     * @param {NewsEventsApiNewsEventsRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    newsEventsRetrieve(
-      requestParameters: NewsEventsApiNewsEventsRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FeedItem> {
-      return localVarFp
-        .newsEventsRetrieve(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const NewsEventsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = NewsEventsApiFp(configuration)
+    return {
+        /**
+         * Get a paginated list of feed items.
+         * @param {NewsEventsApiNewsEventsListRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newsEventsList(requestParameters: NewsEventsApiNewsEventsListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedFeedItemList> {
+            return localVarFp.newsEventsList(requestParameters.feed_type, requestParameters.limit, requestParameters.offset, requestParameters.sortby, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve a single feed item.
+         * @param {NewsEventsApiNewsEventsRetrieveRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newsEventsRetrieve(requestParameters: NewsEventsApiNewsEventsRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<FeedItem> {
+            return localVarFp.newsEventsRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * Request parameters for newsEventsList operation in NewsEventsApi.
@@ -4552,33 +3999,33 @@ export const NewsEventsApiFactory = function (
  * @interface NewsEventsApiNewsEventsListRequest
  */
 export interface NewsEventsApiNewsEventsListRequest {
-  /**
-   * The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
-   * @type {Array<'events' | 'news'>}
-   * @memberof NewsEventsApiNewsEventsList
-   */
-  readonly feed_type?: Array<NewsEventsListFeedTypeEnum>
+    /**
+     * The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+     * @type {Array<'events' | 'news'>}
+     * @memberof NewsEventsApiNewsEventsList
+     */
+    readonly feed_type?: Array<NewsEventsListFeedTypeEnum>
 
-  /**
-   * Number of results to return per page.
-   * @type {number}
-   * @memberof NewsEventsApiNewsEventsList
-   */
-  readonly limit?: number
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof NewsEventsApiNewsEventsList
+     */
+    readonly limit?: number
 
-  /**
-   * The initial index from which to return the results.
-   * @type {number}
-   * @memberof NewsEventsApiNewsEventsList
-   */
-  readonly offset?: number
+    /**
+     * The initial index from which to return the results.
+     * @type {number}
+     * @memberof NewsEventsApiNewsEventsList
+     */
+    readonly offset?: number
 
-  /**
-   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
-   * @type {'-created' | '-event_date' | '-id' | 'created' | 'event_date' | 'id'}
-   * @memberof NewsEventsApiNewsEventsList
-   */
-  readonly sortby?: NewsEventsListSortbyEnum
+    /**
+     * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+     * @type {'-created' | '-event_date' | '-id' | 'created' | 'event_date' | 'id'}
+     * @memberof NewsEventsApiNewsEventsList
+     */
+    readonly sortby?: NewsEventsListSortbyEnum
 }
 
 /**
@@ -4587,12 +4034,12 @@ export interface NewsEventsApiNewsEventsListRequest {
  * @interface NewsEventsApiNewsEventsRetrieveRequest
  */
 export interface NewsEventsApiNewsEventsRetrieveRequest {
-  /**
-   * A unique integer value identifying this feed item.
-   * @type {number}
-   * @memberof NewsEventsApiNewsEventsRetrieve
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this feed item.
+     * @type {number}
+     * @memberof NewsEventsApiNewsEventsRetrieve
+     */
+    readonly id: number
 }
 
 /**
@@ -4602,303 +4049,200 @@ export interface NewsEventsApiNewsEventsRetrieveRequest {
  * @extends {BaseAPI}
  */
 export class NewsEventsApi extends BaseAPI {
-  /**
-   * Get a paginated list of feed items.
-   * @param {NewsEventsApiNewsEventsListRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof NewsEventsApi
-   */
-  public newsEventsList(
-    requestParameters: NewsEventsApiNewsEventsListRequest = {},
-    options?: RawAxiosRequestConfig,
-  ) {
-    return NewsEventsApiFp(this.configuration)
-      .newsEventsList(
-        requestParameters.feed_type,
-        requestParameters.limit,
-        requestParameters.offset,
-        requestParameters.sortby,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * Get a paginated list of feed items.
+     * @param {NewsEventsApiNewsEventsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsEventsApi
+     */
+    public newsEventsList(requestParameters: NewsEventsApiNewsEventsListRequest = {}, options?: RawAxiosRequestConfig) {
+        return NewsEventsApiFp(this.configuration).newsEventsList(requestParameters.feed_type, requestParameters.limit, requestParameters.offset, requestParameters.sortby, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * Retrieve a single feed item.
-   * @param {NewsEventsApiNewsEventsRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof NewsEventsApi
-   */
-  public newsEventsRetrieve(
-    requestParameters: NewsEventsApiNewsEventsRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return NewsEventsApiFp(this.configuration)
-      .newsEventsRetrieve(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * Retrieve a single feed item.
+     * @param {NewsEventsApiNewsEventsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsEventsApi
+     */
+    public newsEventsRetrieve(requestParameters: NewsEventsApiNewsEventsRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return NewsEventsApiFp(this.configuration).newsEventsRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
 }
 
 /**
  * @export
  */
 export const NewsEventsListFeedTypeEnum = {
-  Events: "events",
-  News: "news",
-} as const
-export type NewsEventsListFeedTypeEnum =
-  (typeof NewsEventsListFeedTypeEnum)[keyof typeof NewsEventsListFeedTypeEnum]
+    Events: 'events',
+    News: 'news'
+} as const;
+export type NewsEventsListFeedTypeEnum = typeof NewsEventsListFeedTypeEnum[keyof typeof NewsEventsListFeedTypeEnum];
 /**
  * @export
  */
 export const NewsEventsListSortbyEnum = {
-  Created: "-created",
-  EventDate: "-event_date",
-  Id: "-id",
-  Created2: "created",
-  EventDate2: "event_date",
-  Id2: "id",
-} as const
-export type NewsEventsListSortbyEnum =
-  (typeof NewsEventsListSortbyEnum)[keyof typeof NewsEventsListSortbyEnum]
+    Created: '-created',
+    EventDate: '-event_date',
+    Id: '-id',
+    Created2: 'created',
+    EventDate2: 'event_date',
+    Id2: 'id'
+} as const;
+export type NewsEventsListSortbyEnum = typeof NewsEventsListSortbyEnum[keyof typeof NewsEventsListSortbyEnum];
+
 
 /**
  * NewsEventsSourcesApi - axios parameter creator
  * @export
  */
-export const NewsEventsSourcesApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * Get a paginated list of news/event feed sources.
-     * @param {Array<NewsEventsSourcesListFeedTypeEnum>} [feed_type] The type of source  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    newsEventsSourcesList: async (
-      feed_type?: Array<NewsEventsSourcesListFeedTypeEnum>,
-      limit?: number,
-      offset?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/news_events_sources/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const NewsEventsSourcesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * Get a paginated list of news/event feed sources.
+         * @param {Array<NewsEventsSourcesListFeedTypeEnum>} [feed_type] The type of source  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+         * @param {number} [limit] Number of results to return per page.
+         * @param {number} [offset] The initial index from which to return the results.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newsEventsSourcesList: async (feed_type?: Array<NewsEventsSourcesListFeedTypeEnum>, limit?: number, offset?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v0/news_events_sources/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      if (feed_type) {
-        localVarQueryParameter["feed_type"] = feed_type
-      }
+            if (feed_type) {
+                localVarQueryParameter['feed_type'] = feed_type;
+            }
 
-      if (limit !== undefined) {
-        localVarQueryParameter["limit"] = limit
-      }
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
 
-      if (offset !== undefined) {
-        localVarQueryParameter["offset"] = offset
-      }
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Retrieve a single news/event feed source.
-     * @param {number} id A unique integer value identifying this feed source.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    newsEventsSourcesRetrieve: async (
-      id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("newsEventsSourcesRetrieve", "id", id)
-      const localVarPath = `/api/v0/news_events_sources/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retrieve a single news/event feed source.
+         * @param {number} id A unique integer value identifying this feed source.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newsEventsSourcesRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('newsEventsSourcesRetrieve', 'id', id)
+            const localVarPath = `/api/v0/news_events_sources/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * NewsEventsSourcesApi - functional programming interface
  * @export
  */
-export const NewsEventsSourcesApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator =
-    NewsEventsSourcesApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * Get a paginated list of news/event feed sources.
-     * @param {Array<NewsEventsSourcesListFeedTypeEnum>} [feed_type] The type of source  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
-     * @param {number} [limit] Number of results to return per page.
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async newsEventsSourcesList(
-      feed_type?: Array<NewsEventsSourcesListFeedTypeEnum>,
-      limit?: number,
-      offset?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<PaginatedFeedSourceList>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.newsEventsSourcesList(
-          feed_type,
-          limit,
-          offset,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["NewsEventsSourcesApi.newsEventsSourcesList"]?.[
-          index
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Retrieve a single news/event feed source.
-     * @param {number} id A unique integer value identifying this feed source.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async newsEventsSourcesRetrieve(
-      id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedSource>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.newsEventsSourcesRetrieve(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["NewsEventsSourcesApi.newsEventsSourcesRetrieve"]?.[
-          index
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const NewsEventsSourcesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = NewsEventsSourcesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * Get a paginated list of news/event feed sources.
+         * @param {Array<NewsEventsSourcesListFeedTypeEnum>} [feed_type] The type of source  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+         * @param {number} [limit] Number of results to return per page.
+         * @param {number} [offset] The initial index from which to return the results.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newsEventsSourcesList(feed_type?: Array<NewsEventsSourcesListFeedTypeEnum>, limit?: number, offset?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedFeedSourceList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newsEventsSourcesList(feed_type, limit, offset, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['NewsEventsSourcesApi.newsEventsSourcesList']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Retrieve a single news/event feed source.
+         * @param {number} id A unique integer value identifying this feed source.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async newsEventsSourcesRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FeedSource>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.newsEventsSourcesRetrieve(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['NewsEventsSourcesApi.newsEventsSourcesRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * NewsEventsSourcesApi - factory interface
  * @export
  */
-export const NewsEventsSourcesApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = NewsEventsSourcesApiFp(configuration)
-  return {
-    /**
-     * Get a paginated list of news/event feed sources.
-     * @param {NewsEventsSourcesApiNewsEventsSourcesListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    newsEventsSourcesList(
-      requestParameters: NewsEventsSourcesApiNewsEventsSourcesListRequest = {},
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedFeedSourceList> {
-      return localVarFp
-        .newsEventsSourcesList(
-          requestParameters.feed_type,
-          requestParameters.limit,
-          requestParameters.offset,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Retrieve a single news/event feed source.
-     * @param {NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    newsEventsSourcesRetrieve(
-      requestParameters: NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<FeedSource> {
-      return localVarFp
-        .newsEventsSourcesRetrieve(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const NewsEventsSourcesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = NewsEventsSourcesApiFp(configuration)
+    return {
+        /**
+         * Get a paginated list of news/event feed sources.
+         * @param {NewsEventsSourcesApiNewsEventsSourcesListRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newsEventsSourcesList(requestParameters: NewsEventsSourcesApiNewsEventsSourcesListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedFeedSourceList> {
+            return localVarFp.newsEventsSourcesList(requestParameters.feed_type, requestParameters.limit, requestParameters.offset, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve a single news/event feed source.
+         * @param {NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        newsEventsSourcesRetrieve(requestParameters: NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<FeedSource> {
+            return localVarFp.newsEventsSourcesRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * Request parameters for newsEventsSourcesList operation in NewsEventsSourcesApi.
@@ -4906,26 +4250,26 @@ export const NewsEventsSourcesApiFactory = function (
  * @interface NewsEventsSourcesApiNewsEventsSourcesListRequest
  */
 export interface NewsEventsSourcesApiNewsEventsSourcesListRequest {
-  /**
-   * The type of source  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
-   * @type {Array<'events' | 'news'>}
-   * @memberof NewsEventsSourcesApiNewsEventsSourcesList
-   */
-  readonly feed_type?: Array<NewsEventsSourcesListFeedTypeEnum>
+    /**
+     * The type of source  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
+     * @type {Array<'events' | 'news'>}
+     * @memberof NewsEventsSourcesApiNewsEventsSourcesList
+     */
+    readonly feed_type?: Array<NewsEventsSourcesListFeedTypeEnum>
 
-  /**
-   * Number of results to return per page.
-   * @type {number}
-   * @memberof NewsEventsSourcesApiNewsEventsSourcesList
-   */
-  readonly limit?: number
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof NewsEventsSourcesApiNewsEventsSourcesList
+     */
+    readonly limit?: number
 
-  /**
-   * The initial index from which to return the results.
-   * @type {number}
-   * @memberof NewsEventsSourcesApiNewsEventsSourcesList
-   */
-  readonly offset?: number
+    /**
+     * The initial index from which to return the results.
+     * @type {number}
+     * @memberof NewsEventsSourcesApiNewsEventsSourcesList
+     */
+    readonly offset?: number
 }
 
 /**
@@ -4934,12 +4278,12 @@ export interface NewsEventsSourcesApiNewsEventsSourcesListRequest {
  * @interface NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest
  */
 export interface NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest {
-  /**
-   * A unique integer value identifying this feed source.
-   * @type {number}
-   * @memberof NewsEventsSourcesApiNewsEventsSourcesRetrieve
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this feed source.
+     * @type {number}
+     * @memberof NewsEventsSourcesApiNewsEventsSourcesRetrieve
+     */
+    readonly id: number
 }
 
 /**
@@ -4949,384 +4293,239 @@ export interface NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest {
  * @extends {BaseAPI}
  */
 export class NewsEventsSourcesApi extends BaseAPI {
-  /**
-   * Get a paginated list of news/event feed sources.
-   * @param {NewsEventsSourcesApiNewsEventsSourcesListRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof NewsEventsSourcesApi
-   */
-  public newsEventsSourcesList(
-    requestParameters: NewsEventsSourcesApiNewsEventsSourcesListRequest = {},
-    options?: RawAxiosRequestConfig,
-  ) {
-    return NewsEventsSourcesApiFp(this.configuration)
-      .newsEventsSourcesList(
-        requestParameters.feed_type,
-        requestParameters.limit,
-        requestParameters.offset,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * Get a paginated list of news/event feed sources.
+     * @param {NewsEventsSourcesApiNewsEventsSourcesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsEventsSourcesApi
+     */
+    public newsEventsSourcesList(requestParameters: NewsEventsSourcesApiNewsEventsSourcesListRequest = {}, options?: RawAxiosRequestConfig) {
+        return NewsEventsSourcesApiFp(this.configuration).newsEventsSourcesList(requestParameters.feed_type, requestParameters.limit, requestParameters.offset, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * Retrieve a single news/event feed source.
-   * @param {NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof NewsEventsSourcesApi
-   */
-  public newsEventsSourcesRetrieve(
-    requestParameters: NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return NewsEventsSourcesApiFp(this.configuration)
-      .newsEventsSourcesRetrieve(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * Retrieve a single news/event feed source.
+     * @param {NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof NewsEventsSourcesApi
+     */
+    public newsEventsSourcesRetrieve(requestParameters: NewsEventsSourcesApiNewsEventsSourcesRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return NewsEventsSourcesApiFp(this.configuration).newsEventsSourcesRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
 }
 
 /**
  * @export
  */
 export const NewsEventsSourcesListFeedTypeEnum = {
-  Events: "events",
-  News: "news",
-} as const
-export type NewsEventsSourcesListFeedTypeEnum =
-  (typeof NewsEventsSourcesListFeedTypeEnum)[keyof typeof NewsEventsSourcesListFeedTypeEnum]
+    Events: 'events',
+    News: 'news'
+} as const;
+export type NewsEventsSourcesListFeedTypeEnum = typeof NewsEventsSourcesListFeedTypeEnum[keyof typeof NewsEventsSourcesListFeedTypeEnum];
+
 
 /**
  * ProfilesApi - axios parameter creator
  * @export
  */
-export const ProfilesApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * View for profile
-     * @param {string} user__username
-     * @param {PatchedProfileRequest} [PatchedProfileRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    profilesPartialUpdate: async (
-      user__username: string,
-      PatchedProfileRequest?: PatchedProfileRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'user__username' is not null or undefined
-      assertParamExists(
-        "profilesPartialUpdate",
-        "user__username",
-        user__username,
-      )
-      const localVarPath = `/api/v0/profiles/{user__username}/`.replace(
-        `{${"user__username"}}`,
-        encodeURIComponent(String(user__username)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const ProfilesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * View for profile
+         * @param {string} user__username
+         * @param {PatchedProfileRequest} [PatchedProfileRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        profilesPartialUpdate: async (user__username: string, PatchedProfileRequest?: PatchedProfileRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'user__username' is not null or undefined
+            assertParamExists('profilesPartialUpdate', 'user__username', user__username)
+            const localVarPath = `/api/v0/profiles/{user__username}/`
+                .replace(`{${"user__username"}}`, encodeURIComponent(String(user__username)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "PATCH",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        PatchedProfileRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for profile
-     * @param {string} user__username
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    profilesRetrieve: async (
-      user__username: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'user__username' is not null or undefined
-      assertParamExists("profilesRetrieve", "user__username", user__username)
-      const localVarPath = `/api/v0/profiles/{user__username}/`.replace(
-        `{${"user__username"}}`,
-        encodeURIComponent(String(user__username)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(PatchedProfileRequest, localVarRequestOptions, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for profile
+         * @param {string} user__username
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        profilesRetrieve: async (user__username: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'user__username' is not null or undefined
+            assertParamExists('profilesRetrieve', 'user__username', user__username)
+            const localVarPath = `/api/v0/profiles/{user__username}/`
+                .replace(`{${"user__username"}}`, encodeURIComponent(String(user__username)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for profile
-     * @param {string} user__username
-     * @param {ProfileRequest} [ProfileRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    profilesUpdate: async (
-      user__username: string,
-      ProfileRequest?: ProfileRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'user__username' is not null or undefined
-      assertParamExists("profilesUpdate", "user__username", user__username)
-      const localVarPath = `/api/v0/profiles/{user__username}/`.replace(
-        `{${"user__username"}}`,
-        encodeURIComponent(String(user__username)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        ProfileRequest,
-        localVarRequestOptions,
-        configuration,
-      )
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for profile
+         * @param {string} user__username
+         * @param {ProfileRequest} [ProfileRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        profilesUpdate: async (user__username: string, ProfileRequest?: ProfileRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'user__username' is not null or undefined
+            assertParamExists('profilesUpdate', 'user__username', user__username)
+            const localVarPath = `/api/v0/profiles/{user__username}/`
+                .replace(`{${"user__username"}}`, encodeURIComponent(String(user__username)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(ProfileRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * ProfilesApi - functional programming interface
  * @export
  */
-export const ProfilesApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = ProfilesApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * View for profile
-     * @param {string} user__username
-     * @param {PatchedProfileRequest} [PatchedProfileRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async profilesPartialUpdate(
-      user__username: string,
-      PatchedProfileRequest?: PatchedProfileRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.profilesPartialUpdate(
-          user__username,
-          PatchedProfileRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ProfilesApi.profilesPartialUpdate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for profile
-     * @param {string} user__username
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async profilesRetrieve(
-      user__username: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.profilesRetrieve(
-          user__username,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ProfilesApi.profilesRetrieve"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for profile
-     * @param {string} user__username
-     * @param {ProfileRequest} [ProfileRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async profilesUpdate(
-      user__username: string,
-      ProfileRequest?: ProfileRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.profilesUpdate(
-        user__username,
-        ProfileRequest,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ProfilesApi.profilesUpdate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const ProfilesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProfilesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * View for profile
+         * @param {string} user__username
+         * @param {PatchedProfileRequest} [PatchedProfileRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async profilesPartialUpdate(user__username: string, PatchedProfileRequest?: PatchedProfileRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.profilesPartialUpdate(user__username, PatchedProfileRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ProfilesApi.profilesPartialUpdate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for profile
+         * @param {string} user__username
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async profilesRetrieve(user__username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.profilesRetrieve(user__username, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ProfilesApi.profilesRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for profile
+         * @param {string} user__username
+         * @param {ProfileRequest} [ProfileRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async profilesUpdate(user__username: string, ProfileRequest?: ProfileRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Profile>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.profilesUpdate(user__username, ProfileRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ProfilesApi.profilesUpdate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * ProfilesApi - factory interface
  * @export
  */
-export const ProfilesApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = ProfilesApiFp(configuration)
-  return {
-    /**
-     * View for profile
-     * @param {ProfilesApiProfilesPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    profilesPartialUpdate(
-      requestParameters: ProfilesApiProfilesPartialUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Profile> {
-      return localVarFp
-        .profilesPartialUpdate(
-          requestParameters.user__username,
-          requestParameters.PatchedProfileRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for profile
-     * @param {ProfilesApiProfilesRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    profilesRetrieve(
-      requestParameters: ProfilesApiProfilesRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Profile> {
-      return localVarFp
-        .profilesRetrieve(requestParameters.user__username, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for profile
-     * @param {ProfilesApiProfilesUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    profilesUpdate(
-      requestParameters: ProfilesApiProfilesUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Profile> {
-      return localVarFp
-        .profilesUpdate(
-          requestParameters.user__username,
-          requestParameters.ProfileRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const ProfilesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProfilesApiFp(configuration)
+    return {
+        /**
+         * View for profile
+         * @param {ProfilesApiProfilesPartialUpdateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        profilesPartialUpdate(requestParameters: ProfilesApiProfilesPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Profile> {
+            return localVarFp.profilesPartialUpdate(requestParameters.user__username, requestParameters.PatchedProfileRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for profile
+         * @param {ProfilesApiProfilesRetrieveRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        profilesRetrieve(requestParameters: ProfilesApiProfilesRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<Profile> {
+            return localVarFp.profilesRetrieve(requestParameters.user__username, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for profile
+         * @param {ProfilesApiProfilesUpdateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        profilesUpdate(requestParameters: ProfilesApiProfilesUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<Profile> {
+            return localVarFp.profilesUpdate(requestParameters.user__username, requestParameters.ProfileRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * Request parameters for profilesPartialUpdate operation in ProfilesApi.
@@ -5334,19 +4533,19 @@ export const ProfilesApiFactory = function (
  * @interface ProfilesApiProfilesPartialUpdateRequest
  */
 export interface ProfilesApiProfilesPartialUpdateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ProfilesApiProfilesPartialUpdate
-   */
-  readonly user__username: string
+    /**
+     *
+     * @type {string}
+     * @memberof ProfilesApiProfilesPartialUpdate
+     */
+    readonly user__username: string
 
-  /**
-   *
-   * @type {PatchedProfileRequest}
-   * @memberof ProfilesApiProfilesPartialUpdate
-   */
-  readonly PatchedProfileRequest?: PatchedProfileRequest
+    /**
+     *
+     * @type {PatchedProfileRequest}
+     * @memberof ProfilesApiProfilesPartialUpdate
+     */
+    readonly PatchedProfileRequest?: PatchedProfileRequest
 }
 
 /**
@@ -5355,12 +4554,12 @@ export interface ProfilesApiProfilesPartialUpdateRequest {
  * @interface ProfilesApiProfilesRetrieveRequest
  */
 export interface ProfilesApiProfilesRetrieveRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ProfilesApiProfilesRetrieve
-   */
-  readonly user__username: string
+    /**
+     *
+     * @type {string}
+     * @memberof ProfilesApiProfilesRetrieve
+     */
+    readonly user__username: string
 }
 
 /**
@@ -5369,19 +4568,19 @@ export interface ProfilesApiProfilesRetrieveRequest {
  * @interface ProfilesApiProfilesUpdateRequest
  */
 export interface ProfilesApiProfilesUpdateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof ProfilesApiProfilesUpdate
-   */
-  readonly user__username: string
+    /**
+     *
+     * @type {string}
+     * @memberof ProfilesApiProfilesUpdate
+     */
+    readonly user__username: string
 
-  /**
-   *
-   * @type {ProfileRequest}
-   * @memberof ProfilesApiProfilesUpdate
-   */
-  readonly ProfileRequest?: ProfileRequest
+    /**
+     *
+     * @type {ProfileRequest}
+     * @memberof ProfilesApiProfilesUpdate
+     */
+    readonly ProfileRequest?: ProfileRequest
 }
 
 /**
@@ -5391,205 +4590,131 @@ export interface ProfilesApiProfilesUpdateRequest {
  * @extends {BaseAPI}
  */
 export class ProfilesApi extends BaseAPI {
-  /**
-   * View for profile
-   * @param {ProfilesApiProfilesPartialUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProfilesApi
-   */
-  public profilesPartialUpdate(
-    requestParameters: ProfilesApiProfilesPartialUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ProfilesApiFp(this.configuration)
-      .profilesPartialUpdate(
-        requestParameters.user__username,
-        requestParameters.PatchedProfileRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for profile
+     * @param {ProfilesApiProfilesPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProfilesApi
+     */
+    public profilesPartialUpdate(requestParameters: ProfilesApiProfilesPartialUpdateRequest, options?: RawAxiosRequestConfig) {
+        return ProfilesApiFp(this.configuration).profilesPartialUpdate(requestParameters.user__username, requestParameters.PatchedProfileRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for profile
-   * @param {ProfilesApiProfilesRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProfilesApi
-   */
-  public profilesRetrieve(
-    requestParameters: ProfilesApiProfilesRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ProfilesApiFp(this.configuration)
-      .profilesRetrieve(requestParameters.user__username, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for profile
+     * @param {ProfilesApiProfilesRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProfilesApi
+     */
+    public profilesRetrieve(requestParameters: ProfilesApiProfilesRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return ProfilesApiFp(this.configuration).profilesRetrieve(requestParameters.user__username, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for profile
-   * @param {ProfilesApiProfilesUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProfilesApi
-   */
-  public profilesUpdate(
-    requestParameters: ProfilesApiProfilesUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ProfilesApiFp(this.configuration)
-      .profilesUpdate(
-        requestParameters.user__username,
-        requestParameters.ProfileRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for profile
+     * @param {ProfilesApiProfilesUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProfilesApi
+     */
+    public profilesUpdate(requestParameters: ProfilesApiProfilesUpdateRequest, options?: RawAxiosRequestConfig) {
+        return ProfilesApiFp(this.configuration).profilesUpdate(requestParameters.user__username, requestParameters.ProfileRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 }
+
+
 
 /**
  * ProgramCertificatesApi - axios parameter creator
  * @export
  */
-export const ProgramCertificatesApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * View for listing program certificates for a user (includes program letter links)
-     * @param {number} [micromasters_program_id]
-     * @param {string} [program_title]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    programCertificatesList: async (
-      micromasters_program_id?: number,
-      program_title?: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/program_certificates/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const ProgramCertificatesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * View for listing program certificates for a user (includes program letter links)
+         * @param {number} [micromasters_program_id]
+         * @param {string} [program_title]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        programCertificatesList: async (micromasters_program_id?: number, program_title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v0/program_certificates/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      if (micromasters_program_id !== undefined) {
-        localVarQueryParameter["micromasters_program_id"] =
-          micromasters_program_id
-      }
+            if (micromasters_program_id !== undefined) {
+                localVarQueryParameter['micromasters_program_id'] = micromasters_program_id;
+            }
 
-      if (program_title !== undefined) {
-        localVarQueryParameter["program_title"] = program_title
-      }
+            if (program_title !== undefined) {
+                localVarQueryParameter['program_title'] = program_title;
+            }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * ProgramCertificatesApi - functional programming interface
  * @export
  */
-export const ProgramCertificatesApiFp = function (
-  configuration?: Configuration,
-) {
-  const localVarAxiosParamCreator =
-    ProgramCertificatesApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * View for listing program certificates for a user (includes program letter links)
-     * @param {number} [micromasters_program_id]
-     * @param {string} [program_title]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async programCertificatesList(
-      micromasters_program_id?: number,
-      program_title?: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<Array<ProgramCertificate>>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.programCertificatesList(
-          micromasters_program_id,
-          program_title,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["ProgramCertificatesApi.programCertificatesList"]?.[
-          index
-        ]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const ProgramCertificatesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = ProgramCertificatesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * View for listing program certificates for a user (includes program letter links)
+         * @param {number} [micromasters_program_id]
+         * @param {string} [program_title]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async programCertificatesList(micromasters_program_id?: number, program_title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ProgramCertificate>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.programCertificatesList(micromasters_program_id, program_title, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['ProgramCertificatesApi.programCertificatesList']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * ProgramCertificatesApi - factory interface
  * @export
  */
-export const ProgramCertificatesApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = ProgramCertificatesApiFp(configuration)
-  return {
-    /**
-     * View for listing program certificates for a user (includes program letter links)
-     * @param {ProgramCertificatesApiProgramCertificatesListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    programCertificatesList(
-      requestParameters: ProgramCertificatesApiProgramCertificatesListRequest = {},
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Array<ProgramCertificate>> {
-      return localVarFp
-        .programCertificatesList(
-          requestParameters.micromasters_program_id,
-          requestParameters.program_title,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const ProgramCertificatesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = ProgramCertificatesApiFp(configuration)
+    return {
+        /**
+         * View for listing program certificates for a user (includes program letter links)
+         * @param {ProgramCertificatesApiProgramCertificatesListRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        programCertificatesList(requestParameters: ProgramCertificatesApiProgramCertificatesListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<ProgramCertificate>> {
+            return localVarFp.programCertificatesList(requestParameters.micromasters_program_id, requestParameters.program_title, options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * Request parameters for programCertificatesList operation in ProgramCertificatesApi.
@@ -5597,19 +4722,19 @@ export const ProgramCertificatesApiFactory = function (
  * @interface ProgramCertificatesApiProgramCertificatesListRequest
  */
 export interface ProgramCertificatesApiProgramCertificatesListRequest {
-  /**
-   *
-   * @type {number}
-   * @memberof ProgramCertificatesApiProgramCertificatesList
-   */
-  readonly micromasters_program_id?: number
+    /**
+     *
+     * @type {number}
+     * @memberof ProgramCertificatesApiProgramCertificatesList
+     */
+    readonly micromasters_program_id?: number
 
-  /**
-   *
-   * @type {string}
-   * @memberof ProgramCertificatesApiProgramCertificatesList
-   */
-  readonly program_title?: string
+    /**
+     *
+     * @type {string}
+     * @memberof ProgramCertificatesApiProgramCertificatesList
+     */
+    readonly program_title?: string
 }
 
 /**
@@ -5619,284 +4744,187 @@ export interface ProgramCertificatesApiProgramCertificatesListRequest {
  * @extends {BaseAPI}
  */
 export class ProgramCertificatesApi extends BaseAPI {
-  /**
-   * View for listing program certificates for a user (includes program letter links)
-   * @param {ProgramCertificatesApiProgramCertificatesListRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof ProgramCertificatesApi
-   */
-  public programCertificatesList(
-    requestParameters: ProgramCertificatesApiProgramCertificatesListRequest = {},
-    options?: RawAxiosRequestConfig,
-  ) {
-    return ProgramCertificatesApiFp(this.configuration)
-      .programCertificatesList(
-        requestParameters.micromasters_program_id,
-        requestParameters.program_title,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for listing program certificates for a user (includes program letter links)
+     * @param {ProgramCertificatesApiProgramCertificatesListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof ProgramCertificatesApi
+     */
+    public programCertificatesList(requestParameters: ProgramCertificatesApiProgramCertificatesListRequest = {}, options?: RawAxiosRequestConfig) {
+        return ProgramCertificatesApiFp(this.configuration).programCertificatesList(requestParameters.micromasters_program_id, requestParameters.program_title, options).then((request) => request(this.axios, this.basePath));
+    }
 }
+
+
 
 /**
  * TestimonialsApi - axios parameter creator
  * @export
  */
-export const TestimonialsApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * List all testimonials.
-     * @summary List
-     * @param {Array<number>} [channels] The channels the attestation is for
-     * @param {number} [limit] Number of results to return per page.
-     * @param {Array<string>} [offerors] The offerors the attestation is for
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {number} [position] Only show items that exist at this position
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    testimonialsList: async (
-      channels?: Array<number>,
-      limit?: number,
-      offerors?: Array<string>,
-      offset?: number,
-      position?: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/testimonials/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const TestimonialsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * List all testimonials.
+         * @summary List
+         * @param {Array<number>} [channels] The channels the attestation is for
+         * @param {number} [limit] Number of results to return per page.
+         * @param {Array<string>} [offerors] The offerors the attestation is for
+         * @param {number} [offset] The initial index from which to return the results.
+         * @param {number} [position] Only show items that exist at this position
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testimonialsList: async (channels?: Array<number>, limit?: number, offerors?: Array<string>, offset?: number, position?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v0/testimonials/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      if (channels) {
-        localVarQueryParameter["channels"] = channels
-      }
+            if (channels) {
+                localVarQueryParameter['channels'] = channels;
+            }
 
-      if (limit !== undefined) {
-        localVarQueryParameter["limit"] = limit
-      }
+            if (limit !== undefined) {
+                localVarQueryParameter['limit'] = limit;
+            }
 
-      if (offerors) {
-        localVarQueryParameter["offerors"] = offerors
-      }
+            if (offerors) {
+                localVarQueryParameter['offerors'] = offerors;
+            }
 
-      if (offset !== undefined) {
-        localVarQueryParameter["offset"] = offset
-      }
+            if (offset !== undefined) {
+                localVarQueryParameter['offset'] = offset;
+            }
 
-      if (position !== undefined) {
-        localVarQueryParameter["position"] = position
-      }
+            if (position !== undefined) {
+                localVarQueryParameter['position'] = position;
+            }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * Retrieve a testimonial.
-     * @summary Retrieve
-     * @param {number} id A unique integer value identifying this attestation.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    testimonialsRetrieve: async (
-      id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("testimonialsRetrieve", "id", id)
-      const localVarPath = `/api/v0/testimonials/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * Retrieve a testimonial.
+         * @summary Retrieve
+         * @param {number} id A unique integer value identifying this attestation.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testimonialsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('testimonialsRetrieve', 'id', id)
+            const localVarPath = `/api/v0/testimonials/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * TestimonialsApi - functional programming interface
  * @export
  */
-export const TestimonialsApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator =
-    TestimonialsApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * List all testimonials.
-     * @summary List
-     * @param {Array<number>} [channels] The channels the attestation is for
-     * @param {number} [limit] Number of results to return per page.
-     * @param {Array<string>} [offerors] The offerors the attestation is for
-     * @param {number} [offset] The initial index from which to return the results.
-     * @param {number} [position] Only show items that exist at this position
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async testimonialsList(
-      channels?: Array<number>,
-      limit?: number,
-      offerors?: Array<string>,
-      offset?: number,
-      position?: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (
-        axios?: AxiosInstance,
-        basePath?: string,
-      ) => AxiosPromise<PaginatedAttestationList>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.testimonialsList(
-          channels,
-          limit,
-          offerors,
-          offset,
-          position,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["TestimonialsApi.testimonialsList"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * Retrieve a testimonial.
-     * @summary Retrieve
-     * @param {number} id A unique integer value identifying this attestation.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async testimonialsRetrieve(
-      id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Attestation>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.testimonialsRetrieve(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["TestimonialsApi.testimonialsRetrieve"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const TestimonialsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = TestimonialsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * List all testimonials.
+         * @summary List
+         * @param {Array<number>} [channels] The channels the attestation is for
+         * @param {number} [limit] Number of results to return per page.
+         * @param {Array<string>} [offerors] The offerors the attestation is for
+         * @param {number} [offset] The initial index from which to return the results.
+         * @param {number} [position] Only show items that exist at this position
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testimonialsList(channels?: Array<number>, limit?: number, offerors?: Array<string>, offset?: number, position?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PaginatedAttestationList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testimonialsList(channels, limit, offerors, offset, position, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TestimonialsApi.testimonialsList']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * Retrieve a testimonial.
+         * @summary Retrieve
+         * @param {number} id A unique integer value identifying this attestation.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async testimonialsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Attestation>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.testimonialsRetrieve(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['TestimonialsApi.testimonialsRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * TestimonialsApi - factory interface
  * @export
  */
-export const TestimonialsApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = TestimonialsApiFp(configuration)
-  return {
-    /**
-     * List all testimonials.
-     * @summary List
-     * @param {TestimonialsApiTestimonialsListRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    testimonialsList(
-      requestParameters: TestimonialsApiTestimonialsListRequest = {},
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<PaginatedAttestationList> {
-      return localVarFp
-        .testimonialsList(
-          requestParameters.channels,
-          requestParameters.limit,
-          requestParameters.offerors,
-          requestParameters.offset,
-          requestParameters.position,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * Retrieve a testimonial.
-     * @summary Retrieve
-     * @param {TestimonialsApiTestimonialsRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    testimonialsRetrieve(
-      requestParameters: TestimonialsApiTestimonialsRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<Attestation> {
-      return localVarFp
-        .testimonialsRetrieve(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const TestimonialsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = TestimonialsApiFp(configuration)
+    return {
+        /**
+         * List all testimonials.
+         * @summary List
+         * @param {TestimonialsApiTestimonialsListRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testimonialsList(requestParameters: TestimonialsApiTestimonialsListRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<PaginatedAttestationList> {
+            return localVarFp.testimonialsList(requestParameters.channels, requestParameters.limit, requestParameters.offerors, requestParameters.offset, requestParameters.position, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * Retrieve a testimonial.
+         * @summary Retrieve
+         * @param {TestimonialsApiTestimonialsRetrieveRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        testimonialsRetrieve(requestParameters: TestimonialsApiTestimonialsRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<Attestation> {
+            return localVarFp.testimonialsRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * Request parameters for testimonialsList operation in TestimonialsApi.
@@ -5904,40 +4932,40 @@ export const TestimonialsApiFactory = function (
  * @interface TestimonialsApiTestimonialsListRequest
  */
 export interface TestimonialsApiTestimonialsListRequest {
-  /**
-   * The channels the attestation is for
-   * @type {Array<number>}
-   * @memberof TestimonialsApiTestimonialsList
-   */
-  readonly channels?: Array<number>
+    /**
+     * The channels the attestation is for
+     * @type {Array<number>}
+     * @memberof TestimonialsApiTestimonialsList
+     */
+    readonly channels?: Array<number>
 
-  /**
-   * Number of results to return per page.
-   * @type {number}
-   * @memberof TestimonialsApiTestimonialsList
-   */
-  readonly limit?: number
+    /**
+     * Number of results to return per page.
+     * @type {number}
+     * @memberof TestimonialsApiTestimonialsList
+     */
+    readonly limit?: number
 
-  /**
-   * The offerors the attestation is for
-   * @type {Array<string>}
-   * @memberof TestimonialsApiTestimonialsList
-   */
-  readonly offerors?: Array<string>
+    /**
+     * The offerors the attestation is for
+     * @type {Array<string>}
+     * @memberof TestimonialsApiTestimonialsList
+     */
+    readonly offerors?: Array<string>
 
-  /**
-   * The initial index from which to return the results.
-   * @type {number}
-   * @memberof TestimonialsApiTestimonialsList
-   */
-  readonly offset?: number
+    /**
+     * The initial index from which to return the results.
+     * @type {number}
+     * @memberof TestimonialsApiTestimonialsList
+     */
+    readonly offset?: number
 
-  /**
-   * Only show items that exist at this position
-   * @type {number}
-   * @memberof TestimonialsApiTestimonialsList
-   */
-  readonly position?: number
+    /**
+     * Only show items that exist at this position
+     * @type {number}
+     * @memberof TestimonialsApiTestimonialsList
+     */
+    readonly position?: number
 }
 
 /**
@@ -5946,12 +4974,12 @@ export interface TestimonialsApiTestimonialsListRequest {
  * @interface TestimonialsApiTestimonialsRetrieveRequest
  */
 export interface TestimonialsApiTestimonialsRetrieveRequest {
-  /**
-   * A unique integer value identifying this attestation.
-   * @type {number}
-   * @memberof TestimonialsApiTestimonialsRetrieve
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this attestation.
+     * @type {number}
+     * @memberof TestimonialsApiTestimonialsRetrieve
+     */
+    readonly id: number
 }
 
 /**
@@ -5961,693 +4989,441 @@ export interface TestimonialsApiTestimonialsRetrieveRequest {
  * @extends {BaseAPI}
  */
 export class TestimonialsApi extends BaseAPI {
-  /**
-   * List all testimonials.
-   * @summary List
-   * @param {TestimonialsApiTestimonialsListRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TestimonialsApi
-   */
-  public testimonialsList(
-    requestParameters: TestimonialsApiTestimonialsListRequest = {},
-    options?: RawAxiosRequestConfig,
-  ) {
-    return TestimonialsApiFp(this.configuration)
-      .testimonialsList(
-        requestParameters.channels,
-        requestParameters.limit,
-        requestParameters.offerors,
-        requestParameters.offset,
-        requestParameters.position,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * List all testimonials.
+     * @summary List
+     * @param {TestimonialsApiTestimonialsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TestimonialsApi
+     */
+    public testimonialsList(requestParameters: TestimonialsApiTestimonialsListRequest = {}, options?: RawAxiosRequestConfig) {
+        return TestimonialsApiFp(this.configuration).testimonialsList(requestParameters.channels, requestParameters.limit, requestParameters.offerors, requestParameters.offset, requestParameters.position, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * Retrieve a testimonial.
-   * @summary Retrieve
-   * @param {TestimonialsApiTestimonialsRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TestimonialsApi
-   */
-  public testimonialsRetrieve(
-    requestParameters: TestimonialsApiTestimonialsRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return TestimonialsApiFp(this.configuration)
-      .testimonialsRetrieve(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * Retrieve a testimonial.
+     * @summary Retrieve
+     * @param {TestimonialsApiTestimonialsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof TestimonialsApi
+     */
+    public testimonialsRetrieve(requestParameters: TestimonialsApiTestimonialsRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return TestimonialsApiFp(this.configuration).testimonialsRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
 }
+
+
 
 /**
  * UsersApi - axios parameter creator
  * @export
  */
-export const UsersApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * View for users
-     * @param {UserRequest} UserRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersCreate: async (
-      UserRequest: UserRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'UserRequest' is not null or undefined
-      assertParamExists("usersCreate", "UserRequest", UserRequest)
-      const localVarPath = `/api/v0/users/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const UsersApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * View for users
+         * @param {UserRequest} UserRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersCreate: async (UserRequest: UserRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'UserRequest' is not null or undefined
+            assertParamExists('usersCreate', 'UserRequest', UserRequest)
+            const localVarPath = `/api/v0/users/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        UserRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for users
-     * @param {string} username
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersDestroy: async (
-      username: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'username' is not null or undefined
-      assertParamExists("usersDestroy", "username", username)
-      const localVarPath = `/api/v0/users/{username}/`.replace(
-        `{${"username"}}`,
-        encodeURIComponent(String(username)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-      const localVarRequestOptions = {
-        method: "DELETE",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(UserRequest, localVarRequestOptions, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for users
+         * @param {string} username
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersDestroy: async (username: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('usersDestroy', 'username', username)
+            const localVarPath = `/api/v0/users/{username}/`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for users
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersList: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/users/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * User retrieve and update viewsets for the current user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersMeRetrieve: async (
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/api/v0/users/me/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for users
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersList: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v0/users/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for users
-     * @param {string} username
-     * @param {PatchedUserRequest} [PatchedUserRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersPartialUpdate: async (
-      username: string,
-      PatchedUserRequest?: PatchedUserRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'username' is not null or undefined
-      assertParamExists("usersPartialUpdate", "username", username)
-      const localVarPath = `/api/v0/users/{username}/`.replace(
-        `{${"username"}}`,
-        encodeURIComponent(String(username)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
 
-      const localVarRequestOptions = {
-        method: "PATCH",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        PatchedUserRequest,
-        localVarRequestOptions,
-        configuration,
-      )
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * User retrieve and update viewsets for the current user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersMeRetrieve: async (options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/v0/users/me/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for users
-     * @param {string} username
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersRetrieve: async (
-      username: string,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'username' is not null or undefined
-      assertParamExists("usersRetrieve", "username", username)
-      const localVarPath = `/api/v0/users/{username}/`.replace(
-        `{${"username"}}`,
-        encodeURIComponent(String(username)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for users
-     * @param {string} username
-     * @param {UserRequest} UserRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersUpdate: async (
-      username: string,
-      UserRequest: UserRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'username' is not null or undefined
-      assertParamExists("usersUpdate", "username", username)
-      // verify required parameter 'UserRequest' is not null or undefined
-      assertParamExists("usersUpdate", "UserRequest", UserRequest)
-      const localVarPath = `/api/v0/users/{username}/`.replace(
-        `{${"username"}}`,
-        encodeURIComponent(String(username)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for users
+         * @param {string} username
+         * @param {PatchedUserRequest} [PatchedUserRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersPartialUpdate: async (username: string, PatchedUserRequest?: PatchedUserRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('usersPartialUpdate', 'username', username)
+            const localVarPath = `/api/v0/users/{username}/`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        UserRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(PatchedUserRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for users
+         * @param {string} username
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersRetrieve: async (username: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('usersRetrieve', 'username', username)
+            const localVarPath = `/api/v0/users/{username}/`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for users
+         * @param {string} username
+         * @param {UserRequest} UserRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersUpdate: async (username: string, UserRequest: UserRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'username' is not null or undefined
+            assertParamExists('usersUpdate', 'username', username)
+            // verify required parameter 'UserRequest' is not null or undefined
+            assertParamExists('usersUpdate', 'UserRequest', UserRequest)
+            const localVarPath = `/api/v0/users/{username}/`
+                .replace(`{${"username"}}`, encodeURIComponent(String(username)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(UserRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * UsersApi - functional programming interface
  * @export
  */
-export const UsersApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * View for users
-     * @param {UserRequest} UserRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async usersCreate(
-      UserRequest: UserRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.usersCreate(
-        UserRequest,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UsersApi.usersCreate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for users
-     * @param {string} username
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async usersDestroy(
-      username: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.usersDestroy(
-        username,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UsersApi.usersDestroy"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for users
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async usersList(
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<User>>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.usersList(options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UsersApi.usersList"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * User retrieve and update viewsets for the current user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async usersMeRetrieve(
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.usersMeRetrieve(options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UsersApi.usersMeRetrieve"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for users
-     * @param {string} username
-     * @param {PatchedUserRequest} [PatchedUserRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async usersPartialUpdate(
-      username: string,
-      PatchedUserRequest?: PatchedUserRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.usersPartialUpdate(
-          username,
-          PatchedUserRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UsersApi.usersPartialUpdate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for users
-     * @param {string} username
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async usersRetrieve(
-      username: string,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.usersRetrieve(
-        username,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UsersApi.usersRetrieve"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for users
-     * @param {string} username
-     * @param {UserRequest} UserRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async usersUpdate(
-      username: string,
-      UserRequest: UserRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.usersUpdate(
-        username,
-        UserRequest,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["UsersApi.usersUpdate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const UsersApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * View for users
+         * @param {UserRequest} UserRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersCreate(UserRequest: UserRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersCreate(UserRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UsersApi.usersCreate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for users
+         * @param {string} username
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersDestroy(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersDestroy(username, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UsersApi.usersDestroy']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for users
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersList(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<User>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersList(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UsersApi.usersList']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * User retrieve and update viewsets for the current user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersMeRetrieve(options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersMeRetrieve(options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UsersApi.usersMeRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for users
+         * @param {string} username
+         * @param {PatchedUserRequest} [PatchedUserRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersPartialUpdate(username: string, PatchedUserRequest?: PatchedUserRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersPartialUpdate(username, PatchedUserRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UsersApi.usersPartialUpdate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for users
+         * @param {string} username
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersRetrieve(username: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersRetrieve(username, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UsersApi.usersRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for users
+         * @param {string} username
+         * @param {UserRequest} UserRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersUpdate(username: string, UserRequest: UserRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<User>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.usersUpdate(username, UserRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['UsersApi.usersUpdate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * UsersApi - factory interface
  * @export
  */
-export const UsersApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = UsersApiFp(configuration)
-  return {
-    /**
-     * View for users
-     * @param {UsersApiUsersCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersCreate(
-      requestParameters: UsersApiUsersCreateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<User> {
-      return localVarFp
-        .usersCreate(requestParameters.UserRequest, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for users
-     * @param {UsersApiUsersDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersDestroy(
-      requestParameters: UsersApiUsersDestroyRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .usersDestroy(requestParameters.username, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for users
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersList(options?: RawAxiosRequestConfig): AxiosPromise<Array<User>> {
-      return localVarFp
-        .usersList(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * User retrieve and update viewsets for the current user
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersMeRetrieve(options?: RawAxiosRequestConfig): AxiosPromise<User> {
-      return localVarFp
-        .usersMeRetrieve(options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for users
-     * @param {UsersApiUsersPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersPartialUpdate(
-      requestParameters: UsersApiUsersPartialUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<User> {
-      return localVarFp
-        .usersPartialUpdate(
-          requestParameters.username,
-          requestParameters.PatchedUserRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for users
-     * @param {UsersApiUsersRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersRetrieve(
-      requestParameters: UsersApiUsersRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<User> {
-      return localVarFp
-        .usersRetrieve(requestParameters.username, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for users
-     * @param {UsersApiUsersUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    usersUpdate(
-      requestParameters: UsersApiUsersUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<User> {
-      return localVarFp
-        .usersUpdate(
-          requestParameters.username,
-          requestParameters.UserRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const UsersApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = UsersApiFp(configuration)
+    return {
+        /**
+         * View for users
+         * @param {UsersApiUsersCreateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersCreate(requestParameters: UsersApiUsersCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<User> {
+            return localVarFp.usersCreate(requestParameters.UserRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for users
+         * @param {UsersApiUsersDestroyRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersDestroy(requestParameters: UsersApiUsersDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.usersDestroy(requestParameters.username, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for users
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersList(options?: RawAxiosRequestConfig): AxiosPromise<Array<User>> {
+            return localVarFp.usersList(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * User retrieve and update viewsets for the current user
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersMeRetrieve(options?: RawAxiosRequestConfig): AxiosPromise<User> {
+            return localVarFp.usersMeRetrieve(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for users
+         * @param {UsersApiUsersPartialUpdateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersPartialUpdate(requestParameters: UsersApiUsersPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<User> {
+            return localVarFp.usersPartialUpdate(requestParameters.username, requestParameters.PatchedUserRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for users
+         * @param {UsersApiUsersRetrieveRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersRetrieve(requestParameters: UsersApiUsersRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<User> {
+            return localVarFp.usersRetrieve(requestParameters.username, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for users
+         * @param {UsersApiUsersUpdateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersUpdate(requestParameters: UsersApiUsersUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<User> {
+            return localVarFp.usersUpdate(requestParameters.username, requestParameters.UserRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * Request parameters for usersCreate operation in UsersApi.
@@ -6655,12 +5431,12 @@ export const UsersApiFactory = function (
  * @interface UsersApiUsersCreateRequest
  */
 export interface UsersApiUsersCreateRequest {
-  /**
-   *
-   * @type {UserRequest}
-   * @memberof UsersApiUsersCreate
-   */
-  readonly UserRequest: UserRequest
+    /**
+     *
+     * @type {UserRequest}
+     * @memberof UsersApiUsersCreate
+     */
+    readonly UserRequest: UserRequest
 }
 
 /**
@@ -6669,12 +5445,12 @@ export interface UsersApiUsersCreateRequest {
  * @interface UsersApiUsersDestroyRequest
  */
 export interface UsersApiUsersDestroyRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof UsersApiUsersDestroy
-   */
-  readonly username: string
+    /**
+     *
+     * @type {string}
+     * @memberof UsersApiUsersDestroy
+     */
+    readonly username: string
 }
 
 /**
@@ -6683,19 +5459,19 @@ export interface UsersApiUsersDestroyRequest {
  * @interface UsersApiUsersPartialUpdateRequest
  */
 export interface UsersApiUsersPartialUpdateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof UsersApiUsersPartialUpdate
-   */
-  readonly username: string
+    /**
+     *
+     * @type {string}
+     * @memberof UsersApiUsersPartialUpdate
+     */
+    readonly username: string
 
-  /**
-   *
-   * @type {PatchedUserRequest}
-   * @memberof UsersApiUsersPartialUpdate
-   */
-  readonly PatchedUserRequest?: PatchedUserRequest
+    /**
+     *
+     * @type {PatchedUserRequest}
+     * @memberof UsersApiUsersPartialUpdate
+     */
+    readonly PatchedUserRequest?: PatchedUserRequest
 }
 
 /**
@@ -6704,12 +5480,12 @@ export interface UsersApiUsersPartialUpdateRequest {
  * @interface UsersApiUsersRetrieveRequest
  */
 export interface UsersApiUsersRetrieveRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof UsersApiUsersRetrieve
-   */
-  readonly username: string
+    /**
+     *
+     * @type {string}
+     * @memberof UsersApiUsersRetrieve
+     */
+    readonly username: string
 }
 
 /**
@@ -6718,19 +5494,19 @@ export interface UsersApiUsersRetrieveRequest {
  * @interface UsersApiUsersUpdateRequest
  */
 export interface UsersApiUsersUpdateRequest {
-  /**
-   *
-   * @type {string}
-   * @memberof UsersApiUsersUpdate
-   */
-  readonly username: string
+    /**
+     *
+     * @type {string}
+     * @memberof UsersApiUsersUpdate
+     */
+    readonly username: string
 
-  /**
-   *
-   * @type {UserRequest}
-   * @memberof UsersApiUsersUpdate
-   */
-  readonly UserRequest: UserRequest
+    /**
+     *
+     * @type {UserRequest}
+     * @memberof UsersApiUsersUpdate
+     */
+    readonly UserRequest: UserRequest
 }
 
 /**
@@ -6740,333 +5516,222 @@ export interface UsersApiUsersUpdateRequest {
  * @extends {BaseAPI}
  */
 export class UsersApi extends BaseAPI {
-  /**
-   * View for users
-   * @param {UsersApiUsersCreateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UsersApi
-   */
-  public usersCreate(
-    requestParameters: UsersApiUsersCreateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UsersApiFp(this.configuration)
-      .usersCreate(requestParameters.UserRequest, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for users
+     * @param {UsersApiUsersCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public usersCreate(requestParameters: UsersApiUsersCreateRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersCreate(requestParameters.UserRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for users
-   * @param {UsersApiUsersDestroyRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UsersApi
-   */
-  public usersDestroy(
-    requestParameters: UsersApiUsersDestroyRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UsersApiFp(this.configuration)
-      .usersDestroy(requestParameters.username, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for users
+     * @param {UsersApiUsersDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public usersDestroy(requestParameters: UsersApiUsersDestroyRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersDestroy(requestParameters.username, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for users
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UsersApi
-   */
-  public usersList(options?: RawAxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .usersList(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for users
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public usersList(options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersList(options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * User retrieve and update viewsets for the current user
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UsersApi
-   */
-  public usersMeRetrieve(options?: RawAxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .usersMeRetrieve(options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * User retrieve and update viewsets for the current user
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public usersMeRetrieve(options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersMeRetrieve(options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for users
-   * @param {UsersApiUsersPartialUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UsersApi
-   */
-  public usersPartialUpdate(
-    requestParameters: UsersApiUsersPartialUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UsersApiFp(this.configuration)
-      .usersPartialUpdate(
-        requestParameters.username,
-        requestParameters.PatchedUserRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for users
+     * @param {UsersApiUsersPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public usersPartialUpdate(requestParameters: UsersApiUsersPartialUpdateRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersPartialUpdate(requestParameters.username, requestParameters.PatchedUserRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for users
-   * @param {UsersApiUsersRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UsersApi
-   */
-  public usersRetrieve(
-    requestParameters: UsersApiUsersRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UsersApiFp(this.configuration)
-      .usersRetrieve(requestParameters.username, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for users
+     * @param {UsersApiUsersRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public usersRetrieve(requestParameters: UsersApiUsersRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersRetrieve(requestParameters.username, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for users
-   * @param {UsersApiUsersUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof UsersApi
-   */
-  public usersUpdate(
-    requestParameters: UsersApiUsersUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return UsersApiFp(this.configuration)
-      .usersUpdate(
-        requestParameters.username,
-        requestParameters.UserRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for users
+     * @param {UsersApiUsersUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public usersUpdate(requestParameters: UsersApiUsersUpdateRequest, options?: RawAxiosRequestConfig) {
+        return UsersApiFp(this.configuration).usersUpdate(requestParameters.username, requestParameters.UserRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 }
+
+
 
 /**
  * WebsitesApi - axios parameter creator
  * @export
  */
-export const WebsitesApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * View for user websites
-     * @param {UserWebsiteRequest} UserWebsiteRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    websitesCreate: async (
-      UserWebsiteRequest: UserWebsiteRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'UserWebsiteRequest' is not null or undefined
-      assertParamExists(
-        "websitesCreate",
-        "UserWebsiteRequest",
-        UserWebsiteRequest,
-      )
-      const localVarPath = `/api/v0/websites/`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const WebsitesApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * View for user websites
+         * @param {UserWebsiteRequest} UserWebsiteRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        websitesCreate: async (UserWebsiteRequest: UserWebsiteRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'UserWebsiteRequest' is not null or undefined
+            assertParamExists('websitesCreate', 'UserWebsiteRequest', UserWebsiteRequest)
+            const localVarPath = `/api/v0/websites/`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "POST",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        UserWebsiteRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * View for user websites
-     * @param {number} id A unique integer value identifying this user website.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    websitesDestroy: async (
-      id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("websitesDestroy", "id", id)
-      const localVarPath = `/api/v0/websites/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-      const localVarRequestOptions = {
-        method: "DELETE",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(UserWebsiteRequest, localVarRequestOptions, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * View for user websites
+         * @param {number} id A unique integer value identifying this user website.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        websitesDestroy: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('websitesDestroy', 'id', id)
+            const localVarPath = `/api/v0/websites/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * WebsitesApi - functional programming interface
  * @export
  */
-export const WebsitesApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator = WebsitesApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * View for user websites
-     * @param {UserWebsiteRequest} UserWebsiteRequest
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async websitesCreate(
-      UserWebsiteRequest: UserWebsiteRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserWebsite>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.websitesCreate(
-        UserWebsiteRequest,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["WebsitesApi.websitesCreate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * View for user websites
-     * @param {number} id A unique integer value identifying this user website.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async websitesDestroy(
-      id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>
-    > {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.websitesDestroy(
-        id,
-        options,
-      )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["WebsitesApi.websitesDestroy"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const WebsitesApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = WebsitesApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * View for user websites
+         * @param {UserWebsiteRequest} UserWebsiteRequest
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async websitesCreate(UserWebsiteRequest: UserWebsiteRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<UserWebsite>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.websitesCreate(UserWebsiteRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['WebsitesApi.websitesCreate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * View for user websites
+         * @param {number} id A unique integer value identifying this user website.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async websitesDestroy(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.websitesDestroy(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['WebsitesApi.websitesDestroy']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * WebsitesApi - factory interface
  * @export
  */
-export const WebsitesApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = WebsitesApiFp(configuration)
-  return {
-    /**
-     * View for user websites
-     * @param {WebsitesApiWebsitesCreateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    websitesCreate(
-      requestParameters: WebsitesApiWebsitesCreateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<UserWebsite> {
-      return localVarFp
-        .websitesCreate(requestParameters.UserWebsiteRequest, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * View for user websites
-     * @param {WebsitesApiWebsitesDestroyRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    websitesDestroy(
-      requestParameters: WebsitesApiWebsitesDestroyRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<void> {
-      return localVarFp
-        .websitesDestroy(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const WebsitesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = WebsitesApiFp(configuration)
+    return {
+        /**
+         * View for user websites
+         * @param {WebsitesApiWebsitesCreateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        websitesCreate(requestParameters: WebsitesApiWebsitesCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<UserWebsite> {
+            return localVarFp.websitesCreate(requestParameters.UserWebsiteRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * View for user websites
+         * @param {WebsitesApiWebsitesDestroyRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        websitesDestroy(requestParameters: WebsitesApiWebsitesDestroyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.websitesDestroy(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * Request parameters for websitesCreate operation in WebsitesApi.
@@ -7074,12 +5739,12 @@ export const WebsitesApiFactory = function (
  * @interface WebsitesApiWebsitesCreateRequest
  */
 export interface WebsitesApiWebsitesCreateRequest {
-  /**
-   *
-   * @type {UserWebsiteRequest}
-   * @memberof WebsitesApiWebsitesCreate
-   */
-  readonly UserWebsiteRequest: UserWebsiteRequest
+    /**
+     *
+     * @type {UserWebsiteRequest}
+     * @memberof WebsitesApiWebsitesCreate
+     */
+    readonly UserWebsiteRequest: UserWebsiteRequest
 }
 
 /**
@@ -7088,12 +5753,12 @@ export interface WebsitesApiWebsitesCreateRequest {
  * @interface WebsitesApiWebsitesDestroyRequest
  */
 export interface WebsitesApiWebsitesDestroyRequest {
-  /**
-   * A unique integer value identifying this user website.
-   * @type {number}
-   * @memberof WebsitesApiWebsitesDestroy
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this user website.
+     * @type {number}
+     * @memberof WebsitesApiWebsitesDestroy
+     */
+    readonly id: number
 }
 
 /**
@@ -7103,365 +5768,231 @@ export interface WebsitesApiWebsitesDestroyRequest {
  * @extends {BaseAPI}
  */
 export class WebsitesApi extends BaseAPI {
-  /**
-   * View for user websites
-   * @param {WebsitesApiWebsitesCreateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebsitesApi
-   */
-  public websitesCreate(
-    requestParameters: WebsitesApiWebsitesCreateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return WebsitesApiFp(this.configuration)
-      .websitesCreate(requestParameters.UserWebsiteRequest, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for user websites
+     * @param {WebsitesApiWebsitesCreateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebsitesApi
+     */
+    public websitesCreate(requestParameters: WebsitesApiWebsitesCreateRequest, options?: RawAxiosRequestConfig) {
+        return WebsitesApiFp(this.configuration).websitesCreate(requestParameters.UserWebsiteRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * View for user websites
-   * @param {WebsitesApiWebsitesDestroyRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WebsitesApi
-   */
-  public websitesDestroy(
-    requestParameters: WebsitesApiWebsitesDestroyRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return WebsitesApiFp(this.configuration)
-      .websitesDestroy(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * View for user websites
+     * @param {WebsitesApiWebsitesDestroyRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WebsitesApi
+     */
+    public websitesDestroy(requestParameters: WebsitesApiWebsitesDestroyRequest, options?: RawAxiosRequestConfig) {
+        return WebsitesApiFp(this.configuration).websitesDestroy(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
 }
+
+
 
 /**
  * WidgetListsApi - axios parameter creator
  * @export
  */
-export const WidgetListsApiAxiosParamCreator = function (
-  configuration?: Configuration,
-) {
-  return {
-    /**
-     * API for managing widget lists
-     * @param {number} id A unique integer value identifying this widget list.
-     * @param {PatchedWidgetListRequest} [PatchedWidgetListRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    widgetListsPartialUpdate: async (
-      id: number,
-      PatchedWidgetListRequest?: PatchedWidgetListRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("widgetListsPartialUpdate", "id", id)
-      const localVarPath = `/api/v0/widget_lists/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+export const WidgetListsApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * API for managing widget lists
+         * @param {number} id A unique integer value identifying this widget list.
+         * @param {PatchedWidgetListRequest} [PatchedWidgetListRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        widgetListsPartialUpdate: async (id: number, PatchedWidgetListRequest?: PatchedWidgetListRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('widgetListsPartialUpdate', 'id', id)
+            const localVarPath = `/api/v0/widget_lists/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      const localVarRequestOptions = {
-        method: "PATCH",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            const localVarRequestOptions = { method: 'PATCH', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        PatchedWidgetListRequest,
-        localVarRequestOptions,
-        configuration,
-      )
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * API for managing widget lists
-     * @param {number} id A unique integer value identifying this widget list.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    widgetListsRetrieve: async (
-      id: number,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("widgetListsRetrieve", "id", id)
-      const localVarPath = `/api/v0/widget_lists/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            localVarHeaderParameter['Content-Type'] = 'application/json';
 
-      const localVarRequestOptions = {
-        method: "GET",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(PatchedWidgetListRequest, localVarRequestOptions, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * API for managing widget lists
+         * @param {number} id A unique integer value identifying this widget list.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        widgetListsRetrieve: async (id: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('widgetListsRetrieve', 'id', id)
+            const localVarPath = `/api/v0/widget_lists/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-    /**
-     * API for managing widget lists
-     * @param {number} id A unique integer value identifying this widget list.
-     * @param {WidgetListRequest} [WidgetListRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    widgetListsUpdate: async (
-      id: number,
-      WidgetListRequest?: WidgetListRequest,
-      options: RawAxiosRequestConfig = {},
-    ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("widgetListsUpdate", "id", id)
-      const localVarPath = `/api/v0/widget_lists/{id}/`.replace(
-        `{${"id"}}`,
-        encodeURIComponent(String(id)),
-      )
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
 
-      const localVarRequestOptions = {
-        method: "PUT",
-        ...baseOptions,
-        ...options,
-      }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
 
-      localVarHeaderParameter["Content-Type"] = "application/json"
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions =
-        baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = {
-        ...localVarHeaderParameter,
-        ...headersFromBaseOptions,
-        ...options.headers,
-      }
-      localVarRequestOptions.data = serializeDataIfNeeded(
-        WidgetListRequest,
-        localVarRequestOptions,
-        configuration,
-      )
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions,
-      }
-    },
-  }
-}
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * API for managing widget lists
+         * @param {number} id A unique integer value identifying this widget list.
+         * @param {WidgetListRequest} [WidgetListRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        widgetListsUpdate: async (id: number, WidgetListRequest?: WidgetListRequest, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('widgetListsUpdate', 'id', id)
+            const localVarPath = `/api/v0/widget_lists/{id}/`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(WidgetListRequest, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
 
 /**
  * WidgetListsApi - functional programming interface
  * @export
  */
-export const WidgetListsApiFp = function (configuration?: Configuration) {
-  const localVarAxiosParamCreator =
-    WidgetListsApiAxiosParamCreator(configuration)
-  return {
-    /**
-     * API for managing widget lists
-     * @param {number} id A unique integer value identifying this widget list.
-     * @param {PatchedWidgetListRequest} [PatchedWidgetListRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async widgetListsPartialUpdate(
-      id: number,
-      PatchedWidgetListRequest?: PatchedWidgetListRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WidgetList>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.widgetListsPartialUpdate(
-          id,
-          PatchedWidgetListRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["WidgetListsApi.widgetListsPartialUpdate"]?.[index]
-          ?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * API for managing widget lists
-     * @param {number} id A unique integer value identifying this widget list.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async widgetListsRetrieve(
-      id: number,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WidgetList>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.widgetListsRetrieve(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["WidgetListsApi.widgetListsRetrieve"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-    /**
-     * API for managing widget lists
-     * @param {number} id A unique integer value identifying this widget list.
-     * @param {WidgetListRequest} [WidgetListRequest]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async widgetListsUpdate(
-      id: number,
-      WidgetListRequest?: WidgetListRequest,
-      options?: RawAxiosRequestConfig,
-    ): Promise<
-      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<WidgetList>
-    > {
-      const localVarAxiosArgs =
-        await localVarAxiosParamCreator.widgetListsUpdate(
-          id,
-          WidgetListRequest,
-          options,
-        )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath =
-        operationServerMap["WidgetListsApi.widgetListsUpdate"]?.[index]?.url
-      return (axios, basePath) =>
-        createRequestFunction(
-          localVarAxiosArgs,
-          globalAxios,
-          BASE_PATH,
-          configuration,
-        )(axios, operationBasePath || basePath)
-    },
-  }
-}
+export const WidgetListsApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = WidgetListsApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * API for managing widget lists
+         * @param {number} id A unique integer value identifying this widget list.
+         * @param {PatchedWidgetListRequest} [PatchedWidgetListRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async widgetListsPartialUpdate(id: number, PatchedWidgetListRequest?: PatchedWidgetListRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WidgetList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.widgetListsPartialUpdate(id, PatchedWidgetListRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['WidgetListsApi.widgetListsPartialUpdate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * API for managing widget lists
+         * @param {number} id A unique integer value identifying this widget list.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async widgetListsRetrieve(id: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WidgetList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.widgetListsRetrieve(id, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['WidgetListsApi.widgetListsRetrieve']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+        /**
+         * API for managing widget lists
+         * @param {number} id A unique integer value identifying this widget list.
+         * @param {WidgetListRequest} [WidgetListRequest]
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async widgetListsUpdate(id: number, WidgetListRequest?: WidgetListRequest, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<WidgetList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.widgetListsUpdate(id, WidgetListRequest, options);
+            const index = configuration?.serverIndex ?? 0;
+            const operationBasePath = operationServerMap['WidgetListsApi.widgetListsUpdate']?.[index]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath);
+        },
+    }
+};
 
 /**
  * WidgetListsApi - factory interface
  * @export
  */
-export const WidgetListsApiFactory = function (
-  configuration?: Configuration,
-  basePath?: string,
-  axios?: AxiosInstance,
-) {
-  const localVarFp = WidgetListsApiFp(configuration)
-  return {
-    /**
-     * API for managing widget lists
-     * @param {WidgetListsApiWidgetListsPartialUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    widgetListsPartialUpdate(
-      requestParameters: WidgetListsApiWidgetListsPartialUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<WidgetList> {
-      return localVarFp
-        .widgetListsPartialUpdate(
-          requestParameters.id,
-          requestParameters.PatchedWidgetListRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * API for managing widget lists
-     * @param {WidgetListsApiWidgetListsRetrieveRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    widgetListsRetrieve(
-      requestParameters: WidgetListsApiWidgetListsRetrieveRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<WidgetList> {
-      return localVarFp
-        .widgetListsRetrieve(requestParameters.id, options)
-        .then((request) => request(axios, basePath))
-    },
-    /**
-     * API for managing widget lists
-     * @param {WidgetListsApiWidgetListsUpdateRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    widgetListsUpdate(
-      requestParameters: WidgetListsApiWidgetListsUpdateRequest,
-      options?: RawAxiosRequestConfig,
-    ): AxiosPromise<WidgetList> {
-      return localVarFp
-        .widgetListsUpdate(
-          requestParameters.id,
-          requestParameters.WidgetListRequest,
-          options,
-        )
-        .then((request) => request(axios, basePath))
-    },
-  }
-}
+export const WidgetListsApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = WidgetListsApiFp(configuration)
+    return {
+        /**
+         * API for managing widget lists
+         * @param {WidgetListsApiWidgetListsPartialUpdateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        widgetListsPartialUpdate(requestParameters: WidgetListsApiWidgetListsPartialUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<WidgetList> {
+            return localVarFp.widgetListsPartialUpdate(requestParameters.id, requestParameters.PatchedWidgetListRequest, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * API for managing widget lists
+         * @param {WidgetListsApiWidgetListsRetrieveRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        widgetListsRetrieve(requestParameters: WidgetListsApiWidgetListsRetrieveRequest, options?: RawAxiosRequestConfig): AxiosPromise<WidgetList> {
+            return localVarFp.widgetListsRetrieve(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * API for managing widget lists
+         * @param {WidgetListsApiWidgetListsUpdateRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        widgetListsUpdate(requestParameters: WidgetListsApiWidgetListsUpdateRequest, options?: RawAxiosRequestConfig): AxiosPromise<WidgetList> {
+            return localVarFp.widgetListsUpdate(requestParameters.id, requestParameters.WidgetListRequest, options).then((request) => request(axios, basePath));
+        },
+    };
+};
 
 /**
  * Request parameters for widgetListsPartialUpdate operation in WidgetListsApi.
@@ -7469,19 +6000,19 @@ export const WidgetListsApiFactory = function (
  * @interface WidgetListsApiWidgetListsPartialUpdateRequest
  */
 export interface WidgetListsApiWidgetListsPartialUpdateRequest {
-  /**
-   * A unique integer value identifying this widget list.
-   * @type {number}
-   * @memberof WidgetListsApiWidgetListsPartialUpdate
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this widget list.
+     * @type {number}
+     * @memberof WidgetListsApiWidgetListsPartialUpdate
+     */
+    readonly id: number
 
-  /**
-   *
-   * @type {PatchedWidgetListRequest}
-   * @memberof WidgetListsApiWidgetListsPartialUpdate
-   */
-  readonly PatchedWidgetListRequest?: PatchedWidgetListRequest
+    /**
+     *
+     * @type {PatchedWidgetListRequest}
+     * @memberof WidgetListsApiWidgetListsPartialUpdate
+     */
+    readonly PatchedWidgetListRequest?: PatchedWidgetListRequest
 }
 
 /**
@@ -7490,12 +6021,12 @@ export interface WidgetListsApiWidgetListsPartialUpdateRequest {
  * @interface WidgetListsApiWidgetListsRetrieveRequest
  */
 export interface WidgetListsApiWidgetListsRetrieveRequest {
-  /**
-   * A unique integer value identifying this widget list.
-   * @type {number}
-   * @memberof WidgetListsApiWidgetListsRetrieve
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this widget list.
+     * @type {number}
+     * @memberof WidgetListsApiWidgetListsRetrieve
+     */
+    readonly id: number
 }
 
 /**
@@ -7504,19 +6035,19 @@ export interface WidgetListsApiWidgetListsRetrieveRequest {
  * @interface WidgetListsApiWidgetListsUpdateRequest
  */
 export interface WidgetListsApiWidgetListsUpdateRequest {
-  /**
-   * A unique integer value identifying this widget list.
-   * @type {number}
-   * @memberof WidgetListsApiWidgetListsUpdate
-   */
-  readonly id: number
+    /**
+     * A unique integer value identifying this widget list.
+     * @type {number}
+     * @memberof WidgetListsApiWidgetListsUpdate
+     */
+    readonly id: number
 
-  /**
-   *
-   * @type {WidgetListRequest}
-   * @memberof WidgetListsApiWidgetListsUpdate
-   */
-  readonly WidgetListRequest?: WidgetListRequest
+    /**
+     *
+     * @type {WidgetListRequest}
+     * @memberof WidgetListsApiWidgetListsUpdate
+     */
+    readonly WidgetListRequest?: WidgetListRequest
 }
 
 /**
@@ -7526,59 +6057,36 @@ export interface WidgetListsApiWidgetListsUpdateRequest {
  * @extends {BaseAPI}
  */
 export class WidgetListsApi extends BaseAPI {
-  /**
-   * API for managing widget lists
-   * @param {WidgetListsApiWidgetListsPartialUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WidgetListsApi
-   */
-  public widgetListsPartialUpdate(
-    requestParameters: WidgetListsApiWidgetListsPartialUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return WidgetListsApiFp(this.configuration)
-      .widgetListsPartialUpdate(
-        requestParameters.id,
-        requestParameters.PatchedWidgetListRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * API for managing widget lists
+     * @param {WidgetListsApiWidgetListsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WidgetListsApi
+     */
+    public widgetListsPartialUpdate(requestParameters: WidgetListsApiWidgetListsPartialUpdateRequest, options?: RawAxiosRequestConfig) {
+        return WidgetListsApiFp(this.configuration).widgetListsPartialUpdate(requestParameters.id, requestParameters.PatchedWidgetListRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * API for managing widget lists
-   * @param {WidgetListsApiWidgetListsRetrieveRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WidgetListsApi
-   */
-  public widgetListsRetrieve(
-    requestParameters: WidgetListsApiWidgetListsRetrieveRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return WidgetListsApiFp(this.configuration)
-      .widgetListsRetrieve(requestParameters.id, options)
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * API for managing widget lists
+     * @param {WidgetListsApiWidgetListsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WidgetListsApi
+     */
+    public widgetListsRetrieve(requestParameters: WidgetListsApiWidgetListsRetrieveRequest, options?: RawAxiosRequestConfig) {
+        return WidgetListsApiFp(this.configuration).widgetListsRetrieve(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
 
-  /**
-   * API for managing widget lists
-   * @param {WidgetListsApiWidgetListsUpdateRequest} requestParameters Request parameters.
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof WidgetListsApi
-   */
-  public widgetListsUpdate(
-    requestParameters: WidgetListsApiWidgetListsUpdateRequest,
-    options?: RawAxiosRequestConfig,
-  ) {
-    return WidgetListsApiFp(this.configuration)
-      .widgetListsUpdate(
-        requestParameters.id,
-        requestParameters.WidgetListRequest,
-        options,
-      )
-      .then((request) => request(this.axios, this.basePath))
-  }
+    /**
+     * API for managing widget lists
+     * @param {WidgetListsApiWidgetListsUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof WidgetListsApi
+     */
+    public widgetListsUpdate(requestParameters: WidgetListsApiWidgetListsUpdateRequest, options?: RawAxiosRequestConfig) {
+        return WidgetListsApiFp(this.configuration).widgetListsUpdate(requestParameters.id, requestParameters.WidgetListRequest, options).then((request) => request(this.axios, this.basePath));
+    }
 }
