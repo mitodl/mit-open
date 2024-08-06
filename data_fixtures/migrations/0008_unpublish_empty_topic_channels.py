@@ -25,7 +25,10 @@ def unpublish_empty_topic_channels(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("data_fixtures", "0006_update_parent_topic_channel_descriptions"),
+        (
+            "data_fixtures",
+            "0007_topic_mappings_edx_add_programming_coding_to_computer_science",
+        ),
     ]
 
     operations = [
