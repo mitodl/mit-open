@@ -8,7 +8,7 @@ from learning_resources.factories import (
     LearningResourceFactory,
     LearningResourceRunFactory,
 )
-from learning_resources.models import LearningResource, LearningResourceRun
+from learning_resources.models import LearningResourceRun
 from learning_resources_search.constants import COURSE_TYPE, PROGRAM_TYPE
 from learning_resources_search.plugins import SearchIndexPlugin
 
@@ -74,17 +74,17 @@ def test_search_index_plugin_resource_unpublished(
 
 @pytest.mark.django_db()
 @pytest.mark.parametrize("resource_type", [COURSE_TYPE, PROGRAM_TYPE])
-def test_search_index_plugin_resource_delete(mock_search_index_helpers, resource_type):
+def test_search_index_plugin_resource_before_delete(
+    mock_search_index_helpers, resource_type
+):
     """The plugin function should remove a resource from the search index then delete the resource"""
     resource = LearningResourceFactory.create(resource_type=resource_type)
     resource_id = resource.id
-    SearchIndexPlugin().resource_delete(resource)
+    SearchIndexPlugin().resource_before_delete(resource)
 
     mock_search_index_helpers.mock_remove_learning_resource.assert_called_once_with(
         resource_id, resource.resource_type
     )
-
-    assert LearningResource.objects.filter(id=resource.id).exists() is False
 
 
 @pytest.mark.django_db()

@@ -12,7 +12,7 @@ import {
   Breadcrumbs,
 } from "ol-components"
 import { Link } from "react-router-dom"
-import { MetaTags } from "ol-utilities"
+import { MetaTags, propsNotNil } from "ol-utilities"
 
 import {
   useLearningResourceTopics,
@@ -204,7 +204,7 @@ const groupTopics = (
   courseCounts: Record<string, number>,
   programCounts: Record<string, number>,
 ): TopicGroup[] => {
-  const sorted = topics.sort((a, b) => {
+  const sorted = topics.filter(propsNotNil(["channel_url"])).sort((a, b) => {
     return a.name.localeCompare(b.name)
   })
   const groups: Record<number, TopicGroup> = Object.fromEntries(
@@ -218,7 +218,7 @@ const groupTopics = (
           courses: courseCounts[topic.name],
           programs: programCounts[topic.name],
           title: topic.name,
-          href: topic.channel_url || undefined,
+          href: topic.channel_url,
         },
       ]),
   )
@@ -288,7 +288,7 @@ const ToopicsListingPage: React.FC = () => {
           />
         }
         header="Browse by Topic"
-        subheader=""
+        subheader="Select a topic below to explore relevant learning resources across all Academic and Professional units."
         backgroundUrl={TOPICS_BANNER_IMAGE}
       />
       <Container>

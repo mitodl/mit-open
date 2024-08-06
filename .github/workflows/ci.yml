@@ -28,7 +28,7 @@ jobs:
           - 6379:6379
 
       elastic:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.22
+        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.23
         env:
           network.host: "0.0.0.0"
           http.cors.enabled: "true"
@@ -62,7 +62,7 @@ jobs:
           cache: "poetry"
 
       - name: Validate lockfile
-        run: poetry lock --check
+        run: poetry check --lock
 
       - name: Install dependencies
         run: poetry install --no-interaction

@@ -31,6 +31,9 @@ jobs:
       - name: Install frontend dependencies
         run: yarn install --immutable
 
+      - name: Set VERSION
+        run: echo "VERSION=$(./scripts/get_version.sh)" >> $GITHUB_ENV
+
       - name: Build frontend
         run: NODE_ENV=production yarn build
         env:
@@ -40,6 +43,8 @@ jobs:
           POSTHOG_TIMEOUT_MS: 1000
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_RC }}
           POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_RC }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_RC }}
+          SENTRY_ENV: ${{ secrets.MITOPEN_ENV_RC }}
           MITOPEN_AXIOS_WITH_CREDENTIALS: true
           MITOPEN_API_BASE_URL: https://api.mitopen-rc.odl.mit.edu
           MITOPEN_SUPPORT_EMAIL: odl-mitopen-rc-support@mit.edu

@@ -2214,3 +2214,23 @@ def test_default_sort(sortby, q, result):
     }
 
     assert construct_search(search_params).to_dict().get("sort") == result
+
+
+@pytest.mark.parametrize(
+    "dev_mode",
+    [True, False],
+)
+def test_dev_mode(dev_mode):
+    search_params = {
+        "aggregations": [],
+        "q": "text",
+        "limit": 1,
+        "offset": 1,
+        "dev_mode": dev_mode,
+        "endpoint": LEARNING_RESOURCE,
+    }
+
+    if dev_mode:
+        assert construct_search(search_params).to_dict().get("explain")
+    else:
+        assert construct_search(search_params).to_dict().get("explain") is None

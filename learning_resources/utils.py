@@ -376,7 +376,8 @@ def resource_delete_actions(resource: LearningResource):
     """
     pm = get_plugin_manager()
     hook = pm.hook
-    hook.resource_delete(resource=resource)
+    hook.resource_before_delete(resource=resource)
+    resource.delete()
 
 
 def bulk_resources_unpublished_actions(resource_ids: list[int], resource_type: str):

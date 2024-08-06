@@ -142,11 +142,10 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
         """
         # Valid fields to filter by, just resource_type for now
 
-        lr_query = LearningResource.objects.all()
+        lr_query = LearningResource.objects.for_serialization(user=self.request.user)
         if resource_type:
             lr_query = lr_query.filter(resource_type=resource_type)
-        lr_query = lr_query.select_related(*LearningResource.related_selects)
-        return lr_query.prefetch_related(*LearningResource.get_prefetches()).distinct()
+        return lr_query.distinct()
 
     def get_queryset(self) -> QuerySet:
         """
@@ -429,9 +428,7 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     Topics covered by learning resources
     """
 
-    queryset = (
-        LearningResourceTopic.objects.all().order_by("name").annotate_channel_url()
-    )
+    queryset = LearningResourceTopic.objects.for_serialization().order_by("name")
     serializer_class = LearningResourceTopicSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
@@ -461,8 +458,7 @@ class ContentFileViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = ContentFileSerializer
     permission_classes = (AnonymousAccessReadonlyPermission,)
     queryset = (
-        ContentFile.objects.select_related("run")
-        .prefetch_related("content_tags")
+        ContentFile.objects.for_serialization()
         .filter(published=True)
         .order_by("-created_on")
     )
@@ -700,7 +696,9 @@ class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
     MIT academic departments
     """
 
-    queryset = LearningResourceDepartment.objects.all().order_by("department_id")
+    queryset = LearningResourceDepartment.objects.for_serialization(
+        prefetch_school=True
+    ).order_by("department_id")
     serializer_class = LearningResourceDepartmentSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
@@ -717,7 +715,7 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
     MIT schools
     """
 
-    queryset = LearningResourceSchool.objects.all().order_by("id")
+    queryset = LearningResourceSchool.objects.for_serialization().order_by("id")
     serializer_class = LearningResourceSchoolSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
@@ -747,9 +745,7 @@ class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     MIT organizations that offer learning resources
     """
 
-    queryset = (
-        LearningResourceOfferor.objects.all().order_by("code").annotate_channel_url()
-    )
+    queryset = LearningResourceOfferor.objects.for_serialization().order_by("code")
     serializer_class = LearningResourceOfferorDetailSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)

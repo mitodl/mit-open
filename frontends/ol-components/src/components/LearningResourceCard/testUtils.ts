@@ -104,6 +104,16 @@ const courses = {
       prices: ["49", "99"],
     }),
   },
+  start: {
+    anytime: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      availability: "anytime",
+    }),
+    dated: makeResource({
+      resource_type: ResourceTypeEnum.Course,
+      availability: "dated",
+    }),
+  },
 }
 
 const resourceArgType = {

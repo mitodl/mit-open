@@ -48,6 +48,7 @@ const BodyText = styled(Typography)(({ theme }) => ({
 }))
 
 const UnorderedList = styled.ul(({ theme }) => ({
+  width: "100%",
   ...theme.typography.body1,
 }))
 
@@ -83,20 +84,12 @@ const PrivacyPage: React.FC = () => {
           </BodyText>
           <UnorderedList>
             <li>
-              Biographic information - name, gender, date of birth, email
-              address, country of residence, education level, employer,
-              title/position, household income, CV, company size, job function,
-              industry, university name, enrollment status, anticipated degree,
-              anticipated date of graduation, pre-retirement career, year of
-              retirement, and other demographic info
+              Biographic information – name, email address, education level and
+              other demographic info
             </li>
             <li>
               Demographics and Interests - Affinity categories, Product Purchase
               Interests, and Other Categories of interest
-            </li>
-            <li>
-              Contact information - home and business addresses, phone numbers,
-              email addresses, phone numbers, and social media information
             </li>
             <li>IP addresses</li>
             <li>Course progress and performance</li>
@@ -147,45 +140,10 @@ const PrivacyPage: React.FC = () => {
           </BodyText>
           <UnorderedList>
             <li>
-              To enable us to provide, administer, and improve our courses.
-            </li>
-            <li>
-              To help us improve {SITE_NAME} offerings, both individually (e.g.,
-              by course staff when working with a student) and in aggregate, and
-              to individualize the experience and to evaluate the access and use
-              of the Site and the impact of {SITE_NAME} on the worldwide
-              educational community.
-            </li>
-            <li>
-              For purposes of scientific research, particularly, for example, in
-              the areas of cognitive science and education.
-            </li>
-            <li>
               For the purpose for which you specifically provided the
               information, for example, to respond to a specific inquiry or
               provide you with access to the specific course content and/or
               services you select.
-            </li>
-            <li>
-              To track both individual and aggregate attendance, progress, and
-              completion of an online course and to analyze statistics on
-              student performance and how students learn.
-            </li>
-            <li>
-              To monitor and detect violations of the Honor Code and the Terms
-              of Service, as well as other misuses and potential misuses of the
-              Site.
-            </li>
-            <li>
-              To publish information, but not Personal Information, gathered
-              about {SITE_NAME}'s access, use, impact, and student performance.
-            </li>
-            <li>
-              To send you updates about online courses offered by {SITE_NAME} or
-              other events, to send you communications about products or
-              services of {SITE_NAME} Digital Programs, affiliates, or selected
-              business partners that may be of interest to you, or to send you
-              email messages about Site maintenance or updates.
             </li>
             <li>
               To archive this information and/or use it for future
@@ -203,10 +161,6 @@ const PrivacyPage: React.FC = () => {
               As otherwise described to you at the point of collection or
               pursuant to your consent.
             </li>
-            <li>
-              To authenticate your identity when you register for a course.
-            </li>
-            <li>To process refunds, as applicable.</li>
           </UnorderedList>
           <BodyText variant="body1">
             If you have concerns about any of these purposes, or how we
@@ -248,6 +202,16 @@ const PrivacyPage: React.FC = () => {
             maintains, or transmits. Nonetheless, no method of transmission over
             the Internet or method of electronic storage is 100% secure, and
             therefore we do not guarantee its absolute security.
+          </BodyText>
+          <BodyText variant="body1">
+            All data transferred between systems, from the moment of first
+            collection, is encrypted using industry-standard TLS protocols with
+            high-strength private keys. All data at rest is stored on encrypted
+            media using AWS KMS encryption keys that are only accessible by
+            infrastructure administrators. All data access is based on a least
+            privilege model with a default deny policy. Permissions are granted
+            based on verified business use cases and subject to auditing to
+            verify appropriate applications.
           </BodyText>
           <BodyText variant="h4">
             How long we keep your personal information
@@ -333,7 +297,7 @@ const PrivacyPage: React.FC = () => {
             contacting you directly.
           </BodyText>
           <BodyText variant="body1">
-            <strong>This policy was last updated in June 2024.</strong>
+            <strong>This policy was last updated in July 2024.</strong>
           </BodyText>
         </BodyContainer>
       </PageContainer>

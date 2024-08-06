@@ -938,20 +938,20 @@ export type FeedSourceFeedTypeEnum =
   (typeof FeedSourceFeedTypeEnum)[keyof typeof FeedSourceFeedTypeEnum]
 
 /**
- * * `academic-excellence` - Academic Excellence * `career-growth` - Career Growth * `lifelong-learning` - Lifelong Learning
+ * * `academic-excellence` - Academic Boost * `career-growth` - Career Growth * `lifelong-learning` - Lifelong Learning
  * @export
  * @enum {string}
  */
 
 export const GoalsEnumDescriptions = {
-  "academic-excellence": "Academic Excellence",
+  "academic-excellence": "Academic Boost",
   "career-growth": "Career Growth",
   "lifelong-learning": "Lifelong Learning",
 } as const
 
 export const GoalsEnum = {
   /**
-   * Academic Excellence
+   * Academic Boost
    */
   AcademicExcellence: "academic-excellence",
   /**
@@ -1208,7 +1208,7 @@ export interface LearningResourceTopic {
    * @type {string}
    * @memberof LearningResourceTopic
    */
-  channel_url: string
+  channel_url: string | null
 }
 /**
  * Serializer for News FeedItem

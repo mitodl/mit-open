@@ -1,4 +1,5 @@
-import { LearningResource } from "api"
+import { LearningResource, ResourceTypeEnum } from "api"
+import { findBestRun } from "ol-utilities"
 
 /*
  * This constant represents the value displayed when a course is free.
@@ -28,7 +29,7 @@ type Prices = {
   certificate: null | number[]
 }
 
-export const getPrices = (resource: LearningResource): Prices => {
+const getPrices = (resource: LearningResource): Prices => {
   const sortedNonzero = resource.prices
     .map((price) => Number(price))
     .sort((a, b) => a - b)
@@ -75,10 +76,32 @@ const getDisplayPrice = (price: Prices["course"] | Prices["certificate"]) => {
   return null
 }
 
-export const getDisplayPrices = (resource: LearningResource) => {
+export const getLearningResourcePrices = (resource: LearningResource) => {
   const prices = getPrices(resource)
   return {
-    course: getDisplayPrice(prices.course),
-    certificate: getDisplayPrice(prices.certificate),
+    course: {
+      value: prices.course,
+      display: getDisplayPrice(prices.course),
+    },
+    certificate: {
+      value: prices.certificate,
+      display: getDisplayPrice(prices.certificate),
+    },
   }
+}
+
+export const showStartAnytime = (resource: LearningResource) => {
+  return (
+    resource.availability === "anytime" &&
+    (
+      [ResourceTypeEnum.Course, ResourceTypeEnum.Program] as ResourceTypeEnum[]
+    ).includes(resource.resource_type)
+  )
+}
+
+export const getResourceDate = (resource: LearningResource): string | null => {
+  const startDate =
+    resource.next_start_date ?? findBestRun(resource.runs ?? [])?.start_date
+
+  return startDate ?? null
 }

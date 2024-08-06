@@ -1437,11 +1437,11 @@ components:
       - lifelong-learning
       type: string
       description: |-
-        * `academic-excellence` - Academic Excellence
+        * `academic-excellence` - Academic Boost
         * `career-growth` - Career Growth
         * `lifelong-learning` - Lifelong Learning
       x-enum-descriptions:
-      - Academic Excellence
+      - Academic Boost
       - Career Growth
       - Lifelong Learning
     LearningFormatEnum:
@@ -1611,6 +1611,7 @@ components:
         channel_url:
           type: string
           readOnly: true
+          nullable: true
       required:
       - channel_url
       - id

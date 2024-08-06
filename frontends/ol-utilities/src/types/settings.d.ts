@@ -14,7 +14,7 @@ export declare global {
     CKEDITOR_UPLOAD_URL?: string
     SENTRY_DSN?: string
     VERSION?: string
-    ENVIRONMENT?: string
+    SENTRY_ENV?: string
     POSTHOG?: PostHogSettings
     SITE_NAME: string
     MITOPEN_SUPPORT_EMAIL: string

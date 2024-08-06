@@ -8,6 +8,11 @@ import { Theme } from "../ThemeProvider/ThemeProvider"
 const SubHeader = styled(Typography)({
   maxWidth: "700px",
   marginTop: "8px",
+  marginBottom: "16px",
+})
+
+const ExtraHeader = styled(Typography)({
+  marginBottom: "16px",
 })
 
 type BannerBackgroundProps = {
@@ -78,6 +83,10 @@ type BannerProps = BannerBackgroundProps & {
  * A full-width banner component that supports a background image, title, description,
  * navigation text.
  */
+const TYPOGRAPHY_DEFAULTS = {
+  defaultHeaderTypography: { xs: "h2", md: "h1" },
+  defaultSubHeaderTypography: { xs: "body2", md: "body1" },
+}
 const Banner = ({
   backgroundUrl,
   backgroundSize = "cover",
@@ -85,16 +94,14 @@ const Banner = ({
   navText,
   avatar,
   header,
-  headerTypography,
+  headerTypography = TYPOGRAPHY_DEFAULTS.defaultHeaderTypography,
   headerStyles,
   subheader,
-  subheaderTypography,
+  subheaderTypography = TYPOGRAPHY_DEFAULTS.defaultSubHeaderTypography,
   subheaderStyles,
   extraHeader,
   extraRight,
 }: BannerProps) => {
-  const defaultHeaderTypography = { xs: "h2", md: "h1" }
-  const defaultSubHeaderTypography = { xs: "body2", md: "body1" }
   return (
     <BannerBackground
       backgroundUrl={backgroundUrl}
@@ -108,19 +115,25 @@ const Banner = ({
             {avatar ? <div>{avatar}</div> : null}
             <Typography
               variant="h1"
-              typography={headerTypography || defaultHeaderTypography}
+              typography={headerTypography}
               sx={headerStyles}
             >
               {header}
             </Typography>
             <SubHeader
               variant="body1"
-              typography={subheaderTypography || defaultSubHeaderTypography}
+              typography={subheaderTypography}
               sx={subheaderStyles}
             >
               {subheader}
             </SubHeader>
-            <div>{extraHeader}</div>
+            <ExtraHeader
+              variant="body1"
+              typography={subheaderTypography}
+              sx={subheaderStyles}
+            >
+              {extraHeader}
+            </ExtraHeader>
           </HeaderContainer>
           <RightContainer>{extraRight}</RightContainer>
         </InnerContainer>

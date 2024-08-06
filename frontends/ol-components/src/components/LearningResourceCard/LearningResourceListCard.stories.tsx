@@ -6,7 +6,7 @@ import {
 } from "./LearningResourceListCard"
 import { LearningResource } from "api"
 import { withRouter } from "storybook-addon-react-router-v6"
-import { resources, resourceArgType, courses } from "./story_utils"
+import { resources, resourceArgType, courses } from "./testUtils"
 import Stack from "@mui/system/Stack"
 import _ from "lodash"
 
@@ -150,5 +150,17 @@ export const Draggable: Story = {
   args: {
     resource: resources.course,
     draggable: true,
+  },
+}
+
+export const StartAnytime: Story = {
+  args: {
+    resource: courses.start.anytime,
+  },
+}
+
+export const StartDated: Story = {
+  args: {
+    resource: courses.start.dated,
   },
 }

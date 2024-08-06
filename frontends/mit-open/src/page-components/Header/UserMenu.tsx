@@ -107,7 +107,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
       label: "Dashboard",
       key: "dashboard",
       allow: !!user?.is_authenticated,
-      href: urls.DASHBOARD,
+      href: urls.DASHBOARD_HOME,
     },
     {
       label: "Learning Paths",

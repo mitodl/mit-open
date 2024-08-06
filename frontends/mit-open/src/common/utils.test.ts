@@ -29,11 +29,4 @@ describe("getSearchParamMap", () => {
     const result = getSearchParamMap(urlParams)
     expect(result).toEqual({ topic: ["Leadership", "Business"] })
   })
-
-  it("should handle parameters with comma-separated values", () => {
-    const urlParams = new URLSearchParams()
-    urlParams.append("topic", "Leadership,Business,Management")
-    const result = getSearchParamMap(urlParams)
-    expect(result).toEqual({ topic: ["Leadership", "Business", "Management"] })
-  })
 })

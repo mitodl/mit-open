@@ -1,20 +1,19 @@
 import React from "react"
-import { render, screen } from "@testing-library/react"
-import UserListCardTemplate from "./UserListCardTemplate"
+import { screen } from "@testing-library/react"
+import UserListCardCondensed from "./UserListCardCondensed"
 import * as factories from "api/test-utils/factories"
-import { makeImgConfig } from "ol-utilities/test-utils/factories"
+import { userListView } from "@/common/urls"
+import { renderWithProviders } from "@/test-utils"
 
 const userListFactory = factories.userLists
 
 describe("UserListCard", () => {
   it("renders title and cover image", () => {
     const userList = userListFactory.userList()
-    const imgConfig = makeImgConfig()
-    render(
-      <UserListCardTemplate
-        variant="column"
+    renderWithProviders(
+      <UserListCardCondensed
+        href={userListView(userList.id)}
         userList={userList}
-        imgConfig={imgConfig}
       />,
     )
     const heading = screen.getByRole("heading", { name: userList.title })

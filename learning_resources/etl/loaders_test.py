@@ -1,6 +1,5 @@
 """Tests for ETL loaders"""
 
-import json
 from datetime import timedelta
 from decimal import Decimal
 
@@ -228,20 +227,6 @@ def test_load_program(  # noqa: PLR0913
         [],
     )
 
-    if program_exists and not is_published:
-        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
-            result.id, result.resource_type
-        )
-    elif is_published:
-        if program_exists:
-            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
-        else:
-            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
-                result.id
-            )
-    else:
-        mock_upsert_tasks.upsert_learning_resource.assert_not_called()
-
     assert Program.objects.count() == 1
     assert Course.objects.count() == after_course_count
 
@@ -273,6 +258,20 @@ def test_load_program(  # noqa: PLR0913
         assert isinstance(relationship.child, LearningResource)
         assert relationship.child.readable_id == data.learning_resource.readable_id
 
+    if program_exists and not is_published:
+        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
+            result.id, result.resource_type
+        )
+    elif is_published:
+        if program_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
+    else:
+        mock_upsert_tasks.upsert_learning_resource.assert_not_called()
+
 
 def test_load_program_bad_platform(mocker):
     """A bad platform should log an exception and not create the program"""
@@ -292,7 +291,7 @@ def test_load_program_bad_platform(mocker):
     result = load_program(props, [], [], config=ProgramLoaderConfig(prune=True))
     assert result is None
     mock_log.assert_called_once_with(
-        "Platform %s is null or not in database: %s", bad_platform, json.dumps(props)
+        "Platform %s is null or not in database: %s", bad_platform, "abc123"
     )
 
 
@@ -466,7 +465,7 @@ def test_load_course_bad_platform(mocker):
     result = load_course(props, [], [], config=CourseLoaderConfig(prune=True))
     assert result is None
     mock_log.assert_called_once_with(
-        "Platform %s is null or not in database: %s", bad_platform, '"abc123"'
+        "Platform %s is null or not in database: %s", bad_platform, "abc123"
     )
 
 
@@ -564,13 +563,19 @@ def test_load_duplicate_course(
 
 
 @pytest.mark.parametrize("unique_url", [True, False])
-def test_load_course_dupe_urls(unique_url):
-    """If url is supposed to be unique field, unpublish old courses with same url"""
+def test_load_course_unique_urls(unique_url):
+    """
+    If url is supposed to be unique field, unpublish unpublished courses with same url
+    and update the published course with the new readable id
+    """
     unique_url = "https://mit.edu/unique.html"
     readable_id = "new_unique_course_id"
     platform = LearningResourcePlatformFactory.create(code=PlatformType.ocw.name)
-    old_courses = LearningResourceFactory.create_batch(
-        2, url=unique_url, platform=platform, is_course=True
+    old_unpublished_courses = LearningResourceFactory.create_batch(
+        2, url=unique_url, platform=platform, is_course=True, published=False
+    )
+    old_course = LearningResourceFactory.create(
+        url=unique_url, platform=platform, is_course=True
     )
     props = {
         "readable_id": readable_id,
@@ -593,9 +598,42 @@ def test_load_course_dupe_urls(unique_url):
     assert result.readable_id == readable_id
     assert result.url == unique_url
     assert result.published is True
-    for course in old_courses:
-        course.refresh_from_db()
-        assert course.published is (unique_url is False)
+    for unpublished_course in old_unpublished_courses:
+        assert (
+            LearningResource.objects.filter(pk=unpublished_course.id).exists() is False
+        )
+    old_course.refresh_from_db()
+    assert old_course == result
+
+
+@pytest.mark.parametrize("course_exists", [True, False])
+def test_load_course_fetch_only(mocker, course_exists):
+    """When fetch_only is True, course should just be fetched from db"""
+    mock_next_runs_prices = mocker.patch(
+        "learning_resources.etl.loaders.load_next_start_date_and_prices"
+    )
+    mock_warn = mocker.patch("learning_resources.etl.loaders.log.warning")
+    platform = LearningResourcePlatformFactory.create(code=PlatformType.mitpe.name)
+    if course_exists:
+        resource = LearningResourceFactory.create(is_course=True, platform=platform)
+    else:
+        resource = LearningResourceFactory.build(is_course=True, platform=platform)
+
+    props = {
+        "readable_id": resource.readable_id,
+        "platform": platform.code,
+        "offered_by": {"code": OfferedBy.ocw.name},
+    }
+    result = load_course(props, [], [], config=CourseLoaderConfig(fetch_only=True))
+    if course_exists:
+        assert result == resource
+        mock_warn.assert_not_called()
+    else:
+        assert result is None
+        mock_warn.assert_called_once_with(
+            "No published resource found for %s", resource.readable_id
+        )
+    mock_next_runs_prices.assert_not_called()
 
 
 @pytest.mark.parametrize("run_exists", [True, False])

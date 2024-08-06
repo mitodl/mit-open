@@ -5,7 +5,7 @@ from functools import cached_property
 from django.contrib.auth.models import Group
 from django.core.validators import RegexValidator
 from django.db import models
-from django.db.models import JSONField, deletion
+from django.db.models import Case, JSONField, When, deletion
 from django.db.models.functions import Concat
 from imagekit.models import ImageSpecField, ProcessedImageField
 from imagekit.processors import ResizeToFit
@@ -32,12 +32,18 @@ class ChannelQuerySet(TimestampedModelQuerySet):
     def annotate_channel_url(self):
         """Annotate the channel for serialization"""
         return self.annotate(
-            channel_url=Concat(
-                models.Value(frontend_absolute_url("/c/")),
-                "channel_type",
-                models.Value("/"),
-                "name",
-                models.Value("/"),
+            channel_url=Case(
+                When(
+                    published=True,
+                    then=Concat(
+                        models.Value(frontend_absolute_url("/c/")),
+                        "channel_type",
+                        models.Value("/"),
+                        "name",
+                        models.Value("/"),
+                    ),
+                ),
+                default=None,
             )
         )
 
@@ -95,6 +101,7 @@ class Channel(TimestampedModel):
     configuration = models.JSONField(null=True, default=dict, blank=True)
     search_filter = models.CharField(max_length=2048, blank=True, default="")
     public_description = models.TextField(blank=True, default="")
+    published = models.BooleanField(default=True, db_index=True)
 
     featured_list = models.ForeignKey(
         LearningResource, null=True, blank=True, on_delete=deletion.SET_NULL
@@ -115,13 +122,11 @@ class Channel(TimestampedModel):
         return self.title
 
     @cached_property
-    def channel_url(self) -> str:
+    def channel_url(self) -> str | None:
         """Return the channel url"""
-        return getattr(
-            self,
-            "_channel_url",
-            frontend_absolute_url(f"/c/{self.channel_type}/{self.name}/"),
-        )
+        if self.published:
+            return frontend_absolute_url(f"/c/{self.channel_type}/{self.name}/")
+        return None
 
     class Meta:
         unique_together = ("name", "channel_type")
@@ -154,7 +159,10 @@ class ChannelDepartmentDetail(TimestampedModel):
         related_name="department_detail",
     )
     department = models.ForeignKey(
-        LearningResourceDepartment, null=True, on_delete=models.SET_NULL
+        LearningResourceDepartment,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="channel_department_details",
     )
 
 

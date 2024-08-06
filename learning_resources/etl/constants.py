@@ -26,8 +26,8 @@ LearningResourceRunLoaderConfig = namedtuple(  # noqa: PYI024
 
 CourseLoaderConfig = namedtuple(  # noqa: PYI024
     "CourseLoaderConfig",
-    ["prune", "offered_by", "runs"],
-    defaults=[True, OfferedByLoaderConfig(), LearningResourceRunLoaderConfig()],
+    ["prune", "offered_by", "runs", "fetch_only"],
+    defaults=[True, OfferedByLoaderConfig(), LearningResourceRunLoaderConfig(), False],
 )
 
 ProgramLoaderConfig = namedtuple(  # noqa: PYI024

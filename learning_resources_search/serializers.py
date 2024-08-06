@@ -259,6 +259,12 @@ class SearchRequestSerializer(serializers.Serializer):
         child=serializers.CharField(),
         help_text="The topic name. To see a list of options go to api/v1/topics/",
     )
+    dev_mode = serializers.BooleanField(
+        required=False,
+        allow_null=True,
+        default=False,
+        help_text="If true return raw open search results with score explanations",
+    )
 
     def validate(self, attrs):
         unknown = set(self.initial_data) - set(self.fields)
@@ -308,7 +314,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         min_value=0,
         required=False,
         allow_null=True,
-        default=None,
+        default=2.5,
         help_text=(
             "Relevance score penalty percent per year for for resources without "
             "upcoming runs. Only affects results if there is a search term."
@@ -544,6 +550,10 @@ class PercolateQuerySerializer(serializers.ModelSerializer):
     Serializer for PercolateQuery objects
     """
 
+    source_description = serializers.CharField(read_only=True)
+
+    source_label = serializers.CharField(read_only=True)
+
     class Meta:
         model = PercolateQuery
         exclude = (*COMMON_IGNORED_FIELDS, "users")
@@ -671,11 +681,9 @@ def serialize_bulk_learning_resources(ids):
     Args:
         ids(list of int): List of learning_resource id's
     """
-    for learning_resource in (
-        LearningResource.objects.select_related(*LearningResource.related_selects)
-        .prefetch_related(*LearningResource.get_prefetches())
-        .filter(id__in=ids)
-    ):
+    for learning_resource in LearningResource.objects.filter(
+        id__in=ids
+    ).for_serialization():
         yield serialize_learning_resource_for_bulk(learning_resource)
 
 

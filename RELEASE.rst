@@ -1,6 +1,63 @@
 Release Notes
 =============
 
+Version 0.15.0 (Released August 05, 2024)
+--------------
+
+- Performance fixes on LR queries (#1303)
+- Subscription management page (#1331)
+- Add certificate badge to drawer (#1307)
+- Lock file maintenance (#1360)
+- Update mcr.microsoft.com/playwright Docker tag to v1.45.3 (#1358)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.23 (#1357)
+
+Version 0.14.7 (Released August 01, 2024)
+--------------
+
+- Renaming my topic update migration from 0006 to 0007 (#1353)
+- Update the mappings for PWT topic "Programming & Coding"  (#1344)
+
+Version 0.14.6 (Released August 01, 2024)
+--------------
+
+- Use resource_delete_actions instead of resource.delete directly (#1347)
+- Show "Start Anytime" based on resource "availability" property (#1336)
+- Handle alternate unique id fields better in load_course (#1342)
+- topic / privacy / onboarding / profile copy updates (#1334)
+
+Version 0.14.5 (Released July 31, 2024)
+--------------
+
+- Flatten OCW topics so all of them get mapped to PWT topics when running the ETL pipeline (#1343)
+
+Version 0.14.4 (Released July 31, 2024)
+--------------
+
+- fix bug (#1340)
+- dev mode (#1333)
+- Updated designs for the unit page (#1325)
+- Avoid course overwrites in program ETL pipelines (#1332)
+- Assign mitxonline certificate type from api values (#1335)
+- add default yearly_decay_percent (#1330)
+- Modal dialog component and styles
+- tab widths (#1309)
+- Resource availability: backend changes (#1301)
+- styling and icon updates (#1316)
+
+Version 0.14.3 (Released July 29, 2024)
+--------------
+
+- Remove some styling for topic box names so they wrap, adjusting icons (#1328)
+- Lock file maintenance (#1262)
+- fix flaky tests (#1324)
+- urlencode search_filter (#1326)
+- Moves all env vars to global APP_SETTINGS (#1310)
+- Remap topic icons according to what's in the topics listing (#1322)
+- Fix podcast duration frontend display (#1321)
+- Update topics code for PWT topic mappings (#1275)
+- Convert durations to ISO8601 format (podcast episodes) (#1317)
+- No prices for archived runs or resources w/out certificates (#1305)
+
 Version 0.14.2 (Released July 25, 2024)
 --------------
 
