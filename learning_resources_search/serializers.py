@@ -3,11 +3,12 @@
 import logging
 from collections import OrderedDict, defaultdict
 from datetime import UTC, datetime
+from random import random
 from typing import TypedDict
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.db.models import Q
+from django.db.models import Count, Q
 from drf_spectacular.plumbing import build_choice_description_list
 from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
@@ -130,6 +131,20 @@ def serialize_learning_resource_for_update(
             SearchCourseNumberSerializer(instance=num).data
             for num in learning_resource_obj.course.course_numbers
         ]
+
+    if learning_resource_obj.in_featured_lists > 0:
+        featured_rank = (
+            LearningResourceRelationship.objects.filter(
+                child_id=learning_resource_obj.id, parent__channel__isnull=False
+            )
+            .order_by("position")
+            .first()
+            .position
+            + random()  # noqa: S311
+        )
+    else:
+        featured_rank = None
+
     return {
         "resource_relations": {"name": "resource"},
         "created_on": learning_resource_obj.created_on,
@@ -138,7 +153,7 @@ def serialize_learning_resource_for_update(
         "resource_age_date": get_resource_age_date(
             learning_resource_obj, serialized_data["resource_category"]
         ),
-        "featured_rank": None,
+        "featured_rank": featured_rank,
         **serialized_data,
     }
 
@@ -684,7 +699,7 @@ def serialize_bulk_learning_resources(ids):
     """
     for learning_resource in LearningResource.objects.filter(
         id__in=ids
-    ).for_serialization():
+    ).for_serialization().annotate(in_featured_lists=Count("parents__parent__channel")):
         yield serialize_learning_resource_for_bulk(learning_resource)
 
 

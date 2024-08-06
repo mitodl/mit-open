@@ -104,7 +104,11 @@ class Channel(TimestampedModel):
     published = models.BooleanField(default=True, db_index=True)
 
     featured_list = models.ForeignKey(
-        LearningResource, null=True, blank=True, on_delete=deletion.SET_NULL
+        LearningResource,
+        null=True,
+        blank=True,
+        on_delete=deletion.SET_NULL,
+        related_name="channel",
     )
 
     widget_list = models.ForeignKey(

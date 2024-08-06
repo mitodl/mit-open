@@ -13,7 +13,7 @@ import celery
 from celery.exceptions import Ignore
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.template.defaultfilters import pluralize
 from opensearchpy.exceptions import NotFoundError, RequestError
 from requests.models import PreparedRequest
@@ -128,7 +128,10 @@ def deindex_document(doc_id, object_type, **kwargs):
 @app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
 def upsert_learning_resource(learning_resource_id):
     """Upsert learning resource based on stored database information"""
-    resource_obj = LearningResource.objects.get(id=learning_resource_id)
+    resource_obj = LearningResource.objects.annotate(
+        in_featured_lists=Count("parents__parent__channel")
+    ).get(id=learning_resource_id)
+
     resource_data = serialize_learning_resource_for_update(resource_obj)
     api.upsert_document(
         learning_resource_id,
