@@ -8,7 +8,7 @@ from _pytest.fixtures import fixture
 from django.utils import timezone
 from rest_framework.reverse import reverse
 
-from channels.factories import ChannelUnitDetailFactory
+from channels.factories import ChannelTopicDetailFactory, ChannelUnitDetailFactory
 from channels.models import Channel
 from learning_resources.constants import (
     LearningResourceRelationTypes,
@@ -596,6 +596,26 @@ def test_topics_detail_endpoint(client):
     topic = LearningResourceTopicFactory.create()
     resp = client.get(reverse("lr:v1:topics_api-detail", args=[topic.pk]))
     assert resp.data == LearningResourceTopicSerializer(instance=topic).data
+
+
+@pytest.mark.parametrize("published", [True, False])
+def test_topic_channel_url(client, published):
+    """
+    Check that the topic API returns 'None' for channel_url of unpublished channels.
+
+    Note: The channel_url being None is also tested on the Channel model itself,
+    but the API may generate the channel_url in a slightly different manner (for
+    example, queryset annotation)
+    """
+    topic = LearningResourceTopicFactory.create()
+    channel = ChannelTopicDetailFactory.create(
+        topic=topic, is_unpublished=not published
+    ).channel
+    resp = client.get(reverse("lr:v1:topics_api-detail", args=[topic.pk]))
+
+    assert resp.data["channel_url"] == channel.channel_url
+    if not published:
+        assert resp.data["channel_url"] is None
 
 
 def test_departments_list_endpoint(client):

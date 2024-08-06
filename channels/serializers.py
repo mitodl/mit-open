@@ -157,7 +157,7 @@ class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer)
 
     class Meta:
         model = Channel
-        exclude = []
+        exclude = ["published"]
 
 
 class ChannelTopicDetailSerializer(serializers.ModelSerializer):

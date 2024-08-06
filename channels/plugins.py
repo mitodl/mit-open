@@ -12,6 +12,29 @@ from channels.models import (
     ChannelTopicDetail,
     ChannelUnitDetail,
 )
+from learning_resources.models import LearningResource
+
+
+def unpublish_topics_for_resource(resource):
+    """
+    Unpublish channels for topics that are used exclusively by the resource
+
+    Args:
+        resource(LearningResource): The resource that was unpublished
+    """
+    other_published = LearningResource.objects.filter(
+        published=True,
+    ).exclude(id=resource.id)
+
+    channels = Channel.objects.filter(
+        topic_detail__topic__in=resource.topics.all(),
+        channel_type=ChannelType.topic.name,  # Redundant, but left for clarity
+        published=True,
+    ).exclude(topic_detail__topic__learningresource__in=other_published)
+
+    for channel in channels:
+        channel.published = False
+        channel.save()
 
 
 class ChannelPlugin:
@@ -140,3 +163,29 @@ class ChannelPlugin:
         """
         Channel.objects.filter(unit_detail__unit=offeror).delete()
         offeror.delete()
+
+    @hookimpl
+    def resource_upserted(self, resource, percolate):  # noqa: ARG002
+        """
+        Publish channels for the resource's topics
+        """
+        channels = Channel.objects.filter(
+            topic_detail__topic__in=resource.topics.all(), published=False
+        )
+        for channel in channels:
+            channel.published = True
+            channel.save()
+
+    @hookimpl
+    def resource_before_delete(self, resource):
+        """
+        Unpublish channels for the resource's topics
+        """
+        unpublish_topics_for_resource(resource)
+
+    @hookimpl
+    def resource_unpublished(self, resource):
+        """
+        Unpublish channels for the resource's topics
+        """
+        unpublish_topics_for_resource(resource)
