@@ -100,11 +100,6 @@ const {
   }),
 })
 
-console.log("HELLO FROM WEBPACK")
-console.log("SENTRY_ENV", SENTRY_ENV)
-console.log("SENTRY_DSN", SENTRY_DSN)
-console.log("VERSION", VERSION)
-
 const MITOPEN_FEATURES_PREFIX = "FEATURE_"
 
 const getFeatureFlags = () => {
