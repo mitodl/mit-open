@@ -238,7 +238,7 @@ describe("manageListDialogs.upsertUserList", () => {
   test.each([
     {
       userList: undefined,
-      expectedTitle: "Create New List",
+      expectedTitle: "Create List",
     },
     {
       userList: factories.userLists.userList(),

@@ -279,13 +279,13 @@ describe.each([ListType.LearningPath, ListType.UserList])(
     test("Clicking 'Create a new list' opens the create list dialog", async () => {
       let createList = null
       if (listType === ListType.LearningPath) {
-        // Don't actually open the 'Create New List' modal, or we'll need to mock API responses.
+        // Don't actually open the 'Create List' modal, or we'll need to mock API responses.
         createList = jest
           .spyOn(manageListDialogs, "upsertLearningPath")
           .mockImplementationOnce(jest.fn())
         setupLearningPaths()
       } else if (listType === ListType.UserList) {
-        // Don't actually open the 'Create New List' modal, or we'll need to mock API responses.
+        // Don't actually open the 'Create List' modal, or we'll need to mock API responses.
         createList = jest
           .spyOn(manageListDialogs, "upsertUserList")
           .mockImplementationOnce(jest.fn())
