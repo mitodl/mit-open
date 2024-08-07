@@ -46,7 +46,6 @@ const TopicBox = styled(Link)`
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   overflow: hidden;
-
   display: flex;
 
   svg:last-child {
