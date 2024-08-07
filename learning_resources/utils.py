@@ -487,6 +487,7 @@ def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -
     - icon - the icon we should display for the topic (a Remixicon, generally)
     - mappings - mappings for topics found in offeror data
     - children - child topics (records in this same format)
+    - parent - specific parent for the topic
     A more detailed definition of this is in data/README-topics.md.
 
     Args:
@@ -502,6 +503,22 @@ def _walk_topic_map(topics: list, parent: None | LearningResourceTopic = None) -
             "name": topic["name"],
             "icon": topic["icon"] or "",
         }
+
+        if not parent and "parent" in topic:
+            # Topic specifies a parent, so let's try to grab it.
+            try:
+                defaults["parent"] = LearningResourceTopic.objects.filter(
+                    topic_uuid=topic["parent"]
+                ).get()
+            except LearningResourceTopic.DoesNotExist:
+                log.warning(
+                    (
+                        "_walk_topic_map: topic %s specified a parent %s but"
+                        " the parent did not exist"
+                    ),
+                    topic["name"],
+                    topic["parent"],
+                )
 
         if topic["id"]:
             defaults["topic_uuid"] = topic["id"]

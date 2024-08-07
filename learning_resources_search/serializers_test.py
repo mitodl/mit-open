@@ -557,19 +557,19 @@ def test_serialize_bulk_learning_resources(mocker):
     every existing learning resource
     """
     # NOTE: explicitly creating a fixed number per type for a deterministic query count
-    resources = [
-        *factories.LearningResourceFactory.create_batch(5, is_course=True),
-        *factories.LearningResourceFactory.create_batch(5, is_program=True),
-        *factories.LearningResourceFactory.create_batch(5, is_podcast=True),
-        *factories.LearningResourceFactory.create_batch(5, is_podcast_episode=True),
-        *factories.LearningResourceFactory.create_batch(5, is_video=True),
-        *factories.LearningResourceFactory.create_batch(5, is_video_playlist=True),
-    ]
-    resources = LearningResource.objects.for_serialization()
-    results = list(
+    factories.LearningResourceFactory.create_batch(5, is_course=True)
+    factories.LearningResourceFactory.create_batch(5, is_program=True)
+    factories.LearningResourceFactory.create_batch(5, is_podcast=True)
+    factories.LearningResourceFactory.create_batch(5, is_podcast_episode=True)
+    factories.LearningResourceFactory.create_batch(5, is_video=True)
+    factories.LearningResourceFactory.create_batch(5, is_video_playlist=True)
+
+    resources = LearningResource.objects.order_by("id").for_serialization()
+    results = sorted(
         serializers.serialize_bulk_learning_resources(
             [resource.id for resource in resources]
-        )
+        ),
+        key=lambda x: x["id"],
     )
 
     expected = []

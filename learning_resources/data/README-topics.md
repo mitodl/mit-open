@@ -29,9 +29,16 @@ topics:
             - offeror topic
             - other offeror topic
         children: []
+	parent: optional ID for the parent (read the Updating section before using this)
 ```
 
-Children use the same format as the items under `topics`.
+Children use the same format as the items under `topics`. Topic IDs are UUIDs.
+
+## Updating topics (and the `parent` element)
+
+A given topic's parent/child relationship is usually defined by their position in the yaml file. Children are in the parent's `children` list and the upsert function uses this when it creates the topics in the database.
+
+There is a slight problem with this - if you want to _modify_ a topic, you now have to specify the whole tree, or the upsert code won't know what they belong to. This is where the `parent` element comes in. You can set this to the UUID of the parent that it should have, and the upserter will load that topic and use it as the parent so you don't have to specify the whole tree.
 
 ## Transforming topic maps
 
