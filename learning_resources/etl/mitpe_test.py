@@ -160,7 +160,7 @@ def mock_fetch_data(mocker):
 @pytest.mark.parametrize("prof_ed_api_url", ["http://pro_edd_api.com", None])
 def test_extract(settings, mock_fetch_data, prof_ed_api_url):
     """Test extract function"""
-    settings.PROFESSIONAL_EDUCATION_RESOURCES_API_URL = prof_ed_api_url
+    settings.MITPE_BASE_API_URL = prof_ed_api_url
     expected = []
     for page in range(3):
         with Path.open(
@@ -177,8 +177,9 @@ def test_extract(settings, mock_fetch_data, prof_ed_api_url):
 
 
 @pytest.mark.django_db()
-def test_transform(mocker, mock_fetch_data, prof_ed_settings):
+def test_transform(settings, mock_fetch_data, prof_ed_settings):
     """Test transform function, and effectivelu most other functions"""
+    settings.MITPE_BASE_API_URL = "http://pro_edu_api.edu"
     offeror = LearningResourceOfferorFactory.create(code="mitpe")
     LearningResourceTopicMappingFactory.create(
         offeror=offeror,
