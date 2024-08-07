@@ -11,9 +11,14 @@ import {
   RiEarthLine,
   RiSpaceShipLine,
   RiLineChartLine,
+  RiTeamLine,
 } from "@remixicon/react"
 import React from "react"
 
+/**
+ * These are all the icons we've used (and therefore all the icons that may
+ * appear depending on the state of the data_fixtures migrations).
+ */
 export const ICON_MAP = {
   RiTestTubeLine: RiTestTubeLine,
   RiUserSearchLine: RiUserSearchLine,
@@ -27,6 +32,7 @@ export const ICON_MAP = {
   RiEarthLine: RiEarthLine,
   RiSpaceShipLine: RiSpaceShipLine,
   RiLineChartLine: RiLineChartLine,
+  RiTeamLine: RiTeamLine,
 }
 
 type RootTopicIconProps = { icon: string | undefined }
