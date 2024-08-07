@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.15.1
+Version 0.15.1 (Released August 07, 2024)
 --------------
 
 - Update dependency redis to v5 (#1244)
