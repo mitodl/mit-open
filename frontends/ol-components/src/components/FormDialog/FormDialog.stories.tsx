@@ -1,6 +1,7 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { FormDialog, FormDialogProps } from "./FormDialog"
+import { TextField } from "../TextField/TextField"
 import MuiButton from "@mui/material/Button"
 import { action } from "@storybook/addon-actions"
 
@@ -28,7 +29,20 @@ const DialogDemo = (props: FormDialogProps) => {
         onClose={handleClose}
         onSubmit={handleSubmit}
       >
-        CONTENT
+        <TextField
+          name="a"
+          label="Field A"
+          placeholder="A text field"
+          fullWidth
+        />
+        <TextField
+          name="b"
+          label="Field B"
+          placeholder="A multiline text field"
+          fullWidth
+          multiline
+          minRows={3}
+        />
       </FormDialog>
     </div>
   )
