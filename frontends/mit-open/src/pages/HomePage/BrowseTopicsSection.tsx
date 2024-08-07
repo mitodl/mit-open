@@ -27,6 +27,7 @@ const Topics = styled.div`
   flex-wrap: wrap;
   gap: 16px 24px;
   margin: 40px 0;
+
   ${theme.breakpoints.down("md")} {
     gap: 5px;
     margin: 24px 0;
@@ -46,9 +47,14 @@ const TopicBox = styled(Link)`
   background: ${theme.custom.colors.white};
   overflow: hidden;
 
+  display: flex;
+
   svg:last-child {
-    color: ${theme.custom.colors.white};
+    color: ${theme.custom.colors.black};
     flex: 0 0 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 8px;
   }
 
   :hover {
@@ -67,6 +73,7 @@ const TopicBoxContent = styled.div`
   justify-content: space-between;
   align-items: start;
   gap: 10px;
+  width: 100%;
 
   svg {
     flex: 0 0 22px;

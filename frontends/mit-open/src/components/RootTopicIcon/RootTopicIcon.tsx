@@ -10,6 +10,7 @@ import {
   RiRobot2Line,
   RiEarthLine,
   RiSpaceShipLine,
+  RiLineChartLine,
 } from "@remixicon/react"
 import React from "react"
 
@@ -25,6 +26,7 @@ export const ICON_MAP = {
   RiRobot2Line: RiRobot2Line,
   RiEarthLine: RiEarthLine,
   RiSpaceShipLine: RiSpaceShipLine,
+  RiLineChartLine: RiLineChartLine,
 }
 
 type RootTopicIconProps = { icon: string | undefined }
