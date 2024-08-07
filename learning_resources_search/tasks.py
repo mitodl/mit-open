@@ -88,7 +88,10 @@ def update_featured_rank():
                 resource.resource_type,
             )
 
-    api.clear_featured_rank(len(featured_resources), clear_all_greater_then=True)
+    api.clear_featured_rank(
+        featured_resources.values_list("position", flat=True).distinct().count(),
+        clear_all_greater_then=True,
+    )
 
 
 @app.task(**PARTIAL_UPDATE_TASK_SETTINGS)

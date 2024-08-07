@@ -19,6 +19,7 @@ from learning_resources.factories import (
     ProgramFactory,
 )
 from learning_resources.models import LearningResource
+from learning_resources.views import FeaturedViewSet
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
@@ -49,6 +50,7 @@ from learning_resources_search.tasks import (
     send_subscription_emails,
     start_recreate_index,
     start_update_index,
+    update_featured_rank,
     upsert_content_file,
     upsert_learning_resource,
     wrap_retry_exception,
@@ -978,3 +980,36 @@ def test_subscription_digest_subject():
         sample_course, "management", resource_types, 19, shortform=True
     )
     assert subject_line == "New Courses from management"
+
+
+def test_update_featured_rank(mocker, offeror_featured_lists):
+    """The updated_featured_rank task should make the expected calls"""
+
+    mocker.patch(
+        "learning_resources_search.tasks.random",
+        return_value=0.4,
+    )
+
+    clear_featured_rank = mocker.patch(
+        "learning_resources_search.tasks.api.clear_featured_rank"
+    )
+
+    update_with_partial = mocker.patch(
+        "learning_resources_search.tasks.api.update_document_with_partial"
+    )
+
+    featured_view_set = FeaturedViewSet()
+    featured_resources = featured_view_set.get_queryset()
+
+    update_featured_rank()
+
+    for rank in range(3):
+        clear_featured_rank.assert_any_call(rank, clear_all_greater_then=False)
+    clear_featured_rank.assert_any_call(3, clear_all_greater_then=True)
+
+    for resource in featured_resources:
+        update_with_partial.assert_any_call(
+            resource.id,
+            {"featured_rank": resource.position + 0.4},
+            resource.resource_type,
+        )
