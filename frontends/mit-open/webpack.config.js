@@ -75,7 +75,7 @@ const {
   }),
   MITOPEN_SUPPORT_EMAIL: str({
     desc: "Email address for support",
-    default: "mitopen-support@mit.edu",
+    default: "mitlearn-support@mit.edu",
   }),
   MITOPEN_AXIOS_WITH_CREDENTIALS: bool({
     desc: "Instructs the Axios API client to send credentials with requests",
