@@ -90,16 +90,15 @@ def get_request_json(url: str, *, raise_on_error: bool = False) -> dict:
     return response.json()
 
 
-def fetch_data_by_page(url, page=0) -> list[dict]:
+def fetch_data_by_page(url) -> list[dict]:
     """
     Fetch data from the Professional Education API
     Args:
         url(str): The url to fetch data from
-        params(dict): The query parameters to include in the request
     Yields:
         list[dict]: A list of course or program data
     """
-    params = {"page": page}
+    params = {"page": 0}
     has_results = True
     while has_results:
         results = requests.get(
