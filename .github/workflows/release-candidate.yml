@@ -44,7 +44,7 @@ jobs:
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_RC }}
           POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_RC }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_RC }}
-          SENTRY_ENV: ${{ secrets.MITOPEN_ENV_RC }}
+          SENTRY_ENV: ${{ secrets.MITOL_ENVIRONMENT_RC }}
           CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
           MITOL_AXIOS_WITH_CREDENTIALS: true
           MITOL_API_BASE_URL: https://api.rc.learn.mit.edu

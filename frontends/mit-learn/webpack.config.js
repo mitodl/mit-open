@@ -39,6 +39,7 @@ const {
   EMBEDLY_KEY,
   CKEDITOR_UPLOAD_URL,
   SENTRY_DSN,
+  SENTRY_ENV,
   CSRF_COOKIE_NAME,
 } = cleanEnv(process.env, {
   NODE_ENV: str({
@@ -105,6 +106,10 @@ const {
 })
 
 const MITOL_FEATURES_PREFIX = "FEATURE_"
+console.log("HELLO FROM WEBPACK")
+console.log("SENTRY_ENV", SENTRY_ENV)
+console.log("SENTRY_DSN", SENTRY_DSN)
+console.log("VERSION", VERSION)
 
 const getFeatureFlags = () => {
   const bootstrapFeatureFlags = {}
@@ -222,6 +227,7 @@ module.exports = (env, argv) => {
           CKEDITOR_UPLOAD_URL: JSON.stringify(CKEDITOR_UPLOAD_URL),
           VERSION: JSON.stringify(VERSION),
           SENTRY_DSN: JSON.stringify(SENTRY_DSN),
+          SENTRY_ENV: JSON.stringify(SENTRY_ENV),
           POSTHOG: getPostHogSettings(),
           SITE_NAME: JSON.stringify(SITE_NAME),
           MITOL_SUPPORT_EMAIL: JSON.stringify(MITOL_SUPPORT_EMAIL),

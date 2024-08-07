@@ -1,0 +1,37 @@
+name: RC_TEST
+on: [push]
+jobs:
+  test-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
+        with:
+          node-version: "^20"
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Setup environment
+        run: sudo apt-get install libelf1
+
+      - name: Install frontend dependencies
+        run: yarn install --immutable
+
+      - name: Set VERSION
+        run: echo "VERSION=$(./scripts/get_version.sh)" >> $GITHUB_ENV
+
+      - name: Build frontend
+        run: NODE_ENV=production yarn build
+        env:
+          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
+          POSTHOG_ENABLED: true
+          POSTHOG_API_HOST: https://app.posthog.com
+          POSTHOG_TIMEOUT_MS: 1000
+          POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_RC }}
+          POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_RC }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_RC }}
+          SENTRY_ENV: ${{ secrets.MITOPEN_ENVIRONMENT_RC }}
+          MITOPEN_AXIOS_WITH_CREDENTIALS: true
+          MITOPEN_API_BASE_URL: https://api.mitopen-rc.odl.mit.edu
+          MITOPEN_SUPPORT_EMAIL: odl-mitopen-rc-support@mit.edu
