@@ -27,18 +27,17 @@ BASE_URL = "https://professional.mit.edu/"
 OFFERED_BY = {"code": OfferedBy.mitpe.name}
 
 
-def _fetch_data(url, page=0) -> list[dict]:
+def _fetch_data(url) -> list[dict]:
     """
     Fetch data from the Professional Education API
 
     Args:
         url(str): The url to fetch data from
-        params(dict): The query parameters to include in the request
 
     Yields:
         list[dict]: A list of course or program data
     """
-    params = {"page": page}
+    params = {"page": 0}
     has_results = True
     while has_results:
         results = requests.get(
@@ -56,10 +55,12 @@ def extract() -> list[dict]:
     Returns:
         list[dict]: list of raw course or program data
     """
-    if settings.PROFESSIONAL_EDUCATION_RESOURCES_API_URL:
-        return list(_fetch_data(settings.PROFESSIONAL_EDUCATION_RESOURCES_API_URL))
+    if settings.MITPE_BASE_API_URL:
+        return list(
+            _fetch_data(urljoin(settings.MITPE_BASE_API_URL, "/feeds/courses/"))
+        )
     else:
-        log.warning("Missing required setting PROFESSIONAL_EDUCATION_RESOURCES_API_URL")
+        log.warning("Missing required setting MITPE_BASE_API_URL")
 
     return []
 
