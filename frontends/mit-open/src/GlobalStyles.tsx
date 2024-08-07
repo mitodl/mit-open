@@ -58,11 +58,6 @@ const formCss = css`
     }
   }
 
-  form .form-row,
-  .form-header .form-row {
-    margin: 10px 0 24px;
-  }
-
   .MuiDialogContent-root {
     .MuiFormControl-root:first-of-type {
       margin-top: 0;

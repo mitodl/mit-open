@@ -53,7 +53,7 @@ const setup = ({
   return { paths, location }
 }
 
-describe("UserListListingPage", () => {
+describe("UserListListingComponent", () => {
   it("Has heading 'My Lists'", async () => {
     setup()
     screen.getByRole("heading", { name: "My Lists" })

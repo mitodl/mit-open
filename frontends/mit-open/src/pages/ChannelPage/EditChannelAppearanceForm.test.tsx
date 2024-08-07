@@ -59,13 +59,13 @@ describe("EditChannelAppearanceForm", () => {
       url: `${makeChannelEditPath(channel.channel_type, channel.name)}/#appearance`,
     })
     const titleInput = await screen.findByLabelText("Title")
-    const titleError = screen.queryByText("Title is required.")
+    const titleError = screen.queryByText("Title is required")
     expect(titleError).toBeNull()
     fireEvent.change(titleInput, {
       target: { value: "" },
     })
     fireEvent.blur(titleInput)
-    await screen.findByText("Title is required.")
+    await screen.findByText("Title is required")
   })
 
   it("updates channel values on form submission", async () => {
