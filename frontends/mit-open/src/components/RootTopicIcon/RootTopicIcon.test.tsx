@@ -11,13 +11,13 @@ describe("TopicIcon", () => {
    */
   test.each(rootTopicNames)("Root topics all have an icon", (name) => {
     expect(rootTopicNames.length).toBe(13)
-    render(<RootTopicIcon name={name} />)
+    render(<RootTopicIcon icon={name} />)
     const svg = document.querySelector("svg")
     expect(svg).toBeVisible()
   })
 
   test("Unknown topics have a visibly hidden icon", () => {
-    render(<RootTopicIcon name="Unknown Topic" />)
+    render(<RootTopicIcon icon="Unknown Topic" />)
     const svg = document.querySelector("svg")
     expect(svg).not.toBeVisible()
   })
