@@ -10,6 +10,10 @@
     {
       "groupName": "ckeditor5",
       "matchSourceUrls": ["https://github.com/ckeditor/ckeditor5/{/,}**"]
+    },
+    {
+      "allowedVersions": "<5",
+      "matchPackageNames": ["django", "Django"]
     }
   ]
 }
