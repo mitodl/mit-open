@@ -50,7 +50,7 @@ const TopicBox = styled(Link)`
   display: flex;
 
   svg:last-child {
-    color: ${theme.custom.colors.black};
+    color: ${theme.custom.colors.white};
     flex: 0 0 20px;
     margin-top: auto;
     margin-bottom: auto;
