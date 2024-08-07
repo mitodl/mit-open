@@ -65,7 +65,7 @@ def clear_featured_rank(rank, clear_all_greater_then):
         query["range"]["featured_rank"]["lt"] = rank + 1
 
     for alias in get_active_aliases(conn):
-        es_response = conn.update_by_query(
+        conn.update_by_query(
             index=alias,
             conflicts="proceed",
             body={
@@ -77,15 +77,6 @@ def clear_featured_rank(rank, clear_all_greater_then):
                 "query": query,
             },
         )
-        # Our policy for document update-related version conflicts right now is to
-        # log them and allow the app to continue as normal.
-        num_version_conflicts = es_response.get("version_conflicts", 0)
-        if num_version_conflicts > 0:
-            log.error(
-                "Clear featured rank resulted in %s version conflict(s) (alias: %s)",
-                num_version_conflicts,
-                alias,
-            )
 
 
 def _update_document_by_id(doc_id, body, object_type, *, retry_on_conflict=0, **kwargs):
