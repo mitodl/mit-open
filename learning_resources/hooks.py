@@ -84,6 +84,10 @@ class LearningResourceHooks:
     def offeror_delete(self, offeror):
         """Trigger actions to delete a learning resource offeror"""
 
+    @hookspec
+    def content_files_loaded(self, run):
+        """Trigger actions after content files are loaded for a run"""
+
 
 def get_plugin_manager():
     """Return the plugin manager for learning_resources hooks"""

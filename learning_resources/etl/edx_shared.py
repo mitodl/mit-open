@@ -106,6 +106,7 @@ def sync_edx_course_files(
         runs = LearningResourceRun.objects.filter(
             learning_resource__etl_source=etl_source,
             learning_resource_id__in=ids,
+            learning_resource__published=True,
             published=True,
         )
         if etl_source == ETLSource.mit_edx.name:
@@ -129,6 +130,13 @@ def sync_edx_course_files(
         run = runs.first()
 
         if not run:
+            continue
+        resource = run.learning_resource
+        if run != (
+            resource.next_run
+            or resource.runs.filter(published=True).order_by("-start_date").first()
+        ):
+            log.info("Skipping %s, not the next / most recent run", run.run_id)
             continue
         with TemporaryDirectory() as export_tempdir:
             course_tarpath = Path(export_tempdir, key.split("/")[-1])
