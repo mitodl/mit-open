@@ -13,16 +13,19 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
 
+from channels.factories import ChannelUnitDetailFactory
 from learning_resources import factories
 from learning_resources.constants import (
     DEPARTMENTS,
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
+    LearningResourceRelationTypes,
     LearningResourceType,
 )
 from learning_resources.etl.constants import CourseNumberType
 from learning_resources.factories import (
     CourseFactory,
+    LearningPathFactory,
     LearningPathRelationshipFactory,
     LearningResourceRunFactory,
     UserListFactory,
@@ -603,8 +606,9 @@ def test_serialize_bulk_learning_resources(mocker):
 )
 @pytest.mark.parametrize("is_professional", [True, False])
 @pytest.mark.parametrize("no_price", [True, False])
+@pytest.mark.parametrize("has_featured_rank", [True, False])
 def test_serialize_learning_resource_for_bulk(
-    mocker, resource_type, is_professional, no_price
+    mocker, resource_type, is_professional, no_price, has_featured_rank
 ):
     """
     Test that serialize_program_for_bulk yields a valid LearningResourceSerializer for resource types other than "course"
@@ -626,6 +630,27 @@ def test_serialize_learning_resource_for_bulk(
         "learning_resources_search.serializers.get_resource_age_date",
         return_value=datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
     )
+
+    if has_featured_rank:
+        mocker.patch(
+            "learning_resources_search.serializers.random",
+            return_value=0.4,
+        )
+
+        offeror = resource.offered_by
+        featured_path = LearningPathFactory.create(resources=[]).learning_resource
+
+        featured_path.resources.add(
+            resource,
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
+                "position": 3,
+            },
+        )
+        channel = ChannelUnitDetailFactory.create(unit=offeror).channel
+        channel.featured_list = featured_path
+        channel.save()
+
     resource = (
         LearningResource.objects.for_serialization()
         .for_search_serialization()
@@ -638,7 +663,7 @@ def test_serialize_learning_resource_for_bulk(
         "created_on": resource.created_on,
         "is_learning_material": resource.resource_type not in ["course", "program"],
         "resource_age_date": datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
-        "featured_rank": None,
+        "featured_rank": 3.4 if has_featured_rank else None,
         **free_dict,
         **LearningResourceSerializer(resource).data,
     }
