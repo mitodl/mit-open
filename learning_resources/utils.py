@@ -400,15 +400,6 @@ def content_files_loaded_actions(run: LearningResourceRun):
     hook.content_files_loaded(run=run)
 
 
-def resource_run_upserted_actions(run: LearningResourceRun):
-    """
-    Trigger plugins when a LearningResourceRun is created or updated
-    """
-    pm = get_plugin_manager()
-    hook = pm.hook
-    hook.resource_run_upserted(run=run)
-
-
 def resource_run_unpublished_actions(run: LearningResourceRun):
     """
     Trigger plugins when a LearningResourceRun is removed/unpublished

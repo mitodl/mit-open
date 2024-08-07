@@ -49,11 +49,7 @@ class LearningResourceHooks:
         """Trigger actions before removing a learning resource"""
 
     @hookspec
-    def resource_run_upserted(self, run):
-        """Trigger actions after a learning resource run is created or updated"""
-
-    @hookspec
-    def resource_run_unpublished(self, run, unpublished_only):
+    def resource_run_unpublished(self, run):
         """Trigger actions after a learning resource run is unpublished"""
 
     @hookspec

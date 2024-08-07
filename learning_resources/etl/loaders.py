@@ -48,6 +48,7 @@ from learning_resources.utils import (
     load_course_blocklist,
     load_course_duplicates,
     resource_delete_actions,
+    resource_run_unpublished_actions,
     resource_unpublished_actions,
     resource_upserted_actions,
     similar_topics_action,
@@ -423,6 +424,7 @@ def load_course(
             ).filter(published=True):
                 run.published = False
                 run.save()
+                resource_run_unpublished_actions(run)
 
         load_next_start_date_and_prices(learning_resource)
         load_topics(learning_resource, topics_data)
