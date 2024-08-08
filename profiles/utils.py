@@ -9,10 +9,11 @@ from urllib.parse import quote, urljoin
 from xml.sax.saxutils import escape as xml_escape
 
 import requests
+from anymail.message import AnymailMessage
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.core import mail
 from django.core.files.temp import NamedTemporaryFile
-from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from PIL import Image
 
@@ -414,9 +415,14 @@ def send_email(recipients, subject, content, text_only):
         for link in soup.find_all("a"):
             link.replace_with(link.attrs["href"])
         text_content = soup.get_text().strip()
-    msg = EmailMultiAlternatives(
-        subject, text_content, settings.DEFAULT_FROM_EMAIL, recipients
-    )
-    if not text_only:
-        msg.attach_alternative(content, "text/html")
+    with mail.get_connection(settings.NOTIFICATION_EMAIL_BACKEND) as connection:
+        msg = AnymailMessage(
+            subject=subject,
+            body=text_content,
+            to=recipients,
+            from_email=settings.MAILGUN_FROM_EMAIL,
+            connection=connection,
+        )
+        if not text_only:
+            msg.attach_alternative(content, "text/html")
     return msg.send()
