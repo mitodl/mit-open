@@ -147,16 +147,6 @@ class SearchIndexPlugin:
         self.resource_unpublished(resource)
 
     @hookimpl
-    def resource_run_upserted(self, run):
-        """
-        Upsert an created/modified run's content files
-
-         Args:
-             run(LearningResourceRun): The LearningResourceRun that was upserted
-        """
-        try_with_retry_as_task(tasks.index_run_content_files, run.id)
-
-    @hookimpl
     def resource_run_unpublished(self, run):
         """
         Remove a learning resource run's content files from the search index
