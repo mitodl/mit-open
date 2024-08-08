@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "mit-open"
+name = "mit-learn"
 version = "0.71.0"
 description = "Search index for use with other MIT applications."
 license = "BSD-3"

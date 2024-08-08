@@ -1,4 +1,4 @@
-## MIT Open Frontend
+## MIT Learn Frontend
 
 ## Yarn Workspaces
 
@@ -8,7 +8,7 @@ Each subdirectory of `/frontends` is a yarn workspace:
 
 ```
 frontends/
-├─ mit-open/                 ... built by webpack and served by django
+├─ mit-learn/                 ... built by webpack and served by django
 ├─ package1/                 ... a dependency of app/
 ├─ package2/
 ├─ etc...
@@ -16,7 +16,7 @@ frontends/
 
 To aid in separating concerns, we should strive to write code with independent, clearly defined contracts that can be extracted to isolated packages (workspaces) and re-used throughout this project.
 
-**Flow vs Typescript:** The majority of the frontend code in this project is in the `mit-open` workspace and is written in Javascript + FlowType. We are in the process of migrating the codebase to Typescript and all other packages should be written in Typescript.
+**Flow vs Typescript:** The majority of the frontend code in this project is in the `mit-learn` workspace and is written in Javascript + FlowType. We are in the process of migrating the codebase to Typescript and all other packages should be written in Typescript.
 
 ## Running Yarn Commands
 
@@ -42,7 +42,7 @@ Again, `global:lint-fix` is defined at the root workspace, not within `ol-utilit
 
 ### Running the frontend on host
 
-The docker containers in MIT Open have associated [profiles](https://docs.docker.com/compose/profiles/). Our `.env.example` file recommends setting `COMPOSE_PROFILES=backend,frontend` in your `.env` file. In this way, all containers will start automatically when you run `docker compose up`.
+The docker containers in MIT Learn have associated [profiles](https://docs.docker.com/compose/profiles/). Our `.env.example` file recommends setting `COMPOSE_PROFILES=backend,frontend` in your `.env` file. In this way, all containers will start automatically when you run `docker compose up`.
 
 You may want to run only the backend containers in docker and run the frontend on your host instead. Reasons to do this include:
 

@@ -5,7 +5,7 @@ test.describe("Home page", () => {
     await page.goto("/")
 
     await expect(
-      page.getByRole("link", { name: "MIT Open" }),
+      page.getByRole("link", { name: "MIT Learn" }),
       "Header link is visible",
     ).toBeVisible()
   })

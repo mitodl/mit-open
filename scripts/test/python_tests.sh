@@ -13,8 +13,8 @@ function run_test {
 }
 
 # Placeholder build for use in django tests.
-mkdir ./frontends/mit-open/build
-touch ./frontends/mit-open/build/index.html
+mkdir ./frontends/mit-learn/build
+touch ./frontends/mit-learn/build/index.html
 
 run_test ./scripts/test/detect_missing_migrations.sh
 run_test ./scripts/test/no_auto_migrations.sh

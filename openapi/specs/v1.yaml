@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: MIT Open API
+  title: MIT Learn API
   version: 0.0.1 (v1)
   description: MIT public API
 paths:

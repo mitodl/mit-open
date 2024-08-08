@@ -1,6 +1,6 @@
-# MIT Open
+# MIT Learn
 
-![CI Workflow](https://github.com/mitodl/mit-open/actions/workflows/ci.yml/badge.svg)
+![CI Workflow](https://github.com/mitodl/mit-learn/actions/workflows/ci.yml/badge.svg)
 
 This application provides a central interface from which learners can browse MIT courses.
 
@@ -13,16 +13,16 @@ This application provides a central interface from which learners can browse MIT
 
 ## Initial Setup
 
-MIT Open follows the same [initial setup steps outlined in the common OL web app guide](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html).
+MIT Learn follows the same [initial setup steps outlined in the common OL web app guide](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html).
 Run through those steps **including the addition of `/etc/hosts` aliases and the optional step for running the
 `createsuperuser` command**.
 
 ### Configuration
 
-Configuration can be put in the following filess which are gitignored:
+Configuration can be put in the following files which are gitignored:
 
 ```
-mit-open/
+mit-learn/
   ├── env/
   │   ├── shared.local.env (provided to both frontend and backend containers)
   │   ├── frontend.local.env (provided only to frontend containers)
@@ -45,7 +45,7 @@ The following settings must be configured before running the app:
 
 ### Loading Data
 
-The MIT Open platform aggregates data from many sources. These data are populated by ETL (extract, transform, load) pipelines that run automatically on a regular schedule. Django [management commands](https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/) are also available to force the pipelines to run—particularly useful for local development.
+The MIT Learn platform aggregates data from many sources. These data are populated by ETL (extract, transform, load) pipelines that run automatically on a regular schedule. Django [management commands](https://docs.djangoproject.com/en/4.2/howto/custom-management-commands/) are also available to force the pipelines to run—particularly useful for local development.
 
 To load data from [xpro](https://github.com/mitodl/mitxpro), for example, ensure you have the relevant environment variables
 
@@ -70,7 +70,7 @@ Package scripts are also provided for building and serving the frontend in isola
 
 ## Code Generation
 
-MIT Open uses [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest/) to generate and OpenAPI spec from Django views. Additionally, we use [OpenAPITools/openapi-generator](https://github.com/OpenAPITools/openapi-generator) to generate Typescript declarations and an API Client. These generated files are checked into source control; CI checks that they are up-to-date. To regenerate these files, run
+MIT Learn uses [drf-spectacular](https://drf-spectacular.readthedocs.io/en/latest/) to generate and OpenAPI spec from Django views. Additionally, we use [OpenAPITools/openapi-generator](https://github.com/OpenAPITools/openapi-generator) to generate Typescript declarations and an API Client. These generated files are checked into source control; CI checks that they are up-to-date. To regenerate these files, run
 
 ```bash
 ./scripts/generate_openapi.sh
@@ -101,7 +101,7 @@ pre-commit init-templatedir ~/.git-template
 ## Optional Setup
 
 Described below are some setup steps that are not strictly necessary
-for running MIT Open
+for running MIT Learn
 
 ### Enabling email
 
@@ -180,7 +180,7 @@ From there, you should be able to run code snippets with a live Django app just 
 
 ### Connecting with an OpenID Connect provider for authentication
 
-The MIT Open application relies on an OpenID Connect client provided by Keycloak for authentication.
+The MIT Learn application relies on an OpenID Connect client provided by Keycloak for authentication.
 
 The following environment variables must be defined using values from a Keycloak instance:
 
@@ -220,34 +220,34 @@ Once these are set (and you've restarted the app), you should see events flowing
 
 ## Exported Components
 
-A Javascript bundle of exported frontend components can be generated for use in external websites that have CORS allowance into a given instance of `mit-open`. There are a few settings you might want to change in order to get the expected results.
+A Javascript bundle of exported frontend components can be generated for use in external websites that have CORS allowance into a given instance of `mit-learn`. There are a few settings you might want to change in order to get the expected results.
 
 - `MITOL_AXIOS_WITH_CREDENTIALS` - This sets `withCredentials: true` when initializing the Axios API, which tells the end user's browser to send along any browser level cookies for the current domain when making CORS requests
-- `MITOL_API_BASE_URL` - This sets the base url used for API requests, which will need to be set to a fully qualified url pointing to an instance of `mit-open` (i.e. https://learn.mit.edu) in order for requests from the external site to reach the proper destination
-- `CORS_ALLOWED_ORIGINS`, `CSRF_TRUSTED_ORIGINS` - On the instance of `mit-open` that the externally hosted components will access via the API, the domains of any sites that need CORS access need to be here as a list of strings
+- `MITOL_API_BASE_URL` - This sets the base url used for API requests, which will need to be set to a fully qualified url pointing to an instance of `mit-learn` (i.e. https://learn.mit.edu) in order for requests from the external site to reach the proper destination
+- `CORS_ALLOWED_ORIGINS`, `CSRF_TRUSTED_ORIGINS` - On the instance of `mit-learn` that the externally hosted components will access via the API, the domains of any sites that need CORS access need to be here as a list of strings
 
 To build the bundle of exported components, run:
 
 ```
-yarn workspace mit-open build-exports
+yarn workspace mit-learn build-exports
 ```
 
-The bundle will build out to `frontends/mit-open/build-exports/`
+The bundle will build out to `frontends/mit-learn/build-exports/`
 
 ### `initMitOpenDom`
 
-This function takes an argument of an `HTMLElement` with which `mit-open` components will mount into.
+This function takes an argument of an `HTMLElement` with which `mit-learn` components will mount into.
 
 ### `openAddToUserListDialog`
 
-This function opens a modal for adding a given `LearningResource` to a `UserList`, given the `readable_id` of the `LearningResource` object. Given a div with an ID of `mit-open-components` and a button with the ID for `add-to-user-list-button`, you would use it in combination with `initMitOpenDom` like this:
+This function opens a modal for adding a given `LearningResource` to a `UserList`, given the `readable_id` of the `LearningResource` object. Given a div with an ID of `mit-learn-components` and a button with the ID for `add-to-user-list-button`, you would use it in combination with `initMitOpenDom` like this:
 
 ```javascript
-import { initMitOpenDom, openAddToUserListDialog } from "mit-open-components"
+import { initMitOpenDom, openAddToUserListDialog } from "mit-learn-components"
 
 $("#add-to-user-list-button").on("click", async (event) => {
   event.preventDefault()
-  await initMitOpenDom($("#mit-open-components"))
+  await initMitOpenDom($("#mit-learn-components"))
   await openAddToUserListDialog("18.700+fall_2013")
 })
 ```
@@ -256,4 +256,4 @@ This is just an example, and you could input any `readable_id` to bring up a dia
 
 ## GitHub Pages Storybook
 
-Demos and documentation of reusable UI components in this repo are published as a [storybook](https://storybook.js.org/) at https://mitodl.github.io/mit-open/.
+Demos and documentation of reusable UI components in this repo are published as a [storybook](https://storybook.js.org/) at https://mitodl.github.io/mit-learn/.

@@ -1,7 +1,7 @@
 {
-  "name": "mit-open-frontend",
+  "name": "mit-learn-frontend",
   "version": "1.0.0",
-  "repository": "https://github.com/mitodl/mit-open.git",
+  "repository": "https://github.com/mitodl/mit-learn.git",
   "license": "MIT",
   "private": true,
   "engines": {
@@ -12,8 +12,8 @@
     "frontends"
   ],
   "scripts": {
-    "build": "yarn workspace mit-open run build",
-    "watch": "yarn workspace mit-open run watch",
+    "build": "yarn workspace mit-learn run build",
+    "watch": "yarn workspace mit-learn run watch",
     "style-lint": "yarn workspace frontends run style-lint",
     "test": "MITOL_API_BASE_URL=https://api.test.learn.mit.edu yarn workspace frontends global:test",
     "test-watch": "MITOL_API_BASE_URL=https://api.test.learn.mit.edu yarn workspace frontends test-watch",

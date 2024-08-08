@@ -19,7 +19,7 @@ nav_order: 3
 
 Previously, a decision was made to develop a custom elasticsearch UI rather than use searchkit.
 
-From the MIT Open Search Technical Detail doc:
+From the MIT Learn Search Technical Detail doc:
 
 > We considered using a react component library that constructed queries in the front end, but discarded this approach
 > as not flexible enough for our styling and security needs...and also decided against searchkit due to previous

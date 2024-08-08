@@ -17,7 +17,7 @@
       "url": "https://github.com/heroku/heroku-buildpack-nginx"
     }
   ],
-  "description": "mit-open",
+  "description": "mit-learn",
   "env": {
     "ALLOWED_HOSTS": {
       "description": "",
@@ -360,7 +360,7 @@
       "required": false
     },
     "MITOL_TITLE": {
-      "description": "Title of the MIT Open site",
+      "description": "Title of the MIT Learn site",
       "required": false
     },
     "MITOL_SUPPORT_EMAIL": {
@@ -604,10 +604,10 @@
   },
   "keywords": ["Django", "Python", "MIT", "Office of Digital Learning"],
   "name": "mit_open",
-  "repository": "https://github.com/mitodl/mit-open",
+  "repository": "https://github.com/mitodl/mit-learn",
   "scripts": {
     "postdeploy": "./manage.py migrate --noinput"
   },
   "success_url": "/",
-  "website": "https://github.com/mitodl/mit-open"
+  "website": "https://github.com/mitodl/mit-learn"
 }

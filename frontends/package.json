@@ -3,7 +3,7 @@
   "private": true,
   "workspaces": [
     "api",
-    "mit-open",
+    "mit-learn",
     "ol-ckeditor",
     "ol-common",
     "ol-components",
@@ -13,9 +13,9 @@
     "ol-widgets"
   ],
   "scripts": {
-    "watch": "yarn workspace mit-open watch",
-    "watch:docker": "yarn workspace mit-open watch:docker",
-    "build": "yarn workspace mit-open build",
+    "watch": "yarn workspace mit-learn watch",
+    "watch:docker": "yarn workspace mit-learn watch:docker",
+    "build": "yarn workspace mit-learn build",
     "lint-check": "eslint . --ext .js,.jsx,.ts,.tsx,.mdx",
     "lint-fix": "yarn lint-check --fix",
     "fmt-check": "prettier --ignore-path ../.gitignore --ignore-path ../.prettierignore --check .",
@@ -31,8 +31,8 @@
     "global:typecheck": "cd $INIT_CWD && tsc --noEmit",
     "global:test-watch": "cd $INIT_CWD && NODE_ENV=test jest --watch",
     "create-package": "yarn workspace ol-template plop package",
-    "storybook": "yarn workspace mit-open storybook",
-    "build-storybook": "yarn workspace mit-open build-storybook",
+    "storybook": "yarn workspace mit-learn storybook",
+    "build-storybook": "yarn workspace mit-learn build-storybook",
     "in-workspaces": "yarn workspaces foreach -A --exclude . --exclude frontends"
   },
   "version": "0.0.0",
