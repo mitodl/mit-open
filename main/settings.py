@@ -37,7 +37,7 @@ VERSION = "0.16.0"
 
 log = logging.getLogger()
 
-ENVIRONMENT = get_string("MITOPEN_ENVIRONMENT", "dev")
+ENVIRONMENT = get_string("MITOL_ENVIRONMENT", "dev")
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
 # initialize Sentry before doing anything else so we capture any config errors
@@ -62,14 +62,14 @@ DEBUG = get_bool("DEBUG", False)  # noqa: FBT003
 
 ALLOWED_HOSTS = ["*"]
 
-SECURE_SSL_REDIRECT = get_bool("MITOPEN_SECURE_SSL_REDIRECT", True)  # noqa: FBT003
+SECURE_SSL_REDIRECT = get_bool("MITOL_SECURE_SSL_REDIRECT", True)  # noqa: FBT003
 
 SITE_ID = 1
-APP_BASE_URL = get_string("MITOPEN_APP_BASE_URL", None)
+APP_BASE_URL = get_string("MITOL_APP_BASE_URL", None)
 if not APP_BASE_URL:
-    msg = "MITOPEN_APP_BASE_URL is not set"
+    msg = "MITOL_APP_BASE_URL is not set"
     raise ImproperlyConfigured(msg)
-MITOPEN_TITLE = get_string("MITOPEN_TITLE", "MIT Open")
+MITOL_TITLE = get_string("MITOL_TITLE", "MIT Open")
 
 
 # Application definition
@@ -186,8 +186,8 @@ LOGIN_ERROR_URL = "/login"
 LOGOUT_URL = "/logout"
 LOGOUT_REDIRECT_URL = "/app"
 
-MITOPEN_TOS_URL = get_string(
-    "MITOPEN_TOS_URL", urljoin(APP_BASE_URL, "/terms-and-conditions/")
+MITOL_TOS_URL = get_string(
+    "MITOL_TOS_URL", urljoin(APP_BASE_URL, "/terms-and-conditions/")
 )
 
 ROOT_URLCONF = "main.urls"
@@ -227,12 +227,12 @@ DEFAULT_DATABASE_CONFIG = dj_database_url.parse(
     )
 )
 DEFAULT_DATABASE_CONFIG["DISABLE_SERVER_SIDE_CURSORS"] = get_bool(
-    "MITOPEN_DB_DISABLE_SS_CURSORS",
+    "MITOL_DB_DISABLE_SS_CURSORS",
     True,  # noqa: FBT003
 )
-DEFAULT_DATABASE_CONFIG["CONN_MAX_AGE"] = get_int("MITOPEN_DB_CONN_MAX_AGE", 0)
+DEFAULT_DATABASE_CONFIG["CONN_MAX_AGE"] = get_int("MITOL_DB_CONN_MAX_AGE", 0)
 
-if get_bool("MITOPEN_DB_DISABLE_SSL", False):  # noqa: FBT003
+if get_bool("MITOL_DB_DISABLE_SSL", False):  # noqa: FBT003
     DEFAULT_DATABASE_CONFIG["OPTIONS"] = {}
 else:
     DEFAULT_DATABASE_CONFIG["OPTIONS"] = {"sslmode": "require"}
@@ -265,9 +265,9 @@ AUTHENTICATION_BACKENDS = (
     "guardian.backends.ObjectPermissionBackend",
 )
 
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_string("MITOPEN_LOGIN_REDIRECT_URL", "/app")
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = get_string("MITOL_LOGIN_REDIRECT_URL", "/app")
 SOCIAL_AUTH_NEW_USER_LOGIN_REDIRECT_URL = get_string(
-    "MITOPEN_NEW_USER_LOGIN_URL", "/onboarding"
+    "MITOL_NEW_USER_LOGIN_URL", "/onboarding"
 )
 SOCIAL_AUTH_LOGIN_ERROR_URL = "login"
 SOCIAL_AUTH_ALLOWED_REDIRECT_HOSTS = [
@@ -368,15 +368,15 @@ NOTIFICATION_ATTEMPT_CHUNK_SIZE = 100
 
 # Configure e-mail settings
 EMAIL_BACKEND = get_string(
-    "MITOPEN_EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
+    "MITOL_EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend"
 )
-EMAIL_HOST = get_string("MITOPEN_EMAIL_HOST", "localhost")
-EMAIL_PORT = get_int("MITOPEN_EMAIL_PORT", 25)
-EMAIL_HOST_USER = get_string("MITOPEN_EMAIL_USER", "")
-EMAIL_HOST_PASSWORD = get_string("MITOPEN_EMAIL_PASSWORD", "")
-EMAIL_USE_TLS = get_bool("MITOPEN_EMAIL_TLS", False)  # noqa: FBT003
-EMAIL_SUPPORT = get_string("MITOPEN_SUPPORT_EMAIL", "support@example.com")
-DEFAULT_FROM_EMAIL = get_string("MITOPEN_FROM_EMAIL", "webmaster@localhost")
+EMAIL_HOST = get_string("MITOL_EMAIL_HOST", "localhost")
+EMAIL_PORT = get_int("MITOL_EMAIL_PORT", 25)
+EMAIL_HOST_USER = get_string("MITOL_EMAIL_USER", "")
+EMAIL_HOST_PASSWORD = get_string("MITOL_EMAIL_PASSWORD", "")
+EMAIL_USE_TLS = get_bool("MITOL_EMAIL_TLS", False)  # noqa: FBT003
+EMAIL_SUPPORT = get_string("MITOL_SUPPORT_EMAIL", "support@example.com")
+DEFAULT_FROM_EMAIL = get_string("MITOL_FROM_EMAIL", "webmaster@localhost")
 
 MAILGUN_SENDER_DOMAIN = get_string("MAILGUN_SENDER_DOMAIN", None)
 if not MAILGUN_SENDER_DOMAIN:
@@ -396,10 +396,10 @@ ANYMAIL = {
 }
 
 NOTIFICATION_EMAIL_BACKEND = get_string(
-    "MITOPEN_NOTIFICATION_EMAIL_BACKEND", "anymail.backends.test.EmailBackend"
+    "MITOL_NOTIFICATION_EMAIL_BACKEND", "anymail.backends.test.EmailBackend"
 )
 # e-mail configurable admins
-ADMIN_EMAIL = get_string("MITOPEN_ADMIN_EMAIL", "")
+ADMIN_EMAIL = get_string("MITOL_ADMIN_EMAIL", "")
 ADMINS = (("Admins", ADMIN_EMAIL),) if ADMIN_EMAIL != "" else ()
 
 # embed.ly configuration
@@ -413,13 +413,13 @@ CKEDITOR_SECRET_KEY = get_string("CKEDITOR_SECRET_KEY", None)
 CKEDITOR_UPLOAD_URL = get_string("CKEDITOR_UPLOAD_URL", None)
 
 # Logging configuration
-LOG_LEVEL = get_string("MITOPEN_LOG_LEVEL", "INFO")
+LOG_LEVEL = get_string("MITOL_LOG_LEVEL", "INFO")
 DJANGO_LOG_LEVEL = get_string("DJANGO_LOG_LEVEL", "INFO")
 OS_LOG_LEVEL = get_string("OS_LOG_LEVEL", "INFO")
 
 # For logging to a remote syslog host
-LOG_HOST = get_string("MITOPEN_LOG_HOST", "localhost")
-LOG_HOST_PORT = get_int("MITOPEN_LOG_HOST_PORT", 514)
+LOG_HOST = get_string("MITOL_LOG_HOST", "localhost")
+LOG_HOST_PORT = get_int("MITOL_LOG_HOST_PORT", 514)
 
 HOSTNAME = platform.node().split(".")[0]
 
@@ -491,18 +491,18 @@ RECAPTCHA_SECRET_KEY = get_string("RECAPTCHA_SECRET_KEY", "")
 
 MEDIA_ROOT = get_string("MEDIA_ROOT", "/var/media/")
 MEDIA_URL = "/media/"
-MITOPEN_USE_S3 = get_bool("MITOPEN_USE_S3", False)  # noqa: FBT003
+MITOL_USE_S3 = get_bool("MITOL_USE_S3", False)  # noqa: FBT003
 AWS_ACCESS_KEY_ID = get_string("AWS_ACCESS_KEY_ID", False)  # noqa: FBT003
 AWS_SECRET_ACCESS_KEY = get_string("AWS_SECRET_ACCESS_KEY", False)  # noqa: FBT003
 AWS_STORAGE_BUCKET_NAME = get_string("AWS_STORAGE_BUCKET_NAME", False)  # noqa: FBT003
 AWS_QUERYSTRING_AUTH = get_string("AWS_QUERYSTRING_AUTH", False)  # noqa: FBT003
 # Provide nice validation of the configuration
-if MITOPEN_USE_S3 and (
+if MITOL_USE_S3 and (
     not AWS_ACCESS_KEY_ID or not AWS_SECRET_ACCESS_KEY or not AWS_STORAGE_BUCKET_NAME
 ):
     msg = "You have enabled S3 support, but are missing one of AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, or AWS_STORAGE_BUCKET_NAME"  # noqa: E501
     raise ImproperlyConfigured(msg)
-if MITOPEN_USE_S3:
+if MITOL_USE_S3:
     DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 IMAGEKIT_SPEC_CACHEFILE_NAMER = "imagekit.cachefiles.namers.source_name_dot_hash"
@@ -562,37 +562,37 @@ OPENSEARCH_MAX_REQUEST_SIZE = get_int("OPENSEARCH_MAX_REQUEST_SIZE", 10485760)
 INDEXING_ERROR_RETRIES = get_int("INDEXING_ERROR_RETRIES", 1)
 
 # JWT authentication settings
-MITOPEN_JWT_SECRET = get_string(
-    "MITOPEN_JWT_SECRET", "terribly_unsafe_default_jwt_secret_key"
+MITOL_JWT_SECRET = get_string(
+    "MITOL_JWT_SECRET", "terribly_unsafe_default_jwt_secret_key"
 )
 
-MITOPEN_COOKIE_NAME = get_string("MITOPEN_COOKIE_NAME", None)
-if not MITOPEN_COOKIE_NAME:
-    msg = "MITOPEN_COOKIE_NAME is not set"
+MITOL_COOKIE_NAME = get_string("MITOL_COOKIE_NAME", None)
+if not MITOL_COOKIE_NAME:
+    msg = "MITOL_COOKIE_NAME is not set"
     raise ImproperlyConfigured(msg)
-MITOPEN_COOKIE_DOMAIN = get_string("MITOPEN_COOKIE_DOMAIN", None)
-if not MITOPEN_COOKIE_DOMAIN:
-    msg = "MITOPEN_COOKIE_DOMAIN is not set"
+MITOL_COOKIE_DOMAIN = get_string("MITOL_COOKIE_DOMAIN", None)
+if not MITOL_COOKIE_DOMAIN:
+    msg = "MITOL_COOKIE_DOMAIN is not set"
     raise ImproperlyConfigured(msg)
 
-MITOPEN_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS = get_int(
-    "MITOPEN_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS",
+MITOL_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS = get_int(
+    "MITOL_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS",
     60 * 60 * 24 * 7,  # 7 days
 )
 
 JWT_AUTH = {
-    "JWT_SECRET_KEY": MITOPEN_JWT_SECRET,
+    "JWT_SECRET_KEY": MITOL_JWT_SECRET,
     "JWT_VERIFY": True,
     "JWT_VERIFY_EXPIRATION": True,
     "JWT_EXPIRATION_DELTA": datetime.timedelta(seconds=60 * 60),
     "JWT_ALLOW_REFRESH": True,
     "JWT_REFRESH_EXPIRATION_DELTA": datetime.timedelta(days=7),
-    "JWT_AUTH_COOKIE": MITOPEN_COOKIE_NAME,
+    "JWT_AUTH_COOKIE": MITOL_COOKIE_NAME,
     "JWT_AUTH_HEADER_PREFIX": "Bearer",
 }
 
 # Similar resources settings
-MITOPEN_SIMILAR_RESOURCES_COUNT = get_int("MITOPEN_SIMILAR_RESOURCES_COUNT", 3)
+MITOL_SIMILAR_RESOURCES_COUNT = get_int("MITOL_SIMILAR_RESOURCES_COUNT", 3)
 OPEN_RESOURCES_MIN_DOC_FREQ = get_int("OPEN_RESOURCES_MIN_DOC_FREQ", 1)
 OPEN_RESOURCES_MIN_TERM_FREQ = get_int("OPEN_RESOURCES_MIN_TERM_FREQ", 1)
 
@@ -603,19 +603,19 @@ def get_all_config_keys():
     return list(os.environ.keys())
 
 
-MITOPEN_FEATURES_PREFIX = get_string("MITOPEN_FEATURES_PREFIX", "FEATURE_")
-MITOPEN_FEATURES_DEFAULT = get_bool("MITOPEN_FEATURES_DEFAULT", False)  # noqa: FBT003
+MITOL_FEATURES_PREFIX = get_string("MITOL_FEATURES_PREFIX", "FEATURE_")
+MITOL_FEATURES_DEFAULT = get_bool("MITOL_FEATURES_DEFAULT", False)  # noqa: FBT003
 FEATURES = {
-    key[len(MITOPEN_FEATURES_PREFIX) :]: get_any(key, None)
+    key[len(MITOL_FEATURES_PREFIX) :]: get_any(key, None)
     for key in get_all_config_keys()
-    if key.startswith(MITOPEN_FEATURES_PREFIX)
+    if key.startswith(MITOL_FEATURES_PREFIX)
 }
 
 MIDDLEWARE_FEATURE_FLAG_QS_PREFIX = get_string(
     "MIDDLEWARE_FEATURE_FLAG_QS_PREFIX", None
 )
 MIDDLEWARE_FEATURE_FLAG_COOKIE_NAME = get_string(
-    "MIDDLEWARE_FEATURE_FLAG_COOKIE_NAME", "MITOPEN_FEATURE_FLAGS"
+    "MIDDLEWARE_FEATURE_FLAG_COOKIE_NAME", "MITOL_FEATURE_FLAGS"
 )
 MIDDLEWARE_FEATURE_FLAG_COOKIE_MAX_AGE_SECONDS = get_int(
     "MIDDLEWARE_FEATURE_FLAG_COOKIE_MAX_AGE_SECONDS", 60 * 60

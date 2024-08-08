@@ -171,7 +171,7 @@ def is_enabled(
     return (
         value
         if value is not None
-        else settings.FEATURES.get(name, default or settings.MITOPEN_FEATURES_DEFAULT)
+        else settings.FEATURES.get(name, default or settings.MITOL_FEATURES_DEFAULT)
     )
 
 

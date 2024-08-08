@@ -134,7 +134,7 @@ Article posts give users the option to upload a cover image, and we show a thumb
 image in post listings. We use Embedly to generate that thumbnail, so they will appear as
 broken images unless you configure your app to upload to S3. Steps:
 
-1. Set `MITOPEN_USE_S3=True` in `.env`
+1. Set `MITOL_USE_S3=True` in `.env`
 1. Also in `.env`, set these AWS variables: `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`,
    `AWS_STORAGE_BUCKET_NAME`
 
@@ -222,8 +222,8 @@ Once these are set (and you've restarted the app), you should see events flowing
 
 A Javascript bundle of exported frontend components can be generated for use in external websites that have CORS allowance into a given instance of `mit-open`. There are a few settings you might want to change in order to get the expected results.
 
-- `MITOPEN_AXIOS_WITH_CREDENTIALS` - This sets `withCredentials: true` when initializing the Axios API, which tells the end user's browser to send along any browser level cookies for the current domain when making CORS requests
-- `MITOPEN_API_BASE_URL` - This sets the base url used for API requests, which will need to be set to a fully qualified url pointing to an instance of `mit-open` (i.e. https://learn.mit.edu) in order for requests from the external site to reach the proper destination
+- `MITOL_AXIOS_WITH_CREDENTIALS` - This sets `withCredentials: true` when initializing the Axios API, which tells the end user's browser to send along any browser level cookies for the current domain when making CORS requests
+- `MITOL_API_BASE_URL` - This sets the base url used for API requests, which will need to be set to a fully qualified url pointing to an instance of `mit-open` (i.e. https://learn.mit.edu) in order for requests from the external site to reach the proper destination
 - `CORS_ALLOWED_ORIGINS`, `CSRF_TRUSTED_ORIGINS` - On the instance of `mit-open` that the externally hosted components will access via the API, the domains of any sites that need CORS access need to be here as a list of strings
 
 To build the bundle of exported components, run:

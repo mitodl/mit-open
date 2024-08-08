@@ -29,13 +29,13 @@ const {
   NODE_ENV,
   PORT,
   VERSION,
-  MITOPEN_API_BASE_URL,
+  MITOL_API_BASE_URL,
   API_DEV_PROXY_BASE_URL,
   WEBPACK_ANALYZE,
   SITE_NAME,
   PUBLIC_URL,
-  MITOPEN_SUPPORT_EMAIL,
-  MITOPEN_AXIOS_WITH_CREDENTIALS,
+  MITOL_SUPPORT_EMAIL,
+  MITOL_AXIOS_WITH_CREDENTIALS,
   EMBEDLY_KEY,
   CKEDITOR_UPLOAD_URL,
   SENTRY_DSN,
@@ -52,7 +52,7 @@ const {
     desc: "The current release version",
     default: "0.0.0",
   }),
-  MITOPEN_API_BASE_URL: str({
+  MITOL_API_BASE_URL: str({
     desc: "Base URL for API requests",
     devDefault: "",
   }),
@@ -73,11 +73,11 @@ const {
     desc: "The site URL, for display",
     default: "",
   }),
-  MITOPEN_SUPPORT_EMAIL: str({
+  MITOL_SUPPORT_EMAIL: str({
     desc: "Email address for support",
     default: "mitlearn-support@mit.edu",
   }),
-  MITOPEN_AXIOS_WITH_CREDENTIALS: bool({
+  MITOL_AXIOS_WITH_CREDENTIALS: bool({
     desc: "Instructs the Axios API client to send credentials with requests",
     default: false,
   }),
@@ -99,14 +99,14 @@ const {
   }),
 })
 
-const MITOPEN_FEATURES_PREFIX = "FEATURE_"
+const MITOL_FEATURES_PREFIX = "FEATURE_"
 
 const getFeatureFlags = () => {
   const bootstrapFeatureFlags = {}
 
   for (const [key, value] of Object.entries(process.env)) {
-    if (key.startsWith(MITOPEN_FEATURES_PREFIX)) {
-      bootstrapFeatureFlags[key.replace(MITOPEN_FEATURES_PREFIX, "")] =
+    if (key.startsWith(MITOL_FEATURES_PREFIX)) {
+      bootstrapFeatureFlags[key.replace(MITOL_FEATURES_PREFIX, "")] =
         value === "True" ? true : JSON.stringify(value)
     }
   }
@@ -211,15 +211,15 @@ module.exports = (env, argv) => {
       }),
       new webpack.DefinePlugin({
         APP_SETTINGS: {
-          MITOPEN_AXIOS_WITH_CREDENTIALS,
-          MITOPEN_API_BASE_URL: JSON.stringify(MITOPEN_API_BASE_URL),
+          MITOL_AXIOS_WITH_CREDENTIALS,
+          MITOL_API_BASE_URL: JSON.stringify(MITOL_API_BASE_URL),
           EMBEDLY_KEY: JSON.stringify(EMBEDLY_KEY),
           CKEDITOR_UPLOAD_URL: JSON.stringify(CKEDITOR_UPLOAD_URL),
           VERSION: JSON.stringify(VERSION),
           SENTRY_DSN: JSON.stringify(SENTRY_DSN),
           POSTHOG: getPostHogSettings(),
           SITE_NAME: JSON.stringify(SITE_NAME),
-          MITOPEN_SUPPORT_EMAIL: JSON.stringify(MITOPEN_SUPPORT_EMAIL),
+          MITOL_SUPPORT_EMAIL: JSON.stringify(MITOL_SUPPORT_EMAIL),
           PUBLIC_URL: JSON.stringify(PUBLIC_URL),
         },
       }),
