@@ -5,9 +5,9 @@ x-environment: &py-environment
   DEV_ENV: "True" # necessary to have nginx connect to web container
   NODE_ENV: "production"
   DATABASE_URL: postgres://postgres:postgres@db:5432/postgres # pragma: allowlist secret
-  MITOPEN_SECURE_SSL_REDIRECT: "False"
-  MITOPEN_DB_DISABLE_SSL: "True"
-  MITOPEN_FEATURES_DEFAULT: "True"
+  MITOL_SECURE_SSL_REDIRECT: "False"
+  MITOL_DB_DISABLE_SSL: "True"
+  MITOL_FEATURES_DEFAULT: "True"
   OPENSEARCH_URL: elastic:9200
   CELERY_TASK_ALWAYS_EAGER: "False"
   CELERY_BROKER_URL: redis://redis:6379/4
