@@ -22,6 +22,18 @@ class LearningResourceTopicAdmin(admin.ModelAdmin):
         "parent",
     )
     search_fields = ("name",)
+    fields = (
+        "name",
+        "parent",
+        "topic_uuid",
+        "icon",
+    )
+    readonly_fields = (
+        "name",
+        "parent",
+        "topic_uuid",
+        "icon",
+    )
 
 
 class LearningResourceDepartmentAdmin(admin.ModelAdmin):

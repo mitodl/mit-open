@@ -1,38 +1,41 @@
 import {
-  RiPaletteLine,
-  RiSeedlingLine,
-  RiEarthLine,
-  RiQuillPenLine,
-  RiBriefcase3Line,
-  RiLightbulbFlashLine,
-  RiRobot2Line,
-  RiStethoscopeLine,
-  RiInfinityLine,
   RiTestTubeLine,
   RiUserSearchLine,
-  RiTeamLine,
+  RiLightbulbFlashLine,
+  RiBriefcase3Line,
+  RiStethoscopeLine,
+  RiPaletteLine,
+  RiQuillPenLine,
+  RiShakeHandsLine,
+  RiRobot2Line,
+  RiEarthLine,
+  RiSpaceShipLine,
   RiLineChartLine,
+  RiTeamLine,
 } from "@remixicon/react"
 import React from "react"
 
-/* TODO Using any icons until we have a solution for specifying them */
+/**
+ * These are all the icons we've used (and therefore all the icons that may
+ * appear depending on the state of the data_fixtures migrations).
+ */
 export const ICON_MAP = {
-  "Business & Management": RiBriefcase3Line,
-  "Energy, Climate & Sustainability": RiLightbulbFlashLine,
-  "Data Science, Analytics & Computer Technology": RiLineChartLine,
-  "Art, Design & Architecture": RiPaletteLine,
-  "Health & Medicine": RiStethoscopeLine,
-  Humanities: RiQuillPenLine,
-  Mathematics: RiInfinityLine,
-  "Science & Math": RiTestTubeLine,
-  "Social Sciences": RiUserSearchLine,
-  Society: RiEarthLine,
-  "Education & Teaching": RiSeedlingLine,
-  Engineering: RiRobot2Line,
-  "Innovation & Entrepreneurship": RiTeamLine,
+  RiTestTubeLine: RiTestTubeLine,
+  RiUserSearchLine: RiUserSearchLine,
+  RiLightbulbFlashLine: RiLightbulbFlashLine,
+  RiBriefcase3Line: RiBriefcase3Line,
+  RiStethoscopeLine: RiStethoscopeLine,
+  RiPaletteLine: RiPaletteLine,
+  RiQuillPenLine: RiQuillPenLine,
+  RiShakeHandsLine: RiShakeHandsLine,
+  RiRobot2Line: RiRobot2Line,
+  RiEarthLine: RiEarthLine,
+  RiSpaceShipLine: RiSpaceShipLine,
+  RiLineChartLine: RiLineChartLine,
+  RiTeamLine: RiTeamLine,
 }
 
-type RootTopicIconProps = { name: string }
+type RootTopicIconProps = { icon: string | undefined }
 
 /**
  * Render an icon for a root-level topic.
@@ -42,8 +45,8 @@ type RootTopicIconProps = { name: string }
  *  2. There are only about a dozen root-level topics.
  *  3. We have a test in place to ensure all root-level topics have an icon.
  */
-const RootTopicIcon: React.FC<RootTopicIconProps> = ({ name }) => {
-  const Icon = ICON_MAP[name as keyof typeof ICON_MAP]
+const RootTopicIcon: React.FC<RootTopicIconProps> = ({ icon }) => {
+  const Icon = ICON_MAP[icon as keyof typeof ICON_MAP]
   if (Icon) {
     return <Icon aria-hidden="true" />
   } else {
