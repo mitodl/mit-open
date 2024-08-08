@@ -164,8 +164,8 @@ const PrivacyPage: React.FC = () => {
           </UnorderedList>
           <BodyText variant="body1">
             If you have concerns about any of these purposes, or how we
-            communicate with you, please contact us at {MITOL_SUPPORT_EMAIL}.
-            We will always respect a request by you to stop processing your
+            communicate with you, please contact us at {MITOL_SUPPORT_EMAIL}. We
+            will always respect a request by you to stop processing your
             personal information (subject to our legal obligations).
           </BodyText>
           <BodyText variant="h4">
