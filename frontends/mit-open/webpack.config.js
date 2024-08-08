@@ -39,6 +39,7 @@ const {
   EMBEDLY_KEY,
   CKEDITOR_UPLOAD_URL,
   SENTRY_DSN,
+  SENTRY_ENV,
 } = cleanEnv(process.env, {
   NODE_ENV: str({
     choices: ["development", "production", "test"],
@@ -217,6 +218,7 @@ module.exports = (env, argv) => {
           CKEDITOR_UPLOAD_URL: JSON.stringify(CKEDITOR_UPLOAD_URL),
           VERSION: JSON.stringify(VERSION),
           SENTRY_DSN: JSON.stringify(SENTRY_DSN),
+          SENTRY_ENV: JSON.stringify(SENTRY_ENV),
           POSTHOG: getPostHogSettings(),
           SITE_NAME: JSON.stringify(SITE_NAME),
           MITOPEN_SUPPORT_EMAIL: JSON.stringify(MITOPEN_SUPPORT_EMAIL),
