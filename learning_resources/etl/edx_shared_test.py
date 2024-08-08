@@ -125,6 +125,7 @@ def test_sync_edx_course_files_matching_checksum(
         "learning_resources_search.plugins.tasks.deindex_run_content_files"
     )
     mock_log = mocker.patch("learning_resources.etl.edx_shared.log.info")
+    mock_load = mocker.patch("learning_resources.etl.edx_shared.load_content_files")
 
     key = f"20220101/courses/{run.run_id}.tar.gz"
     bucket = (mock_mitxonline_learning_bucket).bucket
@@ -140,6 +141,7 @@ def test_sync_edx_course_files_matching_checksum(
     sync_edx_course_files("mitxonline", [run.learning_resource.id], [key])
     mock_log.assert_any_call("Checksums match for %s, skipping load", key)
     mock_deindex.assert_called_once_with(other_run.id, False)  # noqa: FBT003
+    mock_load.assert_not_called()
     mock_index.assert_not_called()
 
 

@@ -152,6 +152,7 @@ def sync_edx_course_files(
                 log.info("Checksums match for %s, skipping load", key)
                 # Ensure any content files for other runs in the course are deindexed
                 content_files_loaded_actions(run=run, deindex_only=True)
+                continue
             try:
                 load_content_files(run, transform_content_files(course_tarpath, run))
                 run.checksum = checksum
