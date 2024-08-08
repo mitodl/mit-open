@@ -5,6 +5,8 @@ import itertools
 import logging
 from collections import OrderedDict
 from contextlib import contextmanager
+from itertools import groupby
+from random import random
 from urllib.parse import urlencode
 
 import celery
@@ -25,6 +27,7 @@ from learning_resources.models import (
     LearningResourceOfferor,
 )
 from learning_resources.utils import load_course_blocklist
+from learning_resources.views import FeaturedViewSet
 from learning_resources_search import indexing_api as api
 from learning_resources_search.api import (
     gen_content_file_id,
@@ -71,6 +74,27 @@ PARTIAL_UPDATE_TASK_SETTINGS = {
 
 
 @app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
+def update_featured_rank():
+    featured_view_set = FeaturedViewSet()
+    featured_resources = featured_view_set.get_queryset()
+    for position, resources_with_position in groupby(
+        featured_resources, key=lambda x: x.position
+    ):
+        api.clear_featured_rank(position, clear_all_greater_than=False)
+        for resource in resources_with_position:
+            api.update_document_with_partial(
+                resource.id,
+                {"featured_rank": position + random()},  # noqa: S311
+                resource.resource_type,
+            )
+
+    api.clear_featured_rank(
+        featured_resources.values_list("position", flat=True).distinct().count(),
+        clear_all_greater_than=True,
+    )
+
+
+@app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
 def upsert_content_file(file_id):
     """Upsert content file based on stored database information"""
 
@@ -107,7 +131,10 @@ def deindex_document(doc_id, object_type, **kwargs):
 @app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
 def upsert_learning_resource(learning_resource_id):
     """Upsert learning resource based on stored database information"""
-    resource_obj = LearningResource.objects.get(id=learning_resource_id)
+    resource_obj = LearningResource.objects.for_search_serialization().get(
+        id=learning_resource_id
+    )
+
     resource_data = serialize_learning_resource_for_update(resource_obj)
     api.upsert_document(
         learning_resource_id,

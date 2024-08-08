@@ -126,6 +126,10 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(minute=30, hour=18),  # 2:30pm EST
         "kwargs": {"period": "daily", "subscription_type": "channel_subscription_type"},
     },
+    "update-search-featured-ranks-1-days": {
+        "task": "learning_resources_search.tasks.update_featured_rank",
+        "schedule": crontab(minute=30, hour=5),  # 1:30am EST
+    },
 }
 
 

@@ -358,6 +358,9 @@ class LearningResourceQuerySet(TimestampedModelQuerySet):
             .annotate(views_count=Count("views"))
         )
 
+    def for_search_serialization(self):
+        return self.annotate(in_featured_lists=Count("parents__parent__channel"))
+
 
 class LearningResource(TimestampedModel):
     """Core model for all learning resources"""
