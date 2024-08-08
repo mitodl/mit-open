@@ -15,7 +15,7 @@ services:
   redis:
     profiles:
       - backend
-    image: redis:5.0.14
+    image: redis:7.4.0
     ports:
       - "6379"
 
