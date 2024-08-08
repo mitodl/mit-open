@@ -846,8 +846,8 @@ def test_update_partial_conflict_logging(mocker, mocked_es):
     assert patched_logger.error.called is True
 
 
-@pytest.mark.parametrize("clear_all_greater_then", [True, False])
-def test_clear_featured_rank(mocked_es, mocker, clear_all_greater_then):
+@pytest.mark.parametrize("clear_all_greater_than", [True, False])
+def test_clear_featured_rank(mocked_es, mocker, clear_all_greater_than):
     """
     Test that clear_featured_rank makest the correct opensearch-dsl call
     """
@@ -855,7 +855,7 @@ def test_clear_featured_rank(mocked_es, mocker, clear_all_greater_then):
         "learning_resources_search.indexing_api.get_active_aliases",
         return_value=["index"],
     )
-    if clear_all_greater_then:
+    if clear_all_greater_than:
         query = {
             "range": {
                 "featured_rank": {
@@ -873,7 +873,7 @@ def test_clear_featured_rank(mocked_es, mocker, clear_all_greater_then):
             }
         }
 
-    clear_featured_rank(3, clear_all_greater_then)
+    clear_featured_rank(3, clear_all_greater_than)
     mock_get_aliases.assert_called_once_with(mocked_es.conn)
     mocked_es.get_conn.assert_called_once_with()
     mocked_es.conn.update_by_query.assert_called_once_with(

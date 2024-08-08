@@ -80,7 +80,7 @@ def update_featured_rank():
     for position, resources_with_position in groupby(
         featured_resources, key=lambda x: x.position
     ):
-        api.clear_featured_rank(position, clear_all_greater_then=False)
+        api.clear_featured_rank(position, clear_all_greater_than=False)
         for resource in resources_with_position:
             api.update_document_with_partial(
                 resource.id,
@@ -90,7 +90,7 @@ def update_featured_rank():
 
     api.clear_featured_rank(
         featured_resources.values_list("position", flat=True).distinct().count(),
-        clear_all_greater_then=True,
+        clear_all_greater_than=True,
     )
 
 

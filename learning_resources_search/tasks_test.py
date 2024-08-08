@@ -1004,8 +1004,8 @@ def test_update_featured_rank(mocker, offeror_featured_lists):
     update_featured_rank()
 
     for rank in range(3):
-        clear_featured_rank.assert_any_call(rank, clear_all_greater_then=False)
-    clear_featured_rank.assert_any_call(3, clear_all_greater_then=True)
+        clear_featured_rank.assert_any_call(rank, clear_all_greater_than=False)
+    clear_featured_rank.assert_any_call(3, clear_all_greater_than=True)
 
     for resource in featured_resources:
         update_with_partial.assert_any_call(

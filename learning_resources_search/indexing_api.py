@@ -43,13 +43,19 @@ log = logging.getLogger(__name__)
 User = get_user_model()
 
 
-def clear_featured_rank(rank, clear_all_greater_then):
+def clear_featured_rank(rank, clear_all_greater_than):
     """
-    Make a request to ES to set featured_rank to null for documents with
-    rank equal to rank
+    Make a request to ES to set featured_rank to null for documents with rank
+
+    If clear_all_greater_than is true it clears all featured_rank values greater
+        than rank
+    If clear_all_greater_than is false it clears all featured_rank values with
+        the integer part equal to rank. The decimal part of featured_rank is randomized
 
     Args:
         rank (int): the rank
+        clear_all_greater_than (boolean) : Whether to clear all featurend_rank values
+            greater than rank
     """
 
     conn = get_conn()
@@ -61,7 +67,7 @@ def clear_featured_rank(rank, clear_all_greater_then):
         }
     }
 
-    if not clear_all_greater_then:
+    if not clear_all_greater_than:
         query["range"]["featured_rank"]["lt"] = rank + 1
 
     for alias in get_active_aliases(conn):
