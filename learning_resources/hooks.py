@@ -81,7 +81,7 @@ class LearningResourceHooks:
         """Trigger actions to delete a learning resource offeror"""
 
     @hookspec
-    def content_files_loaded(self, run):
+    def content_files_loaded(self, run, deindex_only):
         """Trigger actions after content files are loaded for a run"""
 
 

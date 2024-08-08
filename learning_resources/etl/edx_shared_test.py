@@ -104,6 +104,45 @@ def test_sync_edx_course_files(  # noqa: PLR0913
     mock_log.assert_not_called()
 
 
+def test_sync_edx_course_files_matching_checksum(
+    mocker, mock_mitxonline_learning_bucket
+):
+    """If the checksum matches, the contentfile loading should be skipped but other runs still deindexed"""
+
+    run = LearningResourceFactory.create(
+        is_course=True, create_runs=True, etl_source=ETLSource.mitxonline.name
+    ).next_run
+    other_run = run.learning_resource.runs.exclude(id=run.id).first()
+    run.checksum = "123"
+    run.save()
+    mocker.patch(
+        "learning_resources.etl.edx_shared.calc_checksum", return_value=run.checksum
+    )
+    mock_index = mocker.patch(
+        "learning_resources_search.plugins.tasks.index_run_content_files"
+    )
+    mock_deindex = mocker.patch(
+        "learning_resources_search.plugins.tasks.deindex_run_content_files"
+    )
+    mock_log = mocker.patch("learning_resources.etl.edx_shared.log.info")
+
+    key = f"20220101/courses/{run.run_id}.tar.gz"
+    bucket = (mock_mitxonline_learning_bucket).bucket
+    mocker.patch(
+        "learning_resources.etl.edx_shared.get_learning_course_bucket",
+        return_value=bucket,
+    )
+    bucket.put_object(
+        Key=key,
+        Body=b"".join([b"x" for _ in range(100)]),
+        ACL="public-read",
+    )
+    sync_edx_course_files("mitxonline", [run.learning_resource.id], [key])
+    mock_log.assert_any_call("Checksums match for %s, skipping load", key)
+    mock_deindex.assert_called_once_with(other_run.id, False)  # noqa: FBT003
+    mock_index.assert_not_called()
+
+
 @pytest.mark.parametrize(
     "platform", [PlatformType.mitxonline.name, PlatformType.xpro.name]
 )

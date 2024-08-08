@@ -176,17 +176,19 @@ class SearchIndexPlugin:
         run.delete()
 
     @hookimpl
-    def content_files_loaded(self, run):
+    def content_files_loaded(self, run, deindex_only):
         """
         Upsert a created/modified run's content files
 
          Args:
              run(LearningResourceRun): The LearningResourceRun that was upserted
+             deindex_only(bool): Only deindex the other runs' content files
         """
         course_runs_to_deindex = run.learning_resource.runs.all()
         if run.published:
             # Only one run per course should have contentfiles at any given time
             course_runs_to_deindex = course_runs_to_deindex.exclude(id=run.id)
-            try_with_retry_as_task(tasks.index_run_content_files, run.id)
+            if not deindex_only:
+                try_with_retry_as_task(tasks.index_run_content_files, run.id)
         for run in course_runs_to_deindex:
             try_with_retry_as_task(tasks.deindex_run_content_files, run.id, False)  # noqa: FBT003

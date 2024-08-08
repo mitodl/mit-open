@@ -639,7 +639,7 @@ def load_content_files(
             for content_file in content_files_data
         ]
 
-        content_files_loaded_actions(course_run)
+        content_files_loaded_actions(run=course_run, deindex_only=False)
 
         return content_files_ids
     return None

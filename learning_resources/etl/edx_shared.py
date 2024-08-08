@@ -14,6 +14,7 @@ from learning_resources.etl.utils import (
     transform_content_files,
 )
 from learning_resources.models import LearningResourceRun
+from learning_resources.utils import content_files_loaded_actions
 
 log = logging.getLogger(__name__)
 
@@ -148,8 +149,9 @@ def sync_edx_course_files(
                 log.exception("Error reading tar file %s, skipping", course_tarpath)
                 continue
             if run.checksum == checksum:
-                log.info("Checksums match for %s, skipping", key)
-                continue
+                log.info("Checksums match for %s, skipping load", key)
+                # Ensure any content files for other runs in the course are deindexed
+                content_files_loaded_actions(run=run, deindex_only=True)
             try:
                 load_content_files(run, transform_content_files(course_tarpath, run))
                 run.checksum = checksum
