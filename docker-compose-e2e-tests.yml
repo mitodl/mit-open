@@ -1,6 +1,6 @@
 version: "3.7"
 
-name: mit-open-e2e-tests
+name: mit-learn-e2e-tests
 
 services:
   db:
@@ -24,7 +24,7 @@ services:
     volumes:
       - ./config/nginx.conf:/etc/nginx/conf.d/web.conf
       - ./config/static-app.conf:/etc/nginx/templates/static-app.template
-      - ./frontends/mit-open/build:/src/frontends/mit-open/build
+      - ./frontends/mit-learn/build:/src/frontends/mit-learn/build
     env_file:
       - path: ./env/shared.env
     networks:

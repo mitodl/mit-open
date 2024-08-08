@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * MIT Open API
+ * MIT Learn API
  * MIT public API
  *
  * The version of the OpenAPI document: 0.0.1 (v0)
@@ -194,7 +194,7 @@ export const createRequestFunction = function (
     const axiosRequestArgs = {
       ...axiosArgs.options,
       url:
-        (axios.defaults.baseURL ? "" : configuration?.basePath ?? basePath) +
+        (axios.defaults.baseURL ? "" : (configuration?.basePath ?? basePath)) +
         axiosArgs.url,
     }
     return axios.request<T, R>(axiosRequestArgs)

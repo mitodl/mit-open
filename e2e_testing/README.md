@@ -93,4 +93,4 @@ yarn test --grep @sanity
 
 A GitHub Actions job runs the full test suite against locally running services.
 
-Test reports deploy to the GitHub Pages site at https://mitodl.github.io/mit-open/playwright-report/.
+Test reports deploy to the GitHub Pages site at https://mitodl.github.io/mit-learn/playwright-report/.
