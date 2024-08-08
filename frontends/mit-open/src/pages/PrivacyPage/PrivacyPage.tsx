@@ -52,7 +52,7 @@ const UnorderedList = styled.ul(({ theme }) => ({
   ...theme.typography.body1,
 }))
 
-const { SITE_NAME, MITOPEN_SUPPORT_EMAIL } = APP_SETTINGS
+const { SITE_NAME, MITOL_SUPPORT_EMAIL } = APP_SETTINGS
 
 const PrivacyPage: React.FC = () => {
   return (
@@ -164,8 +164,8 @@ const PrivacyPage: React.FC = () => {
           </UnorderedList>
           <BodyText variant="body1">
             If you have concerns about any of these purposes, or how we
-            communicate with you, please contact us at {MITOPEN_SUPPORT_EMAIL}.
-            We will always respect a request by you to stop processing your
+            communicate with you, please contact us at {MITOL_SUPPORT_EMAIL}. We
+            will always respect a request by you to stop processing your
             personal information (subject to our legal obligations).
           </BodyText>
           <BodyText variant="h4">
