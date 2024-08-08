@@ -198,6 +198,14 @@ const SearchPage: React.FC = () => {
     onFacetsChange,
   })
 
+  const onSearchTermSubmit = useCallback(
+    (term: string) => {
+      setCurrentTextAndQuery(term)
+      setPage(1)
+    },
+    [setPage, setCurrentTextAndQuery],
+  )
+
   const page = +(searchParams.get("page") ?? "1")
 
   return (
@@ -212,10 +220,10 @@ const SearchPage: React.FC = () => {
                 value={currentText}
                 onChange={(e) => setCurrentText(e.target.value)}
                 onSubmit={(e) => {
-                  setCurrentTextAndQuery(e.target.value)
+                  onSearchTermSubmit(e.target.value)
                 }}
                 onClear={() => {
-                  setCurrentTextAndQuery("")
+                  onSearchTermSubmit("")
                 }}
                 placeholder="What do you want to learn?"
               />
