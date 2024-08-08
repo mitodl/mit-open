@@ -49,11 +49,7 @@ class LearningResourceHooks:
         """Trigger actions before removing a learning resource"""
 
     @hookspec
-    def resource_run_upserted(self, run):
-        """Trigger actions after a learning resource run is created or updated"""
-
-    @hookspec
-    def resource_run_unpublished(self, run, unpublished_only):
+    def resource_run_unpublished(self, run):
         """Trigger actions after a learning resource run is unpublished"""
 
     @hookspec
@@ -83,6 +79,10 @@ class LearningResourceHooks:
     @hookspec
     def offeror_delete(self, offeror):
         """Trigger actions to delete a learning resource offeror"""
+
+    @hookspec
+    def content_files_loaded(self, run, deindex_only):
+        """Trigger actions after content files are loaded for a run"""
 
 
 def get_plugin_manager():

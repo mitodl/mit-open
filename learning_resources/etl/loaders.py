@@ -44,11 +44,11 @@ from learning_resources.models import (
 from learning_resources.utils import (
     add_parent_topics_to_learning_resource,
     bulk_resources_unpublished_actions,
+    content_files_loaded_actions,
     load_course_blocklist,
     load_course_duplicates,
     resource_delete_actions,
     resource_run_unpublished_actions,
-    resource_run_upserted_actions,
     resource_unpublished_actions,
     resource_upserted_actions,
     similar_topics_action,
@@ -424,6 +424,7 @@ def load_course(
             ).filter(published=True):
                 run.published = False
                 run.save()
+                resource_run_unpublished_actions(run)
 
         load_next_start_date_and_prices(learning_resource)
         load_topics(learning_resource, topics_data)
@@ -638,10 +639,7 @@ def load_content_files(
             for content_file in content_files_data
         ]
 
-        if course_run.published:
-            resource_run_upserted_actions(course_run)
-        else:
-            resource_run_unpublished_actions(course_run)
+        content_files_loaded_actions(run=course_run, deindex_only=False)
 
         return content_files_ids
     return None

@@ -14,6 +14,7 @@ from learning_resources.etl.utils import (
     transform_content_files,
 )
 from learning_resources.models import LearningResourceRun
+from learning_resources.utils import content_files_loaded_actions
 
 log = logging.getLogger(__name__)
 
@@ -106,6 +107,7 @@ def sync_edx_course_files(
         runs = LearningResourceRun.objects.filter(
             learning_resource__etl_source=etl_source,
             learning_resource_id__in=ids,
+            learning_resource__published=True,
             published=True,
         )
         if etl_source == ETLSource.mit_edx.name:
@@ -130,6 +132,13 @@ def sync_edx_course_files(
 
         if not run:
             continue
+        resource = run.learning_resource
+        if run != (
+            resource.next_run
+            or resource.runs.filter(published=True).order_by("-start_date").first()
+        ):
+            log.info("Skipping %s, not the next / most recent run", run.run_id)
+            continue
         with TemporaryDirectory() as export_tempdir:
             course_tarpath = Path(export_tempdir, key.split("/")[-1])
             log.info("course tarpath for run %s is %s", run.run_id, course_tarpath)
@@ -140,7 +149,9 @@ def sync_edx_course_files(
                 log.exception("Error reading tar file %s, skipping", course_tarpath)
                 continue
             if run.checksum == checksum:
-                log.info("Checksums match for %s, skipping", key)
+                log.info("Checksums match for %s, skipping load", key)
+                # Ensure any content files for other runs in the course are deindexed
+                content_files_loaded_actions(run=run, deindex_only=True)
                 continue
             try:
                 load_content_files(run, transform_content_files(course_tarpath, run))

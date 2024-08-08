@@ -391,13 +391,13 @@ def bulk_resources_unpublished_actions(resource_ids: list[int], resource_type: s
     )
 
 
-def resource_run_upserted_actions(run: LearningResourceRun):
+def content_files_loaded_actions(run: LearningResourceRun, deindex_only):
     """
-    Trigger plugins when a LearningResourceRun is created or updated
+    Trigger plugins when content files are loaded for a LearningResourceRun
     """
     pm = get_plugin_manager()
     hook = pm.hook
-    hook.resource_run_upserted(run=run)
+    hook.content_files_loaded(run=run, deindex_only=deindex_only)
 
 
 def resource_run_unpublished_actions(run: LearningResourceRun):
