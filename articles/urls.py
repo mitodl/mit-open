@@ -15,7 +15,7 @@ v1_router.register(
 app_name = "articles"
 urlpatterns = [
     # TODO(Chris Chudzicki): Change this to version v0 when # noqa: FIX002
-    #  https://github.com/mitodl/mit-open/issues/269 is finished
-    #  mit-open-api-clients will be responsible for generating v0+v1+... clients
+    #  https://github.com/mitodl/mit-learn/issues/269 is finished
+    #  mit-learn-api-clients will be responsible for generating v0+v1+... clients
     re_path(r"^api/v1/", include((v1_router.urls, "v1"))),
 ]

@@ -1,4 +1,4 @@
-FROM mit-open-web
+FROM mit-learn-web
 
 USER root
 

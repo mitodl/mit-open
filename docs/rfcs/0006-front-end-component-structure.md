@@ -9,11 +9,11 @@ has_toc: true
 
 **Author(s)**: Jon Kafton
 **Created**: Dec 6, 2023
-**Project**: MIT Open
+**Project**: MIT Learn
 
 ## Goals
 
-We are exploring options for the component structure for the MIT Open application front end at [main/frontends](../../frontends). This includes the dependency tree, modularization and file structure for React components and the assets they import. React itself is a library, not a framework, in the sense that it imposes no rules for how an application is structurally laid out.
+We are exploring options for the component structure for the MIT Learn application front end at [main/frontends](../../frontends). This includes the dependency tree, modularization and file structure for React components and the assets they import. React itself is a library, not a framework, in the sense that it imposes no rules for how an application is structurally laid out.
 
 In settling on a component architecture, these considerations should be taken into account:
 
@@ -21,7 +21,7 @@ In settling on a component architecture, these considerations should be taken in
 
 - **Modularization**: A “module” should self-contain its presentational components for structure and style, any business logic and static assets unique to it.
 
-- **Reuse**: Modules should be designed for reusability except where specialized within their context and provide a self documenting API plane and usage comments where necessary. For reuse outside of the MIT Open project we can consider pushing to an npm repository during CI runs.
+- **Reuse**: Modules should be designed for reusability except where specialized within their context and provide a self documenting API plane and usage comments where necessary. For reuse outside of the MIT Learn project we can consider pushing to an npm repository during CI runs.
 
 - **Generalization**: The component structure should be sufficiently generic for reuse in other React front ends and form best practice guidelines.
 
@@ -29,7 +29,7 @@ In settling on a component architecture, these considerations should be taken in
 
 The React app is currently grouped into [package workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) that include:
 
-- **mit-open**: entrypoint for pages.
+- **mit-learn**: entrypoint for pages.
 - **ol-design**: a React component catalog and entrypoint for all styles and theming.
 - **ol-search-ui**: for components related to search.
 - **ol-util**: for page level components and utility functions.
@@ -39,7 +39,7 @@ The React app is currently grouped into [package workspaces](https://classic.yar
 
 The workspaces are useful for isolating areas of functionality to their concerns and listing dependencies specific to the workspace, while providing the package manager (Yarn) a global view across dependencies for minimizing conflicts. Each workspace package can be imported by name and allows for build, test and run commands specific to each package.
 
-We have previously landed on moving styles adjacent to their React components so that individual components do not have a dependency on app level stylesheets and so that the dependency structure for CSS can follow the same rule as functional and presentational code recommended in the approaches below. Described in [Refactor Sass styles to CSS-in-JS #239](https://github.com/mitodl/mit-open/issues/239).
+We have previously landed on moving styles adjacent to their React components so that individual components do not have a dependency on app level stylesheets and so that the dependency structure for CSS can follow the same rule as functional and presentational code recommended in the approaches below. Described in [Refactor Sass styles to CSS-in-JS #239](https://github.com/mitodl/mit-learn/issues/239).
 
 ## Problem Space
 
@@ -73,7 +73,7 @@ The category any module belongs to can be unambiguously determined according to 
 
 - `page-components` - These are sub page components that may be routable (React Router nesting) and/or are page sections or areas of functionality that incorporate several components.
 
-- `components` - React components that are specific to mit-open.
+- `components` - React components that are specific to mit-learn.
 
 - `services` - any over network dependencies (notably the adaptor for the backend api) and any library initialization.
 
@@ -125,13 +125,13 @@ The component hierarchy is flat and wide and avoids deeply nested or interwoven 
 
 - An exception - sometimes it is useful to group similar components. Where there is no single entrypoint, an index.ts file is useful for single line imports and each component should have its own unit test file, see for example the ErrorPages/ below.
 
-- Styles are implemented in TypeScript inside their component files and sass files (scss/\*.scss) are removed in line with [#239](https://github.com/mitodl/mit-open/issues/239).
+- Styles are implemented in TypeScript inside their component files and sass files (scss/\*.scss) are removed in line with [#239](https://github.com/mitodl/mit-learn/issues/239).
 
 #### Applying to the existing project
 
-Application root workspace (frontends/mit-open)
+Application root workspace (frontends/mit-learn)
 
-Now looking at how to apply these rules to the existing project. For example, the mit-open workspace may look like:
+Now looking at how to apply these rules to the existing project. For example, the mit-learn workspace may look like:
 
 ```text
 ├─ src
@@ -212,7 +212,7 @@ The structure above includes a number of suggestions:
 
 - routes.ts and urls.ts moved to common/.
 
-- The style.ts entry and Sass (.scss) files are removed in favor of “CSS-in-JS” (with [Emotion](https://emotion.sh/docs/introduction), [issue #239](https://github.com/mitodl/mit-open/issues/239)).
+- The style.ts entry and Sass (.scss) files are removed in favor of “CSS-in-JS” (with [Emotion](https://emotion.sh/docs/introduction), [issue #239](https://github.com/mitodl/mit-learn/issues/239)).
 
 - The constants.ts file is moved to common/, leaving utils/ for functionality, not config (we may want a dedicated config directory if this grows).
 
@@ -252,7 +252,7 @@ Workspaces that can be shared across application root workspaces can follow the 
 
 - Perhaps there’s a case for ol-pages where a page might be reused in another application, though that tends not to be the case. common is intended for app level files common to the app (routing, etc), so there is no case for an `ol-common`.
 
-- For discussion is whether we want to treat these workspaces as specific to the mit-open application (they live in its source repository), in which case there is an argument for moving all `page-components`, `components`, `services` and `utilities` in the mit-open workspace to their respective `ol-` workspace. Inversely, there might not be a case for separate individual workspaces. The distinction can be made on whether each has a need for its own package.json configuration - does it have a distinct set of third party npm dependencies and does it have any separate CI requirements. The `ol-components` workspace, for example, has an additional build step to generate and publish a Storybook site.
+- For discussion is whether we want to treat these workspaces as specific to the mit-learn application (they live in its source repository), in which case there is an argument for moving all `page-components`, `components`, `services` and `utilities` in the mit-learn workspace to their respective `ol-` workspace. Inversely, there might not be a case for separate individual workspaces. The distinction can be made on whether each has a need for its own package.json configuration - does it have a distinct set of third party npm dependencies and does it have any separate CI requirements. The `ol-components` workspace, for example, has an additional build step to generate and publish a Storybook site.
 
 ```text
 ├─ ol-components
@@ -324,7 +324,7 @@ Workspaces that can be shared across application root workspaces can follow the 
 
 - Not shown above, though `ol-learning-resources` and `ol-search-ui` should be absorbed into `ol-components`.
 
-- We should consider moving our component catalog outside of the mit-open Git repo to encourage reuse outside of the project.
+- We should consider moving our component catalog outside of the mit-learn Git repo to encourage reuse outside of the project.
 
 #### Large shared components
 
@@ -352,7 +352,7 @@ These will always have their own package.json (as a defining factor), so are pub
 
 - `ol-widgets` is renamed and moved to ol-packages/ol-editable-widget. This one could be broken down, abstracting the rich text and embedded URL components. ol-editable-widget would wrap these, providing the editability, API and edit mode switching.
 
-- We should consider moving our packages library outside of the mit-open Git repo to encourage reuse outside of the project.
+- We should consider moving our packages library outside of the mit-learn Git repo to encourage reuse outside of the project.
 
 ### Import rules example
 
@@ -462,7 +462,7 @@ The current structure as of November 2023, for reference:
 │ │ ├── setupJest.ts
 │ │ └── urls.ts
 │ └── tsconfig.json
-├── mit-open ... main entry point
+├── mit-learn ... main entry point
 │ ├── build
 │ │ ├── 849-39e75af43e94d713.js
 │ │ ├── 849-39e75af43e94d713.js.LICENSE.txt

@@ -258,7 +258,7 @@ def get_all_mit_podcasts_channel_rss():
     rss = f"""<?xml version='1.0' encoding='UTF-8'?>
     <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
         <channel>
-            <title>MIT Open Aggregated Podcast Feed</title>
+            <title>MIT Learn Aggregated Podcast Feed</title>
             <link>{podcasts_url}</link>
             <language>en-us</language>
             <pubDate>{current_timestamp}</pubDate>
@@ -274,7 +274,7 @@ def get_all_mit_podcasts_channel_rss():
             </itunes:owner>
             <image>
               <url>{cover_image_url}</url>
-              <title>MIT Open Aggregated Podcast Feed</title>
+              <title>MIT Learn Aggregated Podcast Feed</title>
               <link>{podcasts_url}</link>
             </image>
             <itunes:explicit>no</itunes:explicit>

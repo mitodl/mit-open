@@ -1,6 +1,6 @@
-import { Canvas, Meta } from "@storybook/blocks";
+import { Canvas, Meta } from "@storybook/blocks"
 
-import * as ChipStories from "./Chip.stories";
+import * as ChipStories from "./Chip.stories"
 
 <Meta of={ChipStories} />
 
@@ -9,9 +9,11 @@ import * as ChipStories from "./Chip.stories";
 Chips (or "Pills") trigger actions, filter content, or display information. See the [Material-UI Chip documentation](https://mui.com/components/chips/) for additional details.
 
 ## Variants
+
 <Canvas of={ChipStories.Variants} />
 
 ## Clickable and Deletable
+
 <Canvas of={ChipStories.Buttons} />
 
 Note: The chip `onDelete` handler will fire on `Backspace`, too.
@@ -19,6 +21,7 @@ Note: The chip `onDelete` handler will fire on `Backspace`, too.
 <Canvas of={ChipStories.Deleteable} />
 
 ## Icons
+
 Use `icon` to display an icon at chip start:
 
 <Canvas of={ChipStories.Icons} />

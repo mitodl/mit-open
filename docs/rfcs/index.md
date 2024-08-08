@@ -23,7 +23,7 @@ Anything that isn't a solution to a technical problem.
 ## How to write a new RFC
 
 - Duplicate the template file `_0001-template.md` following the existing naming convention of `NNNN-lowercase-dashed-title.md`
-- Notify in the slack channel #mit-open-eng that you've taken that RFC number
+- Notify in the slack channel #mit-learn-eng that you've taken that RFC number
 - Set a `nav_order` matching your RFC number (don't zero-pad it)
 - Fill out your RFC document
   - Note any sections that aren't applicable as such

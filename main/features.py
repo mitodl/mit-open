@@ -1,4 +1,4 @@
-"""MIT Open feature flags"""
+"""MIT Learn feature flags"""
 
 import hashlib
 import json

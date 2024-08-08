@@ -3,7 +3,7 @@ Django settings specific to DRF Spectacular
 """
 
 open_spectacular_settings = {
-    "TITLE": "MIT Open API",
+    "TITLE": "MIT Learn API",
     "DESCRIPTION": "MIT public API",
     "VERSION": "0.0.1",
     "SERVE_INCLUDE_SCHEMA": False,
