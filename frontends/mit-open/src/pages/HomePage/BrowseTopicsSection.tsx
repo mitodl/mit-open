@@ -27,6 +27,7 @@ const Topics = styled.div`
   flex-wrap: wrap;
   gap: 16px 24px;
   margin: 40px 0;
+
   ${theme.breakpoints.down("md")} {
     gap: 5px;
     margin: 24px 0;
@@ -45,10 +46,14 @@ const TopicBox = styled(Link)`
   border: 1px solid ${theme.custom.colors.lightGray2};
   background: ${theme.custom.colors.white};
   overflow: hidden;
+  display: flex;
 
   svg:last-child {
-    display: none;
+    color: ${theme.custom.colors.white};
     flex: 0 0 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 8px;
   }
 
   :hover {
@@ -65,8 +70,9 @@ const TopicBox = styled(Link)`
 const TopicBoxContent = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
   gap: 10px;
+  width: 100%;
 
   svg {
     flex: 0 0 22px;
@@ -78,10 +84,6 @@ const TopicBoxContent = styled.div`
   }}
 `
 
-// This should have these rules - temporarily disabled for now:
-// white-space: nowrap;
-// text-overflow: ellipsis;
-// overflow: hidden;
 const TopicBoxName = styled.p`
   flex-grow: 1;
   margin: 0;
@@ -102,17 +104,19 @@ const BrowseTopicsSection: React.FC = () => {
       <Container>
         <Title variant="h2">Browse by Topic</Title>
         <Topics>
-          {topics?.results.map(({ id, name, channel_url: channelUrl }) => {
-            return (
-              <TopicBox key={id} to={channelUrl!}>
-                <TopicBoxContent>
-                  <RootTopicIcon name={name} />
-                  <TopicBoxName>{name}</TopicBoxName>
-                  <RiArrowRightLine />
-                </TopicBoxContent>
-              </TopicBox>
-            )
-          })}
+          {topics?.results.map(
+            ({ id, name, channel_url: channelUrl, icon }) => {
+              return (
+                <TopicBox key={id} to={channelUrl!}>
+                  <TopicBoxContent>
+                    <RootTopicIcon icon={icon} />
+                    <TopicBoxName>{name}</TopicBoxName>
+                    <RiArrowRightLine />
+                  </TopicBoxContent>
+                </TopicBox>
+              )
+            },
+          )}
         </Topics>
         <SeeAllButton href="/topics/" size="large" responsive>
           See all

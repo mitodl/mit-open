@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.15.0"
+VERSION = "0.15.1"
 
 log = logging.getLogger()
 
@@ -395,6 +395,9 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": MAILGUN_SENDER_DOMAIN,
 }
 
+NOTIFICATION_EMAIL_BACKEND = get_string(
+    "MITOPEN_NOTIFICATION_EMAIL_BACKEND", "anymail.backends.test.EmailBackend"
+)
 # e-mail configurable admins
 ADMIN_EMAIL = get_string("MITOPEN_ADMIN_EMAIL", "")
 ADMINS = (("Admins", ADMIN_EMAIL),) if ADMIN_EMAIL != "" else ()

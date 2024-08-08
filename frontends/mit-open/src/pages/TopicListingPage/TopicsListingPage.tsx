@@ -34,15 +34,16 @@ type ChannelSummary = {
 
 type TopicBoxHeaderProps = {
   title: string
+  icon?: string
   href?: string
   className?: string
 }
 const TopicBoxHeader = styled(
-  ({ title, href, className }: TopicBoxHeaderProps) => {
+  ({ title, icon, href, className }: TopicBoxHeaderProps) => {
     return (
       <Typography variant="h5" component="h3" className={className}>
         <Link to={href ?? ""}>
-          <RootTopicIcon name={title} aria-hidden="true" />
+          <RootTopicIcon icon={icon} aria-hidden="true" />
           <span>
             <span className="topic-title">{title}</span>
             <span className="view-topic" aria-hidden="true">
@@ -128,10 +129,10 @@ const TopicBox = ({
     { label: "Courses", count: courseCount },
     { label: "Programs", count: programCount },
   ].filter((item) => item.count)
-  const { title, href, channels } = topicGroup
+  const { title, href, icon, channels } = topicGroup
   return (
     <li className={className}>
-      <TopicBoxHeader title={title} href={href} />
+      <TopicBoxHeader title={title} href={href} icon={icon} />
       <TopicBoxBody>
         <TopicCounts>
           {counts.map((item) => (
@@ -194,6 +195,7 @@ const aggregateByTopic = (
 type TopicGroup = {
   id: number
   title: string
+  icon?: string
   href?: string
   courses: number
   programs: number
@@ -219,6 +221,7 @@ const groupTopics = (
           programs: programCounts[topic.name],
           title: topic.name,
           href: topic.channel_url,
+          icon: topic.icon,
         },
       ]),
   )
