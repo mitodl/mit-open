@@ -18,9 +18,9 @@ REQUIRED_SETTINGS = {
     "OPENSEARCH_INDEX": "some_index",
     "MAILGUN_SENDER_DOMAIN": "mailgun.fake.domain",
     "MAILGUN_KEY": "fake_mailgun_key",
-    "MITOPEN_COOKIE_NAME": "cookie_monster",
-    "MITOPEN_COOKIE_DOMAIN": "od.fake.domain",
-    "MITOPEN_APP_BASE_URL": "http:localhost:8063/",
+    "MITOL_COOKIE_NAME": "cookie_monster",
+    "MITOL_COOKIE_DOMAIN": "od.fake.domain",
+    "MITOL_APP_BASE_URL": "http:localhost:8063/",
 }
 
 
@@ -44,7 +44,7 @@ class TestSettings(TestCase):
         # Unset, we don't do S3
         with mock.patch.dict(
             "os.environ",
-            {**REQUIRED_SETTINGS, "MITOPEN_USE_S3": "False"},
+            {**REQUIRED_SETTINGS, "MITOL_USE_S3": "False"},
             clear=True,
         ):
             settings_vars = self.reload_settings()
@@ -54,7 +54,7 @@ class TestSettings(TestCase):
             )
 
         with pytest.raises(ImproperlyConfigured):  # noqa: SIM117
-            with mock.patch.dict("os.environ", {"MITOPEN_USE_S3": "True"}, clear=True):
+            with mock.patch.dict("os.environ", {"MITOL_USE_S3": "True"}, clear=True):
                 self.reload_settings()
 
         # Verify it all works with it enabled and configured 'properly'
@@ -62,7 +62,7 @@ class TestSettings(TestCase):
             "os.environ",
             {
                 **REQUIRED_SETTINGS,
-                "MITOPEN_USE_S3": "True",
+                "MITOL_USE_S3": "True",
                 "AWS_ACCESS_KEY_ID": "1",
                 "AWS_SECRET_ACCESS_KEY": "2",
                 "AWS_STORAGE_BUCKET_NAME": "3",
@@ -80,7 +80,7 @@ class TestSettings(TestCase):
 
         with mock.patch.dict(
             "os.environ",
-            {**REQUIRED_SETTINGS, "MITOPEN_ADMIN_EMAIL": ""},
+            {**REQUIRED_SETTINGS, "MITOL_ADMIN_EMAIL": ""},
             clear=True,
         ):
             settings_vars = self.reload_settings()
@@ -89,7 +89,7 @@ class TestSettings(TestCase):
         test_admin_email = "cuddle_bunnies@example.com"
         with mock.patch.dict(
             "os.environ",
-            {**REQUIRED_SETTINGS, "MITOPEN_ADMIN_EMAIL": test_admin_email},
+            {**REQUIRED_SETTINGS, "MITOL_ADMIN_EMAIL": test_admin_email},
             clear=True,
         ):
             settings_vars = self.reload_settings()
@@ -113,7 +113,7 @@ class TestSettings(TestCase):
         # Check enabling the setting explicitly
         with mock.patch.dict(
             "os.environ",
-            {**REQUIRED_SETTINGS, "MITOPEN_DB_DISABLE_SSL": "True"},
+            {**REQUIRED_SETTINGS, "MITOL_DB_DISABLE_SSL": "True"},
             clear=True,
         ):
             settings_vars = self.reload_settings()
@@ -122,7 +122,7 @@ class TestSettings(TestCase):
         # Disable it
         with mock.patch.dict(
             "os.environ",
-            {**REQUIRED_SETTINGS, "MITOPEN_DB_DISABLE_SSL": "False"},
+            {**REQUIRED_SETTINGS, "MITOL_DB_DISABLE_SSL": "False"},
             clear=True,
         ):
             settings_vars = self.reload_settings()
@@ -174,10 +174,10 @@ class TestSettings(TestCase):
             )
 
     def test_server_side_cursors_enabled(self):
-        """DISABLE_SERVER_SIDE_CURSORS should be false if MITOPEN_DB_DISABLE_SS_CURSORS is false"""
+        """DISABLE_SERVER_SIDE_CURSORS should be false if MITOL_DB_DISABLE_SS_CURSORS is false"""
         with mock.patch.dict(
             "os.environ",
-            {**REQUIRED_SETTINGS, "MITOPEN_DB_DISABLE_SS_CURSORS": "False"},
+            {**REQUIRED_SETTINGS, "MITOL_DB_DISABLE_SS_CURSORS": "False"},
         ):
             settings_vars = self.reload_settings()
             assert (

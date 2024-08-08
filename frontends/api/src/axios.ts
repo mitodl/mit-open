@@ -7,7 +7,7 @@ const instance = axios.create({
   xsrfCookieName: "csrftoken",
   xsrfHeaderName: "X-CSRFToken",
   withXSRFToken: true,
-  withCredentials: APP_SETTINGS.MITOPEN_AXIOS_WITH_CREDENTIALS,
+  withCredentials: APP_SETTINGS.MITOL_AXIOS_WITH_CREDENTIALS,
 })
 
 export default instance

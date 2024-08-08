@@ -26,7 +26,7 @@ import type {
 import type { BaseAPI } from "../generated/v1/base"
 import type { BaseAPI as BaseAPIv0 } from "../generated/v0/base"
 
-const { MITOPEN_API_BASE_URL: API_BASE_URL } = APP_SETTINGS
+const { MITOL_API_BASE_URL: API_BASE_URL } = APP_SETTINGS
 
 // OpenAPI Generator declares parameters using interfaces, which makes passing
 // them to functions a little annoying.

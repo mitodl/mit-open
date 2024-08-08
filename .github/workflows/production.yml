@@ -44,10 +44,10 @@ jobs:
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_PROD }}
           POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_PROD }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_PROD }}
-          SENTRY_ENV: ${{ secrets.MITOPEN_ENV_PROD }}
-          MITOPEN_AXIOS_WITH_CREDENTIALS: true
-          MITOPEN_API_BASE_URL: https://api.mitopen.odl.mit.edu
-          MITOPEN_SUPPORT_EMAIL: mitlearn-support@mit.edu
+          SENTRY_ENV: ${{ secrets.MITOL_ENV_PROD }}
+          MITOL_AXIOS_WITH_CREDENTIALS: true
+          MITOL_API_BASE_URL: https://api.mitopen.odl.mit.edu
+          MITOL_SUPPORT_EMAIL: mitlearn-support@mit.edu
 
       - uses: akhileshns/heroku-deploy@581dd286c962b6972d427fcf8980f60755c15520
         with:
