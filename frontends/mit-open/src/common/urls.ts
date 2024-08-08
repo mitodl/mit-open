@@ -89,7 +89,7 @@ export const TERMS = "/terms/"
 
 export const UNITS = "/units/"
 
-export const CONTACT = "mailto:odl-discussions-support@mit.edu"
+export const CONTACT = "mailto:mitlearn-support@mit.edu"
 
 export const RESOURCE_DRAWER_QUERY_PARAM = "resource"
 
