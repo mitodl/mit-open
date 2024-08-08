@@ -54,9 +54,29 @@ const setup = ({
 }
 
 describe("UserListListingComponent", () => {
-  it("Has heading 'User Lists' and correct page title", async () => {
+  it("Has heading 'My Lists'", async () => {
     setup()
     screen.getByRole("heading", { name: "My Lists" })
+  })
+
+  it("Shows the empty view when there are no lists", async () => {
+    setup({ listsCount: 0 })
+    const emptyText = await screen.findByText(
+      "Create lists to save your courses and materials.",
+      { exact: false },
+    )
+    expect(emptyText).toBeInTheDocument()
+
+    const createList = jest
+      .spyOn(manageListDialogs, "upsertUserList")
+      .mockImplementationOnce(jest.fn())
+
+    const newButton = await screen.findByRole("button", {
+      name: "Create new list",
+    })
+
+    await user.click(newButton)
+    expect(createList).toHaveBeenCalled()
   })
 
   it("Renders a card for each user list", async () => {

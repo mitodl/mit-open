@@ -58,7 +58,7 @@ describe("LearningPathListingPage", () => {
     { user: { is_learning_path_editor: true }, canEdit: true },
     { user: { is_learning_path_editor: false }, canEdit: false },
   ])(
-    "Only shows editting buttons for users with permission",
+    "Only shows editing buttons for users with permission",
     async ({ canEdit, user }) => {
       const { paths } = setup({ user })
       const newListButton = screen.queryByRole("button", {
