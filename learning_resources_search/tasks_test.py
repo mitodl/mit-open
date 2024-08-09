@@ -729,7 +729,7 @@ def test_send_subscription_emails(mocked_api, mocker, mocked_celery):
     user = UserFactory.create()
     queries = []
     query_ids = []
-    user_documents = dict.fromkeys(topics, [])
+    user_documents = {key: [] for key in topics}
     for topic in topics:
         query = PercolateQueryFactory.create()
         query.original_query["topic"] = [topic]
@@ -781,7 +781,7 @@ def test_send_multiple_subscription_emails(mocked_api, mocker, mocked_celery):
 
     queries = []
     query_ids = []
-    user_documents = dict.fromkeys(topics, [])
+    user_documents = {key: [] for key in topics}
     for topic in topics:
         user = UserFactory.create()
         query = PercolateQueryFactory.create()
@@ -860,7 +860,7 @@ def test_email_grouping_function(mocked_api, mocker):
     queries = []
     query_ids = []
     user_ids = []
-    user_documents = dict.fromkeys(topics, [])
+    user_documents = {key: [] for key in topics}
     for topic in topics:
         user = UserFactory.create()
         query = PercolateQueryFactory.create()

@@ -187,14 +187,12 @@ def _is_course_or_run_deleted(title):
 
     """  # noqa: D401
     title = title.strip().lower()
-    if (
+    return bool(
         "[delete]" in title
         or "(delete)" in title
         or "delete " in title
         or title == "delete"
-    ):
-        return True
-    return False
+    )
 
 
 def _filter_course(course):
