@@ -10,6 +10,7 @@ from urllib.parse import urljoin
 import markdown2
 from bs4 import BeautifulSoup
 from django.conf import settings
+from django.core.cache import cache
 from nh3 import nh3
 
 from main.constants import ALLOWED_HTML_ATTRIBUTES, ALLOWED_HTML_TAGS
@@ -322,3 +323,8 @@ def clean_data(data: str) -> str:
             data, tags=ALLOWED_HTML_TAGS, attributes=ALLOWED_HTML_ATTRIBUTES
         )
     return ""
+
+
+def clear_search_cache():
+    search_keys = cache.keys("views.decorators.cache.cache_page.search.*")
+    cache.delete_many(search_keys)
