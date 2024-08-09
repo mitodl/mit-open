@@ -265,12 +265,12 @@
               {% block logo %}
               <h1 style="text-align: center">
                 <img
-                  src="{{STATIC_URL}}/static/images/mit-logo-transparent5.jpg"
+                  src="{{APP_BASE_URL}}{{STATIC_URL}}/images/mit-logo-learn.jpg"
                   width="113"
-                  height="60"
+                  height="32"
                   alt="MIT-Open"
                   style="
-                    height: 60px;
+                    height: 32px;
                     width: 113px;
                     background: #ffffff;
                     font-family: sans-serif;
@@ -284,6 +284,11 @@
                 />
               </h1>
               {% endblock %}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p style="border-top: 1px solid #f3f4f8"></p>
             </td>
           </tr>
           <!-- Email Header : END -->
@@ -329,20 +334,13 @@
               <a
                 href="{{APP_BASE_URL}}/dashboard/settings"
                 style="text-decoration: underline"
-                >edit your settings</a
-              >
-              or
-              <a
-                href="{{APP_BASE_URL}}/dashboard/settings"
-                style="text-decoration: underline"
                 >unsubscribe</a
               >. <br /><br />
 
               {% endblock %}
               {% block footer-address %}
-              <b>MIT Open Learning</b>&nbsp;&bull;&nbsp;600 Technology Square,
-              NE49-2000&nbsp;&bull;&nbsp;Cambridge, MA
-              02139&nbsp;&bull;&nbsp;USA
+              <b>MIT Learn</b>&nbsp;&bull;&nbsp;77 Massachusetts
+              Avenue&nbsp;&bull;&nbsp;Cambridge, MA 02139&nbsp;&bull;&nbsp;USA
               {% endblock %}
             </td>
           </tr>
