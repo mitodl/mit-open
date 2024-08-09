@@ -29,6 +29,7 @@ const meta: Meta<typeof Card> = {
           edge="circular"
           color="secondary"
           size="small"
+          aria-label="First action"
           onClick={() => {}}
         >
           <RiMenuAddLine />
@@ -38,6 +39,7 @@ const meta: Meta<typeof Card> = {
           edge="circular"
           color="secondary"
           size="small"
+          aria-label="Second action"
           onClick={() => {}}
         >
           <RiBookmarkLine />

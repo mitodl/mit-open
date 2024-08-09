@@ -171,6 +171,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               variant="text"
               reloadDocument={true}
               href={loginUrl}
+              aria-label="Log in"
             >
               <UserIcon data-testid="UserIcon" />
             </ActionButtonLink>

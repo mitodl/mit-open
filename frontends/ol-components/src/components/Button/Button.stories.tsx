@@ -238,13 +238,13 @@ export const LinkStory: Story = {
   decorators: [withRouter],
   render: () => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <ButtonLink href="" variant="primary">
+      <ButtonLink href="#fake" variant="primary">
         Link
       </ButtonLink>
-      <ButtonLink href="" variant="secondary">
+      <ButtonLink href="#fake" variant="secondary">
         Link
       </ButtonLink>
-      <ButtonLink href="" variant="text">
+      <ButtonLink href="#fake" variant="text">
         Link
       </ButtonLink>
     </Stack>

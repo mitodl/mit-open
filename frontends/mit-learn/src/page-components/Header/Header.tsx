@@ -122,6 +122,7 @@ const SearchButton: FunctionComponent = () => {
       variant="text"
       reloadDocument={true}
       href={SEARCH}
+      aria-label="Search"
     >
       <StyledSearchIcon />
     </ActionButtonLink>

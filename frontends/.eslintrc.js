@@ -24,6 +24,10 @@ module.exports = {
       components: {
         "ListCard.Image": "img",
         "Card.Image": "img",
+        Button: "button",
+        ButtonLink: "a",
+        ActionButton: "button",
+        ActionButtonLink: "a",
       },
     },
   },
@@ -37,6 +41,10 @@ module.exports = {
         },
       ],
     }),
+    // This rule is disabled in the default a11y config, but unclear why.
+    // It does catch useful errors, e.g., buttons with no text or label.
+    // If it proves to be flaky, we can find other ways to check for this.
+    "jsx-a11y/control-has-associated-label": ["error"],
     "@typescript-eslint/triple-slash-reference": [
       "error",
       {
