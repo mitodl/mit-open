@@ -32,7 +32,7 @@ repos:
           - --no-config
           - --no-semi
       - id: prettier
-        entry: npx prettier --fix
+        entry: npx prettier --write --plugin=prettier-plugin-django-alpine "**/*.html"
         language: node
         alias: prettier-django
         name: prettier-django
