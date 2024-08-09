@@ -165,7 +165,7 @@ def clean_title(title: str) -> str:
     Returns:
         str: cleaned title
     """
-    return html.unescape(title)
+    return html.unescape(title.strip())
 
 
 def parse_description(resource_data: dict) -> str:
@@ -297,10 +297,10 @@ def transform_program(resource_data: dict) -> dict or None:
             "url": parse_resource_url(resource_data),
             "image": parse_image(resource_data),
             "description": parse_description(resource_data),
-            "course_ids": [
-                course_id
-                for course_id in resource_data["courses"].split("|")
-                if course_id
+            "course_titles": [
+                course_title
+                for course_title in resource_data["courses"].split("|")
+                if course_title
             ],
             "learning_format": transform_format(resource_data["learning_format"]),
             "published": True,
@@ -318,13 +318,15 @@ def transform_program_courses(programs: list[dict], courses_data: list[dict]):
         programs(list[dict]): list of program data
         courses_data(list[dict]): list of course data
     """
-    course_dict = {course["readable_id"]: course for course in courses_data}
+    course_dict = {course["title"]: course for course in courses_data}
     for program in programs:
-        course_ids = program.pop("course_ids", [])
+        course_titles = [
+            clean_title(title) for title in program.pop("course_titles", [])
+        ]
         program["courses"] = [
-            copy.deepcopy(course_dict[course_id])
-            for course_id in course_ids
-            if course_id in course_dict
+            copy.deepcopy(course_dict[course_title])
+            for course_title in course_titles
+            if course_title in course_dict
         ]
 
 
