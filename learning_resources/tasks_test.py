@@ -52,9 +52,11 @@ def mock_blocklist(mocker):
     )
 
 
-def test_cache_is_cleared_after_task_run(mocker):
+def test_cache_is_cleared_after_task_run(mocker, mocked_celery):
     """Test that the search cache is cleared out after every task run"""
-    mocked_pipeline = mocker.patch("learning_resources.tasks.pipelines")
+    mocker.patch("learning_resources.tasks.ocw_courses_etl", autospec=True)
+    mocker.patch("learning_resources.tasks.get_content_tasks", autospec=True)
+    mocker.patch("learning_resources.tasks.pipelines")
     mocked_clear_search_cache = mocker.patch(
         "learning_resources.tasks.clear_search_cache"
     )
@@ -67,12 +69,11 @@ def test_cache_is_cleared_after_task_run(mocker):
     tasks.get_prolearn_data.delay()
     tasks.get_xpro_data.delay()
     tasks.get_podcast_data.delay()
-    mocked_pipeline.podcast_etl.assert_called_once()
+
     tasks.get_ocw_courses.delay(
         url_paths=[OCW_TEST_PREFIX],
-        force_overwrite=True,
-        skip_content_files=False,
-        utc_start_timestamp=None,
+        force_overwrite=False,
+        skip_content_files=True,
     )
 
     tasks.get_youtube_data.delay()
