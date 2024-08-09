@@ -52,6 +52,34 @@ def mock_blocklist(mocker):
     )
 
 
+def test_cache_is_cleared_after_task_run(mocker):
+    """Test that the search cache is cleared out after every task run"""
+    mocked_pipeline = mocker.patch("learning_resources.tasks.pipelines")
+    mocked_clear_search_cache = mocker.patch(
+        "learning_resources.tasks.clear_search_cache"
+    )
+    tasks.get_mit_edx_data.delay()
+    tasks.update_next_start_date_and_prices.delay()
+    tasks.get_micromasters_data.delay()
+    tasks.get_mit_edx_data.delay()
+    tasks.get_mitxonline_data.delay()
+    tasks.get_oll_data.delay()
+    tasks.get_prolearn_data.delay()
+    tasks.get_xpro_data.delay()
+    tasks.get_podcast_data.delay()
+    mocked_pipeline.podcast_etl.assert_called_once()
+    tasks.get_ocw_courses.delay(
+        url_paths=[OCW_TEST_PREFIX],
+        force_overwrite=True,
+        skip_content_files=False,
+        utc_start_timestamp=None,
+    )
+
+    tasks.get_youtube_data.delay()
+    tasks.get_youtube_transcripts.delay()
+    assert mocked_clear_search_cache.call_count == 12
+
+
 def test_get_micromasters_data(mocker):
     """Verify that the get_micromasters_data invokes the MicroMasters ETL pipeline"""
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")

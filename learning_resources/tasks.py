@@ -210,7 +210,7 @@ def get_podcast_data():
             The number of results that were fetched
     """
     results = pipelines.podcast_etl()
-
+    clear_search_cache()
     return len(list(results))
 
 
@@ -237,6 +237,7 @@ def get_ocw_courses(
         start_timestamp=utc_start_timestamp,
         skip_content_files=skip_content_files,
     )
+    clear_search_cache()
 
 
 @app.task(bind=True, acks_late=True)
