@@ -117,6 +117,9 @@ jobs:
       - name: Dependencies are consistent
         run: yarn syncpack list-mismatches
 
+      - name: Format check
+        run: yarn workspace frontends fmt-check
+
       - name: Style lint
         run: yarn run style-lint
 

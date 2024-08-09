@@ -1,4 +1,2 @@
-build
-**/build/
 openapi/specs/*
 .yarn/
