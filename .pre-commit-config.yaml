@@ -4,7 +4,6 @@
 ci:
   skip:
     - prettier
-    - prettier-django
     # Because these are local hooks it seems like they won't easily run in pre-commit CI
     - eslint
     - style-lint
