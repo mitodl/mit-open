@@ -24,7 +24,7 @@ from learning_resources.models import LearningResource
 from learning_resources.utils import load_course_blocklist
 from main.celery import app
 from main.constants import ISOFORMAT
-from main.utils import chunks
+from main.utils import chunks, clear_search_cache
 
 log = logging.getLogger(__name__)
 
@@ -35,6 +35,7 @@ def update_next_start_date_and_prices():
     resources = LearningResource.objects.filter(next_start_date__lt=timezone.now())
     for resource in resources:
         load_next_start_date_and_prices(resource)
+    clear_search_cache()
     return len(resources)
 
 
@@ -42,6 +43,7 @@ def update_next_start_date_and_prices():
 def get_micromasters_data():
     """Execute the MicroMasters ETL pipeline"""
     programs = pipelines.micromasters_etl()
+    clear_search_cache()
     return len(programs)
 
 
@@ -54,6 +56,7 @@ def get_mit_edx_data(api_datafile=None) -> int:
             Otherwise, the API is queried directly.
     """
     courses = pipelines.mit_edx_etl(api_datafile)
+    clear_search_cache()
     return len(courses)
 
 
@@ -62,6 +65,7 @@ def get_mitxonline_data() -> int:
     """Execute the MITX Online ETL pipeline"""
     courses = pipelines.mitxonline_courses_etl()
     programs = pipelines.mitxonline_programs_etl()
+    clear_search_cache()
     return len(courses + programs)
 
 
@@ -75,6 +79,7 @@ def get_oll_data(api_datafile=None):
 
     """
     courses = pipelines.oll_etl(api_datafile)
+    clear_search_cache()
     return len(courses)
 
 
@@ -83,6 +88,7 @@ def get_prolearn_data():
     """Execute the ProLearn ETL pipelines"""
     courses = pipelines.prolearn_courses_etl()
     programs = pipelines.prolearn_programs_etl()
+    clear_search_cache()
     return len(programs + courses)
 
 
@@ -91,6 +97,7 @@ def get_xpro_data():
     """Execute the xPro ETL pipeline"""
     courses = pipelines.xpro_courses_etl()
     programs = pipelines.xpro_programs_etl()
+    clear_search_cache()
     return len(courses + programs)
 
 
@@ -109,6 +116,7 @@ def get_content_files(
         log.warning("Required settings missing for %s files", etl_source)
         return
     sync_edx_course_files(etl_source, ids, keys, s3_prefix=s3_prefix)
+    clear_search_cache()
 
 
 def get_content_tasks(
@@ -310,7 +318,7 @@ def get_youtube_data(*, channel_ids=None):
             The number of results that were fetched
     """
     results = pipelines.youtube_etl(channel_ids=channel_ids)
-
+    clear_search_cache()
     return len(list(results))
 
 
@@ -338,6 +346,7 @@ def get_youtube_transcripts(
 
     log.info("Updating transcripts for %i videos", videos.count())
     youtube.get_youtube_transcripts(videos)
+    clear_search_cache()
 
 
 @app.task
