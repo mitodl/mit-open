@@ -170,11 +170,8 @@ const resourcesHaveUserList =
         )
       : data.results
 
-    return resources?.some(
-      (res) =>
-        res.user_list_parents?.some(
-          (userList) => userList.parent === userListId,
-        ),
+    return resources?.some((res) =>
+      res.user_list_parents?.some((userList) => userList.parent === userListId),
     )
   }
 

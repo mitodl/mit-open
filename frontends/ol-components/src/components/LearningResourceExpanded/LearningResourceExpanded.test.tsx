@@ -43,11 +43,10 @@ describe("Learning Resource Expanded", () => {
       setup(resource)
 
       const images = screen.getAllByRole("img")
-      const image = images.find(
-        (img) =>
-          img
-            .getAttribute("src")
-            ?.includes(encodeURIComponent(resource.image?.url ?? "")),
+      const image = images.find((img) =>
+        img
+          .getAttribute("src")
+          ?.includes(encodeURIComponent(resource.image?.url ?? "")),
       )
       expect(image).toBeInTheDocument()
       invariant(image)

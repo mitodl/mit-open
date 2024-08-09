@@ -14,9 +14,8 @@ const TopPicksCarouselConfig: TopPicksCarouselConfigProps = (
   const topics = profile?.preference_search_filters.topic
   const learningFormat = Object.values(
     LearningResourcesSearchRetrieveLearningFormatEnum,
-  ).filter(
-    (format) =>
-      profile?.preference_search_filters.learning_format?.includes(format),
+  ).filter((format) =>
+    profile?.preference_search_filters.learning_format?.includes(format),
   )
   return [
     {
