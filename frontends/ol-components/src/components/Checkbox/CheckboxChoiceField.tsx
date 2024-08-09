@@ -40,7 +40,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
   className,
 }) => {
   const isChecked = (choice: CheckboxProps) =>
-    choice.value ? values?.includes(choice.value) ?? false : false
+    choice.value ? (values?.includes(choice.value) ?? false) : false
   return (
     <FormControl
       component="fieldset"
