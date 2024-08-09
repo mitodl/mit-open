@@ -4,6 +4,7 @@ import logging
 from itertools import chain
 
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
 from rest_framework import mixins, viewsets
@@ -63,6 +64,7 @@ class LearningResourcesSearchView(ESView):
 
     permission_classes = ()
 
+    @method_decorator(cache_page(60 * 60 * 24, cache="redis", key_prefix="search"))
     @extend_schema(summary="Search")
     def get(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
@@ -75,11 +77,11 @@ class LearningResourcesSearchView(ESView):
             if request_data.data.get("dev_mode"):
                 return Response(response)
             else:
-                return Response(
-                    LearningResourcesSearchResponseSerializer(
-                        response, context={"request": request}
-                    ).data
-                )
+                response = LearningResourcesSearchResponseSerializer(
+                    response, context={"request": request}
+                ).data
+                response["results"] = list(response["results"])
+                return Response(response)
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():
