@@ -245,6 +245,7 @@ const SlickCarousel = () => {
             >
               <TestimonialCardImage>
                 <img
+                  alt=""
                   src={`/static/images/testimonial_images/testimonial-image-${MARKETING_IMAGE_IDX[idx % 6]}.png`}
                 />
               </TestimonialCardImage>

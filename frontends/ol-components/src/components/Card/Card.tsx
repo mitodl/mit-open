@@ -212,6 +212,8 @@ const Card: Card = ({ children, className, size, href }) => {
     <Wrapper className={allClassNames} size={size}>
       <_Container to={href!}>
         {image && (
+          // alt text will be checked on Card.Image
+          // eslint-disable-next-line styled-components-a11y/alt-text
           <Image
             className="MitCard-image"
             size={size}

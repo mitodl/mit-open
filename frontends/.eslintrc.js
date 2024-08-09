@@ -20,6 +20,12 @@ module.exports = {
         project: "*/tsconfig.json",
       },
     },
+    "jsx-a11y": {
+      components: {
+        "ListCard.Image": "img",
+        "Card.Image": "img",
+      },
+    },
   },
   rules: {
     ...restrictedImports({
