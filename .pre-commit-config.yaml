@@ -84,7 +84,7 @@ repos:
       - id: eslint
         name: eslint
         description: "Lint JS/TS files and apply automatic fixes"
-        entry: npx eslint --fix
+        entry: npx eslint --config frontends/.eslintrc.js --fix
         language: node
         types_or: [javascript, jsx, ts, tsx]
         args: []

@@ -103,7 +103,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["./ol-components/**/*.ts", "./ol-components/**/*.tsx"],
+      files: ["./**/ol-components/**/*.ts", "./**/ol-components/**/*.tsx"],
       rules: {
         ...restrictedImports(),
       },
