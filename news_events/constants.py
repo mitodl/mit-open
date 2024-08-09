@@ -38,3 +38,6 @@ NEWS_EVENTS_SORTBY_OPTIONS = {
         "sort": "-created_on",
     },
 }
+
+
+ALL_AUDIENCES = ["Faculty", "MIT Community", "Public", "Students"]
