@@ -3,6 +3,7 @@
 # See https://pre-commit.com/hooks.html for more hooks
 ci:
   skip:
+    - prettier
     - prettier-django
     # Because these are local hooks it seems like they won't easily run in pre-commit CI
     - eslint
