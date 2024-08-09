@@ -24,7 +24,7 @@ repos:
     hooks:
       - id: prettier
         name: prettier
-        entry: npx prettier --fix
+        entry: npx prettier --write
         language: node
         types_or:
           [javascript, jsx, ts, tsx, json, scss, sass, css, yaml, markdown]
