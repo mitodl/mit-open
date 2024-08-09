@@ -92,6 +92,22 @@ class LearningResourceTopicFactory(DjangoModelFactory):
         django_get_or_create = ("name",)
 
 
+class LearningResourceTopicMappingFactory(DjangoModelFactory):
+    """Factory for learning resource topic mappings"""
+
+    offeror = factory.SubFactory(
+        "learning_resources.factories.LearningResourceOfferorFactory"
+    )
+    topic = factory.SubFactory(
+        "learning_resources.factories.LearningResourceTopicFactory"
+    )
+    topic_name = Faker("word")
+
+    class Meta:
+        model = models.LearningResourceTopicMapping
+        django_get_or_create = ("offeror", "topic")
+
+
 class LearningResourceImageFactory(DjangoModelFactory):
     """Factory for learning resource images"""
 

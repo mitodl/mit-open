@@ -111,7 +111,7 @@ const ResourceCategoryTabList: React.FC<ResourceCategoryTabsProps> = ({
         } else {
           count =
             counts && t.resource_category
-              ? counts[t.resource_category] ?? 0
+              ? (counts[t.resource_category] ?? 0)
               : undefined
         }
         return (

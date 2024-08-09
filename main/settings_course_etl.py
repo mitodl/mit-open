@@ -68,11 +68,7 @@ OLL_LEARNING_COURSE_BUCKET_NAME = get_string("OLL_LEARNING_COURSE_BUCKET_NAME", 
 OLL_LEARNING_COURSE_BUCKET_PREFIX = get_string(
     "OLL_LEARNING_COURSE_BUCKET_PREFIX", "open-learning-library/courses"
 )
-
-# More MIT URLs
-SEE_BASE_URL = get_string("SEE_BASE_URL", None)
-MITPE_BASE_URL = get_string("MITPE_BASE_URL", None)
-CSAIL_BASE_URL = get_string("CSAIL_BASE_URL", None)
+MITPE_BASE_API_URL = get_string("MITPE_BASE_API_URL", None)
 
 # course catalog video etl settings
 OPEN_VIDEO_DATA_BRANCH = get_string("OPEN_VIDEO_DATA_BRANCH", "master")
