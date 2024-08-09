@@ -127,7 +127,7 @@ EXPECTED_PROGRAMS = [
                 "instructors": [{"full_name": ""}, {"full_name": "Brian Anthony"}],
             }
         ],
-        "courses": [EXPECTED_COURSES[0]],
+        "courses": [EXPECTED_COURSES[0], EXPECTED_COURSES[1]],
     }
 ]
 
