@@ -4,7 +4,6 @@ import random
 from datetime import timedelta
 
 import pytest
-from _pytest.fixtures import fixture
 from django.utils import timezone
 from rest_framework.reverse import reverse
 
@@ -20,7 +19,6 @@ from learning_resources.exceptions import WebhookException
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
-    LearningPathFactory,
     LearningResourceDepartmentFactory,
     LearningResourceFactory,
     LearningResourceOfferorFactory,
@@ -37,7 +35,6 @@ from learning_resources.factories import (
 from learning_resources.models import (
     LearningResourceOfferor,
     LearningResourceRelationship,
-    LearningResourceRun,
 )
 from learning_resources.serializers import (
     ContentFileSerializer,
@@ -53,33 +50,6 @@ from learning_resources.serializers import (
 )
 
 pytestmark = [pytest.mark.django_db]
-
-
-@fixture()
-def offeror_featured_lists():
-    """Generate featured offeror lists for testing"""
-    for offered_by in OfferedBy.names():
-        offeror = LearningResourceOfferorFactory.create(code=offered_by)
-        featured_path = LearningPathFactory.create(resources=[]).learning_resource
-        for i in range(3):
-            resource = LearningResourceFactory.create(
-                offered_by=offeror,
-                is_course=True,
-            )
-            if offered_by == OfferedBy.ocw.name:
-                LearningResourceRun.objects.filter(
-                    learning_resource=resource.id
-                ).update(prices=[])
-            featured_path.resources.add(
-                resource,
-                through_defaults={
-                    "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
-                    "position": i,
-                },
-            )
-        channel = ChannelUnitDetailFactory.create(unit=offeror).channel
-        channel.featured_list = featured_path
-        channel.save()
 
 
 @pytest.mark.parametrize(
