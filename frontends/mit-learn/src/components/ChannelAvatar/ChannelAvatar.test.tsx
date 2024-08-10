@@ -12,14 +12,14 @@ describe("Avatar", () => {
       wrapper: ThemeProvider,
     })
     const img = screen.getByRole("img")
-    expect(img.getAttribute("alt")).toBe(null) // should be empty unless meaningful
+    expect(img.getAttribute("alt")).toBe("") // should be empty unless meaningful
     expect(img.getAttribute("src")).toEqual(channel.avatar_small)
   })
   it("Displays a medium avatar image by default", async () => {
     const channel = factory.channel()
     render(<ChannelAvatar channel={channel} />, { wrapper: ThemeProvider })
     const img = screen.getByRole("img")
-    expect(img.getAttribute("alt")).toBe(null) // should be empty unless meaningful
+    expect(img.getAttribute("alt")).toBe("") // should be empty unless meaningful
     expect(img.getAttribute("src")).toEqual(channel.avatar_medium)
   })
   it("Displays initials if no avatar image exists", async () => {

@@ -147,7 +147,7 @@ describe("SimpleMenu", () => {
       wrapper: ThemeProvider,
     })
     await user.click(screen.getByRole("button", { name: "Open Menu" }))
-    const item2 = screen.getByRole("menuitem", { name: "Item 2" })
+    const item2 = screen.getByRole("link", { name: "Item 2" })
     expect(item2.dataset.reactComponent).toBe("custom-link")
     expect((item2 as HTMLAnchorElement).href).toBe(`${window.origin}/woof`)
   })
