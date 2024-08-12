@@ -3,8 +3,8 @@
   "scripts": {
     "start": "playwright test --ui",
     "test": "playwright test",
-    "test:rc": "BASE_URL=https://mit-open-rc.odl.mit.edu/ playwright test --grep @sanity",
-    "test:production": "BASE_URL=https://mitopen.odl.mit.edu/ playwright test --grep @sanity"
+    "test:rc": "BASE_URL=https://rc.learn.mit.edu/ playwright test --grep @sanity",
+    "test:production": "BASE_URL=https://learn.mit.edu/ playwright test --grep @sanity"
   },
   "devDependencies": {
     "@playwright/test": "^1.42.1",

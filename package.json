@@ -15,13 +15,13 @@
     "build": "yarn workspace mit-open run build",
     "watch": "yarn workspace mit-open run watch",
     "style-lint": "yarn workspace frontends run style-lint",
-    "test": "MITOPEN_API_BASE_URL=https://api.mitopen-test.odl.mit.edu yarn workspace frontends global:test",
-    "test-watch": "MITOPEN_API_BASE_URL=https://api.mitopen-test.odl.mit.edu yarn workspace frontends test-watch",
+    "test": "MITOPEN_API_BASE_URL=https://api.test.learn.mit.edu yarn workspace frontends global:test",
+    "test-watch": "MITOPEN_API_BASE_URL=https://api.test.learn.mit.edu yarn workspace frontends test-watch",
     "storybook": "yarn workspace frontends storybook",
     "lint-check": "yarn workspace frontends run lint-check",
     "typecheck": "yarn workspace frontends run typecheck"
   },
-  "packageManager": "yarn@4.3.1",
+  "packageManager": "yarn@4.4.0",
   "devDependencies": {
     "syncpack": "^12.4.0"
   }
