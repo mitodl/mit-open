@@ -602,6 +602,13 @@ def start_recreate_index(self, indexes, remove_existing_reindexing_tags):
     )
 
 
+@app.task(
+    acks_late=True, autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m"
+)
+def finish_update_index():
+    clear_search_cache()
+
+
 @app.task(bind=True)
 def start_update_index(self, indexes, etl_source):
     """
@@ -646,7 +653,7 @@ def start_update_index(self, indexes, etl_source):
         log.exception(error)
         return [error]
 
-    raise self.replace(index_tasks)
+    raise self.replace(celery.chain(index_tasks, finish_update_index))
 
 
 def get_update_resource_files_tasks(blocklisted_ids, etl_source):
