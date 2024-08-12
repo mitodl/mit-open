@@ -16,7 +16,7 @@ const config: Config.InitialOptions = {
   globals: {
     APP_SETTINGS: {
       EMBEDLY_KEY: "embedly_key",
-      MITOPEN_API_BASE_URL: "https://api.mitopen-test.odl.mit.edu",
+      MITOPEN_API_BASE_URL: "https://api.test.learn.mit.edu",
       PUBLIC_URL: "",
       SITE_NAME: "MIT Open",
     },
