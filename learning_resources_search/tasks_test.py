@@ -3,7 +3,7 @@
 from collections import OrderedDict
 
 import pytest
-from celery.exceptions import Retry
+from celery.exceptions import Ignore, Retry
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
@@ -1013,3 +1013,62 @@ def test_update_featured_rank(mocker, offeror_featured_lists):
             {"featured_rank": resource.position + 0.4},
             resource.resource_type,
         )
+
+
+def test_cache_clears_after_update_featured_rank(mocker, offeror_featured_lists):
+    """The updated_featured_rank task should make the expected calls"""
+
+    mocker.patch(
+        "learning_resources_search.tasks.random",
+        return_value=0.4,
+    )
+
+    mocker.patch("learning_resources_search.tasks.api.clear_featured_rank")
+    mocked_clear_search_cache = mocker.patch(
+        "learning_resources_search.tasks.clear_search_cache"
+    )
+    mocker.patch("learning_resources_search.tasks.api.update_document_with_partial")
+
+    update_featured_rank()
+    assert mocked_clear_search_cache.call_count == 1
+
+
+def test_cache_is_cleared_after_reindex(mocker):
+    """Test that the search cache is cleared out after every reindex"""
+
+    mocked_clear_search_cache = mocker.patch(
+        "learning_resources_search.tasks.clear_search_cache"
+    )
+
+    backing_indices = {"course": "backing", "program": "backing"}
+    results = []
+    mocker.patch("learning_resources_search.indexing_api.switch_indices", autospec=True)
+    mocker.patch("learning_resources_search.indexing_api.delete_orphaned_indexes")
+    finish_recreate_index.delay(results, backing_indices)
+    assert mocked_clear_search_cache.call_count == 1
+
+
+def test_cache_is_cleared_after_update_index(mocker, settings):
+    """Test that the search cache is cleared out after an update of the index"""
+    settings.OPENSEARCH_INDEXING_CHUNK_SIZE = 2
+    settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE = 2
+    mocker.patch(
+        "learning_resources_search.tasks.index_learning_resources", autospec=True
+    )
+    mocker.patch(
+        "learning_resources_search.tasks.get_update_courses_tasks", autospec=True
+    )
+    mocked_clear_search_cache = mocker.patch(
+        "learning_resources_search.tasks.clear_search_cache"
+    )
+    mocker.patch(
+        "learning_resources_search.tasks.load_course_blocklist", return_value=[]
+    )
+    sorted(
+        CourseFactory.create_batch(4, etl_source=ETLSource.ocw.value),
+        key=lambda course: course.learning_resource_id,
+    )
+
+    with pytest.raises(Ignore):
+        start_update_index.run(["course"], None)
+    assert mocked_clear_search_cache.call_count == 1
