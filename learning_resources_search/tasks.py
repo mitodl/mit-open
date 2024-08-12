@@ -52,7 +52,13 @@ from learning_resources_search.serializers import (
     serialize_percolate_query_for_update,
 )
 from main.celery import app
-from main.utils import chunks, frontend_absolute_url, merge_strings, now_in_utc
+from main.utils import (
+    chunks,
+    clear_search_cache,
+    frontend_absolute_url,
+    merge_strings,
+    now_in_utc,
+)
 from profiles.utils import send_template_email
 
 User = get_user_model()
@@ -833,6 +839,7 @@ def finish_recreate_index(results, backing_indices):
         except RequestError as ex:
             raise RetryError(str(ex)) from ex
     log.info("recreate_index has finished successfully!")
+    clear_search_cache()
 
 
 def _generate_subscription_digest_subject(
