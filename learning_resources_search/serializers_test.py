@@ -875,6 +875,8 @@ def test_learning_resources_search_request_serializer():
         "course_feature": ["Lecture Videos"],
         "aggregations": ["resource_type", "platform", "level", "resource_category"],
         "yearly_decay_percent": "0.25",
+        "search_mode": "phrase",
+        "slop": 2,
     }
 
     cleaned = {
@@ -897,6 +899,8 @@ def test_learning_resources_search_request_serializer():
         "aggregations": ["resource_type", "platform", "level", "resource_category"],
         "yearly_decay_percent": 0.25,
         "dev_mode": False,
+        "search_mode": "phrase",
+        "slop": 2,
     }
 
     serialized = LearningResourcesSearchRequestSerializer(data=data)

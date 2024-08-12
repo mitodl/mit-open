@@ -307,10 +307,77 @@ describe("SearchPage", () => {
     })
     renderWithProviders(<SearchPage />)
     await waitFor(() => {
-      screen.getByText("Admin Options")
-      screen.getByTestId("staleness-slider")
+      const adminFacetContainer = screen.getByText("Admin Options")
+      user.click(adminFacetContainer)
+    })
+
+    await waitFor(() => {
+      screen.getByTestId("yearly_decay_percent-slider")
     })
   })
+})
+
+test("admin users can set the search mode and slop", async () => {
+  setMockApiResponses({
+    search: {
+      count: 700,
+      metadata: {
+        aggregations: {
+          resource_category: [
+            { key: "course", doc_count: 100 },
+            { key: "learning_material", doc_count: 200 },
+          ],
+          resource_type: [
+            { key: "course", doc_count: 100 },
+            { key: "podcast", doc_count: 100 },
+            { key: "video", doc_count: 100 },
+          ],
+        },
+        suggestions: [],
+      },
+    },
+  })
+  setMockResponse.get(urls.userMe.get(), {
+    is_learning_path_editor: true,
+  })
+  const { location } = renderWithProviders(<SearchPage />)
+  await waitFor(() => {
+    const adminFacetContainer = screen.getByText("Admin Options")
+    user.click(adminFacetContainer)
+  })
+
+  let slopSlider = screen.queryByText("Slop")
+  expect(slopSlider).toBeNull()
+
+  const searchModeDropdowns = await screen.findAllByText("best_fields")
+  const searchModeDropdown = searchModeDropdowns[0]
+
+  await user.click(searchModeDropdown)
+
+  const phraseSelect = await screen.findByRole("option", {
+    name: "phrase",
+  })
+
+  await user.click(phraseSelect)
+
+  expect(location.current.search).toBe("?search_mode=phrase")
+
+  await waitFor(() => {
+    screen.getByText("Slop")
+  })
+
+  await user.click(searchModeDropdown)
+
+  const mostFieldsSelect = await screen.findByRole("option", {
+    name: "most_fields",
+  })
+
+  await user.click(mostFieldsSelect)
+
+  expect(location.current.search).toBe("?search_mode=most_fields")
+
+  slopSlider = screen.queryByText("Slop")
+  expect(slopSlider).toBeNull()
 })
 
 describe("Search Page Tabs", () => {
