@@ -622,7 +622,7 @@ def test_start_update_index(mocker, mocked_celery, indexes, etl_source, settings
             assert index_content_mock.si.call_count == 4
 
     assert mocked_celery.replace.call_count == 1
-    assert mocked_celery.replace.call_args[0][1] == mocked_celery.group.return_value
+    assert mocked_celery.replace.call_args[0][1] == mocked_celery.chain.return_value
 
 
 def test_upsert_content_file_task(mocked_api):
