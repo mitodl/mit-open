@@ -42,9 +42,9 @@ const EmptyList = styled.div`
 
 const IconContainer = styled.div`
   display: inline-block;
-  margin: 0 auto;
-  padding: 12px;
-  height: 56px;
+  margin: 0 auto -16px;
+  padding: 8px;
+  height: 48px;
   border-radius: 4px;
   color: ${theme.custom.colors.silverGrayDark};
   background: ${theme.custom.colors.lightGray1};
@@ -82,11 +82,7 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
                     <RiListCheck3 />
                   </IconContainer>
                   <Typography variant="body2">
-                    Create lists to save your courses and materials.{" "}
-                    <Typography variant="subtitle2" component="strong">
-                      Create new list
-                    </Typography>{" "}
-                    to start!
+                    Create lists to save your courses and materials.
                   </Typography>
                   <Button variant="primary" size="large" onClick={handleCreate}>
                     Create new list
