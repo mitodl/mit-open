@@ -5,8 +5,6 @@ const HOME_URL = `${PUBLIC_URL}/`
 
 const MIT_LOGO_URL = `${PUBLIC_URL}/static/images/mit-logo-learn.svg`
 
-
-
 interface Props {
   href?: string
   src?: string
