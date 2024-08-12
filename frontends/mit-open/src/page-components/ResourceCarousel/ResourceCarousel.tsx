@@ -243,7 +243,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
           {({ resources, childrenLoading, tabConfig }) => (
             <StyledCarousel arrowsContainer={ref}>
               {isLoading || childrenLoading
-                ? Array.from({ length: 6 }).map((_, index) => (
+                ? Array.from({ length: 6 }).map((_, index) => () => (
                     <ResourceCard
                       isLoading
                       key={index}
@@ -251,11 +251,12 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
                       {...tabConfig.cardProps}
                     />
                   ))
-                : resources.map((resource) => (
+                : resources.map((resource) => ({ inert }) => (
                     <ResourceCard
                       key={resource.id}
                       resource={resource}
                       {...tabConfig.cardProps}
+                      inert={inert}
                     />
                   ))}
             </StyledCarousel>

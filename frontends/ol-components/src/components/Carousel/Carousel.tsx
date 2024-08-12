@@ -5,8 +5,12 @@ import { ActionButton } from "../Button/Button"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import styled from "@emotion/styled"
 
+export type CarouselItemProps = {
+  inert: boolean
+}
+
 type CarouselProps = {
-  children: React.ReactNode
+  children: (({ inert }: CarouselItemProps) => React.ReactNode)[]
   className?: string
   initialSlide?: number
   /**
@@ -115,6 +119,7 @@ const Carousel: React.FC<CarouselProps> = ({
   const [currentIndex, setCurrentIndex] = React.useState<number>(0)
   const canPrev = currentIndex > 0
   const canNext = currentIndex + slidesPerPage < React.Children.count(children)
+
   const onReInit = useCallback(() => {
     if (!slick) return
     const container = slick.innerSlider?.list
@@ -127,10 +132,12 @@ const Carousel: React.FC<CarouselProps> = ({
       setCurrentIndex(slideInfo.currentIndex)
     }
   }, [slick])
+
   const nextPage = React.useCallback(() => {
     if (!slick) return
     slick.slickNext()
   }, [slick])
+
   const prevPage = React.useCallback(() => {
     if (!slick) return
     slick.slickPrev()
@@ -175,7 +182,11 @@ const Carousel: React.FC<CarouselProps> = ({
         slidesToScroll={slidesPerPage}
         arrows={false}
       >
-        {children}
+        {[...children, ...children].map((childFn, index) => {
+          const isDisplayed =
+            index >= currentIndex && index < currentIndex + slidesPerPage
+          return childFn({ inert: !isDisplayed })
+        })}
       </SlickStyled>
       {arrowsContainer === undefined ? arrows : null}
       {arrowsContainer ? createPortal(arrows, arrowsContainer) : null}

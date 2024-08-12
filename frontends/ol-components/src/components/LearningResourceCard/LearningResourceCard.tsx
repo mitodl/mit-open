@@ -18,7 +18,7 @@ import {
   showStartAnytime,
 } from "ol-utilities"
 import { Card } from "../Card/Card"
-import type { Size } from "../Card/Card"
+import type { CardProps, Size } from "../Card/Card"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
 import { imgConfigs } from "../../constants/imgConfigs"
@@ -173,13 +173,10 @@ const StartDate: React.FC<{ resource: LearningResource; size?: Size }> = ({
   )
 }
 
-interface LearningResourceCardProps {
+type LearningResourceCardProps = Omit<CardProps, "children"> & {
   isLoading?: boolean
   resource?: LearningResource | null
-  className?: string
-  size?: Size
   isMedia?: boolean
-  href?: string
   onAddToLearningPathClick?: ResourceIdCallback | null
   onAddToUserListClick?: ResourceIdCallback | null
   inUserList?: boolean
@@ -222,6 +219,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   onAddToUserListClick,
   inLearningPath,
   inUserList,
+  inert,
 }) => {
   if (isLoading) {
     const { width, height } = imgConfigs["column"]
@@ -241,7 +239,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
     return null
   }
   return (
-    <StyledCard href={href} className={className} size={size}>
+    <StyledCard href={href} className={className} size={size} inert={inert}>
       <Card.Image
         src={
           resource.image?.url

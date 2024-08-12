@@ -18,7 +18,7 @@ export type Size = "small" | "medium"
  * Link container in the DOM structure. They cannot be a descendent of it as
  * buttons inside anchors are not valid HTML.
  */
-export const Wrapper = styled.div<{ size?: Size }>`
+export const Wrapper = styled.div<{ size?: Size; inert?: string | null }>`
   position: relative;
   ${({ size }) => {
     let width
@@ -135,11 +135,12 @@ const Actions = styled.div`
   right: 16px;
 `
 
-type CardProps = {
+export type CardProps = {
   children: ReactNode[] | ReactNode
   className?: string
   size?: Size
   href?: string
+  inert?: boolean
 }
 
 type ImageProps = ImgHTMLAttributes<HTMLImageElement> & {
@@ -161,9 +162,10 @@ type Card = FC<CardProps> & {
   Title: FC<TitleProps>
   Footer: FC<SlotProps>
   Actions: FC<SlotProps>
+  focusable?: boolean
 }
 
-const Card: Card = ({ children, className, size, href }) => {
+const Card: Card = ({ children, className, size, href, inert }) => {
   let content,
     image: ImageProps = {},
     info: SlotProps = {},
@@ -209,7 +211,7 @@ const Card: Card = ({ children, className, size, href }) => {
   }
 
   return (
-    <Wrapper className={allClassNames} size={size}>
+    <Wrapper className={allClassNames} size={size} inert={inert ? "" : null}>
       <_Container to={href!}>
         {image && (
           <Image

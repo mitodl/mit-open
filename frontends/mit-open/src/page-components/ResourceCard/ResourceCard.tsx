@@ -69,7 +69,7 @@ const useResourceCard = (resource?: LearningResource | null) => {
 
 type ResourceCardProps = Omit<
   LearningResourceCardProps,
-  "href" | "onAddToLearningPathClick" | "onAddToUserListClick"
+  "href" | "onAddToLearningPathClick" | "onAddToUserListClick" | "children"
 >
 
 /**
@@ -89,6 +89,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
     inUserList,
     inLearningPath,
   } = useResourceCard(resource)
+
   return (
     <>
       <LearningResourceCard
