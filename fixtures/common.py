@@ -11,6 +11,15 @@ import responses
 from pytest_mock import PytestMockWarning
 from urllib3.exceptions import InsecureRequestWarning
 
+from channels.factories import ChannelUnitDetailFactory
+from learning_resources.constants import LearningResourceRelationTypes, OfferedBy
+from learning_resources.factories import (
+    LearningPathFactory,
+    LearningResourceFactory,
+    LearningResourceOfferorFactory,
+)
+from learning_resources.models import LearningResourceRun
+
 
 @pytest.fixture(autouse=True)
 def silence_factory_logging():  # noqa: PT004
@@ -83,3 +92,30 @@ def mocked_responses():
     """Mock responses fixture"""
     with responses.RequestsMock() as rsps:
         yield rsps
+
+
+@pytest.fixture()
+def offeror_featured_lists():  # noqa: PT004
+    """Generate featured offeror lists for testing"""
+    for offered_by in OfferedBy.names():
+        offeror = LearningResourceOfferorFactory.create(code=offered_by)
+        featured_path = LearningPathFactory.create(resources=[]).learning_resource
+        for i in range(3):
+            resource = LearningResourceFactory.create(
+                offered_by=offeror,
+                is_course=True,
+            )
+            if offered_by == OfferedBy.ocw.name:
+                LearningResourceRun.objects.filter(
+                    learning_resource=resource.id
+                ).update(prices=[])
+            featured_path.resources.add(
+                resource,
+                through_defaults={
+                    "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
+                    "position": i,
+                },
+            )
+        channel = ChannelUnitDetailFactory.create(unit=offeror).channel
+        channel.featured_list = featured_path
+        channel.save()

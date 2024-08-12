@@ -141,8 +141,8 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
             QuerySet of LearningResource objects matching the query parameters
         """
         # Valid fields to filter by, just resource_type for now
-
-        lr_query = LearningResource.objects.for_serialization(user=self.request.user)
+        user = self.request.user if hasattr(self, "request") else None
+        lr_query = LearningResource.objects.for_serialization(user=user)
         if resource_type:
             lr_query = lr_query.filter(resource_type=resource_type)
         return lr_query.distinct()
