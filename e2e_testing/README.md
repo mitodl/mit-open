@@ -33,7 +33,7 @@ yarn test
 To target specific environments, set `BASE_URL` on the environment, e.g:
 
 ```bash
-BASE_URL=https://mitopen.odl.mit.edu/ yarn test
+BASE_URL=https://learn.mit.edu/ yarn test
 ```
 
 NPM scripts are provided for our RC and Production environments:
