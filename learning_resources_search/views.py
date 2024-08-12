@@ -1,8 +1,10 @@
 """View for search"""
 
 import logging
+from functools import wraps
 from itertools import chain
 
+from django.conf import settings
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
@@ -35,6 +37,21 @@ from learning_resources_search.serializers import (
 log = logging.getLogger(__name__)
 
 
+def cache_page_for_anonymous_users(*cache_args, **cache_kwargs):
+    def inner_decorator(func):
+        @wraps(func)
+        def inner_function(request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                return cache_page(*cache_args, **cache_kwargs)(func)(
+                    request, *args, **kwargs
+                )
+            return func(request, *args, **kwargs)
+
+        return inner_function
+
+    return inner_decorator
+
+
 class ESView(APIView):
     """
     Parent class for views that execute ES searches
@@ -64,7 +81,11 @@ class LearningResourcesSearchView(ESView):
 
     permission_classes = ()
 
-    @method_decorator(cache_page(60 * 60 * 24, cache="redis", key_prefix="search"))
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
     @extend_schema(summary="Search")
     def get(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
