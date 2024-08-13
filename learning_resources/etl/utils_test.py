@@ -36,16 +36,16 @@ def get_olx_test_docs():
     """Get a list of edx docs from a sample archive file"""
     script_dir = pathlib.Path(__file__).parent.absolute().parent.parent
     with TemporaryDirectory() as temp:
-        check_call(
-            [  # noqa: S603,S607
+        check_call(  # noqa: S603
+            [  # noqa: S607
                 "tar",
                 "xf",
                 pathlib.Path(script_dir, "test_json", "exported_courses_12345.tar.gz"),
             ],
             cwd=temp,
         )
-        check_call(
-            ["tar", "xf", "content-devops-0001.tar.gz"],  # noqa: S603,S607
+        check_call(  # noqa: S603
+            ["tar", "xf", "content-devops-0001.tar.gz"],  # noqa: S607
             cwd=temp,
         )
 

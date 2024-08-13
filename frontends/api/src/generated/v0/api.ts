@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * MIT Open API
+ * MIT Learn API
  * MIT public API
  *
  * The version of the OpenAPI document: 0.0.1 (v0)

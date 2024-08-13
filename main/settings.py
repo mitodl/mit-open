@@ -69,7 +69,7 @@ APP_BASE_URL = get_string("MITOL_APP_BASE_URL", None)
 if not APP_BASE_URL:
     msg = "MITOL_APP_BASE_URL is not set"
     raise ImproperlyConfigured(msg)
-MITOL_TITLE = get_string("MITOL_TITLE", "MIT Open")
+MITOL_TITLE = get_string("MITOL_TITLE", "MIT Learn")
 
 
 # Application definition
@@ -197,7 +197,7 @@ TEMPLATES = [
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
             BASE_DIR + "/templates/",
-            BASE_DIR + "/frontends/mit-open/build",
+            BASE_DIR + "/frontends/mit-learn/build",
         ],
         "APP_DIRS": True,
         "OPTIONS": {

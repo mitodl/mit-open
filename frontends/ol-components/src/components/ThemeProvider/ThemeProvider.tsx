@@ -84,7 +84,7 @@ const themeOptions: ThemeOptions = {
 }
 
 /**
- * MaterialUI Theme for MIT Open
+ * MaterialUI Theme for MIT Learn
  */
 export const theme = createTheme(themeOptions)
 

@@ -148,7 +148,7 @@ jobs:
         uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4
         with:
           name: frontend-build
-          path: frontends/mit-open/build
+          path: frontends/mit-learn/build
 
       - name: Upload coverage to CodeCov
         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4.5.0
@@ -171,7 +171,7 @@ jobs:
         run: yarn install
 
       - name: Build Storybook
-        run: yarn workspace mit-open build-storybook
+        run: yarn workspace mit-learn build-storybook
 
   openapi-generated-client-check-v0:
     # This job checks that the output of openapi-generator-typescript-axios that
@@ -272,7 +272,7 @@ jobs:
         run: NODE_ENV=production yarn build
 
       - name: Build exported components
-        run: NODE_ENV=production yarn workspace mit-open build-exports
+        run: NODE_ENV=production yarn workspace mit-learn build-exports
 
       - name: Build services
         run: docker compose -f docker-compose-e2e-tests.yml build

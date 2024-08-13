@@ -97,9 +97,7 @@ class AnonymousAccessReadonlyPermission(permissions.BasePermission):
 
     def has_permission(self, request, view):  # noqa: ARG002
         """Is the user authenticated or allowed anonymous access?"""
-        if request.user.is_anonymous and not is_readonly(request):
-            return False
-        return True
+        return not (request.user.is_anonymous and not is_readonly(request))
 
 
 class ReadOnly(permissions.BasePermission):

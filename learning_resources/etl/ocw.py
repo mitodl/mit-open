@@ -204,7 +204,7 @@ def transform_contentfile(
 
     title = contentfile_data.get("title")
 
-    if title == "3play caption file" or title == "3play pdf file" or not file_s3_path:
+    if title in ("3play caption file", "3play pdf file") or not file_s3_path:
         return None
 
     contentfile_data = {
