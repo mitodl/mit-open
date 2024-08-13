@@ -15,8 +15,9 @@ type MetaTagsProps = {
   /**
    * Keeps <MetaTags> rendered when resource drawer is open.
    *
-   * tldr: Normally, we unmount the <MetaTags> component when the resource
-   * drawer is open to avoid a race condition with react-helmet-async.
+   * tldr: Set `isResourceDrawer={true}` if this MetaTags component is used in
+   * the resource drawer. Otherwise, the MetaTags component will be unmounted
+   * when resource drawer is open.
    *
    * Full story: `react-helmet-async` tries to intelligently deduplicate the
    * meta tags. Precedence is given to the most recently INITIALIZED instance of
