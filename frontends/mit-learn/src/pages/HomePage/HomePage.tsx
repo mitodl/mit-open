@@ -1,6 +1,5 @@
 import React from "react"
 import { Container, styled } from "ol-components"
-import { MetaTags } from "ol-utilities"
 import HeroSearch from "./HeroSearch"
 import BrowseTopicsSection from "./BrowseTopicsSection"
 import NewsEventsSection from "./NewsEventsSection"
@@ -8,6 +7,7 @@ import TestimonialsSection from "./TestimonialsSection"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 import PersonalizeSection from "./PersonalizeSection"
 import * as carousels from "./carousels"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const FullWidthBackground = styled.div(({ theme }) => ({
   background: "linear-gradient(0deg, #FFF 0%, #E9ECEF 100%);",

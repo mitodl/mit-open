@@ -1,7 +1,7 @@
 import { Breadcrumbs, Container, Typography, styled } from "ol-components"
-import { MetaTags } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React from "react"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER = "what-is-mit-learn"
 const NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER = "non-degree-learning"

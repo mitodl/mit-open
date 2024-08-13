@@ -10,7 +10,7 @@ import {
   CHANNEL_TYPE_BREADCRUMB_TARGETS,
   ChannelControls,
 } from "./ChannelPageTemplate"
-import MetaSocialSeo from "@/page-components/MetaSocialSeo/MetaSocialSeo"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const ChannelControlsContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -54,7 +54,7 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
   const displayConfiguration = channel.data?.configuration
   return (
     <>
-      <MetaSocialSeo title={channel.data?.title} />
+      <MetaTags title={channel.data?.title} />
       <Banner
         navText={
           <Breadcrumbs

@@ -15,7 +15,6 @@ import {
 import type { SimpleMenuItem } from "ol-components"
 import { RiPencilFill, RiMore2Line, RiDeleteBinLine } from "@remixicon/react"
 
-import { MetaTags } from "ol-utilities"
 import type { LearningPathResource } from "api"
 import { useLearningPathsList } from "api/hooks/learningResources"
 
@@ -24,6 +23,7 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import * as urls from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
+import { Helmet } from "react-helmet-async"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
@@ -83,7 +83,9 @@ const LearningPathListingPage: React.FC = () => {
       src="/static/images/course_search_banner.png"
       className="learningpaths-page"
     >
-      <MetaTags title="Learning Paths" />
+      <Helmet>
+        <meta name="robots" content="noindex,noarchive" />
+      </Helmet>
       <Container maxWidth="md" style={{ paddingBottom: 100 }}>
         <GridContainer>
           <GridColumn variant="single-full">

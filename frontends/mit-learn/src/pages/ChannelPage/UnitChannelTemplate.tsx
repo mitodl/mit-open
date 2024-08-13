@@ -21,7 +21,7 @@ import { HOME as HOME_URL, UNITS as UNITS_URL } from "../../common/urls"
 import { ChannelTypeEnum } from "api/v0"
 import { ChannelControls, UNITS_LABEL } from "./ChannelPageTemplate"
 import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
-import MetaSocialSeo from "@/page-components/MetaSocialSeo/MetaSocialSeo"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const StyledBannerBackground = styled(BannerBackground)(({ theme }) => ({
   padding: "48px 0 64px 0",
@@ -105,7 +105,7 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
 
   return (
     <>
-      <MetaSocialSeo
+      <MetaTags
         title={channel.data?.title}
         description={channel.data?.configuration.heading}
         // no image for now. Channel images are svg and not suitable for social sharing

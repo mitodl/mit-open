@@ -1,5 +1,5 @@
 import { Breadcrumbs, Container, Typography, styled } from "ol-components"
-import { MetaTags } from "ol-utilities"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 import * as urls from "@/common/urls"
 import React from "react"
 
