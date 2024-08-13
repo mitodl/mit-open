@@ -55,7 +55,13 @@ from learning_resources_search.serializers import (
     serialize_percolate_query_for_update,
 )
 from main.celery import app
-from main.utils import chunks, frontend_absolute_url, merge_strings, now_in_utc
+from main.utils import (
+    chunks,
+    clear_search_cache,
+    frontend_absolute_url,
+    merge_strings,
+    now_in_utc,
+)
 from profiles.utils import send_template_email
 
 User = get_user_model()
@@ -92,6 +98,7 @@ def update_featured_rank():
         featured_resources.values_list("position", flat=True).distinct().count(),
         clear_all_greater_than=True,
     )
+    clear_search_cache()
 
 
 @app.task(**PARTIAL_UPDATE_TASK_SETTINGS)
@@ -623,13 +630,18 @@ def start_recreate_index(self, indexes, remove_existing_reindexing_tags):
     )
 
 
+@app.task(autoretry_for=(RetryError,), retry_backoff=True, rate_limit="600/m")
+def finish_update_index(results):  # noqa: ARG001
+    clear_search_cache()
+
+
 @app.task(bind=True)
 def start_update_index(self, indexes, etl_source):
     """
     Wipe and recreate index and mapping, and index all items.
     """
     try:
-        log.info("starting to index %s objects...", ", ".join(indexes))
+        log.info("starting to UPDATE index %s objects...", ", ".join(indexes))
 
         index_tasks = []
 
@@ -666,8 +678,7 @@ def start_update_index(self, indexes, etl_source):
         error = "start_update_index threw an error"
         log.exception(error)
         return [error]
-
-    raise self.replace(index_tasks)
+    raise self.replace(celery.chain(index_tasks, finish_update_index.s()))
 
 
 def get_update_resource_files_tasks(blocklisted_ids, etl_source):
@@ -860,6 +871,7 @@ def finish_recreate_index(results, backing_indices):
         except RequestError as ex:
             raise RetryError(str(ex)) from ex
     log.info("recreate_index has finished successfully!")
+    clear_search_cache()
 
 
 def _generate_subscription_digest_subject(
