@@ -1,6 +1,5 @@
 import React from "react"
 import { styled, Breadcrumbs, Banner } from "ol-components"
-import { MetaTags } from "ol-utilities"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { useChannelDetail } from "api/hooks/channels"
 import ChannelMenu from "@/components/ChannelMenu/ChannelMenu"
@@ -11,6 +10,7 @@ import {
   CHANNEL_TYPE_BREADCRUMB_TARGETS,
   ChannelControls,
 } from "./ChannelPageTemplate"
+import MetaSocialSeo from "@/page-components/MetaSocialSeo/MetaSocialSeo"
 
 const ChannelControlsContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -52,15 +52,9 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
   const channel = useChannelDetail(String(channelType), String(name))
   const urlParams = new URLSearchParams(channel.data?.search_filter)
   const displayConfiguration = channel.data?.configuration
-
   return (
     <>
-      <MetaTags
-        title={
-          channel.data?.title ||
-          CHANNEL_TYPE_BREADCRUMB_TARGETS[channelType].label
-        }
-      />
+      <MetaSocialSeo title={channel.data?.title} />
       <Banner
         navText={
           <Breadcrumbs

@@ -7,6 +7,7 @@ import {
   setMockResponse,
   within,
   waitFor,
+  assertPartialMetas,
 } from "../../test-utils"
 import ChannelSearch from "./ChannelSearch"
 
@@ -120,6 +121,11 @@ describe("ChannelPage", () => {
 
       renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
       const title = await screen.findByRole("heading", { name: channel.title })
+      await waitFor(() => {
+        assertPartialMetas({
+          title: `${channel.title} | ${APP_SETTINGS.SITE_NAME}`,
+        })
+      })
       // Banner background image
       expect(
         someAncestor(title, (el) =>
@@ -211,6 +217,23 @@ describe("ChannelPage", () => {
 })
 
 describe("Unit Channel Pages", () => {
+  it("Sets the expected meta tags", async () => {
+    const { channel } = setupApis({
+      search_filter: "offered_by=ocw",
+      channel_type: "unit",
+    })
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    const title = `${channel.title} | ${APP_SETTINGS.SITE_NAME}`
+    const { heading: description } = channel.configuration
+    await waitFor(() => {
+      assertPartialMetas({
+        title,
+        description,
+        og: { title, description },
+      })
+    })
+  })
+
   it("Displays the channel title, banner, and avatar", async () => {
     const { channel } = setupApis({
       search_filter: "offered_by=ocw",

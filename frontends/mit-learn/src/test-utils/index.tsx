@@ -162,6 +162,62 @@ const ignoreError = (errorMessage: string, timeoutMs?: number) => {
   return { clear }
 }
 
+const getMetaContent = ({
+  property,
+  name,
+}: {
+  property?: string
+  name?: string
+}) => {
+  const propSelector = property ? `[property="${property}"]` : ""
+  const nameSelector = name ? `[name="${name}"]` : ""
+  const selector = `meta${propSelector}${nameSelector}`
+  const el = document.querySelector<HTMLMetaElement>(selector)
+  return el?.content
+}
+
+type TestableMetas = {
+  title?: string
+  description?: string
+  og: {
+    image?: string
+    imageAlt?: string
+    description?: string
+    title?: string
+  }
+  twitter: {
+    card?: string
+    image?: string
+    description?: string
+  }
+}
+const getMetas = (): TestableMetas => {
+  return {
+    title: document.title,
+    description: getMetaContent({ name: "description" }),
+    og: {
+      image: getMetaContent({ property: "og:image" }),
+      imageAlt: getMetaContent({ property: "og:image:alt" }),
+      description: getMetaContent({ property: "og:description" }),
+      title: getMetaContent({ property: "og:title" }),
+    },
+    twitter: {
+      card: getMetaContent({ name: "twitter:card" }),
+      image: getMetaContent({ name: "twitter:image:src" }),
+      description: getMetaContent({ name: "twitter:description" }),
+    },
+  }
+}
+const assertPartialMetas = (expected: Partial<TestableMetas>) => {
+  expect(getMetas()).toEqual(
+    expect.objectContaining({
+      ...expected,
+      og: expect.objectContaining(expected.og ?? {}),
+      twitter: expect.objectContaining(expected.twitter ?? {}),
+    }),
+  )
+}
+
 export {
   renderTestApp,
   renderWithProviders,
@@ -170,6 +226,8 @@ export {
   expectLastProps,
   expectWindowNavigation,
   ignoreError,
+  getMetas,
+  assertPartialMetas,
 }
 // Conveniences
 export { setMockResponse }
