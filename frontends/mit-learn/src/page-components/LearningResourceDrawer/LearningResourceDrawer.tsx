@@ -60,14 +60,13 @@ const DrawerContent: React.FC<{
 
   return (
     <>
-      {resource.data && (
-        <MetaTags
-          title={resource.data.title}
-          description={unsafe_html2plaintext(resource.data.description ?? "")}
-          image={resource.data.image?.url}
-          imageAlt={resource.data.image?.alt}
-        />
-      )}
+      <MetaTags
+        title={resource.data?.title}
+        description={unsafe_html2plaintext(resource.data?.description ?? "")}
+        image={resource.data?.image?.url}
+        imageAlt={resource.data?.image?.alt}
+        isResourceDrawer={true}
+      />
       <LearningResourceExpanded
         imgConfig={imgConfigs.large}
         resource={resource.data}

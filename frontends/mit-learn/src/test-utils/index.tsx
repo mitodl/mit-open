@@ -177,18 +177,18 @@ const getMetaContent = ({
 }
 
 type TestableMetas = {
-  title?: string
-  description?: string
+  title?: string | null
+  description?: string | null
   og: {
-    image?: string
-    imageAlt?: string
-    description?: string
-    title?: string
+    image?: string | null
+    imageAlt?: string | null
+    description?: string | null
+    title?: string | null
   }
   twitter: {
-    card?: string
-    image?: string
-    description?: string
+    card?: string | null
+    image?: string | null
+    description?: string | null
   }
 }
 const getMetas = (): TestableMetas => {

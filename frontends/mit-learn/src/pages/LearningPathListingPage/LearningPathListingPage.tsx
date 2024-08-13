@@ -24,6 +24,7 @@ import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageLis
 import * as urls from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
 import { Helmet } from "react-helmet-async"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
@@ -83,6 +84,7 @@ const LearningPathListingPage: React.FC = () => {
       src="/static/images/course_search_banner.png"
       className="learningpaths-page"
     >
+      <MetaTags title="Learning Paths" social={false} />
       <Helmet>
         <meta name="robots" content="noindex,noarchive" />
       </Helmet>
