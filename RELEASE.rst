@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 0.16.1
+--------------
+
+- rename MIT Open to MIT Learn (#1389)
+- Rename env var prefix MITOPEN_ to MITOL_ (#1388)
+- adding fix for logo in email (#1404)
+- Change Default sort to featured (#1377)
+- Empty user list items view (#1376)
+
 Version 0.16.0 (Released August 13, 2024)
 --------------
 
