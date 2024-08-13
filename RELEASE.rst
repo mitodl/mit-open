@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.16.0
+Version 0.16.0 (Released August 13, 2024)
 --------------
 
 - Update values of hostnames to use learn.mit.edu (#1401)
