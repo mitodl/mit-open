@@ -10,11 +10,11 @@ import sys
 def set_env_vars_from_legacy_prefix():
     """
     Walk the environment variables and set the new MITOL_ prefixed ones
-    from legacy MIT_OPEN_ prefixed ones
+    from legacy MITOPEN_ prefixed ones
     """
     for old_key in os.environ:
-        if old_key.startswith("MIT_OPEN_"):
-            new_key = old_key.replace("MIT_OPEN_", "MITOL_")
+        if old_key.startswith("MITOPEN_"):
+            new_key = old_key.replace("MITOPEN_", "MITOL_")
 
             os.environ[new_key] = os.environ[old_key]
 
