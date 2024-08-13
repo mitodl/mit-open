@@ -89,7 +89,7 @@ def get_plugin_manager():
     """Return the plugin manager for learning_resources hooks"""
     pm = pluggy.PluginManager(app_config.name)
     pm.add_hookspecs(LearningResourceHooks)
-    for module in settings.MITOPEN_LEARNING_RESOURCES_PLUGINS.split(","):
+    for module in settings.MITOL_LEARNING_RESOURCES_PLUGINS.split(","):
         if module:
             plugin_cls = import_string(module)
             pm.register(plugin_cls())

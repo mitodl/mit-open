@@ -36,10 +36,10 @@ export const makeChannelManageWidgetsPath = (
   name: string,
 ) => generatePath(CHANNEL_EDIT_WIDGETS, { channelType, name })
 
-const { MITOPEN_API_BASE_URL } = APP_SETTINGS
+const { MITOL_API_BASE_URL } = APP_SETTINGS
 
-export const LOGIN = `${MITOPEN_API_BASE_URL}/login/ol-oidc/`
-export const LOGOUT = `${MITOPEN_API_BASE_URL}/logout/`
+export const LOGIN = `${MITOL_API_BASE_URL}/login/ol-oidc/`
+export const LOGOUT = `${MITOL_API_BASE_URL}/logout/`
 
 /**
  * Returns the URL to the login page, with a `next` parameter to redirect back

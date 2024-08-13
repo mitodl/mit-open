@@ -135,8 +135,8 @@ services:
     command: >
       /bin/bash -c '
       sleep 3;
-      celery -A main.celery:app worker -Q default -B -l ${MITOPEN_LOG_LEVEL:-INFO} &
-      celery -A main.celery:app worker -Q edx_content,default -l ${MITOPEN_LOG_LEVEL:-INFO}'
+      celery -A main.celery:app worker -Q default -B -l ${MITOL_LOG_LEVEL:-INFO} &
+      celery -A main.celery:app worker -Q edx_content,default -l ${MITOL_LOG_LEVEL:-INFO}'
     links:
       - db
       - opensearch-node-mitopen

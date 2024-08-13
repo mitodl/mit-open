@@ -5,7 +5,7 @@ const config: Config.InitialOptions = {
   ...baseConfig,
   globals: {
     APP_SETTINGS: {
-      MITOPEN_API_BASE_URL: "https://api.test.learn.mit.edu",
+      MITOL_API_BASE_URL: "https://api.test.learn.mit.edu",
     },
   },
 }

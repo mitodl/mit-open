@@ -51,8 +51,8 @@ def jwt_token(db, user, client, rf, settings):  # noqa: ARG001
     jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
     payload = jwt_payload_handler(user)
     token = jwt_encode_handler(payload)
-    client.cookies[settings.MITOPEN_COOKIE_NAME] = token
-    rf.cookies.load({settings.MITOPEN_COOKIE_NAME: token})
+    client.cookies[settings.MITOL_COOKIE_NAME] = token
+    rf.cookies.load({settings.MITOL_COOKIE_NAME: token})
     return token
 
 
