@@ -1,6 +1,24 @@
 Release Notes
 =============
 
+Version 0.16.0 (Released August 13, 2024)
+--------------
+
+- Update values of hostnames to use learn.mit.edu (#1401)
+- Add featured ranks to the opensearch index (#1381)
+- Fix homepage contrast issues (#1371)
+- copy update for mitx channel page (#1400)
+- Update Yarn to v4.4.0 (#1399)
+- Update search term event handler to clear page if the term changes and is submitted, updating tests for this (#1387)
+- fix prettier and eslint in pre-commit (#1391)
+- Rename MIT Open to MIT Learn for subscription emails (#1390)
+- enable mailgun and analytics (#1370)
+- update suppport email (#1385)
+- Update topic boxes to support multiple lines (#1380)
+- Update dependency Django to v4.2.15 [SECURITY] (#1384)
+- adding version specifier for renovate (#1378)
+- Create, Edit and Delete User List modal UI (#1356)
+
 Version 0.15.1 (Released August 07, 2024)
 --------------
 
