@@ -5,12 +5,12 @@ import {
   styled,
   Typography,
   PlainList,
+  Card,
+  theme,
 } from "ol-components"
-
+import { RiListCheck3 } from "@remixicon/react"
 import { useUserListList } from "api/hooks/learningResources"
-
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
-
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { userListView } from "@/common/urls"
 import UserListCardCondensed from "@/page-components/UserListCard/UserListCardCondensed"
@@ -27,6 +27,34 @@ const NewListButton = styled(Button)(({ theme }) => ({
   },
 }))
 
+const EmptyListCard = styled(Card)`
+  margin-top: 16px;
+`
+
+const EmptyList = styled.div`
+  display: flex;
+  padding: 32px;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  text-align: center;
+`
+
+const IconContainer = styled.div`
+  display: inline-block;
+  margin: 0 auto -16px;
+  padding: 8px;
+  height: 48px;
+  border-radius: 4px;
+  color: ${theme.custom.colors.silverGrayDark};
+  background: ${theme.custom.colors.lightGray1};
+
+  svg {
+    width: 32px;
+    height: 32px;
+  }
+`
+
 type UserListListingComponentProps = {
   title?: string
 }
@@ -35,7 +63,7 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
   props,
 ) => {
   const { title } = props
-  const listingQuery = useUserListList()
+  const { data, isLoading } = useUserListList()
   const handleCreate = useCallback(() => {
     manageListDialogs.upsertUserList()
   }, [])
@@ -45,10 +73,27 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
       <GridColumn variant="single-full">
         <Header variant="h3">{title}</Header>
         <section>
-          <LoadingSpinner loading={listingQuery.isLoading} />
-          {listingQuery.data && (
+          <LoadingSpinner loading={isLoading} />
+          {!data?.results.length && !isLoading ? (
+            <EmptyListCard>
+              <Card.Content>
+                <EmptyList>
+                  <IconContainer>
+                    <RiListCheck3 />
+                  </IconContainer>
+                  <Typography variant="body2">
+                    Create lists to save your courses and materials.
+                  </Typography>
+                  <Button variant="primary" size="large" onClick={handleCreate}>
+                    Create new list
+                  </Button>
+                </EmptyList>
+              </Card.Content>
+            </EmptyListCard>
+          ) : null}
+          {data ? (
             <PlainList itemSpacing={3}>
-              {listingQuery.data.results?.map((list) => {
+              {data.results?.map((list) => {
                 return (
                   <li
                     key={list.id}
@@ -62,10 +107,12 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
                 )
               })}
             </PlainList>
-          )}
-          <NewListButton variant="primary" onClick={handleCreate}>
-            Create new list
-          </NewListButton>
+          ) : null}
+          {data?.results.length && !isLoading ? (
+            <NewListButton variant="primary" onClick={handleCreate}>
+              Create new list
+            </NewListButton>
+          ) : null}
         </section>
       </GridColumn>
     </GridContainer>
