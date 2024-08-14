@@ -37,7 +37,8 @@ import {
   UNITS,
   querifiedSearchUrl,
 } from "@/common/urls"
-import { useSearchParams } from "react-router-dom"
+// import { useSearchParams } from "react-router-dom"
+import { useSearchParams } from "next/navigation"
 import { useUserMe } from "api/hooks/user"
 
 const Bar = styled(AppBar)(({ theme }) => ({
@@ -254,7 +255,7 @@ const navData: NavData = {
 const Header: FunctionComponent = () => {
   const [drawerOpen, toggleDrawer] = useToggle(false)
   const [searchParams] = useSearchParams()
-  const resourceDrawerOpen = searchParams.has(RESOURCE_DRAWER_QUERY_PARAM)
+  const resourceDrawerOpen = searchParams?.has(RESOURCE_DRAWER_QUERY_PARAM)
 
   const toggler = (event: React.MouseEvent) => {
     if (!resourceDrawerOpen) {
