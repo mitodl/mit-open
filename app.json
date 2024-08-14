@@ -286,7 +286,8 @@
       "required": false
     },
     "MITOL_ADMIN_EMAIL": {
-      "description": "E-mail to send 500 reports to."
+      "description": "E-mail to send 500 reports to.",
+      "required": false
     },
     "MITOL_AUTHENTICATION_PLUGINS": {
       "description": "List of pluggy plugins to use for authentication",
@@ -297,50 +298,62 @@
       "required": false
     },
     "MITOL_APP_BASE_URL": {
-      "description": "Base url to create links to the app"
+      "description": "Base url to create links to the app",
+      "required": false
     },
     "MITOL_COOKIE_NAME": {
-      "description": "Name of the cookie for the JWT auth token"
+      "description": "Name of the cookie for the JWT auth token",
+      "required": false
     },
     "MITOL_COOKIE_DOMAIN": {
-      "description": "Domain for the cookie for the JWT auth token"
+      "description": "Domain for the cookie for the JWT auth token",
+      "required": false
     },
     "MITOL_DB_CONN_MAX_AGE": {
-      "value": "0"
+      "value": "0",
+      "required": false
     },
     "MITOL_DB_DISABLE_SSL": {
-      "value": "True"
+      "value": "True",
+      "required": false
     },
     "MITOL_DB_DISABLE_SS_CURSORS": {
       "description": "Disable server-side cursors",
       "required": false
     },
     "MITOL_EMAIL_HOST": {
-      "description": "Outgoing e-mail settings"
+      "description": "Outgoing e-mail settings",
+      "required": false
     },
     "MITOL_EMAIL_PASSWORD": {
-      "description": "Outgoing e-mail settings"
+      "description": "Outgoing e-mail settings",
+      "required": false
     },
     "MITOL_EMAIL_PORT": {
       "description": "Outgoing e-mail settings",
-      "value": "587"
+      "value": "587",
+      "required": false
     },
     "MITOL_EMAIL_TLS": {
       "description": "Outgoing e-mail settings",
-      "value": "True"
+      "value": "True",
+      "required": false
     },
     "MITOL_EMAIL_USER": {
-      "description": "Outgoing e-mail settings"
+      "description": "Outgoing e-mail settings",
+      "required": false
     },
     "MITOL_ENVIRONMENT": {
-      "description": "The execution environment that the app is in (e.g. dev, staging, prod)"
+      "description": "The execution environment that the app is in (e.g. dev, staging, prod)",
+      "required": false
     },
     "MITOL_FROM_EMAIL": {
-      "description": "E-mail to use for the from field"
+      "description": "E-mail to use for the from field",
+      "required": false
     },
     "MITOL_LOG_LEVEL": {
       "description": "The log level for the application",
-      "required": true,
+      "required": false,
       "value": "INFO"
     },
     "MITOL_NEW_USER_LOGIN_URL": {
@@ -349,11 +362,12 @@
     },
     "MITOL_JWT_SECRET": {
       "description": "Shared secret for JWT auth tokens",
-      "required": true
+      "required": false
     },
     "MITOL_SECURE_SSL_REDIRECT": {
       "description": "Application-level SSL redirect setting.",
-      "value": "True"
+      "value": "True",
+      "required": false
     },
     "MITOL_SIMILAR_RESOURCES_COUNT": {
       "description": "Number of similar resources to return",
@@ -364,7 +378,8 @@
       "required": false
     },
     "MITOL_SUPPORT_EMAIL": {
-      "description": "Email address listed for customer support"
+      "description": "Email address listed for customer support",
+      "required": false
     },
     "MITOL_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS": {
       "description": "Maximum age of unsubscribe tokens in seconds",
@@ -372,7 +387,8 @@
     },
     "MITOL_USE_S3": {
       "description": "Use S3 for storage backend (required on Heroku)",
-      "value": "False"
+      "value": "False",
+      "required": false
     },
     "NEWS_EVENTS_MEDIUM_NEWS_SCHEDULE_SECONDS": {
       "description": "Time in seconds between periodic syncs of Medium MIT News feed",
