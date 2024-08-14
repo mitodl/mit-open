@@ -1,17 +1,15 @@
 
-
+import React from "react"
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
-import React from "react"
-import { Container, styled } from "ol-components"
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 // import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 
 import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
 import {PageWrapper, PageWrapperInner} from "./styled"
-
+import { ThemeProvider } from 'ol-components';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -28,13 +26,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
+      <AppRouterCacheProvider>
+      <ThemeProvider>
       <PageWrapper>
         <Header />
         <PageWrapperInner>
           {/* <Outlet /> */}
         </PageWrapperInner>
         <Footer />
-      </PageWrapper>
+          </PageWrapper>
+          </ThemeProvider>
+        </AppRouterCacheProvider>
         {/* <LearningResourceDrawer /> */}
     </html>
   );
