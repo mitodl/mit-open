@@ -1,3 +1,5 @@
+"use client"
+
 /// <reference types="./types/theme.d.ts" />
 
 /**

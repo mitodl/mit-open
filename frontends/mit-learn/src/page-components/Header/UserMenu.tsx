@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState } from "react"
 import { ActionButtonLink, ButtonLink, SimpleMenu, styled } from "ol-components"
 import type { MenuOverrideProps, SimpleMenuItem } from "ol-components"
