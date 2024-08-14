@@ -20,7 +20,8 @@ beforeEach(() => {
   // the container automatically after each test.
   // However, react-helmet manipulates the document head, which is outside that
   // container. So we need to clear it manually.
-  document.head.innerHTML = ""
+  // document.head.innerHTML = ""
+  document.querySelector("title")?.remove()
 })
 
 window.scrollTo = jest.fn()

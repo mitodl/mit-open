@@ -107,7 +107,7 @@ test("ErrorPage shows fallback and logs unexpected errors", async () => {
     { user: { is_authenticated: true } },
   )
   await waitFor(() => {
-    expect(document.title).toBe("Not Allowed | MIT Learn")
+    expect(document.title).toBe("Error | MIT Learn")
   })
   expect(consoleError).toHaveBeenCalledWith(Error("Some Error"))
 })
