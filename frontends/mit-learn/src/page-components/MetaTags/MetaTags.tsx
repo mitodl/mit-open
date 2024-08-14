@@ -5,7 +5,7 @@ import { useLocation } from "react-router"
 import invariant from "tiny-invariant"
 
 type MetaTagsProps = {
-  title?: string | string[]
+  title?: string
   description?: string | null
   image?: string
   imageAlt?: string | null
@@ -85,10 +85,10 @@ const MetaTags: React.FC<MetaTagsProps> = ({
   isResourceDrawer,
 }) => {
   const location = useLocation()
+
+  const searchString = location.search === "?" ? "" : location.search
   const canonical = new URL(
-    canonicalPathname(location.pathname) + location.search
-      ? `?${location.search}`
-      : "",
+    canonicalPathname(location.pathname) + searchString,
     window.location.origin,
   ).toString()
 
@@ -132,7 +132,9 @@ const MetaTags: React.FC<MetaTagsProps> = ({
       )}
       {social && <meta name="twitter:card" content="summary_large_image" />}
       {social && <meta name="twitter:image:src" content={image} />}
-      {description && <meta name="twitter:description" content={description} />}
+      {social && description && (
+        <meta name="twitter:description" content={description} />
+      )}
       {children}
     </Helmet>
   )
