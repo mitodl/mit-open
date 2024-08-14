@@ -1,3 +1,5 @@
+
+
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -8,17 +10,8 @@ import { Container, styled } from "ol-components"
 
 import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
+import {PageWrapper, PageWrapperInner} from "./styled"
 
-
-const PageWrapper = styled.div({
-  height: "calc(100vh - 80px)",
-  display: "flex",
-  flexDirection: "column",
-})
-
-const PageWrapperInner = styled.div({
-  flex: "1",
-})
 
 const inter = Inter({ subsets: ["latin"] });
 

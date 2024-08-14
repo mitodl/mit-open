@@ -1,8 +1,8 @@
 import React from "react"
 
-const PUBLIC_URL = APP_SETTINGS.PUBLIC_URL
+const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`
-
+console.log(">>>>>>>>", process.env.NEXT_PUBLIC_PUBLIC_URL)
 const MIT_LOGO_URL = `${PUBLIC_URL}/static/images/mit-logo-learn.svg`
 
 interface Props {

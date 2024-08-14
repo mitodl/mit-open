@@ -1,9 +1,11 @@
+"use client"
+
 import { Container, styled } from "ol-components"
 import { MITLogoLink } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React, { FunctionComponent } from "react"
 
-const PUBLIC_URL = APP_SETTINGS.PUBLIC_URL
+const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`
 
 const FooterContainer = styled.div(({ theme }) => ({

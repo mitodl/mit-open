@@ -36,7 +36,7 @@ export const makeChannelManageWidgetsPath = (
   name: string,
 ) => generatePath(CHANNEL_EDIT_WIDGETS, { channelType, name })
 
-const { MITOL_API_BASE_URL } = APP_SETTINGS
+const MITOL_API_BASE_URL = process.env.NEXT_PUBLIC_MITOL_API_BASE_URL
 
 export const LOGIN = `${MITOL_API_BASE_URL}/login/ol-oidc/`
 export const LOGOUT = `${MITOL_API_BASE_URL}/logout/`

@@ -1,3 +1,5 @@
+"use client"
+
 import React, { FunctionComponent } from "react"
 import type { NavData } from "ol-components"
 import {

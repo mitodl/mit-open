@@ -1,3 +1,5 @@
+"use client"
+
 import { styled } from "ol-components"
 import { RiMenuLine, RiCloseLargeLine } from "@remixicon/react"
 import React from "react"

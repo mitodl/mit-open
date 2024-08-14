@@ -14,10 +14,7 @@ const readableResourceTypes: Record<ResourceTypeEnum, string> = {
 const getReadableResourceType = (resourceType: ResourceTypeEnum): string =>
   readableResourceTypes[resourceType]
 
-const BLANK_IMAGE = new URL(
-  "/static/images/blank.png",
-  window.location.origin,
-).toString()
+const BLANK_IMAGE = "/static/images/blank.png"
 
 const embedlyCroppedImage = (
   url: string,
@@ -27,10 +24,7 @@ const embedlyCroppedImage = (
     url,
   )}&height=${height}&width=${width}&grow=true&animate=false&errorurl=${BLANK_IMAGE}`
 
-const DEFAULT_RESOURCE_IMG = new URL(
-  "/static/images/default_resource.jpg",
-  window.location.origin,
-).toString()
+const DEFAULT_RESOURCE_IMG = "/static/images/default_resource.jpg"
 
 type EmbedlyConfig = {
   key: string
