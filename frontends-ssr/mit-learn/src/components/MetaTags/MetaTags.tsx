@@ -1,7 +1,8 @@
 "use client"
 
 import React from "react"
-import { Helmet } from "react-helmet-async"
+// import { Helmet } from "react-helmet-async"
+import Head from "next/head"
 
 type MetaTagsProps = {
   title?: string | string[]
@@ -28,13 +29,13 @@ const MetaTags: React.FC<MetaTagsProps> = ({
   title = title ? (Array.isArray(title) ? title : [title]) : []
 
   return (
-    <Helmet>
-      <title>{[...title, APP_SETTINGS.SITE_NAME].join(" | ")}</title>
+    <Head>
+      <title>{[...title, process.env.NEXT_PUBLIC_SITE_NAME].join(" | ")}</title>
       {children}
       {canonicalLink ? (
         <link rel="canonical" href={getCanonicalUrl(canonicalLink)} />
       ) : null}
-    </Helmet>
+    </Head>
   )
 }
 

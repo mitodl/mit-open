@@ -1,10 +1,12 @@
+"use client"
+
 import React, { useState, useCallback } from "react"
-import { useNavigate } from "react-router"
-import { Typography, styled, ChipLink, Link } from "ol-components"
+import { useRouter } from "next/navigation"
+import { Typography, styled, ChipLink, Link, theme } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
 import { SearchInput, SearchInputProps } from "./SearchInput"
 import { ABOUT } from "@/common/urls"
-import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "../AboutPage/AboutPage"
+import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "@/pages/AboutPage/AboutPage"
 
 type SearchChip = {
   label: string
@@ -36,13 +38,13 @@ const SEARCH_CHIPS: SearchChip[] = [
   },
 ]
 
-const HeroWrapper = styled.div(({ theme }) => ({
+const HeroWrapper = styled.div({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   gap: "51px",
   color: theme.custom.colors.darkGray2,
-}))
+})
 
 const TitleAndControls = styled.div({
   flex: "1 1 auto",
@@ -54,7 +56,7 @@ const TitleAndControls = styled.div({
   marginBottom: "32px",
 })
 
-const ImageContainer = styled.div(({ theme }) => ({
+const ImageContainer = styled.div({
   flex: "0 1.33 auto",
   display: "flex",
   flexDirection: "row",
@@ -68,7 +70,7 @@ const ImageContainer = styled.div(({ theme }) => ({
   img: {
     width: "100%",
   },
-}))
+})
 
 const SquaredChip = styled(ChipLink, {
   shouldForwardProp: (propName) => !["noBorder", "grow"].includes(propName),
@@ -93,7 +95,7 @@ const SquaredChip = styled(ChipLink, {
   },
 ])
 
-const ControlsContainer = styled.div(({ theme }) => ({
+const ControlsContainer = styled.div({
   marginTop: "24px",
   display: "flex",
   width: "100%",
@@ -115,8 +117,9 @@ const ControlsContainer = styled.div(({ theme }) => ({
       paddingLeft: "5px",
     },
   },
-}))
-const LinksContainer = styled.div(({ theme }) => ({
+})
+
+const LinksContainer = styled.div({
   width: "100%",
   display: "flex",
   flexDirection: "row",
@@ -126,8 +129,9 @@ const LinksContainer = styled.div(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
   },
-}))
-const TrenderingContainer = styled.div(({ theme }) => ({
+})
+
+const TrenderingContainer = styled.div({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
@@ -135,8 +139,9 @@ const TrenderingContainer = styled.div(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     gap: "8px",
   },
-}))
-const BrowseContainer = styled.div(({ theme }) => ({
+})
+
+const BrowseContainer = styled.div({
   display: "flex",
   flexDirection: "row",
   gap: "8px",
@@ -144,27 +149,27 @@ const BrowseContainer = styled.div(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     flex: 1,
   },
-}))
+})
 
-const BoldLink = styled(Link)(({ theme }) => ({
+const BoldLink = styled(Link)({
   ...theme.typography.subtitle1,
-}))
+})
 
 const HeroSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("")
   const onSearchClear = useCallback(() => setSearchText(""), [])
-  const navigate = useNavigate()
+  const router = useRouter()
   const onSearchChange: SearchInputProps["onChange"] = useCallback((e) => {
     setSearchText(e.target.value)
   }, [])
   const onSearchSubmit: SearchInputProps["onSubmit"] = useCallback(
     (e) => {
-      navigate({
+      router.push({
         pathname: "/search",
         search: `q=${e.target.value}`,
       })
     },
-    [navigate],
+    [router],
   )
   return (
     <HeroWrapper>

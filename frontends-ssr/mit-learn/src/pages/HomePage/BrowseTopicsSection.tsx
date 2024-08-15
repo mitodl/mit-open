@@ -1,6 +1,6 @@
 import React from "react"
 import { Container, styled, theme, Typography, ButtonLink } from "ol-components"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { RiArrowRightLine } from "@remixicon/react"
 import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"

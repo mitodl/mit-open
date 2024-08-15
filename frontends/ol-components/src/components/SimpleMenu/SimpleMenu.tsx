@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, useState } from "react"
 import Menu, { MenuProps } from "@mui/material/Menu"
 import { MenuItem } from "../MenuItem/MenuItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
-import { Link as RouterLink } from "react-router-dom"
-import type { LinkProps as RouterLinkProps } from "react-router-dom"
+import { default as RouterLink }   from "next/link"
+import type { LinkProps as RouterLinkProps } from "next/link"
 
 /**
  * See https://mui.com/material-ui/guides/routing/#global-theme-link

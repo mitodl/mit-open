@@ -1,7 +1,7 @@
 "use client"
 
 import { Container, styled } from "ol-components"
-import { MITLogoLink } from "ol-utilities"
+import MITLogoLink from "@/components/MITLogoLink/MITLogoLink"
 import * as urls from "@/common/urls"
 import React, { FunctionComponent } from "react"
 

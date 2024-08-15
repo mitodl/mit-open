@@ -9,7 +9,7 @@ import React, {
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { pxToRem } from "../ThemeProvider/typography"
-import { Link } from "react-router-dom"
+import Link  from "next/link"
 
 export type Size = "small" | "medium"
 

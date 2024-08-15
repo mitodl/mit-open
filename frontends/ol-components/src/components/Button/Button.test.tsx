@@ -2,7 +2,7 @@ import React from "react"
 import { render, screen } from "@testing-library/react"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import { ButtonLink, ActionButtonLink } from "./Button"
-import { Link } from "react-router-dom"
+import Link  from "next/link"
 
 // Mock react-router-dom's Link so we don't need to set up a Router
 jest.mock("react-router-dom", () => {

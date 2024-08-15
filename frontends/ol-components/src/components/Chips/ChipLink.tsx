@@ -1,6 +1,7 @@
 import React from "react"
 import Chip from "@mui/material/Chip"
-import { Link } from "react-router-dom"
+// import { Link } from "react-router-dom"
+import Link from "next/link"
 
 import type { ChipProps } from "@mui/material/Chip"
 

@@ -10,7 +10,7 @@ import {
   RiArrowDownSLine,
 } from "@remixicon/react"
 import { useUserMe, User } from "api/hooks/user"
-import { useLocation } from "react-router"
+import { usePathname, useSearchParams } from 'next/navigation'
 
 const FlexContainer = styled.div({
   display: "flex",
@@ -94,14 +94,17 @@ type UserMenuProps = {
 
 const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   const [visible, setVisible] = useState(false)
-  const location = useLocation()
+
+  const pathname = usePathname()
+  const search = useSearchParams()
+
   const { isLoading, data: user } = useUserMe()
   if (isLoading) {
     return null
   }
   const loginUrl = urls.login({
-    pathname: location.pathname,
-    search: location.search,
+    pathname,
+    search
   })
 
   const items: UserMenuItem[] = [

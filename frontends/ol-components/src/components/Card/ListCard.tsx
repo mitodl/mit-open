@@ -5,7 +5,7 @@ import React, {
   ImgHTMLAttributes,
   isValidElement,
 } from "react"
-import { Link } from "react-router-dom"
+import Link  from "next/link"
 import styled from "@emotion/styled"
 import { RiDraggable } from "@remixicon/react"
 import { theme } from "../ThemeProvider/ThemeProvider"

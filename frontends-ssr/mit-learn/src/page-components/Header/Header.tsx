@@ -26,7 +26,8 @@ import {
   RiPriceTag3Line,
   RiAwardLine,
 } from "@remixicon/react"
-import { MITLogoLink, useToggle } from "ol-utilities"
+import { useToggle } from "ol-utilities"
+import MITLogoLink from "@/components/MITLogoLink/MITLogoLink"
 import UserMenu from "./UserMenu"
 import { MenuButton } from "./MenuButton"
 import {
@@ -37,9 +38,9 @@ import {
   UNITS,
   querifiedSearchUrl,
 } from "@/common/urls"
-// import { useSearchParams } from "react-router-dom"
 import { useSearchParams } from "next/navigation"
 import { useUserMe } from "api/hooks/user"
+
 
 const Bar = styled(AppBar)(({ theme }) => ({
   height: "60px",
@@ -124,7 +125,7 @@ const SearchButton: FunctionComponent = () => {
       edge="circular"
       variant="text"
       reloadDocument={true}
-      href={SEARCH}
+      href={SEARCH || ""}
     >
       <StyledSearchIcon />
     </ActionButtonLink>
@@ -135,11 +136,11 @@ const LoggedOutView: FunctionComponent = () => {
   return (
     <FlexContainer>
       <DesktopOnly>
-        <SearchButton />
+        {/* <SearchButton /> */}
         <UserMenu variant="desktop" />
       </DesktopOnly>
       <MobileOnly>
-        <SearchButton />
+        {/* <SearchButton /> */}
         <RightDivider orientation="vertical" flexItem />
         <UserMenu variant="mobile" />
       </MobileOnly>

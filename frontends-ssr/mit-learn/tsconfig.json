@@ -20,8 +20,9 @@
     "paths": {
       "@/*": ["./src/*"],
       "@/common/*": ["../../frontends/mit-learn/src/common/*"],
-      "@/components/*": ["../../frontends/mit-learn/src/components/*"],
-      "@/page-components/*": ["../../frontends/mit-learn/src/page-components/*"],
+      "api": ["../../frontends/api/src"],
+      "ol-components": ["../../frontends/ol-components/src"],
+      "ol-utilities": ["../../frontends/ol-utilities/src"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

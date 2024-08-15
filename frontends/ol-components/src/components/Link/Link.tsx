@@ -1,8 +1,8 @@
 import React from "react"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { Link as RouterLink } from "react-router-dom"
-import type { Theme } from "../ThemeProvider/ThemeProvider"
+import { Link as RouterLink } from "next/link"
+import { theme } from "../ThemeProvider/ThemeProvider"
 
 type LinkStyleProps = {
   size?: "small" | "medium" | "large"
@@ -22,8 +22,8 @@ const DEFAULT_PROPS: Required<LinkStyleProps> = {
  * If you want another element styled as a Link, use this function in conjunction
  * with `styled`. For example, `styled.span(linkStyles)`.
  */
-const linkStyles = (props: LinkStyleProps & { theme: Theme }) => {
-  const { theme, size, color, hovercolor } = { ...DEFAULT_PROPS, ...props }
+const linkStyles = (props: LinkStyleProps) => {
+  const { size, color, hovercolor } = { ...DEFAULT_PROPS, ...props }
   return css([
     size === "small" && {
       ...theme.typography.body3,

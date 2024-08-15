@@ -1,4 +1,5 @@
 import { generatePath } from "react-router"
+import { ReadonlyURLSearchParams } from "next/url"
 
 export const HOME = "/"
 
@@ -50,9 +51,9 @@ export const login = ({
   search = "",
   hash = "",
 }: {
-  pathname?: string
-  search?: string
-  hash?: string
+  pathname?: string | null
+  search?: string | ReadonlyURLSearchParams
+  hash?: string | null
 } = {}) => {
   /**
    * To include search parameters in the next URL, we need to encode them.

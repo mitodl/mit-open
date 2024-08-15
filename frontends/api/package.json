@@ -9,7 +9,8 @@
     "./hooks/*": "./src/hooks/*/index.ts",
     "./constants": "./src/common/constants.ts",
     "./test-utils/factories": "./src/test-utils/factories/index.ts",
-    "./test-utils": "./src/test-utils/index.ts"
+    "./test-utils": "./src/test-utils/index.ts",
+    "./ssr": "./src/ssr.ts"
   },
   "peerDependencies": {
     "react": "18.3.1"

@@ -2,7 +2,7 @@ import React from "react"
 import ListItemButton from "@mui/material/ListItemButton"
 import type { ListItemButtonProps } from "@mui/material/ListItemButton"
 import { styled } from "@mui/material/styles"
-import { Link } from "react-router-dom"
+import Link  from "next/link"
 
 type ListItemLinkProps = ListItemButtonProps<"a">
 
