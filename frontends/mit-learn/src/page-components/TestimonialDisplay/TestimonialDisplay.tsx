@@ -162,6 +162,7 @@ const TestimonialDisplay: React.FC<TestimonialDisplayProps> = ({
             </Slider>
             <ButtonsContainer>
               <ActionButton
+                aria-label="Show previous"
                 size="small"
                 variant="tertiary"
                 onClick={slick?.slickPrev}
@@ -169,6 +170,7 @@ const TestimonialDisplay: React.FC<TestimonialDisplayProps> = ({
                 <RiArrowLeftLine />
               </ActionButton>
               <ActionButton
+                aria-label="Show next"
                 size="small"
                 variant="tertiary"
                 onClick={slick?.slickNext}

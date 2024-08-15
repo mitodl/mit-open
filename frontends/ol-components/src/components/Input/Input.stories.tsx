@@ -143,7 +143,12 @@ export const States: Story = {
           Initially Focused
         </Grid>
         <Grid item xs={8}>
-          <Input autoFocus {...args} />
+          <Input
+            // This is a story just demonstrating the autofocus prop
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
+            {...args}
+          />
         </Grid>
         <Grid item xs={4}>
           Error

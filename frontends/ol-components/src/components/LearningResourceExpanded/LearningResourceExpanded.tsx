@@ -183,7 +183,11 @@ const ImageSection: React.FC<{
     )
   } else if (resource) {
     return (
-      <Image src={DEFAULT_RESOURCE_IMG} aspect={config.width / config.height} />
+      <Image
+        src={DEFAULT_RESOURCE_IMG}
+        alt={resource.image?.alt ?? ""}
+        aspect={config.width / config.height}
+      />
     )
   } else {
     return (

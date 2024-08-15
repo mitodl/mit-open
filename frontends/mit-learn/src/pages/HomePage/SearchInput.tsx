@@ -54,6 +54,8 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
       fullWidth={props.fullWidth}
       size={props.size}
       inputProps={muiInputProps}
+      // Just passing props down. Will lint actual usage at point-of-use
+      // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus={props.autoFocus}
       className={props.className}
       placeholder={props.placeholder}
