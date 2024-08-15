@@ -11,6 +11,7 @@ const config: Config.InitialOptions = {
     APP_SETTINGS: {
       MITOL_AXIOS_WITH_CREDENTIALS: false,
       MITOL_API_BASE_URL: "https://api.test.learn.mit.edu",
+      CSRF_COOKIE_NAME: "csrftoken-test",
     },
   },
 }

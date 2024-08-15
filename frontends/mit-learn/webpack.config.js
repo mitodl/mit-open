@@ -39,6 +39,7 @@ const {
   EMBEDLY_KEY,
   CKEDITOR_UPLOAD_URL,
   SENTRY_DSN,
+  CSRF_COOKIE_NAME,
 } = cleanEnv(process.env, {
   NODE_ENV: str({
     choices: ["development", "production", "test"],
@@ -96,6 +97,10 @@ const {
   SENTRY_DSN: str({
     desc: "Sentry Data Source Name",
     default: "",
+  }),
+  CSRF_COOKIE_NAME: str({
+    desc: "Name of the CSRF cookie",
+    default: "csrftoken",
   }),
 })
 
@@ -221,6 +226,7 @@ module.exports = (env, argv) => {
           SITE_NAME: JSON.stringify(SITE_NAME),
           MITOL_SUPPORT_EMAIL: JSON.stringify(MITOL_SUPPORT_EMAIL),
           PUBLIC_URL: JSON.stringify(PUBLIC_URL),
+          CSRF_COOKIE_NAME: JSON.stringify(CSRF_COOKIE_NAME),
         },
       }),
     ]
