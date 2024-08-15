@@ -71,7 +71,7 @@ const canonicalPathname = (pathname: string) => {
 }
 
 const SITE_NAME = APP_SETTINGS.SITE_NAME
-const DEFAULT_OG_IMAGE = `${window.origin}/staic/images/default_og_image.png`
+const DEFAULT_OG_IMAGE = `${window.origin}/static/images/mit-logo-learn.jpg`
 /**
  * Renders a Helmet component to customize meta tags
  */
