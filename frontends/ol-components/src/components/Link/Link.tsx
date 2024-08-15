@@ -1,7 +1,7 @@
 import React from "react"
 import styled from "@emotion/styled"
 import { css } from "@emotion/react"
-import { Link as RouterLink } from "next/link"
+import { default as NextLink } from "next/link"
 import { theme } from "../ThemeProvider/ThemeProvider"
 
 type LinkStyleProps = {
@@ -67,7 +67,7 @@ type LinkProps = LinkStyleProps &
  * For a link styled as a button, use ButtonLink.
  */
 const Link = styled((props: LinkProps) => {
-  return <RouterLink to={props.href ?? ""} {...props} />
+  return <NextLink href={props.href ? `/${props.href}` :""} {...props} />
 })<LinkStyleProps>(linkStyles)
 
 export { Link, linkStyles }

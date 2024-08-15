@@ -18,4 +18,5 @@ export const PageWrapper = styled.div({
 
 export const PageWrapperInner = styled.div({
   flex: "1",
+  paddingTop: "60px",
 })

@@ -1,11 +1,13 @@
 import { Breadcrumbs, Container, Typography, theme, styled } from "ol-components"
-import { MetaTags } from "ol-utilities"
+import MetaTags from "@/components/MetaTags/MetaTags"
 import * as urls from "@/common/urls"
 import React from "react"
 
 const WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER = "what-is-mit-learn"
 const NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER = "non-degree-learning"
 const ACADEMIC_AND_PROFESSIONAL_CONTENT = "kinds-of-content"
+
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME
 
 const PageContainer = styled(Container)({
   color: theme.custom.colors.darkGray2,
@@ -77,7 +79,7 @@ const SubHeaderImage = styled.img({
   borderRadius: "8px",
   backgroundSize: "cover",
   backgroundPosition: "center",
-  backgroundImage: "url('/static/images/mit-dome-2.jpg')",
+  backgroundImage: "url('/mit-dome-2.jpg')",
   [theme.breakpoints.down("md")]: {
     height: "300px",
   },
@@ -165,10 +167,10 @@ const AboutPage: React.FC = () => {
               component="h2"
               id={WHAT_IS_MIT_OPEN_FRAGMENT_IDENTIFIER}
             >
-              What is {APP_SETTINGS.SITE_NAME}?
+              What is {SITE_NAME}?
             </Typography>
             <Typography variant="body1">
-              {APP_SETTINGS.SITE_NAME} offers a single platform for accessing
+              {SITE_NAME} offers a single platform for accessing
               all of MIT's non-degree learning resources. This includes courses,
               programs, and various educational materials from different MIT
               units such as MITx, MIT Bootcamps, MIT OpenCourseWare, MIT

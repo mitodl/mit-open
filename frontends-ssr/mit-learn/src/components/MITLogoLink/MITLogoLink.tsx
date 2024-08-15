@@ -1,4 +1,6 @@
 import React from "react"
+import Image from 'next/image'
+import logo from '../../../public/mit-logo-learn.svg'
 
 const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`
@@ -19,7 +21,7 @@ const MITLogoLink: React.FC<Props> = ({ href, src, className }) => (
     // eslint-disable-next-line react/no-unknown-property
     appzi-screenshot-exclude="true"
   >
-    <img src={src ? `${PUBLIC_URL}${src}` : MIT_LOGO_URL} alt="MIT Logo" />
+    <Image src={logo} alt="MIT Learn Logo" />
   </a>
 )
 

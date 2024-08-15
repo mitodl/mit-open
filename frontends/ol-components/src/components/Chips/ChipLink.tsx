@@ -22,7 +22,7 @@ const ChipLink = React.forwardRef<HTMLAnchorElement, ChipLinkProps>(
       ref={ref}
       // Use React Router's Link
       component={Link}
-      to={href}
+      href={href || ""}
       // Links are clickable.
       clickable
     />

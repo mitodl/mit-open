@@ -7,6 +7,8 @@ import type { ChipLinkProps } from "ol-components"
 import { SearchInput, SearchInputProps } from "./SearchInput"
 import { ABOUT } from "@/common/urls"
 import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "@/pages/AboutPage/AboutPage"
+import Image from "next/image"
+import personWithHeadphones from "../../../public/person_with_headphones.png"
 
 type SearchChip = {
   label: string
@@ -237,7 +239,7 @@ const HeroSearch: React.FC = () => {
         </ControlsContainer>
       </TitleAndControls>
       <ImageContainer>
-        <img alt="" src="/static/images/person_with_headphones.png" />
+        <Image alt="" src={personWithHeadphones} />
       </ImageContainer>
     </HeroWrapper>
   )

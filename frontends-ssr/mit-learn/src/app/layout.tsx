@@ -10,8 +10,7 @@ import Footer from "@/page-components/Footer/Footer"
 import {PageWrapper, PageWrapperInner} from "./styled"
 import { ThemeProvider } from 'ol-components';
 import Providers from './providers'
-
-const inter = Inter({ subsets: ["latin"] });
+import GlobalStyles from "./GlobalStyles"
 
 export const metadata: Metadata = {
   title: "MIT Learn",
@@ -27,20 +26,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-      <Providers>
-        <AppRouterCacheProvider>
-          <ThemeProvider>
-            <PageWrapper>
-              <Header />
-              <PageWrapperInner>
-                {/* { children } */}
-                {/* <Outlet /> */}
-              </PageWrapperInner>
-              <Footer />
-            </PageWrapper>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
-        </Providers>
+          <Providers>
+          <GlobalStyles />
+          <AppRouterCacheProvider>
+            <ThemeProvider>
+              <PageWrapper>
+                <Header />
+                <PageWrapperInner>
+                  { children }
+                  {/* <Outlet /> */}
+                </PageWrapperInner>
+                <Footer />
+              </PageWrapper>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+          </Providers>
         </body>
       {/* <LearningResourceDrawer /> */}
     </html>

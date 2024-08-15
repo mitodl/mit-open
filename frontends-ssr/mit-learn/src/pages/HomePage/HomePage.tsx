@@ -1,7 +1,6 @@
-
 import React from "react"
 import { Container, styled, theme } from "ol-components"
-import { MetaTags } from "ol-utilities"
+import MetaTags from "@/components/MetaTags/MetaTags"
 import HeroSearch from "@/page-components/HeroSearch/HeroSearch"
 // import BrowseTopicsSection from "./BrowseTopicsSection"
 // import NewsEventsSection from "./NewsEventsSection"

@@ -255,7 +255,7 @@ const navData: NavData = {
 
 const Header: FunctionComponent = () => {
   const [drawerOpen, toggleDrawer] = useToggle(false)
-  const [searchParams] = useSearchParams()
+  const searchParams = useSearchParams()
   const resourceDrawerOpen = searchParams?.has(RESOURCE_DRAWER_QUERY_PARAM)
 
   const toggler = (event: React.MouseEvent) => {
@@ -268,7 +268,7 @@ const Header: FunctionComponent = () => {
   const closeDrawer = (event: MouseEvent | TouchEvent) => {
     if (drawerOpen && !resourceDrawerOpen && event.type !== "touchstart") {
       event.preventDefault()
-      toggleDrawer(false)
+      // toggleDrawer(false)
     }
   }
 
