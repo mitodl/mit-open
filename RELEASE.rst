@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.16.1
+Version 0.16.1 (Released August 15, 2024)
 --------------
 
 - set csrf cookie name from env var (#1420)
