@@ -165,13 +165,14 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = get_string(
 )
 
 CSRF_COOKIE_SECURE = get_bool("CSRF_COOKIE_SECURE", True)  # noqa: FBT003
-SESSION_COOKIE_DOMAIN = get_string("SESSION_COOKIE_DOMAIN", None)
 CSRF_COOKIE_DOMAIN = get_string("CSRF_COOKIE_DOMAIN", None)
 
 CSRF_HEADER_NAME = get_string("CSRF_HEADER_NAME", "HTTP_X_CSRFTOKEN")
 
-
 CSRF_TRUSTED_ORIGINS = get_list_of_str("CSRF_TRUSTED_ORIGINS", [])
+
+SESSION_COOKIE_DOMAIN = get_string("SESSION_COOKIE_DOMAIN", None)
+SESSION_COOKIE_NAME = get_string("SESSION_COOKIE_NAME", "sessionid")
 
 # enable the nplusone profiler only in debug mode
 if DEBUG:
