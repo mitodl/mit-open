@@ -7,7 +7,7 @@ import {
   RiAwardFill,
   RiBookmarkFill,
 } from "@remixicon/react"
-import { LearningResource, ResourceTypeEnum } from "api"
+import { LearningResource, ResourceTypeEnum } from "api/v0"
 import {
   formatDate,
   getReadableResourceType,

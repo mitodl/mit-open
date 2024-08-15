@@ -1,3 +1,5 @@
+"use client"
+
 import { Breadcrumbs, Container, Typography, theme, styled } from "ol-components"
 import MetaTags from "@/components/MetaTags/MetaTags"
 import * as urls from "@/common/urls"

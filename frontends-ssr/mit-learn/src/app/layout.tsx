@@ -1,3 +1,4 @@
+'use client';
 
 import React from "react"
 import type { Metadata } from "next";
@@ -12,7 +13,7 @@ import { ThemeProvider } from 'ol-components';
 import Providers from './providers'
 import GlobalStyles from "./GlobalStyles"
 
-export const metadata: Metadata = {
+const metadata: Metadata = {
   title: "MIT Learn",
   description: "Learn With MIT",
 };

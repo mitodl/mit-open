@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import { Container, styled, theme } from "ol-components"
 import MetaTags from "@/components/MetaTags/MetaTags"
@@ -5,9 +7,14 @@ import HeroSearch from "@/page-components/HeroSearch/HeroSearch"
 // import BrowseTopicsSection from "./BrowseTopicsSection"
 // import NewsEventsSection from "./NewsEventsSection"
 // import TestimonialsSection from "./TestimonialsSection"
-// import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
+import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 // import PersonalizeSection from "./PersonalizeSection"
-// import * as carousels from "./carousels"
+import * as carousels from "./carousels"
+
+
+import { learningResourcesKeyFactory } from "api/hooks/learningResources"
+
+
 
 const FullWidthBackground = styled.div({
   background: "linear-gradient(0deg, #FFF 0%, #E9ECEF 100%);",
@@ -20,12 +27,12 @@ const FullWidthBackground = styled.div({
   },
 })
 
-// const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
-//   marginTop: "16px",
-//   [theme.breakpoints.down("sm")]: {
-//     marginTop: "0px",
-//   },
-// }))
+const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
+  marginTop: "16px",
+  [theme.breakpoints.down("sm")]: {
+    marginTop: "0px",
+  },
+}))
 
 // const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
 //   margin: "80px 0",
@@ -36,17 +43,20 @@ const FullWidthBackground = styled.div({
 //   },
 // }))
 
+
 const HomePage: React.FC = () => {
   return (
-    <>
-      <MetaTags title="Learn With MIT" />
+    // <HydrationBoundary state={dehydratedState}>
+
+      <>
+        <MetaTags title="Learn With MIT" />
       <FullWidthBackground>
         <Container>
           <HeroSearch />
-          {/* <FeaturedCoursesCarousel
+          <FeaturedCoursesCarousel
             title="Featured Courses"
             config={carousels.FEATURED_RESOURCES_CAROUSEL}
-          /> */}
+          />
         </Container>
         </FullWidthBackground>
       {/* <PersonalizeSection />
@@ -56,7 +66,8 @@ const HomePage: React.FC = () => {
       <BrowseTopicsSection />
       <TestimonialsSection />
       <NewsEventsSection /> */}
-    </>
+      {/* </HydrationBoundary> */}
+      </>
   )
 }
 

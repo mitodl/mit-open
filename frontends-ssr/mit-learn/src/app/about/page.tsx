@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 import { AboutPage } from "@/pages/AboutPage/AboutPage"
 

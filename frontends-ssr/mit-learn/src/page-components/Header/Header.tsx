@@ -159,6 +159,7 @@ const LoggedInView: FunctionComponent = () => {
 }
 
 const UserView: FunctionComponent = () => {
+  return null
   const { isLoading, data: user } = useUserMe()
   if (isLoading) {
     return null
