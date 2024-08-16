@@ -54,7 +54,9 @@ urlpatterns = (
         re_path(r"", include("testimonials.urls")),
         re_path(r"", include("news_events.urls")),
         # React App
-        re_path(r"^$", RedirectView.as_view(url=settings.APP_BASE_URL)),
+        re_path(
+            r"^$", RedirectView.as_view(url=settings.APP_BASE_URL), name="main-index"
+        ),
         re_path(r"^app", RedirectView.as_view(url=settings.APP_BASE_URL)),
         re_path(r"", include(features_router.urls)),
         re_path(r"^silk/", include("silk.urls", namespace="silk")),
