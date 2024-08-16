@@ -20,7 +20,6 @@ import {
   Typography,
   styled,
 } from "ol-components"
-import { MetaTags } from "ol-utilities"
 import { Link } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 import { useLocation, useParams } from "react-router"
@@ -40,6 +39,7 @@ import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarouse
 import UserListDetailsTab from "./UserListDetailsTab"
 import { SettingsPage } from "./SettingsPage"
 import { DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS } from "@/common/urls"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 /**
  *
@@ -402,7 +402,7 @@ const DashboardPage: React.FC = () => {
     <Background>
       <Page>
         <DashboardContainer>
-          <MetaTags title="Your MIT Learning Journey" />
+          <MetaTags title="Your MIT Learning Journey" social={false} />
           <TabContext value={tabValue}>
             <DashboardGrid>
               <DashboardGridItem>

@@ -17,7 +17,7 @@ import {
   SimpleSelectField,
   Skeleton,
 } from "ol-components"
-import { MetaTags } from "ol-utilities"
+
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import { useProfileMeMutation, useProfileMeQuery } from "api/hooks/profile"
 import { DASHBOARD_HOME } from "@/common/urls"
@@ -32,6 +32,7 @@ import {
   LEARNING_FORMAT_CHOICES,
   ProfileSchema,
 } from "@/common/profile"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const NUM_STEPS = 5
 
@@ -286,7 +287,7 @@ const OnboardingPage: React.FC = () => {
 
   return activeStep < NUM_STEPS ? (
     <FlexContainer>
-      <MetaTags title="Onboarding" />
+      <MetaTags title="Onboarding" social={false} />
       <StepContainer>
         <div />
         <Stepper connector={null}>

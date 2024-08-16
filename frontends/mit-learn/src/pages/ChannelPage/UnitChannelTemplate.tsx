@@ -8,7 +8,6 @@ import {
   BannerBackground,
   Typography,
 } from "ol-components"
-import { MetaTags } from "ol-utilities"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
 import { useChannelDetail } from "api/hooks/channels"
@@ -22,6 +21,7 @@ import { HOME as HOME_URL, UNITS as UNITS_URL } from "../../common/urls"
 import { ChannelTypeEnum } from "api/v0"
 import { ChannelControls, UNITS_LABEL } from "./ChannelPageTemplate"
 import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const StyledBannerBackground = styled(BannerBackground)(({ theme }) => ({
   padding: "48px 0 64px 0",
@@ -105,7 +105,11 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
 
   return (
     <>
-      <MetaTags title={channel.data?.title || UNITS_LABEL} />
+      <MetaTags
+        title={channel.data?.title}
+        description={channel.data?.configuration.heading}
+        // no image for now. Channel images are svg and not suitable for social sharing
+      />
       <StyledBannerBackground
         backgroundUrl={
           displayConfiguration?.banner_background ??

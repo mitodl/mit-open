@@ -14,7 +14,8 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
 import { styled, Container, Grid, theme } from "ol-components"
-import { MetaTags, capitalize } from "ol-utilities"
+import { capitalize } from "ol-utilities"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const cssGradient = `
   linear-gradient(

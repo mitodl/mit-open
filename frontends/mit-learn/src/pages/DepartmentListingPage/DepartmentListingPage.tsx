@@ -12,7 +12,7 @@ import {
   Banner,
   Breadcrumbs,
 } from "ol-components"
-import { MetaTags, pluralize } from "ol-utilities"
+import { pluralize } from "ol-utilities"
 import type {
   LearningResourceSchool,
   LearningResourcesSearchResponse,
@@ -32,6 +32,7 @@ import {
   RiTerminalBoxLine,
 } from "@remixicon/react"
 import { HOME } from "@/common/urls"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const SCHOOL_ICONS: Record<string, React.ReactNode> = {
   // School of Architecture and Planning

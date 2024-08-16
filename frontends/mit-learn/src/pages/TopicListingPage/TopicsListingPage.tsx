@@ -12,7 +12,8 @@ import {
   Breadcrumbs,
 } from "ol-components"
 import { Link } from "react-router-dom"
-import { MetaTags, propsNotNil } from "ol-utilities"
+import { propsNotNil } from "ol-utilities"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 import {
   useLearningResourceTopics,
