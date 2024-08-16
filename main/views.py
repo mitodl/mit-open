@@ -3,7 +3,8 @@ Base utility views. Handles errors and feature list views.
 """
 
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
@@ -11,6 +12,7 @@ from main.features import get_all_feature_flags, is_enabled
 
 
 @api_view()
+@permission_classes([AllowAny])
 def handle_error(
     request,  # noqa: ARG001
     exception=None,  # noqa: ARG001
