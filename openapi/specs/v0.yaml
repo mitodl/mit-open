@@ -1133,7 +1133,6 @@ components:
       - Associate degree
       - Secondary/high school
       - Junior secondary/junior high/middle school
-      - Elementary/primary school
       - No formal education
       - Other education
       type: string
@@ -1145,7 +1144,6 @@ components:
         * `Associate degree` - Associate degree
         * `Secondary/high school` - Secondary/high school
         * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school
-        * `Elementary/primary school` - Elementary/primary school
         * `No formal education` - No formal education
         * `Other education` - Other education
       x-enum-descriptions:
@@ -1155,7 +1153,6 @@ components:
       - Associate degree
       - Secondary/high school
       - Junior secondary/junior high/middle school
-      - Elementary/primary school
       - No formal education
       - Other education
     DepartmentChannel:

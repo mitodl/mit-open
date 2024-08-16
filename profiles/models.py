@@ -96,7 +96,6 @@ class Profile(AbstractSCIMUserMixin):
             "Junior secondary/junior high/middle school",
             "Junior secondary/junior high/middle school",
         )
-        PRIMARY = "Elementary/primary school", "Elementary/primary school"
         NO_FORMAL = "No formal education", "No formal education"
         OTHER = "Other education", "Other education"
 

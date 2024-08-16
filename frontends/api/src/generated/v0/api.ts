@@ -430,7 +430,7 @@ export interface ChannelUnitDetail {
   unit: LearningResourceOfferorDetail
 }
 /**
- * * `` - ---- * `Doctorate` - Doctorate * `Master\'s or professional degree` - Master\'s or professional degree * `Bachelor\'s degree` - Bachelor\'s degree * `Associate degree` - Associate degree * `Secondary/high school` - Secondary/high school * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school * `Elementary/primary school` - Elementary/primary school * `No formal education` - No formal education * `Other education` - Other education
+ * * `` - ---- * `Doctorate` - Doctorate * `Master\'s or professional degree` - Master\'s or professional degree * `Bachelor\'s degree` - Bachelor\'s degree * `Associate degree` - Associate degree * `Secondary/high school` - Secondary/high school * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school * `No formal education` - No formal education * `Other education` - Other education
  * @export
  * @enum {string}
  */
@@ -443,7 +443,6 @@ export const CurrentEducationEnumDescriptions = {
   "Secondary/high school": "Secondary/high school",
   "Junior secondary/junior high/middle school":
     "Junior secondary/junior high/middle school",
-  "Elementary/primary school": "Elementary/primary school",
   "No formal education": "No formal education",
   "Other education": "Other education",
 } as const
@@ -474,10 +473,6 @@ export const CurrentEducationEnum = {
    */
   JuniorSecondaryJuniorHighMiddleSchool:
     "Junior secondary/junior high/middle school",
-  /**
-   * Elementary/primary school
-   */
-  ElementaryPrimarySchool: "Elementary/primary school",
   /**
    * No formal education
    */
