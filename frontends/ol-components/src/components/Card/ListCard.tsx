@@ -12,6 +12,7 @@ import { theme } from "../ThemeProvider/ThemeProvider"
 import { Wrapper, containerStyles } from "./Card"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
+import {default as NextImage} from "next/image"
 
 export const LinkContainer = styled(Link)`
   ${containerStyles}
@@ -75,7 +76,7 @@ export const DragArea = styled.div`
   }
 `
 
-const Image = styled.img`
+const Image = styled(NextImage)`
   display: block;
   width: 236px;
   height: 122px;

@@ -9,7 +9,8 @@ import React, {
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { pxToRem } from "../ThemeProvider/typography"
-import Link  from "next/link"
+import Link from "next/link"
+import {default as NextImage} from "next/image"
 
 export type Size = "small" | "medium"
 
@@ -66,7 +67,7 @@ const Body = styled.div`
   margin: 16px;
 `
 
-const Image = styled.img<{ height?: number | string; size?: Size }>`
+const Image = styled(NextImage)<{ height?: number | string; size?: Size }>`
   display: block;
   width: 100%;
   height: ${({ height, size }) =>
@@ -201,7 +202,7 @@ const Card: Card = ({ children, className, size, href }) => {
   if (content) {
     return (
       <Wrapper className={allClassNames} size={size}>
-        <_Container className={className} to={href!}>
+        <_Container className={className} href={href!}>
           {content}
         </_Container>
       </Wrapper>
@@ -210,12 +211,15 @@ const Card: Card = ({ children, className, size, href }) => {
 
   return (
     <Wrapper className={allClassNames} size={size}>
-      <_Container to={href!}>
+      <_Container href={href!}>
         {image && (
           <Image
             className="MitCard-image"
             size={size}
-            height={image.height}
+            // TODO Next.js images require widht and height or fill
+            height={image.height || 170}
+            width={298}
+            // layout="fill"
             {...(image as ImgHTMLAttributes<HTMLImageElement>)}
           />
         )}

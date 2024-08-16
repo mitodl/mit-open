@@ -13,10 +13,6 @@ import { ThemeProvider } from 'ol-components';
 import Providers from './providers'
 import GlobalStyles from "./GlobalStyles"
 
-const metadata: Metadata = {
-  title: "MIT Learn",
-  description: "Learn With MIT",
-};
 
 export default function RootLayout({
   children,

@@ -19,7 +19,7 @@ const getCanonicalUrl = (url: string): string => {
 }
 
 /**
- * Renders a Helmet component to customize meta tags
+ * Renders a Next.js head component to customize meta tags
  */
 const MetaTags: React.FC<MetaTagsProps> = ({
   title,

@@ -1,11 +1,13 @@
-
-
-
 import { dehydrate, Hydrate } from 'api/ssr'
 import HomePage from "@/pages/HomePage/HomePage"
 import * as carousels from "@/pages/HomePage/carousels"
 import { learningResourcesKeyFactory } from "api/hooks/learningResources"
 import getQueryClient from "./getQueryClient"
+
+
+export const metadata = {
+  title: 'MIT Learn',
+}
 
 
 const Page: React.FC = async () => {
@@ -30,4 +32,3 @@ const Page: React.FC = async () => {
 }
 
 export default Page
-

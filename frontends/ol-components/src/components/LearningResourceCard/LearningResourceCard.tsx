@@ -62,10 +62,12 @@ const getEmbedlyUrl = (
   size: Size,
   isMedia: boolean,
 ) => {
-  return embedlyCroppedImage(resource.image!.url!, {
-    key: process.env.PUBLIC_NEXT_EMBEDLY_KEY!,
-    ...getImageDimensions(size, isMedia),
-  })
+  return resource.image!.url!
+  // TODO
+  // return embedlyCroppedImage(resource.image!.url!, {
+  //   key: process.env.NEXT_PUBLIC_EMBEDLY_KEY!,
+  //   ...getImageDimensions(size, isMedia),
+  // })
 }
 
 type ResourceIdCallback = (
@@ -249,7 +251,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
             : DEFAULT_RESOURCE_IMG
         }
         alt={resource.image?.alt ?? ""}
-        height={`${getImageDimensions(size, isMedia).height}px`}
+        // height={`${getImageDimensions(size, isMedia).height}px`}
       />
       <Card.Info>
         <Info resource={resource} size={size} />
