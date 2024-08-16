@@ -149,12 +149,10 @@ def test_generate_learning_resources_text_clause():
                                                 "title.english^3",
                                                 "description.english^2",
                                                 "full_description.english",
-                                                "topics",
-                                                "platform",
+                                                "platform.name",
                                                 "readable_id",
                                                 "offered_by",
                                                 "course_feature",
-                                                "course",
                                                 "video.transcript.english",
                                             ],
                                         }
@@ -177,18 +175,11 @@ def test_generate_learning_resources_text_clause():
                                                 "multi_match": {
                                                     "query": "math",
                                                     "fields": [
-                                                        "departments.department_id"
+                                                        "departments.department_id",
+                                                        "departments.name",
                                                     ],
                                                 }
                                             },
-                                        }
-                                    },
-                                    {
-                                        "wildcard": {
-                                            "readable_id": {
-                                                "value": "MATH*",
-                                                "rewrite": "constant_score",
-                                            }
                                         }
                                     },
                                     {
@@ -270,12 +261,10 @@ def test_generate_learning_resources_text_clause():
                             "title.english^3",
                             "description.english^2",
                             "full_description.english",
-                            "topics",
-                            "platform",
+                            "platform.name",
                             "readable_id",
                             "offered_by",
                             "course_feature",
-                            "course",
                             "video.transcript.english",
                         ],
                     }
@@ -294,14 +283,12 @@ def test_generate_learning_resources_text_clause():
                         "query": {
                             "multi_match": {
                                 "query": "math",
-                                "fields": ["departments.department_id"],
+                                "fields": [
+                                    "departments.department_id",
+                                    "departments.name",
+                                ],
                             }
                         },
-                    }
-                },
-                {
-                    "wildcard": {
-                        "readable_id": {"value": "MATH*", "rewrite": "constant_score"}
                     }
                 },
                 {
@@ -383,12 +370,10 @@ def test_generate_learning_resources_text_clause():
                                                 "title.english^3",
                                                 "description.english^2",
                                                 "full_description.english",
-                                                "topics",
-                                                "platform",
+                                                "platform.name",
                                                 "readable_id",
                                                 "offered_by",
                                                 "course_feature",
-                                                "course",
                                                 "video.transcript.english",
                                             ],
                                         }
@@ -411,18 +396,11 @@ def test_generate_learning_resources_text_clause():
                                                 "query_string": {
                                                     "query": '"math"',
                                                     "fields": [
-                                                        "departments.department_id"
+                                                        "departments.department_id",
+                                                        "departments.name",
                                                     ],
                                                 }
                                             },
-                                        }
-                                    },
-                                    {
-                                        "wildcard": {
-                                            "readable_id": {
-                                                "value": '"MATH"*',
-                                                "rewrite": "constant_score",
-                                            }
                                         }
                                     },
                                     {
@@ -504,12 +482,10 @@ def test_generate_learning_resources_text_clause():
                             "title.english^3",
                             "description.english^2",
                             "full_description.english",
-                            "topics",
-                            "platform",
+                            "platform.name",
                             "readable_id",
                             "offered_by",
                             "course_feature",
-                            "course",
                             "video.transcript.english",
                         ],
                     }
@@ -531,14 +507,12 @@ def test_generate_learning_resources_text_clause():
                         "query": {
                             "query_string": {
                                 "query": '"math"',
-                                "fields": ["departments.department_id"],
+                                "fields": [
+                                    "departments.department_id",
+                                    "departments.name",
+                                ],
                             }
                         },
-                    }
-                },
-                {
-                    "wildcard": {
-                        "readable_id": {"value": '"MATH"*', "rewrite": "constant_score"}
                     }
                 },
                 {
@@ -636,7 +610,8 @@ def test_generate_content_file_text_clause():
                                                 "multi_match": {
                                                     "query": "math",
                                                     "fields": [
-                                                        "departments.department_id"
+                                                        "departments.department_id",
+                                                        "departments.name",
                                                     ],
                                                 }
                                             },
@@ -666,7 +641,10 @@ def test_generate_content_file_text_clause():
                         "query": {
                             "multi_match": {
                                 "query": "math",
-                                "fields": ["departments.department_id"],
+                                "fields": [
+                                    "departments.department_id",
+                                    "departments.name",
+                                ],
                             }
                         },
                     }
@@ -700,7 +678,8 @@ def test_generate_content_file_text_clause():
                                                 "query_string": {
                                                     "query": '"math"',
                                                     "fields": [
-                                                        "departments.department_id"
+                                                        "departments.department_id",
+                                                        "departments.name",
                                                     ],
                                                 }
                                             },
@@ -730,7 +709,10 @@ def test_generate_content_file_text_clause():
                         "query": {
                             "query_string": {
                                 "query": '"math"',
-                                "fields": ["departments.department_id"],
+                                "fields": [
+                                    "departments.department_id",
+                                    "departments.name",
+                                ],
                             }
                         },
                     }
@@ -1062,12 +1044,10 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                     "title.english^3",
                                                                     "description.english^2",
                                                                     "full_description.english",
-                                                                    "topics",
-                                                                    "platform",
+                                                                    "platform.name",
                                                                     "readable_id",
                                                                     "offered_by",
                                                                     "course_feature",
-                                                                    "course",
                                                                     "video.transcript.english",
                                                                 ],
                                                             }
@@ -1092,18 +1072,11 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                                                     "multi_match": {
                                                                         "query": "math",
                                                                         "fields": [
-                                                                            "departments.department_id"
+                                                                            "departments.department_id",
+                                                                            "departments.name",
                                                                         ],
                                                                     }
                                                                 },
-                                                            }
-                                                        },
-                                                        {
-                                                            "wildcard": {
-                                                                "readable_id": {
-                                                                    "value": "MATH*",
-                                                                    "rewrite": "constant_score",
-                                                                }
                                                             }
                                                         },
                                                         {
@@ -1186,12 +1159,10 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                             "title.english^3",
                                             "description.english^2",
                                             "full_description.english",
-                                            "topics",
-                                            "platform",
+                                            "platform.name",
                                             "readable_id",
                                             "offered_by",
                                             "course_feature",
-                                            "course",
                                             "video.transcript.english",
                                         ],
                                     }
@@ -1213,17 +1184,12 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
                                         "query": {
                                             "multi_match": {
                                                 "query": "math",
-                                                "fields": ["departments.department_id"],
+                                                "fields": [
+                                                    "departments.department_id",
+                                                    "departments.name",
+                                                ],
                                             }
                                         },
-                                    }
-                                },
-                                {
-                                    "wildcard": {
-                                        "readable_id": {
-                                            "value": "MATH*",
-                                            "rewrite": "constant_score",
-                                        }
                                     }
                                 },
                                 {
@@ -1484,12 +1450,10 @@ def test_execute_learn_search_with_yearly_decay_percent(mocker, opensearch):
                                                                             "title.english^3",
                                                                             "description.english^2",
                                                                             "full_description.english",
-                                                                            "topics",
-                                                                            "platform",
+                                                                            "platform.name",
                                                                             "readable_id",
                                                                             "offered_by",
                                                                             "course_feature",
-                                                                            "course",
                                                                             "video.transcript.english",
                                                                         ],
                                                                     }
@@ -1514,18 +1478,11 @@ def test_execute_learn_search_with_yearly_decay_percent(mocker, opensearch):
                                                                             "multi_match": {
                                                                                 "query": "math",
                                                                                 "fields": [
-                                                                                    "departments.department_id"
+                                                                                    "departments.department_id",
+                                                                                    "departments.name",
                                                                                 ],
                                                                             }
                                                                         },
-                                                                    }
-                                                                },
-                                                                {
-                                                                    "wildcard": {
-                                                                        "readable_id": {
-                                                                            "value": "MATH*",
-                                                                            "rewrite": "constant_score",
-                                                                        }
                                                                     }
                                                                 },
                                                                 {
@@ -1608,12 +1565,10 @@ def test_execute_learn_search_with_yearly_decay_percent(mocker, opensearch):
                                                     "title.english^3",
                                                     "description.english^2",
                                                     "full_description.english",
-                                                    "topics",
-                                                    "platform",
+                                                    "platform.name",
                                                     "readable_id",
                                                     "offered_by",
                                                     "course_feature",
-                                                    "course",
                                                     "video.transcript.english",
                                                 ],
                                             }
@@ -1636,18 +1591,11 @@ def test_execute_learn_search_with_yearly_decay_percent(mocker, opensearch):
                                                     "multi_match": {
                                                         "query": "math",
                                                         "fields": [
-                                                            "departments.department_id"
+                                                            "departments.department_id",
+                                                            "departments.name",
                                                         ],
                                                     }
                                                 },
-                                            }
-                                        },
-                                        {
-                                            "wildcard": {
-                                                "readable_id": {
-                                                    "value": "MATH*",
-                                                    "rewrite": "constant_score",
-                                                }
                                             }
                                         },
                                         {
@@ -1924,7 +1872,8 @@ def test_execute_learn_search_for_content_file_query(opensearch):
                                                                     "multi_match": {
                                                                         "query": "math",
                                                                         "fields": [
-                                                                            "departments.department_id"
+                                                                            "departments.department_id",
+                                                                            "departments.name",
                                                                         ],
                                                                     }
                                                                 },
@@ -1955,7 +1904,10 @@ def test_execute_learn_search_for_content_file_query(opensearch):
                                         "query": {
                                             "multi_match": {
                                                 "query": "math",
-                                                "fields": ["departments.department_id"],
+                                                "fields": [
+                                                    "departments.department_id",
+                                                    "departments.name",
+                                                ],
                                             }
                                         },
                                     }
