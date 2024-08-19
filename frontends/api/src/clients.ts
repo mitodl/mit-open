@@ -24,7 +24,7 @@ import {
 
 import axiosInstance from "./axios"
 
-const { MITOL_API_BASE_URL } = APP_SETTINGS
+const { MITOL_API_BASE_URL } = process.env
 
 const BASE_PATH = MITOL_API_BASE_URL?.replace(/\/+$/, "") ?? ""
 

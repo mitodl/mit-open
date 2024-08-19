@@ -17,7 +17,7 @@ const useCapturePageView = (resourceId: number) => {
   const { data, isSuccess } = useLearningResourcesDetail(Number(resourceId))
   const posthog = usePostHog()
 
-  const { POSTHOG } = APP_SETTINGS
+  const { POSTHOG } = process.env
 
   useEffect(() => {
     if (!POSTHOG?.api_key || POSTHOG.api_key.length < 1) return

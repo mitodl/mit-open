@@ -5,7 +5,7 @@ import axios from "axios"
  */
 const instance = axios.create({
   baseURL: "/api/v0",
-  xsrfCookieName: APP_SETTINGS.CSRF_COOKIE_NAME,
+  xsrfCookieName: process.env.CSRF_COOKIE_NAME,
   xsrfHeaderName: "X-CSRFToken",
 })
 

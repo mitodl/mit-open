@@ -52,7 +52,7 @@ const UnorderedList = styled.ul(({ theme }) => ({
   ...theme.typography.body1,
 }))
 
-const { SITE_NAME, MITOL_SUPPORT_EMAIL } = APP_SETTINGS
+const { SITE_NAME, MITOL_SUPPORT_EMAIL } = process.env
 
 const PrivacyPage: React.FC = () => {
   return (

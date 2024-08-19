@@ -3,6 +3,11 @@ import { mockAxiosInstance } from "./mockAxios"
 
 setupMockEditors()
 
+process.env.EMBEDLY_KEY = "embedly_key"
+process.env.MITOL_API_BASE_URL = "https://api.test.learn.mit.edu"
+process.env.PUBLIC_URL = ""
+process.env.SITE_NAME = "MIT Learn"
+
 jest.mock("axios", () => {
   const AxiosError = jest.requireActual("axios").AxiosError
   return {

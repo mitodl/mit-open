@@ -1,6 +1,6 @@
 import { login } from "./urls"
 
-const { MITOL_API_BASE_URL } = APP_SETTINGS
+const { MITOL_API_BASE_URL } = process.env
 
 test("login encodes the next parameter appropriately", () => {
   expect(login()).toBe(

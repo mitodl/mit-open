@@ -24,7 +24,7 @@ describe("MetaTags", () => {
       />,
     )
 
-    const expectedTitle = `${title} | ${APP_SETTINGS.SITE_NAME}`
+    const expectedTitle = `${title} | ${process.env.SITE_NAME}`
     await waitFor(() => {
       assertPartialMetas({
         title: expectedTitle,
@@ -50,7 +50,7 @@ describe("MetaTags", () => {
       />,
     )
 
-    const expectedTitle = `${title} | ${APP_SETTINGS.SITE_NAME}`
+    const expectedTitle = `${title} | ${process.env.SITE_NAME}`
     await waitFor(() => {
       assertPartialMetas({
         title: expectedTitle,
@@ -78,7 +78,7 @@ describe("MetaTags", () => {
     const title = faker.lorem.words()
     renderWithProviders(<MetaTags title={title} />)
     await waitFor(() =>
-      assertPartialMetas({ title: `${title} | ${APP_SETTINGS.SITE_NAME}` }),
+      assertPartialMetas({ title: `${title} | ${process.env.SITE_NAME}` }),
     )
     expect(document.querySelector('meta[name="description"]')).toBe(null)
     expect(document.querySelector('meta[name="og:description"]')).toBe(null)

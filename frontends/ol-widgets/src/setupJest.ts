@@ -2,6 +2,8 @@ import { setupMockEditors } from "ol-ckeditor/test_utils"
 
 setupMockEditors()
 
+process.env.EMBEDLY_KEY = "fake-embedly-key"
+
 beforeEach(() => {
   const originalError = console.error
   jest.spyOn(console, "error").mockImplementation((...args) => {

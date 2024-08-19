@@ -22,7 +22,7 @@ const meta: Meta<typeof LearningResourceExpanded> = {
   component: LearningResourceExpanded,
   args: {
     imgConfig: {
-      key: APP_SETTINGS.EMBEDLY_KEY,
+      key: process.env.EMBEDLY_KEY,
       width: 385,
       height: 200,
     },

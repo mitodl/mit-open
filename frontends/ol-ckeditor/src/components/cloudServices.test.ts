@@ -13,7 +13,7 @@ describe("cloudServicesConfig", () => {
   })
 
   test("CKEDITOR_UPLOAD_URL is set from global APP_SETTINGS", () => {
-    APP_SETTINGS.CKEDITOR_UPLOAD_URL = "https://meowmeow.com"
+    process.env.CKEDITOR_UPLOAD_URL = "https://meowmeow.com"
     const cloud = getCloudServicesConfig()
     expect(cloud.uploadUrl).toBe("https://meowmeow.com")
   })

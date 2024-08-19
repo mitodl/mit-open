@@ -123,7 +123,7 @@ describe("ChannelPage", () => {
       const title = await screen.findByRole("heading", { name: channel.title })
       await waitFor(() => {
         assertPartialMetas({
-          title: `${channel.title} | ${APP_SETTINGS.SITE_NAME}`,
+          title: `${channel.title} | ${process.env.SITE_NAME}`,
         })
       })
       // Banner background image
@@ -223,7 +223,7 @@ describe("Unit Channel Pages", () => {
       channel_type: "unit",
     })
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    const title = `${channel.title} | ${APP_SETTINGS.SITE_NAME}`
+    const title = `${channel.title} | ${process.env.SITE_NAME}`
     const { heading: description } = channel.configuration
     await waitFor(() => {
       assertPartialMetas({
@@ -253,7 +253,7 @@ describe("Unit Channel Pages", () => {
       url: `/c/${channel.channel_type}/${channel.name}?resource=${resource.id}`,
     })
     await screen.findByRole("heading", { name: channel.title, hidden: true })
-    const title = `${resource.title} | ${APP_SETTINGS.SITE_NAME}`
+    const title = `${resource.title} | ${process.env.SITE_NAME}`
     const description = resource.description
     await waitFor(() => {
       assertPartialMetas({

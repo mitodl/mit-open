@@ -40,7 +40,7 @@ describe("LearningResourceDrawer", () => {
   ])(
     "Renders drawer content when resource=id is in the URL and captures the view if PostHog $descriptor",
     async ({ enablePostHog }) => {
-      APP_SETTINGS.POSTHOG = {
+      process.env.POSTHOG = {
         api_key: enablePostHog ? "test1234" : "", // pragma: allowlist secret
       }
       const resource = factories.learningResources.resource()

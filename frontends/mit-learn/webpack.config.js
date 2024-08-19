@@ -30,6 +30,7 @@ const {
   PORT,
   VERSION,
   MITOL_API_BASE_URL,
+  MITOL_APP_BASE_URL,
   API_DEV_PROXY_BASE_URL,
   WEBPACK_ANALYZE,
   SITE_NAME,
@@ -55,7 +56,9 @@ const {
   }),
   MITOL_API_BASE_URL: str({
     desc: "Base URL for API requests",
-    devDefault: "",
+  }),
+  MITOL_APP_BASE_URL: str({
+    desc: "Base URL for the app",
   }),
   API_DEV_PROXY_BASE_URL: str({
     desc: "API base URL to proxy to in development mode",
@@ -211,12 +214,8 @@ module.exports = (env, argv) => {
       }),
       new webpack.DefinePlugin({
         "process.env": {
-          env: { NODE_ENV: JSON.stringify(mode) },
-        },
-      }),
-      new webpack.DefinePlugin({
-        APP_SETTINGS: {
           MITOL_AXIOS_WITH_CREDENTIALS,
+          MITOL_APP_BASE_URL: JSON.stringify(MITOL_APP_BASE_URL),
           MITOL_API_BASE_URL: JSON.stringify(MITOL_API_BASE_URL),
           EMBEDLY_KEY: JSON.stringify(EMBEDLY_KEY),
           CKEDITOR_UPLOAD_URL: JSON.stringify(CKEDITOR_UPLOAD_URL),

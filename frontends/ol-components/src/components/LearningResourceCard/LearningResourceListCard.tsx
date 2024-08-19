@@ -109,7 +109,7 @@ type ResourceIdCallback = (
 
 const getEmbedlyUrl = (url: string, isMobile: boolean) => {
   return embedlyCroppedImage(url, {
-    key: APP_SETTINGS.EMBEDLY_KEY,
+    key: process.env.EMBEDLY_KEY,
     ...IMAGE_SIZES[isMobile ? "mobile" : "desktop"],
   })
 }

@@ -22,7 +22,7 @@ const ErrorPageTemplate: React.FC<ErrorPageTemplateProps> = ({
     <Container maxWidth="sm">
       <MuiCard sx={{ marginTop: "1rem" }}>
         <Helmet>
-          <title>{`${title} | ${APP_SETTINGS.SITE_NAME}`}</title>
+          <title>{`${title} | ${process.env.SITE_NAME}`}</title>
           <meta name="robots" content="noindex,noarchive" />
         </Helmet>
         <CardContent>{children}</CardContent>

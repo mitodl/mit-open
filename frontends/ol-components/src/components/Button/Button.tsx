@@ -4,6 +4,7 @@ import { pxToRem } from "../ThemeProvider/typography"
 import tinycolor from "tinycolor2"
 import { Link } from "react-router-dom"
 import type { Theme } from "@mui/material/styles"
+import NextLink from "next/link"
 
 type ButtonVariant =
   | "primary"
@@ -231,7 +232,26 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ],
 )
 
-const LinkStyled = styled(ButtonStyled.withComponent(Link), {
+export const FlexibleLink = React.forwardRef<
+  HTMLAnchorElement,
+  ButtonLinkProps
+>(({ children, href = "", ...props }, ref) => {
+  if (process.env.IS_NEXT_JS) {
+    return (
+      <NextLink href={href} {...props} ref={ref}>
+        {children}
+      </NextLink>
+    )
+  } else {
+    return (
+      <Link to={href} {...props} ref={ref}>
+        {children}
+      </Link>
+    )
+  }
+})
+
+const LinkStyled = styled(ButtonStyled.withComponent(FlexibleLink), {
   /**
    * There are no extra styles here, emotion seems to forward "responsive"
    * to the underlying dom node without this.
@@ -288,7 +308,7 @@ type ButtonLinkProps = ButtonStyleProps &
 const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   ({ children, href = "", ...props }, ref) => {
     return (
-      <LinkStyled to={href} {...props} ref={ref}>
+      <LinkStyled href={href} {...props} ref={ref}>
         <ButtonInner {...props}>{children}</ButtonInner>
       </LinkStyled>
     )
@@ -350,7 +370,7 @@ type ActionButtonLinkProps = ActionButtonProps &
 const ActionButtonLink = ActionButton.withComponent(
   React.forwardRef<HTMLAnchorElement, ActionButtonLinkProps>(
     ({ href = "", ...props }, ref) => {
-      return <LinkStyled ref={ref} to={href} {...props} />
+      return <LinkStyled ref={ref} href={href} {...props} />
     },
   ),
 )

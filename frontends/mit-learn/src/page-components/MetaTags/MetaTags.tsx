@@ -70,7 +70,7 @@ const canonicalPathname = (pathname: string) => {
   return pathname.endsWith("/") ? pathname.slice(0, -1) : pathname
 }
 
-const SITE_NAME = APP_SETTINGS.SITE_NAME
+const SITE_NAME = process.env.SITE_NAME
 const DEFAULT_OG_IMAGE = `${window.origin}/static/images/mit-logo-learn.jpg`
 /**
  * Renders a Helmet component to customize meta tags
