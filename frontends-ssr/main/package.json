@@ -1,5 +1,5 @@
 {
-  "name": "mit-learn",
+  "name": "main",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -26,6 +26,7 @@
     "@types/slick-carousel": "^1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
+    "http-proxy-middleware": "^3.0.0",
     "typescript": "^5"
   }
 }

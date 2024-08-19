@@ -21,6 +21,7 @@
       "@/*": ["./src/*"],
       "@/common/*": ["../../frontends/mit-learn/src/common/*"],
       "api": ["../../frontends/api/src"],
+      "api/*": ["../../frontends/api/src/*"],
       "ol-components": ["../../frontends/ol-components/src"],
       "ol-utilities": ["../../frontends/ol-utilities/src"],
     }

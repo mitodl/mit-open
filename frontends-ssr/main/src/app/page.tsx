@@ -2,6 +2,7 @@ import { dehydrate, Hydrate } from 'api/ssr'
 import HomePage from "@/pages/HomePage/HomePage"
 import * as carousels from "@/pages/HomePage/carousels"
 import { learningResourcesKeyFactory } from "api/hooks/learningResources"
+import { FeaturedApiFeaturedListRequest } from "api/generated/v1/api"
 import getQueryClient from "./getQueryClient"
 
 
@@ -18,7 +19,7 @@ const Page: React.FC = async () => {
    */
   await queryClient.prefetchQuery(
     learningResourcesKeyFactory.featured(
-      carousels.FEATURED_RESOURCES_CAROUSEL[0].data.params
+      carousels.FEATURED_RESOURCES_CAROUSEL[0].data.params as FeaturedApiFeaturedListRequest
     )
   )
 

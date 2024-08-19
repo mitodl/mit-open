@@ -9,7 +9,8 @@
     "yarn": "^4.1.1"
   },
   "workspaces": [
-    "frontends"
+    "frontends",
+    "frontends-ssr/main"
   ],
   "scripts": {
     "build": "yarn workspace mit-learn run build",

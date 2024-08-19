@@ -136,5 +136,4 @@ storybook-static/
 /e2e_testing/playwright/.cache/
 !/e2e_testing/.env
 
-e2e_testing/.yarn/cache
-frontends-ssr/mit-learn/.yarn/cache
+/**/.yarn/cache
