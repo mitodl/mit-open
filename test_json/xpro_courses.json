@@ -10,7 +10,8 @@
     "next_run_id": null,
     "platform": "xPRO",
     "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "format": "Online"
+    "format": "Online",
+    "availability": "dated"
   },
   {
     "id": 20,
@@ -37,7 +38,8 @@
     ],
     "next_run_id": 49,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "format": "In person"
+    "format": "In person",
+    "availability": "dated"
   },
   {
     "id": 19,
@@ -65,7 +67,8 @@
     ],
     "next_run_id": 48,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
-    "format": "Online"
+    "format": "Online",
+    "availability": "dated"
   },
   {
     "id": 21,
@@ -77,7 +80,8 @@
     "next_run_id": null,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
     "platform": "xPRO",
-    "format": "Online"
+    "format": "Online",
+    "availability": "dated"
   },
   {
     "id": 30,
@@ -126,7 +130,8 @@
       }
     ],
     "next_run_id": 73,
-    "topics": [{ "name": "Business:Leadership & Organizations" }]
+    "topics": [{ "name": "Business:Leadership & Organizations" }],
+    "availability": "dated"
   },
   {
     "id": 31,
@@ -138,7 +143,8 @@
     "next_run_id": null,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
     "format": "Online",
-    "platform": "xPRO"
+    "platform": "xPRO",
+    "availability": "dated"
   },
   {
     "id": 32,
@@ -150,6 +156,7 @@
     "next_run_id": null,
     "topics": [{ "name": "Business:Leadership & Organizations" }],
     "format": "Online",
-    "platform": "xPRO"
+    "platform": "xPRO",
+    "availability": "dated"
   }
 ]
