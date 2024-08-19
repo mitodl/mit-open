@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.0
+Version 0.17.0 (Released August 19, 2024)
 --------------
 
 - Add migration to adjust mappings, make some minor changes to the dump to yaml util function (#1408)
