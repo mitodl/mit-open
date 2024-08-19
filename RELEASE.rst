@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.17.1
+--------------
+
+- Replace topic chips with info section text (#1379)
+- Handle topics with colons from xpro in ETL pipeline (#1429)
+- Set default sort to featured (#1414) (#1423)
+
 Version 0.17.0 (Released August 19, 2024)
 --------------
 
