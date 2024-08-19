@@ -12,6 +12,7 @@ import {
   RiGraduationCapLine,
   RiTranslate2,
   RiAwardLine,
+  RiPresentationLine,
 } from "@remixicon/react"
 import { LearningResource, LearningResourceRun, ResourceTypeEnum } from "api"
 import {
@@ -108,7 +109,18 @@ const INFO_ITEMS: InfoItemConfig = [
       )
     },
   },
+  {
+    label: "Topics:",
+    Icon: RiPresentationLine,
+    selector: (resource: LearningResource) => {
+      const { topics } = resource
+      if (!topics?.length) {
+        return null
+      }
 
+      return topics.map((topic) => topic.name).join(", ")
+    },
+  },
   {
     label: "Level:",
     Icon: RiDashboard3Line,

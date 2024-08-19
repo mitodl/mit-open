@@ -133,28 +133,6 @@ describe("Learning Resource Expanded", () => {
     },
   )
 
-  test.each(RESOURCE_TYPES.filter((type) => !isVideo(type)))(
-    'Renders topic section for resource type "%s"',
-    (resourceType) => {
-      const resource = factories.learningResources.resource({
-        resource_type: resourceType,
-      })
-
-      setup(resource)
-
-      const section = screen
-        .getByRole("heading", { name: "Topics" })!
-        .closest("section")!
-
-      const links = within(section).getAllByRole("link")
-
-      resource.topics!.forEach((topic, index) => {
-        expect(links[index]).toHaveAttribute("href", topic.channel_url)
-        expect(links[index]).toHaveTextContent(topic.name)
-      })
-    },
-  )
-
   test(`Renders info section for resource type "${ResourceTypeEnum.Video}"`, () => {
     const resource = factories.learningResources.resource({
       resource_type: ResourceTypeEnum.Video,
@@ -290,6 +268,25 @@ describe("Learning Resource Expanded", () => {
       })
     },
   )
+
+  test("Renders info section topics correctly", () => {
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.Course,
+      topics: [
+        factories.learningResources.topic({ name: "Topic 1" }),
+        factories.learningResources.topic({ name: "Topic 2" }),
+        factories.learningResources.topic({ name: "Topic 3" }),
+      ],
+    })
+
+    setup(resource)
+
+    const section = screen
+      .getByRole("heading", { name: "Info" })!
+      .closest("section")!
+
+    within(section).getByText("Topic 1, Topic 2, Topic 3")
+  })
 
   test("Renders info section languages correctly", () => {
     const resource = factories.learningResources.resource({
