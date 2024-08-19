@@ -51,6 +51,27 @@ def _parse_datetime(value):
     return parse(value).replace(tzinfo=UTC) if value else None
 
 
+def parse_topics(resource_data: dict) -> list[dict]:
+    """
+    Get a list containing {"name": <topic>} dict objects
+    Args:
+        resource_data: course or program data
+    Returns:
+        list of dict: list containing topic dicts with a name attribute
+    """
+    extracted_topics = resource_data["topics"]
+    if not extracted_topics:
+        return []
+    return transform_topics(
+        [
+            {"name": topic["name"].split(":")[-1].strip()}
+            for topic in extracted_topics
+            if topic
+        ],
+        OfferedBy.xpro.name,
+    )
+
+
 def extract_programs():
     """Loads the xPro catalog data"""  # noqa: D401
     if settings.XPRO_CATALOG_API_URL:
@@ -122,7 +143,7 @@ def _transform_learning_resource_course(course):
         "published": any(
             course_run.get("current_price", None) for course_run in course["courseruns"]
         ),
-        "topics": transform_topics(course.get("topics", []), OFFERED_BY["code"]),
+        "topics": parse_topics(course),
         "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
         "resource_type": LearningResourceType.course.name,
         "learning_format": transform_format(course.get("format")),
@@ -167,7 +188,7 @@ def transform_programs(programs):
                 program["current_price"]
             ),  # a program is only considered published if it has a product/price
             "url": program["url"],
-            "topics": transform_topics(program.get("topics", []), OFFERED_BY["code"]),
+            "topics": parse_topics(program),
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.name,
             "learning_format": transform_format(program.get("format")),
