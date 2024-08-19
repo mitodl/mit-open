@@ -110,10 +110,6 @@ const {
   }),
 })
 
-console.log({
-  APPZI_URL,
-})
-
 const MITOL_FEATURES_PREFIX = "FEATURE_"
 
 const getFeatureFlags = () => {
