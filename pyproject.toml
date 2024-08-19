@@ -81,6 +81,7 @@ posthog = "^3.5.0"
 ruff = "0.5.1"
 django-silk = "^5.1.0"
 dateparser = "^1.2.0"
+uwsgitop = "^0.12"
 
 
 [tool.poetry.group.dev.dependencies]
@@ -107,6 +108,7 @@ semantic-version = "^2.10.0"
 freezegun = "^1.4.0"
 pytest-xdist = { version = "^3.6.1", extras = ["psutil"] }
 anys = "^0.3.0"
+locust = "^2.31.2"
 
 
 [build-system]
