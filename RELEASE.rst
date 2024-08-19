@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 0.17.0
+--------------
+
+- Add migration to adjust mappings, make some minor changes to the dump to yaml util function (#1408)
+- uncapitalize with (#1428)
+- Update nginx Docker tag to v1.27.1 (#1425)
+- search query clean up (#1393)
+- remove elementary / primary school as an education option (#1415)
+- Per Page metadata tags  (#1411)
+
 Version 0.16.1 (Released August 15, 2024)
 --------------
 
