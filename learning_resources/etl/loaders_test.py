@@ -843,12 +843,21 @@ def test_load_programs(mocker, mock_blocklist, mock_duplicates):
 
 
 @pytest.mark.parametrize("is_published", [True, False])
-def test_load_content_files(mocker, is_published):
+@pytest.mark.parametrize("extra_run", [True, False])
+def test_load_content_files(mocker, is_published, extra_run):
     """Test that load_content_files calls the expected functions"""
-    course = CourseFactory.create()
+    course = LearningResourceFactory.create(is_course=True, create_runs=False)
     course_run = LearningResourceRunFactory.create(
-        published=is_published, learning_resource=course.learning_resource
+        published=is_published, learning_resource=course
     )
+    if extra_run:
+        LearningResourceRunFactory.create(
+            published=is_published,
+            learning_resource=course,
+            start_date=now_in_utc() - timedelta(days=365),
+        )
+    run_count = 2 if extra_run else 1
+    assert course.runs.count() == run_count
 
     returned_content_file_id = 1
 
@@ -859,16 +868,18 @@ def test_load_content_files(mocker, is_published):
         autospec=True,
     )
     mock_bulk_index = mocker.patch(
-        "learning_resources.etl.loaders.resource_run_upserted_actions",
+        "learning_resources_search.plugins.tasks.index_run_content_files",
     )
     mock_bulk_delete = mocker.patch(
-        "learning_resources.etl.loaders.resource_run_unpublished_actions",
+        "learning_resources_search.plugins.tasks.deindex_run_content_files",
         autospec=True,
     )
     load_content_files(course_run, content_data)
     assert mock_load_content_file.call_count == len(content_data)
     assert mock_bulk_index.call_count == (1 if is_published else 0)
-    assert mock_bulk_delete.call_count == (0 if is_published else 1)
+    assert mock_bulk_delete.call_count == (
+        run_count if not is_published else run_count - 1
+    )
 
 
 def test_load_content_file():
