@@ -46,6 +46,7 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_RC }}
           SENTRY_ENV: ${{ secrets.MITOL_ENVIRONMENT_RC }}
           CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
+          APPZI_URL: ${{ secrets.APPZI_URL_RC }}
           MITOL_AXIOS_WITH_CREDENTIALS: true
           MITOL_API_BASE_URL: https://api.rc.learn.mit.edu
           MITOL_SUPPORT_EMAIL: mitlearn-support@mit.edu
