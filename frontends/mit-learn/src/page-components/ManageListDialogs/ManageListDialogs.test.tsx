@@ -17,7 +17,6 @@ import {
 } from "../../test-utils"
 import type { TestAppOptions } from "../../test-utils"
 import { waitForElementToBeRemoved } from "@testing-library/react"
-import invariant from "tiny-invariant"
 
 const selectFromAutocomplete = async (input: HTMLElement, label: string) => {
   await user.click(input)
@@ -35,16 +34,6 @@ const selectFromAutocomplete = async (input: HTMLElement, label: string) => {
  *
  */
 const inputs = {
-  published: (value?: boolean) => {
-    invariant(value !== undefined)
-    const element = screen.getByLabelText(value ? "Public" : "Private")
-    return element as HTMLInputElement
-  },
-  privacy_level: (value?: string) => {
-    invariant(value !== undefined)
-    const element = screen.getByDisplayValue(value)
-    return element as HTMLInputElement
-  },
   title: () => screen.getByLabelText("Title", { exact: false }),
   description: () => screen.getByLabelText("Description", { exact: false }),
   topics: () => screen.getByLabelText("Subjects", { exact: false }),
@@ -138,8 +127,6 @@ describe("manageListDialogs.upsertLearningPath", () => {
 
   test("Form defaults are set", () => {
     setup()
-    expect(inputs.published(false).checked).toBe(true)
-    expect(inputs.published(true).checked).toBe(false)
     expect(inputs.title()).toHaveValue("")
     expect(inputs.description()).toHaveValue("")
     expect(inputs.topics()).toHaveValue("")
@@ -153,17 +140,11 @@ describe("manageListDialogs.upsertLearningPath", () => {
     })
     setup({ resource, topics })
     const patch = {
-      published: !resource.published,
       title: faker.lorem.words(),
       description: faker.lorem.paragraph(),
       // Pick a topic that is not already in the resource
       topics: [topic0, topic1],
     }
-
-    // Published
-    expect(inputs.published(false).checked).toBe(!resource.published)
-    expect(inputs.published(true).checked).toBe(resource.published)
-    await user.click(inputs.published(patch.published))
 
     // Title
     expect(inputs.title()).toHaveValue(resource.title)

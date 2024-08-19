@@ -6,14 +6,13 @@ import {
   Alert,
   TextField,
   Autocomplete,
-  BooleanRadioChoiceField,
   FormDialog,
   Dialog,
   MenuItem,
   Button,
 } from "ol-components"
 import * as Yup from "yup"
-import { PrivacyLevelEnum, type LearningPathResource, UserList } from "api"
+import { type LearningPathResource, UserList } from "api"
 
 import {
   useLearningpathCreate,
@@ -47,24 +46,9 @@ const learningPathFormSchema = Yup.object().shape({
 })
 
 const userListFormSchema = Yup.object().shape({
-  privacy_level: Yup.string()
-    .oneOf(Object.values(PrivacyLevelEnum))
-    .default(PrivacyLevelEnum.Private)
-    .required("Privacy Level is required"),
   title: Yup.string().default("").required("Title is required"),
   description: Yup.string().default("").required("Description is required"),
 })
-
-const LEARNING_PATH_PRIVACY_CHOICES = [
-  {
-    value: false,
-    label: "Private",
-  },
-  {
-    value: true,
-    label: "Public",
-  },
-]
 
 type LearningPathFormValues = Yup.InferType<typeof learningPathFormSchema>
 type UserListFormValues = Yup.InferType<typeof userListFormSchema>
@@ -183,13 +167,6 @@ const UpsertLearningPathDialog = NiceModal.create(
           renderOption={(props, opt) => {
             return <MenuItem {...props}>{opt.name}</MenuItem>
           }}
-        />
-        <BooleanRadioChoiceField
-          name="published"
-          label="Privacy"
-          choices={LEARNING_PATH_PRIVACY_CHOICES}
-          value={formik.values.published}
-          onChange={(e) => formik.setFieldValue(e.name, e.value)}
         />
       </FormDialog>
     )
