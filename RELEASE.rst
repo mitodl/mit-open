@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.1
+Version 0.17.1 (Released August 19, 2024)
 --------------
 
 - Replace topic chips with info section text (#1379)
