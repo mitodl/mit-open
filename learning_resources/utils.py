@@ -691,6 +691,7 @@ def dump_topics_to_yaml(topic_id: int | None = None):
             "icon": topic.icon,
             "mappings": {},
             "children": [],
+            "parent": str(topic.parent.topic_uuid) if topic.parent else None,
         }
 
         for mapping in LearningResourceTopicMapping.objects.filter(topic=topic).all():
@@ -705,7 +706,7 @@ def dump_topics_to_yaml(topic_id: int | None = None):
         return yaml_ready_data
 
     if topic_id:
-        parent_topics = LearningResourceTopic.objects.get(pk=topic_id)
+        parent_topics = [LearningResourceTopic.objects.get(pk=topic_id)]
     else:
         parent_topics = LearningResourceTopic.objects.filter(parent__isnull=True).all()
 
