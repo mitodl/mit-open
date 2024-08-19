@@ -207,11 +207,8 @@ def test_ocw_courses_etl(settings, mocker, skip_content_files):
         return_value={"content": "TEXT"},
     )
     mocker.patch("learning_resources.etl.pipelines.loaders.resource_upserted_actions")
-    mocker.patch(
-        "learning_resources.etl.pipelines.loaders.resource_run_upserted_actions"
-    )
-    mocker.patch(
-        "learning_resources.etl.pipelines.loaders.resource_unpublished_actions"
+    mock_cf_actions = mocker.patch(
+        "learning_resources.etl.pipelines.loaders.content_files_loaded_actions"
     )
 
     pipelines.ocw_courses_etl(
@@ -237,6 +234,7 @@ def test_ocw_courses_etl(settings, mocker, skip_content_files):
     assert run.instructors.count() == 10
     assert run.run_id == "97db384ef34009a64df7cb86cf701979"
     assert run.content_files.count() == (0 if skip_content_files else 4)
+    assert mock_cf_actions.call_count == (0 if skip_content_files else 1)
 
 
 @mock_s3
