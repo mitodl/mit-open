@@ -106,10 +106,6 @@ const {
 })
 
 const MITOL_FEATURES_PREFIX = "FEATURE_"
-console.log("HELLO FROM WEBPACK")
-console.log("SENTRY_ENV", SENTRY_ENV)
-console.log("SENTRY_DSN", SENTRY_DSN)
-console.log("VERSION", VERSION)
 
 const getFeatureFlags = () => {
   const bootstrapFeatureFlags = {}
