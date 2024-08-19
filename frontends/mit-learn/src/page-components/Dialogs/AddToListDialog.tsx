@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import {
   Dialog,
-  Chip,
   MuiCheckbox,
   List,
   ListItem,
@@ -12,12 +11,11 @@ import {
   styled,
 } from "ol-components"
 
-import { RiLockLine, RiLockUnlockLine, RiAddLine } from "@remixicon/react"
+import { RiAddLine } from "@remixicon/react"
 
 import * as NiceModal from "@ebay/nice-modal-react"
 
 import {
-  PrivacyLevelEnum,
   type LearningPathResource,
   type LearningResource,
   type UserList,
@@ -184,19 +182,6 @@ const Listing = styled(List)`
   }
 `
 
-type PrivacyChipProps = {
-  publicOption: string
-  selectedOption: string | undefined
-}
-const PrivacyChip: React.FC<PrivacyChipProps> = ({
-  publicOption,
-  selectedOption,
-}) => {
-  const isPublic = selectedOption === publicOption
-  const icon = isPublic ? <RiLockUnlockLine /> : <RiLockLine />
-  return <Chip icon={icon} label={selectedOption} size="medium" />
-}
-
 type AddToListDialogInnerProps = {
   listType: ListType
   resource: LearningResource | undefined
@@ -284,15 +269,7 @@ const LearningPathToggleList: React.FC<LearningPathToggleListProps> = ({
     const removing = isRemoving(list)
     const disabled = adding || removing
     return (
-      <ListItem
-        key={list.id}
-        secondaryAction={
-          <PrivacyChip
-            publicOption="Public"
-            selectedOption={list.published ? "Public" : "Private"}
-          />
-        }
-      >
+      <ListItem key={list.id}>
         <ListItemButton
           aria-disabled={disabled}
           onClick={disabled ? undefined : handleToggle(list)}
@@ -326,25 +303,8 @@ const UserListToggleList: React.FC<UserListToggleListProps> = ({
     const adding = isAdding(list)
     const removing = isRemoving(list)
     const disabled = adding || removing
-    const privateLevel = PrivacyLevelEnum.Private[0]
-      .toUpperCase()
-      .concat(PrivacyLevelEnum.Private.slice(1))
-    const unlistedLevel = PrivacyLevelEnum.Unlisted[0]
-      .toUpperCase()
-      .concat(PrivacyLevelEnum.Unlisted.slice(1))
-    const privacyLevel = list.privacy_level
-      ? list.privacy_level[0].toUpperCase().concat(list.privacy_level.slice(1))
-      : privateLevel
     return (
-      <ListItem
-        key={list.id}
-        secondaryAction={
-          <PrivacyChip
-            publicOption={unlistedLevel}
-            selectedOption={privacyLevel}
-          />
-        }
-      >
+      <ListItem key={list.id}>
         <ListItemButton
           aria-disabled={disabled}
           onClick={disabled ? undefined : handleToggle(list)}
