@@ -6,7 +6,7 @@ import {
 } from "ol-components"
 import type { RoutedDrawerProps } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import { useSearchParams, useRouter, useParams  } from 'next/navigation'
+import { useSearchParams, useRouter, useParams  } from "next/navigation"
 
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { usePostHog } from "posthog-js/react"

@@ -1,6 +1,6 @@
 import React from "react"
-import Image from 'next/image'
-import logo from '../../../public/mit-logo-learn.svg'
+import Image from "next/image"
+import logo from "../../../public/mit-logo-learn.svg"
 
 const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`

@@ -11,7 +11,7 @@ import {
 } from "@remixicon/react"
 import { useUserMe, User } from "api/hooks/user"
 import Link from "next/link"
-import { usePathname, useSearchParams } from 'next/navigation'
+import { usePathname, useSearchParams } from "next/navigation"
 
 const FlexContainer = styled.div({
   display: "flex",
@@ -137,7 +137,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
     transformOrigin: { horizontal: "right", vertical: "top" },
   }
 
-  console.log('VARIANT', variant)
+  console.log("VARIANT", variant)
 
   if (user?.is_authenticated) {
     return (
