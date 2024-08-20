@@ -210,7 +210,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
     >
       {isReady ? (
         <>
-          <Typography variant="body1">
+          <Typography variant="button">
             Adding <ResourceTitle>{resource?.title}</ResourceTitle>
           </Typography>
           {listType === ListType.LearningPath ? (
