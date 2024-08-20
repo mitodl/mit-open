@@ -23,7 +23,7 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
-const { cleanEnv, str, bool, port, url } = require("envalid")
+const { cleanEnv, str, bool, port } = require("envalid")
 
 const {
   NODE_ENV,
@@ -104,7 +104,8 @@ const {
     desc: "Name of the CSRF cookie",
     default: "csrftoken",
   }),
-  APPZI_URL: url({
+  APPZI_URL: str({
+    // use str() not url() to allow empty string
     desc: "URL for the Appzi feedback widget",
     default: "",
   }),
