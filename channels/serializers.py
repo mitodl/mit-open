@@ -259,7 +259,6 @@ class ChannelCreateSerializer(serializers.ModelSerializer):
         allow_empty=True,
         required=False,
         queryset=LearningResource.objects.filter(
-            published=True,
             resource_type=LearningResourceType.learning_path.name,
         ),
         help_text="Learning path featured in this channel.",
