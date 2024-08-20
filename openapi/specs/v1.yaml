@@ -600,7 +600,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
         description: |-
@@ -640,7 +640,7 @@ paths:
           * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
+          * `SP` - Special Programs
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
         explode: true
@@ -1200,7 +1200,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
         description: |-
@@ -1240,7 +1240,7 @@ paths:
           * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
+          * `SP` - Special Programs
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
         explode: true
@@ -1593,7 +1593,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
         description: |-
@@ -1633,7 +1633,7 @@ paths:
           * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
+          * `SP` - Special Programs
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
         explode: true
@@ -2245,7 +2245,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
             type: string
@@ -2284,7 +2284,7 @@ paths:
               * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
-              * `RES` - Supplemental Resources
+              * `SP` - Special Programs
               * `STS` - Science, Technology, and Society
               * `WGS` - Women's and Gender Studies
         description: "The department that offers the learning resource           \
@@ -2303,8 +2303,8 @@ paths:
           * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
           * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
           \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
-          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
-          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+          \ Education and Recreation\n* `SP` - Special Programs\n* `STS` - Science,\
+          \ Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
         name: dev_mode
         schema:
@@ -2684,7 +2684,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
             type: string
@@ -2723,7 +2723,7 @@ paths:
               * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
-              * `RES` - Supplemental Resources
+              * `SP` - Special Programs
               * `STS` - Science, Technology, and Society
               * `WGS` - Women's and Gender Studies
         description: "The department that offers the learning resource           \
@@ -2742,8 +2742,8 @@ paths:
           * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
           * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
           \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
-          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
-          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+          \ Education and Recreation\n* `SP` - Special Programs\n* `STS` - Science,\
+          \ Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
         name: dev_mode
         schema:
@@ -3148,7 +3148,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
             type: string
@@ -3187,7 +3187,7 @@ paths:
               * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
-              * `RES` - Supplemental Resources
+              * `SP` - Special Programs
               * `STS` - Science, Technology, and Society
               * `WGS` - Women's and Gender Studies
         description: "The department that offers the learning resource           \
@@ -3206,8 +3206,8 @@ paths:
           * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
           * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
           \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
-          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
-          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+          \ Education and Recreation\n* `SP` - Special Programs\n* `STS` - Science,\
+          \ Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
         name: dev_mode
         schema:
@@ -3603,7 +3603,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
             type: string
@@ -3642,7 +3642,7 @@ paths:
               * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
-              * `RES` - Supplemental Resources
+              * `SP` - Special Programs
               * `STS` - Science, Technology, and Society
               * `WGS` - Women's and Gender Studies
         description: "The department that offers the learning resource           \
@@ -3661,8 +3661,8 @@ paths:
           * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
           * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
           \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
-          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
-          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+          \ Education and Recreation\n* `SP` - Special Programs\n* `STS` - Science,\
+          \ Technology, and Society\n* `WGS` - Women's and Gender Studies"
       - in: query
         name: dev_mode
         schema:
@@ -4033,7 +4033,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
         description: |-
@@ -4073,7 +4073,7 @@ paths:
           * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
+          * `SP` - Special Programs
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
         explode: true
@@ -4751,7 +4751,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
         description: |-
@@ -4791,7 +4791,7 @@ paths:
           * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
+          * `SP` - Special Programs
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
         explode: true
@@ -5144,7 +5144,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
         description: |-
@@ -5184,7 +5184,7 @@ paths:
           * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
+          * `SP` - Special Programs
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
         explode: true
@@ -5624,7 +5624,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
         description: |-
@@ -5664,7 +5664,7 @@ paths:
           * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
+          * `SP` - Special Programs
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
         explode: true
@@ -6407,7 +6407,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
         description: |-
@@ -6447,7 +6447,7 @@ paths:
           * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
+          * `SP` - Special Programs
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
         explode: true
@@ -6866,7 +6866,7 @@ paths:
             - IDS
             - MAS
             - PE
-            - RES
+            - SP
             - STS
             - WGS
         description: |-
@@ -6906,7 +6906,7 @@ paths:
           * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
-          * `RES` - Supplemental Resources
+          * `SP` - Special Programs
           * `STS` - Science, Technology, and Society
           * `WGS` - Women's and Gender Studies
         explode: true
@@ -7776,7 +7776,7 @@ components:
       - IDS
       - MAS
       - PE
-      - RES
+      - SP
       - STS
       - WGS
       type: string
@@ -7815,7 +7815,7 @@ components:
         * `IDS` - Data, Systems, and Society
         * `MAS` - Media Arts and Sciences
         * `PE` - Athletics, Physical Education and Recreation
-        * `RES` - Supplemental Resources
+        * `SP` - Special Programs
         * `STS` - Science, Technology, and Society
         * `WGS` - Women's and Gender Studies
       x-enum-descriptions:
@@ -7853,7 +7853,7 @@ components:
       - Data, Systems, and Society
       - Media Arts and Sciences
       - Athletics, Physical Education and Recreation
-      - Supplemental Resources
+      - Special Programs
       - Science, Technology, and Society
       - Women's and Gender Studies
     LearningFormatEnum:
@@ -9636,8 +9636,8 @@ components:
             * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
             * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
             \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
-            \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS`\
-            \ - Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+            \ Education and Recreation\n* `SP` - Special Programs\n* `STS` - Science,\
+            \ Technology, and Society\n* `WGS` - Women's and Gender Studies"
         level:
           type: array
           items:
