@@ -5,7 +5,6 @@ import logo from "../../../public/mit-logo-learn.svg"
 const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`
 
-const MIT_LOGO_URL = `${PUBLIC_URL}/static/images/mit-logo-learn.svg`
 
 interface Props {
   href?: string

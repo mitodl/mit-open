@@ -1,3 +1,4 @@
+
 import React, { useEffect, useCallback } from "react"
 import {
   RoutedDrawer,
@@ -13,6 +14,7 @@ import { usePostHog } from "posthog-js/react"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
+/*
 const useCapturePageView = (resourceId: number) => {
   const { data, isSuccess } = useLearningResourcesDetail(Number(resourceId))
   const posthog = usePostHog()
@@ -40,12 +42,12 @@ const useCapturePageView = (resourceId: number) => {
   //   POSTHOG?.api_key,
   // ])
 }
-
+*/
 const DrawerContent: React.FC<{
   resourceId: number
 }> = ({ resourceId }) => {
   const resource = useLearningResourcesDetail(Number(resourceId))
-  useCapturePageView(Number(resourceId))
+  // useCapturePageView(Number(resourceId))
 
   return (
     <LearningResourceExpanded

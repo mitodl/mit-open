@@ -1,5 +1,4 @@
 
-"use client"
 
 import { styled } from "ol-components"
 

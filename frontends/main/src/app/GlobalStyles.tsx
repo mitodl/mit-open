@@ -1,5 +1,3 @@
-"use client"
-
 import React from "react"
 import { Global, css, theme } from "ol-components"
 import "slick-carousel/slick/slick.css"

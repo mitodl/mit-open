@@ -9,22 +9,26 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ebay/nice-modal-react": "^1.2.13",
     "@emotion/cache": "^11.13.1",
     "@emotion/styled": "^11.13.0",
     "@mui/material-nextjs": "^5.16.6",
     "@remixicon/react": "^4.2.0",
     "api": "workspace:*",
+    "next": "14.2.5",
     "ol-ckeditor": "0.0.0",
     "ol-components": "0.0.0",
     "ol-utilities": "0.0.0",
     "ol-widgets": "0.0.0",
-    "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
     "sharp": "^0.33.4",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "tiny-invariant": "^1.3.3"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -32,6 +36,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "http-proxy-middleware": "^3.0.0",
+    "jest-extended": "^4.0.2",
     "typescript": "^5"
   }
 }

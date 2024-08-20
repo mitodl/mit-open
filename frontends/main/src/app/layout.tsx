@@ -1,23 +1,15 @@
-'use client';
+
+"use client"
 
 import React from "react"
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
-// import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
-
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
-import LearningResourceDrawer from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 import {PageWrapper, PageWrapperInner} from "./styled"
-import { ThemeProvider } from 'ol-components';
-import Providers from './providers'
+import { ThemeProvider } from "ol-components";
+import Providers from "./providers"
 import GlobalStyles from "./GlobalStyles"
 
-const metadata: Metadata = {
-  title: "MIT Learn",
-  description: "Learn With MIT",
-};
 
 export default function RootLayout({
   children,
@@ -28,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-          <Providers>
+        <Providers>
           <GlobalStyles />
           <AppRouterCacheProvider>
             <ThemeProvider>
@@ -37,15 +29,13 @@ export default function RootLayout({
                 <PageWrapperInner>
                   { children }
                   {/* <Outlet /> */}
-                  <LearningResourceDrawer />
                 </PageWrapperInner>
                 <Footer />
               </PageWrapper>
             </ThemeProvider>
           </AppRouterCacheProvider>
-          </Providers>
-        </body>
-      {/*  */}
+        </Providers>
+      </body>
     </html>
   );
 }

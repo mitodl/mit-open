@@ -6,7 +6,7 @@ import { Typography, styled, ChipLink, Link, theme } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
 import { SearchInput, SearchInputProps } from "./SearchInput"
 import { ABOUT } from "@/common/urls"
-import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "@/pages/AboutPage/AboutPage"
+import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "@/app-pages/AboutPage/AboutPage"
 import Image from "next/image"
 import personWithHeadphones from "../../../public/person_with_headphones.png"
 

@@ -1,5 +1,12 @@
-import { generatePath } from "react-router"
-import { ReadonlyURLSearchParams } from "next/url"
+
+const generatePath = (template: string, params: Record<string, string | number>): string => {
+  return template.replace(/:(\w+)/g, (_, key) => {
+    if (params[key] === undefined) {
+      throw new Error(`Missing parameter '${key}'`);
+    }
+    return encodeURIComponent(params[key] as string);
+  });
+}
 
 export const HOME = "/"
 
@@ -52,7 +59,7 @@ export const login = ({
   hash = "",
 }: {
   pathname?: string | null
-  search?: string | ReadonlyURLSearchParams
+  search?: string
   hash?: string | null
 } = {}) => {
   /**
@@ -63,7 +70,7 @@ export const login = ({
    * There's no need to encode the path parameter (it might contain slashes,
    * but those are allowed in search parameters) so let's keep it readable.
    */
-  const next = `${window.location.origin}${pathname}${encodeURIComponent(search)}${encodeURIComponent(hash)}`
+  const next = `${window.location.origin}${pathname}${encodeURIComponent(search)}${encodeURIComponent(hash as string)}`
   return `${LOGIN}?next=${next}`
 }
 

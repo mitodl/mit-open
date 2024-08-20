@@ -40,7 +40,6 @@ import {
 } from "@/common/urls"
 import { useSearchParams } from "next/navigation"
 import { useUserMe } from "api/hooks/user"
-import Link from "next/link"
 
 
 const Bar = styled(AppBar)(({ theme }) => ({

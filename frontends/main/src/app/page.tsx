@@ -1,14 +1,17 @@
+import React from "react";
 import { dehydrate, Hydrate } from "api/ssr"
-import HomePage from "@/pages/HomePage/HomePage"
-import * as carousels from "@/pages/HomePage/carousels"
+import HomePage from "@/app-pages/HomePage/HomePage"
+import * as carousels from "@/app-pages/HomePage/carousels"
 import { learningResourcesKeyFactory } from "api/hooks/learningResources"
 import { FeaturedApiFeaturedListRequest } from "api/generated/v1/api"
 import getQueryClient from "./getQueryClient"
 
 
-export const metadata = {
-  title: "MIT Learn",
-}
+// export const metadata: Metadata = {
+//   title: "MIT Learn",
+//   description: "Learn With MIT",
+// };
+
 
 
 const Page: React.FC = async () => {

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { ActionButtonLink, ButtonLink, SimpleMenu, styled } from "ol-components"
+import { ButtonLink, SimpleMenu, styled } from "ol-components"
 import type { MenuOverrideProps, SimpleMenuItem } from "ol-components"
 import * as urls from "@/common/urls"
 import {
@@ -10,7 +10,7 @@ import {
   RiArrowDownSLine,
 } from "@remixicon/react"
 import { useUserMe, User } from "api/hooks/user"
-import Link from "next/link"
+// import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 
 const FlexContainer = styled.div({

@@ -1,4 +1,5 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -19,10 +20,13 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/common/*": ["../mit-learn/src/common/*"],
       "api": ["../api/src"],
-      "api/*": ["../api/src/*"]
-    }
+      "api/*": ["../api/src/*"],
+    },
+
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
