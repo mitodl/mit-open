@@ -9,7 +9,6 @@ from dateutil.parser import parse
 from django.conf import settings
 
 from learning_resources.constants import (
-    Availability,
     CertificationType,
     LearningResourceType,
     OfferedBy,
@@ -154,7 +153,7 @@ def _transform_learning_resource_course(course):
         },
         "certification": True,
         "certification_type": CertificationType.professional.name,
-        "availability": Availability.dated.name,
+        "availability": course["availability"],
     }
 
 
@@ -216,7 +215,7 @@ def transform_programs(programs):
             "courses": transform_courses(program["courses"]),
             "certification": True,
             "certification_type": CertificationType.professional.name,
-            "availability": Availability.dated.name,
+            "availability": program["availability"],
         }
         for program in programs
     ]
