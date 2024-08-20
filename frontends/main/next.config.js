@@ -3,32 +3,27 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 
-  // async headers() {
-  //   return [
-  //     {
-  //       source: '/about',
-  //       headers: [
-  //         {
-  //           key: 'x-custom-header',
-  //           value: 'my custom header value',
-  //         },
-  //         {
-  //           key: 'x-another-custom-header',
-  //           value: 'my other custom header value',
-  //         },
-  //       ],
-  //     },
-  //   ]
-  // },
+  webpack: (
+    config,
+    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
+  ) => {
 
-  // async rewrites() {
-	// 	return [
-	// 		{
-	// 			source: '/api/:path*',
-	// 			destination: `${process.env.MITOL_API_BASE_URL}/:path*`,
-	// 		},
-	// 	]
-  // },
+    config.plugins.push(
+      new webpack.IgnorePlugin({
+        // Ignore test files
+        resourceRegExp: /\.test\.tsx$/
+      })
+    );
+
+    config.module.rules.push({
+      test: /\.tsx?$/,
+      use: [
+        defaultLoaders.babel,
+      ],
+    });
+
+    return config;
+  },
 
   images: {
     remotePatterns: [
