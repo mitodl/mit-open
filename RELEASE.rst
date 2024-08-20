@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.17.3
+--------------
+
+- add appzi for feedback (#1435)
+- Fix frontend sentry_env and release version (#1386)
+- Remove remaining frontend routes (#1424)
+- Only process best/next run contentfiles, and make sure other run contentfiles are deindexed (#1383)
+
 Version 0.17.2 (Released August 20, 2024)
 --------------
 
