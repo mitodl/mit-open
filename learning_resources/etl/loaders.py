@@ -102,15 +102,17 @@ def load_departments(
     resource: LearningResource, department_data: list[str]
 ) -> list[LearningResourceDepartment]:
     """Load the departments for a resource into the database"""
-    if department_data:
-        departments = []
+    departments = []
 
+    if department_data:
         for department_id in department_data:
             department = LearningResourceDepartment.objects.get(
                 department_id=department_id
             )
             departments.append(department)
-        resource.departments.set(departments)
+
+    resource.departments.set(departments)
+
     return resource.departments.all()
 
 
