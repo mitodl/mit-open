@@ -45,10 +45,7 @@ const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
 
 const HomePage: React.FC = () => {
   return (
-    // <HydrationBoundary state={dehydratedState}>
-
-      <>
-
+    <>
       <FullWidthBackground>
         <Container>
           <HeroSearch />
@@ -65,8 +62,7 @@ const HomePage: React.FC = () => {
       <BrowseTopicsSection />
       <TestimonialsSection />
       <NewsEventsSection />
-      {/* </HydrationBoundary> */}
-      </>
+    </>
   )
 }
 
