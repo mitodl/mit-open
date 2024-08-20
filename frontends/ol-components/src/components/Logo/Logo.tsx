@@ -25,7 +25,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.Xpro]: {
     name: "MIT xPRO",
-    image: "unit_logos/xpro.svg",
+    image: "xpro.svg",
   },
   [PlatformEnum.Podcast]: {
     name: "Podcast",
@@ -41,7 +41,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.See]: {
     name: "MIT Sloan Executive Education",
-    image: "unit_logos/see.svg",
+    image: "see.svg",
   },
   [PlatformEnum.Scc]: {
     name: "Schwarzman College of Computing",
@@ -91,7 +91,7 @@ export const PlatformLogo: React.FC<{
   }
   return (
     <img
-      src={`/static/images/${platform?.image}`}
+      src={`/images/platform_logos/${platform?.image}`}
       className={className}
       alt={platform.name}
     />

@@ -14,7 +14,7 @@ const readableResourceTypes: Record<ResourceTypeEnum, string> = {
 const getReadableResourceType = (resourceType: ResourceTypeEnum): string =>
   readableResourceTypes[resourceType]
 
-const BLANK_IMAGE = "https://https://rc.learn.mit.edu/static/images/blank.png"
+const BLANK_IMAGE = "https://rc.learn.mit.edu/static/images/blank.png"
 
 const embedlyCroppedImage = (
   url: string,

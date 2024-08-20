@@ -137,8 +137,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
     transformOrigin: { horizontal: "right", vertical: "top" },
   }
 
-  console.log("VARIANT", variant)
-
   if (user?.is_authenticated) {
     return (
       <SimpleMenu

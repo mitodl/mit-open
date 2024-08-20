@@ -17,26 +17,28 @@ const useCapturePageView = (resourceId: number) => {
   const { data, isSuccess } = useLearningResourcesDetail(Number(resourceId))
   const posthog = usePostHog()
 
-  const { POSTHOG } = APP_SETTINGS
+  // TODO Provide POSTHOG env vars
 
-  useEffect(() => {
-    if (!POSTHOG?.api_key || POSTHOG.api_key.length < 1) return
-    if (!isSuccess) return
-    posthog.capture("lrd_view", {
-      resourceId: data?.id,
-      readableId: data?.readable_id,
-      platformCode: data?.platform?.code,
-      resourceType: data?.resource_type,
-    })
-  }, [
-    isSuccess,
-    posthog,
-    data?.id,
-    data?.readable_id,
-    data?.platform?.code,
-    data?.resource_type,
-    POSTHOG?.api_key,
-  ])
+  // const { POSTHOG } = APP_SETTINGS
+
+  // useEffect(() => {
+  //   if (!POSTHOG?.api_key || POSTHOG.api_key.length < 1) return
+  //   if (!isSuccess) return
+  //   posthog.capture("lrd_view", {
+  //     resourceId: data?.id,
+  //     readableId: data?.readable_id,
+  //     platformCode: data?.platform?.code,
+  //     resourceType: data?.resource_type,
+  //   })
+  // }, [
+  //   isSuccess,
+  //   posthog,
+  //   data?.id,
+  //   data?.readable_id,
+  //   data?.platform?.code,
+  //   data?.resource_type,
+  //   POSTHOG?.api_key,
+  // ])
 }
 
 const DrawerContent: React.FC<{
