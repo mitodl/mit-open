@@ -23,7 +23,7 @@ const Header = styled.div`
 `
 
 const Content = styled.div`
-  margin: 28px 28px 40px;
+  margin: 28px;
 `
 
 export const Actions = styled(DialogActions)`
