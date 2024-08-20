@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 0.17.2 (Released August 20, 2024)
+--------------
+
+- Add locust load testing (#1422)
+
 Version 0.17.1 (Released August 19, 2024)
 --------------
 
