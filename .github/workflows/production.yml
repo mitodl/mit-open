@@ -45,6 +45,7 @@ jobs:
           POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_PROD }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN_PROD }}
           SENTRY_ENV: ${{ secrets.MITOL_ENVIRONMENT_PROD }}
+          APPZI_URL: ${{ secrets.APPZI_URL_PROD }}
           CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_PROD }}
           MITOL_AXIOS_WITH_CREDENTIALS: true
           MITOL_API_BASE_URL: https://api.learn.mit.edu

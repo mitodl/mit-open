@@ -23,7 +23,7 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
-const { cleanEnv, str, bool, port } = require("envalid")
+const { cleanEnv, str, bool, port, url } = require("envalid")
 
 const {
   NODE_ENV,
@@ -41,6 +41,7 @@ const {
   SENTRY_DSN,
   SENTRY_ENV,
   CSRF_COOKIE_NAME,
+  APPZI_URL,
 } = cleanEnv(process.env, {
   NODE_ENV: str({
     choices: ["development", "production", "test"],
@@ -102,6 +103,10 @@ const {
   CSRF_COOKIE_NAME: str({
     desc: "Name of the CSRF cookie",
     default: "csrftoken",
+  }),
+  APPZI_URL: url({
+    desc: "URL for the Appzi feedback widget",
+    default: "",
   }),
 })
 
@@ -189,6 +194,9 @@ module.exports = (env, argv) => {
     plugins: [
       new HtmlWebpackPlugin({
         template: "public/index.html",
+        templateParameters: {
+          APPZI_URL,
+        },
       }),
       new CopyPlugin({
         patterns: [

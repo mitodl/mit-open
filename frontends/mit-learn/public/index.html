@@ -13,6 +13,9 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons"
     />
     <link rel="favicon" href="/favicon.svg" type="image/svg+xml" />
+    <% if (APPZI_URL) { %>
+    <script async src="<%= APPZI_URL %>"></script>
+    <% } %>
   </head>
 
   <body>
