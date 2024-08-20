@@ -110,7 +110,10 @@ def transform_items(news_data: list[dict]) -> list[dict]:
         list of dict: list of transformed news items data
 
     """
-    return [transform_item(item) for item in news_data]
+    return sorted(
+        [transform_item(item) for item in news_data],
+        key=lambda x: x["detail"]["publish_date"],
+    )
 
 
 def transform(news_data: list[dict]) -> list[dict]:

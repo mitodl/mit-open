@@ -67,5 +67,5 @@ def test_transform(mitpe_news_json_data, mitpe_news_settings):
     )
     assert items[0]["summary"] == items[0]["content"]
     assert items[0]["detail"]["publish_date"] == datetime(
-        2023, 4, 4, 4, 0, 0, tzinfo=UTC
+        2020, 12, 4, 5, 0, 0, tzinfo=UTC
     )
