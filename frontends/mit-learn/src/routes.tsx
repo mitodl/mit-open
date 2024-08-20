@@ -75,11 +75,19 @@ const routes: RouteObject[] = [
       },
       {
         path: urls.LEARNINGPATH_LISTING,
-        element: <LearningPathListingPage />,
+        element: (
+          <RestrictedRoute requires={Permissions.LearningPathEditor}>
+            <LearningPathListingPage />
+          </RestrictedRoute>
+        ),
       },
       {
         path: urls.LEARNINGPATH_VIEW,
-        element: <LearningPathDetailsPage />,
+        element: (
+          <RestrictedRoute requires={Permissions.LearningPathEditor}>
+            <LearningPathDetailsPage />
+          </RestrictedRoute>
+        ),
       },
       {
         path: urls.DASHBOARD_HOME,
