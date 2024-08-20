@@ -40,6 +40,7 @@ import {
 } from "@/common/urls"
 import { useSearchParams } from "next/navigation"
 import { useUserMe } from "api/hooks/user"
+import Link from "next/link"
 
 
 const Bar = styled(AppBar)(({ theme }) => ({
@@ -136,11 +137,11 @@ const LoggedOutView: FunctionComponent = () => {
   return (
     <FlexContainer>
       <DesktopOnly>
-        {/* <SearchButton /> */}
+        {/* <SearchButton /> TODO */}
         <UserMenu variant="desktop" />
       </DesktopOnly>
       <MobileOnly>
-        {/* <SearchButton /> */}
+        {/* <SearchButton /> TODO */}
         <RightDivider orientation="vertical" flexItem />
         <UserMenu variant="mobile" />
       </MobileOnly>
@@ -159,7 +160,6 @@ const LoggedInView: FunctionComponent = () => {
 }
 
 const UserView: FunctionComponent = () => {
-  return null
   const { isLoading, data: user } = useUserMe()
   if (isLoading) {
     return null

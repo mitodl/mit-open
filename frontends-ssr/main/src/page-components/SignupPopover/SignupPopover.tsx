@@ -1,8 +1,8 @@
-import React from "react"
+import React, { use } from "react"
 import { Popover, Typography, styled, ButtonLink } from "ol-components"
 import type { PopoverProps } from "ol-components"
 import * as urls from "@/common/urls"
-import { useLocation } from "react-router"
+import { usePathname, useSearchParams } from 'next/navigation'
 
 const StyledPopover = styled(Popover)({
   width: "300px",
@@ -22,16 +22,20 @@ const Footer = styled.div({
   justifyContent: "end",
 })
 
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME
+
 type SignupPopoverProps = Pick<
   PopoverProps,
   "anchorEl" | "onClose" | "placement"
 >
 const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
-  const loc = useLocation()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
   return (
     <StyledPopover {...props} open={!!props.anchorEl}>
       <HeaderText variant="subtitle2">
-        Join {APP_SETTINGS.SITE_NAME} for free.
+        Join {SITE_NAME} for free.
       </HeaderText>
       <BodyText variant="body2">
         As a member, get personalized recommendations, curate learning lists,
@@ -40,8 +44,8 @@ const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
       <Footer>
         <ButtonLink
           href={urls.login({
-            pathname: loc.pathname,
-            search: loc.search,
+            pathname,
+            search: searchParams?.toString(),
           })}
         >
           Sign Up

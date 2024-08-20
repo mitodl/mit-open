@@ -34,19 +34,13 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
+        hostname: '*.mit.edu',
+        port: '',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
         hostname: 'i.embed.ly',
-        port: '',
-        pathname: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'ocw.mit.edu',
-        port: '',
-        pathname: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'mitxonline.mit.edu',
         port: '',
         pathname: '**',
       },
@@ -58,19 +52,31 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'prolearn.mit.edu',
-        port: '',
-        pathname: '**',
-      },
-      {
-        protocol: 'https',
         hostname: '*.cloudfront.net',
         port: '',
         pathname: '**',
       },
       {
         protocol: 'https',
-        hostname: 'prod-discovery.edx-cdn.org',
+        hostname: '*.edx-cdn.org',
+        port: '',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+        port: '',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i1.sndcdn.com',
+        port: '',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.medium.com',
         port: '',
         pathname: '**',
       },

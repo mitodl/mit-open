@@ -107,7 +107,7 @@ const BrowseTopicsSection: React.FC = () => {
           {topics?.results.map(
             ({ id, name, channel_url: channelUrl, icon }) => {
               return (
-                <TopicBox key={id} to={channelUrl!}>
+                <TopicBox key={id} href={new URL(channelUrl!).pathname}>
                   <TopicBoxContent>
                     <RootTopicIcon icon={icon} />
                     <TopicBoxName>{name}</TopicBoxName>

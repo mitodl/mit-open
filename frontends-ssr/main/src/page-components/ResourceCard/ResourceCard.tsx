@@ -1,6 +1,3 @@
-"use client"
-
-
 import React, { useCallback, useMemo, useState } from "react"
 import {
   LearningResourceCard,
@@ -12,20 +9,18 @@ import type {
   LearningResourceCardProps,
   LearningResourceListCardProps,
 } from "ol-components"
-// import {
-//   AddToLearningPathDialog,
-//   AddToUserListDialog,
-// } from "../Dialogs/AddToListDialog"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "../Dialogs/AddToListDialog"
 import { useResourceDrawerHref } from "../LearningResourceDrawer/LearningResourceDrawer"
-// import { SignupPopover } from "../SignupPopover/SignupPopover"
 import { useUserMe } from "api/hooks/user"
+import { SignupPopover } from "../SignupPopover/SignupPopover"
 import { LearningResource } from "api"
 
 const useResourceCard = (resource?: LearningResource | null) => {
   const getDrawerHref = useResourceDrawerHref()
-  // TODO Error: No QueryClient set, use QueryClientProvider to set one ?
-  // const { data: user } = useUserMe()
-  const user = null
+  const { data: user } = useUserMe()
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
 
@@ -36,8 +31,7 @@ const useResourceCard = (resource?: LearningResource | null) => {
     useMemo(() => {
       if (user?.is_authenticated && user?.is_learning_path_editor) {
         return (event, resourceId: number) => {
-          // TODO
-          // NiceModal.show(AddToLearningPathDialog, { resourceId })
+          NiceModal.show(AddToLearningPathDialog, { resourceId })
         }
       }
       return null
@@ -51,8 +45,7 @@ const useResourceCard = (resource?: LearningResource | null) => {
       }
       if (user.is_authenticated) {
         return (event, resourceId: number) => {
-          // TODO
-          // NiceModal.show(AddToUserListDialog, { resourceId })
+          NiceModal.show(AddToUserListDialog, { resourceId })
         }
       }
       return (event) => {
@@ -100,16 +93,14 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
     <>
       <LearningResourceCard
         resource={resource}
-        // TODO
-        // href={resource ? getDrawerHref(resource.id) : undefined}
-        // href={resource ?? undefined}
+        href={resource ? getDrawerHref(resource.id) : undefined}
         onAddToLearningPathClick={handleAddToLearningPathClick}
         onAddToUserListClick={handleAddToUserListClick}
         inUserList={inUserList}
         inLearningPath={inLearningPath}
         {...others}
       />
-      {/* <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} /> */}
+      <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} />
     </>
   )
 }
@@ -146,7 +137,6 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
   const ListCardComponent = condensed
     ? LearningResourceListCardCondensed
     : LearningResourceListCard
-
   return (
     <>
       <ListCardComponent
@@ -158,7 +148,7 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
         inLearningPath={inLearningPath}
         {...props}
       />
-      {/* <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} /> */}
+      <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} />
     </>
   )
 }

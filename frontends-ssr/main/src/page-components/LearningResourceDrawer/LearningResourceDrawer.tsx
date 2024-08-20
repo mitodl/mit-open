@@ -105,8 +105,9 @@ const useResourceDrawerHref = () => {
 
   return useCallback(
     (id: number) => {
+      return `?${RESOURCE_DRAWER_QUERY_PARAM}=${id}${window.location.hash}`
+      // return `?${window.location.hash}`
 
-      return `?${window.location.hash}`
 
       // TODO
       // search.set(RESOURCE_DRAWER_QUERY_PARAM, id.toString())

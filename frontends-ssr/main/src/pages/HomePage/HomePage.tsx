@@ -3,11 +3,11 @@
 import React from "react"
 import { Container, styled, theme } from "ol-components"
 import HeroSearch from "@/page-components/HeroSearch/HeroSearch"
-// import BrowseTopicsSection from "./BrowseTopicsSection"
-// import NewsEventsSection from "./NewsEventsSection"
-// import TestimonialsSection from "./TestimonialsSection"
+import BrowseTopicsSection from "./BrowseTopicsSection"
+import NewsEventsSection from "./NewsEventsSection"
+import TestimonialsSection from "./TestimonialsSection"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
-// import PersonalizeSection from "./PersonalizeSection"
+import PersonalizeSection from "./PersonalizeSection"
 import * as carousels from "./carousels"
 
 
@@ -33,14 +33,14 @@ const FeaturedCoursesCarousel = styled(ResourceCarousel)(({ theme }) => ({
   },
 }))
 
-// const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
-//   margin: "80px 0",
-//   minHeight: "388px",
-//   [theme.breakpoints.down("md")]: {
-//     margin: "40px 0",
-//     minHeight: "418px",
-//   },
-// }))
+const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
+  margin: "80px 0",
+  minHeight: "388px",
+  [theme.breakpoints.down("md")]: {
+    margin: "40px 0",
+    minHeight: "418px",
+  },
+}))
 
 
 const HomePage: React.FC = () => {
@@ -58,13 +58,13 @@ const HomePage: React.FC = () => {
           />
         </Container>
         </FullWidthBackground>
-      {/* <PersonalizeSection />
+      <PersonalizeSection />
       <Container>
         <MediaCarousel title="Media" config={carousels.MEDIA_CAROUSEL} />
       </Container>
       <BrowseTopicsSection />
       <TestimonialsSection />
-      <NewsEventsSection /> */}
+      <NewsEventsSection />
       {/* </HydrationBoundary> */}
       </>
   )

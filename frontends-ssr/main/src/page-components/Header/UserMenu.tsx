@@ -10,6 +10,7 @@ import {
   RiArrowDownSLine,
 } from "@remixicon/react"
 import { useUserMe, User } from "api/hooks/user"
+import Link from "next/link"
 import { usePathname, useSearchParams } from 'next/navigation'
 
 const FlexContainer = styled.div({
@@ -113,12 +114,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
       key: "dashboard",
       allow: !!user?.is_authenticated,
       href: urls.DASHBOARD_HOME,
+      // LinkComponent: Link
     },
     {
       label: "Learning Paths",
       key: "learningpaths",
       allow: !!user?.is_learning_path_editor,
       href: urls.LEARNINGPATH_LISTING,
+      // LinkComponent: Link
     },
     {
       label: "Log Out",
@@ -133,6 +136,8 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
     anchorOrigin: { horizontal: "right", vertical: "bottom" },
     transformOrigin: { horizontal: "right", vertical: "top" },
   }
+
+  console.log('VARIANT', variant)
 
   if (user?.is_authenticated) {
     return (
@@ -170,7 +175,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
         )}
         {variant === "mobile" ? (
           <FlexContainer className="login-button-mobile">
-            <ActionButtonLink
+            {/* TODO <ActionButtonLink
               data-testid="login-button-mobile"
               edge="circular"
               variant="text"
@@ -178,7 +183,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               href={loginUrl}
             >
               <UserIcon data-testid="UserIcon" />
-            </ActionButtonLink>
+            </ActionButtonLink> */}
           </FlexContainer>
         ) : (
           ""
