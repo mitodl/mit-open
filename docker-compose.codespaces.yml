@@ -1,0 +1,49 @@
+x-environment: &py-environment
+
+services:
+  db:
+    extends:
+      file: docker-compose.yml
+      service: db
+    env_file: env/codespaces.env
+  redis:
+    extends:
+      file: docker-compose.yml
+      service: redis
+    env_file: env/codespaces.env
+  web:
+    extends:
+      file: docker-compose.yml
+      service: web
+    env_file: env/codespaces.env
+  celery:
+    extends:
+      file: docker-compose.yml
+      service: celery
+    env_file: env/codespaces.env
+  tika:
+    extends:
+      file: docker-compose.yml
+      service: tika
+    env_file: env/codespaces.env
+  watch:
+    extends:
+      file: docker-compose.yml
+      service: watch
+    env_file: env/codespaces.env
+  opensearch-node-mitopen:
+    extends:
+      file: docker-compose.yml
+      service: opensearch-node-mitopen
+    env_file: env/codespaces.env
+  nginx:
+    extends:
+      file: docker-compose.yml
+      service: nginx
+    env_file: env/codespaces.env
+
+volumes:
+  opensearch-data1:
+  django_media:
+  yarn-cache:
+  pgdata:
