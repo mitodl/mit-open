@@ -17,7 +17,6 @@ import { RiLockLine, RiLockUnlockLine, RiAddLine } from "@remixicon/react"
 import * as NiceModal from "@ebay/nice-modal-react"
 
 import {
-  PrivacyLevelEnum,
   type LearningPathResource,
   type LearningResource,
   type UserList,
@@ -326,25 +325,8 @@ const UserListToggleList: React.FC<UserListToggleListProps> = ({
     const adding = isAdding(list)
     const removing = isRemoving(list)
     const disabled = adding || removing
-    const privateLevel = PrivacyLevelEnum.Private[0]
-      .toUpperCase()
-      .concat(PrivacyLevelEnum.Private.slice(1))
-    const unlistedLevel = PrivacyLevelEnum.Unlisted[0]
-      .toUpperCase()
-      .concat(PrivacyLevelEnum.Unlisted.slice(1))
-    const privacyLevel = list.privacy_level
-      ? list.privacy_level[0].toUpperCase().concat(list.privacy_level.slice(1))
-      : privateLevel
     return (
-      <ListItem
-        key={list.id}
-        secondaryAction={
-          <PrivacyChip
-            publicOption={unlistedLevel}
-            selectedOption={privacyLevel}
-          />
-        }
-      >
+      <ListItem key={list.id}>
         <ListItemButton
           aria-disabled={disabled}
           onClick={disabled ? undefined : handleToggle(list)}
