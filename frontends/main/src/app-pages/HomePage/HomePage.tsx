@@ -9,11 +9,7 @@ import TestimonialsSection from "./TestimonialsSection"
 import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarousel"
 import PersonalizeSection from "./PersonalizeSection"
 import * as carousels from "./carousels"
-
-
-import { learningResourcesKeyFactory } from "api/hooks/learningResources"
-
-
+import LearningResourceDrawer from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 const FullWidthBackground = styled.div({
   background: "linear-gradient(0deg, #FFF 0%, #E9ECEF 100%);",
@@ -46,6 +42,7 @@ const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
 const HomePage: React.FC = () => {
   return (
     <>
+      <LearningResourceDrawer />
       <FullWidthBackground>
         <Container>
           <HeroSearch />
