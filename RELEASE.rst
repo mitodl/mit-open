@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.4
+Version 0.17.4 (Released August 21, 2024)
 --------------
 
 - update departments fixture (#1439)
