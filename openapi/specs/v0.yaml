@@ -1334,6 +1334,10 @@ components:
         event_datetime:
           type: string
           format: date-time
+        event_end_datetime:
+          type: string
+          format: date-time
+          nullable: true
       required:
       - audience
       - event_datetime

@@ -26,3 +26,17 @@ def test_get_sloan_exec_news(mocker):
     )
     tasks.get_sloan_exec_news.delay()
     mock_etl.assert_called_once()
+
+
+def test_get_mitpe_events(mocker):
+    """Task should call the mitpe_events_etl pipeline"""
+    mock_etl = mocker.patch("news_events.etl.pipelines.mitpe_events_etl", autospec=True)
+    tasks.get_mitpe_events.delay()
+    mock_etl.assert_called_once()
+
+
+def test_get_mitpe_news(mocker):
+    """Task should call the mitpe_news_etl pipeline"""
+    mock_etl = mocker.patch("news_events.etl.pipelines.mitpe_news_etl", autospec=True)
+    tasks.get_mitpe_news.delay()
+    mock_etl.assert_called_once()
