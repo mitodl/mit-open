@@ -5,34 +5,58 @@ import type { ChipLinkProps } from "ol-components"
 import { SearchInput, SearchInputProps } from "./SearchInput"
 import { ABOUT } from "@/common/urls"
 import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "../AboutPage/AboutPage"
+import {
+  RiAddBoxLine,
+  RiAwardLine,
+  RiSearch2Line,
+  RiThumbUpLine,
+  RiTimeLine,
+  RiVerifiedBadgeLine,
+} from "@remixicon/react"
 
 type SearchChip = {
   label: string
   href: string
   variant?: ChipLinkProps["variant"]
+  icon?: React.ReactElement
 }
 
 const SEARCH_CHIPS: SearchChip[] = [
   {
-    label: "New",
+    label: "Recently Added",
     href: "/search?sortby=new",
-    variant: "outlined",
+    variant: "outlinedWhite",
+    icon: <RiTimeLine />,
   },
   {
     label: "Popular",
     href: "/search?sortby=-views",
+    variant: "outlinedWhite",
+    icon: <RiThumbUpLine />,
   },
   {
     label: "Upcoming",
     href: "/search?sortby=upcoming",
+    variant: "outlinedWhite",
+    icon: <RiAddBoxLine />,
   },
   {
     label: "Free",
     href: "/search?free=true",
+    variant: "outlinedWhite",
+    icon: <RiVerifiedBadgeLine />,
   },
   {
     label: "With Certificate",
     href: "/search?certification=true",
+    variant: "outlinedWhite",
+    icon: <RiAwardLine />,
+  },
+  {
+    label: "Explore All",
+    href: "/search/",
+    variant: "gray",
+    icon: <RiSearch2Line />,
   },
 ]
 
@@ -70,29 +94,6 @@ const ImageContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const SquaredChip = styled(ChipLink, {
-  shouldForwardProp: (propName) => !["noBorder", "grow"].includes(propName),
-})<{ noBorder?: boolean; grow?: boolean }>(({ noBorder, theme, grow }) => [
-  {
-    borderRadius: "4px",
-    [theme.breakpoints.down("sm")]: {
-      ...theme.typography.body4,
-      padding: "4px 0px",
-    },
-  },
-  grow && {
-    [theme.breakpoints.down("sm")]: {
-      flex: 1,
-      height: "32px",
-    },
-  },
-  noBorder && {
-    "&:not(:hover)": {
-      borderColor: "white",
-    },
-  },
-])
-
 const ControlsContainer = styled.div(({ theme }) => ({
   marginTop: "24px",
   display: "flex",
@@ -100,12 +101,6 @@ const ControlsContainer = styled.div(({ theme }) => ({
   flexDirection: "column",
   alignItems: "flex-start",
   justifyContent: "center",
-  gap: "20px",
-  padding: "24px",
-  backgroundColor: theme.custom.colors.white,
-  borderRadius: "8px",
-  boxShadow:
-    "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
   [theme.breakpoints.down("sm")]: {
     padding: "12px",
     gap: "16px",
@@ -116,35 +111,35 @@ const ControlsContainer = styled.div(({ theme }) => ({
     },
   },
 }))
+
+const BrowseByTopicContainer = styled.div({
+  marginTop: "16px",
+  marginBottom: "24px",
+})
+
+const BrowseByTopicText = styled(Typography)(({ theme }) => ({
+  color: theme.custom.colors.silverGrayDark,
+  ...theme.typography.body2,
+}))
+
 const LinksContainer = styled.div(({ theme }) => ({
   width: "100%",
   display: "flex",
-  flexDirection: "row",
+  flexDirection: "column",
   flexWrap: "wrap",
-  gap: "12px",
   justifyContent: "space-between",
   [theme.breakpoints.down("sm")]: {
     flexDirection: "column",
   },
 }))
-const TrenderingContainer = styled.div(({ theme }) => ({
+
+const TrendingContainer = styled.div({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
   flexWrap: "wrap",
-  [theme.breakpoints.down("sm")]: {
-    gap: "8px",
-  },
-}))
-const BrowseContainer = styled.div(({ theme }) => ({
-  display: "flex",
-  flexDirection: "row",
   gap: "8px",
-
-  [theme.breakpoints.down("sm")]: {
-    flex: 1,
-  },
-}))
+})
 
 const BoldLink = styled(Link)(({ theme }) => ({
   ...theme.typography.subtitle1,
@@ -194,40 +189,26 @@ const HeroSearch: React.FC = () => {
             onSubmit={onSearchSubmit}
           />
           <LinksContainer>
-            <TrenderingContainer>
-              <Typography
-                sx={{ marginRight: "8px" }}
-                typography={{ xs: "subtitle4", md: "subtitle3" }}
-              >
-                Trending
-              </Typography>
+            <BrowseByTopicContainer>
+              <BrowseByTopicText>
+                or browse by{" "}
+                <Link href="/topics/" color="red">
+                  Topic
+                </Link>
+              </BrowseByTopicText>
+            </BrowseByTopicContainer>
+            <TrendingContainer>
               {SEARCH_CHIPS.map((chip) => (
-                <SquaredChip
-                  noBorder
+                <ChipLink
                   key={chip.label}
                   variant={chip.variant}
                   size="medium"
                   label={chip.label}
                   href={chip.href}
+                  {...(chip.icon && { icon: chip.icon })}
                 />
               ))}
-            </TrenderingContainer>
-            <BrowseContainer>
-              <SquaredChip
-                grow
-                variant="outlined"
-                size="medium"
-                label="Browse by Topic"
-                href="/topics/"
-              />
-              <SquaredChip
-                grow
-                variant="filled"
-                size="medium"
-                label="Explore All"
-                href="/search/"
-              />
-            </BrowseContainer>
+            </TrendingContainer>
           </LinksContainer>
         </ControlsContainer>
       </TitleAndControls>
