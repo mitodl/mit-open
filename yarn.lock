@@ -3377,11 +3377,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mitodl/course-search-utils@npm:^3.1.4":
-  version: 3.1.4
-  resolution: "@mitodl/course-search-utils@npm:3.1.4"
+"@mitodl/course-search-utils@npm:^3.1.5":
+  version: 3.1.5
+  resolution: "@mitodl/course-search-utils@npm:3.1.5"
   dependencies:
-    "@mitodl/open-api-axios": "npm:^2024.7.2"
+    "@mitodl/open-api-axios": "npm:^2024.8.21"
     axios: "npm:^1.6.7"
     fuse.js: "npm:^7.0.0"
     query-string: "npm:^6.13.1"
@@ -3398,17 +3398,17 @@ __metadata:
       optional: true
     react-router:
       optional: true
-  checksum: 10/65a051fda87f3f3439938da839a3bf98ff5fb3979731318ac68639391999d8aed9170ddb426986ff099a01e5c594ce9d9cbfdf8ffd5a82fb2d70c3bff73f5ad9
+  checksum: 10/de39fd0db986e66c658b40365916e51cc7696a6f538a9a07543032f3a4ce0eed8279253aaf8201c193896e0bb2e2cc9b9da7314f9b1f65942e85cde940b0763c
   languageName: node
   linkType: hard
 
-"@mitodl/open-api-axios@npm:^2024.7.2":
-  version: 2024.8.7
-  resolution: "@mitodl/open-api-axios@npm:2024.8.7"
+"@mitodl/open-api-axios@npm:^2024.8.21":
+  version: 2024.8.21
+  resolution: "@mitodl/open-api-axios@npm:2024.8.21"
   dependencies:
     "@types/node": "npm:^20.11.19"
     axios: "npm:^1.6.5"
-  checksum: 10/28ffac08c01d046afbde2b78b1f66a0ce16b8847c0b63db5b9bcb5b9e9afaa3da9e545a6d958ec6ac7d306682d4f179f19448c122de3c350cedf9db5cdbc9817
+  checksum: 10/2b21a51e3358f07f43a8a0da4c2981bf7cf82403d7f93eb6d8e97248d1ddfaaa425301e8f7cc9dd7048534f1585cc49af97ab250910b07e74f035a172894965d
   languageName: node
   linkType: hard
 
@@ -5373,12 +5373,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.0.0, @types/node@npm:^20.11.19":
+"@types/node@npm:^20.0.0":
   version: 20.14.15
   resolution: "@types/node@npm:20.14.15"
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10/87a4a4313e886c1db1c8042004956095477e040f67df993fd16a2d50488c750bda81e85bf702c2e629e964605034e8dfe0cb91b65ce22b6b8eec37ece61c6b6c
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.11.19":
+  version: 20.16.1
+  resolution: "@types/node@npm:20.16.1"
+  dependencies:
+    undici-types: "npm:~6.19.2"
+  checksum: 10/9bae1dffd2094694147a91ebec51dc89a60a607d16d47a0d770320f1a75d3ba58663708fd93c37954a63acb701a4e0fd64245139c57ae810d3ad524e75481d4e
   languageName: node
   linkType: hard
 
@@ -6675,7 +6684,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.6.3, axios@npm:^1.6.5, axios@npm:^1.6.7":
+"axios@npm:^1.6.3":
   version: 1.7.3
   resolution: "axios@npm:1.7.3"
   dependencies:
@@ -6683,6 +6692,17 @@ __metadata:
     form-data: "npm:^4.0.0"
     proxy-from-env: "npm:^1.1.0"
   checksum: 10/7f92af205705a8fb4a9d35666b663729507657f252a1d39d83582590119941872d49078017cf992e32f47aa3b7317f5439f77be772a173dac2ae0fedd38f43ae
+  languageName: node
+  linkType: hard
+
+"axios@npm:^1.6.5, axios@npm:^1.6.7":
+  version: 1.7.4
+  resolution: "axios@npm:1.7.4"
+  dependencies:
+    follow-redirects: "npm:^1.15.6"
+    form-data: "npm:^4.0.0"
+    proxy-from-env: "npm:^1.1.0"
+  checksum: 10/7a1429be1e3d0c2e1b96d4bba4d113efbfabc7c724bed107beb535c782c7bea447ff634886b0c7c43395a264d085450d009eb1154b5f38a8bae49d469fdcbc61
   languageName: node
   linkType: hard
 
@@ -14736,7 +14756,7 @@ __metadata:
     "@emotion/react": "npm:^11.11.1"
     "@emotion/styled": "npm:^11.11.0"
     "@faker-js/faker": "npm:^8.0.0"
-    "@mitodl/course-search-utils": "npm:^3.1.4"
+    "@mitodl/course-search-utils": "npm:^3.1.5"
     "@pmmmwh/react-refresh-webpack-plugin": "npm:^0.5.11"
     "@remixicon/react": "npm:^4.2.0"
     "@sentry/react": "npm:^7.57.0"
@@ -19680,6 +19700,13 @@ __metadata:
   version: 6.13.0
   resolution: "undici-types@npm:6.13.0"
   checksum: 10/da52e37cbc6da3a75da86fa08dd795ca8924430deb91005eb884b840e46e19013ccd4c1c289f70018e8cf0c338add24a500e7c3acfcd49b1ffb27ff9f91e38b9
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~6.19.2":
+  version: 6.19.8
+  resolution: "undici-types@npm:6.19.8"
+  checksum: 10/cf0b48ed4fc99baf56584afa91aaffa5010c268b8842f62e02f752df209e3dea138b372a60a963b3b2576ed932f32329ce7ddb9cb5f27a6c83040d8cd74b7a70
   languageName: node
   linkType: hard
 

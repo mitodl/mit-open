@@ -286,5 +286,13 @@
       "name": "Women's and Gender Studies",
       "school_id": 3
     }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "SP",
+      "name": "Special Programs",
+      "school_id": null
+    }
   }
 ]
