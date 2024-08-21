@@ -1,7 +1,38 @@
 import React, { useCallback } from "react"
 import { RiSearch2Line, RiCloseLine } from "@remixicon/react"
-import { Input, AdornmentButton } from "ol-components"
+import { Input, AdornmentButton, styled, pxToRem } from "ol-components"
 import type { InputProps } from "ol-components"
+
+const StyledInput = styled(Input)({
+  height: "72px",
+  "&.MuiInputBase-adornedEnd": {
+    paddingRight: "0 !important",
+    button: {
+      paddingRight: "10px",
+      "&.Mui-focused": {
+        paddingRight: "9px",
+      },
+    },
+  },
+})
+
+const StyledAdornmentButton = styled(AdornmentButton)(({ theme }) => ({
+  ".MuiInputBase-sizeHero &": {
+    // Extra padding to make button easier to click
+    width: "72px",
+    height: "100%",
+    ".MuiSvgIcon-root": {
+      fontSize: pxToRem(24),
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "37px",
+      height: "100%",
+      ".MuiSvgIcon-root": {
+        fontSize: pxToRem(16),
+      },
+    },
+  },
+}))
 
 export interface SearchSubmissionEvent {
   target: {
@@ -50,7 +81,7 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
     )
 
   return (
-    <Input
+    <StyledInput
       fullWidth={props.fullWidth}
       size={props.size}
       inputProps={muiInputProps}
@@ -62,25 +93,25 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
       value={props.value}
       onChange={props.onChange}
       onKeyDown={onInputKeyDown}
-      startAdornment={
-        <AdornmentButton
-          aria-label="Search"
-          className={props.classNameSearch}
-          onClick={handleSubmit}
-        >
-          <RiSearch2Line fontSize="inherit" />
-        </AdornmentButton>
-      }
       endAdornment={
-        props.value && (
-          <AdornmentButton
-            className={props.classNameClear}
-            aria-label="Clear search text"
-            onClick={props.onClear}
+        <>
+          {props.value && (
+            <StyledAdornmentButton
+              className={props.classNameClear}
+              aria-label="Clear search text"
+              onClick={props.onClear}
+            >
+              <RiCloseLine />
+            </StyledAdornmentButton>
+          )}
+          <StyledAdornmentButton
+            aria-label="Search"
+            className={props.classNameSearch}
+            onClick={handleSubmit}
           >
-            <RiCloseLine />
-          </AdornmentButton>
-        )
+            <RiSearch2Line fontSize="inherit" />
+          </StyledAdornmentButton>
+        </>
       }
     />
   )
