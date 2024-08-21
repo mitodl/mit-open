@@ -189,7 +189,7 @@ DEPARTMENTS = {
     "IDS": "Data, Systems, and Society",
     "MAS": "Media Arts and Sciences",
     "PE": "Athletics, Physical Education and Recreation",
-    "RES": "Supplemental Resources",
+    "SP": "Special Programs",
     "STS": "Science, Technology, and Society",
     "WGS": "Women's and Gender Studies",
 }

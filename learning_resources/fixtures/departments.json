@@ -274,14 +274,6 @@
   {
     "model": "learning_resources.LearningResourceDepartment",
     "fields": {
-      "department_id": "RES",
-      "name": "Supplemental Resources",
-      "school_id": null
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourceDepartment",
-    "fields": {
       "department_id": "STS",
       "name": "Science, Technology, and Society",
       "school_id": 3
