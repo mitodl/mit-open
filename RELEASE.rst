@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 0.17.6
+--------------
+
+- change default og:image (#1449)
+
 Version 0.17.5 (Released August 21, 2024)
 --------------
 
