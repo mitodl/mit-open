@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.3
+Version 0.17.3 (Released August 21, 2024)
 --------------
 
 - allow empty APPZI_URL (#1441)
