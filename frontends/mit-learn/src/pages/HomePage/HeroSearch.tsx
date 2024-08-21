@@ -122,6 +122,10 @@ const BrowseByTopicText = styled(Typography)(({ theme }) => ({
   ...theme.typography.body2,
 }))
 
+const TopicLink = styled(Link)({
+  textDecoration: "underline",
+})
+
 const LinksContainer = styled.div(({ theme }) => ({
   width: "100%",
   display: "flex",
@@ -192,9 +196,9 @@ const HeroSearch: React.FC = () => {
             <BrowseByTopicContainer>
               <BrowseByTopicText>
                 or browse by{" "}
-                <Link href="/topics/" color="red">
+                <TopicLink href="/topics/" color="red">
                   Topic
-                </Link>
+                </TopicLink>
               </BrowseByTopicText>
             </BrowseByTopicContainer>
             <TrendingContainer>
