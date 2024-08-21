@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.17.4
+--------------
+
+- update departments fixture (#1439)
+- department is optional (#1437)
+- restrict learning path pages to learning path editors (#1442)
+- remove privacy chip from add to user list dialog (#1440)
+
 Version 0.17.3 (Released August 21, 2024)
 --------------
 
