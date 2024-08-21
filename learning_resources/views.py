@@ -15,6 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import views, viewsets
+from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
@@ -418,6 +419,22 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
             ).update(position=F("position") - 1)
             instance.delete()
 
+    @action(detail=False, methods=["patch"], name="Set all Learning Path Relationships")
+    def set_all(self, request, *args, **kwargs):
+        """
+        Set all relationships at once
+        """
+        child_id = request.data.get("child")
+        add_parents = request.data.get("add_parents", [])
+        remove_parents = request.data.get("remove_parents", [])
+        LearningResourceRelationship.objects.filter(
+            parent_id__in=remove_parents, child_id=child_id
+        ).delete()
+        for parent_id in add_parents:
+            LearningResourceRelationship.objects.create(
+                parent_id=parent_id, child_id=child_id
+            )
+
 
 @extend_schema_view(
     list=extend_schema(summary="List"),
@@ -580,6 +597,20 @@ class UserListItemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             parent=instance.parent,
             position__gt=instance.position,
         ).update(position=F("position") - 1)
+
+    @action(detail=False, methods=["patch"], name="Set all User List Relationships")
+    def set_all(self, request, *args, **kwargs):
+        """
+        Set all relationships at once
+        """
+        child_id = kwargs.get("child")
+        add_parents = kwargs.get("add_parents", [])
+        remove_parents = kwargs.get("remove_parents", [])
+        UserListRelationship.objects.filter(
+            parent_id__in=remove_parents, child_id=child_id
+        ).delete()
+        for parent_id in add_parents:
+            UserListRelationship.objects.create(parent_id=parent_id, child_id=child_id)
 
 
 @cache_page(60 * settings.RSS_FEED_CACHE_MINUTES)

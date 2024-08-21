@@ -28,6 +28,7 @@ import type {
   PlatformsApiPlatformsListRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
   PaginatedLearningResourceList,
+  UserlistsApiUserlistsItemsSetAllPartialUpdateRequest,
 } from "../../generated/v1"
 import learningResources, {
   invalidateResourceQueries,
@@ -319,6 +320,26 @@ const useUserListRelationshipCreate = () => {
   })
 }
 
+const useUserListSetAllRelationships = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (
+      params: UserlistsApiUserlistsItemsSetAllPartialUpdateRequest,
+    ) => userListsApi.userlistsItemsSetAllPartialUpdate(params),
+    // userListsApi.userlistsItemsCreate({
+    //   userlist_id: params.parent,
+    //   UserListRelationshipRequest: params,
+    // }),
+    onSuccess: (response, _vars) => {
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured({}).queryKey,
+        (old) => updateListParentsOnAdd(response.data, old),
+      )
+    },
+    onSettled: (_response, _err, vars) => {},
+  })
+}
+
 const useUserListRelationshipDestroy = () => {
   const queryClient = useQueryClient()
   return useMutation({
@@ -462,6 +483,7 @@ export {
   useUserListRelationshipMove,
   useUserListRelationshipCreate,
   useUserListRelationshipDestroy,
+  useUserListSetAllRelationships,
   useInfiniteUserListItems,
   useOfferorsList,
   useListItemMove,

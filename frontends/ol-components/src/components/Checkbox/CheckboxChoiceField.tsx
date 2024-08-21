@@ -12,6 +12,7 @@ export type CheckboxChoiceFieldProps = {
   values?: string[]
   onChange?: CheckboxProps["onChange"]
   className?: string
+  vertical?: boolean
 }
 
 const Container = styled.div(({ theme }) => ({
@@ -22,6 +23,11 @@ const Container = styled.div(({ theme }) => ({
     flexDirection: "column",
   },
 }))
+
+const VerticalContainer = styled(Container)({
+  gap: "18px",
+  flexDirection: "column",
+})
 
 const Label = styled(FormLabel)(({ theme }) => ({
   marginTop: "0",
@@ -38,9 +44,11 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
   values,
   onChange,
   className,
+  vertical = false,
 }) => {
   const isChecked = (choice: CheckboxProps) =>
     choice.value ? (values?.includes(choice.value) ?? false) : false
+  const _Container = vertical ? VerticalContainer : Container
   return (
     <FormControl
       component="fieldset"
@@ -48,7 +56,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
       className={className}
     >
       <Label>{label}</Label>
-      <Container>
+      <_Container>
         {choices.map((choice) => {
           return (
             <Checkbox
@@ -60,7 +68,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
             />
           )
         })}
-      </Container>
+      </_Container>
     </FormControl>
   )
 }

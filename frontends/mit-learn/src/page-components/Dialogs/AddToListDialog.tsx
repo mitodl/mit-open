@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useId, useState } from "react"
 import {
   Dialog,
   Chip,
@@ -10,6 +10,8 @@ import {
   LoadingSpinner,
   Typography,
   styled,
+  CheckboxChoiceField,
+  Button,
 } from "ol-components"
 
 import { RiLockLine, RiLockUnlockLine, RiAddLine } from "@remixicon/react"
@@ -30,9 +32,11 @@ import {
   useUserListList,
   useUserListRelationshipCreate,
   useUserListRelationshipDestroy,
+  useUserListSetAllRelationships,
 } from "api/hooks/learningResources"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { ListType } from "api/constants"
+import { useFormik } from "formik"
 
 const useLearningPathRequestRecord = () => {
   const [pending, setPending] = useState<Map<string, "delete" | "add">>(
@@ -209,12 +213,60 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
   isReady,
 }) => {
   const modal = NiceModal.useModal()
+  const setUserListRelationships = useUserListSetAllRelationships()
   let dialogTitle = "Add to list"
   if (listType === ListType.LearningPath) {
     dialogTitle = "Add to Learning List"
   } else if (listType === ListType.UserList) {
     dialogTitle = "Add to User List"
   }
+  const listChoices = lists.map((list) => ({
+    value: list.id.toString(),
+    label: list.title,
+  }))
+  const learningPathValues = lists
+    .map((list) =>
+      resource?.learning_path_parents?.some(({ parent }) => parent === list.id)
+        ? list.id.toString()
+        : null,
+    )
+    .filter((value) => value !== null)
+  const userListValues = lists
+    .map((list) =>
+      resource?.user_list_parents?.some(({ parent }) => parent === list.id)
+        ? list.id.toString()
+        : null,
+    )
+    .filter((value) => value !== null)
+  const formId = useId()
+  const formik = useFormik({
+    enableReinitialize: true,
+    validateOnChange: false,
+    validateOnBlur: false,
+    initialValues: {
+      learning_paths: learningPathValues,
+      user_lists: userListValues,
+    },
+    onSubmit: () => {},
+  })
+  const save = async (values: { learning_paths: string[]; user_lists: string[] }) => {
+    if (formik.dirty) {
+      console.log(values)
+      if (listType === ListType.LearningPath) {
+      }
+      else if (listType === ListType.UserList) {
+        if (resource) {
+          const newParents = values.user_lists.map((id) => parseInt(id))
+          const removedParents = listChoices.map((list) => list.value).filter((id) => !newParents.includes(parseInt(id)))
+          await setUserListRelationships.mutateAsync({
+            child: resource.id,
+            add_parents: newParents,
+            remove_parents: removedParents
+          })
+      }
+    }
+  }
+
   return (
     <Dialog
       title={dialogTitle}
@@ -223,43 +275,47 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
       {...NiceModal.muiDialogV5(modal)}
     >
       {isReady ? (
-        <>
+        <form id={formId} onSubmit={formik.handleSubmit}>
           <Typography variant="body1">
             Adding <ResourceTitle>{resource?.title}</ResourceTitle>
           </Typography>
           {listType === ListType.LearningPath ? (
-            <Listing>
-              <LearningPathToggleList
-                resource={resource}
-                lists={lists as LearningPathResource[]}
+              <CheckboxChoiceField
+                name="learning_paths"
+                choices={listChoices}
+                label={""}
+                values={formik.values.learning_paths}
+                onChange={formik.handleChange}
+                vertical
               />
-              <ListItem className="add-to-list-new">
-                <ListItemButton
-                  onClick={() => manageListDialogs.upsertLearningPath()}
-                >
-                  <RiAddLine />
-                  <ListItemText primary="Create a new list" />
-                </ListItemButton>
-              </ListItem>
-            </Listing>
           ) : null}
           {listType === ListType.UserList ? (
-            <Listing>
-              <UserListToggleList
-                resource={resource}
-                lists={lists as UserList[]}
+              <CheckboxChoiceField
+                name="user_lists"
+                choices={listChoices}
+                label={""}
+                values={formik.values.user_lists}
+                onChange={formik.handleChange}
+                vertical
               />
-              <ListItem className="add-to-list-new">
-                <ListItemButton
-                  onClick={() => manageListDialogs.upsertUserList()}
-                >
-                  <RiAddLine />
-                  <ListItemText primary="Create a new list" />
-                </ListItemButton>
-              </ListItem>
-            </Listing>
           ) : null}
-        </>
+          <div>
+            <Button
+              variant="primary"
+              onClick={() => save(formik.values)}
+              disabled={!formik.dirty}
+            >
+              Save
+            </Button>
+            <Button
+              variant="secondary"
+              startIcon={<RiAddLine />}
+              disabled={formik.isSubmitting}
+            >
+              Create New List
+            </Button>
+          </div>
+        </form>
       ) : (
         <LoadingSpinner loading={!isReady} />
       )}

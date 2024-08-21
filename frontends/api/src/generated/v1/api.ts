@@ -15427,6 +15427,65 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
+     * Set all relationships at once
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsSetAllPartialUpdate: async (
+      learning_resource_id: number,
+      PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'learning_resource_id' is not null or undefined
+      assertParamExists(
+        "learningpathsItemsSetAllPartialUpdate",
+        "learning_resource_id",
+        learning_resource_id,
+      )
+      const localVarPath =
+        `/api/v1/learningpaths/{learning_resource_id}/items/set_all/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedLearningPathRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Get a paginated list of learning paths
      * @summary List
      * @param {boolean} [certification]
@@ -15932,6 +15991,42 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
+     * Set all relationships at once
+     * @param {number} learning_resource_id The learning resource id of the learning path
+     * @param {PatchedLearningPathRelationshipRequest} [PatchedLearningPathRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningpathsItemsSetAllPartialUpdate(
+      learning_resource_id: number,
+      PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<LearningPathRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningpathsItemsSetAllPartialUpdate(
+          learning_resource_id,
+          PatchedLearningPathRelationshipRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningpathsApi.learningpathsItemsSetAllPartialUpdate"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
      * Get a paginated list of learning paths
      * @summary List
      * @param {boolean} [certification]
@@ -16224,6 +16319,24 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     * Set all relationships at once
+     * @param {LearningpathsApiLearningpathsItemsSetAllPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningpathsItemsSetAllPartialUpdate(
+      requestParameters: LearningpathsApiLearningpathsItemsSetAllPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<LearningPathRelationship> {
+      return localVarFp
+        .learningpathsItemsSetAllPartialUpdate(
+          requestParameters.learning_resource_id,
+          requestParameters.PatchedLearningPathRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Get a paginated list of learning paths
      * @summary List
      * @param {LearningpathsApiLearningpathsListRequest} requestParameters Request parameters.
@@ -16446,6 +16559,27 @@ export interface LearningpathsApiLearningpathsItemsRetrieveRequest {
    * @memberof LearningpathsApiLearningpathsItemsRetrieve
    */
   readonly learning_resource_id: number
+}
+
+/**
+ * Request parameters for learningpathsItemsSetAllPartialUpdate operation in LearningpathsApi.
+ * @export
+ * @interface LearningpathsApiLearningpathsItemsSetAllPartialUpdateRequest
+ */
+export interface LearningpathsApiLearningpathsItemsSetAllPartialUpdateRequest {
+  /**
+   * The learning resource id of the learning path
+   * @type {number}
+   * @memberof LearningpathsApiLearningpathsItemsSetAllPartialUpdate
+   */
+  readonly learning_resource_id: number
+
+  /**
+   *
+   * @type {PatchedLearningPathRelationshipRequest}
+   * @memberof LearningpathsApiLearningpathsItemsSetAllPartialUpdate
+   */
+  readonly PatchedLearningPathRelationshipRequest?: PatchedLearningPathRelationshipRequest
 }
 
 /**
@@ -16756,6 +16890,26 @@ export class LearningpathsApi extends BaseAPI {
       .learningpathsItemsRetrieve(
         requestParameters.id,
         requestParameters.learning_resource_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Set all relationships at once
+   * @param {LearningpathsApiLearningpathsItemsSetAllPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningpathsApi
+   */
+  public learningpathsItemsSetAllPartialUpdate(
+    requestParameters: LearningpathsApiLearningpathsItemsSetAllPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningpathsApiFp(this.configuration)
+      .learningpathsItemsSetAllPartialUpdate(
+        requestParameters.learning_resource_id,
+        requestParameters.PatchedLearningPathRelationshipRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
@@ -21373,6 +21527,65 @@ export const UserlistsApiAxiosParamCreator = function (
       }
     },
     /**
+     * Set all relationships at once
+     * @param {number} userlist_id id of the parent user list
+     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsSetAllPartialUpdate: async (
+      userlist_id: number,
+      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'userlist_id' is not null or undefined
+      assertParamExists(
+        "userlistsItemsSetAllPartialUpdate",
+        "userlist_id",
+        userlist_id,
+      )
+      const localVarPath =
+        `/api/v1/userlists/{userlist_id}/items/set_all/`.replace(
+          `{${"userlist_id"}}`,
+          encodeURIComponent(String(userlist_id)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedUserListRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Viewset for UserLists
      * @summary List
      * @param {number} [limit] Number of results to return per page.
@@ -21768,6 +21981,42 @@ export const UserlistsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
+     * Set all relationships at once
+     * @param {number} userlist_id id of the parent user list
+     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async userlistsItemsSetAllPartialUpdate(
+      userlist_id: number,
+      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<UserListRelationship>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.userlistsItemsSetAllPartialUpdate(
+          userlist_id,
+          PatchedUserListRelationshipRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["UserlistsApi.userlistsItemsSetAllPartialUpdate"]?.[
+          index
+        ]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
      * Viewset for UserLists
      * @summary List
      * @param {number} [limit] Number of results to return per page.
@@ -22001,6 +22250,24 @@ export const UserlistsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     * Set all relationships at once
+     * @param {UserlistsApiUserlistsItemsSetAllPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    userlistsItemsSetAllPartialUpdate(
+      requestParameters: UserlistsApiUserlistsItemsSetAllPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<UserListRelationship> {
+      return localVarFp
+        .userlistsItemsSetAllPartialUpdate(
+          requestParameters.userlist_id,
+          requestParameters.PatchedUserListRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Viewset for UserLists
      * @summary List
      * @param {UserlistsApiUserlistsListRequest} requestParameters Request parameters.
@@ -22204,6 +22471,27 @@ export interface UserlistsApiUserlistsItemsRetrieveRequest {
 }
 
 /**
+ * Request parameters for userlistsItemsSetAllPartialUpdate operation in UserlistsApi.
+ * @export
+ * @interface UserlistsApiUserlistsItemsSetAllPartialUpdateRequest
+ */
+export interface UserlistsApiUserlistsItemsSetAllPartialUpdateRequest {
+  /**
+   * id of the parent user list
+   * @type {number}
+   * @memberof UserlistsApiUserlistsItemsSetAllPartialUpdate
+   */
+  readonly userlist_id: number
+
+  /**
+   *
+   * @type {PatchedUserListRelationshipRequest}
+   * @memberof UserlistsApiUserlistsItemsSetAllPartialUpdate
+   */
+  readonly PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest
+}
+
+/**
  * Request parameters for userlistsList operation in UserlistsApi.
  * @export
  * @interface UserlistsApiUserlistsListRequest
@@ -22402,6 +22690,26 @@ export class UserlistsApi extends BaseAPI {
       .userlistsItemsRetrieve(
         requestParameters.id,
         requestParameters.userlist_id,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Set all relationships at once
+   * @param {UserlistsApiUserlistsItemsSetAllPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UserlistsApi
+   */
+  public userlistsItemsSetAllPartialUpdate(
+    requestParameters: UserlistsApiUserlistsItemsSetAllPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return UserlistsApiFp(this.configuration)
+      .userlistsItemsSetAllPartialUpdate(
+        requestParameters.userlist_id,
+        requestParameters.PatchedUserListRelationshipRequest,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
