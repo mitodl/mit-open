@@ -5,13 +5,17 @@ import type { InputProps } from "ol-components"
 
 const StyledInput = styled(Input)({
   height: "72px",
+  maxWidth: "calc(100% - 2px)",
   "&.MuiInputBase-adornedEnd": {
     paddingRight: "0 !important",
     button: {
       paddingRight: "10px",
-      "&.Mui-focused": {
-        paddingRight: "9px",
-      },
+    },
+  },
+  "&.Mui-focused": {
+    paddingLeft: "15px",
+    button: {
+      paddingRight: "7px",
     },
   },
 })
