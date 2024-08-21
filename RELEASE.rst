@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 0.17.5
+--------------
+
+- restorin g redirect route (#1446)
+
 Version 0.17.4 (Released August 21, 2024)
 --------------
 
