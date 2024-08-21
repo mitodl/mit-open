@@ -4,7 +4,9 @@
     "fields": {
       "id": 1,
       "name": "School of Architecture and Planning",
-      "url": "https://sap.mit.edu/"
+      "url": "https://sap.mit.edu/",
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -12,7 +14,9 @@
     "fields": {
       "id": 2,
       "name": "School of Engineering",
-      "url": "https://engineering.mit.edu/"
+      "url": "https://engineering.mit.edu/",
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -20,7 +24,9 @@
     "fields": {
       "id": 3,
       "name": "School of Humanities, Arts, and Social Sciences",
-      "url": "https://shass.mit.edu/"
+      "url": "https://shass.mit.edu/",
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -28,7 +34,9 @@
     "fields": {
       "id": 4,
       "name": "Sloan School of Management",
-      "url": "http://mitsloan.mit.edu/"
+      "url": "http://mitsloan.mit.edu/",
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -36,7 +44,9 @@
     "fields": {
       "id": 5,
       "name": "School of Science",
-      "url": "https://science.mit.edu/"
+      "url": "https://science.mit.edu/",
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -44,7 +54,9 @@
     "fields": {
       "id": 6,
       "name": "MIT Schwarzman College of Computing",
-      "url": "https://computing.mit.edu/"
+      "url": "https://computing.mit.edu/",
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   }
 ]
