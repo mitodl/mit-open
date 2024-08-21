@@ -180,7 +180,7 @@ const HeroSearch: React.FC = () => {
         </Typography>
         <ControlsContainer>
           <SearchInput
-            placeholder="Search for courses, programs, learning, and teaching materials"
+            placeholder="Search for courses, programs, and learning materials..."
             size="hero"
             fullWidth
             value={searchText}
