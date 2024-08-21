@@ -25,6 +25,7 @@ const StyledAdornmentButton = styled(AdornmentButton)(({ theme }) => ({
     // Extra padding to make button easier to click
     width: "72px",
     height: "100%",
+    flexShrink: 0,
     ".MuiSvgIcon-root": {
       fontSize: pxToRem(24),
     },
