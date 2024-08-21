@@ -228,6 +228,9 @@ DEFAULT_DATABASE_CONFIG = dj_database_url.parse(
         "sqlite:///{}".format(os.path.join(BASE_DIR, "db.sqlite3")),  # noqa: PTH118
     )
 )
+READ_REPLICA_DATABASE_URL = get_string("READ_REPLICA_DATABASE_URL", "")
+
+
 DEFAULT_DATABASE_CONFIG["DISABLE_SERVER_SIDE_CURSORS"] = get_bool(
     "MITOL_DB_DISABLE_SS_CURSORS",
     True,  # noqa: FBT003
@@ -240,8 +243,15 @@ else:
     DEFAULT_DATABASE_CONFIG["OPTIONS"] = {"sslmode": "require"}
 
 DATABASES = {"default": DEFAULT_DATABASE_CONFIG}
+REPLICA_ROUTED_APPS = ["learning_resources", "learning_resources_search"]
+DATABASE_ROUTERS = [
+    "main.routers.ApplicationDatabaseRouter",
+]
 
-DATABASE_ROUTERS = ["main.routers.ExternalSchemaRouter"]
+if READ_REPLICA_DATABASE_URL:
+    READ_REPLICA_DATABASE_CONFIG = dj_database_url.parse(READ_REPLICA_DATABASE_URL)
+    READ_REPLICA_DATABASE_CONFIG["OPTIONS"] = DEFAULT_DATABASE_CONFIG["OPTIONS"]
+    DATABASES["read_replica"] = READ_REPLICA_DATABASE_CONFIG
 
 EXTERNAL_MODELS = ["programcertificate"]
 
