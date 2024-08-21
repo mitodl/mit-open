@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.17.7
+--------------
+
+- Add SP as a department  (#1451)
+- adding test for redirect view (#1448)
+- News and events for MIT Professional Education (#1365)
+
 Version 0.17.6 (Released August 21, 2024)
 --------------
 
