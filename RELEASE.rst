@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.7
+Version 0.17.7 (Released August 21, 2024)
 --------------
 
 - Add SP as a department  (#1451)
