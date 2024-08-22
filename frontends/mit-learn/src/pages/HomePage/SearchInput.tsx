@@ -8,9 +8,6 @@ const StyledInput = styled(Input)(({ theme }) => ({
   borderRadius: "6px",
   "&.MuiInputBase-adornedEnd": {
     paddingRight: "0 !important",
-    button: {
-      paddingRight: "10px",
-    },
   },
   [theme.breakpoints.down("sm")]: {
     height: "56px",
