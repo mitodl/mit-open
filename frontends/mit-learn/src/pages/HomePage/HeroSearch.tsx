@@ -141,6 +141,11 @@ const LinksContainer = styled.div(({ theme }) => ({
   },
 }))
 
+const StyledChipLink = styled(ChipLink)(({ theme }) => ({
+  borderColor: theme.custom.colors.lightGray2,
+  color: theme.custom.colors.silverGrayDark,
+}))
+
 const TrendingContainer = styled.div({
   display: "flex",
   flexDirection: "row",
@@ -206,16 +211,27 @@ const HeroSearch: React.FC = () => {
               </BrowseByTopicText>
             </BrowseByTopicContainer>
             <TrendingContainer>
-              {SEARCH_CHIPS.map((chip) => (
-                <ChipLink
-                  key={chip.label}
-                  variant={chip.variant}
-                  size="medium"
-                  label={chip.label}
-                  href={chip.href}
-                  {...(chip.icon && { icon: chip.icon })}
-                />
-              ))}
+              {SEARCH_CHIPS.map((chip) =>
+                chip.variant === "outlinedWhite" ? (
+                  <StyledChipLink
+                    key={chip.label}
+                    variant={chip.variant}
+                    size="medium"
+                    label={chip.label}
+                    href={chip.href}
+                    {...(chip.icon && { icon: chip.icon })}
+                  />
+                ) : (
+                  <ChipLink
+                    key={chip.label}
+                    variant={chip.variant}
+                    size="medium"
+                    label={chip.label}
+                    href={chip.href}
+                    {...(chip.icon && { icon: chip.icon })}
+                  />
+                ),
+              )}
             </TrendingContainer>
           </LinksContainer>
         </ControlsContainer>
