@@ -13,6 +13,7 @@ import {
   RiTimeLine,
   RiVerifiedBadgeLine,
 } from "@remixicon/react"
+import _ from "lodash"
 
 type SearchChip = {
   label: string
@@ -20,6 +21,10 @@ type SearchChip = {
   variant?: ChipLinkProps["variant"]
   icon?: React.ReactElement
 }
+
+const HERO_IMAGE_IDX = _.shuffle([1, 2, 3, 4, 5])
+
+const HERO_IMAGE_URL = `/static/images/hero/hero-${HERO_IMAGE_IDX[0]}.png`
 
 const SEARCH_CHIPS: SearchChip[] = [
   {
@@ -220,7 +225,7 @@ const HeroSearch: React.FC = () => {
         </ControlsContainer>
       </TitleAndControls>
       <ImageContainer>
-        <img alt="" src="/static/images/person_with_headphones.png" />
+        <img alt="" src={HERO_IMAGE_URL} />
       </ImageContainer>
     </HeroWrapper>
   )
