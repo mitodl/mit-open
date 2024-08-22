@@ -195,7 +195,7 @@ const HeroSearch: React.FC = () => {
             onClear={onSearchClear}
             onSubmit={onSearchSubmit}
           />
-          <>
+          <div>
             <BrowseByTopicContainer>
               <BrowseByTopicText>
                 or browse by{" "}
@@ -216,7 +216,7 @@ const HeroSearch: React.FC = () => {
                 />
               ))}
             </TrendingContainer>
-          </>
+          </div>
         </ControlsContainer>
       </TitleAndControls>
       <ImageContainer>
