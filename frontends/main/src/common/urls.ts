@@ -44,6 +44,7 @@ export const makeChannelManageWidgetsPath = (
   name: string,
 ) => generatePath(CHANNEL_EDIT_WIDGETS, { channelType, name })
 
+const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN
 const MITOL_API_BASE_URL = process.env.NEXT_PUBLIC_MITOL_API_BASE_URL
 
 export const LOGIN = `${MITOL_API_BASE_URL}/login/ol-oidc/`
@@ -70,7 +71,7 @@ export const login = ({
    * There's no need to encode the path parameter (it might contain slashes,
    * but those are allowed in search parameters) so let's keep it readable.
    */
-  const next = `${window.location.origin}${pathname}${encodeURIComponent(search)}${encodeURIComponent(hash as string)}`
+  const next = `${ORIGIN}/${pathname}${encodeURIComponent(search)}${encodeURIComponent(hash as string)}`
   return `${LOGIN}?next=${next}`
 }
 

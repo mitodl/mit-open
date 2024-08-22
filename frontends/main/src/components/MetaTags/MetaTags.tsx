@@ -9,13 +9,7 @@ type MetaTagsProps = {
   children?: React.ReactNode
 }
 
-const removeTrailingSlash = (str: string): string =>
-  str.length > 0 && str.endsWith("/") ? str.substring(0, str.length - 1) : str
 
-const getCanonicalUrl = (url: string): string => {
-  const href = removeTrailingSlash(String(new URL(url, window.location.origin)))
-  return href
-}
 
 /**
  * Renders a Next.js head component to customize meta tags
@@ -32,7 +26,7 @@ const MetaTags: React.FC<MetaTagsProps> = ({
       <title>{[...title, process.env.NEXT_PUBLIC_SITE_NAME].join(" | ")}</title>
       {children}
       {canonicalLink ? (
-        <link rel="canonical" href={getCanonicalUrl(canonicalLink)} />
+        <link rel="canonical" href={process.env.NEXT_PUBLIC_ORIGIN} />
       ) : null}
     </Head>
   )
