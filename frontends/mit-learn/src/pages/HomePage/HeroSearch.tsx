@@ -13,6 +13,7 @@ import {
   RiTimeLine,
   RiVerifiedBadgeLine,
 } from "@remixicon/react"
+import _ from "lodash"
 
 type SearchChip = {
   label: string
@@ -152,6 +153,11 @@ const BoldLink = styled(Link)(({ theme }) => ({
   ...theme.typography.subtitle1,
 }))
 
+const getRandomHeroImage = () => {
+  const imageNumber = _.shuffle([1, 2, 3, 4, 5])[0]
+  return `/static/images/hero/hero-${imageNumber}.png`
+}
+
 const HeroSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("")
   const onSearchClear = useCallback(() => setSearchText(""), [])
@@ -220,7 +226,7 @@ const HeroSearch: React.FC = () => {
         </ControlsContainer>
       </TitleAndControls>
       <ImageContainer>
-        <img alt="" src="/static/images/person_with_headphones.png" />
+        <img alt="" src={getRandomHeroImage()} />
       </ImageContainer>
     </HeroWrapper>
   )
