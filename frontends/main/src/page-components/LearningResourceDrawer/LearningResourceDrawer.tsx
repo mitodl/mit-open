@@ -7,7 +7,7 @@ import {
 } from "ol-components"
 import type { RoutedDrawerProps } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import { useSearchParams, useRouter, useParams  } from "next/navigation"
+import { useSearchParams, useRouter, ReadonlyURLSearchParams } from "next/navigation"
 
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 // import { usePostHog } from "posthog-js/react"
@@ -82,42 +82,34 @@ const LearningResourceDrawer = () => {
   )
 }
 
+const getOpenDrawerSearchParams = (current: ReadonlyURLSearchParams, resourceId: number) => {
+  const newSearchParams = new URLSearchParams(current)
+  newSearchParams.set(RESOURCE_DRAWER_QUERY_PARAM, resourceId.toString())
+  return newSearchParams
+}
+
 const useOpenLearningResourceDrawer = () => {
   const searchParams = useSearchParams()
   const router = useRouter();
 
-  const openLearningResourceDrawer = React.useCallback(
+  const openLearningResourceDrawer = useCallback(
     (resourceId: number) => {
-      // TODO can use navigate Location API with Next.js
-      // setSearchParams((current) => {
-      //   const copy = new URLSearchParams(current)
-      //   copy.set(RESOURCE_DRAWER_QUERY_PARAM, resourceId.toString())
-      //   return copy
-      // })
-
-      // TODO
-      router.push(`?${RESOURCE_DRAWER_QUERY_PARAM}=${resourceId}`)
+      router.push(`?${getOpenDrawerSearchParams(searchParams, resourceId)}`)
     },
-    [searchParams],
+    [router, searchParams],
   )
   return openLearningResourceDrawer
 }
 
+
 const useResourceDrawerHref = () => {
-  const search = useSearchParams()
-  const params = useParams();
+  const searchParams = useSearchParams()
 
   return useCallback(
-    (id: number) => {
-      return `?${RESOURCE_DRAWER_QUERY_PARAM}=${id}${window.location.hash}`
-      // return `?${window.location.hash}`
-
-
-      // TODO
-      // search.set(RESOURCE_DRAWER_QUERY_PARAM, id.toString())
-      // return `?${search.toString()}${window.location.hash}`
+    (resourceId: number) => {
+      return `?${getOpenDrawerSearchParams(searchParams, resourceId)}`
     },
-    [search, params],
+    [searchParams],
   )
 }
 

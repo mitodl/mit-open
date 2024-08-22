@@ -77,6 +77,12 @@ const nextConfig = {
         port: "",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "image.simplecastcdn.com",
+        port: "",
+        pathname: "**",
+      }
     ],
   },
 }
