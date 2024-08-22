@@ -16,6 +16,7 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import (
     READABLE_ID_FIELD,
+    ContentTagCategory,
     CourseLoaderConfig,
     ProgramLoaderConfig,
 )
@@ -621,8 +622,92 @@ def load_content_file(
         )
 
 
+def calculate_completeness(
+    run: LearningResourceRun, content_tags: list[list[str]] | None = None
+):
+    """Calculate the completeness score of an OCW course"""
+    content_tag_categories = {
+        "Lecture Videos": ContentTagCategory.videos.value,
+        "Lecture Notes": ContentTagCategory.notes.value,
+        "Exams with Solutions": ContentTagCategory.exams_w_solutions.value,
+        "Exams": ContentTagCategory.exams.value,
+        "Problem Sets with Solutions": (
+            ContentTagCategory.problem_sets_w_solutions.value
+        ),
+        "Problem Sets": ContentTagCategory.problem_sets.value,
+        "Assignments": ContentTagCategory.assignments.value,
+        # Can add more here if ever needed, in format tag_name:category
+    }
+
+    ocw_resource = run.learning_resource
+    if any(
+        coursenum["value"]
+        for coursenum in ocw_resource.course.course_numbers
+        if coursenum["value"].endswith("SC")
+    ):
+        # SC courses get an automatic 1.0 score
+        new_score = 1.0
+    else:
+        if content_tags is None:
+            content_tags = [
+                [tag.name for tag in content_file.content_tags.all()]
+                for content_file in run.content_files.only("content_tags")
+            ]
+        content_keys = content_tag_categories.values()
+        content_tags_dict = dict(zip(content_keys, [0] * len(content_keys)))
+        for content_file_tags in content_tags:
+            for content_tag in content_file_tags:
+                category = content_tag_categories.get(content_tag)
+                if category:
+                    content_tags_dict[category] = content_tags_dict.get(category, 0) + 1
+        lecture_video_rating = min(
+            content_tags_dict.get(ContentTagCategory.videos.value, 0) / 24, 1.0
+        )
+        lecture_notes_rating = min(
+            content_tags_dict.get(ContentTagCategory.notes.value, 0) / 24, 1.0
+        )
+        exams_with_solutions_rating = min(
+            content_tags_dict.get(ContentTagCategory.exams_w_solutions.value, 0), 1
+        )
+        exams_without_solutions_rating = min(
+            content_tags_dict.get(ContentTagCategory.exams.value, 0), 0.5
+        )
+        exams_rating = max(exams_with_solutions_rating, exams_without_solutions_rating)
+        problem_set_rating = min(
+            (
+                (
+                    2
+                    * content_tags_dict.get(
+                        ContentTagCategory.problem_sets_w_solutions.value, 0
+                    )
+                )
+                + content_tags_dict.get(ContentTagCategory.problem_sets.value, 0)
+                + content_tags_dict.get(ContentTagCategory.assignments.value, 0)
+            )
+            / 10,
+            1.0,
+        )
+        log.info(
+            f"{lecture_video_rating}, {lecture_notes_rating}, {exams_rating}, {problem_set_rating}"  # noqa: E501,G004
+        )
+        new_score = (
+            0.4 * lecture_video_rating
+            + 0.2 * lecture_notes_rating
+            + 0.2 * exams_rating
+            + 0.2 * problem_set_rating
+        )
+    if ocw_resource.completeness != new_score:
+        ocw_resource.completeness = new_score
+        ocw_resource.save()
+        update_index(ocw_resource, newly_created=False)
+    return new_score
+
+
 def load_content_files(
-    course_run: LearningResourceRun, content_files_data: list[dict]
+    course_run: LearningResourceRun,
+    content_files_data: list[dict],
+    *,
+    calc_completeness: bool = False,
 ) -> list[int]:
     """
     Sync all content files for a course run to database and S3 if not present in DB
@@ -630,17 +715,20 @@ def load_content_files(
     Args:
         course_run (LearningResourceRun): a course run
         content_files_data (list or generator): Details about the content files
+        calc_completeness: bool: Whether to calculate the completeness score
 
     Returns:
         list of int: Ids of the ContentFile objects that were created/updated
 
     """
     if course_run.learning_resource.resource_type == LearningResourceType.course.name:
-        content_files_ids = [
-            load_content_file(course_run, content_file)
-            for content_file in content_files_data
-        ]
-
+        content_files_ids = []
+        content_tags = []
+        for content_file in content_files_data:
+            content_tags.append(content_file.get("content_tags", []))
+            content_files_ids.append(load_content_file(course_run, content_file))
+        if calc_completeness:
+            calculate_completeness(course_run, content_tags=content_tags)
         content_files_loaded_actions(run=course_run, deindex_only=False)
 
         return content_files_ids

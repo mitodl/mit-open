@@ -158,6 +158,7 @@ def ocw_courses_etl(
                         ocw.transform_content_files(
                             s3_resource, url_path, force_overwrite
                         ),
+                        calc_completeness=True,
                     )
             else:
                 log.info("No course data found for %s", url_path)

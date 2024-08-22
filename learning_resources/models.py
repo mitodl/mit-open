@@ -421,6 +421,7 @@ class LearningResource(TimestampedModel):
         null=True,
         choices=((member.name, member.value) for member in Availability),
     )
+    completeness = models.FloatField(default=1.0)
 
     @property
     def audience(self) -> str | None:

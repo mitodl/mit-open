@@ -4,6 +4,7 @@ from collections import namedtuple
 from enum import Enum
 
 from django.conf import settings
+from named_enum import ExtendedEnum
 
 from learning_resources.constants import LearningResourceFormat
 
@@ -82,3 +83,17 @@ RESOURCE_FORMAT_MAPPING = {
         for value in LearningResourceFormat.values()
     },
 }
+
+
+class ContentTagCategory(ExtendedEnum):
+    """
+    Enum for content tag categories.
+    """
+
+    videos = "Videos"
+    notes = "Notes"
+    exams_w_solutions = "Exams with Solutions"
+    exams = "Exams"
+    problem_sets_w_solutions = "Problem Sets with Solutions"
+    problem_sets = "Problem Sets"
+    assignments = "Assignments"
