@@ -120,9 +120,12 @@ any emails sent from the app will be delivered to you.
 
 ### Loading fixture files
 
-Run the following to load platforms, departments, and offers. This populates the database with the fixture files contained in [learning_resources/fixtures](learning_resources/fixtures). Note that you will first need to run the Django models to schema migrations detailed in the [Handbook Initial Setup](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html#3-create-database-tables-from-the-django-models) step. This is already done for you when bringing up your local (development) environment.
+Run the following to load platforms, departments, and offers. This populates the database with the fixture files contained in [learning_resources/fixtures](learning_resources/fixtures). Note that you will first need to run the Django models to schema migrations detailed in the [Handbook Initial Setup](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html#3-create-database-tables-from-the-django-models) step.
 
 ```bash
+# Note!
+# This is already done for you when bringing up your local (development)
+# environment.
 docker compose run --rm web python manage.py loaddata platforms departments offered_by
 ```
 

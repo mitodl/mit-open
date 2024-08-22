@@ -7,6 +7,7 @@ python3 manage.py migrate --noinput
 RUN_DATA_MIGRATIONS=true python3 manage.py migrate --noinput
 
 # load required fixtures on development by default
+echo "Loading fixtures!"
 python3 manage.py loaddata platforms schools departments offered_by
 
 uwsgi uwsgi.ini --honour-stdin
