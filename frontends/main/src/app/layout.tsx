@@ -1,7 +1,7 @@
 
 "use client"
 
-import React from "react"
+import React, { Suspense } from "react"
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
@@ -26,7 +26,10 @@ export default function RootLayout({
           <AppRouterCacheProvider>
             <ThemeProvider>
               <PageWrapper>
-                <Header />
+                {/* TODO Move the suspense boundary (required for useSearchParams) tighter around the UserMenu so the rest of the Header can render on the server */}
+                <Suspense>
+                  <Header />
+                </Suspense>
                 <PageWrapperInner>
                   { children }
                   {/* <Outlet /> */}
