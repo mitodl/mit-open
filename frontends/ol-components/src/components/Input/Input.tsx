@@ -46,6 +46,7 @@ const baseInputStyles = (theme: Theme) => ({
   },
   "&.Mui-error": {
     borderColor: theme.custom.colors.red,
+    outlineColor: theme.custom.colors.red,
   },
   "& input::placeholder": {
     color: theme.custom.colors.silverGrayDark,
