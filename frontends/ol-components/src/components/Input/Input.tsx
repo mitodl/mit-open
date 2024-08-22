@@ -108,7 +108,7 @@ const Input = styled(InputBase)(({
       },
       [theme.breakpoints.down("sm")]: {
         "& .MuiInputBase-input": {
-          ...theme.typography.body4,
+          ...theme.typography.body3,
         },
         "&.MuiInputBase-adornedStart": {
           paddingLeft: `${12 - buttonPadding.heroMobile}px`,
