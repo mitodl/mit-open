@@ -24,7 +24,7 @@ const StyledAdornmentButton = styled(AdornmentButton)(({ theme }) => ({
       fontSize: pxToRem(24),
     },
     [theme.breakpoints.down("sm")]: {
-      width: "37px",
+      width: "56px",
       height: "100%",
       ".MuiSvgIcon-root": {
         fontSize: pxToRem(16),
