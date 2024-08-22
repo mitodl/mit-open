@@ -10,9 +10,11 @@ const nextConfig = {
 
     config.plugins.push(
       new webpack.IgnorePlugin({
-        // Ignore test files
         resourceRegExp: /\.test\.tsx$/
-      })
+      }),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /mockAxios\.ts/
+      }),
     );
 
     config.module.rules.push({

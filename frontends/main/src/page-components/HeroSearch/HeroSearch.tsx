@@ -161,18 +161,18 @@ const HeroSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("")
   const onSearchClear = useCallback(() => setSearchText(""), [])
   const router = useRouter()
+
   const onSearchChange: SearchInputProps["onChange"] = useCallback((e) => {
     setSearchText(e.target.value)
   }, [])
+
   const onSearchSubmit: SearchInputProps["onSubmit"] = useCallback(
     (e) => {
-      router.push({
-        pathname: "/search",
-        search: `q=${e.target.value}`,
-      })
+      router.push(`/search?q=${e.target.value}`)
     },
     [router],
   )
+
   return (
     <HeroWrapper>
       <TitleAndControls>

@@ -105,7 +105,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   }
   const loginUrl = urls.login({
     pathname,
-    search
+    search: search.toString(),
   })
 
   const items: UserMenuItem[] = [

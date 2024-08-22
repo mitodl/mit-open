@@ -1,7 +1,10 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,15 +22,34 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "api": ["../api/src"],
-      "api/*": ["../api/src/*"],
+      "@/*": [
+        "./src/*"
+      ],
+      "api": [
+        "../api/src"
+      ],
+      "api/*": [
+        "../api/src/*"
+      ]
     },
-
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-
+    "types": [
+      "node",
+      "jest",
+      "@types/jest",
+      "@testing-library/jest-dom",
+      "jest-extended"
+    ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "../jest.jsdom.config"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/mit-learn",
+    "ol-test-utilities",
+  ]
 }

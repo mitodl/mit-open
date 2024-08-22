@@ -1,5 +1,5 @@
 
-import React, { useEffect, useCallback } from "react"
+import React, { useCallback } from "react"
 import {
   RoutedDrawer,
   LearningResourceExpanded,
@@ -10,7 +10,7 @@ import { useLearningResourcesDetail } from "api/hooks/learningResources"
 import { useSearchParams, useRouter, useParams  } from "next/navigation"
 
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
-import { usePostHog } from "posthog-js/react"
+// import { usePostHog } from "posthog-js/react"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 

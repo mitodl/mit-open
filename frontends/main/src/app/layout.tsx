@@ -10,6 +10,7 @@ import { ThemeProvider } from "ol-components";
 import Providers from "./providers"
 import GlobalStyles from "./GlobalStyles"
 
+export const dynamic = "force-dynamic";
 
 export default function RootLayout({
   children,
