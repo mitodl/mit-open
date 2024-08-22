@@ -3,7 +3,14 @@ import { useNavigate } from "react-router"
 import { Typography, styled, ChipLink, Link } from "ol-components"
 import type { ChipLinkProps } from "ol-components"
 import { SearchInput, SearchInputProps } from "./SearchInput"
-import { ABOUT } from "@/common/urls"
+import {
+  ABOUT,
+  SEARCH_CERTIFICATE,
+  SEARCH_FREE,
+  SEARCH_NEW,
+  SEARCH_POPULAR,
+  SEARCH_UPCOMING,
+} from "@/common/urls"
 import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "../AboutPage/AboutPage"
 import {
   RiAddBoxLine,
@@ -24,31 +31,31 @@ type SearchChip = {
 const SEARCH_CHIPS: SearchChip[] = [
   {
     label: "Recently Added",
-    href: "/search?sortby=new",
+    href: SEARCH_NEW,
     variant: "outlinedWhite",
     icon: <RiTimeLine />,
   },
   {
     label: "Popular",
-    href: "/search?sortby=-views",
+    href: SEARCH_POPULAR,
     variant: "outlinedWhite",
     icon: <RiThumbUpLine />,
   },
   {
     label: "Upcoming",
-    href: "/search?sortby=upcoming",
+    href: SEARCH_UPCOMING,
     variant: "outlinedWhite",
     icon: <RiAddBoxLine />,
   },
   {
     label: "Free",
-    href: "/search?free=true",
+    href: SEARCH_FREE,
     variant: "outlinedWhite",
     icon: <RiVerifiedBadgeLine />,
   },
   {
     label: "With Certificate",
-    href: "/search?certification=true",
+    href: SEARCH_CERTIFICATE,
     variant: "outlinedWhite",
     icon: <RiAwardLine />,
   },
