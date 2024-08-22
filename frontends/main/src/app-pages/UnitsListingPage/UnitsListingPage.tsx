@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import {
   useLearningResourcesSearch,
@@ -16,11 +18,10 @@ import {
   LearningResourceOfferorDetail,
   LearningResourcesSearchResponse,
 } from "api"
-import { MetaTags } from "ol-utilities"
 import { HOME } from "@/common/urls"
 import { UnitCards, UnitCardLoading } from "./UnitCard"
 
-const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
+const UNITS_BANNER_IMAGE = "/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
 
 const aggregateByUnits = (
@@ -254,7 +255,7 @@ const UnitsListingPage: React.FC = () => {
 
   return (
     <Page>
-      <MetaTags title="Units" />
+      {/* <MetaTags title="Units" /> TODO */}
       <Banner
         navText={
           <Breadcrumbs

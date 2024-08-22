@@ -1,3 +1,5 @@
+"use client"
+
 import _ from "lodash"
 import React, { useCallback, useMemo } from "react"
 import type { FacetManifest } from "@mitodl/course-search-utils"
@@ -14,7 +16,7 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
 import { styled, Container, Grid, theme } from "ol-components"
-import { MetaTags, capitalize } from "ol-utilities"
+import { capitalize } from "ol-utilities"
 
 const cssGradient = `
   linear-gradient(
@@ -210,7 +212,7 @@ const SearchPage: React.FC = () => {
 
   return (
     <Page>
-      <MetaTags title="Search" />
+      {/* TODO <MetaTags title="Search" /> */}
       <Header>
         <Container>
           <GridContainer>

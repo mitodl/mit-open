@@ -109,12 +109,12 @@ const CountsText = styled(Typography)(({ theme }) => ({
 }))
 
 const unitLogos = {
-  [OfferedByEnum.Mitx]: "/static/images/unit_logos/mitx.svg",
-  [OfferedByEnum.Ocw]: "/static/images/unit_logos/ocw.svg",
-  [OfferedByEnum.Bootcamps]: "/static/images/unit_logos/bootcamps.svg",
-  [OfferedByEnum.Xpro]: "/static/images/unit_logos/xpro.svg",
-  [OfferedByEnum.Mitpe]: "/static/images/unit_logos/mitpe.svg",
-  [OfferedByEnum.See]: "/static/images/unit_logos/see.svg",
+  [OfferedByEnum.Mitx]: "/images/unit_logos/mitx.svg",
+  [OfferedByEnum.Ocw]: "/images/unit_logos/ocw.svg",
+  [OfferedByEnum.Bootcamps]: "/images/unit_logos/bootcamps.svg",
+  [OfferedByEnum.Xpro]: "/images/unit_logos/xpro.svg",
+  [OfferedByEnum.Mitpe]: "/images/unit_logos/mitpe.svg",
+  [OfferedByEnum.See]: "/images/unit_logos/see.svg",
 }
 
 interface UnitCardsProps {
@@ -199,7 +199,7 @@ export const UnitCards: React.FC<UnitCardsProps> = (props) => {
         const programCount = programCounts[unit.code] || 0
         const logo =
           unitLogos[unit.code as OfferedByEnum] ||
-          `/static/images/unit_logos/${unit.code}.svg`
+          `/images/unit_logos/${unit.code}.svg`
         return unit.value_prop ? (
           <UnitCard
             key={unit.code}
