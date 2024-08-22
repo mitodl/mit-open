@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.17.8
+--------------
+
+- search box adornment buttons should be 56px wide on mobile (#1457)
+- homepage hero search updates (#1454)
+- Fix departments and schools fixtures (#1453)
+- Renaming the s3 buckets used for storing the app. (#1455)
+
 Version 0.17.7 (Released August 21, 2024)
 --------------
 
