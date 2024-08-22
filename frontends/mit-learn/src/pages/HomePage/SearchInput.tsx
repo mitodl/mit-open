@@ -5,6 +5,7 @@ import type { InputProps } from "ol-components"
 
 const StyledInput = styled(Input)(({ theme }) => ({
   height: "72px",
+  borderRadius: "6px",
   "&.MuiInputBase-adornedEnd": {
     paddingRight: "0 !important",
     button: {
