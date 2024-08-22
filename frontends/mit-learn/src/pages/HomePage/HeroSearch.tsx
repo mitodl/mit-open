@@ -124,6 +124,9 @@ const BrowseByTopicContainer = styled.div(({ theme }) => ({
 const BrowseByTopicText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.silverGrayDark,
   ...theme.typography.body2,
+  [theme.breakpoints.down("sm")]: {
+    ...theme.typography.body3,
+  },
 }))
 
 const TopicLink = styled(Link)({
