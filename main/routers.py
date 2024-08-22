@@ -24,4 +24,6 @@ class ExternalSchemaRouter:
 
 
 class ApplicationDatabaseRouter(ReadReplicaDatabaseRouter, ExternalSchemaRouter):
-    pass
+    """
+    Application-wide Database router
+    """
