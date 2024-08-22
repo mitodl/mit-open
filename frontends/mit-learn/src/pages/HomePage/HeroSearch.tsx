@@ -130,17 +130,6 @@ const TopicLink = styled(Link)({
   textDecoration: "underline",
 })
 
-const LinksContainer = styled.div(({ theme }) => ({
-  width: "100%",
-  display: "flex",
-  flexDirection: "column",
-  flexWrap: "wrap",
-  justifyContent: "space-between",
-  [theme.breakpoints.down("sm")]: {
-    flexDirection: "column",
-  },
-}))
-
 const StyledChipLink = styled(ChipLink)(({ theme }) => ({
   borderColor: theme.custom.colors.lightGray2,
   color: theme.custom.colors.silverGrayDark,
@@ -201,7 +190,7 @@ const HeroSearch: React.FC = () => {
             onClear={onSearchClear}
             onSubmit={onSearchSubmit}
           />
-          <LinksContainer>
+          <>
             <BrowseByTopicContainer>
               <BrowseByTopicText>
                 or browse by{" "}
@@ -233,7 +222,7 @@ const HeroSearch: React.FC = () => {
                 ),
               )}
             </TrendingContainer>
-          </LinksContainer>
+          </>
         </ControlsContainer>
       </TitleAndControls>
       <ImageContainer>
