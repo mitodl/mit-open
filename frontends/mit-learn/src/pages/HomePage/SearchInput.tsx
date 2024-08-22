@@ -11,12 +11,6 @@ const StyledInput = styled(Input)(({ theme }) => ({
       paddingRight: "10px",
     },
   },
-  "&.Mui-focused": {
-    paddingLeft: "15px",
-    button: {
-      paddingRight: "7px",
-    },
-  },
   [theme.breakpoints.down("sm")]: {
     height: "56px",
     gap: "8px",
@@ -25,7 +19,6 @@ const StyledInput = styled(Input)(({ theme }) => ({
 
 const StyledAdornmentButton = styled(AdornmentButton)(({ theme }) => ({
   ".MuiInputBase-sizeHero &": {
-    // Extra padding to make button easier to click
     width: "72px",
     height: "100%",
     flexShrink: 0,
