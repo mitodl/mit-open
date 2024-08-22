@@ -3,9 +3,8 @@ import { RiSearch2Line, RiCloseLine } from "@remixicon/react"
 import { Input, AdornmentButton, styled, pxToRem } from "ol-components"
 import type { InputProps } from "ol-components"
 
-const StyledInput = styled(Input)({
+const StyledInput = styled(Input)(({ theme }) => ({
   height: "72px",
-  maxWidth: "calc(100% - 2px)",
   "&.MuiInputBase-adornedEnd": {
     paddingRight: "0 !important",
     button: {
@@ -18,7 +17,11 @@ const StyledInput = styled(Input)({
       paddingRight: "7px",
     },
   },
-})
+  [theme.breakpoints.down("sm")]: {
+    height: "56px",
+    gap: "8px",
+  },
+}))
 
 const StyledAdornmentButton = styled(AdornmentButton)(({ theme }) => ({
   ".MuiInputBase-sizeHero &": {

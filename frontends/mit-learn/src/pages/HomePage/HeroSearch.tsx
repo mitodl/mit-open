@@ -102,7 +102,8 @@ const ControlsContainer = styled.div(({ theme }) => ({
   alignItems: "flex-start",
   justifyContent: "center",
   [theme.breakpoints.down("sm")]: {
-    padding: "12px",
+    marginTop: "12px",
+    padding: "0",
     gap: "16px",
   },
   [theme.breakpoints.up("sm")]: {
@@ -112,10 +113,13 @@ const ControlsContainer = styled.div(({ theme }) => ({
   },
 }))
 
-const BrowseByTopicContainer = styled.div({
+const BrowseByTopicContainer = styled.div(({ theme }) => ({
   marginTop: "16px",
   marginBottom: "24px",
-})
+  [theme.breakpoints.down("sm")]: {
+    marginTop: "0",
+  },
+}))
 
 const BrowseByTopicText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.silverGrayDark,
