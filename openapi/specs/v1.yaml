@@ -7737,6 +7737,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -7809,6 +7812,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -8154,6 +8160,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -8223,6 +8232,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - title
     LearningPathResourceResourceTypeEnum:
@@ -9532,6 +9544,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
     PatchedUserListRelationshipRequest:
       type: object
       description: Serializer for UserListRelationship model
@@ -10072,6 +10087,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -10144,6 +10162,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -10333,6 +10354,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -10405,6 +10429,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -10724,6 +10751,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -10796,6 +10826,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -11257,6 +11290,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -11329,6 +11365,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -11504,6 +11543,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -11576,6 +11618,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
