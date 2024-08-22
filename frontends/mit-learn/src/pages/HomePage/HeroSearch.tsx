@@ -22,10 +22,6 @@ type SearchChip = {
   icon?: React.ReactElement
 }
 
-const HERO_IMAGE_IDX = _.shuffle([1, 2, 3, 4, 5])
-
-const HERO_IMAGE_URL = `/static/images/hero/hero-${HERO_IMAGE_IDX[0]}.png`
-
 const SEARCH_CHIPS: SearchChip[] = [
   {
     label: "Recently Added",
@@ -157,6 +153,11 @@ const BoldLink = styled(Link)(({ theme }) => ({
   ...theme.typography.subtitle1,
 }))
 
+const getRandomHeroImage = () => {
+  const imageNumber = _.shuffle([1, 2, 3, 4, 5])[0]
+  return `/static/images/hero/hero-${imageNumber}.png`
+}
+
 const HeroSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("")
   const onSearchClear = useCallback(() => setSearchText(""), [])
@@ -225,7 +226,7 @@ const HeroSearch: React.FC = () => {
         </ControlsContainer>
       </TitleAndControls>
       <ImageContainer>
-        <img alt="" src={HERO_IMAGE_URL} />
+        <img alt="" src={getRandomHeroImage()} />
       </ImageContainer>
     </HeroWrapper>
   )
