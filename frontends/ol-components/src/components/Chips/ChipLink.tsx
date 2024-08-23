@@ -1,6 +1,5 @@
 import React from "react"
 import Chip from "@mui/material/Chip"
-// import { Link } from "react-router-dom"
 import Link from "next/link"
 
 import type { ChipProps } from "@mui/material/Chip"
@@ -20,10 +19,8 @@ const ChipLink = React.forwardRef<HTMLAnchorElement, ChipLinkProps>(
     <Chip
       {...others}
       ref={ref}
-      // Use React Router's Link
       component={Link}
       href={href || ""}
-      // Links are clickable.
       clickable
     />
   ),

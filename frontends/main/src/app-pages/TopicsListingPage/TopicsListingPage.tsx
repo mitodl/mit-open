@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useMemo } from "react"
 import {
   Container,
@@ -11,8 +13,8 @@ import {
   Skeleton,
   Breadcrumbs,
 } from "ol-components"
-import { Link } from "react-router-dom"
-import { MetaTags, propsNotNil } from "ol-utilities"
+import Link from "next/link"
+import { propsNotNil } from "ol-utilities"
 
 import {
   useLearningResourceTopics,
@@ -42,7 +44,7 @@ const TopicBoxHeader = styled(
   ({ title, icon, href, className }: TopicBoxHeaderProps) => {
     return (
       <Typography variant="h5" component="h3" className={className}>
-        <Link to={href ?? ""}>
+          <Link href={href ?? ""}>
           <RootTopicIcon icon={icon} aria-hidden="true" />
           <span>
             <span className="topic-title">{title}</span>
@@ -281,7 +283,7 @@ const ToopicsListingPage: React.FC = () => {
   }, [topicsQuery.data?.results, courseQuery.data, programQuery.data])
   return (
     <Page>
-      <MetaTags title="Topics" />
+      {/* TODO <MetaTags title="Topics" /> */}
       <Banner
         navText={
           <Breadcrumbs

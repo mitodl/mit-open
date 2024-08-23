@@ -3,6 +3,7 @@ import styled from "@emotion/styled"
 import { css } from "@emotion/react"
 import { default as NextLink } from "next/link"
 import { theme } from "../ThemeProvider/ThemeProvider"
+import type { Theme } from "../ThemeProvider/ThemeProvider"
 
 type LinkStyleProps = {
   size?: "small" | "medium" | "large"
