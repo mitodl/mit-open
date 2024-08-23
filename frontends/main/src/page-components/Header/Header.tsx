@@ -134,11 +134,11 @@ const LoggedOutView: FunctionComponent = () => {
   return (
     <FlexContainer>
       <DesktopOnly>
-        {/* <SearchButton /> TODO */}
+        <SearchButton />
         <UserMenu variant="desktop" />
       </DesktopOnly>
       <MobileOnly>
-        {/* <SearchButton /> TODO */}
+        <SearchButton />
         <RightDivider orientation="vertical" flexItem />
         <UserMenu variant="mobile" />
       </MobileOnly>

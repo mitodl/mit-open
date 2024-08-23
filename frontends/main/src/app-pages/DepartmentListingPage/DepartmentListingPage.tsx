@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import {
   Container,
@@ -12,7 +14,7 @@ import {
   Banner,
   Breadcrumbs,
 } from "ol-components"
-import { MetaTags, pluralize } from "ol-utilities"
+import { pluralize } from "ol-utilities"
 import type {
   LearningResourceSchool,
   LearningResourcesSearchResponse,
@@ -214,7 +216,7 @@ const DepartmentListingPage: React.FC = () => {
 
   return (
     <>
-      <MetaTags title="Departments" />
+      {/* TODO <MetaTags title="Departments" /> */}
       <Banner
         backgroundUrl="/static/images/background_steps.jpeg"
         header="Browse by Academic Department"
