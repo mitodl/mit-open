@@ -139,7 +139,7 @@ const UnitCard: React.FC<UnitCardProps> = (props) => {
   return channelDetailQuery.isLoading ? (
     <UnitCardLoading />
   ) : (
-    <CardStyled href={unitUrl}>
+    <CardStyled href={new URL(unitUrl!).pathname}>
       <Card.Content>
         <UnitCardContainer>
           <UnitCardContent>

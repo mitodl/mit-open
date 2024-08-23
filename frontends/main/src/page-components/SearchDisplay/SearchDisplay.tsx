@@ -33,12 +33,13 @@ import {
   AvailableFacets,
   UseResourceSearchParamsProps,
   UseResourceSearchParamsResult,
-} from "@mitodl/course-search-utils"
+} from "@/common/course-search-utils"
 import type {
   Facets,
   BooleanFacets,
   FacetManifest,
-} from "@mitodl/course-search-utils"
+} from "@/common/course-search-utils"
+import { useSearchParams } from "@/common/course-search-utils/next"
 import _ from "lodash"
 import { ResourceCategoryTabs } from "./ResourceCategoryTabs"
 import ProfessionalToggle from "./ProfessionalToggle"
@@ -47,7 +48,6 @@ import StalenessPenaltySlider from "./StalenessPenaltySlider"
 import type { TabConfig } from "./ResourceCategoryTabs"
 
 import { ResourceListCard } from "../ResourceCard/ResourceCard"
-import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import { useUserMe } from "api/hooks/user"
 
 export const StyledSelect = styled(SimpleSelect)`

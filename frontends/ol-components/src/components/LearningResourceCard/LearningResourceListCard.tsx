@@ -11,7 +11,7 @@ import { ResourceTypeEnum , LearningResource } from "api"
 import {
   formatDate,
   getReadableResourceType,
-  embedlyCroppedImage,
+  // embedlyCroppedImage,
   DEFAULT_RESOURCE_IMG,
   pluralize,
   getLearningResourcePrices,
@@ -107,12 +107,13 @@ type ResourceIdCallback = (
   resourceId: number,
 ) => void
 
-const getEmbedlyUrl = (url: string, isMobile: boolean) => {
-  return embedlyCroppedImage(url, {
-    key: APP_SETTINGS.EMBEDLY_KEY,
-    ...IMAGE_SIZES[isMobile ? "mobile" : "desktop"],
-  })
-}
+// TODO confirm use of Next.js image optimizer in place of Embedly
+// const getEmbedlyUrl = (url: string, isMobile: boolean) => {
+//   return embedlyCroppedImage(url, {
+//     key: process.env.NEXT_PUBLIC_EMBEDLY_KEY!,
+//     ...IMAGE_SIZES[isMobile ? "mobile" : "desktop"],
+//   })
+// }
 
 /* This displays a single price for courses with no free option
  * (price includes the certificate). For free courses with the
@@ -299,12 +300,9 @@ const LearningResourceListCard: React.FC<LearningResourceListCardProps> = ({
   return (
     <ListCard href={href} className={className} draggable={draggable}>
       <ListCard.Image
-        src={
-          resource.image?.url
-            ? getEmbedlyUrl(resource.image.url!, isMobile)
-            : DEFAULT_RESOURCE_IMG
-        }
+        src={resource.image?.url || DEFAULT_RESOURCE_IMG}
         alt={resource.image?.alt ?? ""}
+        {...IMAGE_SIZES[isMobile ? "mobile" : "desktop"]}
       />
       <ListCard.Info>
         <Info resource={resource} />

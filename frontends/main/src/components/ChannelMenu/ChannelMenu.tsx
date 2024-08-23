@@ -1,5 +1,5 @@
 import React, { useMemo } from "react"
-import * as routes from "../../common/urls"
+import * as routes from "@/common/urls"
 import { SimpleMenu, ActionButton, styled } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import { RiSettings4Fill } from "@remixicon/react"
