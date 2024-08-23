@@ -1,6 +1,44 @@
+import logging
+import urllib
+
 from opensearch_dsl import Search
 
+from channels.models import Channel
 from learning_resources.hooks import get_plugin_manager
+from learning_resources_search.models import PercolateQuery
+
+log = logging.getLogger()
+
+
+def realign_channel_subscriptions():
+    from learning_resources_search.api import (
+        adjust_original_query_for_percolate,
+    )
+    from learning_resources_search.serializers import (
+        PercolateQuerySubscriptionRequestSerializer,
+    )
+
+    for channel in Channel.objects.all():
+        query_string = channel.search_filter
+        percolate_serializer = PercolateQuerySubscriptionRequestSerializer(
+            data=urllib.parse.parse_qs(query_string)
+        )
+        percolate_serializer.is_valid()
+        adjusted_original_query = adjust_original_query_for_percolate(
+            percolate_serializer.get_search_request_data()
+        )
+        queries = PercolateQuery.objects.filter(
+            original_query__contains=adjusted_original_query,
+            source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+        )
+        duplicates = []
+        actual_query = None
+        for q in queries:
+            if q.original_query != adjusted_original_query:
+                duplicates.append(q)
+            else:
+                actual_query = q
+        log.info(actual_query)
 
 
 def remove_child_queries(query):
