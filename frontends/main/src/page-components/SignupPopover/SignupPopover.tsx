@@ -1,4 +1,4 @@
-import React, { use } from "react"
+import React from "react"
 import { Popover, Typography, styled, ButtonLink } from "ol-components"
 import type { PopoverProps } from "ol-components"
 import * as urls from "@/common/urls"

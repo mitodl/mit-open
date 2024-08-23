@@ -84,14 +84,12 @@ const StyledToolbar = styled(Toolbar)({
 })
 
 const LogoLink = styled(MITLogoLink)(({ theme }) => ({
-  display: "flex",
   border: "none",
-  img: {
-    width: 109,
-    height: 40,
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: "16px",
-    },
+  position: "relative",
+  width: 109,
+  height: 40,
+  [theme.breakpoints.down("sm")]: {
+    marginLeft: "16px",
   },
 }))
 

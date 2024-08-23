@@ -4,6 +4,7 @@ import { Container, styled } from "ol-components"
 import MITLogoLink from "@/components/MITLogoLink/MITLogoLink"
 import * as urls from "@/common/urls"
 import React, { FunctionComponent } from "react"
+import footerLogo from "../../../public/images/mit-logo-transparent5.svg"
 
 const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`
@@ -50,6 +51,7 @@ const FooterLeftContainer = styled.div(({ theme }) => ({
 }))
 
 const FooterLogo = styled(MITLogoLink)(({ theme }) => ({
+  position: "relative",
   width: "95.405px",
   height: "47px",
   [theme.breakpoints.down("md")]: {
@@ -151,7 +153,7 @@ const Footer: FunctionComponent = () => {
             <FooterLeftContainer>
               <FooterLogo
                 href="https://mit.edu/"
-                src="/static/images/mit-logo-transparent5.svg"
+                logo={footerLogo}
               />
               <FooterAddress data-testid="footer-address">
                 Massachusetts Institute of Technology
