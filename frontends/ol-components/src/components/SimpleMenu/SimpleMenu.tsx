@@ -10,11 +10,11 @@ import type { LinkProps as RouterLinkProps } from "next/link"
  */
 const LinkBehavior = React.forwardRef<
   HTMLAnchorElement,
-  Omit<RouterLinkProps, "to"> & { href: RouterLinkProps["to"] }
+  { href: RouterLinkProps["href"] }
 >((props, ref) => {
   const { href, ...other } = props
   // Map href (Material UI) -> to (react-router)
-  return <RouterLink ref={ref} to={href} {...other} />
+  return <RouterLink ref={ref} href={href} {...other} />
 })
 
 interface SimpleMenuItemBase {

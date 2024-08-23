@@ -350,7 +350,7 @@ type ActionButtonLinkProps = ActionButtonProps &
 const ActionButtonLink = ActionButton.withComponent(
   React.forwardRef<HTMLAnchorElement, ActionButtonLinkProps>(
     ({ href = "", ...props }, ref) => {
-      return <LinkStyled ref={ref} to={href} {...props} />
+      return <LinkStyled ref={ref} href={href} {...props} />
     },
   ),
 )

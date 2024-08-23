@@ -2,14 +2,13 @@ import React, {
   FC,
   ReactNode,
   Children,
-  ImgHTMLAttributes,
   isValidElement,
 } from "react"
-import Link  from "next/link"
+import Link from "next/link"
 import styled from "@emotion/styled"
 import { RiDraggable } from "@remixicon/react"
 import { theme } from "../ThemeProvider/ThemeProvider"
-import { Wrapper, containerStyles } from "./Card"
+import { Wrapper, containerStyles, ImageProps } from "./Card"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
 import {default as NextImage} from "next/image"
@@ -179,7 +178,7 @@ type CardProps = {
 }
 export type Card = FC<CardProps> & {
   Content: FC<{ children: ReactNode }>
-  Image: FC<ImgHTMLAttributes<HTMLImageElement>>
+  Image: FC<ImageProps>
   Info: FC<{ children: ReactNode }>
   Title: FC<{ children: ReactNode }>
   Footer: FC<{ children: ReactNode }>
@@ -209,7 +208,7 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
   const classNames = ["MitListCard-root", className ?? ""].join(" ")
   if (content) {
     return (
-      <_Container className={classNames} to={href!}>
+      <_Container className={classNames} href={href!}>
         {content}
       </_Container>
     )
@@ -217,7 +216,7 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
 
   return (
     <Wrapper className={classNames}>
-      <_Container to={href!}>
+      <_Container href={href!}>
         {draggable && (
           <DragArea>
             <RiDraggable />
@@ -233,7 +232,7 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
           </Bottom>
         </Body>
         {imageProps && (
-          <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
+          <Image {...(imageProps as ImageProps)} />
         )}
       </_Container>
       {actions && <Actions hasImage={!!imageProps}>{actions}</Actions>}

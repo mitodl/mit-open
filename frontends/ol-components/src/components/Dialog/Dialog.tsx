@@ -1,5 +1,3 @@
-"use client"
-
 import React, { useCallback, useState } from "react"
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"

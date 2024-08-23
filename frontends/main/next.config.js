@@ -82,6 +82,12 @@ const nextConfig = {
         hostname: "image.simplecastcdn.com",
         port: "",
         pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "megaphone.imgix.net",
+        port: "",
+        pathname: "**",
       }
     ],
   },

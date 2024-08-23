@@ -2,7 +2,6 @@ import React, {
   FC,
   ReactNode,
   Children,
-  ImgHTMLAttributes,
   isValidElement,
   CSSProperties,
 } from "react"
@@ -10,7 +9,7 @@ import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { pxToRem } from "../ThemeProvider/typography"
 import Link from "next/link"
-import {default as NextImage} from "next/image"
+import {default as NextImage, ImageProps as NextImageProps } from "next/image"
 
 export type Size = "small" | "medium"
 
@@ -143,7 +142,7 @@ type CardProps = {
   href?: string
 }
 
-type ImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+export type ImageProps = NextImageProps & {
   size?: Size
   height?: number | string
   style?: CSSProperties
@@ -166,7 +165,7 @@ type Card = FC<CardProps> & {
 
 const Card: Card = ({ children, className, size, href }) => {
   let content,
-    image: ImageProps = {},
+    image: ImageProps | null = null,
     info: SlotProps = {},
     title: TitleProps = {},
     footer: SlotProps = {},
@@ -216,11 +215,9 @@ const Card: Card = ({ children, className, size, href }) => {
           <Image
             className="MitCard-image"
             size={size}
-            // TODO Next.js images require widht and height or fill
-            height={image.height || 170}
+            height={170}
             width={298}
-            // layout="fill"
-            {...(image as ImgHTMLAttributes<HTMLImageElement>)}
+            {...(image as ImageProps)}
           />
         )}
         <Body>
