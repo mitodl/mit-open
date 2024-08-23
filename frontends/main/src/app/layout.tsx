@@ -2,11 +2,10 @@
 "use client"
 
 import React, { Suspense } from "react"
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import { ThemeProvider, NextJsAppRouterCacheProvider } from "ol-components";
 import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
 import {PageWrapper, PageWrapperInner} from "./styled"
-import { ThemeProvider } from "ol-components";
 import Providers from "./providers"
 import GlobalStyles from "./GlobalStyles"
 
@@ -23,7 +22,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <GlobalStyles />
-          <AppRouterCacheProvider>
+          <NextJsAppRouterCacheProvider>
             <ThemeProvider>
               <PageWrapper>
                 {/* TODO Move the suspense boundary (required for useSearchParams) tighter around the UserMenu so the rest of the Header can render on the server */}
@@ -37,7 +36,7 @@ export default function RootLayout({
                 <Footer />
               </PageWrapper>
             </ThemeProvider>
-          </AppRouterCacheProvider>
+          </NextJsAppRouterCacheProvider>
         </Providers>
       </body>
     </html>

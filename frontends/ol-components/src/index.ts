@@ -1,6 +1,7 @@
 "use client"
 
 /// <reference types="./types/theme.d.ts" />
+/// <reference types="./types/typography.d.ts" />
 
 /**
  * Re-exports from MUI.
@@ -227,3 +228,5 @@ export { pxToRem } from "./components/ThemeProvider/typography"
 
 export { default as styled } from "@emotion/styled"
 export { css, Global } from "@emotion/react"
+
+export { AppRouterCacheProvider as NextJsAppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
