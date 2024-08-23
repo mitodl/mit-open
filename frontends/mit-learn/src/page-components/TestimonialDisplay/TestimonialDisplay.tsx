@@ -81,7 +81,8 @@ const QuoteBody = styled.div(({ theme }) => ({
   },
 }))
 
-const AttestationBlock = styled.div(({ theme }) => ({
+const AttestationBlock = styled.blockquote(({ theme }) => ({
+  margin: "0px",
   width: "auto",
   flexGrow: "5",
   ...theme.typography.h5,
@@ -148,7 +149,7 @@ const TestimonialDisplay: React.FC<TestimonialDisplayProps> = ({
   return (
     <QuoteContainer>
       <QuoteBlock>
-        <QuoteLeader>“</QuoteLeader>
+        <QuoteLeader aria-hidden>“</QuoteLeader>
         {data.count > 1 ? (
           <>
             <Slider

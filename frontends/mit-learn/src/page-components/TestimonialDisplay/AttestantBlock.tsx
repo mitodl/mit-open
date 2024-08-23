@@ -24,7 +24,7 @@ const StyledRiAccountCircleFill = styled(RiAccountCircleFill)({
   height: "40px",
 })
 
-const AttestantBlockContainer = styled.div<AttestantBlockChildProps>(
+const AttestantBlockContainer = styled.cite<AttestantBlockChildProps>(
   (props) => {
     const flexDir = props.variant === "end" ? "row-reverse" : "row"
 

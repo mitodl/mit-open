@@ -185,6 +185,7 @@ const ButtonsContainer = styled.div({
 })
 
 const TestimonialTruncateText = styled(TruncateText)({
+  margin: "0px",
   textOverflow: "none",
   ...theme.typography.h4,
   fontSize: pxToRem(20), // This is a unicorn font size per the Figma design - it's not used anywhere else.
@@ -252,8 +253,10 @@ const SlickCarousel = () => {
                 />
               </TestimonialCardImage>
               <TestimonialCardQuote>
-                <div className="testimonial-quote-opener">&ldquo;</div>
-                <TestimonialTruncateText lineClamp={7}>
+                <div className="testimonial-quote-opener" aria-hidden>
+                  &ldquo;
+                </div>
+                <TestimonialTruncateText as="blockquote" lineClamp={7}>
                   {resource.quote.slice(0, 350)}
                   {resource.quote.length >= 350 ? "..." : ""}
                 </TestimonialTruncateText>
