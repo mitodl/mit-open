@@ -8,6 +8,7 @@ import {
   pxToRem,
   ActionButton,
   TruncateText,
+  onReInitSlickA11y,
 } from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
@@ -215,6 +216,7 @@ const SlickCarousel = () => {
 
   const settings = {
     ref: setSlick,
+    onReInit: () => onReInitSlickA11y(slick),
     infinite: true,
     slidesToShow: 1,
     centerPadding: "15%",
@@ -231,7 +233,7 @@ const SlickCarousel = () => {
   }
 
   return (
-    <OverlayContainer>
+    <OverlayContainer as="section" aria-label="Carousel of learner experiences">
       <Slider {...settings}>
         {_.shuffle(data?.results).map((resource, idx) => (
           <TestimonialCardContainer
@@ -274,14 +276,14 @@ const SlickCarousel = () => {
           variant="inverted"
           onClick={slick?.slickPrev}
         >
-          <RiArrowLeftLineStyled />
+          <RiArrowLeftLineStyled aria-hidden />
         </ActionButton>
         <ActionButton
           aria-label="Show next"
           variant="inverted"
           onClick={slick?.slickNext}
         >
-          <RiArrowRightLineStyled />
+          <RiArrowRightLineStyled aria-hidden />
         </ActionButton>
       </ButtonsContainer>
     </OverlayContainer>

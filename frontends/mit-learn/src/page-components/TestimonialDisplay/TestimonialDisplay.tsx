@@ -2,7 +2,13 @@ import React from "react"
 
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
-import { ActionButton, TruncateText, styled, theme } from "ol-components"
+import {
+  ActionButton,
+  TruncateText,
+  onReInitSlickA11y,
+  styled,
+  theme,
+} from "ol-components"
 import AttestantBlock from "./AttestantBlock"
 import { useTestimonialList } from "api/hooks/testimonials"
 import type { Attestation } from "api/v0"
@@ -147,6 +153,7 @@ const TestimonialDisplay: React.FC<TestimonialDisplayProps> = ({
           <>
             <Slider
               ref={setSlick}
+              onReInit={() => onReInitSlickA11y(slick)}
               infinite={true}
               slidesToShow={1}
               arrows={false}
