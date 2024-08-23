@@ -12,24 +12,66 @@ services:
       service: redis
     env_file: env/codespaces.env
   web:
-    extends:
-      file: docker-compose.yml
-      service: web
+    profiles:
+      - backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    mem_limit: 1gb
+    cpus: 2
     env_file: env/codespaces.env
+    command: ./scripts/run-django-dev.sh
+    stdin_open: true
+    tty: true
+    ports:
+      - "8061:8061"
+    links:
+      - db
+      - opensearch-node-mitopen
+      - redis
+    volumes:
+      - .:/src
+      - django_media:/var/media
+  watch:
+    profiles:
+      - frontend
+    working_dir: /src
+    image: node:20.15
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        yarn install --immutable
+        yarn workspace mit-learn storybook --no-open &
+        yarn workspace mit-learn watch:docker
+    env_file: env/codespaces.env
+    ports:
+      - "8062:8062"
+      - "6006:6006"
+    volumes:
+      - .:/src
   celery:
-    extends:
-      file: docker-compose.yml
-      service: celery
+    profiles:
+      - backend
+    build:
+      context: .
+      dockerfile: Dockerfile
     env_file: env/codespaces.env
+    command: >
+      /bin/bash -c '
+      sleep 3;
+      celery -A main.celery:app worker -Q default -B -l ${MITOL_LOG_LEVEL:-INFO} &
+      celery -A main.celery:app worker -Q edx_content,default -l ${MITOL_LOG_LEVEL:-INFO}'
+    links:
+      - db
+      - opensearch-node-mitopen
+      - redis
+    volumes:
+      - .:/src
+      - django_media:/var/media
   tika:
     extends:
       file: docker-compose.yml
       service: tika
-    env_file: env/codespaces.env
-  watch:
-    extends:
-      file: docker-compose.yml
-      service: watch
     env_file: env/codespaces.env
   opensearch-node-mitopen:
     extends:
