@@ -3561,6 +3561,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mitodl/course-search-utils@mitodl/course-search-utils.git#jk/5244-support-for-nextjs":
+  version: 3.1.5
+  resolution: "@mitodl/course-search-utils@https://github.com/mitodl/course-search-utils.git#commit=fad9ff4f9c7025d6159d94c83b6e93d3d70237ec"
+  dependencies:
+    "@mitodl/open-api-axios": "npm:^2024.8.21"
+    axios: "npm:^1.6.7"
+    fuse.js: "npm:^7.0.0"
+    query-string: "npm:^6.13.1"
+  peerDependencies:
+    "@types/history": ^4.9
+    history: ^4.9 || ^5.0.0
+    next: ^14.2.6
+    react: ^16.13.1
+    react-router: ^6.22.2
+  peerDependenciesMeta:
+    "@types/history":
+      optional: true
+    history:
+      optional: true
+    next:
+      optional: true
+    react-router:
+      optional: true
+  checksum: 10/72397b1061fd38a4a86c7203616ae9f6d773280cbb604648da4a61b6ef1388b655059a1f2ea2a192bfc799490beb26e8776bf97577e366115185a201def0e9b3
+  languageName: node
+  linkType: hard
+
 "@mitodl/course-search-utils@npm:^3.1.4":
   version: 3.1.5
   resolution: "@mitodl/course-search-utils@npm:3.1.5"
@@ -14274,6 +14301,7 @@ __metadata:
     "@emotion/cache": "npm:^11.13.1"
     "@emotion/styled": "npm:^11.13.0"
     "@faker-js/faker": "npm:^8.4.1"
+    "@mitodl/course-search-utils": "mitodl/course-search-utils.git#jk/5244-support-for-nextjs"
     "@mui/material-nextjs": "npm:^5.16.6"
     "@remixicon/react": "npm:^4.2.0"
     "@testing-library/jest-dom": "npm:^6.4.8"

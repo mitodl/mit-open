@@ -33,13 +33,13 @@ import {
   AvailableFacets,
   UseResourceSearchParamsProps,
   UseResourceSearchParamsResult,
-} from "@/common/course-search-utils"
+} from "@mitodl/course-search-utils"
 import type {
   Facets,
   BooleanFacets,
   FacetManifest,
-} from "@/common/course-search-utils"
-import { useSearchParams } from "@/common/course-search-utils/next"
+} from "@mitodl/course-search-utils"
+import { useSearchParams } from "@mitodl/course-search-utils/next"
 import _ from "lodash"
 import { ResourceCategoryTabs } from "./ResourceCategoryTabs"
 import ProfessionalToggle from "./ProfessionalToggle"

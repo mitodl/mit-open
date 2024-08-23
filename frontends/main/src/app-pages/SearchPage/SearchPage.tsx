@@ -2,14 +2,14 @@
 
 import _ from "lodash"
 import React, { useCallback, useMemo } from "react"
-import type { FacetManifest } from "@/common/course-search-utils"
-import { useSearchParams } from "@/common/course-search-utils/next"
+import type { FacetManifest } from "@mitodl/course-search-utils"
+import { useSearchParams } from "@mitodl/course-search-utils/next"
 import {
   useResourceSearchParams,
   UseResourceSearchParamsProps,
   getCertificationTypeName,
   getDepartmentName,
-} from "@/common/course-search-utils"
+} from "@mitodl/course-search-utils"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
 import { SearchInput } from "@/page-components/SearchDisplay/SearchInput"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
@@ -31,7 +31,7 @@ const Page = styled.div`
 
   ${({ theme }) => theme.breakpoints.up("md")} {
     background:
-      url("/static/images/search_page_vector.png") no-repeat top left / 35%,
+      url("/images/search_page_vector.png") no-repeat top left / 35%,
       ${cssGradient};
   }
 `
