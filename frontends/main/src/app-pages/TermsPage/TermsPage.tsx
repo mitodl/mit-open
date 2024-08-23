@@ -1,7 +1,8 @@
-import { Breadcrumbs, Container, Typography, styled } from "ol-components"
-import { MetaTags } from "ol-utilities"
-import * as urls from "@/common/urls"
+"use client"
+
 import React from "react"
+import { Breadcrumbs, Container, Typography, styled } from "ol-components"
+import * as urls from "@/common/urls"
 
 const PageContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -59,7 +60,7 @@ const TermsPage: React.FC = () => {
   return (
     <Container>
       <PageContainer>
-        <MetaTags title="Terms of Service" />
+        {/* TODO <MetaTags title="Terms of Service" /> */}
         <BannerContainer>
           <BannerContainerInner>
             <Breadcrumbs
