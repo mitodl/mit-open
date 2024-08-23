@@ -125,6 +125,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
             userlist_id: newParents,
           })
         }
+        modal.remove()
       }
     },
   })
