@@ -117,11 +117,14 @@ describe("Home Page Hero", () => {
     renderWithProviders(<HomePage />)
     const expected = [
       { label: "Topic", href: "/topics/" },
-      { label: "Recently Added", href: "/search?sortby=new" },
-      { label: "Popular", href: "/search?sortby=-views" },
-      { label: "Upcoming", href: "/search?sortby=upcoming" },
-      { label: "Free", href: "/search?free=true" },
-      { label: "With Certificate", href: "/search?certification=true" },
+      { label: "Recently Added", href: "/search/?sortby=new" },
+      { label: "Popular", href: "/search/?sortby=-views" },
+      { label: "Upcoming", href: "/search/?sortby=upcoming" },
+      { label: "Free", href: "/search/?free=true" },
+      {
+        label: "With Certificate",
+        href: "/search/?certification_type=professional&certification_type=completion&certification_type=micromasters",
+      },
       { label: "Explore All", href: "/search/" },
     ]
     expected.forEach(({ label, href }) => {
