@@ -27,6 +27,19 @@ const nextConfig = {
     return config;
   },
 
+  async rewrites() {
+    return [
+      /* Images moved from /static, though image paths are sometimes
+       * returned on the API, e.g. /api/v0/channels/type/unit/ocw/
+       * TODO update API paths and remove the rewrite.
+       */
+      {
+        source: "/static/images/:path*",
+        destination: "/images//:path*",
+      },
+    ]
+  },
+
   images: {
     remotePatterns: [
       {
