@@ -5,7 +5,7 @@ import FormLabel from "@mui/material/FormLabel"
 import styled from "@emotion/styled"
 
 export type CheckboxChoiceFieldProps = {
-  label: React.ReactNode // We could make this optional, but we should demand one of (label, aria-label, aria-labelledby)
+  label?: React.ReactNode // We could make this optional, but we should demand one of (label, aria-label, aria-labelledby)
   value?: string[]
   name: string
   choices: Omit<CheckboxProps, "name" | "onChange">[]
@@ -55,7 +55,7 @@ const CheckboxChoiceField: React.FC<CheckboxChoiceFieldProps> = ({
       sx={{ width: "100%" }}
       className={className}
     >
-      <Label>{label}</Label>
+      {label && <Label>{label}</Label>}
       <_Container>
         {choices.map((choice) => {
           return (

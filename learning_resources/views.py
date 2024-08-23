@@ -27,6 +27,7 @@ from channels.constants import ChannelType
 from channels.models import Channel
 from learning_resources import permissions
 from learning_resources.constants import (
+    LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
     PrivacyLevel,
@@ -378,6 +379,90 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
 
 
 @extend_schema_view(
+    set_user_list_relationships=extend_schema(
+        summary="Set User List Relationships",
+        description="Set User List Relationships on a given Learning Resource.",
+    ),
+)
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name="learning_resource_id",
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description="id of the parent learning resource",
+        ),
+        OpenApiParameter(
+            name="userlist_id",
+            type=OpenApiTypes.INT,
+            many=True,
+            location=OpenApiParameter.QUERY,
+            description="id of the parent user list",
+        ),
+        OpenApiParameter(
+            name="learning_path_id",
+            type=OpenApiTypes.INT,
+            many=True,
+            location=OpenApiParameter.QUERY,
+            description="id of the parent learning path",
+        ),
+    ]
+)
+class LearningResourceListRelationshipViewSet(
+    NestedViewSetMixin, viewsets.ModelViewSet
+):
+    """
+    Viewset for managing relationships between Learning Resources
+    and User Lists / Learning Paths
+    """
+
+    parent_lookup_kwargs = {"learning_resource_id": "parent_id"}
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+    filter_backends = [MultipleOptionsFilterBackend]
+    filterset_class = LearningResourceFilter
+    serializer_class = LearningResourceRelationshipSerializer
+
+    @action(detail=False, methods=["patch"], name="Set User List Relationships")
+    def set_user_list_relationships(self, request, *args, **kwargs):  # noqa: ARG002
+        """
+        Set User List relationships for a given Learning Resource
+        """
+        learning_resource_id = kwargs.get("learning_resource_id")
+        user_list_ids = request.query_params.getlist("userlist_id")
+        current_relationships = UserListRelationship.objects.filter(
+            child_id=learning_resource_id
+        )
+        current_relationships.exclude(parent_id__in=user_list_ids).delete()
+        for index, userlist_id in enumerate(user_list_ids):
+            UserListRelationship.objects.create(
+                parent_id=userlist_id, child_id=learning_resource_id, position=index
+            )
+        serializer = self.get_serializer(current_relationships, many=True)
+        return Response(serializer.data)
+
+    @action(detail=False, methods=["patch"], name="Set Learning Path Relationships")
+    def set_learning_path_relationships(self, request, *args, **kwargs):  # noqa: ARG002
+        """
+        Set Learning Path relationships for a given Learning Resource
+        """
+        learning_resource_id = kwargs.get("learning_resource_id")
+        learning_path_ids = request.query_params.getlist("learning_path_id")
+        current_relationships = LearningResourceRelationship.objects.filter(
+            child_id=learning_resource_id
+        )
+        current_relationships.exclude(parent_id__in=learning_path_ids).delete()
+        for index, learning_path_id in enumerate(learning_path_ids):
+            LearningResourceRelationship.objects.create(
+                parent_id=learning_path_id,
+                child_id=learning_resource_id,
+                relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
+                position=index,
+            )
+        serializer = self.get_serializer(current_relationships, many=True)
+        return Response(serializer.data)
+
+
+@extend_schema_view(
     create=extend_schema(summary="Learning Path Resource Relationship Add"),
     destroy=extend_schema(summary="Learning Path Resource Relationship Remove"),
     partial_update=extend_schema(summary="Learning Path Resource Relationship Update"),
@@ -418,22 +503,6 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
                 position__gt=instance.position,
             ).update(position=F("position") - 1)
             instance.delete()
-
-    @action(detail=False, methods=["patch"], name="Set all Learning Path Relationships")
-    def set_all(self, request, *args, **kwargs):
-        """
-        Set all relationships at once
-        """
-        child_id = request.data.get("child")
-        add_parents = request.data.get("add_parents", [])
-        remove_parents = request.data.get("remove_parents", [])
-        LearningResourceRelationship.objects.filter(
-            parent_id__in=remove_parents, child_id=child_id
-        ).delete()
-        for parent_id in add_parents:
-            LearningResourceRelationship.objects.create(
-                parent_id=parent_id, child_id=child_id
-            )
 
 
 @extend_schema_view(
@@ -597,20 +666,6 @@ class UserListItemViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
             parent=instance.parent,
             position__gt=instance.position,
         ).update(position=F("position") - 1)
-
-    @action(detail=False, methods=["patch"], name="Set all User List Relationships")
-    def set_all(self, request, *args, **kwargs):
-        """
-        Set all relationships at once
-        """
-        child_id = kwargs.get("child")
-        add_parents = kwargs.get("add_parents", [])
-        remove_parents = kwargs.get("remove_parents", [])
-        UserListRelationship.objects.filter(
-            parent_id__in=remove_parents, child_id=child_id
-        ).delete()
-        for parent_id in add_parents:
-            UserListRelationship.objects.create(parent_id=parent_id, child_id=child_id)
 
 
 @cache_page(60 * settings.RSS_FEED_CACHE_MINUTES)

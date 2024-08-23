@@ -5,7 +5,11 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { learningpathsApi, userListsApi } from "../../clients"
+import {
+  learningpathsApi,
+  learningResourcesApi,
+  userListsApi,
+} from "../../clients"
 import type {
   LearningResourcesApiLearningResourcesListRequest as LRListRequest,
   TopicsApiTopicsListRequest as TopicsListRequest,
@@ -28,7 +32,8 @@ import type {
   PlatformsApiPlatformsListRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
   PaginatedLearningResourceList,
-  UserlistsApiUserlistsItemsSetAllPartialUpdateRequest,
+  LearningResourcesApiLearningResourcesRelationshipsSetUserListRelationshipsPartialUpdateRequest,
+  LearningResourcesApiLearningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdateRequest,
 } from "../../generated/v1"
 import learningResources, {
   invalidateResourceQueries,
@@ -320,23 +325,57 @@ const useUserListRelationshipCreate = () => {
   })
 }
 
-const useUserListSetAllRelationships = () => {
+const useLearningResourceSetUserListRelationships = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (
-      params: UserlistsApiUserlistsItemsSetAllPartialUpdateRequest,
-    ) => userListsApi.userlistsItemsSetAllPartialUpdate(params),
-    // userListsApi.userlistsItemsCreate({
-    //   userlist_id: params.parent,
-    //   UserListRelationshipRequest: params,
-    // }),
+      params: LearningResourcesApiLearningResourcesRelationshipsSetUserListRelationshipsPartialUpdateRequest,
+    ) =>
+      learningResourcesApi.learningResourcesRelationshipsSetUserListRelationshipsPartialUpdate(
+        params,
+      ),
     onSuccess: (response, _vars) => {
       queryClient.setQueriesData<PaginatedLearningResourceList>(
         learningResources.featured({}).queryKey,
         (old) => updateListParentsOnAdd(response.data, old),
       )
     },
-    onSettled: (_response, _err, vars) => {},
+    onSettled: (_response, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.learning_resource_id, {
+        skipFeatured: true,
+      })
+      vars.userlist_id?.forEach((userlistId) => {
+        invalidateUserListQueries(queryClient, userlistId)
+      })
+    },
+  })
+}
+
+const useLearningResourceSetLearningPathRelationships = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (
+      params: LearningResourcesApiLearningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdateRequest,
+    ) =>
+      learningResourcesApi.learningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate(
+        params,
+      ),
+    onSuccess: (response, _vars) => {
+      queryClient.setQueriesData<PaginatedLearningResourceList>(
+        learningResources.featured({}).queryKey,
+        (old) => updateListParentsOnAdd(response.data, old),
+      )
+    },
+    onSettled: (_response, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.learning_resource_id, {
+        skipFeatured: true,
+      })
+      vars.learning_path_id?.forEach((learningPathId) => {
+        invalidateResourceQueries(queryClient, learningPathId, {
+          skipFeatured: true,
+        })
+      })
+    },
   })
 }
 
@@ -475,6 +514,8 @@ export {
   useLearningpathRelationshipCreate,
   useLearningpathRelationshipDestroy,
   useLearningResourcesSearch,
+  useLearningResourceSetUserListRelationships,
+  useLearningResourceSetLearningPathRelationships,
   useUserListList,
   useUserListsDetail,
   useUserListCreate,
@@ -483,7 +524,6 @@ export {
   useUserListRelationshipMove,
   useUserListRelationshipCreate,
   useUserListRelationshipDestroy,
-  useUserListSetAllRelationships,
   useInfiniteUserListItems,
   useOfferorsList,
   useListItemMove,
