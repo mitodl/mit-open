@@ -15,6 +15,7 @@ from learning_resources.constants import (
     RunAvailability,
 )
 from learning_resources.etl.constants import (
+    CONTENT_TAG_CATEGORIES,
     READABLE_ID_FIELD,
     ContentTagCategory,
     CourseLoaderConfig,
@@ -626,19 +627,6 @@ def calculate_completeness(
     run: LearningResourceRun, content_tags: list[list[str]] | None = None
 ):
     """Calculate the completeness score of an OCW course"""
-    content_tag_categories = {
-        "Lecture Videos": ContentTagCategory.videos.value,
-        "Lecture Notes": ContentTagCategory.notes.value,
-        "Exams with Solutions": ContentTagCategory.exams_w_solutions.value,
-        "Exams": ContentTagCategory.exams.value,
-        "Problem Sets with Solutions": (
-            ContentTagCategory.problem_sets_w_solutions.value
-        ),
-        "Problem Sets": ContentTagCategory.problem_sets.value,
-        "Assignments": ContentTagCategory.assignments.value,
-        # Can add more here if ever needed, in format tag_name:category
-    }
-
     ocw_resource = run.learning_resource
     if any(
         coursenum["value"]
@@ -653,11 +641,11 @@ def calculate_completeness(
                 [tag.name for tag in content_file.content_tags.all()]
                 for content_file in run.content_files.only("content_tags")
             ]
-        content_keys = content_tag_categories.values()
+        content_keys = CONTENT_TAG_CATEGORIES.values()
         content_tags_dict = dict(zip(content_keys, [0] * len(content_keys)))
         for content_file_tags in content_tags:
             for content_tag in content_file_tags:
-                category = content_tag_categories.get(content_tag)
+                category = CONTENT_TAG_CATEGORIES.get(content_tag)
                 if category:
                     content_tags_dict[category] = content_tags_dict.get(category, 0) + 1
         lecture_video_rating = min(
@@ -687,8 +675,12 @@ def calculate_completeness(
             / 10,
             1.0,
         )
-        log.info(
-            f"{lecture_video_rating}, {lecture_notes_rating}, {exams_rating}, {problem_set_rating}"  # noqa: E501,G004
+        log.debug(
+            "Videos: %d, Notes: %d, Exams: %d, Problems/Assignments: %d",
+            lecture_video_rating,
+            lecture_notes_rating,
+            exams_rating,
+            problem_set_rating,
         )
         new_score = (
             0.4 * lecture_video_rating
