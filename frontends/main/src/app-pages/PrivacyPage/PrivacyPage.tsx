@@ -1,5 +1,6 @@
+"use client"
+
 import { Breadcrumbs, Container, Typography, styled } from "ol-components"
-import { MetaTags } from "ol-utilities"
 import * as urls from "@/common/urls"
 import React from "react"
 
@@ -52,13 +53,16 @@ const UnorderedList = styled.ul(({ theme }) => ({
   ...theme.typography.body1,
 }))
 
-const { SITE_NAME, MITOL_SUPPORT_EMAIL } = APP_SETTINGS
+
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME
+const MITOL_SUPPORT_EMAIL = process.env.NEXT_PUBLIC_MITOL_SUPPORT_EMAIL
+
 
 const PrivacyPage: React.FC = () => {
   return (
     <Container>
       <PageContainer>
-        <MetaTags title="Privacy Policy" />
+        {/* TODO <MetaTags title="Privacy Policy" /> */}
         <BannerContainer>
           <BannerContainerInner>
             <Breadcrumbs
