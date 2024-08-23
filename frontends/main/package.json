@@ -13,7 +13,7 @@
     "@ebay/nice-modal-react": "^1.2.13",
     "@emotion/cache": "^11.13.1",
     "@emotion/styled": "^11.13.0",
-    "@mitodl/course-search-utils": "^3.1.5",
+    "@mitodl/course-search-utils": "mitodl/course-search-utils.git#jk/5244-support-for-nextjs",
     "@mui/material-nextjs": "^5.16.6",
     "@remixicon/react": "^4.2.0",
     "api": "workspace:*",
