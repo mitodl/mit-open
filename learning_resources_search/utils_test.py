@@ -9,6 +9,8 @@ from learning_resources_search.models import PercolateQuery
 from learning_resources_search.serializers import (
     PercolateQuerySubscriptionRequestSerializer,
 )
+from learning_resources_search.utils import realign_channel_subscriptions
+from main.factories import UserFactory
 
 
 @pytest.fixture()
@@ -19,6 +21,10 @@ def mocked_api(mocker):
 
 @pytest.mark.django_db()
 def test_realign_channel_subscriptions(mocked_api, mocker):
+    """
+    Test that duplicate percolate queries for a channel are consolidated
+    and the users are migrated to the real instance
+    """
     channel = ChannelFactory.create(search_filter="offered_by=mitx")
     query_string = channel.search_filter
     percolate_serializer = PercolateQuerySubscriptionRequestSerializer(
@@ -28,13 +34,29 @@ def test_realign_channel_subscriptions(mocked_api, mocker):
     adjusted_original_query = adjust_original_query_for_percolate(
         percolate_serializer.get_search_request_data()
     )
-    duplicate_query = adjusted_original_query.copy()
-    duplicate_query["yearly_decay_percent"] = None
-    PercolateQueryFactory.create(
+    duplicate_query_a = adjusted_original_query.copy()
+    duplicate_query_a["yearly_decay_percent"] = None
+    duplicate_query_b = adjusted_original_query.copy()
+    duplicate_query_b["foo"] = None
+    percolate_query = PercolateQueryFactory.create(
         source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
         original_query=adjusted_original_query,
     )
-    PercolateQueryFactory.create(
+    duplicate_percolate_a = PercolateQueryFactory.create(
         source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
-        original_query=duplicate_query,
+        original_query=duplicate_query_a,
     )
+    duplicate_percolate_b = PercolateQueryFactory.create(
+        source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+        original_query=duplicate_query_b,
+    )
+    percolate_query.users.set(UserFactory.create_batch(2))
+    duplicate_percolate_a.users.set(UserFactory.create_batch(7))
+    duplicate_percolate_b.users.set(UserFactory.create_batch(3))
+    realign_channel_subscriptions()
+    channel_percolate_queries = PercolateQuery.objects.filter(
+        source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+        original_query=adjusted_original_query,
+    )
+    assert channel_percolate_queries.count() == 1
+    assert channel_percolate_queries.first().users.count() == 12

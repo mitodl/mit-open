@@ -13,6 +13,7 @@ log = logging.getLogger()
 def realign_channel_subscriptions():
     from learning_resources_search.api import (
         adjust_original_query_for_percolate,
+        adjust_query_for_percolator,
     )
     from learning_resources_search.serializers import (
         PercolateQuerySubscriptionRequestSerializer,
@@ -31,14 +32,16 @@ def realign_channel_subscriptions():
             original_query__contains=adjusted_original_query,
             source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
         )
-        duplicates = []
-        actual_query = None
+        actual_query, _ = PercolateQuery.objects.get_or_create(
+            source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+            original_query=adjusted_original_query,
+            defaults={"query": adjust_query_for_percolator(adjusted_original_query)},
+        )
         for q in queries:
             if q.original_query != adjusted_original_query:
-                duplicates.append(q)
-            else:
-                actual_query = q
-        log.info(actual_query)
+                for user in q.users.all():
+                    actual_query.users.add(user)
+                q.delete()
 
 
 def remove_child_queries(query):
