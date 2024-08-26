@@ -387,6 +387,12 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
 @extend_schema(
     parameters=[
         OpenApiParameter(
+            name="id",
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description="id of a relationship",
+        ),
+        OpenApiParameter(
             name="learning_resource_id",
             type=OpenApiTypes.INT,
             location=OpenApiParameter.PATH,
