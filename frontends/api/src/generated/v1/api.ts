@@ -2119,7 +2119,20 @@ export interface LearningResourceRun {
    * @memberof LearningResourceRun
    */
   checksum?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRun
+   */
+  delivery?: string
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof LearningResourceRun
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -2267,7 +2280,20 @@ export interface LearningResourceRunRequest {
    * @memberof LearningResourceRunRequest
    */
   checksum?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof LearningResourceRunRequest
+   */
+  delivery?: string
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof LearningResourceRunRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  * Serializer for LearningResourceSchool model, including list of departments
  * @export

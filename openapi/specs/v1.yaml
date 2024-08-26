@@ -8703,6 +8703,14 @@ components:
           type: string
           nullable: true
           maxLength: 32
+        delivery:
+          type: string
+          maxLength: 24
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - id
       - image
@@ -8806,6 +8814,15 @@ components:
           type: string
           nullable: true
           maxLength: 32
+        delivery:
+          type: string
+          minLength: 1
+          maxLength: 24
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - level
       - run_id
