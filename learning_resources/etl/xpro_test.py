@@ -30,21 +30,21 @@ from main.test_utils import any_instance_of
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_xpro_programs_data():
     """Mock xpro data"""
     with open("./test_json/xpro_programs.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_xpro_courses_data():
     """Mock xpro data"""
     with open("./test_json/xpro_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_xpro_programs_responses(mocked_responses, settings, mock_xpro_programs_data):
     """Mock the programs api response"""
     settings.XPRO_CATALOG_API_URL = "http://localhost/test/programs/api"
@@ -56,7 +56,7 @@ def mocked_xpro_programs_responses(mocked_responses, settings, mock_xpro_program
     return mocked_responses
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_xpro_courses_responses(mocked_responses, settings, mock_xpro_courses_data):
     """Mock the courses api response"""
     settings.XPRO_COURSES_API_URL = "http://localhost/test/courses/api"
@@ -259,7 +259,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
     assert expected == result
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("start_dt", "enrollment_dt", "expected_dt"),
     [
@@ -281,7 +281,7 @@ def test_course_run_start_date_value(
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("start_dt", "enrollment_dt", "expected_dt"),
     [

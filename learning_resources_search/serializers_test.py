@@ -540,7 +540,7 @@ response_test_response_2 = {
 }
 
 
-@pytest.fixture()
+@pytest.fixture
 def learning_resources_search_view():
     """Fixture with relevant properties for testing the search view"""
     return SimpleNamespace(url=reverse("lr_search:v1:learning_resources_search"))
@@ -553,7 +553,7 @@ def get_request_object(url):
     return Request(api_request)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_serialize_bulk_learning_resources(mocker):
     """
     Test that serialize_bulk_learning_resource calls serialize_learning_resource_for_bulk for
@@ -599,7 +599,7 @@ def test_serialize_bulk_learning_resources(mocker):
         assert result == exp
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     "resource_type",
     sorted(set(LearningResourceType.names()) - {LearningResourceType.course.name}),
@@ -669,7 +669,7 @@ def test_serialize_learning_resource_for_bulk(
     }
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_get_resource_age_date():
     ocw_offeror = factories.LearningResourceOfferorFactory.create(is_ocw=True)
 
@@ -734,7 +734,7 @@ def test_get_resource_age_date():
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("readable_id", "sort_course_num"), [("1", "01"), ("15", "15"), ("CMS-W", "CMS-W")]
 )
@@ -804,7 +804,7 @@ def test_serialize_course_numbers_for_bulk(
     assert serializers.serialize_learning_resource_for_bulk(resource) == expected_data
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_serialize_bulk_learning_resources_for_deletion():
     """
     Test that serialize_bulk_learning_resources_for_deletion yields correct data
@@ -815,7 +815,7 @@ def test_serialize_bulk_learning_resources_for_deletion():
     ) == [{"_id": resource.id, "_op_type": "delete"}]
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_serialize_content_file_for_bulk():
     """
     Test that serialize_content_file_for_bulk yields correct data
@@ -831,7 +831,7 @@ def test_serialize_content_file_for_bulk():
     }
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_serialize_content_file_for_bulk_deletion():
     """
     Test that serialize_content_file_for_bulk_deletio yields correct data
@@ -999,7 +999,7 @@ def test_learning_resources_search_response_serializer(
         (False, False, False, False),
     ],
 )
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_learning_resources_search_response_serializer_user_parents(  # noqa: PLR0913
     settings,
     learning_resources_search_view,
@@ -1048,7 +1048,7 @@ def test_learning_resources_search_response_serializer_user_parents(  # noqa: PL
     ) == JSONRenderer().render(response)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_percolate_serializer():
     """

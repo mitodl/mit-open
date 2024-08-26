@@ -36,7 +36,7 @@ def does_not_raise():
     yield
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_logger(mocker):
     """
     Mock log exception
@@ -44,7 +44,7 @@ def mock_logger(mocker):
     return mocker.patch("learning_resources.api.log.exception")
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_blocklist(mocker):
     """Mock the load_course_blocklist function"""
     return mocker.patch(

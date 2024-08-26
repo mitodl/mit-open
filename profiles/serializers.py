@@ -271,7 +271,7 @@ class UserWebsiteSerializer(serializers.ModelSerializer):
             return super().run_validators(value)
         except ValidationError as e:
             if e.get_codes() == ["unique"]:
-                raise ValidationError(  # noqa: B904, TRY200
+                raise ValidationError(  # noqa: B904
                     {"url": ["A website of this type has already been saved."]},
                     code="unique",
                 )

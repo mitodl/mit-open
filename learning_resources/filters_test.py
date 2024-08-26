@@ -42,7 +42,7 @@ CONTENT_API_URL = "/api/v1/contentfiles/"
 VIDEO_PLAYLISTS_API_URL = "/api/v1/video_playlists/"
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_courses():
     """Mock courses"""
     ocw_course = CourseFactory.create(
@@ -72,7 +72,7 @@ def mock_courses():
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_content_files():
     content_files = []
     for platform, offeror in [

@@ -10,7 +10,7 @@ from widgets.factories import WidgetInstanceFactory, WidgetListFactory
 from widgets.serializers import rss
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("raise_exception", [True, False])
 @pytest.mark.parametrize("timestamp_key", ["published_parsed", "updated_parsed"])
 @pytest.mark.parametrize("item_count", [0, 8, 15])
@@ -71,7 +71,7 @@ def test_url_widget_serialize(
     }
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("raise_exception", [True, False])
 def test_url_widget_save(mocker, raise_exception):
     """Tests that the rss widget serializes correctly"""

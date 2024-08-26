@@ -22,7 +22,7 @@ from main.test_utils import any_instance_of
 ACCESS_TOKEN = "invalid_access_token"  # noqa: S105
 
 
-@pytest.fixture()
+@pytest.fixture
 def openedx_config():
     """Fixture for the openedx config object"""
     return OpenEdxConfiguration(
@@ -38,7 +38,7 @@ def openedx_config():
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def openedx_extract_transform(openedx_config):
     """Fixture for generationg an extract/transform pair for the given config"""
     return openedx_extract_transform_factory(lambda: openedx_config)

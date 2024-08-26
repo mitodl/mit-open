@@ -15,7 +15,7 @@ from learning_resources_search.indexing_api import (
 pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures("mocked_es")]
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_es(mocker, settings):
     """ES client objects/functions mock"""
     index_name = "test"
@@ -39,7 +39,7 @@ def mocked_es(mocker, settings):
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_percolate_query_unit_labels(mocker, mocked_es):
     mocker.patch(
         "learning_resources_search.indexing_api.index_percolators", autospec=True
@@ -69,7 +69,7 @@ def test_percolate_query_unit_labels(mocker, mocked_es):
     assert query.source_description() == unit_channel.title
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_percolate_query_topic_labels(mocker, mocked_es):
     mocker.patch(
         "learning_resources_search.indexing_api.index_percolators", autospec=True
@@ -97,7 +97,7 @@ def test_percolate_query_topic_labels(mocker, mocked_es):
     assert query.source_description() == topic_channel.title
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_percolate_query_department_labels(mocker, mocked_es):
     mocker.patch(
         "learning_resources_search.indexing_api.index_percolators", autospec=True
@@ -124,7 +124,7 @@ def test_percolate_query_department_labels(mocker, mocked_es):
     assert query.source_description() == department_channel.title
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_percolate_query_search_labels(mocker, mocked_es):
     mocker.patch(
         "learning_resources_search.indexing_api.index_percolators", autospec=True

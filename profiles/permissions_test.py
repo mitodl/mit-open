@@ -13,13 +13,13 @@ from profiles.permissions import (
 lazy = pytest.lazy_fixture
 
 
-@pytest.fixture()
+@pytest.fixture
 def user1():
     """Simple test user fixture"""  # noqa: D401
     return UserFactory.build()
 
 
-@pytest.fixture()
+@pytest.fixture
 def user2():
     """Another simple test user fixture"""
     return UserFactory.build()

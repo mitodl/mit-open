@@ -32,13 +32,13 @@ FAKE_SEARCH_RESPONSE = {
 }
 
 
-@pytest.fixture()
+@pytest.fixture
 def learning_resources_search_view():
     """Fixture with relevant properties for testing the search view"""
     return SimpleNamespace(url=reverse("lr_search:v1:learning_resources_search"))
 
 
-@pytest.fixture()
+@pytest.fixture
 def content_file_search_view():
     """Fixture with relevant properties for testing the search view"""
     return SimpleNamespace(url=reverse("lr_search:v1:content_file_search"))
@@ -266,7 +266,7 @@ def test_content_file_search_with_extra_params(
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_user_subscribe_to_search(client, user):
     """Test subscribing user from search"""
@@ -279,7 +279,7 @@ def test_user_subscribe_to_search(client, user):
     assert resp.json()["id"] == user.percolate_queries.first().id
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_user_unsubscribe_to_search(client, user):
     """Test unsubscribing user from search"""
@@ -299,7 +299,7 @@ def test_user_unsubscribe_to_search(client, user):
     assert user.percolate_queries.count() == 0
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_user_unsubscribe_to_search_by_id(client, user):
     """Test unsubscribing user from search"""
@@ -319,7 +319,7 @@ def test_user_unsubscribe_to_search_by_id(client, user):
     assert user.percolate_queries.count() == 0
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_user_subscribed_to_search(client, user):
     """Test user subscribed get"""
@@ -342,7 +342,7 @@ def test_user_subscribed_to_search(client, user):
     assert len(response) == 0
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_user_sort_limit_ordering_params_generate_same_query(client, user):
     """Test that the sortby, limit, and offset params lead to the same percolate query"""
@@ -362,7 +362,7 @@ def test_user_sort_limit_ordering_params_generate_same_query(client, user):
     assert user.percolate_queries.count() == 1
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_param_reordering_generates_same_query(client, user):
     """Test that the ordering does not matter in creating the percolate query"""
@@ -394,7 +394,7 @@ def test_param_reordering_generates_same_query(client, user):
     assert user.percolate_queries.count() == 1
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_user_subscribtion_check(client, user):
     """Test user subscription list filter"""

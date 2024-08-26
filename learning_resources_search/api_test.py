@@ -2126,7 +2126,7 @@ def test_get_similar_topics(settings, opensearch):
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_document_percolation(opensearch, mocker):
     """
     Test that our plugin handler is called when docs are percolated

@@ -33,14 +33,14 @@ def oll_settings(settings):
     return settings
 
 
-@pytest.fixture()
+@pytest.fixture
 def mitx_course_data():
     """Catalog data fixture"""
     with open("./test_json/test_mitx_course.json") as f:  # noqa: PTH123
         yield json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def non_mitx_course_data():
     """Catalog data fixture"""
     with open("./test_json/test_non_mitx_course.json") as f:  # noqa: PTH123
