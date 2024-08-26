@@ -1,6 +1,21 @@
 Release Notes
 =============
 
+Version 0.17.9
+--------------
+
+- Update newrelic agent (#1464)
+- Update actions/upload-artifact digest to 834a144 (#1396)
+- Update snok/install-poetry digest to 76e04a9 (#1397)
+- Update dependency ruff to v0.6.2 (#1426)
+- Carousel accessibility improvements (#1462)
+- Add search mode selector to admin (#1456)
+- Update Python to v3.12.5 (#1398)
+- Sloan ETL pipeline (#1394)
+- Setup codespaces (#1444)
+- fix certification search url (#1460)
+- randomize the hero image (#1459)
+
 Version 0.17.8 (Released August 26, 2024)
 --------------
 
