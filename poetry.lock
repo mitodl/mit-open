@@ -4915,5 +4915,5 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 
 [metadata]
 lock-version = "2.0"
-python-versions = "3.12.4"
-content-hash = "029955cce8b774f1a28f4ed61e493a3f9302bf883b3c1502a37d562f3d53af83"
+python-versions = "3.12.5"
+content-hash = "abd396778e45f4987383a532bce01dc2eb54871c84ea585016381edc6feff371"
