@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useCallback, useMemo } from "react"
 import {
   Button,
@@ -23,8 +25,6 @@ import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import * as urls from "@/common/urls"
 import { useUserMe } from "api/hooks/user"
-import { Helmet } from "react-helmet-async"
-import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const ListHeaderGrid = styled(Grid)`
   margin-top: 1rem;
@@ -81,13 +81,14 @@ const LearningPathListingPage: React.FC = () => {
 
   return (
     <BannerPage
-      src="/static/images/course_search_banner.png"
+      src="/images/backgrounds/course_search_banner.png"
       className="learningpaths-page"
     >
-      <MetaTags title="Learning Paths" social={false} />
+      {/* TODO <MetaTags title="Learning Paths" social={false} />
       <Helmet>
         <meta name="robots" content="noindex,noarchive" />
       </Helmet>
+       */}
       <Container maxWidth="md" style={{ paddingBottom: 100 }}>
         <GridContainer>
           <GridColumn variant="single-full">

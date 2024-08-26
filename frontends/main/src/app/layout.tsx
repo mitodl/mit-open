@@ -2,7 +2,6 @@
 "use client"
 
 import React, { Suspense } from "react"
-import { ThemeProvider, NextJsAppRouterCacheProvider } from "ol-components";
 import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
 import {PageWrapper, PageWrapperInner} from "./styled"
@@ -22,8 +21,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <GlobalStyles />
-          <NextJsAppRouterCacheProvider>
-            <ThemeProvider>
+
               <PageWrapper>
                 {/* TODO Move the suspense boundary (required for useSearchParams) tighter around the UserMenu so the rest of the Header can render on the server */}
                 <Suspense>
@@ -35,8 +33,6 @@ export default function RootLayout({
                 </PageWrapperInner>
                 <Footer />
               </PageWrapper>
-            </ThemeProvider>
-          </NextJsAppRouterCacheProvider>
         </Providers>
       </body>
     </html>

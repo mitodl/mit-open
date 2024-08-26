@@ -20,9 +20,9 @@ import {
 } from "api"
 import { HOME } from "@/common/urls"
 import { UnitCards, UnitCardLoading } from "./UnitCard"
-import MetaTags from "@/page-components/MetaTags/MetaTags"
+// import MetaTags from "@/page-components/MetaTags/MetaTags"
 
-const UNITS_BANNER_IMAGE = "/images/background_steps.jpeg"
+const UNITS_BANNER_IMAGE = "/images/backgrounds/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
 
 const aggregateByUnits = (

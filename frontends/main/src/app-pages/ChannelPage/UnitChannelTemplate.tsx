@@ -112,7 +112,7 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
       <StyledBannerBackground
         backgroundUrl={
           displayConfiguration?.banner_background ??
-          "/images/background_steps.jpeg"
+          "/images/backgrounds/background_steps.jpeg"
         }
         backgroundDim={30}
       >

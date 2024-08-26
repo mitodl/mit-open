@@ -24,7 +24,7 @@ import { LearningResourcesSearchResponse, LearningResourceTopic } from "api"
 import RootTopicIcon from "@/components/RootTopicIcon/RootTopicIcon"
 import { HOME } from "@/common/urls"
 
-const TOPICS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
+const TOPICS_BANNER_IMAGE = "/images/backgrounds/background_steps.jpeg"
 
 type ChannelSummary = {
   id: number | string
