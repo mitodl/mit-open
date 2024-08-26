@@ -487,8 +487,24 @@
       "description": "Django secret key.",
       "generator": "secret"
     },
-    "SEE_BASE_URL": {
-      "description": "The base URL for Sloan Executive Education",
+    "SEE_API_ACCESS_TOKEN_URL": {
+      "description": "URL to retrieve a MITx access token",
+      "required": false
+    },
+    "SEE_API_ENABLED": {
+      "description": "Whether the Sloan ETL shouold be enabled",
+      "required": false
+    },
+    "SEE_API_URL": {
+      "description": "URL to retrieve MITx course data from",
+      "required": false
+    },
+    "SEE_API_CLIENT_ID": {
+      "description": "EdX client id to access the MITx course catalog API",
+      "required": false
+    },
+    "SEE_API_CLIENT_SECRET": {
+      "description": "EdX secret key to access the MITx course catalog API",
       "required": false
     },
     "SENTRY_DSN": {

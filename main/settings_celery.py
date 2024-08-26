@@ -119,6 +119,10 @@ CELERY_BEAT_SCHEDULE = {
             "NEWS_EVENTS_SLOAN_EXEC_WEBINAR_SCHEDULE_SECONDS", 60 * 60 * 12
         ),  # default is every 12 hours
     },
+    "update_sloan_courses": {
+        "task": "learning_resources.tasks.get_sloan_data",
+        "schedule": crontab(minute=30, hour=4),  # 12:30am EST
+    },
     "update_ol_events": {
         "task": "news_events.tasks.get_ol_events",
         "schedule": get_int(

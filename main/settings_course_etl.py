@@ -70,6 +70,12 @@ OLL_LEARNING_COURSE_BUCKET_PREFIX = get_string(
 )
 
 # More MIT URLs
+SEE_API_URL = get_string("SEE_API_URL", None)
+SEE_API_ACCESS_TOKEN_URL = get_string("SEE_API_ACCESS_TOKEN_URL", None)
+SEE_API_CLIENT_ID = get_string("SEE_API_CLIENT_ID", None)
+SEE_API_CLIENT_SECRET = get_string("SEE_API_CLIENT_SECRET", None)
+SEE_API_ENABLED = get_bool("SEE_API_ENABLED", default=False)
+
 CSAIL_BASE_URL = get_string("CSAIL_BASE_URL", None)
 SEE_BASE_URL = get_string("SEE_BASE_URL", None)
 MITPE_BASE_URL = get_string("MITPE_BASE_URL", "https://professional.mit.edu/")

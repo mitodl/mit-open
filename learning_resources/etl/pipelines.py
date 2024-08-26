@@ -17,6 +17,7 @@ from learning_resources.etl import (
     podcast,
     posthog,
     prolearn,
+    sloan,
     xpro,
     youtube,
 )
@@ -89,6 +90,13 @@ prolearn_courses_etl = compose(
     load_courses(ETLSource.prolearn.name, config=CourseLoaderConfig(prune=True)),
     prolearn.transform_courses,
     prolearn.extract_courses,
+)
+
+
+sloan_courses_etl = compose(
+    load_courses(ETLSource.see.name, config=CourseLoaderConfig(prune=True)),
+    sloan.transform_courses,
+    sloan.extract,
 )
 
 

@@ -17,8 +17,10 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.prolearn import (
     PROLEARN_BASE_URL,
+    SEE_EXCLUSION,
     UNIQUE_FIELD,
     extract_courses,
+    extract_data,
     extract_programs,
     parse_date,
     parse_image,
@@ -393,3 +395,14 @@ def test_update_format(
     first_course["learning_format"] = old_format
     update_format(first_course, new_format)
     assert first_course["learning_format"] == sorted(expected_format)
+
+
+@pytest.mark.parametrize("sloan_api_enabled", [True, False])
+def test_sloan_exclusion(settings, mocker, sloan_api_enabled):
+    """Slaon exclusion should be included if sloan api enabled"""
+    settings.SEE_API_ENABLED = sloan_api_enabled
+    mock_post = mocker.patch("learning_resources.etl.sloan.requests.post")
+    extract_data("course")
+    assert (
+        SEE_EXCLUSION in mock_post.call_args[1]["json"]["query"]
+    ) is sloan_api_enabled

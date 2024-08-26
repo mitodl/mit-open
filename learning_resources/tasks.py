@@ -93,6 +93,13 @@ def get_prolearn_data():
 
 
 @app.task
+def get_sloan_data():
+    """Execute the ProLearn ETL pipelines"""
+    courses = pipelines.sloan_courses_etl()
+    return len(courses)
+
+
+@app.task
 def get_xpro_data():
     """Execute the xPro ETL pipeline"""
     courses = pipelines.xpro_courses_etl()
