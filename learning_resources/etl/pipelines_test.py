@@ -306,6 +306,27 @@ def test_micromasters_etl():
     assert result == mock_load_programs.return_value
 
 
+def test_sloan_courses_etl():
+    """Verify that sloan courses etl pipeline executes correctly"""
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.sloan.extract", autospec=True),
+        patch("learning_resources.etl.sloan.transform_courses", autospec=True),
+        patch("learning_resources.etl.loaders.load_courses", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_courses = patches
+        result = pipelines.sloan_courses_etl()
+
+    mock_extract.assert_called_once_with()
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+    mock_load_courses.assert_called_once_with(
+        ETLSource.see.name,
+        mock_transform.return_value,
+        config=CourseLoaderConfig(prune=True),
+    )
+
+    assert result == mock_load_courses.return_value
+
+
 def test_prolearn_programs_etl():
     """Verify that prolearn programs etl pipeline executes correctly"""
     with reload_mocked_pipeline(

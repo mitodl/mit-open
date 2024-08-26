@@ -53,6 +53,7 @@ class ETLSource(Enum):
     ocw = "ocw"
     prolearn = "prolearn"
     podcast = "podcast"
+    see = "see"
     youtube = "youtube"
 
 
@@ -75,6 +76,7 @@ RESOURCE_FORMAT_MAPPING = {
     None: LearningResourceFormat.online.name,
     "": LearningResourceFormat.online.name,
     "Blended": LearningResourceFormat.hybrid.name,
+    "In Person": LearningResourceFormat.in_person.name,
     **{
         value: LearningResourceFormat(value).name
         for value in LearningResourceFormat.values()
