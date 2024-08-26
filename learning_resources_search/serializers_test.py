@@ -877,6 +877,7 @@ def test_learning_resources_search_request_serializer():
         "yearly_decay_percent": "0.25",
         "search_mode": "phrase",
         "slop": 2,
+        "min_score": 0,
     }
 
     cleaned = {
@@ -901,6 +902,7 @@ def test_learning_resources_search_request_serializer():
         "dev_mode": False,
         "search_mode": "phrase",
         "slop": 2,
+        "min_score": 0,
     }
 
     serialized = LearningResourcesSearchRequestSerializer(data=data)

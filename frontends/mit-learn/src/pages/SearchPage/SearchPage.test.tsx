@@ -283,7 +283,7 @@ describe("SearchPage", () => {
     })
   })
 
-  test("admin users can set the staleness slider", async () => {
+  test("admin users can set staleness and score cutoff sliders", async () => {
     setMockApiResponses({
       search: {
         count: 700,
@@ -314,6 +314,7 @@ describe("SearchPage", () => {
 
     await waitFor(() => {
       screen.getByTestId("yearly_decay_percent-slider")
+      screen.getByTestId("min_score-slider")
     })
   })
 })
