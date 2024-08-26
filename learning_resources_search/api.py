@@ -193,7 +193,7 @@ def generate_content_file_text_clause(text):
     return wrap_text_clause(text_query)
 
 
-def generate_learning_resources_text_clause(text):
+def generate_learning_resources_text_clause(text, search_mode, slop):
     """
     Return text clause for the query
 
@@ -207,15 +207,33 @@ def generate_learning_resources_text_clause(text):
         "query_string" if text.startswith('"') and text.endswith('"') else "multi_match"
     )
 
+    extra_params = {}
+
+    if query_type == "multi_match" and search_mode:
+        extra_params["type"] = search_mode
+
+        if search_mode == "phrase" and slop:
+            extra_params["slop"] = slop
+
     if text:
         text_query = {
             "should": [
-                {query_type: {"query": text, "fields": LEARNING_RESOURCE_QUERY_FIELDS}},
+                {
+                    query_type: {
+                        "query": text,
+                        "fields": LEARNING_RESOURCE_QUERY_FIELDS,
+                        **extra_params,
+                    }
+                },
                 {
                     "nested": {
                         "path": "topics",
                         "query": {
-                            query_type: {"query": text, "fields": TOPICS_QUERY_FIELDS}
+                            query_type: {
+                                "query": text,
+                                "fields": TOPICS_QUERY_FIELDS,
+                                **extra_params,
+                            }
                         },
                     }
                 },
@@ -226,6 +244,7 @@ def generate_learning_resources_text_clause(text):
                             query_type: {
                                 "query": text,
                                 "fields": DEPARTMENT_QUERY_FIELDS,
+                                **extra_params,
                             }
                         },
                     }
@@ -234,7 +253,11 @@ def generate_learning_resources_text_clause(text):
                     "nested": {
                         "path": "course.course_numbers",
                         "query": {
-                            query_type: {"query": text, "fields": COURSE_QUERY_FIELDS}
+                            query_type: {
+                                "query": text,
+                                "fields": COURSE_QUERY_FIELDS,
+                                **extra_params,
+                            }
                         },
                     }
                 },
@@ -242,7 +265,11 @@ def generate_learning_resources_text_clause(text):
                     "nested": {
                         "path": "runs",
                         "query": {
-                            query_type: {"query": text, "fields": RUNS_QUERY_FIELDS}
+                            query_type: {
+                                "query": text,
+                                "fields": RUNS_QUERY_FIELDS,
+                                **extra_params,
+                            }
                         },
                     }
                 },
@@ -256,6 +283,7 @@ def generate_learning_resources_text_clause(text):
                                     query_type: {
                                         "query": text,
                                         "fields": RUN_INSTRUCTORS_QUERY_FIELDS,
+                                        **extra_params,
                                     }
                                 },
                             }
@@ -269,6 +297,7 @@ def generate_learning_resources_text_clause(text):
                             query_type: {
                                 "query": text,
                                 "fields": RESOURCEFILE_QUERY_FIELDS,
+                                **extra_params,
                             }
                         },
                         "score_mode": "avg",
@@ -505,14 +534,15 @@ def percolate_matches_for_document(document_id):
     return percolated_queries
 
 
-def add_text_query_to_search(
-    search, text, endpoint, yearly_decay_percent, query_type_query
-):
-    if endpoint == CONTENT_FILE_TYPE:
+def add_text_query_to_search(search, text, search_params, query_type_query):
+    if search_params.get("endpoint") == CONTENT_FILE_TYPE:
         text_query = generate_content_file_text_clause(text)
     else:
-        text_query = generate_learning_resources_text_clause(text)
+        text_query = generate_learning_resources_text_clause(
+            text, search_params.get("search_mode"), search_params.get("slop")
+        )
 
+    yearly_decay_percent = search_params.get("yearly_decay_percent")
     if yearly_decay_percent and yearly_decay_percent > 0:
         d = {
             "script_score": {
@@ -594,8 +624,7 @@ def construct_search(search_params):
         search = add_text_query_to_search(
             search,
             text,
-            search_params.get("endpoint"),
-            search_params.get("yearly_decay_percent"),
+            search_params,
             query_type_query,
         )
 
