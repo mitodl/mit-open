@@ -132,7 +132,7 @@ def mock_upsert_tasks(mocker):
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def learning_resource_offeror():
     """Return a LearningResourceOfferer"""
     return LearningResourceOfferorFactory.create()

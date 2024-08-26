@@ -187,7 +187,7 @@ def test_location_validation(user, data, is_valid):
     assert serializer.is_valid(raise_exception=False) is is_valid
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("key", "value"),
     [
@@ -236,7 +236,7 @@ def test_update_profile(mocker, user, key, value):
             assert getattr(profile2, prop) == getattr(profile, prop)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("cert_desired", "cert_filter"),
     [

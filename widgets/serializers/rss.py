@@ -108,7 +108,7 @@ class RssFeedWidgetSerializer(WidgetInstanceSerializer):
             _fetch_rss(url)
         except:  # pylint: disable=bare-except  # noqa: E722
             log.exception("Error trying to load new RSS feed url: %s", url)
-            raise ValidationError(  # noqa: B904, TRY200
+            raise ValidationError(  # noqa: B904
                 {"configuration": f"Unable to load the RSS feed: '{url}'"}
             )
 

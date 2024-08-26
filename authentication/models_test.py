@@ -6,7 +6,7 @@ from django.core.exceptions import ValidationError
 from authentication.models import BlockedIPRange
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("ip_start", "ip_end", "error"),
     [

@@ -9,7 +9,7 @@ import pytest
 from news_events.constants import FeedType
 
 
-@pytest.fixture()
+@pytest.fixture
 def ol_events_json_data():
     """Catalog data fixture"""
     json_files = [
@@ -27,7 +27,7 @@ def ol_events_json_data():
     return json_data
 
 
-@pytest.fixture()
+@pytest.fixture
 def sources_data() -> SimpleNamespace:
     """Return a list of sources"""
     news_details = {

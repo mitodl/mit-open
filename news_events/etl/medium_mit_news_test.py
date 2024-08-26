@@ -8,7 +8,7 @@ from news_events.etl import medium_mit_news
 from news_events.etl.utils import stringify_time_struct
 
 
-@pytest.fixture()
+@pytest.fixture
 def medium_mit_rss_data():
     """Medium MIT News RSS fixture"""
     return feedparser.parse("test_html/test_medium_mit_news.rss")

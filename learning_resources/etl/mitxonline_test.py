@@ -41,21 +41,21 @@ from main.utils import clean_data
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_mitxonline_programs_data():
     """Mock mitxonline data"""
     with open("./test_json/mitxonline_programs.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_mitxonline_courses_data():
     """Mock mitxonline data"""
     with open("./test_json/mitxonline_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_mitxonline_programs_responses(
     mocked_responses, settings, mock_mitxonline_programs_data
 ):
@@ -69,7 +69,7 @@ def mocked_mitxonline_programs_responses(
     return mocked_responses
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_mitxonline_courses_responses(
     mocked_responses, settings, mock_mitxonline_courses_data
 ):
@@ -398,7 +398,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
     assert expected == result
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("start_dt", "enrollment_dt", "expected_dt"),
     [
@@ -433,7 +433,7 @@ def test_course_run_start_date_value(
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("start_dt", "enrollment_dt", "expected_dt"),
     [

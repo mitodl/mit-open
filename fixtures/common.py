@@ -52,13 +52,13 @@ def warnings_as_errors():  # noqa: PT004
         warnings.resetwarnings()
 
 
-@pytest.fixture()
+@pytest.fixture
 def randomness():  # noqa: PT004
     """Ensure a fixed seed for factoryboy"""
     factory.fuzzy.reseed_random("happy little clouds")
 
 
-@pytest.fixture()
+@pytest.fixture
 def indexing_decorator(session_indexing_decorator):
     """
     Fixture that resets the indexing function mock and returns the indexing decorator fixture.
@@ -69,7 +69,7 @@ def indexing_decorator(session_indexing_decorator):
     return session_indexing_decorator
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_celery(mocker):
     """Mock object that patches certain celery functions"""
     exception_class = TabError
@@ -87,14 +87,14 @@ def mocked_celery(mocker):
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_responses():
     """Mock responses fixture"""
     with responses.RequestsMock() as rsps:
         yield rsps
 
 
-@pytest.fixture()
+@pytest.fixture
 def offeror_featured_lists():  # noqa: PT004
     """Generate featured offeror lists for testing"""
     for offered_by in OfferedBy.names():

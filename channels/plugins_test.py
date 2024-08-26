@@ -24,7 +24,7 @@ from learning_resources.models import (
 )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("overwrite", [True, False])
 def test_search_index_plugin_topic_upserted(overwrite):
     """The plugin function should create a topic channel"""
@@ -40,7 +40,7 @@ def test_search_index_plugin_topic_upserted(overwrite):
     assert upserted is overwrite
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_search_index_plugin_topic_delete():
     """The plugin function should delete a topic and associated channel"""
     channel = ChannelFactory.create(is_topic=True)
@@ -51,7 +51,7 @@ def test_search_index_plugin_topic_delete():
     assert LearningResourceTopic.objects.filter(id=topic.id).exists() is False
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("overwrite", [True, False])
 @pytest.mark.parametrize("has_school", [True, False])
 def test_search_index_plugin_department_upserted(overwrite, has_school):
@@ -72,7 +72,7 @@ def test_search_index_plugin_department_upserted(overwrite, has_school):
     assert upserted is (overwrite and has_school)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_search_index_plugin_department_channel_deleted():
     """The plugin function should delete an existing department channel without a school"""
     department = LearningResourceDepartmentFactory.create(school=None)
@@ -84,7 +84,7 @@ def test_search_index_plugin_department_channel_deleted():
     assert not Channel.objects.filter(department_detail__department=department).exists()
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_search_index_plugin_department_delete():
     """The plugin function should delete a department and associated channel"""
     channel = ChannelFactory.create(is_department=True)
@@ -100,7 +100,7 @@ def test_search_index_plugin_department_delete():
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("overwrite", [True, False])
 def test_search_index_plugin_department_rename(overwrite):
     """The plugin function should update the channel title when the department name changes"""
@@ -121,7 +121,7 @@ def test_search_index_plugin_department_rename(overwrite):
     assert updated is overwrite
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("overwrite", [True, False])
 def test_search_index_plugin_offeror_upserted(overwrite):
     """The plugin function should create an offeror channel"""
@@ -136,7 +136,7 @@ def test_search_index_plugin_offeror_upserted(overwrite):
     assert upserted is overwrite
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_search_index_plugin_offeror_delete():
     """The plugin function should delete an offeror and associated channel"""
     channel = ChannelFactory.create(is_unit=True)
@@ -156,7 +156,7 @@ def test_search_index_plugin_offeror_delete():
         (2, 2, False),  # 0 published resource remains
     ],
 )
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_resource_before_delete_and_resource_unpublish(
     action, published_resources, to_remove, expect_channel_published
 ):
@@ -204,7 +204,7 @@ def test_resource_before_delete_and_resource_unpublish(
     assert channel3.published is expect_channel_published
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_resource_upserted():
     """
     Test that channels are published when a resource is created or updated

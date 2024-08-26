@@ -117,7 +117,7 @@ EXPECTED_AVAILABLE_WIDGETS = [
 ]
 
 
-@pytest.fixture()
+@pytest.fixture
 def widget_list(user):
     """Creates a widget list the user can write to"""  # noqa: D401
     widget_list = WidgetListFactory.create()

@@ -48,7 +48,7 @@ small_gif = (
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def channel_detail():
     """Return possible related objects for a channel"""
     topic = LearningResourceTopicFactory.create()
@@ -75,7 +75,7 @@ def mock_image_file(filename):
     return SimpleUploadedFile(filename, small_gif, content_type="image/gif")
 
 
-@pytest.fixture()
+@pytest.fixture
 def base_channel_data():
     """Base channel data for serializers"""  # noqa: D401
     return {

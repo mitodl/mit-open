@@ -62,7 +62,7 @@ pytestmark = pytest.mark.django_db
 User = get_user_model()
 
 
-@pytest.fixture()
+@pytest.fixture
 def _wrap_retry_mock(mocker):
     """
     Patches the wrap_retry_exception context manager and asserts that it was
@@ -73,7 +73,7 @@ def _wrap_retry_mock(mocker):
     wrap_mock.assert_called_once()
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_api(mocker):
     """Mock object that patches the channels API"""
     return mocker.patch("learning_resources_search.tasks.api")
@@ -711,7 +711,7 @@ def test_delete_run_content_files(mocker, with_error, unpublished_only):
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_send_subscription_emails(mocked_api, mocker, mocked_celery):
     """
     Test that a subscribed user receives
@@ -763,7 +763,7 @@ def test_send_subscription_emails(mocked_api, mocker, mocked_celery):
         assert topic in template_data
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_send_multiple_subscription_emails(mocked_api, mocker, mocked_celery):
     """
     Test that subscription email with

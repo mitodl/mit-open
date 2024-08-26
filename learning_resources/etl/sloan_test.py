@@ -36,21 +36,21 @@ def mock_sloan_api_setting(settings):  # noqa: PT004
     settings.SEE_API_ENABLED = True
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_sloan_courses_data():
     """Mock prolearn MIT Professional Education courses data"""
     with open("./test_json/test_sloan_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_sloan_runs_data():
     """Mock prolearn MIT Professional Education courses data"""
     with open("./test_json/test_sloan_runs.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_sloan_auth_token_response(
     mocked_responses, settings, mock_sloan_runs_data, mock_sloan_api_setting
 ):
@@ -62,7 +62,7 @@ def mocked_sloan_auth_token_response(
     return mocked_responses
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_sloan_course_runs_responses(
     mocked_responses, settings, mock_sloan_runs_data, mock_sloan_api_setting
 ):
@@ -74,7 +74,7 @@ def mocked_sloan_course_runs_responses(
     return mocked_responses
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_sloan_courses_responses(
     mocked_responses, settings, mock_sloan_courses_data, mock_sloan_api_setting
 ):

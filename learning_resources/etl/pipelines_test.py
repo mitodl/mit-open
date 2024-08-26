@@ -196,7 +196,7 @@ def test_podcast_etl():
 
 
 @mock_s3
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("skip_content_files", [True, False])
 def test_ocw_courses_etl(settings, mocker, skip_content_files):
     """Test ocw_courses_etl"""
@@ -238,7 +238,7 @@ def test_ocw_courses_etl(settings, mocker, skip_content_files):
 
 
 @mock_s3
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_ocw_courses_etl_no_data(settings, mocker):
     """Test ocw_courses_etl when no S3 data is present"""
 
@@ -255,7 +255,7 @@ def test_ocw_courses_etl_no_data(settings, mocker):
 
 
 @mock_s3
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_ocw_courses_etl_exception(settings, mocker):
     """Test ocw_courses_etl when bad data raises an exception"""
 

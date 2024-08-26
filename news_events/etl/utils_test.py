@@ -9,7 +9,7 @@ import pytest
 from news_events.etl import utils
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_requests_get_html(mocker):
     """Mock requests.get to return html data"""
     with Path.open(Path("test_html/test_ol_events_index_page.html")) as in_file:

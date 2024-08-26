@@ -8,7 +8,7 @@ import pytest
 from learning_resources.etl.oll import transform
 
 
-@pytest.fixture()
+@pytest.fixture
 def oll_course_data():
     """Fixture for valid OLL catalog data"""
     with open("./test_json/test_oll_courses.json") as f:  # noqa: PTH123

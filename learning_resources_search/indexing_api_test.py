@@ -53,7 +53,7 @@ from main.utils import chunks
 pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures("mocked_es")]
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_es(mocker, settings):
     """ES client objects/functions mock"""
     index_name = "test"
