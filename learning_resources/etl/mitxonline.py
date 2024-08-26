@@ -281,7 +281,7 @@ def _transform_course(course):
         "image": _transform_image(course),
         "url": parse_page_attribute(course, "page_url", is_url=True),
         "description": clean_data(parse_page_attribute(course, "description")),
-        "availability": course.get("availability"),
+        "availability": [course.get("availability")],
     }
 
 
@@ -341,7 +341,7 @@ def transform_programs(programs):
             "description": clean_data(parse_page_attribute(program, "description")),
             "url": parse_page_attribute(program, "page_url", is_url=True),
             "image": _transform_image(program),
-            "availability": program.get("availability"),
+            "availability": [program.get("availability")],
             "published": bool(
                 parse_page_attribute(program, "page_url")
             ),  # a program is only considered published if it has a page url

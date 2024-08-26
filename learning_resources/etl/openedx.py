@@ -161,16 +161,17 @@ def _get_run_availability(course_run):
 
 
 def _get_course_availability(course):
+    availability = []
     published_runs = [
         run for run in course.get("course_runs", []) if _get_run_published(run)
     ]
     if any(_get_run_availability(run) == Availability.dated for run in published_runs):
-        return Availability.dated.name
-    elif published_runs and all(
+        availability.append(Availability.dated.name)
+    if any(
         _get_run_availability(run) == Availability.anytime for run in published_runs
     ):
-        return Availability.anytime.name
-    return None
+        availability.append(Availability.anytime.name)
+    return availability
 
 
 def _is_course_or_run_deleted(title):

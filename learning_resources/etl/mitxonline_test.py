@@ -148,7 +148,7 @@ def test_mitxonline_transform_programs(
                 program_data.get("page", {}).get("page_url", None) is not None
             ),
             "url": parse_page_attribute(program_data, "page_url", is_url=True),
-            "availability": program_data["availability"],
+            "availability": [program_data["availability"]],
             "topics": transform_topics(program_data["topics"], OFFERED_BY["code"]),
             "runs": [
                 {
@@ -203,7 +203,7 @@ def test_mitxonline_transform_programs(
                     "certification": True,
                     "certification_type": CertificationType.completion.name,
                     "url": parse_page_attribute(course_data, "page_url", is_url=True),
-                    "availability": course_data["availability"],
+                    "availability": [course_data["availability"]],
                     "topics": transform_topics(
                         course_data["topics"], OFFERED_BY["code"]
                     ),
@@ -390,7 +390,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                     }
                 ]
             },
-            "availability": course_data["availability"],
+            "availability": [course_data["availability"]],
         }
         for course_data in mock_mitxonline_courses_data["results"]
         if "PROCTORED EXAM" not in course_data["title"]

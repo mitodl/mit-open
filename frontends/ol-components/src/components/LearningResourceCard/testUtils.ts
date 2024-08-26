@@ -107,11 +107,11 @@ const courses = {
   start: {
     anytime: makeResource({
       resource_type: ResourceTypeEnum.Course,
-      availability: "anytime",
+      availability: ["anytime"],
     }),
     dated: makeResource({
       resource_type: ResourceTypeEnum.Course,
-      availability: "dated",
+      availability: ["dated"],
     }),
   },
 }

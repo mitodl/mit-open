@@ -416,11 +416,15 @@ class LearningResource(TimestampedModel):
     prices = ArrayField(
         models.DecimalField(decimal_places=2, max_digits=12), default=list
     )
-    availability = models.CharField(  # noqa: DJ001
-        max_length=24,
-        null=True,
-        choices=((member.name, member.value) for member in Availability),
+    availability = ArrayField(
+        models.CharField(
+            max_length=24,
+            null=True,
+            choices=((member.name, member.value) for member in Availability),
+        ),
+        default=list,
     )
+    completeness = models.FloatField(default=1.0)
 
     @property
     def audience(self) -> str | None:
