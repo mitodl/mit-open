@@ -44,6 +44,7 @@ const HomePage: React.FC = () => {
         <Container>
           <HeroSearch />
           <FeaturedCoursesCarousel
+            headerComponent="h2"
             title="Featured Courses"
             config={carousels.FEATURED_RESOURCES_CAROUSEL}
           />
@@ -51,7 +52,11 @@ const HomePage: React.FC = () => {
       </FullWidthBackground>
       <PersonalizeSection />
       <Container>
-        <MediaCarousel title="Media" config={carousels.MEDIA_CAROUSEL} />
+        <MediaCarousel
+          headerComponent="h2"
+          title="Media"
+          config={carousels.MEDIA_CAROUSEL}
+        />
       </Container>
       <BrowseTopicsSection />
       <TestimonialsSection />

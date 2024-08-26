@@ -185,6 +185,7 @@ const HeroSearch: React.FC = () => {
     <HeroWrapper>
       <TitleAndControls>
         <Typography
+          component="h1"
           typography={{ xs: "h3", md: "h1" }}
           sx={{ paddingBottom: 1 }}
         >
