@@ -9,14 +9,14 @@ import pytest
 from news_events.etl.mitpe_events import extract, transform
 
 
-@pytest.fixture()
+@pytest.fixture
 def mitpe_events_settings(settings):
     """Assign the required MITPE settings"""
     settings.MITPE_BASE_API_URL = "https://api.example.com"
     return settings
 
 
-@pytest.fixture()
+@pytest.fixture
 def mitpe_events_json_data():
     """Return the raw content of the MITPE events json response"""
     with Path.open(Path("test_json/mitpe_events.json")) as in_file:
