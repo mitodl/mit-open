@@ -24,7 +24,7 @@ const embedlyCroppedImage = (
     url,
   )}&height=${height}&width=${width}&grow=true&animate=false&errorurl=${BLANK_IMAGE}`
 
-const DEFAULT_RESOURCE_IMG = "/static/images/default_resource.jpg"
+const DEFAULT_RESOURCE_IMG = "/images/default_resource.jpg"
 
 type EmbedlyConfig = {
   key: string

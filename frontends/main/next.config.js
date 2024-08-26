@@ -101,6 +101,12 @@ const nextConfig = {
         hostname: "megaphone.imgix.net",
         port: "",
         pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "artwork.captivate.fm",
+        port: "",
+        pathname: "**",
       }
     ],
   },

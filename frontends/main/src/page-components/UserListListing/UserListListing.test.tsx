@@ -11,7 +11,7 @@ import {
 } from "../../test-utils"
 import type { User } from "../../test-utils"
 
-import UserListListingComponent from "./UserListListingComponent"
+import UserListListing from "./UserListListing"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import UserListCardCondensed from "@/page-components/UserListCard/UserListCardCondensed"
 import { userListView } from "@/common/urls"
@@ -44,7 +44,7 @@ const setup = ({
   setMockResponse.get(urls.userSubscription.check(), factories.percolateQueries)
 
   const { location } = renderWithProviders(
-    <UserListListingComponent title="My Lists" />,
+    <UserListListing title="My Lists" />,
     {
       user,
     },
@@ -53,7 +53,7 @@ const setup = ({
   return { paths, location }
 }
 
-describe("UserListListingComponent", () => {
+describe("UserListListing", () => {
   it("Has heading 'My Lists'", async () => {
     setup()
     screen.getByRole("heading", { name: "My Lists" })

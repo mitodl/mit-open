@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import {
   RiAccountCircleFill,
@@ -20,10 +22,10 @@ import {
   Typography,
   styled,
 } from "ol-components"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 import { useUserMe } from "api/hooks/user"
-import { useLocation, useParams } from "react-router"
-import UserListListingComponent from "../UserListListingComponent/UserListListingComponent"
+import { useParams } from 'next/navigation'
+import UserListListingComponent from "@/page-components/UserListListing/UserListListing"
 
 import { ProfileEditForm } from "./ProfileEditForm"
 import { useProfileMeQuery } from "api/hooks/profile"
@@ -39,7 +41,7 @@ import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarouse
 import UserListDetailsTab from "./UserListDetailsTab"
 import { SettingsPage } from "./SettingsPage"
 import { DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS } from "@/common/urls"
-import MetaTags from "@/page-components/MetaTags/MetaTags"
+// import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 /**
  *
@@ -282,7 +284,7 @@ const UserMenuTab: React.FC<UserMenuTabProps> = (props) => {
   return (
     <Tab
       component={Link}
-      to={value}
+      href={value}
       data-testid={`desktop-tab-${tabKey}`}
       label={
         <TabContainer
@@ -306,13 +308,18 @@ type RouteParams = {
 const DashboardPage: React.FC = () => {
   const { isLoading: isLoadingUser, data: user } = useUserMe()
   const { isLoading: isLoadingProfile, data: profile } = useProfileMeQuery()
-  const { pathname } = useLocation()
+  const params = useParams<{ tab: string }>()
+
+  const appRouterPath = `${DASHBOARD_HOME}${params.tab}/`
+
   const id = Number(useParams<RouteParams>().id) || -1
-  const showUserListDetail = pathname.includes(MY_LISTS) && id !== -1
+  const showUserListDetail = appRouterPath === MY_LISTS && id !== -1
+
+
   const tabValue = showUserListDetail
     ? MY_LISTS
-    : [DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS].includes(pathname)
-      ? pathname
+    : [DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS].includes(appRouterPath)
+      ? appRouterPath
       : DASHBOARD_HOME
 
   const topics = profile?.preference_search_filters.topic
@@ -332,7 +339,7 @@ const DashboardPage: React.FC = () => {
           </UserNameContainer>
         </ProfilePhotoContainer>
         <TabsContainer
-          value={tabValue}
+          value={appRouterPath}
           orientation="vertical"
           data-testid="desktop-tab-list"
         >
@@ -402,7 +409,7 @@ const DashboardPage: React.FC = () => {
     <Background>
       <Page>
         <DashboardContainer>
-          <MetaTags title="Your MIT Learning Journey" social={false} />
+          {/* TODO <MetaTags title="Your MIT Learning Journey" social={false} /> */}
           <TabContext value={tabValue}>
             <DashboardGrid>
               <DashboardGridItem>
@@ -505,8 +512,9 @@ const DashboardPage: React.FC = () => {
   )
 }
 
+export default DashboardPage
+
 export {
-  DashboardPage,
   TabKeys as DashboardTabKeys,
   TabLabels as DashboardTabLabels,
 }

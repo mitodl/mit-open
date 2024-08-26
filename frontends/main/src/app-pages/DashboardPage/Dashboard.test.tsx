@@ -7,8 +7,7 @@ import {
 } from "../../test-utils"
 import { factories, urls } from "api/test-utils"
 import { Permissions } from "@/common/permissions"
-import {
-  DashboardPage,
+import DashboardPage, {
   DashboardTabKeys,
   DashboardTabLabels,
 } from "./DashboardPage"

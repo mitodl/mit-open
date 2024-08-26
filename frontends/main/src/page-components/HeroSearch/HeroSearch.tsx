@@ -236,7 +236,8 @@ const HeroSearch: React.FC = () => {
         </ControlsContainer>
       </TitleAndControls>
       <ImageContainer>
-        <Image alt="" src={getRandomHeroImage()} />
+        {/* TODO next/image requires a width and height (or fill). This image needs to shrink at lowere screen widths while preserving aspect */}
+        <Image alt="" src={getRandomHeroImage()} width={513} height={522} />
       </ImageContainer>
     </HeroWrapper>
   )
