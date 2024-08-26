@@ -360,7 +360,7 @@ def _transform_course(
             "topics": parse_topic(course, offered_by.code) if offered_by else None,
             "runs": runs,
             "unique_field": UNIQUE_FIELD,
-            "availability": [Availability.dated.name],
+            "availability": Availability.dated.name,
         }
     return None
 

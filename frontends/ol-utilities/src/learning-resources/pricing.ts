@@ -92,7 +92,7 @@ export const getLearningResourcePrices = (resource: LearningResource) => {
 
 export const showStartAnytime = (resource: LearningResource) => {
   return (
-    resource.availability?.includes("anytime") &&
+    resource.availability === "anytime" &&
     (
       [ResourceTypeEnum.Course, ResourceTypeEnum.Program] as ResourceTypeEnum[]
     ).includes(resource.resource_type)

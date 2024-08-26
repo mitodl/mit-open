@@ -204,7 +204,7 @@ def extracted_and_transformed_values(youtube_api_responses):
                     "offered_by": {"code": offered_by}
                     if offered_by != "csail"
                     else None,
-                    "availability": [Availability.anytime.name],
+                    "availability": Availability.anytime.name,
                     "published": True,
                     "videos": [
                         {
@@ -223,7 +223,7 @@ def extracted_and_transformed_values(youtube_api_responses):
                             if offered_by != "csail"
                             else None,
                             "title": video["snippet"]["localized"]["title"],
-                            "availability": [Availability.anytime.name],
+                            "availability": Availability.anytime.name,
                             "video": {
                                 "duration": video["contentDetails"]["duration"],
                             },

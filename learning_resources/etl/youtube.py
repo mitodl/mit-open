@@ -429,7 +429,7 @@ def transform_video(video_data: dict, offered_by_code: str) -> dict:
         "video": {
             "duration": video_data["contentDetails"]["duration"],
         },
-        "availability": [Availability.anytime.name],
+        "availability": Availability.anytime.name,
     }
 
 
@@ -458,7 +458,7 @@ def transform_playlist(
             transform_video(extracted_video, offered_by_code)
             for extracted_video in videos
         ),
-        "availability": [Availability.anytime.name],
+        "availability": Availability.anytime.name,
     }
 
 

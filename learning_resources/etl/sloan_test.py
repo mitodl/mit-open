@@ -208,12 +208,8 @@ def test_parse_availability(delivery, run_format, availability):
             "Delivery": delivery,
         }
     ]
-    assert parse_availability(runs_data) == [availability]
-    assert parse_availability([]) == [Availability.dated.name]
-    runs_data.append({"Format": "Online", "Delivery": Availability.dated.name})
-    assert parse_availability(runs_data) == list(
-        set(availability, Availability.dated.name)
-    )
+    assert parse_availability(runs_data) == availability
+    assert parse_availability([]) == Availability.dated.name
 
 
 def test_enabled_flag(mock_sloan_api_setting, settings):

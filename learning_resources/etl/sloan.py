@@ -116,17 +116,14 @@ def parse_availability(runs_data):
     Returns:
         str: the availability
     """
-    availablity = set()
     if runs_data:
-        for run in runs_data:
-            if (
-                run.get("Delivery", "") == "Online"
-                and run.get("Format", "") == "Asynchronous (On-Demand)"
-            ):
-                availablity.add(Availability.anytime.name)
-            else:
-                availablity.add(Availability.dated.name)
-    return list(availablity) or [Availability.dated.name]
+        run = runs_data[0]
+        if (
+            run.get("Delivery", "") == "Online"
+            and run.get("Format", "") == "Asynchronous (On-Demand)"
+        ):
+            return Availability.anytime.name
+    return Availability.dated.name
 
 
 def extract():
