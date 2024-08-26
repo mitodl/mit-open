@@ -421,6 +421,7 @@ class LearningResource(TimestampedModel):
         null=True,
         choices=((member.name, member.value) for member in Availability),
     )
+    completeness = models.FloatField(default=1.0)
 
     @property
     def audience(self) -> str | None:
@@ -534,9 +535,10 @@ class LearningResourceRun(TimestampedModel):
         models.CharField(max_length=128), null=False, blank=False, default=list
     )
     slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
-    availability = models.CharField(  # noqa: DJ001
+    status = models.CharField(  # noqa: DJ001
         max_length=128, null=True, blank=True
     )
+
     semester = models.CharField(max_length=20, null=True, blank=True)  # noqa: DJ001
     year = models.IntegerField(null=True, blank=True)
     start_date = models.DateTimeField(null=True, blank=True)
@@ -550,6 +552,14 @@ class LearningResourceRun(TimestampedModel):
         models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True
     )
     checksum = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
+    delivery = models.CharField(
+        max_length=24, default=LearningResourceFormat.online.name
+    )
+    availability = models.CharField(  # noqa: DJ001
+        max_length=24,
+        null=True,
+        choices=((member.name, member.value) for member in Availability),
+    )
 
     def __str__(self):
         return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"  # noqa: E501

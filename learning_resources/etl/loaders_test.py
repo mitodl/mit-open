@@ -16,7 +16,7 @@ from learning_resources.constants import (
     LearningResourceType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
@@ -652,7 +652,7 @@ def test_load_course_fetch_only(mocker, course_exists):
 
 @pytest.mark.parametrize("run_exists", [True, False])
 @pytest.mark.parametrize(
-    "availability", [RunAvailability.archived.value, RunAvailability.current.value]
+    "availability", [RunStatus.archived.value, RunStatus.current.value]
 )
 @pytest.mark.parametrize("certification", [True, False])
 def test_load_run(run_exists, availability, certification):
@@ -689,7 +689,7 @@ def test_load_run(run_exists, availability, certification):
 
     assert result.prices == (
         []
-        if (availability == RunAvailability.archived.value or certification is False)
+        if (availability == RunStatus.archived.value or certification is False)
         else sorted(props["prices"])
     )
     props.pop("prices")
@@ -1462,7 +1462,7 @@ def test_load_prices_by_certificate(certification):
     run = LearningResourceRunFactory.create(
         learning_resource=course,
         published=True,
-        availability=RunAvailability.current.value,
+        availability=RunStatus.current.value,
         prices=[Decimal("0.00"), Decimal("20.00")],
     )
     load_next_start_date_and_prices(course)

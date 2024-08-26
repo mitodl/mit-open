@@ -14,7 +14,7 @@ from learning_resources.constants import (
     CertificationType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
@@ -106,7 +106,7 @@ def parse_datetime(value):
     )
 
 
-def parse_availability(runs_data):
+def parse_availability(run_data):
     """
     Parse availability from runs data
 
@@ -116,13 +116,11 @@ def parse_availability(runs_data):
     Returns:
         str: the availability
     """
-    if runs_data:
-        run = runs_data[0]
-        if (
-            run.get("Delivery", "") == "Online"
-            and run.get("Format", "") == "Asynchronous (On-Demand)"
-        ):
-            return Availability.anytime.name
+    if run_data and (
+        run_data.get("Delivery", "") == "Online"
+        and run_data.get("Format", "") == "Asynchronous (On-Demand)"
+    ):
+        return Availability.anytime.name
     return Availability.dated.name
 
 
@@ -180,7 +178,9 @@ def transform_run(run_data, course_data):
         "end_date": parse_datetime(run_data["End_Date"]),
         "title": course_data["Title"],
         "url": course_data["URL"],
-        "availability": RunAvailability.current.value,
+        "status": RunStatus.current.value,
+        "delivery": run_data["Delivery"],
+        "availability": parse_availability(run_data),
         "published": True,
         "prices": [run_data["Price"]],
         "instructors": [{"full_name": name.strip()} for name in faculty_names],
@@ -199,10 +199,11 @@ def transform_course(course_data: dict, runs_data: dict) -> dict:
         dict: the transformed data
     """
 
-    course_runs_data = [
-        run for run in runs_data if run["Course_Id"] == course_data["Course_Id"]
-    ]
-
+    course_runs_data = sorted(
+        [run for run in runs_data if run["Course_Id"] == course_data["Course_Id"]],
+        key=lambda run: run.get("Start_Date") or "",
+    )
+    runs = [transform_run(run, course_data) for run in course_runs_data]
     transformed_course = {
         "readable_id": course_data["Course_Id"],
         "title": course_data["Title"],
@@ -223,8 +224,8 @@ def transform_course(course_data: dict, runs_data: dict) -> dict:
         "course": {
             "course_numbers": [],
         },
-        "runs": [transform_run(run, course_data) for run in course_runs_data],
-        "availability": parse_availability(course_runs_data),
+        "runs": runs,
+        "availability": runs[0]["availability"],
     }
 
     return transformed_course if transformed_course.get("url") else None

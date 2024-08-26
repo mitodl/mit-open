@@ -10,7 +10,7 @@ from learning_resources.constants import (
     Availability,
     CertificationType,
     LearningResourceType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import COMMON_HEADERS, CourseNumberType
 from learning_resources.etl.openedx import (
@@ -242,7 +242,7 @@ def test_transform_course(  # noqa: PLR0913
     [
         (
             {
-                "availability": RunAvailability.current.value,
+                "availability": RunStatus.current.value,
                 "pacing_type": "self_paced",
                 "start": "2021-01-01T00:00:00Z",  # past
             },
@@ -250,7 +250,7 @@ def test_transform_course(  # noqa: PLR0913
         ),
         (
             {
-                "availability": RunAvailability.current.value,
+                "availability": RunStatus.current.value,
                 "pacing_type": "self_paced",
                 "start": "2221-01-01T00:00:00Z",  # future
             },
@@ -258,7 +258,7 @@ def test_transform_course(  # noqa: PLR0913
         ),
         (
             {
-                "availability": RunAvailability.archived.value,
+                "availability": RunStatus.archived.value,
             },
             Availability.anytime.name,
         ),
@@ -305,7 +305,7 @@ def test_transform_course_availability_with_multiple_runs(
     extracted = mitx_course_data["results"]
     run0 = {  # anytime run
         **extracted[0]["course_runs"][0],
-        "availability": RunAvailability.current.value,
+        "availability": RunStatus.current.value,
         "pacing_type": "self_paced",
         "start": "2021-01-01T00:00:00Z",  # past
         "is_enrollable": True,
@@ -313,13 +313,13 @@ def test_transform_course_availability_with_multiple_runs(
     }
     run1 = {  # anytime run
         **extracted[0]["course_runs"][0],
-        "availability": RunAvailability.archived.value,
+        "availability": RunStatus.archived.value,
         "is_enrollable": True,
         "status": "published",
     }
     run2 = {  # dated run
         **extracted[0]["course_runs"][0],
-        "availability": RunAvailability.current.value,
+        "availability": RunStatus.current.value,
         "pacing_type": "instructor_paced",
         "start": "2221-01-01T00:00:00Z",
         "is_enrollable": True,

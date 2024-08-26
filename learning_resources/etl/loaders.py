@@ -12,7 +12,7 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import (
     READABLE_ID_FIELD,
@@ -235,7 +235,7 @@ def load_run(
     instructors_data = run_data.pop("instructors", [])
 
     if (
-        run_data.get("availability") == RunAvailability.archived.value
+        run_data.get("availability") == RunStatus.archived.value
         or learning_resource.certification is False
     ):
         # Archived runs or runs of resources w/out certificates should not have prices

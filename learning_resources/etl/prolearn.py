@@ -321,6 +321,8 @@ def _transform_runs(resource: dict) -> list[dict]:
                     "published": True,
                     "prices": parse_price(resource),
                     "url": parse_url(resource),
+                    "delivery": transform_format(resource["format_name"]),
+                    "availability": Availability.dated.name,
                 }
             )
     return runs

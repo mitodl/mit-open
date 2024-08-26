@@ -17,7 +17,7 @@ from learning_resources.constants import (
     LearningResourceType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl import utils
 from learning_resources.etl.utils import parse_certification
@@ -386,27 +386,27 @@ def test_parse_bad_format(mocker):
     [
         [  # noqa: PT007
             OfferedBy.ocw.name,
-            RunAvailability.archived.value,
+            RunStatus.archived.value,
             False,
         ],
         [  # noqa: PT007
             OfferedBy.ocw.name,
-            RunAvailability.current.value,
+            RunStatus.current.value,
             False,
         ],
         [  # noqa: PT007
             OfferedBy.mitx.name,
-            RunAvailability.archived.value,
+            RunStatus.archived.value,
             False,
         ],
         [  # noqa: PT007
             OfferedBy.mitx.name,
-            RunAvailability.current.value,
+            RunStatus.current.value,
             True,
         ],
         [  # noqa: PT007
             OfferedBy.mitx.name,
-            RunAvailability.upcoming.value,
+            RunStatus.upcoming.value,
             True,
         ],
     ],

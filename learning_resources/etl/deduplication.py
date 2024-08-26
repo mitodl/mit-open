@@ -1,6 +1,6 @@
 """Functions to combine duplicate courses"""
 
-from learning_resources.constants import RunAvailability
+from learning_resources.constants import RunStatus
 
 
 def get_most_relevant_run(runs):
@@ -15,7 +15,7 @@ def get_most_relevant_run(runs):
 
     # if there is a current run in the set pick it
     most_relevant_run = next(
-        (run for run in runs if run.availability == RunAvailability.current.value),
+        (run for run in runs if run.availability == RunStatus.current.value),
         None,
     )
 
@@ -28,8 +28,8 @@ def get_most_relevant_run(runs):
                 for run in runs
                 if run.availability
                 in [
-                    RunAvailability.upcoming.value,
-                    RunAvailability.starting_soon.value,
+                    RunStatus.upcoming.value,
+                    RunStatus.starting_soon.value,
                 ]
             ),
             None,

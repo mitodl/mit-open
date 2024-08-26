@@ -87,7 +87,7 @@ def extract_courses():
     return []
 
 
-def _transform_run(course_run):
+def _transform_run(course_run, course):
     """
     Transforms a course run into our normalized data structure
 
@@ -116,6 +116,8 @@ def _transform_run(course_run):
             {"full_name": instructor["name"]}
             for instructor in course_run["instructors"]
         ],
+        "availability": course["availability"],
+        "delivery": transform_format(course.get("format")),
     }
 
 
@@ -143,9 +145,11 @@ def _transform_learning_resource_course(course):
             course_run.get("current_price", None) for course_run in course["courseruns"]
         ),
         "topics": parse_topics(course),
-        "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
+        "runs": [
+            _transform_run(course_run, course) for course_run in course["courseruns"]
+        ],
         "resource_type": LearningResourceType.course.name,
-        "learning_format": transform_format(course.get("format")),
+        "learning_format": [transform_format(course.get("format"))],
         "course": {
             "course_numbers": generate_course_numbers_json(
                 course["readable_id"], is_ocw=False
@@ -190,7 +194,7 @@ def transform_programs(programs):
             "topics": parse_topics(program),
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.name,
-            "learning_format": transform_format(program.get("format")),
+            "learning_format": [transform_format(program.get("format"))],
             "runs": [
                 {
                     "prices": (
@@ -210,6 +214,8 @@ def transform_programs(programs):
                         {"full_name": instructor["name"]}
                         for instructor in program.get("instructors", [])
                     ],
+                    "delivery": transform_format(program.get("format")),
+                    "availability": program["availability"],
                 }
             ],
             "courses": transform_courses(program["courses"]),

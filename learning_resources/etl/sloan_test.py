@@ -7,7 +7,7 @@ import pytest
 
 from learning_resources.constants import (
     Availability,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.sloan import (
     extract,
@@ -118,7 +118,7 @@ def test_transform_run(
         "end_date": parse_datetime(run_data["End_Date"]),
         "title": course_data["Title"],
         "url": course_data["URL"],
-        "availability": RunAvailability.current.value,
+        "availability": RunStatus.current.value,
         "published": True,
         "prices": [run_data["Price"]],
         "instructors": [{"full_name": name.strip()} for name in faculty_names],
