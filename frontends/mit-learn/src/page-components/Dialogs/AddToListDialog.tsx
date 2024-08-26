@@ -6,7 +6,6 @@ import {
   styled,
   CheckboxChoiceField,
   Button,
-  CircularProgress,
 } from "ol-components"
 
 import { RiAddLine } from "@remixicon/react"
@@ -166,7 +165,6 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
             <Button
               variant="primary"
               type="submit"
-              endIcon={isSaving ? <CircularProgress /> : null}
               disabled={!formik.dirty || isSaving}
             >
               Save
