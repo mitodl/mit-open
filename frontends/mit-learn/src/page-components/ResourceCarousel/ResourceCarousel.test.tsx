@@ -172,22 +172,38 @@ describe("ResourceCarousel", () => {
     expect(urlParams.get("professional")).toEqual("true")
   })
 
-  it("Shows the correct title", async () => {
-    const config: ResourceCarouselProps["config"] = [
-      {
-        label: "Resources",
-        data: {
-          type: "resources",
-          params: { resource_type: ["course", "program"], professional: true },
+  it.each([
+    { headerComponent: "h1", expectedTag: "H1" },
+    { headerComponent: "h3", expectedTag: "H3" },
+  ] as const)(
+    "Shows the correct title with correct heading level",
+    async ({ headerComponent, expectedTag }) => {
+      const config: ResourceCarouselProps["config"] = [
+        {
+          label: "Resources",
+          data: {
+            type: "resources",
+            params: {
+              resource_type: ["course", "program"],
+              professional: true,
+            },
+          },
         },
-      },
-    ]
-    setMockResponse.get(urls.userMe.get(), {})
-    setupApis()
-    renderWithProviders(
-      <ResourceCarousel title="My Favorite Carousel" config={config} />,
-    )
+      ]
+      setMockResponse.get(urls.userMe.get(), {})
+      setupApis()
+      renderWithProviders(
+        <ResourceCarousel
+          headerComponent={headerComponent}
+          title="My Favorite Carousel"
+          config={config}
+        />,
+      )
 
-    await screen.findByRole("heading", { name: "My Favorite Carousel" })
-  })
+      const title = await screen.findByRole("heading", {
+        name: "My Favorite Carousel",
+      })
+      expect(title.tagName).toBe(expectedTag)
+    },
+  )
 })

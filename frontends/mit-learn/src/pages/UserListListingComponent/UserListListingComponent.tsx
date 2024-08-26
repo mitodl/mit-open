@@ -7,6 +7,7 @@ import {
   PlainList,
   Card,
   theme,
+  TypographyProps,
 } from "ol-components"
 import { RiListCheck3 } from "@remixicon/react"
 import { useUserListList } from "api/hooks/learningResources"
@@ -15,7 +16,7 @@ import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageLis
 import { userListView } from "@/common/urls"
 import UserListCardCondensed from "@/page-components/UserListCard/UserListCardCondensed"
 
-const Header = styled(Typography)({
+const Header = styled(Typography)<Pick<TypographyProps, "component">>({
   marginBottom: "16px",
 })
 
@@ -71,7 +72,9 @@ const UserListListingComponent: React.FC<UserListListingComponentProps> = (
   return (
     <GridContainer>
       <GridColumn variant="single-full">
-        <Header variant="h3">{title}</Header>
+        <Header component="h1" variant="h3">
+          {title}
+        </Header>
         <section>
           <LoadingSpinner loading={isLoading} />
           {!data?.results.length && !isLoading ? (

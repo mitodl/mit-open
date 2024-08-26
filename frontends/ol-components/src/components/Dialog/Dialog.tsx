@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useId, useState } from "react"
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { default as MuiDialog } from "@mui/material/Dialog"
@@ -93,6 +93,7 @@ const Dialog: React.FC<DialogProps> = ({
   disableEnforceFocus,
 }) => {
   const [confirming, setConfirming] = useState(isSubmitting)
+  const titleId = useId()
 
   const handleConfirm = useCallback(async () => {
     try {
@@ -115,6 +116,7 @@ const Dialog: React.FC<DialogProps> = ({
       disableEnforceFocus={disableEnforceFocus}
       PaperProps={PaperProps}
       TransitionComponent={Transition}
+      aria-labelledby={titleId}
     >
       <Close>
         <ActionButton
@@ -128,7 +130,9 @@ const Dialog: React.FC<DialogProps> = ({
       </Close>
       {title && (
         <Header>
-          <Typography variant="h5">{title}</Typography>
+          <Typography id={titleId} component="h1" variant="h5">
+            {title}
+          </Typography>
         </Header>
       )}
       <Content>
