@@ -380,8 +380,8 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
 
 @extend_schema_view(
     set_user_list_relationships=extend_schema(
-        summary="Set User List Relationships",
-        description="Set User List Relationships on a given Learning Resource.",
+        summary="Set List Relationships",
+        description="Set List Relationships on a given Learning Resource.",
     ),
 )
 @extend_schema(
@@ -425,8 +425,8 @@ class LearningResourceListRelationshipViewSet(
     parent_lookup_kwargs = {"learning_resource_id": "parent_id"}
     permission_classes = (AnonymousAccessReadonlyPermission,)
     filter_backends = [MultipleOptionsFilterBackend]
-    filterset_class = LearningResourceFilter
     serializer_class = LearningResourceRelationshipSerializer
+    queryset = LearningResourceRelationship.objects.select_related("parent", "child")
 
     @action(detail=False, methods=["patch"], name="Set User List Relationships")
     def set_user_list_relationships(self, request, *args, **kwargs):  # noqa: ARG002

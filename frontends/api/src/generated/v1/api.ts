@@ -11216,8 +11216,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
         }
       },
     /**
-     * Set User List Relationships on a given Learning Resource.
-     * @summary Set User List Relationships
+     * Set List Relationships on a given Learning Resource.
+     * @summary Set List Relationships
      * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
@@ -11947,8 +11947,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * Set User List Relationships on a given Learning Resource.
-     * @summary Set User List Relationships
+     * Set List Relationships on a given Learning Resource.
+     * @summary Set List Relationships
      * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
@@ -12324,8 +12324,8 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Set User List Relationships on a given Learning Resource.
-     * @summary Set User List Relationships
+     * Set List Relationships on a given Learning Resource.
+     * @summary Set List Relationships
      * @param {LearningResourcesApiLearningResourcesRelationshipsSetUserListRelationshipsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -13250,8 +13250,8 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Set User List Relationships on a given Learning Resource.
-   * @summary Set User List Relationships
+   * Set List Relationships on a given Learning Resource.
+   * @summary Set List Relationships
    * @param {LearningResourcesApiLearningResourcesRelationshipsSetUserListRelationshipsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
