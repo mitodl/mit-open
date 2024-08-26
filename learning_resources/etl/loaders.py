@@ -675,8 +675,8 @@ def calculate_completeness(
             / 10,
             1.0,
         )
-        log.debug(
-            "Videos: %d, Notes: %d, Exams: %d, Problems/Assignments: %d",
+        log.info(
+            "Videos: %.2f, Notes: %.2f, Exams: %.2f Problems/Assignments: %.2f",
             lecture_video_rating,
             lecture_notes_rating,
             exams_rating,
