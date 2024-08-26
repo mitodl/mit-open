@@ -8,6 +8,7 @@ import {
   pxToRem,
   ActionButton,
   TruncateText,
+  onReInitSlickA11y,
 } from "ol-components"
 import { useTestimonialList } from "api/hooks/testimonials"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
@@ -184,6 +185,7 @@ const ButtonsContainer = styled.div({
 })
 
 const TestimonialTruncateText = styled(TruncateText)({
+  margin: "0px",
   textOverflow: "none",
   ...theme.typography.h4,
   fontSize: pxToRem(20), // This is a unicorn font size per the Figma design - it's not used anywhere else.
@@ -215,6 +217,7 @@ const SlickCarousel = () => {
 
   const settings = {
     ref: setSlick,
+    onReInit: () => onReInitSlickA11y(slick),
     infinite: true,
     slidesToShow: 1,
     centerPadding: "15%",
@@ -231,7 +234,7 @@ const SlickCarousel = () => {
   }
 
   return (
-    <OverlayContainer>
+    <OverlayContainer as="section" aria-label="Carousel of learner experiences">
       <Slider {...settings}>
         {_.shuffle(data?.results).map((resource, idx) => (
           <TestimonialCardContainer
@@ -250,8 +253,10 @@ const SlickCarousel = () => {
                 />
               </TestimonialCardImage>
               <TestimonialCardQuote>
-                <div className="testimonial-quote-opener">&ldquo;</div>
-                <TestimonialTruncateText lineClamp={7}>
+                <div className="testimonial-quote-opener" aria-hidden>
+                  &ldquo;
+                </div>
+                <TestimonialTruncateText as="blockquote" lineClamp={7}>
                   {resource.quote.slice(0, 350)}
                   {resource.quote.length >= 350 ? "..." : ""}
                 </TestimonialTruncateText>
@@ -274,14 +279,14 @@ const SlickCarousel = () => {
           variant="inverted"
           onClick={slick?.slickPrev}
         >
-          <RiArrowLeftLineStyled />
+          <RiArrowLeftLineStyled aria-hidden />
         </ActionButton>
         <ActionButton
           aria-label="Show next"
           variant="inverted"
           onClick={slick?.slickNext}
         >
-          <RiArrowRightLineStyled />
+          <RiArrowRightLineStyled aria-hidden />
         </ActionButton>
       </ButtonsContainer>
     </OverlayContainer>

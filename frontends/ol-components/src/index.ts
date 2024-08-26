@@ -166,6 +166,8 @@ export * from "./components/Breadcrumbs/Breadcrumbs"
 export * from "./components/Card/Card"
 export * from "./components/Card/ListCardCondensed"
 export * from "./components/Carousel/Carousel"
+export { onReInitSlickA11y } from "./components/Carousel/util"
+
 export * from "./components/Checkbox/Checkbox"
 export * from "./components/Checkbox/CheckboxChoiceField"
 export * from "./components/Chips/ChipLink"

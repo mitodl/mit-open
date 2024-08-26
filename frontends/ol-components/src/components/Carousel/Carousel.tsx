@@ -1,6 +1,7 @@
 import React, { useCallback } from "react"
 import { createPortal } from "react-dom"
 import Slick from "react-slick"
+import { onReInitSlickA11y } from "./util"
 import { ActionButton } from "../Button/Button"
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import styled from "@emotion/styled"
@@ -14,6 +15,20 @@ type CarouselProps = {
    */
   animationDuration?: number
   arrowsContainer?: HTMLElement | null
+  /**
+   * aria-label for the prev/next buttons container.
+   * Not used if `arrowsContainer` supplied.
+   * Defaults to "Slide navigation".
+   */
+  arrowGroupLabel?: string
+  /**
+   * aria-label for the previous button; defaults to "Show previous slides".
+   */
+  prevLabel?: string
+  /**
+   * aria-label for the next button; defaults to "Show next slides".
+   */
+  nextLabel?: string
 }
 
 const SlickStyled = styled(Slick)({
@@ -105,6 +120,9 @@ const Carousel: React.FC<CarouselProps> = ({
   className,
   initialSlide = 0,
   arrowsContainer,
+  arrowGroupLabel = "Slide navigation",
+  prevLabel = "Show previous slides",
+  nextLabel = "Show next slides",
 }) => {
   const [slick, setSlick] = React.useState<Slick | null>(null)
   const [slidesPerPage, setSlidesPerPage] = React.useState<number>(1)
@@ -126,6 +144,7 @@ const Carousel: React.FC<CarouselProps> = ({
     if (slideInfo.currentIndex !== undefined) {
       setCurrentIndex(slideInfo.currentIndex)
     }
+    onReInitSlickA11y(slick)
   }, [slick])
   const nextPage = React.useCallback(() => {
     if (!slick) return
@@ -144,9 +163,9 @@ const Carousel: React.FC<CarouselProps> = ({
         variant="tertiary"
         onClick={prevPage}
         disabled={!canPrev}
-        aria-label="Previous"
+        aria-label={prevLabel}
       >
-        <RiArrowLeftLine />
+        <RiArrowLeftLine aria-hidden />
       </ActionButton>
       <ActionButton
         size="small"
@@ -154,9 +173,9 @@ const Carousel: React.FC<CarouselProps> = ({
         variant="tertiary"
         onClick={nextPage}
         disabled={!canNext}
-        aria-label="Next"
+        aria-label={nextLabel}
       >
-        <RiArrowRightLine />
+        <RiArrowRightLine aria-hidden />
       </ActionButton>
     </>
   )
@@ -177,11 +196,15 @@ const Carousel: React.FC<CarouselProps> = ({
       >
         {children}
       </SlickStyled>
-      {arrowsContainer === undefined ? arrows : null}
+      {arrowsContainer === undefined ? (
+        <div role="group" aria-label={arrowGroupLabel}>
+          {arrows}
+        </div>
+      ) : null}
       {arrowsContainer ? createPortal(arrows, arrowsContainer) : null}
     </>
   )
 }
 
-export { Carousel }
+export { Carousel, onReInitSlickA11y }
 export type { CarouselProps }

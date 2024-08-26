@@ -130,7 +130,7 @@ const LearningResourceListCardCondensed: React.FC<
             aria-label="Add to Learning Path"
             onClick={(event) => onAddToLearningPathClick(event, resource.id)}
           >
-            <RiMenuAddLine />
+            <RiMenuAddLine aria-hidden />
           </CardActionButton>
         )}
         {onAddToUserListClick && (
@@ -139,7 +139,11 @@ const LearningResourceListCardCondensed: React.FC<
             aria-label="Add to User List"
             onClick={(event) => onAddToUserListClick(event, resource.id)}
           >
-            {inUserList ? <RiBookmarkFill /> : <RiBookmarkLine />}
+            {inUserList ? (
+              <RiBookmarkFill aria-hidden />
+            ) : (
+              <RiBookmarkLine aria-hidden />
+            )}
           </CardActionButton>
         )}
         {editMenu}

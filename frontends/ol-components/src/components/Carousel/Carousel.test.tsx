@@ -35,11 +35,67 @@ const mockWidths = ({
     })
 }
 
+const getAllSlides = () => {
+  return document.querySelectorAll(".slick-slide")
+}
 const getVisibleSlides = () => {
   return document.querySelectorAll('.slick-slide:not([aria-hidden="true"])')
 }
+const getHiddenSlides = () => {
+  return document.querySelectorAll('.slick-slide[aria-hidden="true"]')
+}
 const getCurrentSlide = () => {
   return document.querySelector(".slick-slide.slick-current")
+}
+const getNextButton = () => {
+  return screen.getByRole<HTMLButtonElement>("button", {
+    name: "Show next slides",
+  })
+}
+const getPrevButton = () => {
+  return screen.getByRole<HTMLButtonElement>("button", {
+    name: "Show previous slides",
+  })
+}
+
+const assertAccessible = ({
+  visible,
+  hidden,
+}: {
+  visible: number
+  hidden: number
+}) => {
+  const all = getAllSlides()
+  const visibleSlides = getVisibleSlides()
+  const hiddenSlides = getHiddenSlides()
+  // sanity
+  expect(all.length).toBe(visibleSlides.length + hiddenSlides.length)
+  expect(visibleSlides.length).toBe(visible)
+  expect(hiddenSlides.length).toBe(hidden)
+
+  // All slides should have role group and aria-label
+  all.forEach((slide, index) => {
+    expect(slide.getAttribute("role")).toBe("group")
+    expect(slide.getAttribute("aria-label")).toBe(
+      `${index + 1} of ${all.length}`,
+    )
+  })
+  // interactive elements in visible slides should be reachable
+  visibleSlides.forEach((slide) => {
+    const interactive = slide.querySelectorAll("a, button")
+    expect(interactive.length).toBe(2)
+    interactive.forEach((el) => {
+      expect(el.getAttribute("tabindex")).toBeNull()
+    })
+  })
+  // interactive elements in hidden slides should not be reachable
+  hiddenSlides.forEach((slide) => {
+    const interactive = slide.querySelectorAll("a, button")
+    expect(interactive.length).toBe(2)
+    interactive.forEach((el) => {
+      expect(el.getAttribute("tabindex")).toBe("-1")
+    })
+  })
 }
 
 describe("Carousel", () => {
@@ -52,7 +108,11 @@ describe("Carousel", () => {
     render(
       <Carousel>
         {Array.from({ length: 10 }).map((_, i) => (
-          <div key={i}>Slide {i}</div>
+          <div key={i}>
+            Slide {i}
+            <a href="fake-site">Fake site</a>
+            <button onClick={jest.fn()}>Some Button</button>
+          </div>
         ))}
       </Carousel>,
       { wrapper: ThemeProvider },
@@ -63,18 +123,22 @@ describe("Carousel", () => {
     mockWidths({ slide, gap, list: fits3 - 10 })
     fireEvent(window, new Event("resize"))
     await waitFor(() => expect(getVisibleSlides()).toHaveLength(2))
+    assertAccessible({ visible: 2, hidden: 8 })
 
     mockWidths({ slide, gap, list: fits3 + 50 })
     fireEvent(window, new Event("resize"))
     await waitFor(() => expect(getVisibleSlides()).toHaveLength(3))
+    assertAccessible({ visible: 3, hidden: 7 })
 
     mockWidths({ slide, gap, list: fits3 + 170 })
     fireEvent(window, new Event("resize"))
     await waitFor(() => expect(getVisibleSlides()).toHaveLength(4))
+    assertAccessible({ visible: 4, hidden: 6 })
 
     mockWidths({ slide, gap, list: fits3 + 3 * 170 - 10 })
     fireEvent(window, new Event("resize"))
     await waitFor(() => expect(getVisibleSlides()).toHaveLength(5))
+    assertAccessible({ visible: 5, hidden: 5 })
   })
 
   test.each([
@@ -97,9 +161,7 @@ describe("Carousel", () => {
         { wrapper: ThemeProvider },
       )
 
-      const next = screen.getByRole<HTMLButtonElement>("button", {
-        name: "Next",
-      })
+      const next = getNextButton()
       await user.click(next)
       expect(getCurrentSlide()).toHaveTextContent(`Slide ${finalIndex}`)
       expect(!!next.disabled).toBe(nextDisabled)
@@ -126,9 +188,7 @@ describe("Carousel", () => {
         { wrapper: ThemeProvider },
       )
 
-      const prev = screen.getByRole<HTMLButtonElement>("button", {
-        name: "Previous",
-      })
+      const prev = getPrevButton()
       await user.click(prev)
       expect(getCurrentSlide()).toHaveTextContent(`Slide ${finalIndex}`)
       expect(!!prev.disabled).toBe(prevDisabled)
@@ -153,8 +213,8 @@ describe("Carousel", () => {
       wrapper: ThemeProvider,
     })
     const container = screen.getByTestId("arrows-container")
-    const next = screen.getByRole("button", { name: "Next" })
-    const prev = screen.getByRole("button", { name: "Previous" })
+    const next = getNextButton()
+    const prev = getPrevButton()
     expect(container.contains(next)).toBe(true)
     expect(container.contains(prev)).toBe(true)
   })
