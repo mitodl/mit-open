@@ -111,8 +111,8 @@ There are times where you will want a live and shareable environment (validating
 
 When new environment variables are introduced to the main application, the codespace config should be updated as well:
 
-- Environment variables that are required for the app to build/function belong in https://github.com/mitodl/mit-open/blob/main/env/codespaces.env with some default value (developers can later override these as needed)
-- Optional "suggested" variables should go in https://github.com/mitodl/mit-open/blob/main/.devcontainer/devcontainer.json
+- Environment variables that are required for the app to build/function belong in [codespaces.env](https://github.com/mitodl/mit-open/blob/main/env/codespaces.env) with some default value (developers can later override these as needed)
+- Optional "suggested" variables should go in [devcontainer.json](https://github.com/mitodl/mit-open/blob/main/.devcontainer/devcontainer.json)
 
 At a bare minimum, a codespace should be able to build and run without requiring any configuration
 
