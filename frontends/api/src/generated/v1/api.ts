@@ -10771,7 +10771,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {LearningResourceRelationshipRequest} LearningResourceRelationshipRequest
      * @param {Array<number>} [learning_path_id] id of the parent learning path
@@ -10780,15 +10779,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesRelationshipsCreate: async (
-      id: number,
       learning_resource_id: number,
       LearningResourceRelationshipRequest: LearningResourceRelationshipRequest,
       learning_path_id?: Array<number>,
       userlist_id?: Array<number>,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningResourcesRelationshipsCreate", "id", id)
       // verify required parameter 'learning_resource_id' is not null or undefined
       assertParamExists(
         "learningResourcesRelationshipsCreate",
@@ -10802,12 +10798,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
         LearningResourceRelationshipRequest,
       )
       const localVarPath =
-        `/api/v1/learning_resources/{learning_resource_id}/relationships/`
-          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-          .replace(
-            `{${"learning_resource_id"}}`,
-            encodeURIComponent(String(learning_resource_id)),
-          )
+        `/api/v1/learning_resources/{learning_resource_id}/relationships/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -10854,7 +10848,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
+     * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -10922,7 +10916,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -10930,14 +10923,11 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesRelationshipsList: async (
-      id: number,
       learning_resource_id: number,
       learning_path_id?: Array<number>,
       userlist_id?: Array<number>,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists("learningResourcesRelationshipsList", "id", id)
       // verify required parameter 'learning_resource_id' is not null or undefined
       assertParamExists(
         "learningResourcesRelationshipsList",
@@ -10945,12 +10935,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
         learning_resource_id,
       )
       const localVarPath =
-        `/api/v1/learning_resources/{learning_resource_id}/relationships/`
-          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-          .replace(
-            `{${"learning_resource_id"}}`,
-            encodeURIComponent(String(learning_resource_id)),
-          )
+        `/api/v1/learning_resources/{learning_resource_id}/relationships/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -10990,7 +10978,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
+     * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11067,7 +11055,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
+     * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11135,7 +11123,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
     },
     /**
      * Set Learning Path relationships for a given Learning Resource
-     * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11145,19 +11132,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
      */
     learningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate:
       async (
-        id: number,
         learning_resource_id: number,
         learning_path_id?: Array<number>,
         userlist_id?: Array<number>,
         PatchedLearningResourceRelationshipRequest?: PatchedLearningResourceRelationshipRequest,
         options: RawAxiosRequestConfig = {},
       ): Promise<RequestArgs> => {
-        // verify required parameter 'id' is not null or undefined
-        assertParamExists(
-          "learningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate",
-          "id",
-          id,
-        )
         // verify required parameter 'learning_resource_id' is not null or undefined
         assertParamExists(
           "learningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate",
@@ -11165,12 +11145,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
           learning_resource_id,
         )
         const localVarPath =
-          `/api/v1/learning_resources/{learning_resource_id}/relationships/set_learning_path_relationships/`
-            .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-            .replace(
-              `{${"learning_resource_id"}}`,
-              encodeURIComponent(String(learning_resource_id)),
-            )
+          `/api/v1/learning_resources/{learning_resource_id}/relationships/set_learning_path_relationships/`.replace(
+            `{${"learning_resource_id"}}`,
+            encodeURIComponent(String(learning_resource_id)),
+          )
         // use dummy base URL string because the URL constructor only accepts absolute URLs.
         const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
         let baseOptions
@@ -11218,7 +11196,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
     /**
      * Set List Relationships on a given Learning Resource.
      * @summary Set List Relationships
-     * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11227,19 +11204,12 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @throws {RequiredError}
      */
     learningResourcesRelationshipsSetUserListRelationshipsPartialUpdate: async (
-      id: number,
       learning_resource_id: number,
       learning_path_id?: Array<number>,
       userlist_id?: Array<number>,
       PatchedLearningResourceRelationshipRequest?: PatchedLearningResourceRelationshipRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
-      // verify required parameter 'id' is not null or undefined
-      assertParamExists(
-        "learningResourcesRelationshipsSetUserListRelationshipsPartialUpdate",
-        "id",
-        id,
-      )
       // verify required parameter 'learning_resource_id' is not null or undefined
       assertParamExists(
         "learningResourcesRelationshipsSetUserListRelationshipsPartialUpdate",
@@ -11247,12 +11217,10 @@ export const LearningResourcesApiAxiosParamCreator = function (
         learning_resource_id,
       )
       const localVarPath =
-        `/api/v1/learning_resources/{learning_resource_id}/relationships/set_user_list_relationships/`
-          .replace(`{${"id"}}`, encodeURIComponent(String(id)))
-          .replace(
-            `{${"learning_resource_id"}}`,
-            encodeURIComponent(String(learning_resource_id)),
-          )
+        `/api/v1/learning_resources/{learning_resource_id}/relationships/set_user_list_relationships/`.replace(
+          `{${"learning_resource_id"}}`,
+          encodeURIComponent(String(learning_resource_id)),
+        )
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -11299,7 +11267,7 @@ export const LearningResourcesApiAxiosParamCreator = function (
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
+     * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {LearningResourceRelationshipRequest} LearningResourceRelationshipRequest
      * @param {Array<number>} [learning_path_id] id of the parent learning path
@@ -11690,7 +11658,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {LearningResourceRelationshipRequest} LearningResourceRelationshipRequest
      * @param {Array<number>} [learning_path_id] id of the parent learning path
@@ -11699,7 +11666,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesRelationshipsCreate(
-      id: number,
       learning_resource_id: number,
       LearningResourceRelationshipRequest: LearningResourceRelationshipRequest,
       learning_path_id?: Array<number>,
@@ -11713,7 +11679,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesRelationshipsCreate(
-          id,
           learning_resource_id,
           LearningResourceRelationshipRequest,
           learning_path_id,
@@ -11735,7 +11700,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
+     * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11774,7 +11739,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11782,7 +11746,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesRelationshipsList(
-      id: number,
       learning_resource_id: number,
       learning_path_id?: Array<number>,
       userlist_id?: Array<number>,
@@ -11795,7 +11758,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesRelationshipsList(
-          id,
           learning_resource_id,
           learning_path_id,
           userlist_id,
@@ -11816,7 +11778,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
+     * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11861,7 +11823,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
+     * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11903,7 +11865,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Set Learning Path relationships for a given Learning Resource
-     * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11912,7 +11873,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate(
-      id: number,
       learning_resource_id: number,
       learning_path_id?: Array<number>,
       userlist_id?: Array<number>,
@@ -11926,7 +11886,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate(
-          id,
           learning_resource_id,
           learning_path_id,
           userlist_id,
@@ -11949,7 +11908,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     /**
      * Set List Relationships on a given Learning Resource.
      * @summary Set List Relationships
-     * @param {number} id id of a relationship
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11958,7 +11916,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async learningResourcesRelationshipsSetUserListRelationshipsPartialUpdate(
-      id: number,
       learning_resource_id: number,
       learning_path_id?: Array<number>,
       userlist_id?: Array<number>,
@@ -11972,7 +11929,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     > {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesRelationshipsSetUserListRelationshipsPartialUpdate(
-          id,
           learning_resource_id,
           learning_path_id,
           userlist_id,
@@ -11994,7 +11950,7 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     },
     /**
      * Viewset for managing relationships between Learning Resources and User Lists / Learning Paths
-     * @param {number} id id of a relationship
+     * @param {number} id A unique integer value identifying this learning resource relationship.
      * @param {number} learning_resource_id id of the parent learning resource
      * @param {LearningResourceRelationshipRequest} LearningResourceRelationshipRequest
      * @param {Array<number>} [learning_path_id] id of the parent learning path
@@ -12212,7 +12168,6 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<LearningResourceRelationship> {
       return localVarFp
         .learningResourcesRelationshipsCreate(
-          requestParameters.id,
           requestParameters.learning_resource_id,
           requestParameters.LearningResourceRelationshipRequest,
           requestParameters.learning_path_id,
@@ -12253,7 +12208,6 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<Array<LearningResourceRelationship>> {
       return localVarFp
         .learningResourcesRelationshipsList(
-          requestParameters.id,
           requestParameters.learning_resource_id,
           requestParameters.learning_path_id,
           requestParameters.userlist_id,
@@ -12314,7 +12268,6 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<LearningResourceRelationship> {
       return localVarFp
         .learningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate(
-          requestParameters.id,
           requestParameters.learning_resource_id,
           requestParameters.learning_path_id,
           requestParameters.userlist_id,
@@ -12336,7 +12289,6 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<LearningResourceRelationship> {
       return localVarFp
         .learningResourcesRelationshipsSetUserListRelationshipsPartialUpdate(
-          requestParameters.id,
           requestParameters.learning_resource_id,
           requestParameters.learning_path_id,
           requestParameters.userlist_id,
@@ -12657,13 +12609,6 @@ export interface LearningResourcesApiLearningResourcesListRequest {
  */
 export interface LearningResourcesApiLearningResourcesRelationshipsCreateRequest {
   /**
-   * id of a relationship
-   * @type {number}
-   * @memberof LearningResourcesApiLearningResourcesRelationshipsCreate
-   */
-  readonly id: number
-
-  /**
    * id of the parent learning resource
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesRelationshipsCreate
@@ -12699,7 +12644,7 @@ export interface LearningResourcesApiLearningResourcesRelationshipsCreateRequest
  */
 export interface LearningResourcesApiLearningResourcesRelationshipsDestroyRequest {
   /**
-   * id of a relationship
+   * A unique integer value identifying this learning resource relationship.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesRelationshipsDestroy
    */
@@ -12734,13 +12679,6 @@ export interface LearningResourcesApiLearningResourcesRelationshipsDestroyReques
  */
 export interface LearningResourcesApiLearningResourcesRelationshipsListRequest {
   /**
-   * id of a relationship
-   * @type {number}
-   * @memberof LearningResourcesApiLearningResourcesRelationshipsList
-   */
-  readonly id: number
-
-  /**
    * id of the parent learning resource
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesRelationshipsList
@@ -12769,7 +12707,7 @@ export interface LearningResourcesApiLearningResourcesRelationshipsListRequest {
  */
 export interface LearningResourcesApiLearningResourcesRelationshipsPartialUpdateRequest {
   /**
-   * id of a relationship
+   * A unique integer value identifying this learning resource relationship.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesRelationshipsPartialUpdate
    */
@@ -12811,7 +12749,7 @@ export interface LearningResourcesApiLearningResourcesRelationshipsPartialUpdate
  */
 export interface LearningResourcesApiLearningResourcesRelationshipsRetrieveRequest {
   /**
-   * id of a relationship
+   * A unique integer value identifying this learning resource relationship.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesRelationshipsRetrieve
    */
@@ -12845,13 +12783,6 @@ export interface LearningResourcesApiLearningResourcesRelationshipsRetrieveReque
  * @interface LearningResourcesApiLearningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdateRequest
  */
 export interface LearningResourcesApiLearningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdateRequest {
-  /**
-   * id of a relationship
-   * @type {number}
-   * @memberof LearningResourcesApiLearningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate
-   */
-  readonly id: number
-
   /**
    * id of the parent learning resource
    * @type {number}
@@ -12888,13 +12819,6 @@ export interface LearningResourcesApiLearningResourcesRelationshipsSetLearningPa
  */
 export interface LearningResourcesApiLearningResourcesRelationshipsSetUserListRelationshipsPartialUpdateRequest {
   /**
-   * id of a relationship
-   * @type {number}
-   * @memberof LearningResourcesApiLearningResourcesRelationshipsSetUserListRelationshipsPartialUpdate
-   */
-  readonly id: number
-
-  /**
    * id of the parent learning resource
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesRelationshipsSetUserListRelationshipsPartialUpdate
@@ -12930,7 +12854,7 @@ export interface LearningResourcesApiLearningResourcesRelationshipsSetUserListRe
  */
 export interface LearningResourcesApiLearningResourcesRelationshipsUpdateRequest {
   /**
-   * id of a relationship
+   * A unique integer value identifying this learning resource relationship.
    * @type {number}
    * @memberof LearningResourcesApiLearningResourcesRelationshipsUpdate
    */
@@ -13127,7 +13051,6 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesRelationshipsCreate(
-        requestParameters.id,
         requestParameters.learning_resource_id,
         requestParameters.LearningResourceRelationshipRequest,
         requestParameters.learning_path_id,
@@ -13172,7 +13095,6 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesRelationshipsList(
-        requestParameters.id,
         requestParameters.learning_resource_id,
         requestParameters.learning_path_id,
         requestParameters.userlist_id,
@@ -13239,7 +13161,6 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate(
-        requestParameters.id,
         requestParameters.learning_resource_id,
         requestParameters.learning_path_id,
         requestParameters.userlist_id,
@@ -13263,7 +13184,6 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesRelationshipsSetUserListRelationshipsPartialUpdate(
-        requestParameters.id,
         requestParameters.learning_resource_id,
         requestParameters.learning_path_id,
         requestParameters.userlist_id,
