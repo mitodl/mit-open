@@ -50,7 +50,7 @@ const departmentChannel: PartialFactory<DepartmentChannel> = (
     { channel_type: ChannelTypeEnum.Department },
     {
       configuration: {
-        banner_background: "/static/images/unit_banners/mitpe.jpg",
+        banner_background: "/images/unit_banners/mitpe.jpg",
         heading: "test",
         logo: "/static/test.svg",
         name: "test",
@@ -73,7 +73,7 @@ const topicChannel: PartialFactory<TopicChannel> = (overrides = {}) => {
     { channel_type: ChannelTypeEnum.Topic },
     {
       configuration: {
-        banner_background: "/static/images/unit_banners/mitpe.jpg",
+        banner_background: "/images/unit_banners/mitpe.jpg",
         heading: "test",
         logo: "/static/test.svg",
         name: "test",
@@ -96,7 +96,7 @@ const unitChannel: PartialFactory<UnitChannel> = (overrides = {}) => {
     { channel_type: ChannelTypeEnum.Unit },
     {
       configuration: {
-        banner_background: "/static/images/unit_banners/mitpe.jpg",
+        banner_background: "/images/unit_banners/mitpe.jpg",
         heading: "test",
         logo: "/static/test.svg",
         name: "test",
