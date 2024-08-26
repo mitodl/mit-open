@@ -193,6 +193,7 @@ export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/TruncateText/TruncateText"
 export * from "./components/Radio/Radio"
 export * from "./components/RadioChoiceField/RadioChoiceField"
+export * from "./components/VisuallyHidden/VisuallyHidden"
 
 export * from "./constants/imgConfigs"
 
