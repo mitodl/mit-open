@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.16.0"
+VERSION = "0.17.7"
 
 log = logging.getLogger()
 
@@ -165,13 +165,15 @@ SECURE_CROSS_ORIGIN_OPENER_POLICY = get_string(
 )
 
 CSRF_COOKIE_SECURE = get_bool("CSRF_COOKIE_SECURE", True)  # noqa: FBT003
-SESSION_COOKIE_DOMAIN = get_string("SESSION_COOKIE_DOMAIN", None)
 CSRF_COOKIE_DOMAIN = get_string("CSRF_COOKIE_DOMAIN", None)
+CSRF_COOKIE_NAME = get_string("CSRF_COOKIE_NAME", "csrftoken")
 
 CSRF_HEADER_NAME = get_string("CSRF_HEADER_NAME", "HTTP_X_CSRFTOKEN")
 
-
 CSRF_TRUSTED_ORIGINS = get_list_of_str("CSRF_TRUSTED_ORIGINS", [])
+
+SESSION_COOKIE_DOMAIN = get_string("SESSION_COOKIE_DOMAIN", None)
+SESSION_COOKIE_NAME = get_string("SESSION_COOKIE_NAME", "sessionid")
 
 # enable the nplusone profiler only in debug mode
 if DEBUG:
@@ -719,7 +721,7 @@ POSTHOG_PROJECT_ID = get_int(
     default=None,
 )
 
-SILKY_INTERCEPT_PERCENT = get_int(name="SILKY_INTERCEPT_PERCENT", default=50)
+SILKY_INTERCEPT_PERCENT = get_int(name="SILKY_INTERCEPT_PERCENT", default=0)
 SILKY_MAX_RECORDED_REQUESTS = get_int(name="SILKY_MAX_RECORDED_REQUESTS", default=10**3)
 SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT = get_int(
     name="SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT", default=10

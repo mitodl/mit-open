@@ -426,29 +426,37 @@ def transform_content_files(
             if not existing_content or existing_content.checksum != metadata.get(
                 "checksum"
             ):
-                tika_output = extract_text_metadata(
-                    document,
-                    other_headers={"Content-Type": mime_type} if mime_type else {},
-                )
+                if settings.SKIP_TIKA and settings.ENVIRONMENT != "production":
+                    content_dict = {
+                        "content": "",
+                        "content_title": "",
+                        "content_author": "",
+                        "content_language": "",
+                    }
+                else:
+                    tika_output = extract_text_metadata(
+                        document,
+                        other_headers={"Content-Type": mime_type} if mime_type else {},
+                    )
 
-                if tika_output is None:
-                    log.info("No tika response for %s", key)
-                    continue
+                    if tika_output is None:
+                        log.info("No tika response for %s", key)
+                        continue
 
-                tika_content = tika_output.get("content") or ""
-                tika_metadata = tika_output.get("metadata") or {}
-                content_dict = {
-                    "content": tika_content.strip(),
-                    "content_title": (
-                        metadata.get("title") or tika_metadata.get("title") or ""
-                    )[: get_max_contentfile_length("content_title")],
-                    "content_author": (tika_metadata.get("Author") or "")[
-                        : get_max_contentfile_length("content_author")
-                    ],
-                    "content_language": (tika_metadata.get("language") or "")[
-                        : get_max_contentfile_length("content_language")
-                    ],
-                }
+                    tika_content = tika_output.get("content") or ""
+                    tika_metadata = tika_output.get("metadata") or {}
+                    content_dict = {
+                        "content": tika_content.strip(),
+                        "content_title": (
+                            metadata.get("title") or tika_metadata.get("title") or ""
+                        )[: get_max_contentfile_length("content_title")],
+                        "content_author": (tika_metadata.get("Author") or "")[
+                            : get_max_contentfile_length("content_author")
+                        ],
+                        "content_language": (tika_metadata.get("language") or "")[
+                            : get_max_contentfile_length("content_language")
+                        ],
+                    }
             else:
                 content_dict = {
                     "content": existing_content.content,

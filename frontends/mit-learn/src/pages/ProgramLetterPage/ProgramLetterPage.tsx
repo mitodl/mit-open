@@ -120,7 +120,10 @@ const ProgramLetterPage: React.FC = () => {
           />
         </div>
         <div className="letter-logo">
-          <img src={templateFields?.program_letter_logo?.meta?.download_url} />
+          <img
+            src={templateFields?.program_letter_logo?.meta?.download_url}
+            alt=""
+          />
         </div>
       </ProgramLetterHeader>
       <div className="letter-content">
@@ -134,7 +137,10 @@ const ProgramLetterPage: React.FC = () => {
           {templateFields?.program_letter_signatories?.map((signatory) => (
             <div key={signatory.id} className="signatory">
               <div className="sig-image">
-                <img src={signatory.signature_image?.meta?.download_url} />
+                <img
+                  src={signatory.signature_image?.meta?.download_url}
+                  alt="Signature"
+                />
               </div>
               <div className="name">
                 {signatory.name},{signatory.title_line_1}
@@ -153,6 +159,7 @@ const ProgramLetterPage: React.FC = () => {
           {templateFields?.program_letter_footer ? (
             <img
               src={templateFields.program_letter_footer?.meta?.download_url}
+              alt=""
             />
           ) : (
             <p>MITx MicroMasters program in {templateFields?.title}</p>

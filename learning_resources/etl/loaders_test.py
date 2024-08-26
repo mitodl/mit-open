@@ -50,6 +50,7 @@ from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
+    LearningResourceDepartmentFactory,
     LearningResourceFactory,
     LearningResourceInstructorFactory,
     LearningResourceOfferorFactory,
@@ -301,7 +302,8 @@ def test_load_program_bad_platform(mocker):
 @pytest.mark.parametrize("blocklisted", [True, False])
 @pytest.mark.parametrize("resource_format", [LearningResourceFormat.hybrid.name, None])
 @pytest.mark.parametrize("has_upcoming_run", [True, False])
-def test_load_course(  # noqa: PLR0913
+@pytest.mark.parametrize("has_departments", [True, False])
+def test_load_course(  # noqa: PLR0913,PLR0912,PLR0915
     mock_upsert_tasks,
     course_exists,
     is_published,
@@ -309,6 +311,7 @@ def test_load_course(  # noqa: PLR0913
     blocklisted,
     resource_format,
     has_upcoming_run,
+    has_departments,
 ):
     """Test that load_course loads the course"""
     platform = LearningResourcePlatformFactory.create()
@@ -349,7 +352,11 @@ def test_load_course(  # noqa: PLR0913
             start_date=old_start_date,
         )
     assert Course.objects.count() == (1 if course_exists else 0)
-
+    if has_departments:
+        department = LearningResourceDepartmentFactory.create()
+        departments = [department.department_id]
+    else:
+        departments = []
     format_data = {"learning_format": [resource_format]} if resource_format else {}
     props = {
         "readable_id": learning_resource.readable_id,
@@ -360,6 +367,7 @@ def test_load_course(  # noqa: PLR0913
         "description": learning_resource.description,
         "url": learning_resource.url,
         "published": is_published,
+        "departments": departments,
         **format_data,
     }
 
@@ -434,6 +442,12 @@ def test_load_course(  # noqa: PLR0913
             else LearningResourceFormat.online.name
         ]
     )
+
+    if departments == []:
+        assert result.departments.count() == 0
+    else:
+        assert result.departments.count() == 1
+        assert result.departments.first().department_id == departments[0]
 
     props.pop("learning_format")
     for key, value in props.items():
@@ -843,12 +857,21 @@ def test_load_programs(mocker, mock_blocklist, mock_duplicates):
 
 
 @pytest.mark.parametrize("is_published", [True, False])
-def test_load_content_files(mocker, is_published):
+@pytest.mark.parametrize("extra_run", [True, False])
+def test_load_content_files(mocker, is_published, extra_run):
     """Test that load_content_files calls the expected functions"""
-    course = CourseFactory.create()
+    course = LearningResourceFactory.create(is_course=True, create_runs=False)
     course_run = LearningResourceRunFactory.create(
-        published=is_published, learning_resource=course.learning_resource
+        published=is_published, learning_resource=course
     )
+    if extra_run:
+        LearningResourceRunFactory.create(
+            published=is_published,
+            learning_resource=course,
+            start_date=now_in_utc() - timedelta(days=365),
+        )
+    run_count = 2 if extra_run else 1
+    assert course.runs.count() == run_count
 
     returned_content_file_id = 1
 
@@ -859,16 +882,18 @@ def test_load_content_files(mocker, is_published):
         autospec=True,
     )
     mock_bulk_index = mocker.patch(
-        "learning_resources.etl.loaders.resource_run_upserted_actions",
+        "learning_resources_search.plugins.tasks.index_run_content_files",
     )
     mock_bulk_delete = mocker.patch(
-        "learning_resources.etl.loaders.resource_run_unpublished_actions",
+        "learning_resources_search.plugins.tasks.deindex_run_content_files",
         autospec=True,
     )
     load_content_files(course_run, content_data)
     assert mock_load_content_file.call_count == len(content_data)
     assert mock_bulk_index.call_count == (1 if is_published else 0)
-    assert mock_bulk_delete.call_count == (0 if is_published else 1)
+    assert mock_bulk_delete.call_count == (
+        run_count if not is_published else run_count - 1
+    )
 
 
 def test_load_content_file():

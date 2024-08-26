@@ -77,7 +77,7 @@ const TopicBoxHeader = styled(
     },
   },
   ".view-topic": [
-    linkStyles({ theme, size: "medium" }),
+    linkStyles({ size: "medium" }),
     {
       color: theme.custom.colors.darkGray1,
       marginLeft: "16px",

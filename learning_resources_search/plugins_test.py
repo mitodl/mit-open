@@ -88,15 +88,6 @@ def test_search_index_plugin_resource_before_delete(
 
 
 @pytest.mark.django_db()
-def test_search_index_plugin_resource_run_upserted(mock_search_index_helpers):
-    """The plugin function should upsert a run's contenfiles to the search index"""
-
-    run = LearningResourceRunFactory.create()
-    SearchIndexPlugin().resource_run_upserted(run)
-    mock_search_index_helpers.mock_upsert_contentfiles.assert_called_once_with(run.id)
-
-
-@pytest.mark.django_db()
 def test_search_index_plugin_resource_run_unpublished(mock_search_index_helpers):
     """The plugin function should remove a run's contenfiles from the search index"""
     run = LearningResourceRunFactory.create()

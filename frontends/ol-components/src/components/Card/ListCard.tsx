@@ -232,6 +232,8 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
           </Bottom>
         </Body>
         {imageProps && (
+          // alt text will be checked on ListCard.Image
+          // eslint-disable-next-line styled-components-a11y/alt-text
           <Image {...(imageProps as ImageProps)} />
         )}
       </_Container>

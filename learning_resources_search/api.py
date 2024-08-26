@@ -231,14 +231,6 @@ def generate_learning_resources_text_clause(text):
                     }
                 },
                 {
-                    "wildcard": {
-                        "readable_id": {
-                            "value": f"{text.upper()}*",
-                            "rewrite": "constant_score",
-                        }
-                    }
-                },
-                {
                     "nested": {
                         "path": "course.course_numbers",
                         "query": {

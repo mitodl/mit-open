@@ -42,6 +42,7 @@ const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
 const HomePage: React.FC = () => {
   return (
     <>
+       {/* TODO <MetaTags title="Learn With MIT" /> */}
       <LearningResourceDrawer />
       <FullWidthBackground>
         <Container>

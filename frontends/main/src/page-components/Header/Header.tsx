@@ -36,7 +36,14 @@ import {
   RESOURCE_DRAWER_QUERY_PARAM,
   SEARCH,
   UNITS,
-  querifiedSearchUrl,
+  SEARCH_NEW,
+  SEARCH_UPCOMING,
+  SEARCH_POPULAR,
+  SEARCH_FREE,
+  SEARCH_CERTIFICATE,
+  SEARCH_COURSE,
+  SEARCH_PROGRAM,
+  SEARCH_LEARNING_MATERIAL,
 } from "@/common/urls"
 import { useSearchParams } from "next/navigation"
 import { useUserMe } from "api/hooks/user"
@@ -123,7 +130,8 @@ const SearchButton: FunctionComponent = () => {
       edge="circular"
       variant="text"
       reloadDocument={true}
-      href={SEARCH || ""}
+      href={SEARCH}
+      aria-label="Search"
     >
       <StyledSearchIcon />
     </ActionButtonLink>
@@ -174,14 +182,14 @@ const navData: NavData = {
           icon: <RiPencilRulerLine />,
           description:
             "Single courses on a specific subject, taught by MIT instructors",
-          href: querifiedSearchUrl({ resource_category: "course" }),
+          href: SEARCH_COURSE,
         },
         {
           title: "Programs",
           icon: <RiStackLine />,
           description:
             "A series of courses for in-depth learning across a range of topics",
-          href: querifiedSearchUrl({ resource_category: "program" }),
+          href: SEARCH_PROGRAM,
         },
         {
           title: "Pathways",
@@ -194,7 +202,7 @@ const navData: NavData = {
           icon: <RiBookMarkedLine />,
           description:
             "Free learning and teaching materials, including videos, podcasts, lecture notes, and more",
-          href: querifiedSearchUrl({ resource_category: "learning_material" }),
+          href: SEARCH_LEARNING_MATERIAL,
         },
       ],
     },
@@ -224,27 +232,27 @@ const navData: NavData = {
         {
           title: "New",
           icon: <RiFileAddLine />,
-          href: querifiedSearchUrl({ sortby: "new" }),
+          href: SEARCH_NEW,
         },
         {
           title: "Upcoming",
           icon: <RiTimeLine />,
-          href: querifiedSearchUrl({ sortby: "upcoming" }),
+          href: SEARCH_UPCOMING,
         },
         {
           title: "Popular",
-          href: querifiedSearchUrl({ sortby: "-views" }),
+          href: SEARCH_POPULAR,
           icon: <RiHeartLine />,
         },
         {
           title: "Free",
           icon: <RiPriceTag3Line />,
-          href: querifiedSearchUrl({ free: "true" }),
+          href: SEARCH_FREE,
         },
         {
           title: "With Certificate",
           icon: <RiAwardLine />,
-          href: querifiedSearchUrl({ certification: "true" }),
+          href: SEARCH_CERTIFICATE,
         },
       ],
     },

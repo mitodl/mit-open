@@ -10,14 +10,16 @@ import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 jest.mock("react-router-dom", () => {
   return {
     Link: React.forwardRef<HTMLAnchorElement, LinkProps>(
-      jest.fn((props, ref) => {
+      jest.fn(({ children, ...props }, ref) => {
         return (
           <a
             {...props}
             ref={ref}
             data-prop-to={props.to}
             data-react-component="react-router-dom-link"
-          />
+          >
+            {children}
+          </a>
         )
       }),
     ),
@@ -126,11 +128,16 @@ describe("SimpleMenu", () => {
   })
 
   it("Renders link with custom LinkComponent if specified", async () => {
-    const LinkComponent = React.forwardRef<HTMLAnchorElement, { href: string }>(
-      (props, ref) => {
-        return <a {...props} ref={ref} data-react-component="custom-link" />
-      },
-    )
+    const LinkComponent = React.forwardRef<
+      HTMLAnchorElement,
+      { href: string; children: React.ReactNode }
+    >(({ children, href }, ref) => {
+      return (
+        <a href={href} ref={ref} data-react-component="custom-link">
+          {children}
+        </a>
+      )
+    })
     const items: SimpleMenuItem[] = [
       { key: "one", label: "Item 1", onClick: jest.fn() },
       { key: "two", label: "Item 2", href: "./woof", LinkComponent },
@@ -140,7 +147,7 @@ describe("SimpleMenu", () => {
       wrapper: ThemeProvider,
     })
     await user.click(screen.getByRole("button", { name: "Open Menu" }))
-    const item2 = screen.getByRole("menuitem", { name: "Item 2" })
+    const item2 = screen.getByRole("link", { name: "Item 2" })
     expect(item2.dataset.reactComponent).toBe("custom-link")
     expect((item2 as HTMLAnchorElement).href).toBe(`${window.origin}/woof`)
   })

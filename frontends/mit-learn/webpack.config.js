@@ -39,6 +39,9 @@ const {
   EMBEDLY_KEY,
   CKEDITOR_UPLOAD_URL,
   SENTRY_DSN,
+  SENTRY_ENV,
+  CSRF_COOKIE_NAME,
+  APPZI_URL,
 } = cleanEnv(process.env, {
   NODE_ENV: str({
     choices: ["development", "production", "test"],
@@ -95,6 +98,15 @@ const {
   }),
   SENTRY_DSN: str({
     desc: "Sentry Data Source Name",
+    default: "",
+  }),
+  CSRF_COOKIE_NAME: str({
+    desc: "Name of the CSRF cookie",
+    default: "csrftoken",
+  }),
+  APPZI_URL: str({
+    // use str() not url() to allow empty string
+    desc: "URL for the Appzi feedback widget",
     default: "",
   }),
 })
@@ -183,6 +195,9 @@ module.exports = (env, argv) => {
     plugins: [
       new HtmlWebpackPlugin({
         template: "public/index.html",
+        templateParameters: {
+          APPZI_URL,
+        },
       }),
       new CopyPlugin({
         patterns: [
@@ -217,10 +232,12 @@ module.exports = (env, argv) => {
           CKEDITOR_UPLOAD_URL: JSON.stringify(CKEDITOR_UPLOAD_URL),
           VERSION: JSON.stringify(VERSION),
           SENTRY_DSN: JSON.stringify(SENTRY_DSN),
+          SENTRY_ENV: JSON.stringify(SENTRY_ENV),
           POSTHOG: getPostHogSettings(),
           SITE_NAME: JSON.stringify(SITE_NAME),
           MITOL_SUPPORT_EMAIL: JSON.stringify(MITOL_SUPPORT_EMAIL),
           PUBLIC_URL: JSON.stringify(PUBLIC_URL),
+          CSRF_COOKIE_NAME: JSON.stringify(CSRF_COOKIE_NAME),
         },
       }),
     ]

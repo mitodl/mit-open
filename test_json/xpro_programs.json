@@ -35,7 +35,8 @@
           }
         ],
         "platform": "xPRO",
-        "format": "Online"
+        "format": "Online",
+        "availability": "dated"
       },
       {
         "id": 20,
@@ -62,7 +63,8 @@
             "product_id": 13
           }
         ],
-        "next_run_id": 49
+        "next_run_id": 49,
+        "availability": "dated"
       },
       {
         "id": 19,
@@ -93,7 +95,8 @@
             "product_id": 12
           }
         ],
-        "next_run_id": 48
+        "next_run_id": 48,
+        "availability": "dated"
       },
       {
         "id": 21,
@@ -104,9 +107,11 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [],
-        "platform": "xPRO"
+        "platform": "xPRO",
+        "availability": "dated"
       }
-    ]
+    ],
+    "availability": "dated"
   },
   {
     "title": "SEED Digital Learning",
@@ -156,7 +161,8 @@
               }
             ],
             "id": 73,
-            "product_id": null
+            "product_id": null,
+            "availability": "dated"
           },
           {
             "title": "SEED Digital Learning 100 - August 2021",
@@ -177,7 +183,8 @@
             "product_id": null
           }
         ],
-        "next_run_id": 73
+        "next_run_id": 73,
+        "availability": "dated"
       },
       {
         "id": 31,
@@ -192,7 +199,8 @@
             "name": "Business:Leadership & Organizations"
           }
         ],
-        "platform": "xPRO"
+        "platform": "xPRO",
+        "availability": "dated"
       },
       {
         "id": 32,
@@ -203,8 +211,10 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [],
-        "platform": "xPRO"
+        "platform": "xPRO",
+        "availability": "dated"
       }
-    ]
+    ],
+    "availability": "dated"
   }
 ]

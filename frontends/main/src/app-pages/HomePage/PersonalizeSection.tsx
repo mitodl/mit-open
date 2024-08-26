@@ -100,7 +100,9 @@ const PersonalizeContent: React.FC = () => {
           {text}
         </Typography>
       </TextContainer>
-      <ButtonLink size="large" responsive {...linkProps} />
+      <ButtonLink size="large" responsive {...linkProps}>
+        {linkProps.children}
+      </ButtonLink>
     </ControlsContainer>
   )
 }

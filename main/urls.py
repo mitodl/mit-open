@@ -21,7 +21,7 @@ from django.urls import include, path, re_path
 from django.views.generic.base import RedirectView
 from rest_framework.routers import DefaultRouter
 
-from main.views import FeaturesViewSet, index
+from main.views import FeaturesViewSet
 
 # Post slugs can contain unicode characters, so a letter-matching pattern like [A-Za-z] doesn't work.  # noqa: E501
 # "[^\W]" Matches any character that is NOT a non-alphanumeric character, including underscores.  # noqa: E501
@@ -29,9 +29,9 @@ from main.views import FeaturesViewSet, index
 # as well, that character is added to the pattern via an alternation (|).
 POST_SLUG_PATTERN = "([^\\W]|-)+"
 
-handler400 = "main.views.handle_400"
-handler403 = "main.views.handle_403"
-handler404 = "main.views.handle_404"
+handler400 = "main.views.handle_error"
+handler403 = "main.views.handle_error"
+handler404 = "main.views.handle_error"
 
 features_router = DefaultRouter()
 features_router.register(r"_/features", FeaturesViewSet, basename="features")
@@ -53,20 +53,9 @@ urlpatterns = (
         re_path(r"", include("articles.urls")),
         re_path(r"", include("testimonials.urls")),
         re_path(r"", include("news_events.urls")),
-        # React App
-        re_path(r"^$", index, name="main-index"),
-        re_path(r"^privacy-statement/", index, name="privacy-statement"),
-        re_path(r"^search/", index, name="site-search"),
-        re_path(r"^departments/", index, name="departments"),
-        re_path(r"^learningpaths/", index, name="learningpaths"),
-        re_path(r"^userlists/", index, name="userlists"),
-        re_path(r"^articles/", index, name="articles"),
-        re_path(r"^dashboard/", index, name="dashboard"),
-        re_path(r"^program_letter/", index, name="programletter"),
-        re_path(r"^c/", index, name="channels"),
         re_path(r"", include(features_router.urls)),
-        re_path(r"^app", RedirectView.as_view(url=settings.APP_BASE_URL)),
         re_path(r"^silk/", include("silk.urls", namespace="silk")),
+        re_path(r"^app", RedirectView.as_view(url=settings.APP_BASE_URL)),
         # Hijack
         re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
     ]

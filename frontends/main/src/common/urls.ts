@@ -110,3 +110,29 @@ export const querifiedSearchUrl = (
     | Record<string, string>
     | undefined,
 ) => `${SEARCH}?${new URLSearchParams(params).toString()}`
+
+export const SEARCH_NEW = querifiedSearchUrl({ sortby: "new" })
+
+export const SEARCH_UPCOMING = querifiedSearchUrl({ sortby: "upcoming" })
+
+export const SEARCH_POPULAR = querifiedSearchUrl({ sortby: "-views" })
+
+export const SEARCH_FREE = querifiedSearchUrl({ free: "true" })
+
+const CERTIFICATION_SEARCH_PARAMS = new URLSearchParams()
+CERTIFICATION_SEARCH_PARAMS.append("certification_type", "professional")
+CERTIFICATION_SEARCH_PARAMS.append("certification_type", "completion")
+CERTIFICATION_SEARCH_PARAMS.append("certification_type", "micromasters")
+export const SEARCH_CERTIFICATE = querifiedSearchUrl(
+  CERTIFICATION_SEARCH_PARAMS,
+)
+
+export const SEARCH_COURSE = querifiedSearchUrl({ resource_category: "course" })
+
+export const SEARCH_PROGRAM = querifiedSearchUrl({
+  resource_category: "program",
+})
+
+export const SEARCH_LEARNING_MATERIAL = querifiedSearchUrl({
+  resource_category: "learning_material",
+})

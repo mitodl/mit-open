@@ -1,6 +1,81 @@
 Release Notes
 =============
 
+Version 0.17.7 (Released August 21, 2024)
+--------------
+
+- Add SP as a department  (#1451)
+- adding test for redirect view (#1448)
+- News and events for MIT Professional Education (#1365)
+
+Version 0.17.6 (Released August 21, 2024)
+--------------
+
+- change default og:image (#1449)
+
+Version 0.17.5 (Released August 21, 2024)
+--------------
+
+- restorin g redirect route (#1446)
+
+Version 0.17.4 (Released August 21, 2024)
+--------------
+
+- update departments fixture (#1439)
+- department is optional (#1437)
+- restrict learning path pages to learning path editors (#1442)
+- remove privacy chip from add to user list dialog (#1440)
+
+Version 0.17.3 (Released August 21, 2024)
+--------------
+
+- allow empty APPZI_URL (#1441)
+- Get availability value from xpro api (#1432)
+- add appzi for feedback (#1435)
+- Fix frontend sentry_env and release version (#1386)
+- Remove remaining frontend routes (#1424)
+- Only process best/next run contentfiles, and make sure other run contentfiles are deindexed (#1383)
+
+Version 0.17.2 (Released August 20, 2024)
+--------------
+
+- Add locust load testing (#1422)
+
+Version 0.17.1 (Released August 19, 2024)
+--------------
+
+- Replace topic chips with info section text (#1379)
+- Handle topics with colons from xpro in ETL pipeline (#1429)
+- Set default sort to featured (#1414) (#1423)
+
+Version 0.17.0 (Released August 19, 2024)
+--------------
+
+- Add migration to adjust mappings, make some minor changes to the dump to yaml util function (#1408)
+- uncapitalize with (#1428)
+- Update nginx Docker tag to v1.27.1 (#1425)
+- search query clean up (#1393)
+- remove elementary / primary school as an education option (#1415)
+- Per Page metadata tags  (#1411)
+
+Version 0.16.1 (Released August 15, 2024)
+--------------
+
+- set csrf cookie name from env var (#1420)
+- Expose the SESSION_COOKIE_NAME setting (#1418)
+- Update the ETL pipelines times (#1416)
+- Add accessibility linting (#1395)
+- Undo Change to default sort (#1414)
+- Make MITOL_ settings optional in app.json (#1412)
+- Rename the variables on release workflows (#1409)
+- Fix typo in env variable prefix (#1406)
+- cache learning resources search api view (#1392)
+- rename MIT Open to MIT Learn (#1389)
+- Rename env var prefix MITOPEN_ to MITOL_ (#1388)
+- adding fix for logo in email (#1404)
+- Change Default sort to featured (#1377)
+- Empty user list items view (#1376)
+
 Version 0.16.0 (Released August 13, 2024)
 --------------
 

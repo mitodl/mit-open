@@ -132,11 +132,16 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
         {({ handleSubmit, values, errors }) => {
           const titleFieldId = `${formId}:${title}`
           const titleAttrs = formFieldAttrs(titleFieldId, errors.title)
+          const { htmlFor: labelFor, ...labelAttrs } = titleAttrs.label
           return (
             <Form onSubmit={handleSubmit}>
               <DialogContent>
                 <div className={classes?.fieldGroup}>
-                  <label className={classes?.label} {...titleAttrs.label}>
+                  <label
+                    className={classes?.label}
+                    htmlFor={labelFor}
+                    {...labelAttrs}
+                  >
                     Title
                   </label>
                   <Field

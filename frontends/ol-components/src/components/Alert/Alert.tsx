@@ -52,6 +52,8 @@ const AlertStyled = styled(MuiAlert)<AlertStyleProps>(({ severity }) => ({
   },
 }))
 
+const Hidden = styled.span({ display: "none" })
+
 type AlertProps = {
   visible?: boolean
   closable?: boolean
@@ -66,7 +68,7 @@ const Alert: React.FC<AlertProps> = ({
   className,
 }) => {
   const [_visible, setVisible] = React.useState(visible)
-
+  const id = React.useId()
   const onCloseClick = () => {
     setVisible(false)
   }
@@ -84,10 +86,11 @@ const Alert: React.FC<AlertProps> = ({
       severity={severity!}
       onClose={closable ? onCloseClick : undefined}
       role="alert"
-      aria-description={`${severity} message`}
+      aria-describedby={id}
       className={className}
     >
       {children}
+      <Hidden id={id}>{severity} message</Hidden>
     </AlertStyled>
   )
 }

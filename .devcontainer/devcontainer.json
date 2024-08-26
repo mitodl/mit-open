@@ -1,0 +1,27 @@
+{
+  "dockerComposeFile": "../docker-compose.codespaces.yml",
+  "service": "web",
+  "runServices": [
+    "watch",
+    "web",
+    "opensearch-node-mitopen",
+    "db",
+    "tika",
+    "celery",
+    "nginx",
+    "redis"
+  ],
+  "secrets": {
+    "EDX_API_CLIENT_ID": {},
+    "EDX_API_CLIENT_SECRET": {},
+    "EDX_API_ACCESS_TOKEN_URL": {},
+    "EMBEDLY_KEY": {},
+    "OLL_API_CLIENT_SECRET": {},
+    "OLL_API_CLIENT_ID": {},
+    "SEE_API_CLIENT_ID": {},
+    "SEE_API_CLIENT_SECRET": {}
+  },
+  "features": {},
+  "postStartCommand": "while [ \"$(python manage.py showmigrations | grep \"\\[ \\]\" | wc -l)\" -ne \"0\" ]; do echo \"waiting for migrations\"; sleep 2; done && python manage.py update_offered_by && python manage.py update_platforms && python manage.py update_departments_schools && python manage.py backpopulate_resource_channels --overwrite --all && python manage.py update_course_number_departments && python manage.py backpopulate_mitxonline_data && python manage.py backpopulate_micromasters_data && python manage.py recreate_index --all",
+  "forwardPorts": [8062, 8063]
+}

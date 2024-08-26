@@ -391,13 +391,13 @@ def bulk_resources_unpublished_actions(resource_ids: list[int], resource_type: s
     )
 
 
-def resource_run_upserted_actions(run: LearningResourceRun):
+def content_files_loaded_actions(run: LearningResourceRun, deindex_only):
     """
-    Trigger plugins when a LearningResourceRun is created or updated
+    Trigger plugins when content files are loaded for a LearningResourceRun
     """
     pm = get_plugin_manager()
     hook = pm.hook
-    hook.resource_run_upserted(run=run)
+    hook.content_files_loaded(run=run, deindex_only=deindex_only)
 
 
 def resource_run_unpublished_actions(run: LearningResourceRun):
@@ -691,6 +691,7 @@ def dump_topics_to_yaml(topic_id: int | None = None):
             "icon": topic.icon,
             "mappings": {},
             "children": [],
+            "parent": str(topic.parent.topic_uuid) if topic.parent else None,
         }
 
         for mapping in LearningResourceTopicMapping.objects.filter(topic=topic).all():
@@ -705,7 +706,7 @@ def dump_topics_to_yaml(topic_id: int | None = None):
         return yaml_ready_data
 
     if topic_id:
-        parent_topics = LearningResourceTopic.objects.get(pk=topic_id)
+        parent_topics = [LearningResourceTopic.objects.get(pk=topic_id)]
     else:
         parent_topics = LearningResourceTopic.objects.filter(parent__isnull=True).all()
 

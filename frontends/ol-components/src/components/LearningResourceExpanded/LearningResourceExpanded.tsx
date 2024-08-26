@@ -3,12 +3,7 @@ import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
 import { ButtonLink } from "../Button/Button"
-import Chip from "@mui/material/Chip"
-import type {
-  LearningResource,
-  LearningResourceRun,
-  LearningResourceTopic,
-} from "api"
+import type { LearningResource, LearningResourceRun } from "api"
 import { ResourceTypeEnum, PlatformEnum } from "api"
 import {
   formatDate,
@@ -24,7 +19,6 @@ import { SimpleSelect } from "../SimpleSelect/SimpleSelect"
 import type { SimpleSelectProps } from "../SimpleSelect/SimpleSelect"
 import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
-import { ChipLink } from "../Chips/ChipLink"
 import InfoSection from "./InfoSection"
 
 const Container = styled.div<{ padTop?: boolean }>`
@@ -142,20 +136,6 @@ const OnPlatform = styled.span`
   color: ${theme.custom.colors.black};
 `
 
-const Topics = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`
-
-const TopicsList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
-  gap: 8px;
-`
-
 type LearningResourceExpandedProps = {
   resource?: LearningResource
   imgConfig: EmbedlyConfig
@@ -183,7 +163,11 @@ const ImageSection: React.FC<{
     )
   } else if (resource) {
     return (
-      <Image src={DEFAULT_RESOURCE_IMG} aspect={config.width / config.height} />
+      <Image
+        src={DEFAULT_RESOURCE_IMG}
+        alt={resource.image?.alt ?? ""}
+        aspect={config.width / config.height}
+      />
     )
   } else {
     return (
@@ -298,41 +282,6 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
   )
 }
 
-const TopicsSection: React.FC<{ topics?: LearningResourceTopic[] }> = ({
-  topics,
-}) => {
-  if (!topics?.length) {
-    return null
-  }
-  return (
-    <Topics>
-      <Typography variant="subtitle2" component="h3">
-        Topics
-      </Typography>
-      <TopicsList>
-        {topics.map((topic) =>
-          topic.channel_url ? (
-            <ChipLink
-              key={topic.id}
-              size="medium"
-              label={topic.name}
-              href={topic.channel_url}
-              variant="outlined"
-            />
-          ) : (
-            <Chip
-              key={topic.id}
-              size="medium"
-              label={topic.name}
-              variant="outlined"
-            />
-          ),
-        )}
-      </TopicsList>
-    </Topics>
-  )
-}
-
 const formatRunDate = (
   run: LearningResourceRun,
   asTaughtIn: boolean,
@@ -437,7 +386,6 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       <ImageSection resource={resource} config={imgConfig} />
       <CallToActionSection resource={resource} hide={isVideo} />
       <DetailSection resource={resource} />
-      <TopicsSection topics={resource?.topics} />
       <InfoSection resource={resource} run={selectedRun} />
     </Container>
   )

@@ -1,7 +1,6 @@
 "use client"
 
 import { Breadcrumbs, Container, Typography, theme, styled } from "ol-components"
-import MetaTags from "@/components/MetaTags/MetaTags"
 import * as urls from "@/common/urls"
 import React from "react"
 
@@ -103,7 +102,7 @@ const List = styled.ul({
 const AboutPage: React.FC = () => {
   return (
     <PageContainer>
-      <MetaTags title="About Us" />
+      {/* TODO <MetaTags title="About Us" /> */}
       <BannerContainer>
         <BannerContainerInner>
           <Breadcrumbs

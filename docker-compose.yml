@@ -55,7 +55,6 @@ services:
       - web
     environment:
       PORT: 8063
-      NGINX_WORKERS: 1
       NGINX_UWSGI_PASS: "web:8061"
     volumes:
       - ./config:/etc/nginx/templates
@@ -66,6 +65,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    mem_limit: 1gb
+    cpus: 2
     env_file:
       - path: env/shared.env
       - path: env/shared.local.env
@@ -150,6 +151,28 @@ services:
     image: apache/tika:2.5.0
     ports:
       - "9998:9998"
+
+  locust:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./load_testing:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --master -H http://nginx:8063 --class-picker
+    links:
+      - nginx
+    profiles:
+      - load-testing
+
+  locust-worker:
+    image: locustio/locust
+    volumes:
+      - ./load_testing:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --worker --master-host locust
+    links:
+      - nginx
+    profiles:
+      - load-testing
 
 volumes:
   opensearch-data1:

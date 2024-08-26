@@ -1,5 +1,4 @@
 import React from "react"
-import { MetaTags } from "ol-utilities"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import {
   Container,
@@ -12,6 +11,7 @@ import { useArticleDetail } from "api/hooks/articles"
 import { useParams } from "react-router"
 import { articlesEditView } from "@/common/urls"
 import { CkeditorDisplay } from "ol-ckeditor"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 type RouteParams = {
   id: string
@@ -26,7 +26,7 @@ const ArticlesDetailPage: React.FC = () => {
       src="/static/images/course_search_banner.png"
       className="articles-detail-page"
     >
-      <MetaTags title={article.data?.title} />
+      <MetaTags title={article.data?.title} social={false} />
       <Container maxWidth="sm">
         <GridContainer>
           <GridColumn variant="single-full" container>

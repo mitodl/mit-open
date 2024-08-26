@@ -99,6 +99,7 @@ const ChannelAvatar: React.FC<AvatarProps> = (props) => {
         </AvatarInitials>
       ) : (
         <AvatarImg
+          alt=""
           src={imageUrl}
           imageSize={imageSize}
           imageVariant={imageVariant}

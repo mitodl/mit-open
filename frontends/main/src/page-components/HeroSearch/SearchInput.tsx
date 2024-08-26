@@ -1,7 +1,37 @@
 import React, { useCallback } from "react"
 import { RiSearch2Line, RiCloseLine } from "@remixicon/react"
-import { Input, AdornmentButton } from "ol-components"
+import { Input, AdornmentButton, styled, pxToRem } from "ol-components"
 import type { InputProps } from "ol-components"
+
+const StyledInput = styled(Input)(({ theme }) => ({
+  height: "72px",
+  borderRadius: "6px",
+  "&.MuiInputBase-adornedEnd": {
+    paddingRight: "0 !important",
+  },
+  [theme.breakpoints.down("sm")]: {
+    height: "56px",
+    gap: "8px",
+  },
+}))
+
+const StyledAdornmentButton = styled(AdornmentButton)(({ theme }) => ({
+  ".MuiInputBase-sizeHero &": {
+    width: "72px",
+    height: "100%",
+    flexShrink: 0,
+    ".MuiSvgIcon-root": {
+      fontSize: pxToRem(24),
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "56px",
+      height: "100%",
+      ".MuiSvgIcon-root": {
+        fontSize: pxToRem(16),
+      },
+    },
+  },
+}))
 
 export interface SearchSubmissionEvent {
   target: {
@@ -50,35 +80,37 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
     )
 
   return (
-    <Input
+    <StyledInput
       fullWidth={props.fullWidth}
       size={props.size}
       inputProps={muiInputProps}
+      // Just passing props down. Will lint actual usage at point-of-use
+      // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus={props.autoFocus}
       className={props.className}
       placeholder={props.placeholder}
       value={props.value}
       onChange={props.onChange}
       onKeyDown={onInputKeyDown}
-      startAdornment={
-        <AdornmentButton
-          aria-label="Search"
-          className={props.classNameSearch}
-          onClick={handleSubmit}
-        >
-          <RiSearch2Line fontSize="inherit" />
-        </AdornmentButton>
-      }
       endAdornment={
-        props.value && (
-          <AdornmentButton
-            className={props.classNameClear}
-            aria-label="Clear search text"
-            onClick={props.onClear}
+        <>
+          {props.value && (
+            <StyledAdornmentButton
+              className={props.classNameClear}
+              aria-label="Clear search text"
+              onClick={props.onClear}
+            >
+              <RiCloseLine />
+            </StyledAdornmentButton>
+          )}
+          <StyledAdornmentButton
+            aria-label="Search"
+            className={props.classNameSearch}
+            onClick={handleSubmit}
           >
-            <RiCloseLine />
-          </AdornmentButton>
-        )
+            <RiSearch2Line fontSize="inherit" />
+          </StyledAdornmentButton>
+        </>
       }
     />
   )

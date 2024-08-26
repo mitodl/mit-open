@@ -98,6 +98,24 @@ git config --global init.templateDir ~/.git-template
 pre-commit init-templatedir ~/.git-template
 ```
 
+## Launching a Codespace
+
+There are times where you will want a live and shareable environment (validating UI changes with the design team, demoing a feature etc). You can launch a codespace on any branch or PR by clicking the green "code" button at the top right and launching a codespace from the codespaces tab. There are a few things to be aware of when provisioning a codespace:
+
+- DEBUG is disabled by default - this is because codespaces are live (but unpublished/indexed) environments.
+- Codespaces are provisioned/billed under personal accounts - everyone has 120 free hours every month
+- Secrets and environment variables can be configured in the [codespace settings page](https://github.com/settings/codespaces)
+- You will have to manually set the api's port to public each time you launch a codespace (noted in instructions above) due to a known limitation with cors in codespaces (see: https://github.com/orgs/community/discussions/22399 and https://github.com/orgs/community/discussions/31316)
+- Once you are finished with the codespace you should shut it down by going to the green code button -> codespaces tab
+- limits, instance size, idle-timeout settings and more can be configured from the [codespace settings page](https://github.com/settings/codespaces)
+
+When new environment variables are introduced to the main application, the codespace config should be updated as well:
+
+- Environment variables that are required for the app to build/function belong in [codespaces.env](https://github.com/mitodl/mit-open/blob/main/env/codespaces.env) with some default value (developers can later override these as needed)
+- Optional "suggested" variables should go in [devcontainer.json](https://github.com/mitodl/mit-open/blob/main/.devcontainer/devcontainer.json)
+
+At a bare minimum, a codespace should be able to build and run without requiring any configuration
+
 ## Optional Setup
 
 Described below are some setup steps that are not strictly necessary
@@ -120,9 +138,12 @@ any emails sent from the app will be delivered to you.
 
 ### Loading fixture files
 
-Run the following to load platforms, departments, and offers. This populates the database with the fixture files contained in [learning_resources/fixtures](learning_resources/fixtures). Note that you will first need to run the Django models to schema migrations detailed in the [Handbook Initial Setup](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html#3-create-database-tables-from-the-django-models) step. This is already done for you when bringing up your local (development) environment.
+Run the following to load platforms, departments, and offers. This populates the database with the fixture files contained in [learning_resources/fixtures](learning_resources/fixtures). Note that you will first need to run the Django models to schema migrations detailed in the [Handbook Initial Setup](https://mitodl.github.io/handbook/how-to/common-web-app-guide.html#3-create-database-tables-from-the-django-models) step.
 
 ```bash
+# Note!
+# This is already done for you when bringing up your local (development)
+# environment.
 docker compose run --rm web python manage.py loaddata platforms departments offered_by
 ```
 

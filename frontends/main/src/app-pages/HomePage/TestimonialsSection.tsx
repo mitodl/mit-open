@@ -246,6 +246,7 @@ const SlickCarousel = () => {
               <TestimonialCardImage>
                 <img
                   src={`/images/testimonial_images/testimonial-image-${MARKETING_IMAGE_IDX[idx % 6]}.png`}
+                  alt=""
                 />
               </TestimonialCardImage>
               <TestimonialCardQuote>
@@ -268,10 +269,18 @@ const SlickCarousel = () => {
       <TestimonialFadeLeft />
       <TestimonialFadeRight />
       <ButtonsContainer>
-        <ActionButton variant="inverted" onClick={slick?.slickPrev}>
+        <ActionButton
+          aria-label="Show previous"
+          variant="inverted"
+          onClick={slick?.slickPrev}
+        >
           <RiArrowLeftLineStyled />
         </ActionButton>
-        <ActionButton variant="inverted" onClick={slick?.slickNext}>
+        <ActionButton
+          aria-label="Show next"
+          variant="inverted"
+          onClick={slick?.slickNext}
+        >
           <RiArrowRightLineStyled />
         </ActionButton>
       </ButtonsContainer>

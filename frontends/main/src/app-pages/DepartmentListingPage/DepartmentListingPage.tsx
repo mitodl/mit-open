@@ -34,6 +34,7 @@ import {
   RiTerminalBoxLine,
 } from "@remixicon/react"
 import { HOME } from "@/common/urls"
+import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const SCHOOL_ICONS: Record<string, React.ReactNode> = {
   // School of Architecture and Planning

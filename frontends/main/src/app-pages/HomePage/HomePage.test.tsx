@@ -116,12 +116,15 @@ describe("Home Page Hero", () => {
     setupAPIs()
     renderWithProviders(<HomePage />)
     const expected = [
-      { label: "New", href: "/search?sortby=new" },
-      { label: "Popular", href: "/search?sortby=-views" },
-      { label: "Upcoming", href: "/search?sortby=upcoming" },
-      { label: "Free", href: "/search?free=true" },
-      { label: "With Certificate", href: "/search?certification=true" },
-      { label: "Browse by Topic", href: "/topics/" },
+      { label: "Topic", href: "/topics/" },
+      { label: "Recently Added", href: "/search/?sortby=new" },
+      { label: "Popular", href: "/search/?sortby=-views" },
+      { label: "Upcoming", href: "/search/?sortby=upcoming" },
+      { label: "Free", href: "/search/?free=true" },
+      {
+        label: "With Certificate",
+        href: "/search/?certification_type=professional&certification_type=completion&certification_type=micromasters",
+      },
       { label: "Explore All", href: "/search/" },
     ]
     expected.forEach(({ label, href }) => {

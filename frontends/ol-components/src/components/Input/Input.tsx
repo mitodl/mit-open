@@ -28,16 +28,25 @@ const baseInputStyles = (theme: Theme) => ({
   "&.Mui-disabled": {
     backgroundColor: theme.custom.colors.lightGray1,
   },
-  "&:hover:not(.Mui-disabled)": {
+  "&:hover:not(.Mui-disabled):not(.Mui-focused)": {
     borderColor: theme.custom.colors.darkGray2,
   },
   "&.Mui-focused": {
-    borderWidth: "2px",
+    /**
+     * When change border width, it affects either the elements outside of it or
+     * inside based on the border-box setting.
+     *
+     * Instead of changing the border width, we hide the border and change width
+     * using outline.
+     */
+    borderColor: "transparent",
+    outline: "2px solid currentcolor",
+    outlineOffset: "-2px",
     color: theme.custom.colors.darkGray2,
-    borderColor: "currentcolor",
   },
   "&.Mui-error": {
     borderColor: theme.custom.colors.red,
+    outlineColor: theme.custom.colors.red,
   },
   "& input::placeholder": {
     color: theme.custom.colors.silverGrayDark,
@@ -72,15 +81,9 @@ const Input = styled(InputBase)(({
       borderRadius: "4px",
       "&.MuiInputBase-adornedStart": {
         paddingLeft: `${12 - buttonPadding.medium}px`,
-        "&.Mui-focused": {
-          paddingLeft: `${11 - buttonPadding.medium}px`,
-        },
       },
       "&.MuiInputBase-adornedEnd": {
         paddingRight: `${12 - buttonPadding.medium}px`,
-        "&.Mui-focused": {
-          paddingRight: `${11 - buttonPadding.medium}px`,
-        },
       },
     },
     size === "medium" &&
@@ -96,31 +99,19 @@ const Input = styled(InputBase)(({
       borderRadius: "8px",
       "&.MuiInputBase-adornedStart": {
         paddingLeft: `${16 - buttonPadding.hero}px`,
-        "&.Mui-focused": {
-          paddingLeft: `${15 - buttonPadding.hero}px`,
-        },
       },
       "&.MuiInputBase-adornedEnd": {
         paddingRight: `${16 - buttonPadding.hero}px`,
-        "&.Mui-focused": {
-          paddingRight: `${15 - buttonPadding.hero}px`,
-        },
       },
       [theme.breakpoints.down("sm")]: {
         "& .MuiInputBase-input": {
-          ...theme.typography.body4,
+          ...theme.typography.body3,
         },
         "&.MuiInputBase-adornedStart": {
           paddingLeft: `${12 - buttonPadding.heroMobile}px`,
-          "&.Mui-focused": {
-            paddingLeft: `${11 - buttonPadding.heroMobile}px`,
-          },
         },
         "&.MuiInputBase-adornedEnd": {
           paddingRight: `${12 - buttonPadding.heroMobile}px`,
-          "&.Mui-focused": {
-            paddingRight: `${11 - buttonPadding.heroMobile}px`,
-          },
         },
       },
     },

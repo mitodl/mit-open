@@ -318,17 +318,15 @@ LEARNING_RESOURCE_QUERY_FIELDS = [
     "title.english^3",
     "description.english^2",
     "full_description.english",
-    "topics",
-    "platform",
+    "platform.name",
     "readable_id",
     "offered_by",
     "course_feature",
-    "course",
     "video.transcript.english",
 ]
 
 TOPICS_QUERY_FIELDS = ["topics.name"]
-DEPARTMENT_QUERY_FIELDS = ["departments.department_id"]
+DEPARTMENT_QUERY_FIELDS = ["departments.department_id", "departments.name"]
 
 COURSE_QUERY_FIELDS = [
     "course.course_numbers.value",
