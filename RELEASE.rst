@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.8
+Version 0.17.8 (Released August 26, 2024)
 --------------
 
 - search box adornment buttons should be 56px wide on mobile (#1457)
