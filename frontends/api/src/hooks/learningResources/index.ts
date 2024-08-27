@@ -32,8 +32,8 @@ import type {
   PlatformsApiPlatformsListRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
   PaginatedLearningResourceList,
-  LearningResourcesApiLearningResourcesRelationshipsSetUserListRelationshipsPartialUpdateRequest,
-  LearningResourcesApiLearningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdateRequest,
+  LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest,
+  LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest,
 } from "../../generated/v1"
 import learningResources, {
   invalidateResourceQueries,
@@ -329,11 +329,8 @@ const useLearningResourceSetUserListRelationships = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (
-      params: LearningResourcesApiLearningResourcesRelationshipsSetUserListRelationshipsPartialUpdateRequest,
-    ) =>
-      learningResourcesApi.learningResourcesRelationshipsSetUserListRelationshipsPartialUpdate(
-        params,
-      ),
+      params: LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest,
+    ) => learningResourcesApi.learningResourcesUserlistsPartialUpdate(params),
     onSuccess: (response, _vars) => {
       queryClient.setQueriesData<PaginatedLearningResourceList>(
         learningResources.featured({}).queryKey,
@@ -341,7 +338,7 @@ const useLearningResourceSetUserListRelationships = () => {
       )
     },
     onSettled: (_response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.learning_resource_id, {
+      invalidateResourceQueries(queryClient, vars.id, {
         skipFeatured: true,
       })
       vars.userlist_id?.forEach((userlistId) => {
@@ -355,11 +352,9 @@ const useLearningResourceSetLearningPathRelationships = () => {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (
-      params: LearningResourcesApiLearningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdateRequest,
+      params: LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest,
     ) =>
-      learningResourcesApi.learningResourcesRelationshipsSetLearningPathRelationshipsPartialUpdate(
-        params,
-      ),
+      learningResourcesApi.learningResourcesLearningPathsPartialUpdate(params),
     onSuccess: (response, _vars) => {
       queryClient.setQueriesData<PaginatedLearningResourceList>(
         learningResources.featured({}).queryKey,
@@ -367,7 +362,7 @@ const useLearningResourceSetLearningPathRelationships = () => {
       )
     },
     onSettled: (_response, _err, vars) => {
-      invalidateResourceQueries(queryClient, vars.learning_resource_id, {
+      invalidateResourceQueries(queryClient, vars.id, {
         skipFeatured: true,
       })
       vars.learning_path_id?.forEach((learningPathId) => {

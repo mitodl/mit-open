@@ -114,13 +114,13 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
         if (listType === ListType.LearningPath) {
           const newParents = values.learning_paths.map((id) => parseInt(id))
           await setLearningPathRelationships({
-            learning_resource_id: resource.id,
+            id: resource.id,
             learning_path_id: newParents,
           })
         } else if (listType === ListType.UserList) {
           const newParents = values.user_lists.map((id) => parseInt(id))
           await setUserListRelationships({
-            learning_resource_id: resource.id,
+            id: resource.id,
             userlist_id: newParents,
           })
         }

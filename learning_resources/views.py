@@ -387,10 +387,10 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
 @extend_schema(
     parameters=[
         OpenApiParameter(
-            name="learning_resource_id",
+            name="id",
             type=OpenApiTypes.INT,
             location=OpenApiParameter.PATH,
-            description="id of the parent learning resource",
+            description="id of the learning resource",
         ),
         OpenApiParameter(
             name="userlist_id",
@@ -420,13 +420,14 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
     queryset = LearningResourceRelationship.objects.select_related("parent", "child")
     http_method_names = ["patch"]
 
-    @action(detail=False, methods=["patch"], name="Set User List Relationships")
-    def set_user_list_relationships(self, request, *args, **kwargs):  # noqa: ARG002
+    @action(detail=True, methods=["patch"], name="Set User List Relationships")
+    def userlists(self, request, *args, **kwargs):  # noqa: ARG002
         """
         Set User List relationships for a given Learning Resource
         """
-        learning_resource_id = kwargs.get("learning_resource_id")
+        learning_resource_id = kwargs.get("pk")
         user_list_ids = request.query_params.getlist("userlist_id")
+        log.error(kwargs)
         current_relationships = UserListRelationship.objects.filter(
             child_id=learning_resource_id
         )
@@ -438,12 +439,12 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
         serializer = self.get_serializer(current_relationships, many=True)
         return Response(serializer.data)
 
-    @action(detail=False, methods=["patch"], name="Set Learning Path Relationships")
-    def set_learning_path_relationships(self, request, *args, **kwargs):  # noqa: ARG002
+    @action(detail=True, methods=["patch"], name="Set Learning Path Relationships")
+    def learning_paths(self, request, *args, **kwargs):  # noqa: ARG002
         """
         Set Learning Path relationships for a given Learning Resource
         """
-        learning_resource_id = kwargs.get("learning_resource_id")
+        learning_resource_id = kwargs.get("pk")
         learning_path_ids = request.query_params.getlist("learning_path_id")
         current_relationships = LearningResourceRelationship.objects.filter(
             child_id=learning_resource_id
