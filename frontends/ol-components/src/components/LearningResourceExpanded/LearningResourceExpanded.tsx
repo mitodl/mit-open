@@ -9,10 +9,10 @@ import {
   formatDate,
   capitalize,
   resourceThumbnailSrc,
-  getReadableResourceType,
   DEFAULT_RESOURCE_IMG,
   showStartAnytime,
 } from "ol-utilities"
+import { RiExternalLinkLine } from "@remixicon/react"
 import type { EmbedlyConfig } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { SimpleSelect } from "../SimpleSelect/SimpleSelect"
@@ -215,9 +215,17 @@ const CallToActionSection = ({
 
   const cta =
     type === ResourceTypeEnum.Podcast ||
-    type === ResourceTypeEnum.PodcastEpisode
-      ? "Listen to Podcast"
-      : `Take ${getReadableResourceType(type)}`
+    type === ResourceTypeEnum.PodcastEpisode ? (
+      <>
+        Listen to Podcast&nbsp;
+        <RiExternalLinkLine />
+      </>
+    ) : (
+      <>
+        Learn More&nbsp;
+        <RiExternalLinkLine />
+      </>
+    )
 
   return (
     <CallToAction>
@@ -226,7 +234,14 @@ const CallToActionSection = ({
         size="large"
         href={getCallToActionUrl(resource) || ""}
       >
-        {cta}
+        {(platform?.code as PlatformEnum) === PlatformEnum.Ocw ? (
+          <>
+            Access Course Materials&nbsp;
+            <RiExternalLinkLine />
+          </>
+        ) : (
+          cta
+        )}
       </StyledLink>
       {platformImage ? (
         <Platform>
