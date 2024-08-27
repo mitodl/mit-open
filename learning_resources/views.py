@@ -386,20 +386,6 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
             location=OpenApiParameter.PATH,
             description="id of the learning resource",
         ),
-        OpenApiParameter(
-            name="userlist_id",
-            type=OpenApiTypes.INT,
-            many=True,
-            location=OpenApiParameter.QUERY,
-            description="id of the parent user list",
-        ),
-        OpenApiParameter(
-            name="learning_path_id",
-            type=OpenApiTypes.INT,
-            many=True,
-            location=OpenApiParameter.QUERY,
-            description="id of the parent learning path",
-        ),
     ],
 )
 class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
@@ -423,6 +409,15 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
     @extend_schema(
         summary="Set User List Relationships",
         description="Set User List Relationships on a given Learning Resource.",
+        parameters=[
+            OpenApiParameter(
+                name="userlist_id",
+                type=OpenApiTypes.INT,
+                many=True,
+                location=OpenApiParameter.QUERY,
+                description="id of the parent user list",
+            ),
+        ],
         responses={200: UserListRelationshipSerializer(many=True)},
     )
     @action(detail=True, methods=["patch"], name="Set User List Relationships")
@@ -457,6 +452,15 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
     @extend_schema(
         summary="Set Learning Path Relationships",
         description="Set Learning Path Relationships on a given Learning Resource.",
+        parameters=[
+            OpenApiParameter(
+                name="learning_path_id",
+                type=OpenApiTypes.INT,
+                many=True,
+                location=OpenApiParameter.QUERY,
+                description="id of the parent learning path",
+            ),
+        ],
         responses={200: LearningResourceRelationshipSerializer(many=True)},
     )
     @action(detail=True, methods=["patch"], name="Set Learning Path Relationships")

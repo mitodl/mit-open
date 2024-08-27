@@ -10597,7 +10597,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * @summary Set Learning Path Relationships
      * @param {number} id id of the learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
-     * @param {Array<number>} [userlist_id] id of the parent user list
      * @param {PatchedLearningResourceRelationshipRequest} [PatchedLearningResourceRelationshipRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -10605,7 +10604,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
     learningResourcesLearningPathsPartialUpdate: async (
       id: number,
       learning_path_id?: Array<number>,
-      userlist_id?: Array<number>,
       PatchedLearningResourceRelationshipRequest?: PatchedLearningResourceRelationshipRequest,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
@@ -10633,10 +10631,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
 
       if (learning_path_id) {
         localVarQueryParameter["learning_path_id"] = learning_path_id
-      }
-
-      if (userlist_id) {
-        localVarQueryParameter["userlist_id"] = userlist_id
       }
 
       localVarHeaderParameter["Content-Type"] = "application/json"
@@ -10855,7 +10849,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
      * Set User List Relationships on a given Learning Resource.
      * @summary Set User List Relationships
      * @param {number} id id of the learning resource
-     * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
      * @param {*} [options] Override http request option.
@@ -10863,7 +10856,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
      */
     learningResourcesUserlistsPartialUpdate: async (
       id: number,
-      learning_path_id?: Array<number>,
       userlist_id?: Array<number>,
       PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
       options: RawAxiosRequestConfig = {},
@@ -10888,10 +10880,6 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
-
-      if (learning_path_id) {
-        localVarQueryParameter["learning_path_id"] = learning_path_id
-      }
 
       if (userlist_id) {
         localVarQueryParameter["userlist_id"] = userlist_id
@@ -11103,7 +11091,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * @summary Set Learning Path Relationships
      * @param {number} id id of the learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
-     * @param {Array<number>} [userlist_id] id of the parent user list
      * @param {PatchedLearningResourceRelationshipRequest} [PatchedLearningResourceRelationshipRequest]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11111,7 +11098,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
     async learningResourcesLearningPathsPartialUpdate(
       id: number,
       learning_path_id?: Array<number>,
-      userlist_id?: Array<number>,
       PatchedLearningResourceRelationshipRequest?: PatchedLearningResourceRelationshipRequest,
       options?: RawAxiosRequestConfig,
     ): Promise<
@@ -11124,7 +11110,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         await localVarAxiosParamCreator.learningResourcesLearningPathsPartialUpdate(
           id,
           learning_path_id,
-          userlist_id,
           PatchedLearningResourceRelationshipRequest,
           options,
         )
@@ -11258,7 +11243,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      * Set User List Relationships on a given Learning Resource.
      * @summary Set User List Relationships
      * @param {number} id id of the learning resource
-     * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
      * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
      * @param {*} [options] Override http request option.
@@ -11266,7 +11250,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
      */
     async learningResourcesUserlistsPartialUpdate(
       id: number,
-      learning_path_id?: Array<number>,
       userlist_id?: Array<number>,
       PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
       options?: RawAxiosRequestConfig,
@@ -11279,7 +11262,6 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
       const localVarAxiosArgs =
         await localVarAxiosParamCreator.learningResourcesUserlistsPartialUpdate(
           id,
-          learning_path_id,
           userlist_id,
           PatchedUserListRelationshipRequest,
           options,
@@ -11410,7 +11392,6 @@ export const LearningResourcesApiFactory = function (
         .learningResourcesLearningPathsPartialUpdate(
           requestParameters.id,
           requestParameters.learning_path_id,
-          requestParameters.userlist_id,
           requestParameters.PatchedLearningResourceRelationshipRequest,
           options,
         )
@@ -11479,7 +11460,6 @@ export const LearningResourcesApiFactory = function (
       return localVarFp
         .learningResourcesUserlistsPartialUpdate(
           requestParameters.id,
-          requestParameters.learning_path_id,
           requestParameters.userlist_id,
           requestParameters.PatchedUserListRelationshipRequest,
           options,
@@ -11650,13 +11630,6 @@ export interface LearningResourcesApiLearningResourcesLearningPathsPartialUpdate
   readonly learning_path_id?: Array<number>
 
   /**
-   * id of the parent user list
-   * @type {Array<number>}
-   * @memberof LearningResourcesApiLearningResourcesLearningPathsPartialUpdate
-   */
-  readonly userlist_id?: Array<number>
-
-  /**
    *
    * @type {PatchedLearningResourceRelationshipRequest}
    * @memberof LearningResourcesApiLearningResourcesLearningPathsPartialUpdate
@@ -11818,13 +11791,6 @@ export interface LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequ
   readonly id: number
 
   /**
-   * id of the parent learning path
-   * @type {Array<number>}
-   * @memberof LearningResourcesApiLearningResourcesUserlistsPartialUpdate
-   */
-  readonly learning_path_id?: Array<number>
-
-  /**
    * id of the parent user list
    * @type {Array<number>}
    * @memberof LearningResourcesApiLearningResourcesUserlistsPartialUpdate
@@ -11954,7 +11920,6 @@ export class LearningResourcesApi extends BaseAPI {
       .learningResourcesLearningPathsPartialUpdate(
         requestParameters.id,
         requestParameters.learning_path_id,
-        requestParameters.userlist_id,
         requestParameters.PatchedLearningResourceRelationshipRequest,
         options,
       )
@@ -12029,7 +11994,6 @@ export class LearningResourcesApi extends BaseAPI {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesUserlistsPartialUpdate(
         requestParameters.id,
-        requestParameters.learning_path_id,
         requestParameters.userlist_id,
         requestParameters.PatchedUserListRelationshipRequest,
         options,
