@@ -10593,7 +10593,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Set Learning Path relationships for a given Learning Resource
+     * Set Learning Path Relationships on a given Learning Resource.
+     * @summary Set Learning Path Relationships
      * @param {number} id id of the learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -10851,7 +10852,8 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
-     * Set User List relationships for a given Learning Resource
+     * Set User List Relationships on a given Learning Resource.
+     * @summary Set User List Relationships
      * @param {number} id id of the learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11097,7 +11099,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * Set Learning Path relationships for a given Learning Resource
+     * Set Learning Path Relationships on a given Learning Resource.
+     * @summary Set Learning Path Relationships
      * @param {number} id id of the learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11252,7 +11255,8 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * Set User List relationships for a given Learning Resource
+     * Set User List Relationships on a given Learning Resource.
+     * @summary Set User List Relationships
      * @param {number} id id of the learning resource
      * @param {Array<number>} [learning_path_id] id of the parent learning path
      * @param {Array<number>} [userlist_id] id of the parent user list
@@ -11392,7 +11396,8 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Set Learning Path relationships for a given Learning Resource
+     * Set Learning Path Relationships on a given Learning Resource.
+     * @summary Set Learning Path Relationships
      * @param {LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11461,7 +11466,8 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Set User List relationships for a given Learning Resource
+     * Set User List Relationships on a given Learning Resource.
+     * @summary Set User List Relationships
      * @param {LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -11933,7 +11939,8 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Set Learning Path relationships for a given Learning Resource
+   * Set Learning Path Relationships on a given Learning Resource.
+   * @summary Set Learning Path Relationships
    * @param {LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
@@ -12008,7 +12015,8 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
-   * Set User List relationships for a given Learning Resource
+   * Set User List Relationships on a given Learning Resource.
+   * @summary Set User List Relationships
    * @param {LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

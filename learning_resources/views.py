@@ -379,9 +379,13 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
 
 
 @extend_schema_view(
-    set_user_list_relationships=extend_schema(
-        summary="Set List Relationships",
-        description="Set List Relationships on a given Learning Resource.",
+    userlists=extend_schema(
+        summary="Set User List Relationships",
+        description="Set User List Relationships on a given Learning Resource.",
+    ),
+    learning_paths=extend_schema(
+        summary="Set Learning Path Relationships",
+        description="Set Learning Path Relationships on a given Learning Resource.",
     ),
 )
 @extend_schema(
