@@ -13,14 +13,14 @@ from learning_resources_search.utils import prune_channel_subscriptions
 from main.factories import UserFactory
 
 
-@pytest.fixture
+@pytest.fixture()
 def mocked_api(mocker):
     """Mock object that patches the channels API"""
     return mocker.patch("learning_resources_search.tasks.api")
 
 
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_prune_channel_subscriptions(mocked_api, mocker, client, user):
     """
     Test that duplicate percolate queries for a channel are consolidated
@@ -28,7 +28,6 @@ def test_prune_channel_subscriptions(mocked_api, mocker, client, user):
     """
     channel = ChannelFactory.create(search_filter="offered_by=mitx")
     query_string = channel.search_filter
-
     client.force_login(user)
     params = urllib.parse.parse_qs(query_string)
     params["source_type"] = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
@@ -64,3 +63,40 @@ def test_prune_channel_subscriptions(mocked_api, mocker, client, user):
     )
     assert channel_percolate_queries.count() == 1
     assert channel_percolate_queries.first().users.count() == 11
+
+
+@factory.django.mute_signals(signals.post_delete, signals.post_save)
+@pytest.mark.django_db()
+def test_new_channel_percolate_query_is_created(mocked_api, mocker, client, user):
+    """
+    Test that running the prune command generates percolate current query instances for channels
+    that dont already have them or are out of date
+    """
+    assert (
+        PercolateQuery.objects.filter(
+            source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+        ).count()
+        == 0
+    )
+    ChannelFactory.create(search_filter="offered_by=ocw")
+    channel = ChannelFactory.create(search_filter="offered_by=mitx")
+    prune_channel_subscriptions()
+    assert (
+        PercolateQuery.objects.filter(
+            source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+        ).count()
+        == 2
+    )
+    query_string = channel.search_filter
+    client.force_login(user)
+    params = urllib.parse.parse_qs(query_string)
+    params["source_type"] = PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE
+    sub_url = reverse("lr_search:v1:learning_resources_user_subscription-subscribe")
+
+    client.post(sub_url, json.dumps(params), content_type="application/json")
+    assert (
+        PercolateQuery.objects.filter(
+            source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+        ).count()
+        == 2
+    )
