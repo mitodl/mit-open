@@ -83,7 +83,7 @@ const Info = styled.div<{ size?: Size }>`
   margin-bottom: ${({ size }) => (size === "small" ? 4 : 8)}px;
 `
 
-const Title = styled.h3<{ lines?: number; size?: Size }>`
+const Title = styled.span<{ lines?: number; size?: Size }>`
   text-overflow: ellipsis;
   height: ${({ lines, size }) => {
     const lineHeightPx = size === "small" ? 18 : 20
