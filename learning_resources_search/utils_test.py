@@ -9,7 +9,7 @@ from django.urls import reverse
 from channels.factories import ChannelFactory
 from learning_resources_search.factories import PercolateQueryFactory
 from learning_resources_search.models import PercolateQuery
-from learning_resources_search.utils import realign_channel_subscriptions
+from learning_resources_search.utils import prune_channel_subscriptions
 from main.factories import UserFactory
 
 
@@ -21,7 +21,7 @@ def mocked_api(mocker):
 
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 @pytest.mark.django_db()
-def test_realign_channel_subscriptions(mocked_api, mocker, client, user):
+def test_prune_channel_subscriptions(mocked_api, mocker, client, user):
     """
     Test that duplicate percolate queries for a channel are consolidated
     and the users are migrated to the real instance
@@ -57,7 +57,7 @@ def test_realign_channel_subscriptions(mocked_api, mocker, client, user):
     duplicate_percolate_a.save()
     duplicate_percolate_b.save()
     duplicate_percolate_b.users.set(UserFactory.create_batch(3))
-    realign_channel_subscriptions()
+    prune_channel_subscriptions()
     channel_percolate_queries = PercolateQuery.objects.filter(
         source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
         original_query=percolate_query.original_query,

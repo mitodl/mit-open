@@ -2,7 +2,7 @@
 
 from django.core.management.base import BaseCommand
 
-from learning_resources_search.utils import realign_channel_subscriptions
+from learning_resources_search.utils import prune_channel_subscriptions
 
 
 class Command(BaseCommand):
@@ -12,4 +12,4 @@ class Command(BaseCommand):
     """
 
     def handle(self, **options):  # noqa: ARG002
-        realign_channel_subscriptions()
+        prune_channel_subscriptions()
