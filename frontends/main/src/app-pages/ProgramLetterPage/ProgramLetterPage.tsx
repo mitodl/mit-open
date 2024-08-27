@@ -1,7 +1,7 @@
 import React from "react"
 import { styled } from "ol-components"
 import { useProgramLettersDetail } from "api/hooks/programLetters"
-import { useParams } from "react-router"
+import { useParams } from 'next/navigation'
 import { CkeditorDisplay } from "ol-ckeditor"
 
 type RouteParams = {
@@ -104,7 +104,7 @@ const ProgramLetterFooter = styled.div`
 `
 
 const ProgramLetterPage: React.FC = () => {
-  const id = String(useParams<RouteParams>().id)
+  const { id } = useParams<RouteParams>()
   const programLetter = useProgramLettersDetail(id)
   const templateFields = programLetter.data?.template_fields
   const certificateInfo = programLetter.data?.certificate
