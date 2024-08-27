@@ -99,12 +99,12 @@ describe("DepartmentListingPage", () => {
       await screen.findByRole("heading", {
         name: schools[0].name,
       })
-    ).closest("li")
+    ).closest("section")
     const school1 = (
       await screen.findByRole("heading", {
         name: schools[1].name,
       })
-    ).closest("li")
+    ).closest("section")
     invariant(school0)
     invariant(school1)
 
