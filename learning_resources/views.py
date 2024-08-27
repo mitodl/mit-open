@@ -408,19 +408,17 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
         ),
     ]
 )
-class LearningResourceListRelationshipViewSet(
-    NestedViewSetMixin, viewsets.ModelViewSet
-):
+class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
     """
     Viewset for managing relationships between Learning Resources
     and User Lists / Learning Paths
     """
 
-    parent_lookup_kwargs = {"learning_resource_id": "parent_id"}
     permission_classes = (AnonymousAccessReadonlyPermission,)
     filter_backends = [MultipleOptionsFilterBackend]
     serializer_class = LearningResourceRelationshipSerializer
     queryset = LearningResourceRelationship.objects.select_related("parent", "child")
+    http_method_names = ["patch"]
 
     @action(detail=False, methods=["patch"], name="Set User List Relationships")
     def set_user_list_relationships(self, request, *args, **kwargs):  # noqa: ARG002
