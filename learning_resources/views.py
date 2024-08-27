@@ -465,12 +465,21 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
             child_id=learning_resource_id
         )
         current_relationships.exclude(parent_id__in=learning_path_ids).delete()
-        for index, learning_path_id in enumerate(learning_path_ids):
+        for learning_path_id in learning_path_ids:
+            last_index = 0
+            for index, relationship in enumerate(
+                LearningResourceRelationship.objects.filter(
+                    parent__id=learning_path_id
+                ).order_by("position")
+            ):
+                relationship.position = index
+                relationship.save()
+                last_index = index
             LearningResourceRelationship.objects.create(
                 parent_id=learning_path_id,
                 child_id=learning_resource_id,
                 relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
-                position=index,
+                position=last_index + 1,
             )
         serializer = self.get_serializer(current_relationships, many=True)
         return Response(serializer.data)
