@@ -427,7 +427,6 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
         """
         learning_resource_id = kwargs.get("pk")
         user_list_ids = request.query_params.getlist("userlist_id")
-        log.error(kwargs)
         current_relationships = UserListRelationship.objects.filter(
             child_id=learning_resource_id
         )
