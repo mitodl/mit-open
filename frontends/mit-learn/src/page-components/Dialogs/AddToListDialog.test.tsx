@@ -178,7 +178,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
 
         setRelationshipsUrl =
           urls.learningResources.setLearningPathRelationships({
-            learning_resource_id: resource.id,
+            id: resource.id,
             learning_path_id: [list.id],
           })
         const newRelationship = addToLearningPath(resource, list)
@@ -193,7 +193,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
         const list = faker.helpers.arrayElement(lists)
 
         setRelationshipsUrl = urls.learningResources.setUserListRelationships({
-          learning_resource_id: resource.id,
+          id: resource.id,
           userlist_id: [list.id],
         })
         const newRelationship = addToUserList(resource, list)
@@ -231,7 +231,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
         title = list.title
         setRelationshipUrl =
           urls.learningResources.setLearningPathRelationships({
-            learning_resource_id: relationship.child,
+            id: relationship.child,
           })
         setMockResponse.patch(setRelationshipUrl, relationship)
 
@@ -249,7 +249,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
 
         title = list.title
         setRelationshipUrl = urls.learningResources.setUserListRelationships({
-          learning_resource_id: relationship.child,
+          id: relationship.child,
         })
         setMockResponse.patch(setRelationshipUrl, relationship)
         setMockResponse.get(
