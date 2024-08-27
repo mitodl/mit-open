@@ -54,6 +54,7 @@ from learning_resources.models import (
     UserListRelationship,
 )
 from learning_resources.permissions import (
+    HasLearningPathPermissions,
     HasUserListItemPermissions,
     HasUserListPermissions,
     is_learning_path_editor,
@@ -463,16 +464,16 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
         ],
         responses={200: LearningResourceRelationshipSerializer(many=True)},
     )
-    @action(detail=True, methods=["patch"], name="Set Learning Path Relationships")
+    @action(
+        detail=True,
+        methods=["patch"],
+        permission_classes=[HasLearningPathPermissions],
+        name="Set Learning Path Relationships",
+    )
     def learning_paths(self, request, *args, **kwargs):  # noqa: ARG002
         """
         Set Learning Path relationships for a given Learning Resource
         """
-        if not is_learning_path_editor(request):
-            return Response(
-                {"error": "You do not have permission to edit learning paths"},
-                status=403,
-            )
         learning_resource_id = kwargs.get("pk")
         learning_path_ids = request.query_params.getlist("learning_path_id")
         current_relationships = LearningResourceRelationship.objects.filter(
