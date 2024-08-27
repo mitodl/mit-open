@@ -76,11 +76,11 @@ const learningResources = {
   featured: (params?: Params<FeaturedApi, "featuredList">) =>
     `${API_BASE_URL}/api/v1/featured/${query(params)}`,
   setLearningPathRelationships: (
-    params?: Params<LRApi, "learningResourcesUserlistsPartialUpdate">,
+    params?: Params<LRApi, "learningResourcesLearningPathsPartialUpdate">,
   ) =>
     `${API_BASE_URL}/api/v1/learning_resources/${params?.id}/learning_paths/${params?.learning_path_id ? query({ learning_path_id: params?.learning_path_id }) : ""}`,
   setUserListRelationships: (
-    params?: Params<LRApi, "learningResourcesLearningPathsPartialUpdate">,
+    params?: Params<LRApi, "learningResourcesUserlistsPartialUpdate">,
   ) =>
     `${API_BASE_URL}/api/v1/learning_resources/${params?.id}/userlists/${params?.userlist_id ? query({ userlist_id: params?.userlist_id }) : ""}`,
 }
