@@ -100,10 +100,7 @@ const StyledLink = styled(ButtonLink)`
   text-align: center;
   width: 220px;
   font-size: ${({ theme }) => theme.typography.pxToRem(14)};
-  padding: 16px 12px;
-  padding-right: 12px;
-
-  ${({ theme }) => theme.breakpoints.down("sm")} {
+  padding: 12px ${({ theme }) => theme.breakpoints.down("sm")} {
     width: 100%;
     margin-top: 10px;
     margin-bottom: 10px;
