@@ -86,7 +86,11 @@ describe("ResourceCarousel", () => {
       const { resources } = setupApis({ autoResolve: true })
 
       renderWithProviders(
-        <ResourceCarousel title="My Carousel" config={config} />,
+        <ResourceCarousel
+          titleComponent="h1"
+          title="My Carousel"
+          config={config}
+        />,
       )
 
       const tabs = await screen.findAllByRole("tab")
@@ -123,7 +127,11 @@ describe("ResourceCarousel", () => {
 
       const { resources } = setupApis()
       renderWithProviders(
-        <ResourceCarousel title="My Carousel" config={config} />,
+        <ResourceCarousel
+          titleComponent="h1"
+          title="My Carousel"
+          config={config}
+        />,
       )
 
       if (expectTabs) {
@@ -153,7 +161,11 @@ describe("ResourceCarousel", () => {
     setMockResponse.get(urls.userMe.get(), {})
     setupApis()
     renderWithProviders(
-      <ResourceCarousel title="My Carousel" config={config} />,
+      <ResourceCarousel
+        titleComponent="h1"
+        title="My Carousel"
+        config={config}
+      />,
     )
     await waitFor(() => {
       expect(makeRequest).toHaveBeenCalledWith(
