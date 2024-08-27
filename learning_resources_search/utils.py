@@ -11,9 +11,10 @@ from learning_resources_search.models import PercolateQuery
 log = logging.getLogger()
 
 
-def realign_channel_subscriptions():
+def prune_channel_subscriptions():
     from learning_resources_search.api import (
         adjust_original_query_for_percolate,
+        adjust_query_for_percolator,
     )
     from learning_resources_search.serializers import (
         PercolateQuerySubscriptionRequestSerializer,
@@ -30,17 +31,17 @@ def realign_channel_subscriptions():
             percolate_serializer.get_search_request_data()
             | {"endpoint": LEARNING_RESOURCE}
         )
+        actual_query, _ = PercolateQuery.objects.get_or_create(
+            source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+            original_query=adjusted_original_query,
+            query=adjust_query_for_percolator(adjusted_original_query),
+        )
         queries = PercolateQuery.objects.filter(
             original_query__contains=urllib.parse.parse_qs(query_string),
             source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
         )
-        actual_query = None
-        duplicates = []
-        for q in queries:
-            if q.original_query == adjusted_original_query:
-                actual_query = q
-            else:
-                duplicates.append(q)
+
+        duplicates = [q for q in queries if q.original_query != adjusted_original_query]
         if actual_query:
             for dup in duplicates:
                 if (
