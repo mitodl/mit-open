@@ -332,10 +332,12 @@ const useLearningResourceSetUserListRelationships = () => {
       params: LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest,
     ) => learningResourcesApi.learningResourcesUserlistsPartialUpdate(params),
     onSuccess: (response, _vars) => {
-      queryClient.setQueriesData<PaginatedLearningResourceList>(
-        learningResources.featured({}).queryKey,
-        (old) => updateListParentsOnAdd(response.data, old),
-      )
+      response.data.forEach((relationship) => {
+        queryClient.setQueriesData<PaginatedLearningResourceList>(
+          learningResources.featured({}).queryKey,
+          (old) => updateListParentsOnAdd(relationship, old),
+        )
+      })
     },
     onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.id, {
@@ -356,10 +358,12 @@ const useLearningResourceSetLearningPathRelationships = () => {
     ) =>
       learningResourcesApi.learningResourcesLearningPathsPartialUpdate(params),
     onSuccess: (response, _vars) => {
-      queryClient.setQueriesData<PaginatedLearningResourceList>(
-        learningResources.featured({}).queryKey,
-        (old) => updateListParentsOnAdd(response.data, old),
-      )
+      response.data.forEach((relationship) => {
+        queryClient.setQueriesData<PaginatedLearningResourceList>(
+          learningResources.featured({}).queryKey,
+          (old) => updateListParentsOnAdd(relationship, old),
+        )
+      })
     },
     onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.id, {
