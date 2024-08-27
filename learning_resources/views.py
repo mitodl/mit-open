@@ -428,12 +428,23 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
         learning_resource_id = kwargs.get("pk")
         user_list_ids = request.query_params.getlist("userlist_id")
         current_relationships = UserListRelationship.objects.filter(
-            child_id=learning_resource_id
+            parent__author=request.user, child_id=learning_resource_id
         )
         current_relationships.exclude(parent_id__in=user_list_ids).delete()
-        for index, userlist_id in enumerate(user_list_ids):
+        for userlist_id in user_list_ids:
+            last_index = 0
+            for index, relationship in enumerate(
+                UserListRelationship.objects.filter(
+                    parent__author=request.user, parent__id=userlist_id
+                ).order_by("position")
+            ):
+                relationship.position = index
+                relationship.save()
+                last_index = index
             UserListRelationship.objects.create(
-                parent_id=userlist_id, child_id=learning_resource_id, position=index
+                parent_id=userlist_id,
+                child_id=learning_resource_id,
+                position=last_index + 1,
             )
         serializer = self.get_serializer(current_relationships, many=True)
         return Response(serializer.data)
