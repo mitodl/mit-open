@@ -331,17 +331,9 @@ const useLearningResourceSetUserListRelationships = () => {
     mutationFn: (
       params: LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest,
     ) => learningResourcesApi.learningResourcesUserlistsPartialUpdate(params),
-    onSuccess: (response, _vars) => {
-      response.data.forEach((relationship) => {
-        queryClient.setQueriesData<PaginatedLearningResourceList>(
-          learningResources.featured({}).queryKey,
-          (old) => updateListParentsOnAdd(relationship, old),
-        )
-      })
-    },
     onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.id, {
-        skipFeatured: true,
+        skipFeatured: false,
       })
       vars.userlist_id?.forEach((userlistId) => {
         invalidateUserListQueries(queryClient, userlistId)
@@ -357,21 +349,13 @@ const useLearningResourceSetLearningPathRelationships = () => {
       params: LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest,
     ) =>
       learningResourcesApi.learningResourcesLearningPathsPartialUpdate(params),
-    onSuccess: (response, _vars) => {
-      response.data.forEach((relationship) => {
-        queryClient.setQueriesData<PaginatedLearningResourceList>(
-          learningResources.featured({}).queryKey,
-          (old) => updateListParentsOnAdd(relationship, old),
-        )
-      })
-    },
     onSettled: (_response, _err, vars) => {
       invalidateResourceQueries(queryClient, vars.id, {
-        skipFeatured: true,
+        skipFeatured: false,
       })
       vars.learning_path_id?.forEach((learningPathId) => {
         invalidateResourceQueries(queryClient, learningPathId, {
-          skipFeatured: true,
+          skipFeatured: false,
         })
       })
     },
