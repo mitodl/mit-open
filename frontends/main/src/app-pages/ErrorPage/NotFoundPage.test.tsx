@@ -1,6 +1,6 @@
 import React from "react"
 import { waitFor } from "@testing-library/react"
-import { renderWithProviders, screen } from "../../test-utils"
+import { renderWithProviders, screen } from "@/test-utils"
 import { HOME } from "@/common/urls"
 import NotFoundPage from "./NotFoundPage"
 

@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import ErrorPageTemplate from "./ErrorPageTemplate"
 import { Typography } from "ol-components"

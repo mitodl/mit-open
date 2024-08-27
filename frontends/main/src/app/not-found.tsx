@@ -1,12 +1,8 @@
 import React from "react"
-import Link from "next/link"
+import NotFoundPage from "@/app-pages/ErrorPage/NotFoundPage"
 
-export default function NotFound() {
-  return (
-    <div>
-      <h2>Not Found</h2>
-      <p>Could not find requested resource</p>
-      <Link href="/">Return Home</Link>
-    </div>
-  )
+const Page: React.FC = () => {
+  return <NotFoundPage />
 }
+
+export default Page

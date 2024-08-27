@@ -7,7 +7,6 @@ import {
   ButtonLink,
 } from "ol-components"
 import { HOME } from "@/common/urls"
-import { Helmet } from "react-helmet-async"
 
 type ErrorPageTemplateProps = {
   title: string
@@ -21,10 +20,10 @@ const ErrorPageTemplate: React.FC<ErrorPageTemplateProps> = ({
   return (
     <Container maxWidth="sm">
       <MuiCard sx={{ marginTop: "1rem" }}>
-        <Helmet>
+        {/* TODO <Helmet>
           <title>{`${title} | ${APP_SETTINGS.SITE_NAME}`}</title>
           <meta name="robots" content="noindex,noarchive" />
-        </Helmet>
+        </Helmet> */}
         <CardContent>{children}</CardContent>
         <CardActions>
           <ButtonLink variant="secondary" href={HOME}>
