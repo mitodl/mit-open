@@ -51,13 +51,13 @@ def realign_channel_subscriptions():
                         dup.users.remove(user)
                         dup.save()
                         actual_query.users.add(user)
+                    msg = (
+                        f"removing duplicate percolate query ({dup.id}) "
+                        f"for channel {channel.title}"
+                    )
+                    log.info(msg)
                     dup.delete()
                 actual_query.save()
-                msg = (
-                    f"removing duplicate percolate query ({q.id}) "
-                    f"for channel {channel.title}"
-                )
-                log.info(msg)
 
 
 def remove_child_queries(query):
