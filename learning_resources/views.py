@@ -413,6 +413,13 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
     queryset = LearningResourceRelationship.objects.select_related("parent", "child")
     http_method_names = ["patch"]
 
+    def get_serializer_class(self):
+        if self.action == "userlists":
+            return UserListRelationshipSerializer
+        elif self.action == "learning_paths":
+            return LearningResourceRelationshipSerializer
+        return super().get_serializer_class()
+
     @extend_schema(
         summary="Set User List Relationships",
         description="Set User List Relationships on a given Learning Resource.",
