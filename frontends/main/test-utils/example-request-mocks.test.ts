@@ -1,5 +1,5 @@
-import axios from "@/services/axios"
-import { setMockResponse } from "./mockAxios"
+import axios from "api/axios"
+import { setMockResponse } from "api/test-utils"
 import { ControlledPromise, allowConsoleErrors } from "ol-test-utilities"
 
 describe("request mocking", () => {

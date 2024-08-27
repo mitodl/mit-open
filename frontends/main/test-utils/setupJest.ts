@@ -1,5 +1,5 @@
 import { setupMockEditors } from "ol-ckeditor/test_utils"
-import { mockAxiosInstance } from "./mockAxios"
+import { mockAxiosInstance } from "api/test-utils"
 
 setupMockEditors()
 

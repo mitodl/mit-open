@@ -5,8 +5,8 @@ import {
   user,
   screen,
   expectProps,
-} from "../../test-utils"
-import type { User } from "../../test-utils"
+} from "@/test-utils"
+import type { User } from "api/hooks/user"
 import { ResourceCard, ResourceListCard } from "./ResourceCard"
 import {
   AddToLearningPathDialog,

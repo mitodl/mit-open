@@ -4,7 +4,7 @@ import { BrowserRouter } from "react-router-dom"
 
 import ChannelMenu from "./ChannelMenu"
 import { urls } from "api/test-utils"
-import { setMockResponse, user } from "../../test-utils"
+import { setMockResponse, user } from "@/test-utils"
 import { channels as factory } from "api/test-utils/factories"
 import { ThemeProvider } from "ol-components"
 

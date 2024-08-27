@@ -3,7 +3,7 @@ import { render, screen } from "@testing-library/react"
 import { ChannelDetails } from "./ChannelDetails"
 import { BrowserRouter } from "react-router-dom"
 import { urls } from "api/test-utils"
-import { setMockResponse } from "../../test-utils"
+import { setMockResponse } from "@/test-utils"
 import { channels as factory } from "api/test-utils/factories"
 import { ThemeProvider } from "ol-components"
 

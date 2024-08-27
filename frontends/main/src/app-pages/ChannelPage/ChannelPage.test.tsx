@@ -8,7 +8,7 @@ import {
   within,
   waitFor,
   assertPartialMetas,
-} from "../../test-utils"
+} from "@/test-utils"
 import ChannelSearch from "./ChannelSearch"
 
 jest.mock("./ChannelSearch", () => {

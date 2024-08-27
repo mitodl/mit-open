@@ -9,6 +9,7 @@ import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 const setup = (props: LearningResourceCardProps) => {
+  // TODO Browser Router will need to be replaced with a Next.js router mock or alternative strategy
   return render(
     <BrowserRouter>
       <LearningResourceCard

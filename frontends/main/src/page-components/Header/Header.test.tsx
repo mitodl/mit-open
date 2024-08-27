@@ -6,7 +6,7 @@ import {
   within,
   user,
   expectWindowNavigation,
-} from "../../test-utils"
+} from "@/test-utils"
 import invariant from "tiny-invariant"
 import * as urlConstants from "@/common/urls"
 import { setMockResponse, urls } from "api/test-utils"

@@ -10,7 +10,7 @@ import {
   user,
   within,
   act,
-} from "../../test-utils"
+} from "@/test-utils"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { waitForElementToBeRemoved } from "@testing-library/react"
 import {

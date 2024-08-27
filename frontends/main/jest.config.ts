@@ -1,4 +1,4 @@
-import path from "path"
+import path, { resolve } from "path"
 import type { Config } from "@jest/types"
 import baseConfig from "../jest.jsdom.config"
 
@@ -6,10 +6,11 @@ const config: Config.InitialOptions = {
   ...baseConfig,
   setupFilesAfterEnv: [
     ...baseConfig.setupFilesAfterEnv,
-    "./test-utils/setupJest.ts",
+    resolve(__dirname, "./test-utils/setupJest.ts"),
   ],
   moduleNameMapper: {
-    "^@/(.*)$": path.resolve(__dirname, "src/$1"),
+    "^@/(.*)$": resolve(__dirname, "src/$1"),
+    "^@/test-utils$": resolve(__dirname, "test-utils"),
     ...baseConfig.moduleNameMapper,
   },
   transformIgnorePatterns: ["/node_modules/(?!(" + "yaml", ")/)"],

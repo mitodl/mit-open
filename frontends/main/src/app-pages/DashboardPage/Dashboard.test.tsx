@@ -4,7 +4,7 @@ import {
   setMockResponse,
   within,
   renderWithProviders,
-} from "../../test-utils"
+} from "@/test-utils"
 import { factories, urls } from "api/test-utils"
 import { Permissions } from "@/common/permissions"
 import DashboardPage, {

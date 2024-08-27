@@ -14,7 +14,7 @@ import {
   setMockResponse,
   waitFor,
   act,
-} from "../../test-utils"
+} from "@/test-utils"
 import ItemsListing from "./ItemsListing"
 import type {
   ItemsListingProps,

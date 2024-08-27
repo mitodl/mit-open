@@ -5,9 +5,9 @@ import type { RouteObject } from "react-router"
 import AppProviders from "../AppProviders"
 import appRoutes from "../routes"
 import { render } from "@testing-library/react"
-import { setMockResponse } from "./mockAxios"
+import { setMockResponse } from "api/test-utils"
 import { createQueryClient } from "@/services/react-query/react-query"
-import type { User } from "../types/settings"
+import type { User } from "api/hooks/user"
 import { QueryKey } from "@tanstack/react-query"
 
 interface TestAppOptions {

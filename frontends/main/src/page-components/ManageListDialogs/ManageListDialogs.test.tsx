@@ -14,8 +14,8 @@ import {
   user,
   within,
   act,
-} from "../../test-utils"
-import type { TestAppOptions } from "../../test-utils"
+} from "@/test-utils"
+import type { TestAppOptions } from "@/test-utils"
 import { waitForElementToBeRemoved } from "@testing-library/react"
 import invariant from "tiny-invariant"
 

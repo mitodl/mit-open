@@ -8,8 +8,8 @@ import {
   user,
   expectProps,
   within,
-} from "../../test-utils"
-import type { User } from "../../test-utils"
+} from "@/test-utils"
+import type { User } from "@/test-utils"
 
 import UserListListing from "./UserListListing"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"

@@ -13,7 +13,7 @@ import {
   user,
   within,
   waitFor,
-} from "../../../../mit-learn/src/test-utils"
+} from "@/test-utils"
 import type { FeaturedApiFeaturedListRequest as FeaturedRequest } from "api"
 import invariant from "tiny-invariant"
 import * as routes from "@/common/urls"

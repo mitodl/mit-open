@@ -9,8 +9,8 @@ import {
   setMockResponse,
   user,
   waitFor,
-} from "../../test-utils"
-import type { User } from "../../test-utils"
+} from "@/test-utils"
+import type { User } from "@/test-utils"
 
 /**
  * Set up the mock API responses for lists pages.
