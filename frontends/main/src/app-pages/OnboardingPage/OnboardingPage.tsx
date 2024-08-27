@@ -1,5 +1,7 @@
+'use client'
+
 import React, { useId, useMemo } from "react"
-import { useNavigate } from "react-router-dom"
+import { useRouter } from "next/navigation";
 import range from "lodash/range"
 import {
   styled,
@@ -32,7 +34,7 @@ import {
   LEARNING_FORMAT_CHOICES,
   ProfileSchema,
 } from "@/common/profile"
-import MetaTags from "@/page-components/MetaTags/MetaTags"
+// import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const NUM_STEPS = 5
 
@@ -154,7 +156,8 @@ const OnboardingPage: React.FC = () => {
   const { isLoading: isSaving, mutateAsync } = useProfileMeMutation()
   const { isLoading: userLoading, data: user } = useUserMe()
   const [activeStep, setActiveStep] = React.useState<number>(0)
-  const navigate = useNavigate()
+  const router = useRouter()
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: initialFormData ?? ProfileSchema.getDefault(),
@@ -169,7 +172,7 @@ const OnboardingPage: React.FC = () => {
       if (activeStep < NUM_STEPS - 1) {
         setActiveStep((prevActiveStep) => prevActiveStep + 1)
       } else {
-        navigate(DASHBOARD_HOME)
+        router.push(DASHBOARD_HOME)
       }
     },
     validateOnChange: false,
@@ -287,7 +290,7 @@ const OnboardingPage: React.FC = () => {
 
   return activeStep < NUM_STEPS ? (
     <FlexContainer>
-      <MetaTags title="Onboarding" social={false} />
+      {/* TODO <MetaTags title="Onboarding" social={false} /> */}
       <StepContainer>
         <div />
         <Stepper connector={null}>

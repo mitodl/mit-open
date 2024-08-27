@@ -148,7 +148,7 @@ describe("DepartmentListingPage", () => {
         expect(channelLink).toHaveAttribute("href", `/units/${unit.code}`)
         expect(logoImage).toHaveAttribute(
           "src",
-          `/static/images/units/${unit.code}.svg`,
+          `/images/units/${unit.code}.svg`,
         )
         expect(valuePropText).toBeInTheDocument()
         const courseCount = courseCounts[unit.code as keyof typeof courseCounts]

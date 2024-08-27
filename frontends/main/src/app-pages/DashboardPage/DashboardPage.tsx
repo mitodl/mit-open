@@ -66,7 +66,7 @@ const DesktopOnly = styled.div(({ theme }) => ({
 
 const Background = styled.div(({ theme }) => ({
   backgroundColor: theme.custom.colors.lightGray1,
-  backgroundImage: "url('/static/images/user_menu_background.svg')",
+  backgroundImage: "url('/images/backgrounds/user_menu_background.svg')",
   backgroundAttachment: "fixed",
   backgroundRepeat: "no-repeat",
   height: "100%",
