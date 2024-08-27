@@ -11,6 +11,7 @@ import type {
   BooleanFacets,
 } from "@mitodl/course-search-utils"
 import { ChannelTypeEnum } from "api/v0"
+import LearningResourceDrawer from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
 type RouteParams = {
   channelType: ChannelTypeEnum
@@ -39,6 +40,7 @@ const ChannelPage: React.FC = () => {
     name &&
     channelType && (
       <>
+        <LearningResourceDrawer />
         <ChannelPageTemplate name={name} channelType={channelType}>
           <p>{channelQuery.data?.public_description}</p>
           {channelQuery.data?.search_filter && (

@@ -1,5 +1,7 @@
+"use client"
+
 import React, { useMemo } from "react"
-import { useParams } from "react-router"
+import { useParams } from 'next/navigation'
 import { useUserMe } from "api/hooks/user"
 import {
   useInfiniteLearningPathItems,
@@ -7,7 +9,8 @@ import {
 } from "api/hooks/learningResources"
 import { ListType } from "api/constants"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import { ListDetailsPage } from "./ListDetailsPage"
+import LearningResourceDrawer from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
+import ListDetailsPage from "./ListDetailsPage"
 
 type RouteParams = {
   id: string
@@ -15,8 +18,10 @@ type RouteParams = {
 
 const LearningPathDetailsPage: React.FC = () => {
   const { data: user } = useUserMe()
+  const params = useParams<RouteParams>()
 
-  const id = Number(useParams<RouteParams>().id)
+  const id = parseInt(params.id)
+
   const pathQuery = useLearningPathsDetail(id)
   const itemsQuery = useInfiniteLearningPathItems({
     learning_resource_id: id,
@@ -38,6 +43,8 @@ const LearningPathDetailsPage: React.FC = () => {
   }, [pathQuery.data])
 
   return (
+    <>
+    <LearningResourceDrawer />
     <ListDetailsPage
       listType={ListType.LearningPath}
       list={list}
@@ -47,7 +54,8 @@ const LearningPathDetailsPage: React.FC = () => {
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}
       handleEdit={() => manageListDialogs.upsertLearningPath(pathQuery.data)}
-    />
+      />
+      </>
   )
 }
 

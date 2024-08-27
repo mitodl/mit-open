@@ -41,6 +41,7 @@ import ResourceCarousel from "@/page-components/ResourceCarousel/ResourceCarouse
 import UserListDetailsTab from "./UserListDetailsTab"
 import { SettingsPage } from "./SettingsPage"
 import { DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS } from "@/common/urls"
+import LearningResourceDrawer from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 // import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 /**
@@ -408,6 +409,7 @@ const DashboardPage: React.FC = () => {
   return (
     <Background>
       <Page>
+        <LearningResourceDrawer />
         <DashboardContainer>
           {/* TODO <MetaTags title="Your MIT Learning Journey" social={false} /> */}
           <TabContext value={tabValue}>
