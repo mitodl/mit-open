@@ -37,6 +37,7 @@ const UpcomingCoursesSection: React.FC = () => {
   return (
     <Container>
       <ResourceCarousel
+        titleComponent="h2"
         title="Upcoming Courses"
         config={UPCOMING_COURSES_CAROUSEL}
       />
