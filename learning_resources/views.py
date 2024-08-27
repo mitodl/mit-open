@@ -454,6 +454,11 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
         """
         Set Learning Path relationships for a given Learning Resource
         """
+        if not is_learning_path_editor(request):
+            return Response(
+                {"error": "You do not have permission to edit learning paths"},
+                status=403,
+            )
         learning_resource_id = kwargs.get("pk")
         learning_path_ids = request.query_params.getlist("learning_path_id")
         current_relationships = LearningResourceRelationship.objects.filter(
