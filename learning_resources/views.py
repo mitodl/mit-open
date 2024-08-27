@@ -378,16 +378,6 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
     ordering = ["position", "-child__last_modified"]
 
 
-@extend_schema_view(
-    userlists=extend_schema(
-        summary="Set User List Relationships",
-        description="Set User List Relationships on a given Learning Resource.",
-    ),
-    learning_paths=extend_schema(
-        summary="Set Learning Path Relationships",
-        description="Set Learning Path Relationships on a given Learning Resource.",
-    ),
-)
 @extend_schema(
     parameters=[
         OpenApiParameter(
@@ -410,7 +400,7 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
             location=OpenApiParameter.QUERY,
             description="id of the parent learning path",
         ),
-    ]
+    ],
 )
 class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
     """
@@ -420,10 +410,14 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
 
     permission_classes = (AnonymousAccessReadonlyPermission,)
     filter_backends = [MultipleOptionsFilterBackend]
-    serializer_class = LearningResourceRelationshipSerializer
     queryset = LearningResourceRelationship.objects.select_related("parent", "child")
     http_method_names = ["patch"]
 
+    @extend_schema(
+        summary="Set User List Relationships",
+        description="Set User List Relationships on a given Learning Resource.",
+        responses={200: UserListRelationshipSerializer(many=True)},
+    )
     @action(detail=True, methods=["patch"], name="Set User List Relationships")
     def userlists(self, request, *args, **kwargs):  # noqa: ARG002
         """
@@ -450,9 +444,14 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
                 child_id=learning_resource_id,
                 position=last_index + 1,
             )
-        serializer = self.get_serializer(current_relationships, many=True)
+        serializer = UserListRelationshipSerializer(current_relationships, many=True)
         return Response(serializer.data)
 
+    @extend_schema(
+        summary="Set Learning Path Relationships",
+        description="Set Learning Path Relationships on a given Learning Resource.",
+        responses={200: LearningResourceRelationshipSerializer(many=True)},
+    )
     @action(detail=True, methods=["patch"], name="Set Learning Path Relationships")
     def learning_paths(self, request, *args, **kwargs):  # noqa: ARG002
         """
@@ -485,7 +484,9 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
                 relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
                 position=last_index + 1,
             )
-        serializer = self.get_serializer(current_relationships, many=True)
+        serializer = LearningResourceRelationshipSerializer(
+            current_relationships, many=True
+        )
         return Response(serializer.data)
 
 
