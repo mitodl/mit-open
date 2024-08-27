@@ -1,5 +1,5 @@
 import React from "react"
-import Link  from "next/link"
+import Link from "next/link"
 import { screen, render, act } from "@testing-library/react"
 import { LearningResourceCard } from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"

@@ -1,9 +1,4 @@
-import React, {
-  FC,
-  ReactNode,
-  Children,
-  isValidElement,
-} from "react"
+import React, { FC, ReactNode, Children, isValidElement } from "react"
 import Link from "next/link"
 import styled from "@emotion/styled"
 import { RiDraggable } from "@remixicon/react"
@@ -11,7 +6,7 @@ import { theme } from "../ThemeProvider/ThemeProvider"
 import { Wrapper, containerStyles, ImageProps } from "./Card"
 import { TruncateText } from "../TruncateText/TruncateText"
 import { ActionButton, ActionButtonProps } from "../Button/Button"
-import {default as NextImage} from "next/image"
+import { default as NextImage } from "next/image"
 
 export const LinkContainer = styled(Link)`
   ${containerStyles}

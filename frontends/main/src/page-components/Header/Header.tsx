@@ -48,7 +48,6 @@ import {
 import { useSearchParams } from "next/navigation"
 import { useUserMe } from "api/hooks/user"
 
-
 const Bar = styled(AppBar)(({ theme }) => ({
   height: "60px",
   padding: "0 8px",

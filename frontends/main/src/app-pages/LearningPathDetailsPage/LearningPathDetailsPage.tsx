@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useMemo } from "react"
-import { useParams } from 'next/navigation'
+import { useParams } from "next/navigation"
 import { useUserMe } from "api/hooks/user"
 import {
   useInfiniteLearningPathItems,
@@ -44,18 +44,18 @@ const LearningPathDetailsPage: React.FC = () => {
 
   return (
     <>
-    <LearningResourceDrawer />
-    <ListDetailsPage
-      listType={ListType.LearningPath}
-      list={list}
-      items={items}
-      showSort={!!user?.is_authenticated}
-      canEdit={!!user?.is_learning_path_editor}
-      isLoading={itemsQuery.isLoading}
-      isFetching={itemsQuery.isFetching}
-      handleEdit={() => manageListDialogs.upsertLearningPath(pathQuery.data)}
+      <LearningResourceDrawer />
+      <ListDetailsPage
+        listType={ListType.LearningPath}
+        list={list}
+        items={items}
+        showSort={!!user?.is_authenticated}
+        canEdit={!!user?.is_learning_path_editor}
+        isLoading={itemsQuery.isLoading}
+        isFetching={itemsQuery.isFetching}
+        handleEdit={() => manageListDialogs.upsertLearningPath(pathQuery.data)}
       />
-      </>
+    </>
   )
 }
 

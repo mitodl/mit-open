@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import PageWrapper from "./ClientWrapper"
 
 const Page: React.FC = () => {

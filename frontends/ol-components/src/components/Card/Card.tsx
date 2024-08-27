@@ -9,7 +9,7 @@ import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { pxToRem } from "../ThemeProvider/typography"
 import Link from "next/link"
-import {default as NextImage, ImageProps as NextImageProps } from "next/image"
+import { default as NextImage, ImageProps as NextImageProps } from "next/image"
 
 export type Size = "small" | "medium"
 

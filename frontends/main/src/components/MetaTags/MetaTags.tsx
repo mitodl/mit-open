@@ -1,4 +1,3 @@
-
 import React from "react"
 // import { Helmet } from "react-helmet-async"
 import Head from "next/head"
@@ -8,8 +7,6 @@ type MetaTagsProps = {
   canonicalLink?: string
   children?: React.ReactNode
 }
-
-
 
 /**
  * Renders a Next.js head component to customize meta tags

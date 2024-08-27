@@ -16,13 +16,7 @@ type ChipLinkProps = { href: string } & Pick<
  */
 const ChipLink = React.forwardRef<HTMLAnchorElement, ChipLinkProps>(
   ({ href, ...others }, ref) => (
-    <Chip
-      {...others}
-      ref={ref}
-      component={Link}
-      href={href || ""}
-      clickable
-    />
+    <Chip {...others} ref={ref} component={Link} href={href || ""} clickable />
   ),
 )
 

@@ -44,7 +44,7 @@ const TopicBoxHeader = styled(
   ({ title, icon, href, className }: TopicBoxHeaderProps) => {
     return (
       <Typography variant="h5" component="h3" className={className}>
-          <Link href={href ?? ""}>
+        <Link href={href ?? ""}>
           <RootTopicIcon icon={icon} aria-hidden="true" />
           <span>
             <span className="topic-title">{title}</span>

@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react"
 import Menu, { MenuProps } from "@mui/material/Menu"
 import { MenuItem } from "../MenuItem/MenuItem"
 import ListItemIcon from "@mui/material/ListItemIcon"
-import { default as RouterLink }   from "next/link"
+import { default as RouterLink } from "next/link"
 import type { LinkProps as RouterLinkProps } from "next/link"
 
 /**

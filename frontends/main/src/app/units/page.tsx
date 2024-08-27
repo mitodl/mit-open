@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 // import { Metadata } from "next"
 import UnitsListingPage from "@/app-pages/UnitsListingPage/UnitsListingPage"
 

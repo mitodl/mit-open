@@ -68,7 +68,7 @@ type LinkProps = LinkStyleProps &
  * For a link styled as a button, use ButtonLink.
  */
 const Link = styled((props: LinkProps) => {
-  return <NextLink href={props.href ? `/${props.href}` :""} {...props} />
+  return <NextLink href={props.href ? `/${props.href}` : ""} {...props} />
 })<LinkStyleProps>(linkStyles)
 
 export { Link, linkStyles }

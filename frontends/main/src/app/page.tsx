@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import { dehydrate, Hydrate } from "api/ssr"
 import HomePage from "@/app-pages/HomePage/HomePage"
 import * as carousels from "@/app-pages/HomePage/carousels"
@@ -6,13 +6,10 @@ import { learningResourcesKeyFactory } from "api/hooks/learningResources"
 import { FeaturedApiFeaturedListRequest } from "api/generated/v1/api"
 import getQueryClient from "./getQueryClient"
 
-
 // export const metadata: Metadata = {
 //   title: "MIT Learn",
 //   description: "Learn With MIT",
 // };
-
-
 
 const Page: React.FC = async () => {
   const queryClient = getQueryClient()
@@ -22,8 +19,9 @@ const Page: React.FC = async () => {
    */
   await queryClient.prefetchQuery(
     learningResourcesKeyFactory.featured(
-      carousels.FEATURED_RESOURCES_CAROUSEL[0].data.params as FeaturedApiFeaturedListRequest
-    )
+      carousels.FEATURED_RESOURCES_CAROUSEL[0].data
+        .params as FeaturedApiFeaturedListRequest,
+    ),
   )
 
   const dehydratedState = dehydrate(queryClient)

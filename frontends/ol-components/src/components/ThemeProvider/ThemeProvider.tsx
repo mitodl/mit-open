@@ -84,7 +84,6 @@ const themeOptions: ThemeOptions = {
   },
 }
 
-
 type ExtendedTheme = Theme & {
   custom: CustomTheme
 }

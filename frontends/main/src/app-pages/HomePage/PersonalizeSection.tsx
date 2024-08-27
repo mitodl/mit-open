@@ -5,8 +5,7 @@ import * as urls from "@/common/urls"
 
 const FullWidthBackground = styled.div(({ theme }) => ({
   padding: "80px 0",
-  background:
-    'url("/images/homepage/personalize-bg.png") center top no-repeat',
+  background: 'url("/images/homepage/personalize-bg.png") center top no-repeat',
   backgroundSize: "cover",
   [theme.breakpoints.down("md")]: {
     padding: "40px 0",
@@ -111,10 +110,7 @@ const PersonalizeSection = () => {
   return (
     <FullWidthBackground>
       <PersonalizeContainer>
-        <ImageContainer
-          src="/images/homepage/personalize-image.png"
-          alt=""
-        />
+        <ImageContainer src="/images/homepage/personalize-image.png" alt="" />
         <PersonalizeContent />
       </PersonalizeContainer>
     </FullWidthBackground>

@@ -24,7 +24,7 @@ import {
 } from "ol-components"
 import Link from "next/link"
 import { useUserMe } from "api/hooks/user"
-import { useParams } from 'next/navigation'
+import { useParams } from "next/navigation"
 import UserListListingComponent from "@/page-components/UserListListing/UserListListing"
 
 import { ProfileEditForm } from "./ProfileEditForm"
@@ -316,7 +316,6 @@ const DashboardPage: React.FC = () => {
   const id = Number(useParams<RouteParams>().id) || -1
   const showUserListDetail = appRouterPath === MY_LISTS && id !== -1
 
-
   const tabValue = showUserListDetail
     ? MY_LISTS
     : [DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS].includes(appRouterPath)
@@ -516,7 +515,4 @@ const DashboardPage: React.FC = () => {
 
 export default DashboardPage
 
-export {
-  TabKeys as DashboardTabKeys,
-  TabLabels as DashboardTabLabels,
-}
+export { TabKeys as DashboardTabKeys, TabLabels as DashboardTabLabels }

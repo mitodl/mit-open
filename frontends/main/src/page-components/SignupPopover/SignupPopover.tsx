@@ -34,9 +34,7 @@ const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
 
   return (
     <StyledPopover {...props} open={!!props.anchorEl}>
-      <HeaderText variant="subtitle2">
-        Join {SITE_NAME} for free.
-      </HeaderText>
+      <HeaderText variant="subtitle2">Join {SITE_NAME} for free.</HeaderText>
       <BodyText variant="body2">
         As a member, get personalized recommendations, curate learning lists,
         and follow your areas of interest.

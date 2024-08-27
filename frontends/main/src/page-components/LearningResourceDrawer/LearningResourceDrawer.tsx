@@ -1,4 +1,3 @@
-
 import React, { useCallback } from "react"
 import {
   RoutedDrawer,
@@ -7,7 +6,11 @@ import {
 } from "ol-components"
 import type { RoutedDrawerProps } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import { useSearchParams, useRouter, ReadonlyURLSearchParams } from "next/navigation"
+import {
+  useSearchParams,
+  useRouter,
+  ReadonlyURLSearchParams,
+} from "next/navigation"
 
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 // import { usePostHog } from "posthog-js/react"
@@ -104,7 +107,10 @@ const LearningResourceDrawer = () => {
   )
 }
 
-const getOpenDrawerSearchParams = (current: ReadonlyURLSearchParams, resourceId: number) => {
+const getOpenDrawerSearchParams = (
+  current: ReadonlyURLSearchParams,
+  resourceId: number,
+) => {
   const newSearchParams = new URLSearchParams(current)
   newSearchParams.set(RESOURCE_DRAWER_QUERY_PARAM, resourceId.toString())
   return newSearchParams
@@ -112,7 +118,7 @@ const getOpenDrawerSearchParams = (current: ReadonlyURLSearchParams, resourceId:
 
 const useOpenLearningResourceDrawer = () => {
   const searchParams = useSearchParams()
-  const router = useRouter();
+  const router = useRouter()
 
   const openLearningResourceDrawer = useCallback(
     (resourceId: number) => {
@@ -122,7 +128,6 @@ const useOpenLearningResourceDrawer = () => {
   )
   return openLearningResourceDrawer
 }
-
 
 const useResourceDrawerHref = () => {
   const searchParams = useSearchParams()

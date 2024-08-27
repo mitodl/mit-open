@@ -2,29 +2,25 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-
   webpack: (
     config,
-    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
+    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack },
   ) => {
-
     config.plugins.push(
       new webpack.IgnorePlugin({
-        resourceRegExp: /\.test\.tsx$/
+        resourceRegExp: /\.test\.tsx$/,
       }),
       new webpack.IgnorePlugin({
-        resourceRegExp: /mockAxios\.ts/
+        resourceRegExp: /mockAxios\.ts/,
       }),
-    );
+    )
 
     config.module.rules.push({
       test: /\.tsx?$/,
-      use: [
-        defaultLoaders.babel,
-      ],
-    });
+      use: [defaultLoaders.babel],
+    })
 
-    return config;
+    return config
   },
 
   async rewrites() {
@@ -107,7 +103,7 @@ const nextConfig = {
         hostname: "artwork.captivate.fm",
         port: "",
         pathname: "**",
-      }
+      },
     ],
   },
 }

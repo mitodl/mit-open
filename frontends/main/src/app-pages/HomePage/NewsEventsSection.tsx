@@ -172,7 +172,9 @@ const Story: React.FC<{ item: NewsFeedItem; mobile: boolean }> = ({
 }) => {
   return (
     <StoryCard mobile={mobile} href={item.url}>
-      {item.image.url ? <Card.Image src={item.image.url} alt={item.image.alt || ""} /> : null}
+      {item.image.url ? (
+        <Card.Image src={item.image.url} alt={item.image.alt || ""} />
+      ) : null}
       <Card.Title lines={2} style={{ marginBottom: -13 }}>
         {item.title}
       </Card.Title>

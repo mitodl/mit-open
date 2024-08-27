@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import LearningPathListingPage from "@/app-pages/LearningPathListingPage/LearningPathListingPage"
 
 const Page: React.FC = () => {

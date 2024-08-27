@@ -6,7 +6,7 @@
  * its parents are marked with "use client", so they're Server Components by default.
  */
 
-import React from "react";
+import React from "react"
 import DashboardPage from "@/app-pages/DashboardPage/DashboardPage"
 
 const Page: React.FC = () => {

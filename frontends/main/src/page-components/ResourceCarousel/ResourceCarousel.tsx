@@ -1,6 +1,5 @@
 "use client"
 
-
 import React from "react"
 import { learningResourcesKeyFactory } from "api/hooks/learningResources"
 import {
@@ -15,11 +14,7 @@ import {
 import type { TabConfig } from "./types"
 import { LearningResource, PaginatedLearningResourceList } from "api"
 import { ResourceCard } from "../ResourceCard/ResourceCard"
-import {
-  useQueries,
-  UseQueryResult,
-  UseQueryOptions,
-} from "api/ssr"
+import { useQueries, UseQueryResult, UseQueryOptions } from "api/ssr"
 
 const StyledCarousel = styled(Carousel)({
   /**

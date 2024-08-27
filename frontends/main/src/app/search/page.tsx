@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 // import { Metadata } from "next"
 import SearchPage from "@/app-pages/SearchPage/SearchPage"
 

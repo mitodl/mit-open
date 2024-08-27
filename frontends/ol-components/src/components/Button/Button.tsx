@@ -2,7 +2,7 @@ import React from "react"
 import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
 import tinycolor from "tinycolor2"
-import Link  from "next/link"
+import Link from "next/link"
 import type { Theme } from "@mui/material/styles"
 
 type ButtonVariant =

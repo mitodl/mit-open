@@ -1,11 +1,13 @@
-
-const generatePath = (template: string, params: Record<string, string | number>): string => {
+const generatePath = (
+  template: string,
+  params: Record<string, string | number>,
+): string => {
   return template.replace(/:(\w+)/g, (_, key) => {
     if (params[key] === undefined) {
-      throw new Error(`Missing parameter '${key}'`);
+      throw new Error(`Missing parameter '${key}'`)
     }
-    return encodeURIComponent(params[key] as string);
-  });
+    return encodeURIComponent(params[key] as string)
+  })
 }
 
 export const HOME = "/"

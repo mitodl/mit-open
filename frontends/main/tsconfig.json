@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -22,15 +18,9 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "api": [
-        "../api/src"
-      ],
-      "api/*": [
-        "../api/src/*"
-      ]
+      "@/*": ["./src/*"],
+      "api": ["../api/src"],
+      "api/*": ["../api/src/*"]
     },
     "target": "ESNext",
     "types": [
@@ -48,9 +38,5 @@
     ".next/types/**/*.ts",
     "../jest.jsdom.config"
   ],
-  "exclude": [
-    "node_modules",
-    "../mit-learn/**/*.tsx",
-    "ol-test-utilities",
-  ]
+  "exclude": ["node_modules", "../mit-learn/**/*.tsx", "ol-test-utilities"]
 }

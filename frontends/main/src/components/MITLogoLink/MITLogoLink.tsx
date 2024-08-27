@@ -5,7 +5,6 @@ import defaultLogo from "../../../public/mit-logo-learn.svg"
 const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`
 
-
 interface Props {
   href?: string
   className?: string

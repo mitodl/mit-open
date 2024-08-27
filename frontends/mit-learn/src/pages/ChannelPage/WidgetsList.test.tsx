@@ -39,7 +39,7 @@ describe("Viewing widgets with WidgetsList", () => {
   test("Renders widgets", async () => {
     /* Issue is in react-markdown v6.0.3. The package is now several versions ahead. We can remove this once we update
      * https://github.com/remarkjs/react-markdown/blob/ce6c1a71c17280e753e54e919511cd8bafadf86e/src/react-markdown.js#L138
-     */
+     /
     const ignored = ignoreError(
       "Support for defaultProps will be removed from function components in a future major release",
     )
@@ -51,7 +51,7 @@ describe("Viewing widgets with WidgetsList", () => {
 
     /**
      * Check that widget components are still on-screen
-     */
+     /
     const { widgets } = widgetsList
     const w1 = await screen.findByRole("heading", { name: widgets[0].title })
     const w2 = await screen.findByRole("heading", { name: widgets[1].title })
@@ -63,7 +63,7 @@ describe("Viewing widgets with WidgetsList", () => {
 
     /**
      * Check that the Widget component was called with correct props
-     */
+     /
     expectProps(spyWidget, { widget: widgets.at(-1) })
     expectProps(spyWidget, { widget: widgets.at(-2) })
     expectProps(spyWidget, { widget: widgets.at(-3) })
@@ -81,7 +81,7 @@ describe("Editing widgets with WidgetsList", () => {
 
     /**
      * Check that widget components are still on-screen
-     */
+     /
     const { widgets } = widgetsList
     await waitFor(() => {
       screen.getByRole("heading", { name: widgets[0].title })

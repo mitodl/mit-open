@@ -1,6 +1,12 @@
 "use client"
 
-import { Breadcrumbs, Container, Typography, theme, styled } from "ol-components"
+import {
+  Breadcrumbs,
+  Container,
+  Typography,
+  theme,
+  styled,
+} from "ol-components"
 import * as urls from "@/common/urls"
 import React from "react"
 
@@ -171,12 +177,12 @@ const AboutPage: React.FC = () => {
               What is {SITE_NAME}?
             </Typography>
             <Typography variant="body1">
-              {SITE_NAME} offers a single platform for accessing
-              all of MIT's non-degree learning resources. This includes courses,
-              programs, and various educational materials from different MIT
-              units such as MITx, MIT Bootcamps, MIT OpenCourseWare, MIT
-              Professional Education, MIT Sloan Executive Education, MIT xPRO,
-              and other departments across the Institute.
+              {SITE_NAME} offers a single platform for accessing all of MIT's
+              non-degree learning resources. This includes courses, programs,
+              and various educational materials from different MIT units such as
+              MITx, MIT Bootcamps, MIT OpenCourseWare, MIT Professional
+              Education, MIT Sloan Executive Education, MIT xPRO, and other
+              departments across the Institute.
             </Typography>
             <Typography variant="body1">
               Learners can search and browse by topic or department to explore
