@@ -14,6 +14,7 @@ import {
   css,
   Drawer,
   Checkbox,
+  VisuallyHidden,
 } from "ol-components"
 
 import {
@@ -510,6 +511,8 @@ interface SearchDisplayProps {
    * rather than from a new "instance" of `useSearchParams`.
    */
   setSearchParams: UseResourceSearchParamsProps["setSearchParams"]
+  resultsHeadingEl: React.ElementType
+  filterHeadingEl: React.ElementType
 }
 
 const SearchDisplay: React.FC<SearchDisplayProps> = ({
@@ -525,6 +528,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   toggleParamValue,
   showProfessionalToggle,
   setSearchParams,
+  resultsHeadingEl,
+  filterHeadingEl,
 }) => {
   const [searchParams] = useSearchParams()
   const [expandAdminOptions, setExpandAdminOptions] = useState(false)
@@ -713,12 +718,15 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
       <StyledGridContainer>
         <ResourceCategoryTabs.Context activeTabName={activeTab.name}>
           <DesktopFiltersColumn
+            component="section"
             variant="sidebar-2"
             data-testid="facets-container"
           >
             <FacetsTitleContainer>
               <FilterTitle>
-                <Typography variant="subtitle1">Filter</Typography>
+                <Typography component={filterHeadingEl} variant="subtitle1">
+                  Filter
+                </Typography>
                 <RiEqualizerLine fontSize="medium" />
               </FilterTitle>
               {hasFacets ? (
@@ -734,7 +742,10 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
             </FacetsTitleContainer>
             {filterContents}
           </DesktopFiltersColumn>
-          <StyledMainColumn variant="main-2">
+          <StyledMainColumn component="section" variant="main-2">
+            <VisuallyHidden as={resultsHeadingEl}>
+              Search Results
+            </VisuallyHidden>
             <DesktopSortContainer>{sortDropdown}</DesktopSortContainer>
             <StyledResourceTabs
               setSearchParams={setSearchParams}
@@ -757,7 +768,9 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   <MobileFacetsTitleContainer>
                     <div>
                       <div>
-                        <Typography variant="subtitle3">Filter</Typography>
+                        <Typography component="h2" variant="subtitle3">
+                          Filter
+                        </Typography>
                       </div>
                     </div>
                     <MobileDrawerCloseButton

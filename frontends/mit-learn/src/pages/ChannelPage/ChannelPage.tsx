@@ -2,7 +2,7 @@ import React from "react"
 import { useParams } from "react-router"
 import { ChannelPageTemplate } from "./ChannelPageTemplate"
 import { useChannelDetail } from "api/hooks/channels"
-import FieldSearch from "./ChannelSearch"
+import ChannelSearch from "./ChannelSearch"
 import type {
   Facets,
   FacetKey,
@@ -39,7 +39,8 @@ const ChannelPage: React.FC = () => {
         <ChannelPageTemplate name={name} channelType={channelType}>
           <p>{channelQuery.data?.public_description}</p>
           {channelQuery.data?.search_filter && (
-            <FieldSearch
+            <ChannelSearch
+              channelTitle={channelQuery.data.title}
               constantSearchParams={searchParams}
               channelType={channelType}
             />
