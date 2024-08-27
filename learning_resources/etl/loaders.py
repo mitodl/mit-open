@@ -654,26 +654,11 @@ def calculate_completeness(
         lecture_notes_rating = min(
             content_tags_dict.get(ContentTagCategory.notes.value, 0) / 24, 1.0
         )
-        exams_with_solutions_rating = min(
-            content_tags_dict.get(ContentTagCategory.exams_w_solutions.value, 0), 1
+        exams_rating = min(
+            content_tags_dict.get(ContentTagCategory.exams.value, 0), 1.0
         )
-        exams_without_solutions_rating = min(
-            content_tags_dict.get(ContentTagCategory.exams.value, 0), 0.5
-        )
-        exams_rating = max(exams_with_solutions_rating, exams_without_solutions_rating)
         problem_set_rating = min(
-            (
-                (
-                    2
-                    * content_tags_dict.get(
-                        ContentTagCategory.problem_sets_w_solutions.value, 0
-                    )
-                )
-                + content_tags_dict.get(ContentTagCategory.problem_sets.value, 0)
-                + content_tags_dict.get(ContentTagCategory.assignments.value, 0)
-            )
-            / 10,
-            1.0,
+            content_tags_dict.get(ContentTagCategory.problem_sets.value, 0) / 10, 1.0
         )
         log.info(
             "Videos: %.2f, Notes: %.2f, Exams: %.2f Problems/Assignments: %.2f",

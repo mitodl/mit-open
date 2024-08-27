@@ -1484,10 +1484,10 @@ def test_load_prices_by_certificate(certification):
         (False, [12, 0, 0, 0, 0, 0, 0], 0.2),
         (False, [0, 24, 0, 0, 0, 0, 0], 0.2),
         (False, [0, 0, 1, 0, 0, 0, 0], 0.2),
-        (False, [0, 0, 0, 1, 0, 0, 0], 0.1),
+        (False, [0, 0, 0, 1, 0, 0, 0], 0.2),
         (False, [0, 0, 0, 0, 4, 4, 2], 0.2),
-        (False, [0, 0, 0, 0, 2, 1, 0], 0.1),
-        (True, [0, 0, 0, 0, 2, 1, 2], 1.0),
+        (False, [0, 0, 0, 0, 2, 2, 1], 0.1),
+        (True, [0, 0, 0, 0, 0, 1, 0], 1.0),
     ],
 )
 def test_calculate_completeness(mocker, is_scholar_course, tag_counts, expected_score):

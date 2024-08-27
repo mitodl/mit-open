@@ -92,20 +92,17 @@ class ContentTagCategory(ExtendedEnum):
 
     videos = "Videos"
     notes = "Notes"
-    exams_w_solutions = "Exams with Solutions"
     exams = "Exams"
-    problem_sets_w_solutions = "Problem Sets with Solutions"
     problem_sets = "Problem Sets"
-    assignments = "Assignments"
 
 
 CONTENT_TAG_CATEGORIES = {
     "Lecture Videos": ContentTagCategory.videos.value,
     "Lecture Notes": ContentTagCategory.notes.value,
-    "Exams with Solutions": ContentTagCategory.exams_w_solutions.value,
+    "Exams with Solutions": ContentTagCategory.exams.value,
     "Exams": ContentTagCategory.exams.value,
-    "Problem Sets with Solutions": (ContentTagCategory.problem_sets_w_solutions.value),
+    "Problem Sets with Solutions": ContentTagCategory.problem_sets.value,
     "Problem Sets": ContentTagCategory.problem_sets.value,
-    "Assignments": ContentTagCategory.assignments.value,
+    "Assignments": ContentTagCategory.problem_sets.value,
     # Can add more here if ever needed, in format tag_name:category
 }
