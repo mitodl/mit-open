@@ -158,7 +158,7 @@ type ResourceCarouselProps = {
   /**
    * Element type for the carousel title
    */
-  headerComponent: React.ElementType
+  titleComponent: React.ElementType
 }
 /**
  * A tabbed carousel that fetches resources based on the configuration provided.
@@ -177,7 +177,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   className,
   isLoading,
   "data-testid": dataTestId,
-  headerComponent,
+  titleComponent,
 }) => {
   const [tab, setTab] = React.useState("0")
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
@@ -221,7 +221,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
     <MobileOverflow className={className} data-testid={dataTestId}>
       <TabContext value={tab}>
         <HeaderRow>
-          <HeaderText component={headerComponent} variant="h4">
+          <HeaderText component={titleComponent} variant="h4">
             {title}
           </HeaderText>
           {config.length === 1 ? buttonsContainerElement : null}

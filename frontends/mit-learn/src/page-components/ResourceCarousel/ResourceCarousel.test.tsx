@@ -173,11 +173,11 @@ describe("ResourceCarousel", () => {
   })
 
   it.each([
-    { headerComponent: "h1", expectedTag: "H1" },
-    { headerComponent: "h3", expectedTag: "H3" },
+    { titleComponent: "h1", expectedTag: "H1" },
+    { titleComponent: "h3", expectedTag: "H3" },
   ] as const)(
     "Shows the correct title with correct heading level",
-    async ({ headerComponent, expectedTag }) => {
+    async ({ titleComponent, expectedTag }) => {
       const config: ResourceCarouselProps["config"] = [
         {
           label: "Resources",
@@ -194,7 +194,7 @@ describe("ResourceCarousel", () => {
       setupApis()
       renderWithProviders(
         <ResourceCarousel
-          headerComponent={headerComponent}
+          titleComponent={titleComponent}
           title="My Favorite Carousel"
           config={config}
         />,

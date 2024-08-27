@@ -186,7 +186,7 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
       <Container component="section">
         <FeaturedCoursesCarousel
           title="Featured Courses"
-          headerComponent="h2"
+          titleComponent="h2"
           config={FEATURED_RESOURCES_CAROUSEL}
           isLoading={channel.isLoading}
         />
