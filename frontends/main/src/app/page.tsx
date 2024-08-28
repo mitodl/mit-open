@@ -6,10 +6,11 @@ import * as carousels from "@/app-pages/HomePage/carousels"
 import { learningResourcesKeyFactory } from "api/hooks/learningResources"
 import { FeaturedApiFeaturedListRequest } from "api/generated/v1/api"
 import getQueryClient from "./getQueryClient"
+import { getMetadata } from "@/common/metadata"
 
-export const metadata: Metadata = {
-  title: `Learn With MIT | ${process.env.NEXT_PUBLIC_SITE_NAME}`
-}
+export const metadata: Metadata = getMetadata({
+  title: "Learn with MIT"
+})
 
 const Page: React.FC = async () => {
   const queryClient = getQueryClient()
