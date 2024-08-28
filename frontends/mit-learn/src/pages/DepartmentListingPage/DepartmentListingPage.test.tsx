@@ -5,6 +5,7 @@ import DepartmentListingPage from "./DepartmentListingPage"
 import { factories, setMockResponse, urls } from "api/test-utils"
 import invariant from "tiny-invariant"
 import { faker } from "@faker-js/faker/locale/en"
+import { assertHeadings } from "ol-test-utilities"
 
 const makeSearchResponse = (
   aggregations: Record<string, number>,
@@ -156,5 +157,17 @@ describe("DepartmentListingPage", () => {
       name: (name) => name.includes(dept.name),
     })
     expect(link).toHaveAttribute("href", dept.channel_url)
+  })
+
+  test("headings", async () => {
+    const { schools } = setupApis()
+    renderWithProviders(<DepartmentListingPage />)
+
+    await waitFor(() => {
+      assertHeadings([
+        { level: 1, name: "Browse by Academic Department" },
+        ...schools.map(({ name }) => ({ level: 2, name })),
+      ])
+    })
   })
 })

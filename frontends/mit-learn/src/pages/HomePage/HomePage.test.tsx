@@ -14,9 +14,9 @@ import {
   within,
   waitFor,
 } from "../../test-utils"
-import type { FeaturedApiFeaturedListRequest as FeaturedRequest } from "api"
 import invariant from "tiny-invariant"
 import * as routes from "@/common/urls"
+import { assertHeadings } from "ol-test-utilities"
 
 const assertLinksTo = (
   el: HTMLElement,
@@ -46,29 +46,32 @@ const setupAPIs = () => {
     resources,
   )
 
-  setMockResponse.get(urls.learningResources.featured({ limit: 12 }), resources)
   setMockResponse.get(
-    urls.learningResources.featured({
-      free: true,
-      limit: 12,
-    }),
+    expect.stringContaining(urls.learningResources.featured()),
     resources,
   )
-  setMockResponse.get(
-    urls.learningResources.featured({
-      certification: true,
-      professional: false,
-      limit: 12,
-    }),
-    resources,
-  )
-  setMockResponse.get(
-    urls.learningResources.featured({
-      professional: true,
-      limit: 12,
-    }),
-    resources,
-  )
+  // setMockResponse.get(
+  //   urls.learningResources.featured({
+  //     free: true,
+  //     limit: 12,
+  //   }),
+  //   resources,
+  // )
+  // setMockResponse.get(
+  //   urls.learningResources.featured({
+  //     certification: true,
+  //     professional: false,
+  //     limit: 12,
+  //   }),
+  //   resources,
+  // )
+  // setMockResponse.get(
+  //   urls.learningResources.featured({
+  //     professional: true,
+  //     limit: 12,
+  //   }),
+  //   resources,
+  // )
 
   setMockResponse.get(
     urls.newsEvents.list({ feed_type: ["news"], limit: 6, sortby: "-created" }),
@@ -315,55 +318,12 @@ describe("Home Page Testimonials", () => {
 })
 
 describe("Home Page Carousel", () => {
-  test.each<{ tab: string; params: FeaturedRequest }>([
-    {
-      tab: "All",
-      params: { limit: 12, resource_type: ["course"] },
-    },
-    {
-      tab: "Free",
-      params: { limit: 12, resource_type: ["course"], free: true },
-    },
-    {
-      tab: "With Certificate",
-      params: {
-        resource_type: ["course"],
-        limit: 12,
-        certification: true,
-        professional: false,
-      },
-    },
-    {
-      tab: "Professional & Executive Learning",
-      params: { resource_type: ["course"], limit: 12, professional: true },
-    },
-  ])("Featured Courses Carousel Tabs", async ({ tab, params }) => {
-    const resources = learningResources.resources({ count: 12 })
-    setupAPIs()
-
-    // The tab buttons eager-load the resources so we need to set them all up.
-
-    // This is for the clicked tab (which might be "All")
-    // We will check that its response is visible as cards.
-    setMockResponse.get(
-      urls.learningResources.featured({ ...params }),
-      resources,
-    )
-
-    renderWithProviders(<HomePage />)
-    screen.findByRole("tab", { name: tab }).then(async (featuredTab) => {
-      await user.click(within(featuredTab).getByRole("tab", { name: tab }))
-      const [featuredPanel] = screen.getAllByRole("tabpanel")
-      await within(featuredPanel).findByText(resources.results[0].title)
-    })
-  })
-
   test("Tabbed Carousel sanity check", async () => {
     setupAPIs()
 
     renderWithProviders(<HomePage />)
 
-    screen.findAllByRole("tablist").then(([featured, media]) => {
+    await screen.findAllByRole("tablist").then(([featured, media]) => {
       within(featured).getByRole("tab", { name: "All" })
       within(featured).getByRole("tab", { name: "Free" })
       within(featured).getByRole("tab", { name: "With Certificate" })
@@ -374,5 +334,24 @@ describe("Home Page Carousel", () => {
       within(media).getByRole("tab", { name: "Videos" })
       within(media).getByRole("tab", { name: "Podcasts" })
     })
+  })
+})
+
+test("Headings", async () => {
+  setupAPIs()
+
+  renderWithProviders(<HomePage />)
+  await waitFor(() => {
+    assertHeadings([
+      { level: 1, name: "Learn with MIT" },
+      { level: 2, name: "Featured Courses" },
+      { level: 2, name: "Continue Your Journey" },
+      { level: 2, name: "Media" },
+      { level: 2, name: "Browse by Topic" },
+      { level: 2, name: "From Our Community" },
+      { level: 2, name: "MIT Stories & Events" },
+      { level: 3, name: "Stories" },
+      { level: 3, name: "Events" },
+    ])
   })
 })

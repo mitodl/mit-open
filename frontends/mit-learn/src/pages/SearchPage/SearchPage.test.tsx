@@ -14,6 +14,7 @@ import type {
 } from "api"
 import invariant from "tiny-invariant"
 import { Permissions } from "@/common/permissions"
+import { assertHeadings } from "ol-test-utilities"
 
 const setMockApiResponses = ({
   search,
@@ -21,7 +22,7 @@ const setMockApiResponses = ({
 }: {
   search?: Partial<LearningResourcesSearchResponse>
   offerors?: PaginatedLearningResourceOfferorDetailList
-}) => {
+} = {}) => {
   setMockResponse.get(urls.userMe.get(), {
     [Permissions.Authenticated]: false,
   })
@@ -661,5 +662,16 @@ describe("Search Page pagination controls", () => {
     const items = await within(pagination).findAllByRole("listitem")
     expect(items.at(-2)?.textContent).toBe("7") // "Last page"
     expect(items.at(-1)?.textContent).toBe("") // "Next" button
+  })
+
+  test("headings", () => {
+    setMockApiResponses()
+    renderWithProviders(<SearchPage />)
+
+    assertHeadings([
+      { level: 1, name: "Search" },
+      { level: 2, name: "Filter" },
+      { level: 2, name: "Search Results" },
+    ])
   })
 })
