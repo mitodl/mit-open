@@ -53,7 +53,6 @@ query {{
                         {{operator: \"<>\", name: \"department\", value: \"MIT xPRO\"}}
                         {see_exclusion}
                         {mitpe_exclusion}
-                       {{operator: \"<>\", name: \"department\", value: \"MIT Professional Education\"}}
                     ]
                 }}
             ]

@@ -162,6 +162,7 @@ def mock_fetch_data(mocker):
 def test_extract(settings, mock_fetch_data, prof_ed_api_url):
     """Test extract function"""
     settings.MITPE_BASE_API_URL = prof_ed_api_url
+    settings.MITPE_API_ENABLED = True
     expected = []
     for page in range(3):
         with Path.open(
