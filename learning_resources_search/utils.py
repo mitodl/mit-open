@@ -22,7 +22,8 @@ def prune_channel_subscriptions():
 
     for channel in Channel.objects.all():
         query_string = channel.search_filter
-
+        if not query_string:
+            continue
         percolate_serializer = PercolateQuerySubscriptionRequestSerializer(
             data=urllib.parse.parse_qs(query_string)
         )
@@ -46,6 +47,7 @@ def prune_channel_subscriptions():
             for dup in duplicates:
                 if (
                     dup.source_type == actual_query.source_type
+                    and dup.source_channel() == channel
                     and dup.original_query != actual_query.original_query
                 ):
                     for user in dup.users.all():
