@@ -447,7 +447,7 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
                 child_id=learning_resource_id,
                 position=last_index + 1,
             )
-        serializer = UserListRelationshipSerializer(current_relationships, many=True)
+        serializer = self.get_serializer_class(current_relationships, many=True)
         return Response(serializer.data)
 
     @extend_schema(
@@ -496,9 +496,7 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
                 relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
                 position=last_index + 1,
             )
-        serializer = LearningResourceRelationshipSerializer(
-            current_relationships, many=True
-        )
+        serializer = self.get_serializer_class(current_relationships, many=True)
         return Response(serializer.data)
 
 
