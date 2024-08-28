@@ -1,8 +1,11 @@
+"use client"
+
 import React from "react"
 import getQueryClient from "./getQueryClient"
 import { QueryClientProvider } from "api/ssr"
 import { ThemeProvider, NextJsAppRouterCacheProvider } from "ol-components"
-import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"
+import { Provider as NiceModalProvider } from "@/libraries/@ebay/nice-modal-react"
+
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient()
@@ -11,7 +14,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <NextJsAppRouterCacheProvider>
         <ThemeProvider>
-          <NiceModalProvider>{children}</NiceModalProvider>
+          <NiceModalProvider>
+            {children}
+          </NiceModalProvider>
         </ThemeProvider>
       </NextJsAppRouterCacheProvider>
     </QueryClientProvider>

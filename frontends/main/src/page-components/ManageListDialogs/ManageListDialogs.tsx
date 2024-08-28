@@ -1,6 +1,6 @@
 import React, { useCallback } from "react"
 import { useFormik, FormikConfig } from "formik"
-import * as NiceModal from "@ebay/nice-modal-react"
+import { NiceModal } from "@/libraries/@ebay/nice-modal-react"
 import { RiDeleteBinLine } from "@remixicon/react"
 import {
   Alert,

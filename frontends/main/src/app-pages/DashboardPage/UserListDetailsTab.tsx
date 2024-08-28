@@ -3,7 +3,7 @@ import {
   useInfiniteUserListItems,
   useUserListsDetail,
 } from "api/hooks/learningResources"
-import { useNavigate } from "react-router"
+import { useRouter } from "next/navigation"
 import { ListType } from "api/constants"
 import { useUserMe } from "api/hooks/user"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
@@ -19,7 +19,7 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
   const { data: user } = useUserMe()
   const listQuery = useUserListsDetail(userListId)
   const itemsQuery = useInfiniteUserListItems({ userlist_id: userListId })
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const items = useMemo(() => {
     const pages = itemsQuery.data?.pages
@@ -27,7 +27,7 @@ const UserListDetailsTab: React.FC<UserListDetailsTabProps> = (props) => {
   }, [itemsQuery.data])
 
   const onDestroyUserList = () => {
-    navigate("/dashboard/my-lists")
+    router.push("/dashboard/my-lists")
   }
 
   return (

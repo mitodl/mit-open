@@ -15,10 +15,13 @@ const nextConfig = {
       }),
     )
 
-    config.module.rules.push({
-      test: /\.tsx?$/,
-      use: [defaultLoaders.babel],
-    })
+    // Do not do this. Added to fix "import type", but causes a strage issue where
+    // the root page and layout think they're Client Components and "use client"
+    // directives not properly respected.
+    // config.module.rules.push({
+    //   test: /\.tsx?$/,
+    //   use: [defaultLoaders.babel],
+    // })
 
     return config
   },
@@ -31,7 +34,7 @@ const nextConfig = {
        */
       {
         source: "/static/images/:path*",
-        destination: "/images//:path*",
+        destination: "/images/:path*",
       },
     ]
   },

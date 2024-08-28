@@ -1,6 +1,15 @@
 import { faker } from "@faker-js/faker/locale/en"
 import type { Factory } from "ol-test-utilities"
-import type { User } from "../types/settings"
+
+type User = {
+  id: number | null
+  first_name: string | null
+  last_name: string | null
+  is_authenticated: boolean
+  is_article_editor: boolean
+  is_learning_path_editor: boolean
+}
+
 
 const makeUserSettings: Factory<User> = (overrides = {}) => {
   const hasConflict =

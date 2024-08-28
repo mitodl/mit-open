@@ -17,6 +17,8 @@ import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
 import { styled, Container, Grid, theme } from "ol-components"
 import { capitalize } from "ol-utilities"
+import LearningResourceDrawer from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
+
 
 const cssGradient = `
   linear-gradient(
@@ -212,6 +214,7 @@ const SearchPage: React.FC = () => {
 
   return (
     <Page>
+      <LearningResourceDrawer />
       {/* TODO <MetaTags title="Search" /> */}
       <Header>
         <Container>

@@ -1,4 +1,5 @@
 import React from "react"
+import type { Metadata } from 'next'
 import { dehydrate, Hydrate } from "api/ssr"
 import HomePage from "@/app-pages/HomePage/HomePage"
 import * as carousels from "@/app-pages/HomePage/carousels"
@@ -6,10 +7,9 @@ import { learningResourcesKeyFactory } from "api/hooks/learningResources"
 import { FeaturedApiFeaturedListRequest } from "api/generated/v1/api"
 import getQueryClient from "./getQueryClient"
 
-// export const metadata: Metadata = {
-//   title: "MIT Learn",
-//   description: "Learn With MIT",
-// };
+export const metadata: Metadata = {
+  title: `Learn With MIT | ${process.env.NEXT_PUBLIC_SITE_NAME}`
+}
 
 const Page: React.FC = async () => {
   const queryClient = getQueryClient()

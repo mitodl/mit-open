@@ -4,7 +4,7 @@ import {
   LearningResourceListCard,
   LearningResourceListCardCondensed,
 } from "ol-components"
-import * as NiceModal from "@ebay/nice-modal-react"
+import { NiceModal } from "@/libraries/@ebay/nice-modal-react"
 import type {
   LearningResourceCardProps,
   LearningResourceListCardProps,
