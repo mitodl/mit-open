@@ -125,8 +125,9 @@ def test_get_mitpe_data(mocker):
     assert task.result == 3
 
 
-def test_get_prolearn_data(mock_pipelines):
+def test_get_prolearn_data(mocker):
     """Verify that the get_prolearn_data invokes the Prolearn ETL pipeline"""
+    mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
     tasks.get_prolearn_data.delay()
     mock_pipelines.prolearn_programs_etl.assert_called_once_with()
     mock_pipelines.prolearn_courses_etl.assert_called_once_with()
