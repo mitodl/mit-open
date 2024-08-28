@@ -98,9 +98,6 @@ const CallToAction = styled.div`
 
 const StyledLink = styled(ButtonLink)`
   text-align: center;
-  width: 220px;
-  font-size: ${({ theme }) => theme.typography.pxToRem(14)};
-  padding: 12px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: 100%;
     margin-top: 10px;
@@ -233,17 +230,13 @@ const CallToActionSection = ({
     <CallToAction>
       <StyledLink
         target="_blank"
-        size="large"
+        size="medium"
+        endIcon={<RiExternalLinkLine />}
         href={getCallToActionUrl(resource) || ""}
       >
-        {(platform?.code as PlatformEnum) === PlatformEnum.Ocw ? (
-          <>
-            Access Course Materials&nbsp;
-            <RiExternalLinkLine />
-          </>
-        ) : (
-          cta
-        )}
+        {(platform?.code as PlatformEnum) === PlatformEnum.Ocw
+          ? "Access Course Materials"
+          : cta}
       </StyledLink>
       {platformImage ? (
         <Platform>
