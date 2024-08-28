@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.9
+Version 0.17.9 (Released August 28, 2024)
 --------------
 
 - Update newrelic agent (#1464)
