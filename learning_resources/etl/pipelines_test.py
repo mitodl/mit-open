@@ -210,6 +210,9 @@ def test_ocw_courses_etl(settings, mocker, skip_content_files):
     mock_cf_actions = mocker.patch(
         "learning_resources.etl.pipelines.loaders.content_files_loaded_actions"
     )
+    mock_calc_score = mocker.patch(
+        "learning_resources.etl.loaders.calculate_completeness"
+    )
 
     pipelines.ocw_courses_etl(
         url_paths=[OCW_TEST_PREFIX],
@@ -235,6 +238,7 @@ def test_ocw_courses_etl(settings, mocker, skip_content_files):
     assert run.run_id == "97db384ef34009a64df7cb86cf701979"
     assert run.content_files.count() == (0 if skip_content_files else 4)
     assert mock_cf_actions.call_count == (0 if skip_content_files else 1)
+    assert mock_calc_score.call_count == (0 if skip_content_files else 1)
 
 
 @mock_s3
