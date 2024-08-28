@@ -537,14 +537,8 @@ CACHES = {
     "imagekit": {
         "BACKEND": "main.cache.backends.FallbackCache",
         "LOCATION": [
-            "imagekit_in_memory",
             "imagekit_db",
         ],
-    },
-    "imagekit_in_memory": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
-        "LOCATION": "imagekit_in_memory_cache",
-        "TIMEOUT": None,
     },
     "imagekit_db": {
         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
