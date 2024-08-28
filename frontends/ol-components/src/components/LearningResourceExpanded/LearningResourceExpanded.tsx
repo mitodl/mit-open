@@ -98,8 +98,7 @@ const CallToAction = styled.div`
 
 const StyledLink = styled(ButtonLink)`
   text-align: center;
-  padding: 12px;
-  padding-left: 16px;
+  width: 220px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: 100%;
     margin-top: 10px;
@@ -218,8 +217,8 @@ const CallToActionSection = ({
     if (resource?.platform?.code === PlatformEnum.Ocw) {
       return "Access Course Materials"
     } else if (
-      resource?.type === ResourceTypeEnum.Podcast ||
-      resource?.type === ResourceTypeEnum.PodcastEpisode
+      resource?.resource_type === ResourceTypeEnum.Podcast ||
+      resource?.resource_type === ResourceTypeEnum.PodcastEpisode
     ) {
       return "Listen to Podcast"
     }
