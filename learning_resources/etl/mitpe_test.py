@@ -132,14 +132,15 @@ EXPECTED_PROGRAMS = [
 ]
 
 
-@pytest.fixture()
+@pytest.fixture
 def prof_ed_settings(settings):
     """Fixture to set Professional Education API URL"""
-    settings.PROFESSIONAL_EDUCATION_RESOURCES_API_URL = "http://pro_edu_api.com"
+    settings.MITPE_BASE_API_URL = "http://pro_edu_api.com"
+    settings.MITPE_API_ENABLED = True
     return settings
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_fetch_data(mocker):
     """Mock fetch_data function"""
 
@@ -176,7 +177,7 @@ def test_extract(settings, mock_fetch_data, prof_ed_api_url):
         assert len(results) == 0
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_transform(settings, mock_fetch_data, prof_ed_settings):
     """Test transform function, and effectivelu most other functions"""
     settings.MITPE_BASE_API_URL = "http://pro_edu_api.edu"
