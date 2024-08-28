@@ -13,8 +13,8 @@ import {
 } from "@/common/urls"
 import { NON_DEGREE_LEARNING_FRAGMENT_IDENTIFIER } from "../AboutPage/AboutPage"
 import {
-  RiAddBoxLine,
   RiAwardLine,
+  RiFileAddLine,
   RiSearch2Line,
   RiThumbUpLine,
   RiTimeLine,
@@ -34,7 +34,7 @@ const SEARCH_CHIPS: SearchChip[] = [
     label: "Recently Added",
     href: SEARCH_NEW,
     variant: "outlinedWhite",
-    icon: <RiTimeLine />,
+    icon: <RiFileAddLine />,
   },
   {
     label: "Popular",
@@ -46,7 +46,7 @@ const SEARCH_CHIPS: SearchChip[] = [
     label: "Upcoming",
     href: SEARCH_UPCOMING,
     variant: "outlinedWhite",
-    icon: <RiAddBoxLine />,
+    icon: <RiTimeLine />,
   },
   {
     label: "Free",
