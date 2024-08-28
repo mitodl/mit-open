@@ -98,7 +98,8 @@ const CallToAction = styled.div`
 
 const StyledLink = styled(ButtonLink)`
   text-align: center;
-  width: 220px;
+  padding: 12px;
+  padding-left: 16px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: 100%;
     margin-top: 10px;
@@ -211,14 +212,21 @@ const CallToActionSection = ({
   const platformImage =
     PLATFORMS[resource?.platform?.code as PlatformEnum]?.image
 
-  const { resource_type: type, platform } = resource!
+  const { platform } = resource!
 
-  const cta =
-    type === ResourceTypeEnum.Podcast ||
-    type === ResourceTypeEnum.PodcastEpisode
-      ? "Listen to Podcast"
-      : "Learn More"
+  const getCallToActionText = (resource: LearningResource): string => {
+    if (resource?.platform?.code === PlatformEnum.Ocw) {
+      return "Access Course Materials"
+    } else if (
+      resource?.type === ResourceTypeEnum.Podcast ||
+      resource?.type === ResourceTypeEnum.PodcastEpisode
+    ) {
+      return "Listen to Podcast"
+    }
+    return "Learn More"
+  }
 
+  const cta = getCallToActionText(resource)
   return (
     <CallToAction>
       <StyledLink
@@ -227,9 +235,7 @@ const CallToActionSection = ({
         endIcon={<RiExternalLinkLine />}
         href={getCallToActionUrl(resource) || ""}
       >
-        {(platform?.code as PlatformEnum) === PlatformEnum.Ocw
-          ? "Access Course Materials"
-          : cta}
+        {cta}
       </StyledLink>
       {platformImage ? (
         <Platform>
