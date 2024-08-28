@@ -537,8 +537,20 @@ CACHES = {
     "imagekit": {
         "BACKEND": "main.cache.backends.FallbackCache",
         "LOCATION": [
+            "imagekit_redis",
             "imagekit_db",
         ],
+    },
+    # This uses FallbackCache but it's basically a proxy to the redis cache
+    # so that we can reuse the client and not create another pile of connections.
+    # The main purpose of this is to set TIMEOUT without specifying it on
+    # the global redis cache.
+    "imagekit_redis": {
+        "BACKEND": "main.cache.backends.FallbackCache",
+        "LOCATION": [
+            "redis",
+        ],
+        "TIMEOUT": 60 * 60,
     },
     "imagekit_db": {
         "BACKEND": "django.core.cache.backends.db.DatabaseCache",
