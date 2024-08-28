@@ -286,10 +286,12 @@ type ButtonLinkProps = ButtonStyleProps &
   }
 
 const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
-  ({ children, href = "", ...props }, ref) => {
+  ({ children, href = "", endIcon, ...props }, ref) => {
     return (
       <LinkStyled to={href} {...props} ref={ref}>
-        <ButtonInner {...props}>{children}</ButtonInner>
+        <ButtonInner endIcon={endIcon} {...props}>
+          {children}
+        </ButtonInner>
       </LinkStyled>
     )
   },
