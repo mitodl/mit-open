@@ -50,28 +50,6 @@ const setupAPIs = () => {
     expect.stringContaining(urls.learningResources.featured()),
     resources,
   )
-  // setMockResponse.get(
-  //   urls.learningResources.featured({
-  //     free: true,
-  //     limit: 12,
-  //   }),
-  //   resources,
-  // )
-  // setMockResponse.get(
-  //   urls.learningResources.featured({
-  //     certification: true,
-  //     professional: false,
-  //     limit: 12,
-  //   }),
-  //   resources,
-  // )
-  // setMockResponse.get(
-  //   urls.learningResources.featured({
-  //     professional: true,
-  //     limit: 12,
-  //   }),
-  //   resources,
-  // )
 
   setMockResponse.get(
     urls.newsEvents.list({ feed_type: ["news"], limit: 6, sortby: "-created" }),
