@@ -142,6 +142,13 @@ const TopicLink = styled(Link)({
 })
 
 const StyledChipLink = styled(ChipLink)(({ theme, variant }) => [
+  {
+    height: "32px",
+    padding: "8px 16px",
+    ".MuiChip-icon": {
+      marginRight: "4px",
+    },
+  },
   variant === "outlinedWhite" ?? {
     borderColor: theme.custom.colors.lightGray2,
     color: theme.custom.colors.silverGrayDark,
