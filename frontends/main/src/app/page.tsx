@@ -8,9 +8,16 @@ import { FeaturedApiFeaturedListRequest } from "api/generated/v1/api"
 import getQueryClient from "./getQueryClient"
 import { getMetadata } from "@/common/metadata"
 
-export const metadata: Metadata = getMetadata({
-  title: "Learn with MIT"
-})
+
+export async function generateMetadata(
+  { searchParams }: {searchParams: { [key: string]: string | string[] | undefined }}
+): Promise<Metadata> {
+
+  return getMetadata({
+    title: "Learn with MIT",
+    searchParams
+  })
+}
 
 const Page: React.FC = async () => {
   const queryClient = getQueryClient()

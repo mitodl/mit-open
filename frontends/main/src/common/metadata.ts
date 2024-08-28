@@ -1,3 +1,5 @@
+import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
+import { learningResourcesApi } from "api/clients"
 
 type MetaTagsProps = {
   title?: string
@@ -6,24 +8,39 @@ type MetaTagsProps = {
   imageAlt?: string
   canonicalLink?: string
   children?: React.ReactNode
+  searchParams: { [key: string]: string | string[] | undefined }
   social?: boolean
 }
 
 const DEFAULT_OG_IMAGE = `${process.env.NEXT_PUBLIC_ORIGIN}/images/opengraph-image.jpg`
 
-export const getMetadata = ({
+export const getMetadata = async ({
   title = "MIT Learn",
   description = "Learn with MIT",
   image = DEFAULT_OG_IMAGE,
   imageAlt,
   children,
+  searchParams,
   social = true,
-  isResourceDrawer,
 }: MetaTagsProps) => {
 
   title = `${title} | ${process.env.NEXT_PUBLIC_SITE_NAME}`
 
-  const siteName = process.env.NEXT_PUBLIC_SITE_NAME
+  // The learning resource drawer is open
+  const learningResourceId = searchParams[RESOURCE_DRAWER_QUERY_PARAM]
+  if (learningResourceId) {
+    try {
+      const { data } = await learningResourcesApi.learningResourcesRetrieve({ id: Number(learningResourceId) }, { id: learningResourceId! })
+
+      title = `${data?.title} | ${process.env.NEXT_PUBLIC_SITE_NAME}`
+      description = data?.description?.replace(/<\/[^>]+(>|$)/g, "") ?? ""
+      image = data?.image?.url || image
+      imageAlt = image === data?.image?.url ? imageAlt : (data?.image?.alt || "")
+    } catch (error) {
+      console.warn('Failed to fetch learning resource', { learningResourceId, error })
+    }
+  }
+
 
   const socialMetadata = social ? {
     openGraph: {
@@ -34,8 +51,8 @@ export const getMetadata = ({
       images: [
         {
           url: image,
-          width: 967, // TODO pass as props
-          height: 511,
+          width: learningResourceId ? "" : 967,
+          height: learningResourceId ? "" : 511,
           alt: imageAlt
         }
       ],
