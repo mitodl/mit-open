@@ -20,6 +20,8 @@ services:
     mem_limit: 1gb
     cpus: 2
     env_file: env/codespaces.env
+    environment:
+      PORT: 8061
     command: ./scripts/run-django-dev.sh
     stdin_open: true
     tty: true
