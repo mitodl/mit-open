@@ -231,7 +231,7 @@ const CallToActionSection = ({
       <StyledLink
         target="_blank"
         size="medium"
-        endIcon={<RiExternalLinkLine />}
+        endicon={<RiExternalLinkLine />}
         href={getCallToActionUrl(resource) || ""}
       >
         {(platform?.code as PlatformEnum) === PlatformEnum.Ocw
