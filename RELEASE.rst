@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.10
+Version 0.17.10 (Released August 28, 2024)
 ---------------
 
 - Remove the in-memory cache for now (#1477)
