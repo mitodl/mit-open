@@ -98,6 +98,7 @@ const CallToAction = styled.div`
 
 const StyledLink = styled(ButtonLink)`
   text-align: center;
+  width: 220px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: 100%;
     margin-top: 10px;
@@ -214,17 +215,9 @@ const CallToActionSection = ({
 
   const cta =
     type === ResourceTypeEnum.Podcast ||
-    type === ResourceTypeEnum.PodcastEpisode ? (
-      <>
-        Listen to Podcast&nbsp;
-        <RiExternalLinkLine />
-      </>
-    ) : (
-      <>
-        Learn More&nbsp;
-        <RiExternalLinkLine />
-      </>
-    )
+    type === ResourceTypeEnum.PodcastEpisode
+      ? "Listen to Podcast"
+      : "Learn More"
 
   return (
     <CallToAction>
