@@ -5,7 +5,7 @@ import type { InputProps } from "ol-components"
 
 const StyledInput = styled(Input)(({ theme }) => ({
   height: "72px",
-  borderRadius: "6px",
+  boxShadow: "0px 8px 20px 0px rgba(120, 147, 172, 0.10)",
   "&.MuiInputBase-adornedEnd": {
     paddingRight: "0 !important",
   },
