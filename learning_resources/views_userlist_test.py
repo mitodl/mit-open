@@ -316,9 +316,9 @@ def test_set_userlist_relationships_unauthorized(client, user):
         args=[course.learning_resource.id],
     )
     client.force_login(user)
-    resp = client.patch(
-        f"{url}?{"".join([f"userlist_id={userlist.id}&" for userlist in userlists])}"
-    )
-    assert resp.status_code == 403
+    with pytest.raises(PermissionError):
+        client.patch(
+            f"{url}?{"".join([f"userlist_id={userlist.id}&" for userlist in userlists])}"
+        )
     for userlist in userlists:
         assert not userlist.resources.filter(id=course.learning_resource.id).exists()
