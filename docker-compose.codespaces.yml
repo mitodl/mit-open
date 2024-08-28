@@ -82,7 +82,9 @@ services:
     extends:
       file: docker-compose.yml
       service: nginx
-    env_file: env/codespaces.env
+    environment:
+      PORT: 8063
+      NGINX_UWSGI_PASS: "web:8061"
 
 volumes:
   opensearch-data1:
