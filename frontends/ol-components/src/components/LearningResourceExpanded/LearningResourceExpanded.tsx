@@ -98,7 +98,7 @@ const CallToAction = styled.div`
 
 const StyledLink = styled(ButtonLink)`
   text-align: center;
-  width: 220px;
+  width: 224px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: 100%;
     margin-top: 10px;
