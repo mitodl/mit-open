@@ -1,6 +1,16 @@
 Release Notes
 =============
 
+Version 0.17.10 (Released August 28, 2024)
+---------------
+
+- Remove the in-memory cache for now (#1477)
+- change drawer CTA label (#1471)
+- update the footer logo (#1467)
+- Add caching for imagekit (#1472)
+- [pre-commit.ci] pre-commit autoupdate (#1215)
+- Update redis Docker tag to v7 (#1261)
+
 Version 0.17.9 (Released August 28, 2024)
 --------------
 
