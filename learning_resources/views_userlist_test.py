@@ -305,3 +305,20 @@ def test_set_userlist_relationships(client, user):
     for userlist in userlists:
         assert userlist.resources.filter(id=course.learning_resource.id).exists()
     assert not previous_list.resources.filter(id=course.learning_resource.id).exists()
+
+
+def test_set_userlist_relationships_unauthorized(client, user):
+    """Test the userlists endpoint for unauthorized users"""
+    course = factories.CourseFactory.create()
+    userlists = factories.UserListFactory.create_batch(3)
+    url = reverse(
+        "lr:v1:learning_resource_relationships_api-userlists",
+        args=[course.learning_resource.id],
+    )
+    client.force_login(user)
+    resp = client.patch(
+        f"{url}?{"".join([f"userlist_id={userlist.id}&" for userlist in userlists])}"
+    )
+    assert resp.status_code == 403
+    for userlist in userlists:
+        assert not userlist.resources.filter(id=course.learning_resource.id).exists()

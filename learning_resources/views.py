@@ -428,6 +428,13 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
         """
         learning_resource_id = kwargs.get("pk")
         user_list_ids = request.query_params.getlist("userlist_id")
+        if (
+            UserList.objects.filter(pk__in=user_list_ids)
+            .exclude(author=request.user)
+            .exists()
+        ):
+            msg = "User does not have permission to add to the selected user list(s)"
+            raise PermissionError(msg)
         current_relationships = UserListRelationship.objects.filter(
             parent__author=request.user, child_id=learning_resource_id
         )
