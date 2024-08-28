@@ -509,6 +509,7 @@ if MITOL_USE_S3:
 
 IMAGEKIT_SPEC_CACHEFILE_NAMER = "imagekit.cachefiles.namers.source_name_dot_hash"
 IMAGEKIT_CACHEFILE_DIR = get_string("IMAGEKIT_CACHEFILE_DIR", "")
+IMAGEKIT_CACHE_BACKEND = "imagekit"
 
 
 # django cache back-ends
@@ -531,6 +532,24 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": CELERY_BROKER_URL,  # noqa: F405
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+    },
+    # imagekit caching
+    "imagekit": {
+        "BACKEND": "main.cache.backends.FallbackCache",
+        "LOCATION": [
+            "imagekit_in_memory",
+            "imagekit_db",
+        ],
+    },
+    "imagekit_in_memory": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "imagekit_in_memory_cache",
+        "TIMEOUT": None,
+    },
+    "imagekit_db": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "imagekit_cache",
+        "TIMEOUT": None,
     },
 }
 
