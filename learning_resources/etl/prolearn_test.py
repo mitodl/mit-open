@@ -19,6 +19,7 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.prolearn import (
+    MITPE_EXCLUSION,
     PROLEARN_BASE_URL,
     SEE_EXCLUSION,
     UNIQUE_FIELD,
@@ -420,11 +421,16 @@ def test_update_delivery(
 
 
 @pytest.mark.parametrize("sloan_api_enabled", [True, False])
-def test_sloan_exclusion(settings, mocker, sloan_api_enabled):
-    """Slaon exclusion should be included if sloan api enabled"""
+@pytest.mark.parametrize("mitpe_api_enabled", [True, False])
+def test_sloan_exclusion(settings, mocker, sloan_api_enabled, mitpe_api_enabled):
+    """Slaon/MITPE exclusion should be included if respective api enabled"""
     settings.SEE_API_ENABLED = sloan_api_enabled
+    settings.MITPE_API_ENABLED = mitpe_api_enabled
     mock_post = mocker.patch("learning_resources.etl.sloan.requests.post")
     extract_data("course")
     assert (
         SEE_EXCLUSION in mock_post.call_args[1]["json"]["query"]
     ) is sloan_api_enabled
+    assert (
+        MITPE_EXCLUSION in mock_post.call_args[1]["json"]["query"]
+    ) is mitpe_api_enabled

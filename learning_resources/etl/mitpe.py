@@ -55,14 +55,15 @@ def extract() -> list[dict]:
     Returns:
         list[dict]: list of raw course or program data
     """
-    if settings.MITPE_BASE_API_URL:
-        return list(
-            _fetch_data(urljoin(settings.MITPE_BASE_API_URL, "/feeds/courses/"))
-        )
-    else:
-        log.warning("Missing required setting MITPE_BASE_API_URL")
-
-    return []
+    required_settings = [
+        "MITPE_BASE_API_URL",
+        "MITPE_API_ENABLED",
+    ]
+    for setting in required_settings:
+        if not getattr(settings, setting):
+            log.warning("Missing required setting %s", setting)
+            return []
+    return list(_fetch_data(urljoin(settings.MITPE_BASE_API_URL, "/feeds/courses/")))
 
 
 def parse_topics(resource_data: dict) -> list[dict]:
