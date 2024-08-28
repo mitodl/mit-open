@@ -410,7 +410,6 @@ const DashboardPage: React.FC = () => {
       <Page>
         <LearningResourceDrawer />
         <DashboardContainer>
-          {/* TODO <MetaTags title="Your MIT Learning Journey" social={false} /> */}
           <TabContext value={tabValue}>
             <DashboardGrid>
               <DashboardGridItem>

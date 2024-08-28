@@ -18,6 +18,8 @@ const nextConfig = {
     // Do not do this. Added to fix "import type", but causes a strage issue where
     // the root page and layout think they're Client Components and "use client"
     // directives not properly respected.
+    // https://nextjs.org/docs/app/api-reference/next-config-js/webpack
+    //
     // config.module.rules.push({
     //   test: /\.tsx?$/,
     //   use: [defaultLoaders.babel],

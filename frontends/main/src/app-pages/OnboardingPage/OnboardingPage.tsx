@@ -290,7 +290,6 @@ const OnboardingPage: React.FC = () => {
 
   return activeStep < NUM_STEPS ? (
     <FlexContainer>
-      {/* TODO <MetaTags title="Onboarding" social={false} /> */}
       <StepContainer>
         <div />
         <Stepper connector={null}>

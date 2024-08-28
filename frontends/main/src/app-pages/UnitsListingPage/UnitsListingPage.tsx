@@ -256,7 +256,6 @@ const UnitsListingPage: React.FC = () => {
 
   return (
     <Page>
-      {/* <MetaTags title="Units" /> TODO */}
       <Banner
         navText={
           <Breadcrumbs

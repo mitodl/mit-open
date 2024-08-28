@@ -60,7 +60,6 @@ const TermsPage: React.FC = () => {
   return (
     <Container>
       <PageContainer>
-        {/* TODO <MetaTags title="Terms of Service" /> */}
         <BannerContainer>
           <BannerContainerInner>
             <Breadcrumbs

@@ -222,7 +222,6 @@ const DepartmentListingPage: React.FC = () => {
 
   return (
     <>
-      {/* TODO <MetaTags title="Departments" /> */}
       <Banner
         backgroundUrl="/images/backgrounds/background_steps.jpeg"
         header="Browse by Academic Department"

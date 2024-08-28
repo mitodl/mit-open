@@ -6,17 +6,20 @@ import * as carousels from "@/app-pages/HomePage/carousels"
 import { learningResourcesKeyFactory } from "api/hooks/learningResources"
 import { FeaturedApiFeaturedListRequest } from "api/generated/v1/api"
 import getQueryClient from "./getQueryClient"
-import { getMetadata } from "@/common/metadata"
+import { getMetadataAsync } from "@/common/metadata"
 
 
 export async function generateMetadata(
   { searchParams }: {searchParams: { [key: string]: string | string[] | undefined }}
 ): Promise<Metadata> {
 
-  return getMetadata({
-    title: "Learn with MIT",
-    searchParams
-  })
+  return {
+    metadataBase: new URL('https://acme.com'),
+    ...(await getMetadataAsync({
+      title: "Learn with MIT",
+      searchParams
+    }))
+  }
 }
 
 const Page: React.FC = async () => {

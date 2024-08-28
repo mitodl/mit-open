@@ -108,7 +108,6 @@ const List = styled.ul({
 const AboutPage: React.FC = () => {
   return (
     <PageContainer>
-      {/* TODO <MetaTags title="About Us" /> */}
       <BannerContainer>
         <BannerContainerInner>
           <Breadcrumbs

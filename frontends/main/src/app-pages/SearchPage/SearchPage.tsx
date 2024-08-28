@@ -215,7 +215,6 @@ const SearchPage: React.FC = () => {
   return (
     <Page>
       <LearningResourceDrawer />
-      {/* TODO <MetaTags title="Search" /> */}
       <Header>
         <Container>
           <GridContainer>

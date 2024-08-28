@@ -283,7 +283,6 @@ const ToopicsListingPage: React.FC = () => {
   }, [topicsQuery.data?.results, courseQuery.data, programQuery.data])
   return (
     <Page>
-      {/* TODO <MetaTags title="Topics" /> */}
       <Banner
         navText={
           <Breadcrumbs

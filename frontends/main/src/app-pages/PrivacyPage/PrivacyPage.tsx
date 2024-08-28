@@ -60,7 +60,6 @@ const PrivacyPage: React.FC = () => {
   return (
     <Container>
       <PageContainer>
-        {/* TODO <MetaTags title="Privacy Policy" /> */}
         <BannerContainer>
           <BannerContainerInner>
             <Breadcrumbs
