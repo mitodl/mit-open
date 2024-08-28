@@ -13,14 +13,14 @@ from learning_resources_search.utils import prune_channel_subscriptions
 from main.factories import UserFactory
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_api(mocker):
     """Mock object that patches the channels API"""
     return mocker.patch("learning_resources_search.tasks.api")
 
 
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_prune_channel_subscriptions(mocked_api, mocker, client, user):
     """
     Test that duplicate percolate queries for a channel are consolidated
@@ -66,7 +66,7 @@ def test_prune_channel_subscriptions(mocked_api, mocker, client, user):
 
 
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_new_channel_percolate_query_is_created(mocked_api, mocker, client, user):
     """
     Test that running the prune command generates percolate current query instances for channels
@@ -103,7 +103,7 @@ def test_new_channel_percolate_query_is_created(mocked_api, mocker, client, user
 
 
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_prune_subscription_on_empty_channel_search_filter(
     mocked_api, mocker, client, user
 ):
