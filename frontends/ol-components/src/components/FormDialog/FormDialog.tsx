@@ -57,10 +57,6 @@ interface FormDialogProps {
   formClassName?: string
 
   /**
-   * MUI Dialog's [TransitionProps](https://mui.com/material-ui/api/dialog/#props)
-   */
-  TransitionProps?: DialogProps["TransitionProps"]
-  /**
    * If `true`, the dialog stretches to its `maxWidth`.
    *
    * See [fullWidth](https://mui.com/material-ui/api/dialog/#Dialog-prop-fullWidth)
