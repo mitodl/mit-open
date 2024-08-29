@@ -1,6 +1,14 @@
 Release Notes
 =============
 
+Version 0.17.11
+---------------
+
+- Switched imagekit caching from in-memory to redis (#1475)
+- [pre-commit.ci] pre-commit autoupdate (#1468)
+- OCW course completeness score (#1461)
+- Shanbady/fix multiple instances of subscriptions (#1469)
+
 Version 0.17.10 (Released August 28, 2024)
 ---------------
 
