@@ -13,7 +13,6 @@ import {
   RiSearch2Line,
   RiPencilRulerLine,
   RiStackLine,
-  RiSignpostLine,
   RiBookMarkedLine,
   RiPresentationLine,
   RiNodeTree,
@@ -188,12 +187,6 @@ const navData: NavData = {
           description:
             "A series of courses for in-depth learning across a range of topics",
           href: SEARCH_PROGRAM,
-        },
-        {
-          title: "Pathways",
-          icon: <RiSignpostLine />,
-          description:
-            "Achieve your learning goals with a curated collection of courses",
         },
         {
           title: "Learning Materials",
