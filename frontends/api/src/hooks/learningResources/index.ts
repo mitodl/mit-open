@@ -5,7 +5,11 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query"
-import { learningpathsApi, userListsApi } from "../../clients"
+import {
+  learningpathsApi,
+  learningResourcesApi,
+  userListsApi,
+} from "../../clients"
 import type {
   LearningResourcesApiLearningResourcesListRequest as LRListRequest,
   TopicsApiTopicsListRequest as TopicsListRequest,
@@ -28,6 +32,8 @@ import type {
   PlatformsApiPlatformsListRequest,
   FeaturedApiFeaturedListRequest as FeaturedListParams,
   PaginatedLearningResourceList,
+  LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest,
+  LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest,
 } from "../../generated/v1"
 import learningResources, {
   invalidateResourceQueries,
@@ -319,6 +325,43 @@ const useUserListRelationshipCreate = () => {
   })
 }
 
+const useLearningResourceSetUserListRelationships = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (
+      params: LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest,
+    ) => learningResourcesApi.learningResourcesUserlistsPartialUpdate(params),
+    onSettled: (_response, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.id, {
+        skipFeatured: false,
+      })
+      vars.userlist_id?.forEach((userlistId) => {
+        invalidateUserListQueries(queryClient, userlistId)
+      })
+    },
+  })
+}
+
+const useLearningResourceSetLearningPathRelationships = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (
+      params: LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest,
+    ) =>
+      learningResourcesApi.learningResourcesLearningPathsPartialUpdate(params),
+    onSettled: (_response, _err, vars) => {
+      invalidateResourceQueries(queryClient, vars.id, {
+        skipFeatured: false,
+      })
+      vars.learning_path_id?.forEach((learningPathId) => {
+        invalidateResourceQueries(queryClient, learningPathId, {
+          skipFeatured: false,
+        })
+      })
+    },
+  })
+}
+
 const useUserListRelationshipDestroy = () => {
   const queryClient = useQueryClient()
   return useMutation({
@@ -454,6 +497,8 @@ export {
   useLearningpathRelationshipCreate,
   useLearningpathRelationshipDestroy,
   useLearningResourcesSearch,
+  useLearningResourceSetUserListRelationships,
+  useLearningResourceSetLearningPathRelationships,
   useUserListList,
   useUserListsDetail,
   useUserListCreate,

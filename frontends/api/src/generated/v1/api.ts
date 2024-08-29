@@ -3301,6 +3301,38 @@ export interface PatchedLearningPathResourceRequest {
 }
 
 /**
+ * CRUD serializer for LearningResourceRelationship
+ * @export
+ * @interface PatchedLearningResourceRelationshipRequest
+ */
+export interface PatchedLearningResourceRelationshipRequest {
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedLearningResourceRelationshipRequest
+   */
+  position?: number
+  /**
+   *
+   * @type {RelationTypeEnum}
+   * @memberof PatchedLearningResourceRelationshipRequest
+   */
+  relation_type?: RelationTypeEnum
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedLearningResourceRelationshipRequest
+   */
+  parent?: number
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedLearningResourceRelationshipRequest
+   */
+  child?: number
+}
+
+/**
  * Serializer for UserListRelationship model
  * @export
  * @interface PatchedUserListRelationshipRequest
@@ -10561,6 +10593,68 @@ export const LearningResourcesApiAxiosParamCreator = function (
       }
     },
     /**
+     * Set Learning Path Relationships on a given Learning Resource.
+     * @summary Set Learning Path Relationships
+     * @param {number} id id of the learning resource
+     * @param {Array<number>} [learning_path_id] id of the parent learning path
+     * @param {PatchedLearningResourceRelationshipRequest} [PatchedLearningResourceRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesLearningPathsPartialUpdate: async (
+      id: number,
+      learning_path_id?: Array<number>,
+      PatchedLearningResourceRelationshipRequest?: PatchedLearningResourceRelationshipRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningResourcesLearningPathsPartialUpdate", "id", id)
+      const localVarPath =
+        `/api/v1/learning_resources/{id}/learning_paths/`.replace(
+          `{${"id"}}`,
+          encodeURIComponent(String(id)),
+        )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (learning_path_id) {
+        localVarQueryParameter["learning_path_id"] = learning_path_id
+      }
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedLearningResourceRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {boolean} [certification]
@@ -10751,6 +10845,67 @@ export const LearningResourcesApiAxiosParamCreator = function (
         options: localVarRequestOptions,
       }
     },
+    /**
+     * Set User List Relationships on a given Learning Resource.
+     * @summary Set User List Relationships
+     * @param {number} id id of the learning resource
+     * @param {Array<number>} [userlist_id] id of the parent user list
+     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserlistsPartialUpdate: async (
+      id: number,
+      userlist_id?: Array<number>,
+      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'id' is not null or undefined
+      assertParamExists("learningResourcesUserlistsPartialUpdate", "id", id)
+      const localVarPath = `/api/v1/learning_resources/{id}/userlists/`.replace(
+        `{${"id"}}`,
+        encodeURIComponent(String(id)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "PATCH",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      if (userlist_id) {
+        localVarQueryParameter["userlist_id"] = userlist_id
+      }
+
+      localVarHeaderParameter["Content-Type"] = "application/json"
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+      localVarRequestOptions.data = serializeDataIfNeeded(
+        PatchedUserListRelationshipRequest,
+        localVarRequestOptions,
+        configuration,
+      )
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
   }
 }
 
@@ -10932,6 +11087,46 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
+     * Set Learning Path Relationships on a given Learning Resource.
+     * @summary Set Learning Path Relationships
+     * @param {number} id id of the learning resource
+     * @param {Array<number>} [learning_path_id] id of the parent learning path
+     * @param {PatchedLearningResourceRelationshipRequest} [PatchedLearningResourceRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesLearningPathsPartialUpdate(
+      id: number,
+      learning_path_id?: Array<number>,
+      PatchedLearningResourceRelationshipRequest?: PatchedLearningResourceRelationshipRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<LearningResourceRelationship>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesLearningPathsPartialUpdate(
+          id,
+          learning_path_id,
+          PatchedLearningResourceRelationshipRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningResourcesApi.learningResourcesLearningPathsPartialUpdate"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {boolean} [certification]
@@ -11044,6 +11239,46 @@ export const LearningResourcesApiFp = function (configuration?: Configuration) {
           configuration,
         )(axios, operationBasePath || basePath)
     },
+    /**
+     * Set User List Relationships on a given Learning Resource.
+     * @summary Set User List Relationships
+     * @param {number} id id of the learning resource
+     * @param {Array<number>} [userlist_id] id of the parent user list
+     * @param {PatchedUserListRelationshipRequest} [PatchedUserListRelationshipRequest]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async learningResourcesUserlistsPartialUpdate(
+      id: number,
+      userlist_id?: Array<number>,
+      PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<UserListRelationship>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.learningResourcesUserlistsPartialUpdate(
+          id,
+          userlist_id,
+          PatchedUserListRelationshipRequest,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap[
+          "LearningResourcesApi.learningResourcesUserlistsPartialUpdate"
+        ]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
   }
 }
 
@@ -11143,6 +11378,26 @@ export const LearningResourcesApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
+     * Set Learning Path Relationships on a given Learning Resource.
+     * @summary Set Learning Path Relationships
+     * @param {LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesLearningPathsPartialUpdate(
+      requestParameters: LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<LearningResourceRelationship>> {
+      return localVarFp
+        .learningResourcesLearningPathsPartialUpdate(
+          requestParameters.id,
+          requestParameters.learning_path_id,
+          requestParameters.PatchedLearningResourceRelationshipRequest,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * Get a paginated list of learning resources.
      * @summary List
      * @param {LearningResourcesApiLearningResourcesListRequest} requestParameters Request parameters.
@@ -11189,6 +11444,26 @@ export const LearningResourcesApiFactory = function (
     ): AxiosPromise<LearningResource> {
       return localVarFp
         .learningResourcesRetrieve(requestParameters.id, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
+     * Set User List Relationships on a given Learning Resource.
+     * @summary Set User List Relationships
+     * @param {LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    learningResourcesUserlistsPartialUpdate(
+      requestParameters: LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<UserListRelationship>> {
+      return localVarFp
+        .learningResourcesUserlistsPartialUpdate(
+          requestParameters.id,
+          requestParameters.userlist_id,
+          requestParameters.PatchedUserListRelationshipRequest,
+          options,
+        )
         .then((request) => request(axios, basePath))
     },
   }
@@ -11335,6 +11610,34 @@ export interface LearningResourcesApiLearningResourcesItemsRetrieveRequest {
 }
 
 /**
+ * Request parameters for learningResourcesLearningPathsPartialUpdate operation in LearningResourcesApi.
+ * @export
+ * @interface LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest
+ */
+export interface LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest {
+  /**
+   * id of the learning resource
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesLearningPathsPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   * id of the parent learning path
+   * @type {Array<number>}
+   * @memberof LearningResourcesApiLearningResourcesLearningPathsPartialUpdate
+   */
+  readonly learning_path_id?: Array<number>
+
+  /**
+   *
+   * @type {PatchedLearningResourceRelationshipRequest}
+   * @memberof LearningResourcesApiLearningResourcesLearningPathsPartialUpdate
+   */
+  readonly PatchedLearningResourceRelationshipRequest?: PatchedLearningResourceRelationshipRequest
+}
+
+/**
  * Request parameters for learningResourcesList operation in LearningResourcesApi.
  * @export
  * @interface LearningResourcesApiLearningResourcesListRequest
@@ -11475,6 +11778,34 @@ export interface LearningResourcesApiLearningResourcesRetrieveRequest {
 }
 
 /**
+ * Request parameters for learningResourcesUserlistsPartialUpdate operation in LearningResourcesApi.
+ * @export
+ * @interface LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest
+ */
+export interface LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest {
+  /**
+   * id of the learning resource
+   * @type {number}
+   * @memberof LearningResourcesApiLearningResourcesUserlistsPartialUpdate
+   */
+  readonly id: number
+
+  /**
+   * id of the parent user list
+   * @type {Array<number>}
+   * @memberof LearningResourcesApiLearningResourcesUserlistsPartialUpdate
+   */
+  readonly userlist_id?: Array<number>
+
+  /**
+   *
+   * @type {PatchedUserListRelationshipRequest}
+   * @memberof LearningResourcesApiLearningResourcesUserlistsPartialUpdate
+   */
+  readonly PatchedUserListRelationshipRequest?: PatchedUserListRelationshipRequest
+}
+
+/**
  * LearningResourcesApi - object-oriented interface
  * @export
  * @class LearningResourcesApi
@@ -11574,6 +11905,28 @@ export class LearningResourcesApi extends BaseAPI {
   }
 
   /**
+   * Set Learning Path Relationships on a given Learning Resource.
+   * @summary Set Learning Path Relationships
+   * @param {LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesLearningPathsPartialUpdate(
+    requestParameters: LearningResourcesApiLearningResourcesLearningPathsPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesLearningPathsPartialUpdate(
+        requestParameters.id,
+        requestParameters.learning_path_id,
+        requestParameters.PatchedLearningResourceRelationshipRequest,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
    * Get a paginated list of learning resources.
    * @summary List
    * @param {LearningResourcesApiLearningResourcesListRequest} requestParameters Request parameters.
@@ -11623,6 +11976,28 @@ export class LearningResourcesApi extends BaseAPI {
   ) {
     return LearningResourcesApiFp(this.configuration)
       .learningResourcesRetrieve(requestParameters.id, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Set User List Relationships on a given Learning Resource.
+   * @summary Set User List Relationships
+   * @param {LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof LearningResourcesApi
+   */
+  public learningResourcesUserlistsPartialUpdate(
+    requestParameters: LearningResourcesApiLearningResourcesUserlistsPartialUpdateRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return LearningResourcesApiFp(this.configuration)
+      .learningResourcesUserlistsPartialUpdate(
+        requestParameters.id,
+        requestParameters.userlist_id,
+        requestParameters.PatchedUserListRelationshipRequest,
+        options,
+      )
       .then((request) => request(this.axios, this.basePath))
   }
 }
