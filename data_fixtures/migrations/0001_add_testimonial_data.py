@@ -242,7 +242,7 @@ def load_fixtures(apps, schema_editor):
             Save the image from fixture so alternate sizes are generated
             """
             with Path.open(
-                f"{settings.BASE_DIR}/testimonials/fixtures/avatars/{fixture["attestant_name"]}.png",
+                f"{settings.BASE_DIR}/testimonials/fixtures/avatars/{fixture['attestant_name']}.png",
                 "rb",
             ) as imagefile:
                 testimonial.avatar.save("avatar.png", File(imagefile), save=True)
