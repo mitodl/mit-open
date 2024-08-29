@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.17.12 (Released August 29, 2024)
+---------------
+
+- Remove Pathways (Coming Soon) (#1482)
+- add to list dialog updates (#1463)
+- Fix syntax that a pre-commit check was failing (#1480)
+
 Version 0.17.11 (Released August 29, 2024)
 ---------------
 
