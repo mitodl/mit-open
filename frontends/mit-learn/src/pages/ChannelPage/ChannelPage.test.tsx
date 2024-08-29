@@ -109,14 +109,100 @@ const setupApis = (
   }
 }
 
-const DEFAULT_CHANNEL_TYPES = Object.values(ChannelTypeEnum)
+const ALL_CHANNEL_TYPES = Object.values(ChannelTypeEnum).map((v) => ({
+  channelType: v,
+}))
+const NON_UNIT_CHANNEL_TYPES = Object.values(ChannelTypeEnum)
   .filter((v) => v !== ChannelTypeEnum.Unit)
   .map((v) => ({ channelType: v }))
 
-describe("ChannelPage", () => {
-  it.each(DEFAULT_CHANNEL_TYPES)(
-    "Displays the title, background, and avatar (channelType: %s)",
-    async ({ channelType }) => {
+describe.each(ALL_CHANNEL_TYPES)(
+  "ChannelPage, common behavior",
+  ({ channelType }) => {
+    it("Displays the channel search if search_filter is not undefined", async () => {
+      const { channel } = setupApis({
+        search_filter:
+          "platform=ocw&platform=mitxonline&department=8&department=9",
+        channel_type: channelType,
+      })
+      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      await screen.findAllByText(channel.title)
+      const expectedProps = expect.objectContaining({
+        constantSearchParams: {
+          platform: ["ocw", "mitxonline"],
+          department: ["8", "9"],
+        },
+      })
+      const expectedContext = expect.anything()
+
+      expect(mockedChannelSearch).toHaveBeenLastCalledWith(
+        expectedProps,
+        expectedContext,
+      )
+    })
+    it("Does not display the channel search if search_filter is undefined", async () => {
+      const { channel } = setupApis({
+        channel_type: channelType,
+      })
+      channel.search_filter = undefined
+      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      await screen.findAllByText(channel.title)
+
+      expect(mockedChannelSearch).toHaveBeenCalledTimes(0)
+    })
+
+    it("Includes heading and subheading in banner", async () => {
+      const { channel } = setupApis({
+        channel_type: channelType,
+      })
+      channel.search_filter = undefined
+      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      await screen.findAllByText(channel.title)
+
+      await waitFor(() => {
+        screen.getAllByText(channel.configuration.sub_heading).forEach((el) => {
+          expect(el).toBeInTheDocument()
+        })
+      })
+      await waitFor(() => {
+        screen.getAllByText(channel.configuration.heading).forEach((el) => {
+          expect(el).toBeInTheDocument()
+        })
+      })
+    })
+
+    it.each([{ isSubscribed: false }, { isSubscribed: true }])(
+      "Displays the subscribe toggle for authenticated and unauthenticated users",
+      async ({ isSubscribed }) => {
+        const { channel } = setupApis(
+          { search_filter: "q=ocw", channel_type: channelType },
+          {},
+          { isSubscribed },
+        )
+        renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+        const subscribedButton = await screen.findByText("Follow")
+        expect(subscribedButton).toBeVisible()
+      },
+    )
+  },
+)
+
+describe.each(NON_UNIT_CHANNEL_TYPES)(
+  "ChannelPage, common non-unit ($channelType)",
+  ({ channelType }) => {
+    it("Does not display a featured carousel if the channel type is not 'unit'", async () => {
+      const { channel } = setupApis({
+        search_filter: "topic=physics",
+        channel_type: channelType,
+      })
+
+      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      await screen.findAllByText(channel.title)
+      const carousels = screen.queryByText("Featured Courses")
+      expect(carousels).toBe(null)
+    })
+
+    it("Displays the title, background, and avatar (channelType: %s)", async () => {
       const { channel } = setupApis({
         search_filter: "offered_by=ocw",
         channel_type: channelType,
@@ -143,84 +229,9 @@ describe("ChannelPage", () => {
         img.src.includes(channel.configuration.logo),
       )
       expect(logos.length).toBe(1)
-    },
-  )
-
-  it("Does not display a featured carousel if the channel type is not 'unit'", async () => {
-    const { channel } = setupApis({
-      search_filter: "topic=physics",
-      channel_type: "topic",
     })
 
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findAllByText(channel.title)
-    const carousels = screen.queryByText("Featured Courses")
-    expect(carousels).toBe(null)
-  })
-  it("Displays the channel search if search_filter is not undefined", async () => {
-    const { channel } = setupApis({
-      search_filter:
-        "platform=ocw&platform=mitxonline&department=8&department=9",
-    })
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findAllByText(channel.title)
-    const expectedProps = expect.objectContaining({
-      constantSearchParams: {
-        platform: ["ocw", "mitxonline"],
-        department: ["8", "9"],
-      },
-    })
-    const expectedContext = expect.anything()
-
-    expect(mockedChannelSearch).toHaveBeenLastCalledWith(
-      expectedProps,
-      expectedContext,
-    )
-  })
-  it("Does not display the channel search if search_filter is undefined", async () => {
-    const { channel } = setupApis()
-    channel.search_filter = undefined
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findAllByText(channel.title)
-
-    expect(mockedChannelSearch).toHaveBeenCalledTimes(0)
-  })
-
-  it("Includes heading and subheading in banner", async () => {
-    const { channel } = setupApis()
-    channel.search_filter = undefined
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    await screen.findAllByText(channel.title)
-
-    await waitFor(() => {
-      screen.getAllByText(channel.configuration.sub_heading).forEach((el) => {
-        expect(el).toBeInTheDocument()
-      })
-    })
-    await waitFor(() => {
-      screen.getAllByText(channel.configuration.heading).forEach((el) => {
-        expect(el).toBeInTheDocument()
-      })
-    })
-  })
-
-  it.each([{ isSubscribed: false }, { isSubscribed: true }])(
-    "Displays the subscribe toggle for authenticated and unauthenticated users",
-    async ({ isSubscribed }) => {
-      const { channel } = setupApis(
-        { search_filter: "q=ocw" },
-        {},
-        { isSubscribed },
-      )
-      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-      const subscribedButton = await screen.findByText("Follow")
-      expect(subscribedButton).toBeVisible()
-    },
-  )
-
-  test.each(DEFAULT_CHANNEL_TYPES)(
-    "headings $channelType",
-    async ({ channelType }) => {
+    test("headings", async () => {
       const { channel } = setupApis({
         search_filter: "topic=Physics",
         channel_type: channelType,
@@ -235,11 +246,11 @@ describe("ChannelPage", () => {
           { level: 3, name: "Search Results" },
         ])
       })
-    },
-  )
-})
+    })
+  },
+)
 
-describe("Unit Channel Pages", () => {
+describe("Channel Pages, Unit only", () => {
   it("Sets the expected meta tags", async () => {
     const { channel } = setupApis({
       search_filter: "offered_by=ocw",
