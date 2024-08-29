@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.11
+Version 0.17.11 (Released August 29, 2024)
 ---------------
 
 - Switched imagekit caching from in-memory to redis (#1475)
