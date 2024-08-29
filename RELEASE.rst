@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.12
+Version 0.17.12 (Released August 29, 2024)
 ---------------
 
 - Remove Pathways (Coming Soon) (#1482)
