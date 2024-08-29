@@ -10,7 +10,6 @@ services:
     extends:
       file: docker-compose.yml
       service: redis
-    env_file: env/codespaces.env
   web:
     profiles:
       - backend
