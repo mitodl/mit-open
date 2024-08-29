@@ -399,3 +399,29 @@ def test_get_resource_learning_paths(user_client, user, is_editor):
         resp.data.get("learning_path_parents"), key=lambda item: item["id"]
     )
     assert response_data == expected
+
+
+def test_set_learning_path_relationships(client, staff_user):
+    """Test the learning_paths endpoint for setting multiple userlist relationships"""
+    course = factories.CourseFactory.create()
+    learning_paths = factories.LearningPathFactory.create_batch(3, author=staff_user)
+    previous_learning_path = factories.LearningPathFactory.create(author=staff_user)
+    factories.LearningPathRelationshipFactory.create(
+        parent=previous_learning_path.learning_resource, child=course.learning_resource
+    )
+    url = reverse(
+        "lr:v1:learning_resource_relationships_api-learning-paths",
+        args=[course.learning_resource.id],
+    )
+    client.force_login(staff_user)
+    resp = client.patch(
+        f"{url}?{"".join([f"learning_path_id={learning_path.learning_resource.id}&" for learning_path in learning_paths])}"
+    )
+    assert resp.status_code == 200
+    for learning_path in learning_paths:
+        assert course.learning_resource.learning_path_parents.filter(
+            parent__id=learning_path.learning_resource.id
+        ).exists()
+    assert not course.learning_resource.learning_path_parents.filter(
+        parent__id=previous_learning_path.learning_resource.id
+    ).exists()

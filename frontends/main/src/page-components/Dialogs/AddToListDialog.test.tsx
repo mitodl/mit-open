@@ -154,7 +154,7 @@ const addToUserList = (
 describe.each([ListType.LearningPath, ListType.UserList])(
   "AddToListDialog",
   (listType: string) => {
-    test("List is checked iff resource is in list", async () => {
+    test("List is checked if resource is in list", async () => {
       const index = faker.number.int({ min: 0, max: 2 })
       if (listType === ListType.LearningPath) {
         setupLearningPaths({ inLists: [index] })
@@ -169,62 +169,57 @@ describe.each([ListType.LearningPath, ListType.UserList])(
       expect(checkboxes[2].checked).toBe(index === 2)
     })
 
-    test("Clicking an unchecked list adds item to that list", async () => {
+    test("Clicking an unchecked list and clicking save adds item to that list", async () => {
       let title = ""
-      let id = -1
-      let addToListUrl = ""
+      let setRelationshipsUrl = ""
       if (listType === ListType.LearningPath) {
         const { resource, lists } = setupLearningPaths()
         const list = faker.helpers.arrayElement(lists)
 
-        addToListUrl = urls.learningPaths.resources({
-          learning_resource_id: list.id,
-        })
+        setRelationshipsUrl =
+          urls.learningResources.setLearningPathRelationships({
+            id: resource.id,
+            learning_path_id: [list.id],
+          })
         const newRelationship = addToLearningPath(resource, list)
-        setMockResponse.post(addToListUrl, newRelationship)
+        setMockResponse.patch(setRelationshipsUrl, newRelationship)
         setMockResponse.get(
           urls.learningResources.details({ id: resource.id }),
           resource,
         )
         title = list.title
-        id = list.id
       } else if (listType === ListType.UserList) {
         const { resource, lists } = setupUserLists()
         const list = faker.helpers.arrayElement(lists)
 
-        addToListUrl = urls.userLists.resources({
-          userlist_id: list.id,
+        setRelationshipsUrl = urls.learningResources.setUserListRelationships({
+          id: resource.id,
+          userlist_id: [list.id],
         })
         const newRelationship = addToUserList(resource, list)
-        setMockResponse.post(addToListUrl, newRelationship)
+        setMockResponse.patch(setRelationshipsUrl, newRelationship)
         setMockResponse.get(
           urls.learningResources.details({ id: resource.id }),
           resource,
         )
         title = list.title
-        id = list.id
       }
 
-      const listButton = await screen.findByRole("button", { name: title })
-      const checkbox =
-        within(listButton).getByRole<HTMLInputElement>("checkbox")
+      const checkbox = await screen.findByLabelText<HTMLInputElement>(title)
 
       expect(checkbox.checked).toBe(false)
-      await user.click(listButton)
+      await user.click(checkbox)
 
-      expect(makeRequest).toHaveBeenCalledWith(
-        "post",
-        addToListUrl,
-        expect.objectContaining({
-          parent: id,
-        }),
-      )
+      const saveButton = await screen.findByRole("button", { name: "Save" })
+      await user.click(saveButton)
+
+      expect(makeRequest).toHaveBeenCalledWith("patch", setRelationshipsUrl, {})
     })
 
-    test("Clicking a checked list removes item from that list", async () => {
+    test("Clicking a checked list and clicking save removes item from that list", async () => {
       const index = faker.number.int({ min: 0, max: 2 })
       let title = ""
-      let removalUrl = ""
+      let setRelationshipUrl = ""
       if (listType === ListType.LearningPath) {
         const { resource, lists, parents } = setupLearningPaths({
           inLists: [index],
@@ -234,11 +229,12 @@ describe.each([ListType.LearningPath, ListType.UserList])(
         invariant(relationship)
 
         title = list.title
-        removalUrl = urls.learningPaths.resourceDetails({
-          id: relationship.id,
-          learning_resource_id: relationship.parent,
-        })
-        setMockResponse.delete(removalUrl)
+        setRelationshipUrl =
+          urls.learningResources.setLearningPathRelationships({
+            id: relationship.child,
+          })
+        setMockResponse.patch(setRelationshipUrl, relationship)
+
         setMockResponse.get(
           urls.learningResources.details({ id: resource.id }),
           resource,
@@ -252,28 +248,28 @@ describe.each([ListType.LearningPath, ListType.UserList])(
         invariant(relationship)
 
         title = list.title
-        removalUrl = urls.userLists.resourceDetails({
-          id: relationship.id,
-          userlist_id: relationship.parent,
+        setRelationshipUrl = urls.learningResources.setUserListRelationships({
+          id: relationship.child,
         })
-        setMockResponse.delete(removalUrl)
+        setMockResponse.patch(setRelationshipUrl, relationship)
         setMockResponse.get(
           urls.userLists.details({ id: resource.id }),
           resource,
         )
       }
 
-      const listButton = await screen.findByRole("button", { name: title })
-      const checkbox =
-        within(listButton).getByRole<HTMLInputElement>("checkbox")
+      const checkbox = await screen.findByLabelText<HTMLInputElement>(title)
 
       expect(checkbox.checked).toBe(true)
-      await user.click(listButton)
+      await user.click(checkbox)
 
-      expect(makeRequest).toHaveBeenCalledWith("delete", removalUrl, undefined)
+      const saveButton = await screen.findByRole("button", { name: "Save" })
+      await user.click(saveButton)
+
+      expect(makeRequest).toHaveBeenCalledWith("patch", setRelationshipUrl, {})
     })
 
-    test("Clicking 'Create a new list' opens the create list dialog", async () => {
+    test("Clicking 'Create New list' opens the create list dialog", async () => {
       let createList = null
       if (listType === ListType.LearningPath) {
         // Don't actually open the 'Create List' modal, or we'll need to mock API responses.
@@ -289,7 +285,7 @@ describe.each([ListType.LearningPath, ListType.UserList])(
         setupUserLists()
       }
       const button = await screen.findByRole("button", {
-        name: "Create a new list",
+        name: "Create New List",
       })
       expect(createList).not.toHaveBeenCalled()
       await user.click(button)

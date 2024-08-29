@@ -2131,6 +2131,88 @@ paths:
               schema:
                 $ref: '#/components/schemas/LearningResourceRelationship'
           description: ''
+  /api/v1/learning_resources/{id}/learning_paths/:
+    patch:
+      operationId: learning_resources_learning_paths_partial_update
+      description: Set Learning Path Relationships on a given Learning Resource.
+      summary: Set Learning Path Relationships
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: id of the learning resource
+        required: true
+      - in: query
+        name: learning_path_id
+        schema:
+          type: array
+          items:
+            type: integer
+        description: id of the parent learning path
+      tags:
+      - learning_resources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceRelationshipRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceRelationshipRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLearningResourceRelationshipRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LearningResourceRelationship'
+          description: ''
+  /api/v1/learning_resources/{id}/userlists/:
+    patch:
+      operationId: learning_resources_userlists_partial_update
+      description: Set User List Relationships on a given Learning Resource.
+      summary: Set User List Relationships
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: id of the learning resource
+        required: true
+      - in: query
+        name: userlist_id
+        schema:
+          type: array
+          items:
+            type: integer
+        description: id of the parent user list
+      tags:
+      - learning_resources
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserListRelationshipRequest'
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserListRelationship'
+          description: ''
   /api/v1/learning_resources_search/:
     get:
       operationId: learning_resources_search_retrieve
@@ -9547,6 +9629,20 @@ components:
         completeness:
           type: number
           format: double
+    PatchedLearningResourceRelationshipRequest:
+      type: object
+      description: CRUD serializer for LearningResourceRelationship
+      properties:
+        position:
+          type: integer
+          maximum: 2147483647
+          minimum: 0
+        relation_type:
+          $ref: '#/components/schemas/RelationTypeEnum'
+        parent:
+          type: integer
+        child:
+          type: integer
     PatchedUserListRelationshipRequest:
       type: object
       description: Serializer for UserListRelationship model

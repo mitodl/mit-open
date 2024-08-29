@@ -13,13 +13,10 @@ export async function generateMetadata(
   { searchParams }: {searchParams: { [key: string]: string | string[] | undefined }}
 ): Promise<Metadata> {
 
-  return {
-    metadataBase: new URL('https://acme.com'),
-    ...(await getMetadataAsync({
-      title: "Learn with MIT",
-      searchParams
-    }))
-  }
+  return await getMetadataAsync({
+    title: "Learn with MIT",
+    searchParams
+  })
 }
 
 const Page: React.FC = async () => {

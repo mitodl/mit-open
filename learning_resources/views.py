@@ -15,6 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from rest_framework import views, viewsets
+from rest_framework.decorators import action
 from rest_framework.filters import OrderingFilter
 from rest_framework.generics import get_object_or_404
 from rest_framework.pagination import LimitOffsetPagination
@@ -26,6 +27,7 @@ from channels.constants import ChannelType
 from channels.models import Channel
 from learning_resources import permissions
 from learning_resources.constants import (
+    LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
     PrivacyLevel,
@@ -52,6 +54,7 @@ from learning_resources.models import (
     UserListRelationship,
 )
 from learning_resources.permissions import (
+    HasLearningPathPermissions,
     HasUserListItemPermissions,
     HasUserListPermissions,
     is_learning_path_editor,
@@ -374,6 +377,136 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
     )
     filter_backends = [OrderingFilter]
     ordering = ["position", "-child__last_modified"]
+
+
+@extend_schema(
+    parameters=[
+        OpenApiParameter(
+            name="id",
+            type=OpenApiTypes.INT,
+            location=OpenApiParameter.PATH,
+            description="id of the learning resource",
+        ),
+    ],
+)
+class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
+    """
+    Viewset for managing relationships between Learning Resources
+    and User Lists / Learning Paths
+    """
+
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+    filter_backends = [MultipleOptionsFilterBackend]
+    queryset = LearningResourceRelationship.objects.select_related("parent", "child")
+    http_method_names = ["patch"]
+
+    def get_serializer_class(self):
+        if self.action == "userlists":
+            return UserListRelationshipSerializer
+        elif self.action == "learning_paths":
+            return LearningResourceRelationshipSerializer
+        return super().get_serializer_class()
+
+    @extend_schema(
+        summary="Set User List Relationships",
+        description="Set User List Relationships on a given Learning Resource.",
+        parameters=[
+            OpenApiParameter(
+                name="userlist_id",
+                type=OpenApiTypes.INT,
+                many=True,
+                location=OpenApiParameter.QUERY,
+                description="id of the parent user list",
+            ),
+        ],
+        responses={200: UserListRelationshipSerializer(many=True)},
+    )
+    @action(detail=True, methods=["patch"], name="Set User List Relationships")
+    def userlists(self, request, *args, **kwargs):  # noqa: ARG002
+        """
+        Set User List relationships for a given Learning Resource
+        """
+        learning_resource_id = kwargs.get("pk")
+        user_list_ids = request.query_params.getlist("userlist_id")
+        if (
+            UserList.objects.filter(pk__in=user_list_ids)
+            .exclude(author=request.user)
+            .exists()
+        ):
+            msg = "User does not have permission to add to the selected user list(s)"
+            raise PermissionError(msg)
+        current_relationships = UserListRelationship.objects.filter(
+            parent__author=request.user, child_id=learning_resource_id
+        )
+        current_relationships.exclude(parent_id__in=user_list_ids).delete()
+        for userlist_id in user_list_ids:
+            last_index = 0
+            for index, relationship in enumerate(
+                UserListRelationship.objects.filter(
+                    parent__author=request.user, parent__id=userlist_id
+                ).order_by("position")
+            ):
+                relationship.position = index
+                relationship.save()
+                last_index = index
+            UserListRelationship.objects.create(
+                parent_id=userlist_id,
+                child_id=learning_resource_id,
+                position=last_index + 1,
+            )
+        SerializerClass = self.get_serializer_class()
+        serializer = SerializerClass(current_relationships, many=True)
+        return Response(serializer.data)
+
+    @extend_schema(
+        summary="Set Learning Path Relationships",
+        description="Set Learning Path Relationships on a given Learning Resource.",
+        parameters=[
+            OpenApiParameter(
+                name="learning_path_id",
+                type=OpenApiTypes.INT,
+                many=True,
+                location=OpenApiParameter.QUERY,
+                description="id of the parent learning path",
+            ),
+        ],
+        responses={200: LearningResourceRelationshipSerializer(many=True)},
+    )
+    @action(
+        detail=True,
+        methods=["patch"],
+        permission_classes=[HasLearningPathPermissions],
+        name="Set Learning Path Relationships",
+    )
+    def learning_paths(self, request, *args, **kwargs):  # noqa: ARG002
+        """
+        Set Learning Path relationships for a given Learning Resource
+        """
+        learning_resource_id = kwargs.get("pk")
+        learning_path_ids = request.query_params.getlist("learning_path_id")
+        current_relationships = LearningResourceRelationship.objects.filter(
+            child_id=learning_resource_id
+        )
+        current_relationships.exclude(parent_id__in=learning_path_ids).delete()
+        for learning_path_id in learning_path_ids:
+            last_index = 0
+            for index, relationship in enumerate(
+                LearningResourceRelationship.objects.filter(
+                    parent__id=learning_path_id
+                ).order_by("position")
+            ):
+                relationship.position = index
+                relationship.save()
+                last_index = index
+            LearningResourceRelationship.objects.create(
+                parent_id=learning_path_id,
+                child_id=learning_resource_id,
+                relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
+                position=last_index + 1,
+            )
+        SerializerClass = self.get_serializer_class()
+        serializer = SerializerClass(current_relationships, many=True)
+        return Response(serializer.data)
 
 
 @extend_schema_view(

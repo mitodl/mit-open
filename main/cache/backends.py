@@ -1,5 +1,5 @@
 from django.core.cache import caches
-from django.core.cache.backends.base import BaseCache
+from django.core.cache.backends.base import DEFAULT_TIMEOUT, BaseCache
 
 
 class FallbackCache(BaseCache):
@@ -24,20 +24,50 @@ class FallbackCache(BaseCache):
     def __init__(self, cache_names, params):
         super().__init__(params)
         self._cache_names = cache_names
+        self.default_timeout = params.get("TIMEOUT", None)
+
+    def get_backend_timeout(self, timeout=DEFAULT_TIMEOUT):
+        """
+        Return the timeout to pass to fallback caches
+        """
+        if timeout == DEFAULT_TIMEOUT:
+            timeout = self.default_timeout
+
+        return timeout
 
     def get(self, key, default=None, version=None):
         """Get the value from the caches in order"""
+        cache_misses = []
+        result = None
+
         for cache_name in self._cache_names:
             cache = caches[cache_name]
-            result = cache.get(key, default=default, version=version)
-            if result:
-                return result
-        return None
+            # explicitly pass None here because it'd cause a false positive
+            result = cache.get(key, default=None, version=version)
+            if result is not None:
+                break
+            else:
+                cache_misses.append(cache)
 
-    def set(self, key, value, timeout=None, version=None):
+        # We need to manually set the value in caches that missed
+        # because consumers of get() will typically not call set() if get()
+        # returns a value. If it doesn't return a value, consumers will
+        # compute the value and then call set().
+        if result is not None:
+            for cache in cache_misses:
+                cache.set(
+                    key, result, timeout=self.get_backend_timeout(), version=version
+                )
+
+            return result
+
+        return default
+
+    def set(self, key, value, timeout=DEFAULT_TIMEOUT, version=None):
         """Set a value in the caches"""
         for cache_name in self._cache_names:
             cache = caches[cache_name]
+            timeout = self.get_backend_timeout(timeout)
             cache.set(
                 key,
                 value,
