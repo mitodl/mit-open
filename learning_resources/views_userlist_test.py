@@ -327,7 +327,7 @@ def test_set_userlist_relationships_unauthorized(client, user):
 def test_set_userlist_relationships_empty_list(client, user):
     """Test that sending an empty list in the request does not unassign the wrong userlists"""
 
-    def assign_userlists(userlists):
+    def assign_userlists(course, userlists):
         for userlist in userlists:
             factories.UserListRelationshipFactory.create(
                 parent=userlist, child=course.learning_resource
@@ -336,8 +336,8 @@ def test_set_userlist_relationships_empty_list(client, user):
     course = factories.CourseFactory.create()
     unowned_userlists = factories.UserListFactory.create_batch(3)
     owned_userlists = factories.UserListFactory.create_batch(3, author=user)
-    assign_userlists(unowned_userlists)
-    assign_userlists(owned_userlists)
+    assign_userlists(course, unowned_userlists)
+    assign_userlists(course, owned_userlists)
     assert (
         UserListRelationship.objects.filter(child=course.learning_resource).count() == 6
     )
