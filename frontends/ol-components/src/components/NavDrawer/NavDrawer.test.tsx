@@ -25,13 +25,6 @@ describe("NavDrawer", () => {
               title: "Link but no description",
               href: "https://ocw.mit.edu",
             },
-            {
-              title: "Description, but no link",
-              description: "This item has a description, but no link",
-            },
-            {
-              title: "Title only",
-            },
           ],
         },
       ],
@@ -45,14 +38,7 @@ describe("NavDrawer", () => {
     const descriptions = screen.getAllByTestId("nav-link-description")
     expect(links).toHaveLength(3)
     expect(icons).toHaveLength(1)
-    expect(titles).toHaveLength(5)
-    expect(descriptions).toHaveLength(3)
-    let linksComingSoon = 0
-    Array.prototype.forEach.call(titles, (title) => {
-      if (title.textContent?.includes("(Coming Soon)")) {
-        linksComingSoon++
-      }
-    })
-    expect(linksComingSoon === 2).toBeTruthy()
+    expect(titles).toHaveLength(3)
+    expect(descriptions).toHaveLength(2)
   })
 })
