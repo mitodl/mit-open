@@ -10,6 +10,7 @@ import {
   assertPartialMetas,
 } from "../../test-utils"
 import ChannelSearch from "./ChannelSearch"
+import { assertHeadings } from "ol-test-utilities"
 
 jest.mock("./ChannelSearch", () => {
   const actual = jest.requireActual("./ChannelSearch")
@@ -214,6 +215,22 @@ describe("ChannelPage", () => {
       expect(subscribedButton).toBeVisible()
     },
   )
+
+  test("headings", async () => {
+    const { channel } = setupApis({
+      search_filter: "topic=Physics",
+    })
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+
+    await waitFor(() => {
+      assertHeadings([
+        { level: 1, name: channel.title },
+        { level: 2, name: `Search within ${channel.title}` },
+        { level: 3, name: "Filter" },
+        { level: 3, name: "Search Results" },
+      ])
+    })
+  })
 })
 
 describe("Unit Channel Pages", () => {
@@ -300,6 +317,25 @@ describe("Unit Channel Pages", () => {
         urls.learningResources.featured({ limit: 12 }),
         undefined,
       )
+    })
+  })
+
+  test("headings", async () => {
+    const { channel } = setupApis({
+      search_filter: "offered_by=ocw",
+      channel_type: "unit",
+    })
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+
+    await waitFor(() => {
+      assertHeadings([
+        { level: 1, name: channel.title },
+        { level: 2, name: "Featured Courses" },
+        { level: 2, name: "What Learners Say" },
+        { level: 2, name: `Search within ${channel.title}` },
+        { level: 3, name: "Filter" },
+        { level: 3, name: "Search Results" },
+      ])
     })
   })
 })

@@ -8,6 +8,7 @@ import {
   TabButtonList,
   styled,
   Typography,
+  TypographyProps,
 } from "ol-components"
 import type { TabConfig } from "./types"
 import { LearningResource, PaginatedLearningResourceList } from "api"
@@ -49,13 +50,15 @@ const HeaderRow = styled.div(({ theme }) => ({
   },
 }))
 
-const HeaderText = styled(Typography)(({ theme }) => ({
-  paddingRight: "16px",
-  [theme.breakpoints.down("sm")]: {
-    paddingBottom: "16px",
-    ...theme.typography.h5,
-  },
-}))
+const HeaderText = styled(Typography)<Pick<TypographyProps, "component">>(
+  ({ theme }) => ({
+    paddingRight: "16px",
+    [theme.breakpoints.down("sm")]: {
+      paddingBottom: "16px",
+      ...theme.typography.h5,
+    },
+  }),
+)
 
 const ControlsContainer = styled.div(({ theme }) => ({
   display: "flex",
@@ -152,6 +155,10 @@ type ResourceCarouselProps = {
   className?: string
   isLoading?: boolean
   "data-testid"?: string
+  /**
+   * Element type for the carousel title
+   */
+  titleComponent: React.ElementType
 }
 /**
  * A tabbed carousel that fetches resources based on the configuration provided.
@@ -170,6 +177,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   className,
   isLoading,
   "data-testid": dataTestId,
+  titleComponent,
 }) => {
   const [tab, setTab] = React.useState("0")
   const [ref, setRef] = React.useState<HTMLDivElement | null>(null)
@@ -210,15 +218,12 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   )
 
   return (
-    <MobileOverflow
-      as="section"
-      aria-label={`Carousel of ${title}`}
-      className={className}
-      data-testid={dataTestId}
-    >
+    <MobileOverflow className={className} data-testid={dataTestId}>
       <TabContext value={tab}>
         <HeaderRow>
-          <HeaderText variant="h4">{title}</HeaderText>
+          <HeaderText component={titleComponent} variant="h4">
+            {title}
+          </HeaderText>
           {config.length === 1 ? buttonsContainerElement : null}
           {config.length > 1 ? (
             <ControlsContainer>

@@ -19,7 +19,7 @@ import { SearchInput } from "@/page-components/SearchDisplay/SearchInput"
 import { getFacetManifest } from "@/pages/SearchPage/SearchPage"
 
 import _ from "lodash"
-import { styled } from "ol-components"
+import { styled, VisuallyHidden } from "ol-components"
 
 const SearchInputContainer = styled.div`
   padding-bottom: 40px;
@@ -106,11 +106,13 @@ const getFacetManifestForChannelType = (
 interface ChannelSearchProps {
   constantSearchParams: Facets & BooleanFacets
   channelType: ChannelTypeEnum
+  channelTitle?: string
 }
 
 const ChannelSearch: React.FC<ChannelSearchProps> = ({
   constantSearchParams,
   channelType,
+  channelTitle,
 }) => {
   const offerorsQuery = useOfferorsList()
   const offerors = useMemo(() => {
@@ -180,7 +182,8 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
   const page = +(searchParams.get("page") ?? "1")
 
   return (
-    <div>
+    <section>
+      <VisuallyHidden as="h2">Search within {channelTitle}</VisuallyHidden>
       <SearchInputContainer>
         <StyledSearchInput
           value={currentText}
@@ -198,6 +201,8 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
       </SearchInputContainer>
 
       <SearchDisplay
+        resultsHeadingEl="h3"
+        filterHeadingEl="h3"
         page={page}
         setSearchParams={setSearchParams}
         requestParams={params}
@@ -213,7 +218,7 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
           SHOW_PROFESSIONAL_TOGGLE_BY_CHANNEL_TYPE[channelType]
         }
       />
-    </div>
+    </section>
   )
 }
 

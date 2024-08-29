@@ -7,6 +7,7 @@ import {
   Stack,
   BannerBackground,
   Typography,
+  VisuallyHidden,
 } from "ol-components"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { ChannelDetails } from "@/page-components/ChannelDetails/ChannelDetails"
@@ -131,7 +132,8 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
           />
           <BannerContent>
             <Stack gap={{ xs: "16px", lg: "24px" }}>
-              <ChannelHeader aria-label={channel.data?.title}>
+              <ChannelHeader>
+                <VisuallyHidden>{channel.data?.title}</VisuallyHidden>
                 {channel.data ? (
                   <UnitLogo alt="" src={displayConfiguration.logo} />
                 ) : null}
@@ -181,14 +183,18 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
           </BannerContent>
         </Container>
       </StyledBannerBackground>
-      <Container>
+      <Container component="section">
         <FeaturedCoursesCarousel
           title="Featured Courses"
+          titleComponent="h2"
           config={FEATURED_RESOURCES_CAROUSEL}
           isLoading={channel.isLoading}
         />
       </Container>
-      <TestimonialDisplay offerors={[name]} />
+      <section>
+        <VisuallyHidden as="h2">What Learners Say</VisuallyHidden>
+        <TestimonialDisplay offerors={[name]} />
+      </section>
       <Container>{children}</Container>
     </>
   )

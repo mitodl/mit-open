@@ -1,4 +1,10 @@
-import { Breadcrumbs, Container, Typography, styled } from "ol-components"
+import {
+  Breadcrumbs,
+  Container,
+  Typography,
+  TypographyProps,
+  styled,
+} from "ol-components"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
 import * as urls from "@/common/urls"
 import React from "react"
@@ -29,10 +35,12 @@ const BannerContainerInner = styled.div({
   justifyContent: "center",
 })
 
-const Header = styled(Typography)(({ theme }) => ({
-  alignSelf: "stretch",
-  color: theme.custom.colors.black,
-}))
+const Header = styled(Typography)<Pick<TypographyProps, "component">>(
+  ({ theme }) => ({
+    alignSelf: "stretch",
+    color: theme.custom.colors.black,
+  }),
+)
 
 const BodyContainer = styled.div({
   display: "flex",
@@ -42,10 +50,12 @@ const BodyContainer = styled.div({
   gap: "20px",
 })
 
-const BodyText = styled(Typography)(({ theme }) => ({
-  alignSelf: "stretch",
-  color: theme.custom.colors.black,
-}))
+const BodyText = styled(Typography)<Pick<TypographyProps, "component">>(
+  ({ theme }) => ({
+    alignSelf: "stretch",
+    color: theme.custom.colors.black,
+  }),
+)
 
 const UnorderedList = styled.ul(({ theme }) => ({
   width: "100%",
@@ -66,18 +76,24 @@ const PrivacyPage: React.FC = () => {
               ancestors={[{ href: urls.HOME, label: "Home" }]}
               current="Privacy Policy"
             />
-            <Header variant="h3">Privacy Policy</Header>
+            <Header component="h1" variant="h3">
+              Privacy Policy
+            </Header>
           </BannerContainerInner>
         </BannerContainer>
         <BodyContainer>
-          <BodyText variant="h4">Introduction</BodyText>
+          <BodyText component="h2" variant="h4">
+            Introduction
+          </BodyText>
           <BodyText variant="body1">
             {SITE_NAME} provides information about MIT courses, programs, and
             learning materials to learners from across the world. This Privacy
             Statement explains how {SITE_NAME} collects, uses, and processes
             personal information about our learners.
           </BodyText>
-          <BodyText variant="h4">What personal information we collect</BodyText>
+          <BodyText component="h2" variant="h4">
+            What personal information we collect
+          </BodyText>
           <BodyText variant="body1">
             We may collect, use, store, and transfer different kinds of personal
             information about you, which we have grouped together as follows:
@@ -94,7 +110,7 @@ const PrivacyPage: React.FC = () => {
             <li>IP addresses</li>
             <li>Course progress and performance</li>
           </UnorderedList>
-          <BodyText variant="h4">
+          <BodyText component="h2" variant="h4">
             How we collect personal information about you
           </BodyText>
           <BodyText variant="body1">
@@ -130,7 +146,9 @@ const PrivacyPage: React.FC = () => {
             "Help" section of the toolbar. If you reject our cookies, many
             functions and conveniences of this Site may not work properly.
           </BodyText>
-          <BodyText variant="h4">How we use your personal information</BodyText>
+          <BodyText component="h2" variant="h4">
+            How we use your personal information
+          </BodyText>
           <BodyText variant="body1">
             We collect, use, and process your personal information (1) to
             process transactions requested by you and meet our contractual
@@ -168,7 +186,7 @@ const PrivacyPage: React.FC = () => {
             will always respect a request by you to stop processing your
             personal information (subject to our legal obligations).
           </BodyText>
-          <BodyText variant="h4">
+          <BodyText component="h2" variant="h4">
             When we share your personal information
           </BodyText>
           <BodyText variant="body1">
@@ -189,7 +207,7 @@ const PrivacyPage: React.FC = () => {
             or otherwise address fraud, security or technical issues; or to
             protect the rights, property or safety of us, our users or others.
           </BodyText>
-          <BodyText variant="h4">
+          <BodyText component="h2" variant="h4">
             How your information is stored and secured
           </BodyText>
           <BodyText variant="body1">
@@ -213,7 +231,7 @@ const PrivacyPage: React.FC = () => {
             based on verified business use cases and subject to auditing to
             verify appropriate applications.
           </BodyText>
-          <BodyText variant="h4">
+          <BodyText component="h2" variant="h4">
             How long we keep your personal information
           </BodyText>
           <BodyText variant="body1">
@@ -226,7 +244,7 @@ const PrivacyPage: React.FC = () => {
             archival, scientific and historical research and for the defense of
             potential legal claims.
           </BodyText>
-          <BodyText variant="h4">
+          <BodyText component="h2" variant="h4">
             Rights for Individuals in the European Economic Area (EEA) or United
             Kingdom (UK)
           </BodyText>
@@ -289,7 +307,9 @@ const PrivacyPage: React.FC = () => {
             <br />
             Address: 71 Queen Victoria Street, London, EC4V 4BE, United Kingdom
           </BodyText>
-          <BodyText variant="h4">Additional Information</BodyText>
+          <BodyText component="h2" variant="h4">
+            Additional Information
+          </BodyText>
           <BodyText variant="body1">
             We may change this Privacy Statement from time to time. If we make
             any significant changes in the way we treat your personal

@@ -2,3 +2,4 @@ export { default as ControlledPromise } from "./ControlledPromise/ControlledProm
 export * from "./factories"
 export * from "./domQueries"
 export * from "./mocks/mocks"
+export * from "./assertions"

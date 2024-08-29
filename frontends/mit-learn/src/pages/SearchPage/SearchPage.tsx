@@ -13,7 +13,7 @@ import { SearchInput } from "@/page-components/SearchDisplay/SearchInput"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
-import { styled, Container, Grid, theme } from "ol-components"
+import { styled, Container, Grid, theme, VisuallyHidden } from "ol-components"
 import { capitalize } from "ol-utilities"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
 
@@ -212,6 +212,9 @@ const SearchPage: React.FC = () => {
   return (
     <Page>
       <MetaTags title="Search" />
+      <VisuallyHidden>
+        <h1>Search</h1>
+      </VisuallyHidden>
       <Header>
         <Container>
           <GridContainer>
@@ -233,6 +236,8 @@ const SearchPage: React.FC = () => {
         </Container>
       </Header>
       <SearchDisplay
+        filterHeadingEl="h2"
+        resultsHeadingEl="h2"
         page={page}
         setSearchParams={setSearchParams}
         requestParams={params}

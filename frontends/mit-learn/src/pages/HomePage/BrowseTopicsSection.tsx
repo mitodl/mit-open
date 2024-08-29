@@ -1,5 +1,12 @@
 import React from "react"
-import { Container, styled, theme, Typography, ButtonLink } from "ol-components"
+import {
+  Container,
+  styled,
+  theme,
+  Typography,
+  ButtonLink,
+  TypographyProps,
+} from "ol-components"
 import { Link } from "react-router-dom"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { RiArrowRightLine } from "@remixicon/react"
@@ -18,7 +25,7 @@ const Section = styled.section`
   }
 `
 
-const Title = styled(Typography)`
+const Title = styled(Typography)<Pick<TypographyProps, "component">>`
   text-align: center;
 `
 
@@ -102,7 +109,9 @@ const BrowseTopicsSection: React.FC = () => {
   return (
     <Section>
       <Container>
-        <Title variant="h2">Browse by Topic</Title>
+        <Title component="h2" variant="h2">
+          Browse by Topic
+        </Title>
         <Topics>
           {topics?.results.map(
             ({ id, name, channel_url: channelUrl, icon }) => {

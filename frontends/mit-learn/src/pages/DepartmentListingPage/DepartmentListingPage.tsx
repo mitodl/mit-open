@@ -3,7 +3,6 @@ import {
   Container,
   Typography,
   styled,
-  PlainList,
   List,
   ListItem,
   ListItemLink,
@@ -130,10 +129,9 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
   courseCounts,
   programCounts,
   className,
-  as: Component = "div",
 }) => {
   return (
-    <Component className={className}>
+    <section className={className}>
       <SchoolTitle>
         <SchoolIcon aria-hidden>
           {SCHOOL_ICONS[school.url] ?? <RiPaletteLine />}
@@ -172,12 +170,12 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
           )
         })}
       </List>
-    </Component>
+    </section>
   )
 }
 
-const SchoolList = styled(PlainList)(({ theme }) => ({
-  "> li": {
+const SchoolList = styled.div(({ theme }) => ({
+  "> section": {
     marginTop: "40px",
     [theme.breakpoints.down("sm")]: {
       marginTop: "30px",

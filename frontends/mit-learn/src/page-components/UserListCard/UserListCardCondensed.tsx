@@ -52,11 +52,7 @@ const UserListCardCondensed = <U extends UserList>({
     <StyledCard href={href} className={className}>
       <ListCardCondensed.Content>
         <TextContainer>
-          <Typography
-            variant="subtitle1"
-            color={theme.custom.colors.darkGray2}
-            component="h1"
-          >
+          <Typography variant="subtitle1" color={theme.custom.colors.darkGray2}>
             {userList.title}
           </Typography>
           <ItemsText variant="body3">

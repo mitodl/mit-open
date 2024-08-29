@@ -1,4 +1,11 @@
-import { Breadcrumbs, Container, Typography, styled } from "ol-components"
+// Not urrently linked to. See https://github.com/mitodl/hq/issues/4639
+import {
+  Breadcrumbs,
+  Container,
+  Typography,
+  TypographyProps,
+  styled,
+} from "ol-components"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
 import * as urls from "@/common/urls"
 import React from "react"
@@ -29,10 +36,12 @@ const BannerContainerInner = styled.div({
   justifyContent: "center",
 })
 
-const Header = styled(Typography)(({ theme }) => ({
-  alignSelf: "stretch",
-  color: theme.custom.colors.black,
-}))
+const Header = styled(Typography)<Pick<TypographyProps, "component">>(
+  ({ theme }) => ({
+    alignSelf: "stretch",
+    color: theme.custom.colors.black,
+  }),
+)
 
 const BodyContainer = styled.div({
   display: "flex",
@@ -67,7 +76,9 @@ const TermsPage: React.FC = () => {
               ancestors={[{ href: urls.HOME, label: "Home" }]}
               current="Terms of Service"
             />
-            <Header variant="h3">Terms of Service</Header>
+            <Header component="h1" variant="h3">
+              Terms of Service
+            </Header>
           </BannerContainerInner>
         </BannerContainer>
         <BodyContainer>

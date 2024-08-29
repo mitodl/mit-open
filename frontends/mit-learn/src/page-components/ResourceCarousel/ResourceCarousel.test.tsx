@@ -86,7 +86,11 @@ describe("ResourceCarousel", () => {
       const { resources } = setupApis({ autoResolve: true })
 
       renderWithProviders(
-        <ResourceCarousel title="My Carousel" config={config} />,
+        <ResourceCarousel
+          titleComponent="h1"
+          title="My Carousel"
+          config={config}
+        />,
       )
 
       const tabs = await screen.findAllByRole("tab")
@@ -123,7 +127,11 @@ describe("ResourceCarousel", () => {
 
       const { resources } = setupApis()
       renderWithProviders(
-        <ResourceCarousel title="My Carousel" config={config} />,
+        <ResourceCarousel
+          titleComponent="h1"
+          title="My Carousel"
+          config={config}
+        />,
       )
 
       if (expectTabs) {
@@ -153,7 +161,11 @@ describe("ResourceCarousel", () => {
     setMockResponse.get(urls.userMe.get(), {})
     setupApis()
     renderWithProviders(
-      <ResourceCarousel title="My Carousel" config={config} />,
+      <ResourceCarousel
+        titleComponent="h1"
+        title="My Carousel"
+        config={config}
+      />,
     )
     await waitFor(() => {
       expect(makeRequest).toHaveBeenCalledWith(
@@ -172,22 +184,38 @@ describe("ResourceCarousel", () => {
     expect(urlParams.get("professional")).toEqual("true")
   })
 
-  it("Shows the correct title", async () => {
-    const config: ResourceCarouselProps["config"] = [
-      {
-        label: "Resources",
-        data: {
-          type: "resources",
-          params: { resource_type: ["course", "program"], professional: true },
+  it.each([
+    { titleComponent: "h1", expectedTag: "H1" },
+    { titleComponent: "h3", expectedTag: "H3" },
+  ] as const)(
+    "Shows the correct title with correct heading level",
+    async ({ titleComponent, expectedTag }) => {
+      const config: ResourceCarouselProps["config"] = [
+        {
+          label: "Resources",
+          data: {
+            type: "resources",
+            params: {
+              resource_type: ["course", "program"],
+              professional: true,
+            },
+          },
         },
-      },
-    ]
-    setMockResponse.get(urls.userMe.get(), {})
-    setupApis()
-    renderWithProviders(
-      <ResourceCarousel title="My Favorite Carousel" config={config} />,
-    )
+      ]
+      setMockResponse.get(urls.userMe.get(), {})
+      setupApis()
+      renderWithProviders(
+        <ResourceCarousel
+          titleComponent={titleComponent}
+          title="My Favorite Carousel"
+          config={config}
+        />,
+      )
 
-    await screen.findByRole("heading", { name: "My Favorite Carousel" })
-  })
+      const title = await screen.findByRole("heading", {
+        name: "My Favorite Carousel",
+      })
+      expect(title.tagName).toBe(expectedTag)
+    },
+  )
 })

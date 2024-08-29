@@ -18,6 +18,7 @@ import {
   TabPanel,
   Tabs,
   Typography,
+  TypographyProps,
   styled,
 } from "ol-components"
 import { Link } from "react-router-dom"
@@ -206,14 +207,16 @@ const TabPanelStyled = styled(TabPanel)({
   width: "100%",
 })
 
-const TitleText = styled(Typography)(({ theme }) => ({
-  color: theme.custom.colors.black,
-  paddingBottom: "16px",
-  ...theme.typography.h3,
-  [theme.breakpoints.down("md")]: {
-    ...theme.typography.h5,
-  },
-}))
+const TitleText = styled(Typography)<Pick<TypographyProps, "component">>(
+  ({ theme }) => ({
+    color: theme.custom.colors.black,
+    paddingBottom: "16px",
+    ...theme.typography.h3,
+    [theme.breakpoints.down("md")]: {
+      ...theme.typography.h5,
+    },
+  }),
+)
 
 const SubTitleText = styled(Typography)(({ theme }) => ({
   color: theme.custom.colors.darkGray2,
@@ -418,7 +421,7 @@ const DashboardPage: React.FC = () => {
                   <TabPanelStyled value={DASHBOARD_HOME}>
                     <HomeHeader>
                       <HomeHeaderLeft>
-                        <TitleText role="heading">
+                        <TitleText component="h1">
                           Your MIT Learning Journey
                         </TitleText>
                         <SubTitleText>
@@ -432,6 +435,7 @@ const DashboardPage: React.FC = () => {
                       </HomeHeaderRight>
                     </HomeHeader>
                     <StyledResourceCarousel
+                      titleComponent="h2"
                       title="Top picks for you"
                       isLoading={isLoadingProfile}
                       config={TopPicksCarouselConfig(profile)}
@@ -440,6 +444,7 @@ const DashboardPage: React.FC = () => {
                     {topics?.map((topic, index) => (
                       <StyledResourceCarousel
                         key={index}
+                        titleComponent="h2"
                         title={`Popular courses in ${topic}`}
                         isLoading={isLoadingProfile}
                         config={TopicCarouselConfig(topic)}
@@ -448,6 +453,7 @@ const DashboardPage: React.FC = () => {
                     ))}
                     {certification === true ? (
                       <StyledResourceCarousel
+                        titleComponent="h2"
                         title="Courses with Certificates"
                         isLoading={isLoadingProfile}
                         config={CERTIFICATE_COURSES_CAROUSEL}
@@ -455,6 +461,7 @@ const DashboardPage: React.FC = () => {
                       />
                     ) : (
                       <StyledResourceCarousel
+                        titleComponent="h2"
                         title="Free courses"
                         isLoading={isLoadingProfile}
                         config={FREE_COURSES_CAROUSEL}
@@ -462,11 +469,13 @@ const DashboardPage: React.FC = () => {
                       />
                     )}
                     <StyledResourceCarousel
+                      titleComponent="h2"
                       title="New"
                       config={NEW_LEARNING_RESOURCES_CAROUSEL}
                       data-testid="new-learning-resources-carousel"
                     />
                     <StyledResourceCarousel
+                      titleComponent="h2"
                       title="Popular"
                       config={POPULAR_LEARNING_RESOURCES_CAROUSEL}
                       data-testid="popular-learning-resources-carousel"
@@ -476,7 +485,7 @@ const DashboardPage: React.FC = () => {
                     <UserListListingComponent title="My Lists" />
                   </TabPanelStyled>
                   <TabPanelStyled value={PROFILE}>
-                    <TitleText role="heading">Profile</TitleText>
+                    <TitleText component="h1">Profile</TitleText>
                     {isLoadingProfile || !profile ? (
                       <Skeleton variant="text" width={128} height={32} />
                     ) : (
@@ -486,7 +495,7 @@ const DashboardPage: React.FC = () => {
                     )}
                   </TabPanelStyled>
                   <TabPanelStyled value={SETTINGS}>
-                    <TitleText role="heading">Settings</TitleText>
+                    <TitleText component="h1">Settings</TitleText>
                     {isLoadingProfile || !profile ? (
                       <Skeleton variant="text" width={128} height={32} />
                     ) : (

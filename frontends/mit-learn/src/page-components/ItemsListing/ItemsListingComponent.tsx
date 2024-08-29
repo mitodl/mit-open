@@ -26,13 +26,12 @@ type ItemsListingComponentProps = {
   condensed?: boolean
 }
 
-const HeaderText = styled.div(({ theme }) => ({
-  h3: {
-    ...theme.typography.h3,
-    [theme.breakpoints.down("sm")]: {
-      marginBottom: "24px",
-      ...theme.typography.h5,
-    },
+const HeaderText = styled.h1(({ theme }) => ({
+  margin: 0,
+  ...theme.typography.h3,
+  [theme.breakpoints.down("sm")]: {
+    marginBottom: "24px",
+    ...theme.typography.h5,
   },
 }))
 
@@ -110,9 +109,7 @@ const ItemsListingComponent: React.FC<ItemsListingComponentProps> = ({
             marginBottom="24px"
           >
             <HeaderGrid item>
-              <HeaderText>
-                <Typography component="h3">{list?.title}</Typography>
-              </HeaderText>
+              <HeaderText>{list?.title}</HeaderText>
               {list?.description && (
                 <DescriptionText>{list.description}</DescriptionText>
               )}

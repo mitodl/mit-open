@@ -4,6 +4,7 @@ import type { LearningResourcesSearchResponse } from "api"
 import TopicsListingPage from "./TopicsListingPage"
 import { factories, setMockResponse, urls } from "api/test-utils"
 import invariant from "tiny-invariant"
+import { assertHeadings } from "ol-test-utilities"
 
 const makeSearchResponse = (
   aggregations: Record<string, number>,
@@ -25,7 +26,10 @@ const makeSearchResponse = (
   }
 }
 
-describe("DepartmentListingPage", () => {
+const sorter = (a: { name: string }, b: { name: string }) =>
+  a.name.localeCompare(b.name)
+
+describe("TopicsListingPage", () => {
   const setupApis = () => {
     const make = factories.learningResources
     const t1 = make.topic({ parent: null })
@@ -68,8 +72,6 @@ describe("DepartmentListingPage", () => {
       makeSearchResponse(programCounts),
     )
 
-    const sorter = (a: { name: string }, b: { name: string }) =>
-      a.name.localeCompare(b.name)
     const sortedSubtopics1 = [topics.t1a, topics.t1b, topics.t1c].sort(sorter)
     const sortedSubtopics2 = [topics.t2a, topics.t2b].sort(sorter)
 
@@ -148,5 +150,17 @@ describe("DepartmentListingPage", () => {
 
     expect(topic2).toHaveTextContent("Courses: 200")
     expect(topic2).toHaveTextContent("Programs: 20")
+  })
+
+  test("headings", async () => {
+    const { topics } = setupApis()
+    const sorted = [topics.t1, topics.t2].sort(sorter)
+    renderWithProviders(<TopicsListingPage />)
+    await waitFor(() => {
+      assertHeadings([
+        { level: 1, name: "Browse by Topic" },
+        ...sorted.map((t) => ({ level: 2, name: t.name })),
+      ])
+    })
   })
 })

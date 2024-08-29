@@ -82,8 +82,8 @@ describe("UserListListingComponent", () => {
   it("Renders a card for each user list", async () => {
     const { paths } = setup()
     const titles = paths.results.map((userList) => userList.title)
-    const headings = await screen.findAllByRole("heading", {
-      name: (value) => titles.includes(value),
+    const headings = await screen.findAllByRole("link", {
+      name: (name) => titles.some((title) => name.includes(title)),
     })
 
     // for sanity
