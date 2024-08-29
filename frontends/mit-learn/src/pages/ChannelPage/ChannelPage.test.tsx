@@ -109,12 +109,14 @@ const setupApis = (
   }
 }
 
+const DEFAULT_CHANNEL_TYPES = Object.values(ChannelTypeEnum)
+  .filter((v) => v !== ChannelTypeEnum.Unit)
+  .map((v) => ({ channelType: v }))
+
 describe("ChannelPage", () => {
-  it.each(
-    Object.values(ChannelTypeEnum).filter((v) => v !== ChannelTypeEnum.Unit),
-  )(
+  it.each(DEFAULT_CHANNEL_TYPES)(
     "Displays the title, background, and avatar (channelType: %s)",
-    async (channelType) => {
+    async ({ channelType }) => {
       const { channel } = setupApis({
         search_filter: "offered_by=ocw",
         channel_type: channelType,
@@ -216,21 +218,25 @@ describe("ChannelPage", () => {
     },
   )
 
-  test("headings", async () => {
-    const { channel } = setupApis({
-      search_filter: "topic=Physics",
-    })
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+  test.each(DEFAULT_CHANNEL_TYPES)(
+    "headings $channelType",
+    async ({ channelType }) => {
+      const { channel } = setupApis({
+        search_filter: "topic=Physics",
+        channel_type: channelType,
+      })
+      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
 
-    await waitFor(() => {
-      assertHeadings([
-        { level: 1, name: channel.title },
-        { level: 2, name: `Search within ${channel.title}` },
-        { level: 3, name: "Filter" },
-        { level: 3, name: "Search Results" },
-      ])
-    })
-  })
+      await waitFor(() => {
+        assertHeadings([
+          { level: 1, name: channel.title },
+          { level: 2, name: `Search within ${channel.title}` },
+          { level: 3, name: "Filter" },
+          { level: 3, name: "Search Results" },
+        ])
+      })
+    },
+  )
 })
 
 describe("Unit Channel Pages", () => {
