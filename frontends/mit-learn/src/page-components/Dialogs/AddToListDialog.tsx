@@ -1,11 +1,12 @@
-import React, { useCallback, useId } from "react"
+import React, { useCallback } from "react"
 import {
-  Dialog,
   LoadingSpinner,
   Typography,
   styled,
   CheckboxChoiceField,
   Button,
+  FormDialog,
+  DialogActions,
 } from "ol-components"
 
 import { RiAddLine } from "@remixicon/react"
@@ -33,17 +34,9 @@ const ResourceTitle = styled.span({
   fontStyle: "italic",
 })
 
-const CheckboxContainer = styled.div({
-  padding: "28px 0",
-})
-
-const ButtonContainer = styled.div({
+const Actions = styled(DialogActions)({
   display: "flex",
-  gap: "12px",
-  alignItems: "flex-start",
-  button: {
-    width: "50%",
-  },
+  "> *": { flex: 1 },
 })
 
 type AddToListDialogInnerProps = {
@@ -100,7 +93,6 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
         : null,
     )
     .filter((value) => value !== null)
-  const formId = useId()
   const formik = useFormik({
     enableReinitialize: true,
     validateOnChange: false,
@@ -130,59 +122,61 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
   })
 
   return (
-    <Dialog
+    <FormDialog
       title={dialogTitle}
-      showFooter={false}
       fullWidth
+      onReset={formik.resetForm}
+      onSubmit={formik.handleSubmit}
       {...NiceModal.muiDialogV5(modal)}
+      actions={
+        <Actions>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={!formik.dirty || isSaving}
+          >
+            Save
+          </Button>
+          <Button
+            variant="secondary"
+            startIcon={<RiAddLine />}
+            disabled={isSaving}
+            onClick={handleCreate}
+          >
+            Create New List
+          </Button>
+        </Actions>
+      }
     >
       {isReady ? (
-        <form id={formId} onSubmit={formik.handleSubmit}>
+        <>
           <Typography variant="button">
             Adding <ResourceTitle>{resource?.title}</ResourceTitle>
           </Typography>
-          <CheckboxContainer>
-            {listType === ListType.LearningPath ? (
-              <CheckboxChoiceField
-                name="learning_paths"
-                choices={listChoices}
-                values={formik.values.learning_paths}
-                onChange={formik.handleChange}
-                vertical
-              />
-            ) : null}
-            {listType === ListType.UserList ? (
-              <CheckboxChoiceField
-                name="user_lists"
-                choices={listChoices}
-                values={formik.values.user_lists}
-                onChange={formik.handleChange}
-                vertical
-              />
-            ) : null}
-          </CheckboxContainer>
-          <ButtonContainer>
-            <Button
-              variant="primary"
-              type="submit"
-              disabled={!formik.dirty || isSaving}
-            >
-              Save
-            </Button>
-            <Button
-              variant="secondary"
-              startIcon={<RiAddLine />}
-              disabled={isSaving}
-              onClick={handleCreate}
-            >
-              Create New List
-            </Button>
-          </ButtonContainer>
-        </form>
+
+          {listType === ListType.LearningPath ? (
+            <CheckboxChoiceField
+              name="learning_paths"
+              choices={listChoices}
+              values={formik.values.learning_paths}
+              onChange={formik.handleChange}
+              vertical
+            />
+          ) : null}
+          {listType === ListType.UserList ? (
+            <CheckboxChoiceField
+              name="user_lists"
+              choices={listChoices}
+              values={formik.values.user_lists}
+              onChange={formik.handleChange}
+              vertical
+            />
+          ) : null}
+        </>
       ) : (
         <LoadingSpinner loading={!isReady} />
       )}
-    </Dialog>
+    </FormDialog>
   )
 }
 

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
 import styled from "@emotion/styled"
 import { Dialog } from "../Dialog/Dialog"
-import type { DialogProps } from "@mui/material/Dialog"
+import type { DialogProps } from "../Dialog/Dialog"
 
 const FormContent = styled.div`
   display: flex;
@@ -50,11 +50,7 @@ interface FormDialogProps {
    * The form content. These will be direct children of MUI's [DialogContent](https://mui.com/material-ui/api/dialog-content/)
    */
   children?: React.ReactNode
-  /**
-   * Extra content below the cancel/submit buttons. This is useful, e.g., for
-   * displaying overall form error messages.
-   */
-  footerContent?: React.ReactNode
+  actions?: DialogProps["actions"]
   /**
    * Class applied to the `<form />` element.
    */
@@ -93,7 +89,7 @@ const FormDialog: React.FC<FormDialogProps> = ({
   title,
   noValidate,
   children,
-  footerContent,
+  actions,
   confirmText = "Submit",
   cancelText = "Cancel",
   className,
@@ -139,11 +135,9 @@ const FormDialog: React.FC<FormDialogProps> = ({
       isSubmitting={isSubmitting}
       className={className}
       PaperProps={paperProps}
+      actions={actions}
     >
-      <FormContent>
-        {children}
-        {footerContent}
-      </FormContent>
+      <FormContent>{children}</FormContent>
     </Dialog>
   )
 }
