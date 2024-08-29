@@ -6,6 +6,7 @@ import * as urls from "@/common/urls"
 import React, { FunctionComponent } from "react"
 import footerLogo from "../../../public/images/mit-logo-transparent5.svg"
 
+
 const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`
 
@@ -52,11 +53,11 @@ const FooterLeftContainer = styled.div(({ theme }) => ({
 
 const FooterLogo = styled(MITLogoLink)(({ theme }) => ({
   position: "relative",
-  width: "95.405px",
-  height: "47px",
+  width: "95px",
+  height: "48px",
   [theme.breakpoints.down("md")]: {
     width: "80px",
-    height: "39.411px",
+    height: "40px",
   },
 }))
 

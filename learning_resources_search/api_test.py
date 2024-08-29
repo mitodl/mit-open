@@ -133,7 +133,17 @@ def test_generate_sort_clause(sort_param, departments, result):
     assert generate_sort_clause(params) == result
 
 
-def test_generate_learning_resources_text_clause():
+@pytest.mark.parametrize("search_mode", ["best_fields", "most_fields", "phrase", None])
+@pytest.mark.parametrize("slop", [None, 2])
+def test_generate_learning_resources_text_clause(search_mode, slop):
+    extra_params = {}
+
+    if search_mode:
+        extra_params["type"] = search_mode
+
+    if search_mode == "phrase" and slop:
+        extra_params["slop"] = slop
+
     result1 = {
         "bool": {
             "filter": {
@@ -155,6 +165,7 @@ def test_generate_learning_resources_text_clause():
                                                 "course_feature",
                                                 "video.transcript.english",
                                             ],
+                                            **extra_params,
                                         }
                                     },
                                     {
@@ -164,6 +175,7 @@ def test_generate_learning_resources_text_clause():
                                                 "multi_match": {
                                                     "query": "math",
                                                     "fields": ["topics.name"],
+                                                    **extra_params,
                                                 }
                                             },
                                         }
@@ -178,6 +190,7 @@ def test_generate_learning_resources_text_clause():
                                                         "departments.department_id",
                                                         "departments.name",
                                                     ],
+                                                    **extra_params,
                                                 }
                                             },
                                         }
@@ -191,6 +204,7 @@ def test_generate_learning_resources_text_clause():
                                                     "fields": [
                                                         "course.course_numbers.value",
                                                     ],
+                                                    **extra_params,
                                                 }
                                             },
                                         }
@@ -206,6 +220,7 @@ def test_generate_learning_resources_text_clause():
                                                         "runs.semester",
                                                         "runs.level",
                                                     ],
+                                                    **extra_params,
                                                 }
                                             },
                                         }
@@ -224,6 +239,7 @@ def test_generate_learning_resources_text_clause():
                                                                 "runs.instructors.last_name^5",
                                                                 "runs.instructors.full_name^5",
                                                             ],
+                                                            **extra_params,
                                                         }
                                                     },
                                                 }
@@ -242,6 +258,7 @@ def test_generate_learning_resources_text_clause():
                                                         "short_description.english^2",
                                                         "content_feature_type",
                                                     ],
+                                                    **extra_params,
                                                 }
                                             },
                                             "score_mode": "avg",
@@ -267,13 +284,18 @@ def test_generate_learning_resources_text_clause():
                             "course_feature",
                             "video.transcript.english",
                         ],
+                        **extra_params,
                     }
                 },
                 {
                     "nested": {
                         "path": "topics",
                         "query": {
-                            "multi_match": {"query": "math", "fields": ["topics.name"]}
+                            "multi_match": {
+                                "query": "math",
+                                "fields": ["topics.name"],
+                                **extra_params,
+                            }
                         },
                     }
                 },
@@ -287,6 +309,7 @@ def test_generate_learning_resources_text_clause():
                                     "departments.department_id",
                                     "departments.name",
                                 ],
+                                **extra_params,
                             }
                         },
                     }
@@ -300,6 +323,7 @@ def test_generate_learning_resources_text_clause():
                                 "fields": [
                                     "course.course_numbers.value",
                                 ],
+                                **extra_params,
                             }
                         },
                     }
@@ -311,6 +335,7 @@ def test_generate_learning_resources_text_clause():
                             "multi_match": {
                                 "query": "math",
                                 "fields": ["runs.year", "runs.semester", "runs.level"],
+                                **extra_params,
                             }
                         },
                     }
@@ -329,6 +354,7 @@ def test_generate_learning_resources_text_clause():
                                             "runs.instructors.last_name^5",
                                             "runs.instructors.full_name^5",
                                         ],
+                                        **extra_params,
                                     }
                                 },
                             }
@@ -347,6 +373,7 @@ def test_generate_learning_resources_text_clause():
                                     "short_description.english^2",
                                     "content_feature_type",
                                 ],
+                                **extra_params,
                             }
                         },
                         "score_mode": "avg",
@@ -579,8 +606,10 @@ def test_generate_learning_resources_text_clause():
             ],
         }
     }
-    assert generate_learning_resources_text_clause("math") == result1
-    assert generate_learning_resources_text_clause('"math"') == result2
+    assert generate_learning_resources_text_clause("math", search_mode, slop) == result1
+    assert (
+        generate_learning_resources_text_clause('"math"', search_mode, slop) == result2
+    )
 
 
 def test_generate_content_file_text_clause():
@@ -2097,7 +2126,7 @@ def test_get_similar_topics(settings, opensearch):
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_document_percolation(opensearch, mocker):
     """
     Test that our plugin handler is called when docs are percolated

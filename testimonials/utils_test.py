@@ -8,7 +8,7 @@ from testimonials.utils import avatar_uri, cover_uri
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture()
+@pytest.fixture
 def fixture_attestation():
     """Create an attestation using the factory"""
 

@@ -2,7 +2,13 @@ import React from "react"
 
 import { RiArrowRightLine, RiArrowLeftLine } from "@remixicon/react"
 import Slider from "react-slick"
-import { ActionButton, TruncateText, styled, theme } from "ol-components"
+import {
+  ActionButton,
+  TruncateText,
+  onReInitSlickA11y,
+  styled,
+  theme,
+} from "ol-components"
 import AttestantBlock from "./AttestantBlock"
 import { useTestimonialList } from "api/hooks/testimonials"
 import type { Attestation } from "api/v0"
@@ -75,7 +81,8 @@ const QuoteBody = styled.div(({ theme }) => ({
   },
 }))
 
-const AttestationBlock = styled.div(({ theme }) => ({
+const AttestationBlock = styled.blockquote(({ theme }) => ({
+  margin: "0px",
   width: "auto",
   flexGrow: "5",
   ...theme.typography.h5,
@@ -142,11 +149,12 @@ const TestimonialDisplay: React.FC<TestimonialDisplayProps> = ({
   return (
     <QuoteContainer>
       <QuoteBlock>
-        <QuoteLeader>“</QuoteLeader>
+        <QuoteLeader aria-hidden>“</QuoteLeader>
         {data.count > 1 ? (
           <>
             <Slider
               ref={setSlick}
+              onReInit={() => onReInitSlickA11y(slick)}
               infinite={true}
               slidesToShow={1}
               arrows={false}

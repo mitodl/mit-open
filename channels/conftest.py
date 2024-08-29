@@ -5,7 +5,7 @@ import pytest
 from channels.factories import ChannelFactory
 
 
-@pytest.fixture()
+@pytest.fixture
 def channel():
     """Generate a sample Channel"""
     return ChannelFactory.create()

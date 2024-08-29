@@ -764,6 +764,12 @@ export interface CourseResource {
    * @memberof CourseResource
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof CourseResource
+   */
+  completeness?: number
 }
 
 /**
@@ -897,6 +903,12 @@ export interface CourseResourceRequest {
    * @memberof CourseResourceRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof CourseResourceRequest
+   */
+  completeness?: number
 }
 
 /**
@@ -1413,6 +1425,12 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPathResource
+   */
+  completeness?: number
 }
 
 /**
@@ -1487,6 +1505,12 @@ export interface LearningPathResourceRequest {
    * @memberof LearningPathResourceRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof LearningPathResourceRequest
+   */
+  completeness?: number
 }
 
 /**
@@ -3268,6 +3292,12 @@ export interface PatchedLearningPathResourceRequest {
    * @memberof PatchedLearningPathResourceRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  completeness?: number
 }
 
 /**
@@ -3503,6 +3533,18 @@ export interface PercolateQuerySubscriptionRequestRequest {
    * @memberof PercolateQuerySubscriptionRequestRequest
    */
   resource_category?: Array<ResourceCategoryEnum>
+  /**
+   *
+   * @type {SearchModeEnum}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  search_mode?: SearchModeEnum
+  /**
+   * Allowed distance for phrase search
+   * @type {number}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  slop?: number | null
   /**
    *
    * @type {SourceTypeEnum}
@@ -3956,6 +3998,12 @@ export interface PodcastEpisodeResource {
    * @memberof PodcastEpisodeResource
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastEpisodeResource
+   */
+  completeness?: number
 }
 
 /**
@@ -4030,6 +4078,12 @@ export interface PodcastEpisodeResourceRequest {
    * @memberof PodcastEpisodeResourceRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastEpisodeResourceRequest
+   */
+  completeness?: number
 }
 
 /**
@@ -4266,6 +4320,12 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastResource
+   */
+  completeness?: number
 }
 
 /**
@@ -4340,6 +4400,12 @@ export interface PodcastResourceRequest {
    * @memberof PodcastResourceRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof PodcastResourceRequest
+   */
+  completeness?: number
 }
 
 /**
@@ -4796,6 +4862,12 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramResource
+   */
+  completeness?: number
 }
 
 /**
@@ -4870,6 +4942,12 @@ export interface ProgramResourceRequest {
    * @memberof ProgramResourceRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof ProgramResourceRequest
+   */
+  completeness?: number
 }
 
 /**
@@ -5003,6 +5081,36 @@ export const ResourceTypeEnum = {
 
 export type ResourceTypeEnum =
   (typeof ResourceTypeEnum)[keyof typeof ResourceTypeEnum]
+
+/**
+ * * `best_fields` - best_fields * `most_fields` - most_fields * `phrase` - phrase  * `best_fields` - best_fields * `most_fields` - most_fields * `phrase` - phrase
+ * @export
+ * @enum {string}
+ */
+
+export const SearchModeEnumDescriptions = {
+  best_fields: "best_fields",
+  most_fields: "most_fields",
+  phrase: "phrase",
+} as const
+
+export const SearchModeEnum = {
+  /**
+   * best_fields
+   */
+  BestFields: "best_fields",
+  /**
+   * most_fields
+   */
+  MostFields: "most_fields",
+  /**
+   * phrase
+   */
+  Phrase: "phrase",
+} as const
+
+export type SearchModeEnum =
+  (typeof SearchModeEnum)[keyof typeof SearchModeEnum]
 
 /**
  * * `featured` - Featured * `id` - Object ID ascending * `-id` - Object ID descending * `readable_id` - Readable ID ascending * `-readable_id` - Readable ID descending * `last_modified` - Last Modified Date ascending * `-last_modified` - Last Modified Date descending * `new` - Newest resources first * `start_date` - Start Date ascending * `-start_date` - Start Date descending * `mitcoursenumber` - MIT course number ascending * `-mitcoursenumber` - MIT course number descending * `views` - Popularity ascending * `-views` - Popularity descending * `upcoming` - Next start date ascending
@@ -5555,6 +5663,12 @@ export interface VideoPlaylistResource {
    * @memberof VideoPlaylistResource
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof VideoPlaylistResource
+   */
+  completeness?: number
 }
 
 /**
@@ -5629,6 +5743,12 @@ export interface VideoPlaylistResourceRequest {
    * @memberof VideoPlaylistResourceRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof VideoPlaylistResourceRequest
+   */
+  completeness?: number
 }
 
 /**
@@ -5853,6 +5973,12 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof VideoResource
+   */
+  completeness?: number
 }
 
 /**
@@ -5927,6 +6053,12 @@ export interface VideoResourceRequest {
    * @memberof VideoResourceRequest
    */
   availability?: AvailabilityEnum | null
+  /**
+   *
+   * @type {number}
+   * @memberof VideoResourceRequest
+   */
+  completeness?: number
 }
 
 /**
@@ -11715,6 +11847,8 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesSearchRetrieveResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesSearchRetrieveResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesSearchRetrieveSearchModeEnum} [search_mode] The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+     * @param {number | null} [slop] Allowed distance for phrase search
      * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
@@ -11740,6 +11874,8 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       q?: string,
       resource_category?: Array<LearningResourcesSearchRetrieveResourceCategoryEnum>,
       resource_type?: Array<LearningResourcesSearchRetrieveResourceTypeEnum>,
+      search_mode?: LearningResourcesSearchRetrieveSearchModeEnum,
+      slop?: number | null,
       sortby?: LearningResourcesSearchRetrieveSortbyEnum,
       topic?: Array<string>,
       yearly_decay_percent?: number | null,
@@ -11833,6 +11969,14 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
         localVarQueryParameter["resource_type"] = resource_type
       }
 
+      if (search_mode !== undefined) {
+        localVarQueryParameter["search_mode"] = search_mode
+      }
+
+      if (slop !== undefined) {
+        localVarQueryParameter["slop"] = slop
+      }
+
       if (sortby !== undefined) {
         localVarQueryParameter["sortby"] = sortby
       }
@@ -11893,6 +12037,8 @@ export const LearningResourcesSearchApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesSearchRetrieveResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesSearchRetrieveResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesSearchRetrieveSearchModeEnum} [search_mode] The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+     * @param {number | null} [slop] Allowed distance for phrase search
      * @param {LearningResourcesSearchRetrieveSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
@@ -11918,6 +12064,8 @@ export const LearningResourcesSearchApiFp = function (
       q?: string,
       resource_category?: Array<LearningResourcesSearchRetrieveResourceCategoryEnum>,
       resource_type?: Array<LearningResourcesSearchRetrieveResourceTypeEnum>,
+      search_mode?: LearningResourcesSearchRetrieveSearchModeEnum,
+      slop?: number | null,
       sortby?: LearningResourcesSearchRetrieveSortbyEnum,
       topic?: Array<string>,
       yearly_decay_percent?: number | null,
@@ -11948,6 +12096,8 @@ export const LearningResourcesSearchApiFp = function (
           q,
           resource_category,
           resource_type,
+          search_mode,
+          slop,
           sortby,
           topic,
           yearly_decay_percent,
@@ -12011,6 +12161,8 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.q,
           requestParameters.resource_category,
           requestParameters.resource_type,
+          requestParameters.search_mode,
+          requestParameters.slop,
           requestParameters.sortby,
           requestParameters.topic,
           requestParameters.yearly_decay_percent,
@@ -12154,6 +12306,20 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
   readonly resource_type?: Array<LearningResourcesSearchRetrieveResourceTypeEnum>
 
   /**
+   * The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+   * @type {'best_fields' | 'most_fields' | 'phrase'}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly search_mode?: LearningResourcesSearchRetrieveSearchModeEnum
+
+  /**
+   * Allowed distance for phrase search
+   * @type {number}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly slop?: number | null
+
+  /**
    * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
    * @type {'featured' | 'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
@@ -12214,6 +12380,8 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.q,
         requestParameters.resource_category,
         requestParameters.resource_type,
+        requestParameters.search_mode,
+        requestParameters.slop,
         requestParameters.sortby,
         requestParameters.topic,
         requestParameters.yearly_decay_percent,
@@ -12387,6 +12555,16 @@ export type LearningResourcesSearchRetrieveResourceTypeEnum =
 /**
  * @export
  */
+export const LearningResourcesSearchRetrieveSearchModeEnum = {
+  BestFields: "best_fields",
+  MostFields: "most_fields",
+  Phrase: "phrase",
+} as const
+export type LearningResourcesSearchRetrieveSearchModeEnum =
+  (typeof LearningResourcesSearchRetrieveSearchModeEnum)[keyof typeof LearningResourcesSearchRetrieveSearchModeEnum]
+/**
+ * @export
+ */
 export const LearningResourcesSearchRetrieveSortbyEnum = {
   Featured: "featured",
   Id: "id",
@@ -12436,6 +12614,8 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionCheckListResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionCheckListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesUserSubscriptionCheckListSearchModeEnum} [search_mode] The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+     * @param {number | null} [slop] Allowed distance for phrase search
      * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionCheckListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
@@ -12462,6 +12642,8 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       q?: string,
       resource_category?: Array<LearningResourcesUserSubscriptionCheckListResourceCategoryEnum>,
       resource_type?: Array<LearningResourcesUserSubscriptionCheckListResourceTypeEnum>,
+      search_mode?: LearningResourcesUserSubscriptionCheckListSearchModeEnum,
+      slop?: number | null,
       sortby?: LearningResourcesUserSubscriptionCheckListSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionCheckListSourceTypeEnum,
       topic?: Array<string>,
@@ -12556,6 +12738,14 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         localVarQueryParameter["resource_type"] = resource_type
       }
 
+      if (search_mode !== undefined) {
+        localVarQueryParameter["search_mode"] = search_mode
+      }
+
+      if (slop !== undefined) {
+        localVarQueryParameter["slop"] = slop
+      }
+
       if (sortby !== undefined) {
         localVarQueryParameter["sortby"] = sortby
       }
@@ -12607,6 +12797,8 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionListResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesUserSubscriptionListSearchModeEnum} [search_mode] The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+     * @param {number | null} [slop] Allowed distance for phrase search
      * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
@@ -12632,6 +12824,8 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       q?: string,
       resource_category?: Array<LearningResourcesUserSubscriptionListResourceCategoryEnum>,
       resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>,
+      search_mode?: LearningResourcesUserSubscriptionListSearchModeEnum,
+      slop?: number | null,
       sortby?: LearningResourcesUserSubscriptionListSortbyEnum,
       topic?: Array<string>,
       yearly_decay_percent?: number | null,
@@ -12725,6 +12919,14 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
         localVarQueryParameter["resource_type"] = resource_type
       }
 
+      if (search_mode !== undefined) {
+        localVarQueryParameter["search_mode"] = search_mode
+      }
+
+      if (slop !== undefined) {
+        localVarQueryParameter["slop"] = slop
+      }
+
       if (sortby !== undefined) {
         localVarQueryParameter["sortby"] = sortby
       }
@@ -12772,6 +12974,8 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesUserSubscriptionSubscribeCreateSearchModeEnum} [search_mode] The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+     * @param {number | null} [slop] Allowed distance for phrase search
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
@@ -12799,6 +13003,8 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       q?: string,
       resource_category?: Array<LearningResourcesUserSubscriptionSubscribeCreateResourceCategoryEnum>,
       resource_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>,
+      search_mode?: LearningResourcesUserSubscriptionSubscribeCreateSearchModeEnum,
+      slop?: number | null,
       sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum,
       topic?: Array<string>,
@@ -12892,6 +13098,14 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (resource_type) {
         localVarQueryParameter["resource_type"] = resource_type
+      }
+
+      if (search_mode !== undefined) {
+        localVarQueryParameter["search_mode"] = search_mode
+      }
+
+      if (slop !== undefined) {
+        localVarQueryParameter["slop"] = slop
       }
 
       if (sortby !== undefined) {
@@ -13016,6 +13230,8 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionCheckListResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionCheckListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesUserSubscriptionCheckListSearchModeEnum} [search_mode] The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+     * @param {number | null} [slop] Allowed distance for phrase search
      * @param {LearningResourcesUserSubscriptionCheckListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionCheckListSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
@@ -13042,6 +13258,8 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       q?: string,
       resource_category?: Array<LearningResourcesUserSubscriptionCheckListResourceCategoryEnum>,
       resource_type?: Array<LearningResourcesUserSubscriptionCheckListResourceTypeEnum>,
+      search_mode?: LearningResourcesUserSubscriptionCheckListSearchModeEnum,
+      slop?: number | null,
       sortby?: LearningResourcesUserSubscriptionCheckListSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionCheckListSourceTypeEnum,
       topic?: Array<string>,
@@ -13073,6 +13291,8 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           q,
           resource_category,
           resource_type,
+          search_mode,
+          slop,
           sortby,
           source_type,
           topic,
@@ -13113,6 +13333,8 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionListResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionListResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesUserSubscriptionListSearchModeEnum} [search_mode] The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+     * @param {number | null} [slop] Allowed distance for phrase search
      * @param {LearningResourcesUserSubscriptionListSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
      * @param {number | null} [yearly_decay_percent] Relevance score penalty percent per year for for resources without upcoming runs. Only affects results if there is a search term.
@@ -13138,6 +13360,8 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       q?: string,
       resource_category?: Array<LearningResourcesUserSubscriptionListResourceCategoryEnum>,
       resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>,
+      search_mode?: LearningResourcesUserSubscriptionListSearchModeEnum,
+      slop?: number | null,
       sortby?: LearningResourcesUserSubscriptionListSortbyEnum,
       topic?: Array<string>,
       yearly_decay_percent?: number | null,
@@ -13168,6 +13392,8 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           q,
           resource_category,
           resource_type,
+          search_mode,
+          slop,
           sortby,
           topic,
           yearly_decay_percent,
@@ -13207,6 +13433,8 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {string} [q] The search text
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceCategoryEnum>} [resource_category] The category of learning resource               * &#x60;course&#x60; - Course * &#x60;program&#x60; - Program * &#x60;learning_material&#x60; - Learning Material
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>} [resource_type] The type of learning resource               * &#x60;course&#x60; - course * &#x60;program&#x60; - program * &#x60;learning_path&#x60; - learning path * &#x60;podcast&#x60; - podcast * &#x60;podcast_episode&#x60; - podcast episode * &#x60;video&#x60; - video * &#x60;video_playlist&#x60; - video playlist
+     * @param {LearningResourcesUserSubscriptionSubscribeCreateSearchModeEnum} [search_mode] The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+     * @param {number | null} [slop] Allowed distance for phrase search
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum} [sortby] If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
      * @param {LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum} [source_type] The subscription type  * &#x60;search_subscription_type&#x60; - search_subscription_type * &#x60;channel_subscription_type&#x60; - channel_subscription_type
      * @param {Array<string>} [topic] The topic name. To see a list of options go to api/v1/topics/
@@ -13234,6 +13462,8 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       q?: string,
       resource_category?: Array<LearningResourcesUserSubscriptionSubscribeCreateResourceCategoryEnum>,
       resource_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>,
+      search_mode?: LearningResourcesUserSubscriptionSubscribeCreateSearchModeEnum,
+      slop?: number | null,
       sortby?: LearningResourcesUserSubscriptionSubscribeCreateSortbyEnum,
       source_type?: LearningResourcesUserSubscriptionSubscribeCreateSourceTypeEnum,
       topic?: Array<string>,
@@ -13263,6 +13493,8 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           q,
           resource_category,
           resource_type,
+          search_mode,
+          slop,
           sortby,
           source_type,
           topic,
@@ -13359,6 +13591,8 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.q,
           requestParameters.resource_category,
           requestParameters.resource_type,
+          requestParameters.search_mode,
+          requestParameters.slop,
           requestParameters.sortby,
           requestParameters.source_type,
           requestParameters.topic,
@@ -13398,6 +13632,8 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.q,
           requestParameters.resource_category,
           requestParameters.resource_type,
+          requestParameters.search_mode,
+          requestParameters.slop,
           requestParameters.sortby,
           requestParameters.topic,
           requestParameters.yearly_decay_percent,
@@ -13436,6 +13672,8 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.q,
           requestParameters.resource_category,
           requestParameters.resource_type,
+          requestParameters.search_mode,
+          requestParameters.slop,
           requestParameters.sortby,
           requestParameters.source_type,
           requestParameters.topic,
@@ -13599,6 +13837,20 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly resource_type?: Array<LearningResourcesUserSubscriptionCheckListResourceTypeEnum>
 
   /**
+   * The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+   * @type {'best_fields' | 'most_fields' | 'phrase'}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly search_mode?: LearningResourcesUserSubscriptionCheckListSearchModeEnum
+
+  /**
+   * Allowed distance for phrase search
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly slop?: number | null
+
+  /**
    * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
    * @type {'featured' | 'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
@@ -13760,6 +14012,20 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly resource_type?: Array<LearningResourcesUserSubscriptionListResourceTypeEnum>
 
   /**
+   * The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+   * @type {'best_fields' | 'most_fields' | 'phrase'}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly search_mode?: LearningResourcesUserSubscriptionListSearchModeEnum
+
+  /**
+   * Allowed distance for phrase search
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly slop?: number | null
+
+  /**
    * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
    * @type {'featured' | 'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
@@ -13914,6 +14180,20 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly resource_type?: Array<LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum>
 
   /**
+   * The open search search type               * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase  * &#x60;best_fields&#x60; - best_fields * &#x60;most_fields&#x60; - most_fields * &#x60;phrase&#x60; - phrase
+   * @type {'best_fields' | 'most_fields' | 'phrase'}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly search_mode?: LearningResourcesUserSubscriptionSubscribeCreateSearchModeEnum
+
+  /**
+   * Allowed distance for phrase search
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly slop?: number | null
+
+  /**
    * If the parameter starts with \&#39;-\&#39; the sort is in descending order  * &#x60;featured&#x60; - Featured * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;readable_id&#x60; - Readable ID ascending * &#x60;-readable_id&#x60; - Readable ID descending * &#x60;last_modified&#x60; - Last Modified Date ascending * &#x60;-last_modified&#x60; - Last Modified Date descending * &#x60;new&#x60; - Newest resources first * &#x60;start_date&#x60; - Start Date ascending * &#x60;-start_date&#x60; - Start Date descending * &#x60;mitcoursenumber&#x60; - MIT course number ascending * &#x60;-mitcoursenumber&#x60; - MIT course number descending * &#x60;views&#x60; - Popularity ascending * &#x60;-views&#x60; - Popularity descending * &#x60;upcoming&#x60; - Next start date ascending
    * @type {'featured' | 'id' | '-id' | 'readable_id' | '-readable_id' | 'last_modified' | '-last_modified' | 'new' | 'start_date' | '-start_date' | 'mitcoursenumber' | '-mitcoursenumber' | 'views' | '-views' | 'upcoming'}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
@@ -14002,6 +14282,8 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.q,
         requestParameters.resource_category,
         requestParameters.resource_type,
+        requestParameters.search_mode,
+        requestParameters.slop,
         requestParameters.sortby,
         requestParameters.source_type,
         requestParameters.topic,
@@ -14043,6 +14325,8 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.q,
         requestParameters.resource_category,
         requestParameters.resource_type,
+        requestParameters.search_mode,
+        requestParameters.slop,
         requestParameters.sortby,
         requestParameters.topic,
         requestParameters.yearly_decay_percent,
@@ -14083,6 +14367,8 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.q,
         requestParameters.resource_category,
         requestParameters.resource_type,
+        requestParameters.search_mode,
+        requestParameters.slop,
         requestParameters.sortby,
         requestParameters.source_type,
         requestParameters.topic,
@@ -14278,6 +14564,16 @@ export type LearningResourcesUserSubscriptionCheckListResourceTypeEnum =
 /**
  * @export
  */
+export const LearningResourcesUserSubscriptionCheckListSearchModeEnum = {
+  BestFields: "best_fields",
+  MostFields: "most_fields",
+  Phrase: "phrase",
+} as const
+export type LearningResourcesUserSubscriptionCheckListSearchModeEnum =
+  (typeof LearningResourcesUserSubscriptionCheckListSearchModeEnum)[keyof typeof LearningResourcesUserSubscriptionCheckListSearchModeEnum]
+/**
+ * @export
+ */
 export const LearningResourcesUserSubscriptionCheckListSortbyEnum = {
   Featured: "featured",
   Id: "id",
@@ -14470,6 +14766,16 @@ export type LearningResourcesUserSubscriptionListResourceTypeEnum =
 /**
  * @export
  */
+export const LearningResourcesUserSubscriptionListSearchModeEnum = {
+  BestFields: "best_fields",
+  MostFields: "most_fields",
+  Phrase: "phrase",
+} as const
+export type LearningResourcesUserSubscriptionListSearchModeEnum =
+  (typeof LearningResourcesUserSubscriptionListSearchModeEnum)[keyof typeof LearningResourcesUserSubscriptionListSearchModeEnum]
+/**
+ * @export
+ */
 export const LearningResourcesUserSubscriptionListSortbyEnum = {
   Featured: "featured",
   Id: "id",
@@ -14655,6 +14961,16 @@ export const LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum =
   } as const
 export type LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum =
   (typeof LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateResourceTypeEnum]
+/**
+ * @export
+ */
+export const LearningResourcesUserSubscriptionSubscribeCreateSearchModeEnum = {
+  BestFields: "best_fields",
+  MostFields: "most_fields",
+  Phrase: "phrase",
+} as const
+export type LearningResourcesUserSubscriptionSubscribeCreateSearchModeEnum =
+  (typeof LearningResourcesUserSubscriptionSubscribeCreateSearchModeEnum)[keyof typeof LearningResourcesUserSubscriptionSubscribeCreateSearchModeEnum]
 /**
  * @export
  */

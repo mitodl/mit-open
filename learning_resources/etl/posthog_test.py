@@ -104,7 +104,7 @@ def generate_hogql_query_result(result_count: int = 5):
     }
 
 
-@pytest.fixture()
+@pytest.fixture
 def hogql_query_result():
     """Fixture to return a faked-out HogQL result."""
 
@@ -144,7 +144,7 @@ def test_posthog_run_query(skip_setting, mocker, hogql_query_result):
         assert assert_string in exc
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_posthog_extract_lrd_view_events(mocker, hogql_query_result):
     """
     Ensure that the extractor extracts to the intermediary format.
@@ -164,7 +164,7 @@ def test_posthog_extract_lrd_view_events(mocker, hogql_query_result):
         assert event.uuid == hogql_query_result["results"][idx][0]
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_posthog_extract_lrd_view_events_pagination(mocker):
     """
     Ensure that the extractor loads additional pages if it has to.
@@ -200,7 +200,7 @@ def test_posthog_extract_lrd_view_events_pagination(mocker):
     assert len(stored_events) == 110
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_posthog_transform_lrd_view_events(mocker):
     """Ensure the second stage of the extractor loads properly"""
 
@@ -229,7 +229,7 @@ def test_posthog_transform_lrd_view_events(mocker):
     assert len(all_events) == (idx + 1)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def load_posthog_lrd_view_events(mocker):
     """Ensure the loader stage of the extractor creates database records"""
 

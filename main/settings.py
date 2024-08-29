@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.17.7"
+VERSION = "0.17.10"
 
 log = logging.getLogger()
 
@@ -509,6 +509,7 @@ if MITOL_USE_S3:
 
 IMAGEKIT_SPEC_CACHEFILE_NAMER = "imagekit.cachefiles.namers.source_name_dot_hash"
 IMAGEKIT_CACHEFILE_DIR = get_string("IMAGEKIT_CACHEFILE_DIR", "")
+IMAGEKIT_CACHE_BACKEND = "imagekit"
 
 
 # django cache back-ends
@@ -531,6 +532,18 @@ CACHES = {
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": CELERY_BROKER_URL,  # noqa: F405
         "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+    },
+    # imagekit caching
+    "imagekit": {
+        "BACKEND": "main.cache.backends.FallbackCache",
+        "LOCATION": [
+            "imagekit_db",
+        ],
+    },
+    "imagekit_db": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "imagekit_cache",
+        "TIMEOUT": None,
     },
 }
 

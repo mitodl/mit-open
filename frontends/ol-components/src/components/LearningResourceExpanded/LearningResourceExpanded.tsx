@@ -9,10 +9,10 @@ import {
   formatDate,
   capitalize,
   resourceThumbnailSrc,
-  getReadableResourceType,
   DEFAULT_RESOURCE_IMG,
   showStartAnytime,
 } from "ol-utilities"
+import { RiExternalLinkLine } from "@remixicon/react"
 import type { EmbedlyConfig } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { SimpleSelect } from "../SimpleSelect/SimpleSelect"
@@ -98,7 +98,7 @@ const CallToAction = styled.div`
 
 const StyledLink = styled(ButtonLink)`
   text-align: center;
-  width: 220px;
+  width: 224px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: 100%;
     margin-top: 10px;
@@ -211,19 +211,27 @@ const CallToActionSection = ({
   const platformImage =
     PLATFORMS[resource?.platform?.code as PlatformEnum]?.image
 
-  const { resource_type: type, platform } = resource!
+  const { platform } = resource!
 
-  const cta =
-    type === ResourceTypeEnum.Podcast ||
-    type === ResourceTypeEnum.PodcastEpisode
-      ? "Listen to Podcast"
-      : `Take ${getReadableResourceType(type)}`
+  const getCallToActionText = (resource: LearningResource): string => {
+    if (resource?.platform?.code === PlatformEnum.Ocw) {
+      return "Access Course Materials"
+    } else if (
+      resource?.resource_type === ResourceTypeEnum.Podcast ||
+      resource?.resource_type === ResourceTypeEnum.PodcastEpisode
+    ) {
+      return "Listen to Podcast"
+    }
+    return "Learn More"
+  }
 
+  const cta = getCallToActionText(resource)
   return (
     <CallToAction>
       <StyledLink
         target="_blank"
-        size="large"
+        size="medium"
+        endIcon={<RiExternalLinkLine />}
         href={getCallToActionUrl(resource) || ""}
       >
         {cta}

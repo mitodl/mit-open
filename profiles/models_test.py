@@ -56,7 +56,7 @@ def test_social_site_name_map():
     assert social_site_type_options == set(SOCIAL_SITE_NAME_MAP.keys())
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_external_schema_exists():
     """
     Test that our migrations have created a seperate schema
@@ -71,7 +71,7 @@ def test_external_schema_exists():
         assert cursor.fetchone()[0] == "external"
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_program_letter_model_strings(user, settings):
     """
     Test that ProgramCertificate and ProgramLetter string methods

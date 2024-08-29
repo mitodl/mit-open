@@ -1,6 +1,39 @@
 Release Notes
 =============
 
+Version 0.17.10 (Released August 28, 2024)
+---------------
+
+- Remove the in-memory cache for now (#1477)
+- change drawer CTA label (#1471)
+- update the footer logo (#1467)
+- Add caching for imagekit (#1472)
+- [pre-commit.ci] pre-commit autoupdate (#1215)
+- Update redis Docker tag to v7 (#1261)
+
+Version 0.17.9 (Released August 28, 2024)
+--------------
+
+- Update newrelic agent (#1464)
+- Update actions/upload-artifact digest to 834a144 (#1396)
+- Update snok/install-poetry digest to 76e04a9 (#1397)
+- Update dependency ruff to v0.6.2 (#1426)
+- Carousel accessibility improvements (#1462)
+- Add search mode selector to admin (#1456)
+- Update Python to v3.12.5 (#1398)
+- Sloan ETL pipeline (#1394)
+- Setup codespaces (#1444)
+- fix certification search url (#1460)
+- randomize the hero image (#1459)
+
+Version 0.17.8 (Released August 26, 2024)
+--------------
+
+- search box adornment buttons should be 56px wide on mobile (#1457)
+- homepage hero search updates (#1454)
+- Fix departments and schools fixtures (#1453)
+- Renaming the s3 buckets used for storing the app. (#1455)
+
 Version 0.17.7 (Released August 21, 2024)
 --------------
 

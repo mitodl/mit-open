@@ -15,14 +15,14 @@ def silence_s3_logging():  # noqa: PT004
     logging.getLogger("botocore").setLevel(logging.ERROR)
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_s3_fixture():  # noqa: PT004
     """Mock the S3 fixture for the duration of the test"""
     with mock_s3():
         yield
 
 
-@pytest.fixture()
+@pytest.fixture
 def aws_settings(settings):
     """Default AWS test settings"""  # noqa: D401
     settings.AWS_ACCESS_KEY_ID = "aws_id"
@@ -41,7 +41,7 @@ def ocw_aws_settings(aws_settings):
     return aws_settings
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_ocw_learning_bucket(
     ocw_aws_settings,
     mock_s3_fixture,  # noqa: ARG001
@@ -92,7 +92,7 @@ def oll_aws_settings(aws_settings):
     return aws_settings
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_xpro_learning_bucket(
     xpro_aws_settings,
     mock_s3_fixture,  # noqa: ARG001
@@ -107,7 +107,7 @@ def mock_xpro_learning_bucket(
     return SimpleNamespace(s3=s3, bucket=bucket)
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_mitxonline_learning_bucket(
     mitxonline_aws_settings,
     mock_s3_fixture,  # noqa: ARG001
@@ -124,7 +124,7 @@ def mock_mitxonline_learning_bucket(
     return SimpleNamespace(s3=s3, bucket=bucket)
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_mitx_learning_bucket(
     mitx_aws_settings,
     mock_s3_fixture,  # noqa: ARG001
@@ -139,7 +139,7 @@ def mock_mitx_learning_bucket(
     return SimpleNamespace(s3=s3, bucket=bucket)
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_oll_learning_bucket(
     oll_aws_settings,
     mock_s3_fixture,  # noqa: ARG001

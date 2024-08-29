@@ -15,7 +15,7 @@ from learning_resources.etl.micromasters import READABLE_ID_PREFIX
 from learning_resources.factories import LearningResourceFactory
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_micromasters_data():
     """Mock micromasters data"""
     return [
@@ -79,7 +79,7 @@ def mock_micromasters_data():
     ]
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_catalog_responses(mocked_responses, settings, mock_micromasters_data):
     """Mock the catalog response"""
     settings.MICROMASTERS_CATALOG_API_URL = "http://localhost/test/catalog/api"
@@ -103,7 +103,7 @@ def test_micromasters_extract_disabled(settings):
     assert micromasters.extract() == []
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("missing_url", [True, False])
 def test_micromasters_transform(mock_micromasters_data, missing_url):
     """Test that micromasters data is correctly transformed into our normalized structure"""
@@ -169,7 +169,7 @@ def test_micromasters_transform(mock_micromasters_data, missing_url):
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("start_dt", "enrollment_dt", "expected_dt"),
     [

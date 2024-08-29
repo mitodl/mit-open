@@ -27,7 +27,7 @@ from main.utils import frontend_absolute_url
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_github_client(mocker):
     """Return a mock github client"""
     return mocker.patch("github.Github")
@@ -63,7 +63,7 @@ apple_podcasts_url: {apple_podcasts_url}
     return Mock(decoded_content=content)
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_rss_request(mocker):  # noqa: PT004
     """
     Mock request data
@@ -75,7 +75,7 @@ def mock_rss_request(mocker):  # noqa: PT004
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_rss_request_with_bad_rss_file(mocker):  # noqa: PT004
     """
     Mock request data
@@ -230,7 +230,7 @@ def test_transform_with_error(mocker, mock_github_client):
     assert results[0]["url"] == "http://website.url/podcast"
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @freeze_time("2020-07-20")
 def test_generate_aggregate_podcast_rss():
     """Test generate_aggregate_podcast_rss"""

@@ -25,6 +25,7 @@ from learning_resources.etl.constants import (
 )
 from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.loaders import (
+    calculate_completeness,
     load_content_file,
     load_content_files,
     load_course,
@@ -50,6 +51,7 @@ from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
+    LearningResourceContentTagFactory,
     LearningResourceDepartmentFactory,
     LearningResourceFactory,
     LearningResourceInstructorFactory,
@@ -132,7 +134,7 @@ def mock_upsert_tasks(mocker):
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def learning_resource_offeror():
     """Return a LearningResourceOfferer"""
     return LearningResourceOfferorFactory.create()
@@ -858,7 +860,8 @@ def test_load_programs(mocker, mock_blocklist, mock_duplicates):
 
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("extra_run", [True, False])
-def test_load_content_files(mocker, is_published, extra_run):
+@pytest.mark.parametrize("calc_score", [True, False])
+def test_load_content_files(mocker, is_published, extra_run, calc_score):
     """Test that load_content_files calls the expected functions"""
     course = LearningResourceFactory.create(is_course=True, create_runs=False)
     course_run = LearningResourceRunFactory.create(
@@ -888,12 +891,16 @@ def test_load_content_files(mocker, is_published, extra_run):
         "learning_resources_search.plugins.tasks.deindex_run_content_files",
         autospec=True,
     )
-    load_content_files(course_run, content_data)
+    mock_calc_score = mocker.patch(
+        "learning_resources.etl.loaders.calculate_completeness"
+    )
+    load_content_files(course_run, content_data, calc_completeness=calc_score)
     assert mock_load_content_file.call_count == len(content_data)
     assert mock_bulk_index.call_count == (1 if is_published else 0)
     assert mock_bulk_delete.call_count == (
         run_count if not is_published else run_count - 1
     )
+    assert mock_calc_score.call_count == (1 if calc_score else 0)
 
 
 def test_load_content_file():
@@ -1467,3 +1474,55 @@ def test_load_prices_by_certificate(certification):
     )
     load_next_start_date_and_prices(course)
     assert course.prices == ([] if not certification else run.prices)
+
+
+@pytest.mark.parametrize(
+    ("is_scholar_course", "tag_counts", "expected_score"),
+    [
+        (False, [24, 24, 1, 1, 8, 1, 1], 1.0),
+        (False, [24, 0, 0, 0, 0, 0, 0], 0.4),
+        (False, [12, 0, 0, 0, 0, 0, 0], 0.2),
+        (False, [0, 24, 0, 0, 0, 0, 0], 0.2),
+        (False, [0, 0, 1, 0, 0, 0, 0], 0.2),
+        (False, [0, 0, 0, 1, 0, 0, 0], 0.2),
+        (False, [0, 0, 0, 0, 4, 4, 2], 0.2),
+        (False, [0, 0, 0, 0, 2, 2, 1], 0.1),
+        (True, [0, 0, 0, 0, 0, 1, 0], 1.0),
+    ],
+)
+def test_calculate_completeness(mocker, is_scholar_course, tag_counts, expected_score):
+    """Test that calculate_completeness returns the expected value"""
+    mock_index = mocker.patch("learning_resources.etl.loaders.update_index")
+    tag_names = [
+        "Lecture Videos",
+        "Lecture Notes",
+        "Exams with Solutions",
+        "Exams",
+        "Problem Sets with Solutions",
+        "Problem Sets",
+        "Assignments",
+    ]
+    resource = LearningResourceFactory.create(
+        is_course=True,
+        etl_source=ETLSource.ocw.name,
+        platform=LearningResourcePlatformFactory.create(code=PlatformType.ocw.name),
+        offered_by=LearningResourceOfferorFactory.create(is_ocw=True),
+        completeness=1.0,
+    )
+    run = resource.runs.first()
+    if is_scholar_course:
+        course = resource.course
+        course.course_numbers = [{"value": "scholarly-course-18.01SC"}]
+        course.save()
+    tags_with_counts = zip(tag_names, tag_counts)
+    tags_list = []
+    for tag_name, count in tags_with_counts:
+        content_tag = LearningResourceContentTagFactory.create(name=tag_name)
+        ContentFileFactory.create_batch(count, run=run, content_tags=[content_tag])
+        tags_list.extend([[tag_name]] * count)
+    assert round(calculate_completeness(run), ndigits=2) == expected_score
+    assert (
+        round(calculate_completeness(run, content_tags=tags_list), ndigits=2)
+        == expected_score
+    )
+    assert mock_index.call_count == (1 if resource.completeness != 1.0 else 0)

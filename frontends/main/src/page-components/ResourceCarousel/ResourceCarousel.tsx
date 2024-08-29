@@ -203,16 +203,27 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
   if (!isLoading && allChildrenLoaded && allChildrenEmpty) {
     return null
   }
+  const buttonsContainerElement = (
+    <ButtonsContainer role="group" aria-label="Slide navigation" ref={setRef} />
+  )
 
   return (
-    <MobileOverflow className={className} data-testid={dataTestId}>
+    <MobileOverflow
+      as="section"
+      aria-label={`Carousel of ${title}`}
+      className={className}
+      data-testid={dataTestId}
+    >
       <TabContext value={tab}>
         <HeaderRow>
           <HeaderText variant="h4">{title}</HeaderText>
-          {config.length === 1 ? <ButtonsContainer ref={setRef} /> : null}
+          {config.length === 1 ? buttonsContainerElement : null}
           {config.length > 1 ? (
             <ControlsContainer>
-              <TabsList onChange={(e, newValue) => setTab(newValue)}>
+              <TabsList
+                aria-label="Carousel Filters"
+                onChange={(e, newValue) => setTab(newValue)}
+              >
                 {config.map((tabConfig, index) => {
                   if (
                     !isLoading &&
@@ -230,7 +241,7 @@ const ResourceCarousel: React.FC<ResourceCarouselProps> = ({
                   )
                 })}
               </TabsList>
-              <ButtonsContainer ref={setRef} />
+              {buttonsContainerElement}
             </ControlsContainer>
           ) : null}
         </HeaderRow>

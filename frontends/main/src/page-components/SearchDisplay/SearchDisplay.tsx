@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react"
+import React, { useMemo, useRef, useState } from "react"
 import {
   styled,
   Pagination,
@@ -26,6 +26,7 @@ import {
 import {
   LearningResourcesSearchApiLearningResourcesSearchRetrieveRequest as LRSearchRequest,
   ResourceCategoryEnum,
+  SearchModeEnumDescriptions,
 } from "api"
 import { useLearningResourcesSearch } from "api/hooks/learningResources"
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
@@ -43,7 +44,7 @@ import { useSearchParams } from "@mitodl/course-search-utils/next"
 import _ from "lodash"
 import { ResourceCategoryTabs } from "./ResourceCategoryTabs"
 import ProfessionalToggle from "./ProfessionalToggle"
-import StalenessPenaltySlider from "./StalenessPenaltySlider"
+import SliderInput from "./SliderInput"
 
 import type { TabConfig } from "./ResourceCategoryTabs"
 
@@ -72,11 +73,12 @@ const MobileSortContainer = styled.div`
   }
 `
 
-const FacetStyles = styled.div`
-  * {
-    color: ${({ theme }) => theme.palette.secondary.main};
-  }
+const SearchModeDropdownContainer = styled.div`
+  margin-top: 10px;
+  margin-bottom: 10px;
+`
 
+const FacetStyles = styled.div`
   div.facets:last-child {
     border-bottom-right-radius: 8px;
     border-bottom-left-radius: 8px;
@@ -285,10 +287,6 @@ const FilterTitle = styled.div`
   color: ${({ theme }) => theme.custom.colors.darkGray2};
 `
 
-const AdminOptionsTitle = styled(FilterTitle)`
-  margin-top: 20px;
-`
-
 const FacetsTitleContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -415,6 +413,15 @@ const StyledGridContainer = styled(GridContainer)`
   width: 100% !important;
 `
 
+const ExplanationContainer = styled.div`
+  ${({ theme }) => css({ ...theme.typography.body3 })}
+  color: ${({ theme }) => theme.custom.colors.silverGrayDark};
+`
+const AdminTitleContainer = styled.div`
+  ${({ theme }) => css({ ...theme.typography.subtitle3 })}
+  margin-top: 20px;
+`
+
 const PAGE_SIZE = 20
 const MAX_PAGE = 50
 
@@ -470,6 +477,10 @@ const SORT_OPTIONS = [
   },
 ]
 
+const searchModeDropdownOptions = Object.entries(
+  SearchModeEnumDescriptions,
+).map(([label, value]) => ({ label, value }))
+
 interface SearchDisplayProps {
   page: number
   setPage: (newPage: number) => void
@@ -516,6 +527,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   setSearchParams,
 }) => {
   const [searchParams] = useSearchParams()
+  const [expandAdminOptions, setExpandAdminOptions] = useState(false)
   const scrollHook = useRef<HTMLDivElement>(null)
   const activeTab =
     TABS.find(
@@ -530,6 +542,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
         ? [activeTab.resource_category]
         : undefined,
       yearly_decay_percent: searchParams.get("yearly_decay_percent"),
+      search_mode: searchParams.get("search_mode"),
+      slop: searchParams.get("slop"),
       ...requestParams,
       aggregations: (facetNames || []).concat([
         "resource_category",
@@ -559,6 +573,119 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
     setMobileDrawerOpen(newOpen)
   }
 
+  const searchModeDropdown = (
+    <StyledSelect
+      size="small"
+      value={searchParams.get("search_mode") || "best_fields"}
+      onChange={(e) =>
+        setSearchParams((prev) => {
+          const next = new URLSearchParams(prev)
+          next.set("search_mode", e.target.value as string)
+          if (e.target.value !== "phrase") {
+            next.delete("slop")
+          }
+          return next
+        })
+      }
+      options={searchModeDropdownOptions}
+      className="search-mode-dropdown"
+    />
+  )
+
+  const sortDropdown = (
+    <StyledSelect
+      size="small"
+      value={requestParams.sortby || ""}
+      onChange={(e) => setParamValue("sortby", e.target.value)}
+      options={SORT_OPTIONS}
+      className="sort-dropdown"
+      renderValue={(value) => {
+        const opt = SORT_OPTIONS.find((option) => option.value === value)
+        return `Sort by: ${opt?.label}`
+      }}
+    />
+  )
+
+  const AdminOptions: React.FC = (
+    expandAdminOptions,
+    setExpandAdminOptions,
+  ) => {
+    const titleLineIcon = expandAdminOptions ? "expand_less" : "expand_more"
+
+    return (
+      <div
+        className={`facets base-facet${expandAdminOptions ? " facets-expanded" : ""}`}
+      >
+        <button
+          className="filter-section-button"
+          type="button"
+          aria-expanded={expandAdminOptions ? "true" : "false"}
+          onClick={() => setExpandAdminOptions(!expandAdminOptions)}
+        >
+          Admin Options
+          <i className={`material-icons ${titleLineIcon}`} aria-hidden="true">
+            {titleLineIcon}
+          </i>
+        </button>
+        {expandAdminOptions ? (
+          <div>
+            <AdminTitleContainer>
+              Resource Score Staleness Penalty
+            </AdminTitleContainer>
+            <SliderInput
+              currentValue={
+                searchParams.get("yearly_decay_percent")
+                  ? Number(searchParams.get("yearly_decay_percent"))
+                  : 2.5
+              }
+              setSearchParams={setSearchParams}
+              urlParam="yearly_decay_percent"
+              min={0}
+              max={10}
+              step={0.2}
+            />
+            <ExplanationContainer>
+              Relavance score penalty percent per year for resources without
+              upcoming runs. Only affects results if there is a search term.
+            </ExplanationContainer>
+            <div>
+              <AdminTitleContainer>Search Mode</AdminTitleContainer>
+              <SearchModeDropdownContainer>
+                {searchModeDropdown}
+              </SearchModeDropdownContainer>
+              <ExplanationContainer>
+                OpenSearch search multi-match query type.
+              </ExplanationContainer>
+            </div>
+            {searchParams.get("search_mode") === "phrase" ? (
+              <div>
+                <AdminTitleContainer>Slop</AdminTitleContainer>
+
+                <SliderInput
+                  currentValue={
+                    searchParams.get("slop")
+                      ? Number(searchParams.get("slop"))
+                      : 0
+                  }
+                  setSearchParams={setSearchParams}
+                  urlParam="slop"
+                  min={0}
+                  max={20}
+                  step={1}
+                />
+                <ExplanationContainer>
+                  The number of words permitted between search terms for
+                  multi-word searches. Only used if search mode is set to
+                  "phrase".
+                </ExplanationContainer>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+      </div>
+    )
+  }
+
   const filterContents = (
     <>
       <FacetStyles>
@@ -574,22 +701,11 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
           onFacetChange={toggleParamValue}
           facetOptions={data?.metadata.aggregations ?? {}}
         />
+        {user?.is_learning_path_editor
+          ? AdminOptions(expandAdminOptions, setExpandAdminOptions)
+          : null}
       </FacetStyles>
     </>
-  )
-
-  const sortDropdown = (
-    <StyledSelect
-      size="small"
-      value={requestParams.sortby || ""}
-      onChange={(e) => setParamValue("sortby", e.target.value)}
-      options={SORT_OPTIONS}
-      className="sort-dropdown"
-      renderValue={(value) => {
-        const opt = SORT_OPTIONS.find((option) => option.value === value)
-        return `Sort by: ${opt?.label}`
-      }}
-    />
   )
 
   return (
@@ -617,23 +733,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
               ) : null}
             </FacetsTitleContainer>
             {filterContents}
-            {user?.is_learning_path_editor ? (
-              <div>
-                <AdminOptionsTitle>
-                  <div>
-                    <Typography variant="subtitle1">Admin Options</Typography>
-                  </div>
-                </AdminOptionsTitle>
-                <StalenessPenaltySlider
-                  stalenessSliderSetting={
-                    searchParams.get("yearly_decay_percent")
-                      ? Number(searchParams.get("yearly_decay_percent"))
-                      : 2.5
-                  }
-                  setSearchParams={setSearchParams}
-                />
-              </div>
-            ) : null}
           </DesktopFiltersColumn>
           <StyledMainColumn variant="main-2">
             <DesktopSortContainer>{sortDropdown}</DesktopSortContainer>
@@ -689,25 +788,6 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                     </MobileFacetSearchButtons>
                   ) : null}
                   {filterContents}
-                  {user?.is_learning_path_editor ? (
-                    <div>
-                      <AdminOptionsTitle>
-                        <div>
-                          <Typography variant="subtitle3">
-                            Admin Options
-                          </Typography>
-                        </div>
-                      </AdminOptionsTitle>
-                      <StalenessPenaltySlider
-                        stalenessSliderSetting={
-                          searchParams.get("yearly_decay_percent")
-                            ? Number(searchParams.get("yearly_decay_percent"))
-                            : 0
-                        }
-                        setSearchParams={setSearchParams}
-                      />
-                    </div>
-                  ) : null}
                 </StyledDrawer>
                 <MobileSortContainer>{sortDropdown}</MobileSortContainer>
               </MobileFilter>

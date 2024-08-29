@@ -17,6 +17,7 @@ from learning_resources.etl import (
     podcast,
     posthog,
     prolearn,
+    sloan,
     xpro,
     youtube,
 )
@@ -92,6 +93,13 @@ prolearn_courses_etl = compose(
 )
 
 
+sloan_courses_etl = compose(
+    load_courses(ETLSource.see.name, config=CourseLoaderConfig(prune=True)),
+    sloan.transform_courses,
+    sloan.extract,
+)
+
+
 xpro_programs_etl = compose(
     load_programs(
         ETLSource.xpro.name,
@@ -150,6 +158,7 @@ def ocw_courses_etl(
                         ocw.transform_content_files(
                             s3_resource, url_path, force_overwrite
                         ),
+                        calc_completeness=True,
                     )
             else:
                 log.info("No course data found for %s", url_path)

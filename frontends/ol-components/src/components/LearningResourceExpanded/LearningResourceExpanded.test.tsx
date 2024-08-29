@@ -7,7 +7,6 @@ import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
 import { ResourceTypeEnum, PodcastEpisodeResource, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
-import { getReadableResourceType } from "ol-utilities"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
 import { faker } from "@faker-js/faker/locale/en"
@@ -58,7 +57,7 @@ describe("Learning Resource Expanded", () => {
         resource.resource_type === ResourceTypeEnum.Podcast ||
         resource.resource_type === ResourceTypeEnum.PodcastEpisode
           ? "Listen to Podcast"
-          : `Take ${getReadableResourceType(resource.resource_type)}`
+          : "Learn More"
 
       const url =
         resource.resource_type === ResourceTypeEnum.PodcastEpisode
@@ -97,8 +96,7 @@ describe("Learning Resource Expanded", () => {
 
       setup(resource)
 
-      const linkName = `Take ${getReadableResourceType(resource.resource_type)}`
-
+      const linkName = "Learn More"
       if (linkName) {
         const link = screen.getByRole("link", {
           name: linkName,

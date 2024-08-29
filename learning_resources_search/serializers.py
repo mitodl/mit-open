@@ -402,6 +402,24 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
             \n\n{build_choice_description_list(resource_category_choices)}"
         ),
     )
+    search_mode_choices = [
+        ("best_fields", "best_fields"),
+        ("most_fields", "most_fields"),
+        ("phrase", "phrase"),
+    ]
+    search_mode = serializers.ChoiceField(
+        required=False,
+        choices=search_mode_choices,
+        help_text=(
+            f"The open search search type \
+            \n\n{build_choice_description_list(search_mode_choices)}"
+        ),
+    )
+    slop = serializers.IntegerField(
+        required=False,
+        allow_null=True,
+        help_text=("Allowed distance for phrase search"),
+    )
 
 
 class ContentFileSearchRequestSerializer(SearchRequestSerializer):

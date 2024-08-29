@@ -2504,6 +2504,25 @@ paths:
           \ podcast\n* `podcast_episode` - podcast episode\n* `video` - video\n* `video_playlist`\
           \ - video playlist"
       - in: query
+        name: search_mode
+        schema:
+          enum:
+          - best_fields
+          - most_fields
+          - phrase
+          type: string
+          minLength: 1
+        description: "The open search search type             \n\n* `best_fields`\
+          \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
+          * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
+          \ - phrase"
+      - in: query
+        name: slop
+        schema:
+          type: integer
+          nullable: true
+        description: Allowed distance for phrase search
+      - in: query
         name: sortby
         schema:
           enum:
@@ -2942,6 +2961,25 @@ paths:
           * `program` - program\n* `learning_path` - learning path\n* `podcast` -\
           \ podcast\n* `podcast_episode` - podcast episode\n* `video` - video\n* `video_playlist`\
           \ - video playlist"
+      - in: query
+        name: search_mode
+        schema:
+          enum:
+          - best_fields
+          - most_fields
+          - phrase
+          type: string
+          minLength: 1
+        description: "The open search search type             \n\n* `best_fields`\
+          \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
+          * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
+          \ - phrase"
+      - in: query
+        name: slop
+        schema:
+          type: integer
+          nullable: true
+        description: Allowed distance for phrase search
       - in: query
         name: sortby
         schema:
@@ -3407,6 +3445,25 @@ paths:
           \ podcast\n* `podcast_episode` - podcast episode\n* `video` - video\n* `video_playlist`\
           \ - video playlist"
       - in: query
+        name: search_mode
+        schema:
+          enum:
+          - best_fields
+          - most_fields
+          - phrase
+          type: string
+          minLength: 1
+        description: "The open search search type             \n\n* `best_fields`\
+          \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
+          * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
+          \ - phrase"
+      - in: query
+        name: slop
+        schema:
+          type: integer
+          nullable: true
+        description: Allowed distance for phrase search
+      - in: query
         name: sortby
         schema:
           enum:
@@ -3861,6 +3918,25 @@ paths:
           * `program` - program\n* `learning_path` - learning path\n* `podcast` -\
           \ podcast\n* `podcast_episode` - podcast episode\n* `video` - video\n* `video_playlist`\
           \ - video playlist"
+      - in: query
+        name: search_mode
+        schema:
+          enum:
+          - best_fields
+          - most_fields
+          - phrase
+          type: string
+          minLength: 1
+        description: "The open search search type             \n\n* `best_fields`\
+          \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
+          * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
+          \ - phrase"
+      - in: query
+        name: slop
+        schema:
+          type: integer
+          nullable: true
+        description: Allowed distance for phrase search
       - in: query
         name: sortby
         schema:
@@ -7661,6 +7737,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -7733,6 +7812,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -8078,6 +8160,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -8147,6 +8232,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - title
     LearningPathResourceResourceTypeEnum:
@@ -9456,6 +9544,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
     PatchedUserListRelationshipRequest:
       type: object
       description: Serializer for UserListRelationship model
@@ -9666,6 +9757,17 @@ components:
             $ref: '#/components/schemas/ResourceCategoryEnum'
           description: "The category of learning resource             \n\n* `course`\
             \ - Course\n* `program` - Program\n* `learning_material` - Learning Material"
+        search_mode:
+          allOf:
+          - $ref: '#/components/schemas/SearchModeEnum'
+          description: "The open search search type             \n\n* `best_fields`\
+            \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
+            * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
+            \ - phrase"
+        slop:
+          type: integer
+          nullable: true
+          description: Allowed distance for phrase search
         source_type:
           allOf:
           - $ref: '#/components/schemas/SourceTypeEnum'
@@ -9985,6 +10087,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -10057,6 +10162,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -10246,6 +10354,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -10318,6 +10429,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -10637,6 +10751,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -10709,6 +10826,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -10773,6 +10893,24 @@ components:
       - podcast_episode
       - video
       - video_playlist
+    SearchModeEnum:
+      enum:
+      - best_fields
+      - most_fields
+      - phrase
+      type: string
+      description: |-
+        * `best_fields` - best_fields
+        * `most_fields` - most_fields
+        * `phrase` - phrase
+
+        * `best_fields` - best_fields
+        * `most_fields` - most_fields
+        * `phrase` - phrase
+      x-enum-descriptions:
+      - best_fields
+      - most_fields
+      - phrase
     SortbyEnum:
       enum:
       - featured
@@ -11152,6 +11290,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -11224,6 +11365,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title
@@ -11399,6 +11543,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - certification
       - certification_type
@@ -11471,6 +11618,9 @@ components:
           oneOf:
           - $ref: '#/components/schemas/AvailabilityEnum'
           - $ref: '#/components/schemas/NullEnum'
+        completeness:
+          type: number
+          format: double
       required:
       - readable_id
       - title

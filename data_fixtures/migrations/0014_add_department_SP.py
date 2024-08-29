@@ -10,7 +10,7 @@ from channels.constants import ChannelType
 
 def remove_sp(apps, schema_editor):
     """
-    Remove department with department_id=RES
+    Remove department with department_id=SP
     """
 
     Channel = apps.get_model("channels", "Channel")

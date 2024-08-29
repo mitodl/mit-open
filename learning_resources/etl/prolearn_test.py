@@ -17,8 +17,10 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.prolearn import (
     PROLEARN_BASE_URL,
+    SEE_EXCLUSION,
     UNIQUE_FIELD,
     extract_courses,
+    extract_data,
     extract_programs,
     parse_date,
     parse_image,
@@ -62,21 +64,21 @@ def mock_prolearn_api_setting(settings):  # noqa: PT004
     settings.PROLEARN_CATALOG_API_URL = "http://localhost/test/programs/api"
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_csail_programs_data():
     """Mock prolearn CSAIL programs data"""
     with open("./test_json/prolearn_csail_programs.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_mitpe_courses_data():
     """Mock prolearn MIT Professional Education courses data"""
     with open("./test_json/prolearn_mitpe_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_prolearn_programs_responses(
     mocked_responses, settings, mock_csail_programs_data
 ):
@@ -90,7 +92,7 @@ def mocked_prolearn_programs_responses(
     return mocked_responses
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_prolearn_courses_responses(
     mocked_responses, settings, mock_mitpe_courses_data
 ):
@@ -393,3 +395,14 @@ def test_update_format(
     first_course["learning_format"] = old_format
     update_format(first_course, new_format)
     assert first_course["learning_format"] == sorted(expected_format)
+
+
+@pytest.mark.parametrize("sloan_api_enabled", [True, False])
+def test_sloan_exclusion(settings, mocker, sloan_api_enabled):
+    """Slaon exclusion should be included if sloan api enabled"""
+    settings.SEE_API_ENABLED = sloan_api_enabled
+    mock_post = mocker.patch("learning_resources.etl.sloan.requests.post")
+    extract_data("course")
+    assert (
+        SEE_EXCLUSION in mock_post.call_args[1]["json"]["query"]
+    ) is sloan_api_enabled
