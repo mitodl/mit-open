@@ -35,7 +35,7 @@ const Container = styled.div<{ fullWidth?: boolean }>(({ fullWidth }) => [
     display: "inline-flex",
     flexDirection: "column",
     alignItems: "start",
-    "> *": {
+    "> *:not(:last-child)": {
       marginBottom: "4px",
     },
   },
