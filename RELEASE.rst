@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.17.13
+---------------
+
+- Better Headings Structure (#1473)
+- Fix dialog spacing + reset AddToListDialog (#1484)
+
 Version 0.17.12 (Released August 29, 2024)
 ---------------
 
