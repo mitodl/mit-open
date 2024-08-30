@@ -97,6 +97,8 @@ const ImageContainer = styled.div({
   justifyContent: "center",
   marginTop: "22px",
   transform: "translateX(24px)",
+  width: "513px",
+  aspectRatio: "513 / 522",
   [theme.breakpoints.down("md")]: {
     display: "none",
   },
@@ -258,8 +260,7 @@ const HeroSearch: React.FC = () => {
         </ControlsContainer>
       </TitleAndControls>
       <ImageContainer>
-        {/* TODO next/image requires a width and height (or fill). This image needs to shrink at lowere screen widths while preserving aspect */}
-        <Image alt="" src={getRandomHeroImage()} width={513} height={522} />
+        <Image alt="" src={getRandomHeroImage()} fill />
       </ImageContainer>
     </HeroWrapper>
   )
