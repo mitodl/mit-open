@@ -225,6 +225,33 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v0/channels/counts/{channel_type}/{name}/:
+    get:
+      operationId: channels_counts_retrieve
+      description: View for retrieving an individual channel by type and name
+      summary: Channel Detail Lookup by channel type and name
+      parameters:
+      - in: path
+        name: channel_type
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_\-]+$
+        required: true
+      - in: path
+        name: name
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_\-]+$
+        required: true
+      tags:
+      - channels
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelCounts'
+          description: ''
   /api/v0/channels/type/{channel_type}/{name}/:
     get:
       operationId: channels_type_retrieve
@@ -982,6 +1009,71 @@ components:
           department: '#/components/schemas/DepartmentChannel'
           unit: '#/components/schemas/UnitChannel'
           pathway: '#/components/schemas/PathwayChannel'
+    ChannelCounts:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        counts:
+          type: string
+          readOnly: true
+        channel_url:
+          type: string
+          description: Get the URL for the channel
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9_-]+$
+          maxLength: 100
+        title:
+          type: string
+          maxLength: 100
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+        banner:
+          type: string
+          format: uri
+          nullable: true
+        about:
+          nullable: true
+        channel_type:
+          $ref: '#/components/schemas/ChannelTypeEnum'
+        configuration:
+          nullable: true
+        search_filter:
+          type: string
+          maxLength: 2048
+        public_description:
+          type: string
+        ga_tracking_id:
+          type: string
+          maxLength: 24
+        featured_list:
+          type: integer
+          nullable: true
+        widget_list:
+          type: integer
+          nullable: true
+      required:
+      - channel_type
+      - channel_url
+      - counts
+      - created_on
+      - id
+      - name
+      - title
+      - updated_on
     ChannelCreateRequest:
       type: object
       description: |-

@@ -200,6 +200,116 @@ export type Channel =
   | ({ channel_type: "unit" } & UnitChannel)
 
 /**
+ *
+ * @export
+ * @interface ChannelCounts
+ */
+export interface ChannelCounts {
+  /**
+   *
+   * @type {number}
+   * @memberof ChannelCounts
+   */
+  id: number
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  counts: string
+  /**
+   * Get the URL for the channel
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  channel_url: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  updated_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  title: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  avatar?: string | null
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  banner?: string | null
+  /**
+   *
+   * @type {any}
+   * @memberof ChannelCounts
+   */
+  about?: any | null
+  /**
+   *
+   * @type {ChannelTypeEnum}
+   * @memberof ChannelCounts
+   */
+  channel_type: ChannelTypeEnum
+  /**
+   *
+   * @type {any}
+   * @memberof ChannelCounts
+   */
+  configuration?: any | null
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  search_filter?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  public_description?: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  ga_tracking_id?: string
+  /**
+   *
+   * @type {number}
+   * @memberof ChannelCounts
+   */
+  featured_list?: number | null
+  /**
+   *
+   * @type {number}
+   * @memberof ChannelCounts
+   */
+  widget_list?: number | null
+}
+
+/**
  * Write serializer for Channel. Uses primary keys for referenced objects during requests, and delegates to ChannelSerializer for responses.
  * @export
  * @interface ChannelCreateRequest
@@ -2889,6 +2999,58 @@ export const ChannelsApiAxiosParamCreator = function (
 ) {
   return {
     /**
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
+     * @param {string} channel_type
+     * @param {string} name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    channelsCountsRetrieve: async (
+      channel_type: string,
+      name: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'channel_type' is not null or undefined
+      assertParamExists("channelsCountsRetrieve", "channel_type", channel_type)
+      // verify required parameter 'name' is not null or undefined
+      assertParamExists("channelsCountsRetrieve", "name", name)
+      const localVarPath = `/api/v0/channels/counts/{channel_type}/{name}/`
+        .replace(
+          `{${"channel_type"}}`,
+          encodeURIComponent(String(channel_type)),
+        )
+        .replace(`{${"name"}}`, encodeURIComponent(String(name)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {ChannelCreateRequest} ChannelCreateRequest
@@ -3366,6 +3528,38 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ChannelsApiAxiosParamCreator(configuration)
   return {
     /**
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
+     * @param {string} channel_type
+     * @param {string} name
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async channelsCountsRetrieve(
+      channel_type: string,
+      name: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChannelCounts>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.channelsCountsRetrieve(
+          channel_type,
+          name,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["ChannelsApi.channelsCountsRetrieve"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
      * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {ChannelCreateRequest} ChannelCreateRequest
@@ -3660,6 +3854,25 @@ export const ChannelsApiFactory = function (
   const localVarFp = ChannelsApiFp(configuration)
   return {
     /**
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
+     * @param {ChannelsApiChannelsCountsRetrieveRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    channelsCountsRetrieve(
+      requestParameters: ChannelsApiChannelsCountsRetrieveRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<ChannelCounts> {
+      return localVarFp
+        .channelsCountsRetrieve(
+          requestParameters.channel_type,
+          requestParameters.name,
+          options,
+        )
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
@@ -3816,6 +4029,27 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
   }
+}
+
+/**
+ * Request parameters for channelsCountsRetrieve operation in ChannelsApi.
+ * @export
+ * @interface ChannelsApiChannelsCountsRetrieveRequest
+ */
+export interface ChannelsApiChannelsCountsRetrieveRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelsApiChannelsCountsRetrieve
+   */
+  readonly channel_type: string
+
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelsApiChannelsCountsRetrieve
+   */
+  readonly name: string
 }
 
 /**
@@ -3993,6 +4227,27 @@ export interface ChannelsApiChannelsTypeRetrieveRequest {
  * @extends {BaseAPI}
  */
 export class ChannelsApi extends BaseAPI {
+  /**
+   * View for retrieving an individual channel by type and name
+   * @summary Channel Detail Lookup by channel type and name
+   * @param {ChannelsApiChannelsCountsRetrieveRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ChannelsApi
+   */
+  public channelsCountsRetrieve(
+    requestParameters: ChannelsApiChannelsCountsRetrieveRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ChannelsApiFp(this.configuration)
+      .channelsCountsRetrieve(
+        requestParameters.channel_type,
+        requestParameters.name,
+        options,
+      )
+      .then((request) => request(this.axios, this.basePath))
+  }
+
   /**
    * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Create

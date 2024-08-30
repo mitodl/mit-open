@@ -161,24 +161,8 @@ class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer)
 
 
 class ChannelCountsSerializer(serializers.ModelSerializer):
-    lists = serializers.SerializerMethodField()
     counts = serializers.SerializerMethodField(read_only=True)
     channel_url = serializers.SerializerMethodField(read_only=True)
-    featured_list = LearningPathPreviewSerializer(
-        allow_null=True,
-        many=False,
-        read_only=True,
-        help_text="Learning path featured in this channel.",
-    )
-    sub_channels = SubChannelSerializer(many=True, read_only=True)
-
-    @extend_schema_field(LearningPathPreviewSerializer(many=True))
-    def get_lists(self, instance):
-        """Return the channel's list of LearningPaths"""
-        return [
-            LearningPathPreviewSerializer(channel_list.channel_list).data
-            for channel_list in instance.lists.all()
-        ]
 
     def get_channel_url(self, instance) -> str:
         """Get the URL for the channel"""
