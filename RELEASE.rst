@@ -1,6 +1,21 @@
 Release Notes
 =============
 
+Version 0.17.12 (Released August 29, 2024)
+---------------
+
+- Remove Pathways (Coming Soon) (#1482)
+- add to list dialog updates (#1463)
+- Fix syntax that a pre-commit check was failing (#1480)
+
+Version 0.17.11 (Released August 29, 2024)
+---------------
+
+- Switched imagekit caching from in-memory to redis (#1475)
+- [pre-commit.ci] pre-commit autoupdate (#1468)
+- OCW course completeness score (#1461)
+- Shanbady/fix multiple instances of subscriptions (#1469)
+
 Version 0.17.10 (Released August 28, 2024)
 ---------------
 

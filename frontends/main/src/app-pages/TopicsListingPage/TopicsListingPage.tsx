@@ -43,7 +43,7 @@ type TopicBoxHeaderProps = {
 const TopicBoxHeader = styled(
   ({ title, icon, href, className }: TopicBoxHeaderProps) => {
     return (
-      <Typography variant="h5" component="h3" className={className}>
+      <Typography variant="h5" component="h2" className={className}>
         <Link href={href ?? ""}>
           <RootTopicIcon icon={icon} aria-hidden="true" />
           <span>

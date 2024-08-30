@@ -186,8 +186,8 @@ describe.each([
       user: { is_learning_path_editor: true },
     })
     invariant(resource)
-    const cardTitle = screen.getByRole("heading", { name: resource.title })
-    await user.click(cardTitle)
+    const link = screen.getByRole("link", { name: new RegExp(resource.title) })
+    await user.click(link)
     expect(
       new URLSearchParams(location.current.search).get(
         RESOURCE_DRAWER_QUERY_PARAM,

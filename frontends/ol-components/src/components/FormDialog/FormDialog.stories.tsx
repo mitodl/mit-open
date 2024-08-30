@@ -72,6 +72,5 @@ export const Simple: Story = {
   args: {
     title: "Form Title",
     fullWidth: true,
-    footerContent: "Footer content",
   },
 }

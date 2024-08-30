@@ -147,6 +147,11 @@ const globalSettings: ThemeOptions["typography"] = {
 const component: NonNullable<ThemeOptions["components"]>["MuiTypography"] = {
   defaultProps: {
     variantMapping: {
+      h1: "span",
+      h2: "span",
+      h3: "span",
+      h4: "span",
+      h5: "span",
       body1: "p",
       body2: "p",
       body3: "p",

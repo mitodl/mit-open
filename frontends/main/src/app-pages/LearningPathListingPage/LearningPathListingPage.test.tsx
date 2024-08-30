@@ -45,13 +45,10 @@ describe("LearningPathListingPage", () => {
   it("Renders a card for each learning path", async () => {
     const { paths } = setup()
     const titles = paths.results.map((resource) => resource.title)
-    const headings = await screen.findAllByRole("heading", {
-      name: (value) => titles.includes(value),
+    const cards = await screen.findAllByRole("link", {
+      name: (name) => titles.some((title) => name.includes(title)),
     })
-
-    // for sanity
-    expect(headings.length).toBeGreaterThan(0)
-    expect(titles.length).toBe(headings.length)
+    expect(cards.length).toBeGreaterThan(0) // sanity
   })
 
   it.each([
@@ -67,8 +64,8 @@ describe("LearningPathListingPage", () => {
 
       // Ensure the lists have loaded
       const path = paths.results[0]
-      await screen.findAllByRole("heading", {
-        name: path.title,
+      await screen.findAllByRole("link", {
+        name: new RegExp(path.title),
       })
       const menuButton = screen.queryByRole("button", {
         name: `Edit list ${path.title}`,
@@ -136,7 +133,9 @@ describe("LearningPathListingPage", () => {
   test("Clicking on list title navigates to list page", async () => {
     const { location, paths } = setup()
     const path = faker.helpers.arrayElement(paths.results)
-    const listTitle = await screen.findByRole("heading", { name: path.title })
+    const listTitle = await screen.findByRole("link", {
+      name: new RegExp(path.title),
+    })
     await user.click(listTitle)
     expect(location.current).toEqual(
       expect.objectContaining({

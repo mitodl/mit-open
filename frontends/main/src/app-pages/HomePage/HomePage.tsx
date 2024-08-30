@@ -45,15 +45,22 @@ const HomePage: React.FC = () => {
       <FullWidthBackground>
         <Container>
           <HeroSearch />
-          <FeaturedCoursesCarousel
-            title="Featured Courses"
-            config={carousels.FEATURED_RESOURCES_CAROUSEL}
-          />
+          <section>
+            <FeaturedCoursesCarousel
+              titleComponent="h2"
+              title="Featured Courses"
+              config={carousels.FEATURED_RESOURCES_CAROUSEL}
+            />
+          </section>
         </Container>
       </FullWidthBackground>
       <PersonalizeSection />
-      <Container>
-        <MediaCarousel title="Media" config={carousels.MEDIA_CAROUSEL} />
+      <Container component="section">
+        <MediaCarousel
+          titleComponent="h2"
+          title="Media"
+          config={carousels.MEDIA_CAROUSEL}
+        />
       </Container>
       <BrowseTopicsSection />
       <TestimonialsSection />

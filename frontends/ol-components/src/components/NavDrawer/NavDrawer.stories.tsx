@@ -24,13 +24,6 @@ const NavDrawerDemo = () => {
             title: "Link but no description",
             href: "https://ocw.mit.edu",
           },
-          {
-            title: "Description, but no link",
-            description: "This item has a description, but no link",
-          },
-          {
-            title: "Title only",
-          },
         ],
       },
     ],

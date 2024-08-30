@@ -182,7 +182,16 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.tsx?$/,
-          use: "swc-loader",
+          use: {
+            loader: "swc-loader",
+            options: {
+              jsc: {
+                experimental: {
+                  plugins: [["@swc/plugin-emotion", {}]],
+                },
+              },
+            },
+          },
           exclude: /node_modules/,
         },
         {

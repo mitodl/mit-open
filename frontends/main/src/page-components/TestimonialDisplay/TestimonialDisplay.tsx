@@ -40,7 +40,7 @@ const TestimonialTruncateText = styled(TruncateText)({
   },
 })
 
-const QuoteContainer = styled.section(({ theme }) => ({
+const QuoteContainer = styled.div(({ theme }) => ({
   backgroundColor: theme.custom.colors.darkGray2,
   color: theme.custom.colors.white,
   overflow: "auto",

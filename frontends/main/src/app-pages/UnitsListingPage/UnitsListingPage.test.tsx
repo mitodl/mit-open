@@ -3,6 +3,7 @@ import { renderWithProviders, screen, waitFor, within } from "@/test-utils"
 import type { LearningResourcesSearchResponse } from "api"
 import UnitsListingPage from "./UnitsListingPage"
 import { factories, setMockResponse, urls } from "api/test-utils"
+import { assertHeadings } from "ol-test-utilities"
 
 const makeSearchResponse = (
   aggregations: Record<string, number>,
@@ -174,5 +175,16 @@ describe("DepartmentListingPage", () => {
         }
       })
     })
+  })
+
+  test("headings", async () => {
+    setupApis()
+    renderWithProviders(<UnitsListingPage />)
+
+    assertHeadings([
+      { level: 1, name: "Academic & Professional Learning" },
+      { level: 2, name: "Academic Units" },
+      { level: 2, name: "Professional Units" },
+    ])
   })
 })

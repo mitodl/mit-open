@@ -100,7 +100,7 @@ const PageHeaderText = styled(Typography)(({ theme }) => ({
   ...theme.typography.subtitle1,
 }))
 
-const UnitContainer = styled.div(({ theme }) => ({
+const UnitContainer = styled.section(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
@@ -120,7 +120,8 @@ const UnitTitleContainer = styled.div({
   paddingBottom: "16px",
 })
 
-const UnitTitle = styled(Typography)(({ theme }) => ({
+const UnitTitle = styled.h2(({ theme }) => ({
+  margin: 0,
   color: theme.custom.colors.darkGray2,
   ...theme.typography.h4,
 }))

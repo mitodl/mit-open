@@ -175,11 +175,14 @@ describe("ItemsListing", () => {
         />,
         { user: {} },
       )
+
       const titles = items.map((item) => item.resource.title)
-      const headings = screen.getAllByRole("heading", {
-        name: (value) => titles.includes(value),
+
+      const role = sortable ? "button" : "link"
+      const cards = screen.getAllByRole(role, {
+        name: (value) => titles.some((title) => value.includes(title)),
       })
-      expect(headings.map((h) => h.textContent)).toEqual(titles)
+      expect(cards.length).toBe(titles.length)
 
       if (sortable) {
         items.forEach(({ resource }) => {
@@ -320,23 +323,24 @@ describe.each([ListType.LearningPath, ListType.UserList])(
       const patchResponse = new ControlledPromise<void>()
       setMockResponse.patch(patchUrl(listType, active.id), patchResponse)
 
-      const titleEls1 = screen.getAllByRole("heading", {
-        name: (value) => titles.includes(value),
+      // dnd-kit draggables have role button (+ a roledescription)
+      const cards1 = screen.getAllByRole("button", {
+        name: (value) => titles.some((title) => value.includes(title)),
       })
-      expect(titleEls1.map((el) => el.textContent)).toEqual(titles)
+      expect(cards1.length).toBe(titles.length)
 
       act(() => simulateDrag(from, to))
 
       await waitFor(() => {
-        const titleEls2 = screen.getAllByRole("heading", {
-          name: (value) => titles.includes(value),
+        const cards2 = screen.getAllByRole("button", {
+          name: (value) => titles.some((title) => value.includes(title)),
         })
-        expect(titleEls2).toEqual([
-          titleEls1[0],
-          titleEls1[2],
-          titleEls1[3],
-          titleEls1[1],
-          titleEls1[4],
+        expect(cards2).toEqual([
+          cards1[0],
+          cards1[2],
+          cards1[3],
+          cards1[1],
+          cards1[4],
         ])
       })
     })

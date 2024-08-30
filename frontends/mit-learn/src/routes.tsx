@@ -35,7 +35,7 @@ const PageWrapper = styled.div({
   flexDirection: "column",
 })
 
-const PageWrapperInner = styled.div({
+const PageWrapperInner = styled.main({
   flex: "1",
 })
 

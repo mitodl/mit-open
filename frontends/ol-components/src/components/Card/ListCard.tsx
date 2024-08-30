@@ -102,7 +102,7 @@ export const Info = styled.div`
   align-items: center;
 `
 
-export const Title = styled.h3`
+export const Title = styled.span`
   flex-grow: 1;
   color: ${theme.custom.colors.darkGray2};
   text-overflow: ellipsis;

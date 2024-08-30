@@ -122,14 +122,6 @@ const UpsertLearningPathDialog = NiceModal.create(
         onSubmit={formik.handleSubmit}
         confirmText="Save"
         noValidate
-        footerContent={
-          mutation.isError &&
-          !formik.isSubmitting && (
-            <Alert severity="error">
-              There was a problem saving your list. Please try again later.
-            </Alert>
-          )
-        }
       >
         <TextField
           required
@@ -191,6 +183,11 @@ const UpsertLearningPathDialog = NiceModal.create(
           value={formik.values.published}
           onChange={(e) => formik.setFieldValue(e.name, e.value)}
         />
+        {mutation.isError && !formik.isSubmitting && (
+          <Alert severity="error">
+            There was a problem saving your list. Please try again later.
+          </Alert>
+        )}
       </FormDialog>
     )
   },
@@ -242,14 +239,6 @@ const UpsertUserListDialog = NiceModal.create(
         onSubmit={formik.handleSubmit}
         confirmText={userList ? "Update" : "Create"}
         noValidate
-        footerContent={
-          mutation.isError &&
-          !formik.isSubmitting && (
-            <Alert severity="error">
-              There was a problem saving your list. Please try again later.
-            </Alert>
-          )
-        }
       >
         <TextField
           required
@@ -277,6 +266,11 @@ const UpsertUserListDialog = NiceModal.create(
           multiline
           minRows={3}
         />
+        {mutation.isError && !formik.isSubmitting && (
+          <Alert severity="error">
+            There was a problem saving your list. Please try again later.
+          </Alert>
+        )}
         {userList && (
           <div>
             <Button

@@ -1,6 +1,6 @@
 import React from "react"
 import Link from "next/link"
-import { screen, render, act } from "@testing-library/react"
+import { screen, render } from "@testing-library/react"
 import { LearningResourceCard } from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"
 import { DEFAULT_RESOURCE_IMG, embedlyCroppedImage } from "ol-utilities"
@@ -12,10 +12,7 @@ const setup = (props: LearningResourceCardProps) => {
   // TODO Browser Router will need to be replaced with a Next.js router mock or alternative strategy
   return render(
     <BrowserRouter>
-      <LearningResourceCard
-        resource={props.resource}
-        href={`?resource=${props.resource?.id}`}
-      />
+      <LearningResourceCard {...props} />
     </BrowserRouter>,
     { wrapper: ThemeProvider },
   )
@@ -31,7 +28,7 @@ describe("Learning Resource Card", () => {
     setup({ resource })
 
     screen.getByText("Course")
-    screen.getByRole("heading", { name: resource.title })
+    screen.getByText(resource.title)
     screen.getByText("Starts:")
     screen.getByText("January 01, 2026")
   })
@@ -95,20 +92,18 @@ describe("Learning Resource Card", () => {
     },
   )
 
-  test("Click to navigate", async () => {
+  test("Links to specified href", async () => {
     const resource = factories.learningResources.resource({
       resource_type: ResourceTypeEnum.Course,
       platform: { code: PlatformEnum.Ocw },
     })
 
-    setup({ resource })
+    setup({ resource, href: "/path/to/thing" })
 
-    const heading = screen.getByRole("heading", { name: resource.title })
-    await act(async () => {
-      await heading.click()
+    const link = screen.getByRole<HTMLAnchorElement>("link", {
+      name: new RegExp(resource.title),
     })
-
-    expect(window.location.search).toBe(`?resource=${resource.id}`)
+    expect(new URL(link.href).pathname).toBe("/path/to/thing")
   })
 
   test("Click action buttons", async () => {

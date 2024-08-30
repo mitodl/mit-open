@@ -5,7 +5,7 @@ import type { InputProps } from "ol-components"
 
 const StyledInput = styled(Input)(({ theme }) => ({
   height: "72px",
-  borderRadius: "6px",
+  boxShadow: "0px 8px 20px 0px rgba(120, 147, 172, 0.10)",
   "&.MuiInputBase-adornedEnd": {
     paddingRight: "0 !important",
   },
@@ -32,6 +32,15 @@ const StyledAdornmentButton = styled(AdornmentButton)(({ theme }) => ({
     },
   },
 }))
+
+const StyledClearButton = styled(StyledAdornmentButton)({
+  ".MuiInputBase-sizeHero &": {
+    width: "32px",
+    ["&:hover"]: {
+      backgroundColor: "transparent",
+    },
+  },
+})
 
 export interface SearchSubmissionEvent {
   target: {
@@ -95,13 +104,13 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
       endAdornment={
         <>
           {props.value && (
-            <StyledAdornmentButton
+            <StyledClearButton
               className={props.classNameClear}
               aria-label="Clear search text"
               onClick={props.onClear}
             >
               <RiCloseLine />
-            </StyledAdornmentButton>
+            </StyledClearButton>
           )}
           <StyledAdornmentButton
             aria-label="Search"

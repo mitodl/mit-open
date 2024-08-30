@@ -8,7 +8,7 @@ import { renderWithProviders } from "@/test-utils"
 const userListFactory = factories.userLists
 
 describe("UserListCard", () => {
-  it("renders title and cover image", () => {
+  it("renders title", () => {
     const userList = userListFactory.userList()
     renderWithProviders(
       <UserListCardCondensed
@@ -16,7 +16,6 @@ describe("UserListCard", () => {
         userList={userList}
       />,
     )
-    const heading = screen.getByRole("heading", { name: userList.title })
-    expect(heading).toHaveAccessibleName(userList.title)
+    screen.getByText(userList.title)
   })
 })

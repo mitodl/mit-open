@@ -7,6 +7,7 @@ import {
   Grid,
   useMuiBreakpointAtLeast,
   Card,
+  TypographyProps,
 } from "ol-components"
 import {
   useNewsEventsList,
@@ -24,7 +25,7 @@ const Section = styled.section`
   }
 `
 
-const Title = styled(Typography)`
+const Title = styled(Typography)<Pick<TypographyProps, "component">>`
   text-align: center;
   margin-bottom: 8px;
 `
@@ -233,7 +234,9 @@ const NewsEventsSection: React.FC = () => {
 
   return (
     <Section>
-      <Title variant="h2">MIT Stories & Events</Title>
+      <Title component="h2" variant="h2">
+        MIT Stories & Events
+      </Title>
       <StrapLine>
         See what's happening in the world of learning with the latest news,
         insights, and upcoming events at MIT.
@@ -241,7 +244,9 @@ const NewsEventsSection: React.FC = () => {
       {isMobile ? (
         <MobileContent>
           <MobileContainer>
-            <Typography variant="h4">Stories</Typography>
+            <Typography component="h3" variant="h4">
+              Stories
+            </Typography>
             <StoriesSlider>
               {stories.map((item) => (
                 <Story
@@ -253,7 +258,9 @@ const NewsEventsSection: React.FC = () => {
             </StoriesSlider>
           </MobileContainer>
           <MobileContainer>
-            <Typography variant="h4">Events</Typography>
+            <Typography component="h3" variant="h4">
+              Events
+            </Typography>
             <MobileEvents>{EventCards}</MobileEvents>
           </MobileContainer>
         </MobileContent>
@@ -261,7 +268,9 @@ const NewsEventsSection: React.FC = () => {
         <Container>
           <Content>
             <StoriesContainer>
-              <Typography variant="h4">Stories</Typography>
+              <Typography component="h3" variant="h4">
+                Stories
+              </Typography>
               <Grid container columnSpacing="24px" rowSpacing="28px">
                 {stories.map((item) => (
                   <Grid item key={item.id} xs={12} sm={12} md={6} lg={4} xl={4}>
@@ -271,7 +280,9 @@ const NewsEventsSection: React.FC = () => {
               </Grid>
             </StoriesContainer>
             <EventsContainer>
-              <Typography variant="h4">Events</Typography>
+              <Typography component="h3" variant="h4">
+                Events
+              </Typography>
               <Events>{EventCards}</Events>
             </EventsContainer>
           </Content>

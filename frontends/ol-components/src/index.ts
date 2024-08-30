@@ -65,11 +65,11 @@ export type { ContainerProps } from "@mui/material/Container"
 
 export { default as MuiDialog } from "@mui/material/Dialog"
 export type { DialogProps as MuiDialogProps } from "@mui/material/Dialog"
-export { default as DialogActions } from "@mui/material/DialogActions"
+export { default as MuiDialogActions } from "@mui/material/DialogActions"
 export type { DialogActionsProps } from "@mui/material/DialogActions"
-export { default as DialogContent } from "@mui/material/DialogContent"
+export { default as MuiDialogContent } from "@mui/material/DialogContent"
 export type { DialogContentProps } from "@mui/material/DialogContent"
-export { default as DialogTitle } from "@mui/material/DialogTitle"
+export { default as MuiDialogTitle } from "@mui/material/DialogTitle"
 export type { DialogTitleProps } from "@mui/material/DialogTitle"
 
 export { default as Divider } from "@mui/material/Divider"
@@ -194,6 +194,7 @@ export * from "./components/ThemeProvider/ThemeProvider"
 export * from "./components/TruncateText/TruncateText"
 export * from "./components/Radio/Radio"
 export * from "./components/RadioChoiceField/RadioChoiceField"
+export * from "./components/VisuallyHidden/VisuallyHidden"
 
 export * from "./constants/imgConfigs"
 

@@ -16,8 +16,8 @@ import {
   SEARCH_UPCOMING,
 } from "@/common/urls"
 import {
-  RiAddBoxLine,
   RiAwardLine,
+  RiFileAddLine,
   RiSearch2Line,
   RiThumbUpLine,
   RiTimeLine,
@@ -37,7 +37,7 @@ const SEARCH_CHIPS: SearchChip[] = [
     label: "Recently Added",
     href: SEARCH_NEW,
     variant: "outlinedWhite",
-    icon: <RiTimeLine />,
+    icon: <RiFileAddLine />,
   },
   {
     label: "Popular",
@@ -49,7 +49,7 @@ const SEARCH_CHIPS: SearchChip[] = [
     label: "Upcoming",
     href: SEARCH_UPCOMING,
     variant: "outlinedWhite",
-    icon: <RiAddBoxLine />,
+    icon: <RiTimeLine />,
   },
   {
     label: "Free",
@@ -66,7 +66,7 @@ const SEARCH_CHIPS: SearchChip[] = [
   {
     label: "Explore All",
     href: "/search/",
-    variant: "gray",
+    variant: "outlined",
     icon: <RiSearch2Line />,
   },
 ]
@@ -144,10 +144,31 @@ const TopicLink = styled(Link)({
   textDecoration: "underline",
 })
 
-const StyledChipLink = styled(ChipLink)(({ theme, variant }) => [
-  variant === "outlinedWhite" ?? {
+const TrendingChip = styled(ChipLink)(({ theme, variant }) => [
+  {
+    height: "32px",
+    padding: "8px 16px",
+    ".MuiChip-icon": {
+      marginRight: "4px",
+    },
+  },
+  variant === "outlinedWhite" && {
     borderColor: theme.custom.colors.lightGray2,
     color: theme.custom.colors.silverGrayDark,
+    "&:hover": {
+      backgroundColor: `${theme.custom.colors.lightGray1} !important`,
+      borderColor: `${theme.custom.colors.silverGrayLight} !important`,
+      color: theme.custom.colors.darkGray2,
+    },
+  },
+  variant === "outlined" && {
+    backgroundColor: theme.custom.colors.lightGray2,
+    color: theme.custom.colors.darkGray2,
+    borderColor: theme.custom.colors.lightGray2,
+    "&:hover": {
+      backgroundColor: `${theme.custom.colors.lightGray2} !important`,
+      borderColor: theme.custom.colors.silverGray,
+    },
   },
 ])
 
@@ -188,6 +209,7 @@ const HeroSearch: React.FC = () => {
     <HeroWrapper>
       <TitleAndControls>
         <Typography
+          component="h1"
           typography={{ xs: "h3", md: "h1" }}
           sx={{ paddingBottom: 1 }}
         >
@@ -222,7 +244,7 @@ const HeroSearch: React.FC = () => {
             </BrowseByTopicContainer>
             <TrendingContainer>
               {SEARCH_CHIPS.map((chip) => (
-                <StyledChipLink
+                <TrendingChip
                   key={chip.label}
                   variant={chip.variant}
                   size="medium"
