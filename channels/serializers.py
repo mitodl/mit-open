@@ -160,6 +160,47 @@ class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer)
         exclude = ["published"]
 
 
+class ChannelCountsSerializer(serializers.ModelSerializer):
+    lists = serializers.SerializerMethodField()
+    counts = serializers.SerializerMethodField(read_only=True)
+    channel_url = serializers.SerializerMethodField(read_only=True)
+    featured_list = LearningPathPreviewSerializer(
+        allow_null=True,
+        many=False,
+        read_only=True,
+        help_text="Learning path featured in this channel.",
+    )
+    sub_channels = SubChannelSerializer(many=True, read_only=True)
+
+    @extend_schema_field(LearningPathPreviewSerializer(many=True))
+    def get_lists(self, instance):
+        """Return the channel's list of LearningPaths"""
+        return [
+            LearningPathPreviewSerializer(channel_list.channel_list).data
+            for channel_list in instance.lists.all()
+        ]
+
+    def get_channel_url(self, instance) -> str:
+        """Get the URL for the channel"""
+        return instance.channel_url
+
+    def get_counts(self, instance):
+        if instance.channel_type == "unit":
+            resources = instance.unit_detail.unit.learningresource_set.all()
+        elif instance.channel_type == "department":
+            resources = instance.department_detail.department.learningresource_set.all()
+        elif instance.channel_type == "topic":
+            resources = instance.topic_detail.topic.learningresource_set.all()
+
+        course_count = resources.filter(course__isnull=False, published=True).count()
+        program_count = resources.filter(program__isnull=False, published=True).count()
+        return {"courses": course_count, "programs": program_count}
+
+    class Meta:
+        model = Channel
+        exclude = ["published"]
+
+
 class ChannelTopicDetailSerializer(serializers.ModelSerializer):
     """Serializer for the ChannelTopicDetail model"""
 
