@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.17.13
+Version 0.17.13 (Released August 30, 2024)
 ---------------
 
 - Fix a flaky test (#1487)
