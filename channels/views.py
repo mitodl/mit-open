@@ -197,7 +197,7 @@ class ChannelModeratorDetailView(APIView):
 @extend_schema_view(
     retrieve=extend_schema(summary="Channel Detail Lookup by channel type and name"),
 )
-class ChannelCountsView(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
+class ChannelCountsView(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
     View for retrieving an individual channel by type and name
     """
@@ -205,13 +205,11 @@ class ChannelCountsView(mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     serializer_class = ChannelCountsSerializer
     permission_classes = (AnonymousAccessReadonlyPermission,)
 
-    def get_object(self):
+    def get_queryset(self):
         """
         Return the channel by type and name
         """
-        return get_object_or_404(
-            Channel,
+        return Channel.objects.filter(
             channel_type=self.kwargs["channel_type"],
-            name=self.kwargs["name"],
             published=True,
         )

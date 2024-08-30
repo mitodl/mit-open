@@ -175,14 +175,23 @@ class ChannelCountsSerializer(serializers.ModelSerializer):
             resources = instance.department_detail.department.learningresource_set.all()
         elif instance.channel_type == "topic":
             resources = instance.topic_detail.topic.learningresource_set.all()
-
         course_count = resources.filter(course__isnull=False, published=True).count()
         program_count = resources.filter(program__isnull=False, published=True).count()
         return {"courses": course_count, "programs": program_count}
 
     class Meta:
         model = Channel
-        exclude = ["published"]
+        exclude = [
+            "avatar",
+            "published",
+            "banner",
+            "about",
+            "configuration",
+            "public_description",
+            "ga_tracking_id",
+            "featured_list",
+            "widget_list",
+        ]
 
 
 class ChannelTopicDetailSerializer(serializers.ModelSerializer):

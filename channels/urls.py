@@ -21,8 +21,8 @@ v0_urls = [
         name="channel_by_type_name_api-detail",
     ),
     re_path(
-        r"^channels/counts/(?P<channel_type>[A-Za-z0-9_\-]+)/(?P<name>[A-Za-z0-9_\-]+)/$",
-        ChannelCountsView.as_view({"get": "retrieve"}),
+        r"^channels/counts/(?P<channel_type>[A-Za-z0-9_\-]+)/$",
+        ChannelCountsView.as_view({"get": "list"}),
         name="channel_counts_api-detail",
     ),
     re_path(

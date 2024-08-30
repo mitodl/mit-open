@@ -1,8 +1,6 @@
 import React from "react"
-import {
-  useLearningResourcesSearch,
-  useOfferorsList,
-} from "api/hooks/learningResources"
+import { useChannelCounts } from "api/hooks/channels"
+import { useOfferorsList } from "api/hooks/learningResources"
 import {
   Banner,
   Container,
@@ -23,13 +21,22 @@ import MetaTags from "@/page-components/MetaTags/MetaTags"
 const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
 
-const aggregateByUnits = (
+const aggregateProgramCounts = (
   data: LearningResourcesSearchResponse,
 ): Record<string, number> => {
-  const buckets = data.metadata.aggregations["offered_by"] ?? []
   return Object.fromEntries(
-    buckets.map((bucket) => {
-      return [bucket.key, bucket.doc_count]
+    data.map((item) => {
+      return [item.name, item.counts.programs]
+    }),
+  )
+}
+
+const aggregateCourseCounts = (
+  data: LearningResourcesSearchResponse,
+): Record<string, number> => {
+  return Object.fromEntries(
+    data.map((item) => {
+      return [item.name, item.counts.courses]
     }),
   )
 }
@@ -209,20 +216,15 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
 const UnitsListingPage: React.FC = () => {
   const unitsQuery = useOfferorsList()
   const units = unitsQuery.data?.results
-  const courseQuery = useLearningResourcesSearch({
-    resource_type: ["course"],
-    aggregations: ["offered_by"],
-  })
-  const programQuery = useLearningResourcesSearch({
-    resource_type: ["program"],
-    aggregations: ["offered_by"],
-  })
-  const courseCounts = courseQuery.data
-    ? aggregateByUnits(courseQuery.data)
+  const channelCountQuery = useChannelCounts("unit")
+
+  const courseCounts = channelCountQuery.data
+    ? aggregateCourseCounts(channelCountQuery.data)
     : {}
-  const programCounts = programQuery.data
-    ? aggregateByUnits(programQuery.data)
+  const programCounts = channelCountQuery.data
+    ? aggregateProgramCounts(channelCountQuery.data)
     : {}
+
   const academicUnits = sortUnits(
     units?.filter((unit) => unit.professional === false),
     courseCounts,

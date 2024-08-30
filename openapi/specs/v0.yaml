@@ -225,20 +225,13 @@ paths:
       responses:
         '204':
           description: No response body
-  /api/v0/channels/counts/{channel_type}/{name}/:
+  /api/v0/channels/counts/{channel_type}/:
     get:
-      operationId: channels_counts_retrieve
+      operationId: channels_counts_list
       description: View for retrieving an individual channel by type and name
-      summary: Channel Detail Lookup by channel type and name
       parameters:
       - in: path
         name: channel_type
-        schema:
-          type: string
-          pattern: ^[A-Za-z0-9_\-]+$
-        required: true
-      - in: path
-        name: name
         schema:
           type: string
           pattern: ^[A-Za-z0-9_\-]+$
@@ -250,7 +243,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ChannelCounts'
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChannelCounts'
           description: ''
   /api/v0/channels/type/{channel_type}/{name}/:
     get:
@@ -1037,34 +1032,11 @@ components:
         title:
           type: string
           maxLength: 100
-        avatar:
-          type: string
-          format: uri
-          nullable: true
-        banner:
-          type: string
-          format: uri
-          nullable: true
-        about:
-          nullable: true
         channel_type:
           $ref: '#/components/schemas/ChannelTypeEnum'
-        configuration:
-          nullable: true
         search_filter:
           type: string
           maxLength: 2048
-        public_description:
-          type: string
-        ga_tracking_id:
-          type: string
-          maxLength: 24
-        featured_list:
-          type: integer
-          nullable: true
-        widget_list:
-          type: integer
-          nullable: true
       required:
       - channel_type
       - channel_url
