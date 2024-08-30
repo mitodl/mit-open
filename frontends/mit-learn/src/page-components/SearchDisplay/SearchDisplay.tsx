@@ -550,6 +550,9 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
       search_mode: searchParams.get("search_mode"),
       slop: searchParams.get("slop"),
       min_score: searchParams.get("min_score"),
+      max_incompleteness_penalty: searchParams.get(
+        "max_incompleteness_penalty",
+      ),
       ...requestParams,
       aggregations: (facetNames || []).concat([
         "resource_category",
@@ -702,6 +705,28 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
             <ExplanationContainer>
               Minimum relevance score for a search result to be displayed. Only
               affects results if there is a search term.
+            </ExplanationContainer>
+            <AdminTitleContainer>
+              Maximum Incompleteness Penalty
+            </AdminTitleContainer>
+            <SliderInput
+              currentValue={
+                searchParams.get("max_incompleteness_penalty")
+                  ? Number(searchParams.get("max_incompleteness_penalty"))
+                  : 0
+              }
+              setSearchParams={setSearchParams}
+              urlParam="max_incompleteness_penalty"
+              min={0}
+              max={100}
+              step={1}
+            />
+            <ExplanationContainer>
+              Maximum score penalty for incomplete OCW courses in percent. An
+              OCW course with completeness = 0 will have this score penalty.
+              Partially complete courses have a linear penalty proportional to
+              the degree of incompleteness. Only affects results if there is a
+              search term.
             </ExplanationContainer>
           </div>
         ) : null}

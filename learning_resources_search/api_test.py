@@ -1440,10 +1440,54 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
 
 
 @freeze_time("2024-07-20")
-def test_execute_learn_search_with_yearly_decay_percent(mocker, opensearch):
+@pytest.mark.parametrize(
+    ("yearly_decay_percent", "max_incompleteness_penalty"),
+    [
+        (5, 25),
+        (0, 25),
+        (5, 0),
+    ],
+)
+def test_execute_learn_search_with_script_score(
+    mocker, opensearch, yearly_decay_percent, max_incompleteness_penalty
+):
     opensearch.conn.search.return_value = {
         "hits": {"total": {"value": 10, "relation": "eq"}}
     }
+
+    if yearly_decay_percent > 0 and max_incompleteness_penalty > 0:
+        source = (
+            "_score * (doc['completeness'].value * params.max_incompleteness_penalty + "
+            "(1-params.max_incompleteness_penalty)) * (doc['resource_age_date'].size() == 0 ? "
+            "1 : decayDateLinear(params.origin, params.scale, params.offset, params.decay, "
+            "doc['resource_age_date'].value))"
+        )
+        params = {
+            "origin": "2024-07-20T00:00:00.000000Z",
+            "offset": "0",
+            "scale": "365d",
+            "decay": 0.95,
+            "max_incompleteness_penalty": 0.25,
+        }
+    elif yearly_decay_percent > 0:
+        source = (
+            "_score * (doc['resource_age_date'].size() == 0 ? "
+            "1 : decayDateLinear(params.origin, params.scale, params.offset, params.decay, "
+            "doc['resource_age_date'].value))"
+        )
+
+        params = {
+            "origin": "2024-07-20T00:00:00.000000Z",
+            "offset": "0",
+            "scale": "365d",
+            "decay": 0.95,
+        }
+    else:
+        source = (
+            "_score * (doc['completeness'].value * params.max_incompleteness_penalty +"
+            " (1-params.max_incompleteness_penalty))"
+        )
+        params = {"max_incompleteness_penalty": 0.25}
 
     search_params = {
         "aggregations": ["offered_by"],
@@ -1454,7 +1498,8 @@ def test_execute_learn_search_with_yearly_decay_percent(mocker, opensearch):
         "offset": 1,
         "sortby": "-readable_id",
         "endpoint": LEARNING_RESOURCE,
-        "yearly_decay_percent": 5,
+        "yearly_decay_percent": yearly_decay_percent,
+        "max_incompleteness_penalty": max_incompleteness_penalty,
     }
 
     query = {
@@ -1700,13 +1745,8 @@ def test_execute_learn_search_with_yearly_decay_percent(mocker, opensearch):
                     }
                 },
                 "script": {
-                    "source": "doc['resource_age_date'].size() == 0 ? _score : _score * decayDateLinear(params.origin, params.scale, params.offset, params.decay, doc['resource_age_date'].value)",
-                    "params": {
-                        "origin": "2024-07-20T00:00:00.000000Z",
-                        "offset": "0",
-                        "scale": "354d",
-                        "decay": 0.95,
-                    },
+                    "source": source,
+                    "params": params,
                 },
             }
         },
@@ -2115,6 +2155,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
                         "filter": [{"exists": {"field": "resource_type"}}],
                     }
                 },
+                "script": {"params": {}, "source": "_score"},
                 "min_score": 5,
             }
         },

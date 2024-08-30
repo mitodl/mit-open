@@ -430,6 +430,20 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
             "Minimum score value a text query result needs to have to be displayed"
         ),
     )
+    max_incompleteness_penalty = serializers.FloatField(
+        max_value=100,
+        min_value=0,
+        required=False,
+        allow_null=True,
+        default=0,
+        help_text=(
+            "Maximum score penalty for incomplete OCW courses in percent. "
+            "An OCW course with completeness = 0 will have this score penalty. "
+            "Partially complete courses have a linear penalty proportional to "
+            "the degree of incompleteness. Only affects results if there is a "
+            "search term."
+        ),
+    )
 
 
 class ContentFileSearchRequestSerializer(SearchRequestSerializer):

@@ -3584,6 +3584,12 @@ export interface PercolateQuerySubscriptionRequestRequest {
    */
   min_score?: number | null
   /**
+   * Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness = 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof PercolateQuerySubscriptionRequestRequest
+   */
+  max_incompleteness_penalty?: number | null
+  /**
    *
    * @type {SourceTypeEnum}
    * @memberof PercolateQuerySubscriptionRequestRequest
@@ -12221,6 +12227,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesSearchRetrieveLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesSearchRetrieveLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
+     * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
      * @param {Array<LearningResourcesSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
@@ -12249,6 +12256,7 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
       learning_format?: Array<LearningResourcesSearchRetrieveLearningFormatEnum>,
       level?: Array<LearningResourcesSearchRetrieveLevelEnum>,
       limit?: number,
+      max_incompleteness_penalty?: number | null,
       min_score?: number | null,
       offered_by?: Array<LearningResourcesSearchRetrieveOfferedByEnum>,
       offset?: number,
@@ -12322,6 +12330,11 @@ export const LearningResourcesSearchApiAxiosParamCreator = function (
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (max_incompleteness_penalty !== undefined) {
+        localVarQueryParameter["max_incompleteness_penalty"] =
+          max_incompleteness_penalty
       }
 
       if (min_score !== undefined) {
@@ -12417,6 +12430,7 @@ export const LearningResourcesSearchApiFp = function (
      * @param {Array<LearningResourcesSearchRetrieveLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesSearchRetrieveLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
+     * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
      * @param {Array<LearningResourcesSearchRetrieveOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
@@ -12445,6 +12459,7 @@ export const LearningResourcesSearchApiFp = function (
       learning_format?: Array<LearningResourcesSearchRetrieveLearningFormatEnum>,
       level?: Array<LearningResourcesSearchRetrieveLevelEnum>,
       limit?: number,
+      max_incompleteness_penalty?: number | null,
       min_score?: number | null,
       offered_by?: Array<LearningResourcesSearchRetrieveOfferedByEnum>,
       offset?: number,
@@ -12478,6 +12493,7 @@ export const LearningResourcesSearchApiFp = function (
           learning_format,
           level,
           limit,
+          max_incompleteness_penalty,
           min_score,
           offered_by,
           offset,
@@ -12544,6 +12560,7 @@ export const LearningResourcesSearchApiFactory = function (
           requestParameters.learning_format,
           requestParameters.level,
           requestParameters.limit,
+          requestParameters.max_incompleteness_penalty,
           requestParameters.min_score,
           requestParameters.offered_by,
           requestParameters.offset,
@@ -12646,6 +12663,13 @@ export interface LearningResourcesSearchApiLearningResourcesSearchRetrieveReques
    * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
    */
   readonly limit?: number
+
+  /**
+   * Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesSearchApiLearningResourcesSearchRetrieve
+   */
+  readonly max_incompleteness_penalty?: number | null
 
   /**
    * Minimum score value a text query result needs to have to be displayed
@@ -12771,6 +12795,7 @@ export class LearningResourcesSearchApi extends BaseAPI {
         requestParameters.learning_format,
         requestParameters.level,
         requestParameters.limit,
+        requestParameters.max_incompleteness_penalty,
         requestParameters.min_score,
         requestParameters.offered_by,
         requestParameters.offset,
@@ -13006,6 +13031,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionCheckListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
+     * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
      * @param {Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
@@ -13035,6 +13061,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       learning_format?: Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionCheckListLevelEnum>,
       limit?: number,
+      max_incompleteness_penalty?: number | null,
       min_score?: number | null,
       offered_by?: Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>,
       offset?: number,
@@ -13109,6 +13136,11 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (max_incompleteness_penalty !== undefined) {
+        localVarQueryParameter["max_incompleteness_penalty"] =
+          max_incompleteness_penalty
       }
 
       if (min_score !== undefined) {
@@ -13195,6 +13227,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
+     * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
      * @param {Array<LearningResourcesUserSubscriptionListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
@@ -13223,6 +13256,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       learning_format?: Array<LearningResourcesUserSubscriptionListLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionListLevelEnum>,
       limit?: number,
+      max_incompleteness_penalty?: number | null,
       min_score?: number | null,
       offered_by?: Array<LearningResourcesUserSubscriptionListOfferedByEnum>,
       offset?: number,
@@ -13296,6 +13330,11 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (max_incompleteness_penalty !== undefined) {
+        localVarQueryParameter["max_incompleteness_penalty"] =
+          max_incompleteness_penalty
       }
 
       if (min_score !== undefined) {
@@ -13378,6 +13417,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
+     * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
@@ -13408,6 +13448,7 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
       learning_format?: Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>,
       limit?: number,
+      max_incompleteness_penalty?: number | null,
       min_score?: number | null,
       offered_by?: Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>,
       offset?: number,
@@ -13483,6 +13524,11 @@ export const LearningResourcesUserSubscriptionApiAxiosParamCreator = function (
 
       if (limit !== undefined) {
         localVarQueryParameter["limit"] = limit
+      }
+
+      if (max_incompleteness_penalty !== undefined) {
+        localVarQueryParameter["max_incompleteness_penalty"] =
+          max_incompleteness_penalty
       }
 
       if (min_score !== undefined) {
@@ -13640,6 +13686,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionCheckListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
+     * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
      * @param {Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
@@ -13669,6 +13716,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       learning_format?: Array<LearningResourcesUserSubscriptionCheckListLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionCheckListLevelEnum>,
       limit?: number,
+      max_incompleteness_penalty?: number | null,
       min_score?: number | null,
       offered_by?: Array<LearningResourcesUserSubscriptionCheckListOfferedByEnum>,
       offset?: number,
@@ -13703,6 +13751,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           learning_format,
           level,
           limit,
+          max_incompleteness_penalty,
           min_score,
           offered_by,
           offset,
@@ -13746,6 +13795,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionListLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionListLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
+     * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
      * @param {Array<LearningResourcesUserSubscriptionListOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
@@ -13774,6 +13824,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       learning_format?: Array<LearningResourcesUserSubscriptionListLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionListLevelEnum>,
       limit?: number,
+      max_incompleteness_penalty?: number | null,
       min_score?: number | null,
       offered_by?: Array<LearningResourcesUserSubscriptionListOfferedByEnum>,
       offset?: number,
@@ -13807,6 +13858,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           learning_format,
           level,
           limit,
+          max_incompleteness_penalty,
           min_score,
           offered_by,
           offset,
@@ -13849,6 +13901,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>} [learning_format] The format(s) in which the learning resource is offered               * &#x60;online&#x60; - Online * &#x60;hybrid&#x60; - Hybrid * &#x60;in_person&#x60; - In person
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>} [level]
      * @param {number} [limit] Number of results to return per page
+     * @param {number | null} [max_incompleteness_penalty] Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
      * @param {number | null} [min_score] Minimum score value a text query result needs to have to be displayed
      * @param {Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>} [offered_by] The organization that offers the learning resource               * &#x60;mitx&#x60; - MITx * &#x60;ocw&#x60; - MIT OpenCourseWare * &#x60;bootcamps&#x60; - Bootcamps * &#x60;xpro&#x60; - MIT xPRO * &#x60;mitpe&#x60; - MIT Professional Education * &#x60;see&#x60; - MIT Sloan Executive Education
      * @param {number} [offset] The initial index from which to return the results
@@ -13879,6 +13932,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
       learning_format?: Array<LearningResourcesUserSubscriptionSubscribeCreateLearningFormatEnum>,
       level?: Array<LearningResourcesUserSubscriptionSubscribeCreateLevelEnum>,
       limit?: number,
+      max_incompleteness_penalty?: number | null,
       min_score?: number | null,
       offered_by?: Array<LearningResourcesUserSubscriptionSubscribeCreateOfferedByEnum>,
       offset?: number,
@@ -13911,6 +13965,7 @@ export const LearningResourcesUserSubscriptionApiFp = function (
           learning_format,
           level,
           limit,
+          max_incompleteness_penalty,
           min_score,
           offered_by,
           offset,
@@ -14010,6 +14065,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.learning_format,
           requestParameters.level,
           requestParameters.limit,
+          requestParameters.max_incompleteness_penalty,
           requestParameters.min_score,
           requestParameters.offered_by,
           requestParameters.offset,
@@ -14052,6 +14108,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.learning_format,
           requestParameters.level,
           requestParameters.limit,
+          requestParameters.max_incompleteness_penalty,
           requestParameters.min_score,
           requestParameters.offered_by,
           requestParameters.offset,
@@ -14093,6 +14150,7 @@ export const LearningResourcesUserSubscriptionApiFactory = function (
           requestParameters.learning_format,
           requestParameters.level,
           requestParameters.limit,
+          requestParameters.max_incompleteness_penalty,
           requestParameters.min_score,
           requestParameters.offered_by,
           requestParameters.offset,
@@ -14215,6 +14273,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
    */
   readonly limit?: number
+
+  /**
+   * Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionCheckList
+   */
+  readonly max_incompleteness_penalty?: number | null
 
   /**
    * Minimum score value a text query result needs to have to be displayed
@@ -14399,6 +14464,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly limit?: number
 
   /**
+   * Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
+   */
+  readonly max_incompleteness_penalty?: number | null
+
+  /**
    * Minimum score value a text query result needs to have to be displayed
    * @type {number}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionList
@@ -14574,6 +14646,13 @@ export interface LearningResourcesUserSubscriptionApiLearningResourcesUserSubscr
   readonly limit?: number
 
   /**
+   * Maximum score penalty for incomplete OCW courses in percent. An OCW course with completeness &#x3D; 0 will have this score penalty. Partially complete courses have a linear penalty proportional to the degree of incompleteness. Only affects results if there is a search term.
+   * @type {number}
+   * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
+   */
+  readonly max_incompleteness_penalty?: number | null
+
+  /**
    * Minimum score value a text query result needs to have to be displayed
    * @type {number}
    * @memberof LearningResourcesUserSubscriptionApiLearningResourcesUserSubscriptionSubscribeCreate
@@ -14725,6 +14804,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.learning_format,
         requestParameters.level,
         requestParameters.limit,
+        requestParameters.max_incompleteness_penalty,
         requestParameters.min_score,
         requestParameters.offered_by,
         requestParameters.offset,
@@ -14769,6 +14849,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.learning_format,
         requestParameters.level,
         requestParameters.limit,
+        requestParameters.max_incompleteness_penalty,
         requestParameters.min_score,
         requestParameters.offered_by,
         requestParameters.offset,
@@ -14812,6 +14893,7 @@ export class LearningResourcesUserSubscriptionApi extends BaseAPI {
         requestParameters.learning_format,
         requestParameters.level,
         requestParameters.limit,
+        requestParameters.max_incompleteness_penalty,
         requestParameters.min_score,
         requestParameters.offered_by,
         requestParameters.offset,
