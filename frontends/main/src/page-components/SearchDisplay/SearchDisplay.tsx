@@ -549,6 +549,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
       yearly_decay_percent: searchParams.get("yearly_decay_percent"),
       search_mode: searchParams.get("search_mode"),
       slop: searchParams.get("slop"),
+      min_score: searchParams.get("min_score"),
       ...requestParams,
       aggregations: (facetNames || []).concat([
         "resource_category",
@@ -685,6 +686,23 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 </ExplanationContainer>
               </div>
             ) : null}
+            <AdminTitleContainer>Minimum Score Cutoff</AdminTitleContainer>
+            <SliderInput
+              currentValue={
+                searchParams.get("min_score")
+                  ? Number(searchParams.get("min_score"))
+                  : 0
+              }
+              setSearchParams={setSearchParams}
+              urlParam="min_score"
+              min={0}
+              max={20}
+              step={0.5}
+            />
+            <ExplanationContainer>
+              Minimum relevance score for a search result to be displayed. Only
+              affects results if there is a search term.
+            </ExplanationContainer>
           </div>
         ) : null}
       </div>

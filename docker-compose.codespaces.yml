@@ -10,7 +10,6 @@ services:
     extends:
       file: docker-compose.yml
       service: redis
-    env_file: env/codespaces.env
   web:
     profiles:
       - backend
@@ -20,6 +19,8 @@ services:
     mem_limit: 1gb
     cpus: 2
     env_file: env/codespaces.env
+    environment:
+      PORT: 8061
     command: ./scripts/run-django-dev.sh
     stdin_open: true
     tty: true
@@ -72,7 +73,6 @@ services:
     extends:
       file: docker-compose.yml
       service: tika
-    env_file: env/codespaces.env
   opensearch-node-mitopen:
     extends:
       file: docker-compose.yml
@@ -82,7 +82,6 @@ services:
     extends:
       file: docker-compose.yml
       service: nginx
-    env_file: env/codespaces.env
 
 volumes:
   opensearch-data1:

@@ -2451,6 +2451,16 @@ paths:
           type: integer
         description: Number of results to return per page
       - in: query
+        name: min_score
+        schema:
+          type: number
+          format: double
+          maximum: 50
+          minimum: 0
+          nullable: true
+          default: 0.0
+        description: Minimum score value a text query result needs to have to be displayed
+      - in: query
         name: offered_by
         schema:
           type: array
@@ -2594,10 +2604,10 @@ paths:
           - phrase
           type: string
           minLength: 1
-        description: "The open search search type             \n\n* `best_fields`\
-          \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
+        description: "The open search search type for text queries             \n\n\
           * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
-          \ - phrase"
+          \ - phrase\n\n* `best_fields` - best_fields\n* `most_fields` - most_fields\n\
+          * `phrase` - phrase"
       - in: query
         name: slop
         schema:
@@ -2909,6 +2919,16 @@ paths:
           type: integer
         description: Number of results to return per page
       - in: query
+        name: min_score
+        schema:
+          type: number
+          format: double
+          maximum: 50
+          minimum: 0
+          nullable: true
+          default: 0.0
+        description: Minimum score value a text query result needs to have to be displayed
+      - in: query
         name: offered_by
         schema:
           type: array
@@ -3052,10 +3072,10 @@ paths:
           - phrase
           type: string
           minLength: 1
-        description: "The open search search type             \n\n* `best_fields`\
-          \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
+        description: "The open search search type for text queries             \n\n\
           * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
-          \ - phrase"
+          \ - phrase\n\n* `best_fields` - best_fields\n* `most_fields` - most_fields\n\
+          * `phrase` - phrase"
       - in: query
         name: slop
         schema:
@@ -3392,6 +3412,16 @@ paths:
           type: integer
         description: Number of results to return per page
       - in: query
+        name: min_score
+        schema:
+          type: number
+          format: double
+          maximum: 50
+          minimum: 0
+          nullable: true
+          default: 0.0
+        description: Minimum score value a text query result needs to have to be displayed
+      - in: query
         name: offered_by
         schema:
           type: array
@@ -3535,10 +3565,10 @@ paths:
           - phrase
           type: string
           minLength: 1
-        description: "The open search search type             \n\n* `best_fields`\
-          \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
+        description: "The open search search type for text queries             \n\n\
           * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
-          \ - phrase"
+          \ - phrase\n\n* `best_fields` - best_fields\n* `most_fields` - most_fields\n\
+          * `phrase` - phrase"
       - in: query
         name: slop
         schema:
@@ -3866,6 +3896,16 @@ paths:
           type: integer
         description: Number of results to return per page
       - in: query
+        name: min_score
+        schema:
+          type: number
+          format: double
+          maximum: 50
+          minimum: 0
+          nullable: true
+          default: 0.0
+        description: Minimum score value a text query result needs to have to be displayed
+      - in: query
         name: offered_by
         schema:
           type: array
@@ -4009,10 +4049,10 @@ paths:
           - phrase
           type: string
           minLength: 1
-        description: "The open search search type             \n\n* `best_fields`\
-          \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
+        description: "The open search search type for text queries             \n\n\
           * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
-          \ - phrase"
+          \ - phrase\n\n* `best_fields` - best_fields\n* `most_fields` - most_fields\n\
+          * `phrase` - phrase"
       - in: query
         name: slop
         schema:
@@ -9856,14 +9896,23 @@ components:
         search_mode:
           allOf:
           - $ref: '#/components/schemas/SearchModeEnum'
-          description: "The open search search type             \n\n* `best_fields`\
-            \ - best_fields\n* `most_fields` - most_fields\n* `phrase` - phrase\n\n\
-            * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
-            \ - phrase"
+          description: "The open search search type for text queries             \n\
+            \n* `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
+            \ - phrase\n\n* `best_fields` - best_fields\n* `most_fields` - most_fields\n\
+            * `phrase` - phrase"
         slop:
           type: integer
           nullable: true
           description: Allowed distance for phrase search
+        min_score:
+          type: number
+          format: double
+          maximum: 50
+          minimum: 0
+          nullable: true
+          default: 0.0
+          description: Minimum score value a text query result needs to have to be
+            displayed
         source_type:
           allOf:
           - $ref: '#/components/schemas/SourceTypeEnum'
