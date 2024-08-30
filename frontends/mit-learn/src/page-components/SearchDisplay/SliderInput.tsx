@@ -9,7 +9,13 @@ const SliderInput: React.FC<{
   max: number
   step: number
 }> = ({ currentValue, setSearchParams, urlParam, min, max, step }) => {
-  const handleChange = (event: Event, newValue: number | number[]) => {
+  const [sliderDisplayValue, setSliderDisplayValue] =
+    React.useState<number>(currentValue)
+
+  const handleChange = (
+    event: Event | React.SyntheticEvent,
+    newValue: number | number[],
+  ) => {
     setSearchParams((prev) => {
       const next = new URLSearchParams(prev)
       next.set(urlParam, newValue.toString())
@@ -21,8 +27,11 @@ const SliderInput: React.FC<{
     <div>
       <Slider
         data-testid={`${urlParam}-slider`}
-        value={currentValue || 0}
-        onChange={handleChange}
+        value={sliderDisplayValue || 0}
+        onChange={(event: Event, newValue: number | number[]) => {
+          setSliderDisplayValue(newValue as number)
+        }}
+        onChangeCommitted={handleChange}
         valueLabelDisplay="auto"
         min={min}
         max={max}

@@ -411,7 +411,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         required=False,
         choices=search_mode_choices,
         help_text=(
-            f"The open search search type \
+            f"The open search search type for text queries \
             \n\n{build_choice_description_list(search_mode_choices)}"
         ),
     )
@@ -419,6 +419,16 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         required=False,
         allow_null=True,
         help_text=("Allowed distance for phrase search"),
+    )
+    min_score = serializers.FloatField(
+        max_value=50,
+        min_value=0,
+        required=False,
+        allow_null=True,
+        default=0,
+        help_text=(
+            "Minimum score value a text query result needs to have to be displayed"
+        ),
     )
 
 
