@@ -1,6 +1,13 @@
 Release Notes
 =============
 
+Version 0.17.14
+---------------
+
+- put hero image into its own component and set the random image in a state variable so it doesn't change on re-render (#1490)
+- fix codespace backend (#1488)
+- score cutoff (#1466)
+
 Version 0.17.13 (Released August 30, 2024)
 ---------------
 
