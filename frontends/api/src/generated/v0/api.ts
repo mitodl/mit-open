@@ -213,10 +213,10 @@ export interface ChannelCounts {
   id: number
   /**
    *
-   * @type {string}
+   * @type {Counts}
    * @memberof ChannelCounts
    */
-  counts: string
+  counts: Counts
   /**
    * Get the URL for the channel
    * @type {string}
@@ -490,6 +490,25 @@ export interface ChannelUnitDetail {
    * @memberof ChannelUnitDetail
    */
   unit: LearningResourceOfferorDetail
+}
+/**
+ *
+ * @export
+ * @interface Counts
+ */
+export interface Counts {
+  /**
+   *
+   * @type {number}
+   * @memberof Counts
+   */
+  courses: number
+  /**
+   *
+   * @type {number}
+   * @memberof Counts
+   */
+  programs: number
 }
 /**
  * * `` - ---- * `Doctorate` - Doctorate * `Master\'s or professional degree` - Master\'s or professional degree * `Bachelor\'s degree` - Bachelor\'s degree * `Associate degree` - Associate degree * `Secondary/high school` - Secondary/high school * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school * `No formal education` - No formal education * `Other education` - Other education
@@ -2952,6 +2971,7 @@ export const ChannelsApiAxiosParamCreator = function (
   return {
     /**
      * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3474,6 +3494,7 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
   return {
     /**
      * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
      * @param {string} channel_type
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -3799,6 +3820,7 @@ export const ChannelsApiFactory = function (
   return {
     /**
      * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
      * @param {ChannelsApiChannelsCountsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -4161,6 +4183,7 @@ export interface ChannelsApiChannelsTypeRetrieveRequest {
 export class ChannelsApi extends BaseAPI {
   /**
    * View for retrieving an individual channel by type and name
+   * @summary Channel Detail Lookup by channel type and name
    * @param {ChannelsApiChannelsCountsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}

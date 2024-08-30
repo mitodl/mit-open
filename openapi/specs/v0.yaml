@@ -229,6 +229,7 @@ paths:
     get:
       operationId: channels_counts_list
       description: View for retrieving an individual channel by type and name
+      summary: Channel Detail Lookup by channel type and name
       parameters:
       - in: path
         name: channel_type
@@ -1011,7 +1012,8 @@ components:
           type: integer
           readOnly: true
         counts:
-          type: string
+          allOf:
+          - $ref: '#/components/schemas/Counts'
           readOnly: true
         channel_url:
           type: string
@@ -1189,6 +1191,16 @@ components:
           readOnly: true
       required:
       - unit
+    Counts:
+      type: object
+      properties:
+        courses:
+          type: integer
+        programs:
+          type: integer
+      required:
+      - courses
+      - programs
     CurrentEducationEnum:
       enum:
       - Doctorate

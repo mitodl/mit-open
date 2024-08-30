@@ -5,7 +5,7 @@ import logging
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -168,6 +168,15 @@ class ChannelCountsSerializer(serializers.ModelSerializer):
         """Get the URL for the channel"""
         return instance.channel_url
 
+    @extend_schema_field(
+        inline_serializer(
+            name="Counts",
+            fields={
+                "courses": serializers.IntegerField(),
+                "programs": serializers.IntegerField(),
+            },
+        )
+    )
     def get_counts(self, instance):
         if instance.channel_type == "unit":
             resources = instance.unit_detail.unit.learningresource_set.all()

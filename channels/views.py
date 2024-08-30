@@ -195,7 +195,7 @@ class ChannelModeratorDetailView(APIView):
 
 
 @extend_schema_view(
-    retrieve=extend_schema(summary="Channel Detail Lookup by channel type and name"),
+    list=extend_schema(summary="Channel Detail Lookup by channel type and name"),
 )
 class ChannelCountsView(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
