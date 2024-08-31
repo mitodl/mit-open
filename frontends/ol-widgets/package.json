@@ -18,7 +18,7 @@
     "yup": "^1.2.0"
   },
   "devDependencies": {
-    "@testing-library/react": "16.0.0",
+    "@testing-library/react": "16.0.1",
     "@testing-library/user-event": "14.5.2",
     "@types/js-beautify": "^1.13.3",
     "js-beautify": "^1.14.6",
