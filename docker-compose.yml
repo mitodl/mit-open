@@ -22,7 +22,7 @@ services:
   opensearch-node-mitopen:
     profiles:
       - backend
-    image: opensearchproject/opensearch:2.15.0
+    image: opensearchproject/opensearch:2.16.0
     container_name: opensearch-node-mitopen
     environment:
       - cluster.name=opensearch-cluster
