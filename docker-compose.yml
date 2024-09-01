@@ -4,7 +4,7 @@ services:
   db:
     profiles:
       - backend
-    image: postgres:12.19
+    image: postgres:12.20
     ports:
       - 5432:5432
     environment:
