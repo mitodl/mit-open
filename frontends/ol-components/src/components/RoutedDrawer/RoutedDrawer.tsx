@@ -4,7 +4,12 @@ import styled from "@emotion/styled"
 import type { DrawerProps } from "@mui/material/Drawer"
 import { ActionButton } from "../Button/Button"
 import { RiCloseLargeLine } from "@remixicon/react"
-import { useLocation, useNavigate } from "react-router-dom"
+import {
+  useSearchParams,
+  useRouter,
+  usePathname,
+  ReadonlyURLSearchParams,
+} from "next/navigation"
 import { useToggle } from "ol-utilities"
 
 const closeSx: React.CSSProperties = {
@@ -40,15 +45,15 @@ const RoutedDrawer = <K extends string, R extends K = K>(
   const { params = requiredParams } = props
 
   const [open, setOpen] = useToggle(false)
-  const location = useLocation()
-  const navigate = useNavigate()
+  const searchParams = useSearchParams()
+  const pathname = usePathname()
+  const router = useRouter()
 
   const childParams = useMemo(() => {
-    const searchParams = new URLSearchParams(location.search)
     return Object.fromEntries(
       params.map((name) => [name, searchParams.get(name)] as const),
     ) as Record<K, string | null>
-  }, [location, params])
+  }, [searchParams, params])
 
   const requiredArePresent = requiredParams.every(
     (name) => childParams[name] !== null,
@@ -63,19 +68,17 @@ const RoutedDrawer = <K extends string, R extends K = K>(
   }, [requiredArePresent, setOpen, requiredParams])
 
   const removeUrlParams = useCallback(() => {
-    const getNewParams = (current: string) => {
+    const getNewParams = (current: ReadonlyURLSearchParams) => {
       const newSearchParams = new URLSearchParams(current)
       params.forEach((param) => {
         newSearchParams.delete(param)
       })
-      return newSearchParams
+      return newSearchParams.toString()
     }
-    const newParams = getNewParams(location.search)
-    navigate({
-      ...location,
-      search: newParams.toString(),
-    })
-  }, [params, navigate, location])
+    const newParams = getNewParams(searchParams)
+
+    router.push(`${pathname}${newParams ? `?${newParams}` : ""}`)
+  }, [router, searchParams, pathname, params])
 
   return (
     <Drawer

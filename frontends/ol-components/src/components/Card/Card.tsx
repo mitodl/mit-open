@@ -2,14 +2,14 @@ import React, {
   FC,
   ReactNode,
   Children,
-  ImgHTMLAttributes,
   isValidElement,
   CSSProperties,
 } from "react"
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { pxToRem } from "../ThemeProvider/typography"
-import { Link } from "react-router-dom"
+import Link from "next/link"
+import { default as NextImage, ImageProps as NextImageProps } from "next/image"
 
 export type Size = "small" | "medium"
 
@@ -66,7 +66,7 @@ const Body = styled.div`
   margin: 16px;
 `
 
-const Image = styled.img<{ height?: number | string; size?: Size }>`
+const Image = styled(NextImage)<{ height?: number | string; size?: Size }>`
   display: block;
   width: 100%;
   height: ${({ height, size }) =>
@@ -142,7 +142,7 @@ type CardProps = {
   href?: string
 }
 
-type ImageProps = ImgHTMLAttributes<HTMLImageElement> & {
+export type ImageProps = NextImageProps & {
   size?: Size
   height?: number | string
   style?: CSSProperties
@@ -165,7 +165,7 @@ type Card = FC<CardProps> & {
 
 const Card: Card = ({ children, className, size, href }) => {
   let content,
-    image: ImageProps = {},
+    image: ImageProps | null = null,
     info: SlotProps = {},
     title: TitleProps = {},
     footer: SlotProps = {},
@@ -201,7 +201,7 @@ const Card: Card = ({ children, className, size, href }) => {
   if (content) {
     return (
       <Wrapper className={allClassNames} size={size}>
-        <_Container className={className} to={href!}>
+        <_Container className={className} href={href!}>
           {content}
         </_Container>
       </Wrapper>
@@ -210,15 +210,16 @@ const Card: Card = ({ children, className, size, href }) => {
 
   return (
     <Wrapper className={allClassNames} size={size}>
-      <_Container to={href!}>
+      <_Container href={href!}>
         {image && (
           // alt text will be checked on Card.Image
           // eslint-disable-next-line styled-components-a11y/alt-text
           <Image
             className="MitCard-image"
             size={size}
-            height={image.height}
-            {...(image as ImgHTMLAttributes<HTMLImageElement>)}
+            height={170}
+            width={298}
+            {...(image as ImageProps)}
           />
         )}
         <Body>
