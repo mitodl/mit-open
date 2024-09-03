@@ -21272,7 +21272,7 @@ export const TopicsApiAxiosParamCreator = function (
      * @param {number} [limit] Number of results to return per page.
      * @param {Array<string>} [name] Multiple values may be separated by commas.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {Array<string>} [parent_topic_name] Multiple values may be separated by commas.
+     * @param {Array<number>} [parent_topic_id] Multiple values may be separated by commas.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -21281,7 +21281,7 @@ export const TopicsApiAxiosParamCreator = function (
       limit?: number,
       name?: Array<string>,
       offset?: number,
-      parent_topic_name?: Array<string>,
+      parent_topic_id?: Array<number>,
       options: RawAxiosRequestConfig = {},
     ): Promise<RequestArgs> => {
       const localVarPath = `/api/v1/topics/`
@@ -21316,8 +21316,8 @@ export const TopicsApiAxiosParamCreator = function (
         localVarQueryParameter["offset"] = offset
       }
 
-      if (parent_topic_name) {
-        localVarQueryParameter["parent_topic_name"] = parent_topic_name.join(
+      if (parent_topic_id) {
+        localVarQueryParameter["parent_topic_id"] = parent_topic_id.join(
           COLLECTION_FORMATS.csv,
         )
       }
@@ -21399,7 +21399,7 @@ export const TopicsApiFp = function (configuration?: Configuration) {
      * @param {number} [limit] Number of results to return per page.
      * @param {Array<string>} [name] Multiple values may be separated by commas.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {Array<string>} [parent_topic_name] Multiple values may be separated by commas.
+     * @param {Array<number>} [parent_topic_id] Multiple values may be separated by commas.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -21408,7 +21408,7 @@ export const TopicsApiFp = function (configuration?: Configuration) {
       limit?: number,
       name?: Array<string>,
       offset?: number,
-      parent_topic_name?: Array<string>,
+      parent_topic_id?: Array<number>,
       options?: RawAxiosRequestConfig,
     ): Promise<
       (
@@ -21421,7 +21421,7 @@ export const TopicsApiFp = function (configuration?: Configuration) {
         limit,
         name,
         offset,
-        parent_topic_name,
+        parent_topic_id,
         options,
       )
       const index = configuration?.serverIndex ?? 0
@@ -21497,7 +21497,7 @@ export const TopicsApiFactory = function (
           requestParameters.limit,
           requestParameters.name,
           requestParameters.offset,
-          requestParameters.parent_topic_name,
+          requestParameters.parent_topic_id,
           options,
         )
         .then((request) => request(axios, basePath))
@@ -21556,10 +21556,10 @@ export interface TopicsApiTopicsListRequest {
 
   /**
    * Multiple values may be separated by commas.
-   * @type {Array<string>}
+   * @type {Array<number>}
    * @memberof TopicsApiTopicsList
    */
-  readonly parent_topic_name?: Array<string>
+  readonly parent_topic_id?: Array<number>
 }
 
 /**
@@ -21601,7 +21601,7 @@ export class TopicsApi extends BaseAPI {
         requestParameters.limit,
         requestParameters.name,
         requestParameters.offset,
-        requestParameters.parent_topic_name,
+        requestParameters.parent_topic_id,
         options,
       )
       .then((request) => request(this.axios, this.basePath))
