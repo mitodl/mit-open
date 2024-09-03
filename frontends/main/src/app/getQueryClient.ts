@@ -13,6 +13,15 @@ import { QueryClient } from "api/ssr"
 // const getQueryClient = cache(() => new QueryClient())
 
 // TODO We need to ensure this is called only once per request
-const getQueryClient = () => new QueryClient()
+const getQueryClient = () =>
+  new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        staleTime: 1000 * 60 * 60 * 24, // 24 hours
+      },
+    },
+  })
 
 export default getQueryClient

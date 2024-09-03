@@ -31,14 +31,24 @@ type CarouselProps = {
   nextLabel?: string
 }
 
-const SlickStyled = styled(Slick)({
-  /**
-   * This is a fallback. The carousel's width should be constrained by it's
-   * parent. But if it's not, this will at least prevent it from resizing itself
-   * beyond the viewport width.
-   */
-  maxWidth: "100vw",
-})
+const SlickStyled = styled(Slick)<{ rendered: boolean }>(({ rendered }) => [
+  {
+    /**
+     * This is a fallback. The carousel's width should be constrained by it's
+     * parent. But if it's not, this will at least prevent it from resizing itself
+     * beyond the viewport width.
+     */
+    maxWidth: "100vw",
+    ".slick-track::before": {
+      content: "none",
+    },
+  },
+  !rendered && {
+    ".slick-track": {
+      width: "100% !important",
+    },
+  },
+])
 
 /**
  * Return the current slide and the sliders per paged, based on current element
@@ -125,7 +135,7 @@ const Carousel: React.FC<CarouselProps> = ({
   nextLabel = "Show next slides",
 }) => {
   const [slick, setSlick] = React.useState<Slick | null>(null)
-  const [slidesPerPage, setSlidesPerPage] = React.useState<number>(1)
+  const [slidesPerPage, setSlidesPerPage] = React.useState<number>(4)
   /**
    * The index of the first visible slide.
    * slick-carousel marks this slide with slick-current.
@@ -140,9 +150,11 @@ const Carousel: React.FC<CarouselProps> = ({
     const slideInfo = getSlideInfo(container)
     if (slideInfo.slidesPerPage !== undefined) {
       setSlidesPerPage(slideInfo.slidesPerPage)
+      console.log(`setSlidesPerPage(${slideInfo.slidesPerPage})`)
     }
     if (slideInfo.currentIndex !== undefined) {
       setCurrentIndex(slideInfo.currentIndex)
+      console.log(`setCurrentIndex(${slideInfo.currentIndex})`)
     }
     onReInitSlickA11y(slick)
   }, [slick])
@@ -154,6 +166,11 @@ const Carousel: React.FC<CarouselProps> = ({
     if (!slick) return
     slick.slickPrev()
   }, [slick])
+
+  const [rendered, setRendered] = React.useState(false)
+  React.useEffect(() => {
+    setRendered(true)
+  }, [])
 
   const arrows = (
     <>
@@ -184,6 +201,7 @@ const Carousel: React.FC<CarouselProps> = ({
     <>
       <SlickStyled
         className={className}
+        rendered={rendered}
         ref={setSlick}
         variableWidth
         initialSlide={initialSlide}
