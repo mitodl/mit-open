@@ -1,5 +1,5 @@
 import React, { useCallback } from "react"
-import { useNavigate } from "react-router-dom"
+import { useRouter } from "next/navigation"
 import { useFormik } from "formik"
 import { RadioChoiceField, Button, TextField } from "ol-components"
 import * as Yup from "yup"
@@ -45,17 +45,17 @@ const EditChannelAppearanceForm = (props: FormProps): JSX.Element => {
   const { channel } = props
   const channelId = channel.id
   const editChannel = useChannelPartialUpdate()
-  const navigate = useNavigate()
+  const router = useRouter()
 
   const handleSubmit = useCallback(
     async (e: FormData) => {
       const data = await editChannel.mutateAsync({ id: channelId, ...e })
       if (data) {
-        navigate(makeChannelViewPath(data.channel_type, data.name))
+        router.push(makeChannelViewPath(data.channel_type, data.name))
       }
       return data
     },
-    [navigate, channelId, editChannel],
+    [router, channelId, editChannel],
   )
 
   const formik = useFormik({
@@ -106,7 +106,7 @@ const EditChannelAppearanceForm = (props: FormProps): JSX.Element => {
         <Button
           className="cancel"
           onClick={() =>
-            navigate(makeChannelViewPath(channel.channel_type, channel.name))
+            router.push(makeChannelViewPath(channel.channel_type, channel.name))
           }
         >
           Cancel
