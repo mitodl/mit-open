@@ -10,7 +10,7 @@ const projectsConfig: Config.InitialOptions = {
   collectCoverage: true,
   coverageDirectory: "coverage",
   projects: ["<rootDir>/*/jest.config.ts"],
-  modulePathIgnorePatterns: ['<rootDir>/mit-learn/'],
+  modulePathIgnorePatterns: ["<rootDir>/mit-learn/"],
   watchPlugins: [
     "jest-watch-typeahead/filename",
     "jest-watch-typeahead/testname",

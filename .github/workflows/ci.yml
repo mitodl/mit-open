@@ -123,11 +123,6 @@ jobs:
       - name: Style lint
         run: yarn run style-lint
 
-      - name: Webpack build
-        run: yarn run build
-        env:
-          MITOL_API_BASE_URL: https://api.mitlearn-test.odl.mit.edu
-
       - name: Lints
         run: yarn run lint-check
 
@@ -143,12 +138,6 @@ jobs:
         env:
           CODECOV: true
           NODE_ENV: test
-
-      - name: Upload frontend build
-        uses: actions/upload-artifact@834a144ee995460fba8ed112a2fc961b36a5ec5a # v4
-        with:
-          name: frontend-build
-          path: frontends/mit-learn/build
 
       - name: Upload coverage to CodeCov
         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4.5.0
