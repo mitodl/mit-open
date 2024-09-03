@@ -50,17 +50,17 @@ interface MenuButtonProps {
   drawerOpen: boolean
 }
 
-const MenuButton: React.FC<MenuButtonProps> = ({
-  text,
-  onClick,
-  drawerOpen,
-}) => (
-  <StyledMenuButton onPointerDown={onClick}>
-    <MenuButtonInner>
-      {drawerOpen ? <CloseMenuIcon /> : <MenuIcon />}
-      {text ? <MenuButtonText>{text}</MenuButtonText> : ""}
-    </MenuButtonInner>
-  </StyledMenuButton>
+const MenuButton = React.forwardRef<HTMLButtonElement, MenuButtonProps>(
+  ({ text, onClick, drawerOpen }, ref) => {
+    return (
+      <StyledMenuButton ref={ref} onClick={onClick}>
+        <MenuButtonInner>
+          {drawerOpen ? <CloseMenuIcon /> : <MenuIcon />}
+          {text ? <MenuButtonText>{text}</MenuButtonText> : ""}
+        </MenuButtonInner>
+      </StyledMenuButton>
+    )
+  },
 )
 
 export { MenuButton }

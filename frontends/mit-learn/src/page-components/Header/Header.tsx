@@ -29,7 +29,6 @@ import { MenuButton } from "./MenuButton"
 import {
   DEPARTMENTS,
   TOPICS,
-  RESOURCE_DRAWER_QUERY_PARAM,
   SEARCH,
   UNITS,
   SEARCH_NEW,
@@ -41,7 +40,6 @@ import {
   SEARCH_PROGRAM,
   SEARCH_LEARNING_MATERIAL,
 } from "@/common/urls"
-import { useSearchParams } from "react-router-dom"
 import { useUserMe } from "api/hooks/user"
 
 const Bar = styled(AppBar)(({ theme }) => ({
@@ -252,21 +250,22 @@ const navData: NavData = {
 
 const Header: FunctionComponent = () => {
   const [drawerOpen, toggleDrawer] = useToggle(false)
-  const [searchParams] = useSearchParams()
-  const resourceDrawerOpen = searchParams.has(RESOURCE_DRAWER_QUERY_PARAM)
+  const mobileRef = React.useRef<HTMLButtonElement>(null)
+  const desktopRef = React.useRef<HTMLButtonElement>(null)
 
-  const toggler = (event: React.MouseEvent) => {
-    if (!resourceDrawerOpen) {
-      // This is done to prevent ClickAwayHandler from closing the drawer upon open
-      event.stopPropagation()
+  const handleClickAway = (event: MouseEvent | TouchEvent) => {
+    // If the event is coming from the menu button, then we'll let that handler
+    // close the drawer
+    const { target } = event
+    if (target instanceof HTMLElement) {
+      if (
+        mobileRef.current?.contains(target) ||
+        desktopRef.current?.contains(target)
+      ) {
+        return
+      }
     }
-    toggleDrawer(!drawerOpen)
-  }
-  const closeDrawer = (event: MouseEvent | TouchEvent) => {
-    if (drawerOpen && !resourceDrawerOpen && event.type !== "touchstart") {
-      event.preventDefault()
-      toggleDrawer(false)
-    }
+    toggleDrawer.off()
   }
 
   return (
@@ -277,13 +276,18 @@ const Header: FunctionComponent = () => {
             <LogoLink />
             <LeftDivider orientation="vertical" flexItem />
             <MenuButton
+              ref={desktopRef}
               text="Explore MIT"
-              onClick={toggler}
+              onClick={toggleDrawer.toggle}
               drawerOpen={drawerOpen}
             />
           </DesktopOnly>
           <MobileOnly>
-            <MenuButton onClick={toggler} drawerOpen={drawerOpen} />
+            <MenuButton
+              ref={mobileRef}
+              onClick={toggleDrawer.toggle}
+              drawerOpen={drawerOpen}
+            />
             <LogoLink />
           </MobileOnly>
           <Spacer />
@@ -291,7 +295,7 @@ const Header: FunctionComponent = () => {
         </StyledToolbar>
       </Bar>
       <ClickAwayListener
-        onClickAway={closeDrawer}
+        onClickAway={handleClickAway}
         mouseEvent="onPointerDown"
         touchEvent="onTouchStart"
       >
