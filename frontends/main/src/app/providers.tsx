@@ -6,7 +6,6 @@ import { QueryClientProvider } from "api/ssr"
 import { ThemeProvider, NextJsAppRouterCacheProvider } from "ol-components"
 import { Provider as NiceModalProvider } from "@/libraries/@ebay/nice-modal-react"
 
-
 export default function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient()
 
@@ -14,9 +13,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     <QueryClientProvider client={queryClient}>
       <NextJsAppRouterCacheProvider>
         <ThemeProvider>
-          <NiceModalProvider>
-            {children}
-          </NiceModalProvider>
+          <NiceModalProvider>{children}</NiceModalProvider>
         </ThemeProvider>
       </NextJsAppRouterCacheProvider>
     </QueryClientProvider>

@@ -6,7 +6,6 @@ import * as urls from "@/common/urls"
 import React, { FunctionComponent } from "react"
 import footerLogo from "../../../public/images/mit-logo-transparent5.svg"
 
-
 const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
 const HOME_URL = `${PUBLIC_URL}/`
 
