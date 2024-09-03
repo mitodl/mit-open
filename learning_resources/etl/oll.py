@@ -22,6 +22,7 @@ from learning_resources.utils import get_year_and_semester
 
 log = logging.getLogger(__name__)
 
+# List of OLL course ids already ingested from OCW
 SKIP_OCW_COURSES = [
     "OCW+18.031+2019_Spring",
 ]
@@ -77,6 +78,7 @@ def parse_topics(course_data: dict) -> list[dict]:
         dict: list of normalized course topics data
     """
     return [
+        # One topic name from GSheets is slightly incorrect
         {"name": topic.replace("Educational Policy", "Education Policy")}
         for topic in [
             course_data["MITxO Primary Child"],
