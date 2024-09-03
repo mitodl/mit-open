@@ -2,8 +2,10 @@
 
 import logging
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
+from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
@@ -26,6 +28,7 @@ from channels.serializers import (
 from learning_resources.views import DefaultPagination
 from main.constants import VALID_HTTP_METHODS
 from main.permissions import AnonymousAccessReadonlyPermission
+from main.utils import cache_page_for_anonymous_users
 
 log = logging.getLogger(__name__)
 
@@ -213,3 +216,11 @@ class ChannelCountsView(mixins.ListModelMixin, viewsets.GenericViewSet):
             channel_type=self.kwargs["channel_type"],
             published=True,
         )
+
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
