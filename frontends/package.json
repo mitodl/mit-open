@@ -3,7 +3,7 @@
   "private": true,
   "workspaces": [
     "api",
-    "mit-learn",
+    "main",
     "ol-ckeditor",
     "ol-common",
     "ol-components",
@@ -48,7 +48,7 @@
     "@types/react-infinite-scroller": "^1.2.3",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "cross-fetch": "^4.0.0",
-    "eslint": "8",
+    "eslint": "8.38.0",
     "eslint-config-mitodl": "^2.1.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-import-resolver-typescript": "^3.6.1",

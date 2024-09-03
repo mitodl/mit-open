@@ -44,6 +44,7 @@ interface CustomTheme {
   }
 }
 
+/* https://mui.com/material-ui/customization/theming/#typescript */
 declare module "@mui/material/styles" {
   interface Theme {
     custom: CustomTheme
