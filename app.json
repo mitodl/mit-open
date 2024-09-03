@@ -261,28 +261,12 @@
       "description": "Authentication parameter value that should be passed in a webhook",
       "required": false
     },
-    "OLL_ALT_URL": {
-      "description": "Base alternate URL for OLL courses",
+    "OLL_LEARNING_COURSE_BUCKET_NAME": {
+      "description": "Name of S3 bucket containing OLL content files",
       "required": false
     },
-    "OLL_API_ACCESS_TOKEN_URL": {
-      "description": "URL to retrieve a OLL access token",
-      "required": false
-    },
-    "OLL_API_URL": {
-      "description": "URL to retrieve OLL course data from",
-      "required": false
-    },
-    "OLL_API_CLIENT_ID": {
-      "description": "Openedx client id to access the OLL course catalog API",
-      "required": false
-    },
-    "OLL_API_CLIENT_SECRET": {
-      "description": "Openedx secret key to access the OLL course catalog API",
-      "required": false
-    },
-    "OLL_BASE_URL": {
-      "description": "Base default URL for OLL courses",
+    "OLL_LEARNING_COURSE_BUCKET_PREFIX": {
+      "description": "Prefix to use with the OLL S3 bucket",
       "required": false
     },
     "MITOL_ADMIN_EMAIL": {

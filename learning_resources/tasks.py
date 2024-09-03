@@ -70,15 +70,15 @@ def get_mitxonline_data() -> int:
 
 
 @app.task
-def get_oll_data(api_datafile=None):
+def get_oll_data(sheets_id=None):
     """Execute the OLL ETL pipeline.
 
     Args:
-        api_datafile (str): If provided, use this file as the source of API data
-            Otherwise, the API is queried directly.
+        sheets_id (str): If provided, retrieved data from the
+        google spreadsheet with this id.
 
     """
-    courses = pipelines.oll_etl(api_datafile)
+    courses = pipelines.oll_etl(sheets_id)
     clear_search_cache()
     return len(courses)
 
