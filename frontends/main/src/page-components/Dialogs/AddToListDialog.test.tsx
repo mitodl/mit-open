@@ -4,13 +4,7 @@ import { AddToLearningPathDialog, AddToUserListDialog } from "./AddToListDialog"
 
 import { setMockResponse, makeRequest, factories, urls } from "api/test-utils"
 
-import {
-  renderWithProviders,
-  screen,
-  user,
-  within,
-  act,
-} from "@/test-utils"
+import { renderWithProviders, screen, user, within, act } from "@/test-utils"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { waitForElementToBeRemoved } from "@testing-library/react"
 import {
