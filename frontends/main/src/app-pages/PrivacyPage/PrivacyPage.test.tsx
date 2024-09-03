@@ -1,9 +1,4 @@
-import {
-  renderTestApp,
-  screen,
-  waitFor,
-  setMockResponse,
-} from "@/test-utils"
+import { renderTestApp, screen, waitFor, setMockResponse } from "@/test-utils"
 import { urls } from "api/test-utils"
 import * as commonUrls from "@/common/urls"
 import { Permissions } from "@/common/permissions"
