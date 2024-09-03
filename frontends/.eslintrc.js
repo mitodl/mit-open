@@ -5,6 +5,7 @@ module.exports = {
     "plugin:styled-components-a11y/recommended",
     "plugin:import/typescript",
     "plugin:mdx/recommended",
+    "plugin:@next/next/recommended",
     "prettier",
   ],
   plugins: ["testing-library", "import", "styled-components-a11y"],

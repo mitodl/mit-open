@@ -3793,7 +3793,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/eslint-plugin-next@npm:14.2.7":
+"@next/eslint-plugin-next@npm:14.2.7, @next/eslint-plugin-next@npm:^14.2.7":
   version: 14.2.7
   resolution: "@next/eslint-plugin-next@npm:14.2.7"
   dependencies:
@@ -10442,6 +10442,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "frontends@workspace:frontends"
   dependencies:
+    "@next/eslint-plugin-next": "npm:^14.2.7"
     "@swc/core": "npm:^1.4.11"
     "@swc/jest": "npm:^0.2.26"
     "@testing-library/jest-dom": "npm:^6.4.2"
