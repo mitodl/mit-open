@@ -23,6 +23,8 @@ const Footer = styled.div({
   justifyContent: "end",
 })
 
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME
+
 type SignupPopoverProps = Pick<
   PopoverProps,
   "anchorEl" | "onClose" | "placement"
@@ -34,14 +36,14 @@ const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
   return (
     <StyledPopover {...popoverProps} open={!!popoverProps.anchorEl}>
       <HeaderText variant="subtitle2">
-        Join {APP_SETTINGS.SITE_NAME} for free.
+        Join {SITE_NAME} for free.
       </HeaderText>
       <BodyText variant="body2">
         As a member, get personalized recommendations, curate learning lists,
         and follow your areas of interest.
       </BodyText>
       <Footer>
-        <ButtonLink href={signupUrl}>Sign Up</ButtonLink>
+        <ButtonLink href={signupUrl!}>Sign Up</ButtonLink>
       </Footer>
     </StyledPopover>
   )

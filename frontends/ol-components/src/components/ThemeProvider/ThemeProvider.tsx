@@ -10,6 +10,7 @@ import * as buttons from "./buttons"
 import * as chips from "./chips"
 import { colors } from "./colors"
 import { MUI_DRAWER_Z_INDEX } from "../../constants/styleOverrides"
+import type { CustomTheme } from "../../types/theme"
 
 const shadow = {
   shadowOffsetX: 3,
@@ -91,10 +92,14 @@ const themeOptions: ThemeOptions = {
   },
 }
 
+type ExtendedTheme = Theme & {
+  custom: CustomTheme
+}
+
 /**
  * MaterialUI Theme for MIT Learn
  */
-export const theme = createTheme(themeOptions)
+export const theme: ExtendedTheme = createTheme(themeOptions)
 
 type ThemeProviderProps = {
   children?: React.ReactNode
