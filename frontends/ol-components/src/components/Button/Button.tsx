@@ -2,7 +2,7 @@ import React from "react"
 import styled from "@emotion/styled"
 import { pxToRem } from "../ThemeProvider/typography"
 import tinycolor from "tinycolor2"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 import type { Theme } from "@mui/material/styles"
 
 type ButtonVariant =
@@ -288,7 +288,7 @@ type ButtonLinkProps = ButtonStyleProps &
 const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   ({ children, href = "", endIcon, ...props }, ref) => {
     return (
-      <LinkStyled to={href} {...props} ref={ref}>
+      <LinkStyled href={href} {...props} ref={ref}>
         <ButtonInner endIcon={endIcon} {...props}>
           {children}
         </ButtonInner>
@@ -352,7 +352,7 @@ type ActionButtonLinkProps = ActionButtonProps &
 const ActionButtonLink = ActionButton.withComponent(
   React.forwardRef<HTMLAnchorElement, ActionButtonLinkProps>(
     ({ href = "", ...props }, ref) => {
-      return <LinkStyled ref={ref} to={href} {...props} />
+      return <LinkStyled ref={ref} href={href} {...props} />
     },
   ),
 )
