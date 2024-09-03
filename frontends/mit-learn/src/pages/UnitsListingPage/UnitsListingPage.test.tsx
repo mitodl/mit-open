@@ -74,24 +74,20 @@ describe("DepartmentListingPage", () => {
       professionalUnit2,
       professionalUnit3,
     ]
-    const courseCounts = {
-      academicUnit1: 10,
-      academicUnit2: 20,
-      academicUnit3: 1,
-      professionalUnit1: 40,
-      professionalUnit2: 50,
-      professionalUnit3: 0,
-    }
-    const programCounts = {
-      academicUnit1: 1,
-      academicUnit2: 2,
-      academicUnit3: 0,
-      professionalUnit1: 4,
-      professionalUnit2: 5,
-      professionalUnit3: 6,
-    }
+    const courseCounts = 6
+    const programCounts = 5
 
+    setMockResponse.get(urls.channels.counts("unit"), [
+      {
+        name: academicUnit1,
+        counts: {
+          programs: programCounts,
+          courses: courseCounts,
+        },
+      },
+    ])
     setMockResponse.get(urls.offerors.list(), units)
+
     setMockResponse.get(
       urls.search.resources({
         resource_type: ["course"],
@@ -104,7 +100,6 @@ describe("DepartmentListingPage", () => {
         resource_type: ["program"],
         aggregations: ["offered_by"],
       }),
-      makeSearchResponse(programCounts),
     )
 
     units.forEach((unit) => {
