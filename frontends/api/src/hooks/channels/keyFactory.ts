@@ -11,8 +11,8 @@ const channels = createQueryKeys("channel", {
         .then((res) => res.data)
     },
   }),
-  countsByType: (channelType: string, name: string) => ({
-    queryKey: [channelType, name],
+  countsByType: (channelType: string) => ({
+    queryKey: [channelType],
     queryFn: () => {
       return channelsApi
         .channelsCountsList({ channel_type: channelType })
