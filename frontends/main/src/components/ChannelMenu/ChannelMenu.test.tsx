@@ -1,5 +1,6 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserRouter } from "react-router-dom"
 
 import ChannelMenu from "./ChannelMenu"

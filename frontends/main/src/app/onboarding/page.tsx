@@ -5,7 +5,7 @@ import PageWrapper from "./ClientWrapper"
 
 export const metadata: Metadata = getMetadata({
   title: "Onboarding",
-  social: false
+  social: false,
 })
 
 const Page: React.FC = () => {

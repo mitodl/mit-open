@@ -1,6 +1,7 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import { ChannelDetails } from "./ChannelDetails"
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { BrowserRouter } from "react-router-dom"
 import { urls } from "api/test-utils"
 import { setMockResponse } from "@/test-utils"
