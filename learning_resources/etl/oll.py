@@ -26,8 +26,17 @@ SKIP_OCW_COURSES = [
 ]
 
 
-def extract(sheets_id: str or None = None):
-    """Extract OLL learning_resources"""
+def extract(sheets_id: str or None = None) -> str:
+    """
+    Extract OLL learning_resources
+
+    Args:
+        sheets_id (str): Google sheets id
+
+    Returns:
+        str: OLL learning_resources data as a csv-formatted string
+
+    """
     if sheets_id:
         return requests.get(
             f"https://docs.google.com/spreadsheets/d/{sheets_id}/export?format=csv",
@@ -42,6 +51,13 @@ def extract(sheets_id: str or None = None):
 def transform_image(course_data: dict) -> dict:
     """
     Transform a course image into our normalized data structure
+
+    Args:
+        course_data (dict): course data extracted from csv/sheet
+
+    Returns:
+        dict: normalized course image data
+
     """
     return {
         "url": course_data["Course Image URL Flat"],
@@ -57,7 +73,7 @@ def parse_topics(course_data: dict) -> list[dict]:
         course_data (dict): course data
 
     Returns:
-        dict: normalized course topics data
+        dict: list of normalized course topics data
     """
     return [
         {"name": topic.replace("Educational Policy", "Education Policy")}
@@ -104,7 +120,16 @@ def transform_run(course_data: dict) -> list[dict]:
 
 
 def transform_course(course_data: dict) -> dict:
-    """Transform OLL course data"""
+    """
+    Transform OLL course data
+
+    Args:
+        course_data (dict): course data extracted from csv/sheet
+
+    Returns:
+        dict: normalized course data
+
+    """
     return {
         "title": course_data["title"],
         "readable_id": f"MITx+{course_data["OLL Course"]}",
@@ -132,15 +157,24 @@ def transform_course(course_data: dict) -> dict:
     }
 
 
-def transform(courses_data):
-    """Transform OLL learning_resources"""
+def transform(courses_data: str) -> list[dict]:
+    """
+    Transform OLL learning_resources
+
+    Args:
+        courses_data (str): OLL learning_resources data as a csv-formatted string
+
+    Returns:
+        list of dict: normalized OLL courses data
+
+    """
     if courses_data:
         csv_reader = DictReader(
             StringIO(courses_data), delimiter=",", quoting=QUOTE_MINIMAL
         )
-        return (
+        return [
             transform_course(row)
             for row in csv_reader
-            if row["readable_id"] not in SKIP_OCW_COURSES
-        )
+            if row.get("readable_id") not in SKIP_OCW_COURSES
+        ]
     return []
