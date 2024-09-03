@@ -9,16 +9,61 @@ import type {
   BooleanFacets,
 } from "@mitodl/course-search-utils"
 import { ChannelTypeEnum } from "api/v0"
+import { useLearningResourceTopics } from "api/hooks/learningResources"
+import { ChipLink, Container, styled, Typography } from "ol-components"
+
+const SubTopicsContainer = styled(Container)({
+  paddingTop: "50px",
+})
+
+const SubTopicsHeader = styled(Typography)(({ theme }) => ({
+  marginBottom: "16px",
+  ...theme.typography.subtitle1,
+}))
+
+const ChipsContainer = styled.div({
+  display: "flex",
+  flexWrap: "wrap",
+  gap: "12px",
+})
 
 type RouteParams = {
   channelType: ChannelTypeEnum
   name: string
 }
 
+type SubTopicDisplayProps = {
+  parentTopicId: number
+}
+
+const SubTopicsDisplay: React.FC<SubTopicDisplayProps> = (props) => {
+  const { parentTopicId } = props
+  const topicsQuery = useLearningResourceTopics({
+    parent_topic_id: [parentTopicId],
+  })
+  return (
+    <SubTopicsContainer>
+      <SubTopicsHeader>Related Topics</SubTopicsHeader>
+      <ChipsContainer>
+        {topicsQuery.data?.results.map((topic) => (
+          <ChipLink
+            size="large"
+            variant="outlinedWhite"
+            key={topic.id}
+            href={topic.channel_url ? topic.channel_url : ""}
+            label={topic.name}
+          />
+        ))}
+      </ChipsContainer>
+    </SubTopicsContainer>
+  )
+}
+
 const ChannelPage: React.FC = () => {
   const { channelType, name } = useParams<RouteParams>()
   const channelQuery = useChannelDetail(String(channelType), String(name))
   const searchParams: Facets & BooleanFacets = {}
+  const publicDescription = channelQuery.data?.public_description
 
   if (channelQuery.data?.search_filter) {
     const urlParams = new URLSearchParams(channelQuery.data.search_filter)
@@ -37,7 +82,15 @@ const ChannelPage: React.FC = () => {
     channelType && (
       <>
         <ChannelPageTemplate name={name} channelType={channelType}>
-          <p>{channelQuery.data?.public_description}</p>
+          {publicDescription && (
+            <Typography variant="body1">{publicDescription}</Typography>
+          )}
+          {channelQuery.data?.channel_type === ChannelTypeEnum.Topic &&
+          channelQuery.data?.topic_detail.topic ? (
+            <SubTopicsDisplay
+              parent_topic_id={channelQuery.data?.topic_detail.topic}
+            />
+          ) : null}
           {channelQuery.data?.search_filter && (
             <ChannelSearch
               channelTitle={channelQuery.data.title}
