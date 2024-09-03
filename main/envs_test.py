@@ -6,8 +6,8 @@ import pytest
 
 from main.envs import (
     EnvironmentVariableParseException,
-    get_any,
     get_bool,
+    get_float,
     get_int,
     get_list_of_str,
     get_string,
@@ -19,36 +19,15 @@ FAKE_ENVIRONS = {
     "positive": "123",
     "negative": "-456",
     "zero": "0",
-    "float": "1.1",
+    "float-positive": "1.1",
+    "float-negative": "-1.1",
+    "float-zero": "0.0",
     "expression": "123-456",
     "none": "None",
     "string": "a b c d e f g",
     "list_of_int": "[3,4,5]",
     "list_of_str": '["x", "y", \'z\']',
 }
-
-
-def test_get_any():
-    """
-    get_any should parse an environment variable into a bool, int, or a string
-    """
-    expected = {
-        "true": True,
-        "false": False,
-        "positive": 123,
-        "negative": -456,
-        "zero": 0,
-        "float": "1.1",
-        "expression": "123-456",
-        "none": "None",
-        "string": "a b c d e f g",
-        "list_of_int": "[3,4,5]",
-        "list_of_str": '["x", "y", \'z\']',
-    }
-    with patch("main.envs.os", environ=FAKE_ENVIRONS):
-        for key, value in expected.items():
-            assert get_any(key, "default") == value
-        assert get_any("missing", "default") == "default"
 
 
 def test_get_string():
@@ -82,6 +61,36 @@ def test_get_int():
         assert get_int("missing", "default") == "default"
 
 
+def test_get_float():
+    """
+    get_float should get the float from the environment variable, or raise an exception if it's not parseable as an float
+    """
+    with patch("main.envs.os", environ=FAKE_ENVIRONS):
+        assert get_float("positive", 1234) == 123
+        assert get_float("negative", 1234) == -456
+        assert get_float("zero", 1234) == 0
+        assert get_float("float-positive", 1234) == 1.1
+        assert get_float("float-negative", 1234) == -1.1
+        assert get_float("float-zero", 1234) == 0.0
+
+        for key, value in FAKE_ENVIRONS.items():
+            if key not in (
+                "positive",
+                "negative",
+                "zero",
+                "float-zero",
+                "float-positive",
+                "float-negative",
+            ):
+                with pytest.raises(EnvironmentVariableParseException) as ex:
+                    get_float(key, 1234)
+                assert (
+                    ex.value.args[0] == f"Expected value in {key}={value} to be a float"
+                )
+
+        assert get_float("missing", "default") == "default"
+
+
 def test_get_bool():
     """
     get_bool should get the bool from the environment variable, or raise an exception if it's not parseable as a bool
@@ -99,7 +108,7 @@ def test_get_bool():
                     == f"Expected value in {key}={value} to be a boolean"
                 )
 
-        assert get_int("missing", "default") == "default"
+        assert get_bool("missing", "default") == "default"
 
 
 def test_get_list_of_str():

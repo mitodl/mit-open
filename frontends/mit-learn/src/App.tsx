@@ -11,6 +11,13 @@ Sentry.init({
   dsn: APP_SETTINGS.SENTRY_DSN,
   release: APP_SETTINGS.VERSION,
   environment: APP_SETTINGS.SENTRY_ENV,
+  integrations: [
+    Sentry.browserTracingIntegration(),
+    Sentry.browserProfilingIntegration(),
+  ],
+  profilesSampleRate: APP_SETTINGS.SENTRY_PROFILES_SAMPLE_RATE,
+  tracesSampleRate: APP_SETTINGS.SENTRY_TRACES_SAMPLE_RATE,
+  tracePropagationTargets: [APP_SETTINGS.MITOL_API_BASE_URL],
 })
 
 const container = document.getElementById("app-container")
