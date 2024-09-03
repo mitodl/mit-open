@@ -62,10 +62,12 @@ const getEmbedlyUrl = (
   size: Size,
   isMedia: boolean,
 ) => {
-  return embedlyCroppedImage(resource.image!.url!, {
-    key: APP_SETTINGS.EMBEDLY_KEY,
-    ...getImageDimensions(size, isMedia),
-  })
+  return resource.image!.url!
+  // TODO We'll likely want to use Next.js' image optimization
+  // return embedlyCroppedImage(resource.image!.url!, {
+  //   key: process.env.NEXT_PUBLIC_EMBEDLY_KEY!,
+  //   ...getImageDimensions(size, isMedia),
+  // })
 }
 
 type ResourceIdCallback = (
@@ -249,7 +251,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
             : DEFAULT_RESOURCE_IMG
         }
         alt={resource.image?.alt ?? ""}
-        height={`${getImageDimensions(size, isMedia).height}px`}
+        {...getImageDimensions(size, isMedia)}
       />
       <Card.Info>
         <Info resource={resource} size={size} />
