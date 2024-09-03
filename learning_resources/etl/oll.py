@@ -18,6 +18,7 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import generate_course_numbers_json, transform_levels
+from learning_resources.utils import get_year_and_semester
 
 log = logging.getLogger(__name__)
 
@@ -95,6 +96,7 @@ def transform_run(course_data: dict) -> list[dict]:
     Returns:
         dict: normalized course run data
     """
+    year, semester = get_year_and_semester({"key": course_data["readable_id"]})
     return [
         {
             "title": course_data["title"],
@@ -107,6 +109,8 @@ def transform_run(course_data: dict) -> list[dict]:
             "level": transform_levels([course_data["Level"]])
             if course_data["Level"]
             else [],
+            "year": year,
+            "semester": semester,
             "instructors": [
                 {"full_name": instructor}
                 for instructor in [
