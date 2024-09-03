@@ -10,7 +10,6 @@ type User = {
   is_learning_path_editor: boolean
 }
 
-
 const makeUserSettings: Factory<User> = (overrides = {}) => {
   const hasConflict =
     (Number.isFinite(overrides.id) && overrides.is_authenticated === false) ||

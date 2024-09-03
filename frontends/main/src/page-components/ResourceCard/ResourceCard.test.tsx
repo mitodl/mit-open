@@ -1,11 +1,6 @@
 import React from "react"
 import * as NiceModal from "@ebay/nice-modal-react"
-import {
-  renderWithProviders,
-  user,
-  screen,
-  expectProps,
-} from "@/test-utils"
+import { renderWithProviders, user, screen, expectProps } from "@/test-utils"
 import type { User } from "api/hooks/user"
 import { ResourceCard, ResourceListCard } from "./ResourceCard"
 import {

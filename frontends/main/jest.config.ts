@@ -1,4 +1,4 @@
-import path, { resolve } from "path"
+import { resolve } from "path"
 import type { Config } from "@jest/types"
 import baseConfig from "../jest.jsdom.config"
 
