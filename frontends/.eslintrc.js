@@ -10,7 +10,7 @@ module.exports = {
   plugins: ["testing-library", "import", "styled-components-a11y"],
   ignorePatterns: [
     "**/build/**",
-    "ol-ckeditor-2/dist",
+    "mit-learn",
     "github-pages",
     "storybook-static",
   ],
