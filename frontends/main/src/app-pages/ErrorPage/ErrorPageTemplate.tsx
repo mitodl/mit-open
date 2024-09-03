@@ -13,10 +13,7 @@ type ErrorPageTemplateProps = {
   children: React.ReactNode
 }
 
-const ErrorPageTemplate: React.FC<ErrorPageTemplateProps> = ({
-  title,
-  children,
-}) => {
+const ErrorPageTemplate: React.FC<ErrorPageTemplateProps> = ({ children }) => {
   return (
     <Container maxWidth="sm">
       <MuiCard sx={{ marginTop: "1rem" }}>
