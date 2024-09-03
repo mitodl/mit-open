@@ -1,3 +1,5 @@
+/* Not used?
+
 import React, { useCallback } from "react"
 import {
   Widget,
@@ -104,3 +106,4 @@ const WidgetsList: React.FC<WidgetsListProps> = ({
 }
 
 export default WidgetsList
+*/

@@ -97,7 +97,7 @@ const ListCardCondensed: Card = ({ children, className, href, draggable }) => {
 
   if (content) {
     return (
-      <_Container className={className} to={href!}>
+      <_Container className={className} href={href!}>
         {content}
       </_Container>
     )
@@ -105,7 +105,7 @@ const ListCardCondensed: Card = ({ children, className, href, draggable }) => {
 
   return (
     <Wrapper className={className}>
-      <_Container to={href!}>
+      <_Container href={href!}>
         {draggable && (
           <DragArea>
             <RiDraggable />
