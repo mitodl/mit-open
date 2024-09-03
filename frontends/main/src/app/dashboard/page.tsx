@@ -5,7 +5,7 @@ import PageWrapper from "./ClientWrapper"
 
 export const metadata: Metadata = getMetadata({
   title: "Your MIT Learning Journey",
-  social: false
+  social: false,
 })
 
 const Page: React.FC = () => {

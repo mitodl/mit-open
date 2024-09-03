@@ -19,7 +19,6 @@ import { styled, Container, Grid, theme, VisuallyHidden } from "ol-components"
 import { capitalize } from "ol-utilities"
 import LearningResourceDrawer from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
 
-
 const cssGradient = `
   linear-gradient(
     to bottom,
