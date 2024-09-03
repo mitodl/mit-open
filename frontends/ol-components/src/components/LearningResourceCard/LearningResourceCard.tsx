@@ -62,12 +62,10 @@ const getEmbedlyUrl = (
   size: Size,
   isMedia: boolean,
 ) => {
-  return resource.image!.url!
-  // TODO We'll likely want to use Next.js' image optimization
-  // return embedlyCroppedImage(resource.image!.url!, {
-  //   key: process.env.NEXT_PUBLIC_EMBEDLY_KEY!,
-  //   ...getImageDimensions(size, isMedia),
-  // })
+  return embedlyCroppedImage(resource.image!.url!, {
+    key: process.env.NEXT_PUBLIC_EMBEDLY_KEY!,
+    ...getImageDimensions(size, isMedia),
+  })
 }
 
 type ResourceIdCallback = (

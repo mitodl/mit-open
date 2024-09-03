@@ -1,11 +1,15 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import React from "react"
 import { createMemoryRouter, useRouteError } from "react-router"
 import type { RouteObject } from "react-router"
 
+// @ts-expect-error Fixing tests next
 import AppProviders from "../AppProviders"
+// @ts-expect-error Fixing tests next
 import appRoutes from "../routes"
 import { render } from "@testing-library/react"
 import { setMockResponse } from "api/test-utils"
+// @ts-expect-error Fixing tests next
 import { createQueryClient } from "@/services/react-query/react-query"
 import type { User } from "api/hooks/user"
 import { QueryKey } from "@tanstack/react-query"
