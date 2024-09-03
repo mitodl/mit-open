@@ -1,6 +1,21 @@
 Release Notes
 =============
 
+Version 0.17.14 (Released August 30, 2024)
+---------------
+
+- put hero image into its own component and set the random image in a state variable so it doesn't change on re-render (#1490)
+- fix codespace backend (#1488)
+- score cutoff (#1466)
+
+Version 0.17.13 (Released August 30, 2024)
+---------------
+
+- Fix a flaky test (#1487)
+- homepage search revisions (#1485)
+- Better Headings Structure (#1473)
+- Fix dialog spacing + reset AddToListDialog (#1484)
+
 Version 0.17.12 (Released August 29, 2024)
 ---------------
 

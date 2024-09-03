@@ -14,8 +14,10 @@ export declare global {
     EMBEDLY_KEY: string
     CKEDITOR_UPLOAD_URL?: string
     SENTRY_DSN?: string
-    VERSION?: string
     SENTRY_ENV?: string
+    SENTRY_PROFILES_SAMPLE_RATE: number
+    SENTRY_TRACES_SAMPLE_RATE: number
+    VERSION?: string
     POSTHOG?: PostHogSettings
     SITE_NAME: string
     MITOL_SUPPORT_EMAIL: string

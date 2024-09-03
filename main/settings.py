@@ -21,8 +21,8 @@ import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 
 from main.envs import (
-    get_any,
     get_bool,
+    get_float,
     get_int,
     get_list_of_str,
     get_string,
@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.17.12"
+VERSION = "0.17.14"
 
 log = logging.getLogger()
 
@@ -43,8 +43,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 # initialize Sentry before doing anything else so we capture any config errors
 SENTRY_DSN = get_string("SENTRY_DSN", "")
 SENTRY_LOG_LEVEL = get_string("SENTRY_LOG_LEVEL", "ERROR")
+SENTRY_TRACES_SAMPLE_RATE = get_float("SENTRY_TRACES_SAMPLE_RATE", 0)
+SENTRY_PROFILES_SAMPLE_RATE = get_float("SENTRY_PROFILES_SAMPLE_RATE", 0)
 init_sentry(
-    dsn=SENTRY_DSN, environment=ENVIRONMENT, version=VERSION, log_level=SENTRY_LOG_LEVEL
+    dsn=SENTRY_DSN,
+    environment=ENVIRONMENT,
+    version=VERSION,
+    log_level=SENTRY_LOG_LEVEL,
+    traces_sample_rate=SENTRY_TRACES_SAMPLE_RATE,
+    profiles_sample_rate=SENTRY_PROFILES_SAMPLE_RATE,
 )
 
 BASE_DIR = os.path.dirname(  # noqa: PTH120
@@ -110,7 +117,6 @@ INSTALLED_APPS = (
     "news_events",
     "testimonials",
     "data_fixtures",
-    "silk",
 )
 
 if not get_bool("RUN_DATA_MIGRATIONS", default=False):
@@ -151,7 +157,6 @@ MIDDLEWARE = (
     "hijack.middleware.HijackUserMiddleware",
     "oauth2_provider.middleware.OAuth2TokenMiddleware",
     "django_scim.middleware.SCIMAuthCheckMiddleware",
-    "silk.middleware.SilkyMiddleware",
 )
 
 # CORS
@@ -159,6 +164,19 @@ CORS_ALLOWED_ORIGINS = get_list_of_str("CORS_ALLOWED_ORIGINS", [])
 CORS_ALLOWED_ORIGIN_REGEXES = get_list_of_str("CORS_ALLOWED_ORIGIN_REGEXES", [])
 
 CORS_ALLOW_CREDENTIALS = get_bool("CORS_ALLOW_CREDENTIALS", True)  # noqa: FBT003
+CORS_ALLOW_HEADERS = (
+    # defaults
+    "accept",
+    "authorization",
+    "content-type",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    # sentry tracing
+    "baggage",
+    "sentry-trace",
+)
+
 SECURE_CROSS_ORIGIN_OPENER_POLICY = get_string(
     "SECURE_CROSS_ORIGIN_OPENER_POLICY",
     "same-origin",
@@ -633,7 +651,7 @@ def get_all_config_keys():
 MITOL_FEATURES_PREFIX = get_string("MITOL_FEATURES_PREFIX", "FEATURE_")
 MITOL_FEATURES_DEFAULT = get_bool("MITOL_FEATURES_DEFAULT", False)  # noqa: FBT003
 FEATURES = {
-    key[len(MITOL_FEATURES_PREFIX) :]: get_any(key, None)
+    key[len(MITOL_FEATURES_PREFIX) :]: get_bool(key, False)  # noqa: FBT003
     for key in get_all_config_keys()
     if key.startswith(MITOL_FEATURES_PREFIX)
 }
@@ -745,13 +763,3 @@ POSTHOG_PROJECT_ID = get_int(
     name="POSTHOG_PROJECT_ID",
     default=None,
 )
-
-SILKY_INTERCEPT_PERCENT = get_int(name="SILKY_INTERCEPT_PERCENT", default=0)
-SILKY_MAX_RECORDED_REQUESTS = get_int(name="SILKY_MAX_RECORDED_REQUESTS", default=10**3)
-SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT = get_int(
-    name="SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT", default=10
-)
-SILKY_PYTHON_PROFILER = get_bool("SILKY_PYTHON_PROFILER", default=False)
-SILKY_AUTHENTICATION = True  # User must login
-SILKY_AUTHORISATION = True
-SILKY_PERMISSIONS = lambda user: user.is_superuser  # noqa: E731

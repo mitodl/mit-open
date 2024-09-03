@@ -4,7 +4,7 @@ services:
   db:
     profiles:
       - backend
-    image: postgres:12.19
+    image: postgres:12.20
     ports:
       - 5432:5432
     environment:
@@ -22,7 +22,7 @@ services:
   opensearch-node-mitopen:
     profiles:
       - backend
-    image: opensearchproject/opensearch:2.15.0
+    image: opensearchproject/opensearch:2.16.0
     container_name: opensearch-node-mitopen
     environment:
       - cluster.name=opensearch-cluster
@@ -94,7 +94,7 @@ services:
     profiles:
       - frontend
     working_dir: /src
-    image: node:20.15
+    image: node:20.17
     entrypoint: ["/bin/sh", "-c"]
     command:
       - |

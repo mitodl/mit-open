@@ -191,6 +191,15 @@ const getRandomHeroImage = () => {
   return `/images/hero/hero-${imageNumber}.png`
 }
 
+const HeroImage: React.FC = () => {
+  const [heroImage, _] = useState(getRandomHeroImage)
+  return (
+    <ImageContainer>
+      <Image alt="" src={heroImage} fill />
+    </ImageContainer>
+  )
+}
+
 const HeroSearch: React.FC = () => {
   const [searchText, setSearchText] = useState("")
   const onSearchClear = useCallback(() => setSearchText(""), [])
@@ -259,9 +268,7 @@ const HeroSearch: React.FC = () => {
           </div>
         </ControlsContainer>
       </TitleAndControls>
-      <ImageContainer>
-        <Image alt="" src={getRandomHeroImage()} fill />
-      </ImageContainer>
+      <HeroImage />
     </HeroWrapper>
   )
 }

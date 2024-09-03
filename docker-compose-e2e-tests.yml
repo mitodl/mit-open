@@ -4,7 +4,7 @@ name: mit-learn-e2e-tests
 
 services:
   db:
-    image: postgres:12.19
+    image: postgres:12.20
     ports:
       - 5432:5432
     environment:

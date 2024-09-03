@@ -54,7 +54,6 @@ urlpatterns = (
         re_path(r"", include("testimonials.urls")),
         re_path(r"", include("news_events.urls")),
         re_path(r"", include(features_router.urls)),
-        re_path(r"^silk/", include("silk.urls", namespace="silk")),
         re_path(r"^app", RedirectView.as_view(url=settings.APP_BASE_URL)),
         # Hijack
         re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
