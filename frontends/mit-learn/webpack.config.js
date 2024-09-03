@@ -23,7 +23,7 @@ const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
 const CopyPlugin = require("copy-webpack-plugin")
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin")
-const { cleanEnv, str, bool, port } = require("envalid")
+const { cleanEnv, str, bool, port, num } = require("envalid")
 
 const {
   NODE_ENV,
@@ -40,6 +40,8 @@ const {
   CKEDITOR_UPLOAD_URL,
   SENTRY_DSN,
   SENTRY_ENV,
+  SENTRY_TRACES_SAMPLE_RATE,
+  SENTRY_PROFILES_SAMPLE_RATE,
   CSRF_COOKIE_NAME,
   APPZI_URL,
 } = cleanEnv(process.env, {
@@ -99,6 +101,14 @@ const {
   SENTRY_DSN: str({
     desc: "Sentry Data Source Name",
     default: "",
+  }),
+  SENTRY_TRACES_SAMPLE_RATE: num({
+    desc: "Sentry tracing sample rate",
+    default: 0.0,
+  }),
+  SENTRY_PROFILES_SAMPLE_RATE: num({
+    desc: "Sentry profiling sample rate",
+    default: 0.0,
   }),
   CSRF_COOKIE_NAME: str({
     desc: "Name of the CSRF cookie",
@@ -242,6 +252,8 @@ module.exports = (env, argv) => {
           VERSION: JSON.stringify(VERSION),
           SENTRY_DSN: JSON.stringify(SENTRY_DSN),
           SENTRY_ENV: JSON.stringify(SENTRY_ENV),
+          SENTRY_PROFILES_SAMPLE_RATE,
+          SENTRY_TRACES_SAMPLE_RATE,
           POSTHOG: getPostHogSettings(),
           SITE_NAME: JSON.stringify(SITE_NAME),
           MITOL_SUPPORT_EMAIL: JSON.stringify(MITOL_SUPPORT_EMAIL),
