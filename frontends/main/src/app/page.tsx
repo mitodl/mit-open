@@ -8,14 +8,14 @@ import { FeaturedApiFeaturedListRequest } from "api/generated/v1/api"
 import getQueryClient from "./getQueryClient"
 import { getMetadataAsync } from "@/common/metadata"
 
-
-export async function generateMetadata(
-  { searchParams }: {searchParams: { [key: string]: string | string[] | undefined }}
-): Promise<Metadata> {
-
+export async function generateMetadata({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}): Promise<Metadata> {
   return await getMetadataAsync({
     title: "Learn with MIT",
-    searchParams
+    searchParams,
   })
 }
 

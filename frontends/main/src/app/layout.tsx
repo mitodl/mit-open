@@ -5,7 +5,6 @@ import { PageWrapper, PageWrapperInner } from "./styled"
 import Providers from "./providers"
 import GlobalStyles from "./GlobalStyles"
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -18,9 +17,7 @@ export default function RootLayout({
           <GlobalStyles />
           <PageWrapper>
             <Header />
-            <PageWrapperInner>
-              {children}
-            </PageWrapperInner>
+            <PageWrapperInner>{children}</PageWrapperInner>
             <Footer />
           </PageWrapper>
         </Providers>
