@@ -10,7 +10,10 @@ import {
   theme,
 } from "ol-components"
 import { RiBookOpenLine, RiSuitcaseLine } from "@remixicon/react"
-import { LearningResourceOfferorDetail, ChannelCounts } from "api"
+import {
+  LearningResourceOfferorDetail,
+  LearningResourcesSearchResponse,
+} from "api"
 import { HOME } from "@/common/urls"
 import { UnitCards, UnitCardLoading } from "./UnitCard"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
@@ -19,7 +22,7 @@ const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
 
 const aggregateProgramCounts = (
-  data: ChannelCounts,
+  data: LearningResourcesSearchResponse,
 ): Record<string, number> => {
   return Object.fromEntries(
     data.map((item) => {
@@ -28,7 +31,9 @@ const aggregateProgramCounts = (
   )
 }
 
-const aggregateCourseCounts = (data: ChannelCounts): Record<string, number> => {
+const aggregateCourseCounts = (
+  data: LearningResourcesSearchResponse,
+): Record<string, number> => {
   return Object.fromEntries(
     data.map((item) => {
       return [item.name, item.counts.courses]
