@@ -9,23 +9,23 @@ type PlatformObject = {
 export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   [PlatformEnum.Ocw]: {
     name: "MIT OpenCourseWare",
-    image: "ocw-logo.png",
+    image: "/unit_logos/ocw.png",
   },
   [PlatformEnum.Edx]: {
     name: "edX",
-    image: "edx_logo.svg",
+    image: "/platform_logos/edx.svg",
   },
   [PlatformEnum.Mitxonline]: {
     name: "MITx Online",
-    image: "mitx-online-logo.svg",
+    image: "/unit_logos/mitx.svg",
   },
   [PlatformEnum.Bootcamps]: {
     name: "Bootcamps",
-    image: "bootcamps_logo.svg",
+    image: "/platform_logos/bootcamps.svg",
   },
   [PlatformEnum.Xpro]: {
     name: "MIT xPRO",
-    image: "unit_logos/xpro.svg",
+    image: "/unit_logos/xpro.svg",
   },
   [PlatformEnum.Podcast]: {
     name: "Podcast",
@@ -33,7 +33,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.Csail]: {
     name: "CSAIL",
-    image: "csail_logo.svg",
+    image: "/platform_logos/csailsvg",
   },
   [PlatformEnum.Mitpe]: {
     name: "MIT Professional Education",
@@ -41,7 +41,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.See]: {
     name: "MIT Sloan Executive Education",
-    image: "unit_logos/see.svg",
+    image: "/platform_logos/see.svg",
   },
   [PlatformEnum.Scc]: {
     name: "Schwarzman College of Computing",
@@ -73,7 +73,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.Oll]: {
     name: "Open Learning Library",
-    image: "oll_logo.svg",
+    image: "/platform_logos/ollsvg",
   },
   [PlatformEnum.Youtube]: {
     name: "YouTube",
@@ -91,7 +91,7 @@ export const PlatformLogo: React.FC<{
   }
   return (
     <img
-      src={`/static/images/${platform?.image}`}
+      src={`/images${platform?.image}`}
       className={className}
       alt={platform.name}
     />
