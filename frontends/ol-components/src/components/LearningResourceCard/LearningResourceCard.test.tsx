@@ -1,5 +1,5 @@
 import React from "react"
-import { BrowserRouter } from "react-router-dom"
+import Link from "next/link"
 import { screen, render } from "@testing-library/react"
 import { LearningResourceCard } from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"
@@ -9,6 +9,7 @@ import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 const setup = (props: LearningResourceCardProps) => {
+  // TODO Browser Router will need to be replaced with a Next.js router mock or alternative strategy
   return render(
     <BrowserRouter>
       <LearningResourceCard {...props} />

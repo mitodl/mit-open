@@ -1,6 +1,6 @@
 import type { EmbedlyConfig } from "ol-utilities"
 
-const { EMBEDLY_KEY } = APP_SETTINGS
+const EMBEDLY_KEY = process.env.NEXT_PUBLIC_EMBEDLY_KEY as string
 
 const imgConfigs = {
   row: {

@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@/test-utils": ["./test-utils"],
+      "api": ["../api/src"],
+      "api/*": ["../api/src/*"]
+    },
+    "target": "ESNext",
+    "types": [
+      "node",
+      "jest",
+      "@types/jest",
+      "@testing-library/jest-dom",
+      "jest-extended"
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "../jest.jsdom.config"
+  ],
+  "exclude": ["node_modules", "../mit-learn/**/*.tsx", "ol-test-utilities"]
+}
