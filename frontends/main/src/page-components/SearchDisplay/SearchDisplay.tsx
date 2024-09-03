@@ -42,7 +42,6 @@ import type {
   FacetManifest,
 } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/next"
-import _ from "lodash"
 import { ResourceCategoryTabs } from "./ResourceCategoryTabs"
 import ProfessionalToggle from "./ProfessionalToggle"
 import SliderInput from "./SliderInput"

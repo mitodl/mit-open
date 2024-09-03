@@ -1,7 +1,7 @@
 import React from "react"
 import { styled } from "ol-components"
 import { useProgramLettersDetail } from "api/hooks/programLetters"
-import { useParams } from 'next/navigation'
+import { useParams } from "next/navigation"
 import { CkeditorDisplay } from "ol-ckeditor"
 
 type RouteParams = {
