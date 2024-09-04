@@ -33,7 +33,7 @@ const Container = styled.div<{ padTop?: boolean }>`
   }
 `
 
-const Date = styled.div`
+const DateContainer = styled.div`
   display: flex;
   justify-content: start;
   align-self: stretch;
@@ -60,7 +60,7 @@ const Date = styled.div`
   }
 `
 
-const DateSingle = styled(Date)`
+const DateSingle = styled(DateContainer)`
   margin-top: 10px;
 `
 
@@ -357,14 +357,14 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       multipleRuns
     ) {
       return (
-        <Date>
+        <DateContainer>
           <DateLabel>{label}</DateLabel>
           <SimpleSelect
             value={selectedRun?.id.toString() ?? ""}
             onChange={onDateChange}
             options={dateOptions}
           />
-        </Date>
+        </DateContainer>
       )
     }
 
