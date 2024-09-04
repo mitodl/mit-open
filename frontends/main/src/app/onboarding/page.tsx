@@ -1,7 +1,7 @@
 import React from "react"
 import { Metadata } from "next"
 import { getMetadata } from "@/common/metadata"
-import PageWrapper from "./ClientWrapper"
+import OnboardingPage from "@/app-pages/OnboardingPage/OnboardingPage"
 
 export const metadata: Metadata = getMetadata({
   title: "Onboarding",
@@ -9,7 +9,7 @@ export const metadata: Metadata = getMetadata({
 })
 
 const Page: React.FC = () => {
-  return <PageWrapper />
+  return <OnboardingPage />
 }
 
 export default Page
