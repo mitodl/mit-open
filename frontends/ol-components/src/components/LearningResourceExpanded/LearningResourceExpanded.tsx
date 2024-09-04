@@ -327,7 +327,8 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       const closest = resource?.runs?.reduce(function (prev, current) {
         const now = Date.now()
         return prev.start_date &&
-          Date.parse(prev.start_date) - now > current.start_date - now
+          Date.parse(prev.start_date) - now <
+            Date.parse(current.start_date) - now
           ? prev
           : current
       })
