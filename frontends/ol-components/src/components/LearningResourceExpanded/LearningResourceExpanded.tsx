@@ -33,7 +33,7 @@ const Container = styled.div<{ padTop?: boolean }>`
   }
 `
 
-const Date = styled.div`
+const DateContainer = styled.div`
   display: flex;
   justify-content: start;
   align-self: stretch;
@@ -324,7 +324,14 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
 
   useEffect(() => {
     if (resource) {
-      setSelectedRun(resource!.runs![0])
+      const closest = resource?.runs?.reduce(function (prev, current) {
+        const now = Date.now()
+        return prev.start_date &&
+          Date.parse(prev.start_date) - now > current.start_date - now
+          ? prev
+          : current
+      })
+      setSelectedRun(closest)
     }
   }, [resource])
 
@@ -357,14 +364,14 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       multipleRuns
     ) {
       return (
-        <Date>
+        <DateContainer>
           <DateLabel>{label}</DateLabel>
           <SimpleSelect
             value={selectedRun?.id.toString() ?? ""}
             onChange={onDateChange}
             options={dateOptions}
           />
-        </Date>
+        </DateContainer>
       )
     }
 
