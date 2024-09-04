@@ -251,7 +251,7 @@ const navData: NavData = {
 const Header: FunctionComponent = () => {
   const [drawerOpen, toggleDrawer] = useToggle(false)
   const toggler = (event: React.MouseEvent) => {
-    event.stopPropagation()
+    event.stopPropagation() // Prevent clicking on "Explore MIT" button from triggering the ClickAwayHandler
     toggleDrawer(!drawerOpen)
   }
   const closeDrawer = (event: MouseEvent | TouchEvent) => {
