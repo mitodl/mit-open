@@ -12,12 +12,15 @@ import { ChannelTypeEnum } from "api/v0"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { ChipLink, Container, styled, Typography } from "ol-components"
 
-const SubTopicsContainer = styled(Container)({
+const SubTopicsContainer = styled(Container)(({ theme }) => ({
   paddingTop: "50px",
-})
+  [theme.breakpoints.down("md")]: {
+    paddingTop: "24px",
+  },
+}))
 
 const SubTopicsHeader = styled(Typography)(({ theme }) => ({
-  marginBottom: "16px",
+  marginBottom: "10px",
   ...theme.typography.subtitle1,
 }))
 
