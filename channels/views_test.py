@@ -481,3 +481,37 @@ def test_channel_counts_view(client):
                 response_count_sum
                 == random_channel.unit_detail.unit.learningresource_set.count()
             )
+
+
+def test_channel_counts_view_is_cached_for_anonymous_users(client):
+    """Test the channel counts view is cached for anonymous users"""
+    channel_count = 5
+    channels = ChannelFactory.create_batch(channel_count, channel_type="unit")
+    url = reverse(
+        "channels:v0:channel_counts_api-list",
+        kwargs={"channel_type": "unit"},
+    )
+    response = client.get(url).json()
+    assert len(response) == channel_count
+    for channel in channels:
+        channel.delete()
+    response = client.get(url).json()
+    assert len(response) == channel_count
+
+
+def test_channel_counts_view_is_cached_for_authenticated_users(client):
+    """Test the channel counts view is cached for authenticated users"""
+    channel_count = 5
+    channel_user = UserFactory.create()
+    client.force_login(channel_user)
+    channels = ChannelFactory.create_batch(channel_count, channel_type="unit")
+    url = reverse(
+        "channels:v0:channel_counts_api-list",
+        kwargs={"channel_type": "unit"},
+    )
+    response = client.get(url).json()
+    assert len(response) == channel_count
+    for channel in channels:
+        channel.delete()
+    response = client.get(url).json()
+    assert len(response) == channel_count
