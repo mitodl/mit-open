@@ -11,7 +11,7 @@ import {
 
 import { RiAddLine } from "@remixicon/react"
 
-import { NiceModal } from "@/libraries/@ebay/nice-modal-react"
+import NiceModal, { muiDialogV5 } from "@ebay/nice-modal-react"
 
 import {
   type LearningPathResource,
@@ -127,7 +127,7 @@ const AddToListDialogInner: React.FC<AddToListDialogInnerProps> = ({
       fullWidth
       onReset={formik.resetForm}
       onSubmit={formik.handleSubmit}
-      {...NiceModal.muiDialogV5(modal)}
+      {...muiDialogV5(modal)}
       actions={
         <Actions>
           <Button

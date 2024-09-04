@@ -1,8 +1,8 @@
 import React from "react"
-import PageWrapper from "./ClientWrapper"
+import ChannelPage from "@/app-pages/ChannelPage/ChannelPage"
 
 const Page: React.FC = () => {
-  return <PageWrapper />
+  return <ChannelPage />
 }
 
 export default Page
