@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.18.0
+Version 0.18.0 (Released September 04, 2024)
 --------------
 
 - Setup sentry tracing and profiling (#1492)
