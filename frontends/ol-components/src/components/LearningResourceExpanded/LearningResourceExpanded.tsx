@@ -60,7 +60,7 @@ const DateContainer = styled.div`
   }
 `
 
-const DateSingle = styled(Date)`
+const DateSingle = styled(DateContainer)`
   margin-top: 10px;
 `
 
@@ -331,7 +331,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
             Date.parse(current.start_date) - now
           ? prev
           : current
-      })
+      }, resource!.runs![0])
       setSelectedRun(closest)
     }
   }, [resource])
