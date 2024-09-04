@@ -1,4 +1,4 @@
-import React, { Suspense } from "react"
+import React from "react"
 import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
 import { PageWrapper, PageWrapperInner } from "./styled"
@@ -16,9 +16,7 @@ export default function RootLayout({
         <Providers>
           <GlobalStyles />
           <PageWrapper>
-            <Suspense>
-              <Header />
-            </Suspense>
+            <Header />
             <PageWrapperInner>{children}</PageWrapperInner>
             <Footer />
           </PageWrapper>
