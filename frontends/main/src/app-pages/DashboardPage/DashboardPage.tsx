@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { Suspense } from "react"
 import {
   RiAccountCircleFill,
   RiDashboardLine,
@@ -43,7 +43,6 @@ import UserListDetailsTab from "./UserListDetailsTab"
 import { SettingsPage } from "./SettingsPage"
 import { DASHBOARD_HOME, MY_LISTS, PROFILE, SETTINGS } from "@/common/urls"
 import LearningResourceDrawer from "@/page-components/LearningResourceDrawer/LearningResourceDrawer"
-// import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 /**
  *
@@ -441,52 +440,54 @@ const DashboardPage: React.FC = () => {
                         </ButtonLink>
                       </HomeHeaderRight>
                     </HomeHeader>
-                    <StyledResourceCarousel
-                      titleComponent="h2"
-                      title="Top picks for you"
-                      isLoading={isLoadingProfile}
-                      config={TopPicksCarouselConfig(profile)}
-                      data-testid="top-picks-carousel"
-                    />
-                    {topics?.map((topic, index) => (
-                      <StyledResourceCarousel
-                        key={index}
-                        titleComponent="h2"
-                        title={`Popular courses in ${topic}`}
-                        isLoading={isLoadingProfile}
-                        config={TopicCarouselConfig(topic)}
-                        data-testid={`topic-carousel-${topic}`}
-                      />
-                    ))}
-                    {certification === true ? (
+                    <Suspense>
                       <StyledResourceCarousel
                         titleComponent="h2"
-                        title="Courses with Certificates"
+                        title="Top picks for you"
                         isLoading={isLoadingProfile}
-                        config={CERTIFICATE_COURSES_CAROUSEL}
-                        data-testid="certification-carousel"
+                        config={TopPicksCarouselConfig(profile)}
+                        data-testid="top-picks-carousel"
                       />
-                    ) : (
+                      {topics?.map((topic, index) => (
+                        <StyledResourceCarousel
+                          key={index}
+                          titleComponent="h2"
+                          title={`Popular courses in ${topic}`}
+                          isLoading={isLoadingProfile}
+                          config={TopicCarouselConfig(topic)}
+                          data-testid={`topic-carousel-${topic}`}
+                        />
+                      ))}
+                      {certification === true ? (
+                        <StyledResourceCarousel
+                          titleComponent="h2"
+                          title="Courses with Certificates"
+                          isLoading={isLoadingProfile}
+                          config={CERTIFICATE_COURSES_CAROUSEL}
+                          data-testid="certification-carousel"
+                        />
+                      ) : (
+                        <StyledResourceCarousel
+                          titleComponent="h2"
+                          title="Free courses"
+                          isLoading={isLoadingProfile}
+                          config={FREE_COURSES_CAROUSEL}
+                          data-testid="free-carousel"
+                        />
+                      )}
                       <StyledResourceCarousel
                         titleComponent="h2"
-                        title="Free courses"
-                        isLoading={isLoadingProfile}
-                        config={FREE_COURSES_CAROUSEL}
-                        data-testid="free-carousel"
+                        title="New"
+                        config={NEW_LEARNING_RESOURCES_CAROUSEL}
+                        data-testid="new-learning-resources-carousel"
                       />
-                    )}
-                    <StyledResourceCarousel
-                      titleComponent="h2"
-                      title="New"
-                      config={NEW_LEARNING_RESOURCES_CAROUSEL}
-                      data-testid="new-learning-resources-carousel"
-                    />
-                    <StyledResourceCarousel
-                      titleComponent="h2"
-                      title="Popular"
-                      config={POPULAR_LEARNING_RESOURCES_CAROUSEL}
-                      data-testid="popular-learning-resources-carousel"
-                    />
+                      <StyledResourceCarousel
+                        titleComponent="h2"
+                        title="Popular"
+                        config={POPULAR_LEARNING_RESOURCES_CAROUSEL}
+                        data-testid="popular-learning-resources-carousel"
+                      />
+                    </Suspense>
                   </TabPanelStyled>
                   <TabPanelStyled value={MY_LISTS}>
                     <UserListListingComponent title="My Lists" />
