@@ -1,6 +1,6 @@
 import React, { useCallback } from "react"
 import { useFormik, FormikConfig } from "formik"
-import { NiceModal } from "@/libraries/@ebay/nice-modal-react"
+import NiceModal, { muiDialogV5 } from "@ebay/nice-modal-react"
 import { RiDeleteBinLine } from "@remixicon/react"
 import {
   Alert,
@@ -114,7 +114,7 @@ const UpsertLearningPathDialog = NiceModal.create(
 
     return (
       <FormDialog
-        {...NiceModal.muiDialogV5(modal)}
+        {...muiDialogV5(modal)}
         title={title}
         fullWidth
         formClassName="manage-list-form"
@@ -231,7 +231,7 @@ const UpsertUserListDialog = NiceModal.create(
 
     return (
       <FormDialog
-        {...NiceModal.muiDialogV5(modal)}
+        {...muiDialogV5(modal)}
         title={title}
         fullWidth
         formClassName="manage-list-form"
@@ -311,7 +311,7 @@ const DeleteLearningPathDialog = NiceModal.create(
     }, [destroyList, hideModal, resource])
     return (
       <Dialog
-        {...NiceModal.muiDialogV5(modal)}
+        {...muiDialogV5(modal)}
         onConfirm={handleConfirm}
         title="Delete Learning Path"
         confirmText="Yes, delete"
@@ -343,7 +343,7 @@ const DeleteUserListDialog = NiceModal.create(
 
     return (
       <Dialog
-        {...NiceModal.muiDialogV5(modal)}
+        {...muiDialogV5(modal)}
         onConfirm={handleConfirm}
         title="Delete List"
         confirmText="Yes, delete"
