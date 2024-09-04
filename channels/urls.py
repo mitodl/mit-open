@@ -23,7 +23,7 @@ v0_urls = [
     re_path(
         r"^channels/counts/(?P<channel_type>[A-Za-z0-9_\-]+)/$",
         ChannelCountsView.as_view({"get": "list"}),
-        name="channel_counts_api-detail",
+        name="channel_counts_api-list",
     ),
     re_path(
         r"^channels/(?P<id>\d+)/moderators/$",
