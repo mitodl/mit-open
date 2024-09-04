@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Suspense } from "react"
 import { Metadata } from "next"
 import { getMetadata } from "@/common/metadata"
 import SearchPage from "@/app-pages/SearchPage/SearchPage"
@@ -8,7 +8,11 @@ export const metadata: Metadata = getMetadata({
 })
 
 const Page: React.FC = () => {
-  return <SearchPage />
+  return (
+    <Suspense>
+      <SearchPage />
+    </Suspense>
+  )
 }
 
 export default Page

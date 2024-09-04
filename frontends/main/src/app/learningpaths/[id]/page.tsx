@@ -1,8 +1,8 @@
 import React from "react"
-import PageWrapper from "./ClientWrapper"
+import LearningPathDetailsPage from "@/app-pages/LearningPathDetailsPage/LearningPathDetailsPage"
 
 const Page: React.FC = () => {
-  return <PageWrapper />
+  return <LearningPathDetailsPage />
 }
 
 export default Page
