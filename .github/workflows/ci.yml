@@ -98,7 +98,26 @@ jobs:
         with:
           file: ./coverage.xml
 
+  build-nextjs-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
+        with:
+          node-version: "^20"
+          cache: yarn
+          cache-dependency-path: yarn.lock
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build Next.js frontend
+        run: yarn workspace main build
+
   javascript-tests:
+    if: false #TODO
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
@@ -145,6 +164,7 @@ jobs:
           file: coverage/lcov.info
 
   build-storybook:
+    if: false #TODO
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

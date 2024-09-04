@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { Suspense, useCallback } from "react"
 import {
   RoutedDrawer,
   LearningResourceExpanded,
@@ -88,15 +88,17 @@ const PAPER_PROPS: RoutedDrawerProps["PaperProps"] = {
 
 const LearningResourceDrawer = () => {
   return (
-    <RoutedDrawer
-      anchor="right"
-      requiredParams={RESOURCE_DRAWER_PARAMS}
-      PaperProps={PAPER_PROPS}
-    >
-      {({ params }) => {
-        return <DrawerContent resourceId={Number(params.resource)} />
-      }}
-    </RoutedDrawer>
+    <Suspense>
+      <RoutedDrawer
+        anchor="right"
+        requiredParams={RESOURCE_DRAWER_PARAMS}
+        PaperProps={PAPER_PROPS}
+      >
+        {({ params }) => {
+          return <DrawerContent resourceId={Number(params.resource)} />
+        }}
+      </RoutedDrawer>
+    </Suspense>
   )
 }
 
