@@ -282,6 +282,15 @@ class SearchRequestSerializer(serializers.Serializer):
         default=False,
         help_text="If true return raw open search results with score explanations",
     )
+    use_dfs_query_then_fetch = serializers.BooleanField(
+        required=False,
+        allow_null=True,
+        default=False,
+        help_text=(
+            "If true sets search_type=dfs_query_then_fetch which makes Opensearch"
+            "make an extra pre-query to calculate term frequencies accross indexes"
+        ),
+    )
 
     def validate(self, attrs):
         unknown = set(self.initial_data) - set(self.fields)
