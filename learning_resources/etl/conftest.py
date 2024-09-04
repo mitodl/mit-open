@@ -19,20 +19,6 @@ def mitx_settings(settings):
     return settings
 
 
-@pytest.fixture(autouse=True)
-def oll_settings(settings):
-    """Test settings for MITx import"""
-    settings.OLL_API_CLIENT_ID = "fake-client-id"
-    settings.OLL_API_CLIENT_SECRET = (  # pragma: allowlist secret
-        "fake-client-secret"  # noqa: S105
-    )
-    settings.OLL_API_ACCESS_TOKEN_URL = "http://localhost/fake/access/token/url"  # noqa: S105
-    settings.OLL_API_URL = "http://localhost/fake/api/url"
-    settings.OLL_BASE_URL = "http://localhost/fake/base/url"
-    settings.OLL_ALT_URL = "http://localhost/fake/alt/url"
-    return settings
-
-
 @pytest.fixture
 def mitx_course_data():
     """Catalog data fixture"""

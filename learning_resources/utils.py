@@ -89,6 +89,13 @@ def get_year_and_semester(course_run):
         if match:
             year = int(match.group(0)[-4:])
             semester = semester_mapping.get(match.group(0)[-6:-4])
+            return year, semester
+        match = re.search(
+            "([0-9]{4})_(Spring|Summer|Fall|Winter)", course_run.get("key")
+        )
+        if match:
+            year = int(match.group(1))
+            semester = match.group(2).lower()
         else:
             semester = None
             year = course_run.get("start")[:4] if course_run.get("start") else None
