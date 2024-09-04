@@ -1,8 +1,8 @@
 import React from "react"
-import PageWrapper from "./ClientWrapper"
+import DashboardPage from "@/app-pages/DashboardPage/DashboardPage"
 
 const Page: React.FC = () => {
-  return <PageWrapper />
+  return <DashboardPage />
 }
 
 export default Page
