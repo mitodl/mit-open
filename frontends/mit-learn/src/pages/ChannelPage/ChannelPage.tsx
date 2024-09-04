@@ -88,7 +88,7 @@ const ChannelPage: React.FC = () => {
           {channelQuery.data?.channel_type === ChannelTypeEnum.Topic &&
           channelQuery.data?.topic_detail.topic ? (
             <SubTopicsDisplay
-              parent_topic_id={channelQuery.data?.topic_detail.topic}
+              parentTopicId={channelQuery.data?.topic_detail.topic}
             />
           ) : null}
           {channelQuery.data?.search_filter && (
