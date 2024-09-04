@@ -1,8 +1,8 @@
 import React from "react"
-import PageWrapper from "./ClientWrapper"
+import ProgramLetterPage from "@/app-pages/ProgramLetterPage/ProgramLetterPage"
 
 const Page: React.FC = () => {
-  return <PageWrapper />
+  return <ProgramLetterPage />
 }
 
 export default Page

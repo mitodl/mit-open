@@ -106,6 +106,12 @@ const nextConfig = {
         port: "",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "xpro-app-rc.s3.amazonaws.com",
+        port: "",
+        pathname: "**",
+      },
     ],
   },
 }
