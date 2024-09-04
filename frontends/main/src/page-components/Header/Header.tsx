@@ -32,7 +32,6 @@ import { MenuButton } from "./MenuButton"
 import {
   DEPARTMENTS,
   TOPICS,
-  RESOURCE_DRAWER_QUERY_PARAM,
   SEARCH,
   UNITS,
   SEARCH_NEW,
@@ -44,7 +43,6 @@ import {
   SEARCH_PROGRAM,
   SEARCH_LEARNING_MATERIAL,
 } from "@/common/urls"
-import { useSearchParams } from "next/navigation"
 import { useUserMe } from "api/hooks/user"
 
 const Bar = styled(AppBar)(({ theme }) => ({
@@ -253,20 +251,13 @@ const navData: NavData = {
 
 const Header: FunctionComponent = () => {
   const [drawerOpen, toggleDrawer] = useToggle(false)
-  const searchParams = useSearchParams()
-  const resourceDrawerOpen = searchParams?.has(RESOURCE_DRAWER_QUERY_PARAM)
-
   const toggler = (event: React.MouseEvent) => {
-    if (!resourceDrawerOpen) {
-      // This is done to prevent ClickAwayHandler from closing the drawer upon open
-      event.stopPropagation()
-    }
+    event.nativeEvent.stopImmediatePropagation() // Prevent clicking on "Explore MIT" button from triggering the ClickAwayHandler
     toggleDrawer(!drawerOpen)
   }
   const closeDrawer = (event: MouseEvent | TouchEvent) => {
-    if (drawerOpen && !resourceDrawerOpen && event.type !== "touchstart") {
-      event.preventDefault()
-      // toggleDrawer(false)
+    if (drawerOpen && event.type !== "touchstart") {
+      toggleDrawer(false)
     }
   }
 

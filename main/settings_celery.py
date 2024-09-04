@@ -47,10 +47,6 @@ CELERY_BEAT_SCHEDULE = {
             minute=0, hour=5, day_of_week=3
         ),  # 12:00 PM EST on Wednesdays
     },
-    "update-oll-courses-every-1-days": {
-        "task": "learning_resources.tasks.get_oll_data",
-        "schedule": crontab(minute=0, hour=5),  # 1:00am EST
-    },
     "update-podcasts": {
         "task": "learning_resources.tasks.get_podcast_data",
         "schedule": get_int(
@@ -70,12 +66,6 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": crontab(
             minute=0, hour=5, day_of_week=2
         ),  # 12:00 PM EST on Tuesdays
-    },
-    "update-oll-files-every-1-weeks": {
-        "task": "learning_resources.tasks.import_all_oll_files",
-        "schedule": crontab(
-            minute=0, hour=5, day_of_week=3
-        ),  # 12:00 PM EST on Wednesdays
     },
     "update-youtube-videos": {
         "task": "learning_resources.tasks.get_youtube_data",

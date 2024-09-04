@@ -1,26 +1,135 @@
 """Tests for the OLL ETL functions"""
 
 # pylint: disable=redefined-outer-name
-import json
 
 import pytest
 
-from learning_resources.etl.oll import transform
+from learning_resources.etl.oll import extract, transform
 
 
 @pytest.fixture
 def oll_course_data():
     """Fixture for valid OLL catalog data"""
-    with open("./test_json/test_oll_courses.json") as f:  # noqa: PTH123
-        return json.loads(f.read())
+    with open("./learning_resources/data/oll_metadata.csv") as f:  # noqa: PTH123
+        return f.read()
 
 
-def test_oll_transform(oll_course_data):
-    """Verify that courses with non-MIT owners are filtered out"""
-    results = list(transform(oll_course_data["results"]))
-    assert len(results) == 1
+@pytest.mark.parametrize("sheets_id", [None, "abc123"])
+def test_extract(mocker, oll_course_data, sheets_id):
+    """
+    Verify that the extract function returns the expected data
+    """
+    mocker.patch(
+        "learning_resources.etl.oll.requests.get",
+        return_value=mocker.Mock(content=oll_course_data.encode("utf-8")),
+    )
+    assert extract(sheets_id=sheets_id) == oll_course_data
 
-    for course in results:
-        assert len(course["runs"]) == 1
-        for run in course["runs"]:
-            assert run["prices"] == ["0.00"]
+
+def test_oll_transform(mocker, oll_course_data):
+    """Verify that courses are transformed correctly"""
+    results = list(transform(oll_course_data))
+    assert len(results) == 60
+
+    assert results[0] == {
+        "title": "Introduction to Probability and Statistics",
+        "readable_id": "MITx+18.05",
+        "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.05r_10+2022_Summer/about",
+        "description": mocker.ANY,
+        "full_description": mocker.ANY,
+        "offered_by": {"code": "ocw"},
+        "platform": "oll",
+        "published": True,
+        "topics": [{"name": "Mathematics"}],
+        "course": {
+            "course_numbers": [
+                {
+                    "value": "18.05",
+                    "listing_type": "primary",
+                    "department": None,
+                    "sort_coursenum": "18.05",
+                    "primary": True,
+                }
+            ]
+        },
+        "runs": [
+            {
+                "title": "Introduction to Probability and Statistics",
+                "run_id": "MITx+18.05r_10+2022_Summer",
+                "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.05r_10+2022_Summer/about",
+                "published": True,
+                "description": mocker.ANY,
+                "image": {
+                    "url": "https://openlearninglibrary.mit.edu/asset-v1:MITx+18.05r_10+2022_Summer+type@asset+block@mit18_05_s22_chp.jpg",
+                    "alt": "Introduction to Probability and Statistics",
+                },
+                "prices": [0.00],
+                "level": ["undergraduate"],
+                "instructors": [
+                    {"full_name": "Jeremy Orloff"},
+                    {"full_name": "Jennifer French Kamrin"},
+                ],
+                "availability": "Archived",
+                "semester": "summer",
+                "year": 2022,
+            }
+        ],
+        "image": {
+            "url": "https://openlearninglibrary.mit.edu/asset-v1:MITx+18.05r_10+2022_Summer+type@asset+block@mit18_05_s22_chp.jpg",
+            "alt": "Introduction to Probability and Statistics",
+        },
+        "prices": [0.00],
+        "etl_source": "oll",
+        "availability": "anytime",
+    }
+    assert results[2] == {
+        "title": "Competency-Based Education",
+        "readable_id": "MITx+0.502x",
+        "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+0.502x+1T2019/about",
+        "description": mocker.ANY,
+        "full_description": mocker.ANY,
+        "offered_by": {"code": "mitx"},
+        "platform": "oll",
+        "published": True,
+        "topics": [{"name": "Education Policy"}],
+        "course": {
+            "course_numbers": [
+                {
+                    "value": "0.502x",
+                    "listing_type": "primary",
+                    "department": None,
+                    "sort_coursenum": "0.502x",
+                    "primary": True,
+                }
+            ]
+        },
+        "runs": [
+            {
+                "title": "Competency-Based Education",
+                "run_id": "MITx+0.502x+1T2019",
+                "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+0.502x+1T2019/about",
+                "published": True,
+                "description": mocker.ANY,
+                "image": {
+                    "url": "https://openlearninglibrary.mit.edu/asset-v1:MITx+0.502x+1T2019+type@asset+block@course_image.png",
+                    "alt": "Competency-Based Education",
+                },
+                "prices": [0.00],
+                "level": ["undergraduate"],
+                "instructors": [
+                    {"full_name": "Justin Reich"},
+                    {"full_name": "Elizabeth Huttner-Loan"},
+                ],
+                "availability": "Archived",
+                "semester": "spring",
+                "year": 2019,
+            }
+        ],
+        "image": {
+            "url": "https://openlearninglibrary.mit.edu/asset-v1:MITx+0.502x+1T2019+type@asset+block@course_image.png",
+            "alt": "Competency-Based Education",
+        },
+        "prices": [0.00],
+        "etl_source": "oll",
+        "availability": "anytime",
+    }
