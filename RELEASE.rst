@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Version 0.18.1
+--------------
+
+- Remove unnecessary searchparms check (#1514)
+- Ingest OLL courses from a spreadsheet/csv (#1508)
+
 Version 0.18.0 (Released September 04, 2024)
 --------------
 
