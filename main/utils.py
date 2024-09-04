@@ -38,6 +38,19 @@ def cache_page_for_anonymous_users(*cache_args, **cache_kwargs):
     return inner_decorator
 
 
+def cache_page_for_all_users(*cache_args, **cache_kwargs):
+    def inner_decorator(func):
+        @wraps(func)
+        def inner_function(request, *args, **kwargs):
+            return cache_page(*cache_args, **cache_kwargs)(func)(
+                request, *args, **kwargs
+            )
+
+        return inner_function
+
+    return inner_decorator
+
+
 class FeatureFlag(Flag):
     """
     FeatureFlag enum
