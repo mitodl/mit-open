@@ -388,11 +388,14 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
 
     if (!selectedRun) return <NoDateSpacer />
 
-    const formatted = formatRunDate(selectedRun, asTaughtIn) ?? ""
+    const formatted = formatRunDate(selectedRun, asTaughtIn)
+    if (!formatted) {
+      return <NoDateSpacer />
+    }
     return (
       <DateSingle>
         <DateLabel>{label}</DateLabel>
-        {formatted ?? <NoDateSpacer />}
+        {formatted ?? ""}
       </DateSingle>
     )
   }
