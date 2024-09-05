@@ -1,6 +1,11 @@
 Release Notes
 =============
 
+Version 0.18.2
+--------------
+
+- Add completeness discount to search (#1512)
+
 Version 0.18.1 (Released September 05, 2024)
 --------------
 
