@@ -553,6 +553,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
       max_incompleteness_penalty: searchParams.get(
         "max_incompleteness_penalty",
       ),
+      use_dfs_query_then_fetch: searchParams.get("use_dfs_query_then_fetch"),
       ...requestParams,
       aggregations: (facetNames || []).concat([
         "resource_category",

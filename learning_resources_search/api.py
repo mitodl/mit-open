@@ -595,7 +595,7 @@ def add_text_query_to_search(search, text, search_params, query_type_query):
     return search
 
 
-def construct_search(search_params):
+def construct_search(search_params):  # noqa: C901
     """
     Construct a learning resources search based on the query
 
@@ -668,6 +668,9 @@ def construct_search(search_params):
 
     if search_params.get("dev_mode"):
         search = search.extra(explain=True)
+
+    if search_params.get("use_dfs_query_then_fetch"):
+        search = search.params(search_type="dfs_query_then_fetch")
 
     return search
 
