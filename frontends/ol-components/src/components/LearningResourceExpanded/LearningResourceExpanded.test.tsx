@@ -315,7 +315,8 @@ describe("Learning Resource Expanded", () => {
     expect(options[3]).toHaveTextContent(
       formatDate(farFutureDate, "MMMM DD, YYYY"),
     )
-    const selected = options.find((option) => option.selected === true)
+
+    const selected = screen.getByRole("option", { selected: true })
     expect(selected).toHaveTextContent(
       formatDate(nextFutureDate, "MMMM DD, YYYY"),
     )

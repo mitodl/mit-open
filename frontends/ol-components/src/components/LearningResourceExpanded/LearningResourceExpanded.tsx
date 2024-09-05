@@ -355,7 +355,12 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
 
     const dateOptions: SimpleSelectProps["options"] =
       resource.runs
-        ?.sort((a, b) => Date.parse(a.start_date) - Date.parse(b.start_date))
+        ?.sort((a, b) => {
+          if (a?.start_date && b?.start_date) {
+            return Date.parse(a.start_date) - Date.parse(b.start_date)
+          }
+          return 0
+        })
         .map((run) => {
           return {
             value: run.id.toString(),
@@ -383,15 +388,11 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
 
     if (!selectedRun) return <NoDateSpacer />
 
-    const formatted = formatRunDate(selectedRun, asTaughtIn)
-    if (!formatted) {
-      return <NoDateSpacer />
-    }
-
+    const formatted = formatRunDate(selectedRun, asTaughtIn) ?? ""
     return (
       <DateSingle>
         <DateLabel>{label}</DateLabel>
-        {formatted}
+        {formatted ?? ""}
       </DateSingle>
     )
   }
