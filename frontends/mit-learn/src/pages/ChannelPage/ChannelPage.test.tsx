@@ -262,41 +262,41 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
         ])
       })
     })
-
-    if (channelType === ChannelTypeEnum.Topic) {
-      test("Subtopics display", async () => {
-        const { channel, subTopics } = setupApis({
-          search_filter: "topic=Physics",
-          channel_type: channelType,
-        })
-        renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-
-        await waitFor(() => {
-          if (
-            channel.channel_type === ChannelTypeEnum.Topic &&
-            channel.topic_detail.topic
-          ) {
-            expect(makeRequest).toHaveBeenCalledWith(
-              "get",
-              urls.topics.list({
-                parent_topic_id: [channel.topic_detail.topic],
-              }),
-              undefined,
-            )
-            const links = screen.getAllByRole("link")
-            if (subTopics) {
-              for (const topic of subTopics.results) {
-                const link = links.find((el) => el.textContent === topic.name)
-                expect(link).toBeInTheDocument()
-                expect(link).toHaveAttribute("href", topic.channel_url)
-              }
-            }
-          }
-        })
-      })
-    }
   },
 )
+
+describe("Channel Pages, Topic only", () => {
+  test("Subtopics display", async () => {
+    const { channel, subTopics } = setupApis({
+      search_filter: "topic=Physics",
+      channel_type: ChannelTypeEnum.Topic,
+    })
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+
+    await waitFor(() => {
+      if (
+        channel.channel_type === ChannelTypeEnum.Topic &&
+        channel.topic_detail.topic
+      ) {
+        expect(makeRequest).toHaveBeenCalledWith(
+          "get",
+          urls.topics.list({
+            parent_topic_id: [channel.topic_detail.topic],
+          }),
+          undefined,
+        )
+        const links = screen.getAllByRole("link")
+        if (subTopics) {
+          for (const topic of subTopics.results) {
+            const link = links.find((el) => el.textContent === topic.name)
+            expect(link).toBeInTheDocument()
+            expect(link).toHaveAttribute("href", topic.channel_url)
+          }
+        }
+      }
+    })
+  })
+})
 
 describe("Channel Pages, Unit only", () => {
   it("Sets the expected meta tags", async () => {
