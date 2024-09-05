@@ -2,22 +2,15 @@ import React from "react"
 import { screen, render } from "@testing-library/react"
 import { LearningResourceCard } from "./LearningResourceCard"
 import type { LearningResourceCardProps } from "./LearningResourceCard"
-import { DEFAULT_RESOURCE_IMG, embedlyCroppedImage } from "ol-utilities"
+import { DEFAULT_RESOURCE_IMG } from "ol-utilities"
 import { ResourceTypeEnum, PlatformEnum, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
+import { getByImageSrc } from "ol-test-utilities"
 
 const setup = (props: LearningResourceCardProps) => {
   // TODO Browser Router will need to be replaced with a Next.js router mock or alternative strategy
-  return render(
-    // @ts-expect-error TODO fix react-router tests
-    // eslint-disable-next-line react/jsx-no-undef
-    <BrowserRouter>
-      <LearningResourceCard {...props} />
-      {/* @ts-expect-error TODO fix react-router tests */}
-    </BrowserRouter>,
-    { wrapper: ThemeProvider },
-  )
+  return render(<LearningResourceCard {...props} />, { wrapper: ThemeProvider })
 }
 
 describe("Learning Resource Card", () => {
@@ -118,16 +111,11 @@ describe("Learning Resource Card", () => {
     const onAddToUserListClick = jest.fn()
 
     render(
-      // @ts-expect-error TODO fix react-router tests
-      // eslint-disable-next-line react/jsx-no-undef
-      <BrowserRouter>
-        <LearningResourceCard
-          resource={resource}
-          onAddToLearningPathClick={onAddToLearningPathClick}
-          onAddToUserListClick={onAddToUserListClick}
-        />
-        {/* @ts-expect-error TODO fix react-router tests */}
-      </BrowserRouter>,
+      <LearningResourceCard
+        resource={resource}
+        onAddToLearningPathClick={onAddToLearningPathClick}
+        onAddToUserListClick={onAddToUserListClick}
+      />,
       { wrapper: ThemeProvider },
     )
 
@@ -180,42 +168,23 @@ describe("Learning Resource Card", () => {
   test.each([
     {
       image: null,
-      expected: { src: DEFAULT_RESOURCE_IMG, alt: "", role: "presentation" },
+      expected: { src: DEFAULT_RESOURCE_IMG, alt: "" },
     },
     {
       image: { url: "https://example.com/image.jpg", alt: "An image" },
-      expected: {
-        src: "https://example.com/image.jpg",
-        alt: "An image",
-        role: "img",
-      },
+      expected: { src: "https://example.com/image.jpg", alt: "An image" },
     },
     {
       image: { url: "https://example.com/image.jpg", alt: null },
-      expected: {
-        src: "https://example.com/image.jpg",
-        alt: "",
-        role: "presentation",
-      },
+      expected: { src: "https://example.com/image.jpg", alt: "" },
     },
   ])("Image is displayed if present", ({ expected, image }) => {
     const resource = factories.learningResources.resource({ image })
 
-    setup({ resource })
+    const view = setup({ resource })
 
-    const imageEls = screen.getAllByRole<HTMLImageElement>(expected.role)
+    const imageEl = getByImageSrc(view.container, expected.src)
 
-    const matching = imageEls.filter((im) =>
-      expected.src === DEFAULT_RESOURCE_IMG
-        ? im.src === DEFAULT_RESOURCE_IMG
-        : im.src ===
-          embedlyCroppedImage(expected.src, {
-            width: 298,
-            height: 170,
-            key: "fake-embedly-key",
-          }),
-    )
-    expect(matching.length).toBe(1)
-    expect(matching[0]).toHaveAttribute("alt", expected.alt)
+    expect(imageEl).toHaveAttribute("alt", expected.alt)
   })
 })
