@@ -4529,7 +4529,7 @@ export const NewsEventsApiAxiosParamCreator = function (
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;news_date&#x60; - Creation date ascending * &#x60;-news_date&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4647,7 +4647,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;news_date&#x60; - Creation date ascending * &#x60;-news_date&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4785,8 +4785,8 @@ export interface NewsEventsApiNewsEventsListRequest {
   readonly offset?: number
 
   /**
-   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
-   * @type {'-created' | '-event_date' | '-id' | 'created' | 'event_date' | 'id'}
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;news_date&#x60; - Creation date ascending * &#x60;-news_date&#x60; - Creation date descending
+   * @type {'-event_date' | '-id' | '-news_date' | 'event_date' | 'id' | 'news_date'}
    * @memberof NewsEventsApiNewsEventsList
    */
   readonly sortby?: NewsEventsListSortbyEnum
@@ -4865,12 +4865,12 @@ export type NewsEventsListFeedTypeEnum =
  * @export
  */
 export const NewsEventsListSortbyEnum = {
-  Created: "-created",
   EventDate: "-event_date",
   Id: "-id",
-  Created2: "created",
+  NewsDate: "-news_date",
   EventDate2: "event_date",
   Id2: "id",
+  NewsDate2: "news_date",
 } as const
 export type NewsEventsListSortbyEnum =
   (typeof NewsEventsListSortbyEnum)[keyof typeof NewsEventsListSortbyEnum]

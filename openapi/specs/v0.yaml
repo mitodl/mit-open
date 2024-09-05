@@ -326,12 +326,12 @@ paths:
         schema:
           type: string
           enum:
-          - -created
           - -event_date
           - -id
-          - created
+          - -news_date
           - event_date
           - id
+          - news_date
         description: |-
           Sort By
 
@@ -339,8 +339,8 @@ paths:
           * `-id` - Object ID descending
           * `event_date` - Event date ascending
           * `-event_date` - Event date  descending
-          * `created` - Creation date ascending
-          * `-created` - Creation date descending
+          * `news_date` - Creation date ascending
+          * `-news_date` - Creation date descending
       tags:
       - news_events
       responses:

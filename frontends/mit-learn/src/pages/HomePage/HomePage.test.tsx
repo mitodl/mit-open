@@ -52,7 +52,11 @@ const setupAPIs = () => {
   )
 
   setMockResponse.get(
-    urls.newsEvents.list({ feed_type: ["news"], limit: 6, sortby: "-created" }),
+    urls.newsEvents.list({
+      feed_type: ["news"],
+      limit: 6,
+      sortby: "-news_date",
+    }),
     {},
   )
   setMockResponse.get(
@@ -152,7 +156,7 @@ describe("Home Page News and Events", () => {
       urls.newsEvents.list({
         feed_type: ["news"],
         limit: 6,
-        sortby: "-created",
+        sortby: "-news_date",
       }),
       news,
     )
@@ -203,7 +207,7 @@ describe("Home Page News and Events", () => {
       urls.newsEvents.list({
         feed_type: ["news"],
         limit: 6,
-        sortby: "-created",
+        sortby: "-news_date",
       }),
       news,
     )
