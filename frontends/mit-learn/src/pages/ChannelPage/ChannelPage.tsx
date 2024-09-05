@@ -13,7 +13,7 @@ import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { ChipLink, Container, styled, Typography } from "ol-components"
 
 const SubTopicsContainer = styled(Container)(({ theme }) => ({
-  paddingTop: "50px",
+  paddingTop: "40px",
   [theme.breakpoints.down("md")]: {
     paddingTop: "24px",
   },
