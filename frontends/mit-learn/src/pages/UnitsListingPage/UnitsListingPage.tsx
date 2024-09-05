@@ -1,35 +1,41 @@
 import React from "react"
-import {
-  useLearningResourcesSearch,
-  useOfferorsList,
-} from "api/hooks/learningResources"
+import { useChannelCounts } from "api/hooks/channels"
+import { useOfferorsList } from "api/hooks/learningResources"
 import {
   Banner,
   Container,
   Typography,
   styled,
-  Breadcrumbs,
   theme,
+  Breadcrumbs,
 } from "ol-components"
+
 import { RiBookOpenLine, RiSuitcaseLine } from "@remixicon/react"
-import {
-  LearningResourceOfferorDetail,
-  LearningResourcesSearchResponse,
-} from "api"
+import { LearningResourceOfferorDetail } from "api"
 import { HOME } from "@/common/urls"
 import { UnitCards, UnitCardLoading } from "./UnitCard"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
+import { ChannelCounts } from "api/v0"
 
 const UNITS_BANNER_IMAGE = "/static/images/background_steps.jpeg"
 const DESKTOP_WIDTH = "1056px"
 
-const aggregateByUnits = (
-  data: LearningResourcesSearchResponse,
+const aggregateProgramCounts = (
+  data: Array<ChannelCounts>,
 ): Record<string, number> => {
-  const buckets = data.metadata.aggregations["offered_by"] ?? []
   return Object.fromEntries(
-    buckets.map((bucket) => {
-      return [bucket.key, bucket.doc_count]
+    Object.entries(data).map(([_key, value]) => {
+      return [value.name, value.counts.programs]
+    }),
+  )
+}
+
+const aggregateCourseCounts = (
+  data: Array<ChannelCounts>,
+): Record<string, number> => {
+  return Object.fromEntries(
+    Object.entries(data).map(([_key, value]) => {
+      return [value.name, value.counts.courses]
     }),
   )
 }
@@ -209,20 +215,15 @@ const UnitSection: React.FC<UnitSectionProps> = (props) => {
 const UnitsListingPage: React.FC = () => {
   const unitsQuery = useOfferorsList()
   const units = unitsQuery.data?.results
-  const courseQuery = useLearningResourcesSearch({
-    resource_type: ["course"],
-    aggregations: ["offered_by"],
-  })
-  const programQuery = useLearningResourcesSearch({
-    resource_type: ["program"],
-    aggregations: ["offered_by"],
-  })
-  const courseCounts = courseQuery.data
-    ? aggregateByUnits(courseQuery.data)
+  const channelCountQuery = useChannelCounts("unit")
+
+  const courseCounts = channelCountQuery.data
+    ? aggregateCourseCounts(channelCountQuery.data)
     : {}
-  const programCounts = programQuery.data
-    ? aggregateByUnits(programQuery.data)
+  const programCounts = channelCountQuery.data
+    ? aggregateProgramCounts(channelCountQuery.data)
     : {}
+
   const academicUnits = sortUnits(
     units?.filter((unit) => unit.professional === false),
     courseCounts,
