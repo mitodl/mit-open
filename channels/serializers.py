@@ -161,6 +161,10 @@ class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer)
 
 
 class ChannelCountsSerializer(serializers.ModelSerializer):
+    """
+    Serializer for resource counts associated with Channel
+    """
+
     counts = serializers.SerializerMethodField(read_only=True)
     channel_url = serializers.SerializerMethodField(read_only=True)
 
