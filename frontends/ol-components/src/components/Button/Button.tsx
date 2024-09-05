@@ -273,17 +273,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ),
 )
 
-type ButtonLinkProps = ButtonStyleProps &
-  React.ComponentProps<"a"> & {
-    href?: string
-    /**
-     * If true, the component will skip client-side routing and reload the
-     * document as if it were `<a href="..." />`.
-     *
-     * See https://reactrouter.com/en/main/components/link
-     */
-    reloadDocument?: boolean
-  }
+type ButtonLinkProps = ButtonStyleProps & React.ComponentProps<"a">
 
 const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
   ({ children, href = "", endIcon, ...props }, ref) => {
@@ -345,9 +335,7 @@ const ActionButton = styled(
   ]
 })
 
-type ActionButtonLinkProps = ActionButtonProps &
-  React.ComponentProps<"a"> &
-  Pick<ButtonLinkProps, "reloadDocument">
+type ActionButtonLinkProps = ActionButtonProps & React.ComponentProps<"a">
 
 const ActionButtonLink = ActionButton.withComponent(
   React.forwardRef<HTMLAnchorElement, ActionButtonLinkProps>(

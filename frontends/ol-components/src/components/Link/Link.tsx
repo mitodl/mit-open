@@ -52,10 +52,7 @@ const linkStyles = (props: LinkStyleProps & { theme: Theme }) => {
   ])
 }
 
-type LinkProps = LinkStyleProps &
-  React.ComponentProps<"a"> & {
-    reloadDocument?: boolean
-  }
+type LinkProps = LinkStyleProps & React.ComponentProps<"a">
 
 /**
  * A styled link. By default, renders a medium-sized black link using the Link

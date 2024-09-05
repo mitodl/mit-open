@@ -154,7 +154,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
             <ButtonLink
               data-testid="login-button-desktop"
               size="small"
-              reloadDocument={true}
               href={loginUrl}
             >
               Log In
@@ -169,7 +168,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               data-testid="login-button-mobile"
               edge="circular"
               variant="text"
-              reloadDocument={true}
               href={loginUrl}
               aria-label="Log in"
             >
