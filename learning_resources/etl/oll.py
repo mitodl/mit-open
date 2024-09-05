@@ -9,6 +9,7 @@ from pathlib import Path
 
 import requests
 from django.conf import settings
+from django.utils.text import slugify
 
 from learning_resources.constants import (
     Availability,
@@ -26,6 +27,25 @@ log = logging.getLogger(__name__)
 SKIP_OCW_COURSES = [
     "OCW+18.031+2019_Spring",
 ]
+
+
+def parse_readable_id(course_data: dict, run: dict) -> str:
+    """
+    Parse the course readable_id
+
+    Args:
+        course_data (dict): course data
+        run (dict): run data
+
+    Returns:
+        str: course readable_id
+
+    """
+    if course_data["Offered by"] == "OCW":
+        semester = run.get("semester") or ""
+        year = run.get("year") or ""
+        return f"{course_data["OLL Course"]}+{slugify(semester)}_{year}"
+    return f"MITx+{course_data["OLL Course"]}"
 
 
 def extract(sheets_id: str or None = None) -> str:
@@ -137,9 +157,10 @@ def transform_course(course_data: dict) -> dict:
         dict: normalized course data
 
     """
+    runs = transform_run(course_data)
     return {
         "title": course_data["title"],
-        "readable_id": f"MITx+{course_data["OLL Course"]}",
+        "readable_id": parse_readable_id(course_data, runs[0]),
         "url": course_data["url"],
         "description": course_data["description"],
         "full_description": course_data["description"],
@@ -156,7 +177,7 @@ def transform_course(course_data: dict) -> dict:
                 course_data["OLL Course"], is_ocw=False
             ),
         },
-        "runs": transform_run(course_data),
+        "runs": runs,
         "image": transform_image(course_data),
         "prices": [Decimal(0.00)],
         "etl_source": ETLSource.oll.name,

@@ -33,7 +33,7 @@ def test_oll_transform(mocker, oll_course_data):
 
     assert results[0] == {
         "title": "Introduction to Probability and Statistics",
-        "readable_id": "MITx+18.05",
+        "readable_id": "18.05+summer_2022",
         "url": "https://openlearninglibrary.mit.edu/courses/course-v1:MITx+18.05r_10+2022_Summer/about",
         "description": mocker.ANY,
         "full_description": mocker.ANY,
