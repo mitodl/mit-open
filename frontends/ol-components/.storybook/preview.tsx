@@ -26,7 +26,7 @@ const preview: Preview = {
       },
     },
   },
-  globals: {
+  initialGlobals: {
     EMBEDLY_KEY: process.env.EMBEDLY_KEY,
   },
 }

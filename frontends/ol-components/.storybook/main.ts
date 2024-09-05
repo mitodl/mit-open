@@ -1,6 +1,7 @@
 import { resolve, join, dirname } from "path"
 import * as dotenv from "dotenv"
 import * as webpack from "webpack"
+import { StorybookConfig } from '@storybook/nextjs';
 
 dotenv.config({ path: resolve(__dirname, "../../../.env") })
 
@@ -12,8 +13,7 @@ function getAbsolutePath(value: string) {
   return dirname(require.resolve(join(value, "package.json")))
 }
 
-/** @type { import('@storybook/react-webpack5').StorybookConfig } */
-const config = {
+const config: StorybookConfig = {
   stories: [
     "../src/**/*.mdx",
     "../src/**/*.stories.tsx",
@@ -27,12 +27,8 @@ const config = {
     getAbsolutePath("@storybook/addon-interactions"),
     getAbsolutePath("@storybook/addon-webpack5-compiler-swc"),
   ],
-  framework: {
-    name: getAbsolutePath("@storybook/react-webpack5"),
-  },
-  docs: {
-    autodocs: "tag",
-  },
+  framework:  getAbsolutePath("@storybook/nextjs"),
+  docs: {},
   webpackFinal: async (config: any) => {
     config.plugins.push(
       new webpack.DefinePlugin({
