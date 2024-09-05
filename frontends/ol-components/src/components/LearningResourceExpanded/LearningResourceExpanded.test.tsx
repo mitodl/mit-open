@@ -6,6 +6,7 @@ import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
 import { ResourceTypeEnum, PodcastEpisodeResource, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
+import { formatDate } from "ol-utilities"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
@@ -248,7 +249,7 @@ describe("Learning Resource Expanded", () => {
           }),
         ],
       }),
-      expectedDates: ["Fall 2020", "Spring 2021", "May, 2022"],
+      expectedDates: ["Spring 2021", "May, 2022", "Fall 2020"],
     },
   ])(
     "Renders a dropdown for run picker",
@@ -266,6 +267,59 @@ describe("Learning Resource Expanded", () => {
       })
     },
   )
+
+  test("Dates are ordered in dropdown and closest is selected", async () => {
+    const nextFutureDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1,
+      1,
+    ).toISOString()
+    const farFutureDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 8,
+      1,
+    ).toISOString()
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [
+        factories.learningResources.run({
+          semester: "Spring",
+          year: null,
+          start_date: "2021-02-03",
+        }),
+        factories.learningResources.run({
+          semester: null,
+          year: null,
+          start_date: "2022-05-06",
+        }),
+        factories.learningResources.run({
+          semester: "Spring",
+          year: null,
+          start_date: formatDate(nextFutureDate, "YYYY-MM-DD"),
+        }),
+        factories.learningResources.run({
+          semester: "Spring",
+          year: null,
+          start_date: formatDate(farFutureDate, "YYYY-MM-DD"),
+        }),
+      ],
+    })
+    setup(resource)
+    const select = screen.getByRole("combobox")
+    await user.click(select)
+
+    const options = screen.getAllByRole("option")
+    expect(options[0]).toHaveTextContent(
+      formatDate("2021-02-03", "MMMM DD, YYYY"),
+    )
+    expect(options[3]).toHaveTextContent(
+      formatDate(farFutureDate, "MMMM DD, YYYY"),
+    )
+    const selected = options.find((option) => option.selected === true)
+    expect(selected).toHaveTextContent(
+      formatDate(nextFutureDate, "MMMM DD, YYYY"),
+    )
+  })
 
   test("Renders info section topics correctly", () => {
     const resource = factories.learningResources.resource({

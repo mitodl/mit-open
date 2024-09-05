@@ -328,6 +328,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
         const now = Date.now()
         return prev.start_date &&
           current.start_date &&
+          Date.parse(prev.start_date) > now &&
           Date.parse(prev.start_date) - now <
             Date.parse(current.start_date) - now
           ? prev
