@@ -10,10 +10,6 @@ import Typography from "@mui/material/Typography"
 import { faker } from "@faker-js/faker/locale/en"
 import Container from "@mui/material/Container"
 import { TabListProps } from "@mui/lab/TabList"
-import {
-  reactRouterParameters,
-  withRouter,
-} from "storybook-addon-react-router-v6"
 import { useLocation } from "react-router"
 
 type StoryProps = TabListProps & {
@@ -93,13 +89,12 @@ export const ManyButtonTabs: Story = {
 }
 
 export const LinkTabs: Story = {
-  decorators: [withRouter],
   parameters: {
-    reactRouter: reactRouterParameters({
-      location: {
-        hash: "#link2",
-      },
-    }),
+    // reactRouter: reactRouterParameters({
+    //   location: {
+    //     hash: "#link2",
+    //   },
+    // }), TODO
   },
   render: () => {
     const location = useLocation()

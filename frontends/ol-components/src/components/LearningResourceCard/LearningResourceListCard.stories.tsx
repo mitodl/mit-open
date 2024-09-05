@@ -5,7 +5,6 @@ import {
   LearningResourceListCardProps,
 } from "./LearningResourceListCard"
 import { LearningResource } from "api"
-import { withRouter } from "storybook-addon-react-router-v6"
 import { resources, resourceArgType, courses } from "./testUtils"
 import Stack from "@mui/system/Stack"
 import _ from "lodash"
@@ -37,7 +36,6 @@ const meta: Meta<StoryProps> = {
       </Stack>
     )
   },
-  decorators: [withRouter],
 }
 
 export default meta

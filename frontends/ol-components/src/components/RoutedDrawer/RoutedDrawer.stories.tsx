@@ -1,10 +1,6 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { RoutedDrawer } from "./RoutedDrawer"
-import {
-  withRouter,
-  reactRouterParameters,
-} from "storybook-addon-react-router-v6"
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 
@@ -17,7 +13,6 @@ const Content = styled.div({
 
 const meta: Meta<typeof RoutedDrawer> = {
   title: "smoot-design/RoutedDrawer",
-  decorators: [withRouter],
 }
 
 export default meta
@@ -26,11 +21,7 @@ type Story = StoryObj<typeof RoutedDrawer>
 
 export const Simple: Story = {
   parameters: {
-    reactRouter: reactRouterParameters({
-      location: {
-        searchParams: { a: "1", b: "2" },
-      },
-    }),
+    query: { a: "1", b: "2" },
   },
   render: () => (
     <RoutedDrawer params={["a", "b", "c"]} requiredParams={["a", "b"]}>
@@ -48,11 +39,9 @@ export const Simple: Story = {
 
 export const NotPresent = {
   parameters: {
-    reactRouter: reactRouterParameters({
-      location: {
-        searchParams: { a: "1" },
-      },
-    }),
+    location: {
+      searchParams: { a: "1" },
+    },
   },
   render: () => (
     <RoutedDrawer params={["a", "b", "c"]} requiredParams={["a", "b"]}>

@@ -12,7 +12,6 @@ import {
   RiMailLine,
 } from "@remixicon/react"
 
-import { withRouter } from "storybook-addon-react-router-v6"
 import { fn } from "@storybook/test"
 import { capitalize } from "ol-utilities"
 
@@ -235,7 +234,6 @@ const EXTRA_PROPS = [
 ]
 
 export const LinkStory: Story = {
-  decorators: [withRouter],
   render: () => (
     <Stack direction="row" gap={2} sx={{ my: 2 }}>
       <ButtonLink href="#fake" variant="primary">

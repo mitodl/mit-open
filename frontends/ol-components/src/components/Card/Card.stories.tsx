@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { Card } from "./Card"
 import { ActionButton } from "../Button/Button"
 import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
-import { withRouter } from "storybook-addon-react-router-v6"
 
 const meta: Meta<typeof Card> = {
   title: "smoot-design/Cards/Card",
@@ -48,7 +47,6 @@ const meta: Meta<typeof Card> = {
       <Card.Footer>Footer</Card.Footer>
     </Card>
   ),
-  decorators: [withRouter],
 }
 
 export default meta

@@ -1,13 +1,11 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { Breadcrumbs, BreadcrumbsProps } from "./Breadcrumbs"
-import { withRouter } from "storybook-addon-react-router-v6"
 import styled from "@emotion/styled"
 
 const meta: Meta<typeof Breadcrumbs> = {
   title: "smoot-design/Breadcrumbs",
   component: Breadcrumbs,
-  decorators: [withRouter],
 }
 export default meta
 

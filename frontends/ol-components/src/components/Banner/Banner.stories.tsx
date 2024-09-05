@@ -1,6 +1,5 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { withRouter } from "storybook-addon-react-router-v6"
 import { Banner } from "./Banner"
 import { Breadcrumbs } from "../Breadcrumbs/Breadcrumbs"
 import { Button } from "../Button/Button"
@@ -36,12 +35,10 @@ export default meta
 type Story = StoryObj<typeof Banner>
 
 export const basicBanner: Story = {
-  decorators: [withRouter],
   render: (args) => <Banner {...args} />,
 }
 
 export const logoBanner: Story = {
-  decorators: [withRouter],
   render: (args) => {
     return (
       <Banner
@@ -59,7 +56,6 @@ export const logoBanner: Story = {
 }
 
 export const logoBannerWithExtras: Story = {
-  decorators: [withRouter],
   render: (args) => {
     return (
       <Banner
