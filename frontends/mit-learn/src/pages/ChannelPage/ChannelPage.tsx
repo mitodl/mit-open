@@ -44,21 +44,24 @@ const SubTopicsDisplay: React.FC<SubTopicDisplayProps> = (props) => {
   const topicsQuery = useLearningResourceTopics({
     parent_topic_id: [parentTopicId],
   })
+  const totalSubtopics = topicsQuery.data?.results?.length ?? 0
   return (
-    <SubTopicsContainer>
-      <SubTopicsHeader>Related Topics</SubTopicsHeader>
-      <ChipsContainer>
-        {topicsQuery.data?.results.map((topic) => (
-          <ChipLink
-            size="large"
-            variant="outlinedWhite"
-            key={topic.id}
-            href={topic.channel_url ? topic.channel_url : ""}
-            label={topic.name}
-          />
-        ))}
-      </ChipsContainer>
-    </SubTopicsContainer>
+    totalSubtopics > 0 && (
+      <SubTopicsContainer>
+        <SubTopicsHeader>Related Topics</SubTopicsHeader>
+        <ChipsContainer>
+          {topicsQuery.data?.results.map((topic) => (
+            <ChipLink
+              size="large"
+              variant="outlinedWhite"
+              key={topic.id}
+              href={topic.channel_url ? topic.channel_url : ""}
+              label={topic.name}
+            />
+          ))}
+        </ChipsContainer>
+      </SubTopicsContainer>
+    )
   )
 }
 
