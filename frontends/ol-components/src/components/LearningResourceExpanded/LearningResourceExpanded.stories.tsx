@@ -13,7 +13,7 @@ const makeResource: typeof _makeResource = (overrides) => {
   const resource = _makeResource(overrides)
   invariant(resource.image)
   resource.image.url =
-    "https://ocw.mit.edu/courses/res-hso-001-mit-haystack-observatory-k12-stem-lesson-plans/mitres_hso_001.jpg"
+    "/mitres_hso_001.jpg"
   return resource
 }
 

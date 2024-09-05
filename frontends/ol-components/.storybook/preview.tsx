@@ -6,8 +6,8 @@ const preview: Preview = {
   decorators: [
     (Story) => (
       <ThemeProvider>
-        <Story />
         <MITLearnGlobalStyles />
+        <Story />
       </ThemeProvider>
     ),
   ],

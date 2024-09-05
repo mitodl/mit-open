@@ -13,8 +13,7 @@ const meta: Meta<typeof Banner> = {
   title: "smoot-design/Banner",
   component: Banner,
   args: {
-    backgroundUrl:
-      "https://images.pexels.com/photos/1851188/pexels-photo-1851188.jpeg?auto=compress&cs=tinysrgb&w=800",
+    backgroundUrl: "/pexels-photo-1851188.webp",
     navText: (
       <Breadcrumbs
         variant="dark"
@@ -48,7 +47,7 @@ export const logoBanner: Story = {
       <Banner
         avatar={
           <img
-            src="https://learn.mit.edu/static/images/mit-logo-transparent5.svg"
+            src="/mit-logo-transparent5.svg"
             alt="MIT Logo"
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />
@@ -66,7 +65,7 @@ export const logoBannerWithExtras: Story = {
       <Banner
         avatar={
           <img
-            src="https://learn.mit.edu/static/images/mit-logo-transparent5.svg"
+            src="/mit-logo-transparent5.svg"
             alt="MIT Logo"
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />

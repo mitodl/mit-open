@@ -21,7 +21,7 @@ type Story = StoryObj<typeof BannerPage>
 
 const args = {
   className: "",
-  src: `${PUBLIC_URL}/static/images/course_search_banner.png`,
+  src: "/course_search_banner.png",
   bannerContent: <h1>Banner Content</h1>,
   bannerContainerClass: "",
   alt: "Banner Alt Text",
