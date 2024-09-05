@@ -200,7 +200,7 @@ export type Channel =
   | ({ channel_type: "unit" } & UnitChannel)
 
 /**
- *
+ * Serializer for resource counts associated with Channel
  * @export
  * @interface ChannelCounts
  */

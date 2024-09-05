@@ -1007,6 +1007,7 @@ components:
           pathway: '#/components/schemas/PathwayChannel'
     ChannelCounts:
       type: object
+      description: Serializer for resource counts associated with Channel
       properties:
         id:
           type: integer
