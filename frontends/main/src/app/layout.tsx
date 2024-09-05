@@ -4,6 +4,7 @@ import Footer from "@/page-components/Footer/Footer"
 import { PageWrapper, PageWrapperInner } from "./styled"
 import Providers from "./providers"
 import GlobalStyles from "./GlobalStyles"
+import { MITLearnGlobalStyles } from "ol-components"
 
 export default function RootLayout({
   children,
@@ -15,6 +16,7 @@ export default function RootLayout({
       <body>
         <Providers>
           <GlobalStyles />
+          <MITLearnGlobalStyles />
           <PageWrapper>
             <Header />
             <PageWrapperInner>{children}</PageWrapperInner>

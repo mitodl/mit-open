@@ -11,7 +11,7 @@
     "watch": "NODE_ENV=development LOAD_ENV_FILES=true webpack serve",
     "watch:docker": "NODE_ENV=development webpack serve",
     "build": "webpack --config webpack.config.js --bail",
-    "build-exports": "webpack --config webpack.exports.js --bail",
+    "build-exports": "webpack --config webpack.exports.js --bail"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",

@@ -1,15 +1,13 @@
 import React from "react"
-import { ThemeProvider } from "ol-components"
-
 import { Preview } from "@storybook/react"
-import GlobalStyles from "../src/GlobalStyles"
+import { ThemeProvider, MITLearnGlobalStyles } from "ol-components"
 
 const preview: Preview = {
   decorators: [
     (Story) => (
       <ThemeProvider>
         <Story />
-        <GlobalStyles />
+        <MITLearnGlobalStyles />
       </ThemeProvider>
     ),
   ],
