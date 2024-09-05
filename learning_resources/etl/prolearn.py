@@ -11,7 +11,7 @@ from django.conf import settings
 
 from learning_resources.constants import Availability, CertificationType
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import transform_format, transform_topics
+from learning_resources.etl.utils import transform_delivery, transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
 from main.utils import clean_data, now_in_utc
 
@@ -189,6 +189,7 @@ def update_format(unique_resource: dict, resource_format: list[str]):
     unique_resource["learning_format"] = sorted(
         set(unique_resource["learning_format"] + resource_format)
     )
+    unique_resource["delivery"] = unique_resource["learning_format"]
 
 
 def extract_data(course_or_program: str) -> list[dict]:
@@ -265,7 +266,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                 "professional": True,
                 "certification": True,
                 "certification_type": CertificationType.professional.name,
-                "learning_format": transform_format(program["format_name"]),
+                "learning_format": transform_delivery(program["format_name"]),
                 "runs": runs,
                 "topics": parse_topic(program, offered_by.code) if offered_by else None,
                 "courses": [
@@ -355,7 +356,7 @@ def _transform_course(
             "course": {
                 "course_numbers": [],
             },
-            "learning_format": transform_format(course["format_name"]),
+            "learning_format": transform_delivery(course["format_name"]),
             "published": True,
             "topics": parse_topic(course, offered_by.code) if offered_by else None,
             "runs": runs,

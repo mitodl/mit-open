@@ -239,6 +239,7 @@ LEARNING_RESOURCE_AGGREGATIONS = [
     "professional",
     "free",
     "learning_format",
+    "delivery",
     "resource_category",
 ]
 

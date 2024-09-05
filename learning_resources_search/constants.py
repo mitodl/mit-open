@@ -121,6 +121,13 @@ LEARNING_RESOURCE_MAP = {
             "name": {"type": "keyword"},
         },
     },
+    "delivery": {
+        "type": "nested",
+        "properties": {
+            "code": {"type": "keyword"},
+            "name": {"type": "keyword"},
+        },
+    },
     "readable_id": {"type": "keyword"},
     "title": ENGLISH_TEXT_FIELD_WITH_SUGGEST,
     "description": ENGLISH_TEXT_FIELD_WITH_SUGGEST,

@@ -32,7 +32,7 @@ from learning_resources.etl.prolearn import (
     transform_programs,
     update_format,
 )
-from learning_resources.etl.utils import transform_format
+from learning_resources.etl.utils import transform_delivery
 from learning_resources.factories import (
     LearningResourceOfferorFactory,
     LearningResourcePlatformFactory,
@@ -157,7 +157,8 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             else None,
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
-            "learning_format": transform_format(program["format_name"]),
+            "learning_format": transform_delivery(program["format_name"]),
+            "delivery": transform_delivery(program["format_name"]),
             "certification": True,
             "certification_type": CertificationType.professional.name,
             "runs": [
@@ -226,7 +227,8 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "professional": True,
             "certification": True,
             "certification_type": CertificationType.professional.name,
-            "learning_format": transform_format(course["format_name"]),
+            "learning_format": transform_delivery(course["format_name"]),
+            "delivery": transform_delivery(course["format_name"]),
             "topics": parse_topic(course, "mitpe"),
             "url": course["course_link"]
             if urlparse(course["course_link"]).path
@@ -395,6 +397,7 @@ def test_update_format(
     first_course["learning_format"] = old_format
     update_format(first_course, new_format)
     assert first_course["learning_format"] == sorted(expected_format)
+    assert first_course["delivery"] == sorted(expected_format)
 
 
 @pytest.mark.parametrize("sloan_api_enabled", [True, False])

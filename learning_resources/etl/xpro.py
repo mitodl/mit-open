@@ -17,7 +17,7 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     generate_course_numbers_json,
-    transform_format,
+    transform_delivery,
     transform_topics,
 )
 from main.utils import clean_data
@@ -145,7 +145,8 @@ def _transform_learning_resource_course(course):
         "topics": parse_topics(course),
         "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
         "resource_type": LearningResourceType.course.name,
-        "learning_format": transform_format(course.get("format")),
+        "learning_format": transform_delivery(course.get("format")),
+        "delivery": transform_delivery(course.get("format")),
         "course": {
             "course_numbers": generate_course_numbers_json(
                 course["readable_id"], is_ocw=False
@@ -190,7 +191,8 @@ def transform_programs(programs):
             "topics": parse_topics(program),
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.name,
-            "learning_format": transform_format(program.get("format")),
+            "learning_format": transform_delivery(program.get("format")),
+            "delivery": transform_delivery(program.get("format")),
             "runs": [
                 {
                     "prices": (

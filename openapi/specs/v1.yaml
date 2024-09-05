@@ -568,6 +568,38 @@ paths:
         explode: false
         style: form
       - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              enum:
+              - online
+              - hybrid
+              - in_person
+              - offline
+              type: string
+              description: |-
+                * `online` - Online
+                * `hybrid` - Hybrid
+                * `in_person` - In person
+                * `offline` - Offline
+            enum:
+            - hybrid
+            - in_person
+            - offline
+            - online
+        description: |-
+          The delivery of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+          * `offline` - Offline
+        explode: true
+        style: form
+      - in: query
         name: department
         schema:
           type: array
@@ -1168,6 +1200,38 @@ paths:
         explode: false
         style: form
       - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              enum:
+              - online
+              - hybrid
+              - in_person
+              - offline
+              type: string
+              description: |-
+                * `online` - Online
+                * `hybrid` - Hybrid
+                * `in_person` - In person
+                * `offline` - Offline
+            enum:
+            - hybrid
+            - in_person
+            - offline
+            - online
+        description: |-
+          The delivery of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+          * `offline` - Offline
+        explode: true
+        style: form
+      - in: query
         name: department
         schema:
           type: array
@@ -1559,6 +1623,38 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              enum:
+              - online
+              - hybrid
+              - in_person
+              - offline
+              type: string
+              description: |-
+                * `online` - Online
+                * `hybrid` - Hybrid
+                * `in_person` - In person
+                * `offline` - Offline
+            enum:
+            - hybrid
+            - in_person
+            - offline
+            - online
+        description: |-
+          The delivery of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+          * `offline` - Offline
+        explode: true
         style: form
       - in: query
         name: department
@@ -2245,6 +2341,7 @@ paths:
             - professional
             - free
             - learning_format
+            - delivery
             - resource_category
             type: string
             description: |-
@@ -2260,6 +2357,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `delivery` - delivery
               * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
@@ -2734,6 +2832,7 @@ paths:
             - professional
             - free
             - learning_format
+            - delivery
             - resource_category
             type: string
             description: |-
@@ -2749,6 +2848,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `delivery` - delivery
               * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
@@ -3248,6 +3348,7 @@ paths:
             - professional
             - free
             - learning_format
+            - delivery
             - resource_category
             type: string
             description: |-
@@ -3263,6 +3364,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `delivery` - delivery
               * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
@@ -3753,6 +3855,7 @@ paths:
             - professional
             - free
             - learning_format
+            - delivery
             - resource_category
             type: string
             description: |-
@@ -3768,6 +3871,7 @@ paths:
               * `professional` - professional
               * `free` - free
               * `learning_format` - learning_format
+              * `delivery` - delivery
               * `resource_category` - resource_category
         description: Show resource counts by category
       - in: query
@@ -4281,6 +4385,38 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              enum:
+              - online
+              - hybrid
+              - in_person
+              - offline
+              type: string
+              description: |-
+                * `online` - Online
+                * `hybrid` - Hybrid
+                * `in_person` - In person
+                * `offline` - Offline
+            enum:
+            - hybrid
+            - in_person
+            - offline
+            - online
+        description: |-
+          The delivery of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+          * `offline` - Offline
+        explode: true
         style: form
       - in: query
         name: department
@@ -5001,6 +5137,38 @@ paths:
         explode: false
         style: form
       - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              enum:
+              - online
+              - hybrid
+              - in_person
+              - offline
+              type: string
+              description: |-
+                * `online` - Online
+                * `hybrid` - Hybrid
+                * `in_person` - In person
+                * `offline` - Offline
+            enum:
+            - hybrid
+            - in_person
+            - offline
+            - online
+        description: |-
+          The delivery of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+          * `offline` - Offline
+        explode: true
+        style: form
+      - in: query
         name: department
         schema:
           type: array
@@ -5392,6 +5560,38 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              enum:
+              - online
+              - hybrid
+              - in_person
+              - offline
+              type: string
+              description: |-
+                * `online` - Online
+                * `hybrid` - Hybrid
+                * `in_person` - In person
+                * `offline` - Offline
+            enum:
+            - hybrid
+            - in_person
+            - offline
+            - online
+        description: |-
+          The delivery of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+          * `offline` - Offline
+        explode: true
         style: form
       - in: query
         name: department
@@ -5872,6 +6072,38 @@ paths:
             type: string
         description: Multiple values may be separated by commas.
         explode: false
+        style: form
+      - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              enum:
+              - online
+              - hybrid
+              - in_person
+              - offline
+              type: string
+              description: |-
+                * `online` - Online
+                * `hybrid` - Hybrid
+                * `in_person` - In person
+                * `offline` - Offline
+            enum:
+            - hybrid
+            - in_person
+            - offline
+            - online
+        description: |-
+          The delivery of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+          * `offline` - Offline
+        explode: true
         style: form
       - in: query
         name: department
@@ -6657,6 +6889,38 @@ paths:
         explode: false
         style: form
       - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              enum:
+              - online
+              - hybrid
+              - in_person
+              - offline
+              type: string
+              description: |-
+                * `online` - Online
+                * `hybrid` - Hybrid
+                * `in_person` - In person
+                * `offline` - Offline
+            enum:
+            - hybrid
+            - in_person
+            - offline
+            - online
+        description: |-
+          The delivery of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+          * `offline` - Offline
+        explode: true
+        style: form
+      - in: query
         name: department
         schema:
           type: array
@@ -7116,6 +7380,38 @@ paths:
         explode: false
         style: form
       - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            type: array
+            items:
+              enum:
+              - online
+              - hybrid
+              - in_person
+              - offline
+              type: string
+              description: |-
+                * `online` - Online
+                * `hybrid` - Hybrid
+                * `in_person` - In person
+                * `offline` - Offline
+            enum:
+            - hybrid
+            - in_person
+            - offline
+            - online
+        description: |-
+          The delivery of course/program resources
+
+          * `online` - Online
+          * `hybrid` - Hybrid
+          * `in_person` - In person
+          * `offline` - Offline
+        explode: true
+        style: form
+      - in: query
         name: department
         schema:
           type: array
@@ -7485,6 +7781,7 @@ components:
       - professional
       - free
       - learning_format
+      - delivery
       - resource_category
       type: string
       description: |-
@@ -7500,6 +7797,7 @@ components:
         * `professional` - professional
         * `free` - free
         * `learning_format` - learning_format
+        * `delivery` - delivery
         * `resource_category` - resource_category
       x-enum-descriptions:
       - resource_type
@@ -7514,6 +7812,7 @@ components:
       - professional
       - free
       - learning_format
+      - delivery
       - resource_category
     Article:
       type: object
@@ -7893,6 +8192,23 @@ components:
             - code
             - name
           readOnly: true
+        delivery:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+                - offline
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         free:
           type: boolean
           description: Return true if the resource is free/has a free option
@@ -7959,6 +8275,7 @@ components:
       - certification_type
       - course
       - course_feature
+      - delivery
       - departments
       - free
       - id
@@ -8317,6 +8634,23 @@ components:
             - code
             - name
           readOnly: true
+        delivery:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+                - offline
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         free:
           type: boolean
           description: Return true if the resource is free/has a free option
@@ -8381,6 +8715,7 @@ components:
       - certification
       - certification_type
       - course_feature
+      - delivery
       - departments
       - free
       - id
@@ -10283,6 +10618,23 @@ components:
             - code
             - name
           readOnly: true
+        delivery:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+                - offline
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         free:
           type: boolean
           description: Return true if the resource is free/has a free option
@@ -10348,6 +10700,7 @@ components:
       - certification
       - certification_type
       - course_feature
+      - delivery
       - departments
       - free
       - id
@@ -10550,6 +10903,23 @@ components:
             - code
             - name
           readOnly: true
+        delivery:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+                - offline
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         free:
           type: boolean
           description: Return true if the resource is free/has a free option
@@ -10615,6 +10985,7 @@ components:
       - certification
       - certification_type
       - course_feature
+      - delivery
       - departments
       - free
       - id
@@ -10947,6 +11318,23 @@ components:
             - code
             - name
           readOnly: true
+        delivery:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+                - offline
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         free:
           type: boolean
           description: Return true if the resource is free/has a free option
@@ -11012,6 +11400,7 @@ components:
       - certification
       - certification_type
       - course_feature
+      - delivery
       - departments
       - free
       - id
@@ -11486,6 +11875,23 @@ components:
             - code
             - name
           readOnly: true
+        delivery:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+                - offline
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         free:
           type: boolean
           description: Return true if the resource is free/has a free option
@@ -11551,6 +11957,7 @@ components:
       - certification
       - certification_type
       - course_feature
+      - delivery
       - departments
       - free
       - id
@@ -11739,6 +12146,23 @@ components:
             - code
             - name
           readOnly: true
+        delivery:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+                - offline
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         free:
           type: boolean
           description: Return true if the resource is free/has a free option
@@ -11804,6 +12228,7 @@ components:
       - certification
       - certification_type
       - course_feature
+      - delivery
       - departments
       - free
       - id

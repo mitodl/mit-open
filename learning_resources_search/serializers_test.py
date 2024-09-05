@@ -80,6 +80,16 @@ response_test_raw_data_1 = {
                             "name": "Online",
                         }
                     ],
+                    "delivery": [
+                        {
+                            "code": "online",
+                            "name": "Online",
+                        },
+                        {
+                            "code": "offline",
+                            "name": "Offline",
+                        },
+                    ],
                     "professional": True,
                     "certification": "Certificates",
                     "prices": [2250.0],
@@ -222,6 +232,16 @@ response_test_response_1 = {
                     "name": "Online",
                 }
             ],
+            "delivery": [
+                {
+                    "code": "online",
+                    "name": "Online",
+                },
+                {
+                    "code": "offline",
+                    "name": "Offline",
+                },
+            ],
             "professional": True,
             "certification": "Certificates",
             "prices": [2250.0],
@@ -348,6 +368,16 @@ response_test_raw_data_2 = {
                             "name": "Online",
                         }
                     ],
+                    "delivery": [
+                        {
+                            "code": "online",
+                            "name": "Online",
+                        },
+                        {
+                            "code": "offline",
+                            "name": "Offline",
+                        },
+                    ],
                     "prices": [0.00],
                     "last_modified": None,
                     "runs": [],
@@ -446,6 +476,17 @@ response_test_raw_data_2 = {
                 "buckets": [{"key": 0, "key_as_string": "online", "doc_count": 1}],
             },
         },
+        "delivery": {
+            "doc_count": 1,
+            "delivery": {
+                "doc_count_error_upper_bound": 0,
+                "sum_other_doc_count": 0,
+                "buckets": [
+                    {"key": 0, "key_as_string": "online", "doc_count": 1},
+                    {"key": 0, "key_as_string": "offline", "doc_count": 1},
+                ],
+            },
+        },
     },
     "suggest": {
         "description.trigram": [
@@ -512,6 +553,16 @@ response_test_response_2 = {
                     "name": "Online",
                 }
             ],
+            "delivery": [
+                {
+                    "code": "online",
+                    "name": "Online",
+                },
+                {
+                    "code": "offline",
+                    "name": "Offline",
+                },
+            ],
             "prices": [0.00],
             "last_modified": None,
             "runs": [],
@@ -534,6 +585,10 @@ response_test_response_2 = {
             "certification": [{"key": "false", "doc_count": 1}],
             "free": [{"key": "false", "doc_count": 1}],
             "learning_format": [{"key": "online", "doc_count": 1}],
+            "delivery": [
+                {"key": "online", "doc_count": 1},
+                {"key": "offline", "doc_count": 1},
+            ],
         },
         "suggest": ["broadignite"],
     },
