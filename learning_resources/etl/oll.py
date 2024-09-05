@@ -82,7 +82,8 @@ def parse_topics(course_data: dict) -> list[dict]:
         {"name": topic.replace("Educational Policy", "Education Policy")}
         for topic in [
             course_data["MITxO Primary Child"],
-            course_data["MITxO Secondary Child "],
+            # Sheet/csv column title has trailing space
+            course_data["MITxO Adopted Secondary Child "],
         ]
         if topic
     ]

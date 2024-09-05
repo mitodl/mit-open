@@ -98,7 +98,7 @@ class PrivacyLevel(ExtendedEnum):
     unlisted = "unlisted"
 
 
-semester_mapping = {"1T": "spring", "2T": "summer", "3T": "fall"}
+semester_mapping = {"1T": "Spring", "2T": "Summer", "3T": "Fall"}
 
 
 class LearningResourceRelationTypes(TextChoices):

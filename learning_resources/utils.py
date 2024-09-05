@@ -95,7 +95,7 @@ def get_year_and_semester(course_run):
         )
         if match:
             year = int(match.group(1))
-            semester = match.group(2).lower()
+            semester = match.group(2)
         else:
             semester = None
             year = course_run.get("start")[:4] if course_run.get("start") else None

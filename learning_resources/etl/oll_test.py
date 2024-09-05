@@ -40,7 +40,7 @@ def test_oll_transform(mocker, oll_course_data):
         "offered_by": {"code": "ocw"},
         "platform": "oll",
         "published": True,
-        "topics": [{"name": "Mathematics"}],
+        "topics": [{"name": "Mathematics"}, {"name": "Data Science"}],
         "course": {
             "course_numbers": [
                 {
@@ -70,7 +70,7 @@ def test_oll_transform(mocker, oll_course_data):
                     {"full_name": "Jennifer French Kamrin"},
                 ],
                 "availability": "Archived",
-                "semester": "summer",
+                "semester": "Summer",
                 "year": 2022,
             }
         ],
@@ -91,7 +91,7 @@ def test_oll_transform(mocker, oll_course_data):
         "offered_by": {"code": "mitx"},
         "platform": "oll",
         "published": True,
-        "topics": [{"name": "Education Policy"}],
+        "topics": [{"name": "Education Policy"}, {"name": "Digital Learning"}],
         "course": {
             "course_numbers": [
                 {
@@ -121,7 +121,7 @@ def test_oll_transform(mocker, oll_course_data):
                     {"full_name": "Elizabeth Huttner-Loan"},
                 ],
                 "availability": "Archived",
-                "semester": "spring",
+                "semester": "Spring",
                 "year": 2019,
             }
         ],
