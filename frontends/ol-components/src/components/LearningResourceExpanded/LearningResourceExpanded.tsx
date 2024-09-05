@@ -351,13 +351,16 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     if (!resource) {
       return <Skeleton height={40} style={{ marginTop: 0, width: "60%" }} />
     }
+
     const dateOptions: SimpleSelectProps["options"] =
-      resource.runs?.map((run) => {
-        return {
-          value: run.id.toString(),
-          label: formatRunDate(run, asTaughtIn),
-        }
-      }) ?? []
+      resource.runs
+        ?.sort((a, b) => Date.parse(a.start_date) - Date.parse(b.start_date))
+        .map((run) => {
+          return {
+            value: run.id.toString(),
+            label: formatRunDate(run, asTaughtIn),
+          }
+        }) ?? []
 
     if (
       [ResourceTypeEnum.Course, ResourceTypeEnum.Program].includes(
