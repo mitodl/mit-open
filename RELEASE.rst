@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.18.1
+Version 0.18.1 (Released September 05, 2024)
 --------------
 
 - Remove unnecessary searchparms check (#1514)
