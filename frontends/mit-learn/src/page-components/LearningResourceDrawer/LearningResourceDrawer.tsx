@@ -10,6 +10,7 @@ import { useSearchParams, useLocation } from "react-router-dom"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { usePostHog } from "posthog-js/react"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
+import { useUserMe } from "api/hooks/user"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
@@ -56,6 +57,7 @@ const DrawerContent: React.FC<{
   resourceId: number
 }> = ({ resourceId }) => {
   const resource = useLearningResourcesDetail(Number(resourceId))
+  const { data: user } = useUserMe()
   useCapturePageView(Number(resourceId))
 
   return (
@@ -70,6 +72,7 @@ const DrawerContent: React.FC<{
       <LearningResourceExpanded
         imgConfig={imgConfigs.large}
         resource={resource.data}
+        user={user}
       />
     </>
   )

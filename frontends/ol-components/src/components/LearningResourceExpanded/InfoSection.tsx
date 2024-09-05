@@ -13,6 +13,8 @@ import {
   RiTranslate2,
   RiAwardLine,
   RiPresentationLine,
+  RiMenuAddLine,
+  RiBookmarkLine,
 } from "@remixicon/react"
 import { LearningResource, LearningResourceRun, ResourceTypeEnum } from "api"
 import {
@@ -21,11 +23,24 @@ import {
 } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import Typography from "@mui/material/Typography"
+import { User } from "api/hooks/user"
+import { CardActionButton } from "ol-components"
 
 const InfoItems = styled.section`
   display: flex;
   flex-direction: column;
   gap: 16px;
+`
+
+const InfoHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const ListButtonContainer = styled.div`
+  display: flex;
+  gap: 8px;
 `
 
 const InfoItemContainer = styled.div`
@@ -223,13 +238,18 @@ const InfoItem = ({ label, Icon, value }: InfoItemProps) => {
 const InfoSection = ({
   resource,
   run,
+  user,
 }: {
   resource?: LearningResource
   run?: LearningResourceRun
+  user?: User
 }) => {
   if (!resource) {
     return null
   }
+
+  const inUserList = !!resource?.user_list_parents?.length
+  const inLearningPath = !!resource?.learning_path_parents?.length
 
   const infoItems = INFO_ITEMS.map(({ label, Icon, selector }) => ({
     label,
@@ -243,9 +263,26 @@ const InfoSection = ({
 
   return (
     <InfoItems>
-      <Typography variant="subtitle2" component="h3">
-        Info
-      </Typography>
+      <InfoHeader>
+        <Typography variant="subtitle2" component="h3">
+          Info
+        </Typography>
+        <ListButtonContainer>
+          {user?.is_authenticated && user?.is_learning_path_editor && (
+            <CardActionButton
+              filled={inLearningPath}
+              aria-label="Add to Learning Path"
+            >
+              <RiMenuAddLine aria-hidden />
+            </CardActionButton>
+          )}
+          {user?.is_authenticated && (
+            <CardActionButton filled={inUserList} aria-label="Add to User List">
+              <RiBookmarkLine aria-hidden />
+            </CardActionButton>
+          )}
+        </ListButtonContainer>
+      </InfoHeader>
       {infoItems.map((props, index) => (
         <InfoItem key={index} {...props} />
       ))}
