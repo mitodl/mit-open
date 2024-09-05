@@ -392,7 +392,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     return (
       <DateSingle>
         <DateLabel>{label}</DateLabel>
-        {formatted ?? ""}
+        {formatted ?? <NoDateSpacer />}
       </DateSingle>
     )
   }
