@@ -1759,21 +1759,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-dev-translations@npm:^40.5.0":
-  version: 40.5.0
-  resolution: "@ckeditor/ckeditor5-dev-translations@npm:40.5.0"
-  dependencies:
-    "@babel/parser": "npm:^7.18.9"
-    "@babel/traverse": "npm:^7.18.9"
-    chalk: "npm:^4.0.0"
-    pofile: "npm:^1.0.9"
-    rimraf: "npm:^3.0.2"
-    webpack-sources: "npm:^2.0.1"
-  checksum: 10/d72074264d43ef64869e665dd9786dd7a4c471f9c4d380ab4c36540deb442e898927cba374047602c0f4254cae98d3fe2ebebb2626ad760ca8ba96117e062269
-  languageName: node
-  linkType: hard
-
-"@ckeditor/ckeditor5-dev-translations@npm:^42.0.0":
+"@ckeditor/ckeditor5-dev-translations@npm:^42.0.0, @ckeditor/ckeditor5-dev-translations@npm:^42.1.0":
   version: 42.1.0
   resolution: "@ckeditor/ckeditor5-dev-translations@npm:42.1.0"
   dependencies:
@@ -1787,11 +1773,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ckeditor/ckeditor5-dev-utils@npm:^40.0.0":
-  version: 40.5.0
-  resolution: "@ckeditor/ckeditor5-dev-utils@npm:40.5.0"
+"@ckeditor/ckeditor5-dev-utils@npm:^42.0.0":
+  version: 42.1.0
+  resolution: "@ckeditor/ckeditor5-dev-utils@npm:42.1.0"
   dependencies:
-    "@ckeditor/ckeditor5-dev-translations": "npm:^40.5.0"
+    "@ckeditor/ckeditor5-dev-translations": "npm:^42.1.0"
     chalk: "npm:^3.0.0"
     cli-cursor: "npm:^3.1.0"
     cli-spinners: "npm:^2.6.1"
@@ -1813,7 +1799,7 @@ __metadata:
     style-loader: "npm:^2.0.0"
     terser-webpack-plugin: "npm:^4.2.3"
     through2: "npm:^3.0.1"
-  checksum: 10/a4b782f1e6622fe7a4d92d51cf2cc095e00a53049b49c7af04d402a391e160d5ac66a419505850b9b8546e1d26f42c4739ad83381a6b282cabce4b1334defa05
+  checksum: 10/bba0027aee3b0fee7a1f585c6735317c31a1a1f495959c01d0e7b88dd53d25c0a1a44a95bb47111f478e1e5145ed80b022fa494b7d92f436299cbc9a2433a7fa
   languageName: node
   linkType: hard
 
@@ -15355,7 +15341,7 @@ __metadata:
     "@ckeditor/ckeditor5-cloud-services": "npm:^41.0.0"
     "@ckeditor/ckeditor5-core": "npm:^41.0.0"
     "@ckeditor/ckeditor5-dev-translations": "npm:^42.0.0"
-    "@ckeditor/ckeditor5-dev-utils": "npm:^40.0.0"
+    "@ckeditor/ckeditor5-dev-utils": "npm:^42.0.0"
     "@ckeditor/ckeditor5-easy-image": "npm:^41.0.0"
     "@ckeditor/ckeditor5-editor-classic": "npm:^41.0.0"
     "@ckeditor/ckeditor5-essentials": "npm:^41.0.0"
