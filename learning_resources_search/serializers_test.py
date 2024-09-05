@@ -878,6 +878,7 @@ def test_learning_resources_search_request_serializer():
         "search_mode": "phrase",
         "slop": 2,
         "min_score": 0,
+        "max_incompleteness_penalty": 25,
     }
 
     cleaned = {
@@ -903,6 +904,7 @@ def test_learning_resources_search_request_serializer():
         "search_mode": "phrase",
         "slop": 2,
         "min_score": 0,
+        "max_incompleteness_penalty": 25,
     }
 
     serialized = LearningResourcesSearchRequestSerializer(data=data)
