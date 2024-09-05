@@ -359,3 +359,5 @@ def clear_search_cache():
     cache = caches["redis"]
     search_keys = cache.keys("views.decorators.cache.cache_page.search.*")
     cache.delete_many(search_keys)
+    search_keys = cache.keys("views.decorators.cache.cache_header.search.*")
+    cache.delete_many(search_keys)
