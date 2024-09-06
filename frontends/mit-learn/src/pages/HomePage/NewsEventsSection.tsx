@@ -188,7 +188,7 @@ const NewsEventsSection: React.FC = () => {
   const { data: news } = useNewsEventsList({
     feed_type: [NewsEventsListFeedTypeEnum.News],
     limit: 6,
-    sortby: "-created",
+    sortby: "-news_date",
   })
 
   const { data: events } = useNewsEventsList({
