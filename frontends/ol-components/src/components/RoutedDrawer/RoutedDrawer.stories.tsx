@@ -25,7 +25,7 @@ export const Simple: Story = {
       appDirectory: true,
       navigation: {
         query: { a: "1", b: "2" },
-      }
+      },
     },
   },
   render: () => (
@@ -47,8 +47,8 @@ export const NotPresent = {
     nextjs: {
       appDirectory: true,
       navigation: {
-        query: { a: "1"  },
-      }
+        query: { a: "1" },
+      },
     },
   },
   render: () => (

@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { BannerPage } from "./BannerPage"
 import Typography from "@mui/material/Typography"
 
-
 const meta: Meta<typeof BannerPage> = {
   title: "old/BannerPage",
   render: (props) => (
