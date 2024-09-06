@@ -164,7 +164,6 @@ jobs:
           file: coverage/lcov.info
 
   build-storybook:
-    if: false #TODO
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
