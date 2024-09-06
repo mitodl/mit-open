@@ -331,7 +331,6 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         min_value=0,
         required=False,
         allow_null=True,
-        default=2.5,
         help_text=(
             "Relevance score penalty percent per year for for resources without "
             "upcoming runs. Only affects results if there is a search term."
@@ -425,7 +424,6 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         min_value=0,
         required=False,
         allow_null=True,
-        default=0,
         help_text=(
             "Minimum score value a text query result needs to have to be displayed"
         ),
@@ -435,7 +433,6 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         min_value=0,
         required=False,
         allow_null=True,
-        default=0,
         help_text=(
             "Maximum score penalty for incomplete OCW courses in percent. "
             "An OCW course with completeness = 0 will have this score penalty. "

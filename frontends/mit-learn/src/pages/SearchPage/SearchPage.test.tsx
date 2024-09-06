@@ -306,6 +306,11 @@ describe("SearchPage", () => {
     setMockResponse.get(urls.userMe.get(), {
       is_learning_path_editor: true,
     })
+    APP_SETTINGS.DEFAULT_SEARCH_MODE = "phrase"
+    APP_SETTINGS.DEFAULT_SEARCH_SLOP = 6
+    APP_SETTINGS.DEFAULT_SEARCH_STALENESS_PENALTY = 2.5
+    APP_SETTINGS.DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF = 0
+    APP_SETTINGS.DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY = 90
     renderWithProviders(<SearchPage />)
     await waitFor(() => {
       const adminFacetContainer = screen.getByText("Admin Options")
@@ -321,6 +326,11 @@ describe("SearchPage", () => {
 })
 
 test("admin users can set the search mode and slop", async () => {
+  APP_SETTINGS.DEFAULT_SEARCH_MODE = "phrase"
+  APP_SETTINGS.DEFAULT_SEARCH_SLOP = 6
+  APP_SETTINGS.DEFAULT_SEARCH_STALENESS_PENALTY = 2.5
+  APP_SETTINGS.DEFAULT_SEARCH_MINIMUM_SCORE_CUTOFF = 0
+  APP_SETTINGS.DEFAULT_SEARCH_MAX_INCOMPLETENESS_PENALTY = 90
   setMockApiResponses({
     search: {
       count: 700,
@@ -349,11 +359,21 @@ test("admin users can set the search mode and slop", async () => {
     user.click(adminFacetContainer)
   })
 
-  let slopSlider = screen.queryByText("Slop")
-  expect(slopSlider).toBeNull()
-
-  const searchModeDropdowns = await screen.findAllByText("best_fields")
+  const searchModeDropdowns = await screen.findAllByText("phrase")
   const searchModeDropdown = searchModeDropdowns[0]
+
+  await user.click(searchModeDropdown)
+
+  const mostFieldsSelect = await screen.findByRole("option", {
+    name: "most_fields",
+  })
+
+  await user.click(mostFieldsSelect)
+
+  expect(location.current.search).toBe("?search_mode=most_fields")
+
+  const slopSlider = screen.queryByText("Slop")
+  expect(slopSlider).toBeNull()
 
   await user.click(searchModeDropdown)
 
@@ -370,17 +390,6 @@ test("admin users can set the search mode and slop", async () => {
   })
 
   await user.click(searchModeDropdown)
-
-  const mostFieldsSelect = await screen.findByRole("option", {
-    name: "most_fields",
-  })
-
-  await user.click(mostFieldsSelect)
-
-  expect(location.current.search).toBe("?search_mode=most_fields")
-
-  slopSlider = screen.queryByText("Slop")
-  expect(slopSlider).toBeNull()
 })
 
 describe("Search Page Tabs", () => {
