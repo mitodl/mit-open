@@ -544,32 +544,48 @@ def add_text_query_to_search(search, text, search_params, query_type_query):
 
     yearly_decay_percent = search_params.get("yearly_decay_percent")
     min_score = search_params.get("min_score")
+    max_incompleteness_penalty = (
+        search_params.get("max_incompleteness_penalty", 0) / 100
+    )
 
-    if (yearly_decay_percent and yearly_decay_percent > 0) or (
-        min_score and min_score > 0
-    ):
+    if yearly_decay_percent or min_score or max_incompleteness_penalty:
         script_query = {
             "script_score": {
                 "query": {"bool": {"must": [text_query], "filter": query_type_query}}
             }
         }
 
-        if yearly_decay_percent and yearly_decay_percent > 0:
-            script_query["script_score"]["script"] = {
-                "source": (
-                    "doc['resource_age_date'].size() == 0 ? _score : "
-                    "_score * decayDateLinear(params.origin, params.scale, "
-                    "params.offset, params.decay, doc['resource_age_date'].value)"
-                ),
-                "params": {
-                    "origin": datetime.now(tz=UTC).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
-                    "offset": "0",
-                    "scale": "354d",
-                    "decay": 1 - (yearly_decay_percent / 100),
-                },
-            }
+        completeness_term = (
+            "(doc['completeness'].value * params.max_incompleteness_penalty + "
+            "(1-params.max_incompleteness_penalty))"
+        )
 
-        if min_score and min_score > 0:
+        staleness_term = (
+            "(doc['resource_age_date'].size() == 0 ? 1 : "
+            "decayDateLinear(params.origin, params.scale, params.offset, params.decay, "
+            "doc['resource_age_date'].value))"
+        )
+
+        source = "_score"
+        params = {}
+
+        if max_incompleteness_penalty:
+            source = f"{source} * {completeness_term}"
+            params["max_incompleteness_penalty"] = max_incompleteness_penalty
+
+        if yearly_decay_percent:
+            source = f"{source} * {staleness_term}"
+            params["decay"] = 1 - (yearly_decay_percent / 100)
+            params["offset"] = "0"
+            params["scale"] = "365d"
+            params["origin"] = datetime.now(tz=UTC).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
+        script_query["script_score"]["script"] = {
+            "source": source,
+            "params": params,
+        }
+
+        if min_score:
             script_query["script_score"]["min_score"] = min_score
 
         search = search.query(script_query)
@@ -579,7 +595,7 @@ def add_text_query_to_search(search, text, search_params, query_type_query):
     return search
 
 
-def construct_search(search_params):
+def construct_search(search_params):  # noqa: C901
     """
     Construct a learning resources search based on the query
 
@@ -652,6 +668,9 @@ def construct_search(search_params):
 
     if search_params.get("dev_mode"):
         search = search.extra(explain=True)
+
+    if search_params.get("use_dfs_query_then_fetch"):
+        search = search.params(search_type="dfs_query_then_fetch")
 
     return search
 

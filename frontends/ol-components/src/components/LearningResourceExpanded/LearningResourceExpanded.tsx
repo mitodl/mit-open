@@ -33,7 +33,7 @@ const Container = styled.div<{ padTop?: boolean }>`
   }
 `
 
-const Date = styled.div`
+const DateContainer = styled.div`
   display: flex;
   justify-content: start;
   align-self: stretch;
@@ -60,7 +60,7 @@ const Date = styled.div`
   }
 `
 
-const DateSingle = styled(Date)`
+const DateSingle = styled(DateContainer)`
   margin-top: 10px;
 `
 
@@ -324,7 +324,17 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
 
   useEffect(() => {
     if (resource) {
-      setSelectedRun(resource!.runs![0])
+      const closest = resource?.runs?.reduce(function (prev, current) {
+        const now = Date.now()
+        return prev.start_date &&
+          current.start_date &&
+          Date.parse(prev.start_date) > now &&
+          Date.parse(prev.start_date) - now <
+            Date.parse(current.start_date) - now
+          ? prev
+          : current
+      }, resource!.runs![0])
+      setSelectedRun(closest)
     }
   }, [resource])
 
@@ -342,13 +352,21 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     if (!resource) {
       return <Skeleton height={40} style={{ marginTop: 0, width: "60%" }} />
     }
+
     const dateOptions: SimpleSelectProps["options"] =
-      resource.runs?.map((run) => {
-        return {
-          value: run.id.toString(),
-          label: formatRunDate(run, asTaughtIn),
-        }
-      }) ?? []
+      resource.runs
+        ?.sort((a, b) => {
+          if (a?.start_date && b?.start_date) {
+            return Date.parse(a.start_date) - Date.parse(b.start_date)
+          }
+          return 0
+        })
+        .map((run) => {
+          return {
+            value: run.id.toString(),
+            label: formatRunDate(run, asTaughtIn),
+          }
+        }) ?? []
 
     if (
       [ResourceTypeEnum.Course, ResourceTypeEnum.Program].includes(
@@ -357,14 +375,14 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       multipleRuns
     ) {
       return (
-        <Date>
+        <DateContainer>
           <DateLabel>{label}</DateLabel>
           <SimpleSelect
             value={selectedRun?.id.toString() ?? ""}
             onChange={onDateChange}
             options={dateOptions}
           />
-        </Date>
+        </DateContainer>
       )
     }
 
@@ -374,11 +392,10 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     if (!formatted) {
       return <NoDateSpacer />
     }
-
     return (
       <DateSingle>
         <DateLabel>{label}</DateLabel>
-        {formatted}
+        {formatted ?? ""}
       </DateSingle>
     )
   }

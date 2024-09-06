@@ -315,6 +315,7 @@ describe("SearchPage", () => {
     await waitFor(() => {
       screen.getByTestId("yearly_decay_percent-slider")
       screen.getByTestId("min_score-slider")
+      screen.getByTestId("max_incompleteness_penalty-slider")
     })
   })
 })

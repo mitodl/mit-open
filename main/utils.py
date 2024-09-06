@@ -4,6 +4,7 @@ import datetime
 import logging
 import os
 from enum import Flag, auto
+from functools import wraps
 from itertools import islice
 from urllib.parse import urljoin
 
@@ -11,6 +12,7 @@ import markdown2
 from bs4 import BeautifulSoup
 from django.conf import settings
 from django.core.cache import caches
+from django.views.decorators.cache import cache_page
 from nh3 import nh3
 
 from main.constants import ALLOWED_HTML_ATTRIBUTES, ALLOWED_HTML_TAGS
@@ -19,6 +21,34 @@ log = logging.getLogger(__name__)
 
 # This is the Django ImageField max path size
 IMAGE_PATH_MAX_LENGTH = 100
+
+
+def cache_page_for_anonymous_users(*cache_args, **cache_kwargs):
+    def inner_decorator(func):
+        @wraps(func)
+        def inner_function(request, *args, **kwargs):
+            if not request.user.is_authenticated:
+                return cache_page(*cache_args, **cache_kwargs)(func)(
+                    request, *args, **kwargs
+                )
+            return func(request, *args, **kwargs)
+
+        return inner_function
+
+    return inner_decorator
+
+
+def cache_page_for_all_users(*cache_args, **cache_kwargs):
+    def inner_decorator(func):
+        @wraps(func)
+        def inner_function(request, *args, **kwargs):
+            return cache_page(*cache_args, **cache_kwargs)(func)(
+                request, *args, **kwargs
+            )
+
+        return inner_function
+
+    return inner_decorator
 
 
 class FeatureFlag(Flag):
@@ -328,4 +358,6 @@ def clean_data(data: str) -> str:
 def clear_search_cache():
     cache = caches["redis"]
     search_keys = cache.keys("views.decorators.cache.cache_page.search.*")
+    cache.delete_many(search_keys)
+    search_keys = cache.keys("views.decorators.cache.cache_header.search.*")
     cache.delete_many(search_keys)

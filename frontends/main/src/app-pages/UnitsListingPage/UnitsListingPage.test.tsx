@@ -91,7 +91,17 @@ describe("DepartmentListingPage", () => {
       professionalUnit3: 6,
     }
 
+    setMockResponse.get(urls.channels.counts("unit"), [
+      {
+        name: academicUnit1,
+        counts: {
+          programs: 7,
+          courses: 10,
+        },
+      },
+    ])
     setMockResponse.get(urls.offerors.list(), units)
+
     setMockResponse.get(
       urls.search.resources({
         resource_type: ["course"],

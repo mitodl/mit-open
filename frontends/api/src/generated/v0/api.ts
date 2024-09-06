@@ -200,6 +200,68 @@ export type Channel =
   | ({ channel_type: "unit" } & UnitChannel)
 
 /**
+ * Serializer for resource counts associated with Channel
+ * @export
+ * @interface ChannelCounts
+ */
+export interface ChannelCounts {
+  /**
+   *
+   * @type {number}
+   * @memberof ChannelCounts
+   */
+  id: number
+  /**
+   *
+   * @type {Counts}
+   * @memberof ChannelCounts
+   */
+  counts: Counts
+  /**
+   * Get the URL for the channel
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  channel_url: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  created_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  updated_on: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  name: string
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  title: string
+  /**
+   *
+   * @type {ChannelTypeEnum}
+   * @memberof ChannelCounts
+   */
+  channel_type: ChannelTypeEnum
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelCounts
+   */
+  search_filter?: string
+}
+
+/**
  * Write serializer for Channel. Uses primary keys for referenced objects during requests, and delegates to ChannelSerializer for responses.
  * @export
  * @interface ChannelCreateRequest
@@ -428,6 +490,25 @@ export interface ChannelUnitDetail {
    * @memberof ChannelUnitDetail
    */
   unit: LearningResourceOfferorDetail
+}
+/**
+ *
+ * @export
+ * @interface Counts
+ */
+export interface Counts {
+  /**
+   *
+   * @type {number}
+   * @memberof Counts
+   */
+  courses: number
+  /**
+   *
+   * @type {number}
+   * @memberof Counts
+   */
+  programs: number
 }
 /**
  * * `` - ---- * `Doctorate` - Doctorate * `Master\'s or professional degree` - Master\'s or professional degree * `Bachelor\'s degree` - Bachelor\'s degree * `Associate degree` - Associate degree * `Secondary/high school` - Secondary/high school * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school * `No formal education` - No formal education * `Other education` - Other education
@@ -2889,6 +2970,52 @@ export const ChannelsApiAxiosParamCreator = function (
 ) {
   return {
     /**
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
+     * @param {string} channel_type
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    channelsCountsList: async (
+      channel_type: string,
+      options: RawAxiosRequestConfig = {},
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'channel_type' is not null or undefined
+      assertParamExists("channelsCountsList", "channel_type", channel_type)
+      const localVarPath = `/api/v0/channels/counts/{channel_type}/`.replace(
+        `{${"channel_type"}}`,
+        encodeURIComponent(String(channel_type)),
+      )
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = {
+        method: "GET",
+        ...baseOptions,
+        ...options,
+      }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions =
+        baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = {
+        ...localVarHeaderParameter,
+        ...headersFromBaseOptions,
+        ...options.headers,
+      }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions,
+      }
+    },
+    /**
      * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {ChannelCreateRequest} ChannelCreateRequest
@@ -3366,6 +3493,38 @@ export const ChannelsApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = ChannelsApiAxiosParamCreator(configuration)
   return {
     /**
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
+     * @param {string} channel_type
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async channelsCountsList(
+      channel_type: string,
+      options?: RawAxiosRequestConfig,
+    ): Promise<
+      (
+        axios?: AxiosInstance,
+        basePath?: string,
+      ) => AxiosPromise<Array<ChannelCounts>>
+    > {
+      const localVarAxiosArgs =
+        await localVarAxiosParamCreator.channelsCountsList(
+          channel_type,
+          options,
+        )
+      const index = configuration?.serverIndex ?? 0
+      const operationBasePath =
+        operationServerMap["ChannelsApi.channelsCountsList"]?.[index]?.url
+      return (axios, basePath) =>
+        createRequestFunction(
+          localVarAxiosArgs,
+          globalAxios,
+          BASE_PATH,
+          configuration,
+        )(axios, operationBasePath || basePath)
+    },
+    /**
      * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {ChannelCreateRequest} ChannelCreateRequest
@@ -3660,6 +3819,21 @@ export const ChannelsApiFactory = function (
   const localVarFp = ChannelsApiFp(configuration)
   return {
     /**
+     * View for retrieving an individual channel by type and name
+     * @summary Channel Detail Lookup by channel type and name
+     * @param {ChannelsApiChannelsCountsListRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    channelsCountsList(
+      requestParameters: ChannelsApiChannelsCountsListRequest,
+      options?: RawAxiosRequestConfig,
+    ): AxiosPromise<Array<ChannelCounts>> {
+      return localVarFp
+        .channelsCountsList(requestParameters.channel_type, options)
+        .then((request) => request(axios, basePath))
+    },
+    /**
      * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
      * @summary Create
      * @param {ChannelsApiChannelsCreateRequest} requestParameters Request parameters.
@@ -3816,6 +3990,20 @@ export const ChannelsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
   }
+}
+
+/**
+ * Request parameters for channelsCountsList operation in ChannelsApi.
+ * @export
+ * @interface ChannelsApiChannelsCountsListRequest
+ */
+export interface ChannelsApiChannelsCountsListRequest {
+  /**
+   *
+   * @type {string}
+   * @memberof ChannelsApiChannelsCountsList
+   */
+  readonly channel_type: string
 }
 
 /**
@@ -3993,6 +4181,23 @@ export interface ChannelsApiChannelsTypeRetrieveRequest {
  * @extends {BaseAPI}
  */
 export class ChannelsApi extends BaseAPI {
+  /**
+   * View for retrieving an individual channel by type and name
+   * @summary Channel Detail Lookup by channel type and name
+   * @param {ChannelsApiChannelsCountsListRequest} requestParameters Request parameters.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof ChannelsApi
+   */
+  public channelsCountsList(
+    requestParameters: ChannelsApiChannelsCountsListRequest,
+    options?: RawAxiosRequestConfig,
+  ) {
+    return ChannelsApiFp(this.configuration)
+      .channelsCountsList(requestParameters.channel_type, options)
+      .then((request) => request(this.axios, this.basePath))
+  }
+
   /**
    * CRUD Operations related to Channels. Channels may represent groups or organizations at MIT and are a high-level categorization of content.
    * @summary Create
@@ -4324,7 +4529,7 @@ export const NewsEventsApiAxiosParamCreator = function (
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;news_date&#x60; - Creation date ascending * &#x60;-news_date&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4442,7 +4647,7 @@ export const NewsEventsApiFp = function (configuration?: Configuration) {
      * @param {Array<NewsEventsListFeedTypeEnum>} [feed_type] The type of item  * &#x60;news&#x60; - News * &#x60;events&#x60; - Events
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
-     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
+     * @param {NewsEventsListSortbyEnum} [sortby] Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;news_date&#x60; - Creation date ascending * &#x60;-news_date&#x60; - Creation date descending
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -4580,8 +4785,8 @@ export interface NewsEventsApiNewsEventsListRequest {
   readonly offset?: number
 
   /**
-   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;created&#x60; - Creation date ascending * &#x60;-created&#x60; - Creation date descending
-   * @type {'-created' | '-event_date' | '-id' | 'created' | 'event_date' | 'id'}
+   * Sort By  * &#x60;id&#x60; - Object ID ascending * &#x60;-id&#x60; - Object ID descending * &#x60;event_date&#x60; - Event date ascending * &#x60;-event_date&#x60; - Event date  descending * &#x60;news_date&#x60; - Creation date ascending * &#x60;-news_date&#x60; - Creation date descending
+   * @type {'-event_date' | '-id' | '-news_date' | 'event_date' | 'id' | 'news_date'}
    * @memberof NewsEventsApiNewsEventsList
    */
   readonly sortby?: NewsEventsListSortbyEnum
@@ -4660,12 +4865,12 @@ export type NewsEventsListFeedTypeEnum =
  * @export
  */
 export const NewsEventsListSortbyEnum = {
-  Created: "-created",
   EventDate: "-event_date",
   Id: "-id",
-  Created2: "created",
+  NewsDate: "-news_date",
   EventDate2: "event_date",
   Id2: "id",
+  NewsDate2: "news_date",
 } as const
 export type NewsEventsListSortbyEnum =
   (typeof NewsEventsListSortbyEnum)[keyof typeof NewsEventsListSortbyEnum]

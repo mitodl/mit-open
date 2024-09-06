@@ -1,6 +1,24 @@
 Release Notes
 =============
 
+Version 0.18.1 (Released September 05, 2024)
+--------------
+
+- Remove unnecessary searchparms check (#1514)
+- Ingest OLL courses from a spreadsheet/csv (#1508)
+
+Version 0.18.0 (Released September 04, 2024)
+--------------
+
+- Setup sentry tracing and profiling (#1492)
+- Update Yarn to v4.4.1 (#1494)
+- Update postgres Docker tag to v12.20 (#1501)
+- Update opensearchproject/opensearch Docker tag to v2.16.0 (#1500)
+- Update mcr.microsoft.com/playwright Docker tag to v1.46.1 (#1499)
+- Update Node.js to v20.17.0 (#1498)
+- Update dependency ruff to v0.6.3 (#1497)
+- Update dependency @testing-library/react to v16.0.1 (#1495)
+
 Version 0.17.14 (Released August 30, 2024)
 ---------------
 

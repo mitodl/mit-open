@@ -203,7 +203,7 @@ def test_transform_course(  # noqa: PLR0913
                         "last_modified": any_instance_of(datetime),
                         "level": ["intermediate"],
                         "prices": ["0.00", "150.00"],
-                        "semester": "spring",
+                        "semester": "Spring",
                         "description": "short_description",
                         "start_date": expected_dt,
                         "title": "The Analytics Edge",

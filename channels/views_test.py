@@ -1,6 +1,7 @@
 """Tests for channels.views"""
 
 import os
+import random
 from math import ceil
 
 import pytest
@@ -443,3 +444,74 @@ def test_channel_configuration_is_not_editable(client, channel):
     assert response.status_code == 200
     channel.refresh_from_db()
     assert channel.configuration == initial_config
+
+
+def test_channel_counts_view(client):
+    """Test the channel counts view returns counts for resources"""
+    url = reverse(
+        "channels:v0:channel_counts_api-list",
+        kwargs={"channel_type": "unit"},
+    )
+    total_count = 0
+    channels = ChannelFactory.create_batch(5, channel_type="unit")
+    for channel in channels:
+        resource_count = random.randint(1, 10)  # noqa: S311
+        total_count += resource_count
+        channel_unit = channel.unit_detail.unit
+        resources = LearningResourceFactory.create_batch(
+            resource_count,
+            published=True,
+            resource_type="course",
+            create_course=True,
+            create_program=False,
+        )
+        for resource in resources:
+            channel_unit.learningresource_set.add(resource)
+        channel_unit.save()
+    random_channel = random.choice(list(channels))  # noqa: S311
+
+    response = client.get(url)
+    count_response = response.json()
+    assert response.status_code == 200
+    response_count_sum = 0
+    for item in count_response:
+        if item["name"] == random_channel.name:
+            response_count_sum += sum([item["counts"][key] for key in item["counts"]])
+            assert (
+                response_count_sum
+                == random_channel.unit_detail.unit.learningresource_set.count()
+            )
+
+
+def test_channel_counts_view_is_cached_for_anonymous_users(client):
+    """Test the channel counts view is cached for anonymous users"""
+    channel_count = 5
+    channels = ChannelFactory.create_batch(channel_count, channel_type="unit")
+    url = reverse(
+        "channels:v0:channel_counts_api-list",
+        kwargs={"channel_type": "unit"},
+    )
+    response = client.get(url).json()
+    assert len(response) == channel_count
+    for channel in channels:
+        channel.delete()
+    response = client.get(url).json()
+    assert len(response) == channel_count
+
+
+def test_channel_counts_view_is_cached_for_authenticated_users(client):
+    """Test the channel counts view is cached for authenticated users"""
+    channel_count = 5
+    channel_user = UserFactory.create()
+    client.force_login(channel_user)
+    channels = ChannelFactory.create_batch(channel_count, channel_type="unit")
+    url = reverse(
+        "channels:v0:channel_counts_api-list",
+        kwargs={"channel_type": "unit"},
+    )
+    response = client.get(url).json()
+    assert len(response) == channel_count
+    for channel in channels:
+        channel.delete()
+    response = client.get(url).json()
+    assert len(response) == channel_count

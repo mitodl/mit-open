@@ -282,6 +282,15 @@ class SearchRequestSerializer(serializers.Serializer):
         default=False,
         help_text="If true return raw open search results with score explanations",
     )
+    use_dfs_query_then_fetch = serializers.BooleanField(
+        required=False,
+        allow_null=True,
+        default=False,
+        help_text=(
+            "If true sets search_type=dfs_query_then_fetch which makes Opensearch"
+            "make an extra pre-query to calculate term frequencies accross indexes"
+        ),
+    )
 
     def validate(self, attrs):
         unknown = set(self.initial_data) - set(self.fields)
@@ -428,6 +437,20 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         default=0,
         help_text=(
             "Minimum score value a text query result needs to have to be displayed"
+        ),
+    )
+    max_incompleteness_penalty = serializers.FloatField(
+        max_value=100,
+        min_value=0,
+        required=False,
+        allow_null=True,
+        default=0,
+        help_text=(
+            "Maximum score penalty for incomplete OCW courses in percent. "
+            "An OCW course with completeness = 0 will have this score penalty. "
+            "Partially complete courses have a linear penalty proportional to "
+            "the degree of incompleteness. Only affects results if there is a "
+            "search term."
         ),
     )
 
