@@ -13,9 +13,9 @@ import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { ChipLink, Container, styled, Typography } from "ol-components"
 
 const SubTopicsContainer = styled(Container)(({ theme }) => ({
-  paddingTop: "40px",
-  [theme.breakpoints.down("md")]: {
-    paddingTop: "24px",
+  marginBottom: "64px",
+  [theme.breakpoints.down("sm")]: {
+    marginBottom: "24px",
   },
 }))
 
@@ -72,7 +72,6 @@ const ChannelPage: React.FC = () => {
   const { channelType, name } = useParams<RouteParams>()
   const channelQuery = useChannelDetail(String(channelType), String(name))
   const searchParams: Facets & BooleanFacets = {}
-  const publicDescription = channelQuery.data?.public_description
 
   if (channelQuery.data?.search_filter) {
     const urlParams = new URLSearchParams(channelQuery.data.search_filter)
@@ -91,9 +90,6 @@ const ChannelPage: React.FC = () => {
     channelType && (
       <>
         <ChannelPageTemplate name={name} channelType={channelType}>
-          {publicDescription && (
-            <Typography variant="body1">{publicDescription}</Typography>
-          )}
           {channelQuery.data?.channel_type === ChannelTypeEnum.Topic &&
           channelQuery.data?.topic_detail?.topic ? (
             <SubTopicsDisplay
