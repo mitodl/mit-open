@@ -23,11 +23,9 @@ import { styled, VisuallyHidden } from "ol-components"
 
 const SearchInputContainer = styled.div`
   padding-bottom: 40px;
-  margin-top: 64px;
 
   ${({ theme }) => theme.breakpoints.down("md")} {
     padding-bottom: 35px;
-    margin-top: 24px;
   }
 `
 
