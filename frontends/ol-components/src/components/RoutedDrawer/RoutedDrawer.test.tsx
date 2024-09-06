@@ -10,13 +10,6 @@ import React from "react"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import { mockRouter } from "ol-test-utilities/mocks/nextNavigation"
 
-jest.mock("next/navigation", () => {
-  return {
-    ...jest.requireActual("ol-test-utilities/mocks/nextNavigation")
-      .nextNavigationMocks,
-  }
-})
-
 const TestDrawerContents = ({ closeDrawer }: { closeDrawer: () => void }) => (
   <section>
     <h2>DrawerContent</h2>

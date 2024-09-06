@@ -1,7 +1,8 @@
 /**
- * This is a mock for the next/navigation module based on the next-router-mock
+ * This is a mock for the next/navigation module used with the App Router.
  *
- *
+ * NOTE: next-router-mock is intended to mock the next/router module (used with
+ * older Pages router.)
  */
 import * as mocks from "next-router-mock"
 

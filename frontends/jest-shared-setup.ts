@@ -71,6 +71,13 @@ configure({
   },
 })
 
+jest.mock("next/navigation", () => {
+  return {
+    ...jest.requireActual("ol-test-utilities/mocks/nextNavigation")
+      .nextNavigationMocks,
+  }
+})
+
 afterEach(() => {
   /**
    * Clear all mock call counts between tests.
