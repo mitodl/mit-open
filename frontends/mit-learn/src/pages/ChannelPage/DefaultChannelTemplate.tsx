@@ -13,7 +13,7 @@ import {
 import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const ChildrenContainer = styled.div(({ theme }) => ({
-  paddingTop: "64px",
+  paddingTop: "40px",
   [theme.breakpoints.down("sm")]: {
     paddingTop: "24px",
   },

@@ -13,9 +13,9 @@ import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { ChipLink, Container, styled, Typography } from "ol-components"
 
 const SubTopicsContainer = styled(Container)(({ theme }) => ({
-  paddingTop: "40px",
-  [theme.breakpoints.down("md")]: {
-    paddingTop: "24px",
+  marginBottom: "60px",
+  [theme.breakpoints.down("sm")]: {
+    marginBottom: "24px",
   },
 }))
 
