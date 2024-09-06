@@ -11,6 +11,7 @@ import type {
 import { ChannelTypeEnum } from "api/v0"
 import { useLearningResourceTopics } from "api/hooks/learningResources"
 import { ChipLink, Container, styled, Typography } from "ol-components"
+import { propsNotNil } from "ol-utilities"
 
 const SubTopicsContainer = styled(Container)(({ theme }) => ({
   marginBottom: "60px",
@@ -46,7 +47,7 @@ const SubTopicsDisplay: React.FC<SubTopicDisplayProps> = (props) => {
   })
   const totalSubtopics = topicsQuery.data?.results.length ?? 0
   const subTopics = topicsQuery.data?.results.filter(
-    (topic) => topic.channel_url,
+    propsNotNil(["channel_url"]),
   )
   return (
     totalSubtopics > 0 && (
@@ -58,7 +59,7 @@ const SubTopicsDisplay: React.FC<SubTopicDisplayProps> = (props) => {
               size="large"
               variant="outlinedWhite"
               key={topic.id}
-              href={topic.channel_url ? topic.channel_url : ""}
+              href={topic.channel_url}
               label={topic.name}
             />
           ))}
