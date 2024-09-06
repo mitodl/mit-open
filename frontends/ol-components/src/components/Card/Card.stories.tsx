@@ -15,7 +15,7 @@ const meta: Meta<typeof Card> = {
   render: (args) => (
     <Card {...args}>
       <Card.Image
-        src="https://openlearninglibrary.mit.edu/asset-v1:MITx+11.154x+3T2018+type@asset+block@course_image.jpg"
+        src="/course_image.jpg"
         alt="Provide a meaningful description or leave this blank."
       />
       <Card.Info>Info</Card.Info>
