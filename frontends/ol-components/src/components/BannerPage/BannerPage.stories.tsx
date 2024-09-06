@@ -3,8 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { BannerPage } from "./BannerPage"
 import Typography from "@mui/material/Typography"
 
-const PUBLIC_URL =
-  process.env.PUBLIC_URL || process.env.STORYBOOK_PUBLIC_URL || ""
 
 const meta: Meta<typeof BannerPage> = {
   title: "old/BannerPage",

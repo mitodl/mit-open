@@ -21,7 +21,12 @@ type Story = StoryObj<typeof RoutedDrawer>
 
 export const Simple: Story = {
   parameters: {
-    query: { a: "1", b: "2" },
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        query: { a: "1", b: "2" },
+      }
+    },
   },
   render: () => (
     <RoutedDrawer params={["a", "b", "c"]} requiredParams={["a", "b"]}>
@@ -39,8 +44,11 @@ export const Simple: Story = {
 
 export const NotPresent = {
   parameters: {
-    location: {
-      searchParams: { a: "1" },
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        query: { a: "1"  },
+      }
     },
   },
   render: () => (
