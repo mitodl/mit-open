@@ -349,11 +349,21 @@ test("admin users can set the search mode and slop", async () => {
     user.click(adminFacetContainer)
   })
 
-  let slopSlider = screen.queryByText("Slop")
-  expect(slopSlider).toBeNull()
-
-  const searchModeDropdowns = await screen.findAllByText("best_fields")
+  const searchModeDropdowns = await screen.findAllByText("phrase")
   const searchModeDropdown = searchModeDropdowns[0]
+
+  await user.click(searchModeDropdown)
+
+  const mostFieldsSelect = await screen.findByRole("option", {
+    name: "most_fields",
+  })
+
+  await user.click(mostFieldsSelect)
+
+  expect(location.current.search).toBe("?search_mode=most_fields")
+
+  const slopSlider = screen.queryByText("Slop")
+  expect(slopSlider).toBeNull()
 
   await user.click(searchModeDropdown)
 
@@ -370,17 +380,6 @@ test("admin users can set the search mode and slop", async () => {
   })
 
   await user.click(searchModeDropdown)
-
-  const mostFieldsSelect = await screen.findByRole("option", {
-    name: "most_fields",
-  })
-
-  await user.click(mostFieldsSelect)
-
-  expect(location.current.search).toBe("?search_mode=most_fields")
-
-  slopSlider = screen.queryByText("Slop")
-  expect(slopSlider).toBeNull()
 })
 
 describe("Search Page Tabs", () => {
