@@ -76,6 +76,7 @@ SEARCH_FILTERS = {
     "platform": FilterConfig("platform.code"),
     "offered_by": FilterConfig("offered_by.code"),
     "learning_format": FilterConfig("learning_format.code"),
+    "delivery": FilterConfig("delivery.code"),
     "resource_category": FilterConfig("resource_category"),
 }
 

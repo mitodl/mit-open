@@ -2394,6 +2394,25 @@ paths:
             minLength: 1
         description: The course feature. Possible options are at api/v1/course_features/
       - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            enum:
+            - online
+            - hybrid
+            - in_person
+            - offline
+            type: string
+            description: |-
+              * `online` - Online
+              * `hybrid` - Hybrid
+              * `in_person` - In person
+              * `offline` - Offline
+        description: "The delivery options in which the learning resource is offered\
+          \             \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
+          \ - In person\n* `offline` - Offline"
+      - in: query
         name: department
         schema:
           type: array
@@ -2884,6 +2903,25 @@ paths:
             type: string
             minLength: 1
         description: The course feature. Possible options are at api/v1/course_features/
+      - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            enum:
+            - online
+            - hybrid
+            - in_person
+            - offline
+            type: string
+            description: |-
+              * `online` - Online
+              * `hybrid` - Hybrid
+              * `in_person` - In person
+              * `offline` - Offline
+        description: "The delivery options in which the learning resource is offered\
+          \             \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
+          \ - In person\n* `offline` - Offline"
       - in: query
         name: department
         schema:
@@ -3401,6 +3439,25 @@ paths:
             minLength: 1
         description: The course feature. Possible options are at api/v1/course_features/
       - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            enum:
+            - online
+            - hybrid
+            - in_person
+            - offline
+            type: string
+            description: |-
+              * `online` - Online
+              * `hybrid` - Hybrid
+              * `in_person` - In person
+              * `offline` - Offline
+        description: "The delivery options in which the learning resource is offered\
+          \             \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
+          \ - In person\n* `offline` - Offline"
+      - in: query
         name: department
         schema:
           type: array
@@ -3907,6 +3964,25 @@ paths:
             type: string
             minLength: 1
         description: The course feature. Possible options are at api/v1/course_features/
+      - in: query
+        name: delivery
+        schema:
+          type: array
+          items:
+            enum:
+            - online
+            - hybrid
+            - in_person
+            - offline
+            type: string
+            description: |-
+              * `online` - Online
+              * `hybrid` - Hybrid
+              * `in_person` - In person
+              * `offline` - Offline
+        description: "The delivery options in which the learning resource is offered\
+          \             \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
+          \ - In person\n* `offline` - Offline"
       - in: query
         name: department
         schema:
@@ -8353,6 +8429,23 @@ components:
       type: string
       enum:
       - course
+    DeliveryEnum:
+      enum:
+      - online
+      - hybrid
+      - in_person
+      - offline
+      type: string
+      description: |-
+        * `online` - Online
+        * `hybrid` - Hybrid
+        * `in_person` - In person
+        * `offline` - Offline
+      x-enum-descriptions:
+      - Online
+      - Hybrid
+      - In person
+      - Offline
     DepartmentEnum:
       enum:
       - '1'
@@ -10320,6 +10413,13 @@ components:
           description: "The format(s) in which the learning resource is offered  \
             \           \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
             \ - In person"
+        delivery:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeliveryEnum'
+          description: "The delivery options in which the learning resource is offered\
+            \             \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
+            \ - In person\n* `offline` - Offline"
         resource_category:
           type: array
           items:

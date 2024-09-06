@@ -20,6 +20,7 @@ from learning_resources.constants import (
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
     RESOURCE_CATEGORY_VALUES,
     CertificationType,
+    LearningResourceDelivery,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -397,6 +398,15 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         help_text=(
             f"The format(s) in which the learning resource is offered \
             \n\n{build_choice_description_list(learning_format_choices)}"
+        ),
+    )
+    delivery_choices = LearningResourceDelivery.as_list()
+    delivery = serializers.ListField(
+        required=False,
+        child=serializers.ChoiceField(choices=delivery_choices),
+        help_text=(
+            f"The delivery options in which the learning resource is offered \
+            \n\n{build_choice_description_list(delivery_choices)}"
         ),
     )
     resource_category_choices = [
