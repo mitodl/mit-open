@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 import Header from "@/page-components/Header/Header"
 import Footer from "@/page-components/Footer/Footer"
