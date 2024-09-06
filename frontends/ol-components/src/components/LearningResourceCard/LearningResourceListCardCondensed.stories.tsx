@@ -36,7 +36,6 @@ const meta: Meta<StoryProps> = {
       </Stack>
     )
   },
-  decorators: [withRouter],
 }
 
 export default meta
