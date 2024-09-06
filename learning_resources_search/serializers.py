@@ -418,6 +418,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     ]
     search_mode = serializers.ChoiceField(
         required=False,
+        default="phrase",
         choices=search_mode_choices,
         help_text=(
             f"The open search search type for text queries \
@@ -427,6 +428,7 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
     slop = serializers.IntegerField(
         required=False,
         allow_null=True,
+        default=6,
         help_text=("Allowed distance for phrase search"),
     )
     min_score = serializers.FloatField(

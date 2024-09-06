@@ -2624,6 +2624,7 @@ paths:
           - most_fields
           - phrase
           type: string
+          default: phrase
           minLength: 1
         description: "The open search search type for text queries             \n\n\
           * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
@@ -2634,6 +2635,7 @@ paths:
         schema:
           type: integer
           nullable: true
+          default: 6
         description: Allowed distance for phrase search
       - in: query
         name: sortby
@@ -3113,6 +3115,7 @@ paths:
           - most_fields
           - phrase
           type: string
+          default: phrase
           minLength: 1
         description: "The open search search type for text queries             \n\n\
           * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
@@ -3123,6 +3126,7 @@ paths:
         schema:
           type: integer
           nullable: true
+          default: 6
         description: Allowed distance for phrase search
       - in: query
         name: sortby
@@ -3627,6 +3631,7 @@ paths:
           - most_fields
           - phrase
           type: string
+          default: phrase
           minLength: 1
         description: "The open search search type for text queries             \n\n\
           * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
@@ -3637,6 +3642,7 @@ paths:
         schema:
           type: integer
           nullable: true
+          default: 6
         description: Allowed distance for phrase search
       - in: query
         name: sortby
@@ -4132,6 +4138,7 @@ paths:
           - most_fields
           - phrase
           type: string
+          default: phrase
           minLength: 1
         description: "The open search search type for text queries             \n\n\
           * `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
@@ -4142,6 +4149,7 @@ paths:
         schema:
           type: integer
           nullable: true
+          default: 6
         description: Allowed distance for phrase search
       - in: query
         name: sortby
@@ -9994,6 +10002,7 @@ components:
         search_mode:
           allOf:
           - $ref: '#/components/schemas/SearchModeEnum'
+          default: phrase
           description: "The open search search type for text queries             \n\
             \n* `best_fields` - best_fields\n* `most_fields` - most_fields\n* `phrase`\
             \ - phrase\n\n* `best_fields` - best_fields\n* `most_fields` - most_fields\n\
@@ -10001,6 +10010,7 @@ components:
         slop:
           type: integer
           nullable: true
+          default: 6
           description: Allowed distance for phrase search
         min_score:
           type: number

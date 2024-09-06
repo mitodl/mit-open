@@ -586,7 +586,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
   const searchModeDropdown = (
     <StyledSelect
       size="small"
-      value={searchParams.get("search_mode") || "best_fields"}
+      value={searchParams.get("search_mode") || "phrase"}
       onChange={(e) =>
         setSearchParams((prev) => {
           const next = new URLSearchParams(prev)
@@ -667,7 +667,8 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                 OpenSearch search multi-match query type.
               </ExplanationContainer>
             </div>
-            {searchParams.get("search_mode") === "phrase" ? (
+            {!searchParams.get("search_mode") ||
+            searchParams.get("search_mode") === "phrase" ? (
               <div>
                 <AdminTitleContainer>Slop</AdminTitleContainer>
 
@@ -675,7 +676,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   currentValue={
                     searchParams.get("slop")
                       ? Number(searchParams.get("slop"))
-                      : 0
+                      : 6
                   }
                   setSearchParams={setSearchParams}
                   urlParam="slop"
