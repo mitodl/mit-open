@@ -3,6 +3,8 @@
  *
  * NOTE: next-router-mock is intended to mock the next/router module (used with
  * older Pages router.)
+ *
+ * See https://github.com/scottrippey/next-router-mock/issues
  */
 import * as mocks from "next-router-mock"
 
