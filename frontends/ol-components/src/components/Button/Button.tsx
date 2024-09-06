@@ -279,9 +279,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 
 type ButtonLinkProps = ButtonStyleProps &
-  React.ComponentProps<typeof Link> & {
+  Omit<React.ComponentProps<typeof Link>, "as"> & {
     rawAnchor?: boolean
-    href?: string
+    href: string
   }
 const ButtonLink = ButtonStyled.withComponent(
   ({ children, rawAnchor, ...props }: ButtonLinkProps) => {
@@ -344,9 +344,9 @@ const ActionButton = styled(
 })
 
 type ActionButtonLinkProps = ActionButtonProps &
-  React.ComponentProps<typeof Link> & {
+  Omit<React.ComponentProps<typeof Link>, "as"> & {
     rawAnchor?: boolean
-    href?: string
+    href: string
   }
 const ActionButtonLink = ActionButton.withComponent(
   ({ rawAnchor, ...props }: ButtonLinkProps) => {
