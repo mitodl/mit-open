@@ -12,6 +12,13 @@ import {
 } from "./ChannelPageTemplate"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
 
+const ChildrenContainer = styled.div(({ theme }) => ({
+  paddingTop: "40px",
+  [theme.breakpoints.down("sm")]: {
+    paddingTop: "24px",
+  },
+}))
+
 const ChannelControlsContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "row",
@@ -107,7 +114,7 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
           </ChannelControlsContainer>
         }
       />
-      {children}
+      <ChildrenContainer>{children}</ChildrenContainer>
     </>
   )
 }

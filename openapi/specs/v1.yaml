@@ -6308,11 +6308,11 @@ paths:
         schema:
           type: integer
       - in: query
-        name: parent_topic_name
+        name: parent_topic_id
         schema:
           type: array
           items:
-            type: string
+            type: number
         description: Multiple values may be separated by commas.
         explode: false
         style: form

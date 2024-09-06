@@ -9,7 +9,7 @@ import { factories, urls, setMockResponse } from "api/test-utils"
 import { channels as factory } from "api/test-utils/factories"
 import { makeChannelViewPath, makeChannelEditPath } from "@/common/urls"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
-import type { Channel } from "api/v0"
+import { ChannelTypeEnum, type Channel } from "api/v0"
 
 const setupApis = (channelOverrides: Partial<Channel>) => {
   const channel = factory.channel({ is_moderator: true, ...channelOverrides })
@@ -32,6 +32,16 @@ const setupApis = (channelOverrides: Partial<Channel>) => {
   setMockResponse.get(expect.stringContaining(urls.testimonials.list({})), {
     results: [],
   })
+
+  if (
+    channel.channel_type === ChannelTypeEnum.Topic &&
+    channel.topic_detail.topic
+  ) {
+    setMockResponse.get(
+      urls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
+      factories.learningResources.topics({ count: 5 }),
+    )
+  }
 
   return channel
 }
