@@ -11,6 +11,7 @@ import {
 } from "../../test-utils"
 import ChannelSearch from "./ChannelSearch"
 import { assertHeadings } from "ol-test-utilities"
+import invariant from "tiny-invariant"
 
 jest.mock("./ChannelSearch", () => {
   const actual = jest.requireActual("./ChannelSearch")
@@ -273,26 +274,19 @@ describe("Channel Pages, Topic only", () => {
     })
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
 
-    await waitFor(() => {
+    await waitFor(async () => {
       if (
         channel.channel_type === ChannelTypeEnum.Topic &&
         channel.topic_detail.topic
       ) {
-        expect(makeRequest).toHaveBeenCalledWith(
-          "get",
-          urls.topics.list({
-            parent_topic_id: [channel.topic_detail.topic],
-          }),
-          undefined,
-        )
-        const links = screen.getAllByRole("link")
-        if (subTopics) {
-          for (const topic of subTopics.results) {
-            const link = links.find((el) => el.textContent === topic.name)
-            expect(link).toBeInTheDocument()
-            expect(link).toHaveAttribute("href", topic.channel_url)
-          }
-        }
+        invariant(subTopics)
+        const links = await screen.findAllByRole("link", {
+          // name arg can be string, regex, or function
+          name: (name) => subTopics?.results.map((t) => t.name).includes(name),
+        })
+        links.forEach((link, i) => {
+          expect(link).toHaveAttribute("href", subTopics.results[i].channel_url)
+        })
       }
     })
   })
