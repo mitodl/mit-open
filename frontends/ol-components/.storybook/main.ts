@@ -20,15 +20,24 @@ const config: StorybookConfig = {
     "../../ol-components/src/**/*.mdx",
     "../../ol-components/src/**/*.stories.@(tsx|ts)",
   ],
+
   staticDirs: ["./public"],
+
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-interactions"),
     getAbsolutePath("@storybook/addon-webpack5-compiler-swc"),
+    getAbsolutePath("@storybook/addon-mdx-gfm")
   ],
-  framework:  getAbsolutePath("@storybook/nextjs"),
+
+  framework:  {
+    name: getAbsolutePath("@storybook/nextjs"),
+    options: {}
+  },
+
   docs: {},
+
   webpackFinal: async (config: any) => {
     config.plugins.push(
       new webpack.DefinePlugin({
@@ -38,8 +47,33 @@ const config: StorybookConfig = {
         },
       }),
     )
+
+
+    /* Fix for this error:
+       Module not found: Error: Can't resolve 'react-dom/test-utils' in './node_modules/@testing-library/react/dist/@testing-library'
+
+       Described here: https://github.com/vercel/next.js/issues/55620
+
+       react-dom/test-utils is deprecated and replaced with @testing-library/react and @storybook/nextjs introduces an incompatibility.
+       The fix is to use @storybook/test in place of @testing-library/react, which provides the same API.
+       The issue is that we are using factories from api/test-utils, which imports ol-test-utilities, which imports @testing-library/react, which itself requires react-dom/test-utils,
+       We should not use @storybook packages in ol-test-utilities or anywhere outside of ol-components as they are not related
+       so below we are aliasing @testing-library/react.
+     */
+      config.resolve = {
+        ...config.resolve,
+        alias: {
+          ...config.resolve?.alias,
+          "@testing-library/react": "@storybook/test"
+        }
+      }
+
     return config
   },
+
+  typescript: {
+    reactDocgen: "react-docgen-typescript"
+  }
 }
 
 export default config
