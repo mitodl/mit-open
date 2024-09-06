@@ -28,9 +28,11 @@ export type {
 
 export {
   Button,
+  ButtonLink,
+  ButtonAnchor,
   ActionButton,
   ActionButtonLink,
-  ButtonLink,
+  ActionButtonAnchor,
 } from "./components/Button/Button"
 export { ListCard, ListCardActionButton } from "./components/Card/ListCard"
 
