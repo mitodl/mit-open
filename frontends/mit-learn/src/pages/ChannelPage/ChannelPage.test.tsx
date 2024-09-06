@@ -274,19 +274,14 @@ describe("Channel Pages, Topic only", () => {
     })
     renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
 
-    if (
-      channel.channel_type === ChannelTypeEnum.Topic &&
-      channel.topic_detail.topic
-    ) {
-      invariant(subTopics)
-      const links = await screen.findAllByRole("link", {
-        // name arg can be string, regex, or function
-        name: (name) => subTopics?.results.map((t) => t.name).includes(name),
-      })
-      links.forEach((link, i) => {
-        expect(link).toHaveAttribute("href", subTopics.results[i].channel_url)
-      })
-    }
+    invariant(subTopics)
+    const links = await screen.findAllByRole("link", {
+      // name arg can be string, regex, or function
+      name: (name) => subTopics?.results.map((t) => t.name).includes(name),
+    })
+    links.forEach((link, i) => {
+      expect(link).toHaveAttribute("href", subTopics.results[i].channel_url)
+    })
   })
 })
 
