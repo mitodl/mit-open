@@ -507,7 +507,19 @@ def adjust_original_query_for_percolate(query):
     Remove keys that are irrelevent when storing original queries
     for percolate uniqueness such as "limit" and "offset"
     """
-    for key in ["limit", "offset", "sortby", "yearly_decay_percent", "dev_mode"]:
+    for key in [
+        "limit",
+        "offset",
+        "sortby",
+        "yearly_decay_percent",
+        "dev_mode",
+        "use_dfs_query_then_fetch",
+        "max_incompleteness_penalty",
+        "min_score",
+        "search_mode",
+        "slop",
+        "use_dfs_query_then_fetch",
+    ]:
         query.pop(key, None)
     return order_params(query)
 
