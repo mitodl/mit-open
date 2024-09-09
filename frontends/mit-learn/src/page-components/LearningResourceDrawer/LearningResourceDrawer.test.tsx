@@ -5,6 +5,7 @@ import {
   renderWithProviders,
   screen,
   waitFor,
+  within,
 } from "@/test-utils"
 import LearningResourceDrawer, {
   useOpenLearningResourceDrawer,
@@ -12,6 +13,7 @@ import LearningResourceDrawer, {
 import { urls, factories, setMockResponse } from "api/test-utils"
 import { LearningResourceExpanded } from "ol-components"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
+import { ResourceTypeEnum } from "api"
 
 jest.mock("ol-components", () => {
   const actual = jest.requireActual("ol-components")
@@ -96,4 +98,91 @@ describe("LearningResourceDrawer", () => {
       dog: "woof",
     })
   })
+
+  test.each([
+    {
+      isLearningPathEditor: true,
+      isAuthenticated: true,
+      expectAddToLearningPathButton: true,
+      expectAddToUserListButton: true,
+    },
+    {
+      isLearningPathEditor: false,
+      isAuthenticated: true,
+      expectAddToLearningPathButton: false,
+      expectAddToUserListButton: true,
+    },
+    {
+      isLearningPathEditor: true,
+      isAuthenticated: false,
+      expectAddToLearningPathButton: false,
+      expectAddToUserListButton: false,
+    },
+    {
+      isLearningPathEditor: false,
+      isAuthenticated: false,
+      expectAddToLearningPathButton: false,
+      expectAddToUserListButton: false,
+    },
+  ])(
+    "Renders info section list buttons correctly",
+    async ({
+      isLearningPathEditor,
+      isAuthenticated,
+      expectAddToLearningPathButton,
+      expectAddToUserListButton,
+    }) => {
+      const resource = factories.learningResources.resource({
+        resource_type: ResourceTypeEnum.Course,
+        runs: [
+          factories.learningResources.run({
+            languages: ["en-us", "es-es", "fr-fr"],
+          }),
+        ],
+      })
+      setMockResponse.get(
+        urls.learningResources.details({ id: resource.id }),
+        resource,
+      )
+
+      renderWithProviders(<LearningResourceDrawer />, {
+        url: `?resource=${resource.id}`,
+        user: {
+          is_learning_path_editor: isLearningPathEditor,
+          is_authenticated: isAuthenticated,
+        },
+      })
+
+      expect(LearningResourceExpanded).toHaveBeenCalled()
+
+      await waitFor(() => {
+        expectProps(LearningResourceExpanded, { resource })
+      })
+
+      const section = screen
+        .getByRole("heading", { name: "Info" })!
+        .closest("section")!
+
+      if (!isAuthenticated) {
+        const buttons = within(section).queryAllByRole("button")
+        expect(buttons).toHaveLength(0)
+        return
+      } else {
+        const buttons = within(section).getAllByRole("button")
+        const expectedButtons =
+          expectAddToLearningPathButton && expectAddToUserListButton ? 2 : 1
+        expect(buttons).toHaveLength(expectedButtons)
+        if (expectAddToLearningPathButton) {
+          expect(
+            within(section).getByLabelText("Add to Learning Path"),
+          ).toBeInTheDocument()
+        }
+        if (expectAddToUserListButton) {
+          expect(
+            within(section).getByLabelText("Add to User List"),
+          ).toBeInTheDocument()
+        }
+      }
+    },
+  )
 })
