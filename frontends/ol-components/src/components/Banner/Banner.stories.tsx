@@ -1,6 +1,5 @@
 import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
-import { withRouter } from "storybook-addon-react-router-v6"
 import { Banner } from "./Banner"
 import { Breadcrumbs } from "../Breadcrumbs/Breadcrumbs"
 import { Button } from "../Button/Button"
@@ -13,8 +12,7 @@ const meta: Meta<typeof Banner> = {
   title: "smoot-design/Banner",
   component: Banner,
   args: {
-    backgroundUrl:
-      "https://images.pexels.com/photos/1851188/pexels-photo-1851188.jpeg?auto=compress&cs=tinysrgb&w=800",
+    backgroundUrl: "/pexels-photo-1851188.webp",
     navText: (
       <Breadcrumbs
         variant="dark"
@@ -37,18 +35,16 @@ export default meta
 type Story = StoryObj<typeof Banner>
 
 export const basicBanner: Story = {
-  decorators: [withRouter],
   render: (args) => <Banner {...args} />,
 }
 
 export const logoBanner: Story = {
-  decorators: [withRouter],
   render: (args) => {
     return (
       <Banner
         avatar={
           <img
-            src="https://learn.mit.edu/static/images/mit-logo-transparent5.svg"
+            src="/mit-logo-transparent5.svg"
             alt="MIT Logo"
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />
@@ -60,13 +56,12 @@ export const logoBanner: Story = {
 }
 
 export const logoBannerWithExtras: Story = {
-  decorators: [withRouter],
   render: (args) => {
     return (
       <Banner
         avatar={
           <img
-            src="https://learn.mit.edu/static/images/mit-logo-transparent5.svg"
+            src="/mit-logo-transparent5.svg"
             alt="MIT Logo"
             style={{ height: "37px", filter: "saturate(0%) invert(100%)" }}
           />

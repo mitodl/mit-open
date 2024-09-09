@@ -19,10 +19,12 @@ const BLANK_IMAGE = "https://rc.learn.mit.edu/static/images/blank.png"
 const embedlyCroppedImage = (
   url: string,
   { key, width, height }: EmbedlyConfig,
-) =>
-  `https://i.embed.ly/1/display/crop/?key=${key}&url=${encodeURIComponent(
+) => {
+  if (!key) return url
+  return `https://i.embed.ly/1/display/crop/?key=${key}&url=${encodeURIComponent(
     url,
   )}&height=${height}&width=${width}&grow=true&animate=false&errorurl=${BLANK_IMAGE}`
+}
 
 const DEFAULT_RESOURCE_IMG = "/images/default_resource.jpg"
 

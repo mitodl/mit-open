@@ -11,9 +11,7 @@
     "watch": "NODE_ENV=development LOAD_ENV_FILES=true webpack serve",
     "watch:docker": "NODE_ENV=development webpack serve",
     "build": "webpack --config webpack.config.js --bail",
-    "build-exports": "webpack --config webpack.exports.js --bail",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-exports": "webpack --config webpack.exports.js --bail"
   },
   "devDependencies": {
     "@emotion/react": "^11.11.1",
@@ -23,7 +21,6 @@
     "@storybook/addon-essentials": "^8.0.9",
     "@storybook/addon-interactions": "^8.0.9",
     "@storybook/addon-links": "^8.0.9",
-    "@storybook/addon-webpack5-compiler-swc": "^1.0.2",
     "@storybook/blocks": "^8.0.9",
     "@storybook/react": "^8.0.9",
     "@storybook/react-webpack5": "^8.0.9",
