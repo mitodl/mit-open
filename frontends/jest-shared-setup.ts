@@ -7,6 +7,10 @@ import * as matchers from "jest-extended"
 
 expect.extend(matchers)
 
+// env vars
+process.env.NEXT_PUBLIC_MITOL_API_BASE_URL =
+  "http://api.test.learn.odl.local:8063"
+
 // Pulled from the docs - see https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
 
 Object.defineProperty(window, "matchMedia", {

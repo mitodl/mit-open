@@ -16329,6 +16329,7 @@ __metadata:
     "@ckeditor/ckeditor5-react": "npm:^7.0.0"
     "@ckeditor/ckeditor5-theme-lark": "npm:^41.0.0"
     "@ckeditor/ckeditor5-ui": "npm:^41.0.0"
+    "@faker-js/faker": "npm:^8.0.0"
     "@testing-library/react": "npm:16.0.1"
     axios: "npm:^1.6.3"
     classnames: "npm:^2.3.2"
