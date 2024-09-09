@@ -225,6 +225,7 @@ export type { LinkProps } from "./components/Link/Link"
 export * from "./hooks/useBreakpoint"
 
 export { pxToRem } from "./components/ThemeProvider/typography"
+export { MITLearnGlobalStyles } from "./components/ThemeProvider/MITLearnGlobalStyles"
 
 export { default as styled } from "@emotion/styled"
 export { css, Global } from "@emotion/react"

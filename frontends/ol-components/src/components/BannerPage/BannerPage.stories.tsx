@@ -3,9 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { BannerPage } from "./BannerPage"
 import Typography from "@mui/material/Typography"
 
-const PUBLIC_URL =
-  process.env.PUBLIC_URL || process.env.STORYBOOK_PUBLIC_URL || ""
-
 const meta: Meta<typeof BannerPage> = {
   title: "old/BannerPage",
   render: (props) => (
@@ -21,7 +18,7 @@ type Story = StoryObj<typeof BannerPage>
 
 const args = {
   className: "",
-  src: `${PUBLIC_URL}/static/images/course_search_banner.png`,
+  src: "/course_search_banner.png",
   bannerContent: <h1>Banner Content</h1>,
   bannerContainerClass: "",
   alt: "Banner Alt Text",
