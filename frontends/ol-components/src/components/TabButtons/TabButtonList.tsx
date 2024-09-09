@@ -14,6 +14,7 @@ const defaultTabListProps = {
   allowScrollButtonsMobile: true,
   scrollButtons: "auto",
 } as const
+
 const TabButtonList: React.FC<TabListProps> = styled((props: TabListProps) => (
   <MuiTabList {...defaultTabListProps} {...props} />
 ))([

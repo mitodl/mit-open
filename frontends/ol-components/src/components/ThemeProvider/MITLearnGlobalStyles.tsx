@@ -1,9 +1,8 @@
 "use client"
 
 import React from "react"
-import { Global, css, theme } from "ol-components"
-import "slick-carousel/slick/slick.css"
-import "slick-carousel/slick/slick-theme.css"
+import { css, Global } from "@emotion/react"
+import { theme } from "./ThemeProvider"
 
 const pageCss = css`
   html {
@@ -101,8 +100,8 @@ const muiCss = css`
   }
 `
 
-const GlobalStyles: React.FC = () => {
+const MITLearnGlobalStyles: React.FC = () => {
   return <Global styles={[pageCss, formCss, muiCss]}></Global>
 }
 
-export default GlobalStyles
+export { MITLearnGlobalStyles }

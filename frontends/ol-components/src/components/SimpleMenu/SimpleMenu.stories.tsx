@@ -2,7 +2,6 @@ import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { SimpleMenu } from "./SimpleMenu"
 import { RiPencilFill, RiDeleteBin7Fill } from "@remixicon/react"
-import { withRouter } from "storybook-addon-react-router-v6"
 
 const meta: Meta<typeof SimpleMenu> = {
   title: "smoot-design/Dropdowns/SimpleMenu",
@@ -27,7 +26,6 @@ export const ReactRouterLinks: Story = {
     ],
     trigger: <button>Open Menu</button>,
   },
-  decorators: [withRouter],
 }
 
 export const PlainLinks: Story = {

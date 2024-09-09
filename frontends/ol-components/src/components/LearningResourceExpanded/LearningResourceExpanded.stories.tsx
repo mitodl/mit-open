@@ -12,8 +12,7 @@ const _makeResource = factories.learningResources.resource
 const makeResource: typeof _makeResource = (overrides) => {
   const resource = _makeResource(overrides)
   invariant(resource.image)
-  resource.image.url =
-    "https://ocw.mit.edu/courses/res-hso-001-mit-haystack-observatory-k12-stem-lesson-plans/mitres_hso_001.jpg"
+  resource.image.url = "/mitres_hso_001.jpg"
   return resource
 }
 
@@ -22,7 +21,7 @@ const meta: Meta<typeof LearningResourceExpanded> = {
   component: LearningResourceExpanded,
   args: {
     imgConfig: {
-      key: APP_SETTINGS.EMBEDLY_KEY,
+      key: "",
       width: 385,
       height: 200,
     },
