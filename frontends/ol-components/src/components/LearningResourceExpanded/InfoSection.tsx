@@ -246,8 +246,8 @@ const InfoSection = ({
   resource?: LearningResource
   run?: LearningResourceRun
   user?: User
-  onAddToLearningPathClick: LearningResourceCardProps["onAddToLearningPathClick"]
-  onAddToUserListClick: LearningResourceCardProps["onAddToUserListClick"]
+  onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
+  onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
 }) => {
   if (!resource) {
     return null
