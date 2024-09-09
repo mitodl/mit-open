@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "build": "yarn workspace mit-learn run build",
-    "watch": "yarn workspace mit-learn run watch",
+    "watch": "yarn workspace main dev",
     "style-lint": "yarn workspace frontends run style-lint",
     "test": "MITOL_API_BASE_URL=https://api.test.learn.mit.edu yarn workspace frontends global:test",
     "test-watch": "MITOL_API_BASE_URL=https://api.test.learn.mit.edu yarn workspace frontends test-watch",
