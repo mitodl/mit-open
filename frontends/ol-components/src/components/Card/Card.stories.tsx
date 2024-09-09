@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from "@storybook/react"
 import { Card } from "./Card"
 import { ActionButton } from "../Button/Button"
 import { RiMenuAddLine, RiBookmarkLine } from "@remixicon/react"
-import { withRouter } from "storybook-addon-react-router-v6"
 
 const meta: Meta<typeof Card> = {
   title: "smoot-design/Cards/Card",
@@ -16,7 +15,7 @@ const meta: Meta<typeof Card> = {
   render: (args) => (
     <Card {...args}>
       <Card.Image
-        src="https://openlearninglibrary.mit.edu/asset-v1:MITx+11.154x+3T2018+type@asset+block@course_image.jpg"
+        src="/course_image.jpg"
         alt="Provide a meaningful description or leave this blank."
       />
       <Card.Info>Info</Card.Info>
@@ -48,7 +47,6 @@ const meta: Meta<typeof Card> = {
       <Card.Footer>Footer</Card.Footer>
     </Card>
   ),
-  decorators: [withRouter],
 }
 
 export default meta

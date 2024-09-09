@@ -62,6 +62,9 @@ const getEmbedlyUrl = (
   size: Size,
   isMedia: boolean,
 ) => {
+  if (!process.env.NEXT_PUBLIC_EMBEDLY_KEY!) {
+    return resource.image!.url!
+  }
   return embedlyCroppedImage(resource.image!.url!, {
     key: process.env.NEXT_PUBLIC_EMBEDLY_KEY!,
     ...getImageDimensions(size, isMedia),
@@ -240,6 +243,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   if (!resource) {
     return null
   }
+
   return (
     <StyledCard href={href} className={className} size={size}>
       <Card.Image

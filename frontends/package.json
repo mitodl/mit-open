@@ -31,8 +31,8 @@
     "global:typecheck": "cd $INIT_CWD && tsc --noEmit",
     "global:test-watch": "cd $INIT_CWD && NODE_ENV=test jest --watch",
     "create-package": "yarn workspace ol-template plop package",
-    "storybook": "yarn workspace mit-learn storybook",
-    "build-storybook": "yarn workspace mit-learn build-storybook",
+    "storybook": "yarn workspace main storybook",
+    "build-storybook": "yarn workspace main build-storybook",
     "in-workspaces": "yarn workspaces foreach -A --exclude . --exclude frontends"
   },
   "version": "0.0.0",
