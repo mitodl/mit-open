@@ -24,7 +24,8 @@ import {
 import { theme } from "../ThemeProvider/ThemeProvider"
 import Typography from "@mui/material/Typography"
 import { User } from "api/hooks/user"
-import { CardActionButton, LearningResourceCardProps } from "ol-components"
+import { CardActionButton } from "../LearningResourceCard/LearningResourceListCard"
+import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
 
 const InfoItems = styled.section`
   display: flex;

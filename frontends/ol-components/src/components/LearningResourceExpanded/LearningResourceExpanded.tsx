@@ -21,7 +21,7 @@ import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
 import InfoSection from "./InfoSection"
 import { User } from "api/hooks/user"
-import { LearningResourceCardProps } from "ol-components"
+import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
 
 const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
