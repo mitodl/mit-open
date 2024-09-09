@@ -4,73 +4,70 @@ import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 import { ButtonLink, ActionButtonLink } from "./Button"
 import Link from "next/link"
 
-// Mock react-router-dom's Link so we don't need to set up a Router
-jest.mock("react-router-dom", () => {
+jest.mock("next/link", () => {
+  const Actual = jest.requireActual("next/link")
   return {
-    Link: jest.fn((props) => <a href={props.to}>{props.children}</a>),
+    __esModule: true,
+    default: jest.fn((args) => <Actual.default {...args} />),
   }
 })
 
 describe("ButtonLink", () => {
   test.each([
     {
-      reloadDocument: undefined,
+      rawAnchor: undefined,
       label: "Link",
     },
     {
-      reloadDocument: false,
+      rawAnchor: false,
       label: "Link",
     },
     {
-      reloadDocument: true,
+      rawAnchor: true,
       label: "Anchor",
     },
-  ])(
-    "renders with reloadDocument if reloadDocument=$reloadDocument",
-    ({ reloadDocument }) => {
-      render(
-        <ButtonLink href="/test" reloadDocument={reloadDocument}>
-          Link text here
-        </ButtonLink>,
-        { wrapper: ThemeProvider },
-      )
-      screen.getByRole("link")
-      expect(Link).toHaveBeenCalledWith(
-        expect.objectContaining({ reloadDocument }),
-        expect.anything(),
-      )
-    },
-  )
+  ])("renders with anchor tag if rawAnchor=$rawAnchor", ({ rawAnchor }) => {
+    render(
+      <ButtonLink href="/test" rawAnchor={rawAnchor}>
+        Link text here
+      </ButtonLink>,
+      { wrapper: ThemeProvider },
+    )
+    screen.getByRole("link")
+    if (rawAnchor) {
+      expect(Link).not.toHaveBeenCalled()
+    } else {
+      expect(Link).toHaveBeenCalled()
+    }
+  })
 })
 
 describe("ActionButtonLink", () => {
   test.each([
     {
-      reloadDocument: undefined,
+      rawAnchor: undefined,
       label: "Link",
     },
     {
-      reloadDocument: false,
+      rawAnchor: false,
       label: "Link",
     },
     {
-      reloadDocument: true,
+      rawAnchor: true,
       label: "Anchor",
     },
-  ])(
-    "renders with reloadDocument if reloadDocument=$reloadDocument",
-    ({ reloadDocument }) => {
-      render(
-        <ActionButtonLink href="/test" reloadDocument={reloadDocument}>
-          Link text here
-        </ActionButtonLink>,
-        { wrapper: ThemeProvider },
-      )
-      screen.getByRole("link")
-      expect(Link).toHaveBeenCalledWith(
-        expect.objectContaining({ reloadDocument }),
-        expect.anything(),
-      )
-    },
-  )
+  ])("renders with rawAnchor if rawAnchor=$rawAnchor", ({ rawAnchor }) => {
+    render(
+      <ActionButtonLink href="/test" rawAnchor={rawAnchor}>
+        Link text here
+      </ActionButtonLink>,
+      { wrapper: ThemeProvider },
+    )
+    screen.getByRole("link")
+    if (rawAnchor) {
+      expect(Link).not.toHaveBeenCalled()
+    } else {
+      expect(Link).toHaveBeenCalled()
+    }
+  })
 })

@@ -1,7 +1,7 @@
 import { resolve, join, dirname } from "path"
 import * as dotenv from "dotenv"
 import * as webpack from "webpack"
-import { StorybookConfig } from '@storybook/nextjs';
+import { StorybookConfig } from "@storybook/nextjs"
 
 dotenv.config({ path: resolve(__dirname, "../../../.env") })
 
@@ -28,12 +28,12 @@ const config: StorybookConfig = {
     getAbsolutePath("@storybook/addon-essentials"),
     getAbsolutePath("@storybook/addon-interactions"),
     getAbsolutePath("@storybook/addon-webpack5-compiler-swc"),
-    getAbsolutePath("@storybook/addon-mdx-gfm")
+    getAbsolutePath("@storybook/addon-mdx-gfm"),
   ],
 
-  framework:  {
+  framework: {
     name: getAbsolutePath("@storybook/nextjs"),
-    options: {}
+    options: {},
   },
 
   docs: {},
@@ -48,7 +48,6 @@ const config: StorybookConfig = {
       }),
     )
 
-
     /* Fix for this error:
        Module not found: Error: Can't resolve 'react-dom/test-utils' in './node_modules/@testing-library/react/dist/@testing-library'
 
@@ -60,20 +59,20 @@ const config: StorybookConfig = {
        We should not use @storybook packages in ol-test-utilities or anywhere outside of ol-components as they are not related
        so below we are aliasing @testing-library/react.
      */
-      config.resolve = {
-        ...config.resolve,
-        alias: {
-          ...config.resolve?.alias,
-          "@testing-library/react": "@storybook/test"
-        }
-      }
+    config.resolve = {
+      ...config.resolve,
+      alias: {
+        ...config.resolve?.alias,
+        "@testing-library/react": "@storybook/test",
+      },
+    }
 
     return config
   },
 
   typescript: {
-    reactDocgen: "react-docgen-typescript"
-  }
+    reactDocgen: "react-docgen-typescript",
+  },
 }
 
 export default config
