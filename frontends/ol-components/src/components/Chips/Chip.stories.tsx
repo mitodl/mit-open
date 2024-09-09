@@ -6,7 +6,6 @@ import Stack from "@mui/material/Stack"
 
 import { fn } from "@storybook/test"
 import { ChipLink } from "./ChipLink"
-import { withRouter } from "storybook-addon-react-router-v6"
 import {
   RiPencilFill,
   RiCalendarLine,
@@ -148,5 +147,4 @@ export const Links: StoryChipLink = {
       </Stack>
     )
   },
-  decorators: [withRouter],
 }
