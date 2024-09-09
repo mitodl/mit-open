@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography"
 import { faker } from "@faker-js/faker/locale/en"
 import Container from "@mui/material/Container"
 import { TabListProps } from "@mui/lab/TabList"
-import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation"
 
 type StoryProps = TabListProps & {
   count: number
@@ -93,17 +93,17 @@ export const LinkTabs: Story = {
     nextjs: {
       appDirectory: true,
       navigation: {
-        pathname: "/#link2"
-      }
-    }
+        pathname: "/#link2",
+      },
+    },
   },
   render: () => {
-    const pathname = usePathname();
+    const pathname = usePathname()
     const [hash, setHash] = useState<string | undefined>()
 
-    useEffect(()=>{
+    useEffect(() => {
       setHash(pathname.match(/(#.+)/)?.[0])
-     }, [ pathname ]);
+    }, [pathname])
 
     return (
       <div>

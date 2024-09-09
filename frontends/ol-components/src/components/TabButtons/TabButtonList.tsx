@@ -70,7 +70,8 @@ const TabLinkInner = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
 const TabButton = (props: TabProps<"button">) => (
   <MuiTab {...props} component={TabButtonInner} />
 )
-const TabButtonLink = (props: TabProps<"a">) => (
+
+const TabButtonLink = ({ ...props }: TabProps<typeof TabLinkInner>) => (
   <MuiTab {...props} component={TabLinkInner} />
 )
 
