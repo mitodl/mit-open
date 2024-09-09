@@ -11,6 +11,7 @@ import {
 } from "@/test-utils"
 import ChannelSearch from "./ChannelSearch"
 import { assertHeadings } from "ol-test-utilities"
+import invariant from "tiny-invariant"
 
 jest.mock("./ChannelSearch", () => {
   const actual = jest.requireActual("./ChannelSearch")
@@ -103,6 +104,21 @@ const setupApis = (
   setMockResponse.get(expect.stringContaining(urls.testimonials.list({})), {
     results: [],
   })
+
+  if (
+    channel.channel_type === ChannelTypeEnum.Topic &&
+    channel.topic_detail.topic
+  ) {
+    const subTopics = factories.learningResources.topics({ count: 5 })
+    setMockResponse.get(
+      urls.topics.list({ parent_topic_id: [channel.topic_detail.topic] }),
+      subTopics,
+    )
+    return {
+      channel,
+      subTopics,
+    }
+  }
 
   return {
     channel,
@@ -249,6 +265,25 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
     })
   },
 )
+
+describe("Channel Pages, Topic only", () => {
+  test("Subtopics display", async () => {
+    const { channel, subTopics } = setupApis({
+      search_filter: "topic=Physics",
+      channel_type: ChannelTypeEnum.Topic,
+    })
+    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+
+    invariant(subTopics)
+    const links = await screen.findAllByRole("link", {
+      // name arg can be string, regex, or function
+      name: (name) => subTopics?.results.map((t) => t.name).includes(name),
+    })
+    links.forEach((link, i) => {
+      expect(link).toHaveAttribute("href", subTopics.results[i].channel_url)
+    })
+  })
+})
 
 describe("Channel Pages, Unit only", () => {
   it("Sets the expected meta tags", async () => {

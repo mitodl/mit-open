@@ -15724,9 +15724,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mit-learn-frontend@workspace:.":
+"mit-learn@workspace:.":
   version: 0.0.0-use.local
-  resolution: "mit-learn-frontend@workspace:."
+  resolution: "mit-learn@workspace:."
   dependencies:
     syncpack: "npm:^12.4.0"
   languageName: unknown
