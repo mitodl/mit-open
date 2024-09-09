@@ -1,0 +1,1535 @@
+[
+  {
+    "uuid": "927093e3-46ba-4f44-a861-0f8c7aec4f74",
+    "title": "Circuits and Electronics",
+    "subtitle": "Learn electronic circuit techniques and applications in designing microchips for smartphones, self-driving cars, computers, and the Internet.",
+    "type": "XSeries",
+    "type_attrs": {
+      "uuid": "a3d34232-2cca-4b35-8810-cef9bb1e0e77",
+      "slug": "xseries",
+      "coaching_supported": false
+    },
+    "status": "active",
+    "marketing_slug": "mitx-circuits-and-electronics",
+    "marketing_url": "https://www.edx.org/xseries/mitx-circuits-and-electronics",
+    "banner_image": {
+      "large": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/927093e3-46ba-4f44-a861-0f8c7aec4f74-94e7a300643d.large.png",
+        "width": 1440,
+        "height": 480
+      },
+      "medium": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/927093e3-46ba-4f44-a861-0f8c7aec4f74-94e7a300643d.medium.png",
+        "width": 726,
+        "height": 242
+      },
+      "small": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/927093e3-46ba-4f44-a861-0f8c7a-ec4f74-94e7a300643d.small.png",
+        "width": 435,
+        "height": 145
+      },
+      "x-small": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/927093e3-46ba-4f44-a861-0f8c7aec4f74-94e7a300643d.x-small.png",
+        "width": 348,
+        "height": 116
+      }
+    },
+    "hidden": false,
+    "courses": [
+      {
+        "key": "MITx+6.002.1x",
+        "uuid": "8f9c73ef-73f5-45dd-aca1-7dad3696f743",
+        "title": "Circuits and Electronics 1: Basic Circuit Analysis",
+        "course_runs": [
+          {
+            "key": "course-v1:MITx+6.002.1x+2T2019",
+            "uuid": "4d39edd3-8c7a-4038-80cd-f6edab483b8a",
+            "title": "Circuits and Electronics 1: Basic Circuit Analysis",
+            "external_key": "",
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8f9c73ef-73f5-45dd-aca1-7dad3696f743-d417c0e28aed.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Learn techniques that are foundational to the design of microchips used in smartphones, self-driving cars, computers, and the Internet.</p>",
+            "marketing_url": "https://www.edx.org/course/circuits-and-electronics-1-basic-circuit-analysis?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "verified",
+                "price": "189.00",
+                "currency": "USD",
+                "upgrade_deadline": "2025-05-16T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "87611B2",
+                "bulk_sku": "DE4DB23"
+              },
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "8C12550",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2019-06-20T15:00:00Z",
+            "end": "2025-05-26T15:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": "2025-05-17T15:00:00Z",
+            "weeks_to_complete": 5,
+            "pacing_type": "self_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "published",
+            "is_enrollable": true,
+            "is_marketable": true,
+            "availability": "Current",
+            "variant_id": null
+          }
+        ],
+        "entitlements": [
+          {
+            "mode": "verified",
+            "price": "189.00",
+            "currency": "USD",
+            "sku": "CA912EE",
+            "expires": null
+          }
+        ],
+        "owners": [
+          {
+            "uuid": "2a73d2ce-c34a-4e08-8223-83bca9d2f01d",
+            "key": "MITx",
+            "name": "Massachusetts Institute of Technology",
+            "auto_generate_course_run_keys": true,
+            "certificate_logo_image_url": "https://prod-discovery.edx-cdn.org/organization/certificate_logos/2a73d2ce-c34a-4e08-8223-83bca9d2f01d-0d040334059f.png",
+            "logo_image_url": "https://prod-discovery.edx-cdn.org/organization/logos/2a73d2ce-c34a-4e08-8223-83bca9d2f01d-d4f180052205.png",
+            "organization_hex_color": null,
+            "data_modified_timestamp": "2024-07-08T11:50:26.966309Z"
+          }
+        ],
+        "image": {
+          "src": "https://prod-discovery.edx-cdn.org/media/course/image/8f9c73ef-73f5-45dd-aca1-7dad3696f743-d417c0e28aed.small.jpg",
+          "description": null,
+          "height": null,
+          "width": null
+        },
+        "short_description": "<p>Learn techniques that are foundational to the design of microchips used in smartphones, self-driving cars, computers, and the Internet.</p>",
+        "type": "e85a9f60-2da5-4413-96b7-dcb9b8c0e9f1",
+        "url_slug": null,
+        "course_type": "verified-audit",
+        "enterprise_subscription_inclusion": true,
+        "excluded_from_seo": false,
+        "excluded_from_search": false,
+        "course_run_statuses": ["published"]
+      },
+      {
+        "key": "MITx+6.002.2x",
+        "uuid": "f6623bd8-ea35-42b2-880c-77a2f9c744b0",
+        "title": "Circuits and Electronics 2: Amplification, Speed, and Delay",
+        "course_runs": [
+          {
+            "key": "course-v1:MITx+6.002.2x+2T2019",
+            "uuid": "289e51b0-04e7-4979-9ee7-9519af6a16f3",
+            "title": "Circuits and Electronics 2: Amplification, Speed, and Delay",
+            "external_key": "",
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/f6623bd8-ea35-42b2-880c-77a2f9c744b0-d8369d05cefc.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Learn how to speed up digital circuits and build amplifiers in the design of microchips used in smartphones, self-driving cars, computers, and the Internet.</p>",
+            "marketing_url": "https://www.edx.org/course/circuits-and-electronics-2-amplification-speed-and-delay?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "verified",
+                "price": "189.00",
+                "currency": "USD",
+                "upgrade_deadline": "2025-05-16T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "A1A0FA0",
+                "bulk_sku": "6ED8A2B"
+              },
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "A6BBC32",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2019-06-20T15:00:00Z",
+            "end": "2025-05-26T15:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": "2025-05-17T15:00:00Z",
+            "weeks_to_complete": 5,
+            "pacing_type": "self_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "published",
+            "is_enrollable": true,
+            "is_marketable": true,
+            "availability": "Current",
+            "variant_id": null
+          }
+        ],
+        "entitlements": [
+          {
+            "mode": "verified",
+            "price": "189.00",
+            "currency": "USD",
+            "sku": "9A03C7B",
+            "expires": null
+          }
+        ],
+        "owners": [
+          {
+            "uuid": "2a73d2ce-c34a-4e08-8223-83bca9d2f01d",
+            "key": "MITx",
+            "name": "Massachusetts Institute of Technology",
+            "auto_generate_course_run_keys": true,
+            "certificate_logo_image_url": "https://prod-discovery.edx-cdn.org/organization/certificate_logos/2a73d2ce-c34a-4e08-8223-83bca9d2f01d-0d040334059f.png",
+            "logo_image_url": "https://prod-discovery.edx-cdn.org/organization/logos/2a73d2ce-c34a-4e08-8223-83bca9d2f01d-d4f180052205.png",
+            "organization_hex_color": null,
+            "data_modified_timestamp": "2024-07-08T11:50:26.966309Z"
+          }
+        ],
+        "image": {
+          "src": "https://prod-discovery.edx-cdn.org/media/course/image/f6623bd8-ea35-42b2-880c-77a2f9c744b0-d8369d05cefc.small.jpg",
+          "description": null,
+          "height": null,
+          "width": null
+        },
+        "short_description": "<p>Learn how to speed up digital circuits and build amplifiers in the design of microchips used in smartphones, self-driving cars, computers, and the Internet.</p>",
+        "type": "e85a9f60-2da5-4413-96b7-dcb9b8c0e9f1",
+        "url_slug": null,
+        "course_type": "verified-audit",
+        "enterprise_subscription_inclusion": true,
+        "excluded_from_seo": false,
+        "excluded_from_search": false,
+        "course_run_statuses": ["published"]
+      },
+      {
+        "key": "MITx+6.002.3x",
+        "uuid": "aca3d8f7-8907-474c-9a62-58cca8c6254f",
+        "title": "Circuits and Electronics 3: Applications",
+        "course_runs": [
+          {
+            "key": "course-v1:MITx+6.002.3x+2T2019",
+            "uuid": "5ac8faf4-1147-4ca6-b1ce-96aaf53cce30",
+            "title": "Circuits and Electronics 3: Applications",
+            "external_key": "",
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/aca3d8f7-8907-474c-9a62-58cca8c6254f-b9bf6f5f5ae8.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Learn about cool applications, op-amps and filters in the design of microchips used in smartphones, self-driving cars, computers, and the internet.</p>",
+            "marketing_url": "https://www.edx.org/course/circuits-and-electronics-3-applications?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "verified",
+                "price": "189.00",
+                "currency": "USD",
+                "upgrade_deadline": "2025-05-16T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "62ED93B",
+                "bulk_sku": "84F2929"
+              },
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "319F510",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2019-06-20T15:00:00Z",
+            "end": "2025-05-26T15:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": "2025-05-17T15:00:00Z",
+            "weeks_to_complete": 7,
+            "pacing_type": "self_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "published",
+            "is_enrollable": true,
+            "is_marketable": true,
+            "availability": "Current",
+            "variant_id": null
+          }
+        ],
+        "entitlements": [
+          {
+            "mode": "verified",
+            "price": "189.00",
+            "currency": "USD",
+            "sku": "7EF72A8",
+            "expires": null
+          }
+        ],
+        "owners": [
+          {
+            "uuid": "2a73d2ce-c34a-4e08-8223-83bca9d2f01d",
+            "key": "MITx",
+            "name": "Massachusetts Institute of Technology",
+            "auto_generate_course_run_keys": true,
+            "certificate_logo_image_url": "https://prod-discovery.edx-cdn.org/organization/certificate_logos/2a73d2ce-c34a-4e08-8223-83bca9d2f01d-0d040334059f.png",
+            "logo_image_url": "https://prod-discovery.edx-cdn.org/organization/logos/2a73d2ce-c34a-4e08-8223-83bca9d2f01d-d4f180052205.png",
+            "organization_hex_color": null,
+            "data_modified_timestamp": "2024-07-08T11:50:26.966309Z"
+          }
+        ],
+        "image": {
+          "src": "https://prod-discovery.edx-cdn.org/media/course/image/aca3d8f7-8907-474c-9a62-58cca8c6254f-b9bf6f5f5ae8.small.jpg",
+          "description": null,
+          "height": null,
+          "width": null
+        },
+        "short_description": "<p>Learn about cool applications, op-amps and filters in the design of microchips used in smartphones, self-driving cars, computers, and the internet.</p>",
+        "type": "e85a9f60-2da5-4413-96b7-dcb9b8c0e9f1",
+        "url_slug": null,
+        "course_type": "verified-audit",
+        "enterprise_subscription_inclusion": true,
+        "excluded_from_seo": false,
+        "excluded_from_search": false,
+        "course_run_statuses": ["published"]
+      }
+    ],
+    "authoring_organizations": [
+      {
+        "uuid": "2a73d2ce-c34a-4e08-8223-83bca9d2f01d",
+        "key": "MITx",
+        "name": "Massachusetts Institute of Technology",
+        "auto_generate_course_run_keys": true,
+        "certificate_logo_image_url": "https://prod-discovery.edx-cdn.org/organization/certificate_logos/2a73d2ce-c34a-4e08-8223-83bca9d2f01d-0d040334059f.png",
+        "logo_image_url": "https://prod-discovery.edx-cdn.org/organization/logos/2a73d2ce-c34a-4e08-8223-83bca9d2f01d-d4f180052205.png",
+        "organization_hex_color": null,
+        "data_modified_timestamp": "2024-07-08T11:50:26.966309Z"
+      }
+    ],
+    "card_image_url": "https://prod-discovery.edx-cdn.org/media/programs/card_images/927093e3-46ba-4f44-a861-0f8c7aec4f74-215df4ae5361.jpg",
+    "is_program_eligible_for_one_click_purchase": true,
+    "degree": null,
+    "curricula": [],
+    "marketing_hook": "Learn about electronic circuit techniques and applications\r",
+    "total_hours_of_effort": null,
+    "recent_enrollment_count": 20255,
+    "organization_short_code_override": "",
+    "organization_logo_override_url": null,
+    "primary_subject_override": null,
+    "level_type_override": null,
+    "language_override": null,
+    "labels": [],
+    "taxi_form": null,
+    "program_duration_override": null,
+    "data_modified_timestamp": "2024-08-28T07:14:23.507563Z",
+    "excluded_from_search": false,
+    "excluded_from_seo": false,
+    "has_ofac_restrictions": null,
+    "ofac_comment": "",
+    "course_run_statuses": ["published"],
+    "subscription_eligible": false,
+    "subscription_prices": [
+      {
+        "price": "79.00",
+        "currency": "USD"
+      }
+    ]
+  },
+  {
+    "uuid": "84811e48-94e6-4738-8e15-e019b289e374",
+    "title": "Accounting",
+    "subtitle": "Learn key concepts and skills in financial accounting, managerial accounting, and tax.",
+    "type": "MicroMasters",
+    "type_attrs": {
+      "uuid": "253dd13d-33a3-401b-bcaa-e0b0f0424777",
+      "slug": "micromasters",
+      "coaching_supported": false
+    },
+    "status": "retired",
+    "marketing_slug": "iux-accounting",
+    "marketing_url": "https://www.edx.org/micromasters/iux-accounting",
+    "banner_image": {
+      "large": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/84811e48-94e6-4738-8e15-e019b289e374-c1e0d8478f47.large.png",
+        "width": 1440,
+        "height": 480
+      },
+      "medium": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/84811e48-94e6-4738-8e15-e019b289e374-c1e0d8478f47.medium.png",
+        "width": 726,
+        "height": 242
+      },
+      "small": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/84811e48-94e6-4738-8e15-e019b289e374-c1e0d8478f47.small.png",
+        "width": 435,
+        "height": 145
+      },
+      "x-small": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/84811e48-94e6-4738-8e15-e019b289e374-c1e0d8478f47.x-small.png",
+        "width": 348,
+        "height": 116
+      }
+    },
+    "hidden": true,
+    "courses": [
+      {
+        "key": "IUx+BUKD-A500",
+        "uuid": "33b60d53-f5ac-4f44-8e87-c277289fb576",
+        "title": "Financial Reporting I",
+        "course_runs": [
+          {
+            "key": "course-v1:IUx+BUKD-A500+2T2019",
+            "uuid": "333d356f-09c8-4897-894f-b1fa0b8e039b",
+            "title": "Financial Reporting I",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/33b60d53-f5ac-4f44-8e87-c277289fb576-94c15bb33734.small.jpeg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Earn a strong foundation in financial reporting concepts and methods, and use your skills to prepare and analyze financial statements.</p>",
+            "marketing_url": "https://www.edx.org/course/financial-reporting-i?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "verified",
+                "price": "500.00",
+                "currency": "USD",
+                "upgrade_deadline": "2019-10-30T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "C20EA71",
+                "bulk_sku": "944FA6E"
+              },
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "DA6810A",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2019-08-20T05:00:00Z",
+            "end": "2019-11-09T23:59:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 12,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:IUx+BUKD-A500+3T2019",
+            "uuid": "5a6d79d0-a581-43f8-9e73-d8cbb6663a67",
+            "title": "Financial Reporting I",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/33b60d53-f5ac-4f44-8e87-c277289fb576-94c15bb33734.small.jpeg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Earn a strong foundation in financial reporting concepts and methods, and use your skills to prepare and analyze financial statements.</p>",
+            "marketing_url": "https://www.edx.org/course/financial-reporting-i-3?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "verified",
+                "price": "500.00",
+                "currency": "USD",
+                "upgrade_deadline": "2020-02-05T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "5F72196",
+                "bulk_sku": "CC08D6C"
+              },
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "4DA39A5",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2019-11-12T05:00:00Z",
+            "end": "2020-02-15T05:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 12,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:IUx+BUKD-A500+2T2020",
+            "uuid": "80ed1973-1e0d-4df6-9079-a6d59818c523",
+            "title": "Financial Reporting I",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/33b60d53-f5ac-4f44-8e87-c277289fb576-94c15bb33734.small.jpeg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Earn a strong foundation in financial reporting concepts and methods, and use your skills to prepare and analyze financial statements.</p>",
+            "marketing_url": "https://www.edx.org/course/financial-reporting-i-2?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "verified",
+                "price": "499.00",
+                "currency": "USD",
+                "upgrade_deadline": "2020-07-07T23:59:00Z",
+                "upgrade_deadline_override": "2020-07-07T23:59:00Z",
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "3B035AD",
+                "bulk_sku": "8F96F45"
+              },
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "5C78228",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2020-05-19T05:00:00Z",
+            "end": "2020-08-06T05:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 12,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:IUx+BUKD-A500+3T2020",
+            "uuid": "e1ab8996-2d38-432b-b36f-b4c76bbe9cd7",
+            "title": "Financial Reporting I",
+            "external_key": "",
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/33b60d53-f5ac-4f44-8e87-c277289fb576-94c15bb33734.small.jpeg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Earn a strong foundation in financial reporting concepts and methods, and use your skills to prepare and analyze financial statements.</p>",
+            "marketing_url": "https://www.edx.org/course/financial-reporting-i-course-v1iuxbukd-a5003t2020?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "468C99E",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "499.00",
+                "currency": "USD",
+                "upgrade_deadline": "2021-01-21T23:59:00Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "A677A5D",
+                "bulk_sku": "9E6F537"
+              }
+            ],
+            "start": "2020-11-17T05:00:00Z",
+            "end": "2021-02-19T20:01:00Z",
+            "go_live_date": "2020-02-26T05:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": "2020-12-15T00:00:00Z",
+            "weeks_to_complete": 12,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": false,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:IUx+BUKD-A500+2T2021",
+            "uuid": "e8c274c9-8c27-4fb5-a955-6e69e86c0d45",
+            "title": "Financial Reporting I",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/33b60d53-f5ac-4f44-8e87-c277289fb576-94c15bb33734.small.jpeg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Earn a strong foundation in financial reporting concepts and methods, and use your skills to prepare and analyze financial statements.</p>",
+            "marketing_url": "https://www.edx.org/course/financial-reporting-i-course-v1iuxbukd-a5002t2021?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "60466B6",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "499.00",
+                "currency": "USD",
+                "upgrade_deadline": "2021-07-13T23:59:00Z",
+                "upgrade_deadline_override": "2021-07-13T23:59:00Z",
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "C544705",
+                "bulk_sku": "738E9B4"
+              }
+            ],
+            "start": "2021-05-25T10:00:00Z",
+            "end": "2021-08-13T20:01:00Z",
+            "go_live_date": "2020-04-24T04:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": "2021-06-22T01:59:00Z",
+            "weeks_to_complete": 12,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": false,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:IUx+BUKD-A500+3T2021",
+            "uuid": "389ba5e9-e337-4a0d-adda-816fbf58efe3",
+            "title": "Financial Reporting I",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/33b60d53-f5ac-4f44-8e87-c277289fb576-94c15bb33734.small.jpeg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Earn a strong foundation in financial reporting concepts and methods, and use your skills to prepare and analyze financial statements.</p>",
+            "marketing_url": "https://www.edx.org/course/financial-reporting-i-course-v1iuxbukd-a5003t2021?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "10C7C05",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "499.00",
+                "currency": "USD",
+                "upgrade_deadline": "2022-01-11T23:59:00Z",
+                "upgrade_deadline_override": "2022-01-11T23:59:00Z",
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "6AB677F",
+                "bulk_sku": "94681A2"
+              }
+            ],
+            "start": "2021-11-16T11:00:00Z",
+            "end": "2022-02-18T04:59:00Z",
+            "go_live_date": "2020-11-20T05:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": "2021-12-14T23:59:00Z",
+            "weeks_to_complete": 12,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": false,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:IUx+BUKD-A500+2T2022",
+            "uuid": "b63c80d7-b533-4b47-be56-48bfd9899981",
+            "title": "Financial Reporting I",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/33b60d53-f5ac-4f44-8e87-c277289fb576-94c15bb33734.small.jpeg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Earn a strong foundation in financial reporting concepts and methods, and use your skills to prepare and analyze financial statements.</p>",
+            "marketing_url": "https://www.edx.org/course/financial-reporting-i-course-v1iuxbukd-a5002t2022?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "3272D0A",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "499.00",
+                "currency": "USD",
+                "upgrade_deadline": "2022-06-08T03:59:00Z",
+                "upgrade_deadline_override": "2022-06-08T03:59:00Z",
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "836E41E",
+                "bulk_sku": "C7CF0BE"
+              }
+            ],
+            "start": "2022-05-24T10:00:00Z",
+            "end": "2022-08-13T03:59:00Z",
+            "go_live_date": "2021-04-14T04:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": "2022-06-08T03:59:00Z",
+            "weeks_to_complete": 12,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": false,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          }
+        ],
+        "entitlements": [
+          {
+            "mode": "verified",
+            "price": "499.00",
+            "currency": "USD",
+            "sku": "C88D5B7",
+            "expires": null
+          }
+        ],
+        "owners": [
+          {
+            "uuid": "8946fb40-f288-4e05-9275-9e9b4689bda8",
+            "key": "IUx",
+            "name": "Indiana University",
+            "auto_generate_course_run_keys": true,
+            "certificate_logo_image_url": "https://prod-discovery.edx-cdn.org/organization/certificate_logos/8946fb40-f288-4e05-9275-9e9b4689bda8-9c4c6df9d3bb.png",
+            "logo_image_url": "https://prod-discovery.edx-cdn.org/organization/logos/8946fb40-f288-4e05-9275-9e9b4689bda8-e58c545e2296.png",
+            "organization_hex_color": null,
+            "data_modified_timestamp": "2023-10-23T13:37:23.725096Z"
+          }
+        ],
+        "image": {
+          "src": "https://prod-discovery.edx-cdn.org/media/course/image/33b60d53-f5ac-4f44-8e87-c277289fb576-94c15bb33734.small.jpeg",
+          "description": null,
+          "height": null,
+          "width": null
+        },
+        "short_description": "<p>Earn a strong foundation in financial reporting concepts and methods, and use your skills to prepare and analyze financial statements.</p>",
+        "type": "e85a9f60-2da5-4413-96b7-dcb9b8c0e9f1",
+        "url_slug": null,
+        "course_type": "verified-audit",
+        "enterprise_subscription_inclusion": false,
+        "excluded_from_seo": false,
+        "excluded_from_search": false,
+        "course_run_statuses": ["archived"]
+      }
+    ],
+    "authoring_organizations": [
+      {
+        "uuid": "8946fb40-f288-4e05-9275-9e9b4689bda8",
+        "key": "IUx",
+        "name": "Indiana University",
+        "auto_generate_course_run_keys": true,
+        "certificate_logo_image_url": "https://prod-discovery.edx-cdn.org/organization/certificate_logos/8946fb40-f288-4e05-9275-9e9b4689bda8-9c4c6df9d3bb.png",
+        "logo_image_url": "https://prod-discovery.edx-cdn.org/organization/logos/8946fb40-f288-4e05-9275-9e9b4689bda8-e58c545e2296.png",
+        "organization_hex_color": null,
+        "data_modified_timestamp": "2023-10-23T13:37:23.725096Z"
+      }
+    ],
+    "card_image_url": "https://prod-discovery.edx-cdn.org/media/programs/card_images/84811e48-94e6-4738-8e15-e019b289e374-cdd9850ada79.jpg",
+    "is_program_eligible_for_one_click_purchase": false,
+    "degree": null,
+    "curricula": [],
+    "marketing_hook": "Gain skills in financial accounting, managerial accounting, and tax",
+    "total_hours_of_effort": null,
+    "recent_enrollment_count": -115,
+    "organization_short_code_override": "",
+    "organization_logo_override_url": null,
+    "primary_subject_override": null,
+    "level_type_override": null,
+    "language_override": null,
+    "labels": [],
+    "taxi_form": null,
+    "program_duration_override": null,
+    "data_modified_timestamp": "2024-08-28T07:13:53.011756Z",
+    "excluded_from_search": false,
+    "excluded_from_seo": false,
+    "has_ofac_restrictions": null,
+    "ofac_comment": "",
+    "course_run_statuses": ["archived"],
+    "subscription_eligible": null,
+    "subscription_prices": []
+  },
+  {
+    "uuid": "0445d855-1d24-480a-87ff-01a9186e237a",
+    "title": "Water Management",
+    "subtitle": "Explore water management concepts and technologies.",
+    "type": "XSeries",
+    "type_attrs": {
+      "uuid": "a3d34232-2cca-4b35-8810-cef9bb1e0e77",
+      "slug": "xseries",
+      "coaching_supported": false
+    },
+    "status": "active",
+    "marketing_slug": "xseries/delft-university-of-technology-water-management",
+    "marketing_url": "https://www.edx.org/xseries/delft-university-of-technology-water-management",
+    "banner_image": {
+      "large": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/0445d855-1d24-480a-87ff-01a9186e237a.large.jpg",
+        "width": 1440,
+        "height": 480
+      },
+      "medium": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/0445d855-1d24-480a-87ff-01a9186e237a.medium.jpg",
+        "width": 726,
+        "height": 242
+      },
+      "small": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/0445d855-1d24-480a-87ff-01a9186e237a.small.jpg",
+        "width": 435,
+        "height": 145
+      },
+      "x-small": {
+        "url": "https://prod-discovery.edx-cdn.org/media/programs/banner_images/0445d855-1d24-480a-87ff-01a9186e237a.x-small.jpg",
+        "width": 348,
+        "height": 116
+      }
+    },
+    "hidden": false,
+    "courses": [
+      {
+        "key": "Delftx+CTB3300WCx",
+        "uuid": "8d384724-c109-45d4-9a92-7920d3f74ef5",
+        "title": "Introduction to Water and Climate",
+        "course_runs": [
+          {
+            "key": "DelftX/CTB3300WCx/2T2014",
+            "uuid": "895c2331-d427-4241-aad0-73ba4223f2c0",
+            "title": "Introduction to Water and Climate",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "The basic elements of and the relation between water and climate are highlighted and further discussed together with their mutual coherence.",
+            "marketing_url": "https://www.edx.org/course/introduction-water-climate-delftx-ctb3300wcx?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": "2014-09-17T08:59:00Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "E1FB8DC",
+                "bulk_sku": null
+              },
+              {
+                "type": "honor",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "5DED6EC",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "50.00",
+                "currency": "USD",
+                "upgrade_deadline": "2014-09-17T08:59:00Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "3EC8563",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2014-08-26T10:00:00Z",
+            "end": "2014-11-04T11:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 9,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "1028f55f-04ea-4409-8542-6d2802ca4a5f",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:Delftx+CTB3300WCx+2015_T3",
+            "uuid": "a36f5673-6637-11e6-a8e3-22000bdde520",
+            "title": "Introduction to Water and Climate",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "Explore how climate change, water availability, and engineering innovation are key challenges for our planet.",
+            "marketing_url": "https://www.edx.org/course/introduction-water-climate-delftx-ctb3300wcx-0?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "honor",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "1DB5A75",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "50.00",
+                "currency": "USD",
+                "upgrade_deadline": "2015-10-19T23:59:00Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "EFF47EC",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2015-09-01T12:00:00Z",
+            "end": "2015-11-04T12:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 4,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "7833c89d-47f7-49bc-ba76-b38cbfa8f903",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:Delftx+CTB3300WCx+3T2016",
+            "uuid": "a36f5692-6637-11e6-a8e3-22000bdde520",
+            "title": "Introduction to Water and Climate",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "Explore how climate change, water availability, and engineering innovation are key challenges for our planet.",
+            "marketing_url": "https://www.edx.org/course/introduction-water-climate-delftx-ctb3300wcx-1?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "5547B3C",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "50.00",
+                "currency": "USD",
+                "upgrade_deadline": "2016-11-28T23:58:00Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "C36751E",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2016-09-06T12:00:00Z",
+            "end": "2016-11-15T12:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": "2016-03-01T12:00:00Z",
+            "enrollment_end": null,
+            "weeks_to_complete": 7,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:Delftx+CTB3300WCx+3T2017",
+            "uuid": "ce65ed1e-53cf-4888-9ec6-a594cfbfc0a3",
+            "title": "Introduction to Water and Climate",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "Water is a crucial element in climate and for society. Find out about the latest engineering interventions for water management in rivers, coasts and the urban environment.",
+            "marketing_url": "https://www.edx.org/course/introduction-water-climate-delftx-ctb3300wcx-2?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "8776217",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "50.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "EF51B77",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2017-09-06T12:00:00Z",
+            "end": "2017-11-01T12:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 7,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:Delftx+CTB3300WCx+3T2018",
+            "uuid": "8ae0f3a9-3fdf-4153-9f06-0929de980bef",
+            "title": "Introduction to Water and Climate",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Water is a crucial element in climate and for society. Find out about the latest engineering interventions for water management in rivers, coasts and the urban environment.</p>",
+            "marketing_url": "https://www.edx.org/course/introduction-to-water-and-climate?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "verified",
+                "price": "50.00",
+                "currency": "USD",
+                "upgrade_deadline": "2018-10-20T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "51FACDC",
+                "bulk_sku": "3C3D06B"
+              },
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "9CF1878",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2018-09-05T12:00:00Z",
+            "end": "2018-10-30T12:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 7,
+            "pacing_type": "instructor_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:Delftx+CTB3300WCx+1T2019",
+            "uuid": "f2fcf0c4-ba9c-4765-8e90-3ad333110813",
+            "title": "Introduction to Water and Climate",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Water is a crucial element in climate and for society. Find out about the latest engineering interventions for water management in rivers, coasts and the urban environment.</p>",
+            "marketing_url": "https://www.edx.org/course/introduction-to-water-and-climate-0?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "verified",
+                "price": "50.00",
+                "currency": "USD",
+                "upgrade_deadline": "2019-05-22T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "26FDED2",
+                "bulk_sku": "B045F8E"
+              },
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "669CB6C",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2019-01-01T12:00:00Z",
+            "end": "2019-06-01T12:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 10,
+            "pacing_type": "self_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:Delftx+CTB3300WCx+3T2019",
+            "uuid": "820730f5-24eb-41f9-960b-adf475bced0d",
+            "title": "Introduction to Water and Climate",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Water is a crucial element in climate and for society. Find out about the latest engineering interventions for water management in rivers, coasts and the urban environment.</p>",
+            "marketing_url": "https://www.edx.org/course/introduction-to-water-and-climate-2?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "verified",
+                "price": "50.00",
+                "currency": "USD",
+                "upgrade_deadline": "2021-01-04T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "E4CCAD3",
+                "bulk_sku": "5547ED9"
+              },
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "59AB6FC",
+                "bulk_sku": null
+              }
+            ],
+            "start": "2019-09-01T00:00:00Z",
+            "end": "2021-01-14T00:00:00Z",
+            "go_live_date": null,
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 10,
+            "pacing_type": "self_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:Delftx+CTB3300WCx+3T2021",
+            "uuid": "a7bed6f7-fddb-4979-97bf-544c48880eb6",
+            "title": "Introduction to Water and Climate",
+            "external_key": null,
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Water is a crucial element in climate and for society. Find out about the latest engineering interventions for water management in rivers, coasts and the urban environment.</p>",
+            "marketing_url": "https://www.edx.org/course/introduction-to-water-and-climate-course-v1delftxctb3300wcx3t2021?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "4E77AD3",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "139.00",
+                "currency": "USD",
+                "upgrade_deadline": "2022-08-21T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "42C05D4",
+                "bulk_sku": "08A08C1"
+              }
+            ],
+            "start": "2021-09-01T10:00:00Z",
+            "end": "2022-08-31T10:00:00Z",
+            "go_live_date": "2021-04-27T22:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 10,
+            "pacing_type": "self_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:Delftx+CTB3300WCx+3T2022",
+            "uuid": "a3822c60-0e37-4bc9-8957-753068d2d662",
+            "title": "Introduction to Water and Climate",
+            "external_key": "",
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Water is a crucial element in climate and for society. Find out about the latest engineering interventions for water management in rivers, coasts and the urban environment.</p>",
+            "marketing_url": "https://www.edx.org/course/introduction-to-water-and-climate-course-v1delftxctb3300wcx3t2022?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "E636C80",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "139.00",
+                "currency": "USD",
+                "upgrade_deadline": "2023-12-05T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "19897AC",
+                "bulk_sku": "FCB1B8F"
+              }
+            ],
+            "start": "2022-09-01T10:00:00Z",
+            "end": "2023-12-15T10:00:00Z",
+            "go_live_date": "2022-04-30T22:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 10,
+            "pacing_type": "self_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "unpublished",
+            "is_enrollable": true,
+            "is_marketable": false,
+            "availability": "Archived",
+            "variant_id": null
+          },
+          {
+            "key": "course-v1:Delftx+CTB3300WCx+1T2024",
+            "uuid": "b127d07e-3b2d-4bdb-970a-44b871ad6237",
+            "title": "Introduction to Water and Climate",
+            "external_key": "",
+            "fixed_price_usd": null,
+            "image": {
+              "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+              "description": null,
+              "height": null,
+              "width": null
+            },
+            "short_description": "<p>Water is a crucial element in climate and for society. Find out about the latest engineering interventions for water management in rivers, coasts and the urban environment.</p>",
+            "marketing_url": "https://www.edx.org/course/introduction-to-water-and-climate-course-v1-delftx-ctb3300wcx-1t2024?utm_source=ocwprod-mit-opencourseware&utm_medium=affiliate_partner",
+            "seats": [
+              {
+                "type": "audit",
+                "price": "0.00",
+                "currency": "USD",
+                "upgrade_deadline": null,
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "007073A",
+                "bulk_sku": null
+              },
+              {
+                "type": "verified",
+                "price": "139.00",
+                "currency": "USD",
+                "upgrade_deadline": "2025-05-18T23:59:59Z",
+                "upgrade_deadline_override": null,
+                "credit_provider": null,
+                "credit_hours": null,
+                "sku": "11EC6DB",
+                "bulk_sku": "636D2D9"
+              }
+            ],
+            "start": "2024-02-28T11:00:00Z",
+            "end": "2025-05-28T10:00:00Z",
+            "go_live_date": "2024-02-08T23:00:00Z",
+            "enrollment_start": null,
+            "enrollment_end": null,
+            "weeks_to_complete": 10,
+            "pacing_type": "self_paced",
+            "type": "verified",
+            "restriction_type": null,
+            "run_type": "df9c20c1-9b54-40a5-bae3-7fda48d84141",
+            "status": "published",
+            "is_enrollable": true,
+            "is_marketable": true,
+            "availability": "Current",
+            "variant_id": null
+          }
+        ],
+        "entitlements": [
+          {
+            "mode": "verified",
+            "price": "139.00",
+            "currency": "USD",
+            "sku": "7ABFFB0",
+            "expires": null
+          }
+        ],
+        "owners": [
+          {
+            "uuid": "c484a523-d396-4aff-90f4-bb7e82e16bf6",
+            "key": "DelftX",
+            "name": "Delft University of Technology",
+            "auto_generate_course_run_keys": true,
+            "certificate_logo_image_url": "https://prod-discovery.edx-cdn.org/organization/certificate_logos/c484a523-d396-4aff-90f4-bb7e82e16bf6-c43b6cb39bcc.png",
+            "logo_image_url": "https://prod-discovery.edx-cdn.org/organization/logos/c484a523-d396-4aff-90f4-bb7e82e16bf6-f9e6cc4a4c94.png",
+            "organization_hex_color": null,
+            "data_modified_timestamp": "2024-02-01T15:45:47.314868Z"
+          }
+        ],
+        "image": {
+          "src": "https://prod-discovery.edx-cdn.org/media/course/image/8d384724-c109-45d4-9a92-7920d3f74ef5-4e859aa4bd33.small.jpg",
+          "description": null,
+          "height": null,
+          "width": null
+        },
+        "short_description": "<p>Water is a crucial element in climate and for society. Find out about the latest engineering interventions for water management in rivers, coasts and the urban environment.</p>",
+        "type": "e85a9f60-2da5-4413-96b7-dcb9b8c0e9f1",
+        "url_slug": null,
+        "course_type": "verified-audit",
+        "enterprise_subscription_inclusion": true,
+        "excluded_from_seo": false,
+        "excluded_from_search": false,
+        "course_run_statuses": ["archived", "published"]
+      }
+    ],
+    "authoring_organizations": [
+      {
+        "uuid": "c484a523-d396-4aff-90f4-bb7e82e16bf6",
+        "key": "DelftX",
+        "name": "Delft University of Technology",
+        "auto_generate_course_run_keys": true,
+        "certificate_logo_image_url": "https://prod-discovery.edx-cdn.org/organization/certificate_logos/c484a523-d396-4aff-90f4-bb7e82e16bf6-c43b6cb39bcc.png",
+        "logo_image_url": "https://prod-discovery.edx-cdn.org/organization/logos/c484a523-d396-4aff-90f4-bb7e82e16bf6-f9e6cc4a4c94.png",
+        "organization_hex_color": null,
+        "data_modified_timestamp": "2024-02-01T15:45:47.314868Z"
+      }
+    ],
+    "card_image_url": "https://prod-discovery.edx-cdn.org/media/programs/card_images/0445d855-1d24-480a-87ff-01a9186e237a-c1d6687579f0.jpg",
+    "is_program_eligible_for_one_click_purchase": false,
+    "degree": null,
+    "curricula": [],
+    "marketing_hook": "Explore water management concepts and technologies",
+    "total_hours_of_effort": null,
+    "recent_enrollment_count": 3462,
+    "organization_short_code_override": "",
+    "organization_logo_override_url": null,
+    "primary_subject_override": null,
+    "level_type_override": null,
+    "language_override": null,
+    "labels": [],
+    "taxi_form": null,
+    "program_duration_override": null,
+    "data_modified_timestamp": "2024-08-28T07:12:51.701135Z",
+    "excluded_from_search": false,
+    "excluded_from_seo": false,
+    "has_ofac_restrictions": null,
+    "ofac_comment": "",
+    "course_run_statuses": ["archived", "published"],
+    "subscription_eligible": false,
+    "subscription_prices": [
+      {
+        "price": "79.00",
+        "currency": "USD"
+      }
+    ]
+  }
+]

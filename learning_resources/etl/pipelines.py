@@ -11,6 +11,7 @@ from learning_resources.etl import (
     loaders,
     micromasters,
     mit_edx,
+    mit_edx_programs,
     mitxonline,
     ocw,
     oll,
@@ -44,13 +45,24 @@ micromasters_etl = compose(
     micromasters.extract,
 )
 
-mit_edx_etl = compose(
+mit_edx_courses_etl = compose(
     load_courses(
         ETLSource.mit_edx.name,
         config=CourseLoaderConfig(prune=True),
     ),
     mit_edx.transform,
     mit_edx.extract,
+)
+
+mit_edx_programs_etl = compose(
+    load_programs(
+        ETLSource.mit_edx.name,
+        config=ProgramLoaderConfig(
+            courses=CourseLoaderConfig(fetch_only=True), prune=True
+        ),
+    ),
+    mit_edx_programs.transform,
+    mit_edx_programs.extract,
 )
 
 mitxonline_programs_etl = compose(

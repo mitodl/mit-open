@@ -55,9 +55,10 @@ def get_mit_edx_data(api_datafile=None) -> int:
         api_datafile (str): If provided, use this file as the source of API data
             Otherwise, the API is queried directly.
     """
-    courses = pipelines.mit_edx_etl(api_datafile)
+    courses = pipelines.mit_edx_courses_etl(api_datafile)
+    programs = pipelines.mit_edx_programs_etl(api_datafile)
     clear_search_cache()
-    return len(courses)
+    return len(courses + programs)
 
 
 @app.task

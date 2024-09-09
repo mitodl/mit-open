@@ -2,6 +2,7 @@
 
 # pylint: disable=redefined-outer-name
 from datetime import datetime
+from decimal import Decimal
 from urllib.parse import urlencode
 
 import pytest
@@ -10,6 +11,8 @@ from learning_resources.constants import (
     Availability,
     CertificationType,
     LearningResourceType,
+    OfferedBy,
+    PlatformType,
     RunAvailability,
 )
 from learning_resources.etl.constants import COMMON_HEADERS, CourseNumberType
@@ -17,15 +20,23 @@ from learning_resources.etl.openedx import (
     OpenEdxConfiguration,
     openedx_extract_transform_factory,
 )
+from learning_resources.factories import (
+    LearningResourceFactory,
+    LearningResourceOfferorFactory,
+    LearningResourcePlatformFactory,
+    LearningResourceRunFactory,
+)
+from learning_resources.serializers import LearningResourceInstructorSerializer
 from main.test_utils import any_instance_of
+from main.utils import clean_data
 
 ACCESS_TOKEN = "invalid_access_token"  # noqa: S105
 
 
 @pytest.fixture
-def openedx_config():
-    """Fixture for the openedx config object"""
-    return OpenEdxConfiguration(
+def openedx_common_config():
+    """Fixture for the openedx common config object"""
+    return (
         "fake-client-id",
         "fake-client-secret",
         "http://localhost/fake-access-token-url/",
@@ -39,12 +50,38 @@ def openedx_config():
 
 
 @pytest.fixture
-def openedx_extract_transform(openedx_config):
+def openedx_course_config(openedx_common_config):
+    """Fixture for the openedx config object"""
+    return OpenEdxConfiguration(
+        *openedx_common_config,
+        LearningResourceType.course.name,
+    )
+
+
+@pytest.fixture
+def openedx_program_config(openedx_common_config):
+    """Fixture for the openedx config object"""
+    return OpenEdxConfiguration(
+        *openedx_common_config,
+        LearningResourceType.program.name,
+    )
+
+
+@pytest.fixture
+def openedx_extract_transform_courses(openedx_course_config):
     """Fixture for generationg an extract/transform pair for the given config"""
-    return openedx_extract_transform_factory(lambda: openedx_config)
+    return openedx_extract_transform_factory(lambda: openedx_course_config)
 
 
-def test_extract(mocked_responses, openedx_config, openedx_extract_transform):
+@pytest.fixture
+def openedx_extract_transform_programs(openedx_program_config):
+    """Fixture for generationg an extract/transform pair for the given config"""
+    return openedx_extract_transform_factory(lambda: openedx_program_config)
+
+
+def test_extract(
+    mocked_responses, openedx_course_config, openedx_extract_transform_courses
+):
     """Test the generated extract functoin walks the paginated results"""
     results1 = [1, 2, 3]
     results2 = [4, 5, 6]
@@ -52,19 +89,19 @@ def test_extract(mocked_responses, openedx_config, openedx_extract_transform):
 
     mocked_responses.add(
         mocked_responses.POST,
-        openedx_config.access_token_url,
+        openedx_course_config.access_token_url,
         json={"access_token": ACCESS_TOKEN},
     )
     mocked_responses.add(
         mocked_responses.GET,
-        openedx_config.api_url,
+        openedx_course_config.api_url,
         json={"results": results1, "next": next_url},
     )
     mocked_responses.add(
         mocked_responses.GET, next_url, json={"results": results2, "next": None}
     )
 
-    assert openedx_extract_transform.extract() == results1 + results2
+    assert openedx_extract_transform_courses.extract() == results1 + results2
 
     for call in mocked_responses.calls:
         # assert that headers contain our common ones
@@ -73,8 +110,8 @@ def test_extract(mocked_responses, openedx_config, openedx_extract_transform):
     assert mocked_responses.calls[0].request.body == urlencode(
         {
             "grant_type": "client_credentials",
-            "client_id": openedx_config.client_id,
-            "client_secret": openedx_config.client_secret,
+            "client_id": openedx_course_config.client_id,
+            "client_secret": openedx_course_config.client_secret,
             "token_type": "jwt",
         }
     )
@@ -87,12 +124,12 @@ def test_extract(mocked_responses, openedx_config, openedx_extract_transform):
 
 @pytest.mark.usefixtures("mocked_responses")
 @pytest.mark.parametrize("config_arg_idx", range(6))
-def test_extract_disabled(openedx_config, config_arg_idx):
+def test_extract_disabled(openedx_course_config, config_arg_idx):
     """
     Verify that extract() exits with no API call if configuration is missing
     """
 
-    args = list(openedx_config)
+    args = list(openedx_course_config)
     args[config_arg_idx] = None
 
     config = OpenEdxConfiguration(*args)
@@ -123,8 +160,8 @@ def test_extract_disabled(openedx_config, config_arg_idx):
     ],
 )
 def test_transform_course(  # noqa: PLR0913
-    openedx_config,
-    openedx_extract_transform,
+    openedx_course_config,
+    openedx_extract_transform_courses,
     mitx_course_data,
     has_runs,
     is_course_deleted,
@@ -151,7 +188,7 @@ def test_transform_course(  # noqa: PLR0913
                 if is_run_deleted:
                     run["title"] = f"[delete] {run['title']}"
 
-    transformed_courses = openedx_extract_transform.transform(extracted)
+    transformed_courses = openedx_extract_transform_courses.transform(extracted)
     if is_course_deleted or not has_runs:
         assert transformed_courses == []
     else:
@@ -164,9 +201,9 @@ def test_transform_course(  # noqa: PLR0913
             "departments": ["15"],
             "description": "short_description",
             "full_description": "full description",
-            "platform": openedx_config.platform,
-            "etl_source": openedx_config.etl_source,
-            "offered_by": {"code": openedx_config.offered_by},
+            "platform": openedx_course_config.platform,
+            "etl_source": openedx_course_config.etl_source,
+            "offered_by": {"code": openedx_course_config.offered_by},
             "image": {
                 "url": "https://prod-discovery.edx-cdn.org/media/course/image/ff1df27b-3c97-42ee-a9b3-e031ffd41a4f-747c9c2f216e.small.jpg",
                 "description": "Image description",
@@ -267,7 +304,7 @@ def test_transform_course(  # noqa: PLR0913
 @pytest.mark.parametrize("status", ["published", "other"])
 @pytest.mark.parametrize("is_enrollable", [True, False])
 def test_transform_course_availability_with_single_run(  # noqa: PLR0913
-    openedx_extract_transform,
+    openedx_extract_transform_courses,
     mitx_course_data,
     run_overrides,
     expected_availability,
@@ -286,7 +323,7 @@ def test_transform_course_availability_with_single_run(  # noqa: PLR0913
         "status": status,
     }
     extracted[0]["course_runs"] = [run]
-    transformed_courses = openedx_extract_transform.transform([extracted[0]])
+    transformed_courses = openedx_extract_transform_courses.transform([extracted[0]])
 
     if status == "published" and is_enrollable:
         assert transformed_courses[0]["availability"] == expected_availability
@@ -296,7 +333,7 @@ def test_transform_course_availability_with_single_run(  # noqa: PLR0913
 
 @pytest.mark.parametrize("has_dated", [True, False])
 def test_transform_course_availability_with_multiple_runs(
-    openedx_extract_transform, mitx_course_data, has_dated
+    openedx_extract_transform_courses, mitx_course_data, has_dated
 ):
     """
     Test that if course includes a single run corresponding to availability: "dated",
@@ -329,9 +366,98 @@ def test_transform_course_availability_with_multiple_runs(
     if has_dated:
         runs.append(run2)
     extracted[0]["course_runs"] = runs
-    transformed_courses = openedx_extract_transform.transform([extracted[0]])
+    transformed_courses = openedx_extract_transform_courses.transform([extracted[0]])
 
     if has_dated:
         assert transformed_courses[0]["availability"] == Availability.dated.name
     else:
         assert transformed_courses[0]["availability"] is Availability.anytime.name
+
+
+@pytest.mark.django_db
+def test_transform_program(
+    openedx_program_config,
+    openedx_extract_transform_programs,
+    mitx_programs_data,
+):  # pylint: disable=too-many-arguments
+    """Test that the transform function normalizes and filters out data"""
+    platform = LearningResourcePlatformFactory.create(code=PlatformType.edx.name)
+    offeror = LearningResourceOfferorFactory.create(code=OfferedBy.mitx.name)
+    instructors = []
+    topics = []
+    for i in range(1, 4):
+        course = LearningResourceFactory.create(
+            readable_id=f"MITx+6.002.{i}x",
+            platform=platform,
+            offered_by=offeror,
+            is_course=True,
+            create_runs=False,
+        )
+        topics.extend([topic.name for topic in course.topics.all()])
+        LearningResourceRunFactory.create(learning_resource=course)
+        for run in course.runs.filter(published=True):
+            instructors.extend(run.instructors.all())
+    extracted = mitx_programs_data
+    transformed_programs = openedx_extract_transform_programs.transform(extracted)
+    transformed_program = transformed_programs[0]
+    assert transformed_program == {
+        "title": extracted[0]["title"],
+        "readable_id": extracted[0]["uuid"],
+        "resource_type": LearningResourceType.program.name,
+        "description": clean_data(extracted[0]["subtitle"]),
+        "full_description": clean_data(extracted[0]["subtitle"]),
+        "platform": openedx_program_config.platform,
+        "etl_source": openedx_program_config.etl_source,
+        "offered_by": {"code": openedx_program_config.offered_by},
+        "image": {
+            "url": extracted[0]["banner_image"]["medium"]["url"],
+            "description": extracted[0]["title"],
+        },
+        "last_modified": any_instance_of(datetime),
+        "topics": [{"name": topic} for topic in sorted(topics)],
+        "url": extracted[0]["marketing_url"],
+        "published": True,
+        "certification": False,
+        "certification_type": CertificationType.none.name,
+        "availability": Availability.anytime.name,
+        "runs": (
+            [
+                {
+                    "availability": RunAvailability.current.value,
+                    "run_id": extracted[0]["uuid"],
+                    "start_date": "2019-06-20T15:00:00Z",
+                    "end_date": "2025-05-26T15:00:00Z",
+                    "enrollment_end": "2025-05-17T15:00:00Z",
+                    "enrollment_start": None,
+                    "description": extracted[0]["subtitle"],
+                    "full_description": extracted[0]["subtitle"],
+                    "image": {
+                        "url": extracted[0]["banner_image"]["medium"]["url"],
+                        "description": extracted[0]["title"],
+                    },
+                    "instructors": [
+                        LearningResourceInstructorSerializer(instructor).data
+                        for instructor in sorted(
+                            instructors, key=lambda x: x.last_name or x.full_name
+                        )
+                    ],
+                    "last_modified": any_instance_of(datetime),
+                    "level": [],
+                    "prices": [Decimal("567.00")],
+                    "title": extracted[0]["title"],
+                    "url": extracted[0]["marketing_url"],
+                    "published": True,
+                }
+            ]
+        ),
+        "courses": [
+            {
+                "etl_source": openedx_program_config.etl_source,
+                "offered_by": {"code": openedx_program_config.offered_by},
+                "platform": openedx_program_config.platform,
+                "readable_id": f"MITx+6.002.{i}x",
+                "resource_type": LearningResourceType.course.name,
+            }
+            for i in range(1, 4)
+        ],
+    }

@@ -7,6 +7,7 @@ import logging
 import re
 from collections import namedtuple
 from datetime import UTC, datetime
+from decimal import Decimal
 from pathlib import Path
 
 import requests
@@ -18,6 +19,7 @@ from learning_resources.constants import (
     Availability,
     CertificationType,
     LearningResourceType,
+    PlatformType,
     RunAvailability,
 )
 from learning_resources.etl.constants import COMMON_HEADERS
@@ -28,6 +30,8 @@ from learning_resources.etl.utils import (
     transform_levels,
     without_none,
 )
+from learning_resources.models import LearningResource
+from learning_resources.serializers import LearningResourceInstructorSerializer
 from learning_resources.utils import get_year_and_semester
 from main.utils import clean_data, now_in_utc
 
@@ -45,6 +49,7 @@ OpenEdxConfiguration = namedtuple(  # noqa: PYI024
         "platform",
         "offered_by",
         "etl_source",
+        "resource_type",
     ],
 )
 OpenEdxExtractTransform = namedtuple(  # noqa: PYI024
@@ -195,7 +200,7 @@ def _is_course_or_run_deleted(title):
     )
 
 
-def _filter_course(course):
+def _filter_resource(config, resource):
     """
     Filter courses to onces that are valid to ingest
 
@@ -205,9 +210,12 @@ def _filter_course(course):
     Returns:
         bool: True if the course should be ingested
     """
-    return not _is_course_or_run_deleted(course.get("title")) and course.get(
-        "course_runs", []
-    )
+    if config.resource_type == LearningResourceType.course.name:
+        return not _is_course_or_run_deleted(resource.get("title")) and resource.get(
+            "course_runs", []
+        )
+    else:
+        return True
 
 
 def _filter_course_run(course_run):
@@ -223,7 +231,7 @@ def _filter_course_run(course_run):
     return not _is_course_or_run_deleted(course_run.get("title"))
 
 
-def _transform_image(image_data: dict) -> dict:
+def _transform_course_image(image_data: dict) -> dict:
     """Return the transformed image data if a url is provided"""
     if image_data and image_data.get("src"):
         return {
@@ -231,6 +239,50 @@ def _transform_image(image_data: dict) -> dict:
             "description": image_data.get("description"),
         }
     return None
+
+
+def _transform_program_image(program_data) -> dict:
+    """Return the transformed image data if a url is provided"""
+    url = program_data.get("banner_image", {}).get("medium", {}).get("url")
+    if url:
+        return {"url": url, "description": program_data.get("title")}
+    return None
+
+
+def _parse_course_dates(program, date_field):
+    """Return all the course run price values for the given date field"""
+    dates = []
+    for course in program.get("courses", []):
+        if not course["excluded_from_search"]:
+            dates.extend(
+                [
+                    run[date_field]
+                    for run in course["course_runs"]
+                    if run["status"] == "published" and run[date_field]
+                ]
+            )
+    return dates
+
+
+def _add_course_prices(program):
+    """Sum all the course run price values"""
+
+    def _get_course_price(course):
+        if not course["excluded_from_search"]:
+            for run in sorted(
+                course["course_runs"], key=lambda x: x["start"], reverse=False
+            ):
+                if run["status"] == "published":
+                    return min(
+                        [
+                            Decimal(seat["price"])
+                            for seat in run["seats"]
+                            if seat["price"] != "0.00"
+                        ]
+                    )
+        return Decimal(0.00)
+
+    return sum(_get_course_price(course) for course in program.get("courses", []))
 
 
 def _transform_course_run(config, course_run, course_last_modified, marketing_url):
@@ -261,7 +313,7 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "published": _get_run_published(course_run),
         "enrollment_start": course_run.get("enrollment_start"),
         "enrollment_end": course_run.get("enrollment_end"),
-        "image": _transform_image(course_run.get("image")),
+        "image": _transform_course_image(course_run.get("image")),
         "availability": course_run.get("availability"),
         "url": marketing_url
         or "{}{}/course/".format(config.alt_url, course_run.get("key")),
@@ -275,6 +327,80 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
             }
             for person in course_run.get("staff")
         ],
+    }
+
+
+def _parse_program_instructors_topics(program):
+    """Get the instructors for each published course in a program"""
+    instructors = []
+    topics = []
+    course_ids = [course["key"] for course in program["courses"]]
+    courses = LearningResource.objects.filter(
+        readable_id__in=course_ids,
+        resource_type=LearningResourceType.course.name,
+        platform=PlatformType.edx.name,
+        published=True,
+    )
+    for course in courses:
+        topics.extend([{"name": topic.name} for topic in course.topics.all()])
+        run = (
+            course.next_run
+            or course.runs.filter(published=True).order_by("-start_date").first()
+        )
+        if run:
+            instructors.extend(
+                [
+                    LearningResourceInstructorSerializer(instance=instructor).data
+                    for instructor in run.instructors.all()
+                ]
+            )
+    return (
+        sorted(instructors, key=lambda x: x["last_name"] or x["full_name"]),
+        sorted(topics, key=lambda x: x["name"]),
+    )
+
+
+def _transform_program_course(config, course):
+    return {
+        "readable_id": course.get("key"),
+        "etl_source": config.etl_source,
+        "platform": config.platform,
+        "resource_type": LearningResourceType.course.name,
+        "offered_by": {"code": config.offered_by},
+    }
+
+
+def _transform_program_run(program, program_last_modified, image):
+    """
+    Transform a course run into the normalized data structure
+
+    Args:
+        config (OpenEdxConfiguration): configuration for the openedx backend
+
+    Returns:
+        dict: the tranformed course run data
+    """
+    return {
+        "run_id": program.get("uuid"),
+        "title": program.get("title"),
+        "description": program.get("subtitle"),
+        "full_description": program.get("subtitle"),
+        "level": transform_levels([program.get("level_type_override")]),
+        "start_date": min(_parse_course_dates(program, "start"), default=None),
+        "end_date": max(_parse_course_dates(program, "end"), default=None),
+        "last_modified": program_last_modified,
+        "published": True,
+        "enrollment_start": min(
+            _parse_course_dates(program, "enrollment_start"), default=None
+        ),
+        "enrollment_end": max(
+            _parse_course_dates(program, "enrollment_end"), default=None
+        ),
+        "image": image,
+        "availability": RunAvailability.current.value,
+        "url": program.get("marketing_url"),
+        "prices": [_add_course_prices(program)],
+        "instructors": program.pop("instructors", []),
     }
 
 
@@ -308,7 +434,7 @@ def _transform_course(config, course):
         "description": clean_data(course.get("short_description")),
         "full_description": clean_data(course.get("full_description")),
         "last_modified": last_modified,
-        "image": _transform_image(course.get("image")),
+        "image": _transform_course_image(course.get("image")),
         "url": marketing_url
         or "{}{}/course/".format(config.alt_url, course.get("key")),
         "topics": [
@@ -325,6 +451,69 @@ def _transform_course(config, course):
         else CertificationType.none.name,
         "availability": _get_course_availability(course),
     }
+
+
+def _transform_program(config, program):
+    """
+    Filter courses to onces that are valid to ingest
+
+    Args:
+        config (OpenEdxConfiguration): configuration for the openedx backend
+        program (dict): the course data
+
+    Returns:
+        dict: the tranformed course data
+    """
+    last_modified = _parse_openedx_datetime(program.get("data_modified_timestamp"))
+    marketing_url = program.get("marketing_url")
+    image = _transform_program_image(program)
+    instructors, topics = _parse_program_instructors_topics(program)
+    program["instructors"] = instructors
+    runs = [_transform_program_run(program, last_modified, image)]
+    has_certification = parse_certification(config.offered_by, runs)
+    return {
+        "readable_id": program.get("uuid"),
+        "etl_source": config.etl_source,
+        "platform": config.platform,
+        "resource_type": LearningResourceType.program.name,
+        "offered_by": {"code": config.offered_by},
+        "title": program.get("title"),
+        "description": clean_data(program.get("subtitle")),
+        "full_description": clean_data(program.get("subtitle")),
+        "last_modified": last_modified,
+        "image": image,
+        "url": marketing_url
+        or "{}{}/course/".format(config.alt_url, program.get("key")),
+        "topics": topics,
+        "runs": runs,
+        "published": any(run["published"] is True for run in runs),
+        "certification": has_certification,
+        "certification_type": CertificationType.completion.name
+        if has_certification
+        else CertificationType.none.name,
+        "availability": Availability.anytime.name,
+        "courses": [
+            _transform_program_course(config, course)
+            for course in program.get("courses", [])
+        ],
+    }
+
+
+def _transform_resource(config, resource):
+    """
+    Transform the extracted openedx data into our normalized data structure
+
+    Args:
+        config (OpenEdxConfiguration): configuration for the openedx backend
+        resource (dict): the data for the resource
+
+    Returns:
+        dict: the tranformed resource data
+    """
+    if config.resource_type == LearningResourceType.course.name:
+        return _transform_course(config, resource)
+    else:
+        return _transform_program(config, resource)
 
 
 def openedx_extract_transform_factory(get_config):
@@ -375,10 +564,10 @@ def openedx_extract_transform_factory(get_config):
             url = config.api_url
 
             while url:
-                courses, url = _get_openedx_catalog_page(url, access_token)
-                yield from courses
+                resources, url = _get_openedx_catalog_page(url, access_token)
+                yield from resources
 
-    def transform(courses):
+    def transform(resources):
         """
         Transforms the extracted openedx data into our normalized data structure
 
@@ -392,9 +581,9 @@ def openedx_extract_transform_factory(get_config):
         config = get_config()
 
         return [
-            _transform_course(config, course)
-            for course in courses
-            if _filter_course(course)
+            _transform_resource(config, resource)
+            for resource in resources
+            if _filter_resource(config, resource)
         ]
 
     return OpenEdxExtractTransform(
