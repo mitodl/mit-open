@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React from "react"
+import React, { useEffect, useState } from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { TabButtonList, TabButton, TabButtonLink } from "./TabButtonList"
 import TabContext from "@mui/lab/TabContext"
@@ -10,18 +10,14 @@ import Typography from "@mui/material/Typography"
 import { faker } from "@faker-js/faker/locale/en"
 import Container from "@mui/material/Container"
 import { TabListProps } from "@mui/lab/TabList"
-import {
-  reactRouterParameters,
-  withRouter,
-} from "storybook-addon-react-router-v6"
-import { useLocation } from "react-router"
+import { usePathname } from "next/navigation";
 
 type StoryProps = TabListProps & {
   count: number
 }
 
 const meta: Meta<StoryProps> = {
-  title: "smoot-design/Tabs",
+  title: "smoot-design/TabButtons",
   argTypes: {
     variant: {
       options: ["scrollable", "fullWidth", "standard"],
@@ -93,21 +89,27 @@ export const ManyButtonTabs: Story = {
 }
 
 export const LinkTabs: Story = {
-  decorators: [withRouter],
   parameters: {
-    reactRouter: reactRouterParameters({
-      location: {
-        hash: "#link2",
-      },
-    }),
+    nextjs: {
+      appDirectory: true,
+      navigation: {
+        pathname: "/#link2"
+      }
+    }
   },
   render: () => {
-    const location = useLocation()
+    const pathname = usePathname();
+    const [hash, setHash] = useState<string | undefined>()
+
+    useEffect(()=>{
+      setHash(pathname.match(/(#.+)/)?.[0])
+     }, [ pathname ]);
+
     return (
       <div>
         Current Location:
-        <pre>{JSON.stringify(location, null, 2)}</pre>
-        <TabContext value={location.hash}>
+        <pre>{JSON.stringify(pathname, null, 2)}</pre>
+        <TabContext value={hash!}>
           <TabButtonList>
             <TabButtonLink value="#link1" href="#link1" label="Tab 1" />
             <TabButtonLink value="#link2" href="#link2" label="Tab 2" />
