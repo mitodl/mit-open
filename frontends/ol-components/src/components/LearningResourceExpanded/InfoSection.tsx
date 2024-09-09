@@ -24,7 +24,7 @@ import {
 import { theme } from "../ThemeProvider/ThemeProvider"
 import Typography from "@mui/material/Typography"
 import { User } from "api/hooks/user"
-import { CardActionButton } from "ol-components"
+import { CardActionButton, LearningResourceCardProps } from "ol-components"
 
 const InfoItems = styled.section`
   display: flex;
@@ -239,10 +239,14 @@ const InfoSection = ({
   resource,
   run,
   user,
+  onAddToLearningPathClick,
+  onAddToUserListClick,
 }: {
   resource?: LearningResource
   run?: LearningResourceRun
   user?: User
+  onAddToLearningPathClick: LearningResourceCardProps["onAddToLearningPathClick"]
+  onAddToUserListClick: LearningResourceCardProps["onAddToUserListClick"]
 }) => {
   if (!resource) {
     return null
@@ -272,12 +276,25 @@ const InfoSection = ({
             <CardActionButton
               filled={inLearningPath}
               aria-label="Add to Learning Path"
+              onClick={(event) =>
+                onAddToLearningPathClick
+                  ? onAddToLearningPathClick(event, resource.id)
+                  : null
+              }
             >
               <RiMenuAddLine aria-hidden />
             </CardActionButton>
           )}
           {user?.is_authenticated && (
-            <CardActionButton filled={inUserList} aria-label="Add to User List">
+            <CardActionButton
+              filled={inUserList}
+              aria-label="Add to User List"
+              onClick={(event) =>
+                onAddToUserListClick
+                  ? onAddToUserListClick(event, resource.id)
+                  : null
+              }
+            >
               <RiBookmarkLine aria-hidden />
             </CardActionButton>
           )}

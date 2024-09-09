@@ -1,16 +1,24 @@
-import React, { useEffect, useCallback } from "react"
+import React, { useEffect, useCallback, useMemo } from "react"
 import {
   RoutedDrawer,
   LearningResourceExpanded,
   imgConfigs,
 } from "ol-components"
-import type { RoutedDrawerProps } from "ol-components"
+import type {
+  LearningResourceCardProps,
+  RoutedDrawerProps,
+} from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
 import { useSearchParams, useLocation } from "react-router-dom"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { usePostHog } from "posthog-js/react"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
 import { useUserMe } from "api/hooks/user"
+import NiceModal from "@ebay/nice-modal-react"
+import {
+  AddToLearningPathDialog,
+  AddToUserListDialog,
+} from "../Dialogs/AddToListDialog"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
@@ -58,6 +66,28 @@ const DrawerContent: React.FC<{
 }> = ({ resourceId }) => {
   const resource = useLearningResourcesDetail(Number(resourceId))
   const { data: user } = useUserMe()
+  const handleAddToLearningPathClick: LearningResourceCardProps["onAddToLearningPathClick"] =
+    useMemo(() => {
+      if (user?.is_authenticated && user?.is_learning_path_editor) {
+        return (event, resourceId: number) => {
+          NiceModal.show(AddToLearningPathDialog, { resourceId })
+        }
+      }
+      return null
+    }, [user])
+  const handleAddToUserListClick: LearningResourceCardProps["onAddToUserListClick"] =
+    useMemo(() => {
+      if (!user) {
+        // user info is still loading
+        return null
+      }
+      if (user.is_authenticated) {
+        return (event, resourceId: number) => {
+          NiceModal.show(AddToUserListDialog, { resourceId })
+        }
+      }
+      return null
+    }, [user])
   useCapturePageView(Number(resourceId))
 
   return (
@@ -73,6 +103,8 @@ const DrawerContent: React.FC<{
         imgConfig={imgConfigs.large}
         resource={resource.data}
         user={user}
+        onAddToLearningPathClick={handleAddToLearningPathClick}
+        onAddToUserListClick={handleAddToUserListClick}
       />
     </>
   )
