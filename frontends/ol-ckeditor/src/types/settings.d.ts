@@ -8,5 +8,6 @@ export declare global {
     MITOL_API_BASE_URL: string
     PUBLIC_URL: string
     SITE_NAME: string
+    CSRF_COOKIE_NAME: string
   }
 }

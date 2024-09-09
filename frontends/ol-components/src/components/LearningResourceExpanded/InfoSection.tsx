@@ -23,7 +23,7 @@ import {
 } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import Typography from "@mui/material/Typography"
-import { User } from "api/hooks/user"
+import type { User } from "api/hooks/user"
 import { CardActionButton } from "../LearningResourceCard/LearningResourceListCard"
 import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
 

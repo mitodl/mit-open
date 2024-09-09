@@ -20,7 +20,7 @@ import type { SimpleSelectProps } from "../SimpleSelect/SimpleSelect"
 import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
 import InfoSection from "./InfoSection"
-import { User } from "api/hooks/user"
+import type { User } from "api/hooks/user"
 import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
 
 const Container = styled.div<{ padTop?: boolean }>`
