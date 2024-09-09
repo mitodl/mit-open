@@ -38,6 +38,7 @@
     "ol-utilities": "0.0.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.0",
     "@testing-library/react": "16.0.1"
   }
 }

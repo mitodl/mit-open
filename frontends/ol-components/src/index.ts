@@ -28,17 +28,13 @@ export type {
 
 export {
   Button,
+  ButtonLink,
   ActionButton,
   ActionButtonLink,
-  ButtonLink,
 } from "./components/Button/Button"
 export { ListCard, ListCardActionButton } from "./components/Card/ListCard"
 
-export type {
-  ButtonProps,
-  ButtonLinkProps,
-  ButtonStyleProps,
-} from "./components/Button/Button"
+export type { ButtonProps, ButtonLinkProps } from "./components/Button/Button"
 
 export { default as MuiCard } from "@mui/material/Card"
 export type { CardProps as MuiCardProps } from "@mui/material/Card"

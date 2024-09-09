@@ -31,6 +31,17 @@ type ButtonStyleProps = {
   responsive?: boolean
 }
 
+const styleProps: Record<string, boolean> = {
+  variant: true,
+  size: true,
+  edge: true,
+  startIcon: true,
+  endIcon: true,
+  responsive: true,
+} satisfies Record<keyof ButtonStyleProps, boolean>
+
+const shouldForwardProp = (prop: string) => !styleProps[prop]
+
 const defaultProps: Required<Omit<ButtonStyleProps, "startIcon" | "endIcon">> =
   {
     variant: "primary",
@@ -71,7 +82,9 @@ const sizeStyles = (size: ButtonSize, hasBorder: boolean, theme: Theme) => {
   ]
 }
 
-const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
+const ButtonStyled = styled("button", { shouldForwardProp })<ButtonStyleProps>((
+  props,
+) => {
   const { size, variant, edge, theme, color, responsive } = {
     ...defaultProps,
     ...props,
@@ -231,14 +244,6 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ],
 )
 
-const LinkStyled = styled(ButtonStyled.withComponent(Link), {
-  /**
-   * There are no extra styles here, emotion seems to forward "responsive"
-   * to the underlying dom node without this.
-   */
-  shouldForwardProp: (prop) => prop !== "responsive",
-})({})
-
 type ButtonProps = ButtonStyleProps & React.ComponentProps<"button">
 
 const ButtonInner: React.FC<
@@ -274,28 +279,21 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 
 type ButtonLinkProps = ButtonStyleProps &
-  React.ComponentProps<"a"> & {
-    href?: string
-    /**
-     * If true, the component will skip client-side routing and reload the
-     * document as if it were `<a href="..." />`.
-     *
-     * See https://reactrouter.com/en/main/components/link
-     */
-    reloadDocument?: boolean
+  Omit<React.ComponentProps<typeof Link>, "as"> & {
+    rawAnchor?: boolean
+    href: string
   }
-
-const ButtonLink = React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
-  ({ children, href = "", endIcon, ...props }, ref) => {
+const ButtonLink = ButtonStyled.withComponent(
+  ({ children, rawAnchor, ...props }: ButtonLinkProps) => {
+    const Component = rawAnchor ? "a" : Link
     return (
-      <LinkStyled href={href} {...props} ref={ref}>
-        <ButtonInner endIcon={endIcon} {...props}>
-          {children}
-        </ButtonInner>
-      </LinkStyled>
+      <Component {...props}>
+        <ButtonInner {...props}>{children}</ButtonInner>
+      </Component>
     )
   },
 )
+ButtonLink.displayName = "ButtonLink"
 
 type ActionButtonProps = Omit<ButtonStyleProps, "startIcon" | "endIcon"> &
   React.ComponentProps<"button">
@@ -346,22 +344,23 @@ const ActionButton = styled(
 })
 
 type ActionButtonLinkProps = ActionButtonProps &
-  React.ComponentProps<"a"> &
-  Pick<ButtonLinkProps, "reloadDocument">
-
+  Omit<React.ComponentProps<typeof Link>, "as"> & {
+    rawAnchor?: boolean
+    href: string
+  }
 const ActionButtonLink = ActionButton.withComponent(
-  React.forwardRef<HTMLAnchorElement, ActionButtonLinkProps>(
-    ({ href = "", ...props }, ref) => {
-      return <LinkStyled ref={ref} href={href} {...props} />
-    },
-  ),
+  ({ rawAnchor, ...props }: ButtonLinkProps) => {
+    const Component = rawAnchor ? "a" : Link
+    return <Component {...props} />
+  },
 )
+ActionButtonLink.displayName = "ActionButtonLink"
 
 export { Button, ButtonLink, ActionButton, ActionButtonLink }
+
 export type {
   ButtonProps,
   ButtonLinkProps,
-  ButtonStyleProps,
   ActionButtonProps,
   ActionButtonLinkProps,
 }
