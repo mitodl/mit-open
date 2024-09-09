@@ -7,17 +7,13 @@ import type { LinkProps } from "react-router-dom"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
 // Mock react-router-dom's Link so we don't need to set up a Router
-jest.mock("react-router-dom", () => {
+jest.mock("next/link", () => {
   return {
-    Link: React.forwardRef<HTMLAnchorElement, LinkProps>(
+    __esModule: true,
+    default: React.forwardRef<HTMLAnchorElement, LinkProps>(
       jest.fn(({ children, ...props }, ref) => {
         return (
-          <a
-            {...props}
-            ref={ref}
-            data-prop-to={props.to}
-            data-react-component="react-router-dom-link"
-          >
+          <a {...props} ref={ref} data-react-component="next/link">
             {children}
           </a>
         )
@@ -112,7 +108,7 @@ describe("SimpleMenu", () => {
     visibilityHandler.mockClear()
   })
 
-  it("Renders link items using React Router's Link", async () => {
+  it("Renders link items using link", async () => {
     const items: SimpleMenuItem[] = [
       { key: "one", label: "Item 1", onClick: jest.fn() },
       { key: "two", label: "Item 2", href: "./woof" },
@@ -123,8 +119,8 @@ describe("SimpleMenu", () => {
     })
     await user.click(screen.getByRole("button", { name: "Open Menu" }))
     const item2 = screen.getByRole("menuitem", { name: "Item 2" })
-    expect(item2.dataset.reactComponent).toBe("react-router-dom-link")
-    expect(item2.dataset.propTo).toBe("./woof")
+    expect(item2.dataset.reactComponent).toBe("next/link")
+    expect(item2).toHaveAttribute("href", "./woof")
   })
 
   it("Renders link with custom LinkComponent if specified", async () => {
