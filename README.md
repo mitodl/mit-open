@@ -175,6 +175,18 @@ To enable searching the course catalog on opensearch, run through these steps:
 3. Once created and with `docker compose up` running, hit this endpoint in your browser to see if the index exists: `http://localhost:9101/discussions_local_all_default/_search`
 4. If yes, to run a specific query, make a `POST` request (using `curl`, [Postman](https://www.getpostman.com/downloads/), Python `requests`, etc.) to the above endpoint with a `json` payload. For example, to search for all courses, run a query with Content-Type as `application/json` and with a body `{"query":{"term":{"object_type":"course"}}}`
 
+### Running OpenSearch as a multi-node local cluster
+
+By default the configuration runs OpenSearch in `single-node` mode. If you'd like to run a 3-node cluster locally you can set the following environment variable in your shell.
+
+```shell
+export OPENSEARCH_CLUSTER_TYPE=cluster
+```
+
+You should make this permanent by using `direnv` or similar so that all your shell sessions are using the same docker compose config):
+
+After setting this and running `docker compose up` you'll see this 3 node cluster be created. Note that the volumes used by these containers are separate from the volume used by the single-node setup so you will need to recreate your indicies. This is intentional and critical to being able to switch back and forth between `single-node` and `cluster` setups.
+
 ### Running the app in a notebook
 
 This repo includes a config for running a [Jupyter notebook](https://jupyter.org/) in a Docker container. This enables you to do in a Jupyter notebook anything you might otherwise do in a Django shell. To get started:

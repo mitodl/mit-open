@@ -1,0 +1,9 @@
+services:
+  web:
+    depends_on:
+      opensearch-node-mitopen-1:
+        condition: service_healthy
+  celery:
+    depends_on:
+      opensearch-node-mitopen-1:
+        condition: service_healthy

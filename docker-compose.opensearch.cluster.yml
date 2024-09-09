@@ -1,0 +1,48 @@
+services:
+  opensearch-node-mitopen-1:
+    extends:
+      file: docker-compose.opensearch.base.yml
+      service: opensearch
+    hostname: opensearch-node-mitopen-1
+    environment:
+      - "node.name=opensearch-node-mitopen-1"
+      - "discovery.seed_hosts=opensearch-node-mitopen-1,opensearch-node-mitopen-2,opensearch-node-mitopen-3"
+      - "cluster.initial_cluster_manager_nodes=opensearch-node-mitopen-1,opensearch-node-mitopen-2,opensearch-node-mitopen-3"
+    volumes:
+      - opensearch-cluster-data1:/usr/share/opensearch/data
+    ports:
+      - 9100:9200 # REST API
+      - 9500:9600 # Performance Analyzer
+  opensearch-node-mitopen-2:
+    extends:
+      file: docker-compose.opensearch.base.yml
+      service: opensearch
+    hostname: opensearch-node-mitopen-2
+    environment:
+      - "node.name=opensearch-node-mitopen-2"
+      - "discovery.seed_hosts=opensearch-node-mitopen-1,opensearch-node-mitopen-2,opensearch-node-mitopen-3"
+      - "cluster.initial_cluster_manager_nodes=opensearch-node-mitopen-1,opensearch-node-mitopen-2,opensearch-node-mitopen-3"
+    volumes:
+      - opensearch-cluster-data2:/usr/share/opensearch/data
+    ports:
+      - 9101:9200 # REST API
+      - 9501:9600 # Performance Analyzer
+  opensearch-node-mitopen-3:
+    extends:
+      file: docker-compose.opensearch.base.yml
+      service: opensearch
+    hostname: opensearch-node-mitopen-3
+    environment:
+      - "node.name=opensearch-node-mitopen-3"
+      - "discovery.seed_hosts=opensearch-node-mitopen-1,opensearch-node-mitopen-2,opensearch-node-mitopen-3"
+      - "cluster.initial_cluster_manager_nodes=opensearch-node-mitopen-1,opensearch-node-mitopen-2,opensearch-node-mitopen-3"
+    volumes:
+      - opensearch-cluster-data3:/usr/share/opensearch/data
+    ports:
+      - 9102:9200 # REST API
+      - 9502:9600 # Performance Analyzer
+
+volumes:
+  opensearch-cluster-data1:
+  opensearch-cluster-data2:
+  opensearch-cluster-data3:
