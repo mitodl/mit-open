@@ -11,7 +11,6 @@ import { LearningResource } from "api"
 import {
   formatDate,
   getReadableResourceType,
-  embedlyCroppedImage,
   DEFAULT_RESOURCE_IMG,
   getLearningResourcePrices,
   getResourceDate,
@@ -55,20 +54,6 @@ const getImageDimensions = (size: Size, isMedia: boolean) => {
     medium: { width: 298, height: isMedia ? 298 : 170 },
   }
   return dimensions[size]
-}
-
-const getEmbedlyUrl = (
-  resource: LearningResource,
-  size: Size,
-  isMedia: boolean,
-) => {
-  if (!process.env.NEXT_PUBLIC_EMBEDLY_KEY!) {
-    return resource.image!.url!
-  }
-  return embedlyCroppedImage(resource.image!.url!, {
-    key: process.env.NEXT_PUBLIC_EMBEDLY_KEY!,
-    ...getImageDimensions(size, isMedia),
-  })
 }
 
 type ResourceIdCallback = (
@@ -247,11 +232,7 @@ const LearningResourceCard: React.FC<LearningResourceCardProps> = ({
   return (
     <StyledCard href={href} className={className} size={size}>
       <Card.Image
-        src={
-          resource.image?.url
-            ? getEmbedlyUrl(resource, size, isMedia)
-            : DEFAULT_RESOURCE_IMG
-        }
+        src={resource.image?.url ? resource.image?.url : DEFAULT_RESOURCE_IMG}
         alt={resource.image?.alt ?? ""}
         {...getImageDimensions(size, isMedia)}
       />

@@ -3,10 +3,11 @@ import { BrowserRouter } from "react-router-dom"
 import { screen, render } from "@testing-library/react"
 import { LearningResourceListCard } from "./LearningResourceListCard"
 import type { LearningResourceListCardProps } from "./LearningResourceListCard"
-import { DEFAULT_RESOURCE_IMG, embedlyCroppedImage } from "ol-utilities"
+import { DEFAULT_RESOURCE_IMG } from "ol-utilities"
 import { ResourceTypeEnum, PlatformEnum, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
+import { getByImageSrc } from "ol-test-utilities"
 
 const setup = (props: LearningResourceListCardProps) => {
   return render(
@@ -186,22 +187,11 @@ describe("Learning Resource List Card", () => {
   ])("Image is displayed if present", ({ expected, image }) => {
     const resource = factories.learningResources.resource({ image })
 
-    setup({ resource })
+    const view = setup({ resource })
 
-    const imageEls = screen.getAllByRole<HTMLImageElement>(expected.role)
+    const imageEl = getByImageSrc(view.container, expected.src)
 
-    const matching = imageEls.filter((im) =>
-      expected.src === DEFAULT_RESOURCE_IMG
-        ? im.src === DEFAULT_RESOURCE_IMG
-        : im.src ===
-          embedlyCroppedImage(expected.src, {
-            width: 116,
-            height: 104,
-            key: "fake-embedly-key",
-          }),
-    )
-    expect(matching.length).toBe(1)
-    expect(matching[0]).toHaveAttribute("alt", expected.alt)
+    expect(imageEl).toHaveAttribute("alt", expected.alt)
   })
 
   describe("Price display", () => {

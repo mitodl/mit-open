@@ -1,6 +1,8 @@
 import { render } from "@testing-library/react"
 import { Card } from "./Card"
 import React from "react"
+import { getOriginalSrc } from "ol-test-utilities"
+import invariant from "tiny-invariant"
 
 describe("Card", () => {
   test("has class MitCard-root on root element", () => {
@@ -15,15 +17,21 @@ describe("Card", () => {
     )
     const card = container.firstChild as HTMLElement
     const title = card.querySelector(".MitCard-title")
-    const image = card.querySelector(".MitCard-image")
+    const image = card.querySelector<HTMLImageElement>(".MitCard-image")
     const info = card.querySelector(".MitCard-info")
     const footer = card.querySelector(".MitCard-footer")
     const actions = card.querySelector(".MitCard-actions")
+    invariant(card)
+    invariant(title)
+    invariant(image)
+    invariant(info)
+    invariant(footer)
+    invariant(actions)
 
     expect(card).toHaveClass("MitCard-root")
     expect(card).toHaveClass("Foo")
     expect(title).toHaveTextContent("Title")
-    expect(image).toHaveAttribute("src", "https://via.placeholder.com/150")
+    expect(getOriginalSrc(image)).toBe("https://via.placeholder.com/150")
     expect(image).toHaveAttribute("alt", "placeholder")
     expect(info).toHaveTextContent("Info")
     expect(footer).toHaveTextContent("Footer")
