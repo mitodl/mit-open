@@ -6,7 +6,6 @@ import {
 } from "./LearningResourceCard"
 import { LearningResource } from "api"
 import styled from "@emotion/styled"
-import { withRouter } from "storybook-addon-react-router-v6"
 import Stack from "@mui/system/Stack"
 import _ from "lodash"
 import { resources, courses, resourceArgType } from "./testUtils"
@@ -42,7 +41,6 @@ const meta: Meta<StoryProps> = {
       </Stack>
     )
   },
-  decorators: [withRouter],
 }
 
 export default meta

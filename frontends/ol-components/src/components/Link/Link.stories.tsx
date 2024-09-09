@@ -2,12 +2,10 @@ import React from "react"
 import type { Meta, StoryObj } from "@storybook/react"
 import { Link } from "./Link"
 import styled from "@emotion/styled"
-import { withRouter } from "storybook-addon-react-router-v6"
 
 const meta: Meta = {
   title: "smoot-design/Link",
   component: Link,
-  decorators: [withRouter],
 }
 export default meta
 
