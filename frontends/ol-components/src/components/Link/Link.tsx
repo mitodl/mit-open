@@ -54,7 +54,7 @@ const linkStyles = (props: LinkStyleProps) => {
 
 type LinkProps = LinkStyleProps &
   React.ComponentProps<"a"> & {
-    reloadDocument?: boolean
+    rawAnchor?: boolean
   }
 
 /**
