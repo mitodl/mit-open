@@ -687,7 +687,7 @@ def most_common_topics(
     return [{"name": topic} for topic in common_topics]
 
 
-def transform_format(resource_format: str) -> list[str]:
+def transform_delivery(resource_delivery: str) -> list[str]:
     """
     Return the correct format of the resource
 
@@ -699,9 +699,9 @@ def transform_format(resource_format: str) -> list[str]:
 
     """
     try:
-        return [RESOURCE_FORMAT_MAPPING[resource_format]]
+        return [RESOURCE_FORMAT_MAPPING[resource_delivery]]
     except KeyError:
-        log.exception("Invalid format %s", resource_format)
+        log.exception("Invalid format %s", resource_delivery)
         return [LearningResourceFormat.online.name]
 
 

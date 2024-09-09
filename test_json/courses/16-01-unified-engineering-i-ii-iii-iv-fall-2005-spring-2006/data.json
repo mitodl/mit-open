@@ -97,6 +97,7 @@
   "term": "Fall",
   "year": "2005",
   "level": ["Undergraduate", "High School"],
+  "hide_download": false,
   "image_src": "/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/8f56bbb35d0e456dc8b70911bec7cd0d_16-01f05.jpg",
   "course_image_metadata": {
     "content_type": "resource",

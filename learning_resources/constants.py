@@ -270,11 +270,23 @@ class LevelType(ExtendedEnum):
 
 
 class LearningResourceFormat(ExtendedEnum):
-    """Enum for resource formats"""
+    """Enum for resource learning_format"""
 
     online = "Online"
     hybrid = "Hybrid"
     in_person = "In person"
+
+
+class LearningResourceDelivery(ExtendedEnum):
+    """
+    Enum for resource delivery methods. This
+    will eventually replace LearningResourceFormat
+    """
+
+    online = "Online"
+    hybrid = "Hybrid"
+    in_person = "In person"
+    offline = "Offline"
 
 
 class CertificationType(ExtendedEnum):

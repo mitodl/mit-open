@@ -15,7 +15,7 @@ from learning_resources.etl.sloan import (
     parse_datetime,
     parse_image,
     transform_course,
-    transform_format,
+    transform_delivery,
     transform_run,
 )
 from learning_resources.factories import (
@@ -139,8 +139,9 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
         transform_run(run, course_data) for run in course_runs_data
     ]
     assert transformed["learning_format"] == list(
-        {transform_format(run["Delivery"])[0] for run in course_runs_data}
+        {transform_delivery(run["Delivery"])[0] for run in course_runs_data}
     )
+    assert transformed["delivery"] == transformed["learning_format"]
     assert transformed["image"] == parse_image(course_data)
     assert transformed["availability"] == parse_availability(course_runs_data)
     assert sorted(transformed.keys()) == sorted(
@@ -158,6 +159,7 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
             "professional",
             "published",
             "learning_format",
+            "delivery",
             "topics",
             "course",
             "runs",

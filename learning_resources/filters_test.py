@@ -9,6 +9,7 @@ from learning_resources.constants import (
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
     LEARNING_RESOURCE_SORTBY_OPTIONS,
     CertificationType,
+    LearningResourceDelivery,
     LearningResourceFormat,
     LearningResourceType,
     LevelType,
@@ -508,6 +509,38 @@ def test_learning_resource_filter_formats(mock_courses, client):
     assert results[0]["id"] == mock_courses.mitpe_course.id
 
     multiformats_filter = f"learning_format={LearningResourceFormat.in_person.name}&learning_format={LearningResourceFormat.hybrid.name}"
+    results = client.get(f"{RESOURCE_API_URL}?{multiformats_filter}").json()["results"]
+    assert len(results) == 2
+    assert sorted([result["readable_id"] for result in results]) == sorted(
+        [mock_courses.mitx_course.readable_id, mock_courses.mitpe_course.readable_id]
+    )
+
+
+def test_learning_resource_filter_delivery(mock_courses, client):
+    """Test that the delivery filter works"""
+    LearningResource.objects.filter(id=mock_courses.ocw_course.id).update(
+        delivery=[LearningResourceDelivery.online.name]
+    )
+    LearningResource.objects.filter(id=mock_courses.mitx_course.id).update(
+        delivery=[
+            LearningResourceDelivery.online.name,
+            LearningResourceDelivery.hybrid.name,
+        ]
+    )
+    LearningResource.objects.filter(id=mock_courses.mitpe_course.id).update(
+        delivery=[
+            LearningResourceDelivery.hybrid.name,
+            LearningResourceDelivery.in_person.name,
+        ]
+    )
+
+    results = client.get(
+        f"{RESOURCE_API_URL}?delivery={LearningResourceDelivery.in_person.name}"
+    ).json()["results"]
+    assert len(results) == 1
+    assert results[0]["id"] == mock_courses.mitpe_course.id
+
+    multiformats_filter = f"delivery={LearningResourceDelivery.in_person.name}&delivery={LearningResourceDelivery.hybrid.name}"
     results = client.get(f"{RESOURCE_API_URL}?{multiformats_filter}").json()["results"]
     assert len(results) == 2
     assert sorted([result["readable_id"] for result in results]) == sorted(

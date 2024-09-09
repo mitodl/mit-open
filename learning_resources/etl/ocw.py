@@ -20,6 +20,7 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
     VALID_TEXT_FILE_TYPES,
     Availability,
+    LearningResourceDelivery,
     LearningResourceType,
     OfferedBy,
     PlatformType,
@@ -33,7 +34,11 @@ from learning_resources.etl.utils import (
     transform_levels,
     transform_topics,
 )
-from learning_resources.models import ContentFile, LearningResource
+from learning_resources.models import (
+    ContentFile,
+    LearningResource,
+    default_learning_format,
+)
 from learning_resources.utils import (
     get_s3_object_and_read,
     parse_instructors,
@@ -46,6 +51,22 @@ log = logging.getLogger(__name__)
 OFFERED_BY = {"code": OfferedBy.ocw.name}
 PRIMARY_COURSE_ID = "primary_course_number"
 UNIQUE_FIELD = "url"
+
+
+def parse_delivery(course_data: dict) -> list[str]:
+    """
+    Parse delivery methods
+
+    Args:
+        url (str): The course url
+
+    Returns:
+        list[str]: The delivery method(s)
+    """
+    delivery = default_learning_format()
+    if not course_data.get("hide_download"):
+        delivery.append(LearningResourceDelivery.offline.name)
+    return delivery
 
 
 def transform_content_files(
@@ -343,6 +364,7 @@ def transform_course(course_data: dict) -> dict:
         "resource_type": LearningResourceType.course.name,
         "unique_field": UNIQUE_FIELD,
         "availability": Availability.anytime.name,
+        "delivery": parse_delivery(course_data),
     }
 
 

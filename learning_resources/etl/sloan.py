@@ -18,7 +18,7 @@ from learning_resources.constants import (
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
-    transform_format,
+    transform_delivery,
     transform_topics,
 )
 
@@ -202,7 +202,9 @@ def transform_course(course_data: dict, runs_data: dict) -> dict:
     course_runs_data = [
         run for run in runs_data if run["Course_Id"] == course_data["Course_Id"]
     ]
-
+    format_delivery = list(
+        {transform_delivery(run["Delivery"])[0] for run in course_runs_data}
+    )
     transformed_course = {
         "readable_id": course_data["Course_Id"],
         "title": course_data["Title"],
@@ -216,9 +218,8 @@ def transform_course(course_data: dict, runs_data: dict) -> dict:
         "certification_type": CertificationType.professional.name,
         "professional": True,
         "published": True,
-        "learning_format": list(
-            {transform_format(run["Delivery"])[0] for run in course_runs_data}
-        ),
+        "learning_format": format_delivery,
+        "delivery": format_delivery,
         "topics": parse_topics(course_data["Topics"]),
         "course": {
             "course_numbers": [],

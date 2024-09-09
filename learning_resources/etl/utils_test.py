@@ -371,13 +371,15 @@ def test_most_common_topics():
 )
 def test_parse_format(original, expected):
     """parse_format should return expected format"""
-    assert utils.transform_format(original) == [expected]
+    assert utils.transform_delivery(original) == [expected]
 
 
 def test_parse_bad_format(mocker):
     """An exception log should be called for invalid formats"""
     mock_log = mocker.patch("learning_resources.etl.utils.log.exception")
-    assert utils.transform_format("bad_format") == [LearningResourceFormat.online.name]
+    assert utils.transform_delivery("bad_format") == [
+        LearningResourceFormat.online.name
+    ]
     mock_log.assert_called_once_with("Invalid format %s", "bad_format")
 
 

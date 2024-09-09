@@ -16,6 +16,7 @@ from learning_resources import constants
 from learning_resources.constants import (
     Availability,
     CertificationType,
+    LearningResourceDelivery,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
@@ -422,6 +423,12 @@ class LearningResource(TimestampedModel):
         choices=((member.name, member.value) for member in Availability),
     )
     completeness = models.FloatField(default=1.0)
+    delivery = ArrayField(
+        models.CharField(
+            max_length=24, db_index=True, choices=LearningResourceDelivery.as_tuple()
+        ),
+        default=default_learning_format,
+    )
 
     @property
     def audience(self) -> str | None:

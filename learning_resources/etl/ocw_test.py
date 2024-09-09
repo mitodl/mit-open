@@ -9,7 +9,7 @@ import pytest
 from moto import mock_s3
 
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3_ocw
-from learning_resources.constants import DEPARTMENTS
+from learning_resources.constants import DEPARTMENTS, LearningResourceDelivery
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.ocw import (
     transform_content_files,
@@ -174,19 +174,37 @@ def test_transform_content_file_needs_text_update(
         "term",
         "year",
         "expected_id",
+        "hide_download",
     ),
     [
-        ("legacy-uid", None, "legacyuid", False, "Spring", "2005", "16.01+spring_2005"),
-        (None, "site-uid", "siteuid", True, "", 2005, "16.01_2005"),
-        (None, "site-uid", "siteuid", True, "Fall", 2005, "16.01+fall_2005"),
-        (None, "site-uid", "siteuid", True, "Fall", None, "16.01+fall"),
-        (None, "site-uid", "siteuid", True, "", "", "16.01"),
-        (None, "site-uid", "siteuid", True, None, None, "16.01"),
-        (None, None, None, True, "Spring", "2005", None),
+        (
+            "legacy-uid",
+            None,
+            "legacyuid",
+            False,
+            "Spring",
+            "2005",
+            "16.01+spring_2005",
+            False,
+        ),
+        (None, "site-uid", "siteuid", True, "", 2005, "16.01_2005", True),
+        (None, "site-uid", "siteuid", True, "Fall", 2005, "16.01+fall_2005", None),
+        (None, "site-uid", "siteuid", True, "Fall", None, "16.01+fall", False),
+        (None, "site-uid", "siteuid", True, "", "", "16.01", True),
+        (None, "site-uid", "siteuid", True, None, None, "16.01", False),
+        (None, None, None, True, "Spring", "2005", None, None),
     ],
 )
 def test_transform_course(  # noqa: PLR0913
-    settings, legacy_uid, site_uid, expected_uid, has_extra_num, term, year, expected_id
+    settings,
+    legacy_uid,
+    site_uid,
+    expected_uid,
+    has_extra_num,
+    term,
+    year,
+    expected_id,
+    hide_download,
 ):
     """transform_course should return expected data"""
     settings.OCW_BASE_URL = "http://test.edu/"
@@ -201,6 +219,7 @@ def test_transform_course(  # noqa: PLR0913
     course_json["year"] = year
     course_json["legacy_uid"] = legacy_uid
     course_json["site_uid"] = site_uid
+    course_json["hide_download"] = hide_download
     course_json["extra_course_numbers"] = "1, 2" if has_extra_num else None
     extracted_json = {
         **course_json,
@@ -208,10 +227,14 @@ def test_transform_course(  # noqa: PLR0913
         "slug": "slug",
         "url": "http://test.edu/slug",
     }
+    expected_delivery = [LearningResourceDelivery.online.name] + (
+        [] if hide_download else [LearningResourceDelivery.offline.name]
+    )
     transformed_json = transform_course(extracted_json)
     if expected_uid:
         assert transformed_json["readable_id"] == expected_id
         assert transformed_json["etl_source"] == ETLSource.ocw.name
+        assert transformed_json["delivery"] == expected_delivery
         assert transformed_json["runs"][0]["run_id"] == expected_uid
         assert transformed_json["runs"][0]["level"] == ["undergraduate", "high_school"]
         assert transformed_json["runs"][0]["semester"] == (term if term else None)
