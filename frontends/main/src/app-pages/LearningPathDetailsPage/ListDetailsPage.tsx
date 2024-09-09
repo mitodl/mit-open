@@ -20,7 +20,7 @@ const ListDetailsPage: React.FC<ItemsListingComponentProps> = ({
 }) => {
   return (
     <BannerPage
-      src="/static/images/course_search_banner.png"
+      src="/images/backgrounds/course_search_banner.png"
       className="learningpaths-page"
     >
       {/* TODO <MetaTags title={list?.title} social={false} /> */}

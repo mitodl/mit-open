@@ -180,7 +180,7 @@ jobs:
         run: yarn install
 
       - name: Build Storybook
-        run: yarn workspace mit-learn build-storybook
+        run: yarn workspace ol-components build-storybook
 
   openapi-generated-client-check-v0:
     # This job checks that the output of openapi-generator-typescript-axios that
