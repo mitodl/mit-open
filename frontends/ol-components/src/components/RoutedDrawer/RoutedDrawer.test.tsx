@@ -1,5 +1,3 @@
-import { RouterProvider } from "react-router"
-import { createBrowserRouter } from "react-router-dom"
 import { RoutedDrawer } from "./RoutedDrawer"
 import type { RoutedDrawerProps } from "./RoutedDrawer"
 import {
@@ -10,6 +8,7 @@ import {
 import user from "@testing-library/user-event"
 import React from "react"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
+import { mockRouter } from "ol-test-utilities/mocks/nextNavigation"
 
 const TestDrawerContents = ({ closeDrawer }: { closeDrawer: () => void }) => (
   <section>
@@ -27,26 +26,13 @@ const renderRoutedDrawer = <P extends string, R extends P>(
   initialSearchParams: string,
   initialHashParams: string,
 ) => {
+  mockRouter.setCurrentUrl(`/?${initialSearchParams}#${initialHashParams}`)
+  window.location.hash = initialHashParams
   const childFn = jest.fn(TestDrawerContents)
-  const router = createBrowserRouter(
-    [
-      {
-        path: "*",
-        element: <RoutedDrawer {...props}>{childFn}</RoutedDrawer>,
-      },
-    ],
-    {},
-  )
-  router.navigate(`${initialSearchParams}${initialHashParams}`)
-  render(<RouterProvider router={router}></RouterProvider>, {
+  render(<RoutedDrawer {...props}>{childFn}</RoutedDrawer>, {
     wrapper: ThemeProvider,
   })
-  const location = {
-    get current() {
-      return router.state.location
-    },
-  }
-  return { location, childFn }
+  return { childFn }
 }
 
 describe("RoutedDrawer", () => {
@@ -54,19 +40,19 @@ describe("RoutedDrawer", () => {
     {
       params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
-      initialSearch: "?a=1",
+      initialSearch: "a=1",
       called: false,
     },
     {
       params: ["a", "b"],
       requiredParams: ["a", "b"],
-      initialSearch: "?a=1&b=2",
+      initialSearch: "a=1&b=2",
       called: true,
     },
     {
       params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
-      initialSearch: "?a=1&b=2",
+      initialSearch: "a=1&b=2",
       called: true,
     },
   ])(
@@ -85,7 +71,7 @@ describe("RoutedDrawer", () => {
     {
       params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
-      initialSearch: "?a=1&b=2&c=3&d=4",
+      initialSearch: "a=1&b=2&c=3&d=4",
       childProps: {
         params: { a: "1", b: "2", c: "3" },
         closeDrawer: expect.any(Function),
@@ -94,7 +80,7 @@ describe("RoutedDrawer", () => {
     {
       params: ["a", "b", "c"],
       requiredParams: ["a", "b"],
-      initialSearch: "?a=1&b=2&d=4",
+      initialSearch: "a=1&b=2&d=4",
       childProps: {
         params: { a: "1", b: "2", c: null },
         closeDrawer: expect.any(Function),
@@ -115,44 +101,37 @@ describe("RoutedDrawer", () => {
   it("Includes a close button that closes drawer", async () => {
     const params = ["a"]
     const requiredParams = ["a"]
-    const initialSearch = "?a=1"
-    const { location } = renderRoutedDrawer(
-      { params, requiredParams },
-      initialSearch,
-      "",
-    )
+    const initialSearch = "a=1"
+    renderRoutedDrawer({ params, requiredParams }, initialSearch, "")
 
     const content = getDrawerContent()
+
     await user.click(screen.getByRole("button", { name: "CloseFn" }))
 
     await waitForElementToBeRemoved(content)
 
-    expect(location.current.search).toBe("")
+    expect(mockRouter.query).toEqual({})
   })
 
   it("Passes a closeDrawer callback to child that can close the drawer", async () => {
     const params = ["a"]
     const requiredParams = ["a"]
-    const initialSearch = "?a=1"
-    const { location } = renderRoutedDrawer(
-      { params, requiredParams },
-      initialSearch,
-      "",
-    )
+    const initialSearch = "a=1"
+    renderRoutedDrawer({ params, requiredParams }, initialSearch, "")
 
     const content = getDrawerContent()
     await user.click(screen.getByRole("button", { name: "Close" }))
     await waitForElementToBeRemoved(content)
 
-    expect(location.current.search).toBe("")
+    expect(mockRouter.query).toEqual({})
   })
 
   it("Restores any hash params that were in the initial request", async () => {
     const params = ["a"]
     const requiredParams = ["a"]
-    const initialSearch = "?a=1"
-    const initialHashParams = "#test=1"
-    const { location } = renderRoutedDrawer(
+    const initialSearch = "a=1"
+    const initialHashParams = "test"
+    renderRoutedDrawer(
       { params, requiredParams },
       initialSearch,
       initialHashParams,
@@ -162,7 +141,6 @@ describe("RoutedDrawer", () => {
     await user.click(screen.getByRole("button", { name: "CloseFn" }))
 
     await waitForElementToBeRemoved(content)
-
-    expect(location.current.hash).toBe(initialHashParams)
+    expect(mockRouter.hash).toBe(`#${initialHashParams}`)
   })
 })

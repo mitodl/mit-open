@@ -125,7 +125,7 @@ const SearchButton: FunctionComponent = () => {
     <ActionButtonLink
       edge="circular"
       variant="text"
-      reloadDocument={true}
+      rawAnchor={true}
       href={SEARCH}
       aria-label="Search"
     >

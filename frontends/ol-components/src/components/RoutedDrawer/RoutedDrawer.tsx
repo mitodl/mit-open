@@ -7,7 +7,6 @@ import { RiCloseLargeLine } from "@remixicon/react"
 import {
   useSearchParams,
   useRouter,
-  usePathname,
   ReadonlyURLSearchParams,
 } from "next/navigation"
 import { useToggle } from "ol-utilities"
@@ -46,7 +45,6 @@ const RoutedDrawer = <K extends string, R extends K = K>(
 
   const [open, setOpen] = useToggle(false)
   const searchParams = useSearchParams()
-  const pathname = usePathname()
   const router = useRouter()
 
   const childParams = useMemo(() => {
@@ -55,6 +53,16 @@ const RoutedDrawer = <K extends string, R extends K = K>(
     ) as Record<K, string | null>
   }, [searchParams, params])
 
+  /**
+   * `requiredArePresnet` and `open` are usually the same, except when the
+   * drawer is in the process of closing.
+   *  - `open` changes to false when the drawer begins closing
+   *  - URL Params are updated when the drawer finishes closing, changing the
+   *   value of `requiredArePresent`
+   *
+   * This means that if content within the drawer depends on the search params,
+   * then the content will remain visible during the closing animation.
+   */
   const requiredArePresent = requiredParams.every(
     (name) => childParams[name] !== null,
   )
@@ -73,12 +81,11 @@ const RoutedDrawer = <K extends string, R extends K = K>(
       params.forEach((param) => {
         newSearchParams.delete(param)
       })
-      return newSearchParams.toString()
+      return newSearchParams
     }
     const newParams = getNewParams(searchParams)
-
-    router.push(`${pathname}${newParams ? `?${newParams}` : ""}`)
-  }, [router, searchParams, pathname, params])
+    router.push(`?${newParams}${window.location.hash}`)
+  }, [router, searchParams, params])
 
   return (
     <Drawer
