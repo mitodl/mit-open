@@ -3,44 +3,18 @@ import { RiSearch2Line, RiCloseLine } from "@remixicon/react"
 import { Input, AdornmentButton } from "../Input/Input"
 import type { InputProps } from "../Input/Input"
 import styled from "@emotion/styled"
-import { pxToRem } from "../ThemeProvider/typography"
 
 const StyledInput = styled(Input)(({ theme }) => ({
-  height: "72px",
   boxShadow: "0px 8px 20px 0px rgba(120, 147, 172, 0.10)",
-  "&.MuiInputBase-adornedEnd": {
-    paddingRight: "0 !important",
-  },
   [theme.breakpoints.down("sm")]: {
-    height: "56px",
     gap: "8px",
   },
 }))
 
-const StyledAdornmentButton = styled(AdornmentButton)(({ theme }) => ({
-  ".MuiInputBase-sizeHero &": {
-    width: "72px",
-    height: "100%",
-    flexShrink: 0,
-    ".MuiSvgIcon-root": {
-      fontSize: pxToRem(24),
-    },
-    [theme.breakpoints.down("sm")]: {
-      width: "56px",
-      height: "100%",
-      ".MuiSvgIcon-root": {
-        fontSize: pxToRem(16),
-      },
-    },
-  },
-}))
-
-const StyledClearButton = styled(StyledAdornmentButton)({
-  ".MuiInputBase-sizeHero &": {
-    width: "32px",
-    ["&:hover"]: {
-      backgroundColor: "transparent",
-    },
+const StyledClearButton = styled(AdornmentButton)({
+  width: "32px !important",
+  ["&:hover"]: {
+    backgroundColor: "transparent",
   },
 })
 
@@ -99,7 +73,10 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
       // eslint-disable-next-line jsx-a11y/no-autofocus
       autoFocus={props.autoFocus}
       className={props.className}
-      placeholder={props.placeholder}
+      placeholder={
+        props.placeholder ??
+        "Search for courses, programs, and learning materials..."
+      }
       value={props.value}
       onChange={props.onChange}
       onKeyDown={onInputKeyDown}
@@ -114,13 +91,13 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
               <RiCloseLine />
             </StyledClearButton>
           )}
-          <StyledAdornmentButton
+          <AdornmentButton
             aria-label="Search"
             className={props.classNameSearch}
             onClick={handleSubmit}
           >
             <RiSearch2Line fontSize="inherit" />
-          </StyledAdornmentButton>
+          </AdornmentButton>
         </>
       }
     />

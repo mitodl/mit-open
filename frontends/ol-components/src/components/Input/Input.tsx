@@ -86,11 +86,11 @@ const Input = styled(InputBase)(({
       paddingRight: "12px",
       borderRadius: "4px",
     },
-    size === "medium" &&
+    size === "small" &&
       !multiline && {
         height: "40px",
       },
-    size === "large" &&
+    size === "medium" &&
       !multiline && {
         height: "48px",
       },
@@ -109,9 +109,9 @@ const Input = styled(InputBase)(({
     },
     size === "hero" &&
       !multiline && {
-        height: "56px",
+        height: "72px",
         [theme.breakpoints.down("sm")]: {
-          height: "37px",
+          height: "56px",
         },
       },
   ]
@@ -139,18 +139,18 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
   },
   height: "100%",
   ".MuiInputBase-root &": {
-    width: "40px",
+    width: "48px",
     ".MuiSvgIcon-root": {
       fontSize: pxToRem(20),
     },
   },
   ".MuiInputBase-sizeHero &": {
-    width: "56px",
+    width: "72px",
     ".MuiSvgIcon-root": {
       fontSize: pxToRem(24),
     },
     [theme.breakpoints.down("sm")]: {
-      width: "37px",
+      width: "56px",
       ".MuiSvgIcon-root": {
         fontSize: pxToRem(16),
       },
