@@ -20,6 +20,8 @@ import type { SimpleSelectProps } from "../SimpleSelect/SimpleSelect"
 import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
 import InfoSection from "./InfoSection"
+import type { User } from "api/hooks/user"
+import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
 
 const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
@@ -138,7 +140,10 @@ const OnPlatform = styled.span`
 
 type LearningResourceExpandedProps = {
   resource?: LearningResource
+  user?: User
   imgConfig: EmbedlyConfig
+  onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
+  onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
 }
 
 const ImageSection: React.FC<{
@@ -314,7 +319,10 @@ const formatRunDate = (
 
 const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   resource,
+  user,
   imgConfig,
+  onAddToLearningPathClick,
+  onAddToUserListClick,
 }) => {
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
 
@@ -411,7 +419,13 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       <ImageSection resource={resource} config={imgConfig} />
       <CallToActionSection resource={resource} hide={isVideo} />
       <DetailSection resource={resource} />
-      <InfoSection resource={resource} run={selectedRun} />
+      <InfoSection
+        resource={resource}
+        run={selectedRun}
+        user={user}
+        onAddToLearningPathClick={onAddToLearningPathClick}
+        onAddToUserListClick={onAddToUserListClick}
+      />
     </Container>
   )
 }
