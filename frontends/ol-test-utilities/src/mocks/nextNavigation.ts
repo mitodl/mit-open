@@ -8,6 +8,22 @@
  */
 import * as mocks from "next-router-mock"
 
+type ParsedUrlQuery = typeof mocks.memoryRouter.query
+
+const nextRouterQueryToSearchParams = (
+  query: ParsedUrlQuery,
+): URLSearchParams => {
+  const params = new URLSearchParams()
+  Object.entries(query).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach((v) => params.append(key, v))
+    } else {
+      params.append(key, value ?? "")
+    }
+  })
+  return params
+}
+
 export const nextNavigationMocks = {
   ...mocks,
   notFound: jest.fn(),
@@ -20,10 +36,8 @@ export const nextNavigationMocks = {
   },
   useSearchParams: () => {
     const router = nextNavigationMocks.useRouter()
-    const path = router.query
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return new URLSearchParams(path as any)
+    return nextRouterQueryToSearchParams(router.query)
   },
 }
 const mockRouter = nextNavigationMocks.memoryRouter
-export { mockRouter }
+export { mockRouter, nextRouterQueryToSearchParams }

@@ -75,7 +75,7 @@ describe("UserMenu", () => {
     const initialUrl = "/foo/bar?cat=meow"
     const expectedUrl = urlConstants.login({
       pathname: "/foo/bar",
-      search: "?cat=meow",
+      searchParams: new URLSearchParams("?cat=meow"),
     })
     setMockResponse.get(urls.userMe.get(), {
       is_authenticated: isAuthenticated,

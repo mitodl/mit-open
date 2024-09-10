@@ -1,3 +1,5 @@
+import invariant from "tiny-invariant"
+
 const generatePath = (
   template: string,
   params: Record<string, string | number>,
@@ -47,6 +49,10 @@ export const makeChannelManageWidgetsPath = (
 ) => generatePath(CHANNEL_EDIT_WIDGETS, { channelType, name })
 
 const ORIGIN = process.env.NEXT_PUBLIC_ORIGIN
+if (process.env.NODE_ENV !== "production") {
+  invariant(!ORIGIN?.endsWith("/"), "NEXT_PUBLIC_ORIGIN should not end with /")
+}
+
 const MITOL_API_BASE_URL = process.env.NEXT_PUBLIC_MITOL_API_BASE_URL
 
 export const LOGIN = `${MITOL_API_BASE_URL}/login/ol-oidc/`
@@ -58,11 +64,11 @@ export const LOGOUT = `${MITOL_API_BASE_URL}/logout/`
  */
 export const login = ({
   pathname = "/",
-  search = "",
+  searchParams = new URLSearchParams(),
   hash = "",
 }: {
   pathname?: string | null
-  search?: string
+  searchParams?: URLSearchParams
   hash?: string | null
 } = {}) => {
   /**
@@ -73,7 +79,8 @@ export const login = ({
    * There's no need to encode the path parameter (it might contain slashes,
    * but those are allowed in search parameters) so let's keep it readable.
    */
-  const next = `${ORIGIN}/${pathname}${encodeURIComponent(search)}${encodeURIComponent(hash as string)}`
+  const search = searchParams.toString() ? `?${searchParams.toString()}` : ""
+  const next = `${ORIGIN}${pathname}${encodeURIComponent(search)}${encodeURIComponent(hash as string)}`
   return `${LOGIN}?next=${next}`
 }
 
