@@ -14,6 +14,7 @@ import { urls, factories, setMockResponse } from "api/test-utils"
 import { LearningResourceExpanded } from "ol-components"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { ResourceTypeEnum } from "api"
+import invariant from "tiny-invariant"
 
 jest.mock("ol-components", () => {
   const actual = jest.requireActual("ol-components")
@@ -160,8 +161,9 @@ describe("LearningResourceDrawer", () => {
       })
 
       const section = screen
-        .getByRole("heading", { name: "Info" })!
-        .closest("section")!
+        .getByRole("heading", { name: "Info" })
+        .closest("section")
+      invariant(section)
 
       if (!isAuthenticated) {
         const buttons = within(section).queryAllByRole("button")
@@ -172,16 +174,14 @@ describe("LearningResourceDrawer", () => {
         const expectedButtons =
           expectAddToLearningPathButton && expectAddToUserListButton ? 2 : 1
         expect(buttons).toHaveLength(expectedButtons)
-        if (expectAddToLearningPathButton) {
-          expect(
-            within(section).getByLabelText("Add to Learning Path"),
-          ).toBeInTheDocument()
-        }
-        if (expectAddToUserListButton) {
-          expect(
-            within(section).getByLabelText("Add to User List"),
-          ).toBeInTheDocument()
-        }
+        expect(
+          !!within(section).queryByRole("button", {
+            name: "Add to Learning Path",
+          }),
+        ).toBe(expectAddToLearningPathButton)
+        expect(
+          !!within(section).queryByRole("button", { name: "Add to User List" }),
+        ).toBe(expectAddToUserListButton)
       }
     },
   )
