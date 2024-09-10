@@ -58,7 +58,7 @@ def get_mit_edx_data(api_datafile=None) -> int:
     courses = pipelines.mit_edx_courses_etl(api_datafile)
     programs = pipelines.mit_edx_programs_etl(api_datafile)
     clear_search_cache()
-    return len(courses + programs)
+    return len(courses) + len(programs)
 
 
 @app.task
@@ -67,7 +67,7 @@ def get_mitxonline_data() -> int:
     courses = pipelines.mitxonline_courses_etl()
     programs = pipelines.mitxonline_programs_etl()
     clear_search_cache()
-    return len(courses + programs)
+    return len(courses) + len(programs)
 
 
 @app.task
@@ -90,7 +90,7 @@ def get_prolearn_data():
     courses = pipelines.prolearn_courses_etl()
     programs = pipelines.prolearn_programs_etl()
     clear_search_cache()
-    return len(programs + courses)
+    return len(courses) + len(programs)
 
 
 @app.task
@@ -106,7 +106,7 @@ def get_xpro_data():
     courses = pipelines.xpro_courses_etl()
     programs = pipelines.xpro_programs_etl()
     clear_search_cache()
-    return len(courses + programs)
+    return len(courses) + len(programs)
 
 
 @app.task

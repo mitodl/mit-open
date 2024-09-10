@@ -16,15 +16,15 @@ from learning_resources.etl.openedx import (
 log = logging.getLogger()
 
 
-def _is_mit_program(program):
+def _is_mit_program(program: dict) -> bool:
     """
-    Helper function to determine if a course is an MIT course
+    Helper function to determine if a program is an MIT program
 
     Args:
-        course (dict): The JSON object representing the course with all its course runs
+        program (dict): The JSON object representing the program with all its courses
 
     Returns:
-        bool: indicates whether the course is owned by MIT
+        bool: indicates whether the program is owned by MIT
     """  # noqa: D401
     return (
         any(
@@ -38,7 +38,7 @@ def _is_mit_program(program):
 
 def get_open_edx_config():
     """
-    Return the OpenEdxConfiguration for edX.
+    Return the program OpenEdxConfiguration for edX.
     """
     required_settings = [
         "EDX_API_CLIENT_ID",
@@ -68,5 +68,6 @@ def get_open_edx_config():
 # use the OpenEdx factory to create our extract and transform funcs
 extract, _transform = openedx_extract_transform_factory(get_open_edx_config)
 
-# modified transform function that filters the course list to ones that pass the _is_mit_course() predicate  # noqa: E501
+# modified transform function that filters the program list to ones
+# that pass the _is_mit_program() predicate
 transform = compose(_transform, curried.filter(_is_mit_program))
