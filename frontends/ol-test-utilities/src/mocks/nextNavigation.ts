@@ -16,7 +16,7 @@ export const nextNavigationMocks = {
   }),
   usePathname: () => {
     const router = nextNavigationMocks.useRouter()
-    return router.asPath
+    return router.pathname
   },
   useSearchParams: () => {
     const router = nextNavigationMocks.useRouter()
