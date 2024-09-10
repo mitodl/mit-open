@@ -68,7 +68,7 @@ const DrawerContent: React.FC<{
   const { data: user } = useUserMe()
   const handleAddToLearningPathClick: LearningResourceCardProps["onAddToLearningPathClick"] =
     useMemo(() => {
-      if (user?.is_authenticated && user?.is_learning_path_editor) {
+      if (user?.is_learning_path_editor) {
         return (event, resourceId: number) => {
           NiceModal.show(AddToLearningPathDialog, { resourceId })
         }
