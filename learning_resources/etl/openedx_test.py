@@ -18,6 +18,7 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import COMMON_HEADERS, CourseNumberType
 from learning_resources.etl.openedx import (
     OpenEdxConfiguration,
+    _filter_resource,
     openedx_extract_transform_factory,
 )
 from learning_resources.factories import (
@@ -461,3 +462,14 @@ def test_transform_program(
             for i in range(1, 4)
         ],
     }
+
+
+@pytest.mark.parametrize("deleted", [True, False])
+def test_filter_resource(openedx_course_config, openedx_program_config, deleted):
+    """Test that the filter_resource function filters out resources with DELETE in the title"""
+    resource = {
+        "title": "delete" if deleted else "Valid title",
+        "course_runs": [{"run_id": "id1"}],
+    }
+    assert _filter_resource(openedx_course_config, resource) is not deleted
+    assert _filter_resource(openedx_program_config, resource) is not deleted

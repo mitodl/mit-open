@@ -215,7 +215,7 @@ def _filter_resource(config, resource):
             "course_runs", []
         )
     else:
-        return True
+        return not _is_course_or_run_deleted(resource.get("title"))
 
 
 def _filter_course_run(course_run):
