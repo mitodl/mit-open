@@ -10,12 +10,6 @@ const defaultProps = {
   multiline: false,
 }
 
-const buttonPadding = {
-  medium: 4,
-  hero: 6,
-  heroMobile: 4,
-}
-
 /**
  * Base styles for Input and Select components. Includes border, color, hover effects.
  */
@@ -59,6 +53,18 @@ const baseInputStyles = (theme: Theme) => ({
     paddingTop: "6px",
     paddingBottom: "7px",
   },
+  "&.MuiInputBase-adornedStart": {
+    paddingLeft: "0",
+    input: {
+      paddingLeft: "8px",
+    },
+  },
+  "&.MuiInputBase-adornedEnd": {
+    paddingRight: "0",
+    input: {
+      paddingRight: "8px",
+    },
+  },
 })
 
 /**
@@ -79,16 +85,14 @@ const Input = styled(InputBase)(({
       paddingLeft: "12px",
       paddingRight: "12px",
       borderRadius: "4px",
-      "&.MuiInputBase-adornedStart": {
-        paddingLeft: `${12 - buttonPadding.medium}px`,
-      },
-      "&.MuiInputBase-adornedEnd": {
-        paddingRight: `${12 - buttonPadding.medium}px`,
-      },
     },
     size === "medium" &&
       !multiline && {
         height: "40px",
+      },
+    size === "large" &&
+      !multiline && {
+        height: "48px",
       },
     size === "hero" && {
       "& .MuiInputBase-input": {
@@ -97,21 +101,9 @@ const Input = styled(InputBase)(({
       paddingLeft: "16px",
       paddingRight: "16px",
       borderRadius: "8px",
-      "&.MuiInputBase-adornedStart": {
-        paddingLeft: `${16 - buttonPadding.hero}px`,
-      },
-      "&.MuiInputBase-adornedEnd": {
-        paddingRight: `${16 - buttonPadding.hero}px`,
-      },
       [theme.breakpoints.down("sm")]: {
         "& .MuiInputBase-input": {
           ...theme.typography.body3,
-        },
-        "&.MuiInputBase-adornedStart": {
-          paddingLeft: `${12 - buttonPadding.heroMobile}px`,
-        },
-        "&.MuiInputBase-adornedEnd": {
-          paddingRight: `${12 - buttonPadding.heroMobile}px`,
         },
       },
     },
@@ -130,6 +122,7 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
   ...theme.typography.button,
   // display
   display: "flex",
+  flexShrink: 0,
   justifyContent: "center",
   alignItems: "center",
   // background and border
@@ -144,24 +137,20 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
   ":hover": {
     background: "rgba(0, 0, 0, 0.06)",
   },
+  height: "100%",
   ".MuiInputBase-root &": {
-    // Extra padding to make button easier to click
-    width: pxToRem(20 + 2 * buttonPadding.medium),
-    height: pxToRem(20 + 2 * buttonPadding.medium),
+    width: "40px",
     ".MuiSvgIcon-root": {
       fontSize: pxToRem(20),
     },
   },
   ".MuiInputBase-sizeHero &": {
-    // Extra padding to make button easier to click
-    width: pxToRem(24 + 2 * buttonPadding.hero),
-    height: pxToRem(24 + 2 * buttonPadding.hero),
+    width: "56px",
     ".MuiSvgIcon-root": {
       fontSize: pxToRem(24),
     },
     [theme.breakpoints.down("sm")]: {
-      width: pxToRem(16 + 2 * buttonPadding.heroMobile),
-      height: pxToRem(16 + 2 * buttonPadding.heroMobile),
+      width: "37px",
       ".MuiSvgIcon-root": {
         fontSize: pxToRem(16),
       },
