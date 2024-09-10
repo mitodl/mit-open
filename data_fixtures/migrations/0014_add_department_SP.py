@@ -30,7 +30,7 @@ def add_sp(apps, schema_editor):
     Channel = apps.get_model("channels", "Channel")
     ChannelDepartmentDetail = apps.get_model("channels", "ChannelDepartmentDetail")
 
-    department = LearningResourceDepartment.objects.create(
+    department, _ = LearningResourceDepartment.objects.get_or_create(
         department_id="SP",
         name="Special Programs",
     )
@@ -42,7 +42,9 @@ def add_sp(apps, schema_editor):
         name=slugify(department.name),
         title=department.name,
     )
-    ChannelDepartmentDetail.objects.create(channel=channel, department=department)
+    ChannelDepartmentDetail.objects.get_or_create(
+        channel=channel, department=department
+    )
 
 
 class Migration(migrations.Migration):
