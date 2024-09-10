@@ -99,6 +99,7 @@ services:
     command:
       - |
         yarn install --immutable
+        yarn workspace ol-components storybook --no-open &
         yarn watch
     env_file:
       - path: env/shared.env
