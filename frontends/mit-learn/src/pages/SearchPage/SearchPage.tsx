@@ -9,11 +9,15 @@ import {
   getDepartmentName,
 } from "@mitodl/course-search-utils"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
-import { SearchInput } from "@/page-components/SearchDisplay/SearchInput"
-import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
+import {
+  SearchInput,
+  styled,
+  Container,
+  theme,
+  VisuallyHidden,
+} from "ol-components"
 import type { LearningResourceOfferor } from "api"
 import { useOfferorsList } from "api/hooks/learningResources"
-import { styled, Container, Grid, theme, VisuallyHidden } from "ol-components"
 import { capitalize } from "ol-utilities"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
 
@@ -46,12 +50,19 @@ const Header = styled.div`
   align-items: center;
 `
 
-const SearchField = styled(SearchInput)`
-  ${({ theme }) => theme.breakpoints.up("md")} {
-    width: 680px;
-    min-width: 680px;
-  }
-`
+const SearchFieldContainer = styled(Container)({
+  display: "flex",
+  justifyContent: "center",
+})
+
+const SearchField = styled(SearchInput)(({ theme }) => ({
+  [theme.breakpoints.down("sm")]: {
+    width: "100%",
+  },
+  [theme.breakpoints.up("sm")]: {
+    width: "570px",
+  },
+}))
 
 const LEARNING_MATERIAL = "learning_material"
 
@@ -216,24 +227,18 @@ const SearchPage: React.FC = () => {
         <h1>Search</h1>
       </VisuallyHidden>
       <Header>
-        <Container>
-          <GridContainer>
-            <GridColumn variant="sidebar-2"></GridColumn>
-            <Grid item xs={12} md={6} container alignItems="center">
-              <SearchField
-                value={currentText}
-                onChange={(e) => setCurrentText(e.target.value)}
-                onSubmit={(e) => {
-                  onSearchTermSubmit(e.target.value)
-                }}
-                onClear={() => {
-                  onSearchTermSubmit("")
-                }}
-                placeholder="What do you want to learn?"
-              />
-            </Grid>
-          </GridContainer>
-        </Container>
+        <SearchFieldContainer>
+          <SearchField
+            value={currentText}
+            onChange={(e) => setCurrentText(e.target.value)}
+            onSubmit={(e) => {
+              onSearchTermSubmit(e.target.value)
+            }}
+            onClear={() => {
+              onSearchTermSubmit("")
+            }}
+          />
+        </SearchFieldContainer>
       </Header>
       <SearchDisplay
         filterHeadingEl="h2"
