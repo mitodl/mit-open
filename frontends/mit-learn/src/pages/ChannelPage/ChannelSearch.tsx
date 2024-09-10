@@ -14,36 +14,25 @@ import type {
 } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
-import { SearchInput } from "@/page-components/SearchDisplay/SearchInput"
+import { SearchInput, styled, VisuallyHidden } from "ol-components"
 
 import { getFacetManifest } from "@/pages/SearchPage/SearchPage"
 
 import _ from "lodash"
-import { styled, VisuallyHidden } from "ol-components"
 
-const SearchInputContainer = styled.div`
-  padding-bottom: 40px;
+const SearchInputContainer = styled.div(({ theme }) => ({
+  width: "100%",
+  display: "flex",
+  justifyContent: "center",
+  paddingBottom: "40px",
+  [theme.breakpoints.down("md")]: {
+    paddingBottom: "35px",
+  },
+}))
 
-  ${({ theme }) => theme.breakpoints.down("md")} {
-    padding-bottom: 35px;
-  }
-`
-
-const StyledSearchInput = styled(SearchInput)`
-  justify-content: center;
-  ${({ theme }) => theme.breakpoints.up("md")} {
-    .input-field {
-      height: 40px;
-      width: 450px;
-    }
-
-    .button-field {
-      height: 40px;
-      padding: 12px 16px 12px 12px;
-      width: 20px;
-    }
-  }
-`
+const StyledSearchInput = styled(SearchInput)({
+  width: "624px",
+})
 
 const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
   [ChannelTypeEnum.Topic]: [
@@ -192,9 +181,6 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
           onClear={() => {
             setCurrentTextAndQuery("")
           }}
-          classNameInput="input-field"
-          classNameSearch="button-field"
-          placeholder="Search for courses, programs, and learning materials..."
         />
       </SearchInputContainer>
 
