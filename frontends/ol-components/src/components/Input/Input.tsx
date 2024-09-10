@@ -15,7 +15,7 @@ const defaultProps = {
  */
 const baseInputStyles = (theme: Theme) => ({
   backgroundColor: "white",
-  color: theme.custom.colors.silverGrayDark,
+  color: theme.custom.colors.darkGray2,
   borderColor: theme.custom.colors.silverGrayLight,
   borderWidth: "1px",
   borderStyle: "solid",
