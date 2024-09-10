@@ -114,12 +114,6 @@ describe("LearningResourceDrawer", () => {
       expectAddToUserListButton: true,
     },
     {
-      isLearningPathEditor: true,
-      isAuthenticated: false,
-      expectAddToLearningPathButton: false,
-      expectAddToUserListButton: false,
-    },
-    {
       isLearningPathEditor: false,
       isAuthenticated: false,
       expectAddToLearningPathButton: false,

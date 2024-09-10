@@ -273,7 +273,7 @@ const InfoSection = ({
           Info
         </Typography>
         <ListButtonContainer>
-          {user?.is_authenticated && user?.is_learning_path_editor && (
+          {user?.is_learning_path_editor && (
             <CardActionButton
               filled={inLearningPath}
               aria-label="Add to Learning Path"
