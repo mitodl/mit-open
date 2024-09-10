@@ -1,7 +1,9 @@
 import React, { useCallback } from "react"
 import { RiSearch2Line, RiCloseLine } from "@remixicon/react"
-import { Input, AdornmentButton, styled, pxToRem } from "ol-components"
-import type { InputProps } from "ol-components"
+import { Input, AdornmentButton } from "../Input/Input"
+import type { InputProps } from "../Input/Input"
+import styled from "@emotion/styled"
+import { pxToRem } from "../ThemeProvider/typography"
 
 const StyledInput = styled(Input)(({ theme }) => ({
   height: "72px",

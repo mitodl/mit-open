@@ -1,8 +1,14 @@
 import React, { useState, useCallback } from "react"
 import { useNavigate } from "react-router"
-import { Typography, styled, ChipLink, Link } from "ol-components"
+import {
+  Typography,
+  styled,
+  ChipLink,
+  Link,
+  SearchInput,
+  SearchInputProps,
+} from "ol-components"
 import type { ChipLinkProps } from "ol-components"
-import { SearchInput, SearchInputProps } from "./SearchInput"
 import {
   ABOUT,
   SEARCH_CERTIFICATE,
