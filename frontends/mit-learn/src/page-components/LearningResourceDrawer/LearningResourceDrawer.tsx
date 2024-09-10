@@ -77,11 +77,7 @@ const DrawerContent: React.FC<{
     }, [user])
   const handleAddToUserListClick: LearningResourceCardProps["onAddToUserListClick"] =
     useMemo(() => {
-      if (!user) {
-        // user info is still loading
-        return null
-      }
-      if (user.is_authenticated) {
+      if (user?.is_authenticated) {
         return (event, resourceId: number) => {
           NiceModal.show(AddToUserListDialog, { resourceId })
         }
