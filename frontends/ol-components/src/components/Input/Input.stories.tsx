@@ -104,7 +104,7 @@ export const Adornments: Story = {
       },
     ]
     return (
-      <Grid container maxWidth="600px" spacing={2}>
+      <Grid container maxWidth="1200px" spacing={2}>
         {Object.values(adornments).flatMap((props, i) =>
           SIZES.map((size) => {
             return (
