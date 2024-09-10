@@ -239,6 +239,7 @@ def test_transform_course(  # noqa: PLR0913
         assert transformed_json["runs"][0]["level"] == ["undergraduate", "high_school"]
         assert transformed_json["runs"][0]["semester"] == (term if term else None)
         assert transformed_json["runs"][0]["year"] == (year if year else None)
+        assert transformed_json["license_cc"] is True
         assert transformed_json["description"] == clean_data(
             course_json["course_description_html"]
         )

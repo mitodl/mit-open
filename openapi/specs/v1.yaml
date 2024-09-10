@@ -8346,6 +8346,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - certification
       - certification_type
@@ -8422,6 +8429,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - readable_id
       - title
@@ -8804,6 +8818,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - certification
       - certification_type
@@ -8877,6 +8898,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - title
     LearningPathResourceResourceTypeEnum:
@@ -10189,6 +10217,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
     PatchedLearningResourceRelationshipRequest:
       type: object
       description: CRUD serializer for LearningResourceRelationship
@@ -10796,6 +10831,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - certification
       - certification_type
@@ -10872,6 +10914,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - readable_id
       - title
@@ -11081,6 +11130,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - certification
       - certification_type
@@ -11157,6 +11213,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - readable_id
       - title
@@ -11496,6 +11559,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - certification
       - certification_type
@@ -11572,6 +11642,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - readable_id
       - title
@@ -12053,6 +12130,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - certification
       - certification_type
@@ -12129,6 +12213,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - readable_id
       - title
@@ -12324,6 +12415,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - certification
       - certification_type
@@ -12400,6 +12498,13 @@ components:
         completeness:
           type: number
           format: double
+        license_cc:
+          type: boolean
+        continuing_ed_credits:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+          nullable: true
       required:
       - readable_id
       - title

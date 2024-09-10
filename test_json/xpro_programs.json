@@ -20,6 +20,7 @@
     ],
     "format": "Online",
     "platform": "xPRO",
+    "credits": "11.25",
     "courses": [
       {
         "id": 18,
@@ -131,6 +132,7 @@
     ],
     "format": "In person",
     "platform": "xPRO",
+    "credits": "101.25",
     "courses": [
       {
         "id": 30,

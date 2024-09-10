@@ -261,6 +261,8 @@ LEARNING_RESOURCE_MAP = {
     "resource_age_date": {"type": "date"},
     "featured_rank": {"type": "float"},
     "completeness": {"type": "float"},
+    "license_cc": {"type": "boolean"},
+    "continuing_ed_credits": {"type": "float"},
 }
 
 

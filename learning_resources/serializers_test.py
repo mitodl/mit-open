@@ -270,6 +270,8 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         "next_start_date": resource.next_start_date,
         "availability": resource.availability,
         "completeness": 1.0,
+        "continuing_ed_credits": resource.continuing_ed_credits,
+        "license_cc": resource.license_cc,
     }
 
 

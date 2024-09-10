@@ -155,6 +155,7 @@ def _transform_learning_resource_course(course):
         "certification": True,
         "certification_type": CertificationType.professional.name,
         "availability": course["availability"],
+        "continuing_ed_credits": course.get("credits"),
     }
 
 
@@ -218,6 +219,7 @@ def transform_programs(programs):
             "certification": True,
             "certification_type": CertificationType.professional.name,
             "availability": program["availability"],
+            "continuing_ed_credits": program.get("credits"),
         }
         for program in programs
     ]

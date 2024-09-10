@@ -112,6 +112,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             "resource_type": LearningResourceType.program.name,
             "learning_format": transform_delivery(program_data.get("format")),
             "delivery": transform_delivery(program_data.get("format")),
+            "continuing_ed_credits": program_data.get("credits"),
             "runs": [
                 {
                     "run_id": program_data["readable_id"],
@@ -151,6 +152,7 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                     "availability": Availability.dated.name,
                     "topics": parse_topics(course_data),
                     "resource_type": LearningResourceType.course.name,
+                    "continuing_ed_credits": course_data.get("credits"),
                     "runs": [
                         {
                             "run_id": course_run_data["courseware_id"],
@@ -256,6 +258,7 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
             },
             "certification": True,
             "certification_type": CertificationType.professional.name,
+            "continuing_ed_credits": course_data.get("credits"),
         }
         for course_data in mock_xpro_courses_data
     ]
