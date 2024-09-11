@@ -9,6 +9,11 @@ const StyledInput = styled(Input)(({ theme }) => ({
   [theme.breakpoints.down("sm")]: {
     gap: "8px",
   },
+  [theme.breakpoints.up("sm")]: {
+    "&.MuiInputBase-sizeHero": {
+      borderRadius: "8px !important",
+    },
+  },
 }))
 
 const StyledClearButton = styled(AdornmentButton)({
