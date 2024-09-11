@@ -20,7 +20,7 @@ const baseInputStyles = (theme: Theme) => ({
   borderWidth: "1px",
   borderStyle: "solid",
   borderRadius: "4px",
-  "&.MuiInputBase-input": {
+  ".MuiInputBase-input": {
     padding: "0",
   },
   "&.Mui-disabled": {
