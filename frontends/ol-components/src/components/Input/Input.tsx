@@ -19,6 +19,10 @@ const baseInputStyles = (theme: Theme) => ({
   borderColor: theme.custom.colors.silverGrayLight,
   borderWidth: "1px",
   borderStyle: "solid",
+  borderRadius: "4px",
+  "&.MuiInputBase-input": {
+    padding: "0",
+  },
   "&.Mui-disabled": {
     backgroundColor: theme.custom.colors.lightGray1,
   },
@@ -78,9 +82,6 @@ const Input = styled(InputBase)(({
 }) => {
   return [
     baseInputStyles(theme),
-    {
-      borderRadius: "4px",
-    },
     (size === "small" || size === "medium") && {
       ...theme.typography.body2,
     },
