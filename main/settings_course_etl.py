@@ -6,6 +6,7 @@ from main.envs import get_bool, get_int, get_string
 
 # EDX API Credentials
 EDX_API_URL = get_string("EDX_API_URL", None)
+EDX_PROGRAMS_API_URL = get_string("EDX_PROGRAMS_API_URL", None)
 EDX_API_ACCESS_TOKEN_URL = get_string("EDX_API_ACCESS_TOKEN_URL", None)
 EDX_API_CLIENT_ID = get_string("EDX_API_CLIENT_ID", None)
 EDX_API_CLIENT_SECRET = get_string("EDX_API_CLIENT_SECRET", None)

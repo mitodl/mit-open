@@ -90,11 +90,12 @@ def test_get_micromasters_data(mocker):
 
 
 def test_get_mit_edx_data_valid(mocker):
-    """Verify that the get_mit_edx_data invokes the MIT edX ETL pipeline"""
+    """Verify that the get_mit_edx_data invokes the MIT edX ETL pipelines"""
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
 
     tasks.get_mit_edx_data.delay()
-    mock_pipelines.mit_edx_etl.assert_called_once_with(None)
+    mock_pipelines.mit_edx_courses_etl.assert_called_once_with(None)
+    mock_pipelines.mit_edx_programs_etl.assert_called_once_with(None)
 
 
 def test_get_mitxonline_data(mocker):

@@ -5,7 +5,7 @@ import logging
 from django.conf import settings
 from toolz import compose, curried
 
-from learning_resources.constants import OfferedBy, PlatformType
+from learning_resources.constants import LearningResourceType, OfferedBy, PlatformType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.openedx import (
     MIT_OWNER_KEYS,
@@ -71,6 +71,7 @@ def get_open_edx_config():
         PlatformType.edx.name,
         OfferedBy.mitx.name,
         ETLSource.mit_edx.name,
+        LearningResourceType.course.name,
     )
 
 
