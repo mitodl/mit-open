@@ -99,8 +99,8 @@ services:
     command:
       - |
         yarn install --immutable
-        yarn workspace mit-learn storybook --no-open &
-        yarn workspace mit-learn watch:docker
+        yarn workspace ol-components storybook --no-open &
+        yarn watch
     env_file:
       - path: env/shared.env
       - path: env/shared.local.env
@@ -116,6 +116,10 @@ services:
       - "6006:6006"
     volumes:
       - .:/src
+    environment:
+      - NEXT_SERVER_MITOL_API_BASE_URL=http://nginx:8063/
+    links:
+      - web
 
   celery:
     profiles:
