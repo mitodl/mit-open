@@ -39,7 +39,7 @@ log = logging.getLogger(__name__)
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
-DEFAULT_SORT = ["featured_rank", "is_learning_material"]
+DEFAULT_SORT = ["featured_rank", "is_learning_material", "-created_on"]
 
 
 def gen_content_file_id(content_file_id):

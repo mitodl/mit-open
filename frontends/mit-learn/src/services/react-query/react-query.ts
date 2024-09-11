@@ -16,7 +16,8 @@ const createQueryClient = (): QueryClient => {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        staleTime: 30 * 1000,
+        refetchOnWindowFocus: false,
+        staleTime: Infinity,
         queryFn: async ({ queryKey }) => {
           const url = queryKey[0]
           if (typeof url !== "string" || queryKey.length !== 1) {

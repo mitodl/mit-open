@@ -2636,7 +2636,15 @@ def test_document_percolation(opensearch, mocker):
     [
         ("-views", None, [{"views": {"order": "desc"}}]),
         ("-views", "text", [{"views": {"order": "desc"}}]),
-        (None, None, ["featured_rank", "is_learning_material"]),
+        (
+            None,
+            None,
+            [
+                "featured_rank",
+                "is_learning_material",
+                {"created_on": {"order": "desc"}},
+            ],
+        ),
         (None, "text", None),
     ],
 )
