@@ -91,7 +91,7 @@ from main.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
 )
-from main.utils import cache_page_for_anonymous_users, chunks
+from main.utils import cache_page_for_all_users, cache_page_for_anonymous_users, chunks
 
 log = logging.getLogger(__name__)
 
@@ -164,8 +164,8 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
             settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
         )
     )
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 @extend_schema_view(
@@ -386,6 +386,14 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
     filter_backends = [OrderingFilter]
     ordering = ["position", "-child__last_modified"]
 
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 @extend_schema(
     parameters=[
@@ -516,6 +524,14 @@ class LearningResourceListRelationshipViewSet(viewsets.GenericViewSet):
         serializer = SerializerClass(current_relationships, many=True)
         return Response(serializer.data)
 
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
 
 @extend_schema_view(
     create=extend_schema(summary="Learning Path Resource Relationship Add"),
@@ -540,6 +556,14 @@ class LearningPathItemsViewSet(ResourceListItemsViewSet, viewsets.ModelViewSet):
     serializer_class = LearningPathRelationshipSerializer
     permission_classes = (permissions.HasLearningPathItemPermissions,)
     http_method_names = VALID_HTTP_METHODS
+
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):
         request.data["parent"] = request.data.get("parent_id")
@@ -575,6 +599,14 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (AnonymousAccessReadonlyPermission,)
     filter_backends = [DjangoFilterBackend]
     filterset_class = TopicFilter
+
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 @extend_schema_view(
@@ -827,6 +859,14 @@ class ContentTagViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
 
+    @method_decorator(
+        cache_page_for_all_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, *args, **kwargs):
+        return super().list(*args, **kwargs)
+
 
 @extend_schema_view(
     list=extend_schema(summary="List"),
@@ -846,6 +886,14 @@ class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_url_kwarg = "department_id"
     lookup_field = "department_id__iexact"
 
+    @method_decorator(
+        cache_page_for_all_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, *args, **kwargs):
+        return super().list(*args, **kwargs)
+
 
 @extend_schema_view(
     list=extend_schema(summary="List"),
@@ -860,6 +908,14 @@ class SchoolViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = LearningResourceSchoolSerializer
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
+
+    @method_decorator(
+        cache_page_for_all_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, *args, **kwargs):
+        return super().list(*args, **kwargs)
 
 
 @extend_schema_view(
@@ -876,6 +932,14 @@ class PlatformViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
 
+    @method_decorator(
+        cache_page_for_all_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, *args, **kwargs):
+        return super().list(*args, **kwargs)
+
 
 @extend_schema_view(
     list=extend_schema(summary="List"),
@@ -891,6 +955,14 @@ class OfferedByViewSet(viewsets.ReadOnlyModelViewSet):
     pagination_class = LargePagination
     permission_classes = (AnonymousAccessReadonlyPermission,)
     lookup_field = "code"
+
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
 
 @extend_schema_view(
@@ -1002,6 +1074,11 @@ class FeaturedViewSet(
             .distinct()
         )
 
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
     @extend_schema(
         summary="List",
         description="Get a paginated list of featured resources",

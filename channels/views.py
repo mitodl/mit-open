@@ -28,7 +28,7 @@ from channels.serializers import (
 from learning_resources.views import DefaultPagination
 from main.constants import VALID_HTTP_METHODS
 from main.permissions import AnonymousAccessReadonlyPermission
-from main.utils import cache_page_for_all_users
+from main.utils import cache_page_for_anonymous_users
 
 log = logging.getLogger(__name__)
 
@@ -218,7 +218,7 @@ class ChannelCountsView(mixins.ListModelMixin, viewsets.GenericViewSet):
         )
 
     @method_decorator(
-        cache_page_for_all_users(
+        cache_page_for_anonymous_users(
             settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
         )
     )
