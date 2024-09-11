@@ -78,42 +78,55 @@ const Input = styled(InputBase)(({
 }) => {
   return [
     baseInputStyles(theme),
+    {
+      borderRadius: "4px",
+    },
+    (size === "small" || size === "medium") && {
+      ...theme.typography.body2,
+    },
+    (size === "large" || size === "hero") && {
+      ...theme.typography.body1,
+    },
     size === "medium" && {
-      "& .MuiInputBase-input": {
-        ...theme.typography.body2,
-      },
       paddingLeft: "12px",
       paddingRight: "12px",
-      borderRadius: "4px",
     },
     size === "small" &&
       !multiline && {
-        height: "40px",
+        height: "32px",
       },
     size === "medium" &&
       !multiline && {
+        height: "40px",
+      },
+    size === "large" &&
+      !multiline && {
         height: "48px",
       },
-    size === "hero" && {
-      "& .MuiInputBase-input": {
-        ...theme.typography.body1,
+    size === "hero" &&
+      !multiline && {
+        height: "72px",
+        [theme.breakpoints.down("sm")]: {
+          height: "37px",
+        },
       },
-      paddingLeft: "16px",
-      paddingRight: "16px",
-      borderRadius: "8px",
+    size === "small" && {
+      padding: "0 8px",
+    },
+    size === "medium" && {
+      padding: "0 12px",
+    },
+    size === "large" && {
+      padding: "0 16px",
+    },
+    size === "hero" && {
+      padding: "0 24px",
       [theme.breakpoints.down("sm")]: {
         "& .MuiInputBase-input": {
           ...theme.typography.body3,
         },
       },
     },
-    size === "hero" &&
-      !multiline && {
-        height: "72px",
-        [theme.breakpoints.down("sm")]: {
-          height: "56px",
-        },
-      },
   ]
 })
 
@@ -138,10 +151,22 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
     background: "rgba(0, 0, 0, 0.06)",
   },
   height: "100%",
-  ".MuiInputBase-root &": {
-    width: "48px",
+  ".MuiInputBase-sizeSmall &": {
+    width: "32px",
+    ".MuiSvgIcon-root": {
+      fontSize: pxToRem(16),
+    },
+  },
+  ".MuiInputBase-sizeMedium &": {
+    width: "40px",
     ".MuiSvgIcon-root": {
       fontSize: pxToRem(20),
+    },
+  },
+  ".MuiInputBase-sizeLarge &": {
+    width: "48px",
+    ".MuiSvgIcon-root": {
+      fontSize: pxToRem(24),
     },
   },
   ".MuiInputBase-sizeHero &": {
@@ -150,7 +175,7 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
       fontSize: pxToRem(24),
     },
     [theme.breakpoints.down("sm")]: {
-      width: "56px",
+      width: "37px",
       ".MuiSvgIcon-root": {
         fontSize: pxToRem(16),
       },

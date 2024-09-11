@@ -71,7 +71,7 @@ declare module "@mui/material/Button" {
 declare module "@mui/material/InputBase" {
   interface InputBasePropsSizeOverrides {
     hero: true
-    small: false
+    large: true
   }
 }
 

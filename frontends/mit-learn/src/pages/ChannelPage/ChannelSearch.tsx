@@ -174,6 +174,7 @@ const ChannelSearch: React.FC<ChannelSearchProps> = ({
       <SearchInputContainer>
         <StyledSearchInput
           value={currentText}
+          size="large"
           onChange={(e) => setCurrentText(e.target.value)}
           onSubmit={(e) => {
             setCurrentTextAndQuery(e.target.value)
