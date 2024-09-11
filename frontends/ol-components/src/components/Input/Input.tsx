@@ -1,6 +1,5 @@
 import React from "react"
 import styled from "@emotion/styled"
-import { pxToRem } from "../ThemeProvider/typography"
 import InputBase from "@mui/material/InputBase"
 import type { InputBaseProps } from "@mui/material/InputBase"
 import type { Theme } from "@mui/material/styles"
@@ -86,7 +85,20 @@ const Input = styled(InputBase)(({
       ...theme.typography.body2,
     },
     (size === "large" || size === "hero") && {
+      ".remixicon": {
+        width: "24px",
+        height: "24px",
+      },
       ...theme.typography.body1,
+      [theme.breakpoints.down("sm")]: {
+        ".remixicon": {
+          width: "20px",
+          height: "20px",
+        },
+        "& .MuiInputBase-input": {
+          ...theme.typography.body3,
+        },
+      },
     },
     size === "medium" && {
       paddingLeft: "12px",
@@ -103,12 +115,15 @@ const Input = styled(InputBase)(({
     size === "large" &&
       !multiline && {
         height: "48px",
+        [theme.breakpoints.down("sm")]: {
+          height: "40px",
+        },
       },
     size === "hero" &&
       !multiline && {
         height: "72px",
         [theme.breakpoints.down("sm")]: {
-          height: "37px",
+          height: "48px",
         },
       },
     size === "small" && {
@@ -122,11 +137,6 @@ const Input = styled(InputBase)(({
     },
     size === "hero" && {
       padding: "0 24px",
-      [theme.breakpoints.down("sm")]: {
-        "& .MuiInputBase-input": {
-          ...theme.typography.body3,
-        },
-      },
     },
   ]
 })
@@ -154,32 +164,28 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
   height: "100%",
   ".MuiInputBase-sizeSmall &": {
     width: "32px",
-    ".MuiSvgIcon-root": {
-      fontSize: pxToRem(16),
+    ".remixicon": {
+      width: "16px",
+      height: "16px",
     },
   },
   ".MuiInputBase-sizeMedium &": {
     width: "40px",
-    ".MuiSvgIcon-root": {
-      fontSize: pxToRem(20),
+    ".remixicon": {
+      width: "20px",
+      height: "20px",
     },
   },
   ".MuiInputBase-sizeLarge &": {
     width: "48px",
-    ".MuiSvgIcon-root": {
-      fontSize: pxToRem(24),
+    [theme.breakpoints.down("sm")]: {
+      width: "40px",
     },
   },
   ".MuiInputBase-sizeHero &": {
     width: "72px",
-    ".MuiSvgIcon-root": {
-      fontSize: pxToRem(24),
-    },
     [theme.breakpoints.down("sm")]: {
-      width: "37px",
-      ".MuiSvgIcon-root": {
-        fontSize: pxToRem(16),
-      },
+      width: "48px",
     },
   },
 
