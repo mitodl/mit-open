@@ -6,9 +6,6 @@ import * as urls from "@/common/urls"
 import React, { FunctionComponent } from "react"
 import footerLogo from "../../../public/images/mit-logo-transparent5.svg"
 
-const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
-const HOME_URL = `${PUBLIC_URL}/`
-
 const FooterContainer = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
@@ -162,7 +159,7 @@ const Footer: FunctionComponent = () => {
             </FooterLeftContainer>
             <FooterRightContainer>
               <FooterLinksContainer>
-                <FooterLinkComponent text="Home" href={HOME_URL} />
+                <FooterLinkComponent text="Home" href={urls.HOME} />
                 <FooterLinkComponent text="About Us" href={urls.ABOUT} />
                 <FooterLinkComponent
                   text="Accessibility"
