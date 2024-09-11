@@ -14,13 +14,13 @@ import type {
 } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import SearchDisplay from "@/page-components/SearchDisplay/SearchDisplay"
-import { SearchInput, styled, VisuallyHidden } from "ol-components"
+import { Container, SearchInput, styled, VisuallyHidden } from "ol-components"
 
 import { getFacetManifest } from "@/pages/SearchPage/SearchPage"
 
 import _ from "lodash"
 
-const SearchInputContainer = styled.div(({ theme }) => ({
+const SearchInputContainer = styled(Container)(({ theme }) => ({
   width: "100%",
   display: "flex",
   justifyContent: "center",
