@@ -230,6 +230,7 @@ const SearchPage: React.FC = () => {
         <SearchFieldContainer>
           <SearchField
             value={currentText}
+            size="large"
             onChange={(e) => setCurrentText(e.target.value)}
             onSubmit={(e) => {
               onSearchTermSubmit(e.target.value)
