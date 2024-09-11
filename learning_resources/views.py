@@ -91,7 +91,7 @@ from main.permissions import (
     AnonymousAccessReadonlyPermission,
     is_admin_user,
 )
-from main.utils import chunks
+from main.utils import cache_page_for_anonymous_users, chunks
 
 log = logging.getLogger(__name__)
 
@@ -158,6 +158,14 @@ class BaseLearningResourceViewSet(viewsets.ReadOnlyModelViewSet):
             QuerySet of LearningResource objects
         """
         return self._get_base_queryset().filter(published=True)
+
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 
 @extend_schema_view(
