@@ -365,6 +365,7 @@ def transform_course(course_data: dict) -> dict:
         "unique_field": UNIQUE_FIELD,
         "availability": Availability.anytime.name,
         "delivery": parse_delivery(course_data),
+        "license_cc": True,
     }
 
 

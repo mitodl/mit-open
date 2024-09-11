@@ -144,6 +144,10 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
     assert transformed["delivery"] == transformed["learning_format"]
     assert transformed["image"] == parse_image(course_data)
     assert transformed["availability"] == parse_availability(course_runs_data)
+    assert (
+        transformed["continuing_ed_credits"]
+        == course_runs_data[0]["Continuing_Ed_Credits"]
+    )
     assert sorted(transformed.keys()) == sorted(
         [
             "readable_id",
@@ -164,6 +168,7 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
             "course",
             "runs",
             "availability",
+            "continuing_ed_credits",
         ]
     )
 

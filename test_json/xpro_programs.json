@@ -20,6 +20,7 @@
     ],
     "format": "Online",
     "platform": "xPRO",
+    "credits": "11.25",
     "courses": [
       {
         "id": 18,
@@ -36,7 +37,8 @@
         ],
         "platform": "xPRO",
         "format": "Online",
-        "availability": "dated"
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 20,
@@ -64,7 +66,8 @@
           }
         ],
         "next_run_id": 49,
-        "availability": "dated"
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 19,
@@ -96,7 +99,8 @@
           }
         ],
         "next_run_id": 48,
-        "availability": "dated"
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 21,
@@ -108,7 +112,8 @@
         "next_run_id": null,
         "topics": [],
         "platform": "xPRO",
-        "availability": "dated"
+        "availability": "dated",
+        "credits": "11.25"
       }
     ],
     "availability": "dated"
@@ -131,6 +136,7 @@
     ],
     "format": "In person",
     "platform": "xPRO",
+    "credits": "101.25",
     "courses": [
       {
         "id": 30,
@@ -184,7 +190,8 @@
           }
         ],
         "next_run_id": 73,
-        "availability": "dated"
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 31,
@@ -200,7 +207,8 @@
           }
         ],
         "platform": "xPRO",
-        "availability": "dated"
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 32,
@@ -212,7 +220,8 @@
         "next_run_id": null,
         "topics": [],
         "platform": "xPRO",
-        "availability": "dated"
+        "availability": "dated",
+        "credits": "11.25"
       }
     ],
     "availability": "dated"

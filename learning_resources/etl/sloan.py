@@ -226,6 +226,7 @@ def transform_course(course_data: dict, runs_data: dict) -> dict:
         },
         "runs": [transform_run(run, course_data) for run in course_runs_data],
         "availability": parse_availability(course_runs_data),
+        "continuing_ed_credits": course_runs_data[0]["Continuing_Ed_Credits"],
     }
 
     return transformed_course if transformed_course.get("url") else None

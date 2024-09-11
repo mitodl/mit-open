@@ -781,6 +781,18 @@ export interface CourseResource {
    * @memberof CourseResource
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof CourseResource
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof CourseResource
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -950,6 +962,18 @@ export interface CourseResourceRequest {
    * @memberof CourseResourceRequest
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof CourseResourceRequest
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof CourseResourceRequest
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -1512,6 +1536,18 @@ export interface LearningPathResource {
    * @memberof LearningPathResource
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningPathResource
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResource
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -1592,6 +1628,18 @@ export interface LearningPathResourceRequest {
    * @memberof LearningPathResourceRequest
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof LearningPathResourceRequest
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof LearningPathResourceRequest
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -3379,6 +3427,18 @@ export interface PatchedLearningPathResourceRequest {
    * @memberof PatchedLearningPathResourceRequest
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof PatchedLearningPathResourceRequest
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -4147,6 +4207,18 @@ export interface PodcastEpisodeResource {
    * @memberof PodcastEpisodeResource
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof PodcastEpisodeResource
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeResource
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -4227,6 +4299,18 @@ export interface PodcastEpisodeResourceRequest {
    * @memberof PodcastEpisodeResourceRequest
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof PodcastEpisodeResourceRequest
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastEpisodeResourceRequest
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -4475,6 +4559,18 @@ export interface PodcastResource {
    * @memberof PodcastResource
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof PodcastResource
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastResource
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -4555,6 +4651,18 @@ export interface PodcastResourceRequest {
    * @memberof PodcastResourceRequest
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof PodcastResourceRequest
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof PodcastResourceRequest
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -5023,6 +5131,18 @@ export interface ProgramResource {
    * @memberof ProgramResource
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof ProgramResource
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramResource
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -5103,6 +5223,18 @@ export interface ProgramResourceRequest {
    * @memberof ProgramResourceRequest
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof ProgramResourceRequest
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof ProgramResourceRequest
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -5830,6 +5962,18 @@ export interface VideoPlaylistResource {
    * @memberof VideoPlaylistResource
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof VideoPlaylistResource
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof VideoPlaylistResource
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -5910,6 +6054,18 @@ export interface VideoPlaylistResourceRequest {
    * @memberof VideoPlaylistResourceRequest
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof VideoPlaylistResourceRequest
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof VideoPlaylistResourceRequest
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -6146,6 +6302,18 @@ export interface VideoResource {
    * @memberof VideoResource
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof VideoResource
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof VideoResource
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
@@ -6226,6 +6394,18 @@ export interface VideoResourceRequest {
    * @memberof VideoResourceRequest
    */
   completeness?: number
+  /**
+   *
+   * @type {boolean}
+   * @memberof VideoResourceRequest
+   */
+  license_cc?: boolean
+  /**
+   *
+   * @type {string}
+   * @memberof VideoResourceRequest
+   */
+  continuing_ed_credits?: string | null
 }
 
 /**
