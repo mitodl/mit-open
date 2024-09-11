@@ -36,13 +36,17 @@ services:
     command:
       - |
         yarn install --immutable
-        yarn workspace mit-learn storybook --no-open &
-        yarn workspace mit-learn watch:docker
+        yarn workspace ol-components storybook --no-open &
+        yarn watch
     ports:
       - "8062:8062"
       - "6006:6006"
+    environment:
+      - NEXT_SERVER_MITOL_API_BASE_URL=http://nginx:8063/
     volumes:
       - .:/src
+    links:
+      - web
 
   celery:
     profiles:

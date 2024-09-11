@@ -2,9 +2,6 @@ import React from "react"
 import Image from "next/image"
 import defaultLogo from "../../../public/mit-logo-learn.svg"
 
-const PUBLIC_URL = process.env.NEXT_PUBLIC_PUBLIC_URL
-const HOME_URL = `${PUBLIC_URL}/`
-
 interface Props {
   href?: string
   className?: string
@@ -13,7 +10,7 @@ interface Props {
 
 const MITLogoLink: React.FC<Props> = ({ href, logo, className }) => (
   <a
-    href={href ? href : HOME_URL}
+    href={href}
     title="Link to Homepage"
     className={className}
     // eslint-disable-next-line react/no-unknown-property
