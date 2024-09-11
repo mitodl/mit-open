@@ -9,10 +9,7 @@ import { makeQueryClient } from "@/app/getQueryClient"
 import { render } from "@testing-library/react"
 import { setMockResponse } from "api/test-utils"
 import type { User } from "api/hooks/user"
-import {
-  mockRouter,
-  nextRouterQueryToSearchParams,
-} from "ol-test-utilities/mocks/nextNavigation"
+import { mockRouter } from "ol-test-utilities/mocks/nextNavigation"
 
 interface TestAppOptions {
   url: string
@@ -61,11 +58,8 @@ const renderWithProviders = (
 
   const location = {
     get current() {
-      const searchParams = nextRouterQueryToSearchParams(mockRouter.query)
-      const search = searchParams.toString()
-        ? `?${searchParams.toString()}`
-        : ""
-      return { pathname: mockRouter.pathname, search }
+      const url = new URL(mockRouter.asPath, "http://localhost")
+      return { pathname: mockRouter.pathname, search: url.search }
     },
   }
 

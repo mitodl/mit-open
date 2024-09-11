@@ -8,20 +8,17 @@
  */
 import * as mocks from "next-router-mock"
 
-type ParsedUrlQuery = typeof mocks.memoryRouter.query
+const getParams = (template: string, pathname: string) => {
+  const route = template.split("/")
+  const path = pathname.split("/")
 
-const nextRouterQueryToSearchParams = (
-  query: ParsedUrlQuery,
-): URLSearchParams => {
-  const params = new URLSearchParams()
-  Object.entries(query).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      value.forEach((v) => params.append(key, v))
-    } else {
-      params.append(key, value ?? "")
+  return route.reduce((acc, part, i) => {
+    if (part.startsWith("[") && part.endsWith("]")) {
+      const key = part.slice(1, -1)
+      return { ...acc, [key]: path[i] }
     }
-  })
-  return params
+    return acc
+  }, {})
 }
 
 export const nextNavigationMocks = {
@@ -32,12 +29,29 @@ export const nextNavigationMocks = {
   }),
   usePathname: () => {
     const router = nextNavigationMocks.useRouter()
-    return router.pathname
+    /**
+     * next-router-mock is designed for Pages router. We are adapting for App
+     * router. The return value is a little different for the two:
+     *  pages router: /dynamic/[id]
+     *  app router:   /dynamic/123
+     *
+     * I.e., pages router returns the route "template".
+     * App router returns similar to window.location.pathname
+     */
+    const url = new URL(router.asPath, "http://localhost")
+    return url.pathname
   },
   useSearchParams: () => {
     const router = nextNavigationMocks.useRouter()
-    return nextRouterQueryToSearchParams(router.query)
+    const url = new URL(router.asPath, "http://localhost")
+    return url.searchParams
+  },
+  useParams: () => {
+    const router = nextNavigationMocks.useRouter()
+    const url = new URL(router.asPath, "http://localhost")
+    return getParams(router.pathname, url.pathname)
   },
 }
+
 const mockRouter = nextNavigationMocks.memoryRouter
-export { mockRouter, nextRouterQueryToSearchParams }
+export { mockRouter }
