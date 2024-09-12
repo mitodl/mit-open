@@ -386,14 +386,6 @@ class ResourceListItemsViewSet(NestedViewSetMixin, viewsets.ReadOnlyModelViewSet
     filter_backends = [OrderingFilter]
     ordering = ["position", "-child__last_modified"]
 
-    @method_decorator(
-        cache_page_for_anonymous_users(
-            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
-        )
-    )
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
-
 
 @extend_schema(
     parameters=[

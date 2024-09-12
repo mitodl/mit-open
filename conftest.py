@@ -20,3 +20,12 @@ def prevent_requests(mocker, request):  # noqa: PT004
         autospec=True,
         side_effect=DoNotUseRequestException,
     )
+
+
+@pytest.fixture(autouse=True)
+def _use_dummy_redis_cache_backend(settings):
+    new_cache_settings = settings.CACHES.copy()
+    new_cache_settings["redis"] = {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    }
+    settings.CACHES = new_cache_settings

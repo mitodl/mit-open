@@ -483,8 +483,14 @@ def test_channel_counts_view(client):
             )
 
 
-def test_channel_counts_view_is_cached_for_anonymous_users(client):
+def test_channel_counts_view_is_cached_for_anonymous_users(client, settings):
     """Test the channel counts view is cached for anonymous users"""
+    settings.CACHES["redis"] = {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": settings.CELERY_BROKER_URL,
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+    }
+
     channel_count = 5
     channels = ChannelFactory.create_batch(channel_count, channel_type="unit")
     url = reverse(
@@ -499,8 +505,13 @@ def test_channel_counts_view_is_cached_for_anonymous_users(client):
     assert len(response) == channel_count
 
 
-def test_channel_counts_view_is_cached_for_authenticated_users(client):
+def test_channel_counts_view_is_cached_for_authenticated_users(client, settings):
     """Test the channel counts view is cached for authenticated users"""
+    settings.CACHES["redis"] = {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": settings.CELERY_BROKER_URL,
+        "OPTIONS": {"CLIENT_CLASS": "django_redis.client.DefaultClient"},
+    }
     channel_count = 5
     channel_user = UserFactory.create()
     client.force_login(channel_user)
