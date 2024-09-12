@@ -1,6 +1,27 @@
 Release Notes
 =============
 
+Version 0.19.0
+--------------
+
+- Update docker-compose config to support OS cluster (#1540)
+- Update dependency faker to v28 (#1550)
+- Update actions/upload-artifact digest to 5076954 (#1528)
+- Update dependency attrs to v24 (#1535)
+- Update dependency @faker-js/faker to v9 (#1533)
+- Update dependency pytest-cov to v5 (#1549)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v8 (#1260)
+- ETL pipeline for MIT edX programs (#1536)
+- license_cc and continuing_ed_credits fields (#1544)
+- Fix data migration erroring if a record exists (#1543)
+- learning resource drawer list buttons (#1537)
+- Add LearningResource.delivery field (eventually to replace learning_format) (#1510)
+- Update mcr.microsoft.com/playwright Docker tag to v1.47.0 (#1531)
+- Update dependency ruff to v0.6.4 (#1530)
+- Update dependency Django to v4.2.16 (#1529)
+- display sub topics on topic channels (#1511)
+- Sort news items by publish_date (#1522)
+
 Version 0.18.2 (Released September 12, 2024)
 --------------
 
