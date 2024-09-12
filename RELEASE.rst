@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.18.2
+Version 0.18.2 (Released September 12, 2024)
 --------------
 
 - Use new OLL column for secondary topic; fix semester capitalization mismatch (#1519)
