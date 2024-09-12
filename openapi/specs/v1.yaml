@@ -4923,8 +4923,7 @@ paths:
   /api/v1/learningpaths/{learning_resource_id}/items/:
     get:
       operationId: learningpaths_items_list
-      description: Get a list of related learning resources for a learning resource.
-      summary: Nested Learning Resource List
+      description: Viewset for LearningPath related resources
       parameters:
       - in: path
         name: learning_resource_id
