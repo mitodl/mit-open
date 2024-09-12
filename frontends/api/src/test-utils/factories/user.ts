@@ -1,6 +1,7 @@
 import { faker } from "@faker-js/faker/locale/en"
 import type { PartialFactory } from "ol-test-utilities"
 import type { Profile, User } from "../../generated/v0"
+import { UniqueEnforcer } from "enforce-unique"
 
 const profile: PartialFactory<Profile> = (overrides = {}): Profile => ({
   name: faker.person.fullName(),
@@ -21,9 +22,11 @@ const profile: PartialFactory<Profile> = (overrides = {}): Profile => ({
   ...overrides,
 })
 
+const enforcerId = new UniqueEnforcer()
+
 const user: PartialFactory<User> = (overrides = {}): User => {
   const result: User = {
-    id: faker.helpers.unique(faker.number.int),
+    id: enforcerId.enforce(faker.number.int),
     first_name: faker.person.firstName(),
     last_name: faker.person.lastName(),
     is_article_editor: false,

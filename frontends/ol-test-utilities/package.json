@@ -7,7 +7,7 @@
     "./filemocks/*": "./src/filemocks/*"
   },
   "dependencies": {
-    "@faker-js/faker": "^8.0.0",
+    "@faker-js/faker": "^9.0.0",
     "@testing-library/react": "16.0.1",
     "css-mediaquery": "^0.1.2",
     "dom-accessibility-api": "^0.7.0",
