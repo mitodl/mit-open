@@ -56,6 +56,6 @@ RUN apt-get clean && apt-get purge
 
 USER mitodl
 
-EXPOSE 8063
-ENV PORT 8063
+EXPOSE 8061
+ENV PORT 8061
 CMD uwsgi uwsgi.ini
