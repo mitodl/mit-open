@@ -1,6 +1,21 @@
 Release Notes
 =============
 
+Version 0.18.2 (Released September 12, 2024)
+--------------
+
+- Use new OLL column for secondary topic; fix semester capitalization mismatch (#1519)
+- Shanbady/fix course panel start date (#1521)
+- Update dependency cryptography to v43 [SECURITY] (#1513)
+- [pre-commit.ci] pre-commit autoupdate (#1504)
+- Update dependency @ckeditor/ckeditor5-dev-utils to v42 (#1503)
+- Update dependency @testing-library/react to v16.0.1 (#1496)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v42 (#1502)
+- Update actions/setup-python digest to f677139 (#1493)
+- Cache unit page counts (#1507)
+- dfs_query_then_fetch (#1518)
+- Add completeness discount to search (#1512)
+
 Version 0.18.1 (Released September 05, 2024)
 --------------
 
