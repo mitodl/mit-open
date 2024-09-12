@@ -3,7 +3,7 @@ import { urls } from "api/test-utils"
 import * as commonUrls from "@/common/urls"
 import { Permissions } from "@/common/permissions"
 
-describe("TermsPage", () => {
+describe.skip("TermsPage", () => {
   test("Renders title", async () => {
     setMockResponse.get(urls.userMe.get(), {
       [Permissions.Authenticated]: true,

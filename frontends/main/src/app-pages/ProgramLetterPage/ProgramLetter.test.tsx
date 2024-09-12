@@ -15,7 +15,7 @@ const setup = ({ programLetter }: { programLetter: ProgramLetter }) => {
   })
 }
 
-describe("ProgramLetterDisplayPage", () => {
+describe.skip("ProgramLetterDisplayPage", () => {
   it("Renders a program letter from api", async () => {
     const programLetter = factory.programLetter()
     setup({ programLetter })

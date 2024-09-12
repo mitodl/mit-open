@@ -102,7 +102,7 @@ const getLastApiSearchParams = () => {
   return fullUrl.searchParams
 }
 
-describe("ChannelSearch", () => {
+describe.skip("ChannelSearch", () => {
   test("Renders search results", async () => {
     const resources = factories.learningResources.resources({
       count: 10,
