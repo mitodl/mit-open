@@ -11,6 +11,7 @@ expect.extend(matchers)
 process.env.NEXT_PUBLIC_MITOL_API_BASE_URL =
   "http://api.test.learn.odl.local:8063"
 process.env.NEXT_PUBLIC_ORIGIN = "http://test.learn.odl.local:8062"
+process.env.NEXT_PUBLIC_EMBEDLY_KEY = "fake-embedly-key"
 
 // Pulled from the docs - see https://jestjs.io/docs/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
 

@@ -18,7 +18,6 @@ const config: Config.InitialOptions = {
   globals: {
     APP_SETTINGS: {
       CKEDITOR_UPLOAD_URL: "https://meowmeow.com",
-      EMBEDLY_KEY: "embedly_key",
       MITOL_AXIOS_WITH_CREDENTIALS: false,
       MITOL_API_BASE_URL: "https://api.test.learn.mit.edu",
     },
