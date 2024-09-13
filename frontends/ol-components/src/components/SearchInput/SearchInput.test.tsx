@@ -1,11 +1,9 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import { SearchInput } from "./SearchInput"
-import type { SearchInputProps } from "./SearchInput"
+import { SearchInput, type SearchInputProps } from "./SearchInput"
 import invariant from "tiny-invariant"
 import { ThemeProvider } from "ol-components"
-
 const getSearchInput = () => {
   const element = screen.getByLabelText("Search for")
   invariant(element instanceof HTMLInputElement)
