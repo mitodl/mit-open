@@ -4,7 +4,7 @@ const generatePath = (
   template: string,
   params: Record<string, string | number>,
 ): string => {
-  return template.replace(/:(\w+)/g, (_, key) => {
+  return template.replace(/\[(\w+)\]/g, (_, key) => {
     if (params[key] === undefined) {
       throw new Error(`Missing parameter '${key}'`)
     }
@@ -17,15 +17,15 @@ export const HOME = "/"
 export const ONBOARDING = "/onboarding"
 
 export const LEARNINGPATH_LISTING = "/learningpaths"
-export const LEARNINGPATH_VIEW = "/learningpaths/:id"
+export const LEARNINGPATH_VIEW = "/learningpaths/[id]"
 export const learningPathsView = (id: number) =>
   generatePath(LEARNINGPATH_VIEW, { id: String(id) })
-export const PROGRAMLETTER_VIEW = "/program_letter/:id/view/"
+export const PROGRAMLETTER_VIEW = "/program_letter/[id]/view/"
 export const programLetterView = (id: string) =>
   generatePath(PROGRAMLETTER_VIEW, { id: String(id) })
 export const ARTICLES_LISTING = "/articles/"
-export const ARTICLES_DETAILS = "/articles/:id"
-export const ARTICLES_EDIT = "/articles/:id/edit"
+export const ARTICLES_DETAILS = "/articles/[id]"
+export const ARTICLES_EDIT = "/articles/[id]/edit"
 export const ARTICLES_CREATE = "/articles/new"
 export const articlesView = (id: number) =>
   generatePath(ARTICLES_DETAILS, { id: String(id) })
@@ -35,10 +35,10 @@ export const articlesEditView = (id: number) =>
 export const DEPARTMENTS = "/departments/"
 export const TOPICS = "/topics/"
 
-export const CHANNEL_VIEW = "/c/:channelType/:name" as const
-export const CHANNEL_EDIT = "/c/:channelType/:name/manage/" as const
+export const CHANNEL_VIEW = "/c/[channelType]/[name]" as const
+export const CHANNEL_EDIT = "/c/[channelType]/[name]/manage/" as const
 export const CHANNEL_EDIT_WIDGETS =
-  "/c/:channelType/:name/manage/widgets/" as const
+  "/c/[channelType]/[name]/manage/widgets/" as const
 export const makeChannelViewPath = (channelType: string, name: string) =>
   generatePath(CHANNEL_VIEW, { channelType, name })
 export const makeChannelEditPath = (channelType: string, name: string) =>
@@ -87,7 +87,7 @@ export const login = ({
 export const DASHBOARD_HOME = "/dashboard"
 
 export const MY_LISTS = "/dashboard/my-lists"
-export const USERLIST_VIEW = "/dashboard/my-lists/:id"
+export const USERLIST_VIEW = "/dashboard/my-lists/[id]"
 export const userListView = (id: number) =>
   generatePath(USERLIST_VIEW, { id: String(id) })
 

@@ -9,7 +9,22 @@ import { makeQueryClient } from "@/app/getQueryClient"
 import { render } from "@testing-library/react"
 import { setMockResponse } from "api/test-utils"
 import type { User } from "api/hooks/user"
-import { mockRouter } from "ol-test-utilities/mocks/nextNavigation"
+import {
+  mockRouter,
+  createDynamicRouteParser,
+} from "ol-test-utilities/mocks/nextNavigation"
+import * as urls from "@/common/urls"
+
+const setupRoutes = () => {
+  mockRouter.useParser(
+    createDynamicRouteParser([
+      //
+      urls.PROGRAMLETTER_VIEW,
+      urls.CHANNEL_VIEW,
+    ]),
+  )
+}
+setupRoutes()
 
 interface TestAppOptions {
   url: string

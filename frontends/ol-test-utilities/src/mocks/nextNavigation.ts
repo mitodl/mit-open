@@ -7,6 +7,7 @@
  * See https://github.com/scottrippey/next-router-mock/issues
  */
 import * as mocks from "next-router-mock"
+import { createDynamicRouteParser } from "next-router-mock/dynamic-routes"
 
 const getParams = (template: string, pathname: string) => {
   const route = template.split("/")
@@ -54,4 +55,4 @@ export const nextNavigationMocks = {
 }
 
 const mockRouter = nextNavigationMocks.memoryRouter
-export { mockRouter }
+export { mockRouter, createDynamicRouteParser }

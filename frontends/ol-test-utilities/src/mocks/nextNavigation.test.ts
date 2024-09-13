@@ -9,7 +9,6 @@ describe("Mock Navigation", () => {
   beforeAll(() => {
     mockRouter.useParser(
       createDynamicRouteParser([
-        // These paths should match those found in the `/pages` folder:
         "/dynamic/[id]",
         "/dynamic/[id]/[other]",
         "/static/path",
@@ -35,9 +34,9 @@ describe("Mock Navigation", () => {
   })
 
   test("useSearchParams returns the current search params", () => {
-    mockRouter.setCurrentUrl("/dynamic/bar?a=1&b=2")
+    mockRouter.setCurrentUrl("/dynamic/bar?a=1&b=2&b=3")
     const { result } = renderHook(() => useSearchParams())
-    console.log(result.current.toString())
+    expect(result.current).toEqual(new URLSearchParams("a=1&b=2&b=3"))
   })
 
   test("useParams returns the current params", () => {
