@@ -942,7 +942,6 @@ def test_learning_resources_search_request_serializer():
         "slop": 2,
         "min_score": 0,
         "max_incompleteness_penalty": 25,
-        "use_dfs_query_then_fetch": False,
     }
 
     cleaned = {
@@ -969,7 +968,6 @@ def test_learning_resources_search_request_serializer():
         "slop": 2,
         "min_score": 0,
         "max_incompleteness_penalty": 25,
-        "use_dfs_query_then_fetch": False,
     }
 
     serialized = LearningResourcesSearchRequestSerializer(data=data)
@@ -1007,7 +1005,6 @@ def test_content_file_search_request_serializer():
         "offered_by": ["xpro", "ocw"],
         "platform": ["xpro", "edx", "ocw"],
         "dev_mode": False,
-        "use_dfs_query_then_fetch": False,
     }
 
     serialized = ContentFileSearchRequestSerializer(data=data)
