@@ -220,7 +220,6 @@ const assertPartialMetas = (expected: Partial<TestableMetas>) => {
 export {
   renderTestApp,
   renderWithProviders,
-  renderRoutesWithProviders,
   expectProps,
   expectLastProps,
   expectWindowNavigation,
