@@ -4,9 +4,18 @@ import InputBase from "@mui/material/InputBase"
 import type { InputBaseProps } from "@mui/material/InputBase"
 import type { Theme } from "@mui/material/styles"
 
+type Size = NonNullable<InputBaseProps["size"]>
+
 const defaultProps = {
   size: "medium",
   multiline: false,
+} as const
+
+const responsiveSize: Record<Size, Size> = {
+  small: "small",
+  medium: "small",
+  large: "medium",
+  hero: "large",
 }
 
 /**
@@ -70,73 +79,101 @@ const baseInputStyles = (theme: Theme) => ({
   },
 })
 
+type SizeStyleProps = {
+  size: Size
+  theme: Theme
+  multiline?: boolean
+}
+const sizeStyles = ({ size, theme, multiline }: SizeStyleProps) => [
+  (size === "small" || size === "medium") && {
+    ...theme.typography.body2,
+  },
+  (size === "large" || size === "hero") && {
+    ".remixicon": {
+      width: "24px",
+      height: "24px",
+    },
+    ...theme.typography.body1,
+  },
+  size === "medium" && {
+    paddingLeft: "12px",
+    paddingRight: "12px",
+  },
+  size === "small" &&
+    !multiline && {
+      height: "32px",
+    },
+  size === "medium" &&
+    !multiline && {
+      height: "40px",
+    },
+  size === "large" &&
+    !multiline && {
+      height: "48px",
+    },
+  size === "hero" &&
+    !multiline && {
+      height: "72px",
+    },
+  size === "small" && {
+    padding: "0 8px",
+    ".Mit-AdornmentButton": {
+      width: "32px",
+      ".remixicon": {
+        width: "16px",
+        height: "16px",
+      },
+    },
+  },
+  size === "medium" && {
+    padding: "0 12px",
+    ".Mit-AdornmentButton": {
+      width: "40px",
+      ".remixicon": {
+        width: "20px",
+        height: "20px",
+      },
+    },
+  },
+  size === "large" && {
+    padding: "0 16px",
+    ".Mit-AdornmentButton": {
+      width: "48px",
+    },
+  },
+  size === "hero" && {
+    padding: "0 24px",
+    ".Mit-AdornmentButton": {
+      width: "72px",
+    },
+  },
+]
+
+type CustomInputProps = { responsive?: true }
+const noForward = Object.keys({
+  responsive: true,
+} satisfies { [key in keyof CustomInputProps]: boolean })
 /**
  * A styled input that supports start and end adornments. In most cases, the
  * higher-level TextField component should be used instead of this component.
  */
-const Input = styled(InputBase)(({
+const Input = styled(InputBase, {
+  shouldForwardProp: (prop) => !noForward.includes(prop),
+})<InputBaseProps & { responsive?: true }>(({
   theme,
   size = defaultProps.size,
   multiline,
+  responsive,
 }) => {
   return [
     baseInputStyles(theme),
-    (size === "small" || size === "medium") && {
-      ...theme.typography.body2,
-    },
-    (size === "large" || size === "hero") && {
-      ".remixicon": {
-        width: "24px",
-        height: "24px",
-      },
-      ...theme.typography.body1,
-      [theme.breakpoints.down("sm")]: {
-        ".remixicon": {
-          width: "20px",
-          height: "20px",
-        },
-        "& .MuiInputBase-input": {
-          ...theme.typography.body3,
-        },
-      },
-    },
-    size === "medium" && {
-      paddingLeft: "12px",
-      paddingRight: "12px",
-    },
-    size === "small" &&
-      !multiline && {
-        height: "32px",
-      },
-    size === "medium" &&
-      !multiline && {
-        height: "40px",
-      },
-    size === "large" &&
-      !multiline && {
-        height: "48px",
-        [theme.breakpoints.down("sm")]: {
-          height: "40px",
-        },
-      },
-    size === "hero" &&
-      !multiline && {
-        height: "72px",
-        [theme.breakpoints.down("sm")]: {
-          height: "48px",
-        },
-      },
-    size === "small" && {
-      padding: "0 8px",
-    },
-    size === "medium" && {
-      padding: "0 12px",
-    },
-    size === "large" && {
-      padding: "0 16px",
-    },
-    size === "hero" && {
-      padding: "0 24px",
+    ...sizeStyles({ size, theme, multiline }),
+    responsive && {
+      [theme.breakpoints.down("sm")]: sizeStyles({
+        size: responsiveSize[size],
+        theme,
+        multiline,
+      }),
     },
   ]
 })
@@ -162,33 +199,6 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
     background: "rgba(0, 0, 0, 0.06)",
   },
   height: "100%",
-  ".MuiInputBase-sizeSmall &": {
-    width: "32px",
-    ".remixicon": {
-      width: "16px",
-      height: "16px",
-    },
-  },
-  ".MuiInputBase-sizeMedium &": {
-    width: "40px",
-    ".remixicon": {
-      width: "20px",
-      height: "20px",
-    },
-  },
-  ".MuiInputBase-sizeLarge &": {
-    width: "48px",
-    [theme.breakpoints.down("sm")]: {
-      width: "40px",
-    },
-  },
-  ".MuiInputBase-sizeHero &": {
-    width: "72px",
-    [theme.breakpoints.down("sm")]: {
-      width: "48px",
-    },
-  },
-
   color: theme.custom.colors.silverGray,
   ".MuiInputBase-root:hover &": {
     color: "inherit",
@@ -220,6 +230,7 @@ type AdornmentButtonProps = React.ComponentProps<typeof AdornmentButtonStyled>
 const AdornmentButton: React.FC<AdornmentButtonProps> = (props) => {
   return (
     <AdornmentButtonStyled
+      className="Mit-AdornmentButton"
       /**
        * If the input is focused and user clicks the AdornmentButton, we don't
        * want to steal focus from the input.
@@ -230,7 +241,7 @@ const AdornmentButton: React.FC<AdornmentButtonProps> = (props) => {
   )
 }
 
-type InputProps = Omit<InputBaseProps, "color">
+type InputProps = Omit<InputBaseProps, "color"> & CustomInputProps
 
 export { AdornmentButton, Input, baseInputStyles }
 export type { InputProps, AdornmentButtonProps }
