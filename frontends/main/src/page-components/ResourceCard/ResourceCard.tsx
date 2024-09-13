@@ -137,6 +137,7 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
   const ListCardComponent = condensed
     ? LearningResourceListCardCondensed
     : LearningResourceListCard
+
   return (
     <>
       <ListCardComponent
