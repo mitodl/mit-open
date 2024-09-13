@@ -188,6 +188,7 @@ describe.each([
     invariant(resource)
     const link = screen.getByRole("link", { name: new RegExp(resource.title) })
     const href = link.getAttribute("href")
+    invariant(href)
     const url = new URL(href, window.location.href)
     expect(url.searchParams.get(RESOURCE_DRAWER_QUERY_PARAM)).toBe(
       String(resource.id),
