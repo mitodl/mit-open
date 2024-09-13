@@ -105,6 +105,7 @@ const SearchInput: React.FC<SearchInputProps> = (props) => {
           </AdornmentButton>
         </>
       }
+      responsive
     />
   )
 }
