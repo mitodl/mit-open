@@ -3,7 +3,7 @@
 from django.core.management import BaseCommand
 
 from learning_resources.utils import upsert_offered_by_data
-from main.utils import now_in_utc
+from main.utils import clear_cache, now_in_utc
 
 
 class Command(BaseCommand):
@@ -21,3 +21,4 @@ class Command(BaseCommand):
         self.stdout.write(
             f"Update of {len(offerors)} offerors finished, took {total_seconds} seconds"
         )
+        clear_cache()
