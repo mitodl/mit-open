@@ -15,6 +15,11 @@ import {
 } from "ol-test-utilities/mocks/nextNavigation"
 import * as urls from "@/common/urls"
 
+/**
+ * Makes nextNavigation aware of the routes.
+ *
+ * This is needed for `useParams` to pick up the correct path parameters.
+ */
 const setupRoutes = () => {
   mockRouter.useParser(
     createDynamicRouteParser([
