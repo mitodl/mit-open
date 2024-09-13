@@ -41,74 +41,14 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "*.mit.edu",
+        protocol: "http",
+        hostname: "**",
         port: "",
         pathname: "**",
       },
       {
         protocol: "https",
-        hostname: "i.embed.ly",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "ol-xpro-app-production.s3.amazonaws.com",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "*.cloudfront.net",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "*.edx-cdn.org",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "i.ytimg.com",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "i1.sndcdn.com",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "*.medium.com",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "image.simplecastcdn.com",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "megaphone.imgix.net",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "artwork.captivate.fm",
-        port: "",
-        pathname: "**",
-      },
-      {
-        protocol: "https",
-        hostname: "xpro-app-rc.s3.amazonaws.com",
+        hostname: "**",
         port: "",
         pathname: "**",
       },
