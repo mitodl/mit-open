@@ -593,7 +593,7 @@ class TopicViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_class = TopicFilter
 
     @method_decorator(
-        cache_page_for_anonymous_users(
+        cache_page_for_all_users(
             settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
         )
     )
