@@ -1,20 +1,10 @@
-import { renderTestApp, screen, waitFor, setMockResponse } from "@/test-utils"
-import { urls } from "api/test-utils"
-import * as commonUrls from "@/common/urls"
-import { Permissions } from "@/common/permissions"
+import React from "react"
+import { screen, renderWithProviders } from "@/test-utils"
+import { AboutPage } from "./AboutPage"
 
 describe("AboutPage", () => {
-  test.skip("Renders title", async () => {
-    setMockResponse.get(urls.userMe.get(), {
-      [Permissions.Authenticated]: true,
-    })
-
-    renderTestApp({
-      url: commonUrls.ABOUT,
-    })
-    await waitFor(() => {
-      expect(document.title).toBe("About Us | MIT Learn")
-    })
+  test("Renders title", async () => {
+    renderWithProviders(<AboutPage />)
     screen.getByRole("heading", {
       name: "About Us",
     })

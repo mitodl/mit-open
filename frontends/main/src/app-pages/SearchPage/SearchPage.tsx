@@ -222,6 +222,10 @@ const SearchPage: React.FC = () => {
 
   const page = +(searchParams.get("page") ?? "1")
 
+  console.log({
+    searchParams: searchParams.toString(),
+  })
+
   return (
     <Page>
       <LearningResourceDrawer />
