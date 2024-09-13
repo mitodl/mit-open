@@ -140,8 +140,6 @@ describe("TopicsListingPage", () => {
       await screen.findByRole("heading", { name: topics.t2.name }),
     )
 
-    await new Promise((res) => setTimeout(res, 200))
-
     expect(topic1).toHaveTextContent("Courses: 100")
     expect(topic1).toHaveTextContent("Programs: 10")
 
