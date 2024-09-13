@@ -119,13 +119,12 @@ describe("UserMenu", () => {
 
   test("Learning path editors see 'Learning Paths' link", async () => {
     setMockResponse.get(urls.userMe.get(), { is_learning_path_editor: true })
-    const { location } = renderWithProviders(<Header />)
+    renderWithProviders(<Header />)
     const menu = await findUserMenu()
     const link = within(menu).getByRole("menuitem", {
       name: "Learning Paths",
     })
-    await user.click(link)
-    expect(location.current.pathname).toBe("/learningpaths/")
+    expect(link).toHaveAttribute("href", "/learningpaths")
   })
 
   test("Users WITHOUT LearningPathEditor permission do not see 'Learning Paths' link", async () => {

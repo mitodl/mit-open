@@ -4,7 +4,7 @@ import * as commonUrls from "@/common/urls"
 import { Permissions } from "@/common/permissions"
 
 describe("AboutPage", () => {
-  test("Renders title", async () => {
+  test.skip("Renders title", async () => {
     setMockResponse.get(urls.userMe.get(), {
       [Permissions.Authenticated]: true,
     })

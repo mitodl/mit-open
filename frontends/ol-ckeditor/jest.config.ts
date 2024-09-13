@@ -11,6 +11,10 @@ const config: Config.InitialOptions = {
       "|vanilla-colorful" +
       ")/)",
   ],
+  moduleNameMapper: {
+    "\\.svg$": "ol-test-utilities/filemocks/raw-svgmock.js",
+    "\\.(css|scss)$": "ol-test-utilities/filemocks/filemock.js",
+  },
   globals: {
     APP_SETTINGS: {
       CKEDITOR_UPLOAD_URL: "https://meowmeow.com",

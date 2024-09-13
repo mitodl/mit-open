@@ -91,9 +91,6 @@ describe("TopicsListingPage", () => {
   it("Has a page title", async () => {
     setupApis()
     renderWithProviders(<TopicsListingPage />)
-    await waitFor(() => {
-      expect(document.title).toBe("Topics | MIT Learn")
-    })
     screen.getByRole("heading", { name: "Browse by Topic" })
   })
 

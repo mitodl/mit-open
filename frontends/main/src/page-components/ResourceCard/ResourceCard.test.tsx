@@ -25,10 +25,15 @@ jest.mock("ol-components", () => {
 
 jest.mock("@ebay/nice-modal-react", () => {
   const actual = jest.requireActual("@ebay/nice-modal-react")
+  const show = jest.fn()
   return {
     __esModule: true,
     ...actual,
-    show: jest.fn(),
+    show,
+    default: {
+      ...actual.default,
+      show: show,
+    },
   }
 })
 
@@ -177,16 +182,15 @@ describe.each([
   })
 
   test("Clicking card opens resource drawer", async () => {
-    const { resource, location } = setup({
+    const { resource } = setup({
       user: { is_learning_path_editor: true },
     })
     invariant(resource)
     const link = screen.getByRole("link", { name: new RegExp(resource.title) })
-    await user.click(link)
-    expect(
-      new URLSearchParams(location.current.search).get(
-        RESOURCE_DRAWER_QUERY_PARAM,
-      ),
-    ).toBe(String(resource.id))
+    const href = link.getAttribute("href")
+    const url = new URL(href, window.location.href)
+    expect(url.searchParams.get(RESOURCE_DRAWER_QUERY_PARAM)).toBe(
+      String(resource.id),
+    )
   })
 })

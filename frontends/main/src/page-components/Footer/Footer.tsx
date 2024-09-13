@@ -148,7 +148,11 @@ const Footer: FunctionComponent = () => {
         <FooterContainerInner>
           <FooterContent>
             <FooterLeftContainer>
-              <FooterLogo href="https://mit.edu/" logo={footerLogo} />
+              <FooterLogo
+                href="https://mit.edu/"
+                logo={footerLogo}
+                alt="MIT Logo"
+              />
               <FooterAddress data-testid="footer-address">
                 Massachusetts Institute of Technology
                 <br />

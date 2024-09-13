@@ -14,8 +14,8 @@ type ListItemLinkProps = ListItemButtonProps<"a">
  * since the padding is applied to the link itself.
  */
 const ListItemLink: React.FC<ListItemLinkProps> = styled(
-  ({ href, ...props }: ListItemLinkProps) => (
-    <ListItemButton component={Link} to={href} {...props} />
+  ({ ...props }: ListItemLinkProps) => (
+    <ListItemButton component={Link} {...props} />
   ),
 )(() => [
   {

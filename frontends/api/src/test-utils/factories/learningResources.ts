@@ -196,7 +196,7 @@ const learningResourceTopic: Factory<LearningResourceTopic> = (
   const topic: LearningResourceTopic = {
     id: uniqueEnforcerId.enforce(() => faker.number.int()),
     name: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
-    channel_url: `${faker.internet.url()}${faker.system.directoryPath()}`,
+    channel_url: `${faker.internet.url({ appendSlash: false })}${faker.system.directoryPath()}`,
     parent: null,
     ...overrides,
   }
