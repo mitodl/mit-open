@@ -303,14 +303,6 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
-      - in: query
-        name: use_dfs_query_then_fetch
-        schema:
-          type: boolean
-          nullable: true
-          default: false
-        description: If true sets search_type=dfs_query_then_fetch which makes Opensearchmake
-          an extra pre-query to calculate term frequencies accross indexes
       tags:
       - content_file_search
       responses:
@@ -2800,14 +2792,6 @@ paths:
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
       - in: query
-        name: use_dfs_query_then_fetch
-        schema:
-          type: boolean
-          nullable: true
-          default: false
-        description: If true sets search_type=dfs_query_then_fetch which makes Opensearchmake
-          an extra pre-query to calculate term frequencies accross indexes
-      - in: query
         name: yearly_decay_percent
         schema:
           type: number
@@ -3309,14 +3293,6 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
-      - in: query
-        name: use_dfs_query_then_fetch
-        schema:
-          type: boolean
-          nullable: true
-          default: false
-        description: If true sets search_type=dfs_query_then_fetch which makes Opensearchmake
-          an extra pre-query to calculate term frequencies accross indexes
       - in: query
         name: yearly_decay_percent
         schema:
@@ -3859,14 +3835,6 @@ paths:
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
       - in: query
-        name: use_dfs_query_then_fetch
-        schema:
-          type: boolean
-          nullable: true
-          default: false
-        description: If true sets search_type=dfs_query_then_fetch which makes Opensearchmake
-          an extra pre-query to calculate term frequencies accross indexes
-      - in: query
         name: yearly_decay_percent
         schema:
           type: number
@@ -4384,14 +4352,6 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
-      - in: query
-        name: use_dfs_query_then_fetch
-        schema:
-          type: boolean
-          nullable: true
-          default: false
-        description: If true sets search_type=dfs_query_then_fetch which makes Opensearchmake
-          an extra pre-query to calculate term frequencies accross indexes
       - in: query
         name: yearly_decay_percent
         schema:
@@ -10338,12 +10298,6 @@ components:
           nullable: true
           default: false
           description: If true return raw open search results with score explanations
-        use_dfs_query_then_fetch:
-          type: boolean
-          nullable: true
-          default: false
-          description: If true sets search_type=dfs_query_then_fetch which makes Opensearchmake
-            an extra pre-query to calculate term frequencies accross indexes
         id:
           type: array
           items:

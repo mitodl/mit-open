@@ -1436,6 +1436,7 @@ def test_execute_learn_search_for_learning_resource_query(opensearch):
     opensearch.conn.search.assert_called_once_with(
         body=query,
         index=["testindex_course_default"],
+        search_type="dfs_query_then_fetch",
     )
 
 
@@ -1893,6 +1894,7 @@ def test_execute_learn_search_with_script_score(
     opensearch.conn.search.assert_called_once_with(
         body=query,
         index=["testindex_course_default"],
+        search_type="dfs_query_then_fetch",
     )
 
 
@@ -2302,6 +2304,7 @@ def test_execute_learn_search_with_min_score(mocker, opensearch):
     opensearch.conn.search.assert_called_once_with(
         body=query,
         index=["testindex_course_default"],
+        search_type="dfs_query_then_fetch",
     )
 
 
@@ -2511,6 +2514,7 @@ def test_execute_learn_search_for_content_file_query(opensearch):
     opensearch.conn.search.assert_called_once_with(
         body=query,
         index=["testindex_course_default"],
+        search_type="dfs_query_then_fetch",
     )
 
 

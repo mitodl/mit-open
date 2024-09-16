@@ -595,7 +595,7 @@ def add_text_query_to_search(search, text, search_params, query_type_query):
     return search
 
 
-def construct_search(search_params):  # noqa: C901
+def construct_search(search_params):
     """
     Construct a learning resources search based on the query
 
@@ -623,7 +623,7 @@ def construct_search(search_params):  # noqa: C901
     search = Search(index=",".join(indexes))
 
     search = search.source(fields={"excludes": SOURCE_EXCLUDED_FIELDS})
-
+    search = search.params(search_type="dfs_query_then_fetch")
     if search_params.get("offset"):
         search = search.extra(from_=search_params.get("offset"))
 
@@ -668,9 +668,6 @@ def construct_search(search_params):  # noqa: C901
 
     if search_params.get("dev_mode"):
         search = search.extra(explain=True)
-
-    if search_params.get("use_dfs_query_then_fetch"):
-        search = search.params(search_type="dfs_query_then_fetch")
 
     return search
 
