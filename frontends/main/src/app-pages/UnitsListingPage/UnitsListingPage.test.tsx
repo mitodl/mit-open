@@ -133,9 +133,6 @@ describe("DepartmentListingPage", () => {
   it("Has a page title", async () => {
     setupApis()
     renderWithProviders(<UnitsListingPage />)
-    await waitFor(() => {
-      expect(document.title).toBe("Units | MIT Learn")
-    })
     screen.getByRole("heading", { name: "Academic & Professional Learning" })
   })
 

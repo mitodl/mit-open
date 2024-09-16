@@ -1,17 +1,17 @@
+import React from "react"
 import { urls, factories, makeRequest } from "api/test-utils"
 import { ChannelTypeEnum, type Channel } from "api/v0"
 import type { LearningResourcesSearchResponse } from "api"
 import {
-  renderTestApp,
   screen,
   setMockResponse,
-  within,
   waitFor,
-  assertPartialMetas,
+  renderWithProviders,
 } from "@/test-utils"
 import ChannelSearch from "./ChannelSearch"
-import { assertHeadings } from "ol-test-utilities"
+import { assertHeadings, getByImageSrc } from "ol-test-utilities"
 import invariant from "tiny-invariant"
+import ChannelPage from "./ChannelPage"
 
 jest.mock("./ChannelSearch", () => {
   const actual = jest.requireActual("./ChannelSearch")
@@ -141,7 +141,9 @@ describe.each(ALL_CHANNEL_TYPES)(
           "platform=ocw&platform=mitxonline&department=8&department=9",
         channel_type: channelType,
       })
-      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      renderWithProviders(<ChannelPage />, {
+        url: `/c/${channel.channel_type}/${channel.name}`,
+      })
       await screen.findAllByText(channel.title)
       const expectedProps = expect.objectContaining({
         constantSearchParams: {
@@ -161,7 +163,9 @@ describe.each(ALL_CHANNEL_TYPES)(
         channel_type: channelType,
       })
       channel.search_filter = undefined
-      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      renderWithProviders(<ChannelPage />, {
+        url: `/c/${channel.channel_type}/${channel.name}`,
+      })
       await screen.findAllByText(channel.title)
 
       expect(mockedChannelSearch).toHaveBeenCalledTimes(0)
@@ -172,7 +176,9 @@ describe.each(ALL_CHANNEL_TYPES)(
         channel_type: channelType,
       })
       channel.search_filter = undefined
-      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      renderWithProviders(<ChannelPage />, {
+        url: `/c/${channel.channel_type}/${channel.name}`,
+      })
       await screen.findAllByText(channel.title)
 
       await waitFor(() => {
@@ -195,7 +201,9 @@ describe.each(ALL_CHANNEL_TYPES)(
           {},
           { isSubscribed },
         )
-        renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+        renderWithProviders(<ChannelPage />, {
+          url: `/c/${channel.channel_type}/${channel.name}`,
+        })
         const subscribedButton = await screen.findByText("Follow")
         expect(subscribedButton).toBeVisible()
       },
@@ -212,7 +220,9 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
         channel_type: channelType,
       })
 
-      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      renderWithProviders(<ChannelPage />, {
+        url: `/c/${channel.channel_type}/${channel.name}`,
+      })
       await screen.findAllByText(channel.title)
       const carousels = screen.queryByText("Featured Courses")
       expect(carousels).toBe(null)
@@ -224,13 +234,10 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
         channel_type: channelType,
       })
 
-      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-      const title = await screen.findByRole("heading", { name: channel.title })
-      await waitFor(() => {
-        assertPartialMetas({
-          title: `${channel.title} | ${APP_SETTINGS.SITE_NAME}`,
-        })
+      const { view } = renderWithProviders(<ChannelPage />, {
+        url: `/c/${channel.channel_type}/${channel.name}`,
       })
+      const title = await screen.findByRole("heading", { name: channel.title })
       // Banner background image
       expect(
         someAncestor(title, (el) =>
@@ -240,11 +247,10 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
         ),
       ).toBe(true)
       // logo
-      const images = screen.getAllByRole<HTMLImageElement>("img")
-      const logos = images.filter((img) =>
-        img.src.includes(channel.configuration.logo),
+      getByImageSrc(
+        view.container,
+        `${window.origin}${channel.configuration.logo}`,
       )
-      expect(logos.length).toBe(1)
     })
 
     test("headings", async () => {
@@ -252,7 +258,9 @@ describe.each(NON_UNIT_CHANNEL_TYPES)(
         search_filter: "topic=Physics",
         channel_type: channelType,
       })
-      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+      renderWithProviders(<ChannelPage />, {
+        url: `/c/${channel.channel_type}/${channel.name}`,
+      })
 
       await waitFor(() => {
         assertHeadings([
@@ -272,7 +280,9 @@ describe("Channel Pages, Topic only", () => {
       search_filter: "topic=Physics",
       channel_type: ChannelTypeEnum.Topic,
     })
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    renderWithProviders(<ChannelPage />, {
+      url: `/c/${channel.channel_type}/${channel.name}`,
+    })
 
     invariant(subTopics)
     const links = await screen.findAllByRole("link", {
@@ -286,63 +296,17 @@ describe("Channel Pages, Topic only", () => {
 })
 
 describe("Channel Pages, Unit only", () => {
-  it("Sets the expected meta tags", async () => {
-    const { channel } = setupApis({
-      search_filter: "offered_by=ocw",
-      channel_type: "unit",
-    })
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
-    const title = `${channel.title} | ${APP_SETTINGS.SITE_NAME}`
-    const { heading: description } = channel.configuration
-    await waitFor(() => {
-      assertPartialMetas({
-        title,
-        description,
-        og: { title, description },
-      })
-    })
-  })
-
-  it("Sets the expected metadata tags when resource drawer is open", async () => {
-    /**
-     * Check that the meta tags are correct on channel page, even when the
-     * resource drawer is open.
-     */
-    const { channel } = setupApis({
-      search_filter: "offered_by=ocw",
-      channel_type: "unit",
-    })
-    const resource = factories.learningResources.resource()
-    setMockResponse.get(
-      urls.learningResources.details({ id: resource.id }),
-      resource,
-    )
-
-    renderTestApp({
-      url: `/c/${channel.channel_type}/${channel.name}?resource=${resource.id}`,
-    })
-    await screen.findByRole("heading", { name: channel.title, hidden: true })
-    const title = `${resource.title} | ${APP_SETTINGS.SITE_NAME}`
-    const description = resource.description
-    await waitFor(() => {
-      assertPartialMetas({
-        title,
-        description,
-        og: { title, description },
-      })
-    })
-  })
-
   it("Displays the channel title, banner, and avatar", async () => {
     const { channel } = setupApis({
       search_filter: "offered_by=ocw",
       channel_type: "unit",
     })
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    renderWithProviders(<ChannelPage />, {
+      url: `/c/${channel.channel_type}/${channel.name}`,
+    })
 
     const title = await screen.findByRole("heading", { name: channel.title })
-    const image = within(title).getByRole<HTMLImageElement>("img")
-    expect(image.src).toContain(channel.configuration.logo)
+    getByImageSrc(title, `${window.origin}${channel.configuration.logo}`)
   })
   it("Displays a featured carousel if the channel type is 'unit'", async () => {
     const { channel } = setupApis({
@@ -350,7 +314,9 @@ describe("Channel Pages, Unit only", () => {
       channel_type: "unit",
     })
 
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    renderWithProviders(<ChannelPage />, {
+      url: `/c/${channel.channel_type}/${channel.name}`,
+    })
     await screen.findAllByText(channel.title)
     const carousel = await screen.findByText("Featured Courses")
     expect(carousel).toBeInTheDocument()
@@ -377,7 +343,9 @@ describe("Channel Pages, Unit only", () => {
       search_filter: "offered_by=ocw",
       channel_type: "unit",
     })
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    renderWithProviders(<ChannelPage />, {
+      url: `/c/${channel.channel_type}/${channel.name}`,
+    })
 
     await waitFor(() => {
       assertHeadings([

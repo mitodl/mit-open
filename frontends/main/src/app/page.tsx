@@ -4,8 +4,8 @@ import { dehydrate, Hydrate } from "api/ssr"
 import HomePage from "@/app-pages/HomePage/HomePage"
 import * as carousels from "@/app-pages/HomePage/carousels"
 import { learningResourcesKeyFactory } from "api/hooks/learningResources"
-import { FeaturedApiFeaturedListRequest } from "api/generated/v1/api"
-import getQueryClient from "./getQueryClient"
+import { FeaturedApiFeaturedListRequest } from "api/v1"
+import { getQueryClient } from "./getQueryClient"
 import { getMetadataAsync } from "@/common/metadata"
 
 export async function generateMetadata({

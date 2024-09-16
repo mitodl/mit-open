@@ -86,9 +86,6 @@ describe("DepartmentListingPage", () => {
   it("Has correct page title", async () => {
     setupApis()
     renderWithProviders(<DepartmentListingPage />)
-    await waitFor(() => {
-      expect(document.title).toBe("Departments | MIT Learn")
-    })
     screen.getByRole("heading", { name: "Browse by Academic Department" })
   })
 
@@ -156,6 +153,7 @@ describe("DepartmentListingPage", () => {
     const link = await screen.findByRole("link", {
       name: (name) => name.includes(dept.name),
     })
+
     expect(link).toHaveAttribute("href", dept.channel_url)
   })
 

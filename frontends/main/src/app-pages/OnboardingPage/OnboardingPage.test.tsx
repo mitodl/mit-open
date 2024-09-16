@@ -58,7 +58,7 @@ const PROFILES_FOR_STEPS = times(STEPS_DATA.length, profileForStep)
 
 const setup = async (profile: Profile) => {
   allowConsoleErrors()
-
+  setMockResponse.get(urls.userMe.get(), factories.user.user())
   setMockResponse.get(urls.profileMe.get(), profile)
   setMockResponse.patch(urls.profileMe.patch(), (req: Partial<Profile>) => ({
     ...profile,
