@@ -11,10 +11,13 @@ const config: Config.InitialOptions = {
       "|vanilla-colorful" +
       ")/)",
   ],
+  moduleNameMapper: {
+    "\\.svg$": "ol-test-utilities/filemocks/raw-svgmock.js",
+    "\\.(css|scss)$": "ol-test-utilities/filemocks/filemock.js",
+  },
   globals: {
     APP_SETTINGS: {
       CKEDITOR_UPLOAD_URL: "https://meowmeow.com",
-      EMBEDLY_KEY: "embedly_key",
       MITOL_AXIOS_WITH_CREDENTIALS: false,
       MITOL_API_BASE_URL: "https://api.test.learn.mit.edu",
     },

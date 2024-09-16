@@ -40,12 +40,7 @@ const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
         and follow your areas of interest.
       </BodyText>
       <Footer>
-        <ButtonLink
-          href={urls.login({
-            pathname,
-            search: searchParams?.toString(),
-          })}
-        >
+        <ButtonLink href={urls.login({ pathname, searchParams })}>
           Sign Up
         </ButtonLink>
       </Footer>

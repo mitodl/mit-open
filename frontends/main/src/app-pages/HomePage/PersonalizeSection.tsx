@@ -73,9 +73,7 @@ const AUTH_TEXT_DATA = {
     linkProps: {
       children: "Sign Up for Free",
       rawAnchor: true,
-      href: urls.login({
-        pathname: urls.DASHBOARD_HOME,
-      }),
+      href: urls.login({ pathname: urls.DASHBOARD_HOME }),
     },
   },
 }

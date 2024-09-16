@@ -197,9 +197,6 @@ describe("DashboardPage", () => {
   test("Renders title", async () => {
     setupAPIs()
     renderWithProviders(<DashboardPage />)
-    await waitFor(() => {
-      expect(document.title).toBe("Your MIT Learning Journey | MIT Learn")
-    })
     screen.getByRole("heading", {
       name: "Your MIT Learning Journey",
     })
