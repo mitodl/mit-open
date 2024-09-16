@@ -180,7 +180,7 @@ export const Format = ({ resource }: { resource: LearningResource }) => {
   )
 }
 
-const Loading = styled.div<{ mobile?: boolean }>`
+const Loading = styled.div`
   display: flex;
   padding: 24px;
   justify-content: space-between;
@@ -193,18 +193,10 @@ const Loading = styled.div<{ mobile?: boolean }>`
     flex-grow: 0;
     margin-left: auto;
   }
-  ${({ mobile }) =>
-    mobile
-      ? `
-    padding: 0px;
-    > div {
-      padding: 12px;
-    }`
-      : ""}
 `
 
 const MobileLoading = styled(Loading)(({ theme }) => ({
-  [theme.breakpoints.up("sm")]: {
+  [theme.breakpoints.up("md")]: {
     display: "none",
   },
   padding: "0px",
@@ -214,7 +206,7 @@ const MobileLoading = styled(Loading)(({ theme }) => ({
 }))
 
 const DesktopLoading = styled(Loading)(({ theme }) => ({
-  [theme.breakpoints.down("sm")]: {
+  [theme.breakpoints.down("md")]: {
     display: "none",
   },
 }))
