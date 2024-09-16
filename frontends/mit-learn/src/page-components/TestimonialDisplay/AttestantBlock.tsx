@@ -85,13 +85,25 @@ const AttestantNameBlock = styled.div<AttestantBlockChildProps>((props) => {
 const AttestantName = styled.div<AttestantBlockChildProps>((props) => {
   return [
     {
-      ...theme.typography.subtitle1,
+      ...theme.typography.h5,
       whiteSpace: "nowrap",
       color:
         props.color === "light"
           ? theme.custom.colors.white
           : theme.custom.colors.darkGray2,
       lineHeight: "125%",
+    },
+  ]
+})
+
+const AttestantTitle = styled.div<AttestantBlockChildProps>((props) => {
+  return [
+    {
+      ...theme.typography.body1,
+      color:
+        props.color === "light"
+          ? theme.custom.colors.lightGray2
+          : theme.custom.colors.silverGrayDark,
     },
   ]
 })
@@ -115,7 +127,9 @@ const AttestantBlock: React.FC<AttestantBlockProps> = ({
         <AttestantName variant={variant} color={color}>
           {attestation?.attestant_name}
         </AttestantName>
-        <TruncateText lineClamp={2}>{attestation.title}</TruncateText>
+        <AttestantTitle>
+          <TruncateText lineClamp={2}>{attestation.title}</TruncateText>
+        </AttestantTitle>
       </AttestantNameBlock>
     </AttestantBlockContainer>
   )
