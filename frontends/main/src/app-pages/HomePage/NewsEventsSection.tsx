@@ -62,8 +62,8 @@ const MobileContainer = styled.section`
   width: 100%;
   margin: 0 -16px;
 
-  h4 {
-    margin: 0 16px 24px;
+  h3 {
+    margin: 0 16px 12px;
   }
 `
 
@@ -167,10 +167,6 @@ const Chevron = styled(RiArrowRightSLine)`
   justify-content: flex-end;
 `
 
-const MobileTypography = styled(Typography)`
-  margin: 0 16px 12px 16px;
-`
-
 const AboveMdOnly = styled.div(({ theme }) => ({
   [theme.breakpoints.down("md")]: {
     display: "none",
@@ -263,9 +259,9 @@ const NewsEventsSection: React.FC = () => {
       <BelowMdOnly>
         <MobileContent>
           <MobileContainer>
-            <MobileTypography component="h3" variant="h4">
+            <Typography component="h3" variant="h4">
               Stories
-            </MobileTypography>
+            </Typography>
             <StoriesSlider>
               {stories.map((item) => (
                 <Story
@@ -277,9 +273,9 @@ const NewsEventsSection: React.FC = () => {
             </StoriesSlider>
           </MobileContainer>
           <MobileContainer>
-            <MobileTypography component="h3" variant="h4">
+            <Typography component="h3" variant="h4">
               Events
-            </MobileTypography>
+            </Typography>
             <MobileEvents>{EventCards}</MobileEvents>
           </MobileContainer>
         </MobileContent>
