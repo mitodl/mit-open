@@ -92,6 +92,9 @@ const AttestantName = styled.div<AttestantBlockChildProps>((props) => {
           ? theme.custom.colors.white
           : theme.custom.colors.darkGray2,
       lineHeight: "125%",
+      [theme.breakpoints.down("sm")]: {
+        ...theme.typography.subtitle1,
+      },
     },
   ]
 })
@@ -104,6 +107,9 @@ const AttestantTitle = styled.div<AttestantBlockChildProps>((props) => {
         props.color === "light"
           ? theme.custom.colors.lightGray2
           : theme.custom.colors.silverGrayDark,
+      [theme.breakpoints.down("sm")]: {
+        ...theme.typography.body2,
+      },
     },
   ]
 })
