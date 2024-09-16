@@ -1,93 +1,93 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React from "react"
-import { createMemoryRouter, useRouteError } from "react-router"
-import type { RouteObject } from "react-router"
+import { QueryClientProvider } from "api/ssr"
+import { ThemeProvider } from "ol-components"
+import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"
+import type { QueryClient } from "api/ssr"
 
-// @ts-expect-error Fixing tests next
-import AppProviders from "../AppProviders"
-// @ts-expect-error Fixing tests next
-import appRoutes from "../routes"
+import { makeQueryClient } from "@/app/getQueryClient"
 import { render } from "@testing-library/react"
 import { setMockResponse } from "api/test-utils"
-// @ts-expect-error Fixing tests next
-import { createQueryClient } from "@/services/react-query/react-query"
 import type { User } from "api/hooks/user"
-import { QueryKey } from "@tanstack/react-query"
+import {
+  mockRouter,
+  createDynamicRouteParser,
+} from "ol-test-utilities/mocks/nextNavigation"
+import * as urls from "@/common/urls"
+
+/**
+ * Makes nextNavigation aware of the routes.
+ *
+ * This is needed for `useParams` to pick up the correct path parameters.
+ */
+const setupRoutes = () => {
+  mockRouter.useParser(
+    createDynamicRouteParser([
+      //
+      urls.PROGRAMLETTER_VIEW,
+      urls.CHANNEL_VIEW,
+    ]),
+  )
+}
+setupRoutes()
 
 interface TestAppOptions {
   url: string
   user: Partial<User>
-  queryClient?: ReturnType<typeof createQueryClient>
-  initialQueryData?: [QueryKey, unknown][]
 }
 
 const defaultTestAppOptions = {
   url: "/",
 }
-
-/**
- * React-router includes a default error boundary which catches thrown errors.
- *
- * During testing, we want all unexpected errors to be re-thrown.
- */
-const RethrowError = () => {
-  const error = useRouteError()
-  if (error) {
-    throw error
-  }
-  return null
+const defaultUser: User = {
+  is_authenticated: true,
 }
+
+const TestProviders: React.FC<{
+  children: React.ReactNode
+  queryClient: QueryClient
+}> = ({ children, queryClient }) => (
+  <QueryClientProvider client={queryClient}>
+    <ThemeProvider>
+      <NiceModalProvider>{children}</NiceModalProvider>
+    </ThemeProvider>
+  </QueryClientProvider>
+)
 
 /**
  * Render routes in a test environment using same providers used by App.
  */
-const renderRoutesWithProviders = (
-  routes: RouteObject[],
+const renderWithProviders = (
+  component: React.ReactNode,
   options: Partial<TestAppOptions> = {},
 ) => {
-  const { url, user, initialQueryData } = {
-    ...defaultTestAppOptions,
-    ...options,
-  }
+  const allOpts = { ...defaultTestAppOptions, ...options }
+  const { url } = allOpts
 
-  const router = createMemoryRouter(routes, { initialEntries: [url] })
-  const queryClient = options.queryClient || createQueryClient()
+  const queryClient = makeQueryClient()
 
-  if (user) {
-    queryClient.setQueryData(["userMe"], { is_authenticated: true, ...user })
+  if (allOpts.user) {
+    const user = { ...defaultUser, ...allOpts.user }
+    queryClient.setQueryData(["userMe"], { ...user })
   }
-  if (initialQueryData) {
-    initialQueryData.forEach(([queryKey, data]) => {
-      queryClient.setQueryData(queryKey, data)
-    })
-  }
+  mockRouter.setCurrentUrl(url)
+
   const view = render(
-    <AppProviders queryClient={queryClient} router={router}></AppProviders>,
+    <TestProviders queryClient={queryClient}>{component}</TestProviders>,
   )
 
   const location = {
     get current() {
-      return router.state.location
+      const url = new URL(mockRouter.asPath, "http://localhost")
+      return { pathname: mockRouter.pathname, search: url.search }
     },
   }
 
   return { view, queryClient, location }
 }
 
-const renderTestApp = (options?: Partial<TestAppOptions>) =>
-  renderRoutesWithProviders(appRoutes, options)
-
-/**
- * Render element in a test environment using same providers used by App.
- */
-const renderWithProviders = (
-  element: React.ReactNode,
-  options?: Partial<TestAppOptions>,
-) => {
-  const routes: RouteObject[] = [
-    { element, path: "*", errorElement: <RethrowError /> },
-  ]
-  return renderRoutesWithProviders(routes, options)
+const renderTestApp = () => {
+  throw new Error("not supported")
 }
 
 /**
@@ -225,7 +225,6 @@ const assertPartialMetas = (expected: Partial<TestableMetas>) => {
 export {
   renderTestApp,
   renderWithProviders,
-  renderRoutesWithProviders,
   expectProps,
   expectLastProps,
   expectWindowNavigation,

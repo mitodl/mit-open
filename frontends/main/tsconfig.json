@@ -18,10 +18,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"],
-      "@/test-utils": ["./test-utils"],
-      "api": ["../api/src"],
-      "api/*": ["../api/src/*"]
+      "@/*": ["./src/*"]
     },
     "target": "ESNext",
     "types": [
@@ -39,5 +36,5 @@
     ".next/types/**/*.ts",
     "../jest.jsdom.config"
   ],
-  "exclude": ["node_modules", "../mit-learn/**/*.tsx", "ol-test-utilities"]
+  "exclude": ["node_modules", "../mit-learn/**/*.tsx"]
 }

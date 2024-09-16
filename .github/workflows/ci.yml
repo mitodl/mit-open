@@ -98,24 +98,6 @@ jobs:
         with:
           file: ./coverage.xml
 
-  build-nextjs-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-
-      - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
-        with:
-          node-version: "^20"
-          cache: yarn
-          cache-dependency-path: yarn.lock
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build Next.js frontend
-        run: yarn workspace main build
-
   javascript-tests:
     runs-on: ubuntu-latest
     steps:
@@ -144,8 +126,11 @@ jobs:
       - name: Lints
         run: yarn run lint-check
 
+      - name: Build Next.js frontend
+        run: yarn workspace main build
+        # do this before typecheck. See https://github.com/vercel/next.js/issues/53959#issuecomment-1735563224
+
       - name: Typecheck
-        if: false # To be reinstated. Anything actually used in `main` is typecheck during build
         run: yarn run typecheck
 
       - name: Get number of CPU cores

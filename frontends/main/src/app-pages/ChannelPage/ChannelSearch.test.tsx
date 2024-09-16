@@ -1,10 +1,12 @@
-import { screen, within, waitFor, renderTestApp } from "@/test-utils"
+import React from "react"
+import { screen, within, waitFor, renderWithProviders } from "@/test-utils"
 import { setMockResponse, urls, factories, makeRequest } from "api/test-utils"
 import type { LearningResourcesSearchResponse } from "api"
 import invariant from "tiny-invariant"
 import { makeWidgetListResponse } from "ol-widgets/src/factories"
 import type { Channel } from "api/v0"
 import { ChannelTypeEnum } from "api/v0"
+import ChannelPage from "./ChannelPage"
 
 const setMockApiResponses = ({
   search,
@@ -125,7 +127,9 @@ describe("ChannelSearch", () => {
       },
     })
     setMockResponse.get(urls.userMe.get(), {})
-    renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}` })
+    renderWithProviders(<ChannelPage />, {
+      url: `/c/${channel.channel_type}/${channel.name}`,
+    })
     await screen.findAllByText(channel.title)
     const tabpanel = await screen.findByRole("tabpanel")
     for (const resource of resources) {
@@ -174,7 +178,7 @@ describe("ChannelSearch", () => {
       })
       setMockResponse.get(urls.userMe.get(), {})
 
-      renderTestApp({
+      renderWithProviders(<ChannelPage />, {
         url: `/c/${channel.channel_type}/${channel.name}/${url}`,
       })
 
@@ -240,7 +244,9 @@ describe("ChannelSearch", () => {
 
       setMockResponse.get(urls.userMe.get(), {})
 
-      renderTestApp({ url: `/c/${channel.channel_type}/${channel.name}/` })
+      renderWithProviders(<ChannelPage />, {
+        url: `/c/${channel.channel_type}/${channel.name}/`,
+      })
 
       await waitFor(() => {
         expect(makeRequest.mock.calls.length > 0).toBe(true)

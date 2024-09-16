@@ -17,9 +17,9 @@ describe("CkeditorDisplay", () => {
     `.trim()
     const expectedHtmlOut = `
 <p>Some text</p>
-<a data-card-chrome="0" data-card-controls="0" data-card-key="embedly_key" class="embedly-card" href="https://openlearning.mit.edu/"></a>
+<a data-card-chrome="0" data-card-controls="0" data-card-key="fake-embedly-key" class="embedly-card" href="https://openlearning.mit.edu/"></a>
 <p>More text</p>
-<a data-card-chrome="0" data-card-controls="0" data-card-key="embedly_key" class="embedly-card" href="https://mit.edu/"></a>
+<a data-card-chrome="0" data-card-controls="0" data-card-key="fake-embedly-key" class="embedly-card" href="https://mit.edu/"></a>
 <p>Some more text</p>
     `.trim()
     const view = render(<CkeditorDisplay dangerouslySetInnerHTML={htmlIn} />)
