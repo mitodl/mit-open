@@ -1,6 +1,7 @@
 import React from "react"
 import LearningPathListingPage from "@/app-pages/LearningPathListingPage/LearningPathListingPage"
 import { getMetadata } from "@/common/metadata"
+import { Metadata } from "next"
 
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME
 
