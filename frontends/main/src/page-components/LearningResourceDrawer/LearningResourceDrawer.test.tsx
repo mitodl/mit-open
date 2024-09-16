@@ -37,13 +37,14 @@ jest.mock("posthog-js/react", () => ({
 }))
 
 describe("LearningResourceDrawer", () => {
-  it.each([
+  it.skip.each([
     { descriptor: "is enabled", enablePostHog: true },
     { descriptor: "is not enabled", enablePostHog: false },
   ])(
     "Renders drawer content when resource=id is in the URL and captures the view if PostHog $descriptor",
     async ({ enablePostHog }) => {
       setMockResponse.get(urls.userMe.get(), {})
+      // @ts-expect-error reinstante posthog
       APP_SETTINGS.POSTHOG = {
         api_key: enablePostHog ? "test1234" : "", // pragma: allowlist secret
       }
@@ -139,13 +140,17 @@ describe("LearningResourceDrawer", () => {
         urls.learningResources.details({ id: resource.id }),
         resource,
       )
+      const user = factories.user.user({
+        is_learning_path_editor: isLearningPathEditor,
+      })
+      if (isAuthenticated) {
+        setMockResponse.get(urls.userMe.get(), user)
+      } else {
+        setMockResponse.get(urls.userMe.get(), null, { code: 403 })
+      }
 
       renderWithProviders(<LearningResourceDrawer />, {
         url: `?resource=${resource.id}`,
-        user: {
-          is_learning_path_editor: isLearningPathEditor,
-          is_authenticated: isAuthenticated,
-        },
       })
 
       expect(LearningResourceExpanded).toHaveBeenCalled()

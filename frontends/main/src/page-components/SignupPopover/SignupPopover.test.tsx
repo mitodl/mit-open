@@ -17,7 +17,7 @@ test("SignupPopover shows link to sign up", async () => {
   expect(link.href).toMatch(
     urls.login({
       pathname: "/some-path",
-      search: "?dog=woof",
+      searchParams: new URLSearchParams("dog=woof"),
     }),
   )
 })

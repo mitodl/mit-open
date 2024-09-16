@@ -283,15 +283,18 @@ type ButtonLinkProps = ButtonStyleProps &
     rawAnchor?: boolean
     href: string
   }
+
 const ButtonLink = ButtonStyled.withComponent(
-  ({ children, rawAnchor, ...props }: ButtonLinkProps) => {
-    const Component = rawAnchor ? "a" : Link
-    return (
-      <Component {...props}>
-        <ButtonInner {...props}>{children}</ButtonInner>
-      </Component>
-    )
-  },
+  React.forwardRef<HTMLAnchorElement, ButtonLinkProps>(
+    ({ children, rawAnchor, ...props }: ButtonLinkProps, ref) => {
+      const Component = rawAnchor ? "a" : Link
+      return (
+        <Component ref={ref} {...props}>
+          <ButtonInner {...props}>{children}</ButtonInner>
+        </Component>
+      )
+    },
+  ),
 )
 ButtonLink.displayName = "ButtonLink"
 
