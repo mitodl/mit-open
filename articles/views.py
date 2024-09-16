@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAdminUser
 from articles.models import Article
 from articles.serializers import ArticleSerializer
 from main.constants import VALID_HTTP_METHODS
-from main.utils import cache_page_for_all_users
+from main.utils import cache_page_for_all_users, clear_search_cache
 
 # Create your views here.
 
@@ -48,3 +48,11 @@ class ArticleViewSet(viewsets.ModelViewSet):
     )
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        clear_search_cache()
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        clear_search_cache()
+        return super().destroy(request, *args, **kwargs)
