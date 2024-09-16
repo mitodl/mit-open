@@ -199,6 +199,8 @@ export * from "./constants/imgConfigs"
 
 export { Input, AdornmentButton } from "./components/Input/Input"
 export type { InputProps, AdornmentButtonProps } from "./components/Input/Input"
+export { SignupPopover } from "./components/SignupPopover/SignupPopover"
+export type { SignupPopoverProps } from "./components/SignupPopover/SignupPopover"
 export { SearchInput } from "./components/SearchInput/SearchInput"
 export type { SearchInputProps } from "./components/SearchInput/SearchInput"
 export { TextField } from "./components/TextField/TextField"

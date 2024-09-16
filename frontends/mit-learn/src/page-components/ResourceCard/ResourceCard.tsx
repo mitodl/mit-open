@@ -3,6 +3,7 @@ import {
   LearningResourceCard,
   LearningResourceListCard,
   LearningResourceListCardCondensed,
+  SignupPopover,
 } from "ol-components"
 import * as NiceModal from "@ebay/nice-modal-react"
 import type {
@@ -15,8 +16,9 @@ import {
 } from "../Dialogs/AddToListDialog"
 import { useResourceDrawerHref } from "../LearningResourceDrawer/LearningResourceDrawer"
 import { useUserMe } from "api/hooks/user"
-import { SignupPopover } from "../SignupPopover/SignupPopover"
 import { LearningResource } from "api"
+import * as urls from "@/common/urls"
+import { useLocation } from "react-router"
 
 const useResourceCard = (resource?: LearningResource | null) => {
   const getDrawerHref = useResourceDrawerHref()
@@ -80,6 +82,7 @@ type ResourceCardProps = Omit<
  *  - onAddToLearningPathClick opens the Add to Learning Path modal
  */
 const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
+  const loc = useLocation()
   const {
     getDrawerHref,
     anchorEl,
@@ -100,7 +103,14 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
         inLearningPath={inLearningPath}
         {...others}
       />
-      <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} />
+      <SignupPopover
+        signupUrl={urls.login({
+          pathname: loc.pathname,
+          search: loc.search,
+        })}
+        anchorEl={anchorEl}
+        onClose={handleClosePopover}
+      />
     </>
   )
 }
@@ -124,6 +134,7 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
   condensed,
   ...props
 }) => {
+  const loc = useLocation()
   const {
     getDrawerHref,
     anchorEl,
@@ -148,7 +159,14 @@ const ResourceListCard: React.FC<ResourceListCardProps> = ({
         inLearningPath={inLearningPath}
         {...props}
       />
-      <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} />
+      <SignupPopover
+        signupUrl={urls.login({
+          pathname: loc.pathname,
+          search: loc.search,
+        })}
+        anchorEl={anchorEl}
+        onClose={handleClosePopover}
+      />
     </>
   )
 }
