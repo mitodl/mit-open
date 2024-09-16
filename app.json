@@ -352,6 +352,10 @@
       "description": "Shared secret for JWT auth tokens",
       "required": false
     },
+    "MITOL_NOINDEX": {
+      "description": "Prevent search engines from indexing the site",
+      "required": false
+    },
     "MITOL_SECURE_SSL_REDIRECT": {
       "description": "Application-level SSL redirect setting.",
       "value": "True",

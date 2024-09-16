@@ -44,6 +44,7 @@ const {
   SENTRY_PROFILES_SAMPLE_RATE,
   CSRF_COOKIE_NAME,
   APPZI_URL,
+  MITOL_NOINDEX,
 } = cleanEnv(process.env, {
   NODE_ENV: str({
     choices: ["development", "production", "test"],
@@ -118,6 +119,10 @@ const {
     // use str() not url() to allow empty string
     desc: "URL for the Appzi feedback widget",
     default: "",
+  }),
+  MITOL_NOINDEX: bool({
+    desc: "Whether to include a noindex meta tag",
+    default: true,
   }),
 })
 
@@ -216,6 +221,7 @@ module.exports = (env, argv) => {
         template: "public/index.html",
         templateParameters: {
           APPZI_URL,
+          MITOL_NOINDEX,
         },
       }),
       new CopyPlugin({

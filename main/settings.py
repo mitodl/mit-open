@@ -763,3 +763,6 @@ POSTHOG_PROJECT_ID = get_int(
     name="POSTHOG_PROJECT_ID",
     default=None,
 )
+
+# Enable or disable search engine indexing
+MITOL_NOINDEX = get_bool("MITOL_NOINDEX", True)  # noqa: FBT003
