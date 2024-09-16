@@ -68,14 +68,13 @@ class SearchIndexPlugin:
         Args:
             resource(LearningResource): The Learning Resource that was upserted
         """
-        upsert_task = tasks.upsert_learning_resource
+        upsert_task = tasks.upsert_learning_resource.si(resource.id)
         if percolate:
             upsert_task = chain(
                 tasks.upsert_learning_resource.si(resource.id),
                 tasks.percolate_learning_resource.si(resource.id),
             )
-
-        try_with_retry_as_task(upsert_task, resource.id)
+        upsert_task.delay()
 
     @hookimpl
     def resource_unpublished(self, resource):
