@@ -17,6 +17,17 @@ import AttestantBlock from "@/page-components/TestimonialDisplay/AttestantBlock"
 
 const MARKETING_IMAGE_IDX = _.shuffle([1, 2, 3, 4, 5, 6])
 
+const HeaderContainer = styled(Container)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  gap: "8px",
+  paddingBottom: "60px",
+  [theme.breakpoints.down("md")]: {
+    paddingBottom: "28px",
+  },
+}))
+
 const Section = styled.section(({ theme }) => ({
   backgroundColor: theme.custom.colors.mitRed,
   color: theme.custom.colors.white,
@@ -296,15 +307,15 @@ const SlickCarousel = () => {
 const TestimonialsSection: React.FC = () => {
   return (
     <Section>
-      <Container id="hamster-noises">
+      <HeaderContainer id="hamster-noises">
         <Typography component="h2" variant="h2">
           From Our Community
         </Typography>
-        <Typography variant="h3">
+        <Typography variant="body1">
           Millions of learners are reaching their goals with MIT's non-degree
           learning resources. Here's what they're saying.
         </Typography>
-      </Container>
+      </HeaderContainer>
       <SlickCarousel />
     </Section>
   )
