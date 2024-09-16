@@ -296,11 +296,11 @@ const SlickCarousel = () => {
 const TestimonialsSection: React.FC = () => {
   return (
     <Section>
-      <Container id="hamster-noises">
+      <Container>
         <Typography component="h2" variant="h2">
           From Our Community
         </Typography>
-        <Typography variant="h3">
+        <Typography component="h3">
           Millions of learners are reaching their goals with MIT's non-degree
           learning resources. Here's what they're saying.
         </Typography>
