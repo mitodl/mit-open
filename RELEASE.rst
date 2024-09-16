@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.19.0
+Version 0.19.0 (Released September 16, 2024)
 --------------
 
 - Update docker-compose config to support OS cluster (#1540)
