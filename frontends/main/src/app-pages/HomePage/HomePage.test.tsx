@@ -78,6 +78,31 @@ const setupAPIs = () => {
   )
 }
 
+test("Headings", async () => {
+  setupAPIs()
+
+  renderWithProviders(<HomePage />)
+  await waitFor(() => {
+    assertHeadings([
+      { level: 1, name: "Learn with MIT" },
+      { level: 2, name: "Featured Courses" },
+      { level: 2, name: "Continue Your Journey" },
+      { level: 2, name: "Media" },
+      { level: 2, name: "Browse by Topic" },
+      { level: 2, name: "From Our Community" },
+      {
+        level: 3,
+        name: "Millions of learners are reaching their goals with MIT's non-degree learning resources. Here's what they're saying.",
+      },
+      { level: 2, name: "MIT Stories & Events" },
+      { level: 3, name: "Stories" },
+      { level: 3, name: "Events" },
+      { level: 3, name: "Stories" },
+      { level: 3, name: "Events" },
+    ])
+  })
+})
+
 describe("Home Page Hero", () => {
   test("Submitting search goes to search page", async () => {
     setupAPIs()
@@ -176,7 +201,8 @@ describe("Home Page News and Events", () => {
     let section
     await waitFor(() => {
       section = screen
-        .getByRole("heading", { name: "Stories" })!
+        .getAllByRole("heading", { name: "Stories" })!
+        .at(0)!
         .closest("section")!
     })
 
@@ -227,7 +253,8 @@ describe("Home Page News and Events", () => {
     let section
     await waitFor(() => {
       section = screen
-        .getByRole("heading", { name: "Events" })!
+        .getAllByRole("heading", { name: "Events" })!
+        .at(0)!
         .closest("section")!
     })
 
@@ -316,24 +343,5 @@ describe("Home Page Carousel", () => {
       within(media).getByRole("tab", { name: "Videos" })
       within(media).getByRole("tab", { name: "Podcasts" })
     })
-  })
-})
-
-test("Headings", async () => {
-  setupAPIs()
-
-  renderWithProviders(<HomePage />)
-  await waitFor(() => {
-    assertHeadings([
-      { level: 1, name: "Learn with MIT" },
-      { level: 2, name: "Featured Courses" },
-      { level: 2, name: "Continue Your Journey" },
-      { level: 2, name: "Media" },
-      { level: 2, name: "Browse by Topic" },
-      { level: 2, name: "From Our Community" },
-      { level: 2, name: "MIT Stories & Events" },
-      { level: 3, name: "Stories" },
-      { level: 3, name: "Events" },
-    ])
   })
 })
