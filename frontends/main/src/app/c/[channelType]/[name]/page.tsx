@@ -2,9 +2,7 @@ import React from "react"
 import ChannelPage from "@/app-pages/ChannelPage/ChannelPage"
 import { channelsApi } from "api/clients"
 
-import { GetStaticPropsContext } from "next"
-
-export async function generateMetadata({ params }: GetStaticPropsContext) {
+export async function generateMetadata({ params }) {
   const { channelType, name } = params
   const channelDetails = await channelsApi
     .channelsTypeRetrieve({ channel_type: channelType, name: name })
