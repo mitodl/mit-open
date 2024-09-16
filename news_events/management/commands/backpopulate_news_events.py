@@ -4,7 +4,7 @@ from itertools import chain
 
 from django.core.management import BaseCommand
 
-from main.utils import clear_cache
+from main.utils import clear_search_cache
 from news_events.etl import pipelines
 from news_events.models import FeedImage, FeedSource
 
@@ -56,4 +56,4 @@ class Command(BaseCommand):
                     f"Processed {etl_func} pipeline with {item_count} items"
                 )
         self.stdout.write("Finished running news/events ETL pipelines")
-        clear_cache()
+        clear_search_cache()
