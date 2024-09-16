@@ -11,7 +11,7 @@ import { RiArrowDownSLine, RiMailLine } from "@remixicon/react"
 import { useUserMe } from "api/hooks/user"
 import { SourceTypeEnum } from "api"
 import * as urls from "@/common/urls"
-import { useLocation } from "react-router"
+import { useSearchParams, usePathname } from "next/navigation"
 
 const StyledButton = styled(Button)({
   minWidth: "130px",
@@ -24,15 +24,16 @@ type SearchSubscriptionToggleProps = {
 }
 
 const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
-  searchParams,
+  searchParams: urlParams,
   sourceType,
 }) => {
-  const loc = useLocation()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
   const [buttonEl, setButtonEl] = useState<null | HTMLElement>(null)
 
   const subscribeParams: Record<string, string[] | string> = useMemo(() => {
-    return { source_type: sourceType, ...getSearchParamMap(searchParams) }
-  }, [searchParams, sourceType])
+    return { source_type: sourceType, ...getSearchParamMap(urlParams) }
+  }, [urlParams, sourceType])
 
   const { data: user } = useUserMe()
   const subscriptionDelete = useSearchSubscriptionDelete()
@@ -94,8 +95,8 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
       </StyledButton>
       <SignupPopover
         signupUrl={urls.login({
-          pathname: loc.pathname,
-          search: loc.search,
+          pathname,
+          searchParams,
         })}
         anchorEl={buttonEl}
         onClose={() => setButtonEl(null)}

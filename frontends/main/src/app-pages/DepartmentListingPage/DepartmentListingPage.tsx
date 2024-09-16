@@ -147,15 +147,10 @@ const SchoolDepartments: React.FC<SchoolDepartmentProps> = ({
             { count: courses, label: pluralize("Course", courses) },
             { count: programs, label: pluralize("Program", programs) },
           ]
+          if (!department.channel_url) return null
           return (
             <ListItem disablePadding key={department.department_id}>
-              <DepartmentLink
-                href={
-                  department.channel_url
-                    ? new URL(department.channel_url).pathname
-                    : ""
-                }
-              >
+              <DepartmentLink href={department.channel_url}>
                 <ListItemText
                   primary={department.name}
                   secondary={counts

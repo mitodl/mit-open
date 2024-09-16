@@ -1,18 +1,29 @@
-// https://tanstack.com/query/v4/docs/framework/react/guides/ssr#using-hydrate
+// Based on https://tanstack.com/query/v5/docs/framework/react/guides/advanced-ssr
 
-import { QueryClient } from "api/ssr"
-// import { cache } from "react"
+import { QueryClient, isServer } from "api/ssr"
 
-/*
- * Using cache()  Errors with:
- * Error occurred prerendering page "/about". Read more: https://nextjs.org/docs/messages/prerender-error
-      Error: Not implemented.
-    at Object.getCacheForType
-    https://github.com/vercel/next.js/issues/57205
- */
-// const getQueryClient = cache(() => new QueryClient())
+function makeQueryClient() {
+  return new QueryClient({
+    defaultOptions: {
+      queries: {},
+    },
+  })
+}
 
-// TODO We need to ensure this is called only once per request
-const getQueryClient = () => new QueryClient()
+let browserQueryClient: QueryClient | undefined = undefined
 
-export default getQueryClient
+function getQueryClient() {
+  if (isServer) {
+    // Server: always make a new query client
+    return makeQueryClient()
+  } else {
+    // Browser: make a new query client if we don't already have one
+    // This is very important, so we don't re-make a new client if React
+    // suspends during the initial render. This may not be needed if we
+    // have a suspense boundary BELOW the creation of the query client
+    if (!browserQueryClient) browserQueryClient = makeQueryClient()
+    return browserQueryClient
+  }
+}
+
+export { makeQueryClient, getQueryClient }

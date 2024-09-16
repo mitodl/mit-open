@@ -2,7 +2,7 @@
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config, { webpack }) => {
+  webpack: (config, { webpack, isServer }) => {
     config.plugins.push(
       new webpack.IgnorePlugin({
         resourceRegExp: /\.test\.tsx$/,
@@ -11,6 +11,10 @@ const nextConfig = {
         resourceRegExp: /mockAxios\.ts/,
       }),
     )
+
+    if (isServer) {
+      config.devtool = "source-map"
+    }
 
     // Do not do this. Added to fix "import type", but causes a strage issue where
     // the root page and layout think they're Client Components and "use client"

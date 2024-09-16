@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { Suspense } from "react"
 import { Container, styled, theme } from "ol-components"
 import HeroSearch from "@/page-components/HeroSearch/HeroSearch"
 import BrowseTopicsSection from "./BrowseTopicsSection"
@@ -41,7 +41,9 @@ const MediaCarousel = styled(ResourceCarousel)(({ theme }) => ({
 const HomePage: React.FC = () => {
   return (
     <>
-      <LearningResourceDrawer />
+      <Suspense>
+        <LearningResourceDrawer />
+      </Suspense>
       <FullWidthBackground>
         <Container>
           <HeroSearch />

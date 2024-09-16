@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Suspense } from "react"
 import { styled, Breadcrumbs, Banner } from "ol-components"
 import { SearchSubscriptionToggle } from "@/page-components/SearchSubscriptionToggle/SearchSubscriptionToggle"
 import { useChannelDetail } from "api/hooks/channels"
@@ -97,11 +97,13 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
           <ChannelControlsContainer>
             <ChannelControls>
               {channel.data?.search_filter ? (
-                <SearchSubscriptionToggle
-                  itemName={channel.data?.title}
-                  sourceType={SourceTypeEnum.ChannelSubscriptionType}
-                  searchParams={urlParams}
-                />
+                <Suspense>
+                  <SearchSubscriptionToggle
+                    itemName={channel.data?.title}
+                    sourceType={SourceTypeEnum.ChannelSubscriptionType}
+                    searchParams={urlParams}
+                  />
+                </Suspense>
               ) : null}
               {channel.data?.is_moderator ? (
                 <ChannelMenu

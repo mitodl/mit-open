@@ -1,7 +1,7 @@
 "use client"
 
 import _ from "lodash"
-import React, { useCallback, useMemo } from "react"
+import React, { Suspense, useCallback, useMemo } from "react"
 import type { FacetManifest } from "@mitodl/course-search-utils"
 import { useSearchParams } from "@mitodl/course-search-utils/next"
 import {
@@ -224,7 +224,9 @@ const SearchPage: React.FC = () => {
 
   return (
     <Page>
-      <LearningResourceDrawer />
+      <Suspense>
+        <LearningResourceDrawer />
+      </Suspense>
       <VisuallyHidden>
         <h1>Search</h1>
       </VisuallyHidden>

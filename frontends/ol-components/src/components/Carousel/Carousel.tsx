@@ -31,31 +31,35 @@ type CarouselProps = {
   nextLabel?: string
 }
 
-const SlickStyled = styled(Slick)<{ rendered: boolean }>(({ rendered }) => [
-  {
-    /**
-     * This is a fallback. The carousel's width should be constrained by it's
-     * parent. But if it's not, this will at least prevent it from resizing itself
-     * beyond the viewport width.
-     */
-    maxWidth: "100vw",
-    ".slick-track::before": {
-      // By default slick has empty string content on the ::before pseudo
-      // element, which interferes with spacing on initial render.
-      content: "none",
-    },
-  },
-  !rendered && {
-    ".slick-track": {
+// TODO
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const SlickStyled = styled(Slick as any)<{ rendered: boolean }>(
+  ({ rendered }) => [
+    {
       /**
-       * When react-slick renders on the server, it sets `style="width: 0px;"`
-       * on the `.slick-track` element. This, combined with auto margoins,
-       * causes the carousel to render with strange positioning initially.
+       * This is a fallback. The carousel's width should be constrained by it's
+       * parent. But if it's not, this will at least prevent it from resizing itself
+       * beyond the viewport width.
        */
-      width: "unset !important",
+      maxWidth: "100vw",
+      ".slick-track::before": {
+        // By default slick has empty string content on the ::before pseudo
+        // element, which interferes with spacing on initial render.
+        content: "none",
+      },
     },
-  },
-])
+    !rendered && {
+      ".slick-track": {
+        /**
+         * When react-slick renders on the server, it sets `style="width: 0px;"`
+         * on the `.slick-track` element. This, combined with auto margoins,
+         * causes the carousel to render with strange positioning initially.
+         */
+        width: "unset !important",
+      },
+    },
+  ],
+)
 
 /**
  * Return the current slide and the sliders per paged, based on current element

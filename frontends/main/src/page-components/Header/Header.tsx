@@ -1,6 +1,6 @@
 "use client"
 
-import React, { FunctionComponent } from "react"
+import React, { Suspense, FunctionComponent } from "react"
 import type { NavData } from "ol-components"
 import {
   styled,
@@ -279,7 +279,9 @@ const Header: FunctionComponent = () => {
             <LogoLink />
           </MobileOnly>
           <Spacer />
-          <UserView />
+          <Suspense>
+            <UserView />
+          </Suspense>
         </StyledToolbar>
       </Bar>
       <ClickAwayListener

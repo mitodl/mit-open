@@ -98,24 +98,6 @@ jobs:
         with:
           file: ./coverage.xml
 
-  build-nextjs-frontend:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
-
-      - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
-        with:
-          node-version: "^20"
-          cache: yarn
-          cache-dependency-path: yarn.lock
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Build Next.js frontend
-        run: yarn workspace main build
-
   javascript-tests:
     runs-on: ubuntu-latest
     steps:
@@ -144,8 +126,20 @@ jobs:
       - name: Lints
         run: yarn run lint-check
 
+      - name: Build Next.js frontend
+        env:
+          NEXT_PUBLIC_ORIGIN: http://open.odl.local:8062
+          NEXT_PUBLIC_MITOL_API_BASE_URL: http://api.open.odl.local:3001
+          NEXT_PUBLIC_PUBLIC_URL: /
+          NEXT_PUBLIC_SITE_NAME: "MIT Learn"
+          NEXT_PUBLIC_MITOL_SUPPORT_EMAIL: mitlearn-support@mit.edu
+          NEXT_PUBLIC_EMBEDLY_KEY: embedlykey
+          NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS: true
+          NEXT_PUBLIC_CSRF_COOKIE_NAME: csrftoken-local
+        run: yarn workspace main build
+        # do this before typecheck. See https://github.com/vercel/next.js/issues/53959#issuecomment-1735563224
+
       - name: Typecheck
-        if: false # To be reinstated. Anything actually used in `main` is typecheck during build
         run: yarn run typecheck
 
       - name: Get number of CPU cores
@@ -162,6 +156,48 @@ jobs:
         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4.5.0
         with:
           file: coverage/lcov.info
+
+  build-publish-frontend:
+    needs: javascript-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - name: Get short commit hash
+        run: |
+          SHORT_SHA=$(git rev-parse --short ${{ github.sha }})
+          echo "COMMIT_SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+
+      - name: Build the Docker image
+        env:
+          ORIGIN: https://next.rc.learn.mit.edu
+          MITOL_API_BASE_URL: https://api.rc.learn.mit.edu
+          SITE_NAME: MIT Learn
+          MITOL_SUPPORT_EMAIL: mitlearn-support@mit.edu
+          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
+          MITOL_AXIOS_WITH_CREDENTIALS: true
+          CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
+        run: |
+          docker build \
+            -t mitodl/mit-learn-frontend:$COMMIT_SHORT_SHA \
+            --build-arg NEXT_PUBLIC_ORIGIN="$ORIGIN" \
+            --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL="$MITOL_API_BASE_URL" \
+            --build-arg NEXT_PUBLIC_SITE_NAME="$SITE_NAME" \
+            --build-arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL="$MITOL_SUPPORT_EMAIL" \
+            --build-arg NEXT_PUBLIC_EMBEDLY_KEY="$EMBEDLY_KEY" \
+            --build-arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS="$MITOL_AXIOS_WITH_CREDENTIALS" \
+            --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME="$CSRF_COOKIE_NAME" \
+            -f frontends/main/Dockerfile \
+            .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.MITOL_LEARN_DOCKERHUB_USER }}
+          password: ${{ secrets.MITOL_LEARN_DOCKERHUB_PASSWORD }}
+
+      - name: Push the Docker image to Dockerhub
+        run: docker push mitodl/mit-learn-frontend:$COMMIT_SHORT_SHA
 
   build-storybook:
     runs-on: ubuntu-latest

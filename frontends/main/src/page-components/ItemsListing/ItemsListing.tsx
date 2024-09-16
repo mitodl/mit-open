@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react"
+import React, { Suspense, useCallback, useEffect } from "react"
 import type { LearningResource } from "api"
 import {
   SortableItem,
@@ -150,17 +150,19 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
           condensed={condensed}
         />
       ) : (
-        <StyledPlainList itemSpacing={condensed ? 1 : 2}>
-          {items.map((item) => (
-            <li key={item.id}>
-              <ResourceCard
-                resource={item.resource}
-                condensed={condensed}
-                list
-              />
-            </li>
-          ))}
-        </StyledPlainList>
+        <Suspense>
+          <StyledPlainList itemSpacing={condensed ? 1 : 2}>
+            {items.map((item) => (
+              <li key={item.id}>
+                <ResourceCard
+                  resource={item.resource}
+                  condensed={condensed}
+                  list
+                />
+              </li>
+            ))}
+          </StyledPlainList>
+        </Suspense>
       )}
     </>
   )

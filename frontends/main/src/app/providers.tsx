@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import getQueryClient from "./getQueryClient"
+import { getQueryClient } from "./getQueryClient"
 import { QueryClientProvider } from "api/ssr"
 import { ThemeProvider, NextJsAppRouterCacheProvider } from "ol-components"
 import { Provider as NiceModalProvider } from "@ebay/nice-modal-react"

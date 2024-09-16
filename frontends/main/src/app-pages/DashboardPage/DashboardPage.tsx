@@ -341,7 +341,7 @@ const DashboardPage: React.FC = () => {
           </UserNameContainer>
         </ProfilePhotoContainer>
         <TabsContainer
-          value={appRouterPath}
+          value={tabValue}
           orientation="vertical"
           data-testid="desktop-tab-list"
         >
@@ -410,7 +410,9 @@ const DashboardPage: React.FC = () => {
   return (
     <Background>
       <Page>
-        <LearningResourceDrawer />
+        <Suspense>
+          <LearningResourceDrawer />
+        </Suspense>
         <DashboardContainer>
           <TabContext value={tabValue}>
             <DashboardGrid>

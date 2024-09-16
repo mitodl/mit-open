@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react"
+import React, { Suspense, useCallback, useMemo, useState } from "react"
 import {
   LearningResourceCard,
   LearningResourceListCard,
@@ -6,9 +6,7 @@ import {
   SignupPopover,
 } from "ol-components"
 import NiceModal from "@ebay/nice-modal-react"
-import type {
-  LearningResourceCardProps,
-} from "ol-components"
+import type { LearningResourceCardProps } from "ol-components"
 import {
   AddToLearningPathDialog,
   AddToUserListDialog,
@@ -18,7 +16,6 @@ import { useUserMe } from "api/hooks/user"
 import { LearningResource } from "api"
 import * as urls from "@/common/urls"
 import { usePathname, useSearchParams } from "next/navigation"
-
 
 const useResourceCard = (resource?: LearningResource | null) => {
   const getDrawerHref = useResourceDrawerHref()
@@ -109,17 +106,19 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
         : LearningResourceCard
   return (
     <>
-      <CardComponent
-        resource={resource}
-        href={resource ? getDrawerHref(resource.id) : undefined}
-        onAddToLearningPathClick={handleAddToLearningPathClick}
-        onAddToUserListClick={handleAddToUserListClick}
-        inUserList={inUserList}
-        inLearningPath={inLearningPath}
-        {...others}
-      />
+      <Suspense>
+        <CardComponent
+          resource={resource}
+          href={resource ? getDrawerHref(resource.id) : undefined}
+          onAddToLearningPathClick={handleAddToLearningPathClick}
+          onAddToUserListClick={handleAddToUserListClick}
+          inUserList={inUserList}
+          inLearningPath={inLearningPath}
+          {...others}
+        />
+      </Suspense>
       <SignupPopover
-        signupUrl={urls.login({ pathname, search: searchParams.toString() })}
+        signupUrl={urls.login({ pathname, searchParams })}
         anchorEl={anchorEl}
         onClose={handleClosePopover}
       />

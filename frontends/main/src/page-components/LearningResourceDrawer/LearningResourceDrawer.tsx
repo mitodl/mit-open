@@ -103,7 +103,7 @@ const DrawerContent: React.FC<{
         user={user}
         onAddToLearningPathClick={handleAddToLearningPathClick}
         onAddToUserListClick={handleAddToUserListClick}
-        signupUrl={urls.login({ pathname, search: searchParams.toString() })}
+        signupUrl={urls.login({ pathname, searchParams })}
       />
     </>
   )

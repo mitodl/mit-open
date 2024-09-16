@@ -1,4 +1,4 @@
-import React, { useMemo } from "react"
+import React, { Suspense, useMemo } from "react"
 import {
   styled,
   Container,
@@ -163,11 +163,13 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
               >
                 <ChannelControls>
                   {channel.data?.search_filter ? (
-                    <SearchSubscriptionToggle
-                      itemName={channel.data?.title}
-                      sourceType={SourceTypeEnum.ChannelSubscriptionType}
-                      searchParams={urlParams}
-                    />
+                    <Suspense>
+                      <SearchSubscriptionToggle
+                        itemName={channel.data?.title}
+                        sourceType={SourceTypeEnum.ChannelSubscriptionType}
+                        searchParams={urlParams}
+                      />
+                    </Suspense>
                   ) : null}
                   {channel.data?.is_moderator ? (
                     <ChannelMenu

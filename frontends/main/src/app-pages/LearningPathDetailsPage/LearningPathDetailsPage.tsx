@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useMemo } from "react"
+import React, { Suspense, useMemo } from "react"
 import { useParams } from "next/navigation"
 import { useUserMe } from "api/hooks/user"
 import {
@@ -44,7 +44,9 @@ const LearningPathDetailsPage: React.FC = () => {
 
   return (
     <>
-      <LearningResourceDrawer />
+      <Suspense>
+        <LearningResourceDrawer />
+      </Suspense>
       <ListDetailsPage
         listType={ListType.LearningPath}
         list={list}
