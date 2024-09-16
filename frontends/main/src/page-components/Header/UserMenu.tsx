@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { ButtonLink, SimpleMenu, styled } from "ol-components"
+import { ActionButtonLink, ButtonLink, SimpleMenu, styled } from "ol-components"
 import type { MenuOverrideProps, SimpleMenuItem } from "ol-components"
 import * as urls from "@/common/urls"
 import {
@@ -97,16 +97,13 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
   const [visible, setVisible] = useState(false)
 
   const pathname = usePathname()
-  const search = useSearchParams()
+  const searchParams = useSearchParams()
 
   const { isLoading, data: user } = useUserMe()
   if (isLoading) {
     return null
   }
-  const loginUrl = urls.login({
-    pathname,
-    search: search.toString(),
-  })
+  const loginUrl = urls.login({ pathname, searchParams })
 
   const items: UserMenuItem[] = [
     {
@@ -173,7 +170,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
         )}
         {variant === "mobile" ? (
           <FlexContainer className="login-button-mobile">
-            {/* TODO <ActionButtonLink
+            <ActionButtonLink
               data-testid="login-button-mobile"
               edge="circular"
               variant="text"
@@ -182,7 +179,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ variant }) => {
               aria-label="Log in"
             >
               <UserIcon data-testid="UserIcon" />
-            </ActionButtonLink> */}
+            </ActionButtonLink>
           </FlexContainer>
         ) : (
           ""

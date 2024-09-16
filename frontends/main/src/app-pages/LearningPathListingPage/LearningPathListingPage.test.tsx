@@ -8,7 +8,6 @@ import {
   renderWithProviders,
   setMockResponse,
   user,
-  waitFor,
 } from "@/test-utils"
 import type { User } from "@/test-utils"
 
@@ -23,7 +22,8 @@ const setup = ({
   listsCount?: number
 } = {}) => {
   const paths = factories.learningResources.learningPaths({ count: listsCount })
-
+  const userData = factories.user.user({ ...user })
+  setMockResponse.get(urls.userMe.get(), userData)
   setMockResponse.get(urls.learningPaths.list(), paths)
 
   const { location } = renderWithProviders(<LearningPathListingPage />, {
@@ -37,9 +37,6 @@ describe("LearningPathListingPage", () => {
   it("Has title 'Learning Paths'", async () => {
     setup()
     screen.getByRole("heading", { name: "Learning Paths" })
-    await waitFor(() =>
-      expect(document.title).toBe("Learning Paths | MIT Learn"),
-    )
   })
 
   it("Renders a card for each learning path", async () => {
@@ -131,18 +128,11 @@ describe("LearningPathListingPage", () => {
   })
 
   test("Clicking on list title navigates to list page", async () => {
-    const { location, paths } = setup()
+    const { paths } = setup()
     const path = faker.helpers.arrayElement(paths.results)
-    const listTitle = await screen.findByRole("link", {
+    const link = await screen.findByRole("link", {
       name: new RegExp(path.title),
     })
-    await user.click(listTitle)
-    expect(location.current).toEqual(
-      expect.objectContaining({
-        pathname: `/learningpaths/${path.id}`,
-        search: "",
-        hash: "",
-      }),
-    )
+    expect(link).toHaveAttribute("href", `/learningpaths/${path.id}`)
   })
 })

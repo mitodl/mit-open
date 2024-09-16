@@ -165,6 +165,8 @@ describe("ItemsListing", () => {
         faker.number.int(),
       )
       const items = paginatedRelationships.results as LearningResourceListItem[]
+      const user = factories.user.user()
+      setMockResponse.get(urls.userMe.get(), user)
       renderWithProviders(
         <ItemsListing
           listType={listType}
@@ -173,7 +175,6 @@ describe("ItemsListing", () => {
           sortable={sortable}
           condensed={condensed}
         />,
-        { user: {} },
       )
 
       const titles = items.map((item) => item.resource.title)

@@ -1,5 +1,5 @@
 import React from "react"
-import ProgramLetterPage from "@/app-pages/ProgramLetterPage/ProgramLetterPage"
+import ProgramLetterPage from "@/app-pages/ProgramLetterPage/[id]/view/ProgramLetterPage"
 
 const Page: React.FC = () => {
   return <ProgramLetterPage />

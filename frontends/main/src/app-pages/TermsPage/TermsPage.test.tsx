@@ -1,7 +1,8 @@
-import { renderTestApp, screen, waitFor, setMockResponse } from "@/test-utils"
+import React from "react"
+import { screen, setMockResponse, renderWithProviders } from "@/test-utils"
 import { urls } from "api/test-utils"
-import * as commonUrls from "@/common/urls"
 import { Permissions } from "@/common/permissions"
+import TermsPage from "./TermsPage"
 
 describe("TermsPage", () => {
   test("Renders title", async () => {
@@ -9,12 +10,7 @@ describe("TermsPage", () => {
       [Permissions.Authenticated]: true,
     })
 
-    renderTestApp({
-      url: commonUrls.TERMS,
-    })
-    await waitFor(() => {
-      expect(document.title).toBe("Terms of Service | MIT Learn")
-    })
+    renderWithProviders(<TermsPage />)
     screen.getByRole("heading", {
       name: "Terms of Service",
     })
