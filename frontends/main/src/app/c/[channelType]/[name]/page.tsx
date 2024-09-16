@@ -3,6 +3,8 @@ import ChannelPage from "@/app-pages/ChannelPage/ChannelPage"
 import { channelsApi } from "api/clients"
 import { ChannelTypeEnum } from "api/v0"
 
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME
+
 type RouteParams = {
   channelType: ChannelTypeEnum
   name: string
@@ -14,7 +16,7 @@ export async function generateMetadata({ params }: { params: RouteParams }) {
     .channelsTypeRetrieve({ channel_type: channelType, name: name })
     .then((res) => res.data)
   return {
-    title: `${channelDetails.title} | ${APP_SETTINGS.SITE_NAME}`,
+    title: `${channelDetails.title} | ${SITE_NAME}`,
     description: channelDetails.public_description,
     openGraph: {
       images: channelDetails.configuration.logo,
