@@ -21,6 +21,7 @@ export async function generateMetadata({ params }: { params: RouteParams }) {
     openGraph: {
       images: channelDetails.configuration.logo,
       url: channelDetails.channel_url,
+      siteName: SITE_NAME,
     },
   }
 }
