@@ -1,5 +1,5 @@
 import React from "react"
-import { renderWithProviders, waitFor } from "../../../../test-utils"
+import { renderWithProviders, waitFor } from "@/test-utils"
 import type { ProgramLetter } from "api"
 import { letters as factory } from "api/test-utils/factories"
 import { setMockResponse, urls } from "api/test-utils"
