@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: RouteParams }) {
     .channelsTypeRetrieve({ channel_type: channelType, name: name })
     .then((res) => res.data)
   return {
-    title: `${channelDetails.title} | MIT Learn`,
+    title: `${channelDetails.title} | ${APP_SETTINGS.SITE_NAME}`,
     description: channelDetails.public_description,
     openGraph: {
       images: channelDetails.configuration.logo,
