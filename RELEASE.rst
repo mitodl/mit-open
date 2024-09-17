@@ -1,6 +1,17 @@
 Release Notes
 =============
 
+Version 0.19.1
+--------------
+
+- Fix refreshes and deterministic sort order (#1564)
+- align items center (#1566)
+- add noindex setting (#1559)
+- always use dfs_query_then_fetch (#1558)
+- updated OLL csv file (#1557)
+- input / search input styling updates (#1545)
+- Update dependency pytest to v8 (#1548)
+
 Version 0.19.0 (Released September 16, 2024)
 --------------
 
