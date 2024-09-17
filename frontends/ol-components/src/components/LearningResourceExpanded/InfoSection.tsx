@@ -87,10 +87,6 @@ const Certificate = styled.div`
     height: 16px;
   }
 `
-// The SignupPopover needs to display over the top of the resource drawer
-const StyledSignupPopover = styled(SignupPopover)({
-  zIndex: 9999,
-})
 
 const CertificatePrice = styled.span`
   ${{ ...theme.typography.body2 }}
@@ -306,7 +302,7 @@ const InfoSection = ({
           >
             <RiBookmarkLine aria-hidden />
           </CardActionButton>
-          <StyledSignupPopover
+          <SignupPopover
             signupUrl={signupUrl}
             anchorEl={buttonEl}
             onClose={() => setButtonEl(null)}

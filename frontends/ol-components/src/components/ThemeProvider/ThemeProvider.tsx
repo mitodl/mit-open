@@ -9,6 +9,7 @@ import * as typography from "./typography"
 import * as buttons from "./buttons"
 import * as chips from "./chips"
 import { colors } from "./colors"
+import { MUI_DRAWER_Z_INDEX } from "../../constants/styleOverrides"
 
 const shadow = {
   shadowOffsetX: 3,
@@ -80,6 +81,13 @@ const themeOptions: ThemeOptions = {
       styleOverrides: { paper: { borderRadius: "4px" } },
     },
     MuiChip: chips.chipComponent,
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          zIndex: MUI_DRAWER_Z_INDEX,
+        },
+      },
+    },
   },
 }
 
