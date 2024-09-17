@@ -77,7 +77,7 @@ const TopicBox = styled(Link)`
 const TopicBoxContent = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
   gap: 10px;
   width: 100%;
 
