@@ -16,7 +16,7 @@ from learning_resources.models import (
     LearningResource,
     LearningResourceOfferor,
 )
-from main.utils import clear_cache, now_in_utc
+from main.utils import clear_search_cache, now_in_utc
 
 
 class Command(BaseCommand):
@@ -90,4 +90,4 @@ class Command(BaseCommand):
             "Population of unit channel featured lists finished, "
             f"took {total_seconds} seconds"
         )
-        clear_cache()
+        clear_search_cache()

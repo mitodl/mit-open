@@ -3,7 +3,7 @@
 from django.core.management import BaseCommand
 
 from learning_resources.utils import upsert_platform_data
-from main.utils import clear_cache, now_in_utc
+from main.utils import clear_search_cache, now_in_utc
 
 
 class Command(BaseCommand):
@@ -21,4 +21,4 @@ class Command(BaseCommand):
         self.stdout.write(
             f"Upserted {len(platform_codes)} platforms, took {total_seconds} seconds"
         )
-        clear_cache()
+        clear_search_cache()
