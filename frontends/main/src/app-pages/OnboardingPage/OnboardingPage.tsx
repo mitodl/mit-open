@@ -34,7 +34,6 @@ import {
   DELIVERY_CHOICES,
   ProfileSchema,
 } from "@/common/profile"
-// import MetaTags from "@/page-components/MetaTags/MetaTags"
 
 const NUM_STEPS = 5
 
