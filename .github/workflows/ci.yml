@@ -200,12 +200,12 @@ jobs:
           heroku_app_name: mitopen-rc-nextjs
           dockerfile_directory: ./frontends/main
           docker_options: |
-            --build-arg NEXT_PUBLIC_ORIGIN=https://next.rc.learn.mit.edu
-            --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL=https://api.rc.learn.mit.edu
-            --build-arg NEXT_PUBLIC_SITE_NAME="MIT Learn"
-            --build-arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=mitlearn-support@mit.edu
-            --build-arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=true
-            --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME=learn-rc-csrftoken
+            --build-arg NEXT_PUBLIC_ORIGIN=https://next.rc.learn.mit.edu \
+            --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL=https://api.rc.learn.mit.edu \
+            --build-arg NEXT_PUBLIC_SITE_NAME="MIT Learn" \
+            --build-arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=mitlearn-support@mit.edu \
+            --build-arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=true \
+            --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME=learn-rc-csrftoken \
 
   build-storybook:
     runs-on: ubuntu-latest
