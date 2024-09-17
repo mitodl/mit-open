@@ -21,6 +21,7 @@ const HeaderContainer = styled(Container)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   alignItems: "center",
+  textAlign: "center",
   gap: "8px",
   paddingBottom: "60px",
   [theme.breakpoints.down("md")]: {
