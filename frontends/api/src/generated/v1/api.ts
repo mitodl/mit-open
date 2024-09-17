@@ -16274,8 +16274,7 @@ export const LearningpathsApiAxiosParamCreator = function (
       }
     },
     /**
-     * Get a list of related learning resources for a learning resource.
-     * @summary Nested Learning Resource List
+     * Viewset for LearningPath related resources
      * @param {number} learning_resource_id The learning resource id of the learning path
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -16858,8 +16857,7 @@ export const LearningpathsApiFp = function (configuration?: Configuration) {
         )(axios, operationBasePath || basePath)
     },
     /**
-     * Get a list of related learning resources for a learning resource.
-     * @summary Nested Learning Resource List
+     * Viewset for LearningPath related resources
      * @param {number} learning_resource_id The learning resource id of the learning path
      * @param {number} [limit] Number of results to return per page.
      * @param {number} [offset] The initial index from which to return the results.
@@ -17212,8 +17210,7 @@ export const LearningpathsApiFactory = function (
         .then((request) => request(axios, basePath))
     },
     /**
-     * Get a list of related learning resources for a learning resource.
-     * @summary Nested Learning Resource List
+     * Viewset for LearningPath related resources
      * @param {LearningpathsApiLearningpathsItemsListRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -17752,8 +17749,7 @@ export class LearningpathsApi extends BaseAPI {
   }
 
   /**
-   * Get a list of related learning resources for a learning resource.
-   * @summary Nested Learning Resource List
+   * Viewset for LearningPath related resources
    * @param {LearningpathsApiLearningpathsItemsListRequest} requestParameters Request parameters.
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
