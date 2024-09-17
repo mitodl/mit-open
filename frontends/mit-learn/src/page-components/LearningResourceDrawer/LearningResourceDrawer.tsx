@@ -19,6 +19,7 @@ import {
   AddToLearningPathDialog,
   AddToUserListDialog,
 } from "../Dialogs/AddToListDialog"
+import * as urls from "@/common/urls"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
@@ -64,6 +65,7 @@ const unsafe_html2plaintext = (text: string) => {
 const DrawerContent: React.FC<{
   resourceId: number
 }> = ({ resourceId }) => {
+  const loc = useLocation()
   const resource = useLearningResourcesDetail(Number(resourceId))
   const { data: user } = useUserMe()
   const handleAddToLearningPathClick: LearningResourceCardProps["onAddToLearningPathClick"] =
@@ -101,6 +103,10 @@ const DrawerContent: React.FC<{
         user={user}
         onAddToLearningPathClick={handleAddToLearningPathClick}
         onAddToUserListClick={handleAddToUserListClick}
+        signupUrl={urls.login({
+          pathname: loc.pathname,
+          search: loc.search,
+        })}
       />
     </>
   )

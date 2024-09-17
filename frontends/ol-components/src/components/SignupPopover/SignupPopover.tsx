@@ -1,8 +1,9 @@
 import React from "react"
-import { Popover, Typography, styled, ButtonLink } from "ol-components"
 import type { PopoverProps } from "ol-components"
-import * as urls from "@/common/urls"
-import { useLocation } from "react-router"
+import styled from "@emotion/styled"
+import { Popover } from "../Popover/Popover"
+import Typography from "@mui/material/Typography"
+import { ButtonLink } from "../Button/Button"
 
 const StyledPopover = styled(Popover)({
   width: "300px",
@@ -25,11 +26,13 @@ const Footer = styled.div({
 type SignupPopoverProps = Pick<
   PopoverProps,
   "anchorEl" | "onClose" | "placement"
->
+> & {
+  signupUrl?: string
+}
 const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
-  const loc = useLocation()
+  const { signupUrl, ...popoverProps } = props
   return (
-    <StyledPopover {...props} open={!!props.anchorEl}>
+    <StyledPopover {...popoverProps} open={!!popoverProps.anchorEl}>
       <HeaderText variant="subtitle2">
         Join {APP_SETTINGS.SITE_NAME} for free.
       </HeaderText>
@@ -38,14 +41,7 @@ const SignupPopover: React.FC<SignupPopoverProps> = (props) => {
         and follow your areas of interest.
       </BodyText>
       <Footer>
-        <ButtonLink
-          href={urls.login({
-            pathname: loc.pathname,
-            search: loc.search,
-          })}
-        >
-          Sign Up
-        </ButtonLink>
+        <ButtonLink href={signupUrl}>Sign Up</ButtonLink>
       </Footer>
     </StyledPopover>
   )

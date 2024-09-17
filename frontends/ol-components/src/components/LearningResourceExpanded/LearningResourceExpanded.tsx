@@ -144,6 +144,7 @@ type LearningResourceExpandedProps = {
   imgConfig: EmbedlyConfig
   onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
   onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
+  signupUrl?: string
 }
 
 const ImageSection: React.FC<{
@@ -323,6 +324,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   imgConfig,
   onAddToLearningPathClick,
   onAddToUserListClick,
+  signupUrl,
 }) => {
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
 
@@ -425,6 +427,7 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
         user={user}
         onAddToLearningPathClick={onAddToLearningPathClick}
         onAddToUserListClick={onAddToUserListClick}
+        signupUrl={signupUrl}
       />
     </Container>
   )

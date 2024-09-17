@@ -105,19 +105,16 @@ describe("LearningResourceDrawer", () => {
       isLearningPathEditor: true,
       isAuthenticated: true,
       expectAddToLearningPathButton: true,
-      expectAddToUserListButton: true,
     },
     {
       isLearningPathEditor: false,
       isAuthenticated: true,
       expectAddToLearningPathButton: false,
-      expectAddToUserListButton: true,
     },
     {
       isLearningPathEditor: false,
       isAuthenticated: false,
       expectAddToLearningPathButton: false,
-      expectAddToUserListButton: false,
     },
   ])(
     "Renders info section list buttons correctly",
@@ -125,7 +122,6 @@ describe("LearningResourceDrawer", () => {
       isLearningPathEditor,
       isAuthenticated,
       expectAddToLearningPathButton,
-      expectAddToUserListButton,
     }) => {
       const resource = factories.learningResources.resource({
         resource_type: ResourceTypeEnum.Course,
@@ -159,24 +155,14 @@ describe("LearningResourceDrawer", () => {
         .closest("section")
       invariant(section)
 
-      if (!isAuthenticated) {
-        const buttons = within(section).queryAllByRole("button")
-        expect(buttons).toHaveLength(0)
-        return
-      } else {
-        const buttons = within(section).getAllByRole("button")
-        const expectedButtons =
-          expectAddToLearningPathButton && expectAddToUserListButton ? 2 : 1
-        expect(buttons).toHaveLength(expectedButtons)
-        expect(
-          !!within(section).queryByRole("button", {
-            name: "Add to Learning Path",
-          }),
-        ).toBe(expectAddToLearningPathButton)
-        expect(
-          !!within(section).queryByRole("button", { name: "Add to User List" }),
-        ).toBe(expectAddToUserListButton)
-      }
+      const buttons = within(section).getAllByRole("button")
+      const expectedButtons = expectAddToLearningPathButton ? 2 : 1
+      expect(buttons).toHaveLength(expectedButtons)
+      expect(
+        !!within(section).queryByRole("button", {
+          name: "Add to Learning Path",
+        }),
+      ).toBe(expectAddToLearningPathButton)
     },
   )
 })

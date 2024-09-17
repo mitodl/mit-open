@@ -12,7 +12,7 @@ import {
   LearningResourceListCard,
   LearningResourceListCardCondensed,
 } from "ol-components"
-import { ResourceListCard } from "@/page-components/ResourceCard/ResourceCard"
+import { ResourceCard } from "@/page-components/ResourceCard/ResourceCard"
 import { useListItemMove } from "api/hooks/learningResources"
 
 const EmptyMessage = styled.p({
@@ -153,9 +153,10 @@ const ItemsListing: React.FC<ItemsListingProps> = ({
         <StyledPlainList itemSpacing={condensed ? 1 : 2}>
           {items.map((item) => (
             <li key={item.id}>
-              <ResourceListCard
+              <ResourceCard
                 resource={item.resource}
                 condensed={condensed}
+                list
               />
             </li>
           ))}
