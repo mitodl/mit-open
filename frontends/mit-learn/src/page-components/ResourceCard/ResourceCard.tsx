@@ -6,10 +6,7 @@ import {
   SignupPopover,
 } from "ol-components"
 import * as NiceModal from "@ebay/nice-modal-react"
-import type {
-  LearningResourceCardProps,
-  LearningResourceListCardProps,
-} from "ol-components"
+import type { LearningResourceCardProps } from "ol-components"
 import {
   AddToLearningPathDialog,
   AddToUserListDialog,
@@ -72,7 +69,10 @@ const useResourceCard = (resource?: LearningResource | null) => {
 type ResourceCardProps = Omit<
   LearningResourceCardProps,
   "href" | "onAddToLearningPathClick" | "onAddToUserListClick"
->
+> & {
+  condensed?: boolean
+  list?: boolean
+}
 
 /**
  * Just like `ol-components/LearningResourceCard`, but with builtin actions:
@@ -81,7 +81,12 @@ type ResourceCardProps = Omit<
  *    - for unauthenticated users, a popover prompts signup instead.
  *  - onAddToLearningPathClick opens the Add to Learning Path modal
  */
-const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
+const ResourceCard: React.FC<ResourceCardProps> = ({
+  resource,
+  condensed,
+  list,
+  ...others
+}) => {
   const loc = useLocation()
   const {
     getDrawerHref,
@@ -92,9 +97,15 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
     inUserList,
     inLearningPath,
   } = useResourceCard(resource)
+  const CardComponent =
+    list && condensed
+      ? LearningResourceListCardCondensed
+      : list
+        ? LearningResourceListCard
+        : LearningResourceCard
   return (
     <>
-      <LearningResourceCard
+      <CardComponent
         resource={resource}
         href={resource ? getDrawerHref(resource.id) : undefined}
         onAddToLearningPathClick={handleAddToLearningPathClick}
@@ -115,61 +126,5 @@ const ResourceCard: React.FC<ResourceCardProps> = ({ resource, ...others }) => {
   )
 }
 
-type ResourceListCardProps = Omit<
-  LearningResourceListCardProps,
-  "href" | "onAddToLearningPathClick" | "onAddToUserListClick"
-> & {
-  condensed?: boolean
-}
-
-/**
- * Just like `ol-components/LearningResourceListCard`, but with builtin actions:
- *  - click opens the Resource Drawer
- *  - onAddToListClick opens the Add to List modal
- *    - for unauthenticated users, a popover prompts signup instead.
- *  - onAddToLearningPathClick opens the Add to Learning Path modal
- */
-const ResourceListCard: React.FC<ResourceListCardProps> = ({
-  resource,
-  condensed,
-  ...props
-}) => {
-  const loc = useLocation()
-  const {
-    getDrawerHref,
-    anchorEl,
-    handleClosePopover,
-    handleAddToLearningPathClick,
-    handleAddToUserListClick,
-    inUserList,
-    inLearningPath,
-  } = useResourceCard(resource)
-
-  const ListCardComponent = condensed
-    ? LearningResourceListCardCondensed
-    : LearningResourceListCard
-  return (
-    <>
-      <ListCardComponent
-        resource={resource}
-        href={resource ? getDrawerHref(resource.id) : undefined}
-        onAddToLearningPathClick={handleAddToLearningPathClick}
-        onAddToUserListClick={handleAddToUserListClick}
-        inUserList={inUserList}
-        inLearningPath={inLearningPath}
-        {...props}
-      />
-      <SignupPopover
-        signupUrl={urls.login({
-          pathname: loc.pathname,
-          search: loc.search,
-        })}
-        anchorEl={anchorEl}
-        onClose={handleClosePopover}
-      />
-    </>
-  )
-}
-
-export { ResourceCard, ResourceListCard }
-export type { ResourceCardProps, ResourceListCardProps }
+export { ResourceCard }
+export type { ResourceCardProps }

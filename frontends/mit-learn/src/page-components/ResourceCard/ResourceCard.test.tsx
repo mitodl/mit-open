@@ -7,7 +7,7 @@ import {
   expectProps,
 } from "../../test-utils"
 import type { User } from "../../test-utils"
-import { ResourceCard, ResourceListCard } from "./ResourceCard"
+import { ResourceCard } from "./ResourceCard"
 import {
   AddToLearningPathDialog,
   AddToUserListDialog,
@@ -39,14 +39,14 @@ jest.mock("@ebay/nice-modal-react", () => {
 
 describe.each([
   {
-    CardComponent: ResourceCard,
     BaseComponent: LearningResourceCard,
+    isList: false,
   },
   {
-    CardComponent: ResourceListCard,
     BaseComponent: LearningResourceListCard,
+    isList: true,
   },
-])("$CardComponent", ({ CardComponent, BaseComponent }) => {
+])("$CardComponent", ({ BaseComponent, isList }) => {
   const makeResource = factories.learningResources.resource
   type SetupOptions = {
     user?: Partial<User>
@@ -60,7 +60,7 @@ describe.each([
       setMockResponse.get(urls.userMe.get(), {}, { code: 403 })
     }
     const { view, location } = renderWithProviders(
-      <CardComponent {...props} resource={resource} />,
+      <ResourceCard {...props} resource={resource} list={isList} />,
     )
     return { resource, view, location }
   }

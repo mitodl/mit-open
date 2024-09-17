@@ -48,7 +48,7 @@ import SliderInput from "./SliderInput"
 
 import type { TabConfig } from "./ResourceCategoryTabs"
 
-import { ResourceListCard } from "../ResourceCard/ResourceCard"
+import { ResourceCard } from "../ResourceCard/ResourceCard"
 import { useSearchParams } from "@mitodl/course-search-utils/react-router"
 import { useUserMe } from "api/hooks/user"
 
@@ -855,7 +855,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                       .fill(null)
                       .map((a, index) => (
                         <li key={index}>
-                          <ResourceListCard isLoading={isLoading} />
+                          <ResourceCard isLoading={isLoading} list />
                         </li>
                       ))}
                   </PlainList>
@@ -863,7 +863,7 @@ const SearchDisplay: React.FC<SearchDisplayProps> = ({
                   <PlainList itemSpacing={1.5}>
                     {data.results.map((resource) => (
                       <li key={resource.id}>
-                        <ResourceListCard resource={resource} />
+                        <ResourceCard resource={resource} list />
                       </li>
                     ))}
                   </PlainList>
