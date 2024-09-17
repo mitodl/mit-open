@@ -7565,7 +7565,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"classnames@npm:^2.2.5, classnames@npm:^2.2.6, classnames@npm:^2.3.2":
+"classnames@npm:^2.2.5, classnames@npm:^2.2.6, classnames@npm:^2.3.2, classnames@npm:^2.5.1":
   version: 2.5.1
   resolution: "classnames@npm:2.5.1"
   checksum: 10/58eb394e8817021b153bb6e7d782cfb667e4ab390cb2e9dac2fc7c6b979d1cc2b2a733093955fc5c94aa79ef5c8c89f11ab77780894509be6afbb91dddd79d15
@@ -15402,6 +15402,7 @@ __metadata:
     "@types/react-slick": "npm:^0"
     "@types/tinycolor2": "npm:^1.4.6"
     api: "workspace:*"
+    classnames: "npm:^2.5.1"
     iso-639-1: "npm:^3.1.2"
     lodash: "npm:^4.17.21"
     material-ui-popup-state: "npm:^5.1.0"
