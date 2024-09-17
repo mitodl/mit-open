@@ -24,7 +24,7 @@ from learning_resources.constants import (
     LearningResourceType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
@@ -34,11 +34,7 @@ from learning_resources.etl.utils import (
     transform_levels,
     transform_topics,
 )
-from learning_resources.models import (
-    ContentFile,
-    LearningResource,
-    default_learning_format,
-)
+from learning_resources.models import ContentFile, LearningResource, default_delivery
 from learning_resources.utils import (
     get_s3_object_and_read,
     parse_instructors,
@@ -63,7 +59,7 @@ def parse_delivery(course_data: dict) -> list[str]:
     Returns:
         list[str]: The delivery method(s)
     """
-    delivery = default_learning_format()
+    delivery = default_delivery()
     if not course_data.get("hide_download"):
         delivery.append(LearningResourceDelivery.offline.name)
     return delivery
@@ -266,7 +262,7 @@ def transform_run(course_data: dict) -> dict:
         "description": clean_data(course_data.get("course_description_html")),
         "year": year,
         "semester": semester,
-        "availability": RunAvailability.current.value,
+        "status": RunStatus.current.value,
         "image": {
             "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
             "description": course_data.get("course_image_metadata", {}).get(
@@ -283,6 +279,8 @@ def transform_run(course_data: dict) -> dict:
         "title": course_data.get("course_title"),
         "slug": course_data.get("slug"),
         "url": course_data["url"],
+        "availability": Availability.anytime.name,
+        "delivery": parse_delivery(course_data),
     }
 
 

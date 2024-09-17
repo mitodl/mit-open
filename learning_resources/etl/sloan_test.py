@@ -7,7 +7,7 @@ import pytest
 
 from learning_resources.constants import (
     Availability,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.sloan import (
     extract,
@@ -118,7 +118,9 @@ def test_transform_run(
         "end_date": parse_datetime(run_data["End_Date"]),
         "title": course_data["Title"],
         "url": course_data["URL"],
-        "availability": RunAvailability.current.value,
+        "status": RunStatus.current.value,
+        "delivery": transform_delivery(run_data["Delivery"]),
+        "availability": parse_availability(run_data),
         "published": True,
         "prices": [run_data["Price"]],
         "instructors": [{"full_name": name.strip()} for name in faculty_names],
@@ -127,12 +129,13 @@ def test_transform_run(
 
 def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
     course_data = mock_sloan_courses_data[0]
-    runs_data = mock_sloan_runs_data[0:10]
     course_runs_data = [
-        run for run in runs_data if run["Course_Id"] == course_data["Course_Id"]
+        run
+        for run in mock_sloan_runs_data
+        if run["Course_Id"] == course_data["Course_Id"]
     ]
 
-    transformed = transform_course(course_data, runs_data)
+    transformed = transform_course(course_data, mock_sloan_runs_data)
 
     assert transformed["readable_id"] == course_data["Course_Id"]
     assert transformed["runs"] == [
@@ -142,8 +145,10 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
         {transform_delivery(run["Delivery"])[0] for run in course_runs_data}
     )
     assert transformed["delivery"] == transformed["learning_format"]
+    assert transformed["runs"][0]["availability"] == parse_availability(
+        course_runs_data[0]
+    )
     assert transformed["image"] == parse_image(course_data)
-    assert transformed["availability"] == parse_availability(course_runs_data)
     assert (
         transformed["continuing_ed_credits"]
         == course_runs_data[0]["Continuing_Ed_Credits"]
@@ -167,7 +172,6 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
             "topics",
             "course",
             "runs",
-            "availability",
             "continuing_ed_credits",
         ]
     )
@@ -209,14 +213,12 @@ def test_parse_topics(mock_sloan_courses_data, mock_sloan_runs_data):
     ],
 )
 def test_parse_availability(delivery, run_format, availability):
-    runs_data = [
-        {
-            "Format": run_format,
-            "Delivery": delivery,
-        }
-    ]
-    assert parse_availability(runs_data) == availability
-    assert parse_availability([]) == Availability.dated.name
+    run_data = {
+        "Format": run_format,
+        "Delivery": delivery,
+    }
+    assert parse_availability(run_data) == availability
+    assert parse_availability(None) == Availability.dated.name
 
 
 def test_enabled_flag(mock_sloan_api_setting, settings):

@@ -17,7 +17,7 @@ from learning_resources.constants import (
     LearningResourceType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl import utils
 from learning_resources.etl.utils import parse_certification
@@ -384,50 +384,48 @@ def test_parse_bad_format(mocker):
 
 
 @pytest.mark.parametrize(
-    ("offered_by", "availability", "has_cert"),
+    ("offered_by", "status", "has_cert"),
     [
-        [  # noqa: PT007
+        (
             OfferedBy.ocw.name,
-            RunAvailability.archived.value,
+            RunStatus.archived.value,
             False,
-        ],
-        [  # noqa: PT007
+        ),
+        (
             OfferedBy.ocw.name,
-            RunAvailability.current.value,
+            RunStatus.current.value,
             False,
-        ],
-        [  # noqa: PT007
+        ),
+        (
             OfferedBy.mitx.name,
-            RunAvailability.archived.value,
+            RunStatus.archived.value,
             False,
-        ],
-        [  # noqa: PT007
+        ),
+        (
             OfferedBy.mitx.name,
-            RunAvailability.current.value,
+            RunStatus.current.value,
             True,
-        ],
-        [  # noqa: PT007
+        ),
+        (
             OfferedBy.mitx.name,
-            RunAvailability.upcoming.value,
+            RunStatus.upcoming.value,
             True,
-        ],
+        ),
     ],
 )
-def test_parse_certification(offered_by, availability, has_cert):
+def test_parse_certification(offered_by, status, has_cert):
     """The parse_certification function should return the expected bool value"""
     offered_by_obj = LearningResourceOfferorFactory.create(code=offered_by)
 
     resource = LearningResourceRunFactory.create(
-        availability=availability,
         learning_resource=LearningResourceFactory.create(
             published=True,
             resource_type=LearningResourceType.podcast.name,
             offered_by=offered_by_obj,
         ),
     ).learning_resource
-    assert resource.runs.first().availability == availability
     assert resource.runs.count() == 1
-    runs = resource.runs.all().values()
+    runs = [{"status": status, **run} for run in resource.runs.all().values()]
     assert parse_certification(offered_by_obj.code, runs) == has_cert
 
 

@@ -232,6 +232,13 @@ LEARNING_RESOURCE_MAP = {
             "languages": {"type": "keyword"},
             "slug": {"type": "keyword"},
             "availability": {"type": "keyword"},
+            "delivery": {
+                "type": "nested",
+                "properties": {
+                    "code": {"type": "keyword"},
+                    "name": {"type": "keyword"},
+                },
+            },
             "semester": {"type": "keyword"},
             "year": {"type": "keyword"},
             "start_date": {"type": "date"},

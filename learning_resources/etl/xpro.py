@@ -87,16 +87,17 @@ def extract_courses():
     return []
 
 
-def _transform_run(course_run):
+def _transform_run(course_run: dict, course: dict) -> dict:
     """
-    Transforms a course run into our normalized data structure
+    Transform a course run into our normalized data structure
 
     Args:
         course_run (dict): course run data
+        course (dict): course data
 
     Returns:
         dict: normalized course run data
-    """  # noqa: D401
+    """
     return {
         "run_id": course_run["courseware_id"],
         "title": course_run["title"],
@@ -108,14 +109,14 @@ def _transform_run(course_run):
         "enrollment_end": _parse_datetime(course_run["enrollment_end"]),
         "published": bool(course_run["current_price"]),
         "prices": (
-            [course_run["current_price"]]
-            if course_run.get("current_price", None)
-            else []
+            [course_run["current_price"]] if course_run.get("current_price") else []
         ),
         "instructors": [
             {"full_name": instructor["name"]}
             for instructor in course_run["instructors"]
         ],
+        "availability": course["availability"],
+        "delivery": transform_delivery(course.get("format")),
     }
 
 
@@ -143,7 +144,9 @@ def _transform_learning_resource_course(course):
             course_run.get("current_price", None) for course_run in course["courseruns"]
         ),
         "topics": parse_topics(course),
-        "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
+        "runs": [
+            _transform_run(course_run, course) for course_run in course["courseruns"]
+        ],
         "resource_type": LearningResourceType.course.name,
         "learning_format": transform_delivery(course.get("format")),
         "delivery": transform_delivery(course.get("format")),
@@ -213,6 +216,8 @@ def transform_programs(programs):
                         {"full_name": instructor["name"]}
                         for instructor in program.get("instructors", [])
                     ],
+                    "delivery": transform_delivery(program.get("format")),
+                    "availability": program["availability"],
                 }
             ],
             "courses": transform_courses(program["courses"]),

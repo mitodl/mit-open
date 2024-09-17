@@ -26,8 +26,13 @@ from main.models import TimestampedModel, TimestampedModelQuerySet
 
 
 def default_learning_format():
-    """Return the default learning format list"""
+    """Return the default learning_format as a list"""
     return [LearningResourceFormat.online.name]
+
+
+def default_delivery():
+    """Return the default delivery as a list"""
+    return [LearningResourceDelivery.online.name]
 
 
 class LearningResourcePlatform(TimestampedModel):
@@ -427,7 +432,7 @@ class LearningResource(TimestampedModel):
         models.CharField(
             max_length=24, db_index=True, choices=LearningResourceDelivery.as_tuple()
         ),
-        default=default_learning_format,
+        default=default_delivery,
     )
     license_cc = models.BooleanField(default=False)
     continuing_ed_credits = models.DecimalField(
@@ -546,9 +551,6 @@ class LearningResourceRun(TimestampedModel):
         models.CharField(max_length=128), null=False, blank=False, default=list
     )
     slug = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
-    availability = models.CharField(  # noqa: DJ001
-        max_length=128, null=True, blank=True
-    )
     semester = models.CharField(max_length=20, null=True, blank=True)  # noqa: DJ001
     year = models.IntegerField(null=True, blank=True)
     start_date = models.DateTimeField(null=True, blank=True)
@@ -562,6 +564,17 @@ class LearningResourceRun(TimestampedModel):
         models.DecimalField(decimal_places=2, max_digits=12), null=True, blank=True
     )
     checksum = models.CharField(max_length=32, null=True, blank=True)  # noqa: DJ001
+    delivery = ArrayField(
+        models.CharField(
+            max_length=24, db_index=True, choices=LearningResourceDelivery.as_tuple()
+        ),
+        default=default_delivery,
+    )
+    availability = models.CharField(  # noqa: DJ001
+        max_length=24,
+        null=True,
+        choices=Availability.as_tuple(),
+    )
 
     def __str__(self):
         return f"LearningResourceRun platform={self.learning_resource.platform} run_id={self.run_id}"  # noqa: E501

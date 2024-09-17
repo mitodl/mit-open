@@ -15,7 +15,7 @@ from learning_resources.constants import (
     Availability,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import generate_course_numbers_json, transform_levels
@@ -44,8 +44,8 @@ def parse_readable_id(course_data: dict, run: dict) -> str:
     if course_data["Offered by"] == "OCW":
         semester = run.get("semester") or ""
         year = run.get("year") or ""
-        return f"{course_data["OLL Course"]}+{slugify(semester)}_{year}"
-    return f"MITx+{course_data["OLL Course"]}"
+        return f"{course_data['OLL Course']}+{slugify(semester)}_{year}"
+    return f"MITx+{course_data['OLL Course']}"
 
 
 def extract(sheets_id: str or None = None) -> str:
@@ -141,7 +141,8 @@ def transform_run(course_data: dict) -> list[dict]:
                 ]
                 if instructor
             ],
-            "availability": RunAvailability.archived.value,
+            "status": RunStatus.archived.value,
+            "availability": Availability.anytime.name,
         }
     ]
 

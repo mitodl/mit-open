@@ -1,6 +1,9 @@
 """Constants for learning_resources ETL processes"""
 
 from collections import namedtuple
+from dataclasses import dataclass, field
+from datetime import datetime
+from decimal import Decimal
 from enum import Enum
 
 from django.conf import settings
@@ -106,3 +109,10 @@ CONTENT_TAG_CATEGORIES = {
     "Assignments": ContentTagCategory.problem_sets.value,
     # Can add more here if ever needed, in format tag_name:category
 }
+
+
+@dataclass
+class ResourceNextRunConfig:
+    next_start_date: datetime = None
+    prices: list[Decimal] = field(default_factory=list)
+    availability: str = None

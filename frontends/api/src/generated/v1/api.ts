@@ -2172,6 +2172,12 @@ export interface LearningResourceRun {
   level: Array<LearningResourceRunLevelInner>
   /**
    *
+   * @type {Array<CourseResourceDeliveryInner>}
+   * @memberof LearningResourceRun
+   */
+  delivery: Array<CourseResourceDeliveryInner>
+  /**
+   *
    * @type {string}
    * @memberof LearningResourceRun
    */
@@ -2272,7 +2278,14 @@ export interface LearningResourceRun {
    * @memberof LearningResourceRun
    */
   checksum?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof LearningResourceRun
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  *
  * @export
@@ -2420,7 +2433,14 @@ export interface LearningResourceRunRequest {
    * @memberof LearningResourceRunRequest
    */
   checksum?: string | null
+  /**
+   *
+   * @type {AvailabilityEnum}
+   * @memberof LearningResourceRunRequest
+   */
+  availability?: AvailabilityEnum | null
 }
+
 /**
  * Serializer for LearningResourceSchool model, including list of departments
  * @export

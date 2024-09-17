@@ -176,6 +176,8 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
                         or program["course_application_url"]
                         or urljoin(PROLEARN_BASE_URL, program["url"])
                     ),
+                    "availability": Availability.dated.name,
+                    "delivery": transform_delivery(program["format_name"]),
                 }
                 for (start_val, end_val) in zip(
                     program["start_value"], program["end_value"]
@@ -252,6 +254,8 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
                         or course["course_application_url"]
                         or urljoin(PROLEARN_BASE_URL, course["url"])
                     ),
+                    "availability": Availability.dated.name,
+                    "delivery": transform_delivery(course["format_name"]),
                 }
                 for (start_val, end_val) in zip(
                     course["start_value"], course["end_value"]

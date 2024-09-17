@@ -1,8 +1,6 @@
 """learning_resources data loaders"""
 
-import datetime
 import logging
-from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
@@ -12,7 +10,7 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import (
     CONTENT_TAG_CATEGORIES,
@@ -20,6 +18,7 @@ from learning_resources.etl.constants import (
     ContentTagCategory,
     CourseLoaderConfig,
     ProgramLoaderConfig,
+    ResourceNextRunConfig,
 )
 from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.utils import most_common_topics
@@ -118,9 +117,18 @@ def load_departments(
     return resource.departments.all()
 
 
-def load_next_start_date_and_prices(
+def load_run_dependent_values(
     resource: LearningResource,
-) -> tuple[datetime.time | None, list[Decimal]]:
+) -> ResourceNextRunConfig:
+    """
+    Assign prices, availability, and next_start_date to a resource based on its runs
+
+    Args:
+        resource (LearningResource): the resource to update
+
+    Returns:
+        tuple[datetime.time | None, list[Decimal], str]: date, prices, and availability
+    """
     next_upcoming_run = resource.next_run
     if next_upcoming_run:
         resource.next_start_date = next_upcoming_run.start_date
@@ -130,13 +138,18 @@ def load_next_start_date_and_prices(
         next_upcoming_run
         or resource.runs.filter(published=True).order_by("-start_date").first()
     )
+    resource.availability = best_run.availability if best_run else resource.availability
     resource.prices = (
         best_run.prices
         if resource.certification and best_run and best_run.prices
         else []
     )
     resource.save()
-    return resource.next_start_date, resource.prices
+    return ResourceNextRunConfig(
+        next_start_date=resource.next_start_date,
+        prices=resource.prices,
+        availability=resource.availability,
+    )
 
 
 def load_instructors(
@@ -234,12 +247,10 @@ def load_run(
     """
     run_id = run_data.pop("run_id")
     image_data = run_data.pop("image", None)
+    status = run_data.pop("status", None)
     instructors_data = run_data.pop("instructors", [])
 
-    if (
-        run_data.get("availability") == RunAvailability.archived.value
-        or learning_resource.certification is False
-    ):
+    if status == RunStatus.archived.value or learning_resource.certification is False:
         # Archived runs or runs of resources w/out certificates should not have prices
         run_data["prices"] = []
     else:
@@ -430,7 +441,7 @@ def load_course(
                 run.save()
                 resource_run_unpublished_actions(run)
 
-        load_next_start_date_and_prices(learning_resource)
+        load_run_dependent_values(learning_resource)
         load_topics(learning_resource, topics_data)
         load_offered_by(learning_resource, offered_bys_data)
         load_image(learning_resource, image_data)
@@ -544,7 +555,7 @@ def load_program(
                 run.published = False
                 run.save()
 
-        load_next_start_date_and_prices(learning_resource)
+        load_run_dependent_values(learning_resource)
 
         for course_data in courses_data:
             # skip courses that don't define a readable_id

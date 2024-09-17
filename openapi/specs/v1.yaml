@@ -9276,6 +9276,23 @@ components:
             required:
             - code
             - name
+        delivery:
+          type: array
+          items:
+            type: object
+            properties:
+              code:
+                enum:
+                - online
+                - hybrid
+                - in_person
+                - offline
+              name:
+                type: string
+            required:
+            - code
+            - name
+          readOnly: true
         run_id:
           type: string
           maxLength: 128
@@ -9345,7 +9362,13 @@ components:
           type: string
           nullable: true
           maxLength: 32
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
+      - delivery
       - id
       - image
       - instructors
@@ -9448,6 +9471,11 @@ components:
           type: string
           nullable: true
           maxLength: 32
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - level
       - run_id

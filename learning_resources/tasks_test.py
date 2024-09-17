@@ -377,7 +377,7 @@ def test_update_next_start_date(mocker):
     LearningResourceFactory.create(next_start_date=(timezone.now() + timedelta(1)))
 
     mock_load_next_start_date = mocker.patch(
-        "learning_resources.tasks.load_next_start_date_and_prices"
+        "learning_resources.tasks.load_run_dependent_values"
     )
     update_next_start_date_and_prices()
     mock_load_next_start_date.assert_called_once_with(learning_resource)

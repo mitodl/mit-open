@@ -9,7 +9,11 @@ import pytest
 from moto import mock_s3
 
 from learning_resources.conftest import OCW_TEST_PREFIX, setup_s3_ocw
-from learning_resources.constants import DEPARTMENTS, LearningResourceDelivery
+from learning_resources.constants import (
+    DEPARTMENTS,
+    Availability,
+    LearningResourceDelivery,
+)
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.ocw import (
     transform_content_files,
@@ -240,6 +244,9 @@ def test_transform_course(  # noqa: PLR0913
         assert transformed_json["runs"][0]["semester"] == (term if term else None)
         assert transformed_json["runs"][0]["year"] == (year if year else None)
         assert transformed_json["license_cc"] is True
+        assert transformed_json["runs"][0]["delivery"] == expected_delivery
+        assert transformed_json["runs"][0]["availability"] == Availability.anytime.name
+        assert transformed_json["availability"] == Availability.anytime.name
         assert transformed_json["description"] == clean_data(
             course_json["course_description_html"]
         )
