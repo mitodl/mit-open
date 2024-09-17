@@ -137,7 +137,7 @@ class Migration(migrations.Migration):
                     db_index=True,
                     max_length=24,
                 ),
-                default=learning_resources.models.default_learning_format,
+                default=learning_resources.models.default_delivery,
                 size=None,
             ),
         ),

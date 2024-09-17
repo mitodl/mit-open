@@ -322,6 +322,8 @@ def _transform_runs(resource: dict) -> list[dict]:
                     "published": True,
                     "prices": parse_price(resource),
                     "url": parse_url(resource),
+                    "delivery": transform_delivery(resource["format_name"]),
+                    "availability": Availability.dated.name,
                 }
             )
     return runs
@@ -357,6 +359,7 @@ def _transform_course(
                 "course_numbers": [],
             },
             "learning_format": transform_delivery(course["format_name"]),
+            "delivery": transform_delivery(course["format_name"]),
             "published": True,
             "topics": parse_topic(course, offered_by.code) if offered_by else None,
             "runs": runs,

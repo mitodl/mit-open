@@ -492,14 +492,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
     languages = factory.List(random.choices(["en", "es"]))  # noqa: S311
     year = factory.Faker("year")
     image = factory.SubFactory(LearningResourceImageFactory)
-    availability = FuzzyChoice(
-        (
-            constants.RunAvailability.current.value,
-            constants.RunAvailability.upcoming.value,
-            constants.RunAvailability.starting_soon.value,
-            constants.RunAvailability.archived.value,
-        )
-    )
+    availability = FuzzyChoice(Availability.names())
     enrollment_start = factory.Faker("future_datetime", tzinfo=UTC)
     enrollment_end = factory.LazyAttribute(
         lambda obj: (

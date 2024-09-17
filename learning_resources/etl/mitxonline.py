@@ -15,7 +15,7 @@ from learning_resources.constants import (
     LearningResourceType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
@@ -233,9 +233,10 @@ def _transform_run(course_run: dict, course: dict) -> dict:
             {"full_name": instructor["name"]}
             for instructor in parse_page_attribute(course, "instructors", is_list=True)
         ],
-        "availability": RunAvailability.current.value
+        "status": RunStatus.current.value
         if parse_page_attribute(course, "page_url")
-        else RunAvailability.archived.value,
+        else RunStatus.archived.value,
+        "availability": course.get("availability"),
     }
 
 
@@ -366,9 +367,10 @@ def transform_programs(programs):
                         parse_page_attribute(program, "description")
                     ),
                     "prices": parse_program_prices(program),
-                    "availability": RunAvailability.current.value
+                    "status": RunStatus.current.value
                     if parse_page_attribute(program, "page_url")
-                    else RunAvailability.archived.value,
+                    else RunStatus.archived.value,
+                    "availability": program.get("availability"),
                 }
             ],
             "courses": transform_courses(

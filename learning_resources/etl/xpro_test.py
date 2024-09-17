@@ -130,6 +130,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                         for instructor in program_data.get("instructors", [])
                     ],
                     "description": program_data["description"],
+                    "delivery": transform_delivery(program_data.get("format")),
+                    "availability": Availability.dated.name,
                 }
             ],
             "courses": [
@@ -171,6 +173,8 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                                 {"full_name": instructor["name"]}
                                 for instructor in course_run_data["instructors"]
                             ],
+                            "delivery": transform_delivery(course_data.get("format")),
+                            "availability": Availability.dated.name,
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
@@ -242,6 +246,8 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
                         {"full_name": instructor["name"]}
                         for instructor in course_run_data["instructors"]
                     ],
+                    "delivery": transform_delivery(course_data.get("format")),
+                    "availability": Availability.dated.name,
                 }
                 for course_run_data in course_data["courseruns"]
             ],

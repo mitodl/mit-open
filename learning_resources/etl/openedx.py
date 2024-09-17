@@ -20,7 +20,7 @@ from learning_resources.constants import (
     CertificationType,
     LearningResourceType,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import COMMON_HEADERS
 from learning_resources.etl.utils import (
@@ -150,7 +150,7 @@ def _get_run_published(course_run):
 
 
 def _get_run_availability(course_run):
-    if course_run.get("availability") == RunAvailability.archived.value:
+    if course_run.get("availability") == RunStatus.archived.value:
         # Enrollable, archived courses can be started anytime
         return Availability.anytime
 
@@ -165,7 +165,16 @@ def _get_run_availability(course_run):
     return Availability.dated
 
 
-def _get_course_availability(course):
+def _get_course_availability(course: dict) -> str:
+    """
+    Get the availability of a course based on its runs
+
+    Args:
+        course (dict): the course data
+
+    Returns:
+        str: the availability of the course
+    """
     published_runs = [
         run for run in course.get("course_runs", []) if _get_run_published(run)
     ]
@@ -173,6 +182,29 @@ def _get_course_availability(course):
         return Availability.dated.name
     elif published_runs and all(
         _get_run_availability(run) == Availability.anytime for run in published_runs
+    ):
+        return Availability.anytime.name
+    return None
+
+
+def _get_program_availability(program: dict) -> str:
+    """
+    Get the availability of a program based on its courses
+
+    Args:
+        program (dict): the program data
+
+    Returns:
+        str: the availability of the program
+    """
+    course_availabilities = [
+        _get_course_availability(course) for course in program["courses"]
+    ]
+    if Availability.dated.name in course_availabilities:
+        return Availability.dated.name
+    elif all(
+        availability == Availability.anytime.name
+        for availability in course_availabilities
     ):
         return Availability.anytime.name
     return None
@@ -322,7 +354,8 @@ def _transform_course_run(config, course_run, course_last_modified, marketing_ur
         "enrollment_start": course_run.get("enrollment_start"),
         "enrollment_end": course_run.get("enrollment_end"),
         "image": _transform_course_image(course_run.get("image")),
-        "availability": course_run.get("availability"),
+        "status": course_run.get("availability"),
+        "availability": _get_run_availability(course_run).name,
         "url": marketing_url
         or "{}{}/course/".format(config.alt_url, course_run.get("key")),
         "prices": sorted(
@@ -420,10 +453,11 @@ def _transform_program_run(
             _parse_course_dates(program, "enrollment_end"), default=None
         ),
         "image": image,
-        "availability": RunAvailability.current.value,
+        "status": RunStatus.current.value,
         "url": program.get("marketing_url"),
         "prices": [_sum_course_prices(program)],
         "instructors": program.pop("instructors", []),
+        "availability": _get_program_availability(program),
     }
 
 
@@ -514,7 +548,7 @@ def _transform_program(config: OpenEdxConfiguration, program: dict) -> dict:
         "certification_type": CertificationType.completion.name
         if has_certification
         else CertificationType.none.name,
-        "availability": Availability.anytime.name,
+        "availability": runs[0]["availability"],
         "courses": [
             _transform_program_course(config, course)
             for course in program.get("courses", [])

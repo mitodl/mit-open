@@ -11,12 +11,13 @@ from django.forms.models import model_to_dict
 from django.utils import timezone
 
 from learning_resources.constants import (
+    Availability,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
@@ -32,7 +33,6 @@ from learning_resources.etl.loaders import (
     load_courses,
     load_image,
     load_instructors,
-    load_next_start_date_and_prices,
     load_offered_by,
     load_playlist,
     load_playlists,
@@ -42,6 +42,7 @@ from learning_resources.etl.loaders import (
     load_program,
     load_programs,
     load_run,
+    load_run_dependent_values,
     load_topics,
     load_video,
     load_video_channels,
@@ -626,7 +627,7 @@ def test_load_course_unique_urls(unique_url):
 def test_load_course_fetch_only(mocker, course_exists):
     """When fetch_only is True, course should just be fetched from db"""
     mock_next_runs_prices = mocker.patch(
-        "learning_resources.etl.loaders.load_next_start_date_and_prices"
+        "learning_resources.etl.loaders.load_run_dependent_values"
     )
     mock_warn = mocker.patch("learning_resources.etl.loaders.log.warning")
     platform = LearningResourcePlatformFactory.create(code=PlatformType.mitpe.name)
@@ -653,11 +654,9 @@ def test_load_course_fetch_only(mocker, course_exists):
 
 
 @pytest.mark.parametrize("run_exists", [True, False])
-@pytest.mark.parametrize(
-    "availability", [RunAvailability.archived.value, RunAvailability.current.value]
-)
+@pytest.mark.parametrize("status", [RunStatus.archived.value, RunStatus.current.value])
 @pytest.mark.parametrize("certification", [True, False])
-def test_load_run(run_exists, availability, certification):
+def test_load_run(run_exists, status, certification):
     """Test that load_run loads the course run"""
     course = LearningResourceFactory.create(
         is_course=True, runs=[], certification=certification
@@ -670,10 +669,10 @@ def test_load_run(run_exists, availability, certification):
     props = model_to_dict(
         LearningResourceRunFactory.build(
             run_id=learning_resource_run.run_id,
-            availability=availability,
             prices=["70.00", "20.00"],
         )
     )
+    props["status"] = status
 
     del props["id"]
     del props["learning_resource"]
@@ -691,7 +690,7 @@ def test_load_run(run_exists, availability, certification):
 
     assert result.prices == (
         []
-        if (availability == RunAvailability.archived.value or certification is False)
+        if (status == RunStatus.archived.value or certification is False)
         else sorted(props["prices"])
     )
     props.pop("prices")
@@ -1461,19 +1460,31 @@ def test_load_course_percolation(
 
 
 @pytest.mark.parametrize("certification", [True, False])
-def test_load_prices_by_certificate(certification):
-    """Prices should be empty for a course without certificates, else equal to only published run"""
+def test_load_run_dependent_values(certification):
+    """Prices and availability should be correctly assigned based on run data"""
     course = LearningResourceFactory.create(
         is_course=True, certification=certification, runs=[]
     )
+    closest_date = now_in_utc() + timedelta(days=1)
+    furthest_date = now_in_utc() + timedelta(days=2)
     run = LearningResourceRunFactory.create(
         learning_resource=course,
         published=True,
-        availability=RunAvailability.current.value,
+        availability=Availability.dated.name,
         prices=[Decimal("0.00"), Decimal("20.00")],
+        start_date=closest_date,
     )
-    load_next_start_date_and_prices(course)
-    assert course.prices == ([] if not certification else run.prices)
+    LearningResourceRunFactory.create(
+        learning_resource=course,
+        published=True,
+        availability=Availability.dated.name,
+        prices=[Decimal("0.00"), Decimal("50.00")],
+        start_date=furthest_date,
+    )
+    result = load_run_dependent_values(course)
+    assert result.next_start_date == course.next_start_date == closest_date
+    assert result.prices == course.prices == ([] if not certification else run.prices)
+    assert result.availability == course.availability == Availability.dated.name
 
 
 @pytest.mark.parametrize(

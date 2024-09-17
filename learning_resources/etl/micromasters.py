@@ -90,6 +90,7 @@ def transform(programs_data):
                             or program["enrollment_start"],
                             "end_date": program["end_date"],
                             "enrollment_start": program["enrollment_start"],
+                            "availability": Availability.dated.name,
                         }
                     ],
                     "topics": program["topics"],

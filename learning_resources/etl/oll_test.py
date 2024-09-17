@@ -69,9 +69,10 @@ def test_oll_transform(mocker, oll_course_data):
                     {"full_name": "Jeremy Orloff"},
                     {"full_name": "Jennifer French Kamrin"},
                 ],
-                "availability": "Archived",
                 "semester": "Summer",
                 "year": 2022,
+                "status": "Archived",
+                "availability": "anytime",
             }
         ],
         "image": {
@@ -120,9 +121,10 @@ def test_oll_transform(mocker, oll_course_data):
                     {"full_name": "Justin Reich"},
                     {"full_name": "Elizabeth Huttner-Loan"},
                 ],
-                "availability": "Archived",
                 "semester": "Spring",
                 "year": 2019,
+                "status": "Archived",
+                "availability": "anytime",
             }
         ],
         "image": {

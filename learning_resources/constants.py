@@ -6,9 +6,9 @@ from named_enum import ExtendedEnum
 FAVORITES_TITLE = "Favorites"
 
 
-class RunAvailability(ExtendedEnum):
+class RunStatus(ExtendedEnum):
     """
-    Enum for Course availability options dictated by edX API values.
+    Enum for run status options dictated by edX API values.
     """
 
     current = "Current"
@@ -270,7 +270,7 @@ class LevelType(ExtendedEnum):
 
 
 class LearningResourceFormat(ExtendedEnum):
-    """Enum for resource learning_format"""
+    """Enum for resource learning format"""
 
     online = "Online"
     hybrid = "Hybrid"

@@ -34,7 +34,7 @@ from learning_resources.constants import (
     LearningResourceFormat,
     LevelType,
     OfferedBy,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import (
     RESOURCE_FORMAT_MAPPING,
@@ -706,18 +706,16 @@ def transform_delivery(resource_delivery: str) -> list[str]:
 
 
 def parse_certification(offeror, runs_data):
-    """Return true/false depending on offeror and run availability"""
+    """Return true/false depending on offeror and run status"""
     if offeror != OfferedBy.mitx.name:
         return False
     return bool(
         [
-            availability
-            for availability in [
-                run.get("availability")
-                for run in runs_data
-                if run.get("published", True)
+            status
+            for status in [
+                run.get("status") for run in runs_data if run.get("published", True)
             ]
-            if (availability and availability != RunAvailability.archived.value)
+            if (status and status != RunStatus.archived.value)
         ]
     )
 

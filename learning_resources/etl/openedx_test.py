@@ -13,7 +13,7 @@ from learning_resources.constants import (
     LearningResourceType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import COMMON_HEADERS, CourseNumberType
 from learning_resources.etl.openedx import (
@@ -223,7 +223,7 @@ def test_transform_course(  # noqa: PLR0913
                 if is_run_deleted or not has_runs
                 else [
                     {
-                        "availability": "Starting Soon",
+                        "status": "Starting Soon",
                         "run_id": "course-v1:MITx+15.071x+1T2019",
                         "end_date": "2019-05-22T23:30:00Z",
                         "enrollment_end": None,
@@ -248,6 +248,7 @@ def test_transform_course(  # noqa: PLR0913
                         "url": "http://localhost/fake-alt-url/this_course",
                         "year": 2019,
                         "published": is_run_enrollable and is_run_published,
+                        "availability": Availability.dated.name,
                     }
                 ]
             ),
@@ -280,7 +281,7 @@ def test_transform_course(  # noqa: PLR0913
     [
         (
             {
-                "availability": RunAvailability.current.value,
+                "availability": RunStatus.current.value,
                 "pacing_type": "self_paced",
                 "start": "2021-01-01T00:00:00Z",  # past
             },
@@ -288,7 +289,7 @@ def test_transform_course(  # noqa: PLR0913
         ),
         (
             {
-                "availability": RunAvailability.current.value,
+                "availability": RunStatus.current.value,
                 "pacing_type": "self_paced",
                 "start": "2221-01-01T00:00:00Z",  # future
             },
@@ -296,7 +297,7 @@ def test_transform_course(  # noqa: PLR0913
         ),
         (
             {
-                "availability": RunAvailability.archived.value,
+                "availability": RunStatus.archived.value,
             },
             Availability.anytime.name,
         ),
@@ -343,7 +344,7 @@ def test_transform_course_availability_with_multiple_runs(
     extracted = mitx_course_data["results"]
     run0 = {  # anytime run
         **extracted[0]["course_runs"][0],
-        "availability": RunAvailability.current.value,
+        "availability": RunStatus.current.value,
         "pacing_type": "self_paced",
         "start": "2021-01-01T00:00:00Z",  # past
         "is_enrollable": True,
@@ -351,13 +352,13 @@ def test_transform_course_availability_with_multiple_runs(
     }
     run1 = {  # anytime run
         **extracted[0]["course_runs"][0],
-        "availability": RunAvailability.archived.value,
+        "availability": RunStatus.archived.value,
         "is_enrollable": True,
         "status": "published",
     }
     run2 = {  # dated run
         **extracted[0]["course_runs"][0],
-        "availability": RunAvailability.current.value,
+        "availability": RunStatus.current.value,
         "pacing_type": "instructor_paced",
         "start": "2221-01-01T00:00:00Z",
         "is_enrollable": True,
@@ -424,7 +425,7 @@ def test_transform_program(
         "runs": (
             [
                 {
-                    "availability": RunAvailability.current.value,
+                    "status": RunStatus.current.value,
                     "run_id": extracted[0]["uuid"],
                     "start_date": "2019-06-20T15:00:00Z",
                     "end_date": "2025-05-26T15:00:00Z",
@@ -448,6 +449,7 @@ def test_transform_program(
                     "title": extracted[0]["title"],
                     "url": extracted[0]["marketing_url"],
                     "published": True,
+                    "availability": Availability.anytime.name,
                 }
             ]
         ),

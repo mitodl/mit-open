@@ -14,7 +14,7 @@ from learning_resources.constants import (
     CertificationType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
@@ -106,23 +106,21 @@ def parse_datetime(value):
     )
 
 
-def parse_availability(runs_data):
+def parse_availability(run_data: dict) -> str:
     """
-    Parse availability from runs data
+    Parse availability from run data
 
     Args:
-        runs_data (list): the runs data
+        run_data (list): the run data
 
     Returns:
         str: the availability
     """
-    if runs_data:
-        run = runs_data[0]
-        if (
-            run.get("Delivery", "") == "Online"
-            and run.get("Format", "") == "Asynchronous (On-Demand)"
-        ):
-            return Availability.anytime.name
+    if run_data and (
+        run_data.get("Delivery", "") == "Online"
+        and run_data.get("Format", "") == "Asynchronous (On-Demand)"
+    ):
+        return Availability.anytime.name
     return Availability.dated.name
 
 
@@ -180,7 +178,9 @@ def transform_run(run_data, course_data):
         "end_date": parse_datetime(run_data["End_Date"]),
         "title": course_data["Title"],
         "url": course_data["URL"],
-        "availability": RunAvailability.current.value,
+        "status": RunStatus.current.value,
+        "delivery": transform_delivery(run_data["Delivery"]),
+        "availability": parse_availability(run_data),
         "published": True,
         "prices": [run_data["Price"]],
         "instructors": [{"full_name": name.strip()} for name in faculty_names],
@@ -225,7 +225,6 @@ def transform_course(course_data: dict, runs_data: dict) -> dict:
             "course_numbers": [],
         },
         "runs": [transform_run(run, course_data) for run in course_runs_data],
-        "availability": parse_availability(course_runs_data),
         "continuing_ed_credits": course_runs_data[0]["Continuing_Ed_Credits"],
     }
 

@@ -261,10 +261,13 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
     image = LearningResourceImageSerializer(read_only=True, allow_null=True)
 
     level = serializers.ListField(child=LearningResourceLevelSerializer())
+    delivery = serializers.ListField(
+        child=LearningResourceDeliverySerializer(), read_only=True
+    )
 
     class Meta:
         model = models.LearningResourceRun
-        exclude = ["learning_resource", "availability", *COMMON_IGNORED_FIELDS]
+        exclude = ["learning_resource", *COMMON_IGNORED_FIELDS]
 
 
 class ResourceListMixin(serializers.Serializer):
