@@ -307,7 +307,7 @@ const SlickCarousel = () => {
 const TestimonialsSection: React.FC = () => {
   return (
     <Section>
-      <HeaderContainer id="hamster-noises">
+      <HeaderContainer>
         <Typography component="h2" variant="h2">
           From Our Community
         </Typography>
