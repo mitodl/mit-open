@@ -5,14 +5,16 @@ import { RiAccountCircleFill } from "@remixicon/react"
 import { TruncateText, styled, theme } from "ol-components"
 import type { Attestation } from "api/v0"
 
-type AttestantBlockVariant = "start" | "end"
+type AttestantAvatarPosition = "start" | "end"
 type AttestantBlockColor = "light" | "dark"
 type AttestantAvatarStyle = "homepage" | "unit"
+type AttestantBlockVariant = "standard" | "condensed"
 
 type AttestantBlockChildProps = {
-  variant?: AttestantBlockVariant
+  avatarPosition?: AttestantAvatarPosition
+  avatarStyle?: AttestantAvatarStyle
   color?: AttestantBlockColor
-  avatar?: AttestantAvatarStyle
+  variant?: AttestantBlockVariant
 }
 
 type AttestantBlockProps = AttestantBlockChildProps & {
@@ -26,20 +28,20 @@ const StyledRiAccountCircleFill = styled(RiAccountCircleFill)({
 
 const AttestantBlockContainer = styled.cite<AttestantBlockChildProps>(
   (props) => {
-    const flexDir = props.variant === "end" ? "row-reverse" : "row"
+    const flexDir = props.avatarPosition === "end" ? "row-reverse" : "row"
 
     return [
       {
         display: "flex",
         flexShrink: 0,
         flexDirection: flexDir,
-        width: props.variant === "end" ? "100%" : "300px",
-        marginLeft: props.variant === "end" ? "0px" : "24px",
+        width: props.avatarPosition === "end" ? "100%" : "300px",
+        marginLeft: props.avatarPosition === "end" ? "0px" : "24px",
         ...theme.typography.body3,
         [theme.breakpoints.down("sm")]: {
           width: "100%",
           height: "56px",
-          marginTop: props.variant === "end" ? "0px" : "24px",
+          marginTop: props.avatarPosition === "end" ? "0px" : "24px",
           marginLeft: "0px",
         },
       },
@@ -50,8 +52,8 @@ const AttestantBlockContainer = styled.cite<AttestantBlockChildProps>(
 const AttestantAvatar = styled.div<AttestantBlockChildProps>((props) => {
   return [
     {
-      marginRight: props.variant === "end" ? "0px" : "12px",
-      marginLeft: props.variant === "end" ? "14px" : "0px",
+      marginRight: props.avatarPosition === "end" ? "0px" : "12px",
+      marginLeft: props.avatarPosition === "end" ? "14px" : "0px",
       img: {
         objectFit: "cover",
         borderRadius: "50%",
@@ -62,7 +64,7 @@ const AttestantAvatar = styled.div<AttestantBlockChildProps>((props) => {
           "0px 2px 4px 0px rgba(37, 38, 43, 0.10), 0px 2px 4px 0px rgba(37, 38, 43, 0.10)",
       },
       [theme.breakpoints.down("sm")]: {
-        display: props.avatar === "homepage" ? "none" : "block",
+        display: props.avatarStyle === "homepage" ? "none" : "block",
       },
     },
   ]
@@ -73,7 +75,7 @@ const AttestantNameBlock = styled.div<AttestantBlockChildProps>((props) => {
     {
       flexGrow: "1",
       width: "auto",
-      textAlign: props.variant === "end" ? "end" : "start",
+      textAlign: props.avatarPosition === "end" ? "end" : "start",
       color:
         props.color === "light"
           ? theme.custom.colors.lightGray2
@@ -83,9 +85,13 @@ const AttestantNameBlock = styled.div<AttestantBlockChildProps>((props) => {
 })
 
 const AttestantName = styled.div<AttestantBlockChildProps>((props) => {
+  const desktopFont =
+    props.variant === "standard"
+      ? theme.typography.h5
+      : theme.typography.subtitle1
   return [
     {
-      ...theme.typography.h5,
+      ...desktopFont,
       whiteSpace: "nowrap",
       color:
         props.color === "light"
@@ -100,9 +106,13 @@ const AttestantName = styled.div<AttestantBlockChildProps>((props) => {
 })
 
 const AttestantTitle = styled.div<AttestantBlockChildProps>((props) => {
+  const desktopFont =
+    props.variant === "standard"
+      ? theme.typography.body1
+      : theme.typography.body3
   return [
     {
-      ...theme.typography.body1,
+      ...desktopFont,
       color:
         props.color === "light"
           ? theme.custom.colors.lightGray2
@@ -116,24 +126,33 @@ const AttestantTitle = styled.div<AttestantBlockChildProps>((props) => {
 
 const AttestantBlock: React.FC<AttestantBlockProps> = ({
   attestation,
-  variant = "start",
+  avatarPosition = "start",
+  avatarStyle: avatar = "unit",
   color = "light",
-  avatar = "unit",
+  variant = "standard",
 }) => {
   return (
-    <AttestantBlockContainer variant={variant} color={color}>
-      <AttestantAvatar variant={variant} color={color} avatar={avatar}>
+    <AttestantBlockContainer avatarPosition={avatarPosition} color={color}>
+      <AttestantAvatar
+        avatarPosition={avatarPosition}
+        color={color}
+        avatarStyle={avatar}
+      >
         {attestation.avatar_medium ? (
           <img src={attestation.avatar_medium} alt="" />
         ) : (
           <StyledRiAccountCircleFill />
         )}
       </AttestantAvatar>
-      <AttestantNameBlock variant={variant} color={color}>
-        <AttestantName variant={variant} color={color}>
+      <AttestantNameBlock avatarPosition={avatarPosition} color={color}>
+        <AttestantName
+          avatarPosition={avatarPosition}
+          color={color}
+          variant={variant}
+        >
           {attestation?.attestant_name}
         </AttestantName>
-        <AttestantTitle>
+        <AttestantTitle variant={variant}>
           <TruncateText lineClamp={2}>{attestation.title}</TruncateText>
         </AttestantTitle>
       </AttestantNameBlock>

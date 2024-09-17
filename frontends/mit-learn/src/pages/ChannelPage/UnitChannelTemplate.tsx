@@ -193,7 +193,7 @@ const UnitChannelTemplate: React.FC<UnitChannelTemplateProps> = ({
       </Container>
       <section>
         <VisuallyHidden as="h2">What Learners Say</VisuallyHidden>
-        <TestimonialDisplay offerors={[name]} />
+        <TestimonialDisplay offerors={[name]} variant="condensed" />
       </section>
       <Container>{children}</Container>
     </>

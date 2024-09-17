@@ -273,9 +273,9 @@ const SlickCarousel = () => {
                 </TestimonialTruncateText>
                 <AttestantBlock
                   attestation={resource}
-                  variant="end"
+                  avatarPosition="end"
                   color="dark"
-                  avatar="homepage"
+                  avatarStyle="homepage"
                 />
               </TestimonialCardQuote>
             </TestimonialCard>
