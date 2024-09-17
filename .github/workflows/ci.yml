@@ -155,107 +155,107 @@ jobs:
         with:
           file: coverage/lcov.info
 
-  build-deploy-frontend-1:
-    # needs: javascript-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+  # build-deploy-frontend-1:
+  #   # needs: javascript-tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.13.15
-        with:
-          heroku_app_name: mitopen-rc-nextjs
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          usedocker: true
-          appdir: frontends/main
-          docker_build_args: |
-            NEXT_PUBLIC_ORIGIN
-            NEXT_PUBLIC_MITOL_API_BASE_URL
-            NEXT_PUBLIC_SITE_NAME
-            NEXT_PUBLIC_MITOL_SUPPORT_EMAIL
-            NEXT_PUBLIC_EMBEDLY_KEY
-            NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS
-            NEXT_PUBLIC_CSRF_COOKIE_NAME
-        env:
-          NEXT_PUBLIC_ORIGIN: https://next.rc.learn.mit.edu
-          NEXT_PUBLIC_MITOL_API_BASE_URL: https://api.rc.learn.mit.edu
-          NEXT_PUBLIC_SITE_NAME: MIT Learn
-          NEXT_PUBLIC_MITOL_SUPPORT_EMAIL: mitlearn-support@mit.edu
-          NEXT_PUBLIC_EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
-          NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS: true
-          NEXT_PUBLIC_CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
+  #     - name: Deploy to Heroku
+  #       uses: akhileshns/heroku-deploy@v3.13.15
+  #       with:
+  #         heroku_app_name: mitopen-rc-nextjs
+  #         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+  #         heroku_email: ${{ secrets.HEROKU_EMAIL }}
+  #         usedocker: true
+  #         appdir: frontends/main
+  #         docker_build_args: |
+  #           NEXT_PUBLIC_ORIGIN
+  #           NEXT_PUBLIC_MITOL_API_BASE_URL
+  #           NEXT_PUBLIC_SITE_NAME
+  #           NEXT_PUBLIC_MITOL_SUPPORT_EMAIL
+  #           NEXT_PUBLIC_EMBEDLY_KEY
+  #           NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS
+  #           NEXT_PUBLIC_CSRF_COOKIE_NAME
+  #       env:
+  #         NEXT_PUBLIC_ORIGIN: https://next.rc.learn.mit.edu
+  #         NEXT_PUBLIC_MITOL_API_BASE_URL: https://api.rc.learn.mit.edu
+  #         NEXT_PUBLIC_SITE_NAME: MIT Learn
+  #         NEXT_PUBLIC_MITOL_SUPPORT_EMAIL: mitlearn-support@mit.edu
+  #         NEXT_PUBLIC_EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
+  #         NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS: true
+  #         NEXT_PUBLIC_CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
 
-  build-deploy-frontend-2:
-    # needs: javascript-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+  # build-deploy-frontend-2:
+  #   # needs: javascript-tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
-      - name: Deploy to Heroku
-        uses: gonuit/heroku-docker-deploy@v1.3.3
-        with:
-          email: ${{ secrets.HEROKU_EMAIL }}
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: mitopen-rc-nextjs
-          dockerfile_directory: ./frontends/main
-          docker_options: |
-            --build-arg NEXT_PUBLIC_ORIGIN=https://next.rc.learn.mit.edu \
-            --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL=https://api.rc.learn.mit.edu \
-            --build-arg NEXT_PUBLIC_SITE_NAME="MIT Learn" \
-            --build-arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=mitlearn-support@mit.edu \
-            --build-arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=true \
-            --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME=learn-rc-csrftoken \
+  #     - name: Deploy to Heroku
+  #       uses: gonuit/heroku-docker-deploy@v1.3.3
+  #       with:
+  #         email: ${{ secrets.HEROKU_EMAIL }}
+  #         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+  #         heroku_app_name: mitopen-rc-nextjs
+  #         dockerfile_directory: ./frontends/main
+  #         docker_options: |
+  #           --build-arg NEXT_PUBLIC_ORIGIN=https://next.rc.learn.mit.edu \
+  #           --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL=https://api.rc.learn.mit.edu \
+  #           --build-arg NEXT_PUBLIC_SITE_NAME="MIT Learn" \
+  #           --build-arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=mitlearn-support@mit.edu \
+  #           --build-arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=true \
+  #           --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME=learn-rc-csrftoken \
 
-  build-deploy-frontend-3:
-    # needs: javascript-tests
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+  # build-deploy-frontend-3:
+  #   # needs: javascript-tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
 
-      # - name: Get short commit hash
-      #   run:
-      #     SHORT_SHA=$(git rev-parse --short ${{ github.sha }})
-      #     echo "COMMIT_SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
+  #     # - name: Get short commit hash
+  #     #   run:
+  #     #     SHORT_SHA=$(git rev-parse --short ${{ github.sha }})
+  #     #     echo "COMMIT_SHORT_SHA=$SHORT_SHA" >> $GITHUB_ENV
 
-      - name: Build the Docker image
-        env:
-          ORIGIN: https://next.rc.learn.mit.edu
-          MITOL_API_BASE_URL: https://api.rc.learn.mit.edu
-          SITE_NAME: MIT Learn
-          MITOL_SUPPORT_EMAIL: mitlearn-support@mit.edu
-          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
-          MITOL_AXIOS_WITH_CREDENTIALS: true
-          CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
-        run: |
-          docker build \
-            -t registry.heroku.com/mitopen-rc-nextjs/frontend:latest \
-            --build-arg NEXT_PUBLIC_ORIGIN="$ORIGIN" \
-            --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL="$MITOL_API_BASE_URL" \
-            --build-arg NEXT_PUBLIC_SITE_NAME="$SITE_NAME" \
-            --build-arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL="$MITOL_SUPPORT_EMAIL" \
-            --build-arg NEXT_PUBLIC_EMBEDLY_KEY="$EMBEDLY_KEY" \
-            --build-arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS="$MITOL_AXIOS_WITH_CREDENTIALS" \
-            --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME="$CSRF_COOKIE_NAME" \
-            -f frontends/main/Dockerfile \
-            .
-      - name: Attempt Heroku login
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login --app mitopen-rc-nextjs
+  #     - name: Build the Docker image
+  #       env:
+  #         ORIGIN: https://next.rc.learn.mit.edu
+  #         MITOL_API_BASE_URL: https://api.rc.learn.mit.edu
+  #         SITE_NAME: MIT Learn
+  #         MITOL_SUPPORT_EMAIL: mitlearn-support@mit.edu
+  #         EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
+  #         MITOL_AXIOS_WITH_CREDENTIALS: true
+  #         CSRF_COOKIE_NAME: ${{ secrets.CSRF_COOKIE_NAME_RC }}
+  #       run: |
+  #         docker build \
+  #           -t registry.heroku.com/mitopen-rc-nextjs/frontend:latest \
+  #           --build-arg NEXT_PUBLIC_ORIGIN="$ORIGIN" \
+  #           --build-arg NEXT_PUBLIC_MITOL_API_BASE_URL="$MITOL_API_BASE_URL" \
+  #           --build-arg NEXT_PUBLIC_SITE_NAME="$SITE_NAME" \
+  #           --build-arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL="$MITOL_SUPPORT_EMAIL" \
+  #           --build-arg NEXT_PUBLIC_EMBEDLY_KEY="$EMBEDLY_KEY" \
+  #           --build-arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS="$MITOL_AXIOS_WITH_CREDENTIALS" \
+  #           --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME="$CSRF_COOKIE_NAME" \
+  #           -f frontends/main/Dockerfile \
+  #           .
+  #     - name: Attempt Heroku login
+  #       env:
+  #         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  #       run: heroku container:login --app mitopen-rc-nextjs
 
-      - name: Push to Heroku
-        run: heroku container:push --app mitopen-rc-nextjs --recursive
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  #     - name: Push to Heroku
+  #       run: heroku container:push --app mitopen-rc-nextjs --recursive
+  #       env:
+  #         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
-      - name: Release on Heroku
-        run: heroku container:release --app mitopen-rc-nextjs
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  #     - name: Release on Heroku
+  #       run: heroku container:release --app mitopen-rc-nextjs
+  #       env:
+  #         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
   build-deploy-frontend-4:
     # needs: javascript-tests
@@ -267,12 +267,27 @@ jobs:
       - name: Heroku login
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-        run: heroku container:login --app mitopen-rc-nextjs
+        run: heroku container:login
 
-      - name: Release on Heroku
-        run: heroku container:release --app mitopen-rc-nextjs
+      - name: Build the Docker image
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku container:push frontend \
+          --app mitopen-rc-nextjs \
+          --recursive \
+          --arg NEXT_PUBLIC_ORIGIN=https://next.rc.learn.mit.edu \
+          --arg NEXT_PUBLIC_MITOL_API_BASE_URL=https://api.rc.learn.mit.edu \
+          --arg NEXT_PUBLIC_SITE_NAME="MIT Learn" \
+          --arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=mitlearn-support@mit.edu \
+          --arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=true \
+          --arg NEXT_PUBLIC_CSRF_COOKIE_NAME=learn-rc-csrftoken \
+          --context-path .
+
+      - name: Release on Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:release --app mitopen-rc-nextjs frontend
 
   build-storybook:
     runs-on: ubuntu-latest

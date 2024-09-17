@@ -29,6 +29,10 @@
 #   --context-path .
 
 
+# Heroku release:
+# heroku container:release --app mitopen-rc-nextjs frontend
+
+
 FROM node:22-alpine
 
 RUN apk update
