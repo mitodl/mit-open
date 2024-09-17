@@ -62,7 +62,11 @@ const ResourceCategoryTabContext: React.FC<{
   activeTabName: string
   children: React.ReactNode
 }> = ({ activeTabName, children }) => {
-  return <TabContext value={activeTabName}>{children}</TabContext>
+  return (
+    <TabContext value={activeTabName}>
+      <>{children}</>
+    </TabContext>
+  )
 }
 
 type ResourceCategoryTabsProps = {
