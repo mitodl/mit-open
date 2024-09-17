@@ -242,7 +242,6 @@ jobs:
             --build-arg NEXT_PUBLIC_CSRF_COOKIE_NAME="$CSRF_COOKIE_NAME" \
             -f frontends/main/Dockerfile \
             .
-
       - name: Attempt Heroku login
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -252,6 +251,23 @@ jobs:
         run: heroku container:push --app mitopen-rc-nextjs --recursive
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+      - name: Release on Heroku
+        run: heroku container:release --app mitopen-rc-nextjs
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+
+  build-deploy-frontend-4:
+    # needs: javascript-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+
+      - name: Heroku login
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku container:login --app mitopen-rc-nextjs
 
       - name: Release on Heroku
         run: heroku container:release --app mitopen-rc-nextjs
