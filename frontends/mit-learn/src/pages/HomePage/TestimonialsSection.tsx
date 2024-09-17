@@ -308,7 +308,7 @@ const TestimonialsSection: React.FC = () => {
   return (
     <Section>
       <HeaderContainer>
-        <Typography component="h2" variant="h2">
+        <Typography component="h2" typography={{ xs: "h3", sm: "h2" }}>
           From Our Community
         </Typography>
         <Typography variant="body1">
