@@ -3,7 +3,6 @@ import {
   LearningResourceCard,
   LearningResourceListCard,
   LearningResourceListCardCondensed,
-  SignupPopover,
 } from "ol-components"
 import * as NiceModal from "@ebay/nice-modal-react"
 import type { LearningResourceCardProps } from "ol-components"
@@ -14,8 +13,7 @@ import {
 import { useResourceDrawerHref } from "../LearningResourceDrawer/LearningResourceDrawer"
 import { useUserMe } from "api/hooks/user"
 import { LearningResource } from "api"
-import * as urls from "@/common/urls"
-import { useLocation } from "react-router"
+import { SignupPopover } from "../SignupPopover/SignupPopover"
 
 const useResourceCard = (resource?: LearningResource | null) => {
   const getDrawerHref = useResourceDrawerHref()
@@ -87,7 +85,6 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
   list,
   ...others
 }) => {
-  const loc = useLocation()
   const {
     getDrawerHref,
     anchorEl,
@@ -114,14 +111,7 @@ const ResourceCard: React.FC<ResourceCardProps> = ({
         inLearningPath={inLearningPath}
         {...others}
       />
-      <SignupPopover
-        signupUrl={urls.login({
-          pathname: loc.pathname,
-          search: loc.search,
-        })}
-        anchorEl={anchorEl}
-        onClose={handleClosePopover}
-      />
+      <SignupPopover anchorEl={anchorEl} onClose={handleClosePopover} />
     </>
   )
 }

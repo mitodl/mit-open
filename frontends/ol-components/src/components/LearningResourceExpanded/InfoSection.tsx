@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import styled from "@emotion/styled"
 import ISO6391 from "iso-639-1"
 import {
@@ -26,7 +26,6 @@ import Typography from "@mui/material/Typography"
 import type { User } from "api/hooks/user"
 import { CardActionButton } from "../LearningResourceCard/LearningResourceListCard"
 import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
-import { SignupPopover } from "../SignupPopover/SignupPopover"
 
 const InfoItems = styled.section`
   display: flex;
@@ -243,17 +242,13 @@ const InfoSection = ({
   user,
   onAddToLearningPathClick,
   onAddToUserListClick,
-  signupUrl,
 }: {
   resource?: LearningResource
   run?: LearningResourceRun
   user?: User
   onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
   onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
-  signupUrl?: string
 }) => {
-  const [buttonEl, setButtonEl] = useState<null | HTMLElement>(null)
-
   if (!resource) {
     return null
   }
@@ -294,19 +289,14 @@ const InfoSection = ({
           <CardActionButton
             filled={inUserList}
             aria-label="Add to User List"
-            onClick={(event) =>
+            onClick={
               onAddToUserListClick
-                ? onAddToUserListClick(event, resource.id)
-                : setButtonEl(event.currentTarget)
+                ? (event) => onAddToUserListClick?.(event, resource.id)
+                : undefined
             }
           >
             <RiBookmarkLine aria-hidden />
           </CardActionButton>
-          <SignupPopover
-            signupUrl={signupUrl}
-            anchorEl={buttonEl}
-            onClose={() => setButtonEl(null)}
-          />
         </ListButtonContainer>
       </InfoHeader>
       {infoItems.map((props, index) => (

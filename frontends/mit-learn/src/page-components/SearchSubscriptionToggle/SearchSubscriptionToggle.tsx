@@ -5,13 +5,12 @@ import {
   useSearchSubscriptionDelete,
   useSearchSubscriptionList,
 } from "api/hooks/searchSubscription"
-import { Button, SignupPopover, SimpleMenu, styled } from "ol-components"
+import { Button, SimpleMenu, styled } from "ol-components"
 import type { SimpleMenuItem } from "ol-components"
 import { RiArrowDownSLine, RiMailLine } from "@remixicon/react"
 import { useUserMe } from "api/hooks/user"
 import { SourceTypeEnum } from "api"
-import * as urls from "@/common/urls"
-import { useLocation } from "react-router"
+import { SignupPopover } from "../SignupPopover/SignupPopover"
 
 const StyledButton = styled(Button)({
   minWidth: "130px",
@@ -27,7 +26,6 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
   searchParams,
   sourceType,
 }) => {
-  const loc = useLocation()
   const [buttonEl, setButtonEl] = useState<null | HTMLElement>(null)
 
   const subscribeParams: Record<string, string[] | string> = useMemo(() => {
@@ -92,14 +90,7 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
       >
         Follow
       </StyledButton>
-      <SignupPopover
-        signupUrl={urls.login({
-          pathname: loc.pathname,
-          search: loc.search,
-        })}
-        anchorEl={buttonEl}
-        onClose={() => setButtonEl(null)}
-      />
+      <SignupPopover anchorEl={buttonEl} onClose={() => setButtonEl(null)} />
     </>
   )
 }
