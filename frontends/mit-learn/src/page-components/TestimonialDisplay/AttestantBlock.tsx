@@ -152,7 +152,7 @@ const AttestantBlock: React.FC<AttestantBlockProps> = ({
         >
           {attestation?.attestant_name}
         </AttestantName>
-        <AttestantTitle variant={variant}>
+        <AttestantTitle variant={variant} color={color}>
           <TruncateText lineClamp={2}>{attestation.title}</TruncateText>
         </AttestantTitle>
       </AttestantNameBlock>
