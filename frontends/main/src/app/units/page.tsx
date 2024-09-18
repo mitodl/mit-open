@@ -4,7 +4,7 @@ import { getMetadata } from "@/common/metadata"
 import UnitsListingPage from "@/app-pages/UnitsListingPage/UnitsListingPage"
 
 export const metadata: Metadata = getMetadata({
-  title: "Units",
+  title: "Units | MIT Learn",
 })
 
 const Page: React.FC = () => {
