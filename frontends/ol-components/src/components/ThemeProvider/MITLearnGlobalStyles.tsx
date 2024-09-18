@@ -3,8 +3,26 @@
 import React from "react"
 import { css, Global } from "@emotion/react"
 import { theme } from "./ThemeProvider"
+import { preload } from "react-dom"
+
+/**
+    Font files for Adobe neue haas grotesk.
+    WARNING: This is linked to chudzick@mit.edu's Adobe account.
+    We'd prefer a non-personal MIT account to be used.
+    See XXX for more.
+
+    Ideally the font would be loaded via a <link /> tag; see
+      - https://nextjs.org/docs/app/api-reference/functions/generate-metadata#unsupported-metadata
+      - https://github.com/vercel/next.js/discussions/52877
+      - https://github.com/vercel/next.js/discussions/50796
+ */
+const ADOBE_FONT_URL = "https://use.typekit.net/lbk1xay.css"
 
 const pageCss = css`
+  @import url("${ADOBE_FONT_URL}"); /**
+    @import must come before other styles, including comments
+  */
+
   html {
     font-family: ${theme.typography.body1.fontFamily};
     color: ${theme.typography.body1.color};
@@ -101,6 +119,11 @@ const muiCss = css`
 `
 
 const MITLearnGlobalStyles: React.FC = () => {
+  /**
+   * Preload the font just in case emotion doesn't put the import near top of
+   * HTML.
+   */
+  preload(ADOBE_FONT_URL, { as: "style", fetchPriority: "high" })
   return <Global styles={[pageCss, formCss, muiCss]}></Global>
 }
 
