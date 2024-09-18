@@ -16,10 +16,12 @@ import type { Attestation } from "api/v0"
 type TestimonialDisplayProps = {
   channels?: number[]
   offerors?: string[]
+  variant?: "standard" | "condensed"
 }
 
 type InternalTestimonialDisplayProps = {
   attestation: Attestation
+  variant?: "standard" | "condensed"
 }
 
 const TestimonialTruncateText = styled(TruncateText)({
@@ -110,6 +112,7 @@ const NoButtonsContainer = styled(ButtonsContainer)({
 
 const InteriorTestimonialDisplay: React.FC<InternalTestimonialDisplayProps> = ({
   attestation,
+  variant = "standard",
 }) => {
   return (
     <QuoteBody>
@@ -119,7 +122,11 @@ const InteriorTestimonialDisplay: React.FC<InternalTestimonialDisplayProps> = ({
           {attestation?.quote.length >= 350 ? "..." : null}
         </TestimonialTruncateText>
       </AttestationBlock>
-      <AttestantBlock attestation={attestation} variant="start" />
+      <AttestantBlock
+        attestation={attestation}
+        avatarPosition="start"
+        variant={variant}
+      />
     </QuoteBody>
   )
 }
@@ -127,6 +134,7 @@ const InteriorTestimonialDisplay: React.FC<InternalTestimonialDisplayProps> = ({
 const TestimonialDisplay: React.FC<TestimonialDisplayProps> = ({
   channels,
   offerors,
+  variant = "standard",
 }) => {
   const { data } = useTestimonialList({
     channels: channels,
@@ -165,6 +173,7 @@ const TestimonialDisplay: React.FC<TestimonialDisplayProps> = ({
                 <InteriorTestimonialDisplay
                   key={`testimonial-${attestation.id}`}
                   attestation={attestation}
+                  variant={variant}
                 ></InteriorTestimonialDisplay>
               ))}
             </Slider>
@@ -192,6 +201,7 @@ const TestimonialDisplay: React.FC<TestimonialDisplayProps> = ({
             <InteriorTestimonialDisplay
               key={`testimonial-${data["results"][0].id}`}
               attestation={data["results"][0]}
+              variant={variant}
             ></InteriorTestimonialDisplay>
             <NoButtonsContainer></NoButtonsContainer>
           </>
