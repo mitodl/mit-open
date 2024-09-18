@@ -5041,7 +5041,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/plugin-emotion@npm:^4.0.0":
+"@swc/plugin-emotion@npm:^4.0.1":
   version: 4.0.1
   resolution: "@swc/plugin-emotion@npm:4.0.1"
   dependencies:
@@ -15329,7 +15329,7 @@ __metadata:
     "@storybook/react-webpack5": "npm:^8.0.9"
     "@storybook/test": "npm:^8.0.9"
     "@swc/core": "npm:^1.4.11"
-    "@swc/plugin-emotion": "npm:^4.0.0"
+    "@swc/plugin-emotion": "npm:^4.0.1"
     "@tanstack/react-query": "npm:^4.36.1"
     "@tanstack/react-query-devtools": "npm:^4.29.6"
     "@testing-library/react": "npm:14.3.1"
