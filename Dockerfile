@@ -1,4 +1,4 @@
-FROM python:3.12.4
+FROM python:3.12.5
 LABEL maintainer "ODL DevOps <mitx-devops@mit.edu>"
 
 # Add package files, install updated node and pip
@@ -56,6 +56,6 @@ RUN apt-get clean && apt-get purge
 
 USER mitodl
 
-EXPOSE 8063
-ENV PORT 8063
+EXPOSE 8061
+ENV PORT 8061
 CMD uwsgi uwsgi.ini

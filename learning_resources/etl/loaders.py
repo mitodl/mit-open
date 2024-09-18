@@ -1,8 +1,6 @@
 """learning_resources data loaders"""
 
-import datetime
 import logging
-from decimal import Decimal
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
@@ -12,12 +10,15 @@ from learning_resources.constants import (
     LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import (
+    CONTENT_TAG_CATEGORIES,
     READABLE_ID_FIELD,
+    ContentTagCategory,
     CourseLoaderConfig,
     ProgramLoaderConfig,
+    ResourceNextRunConfig,
 )
 from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.utils import most_common_topics
@@ -44,11 +45,11 @@ from learning_resources.models import (
 from learning_resources.utils import (
     add_parent_topics_to_learning_resource,
     bulk_resources_unpublished_actions,
+    content_files_loaded_actions,
     load_course_blocklist,
     load_course_duplicates,
     resource_delete_actions,
     resource_run_unpublished_actions,
-    resource_run_upserted_actions,
     resource_unpublished_actions,
     resource_upserted_actions,
     similar_topics_action,
@@ -102,21 +103,32 @@ def load_departments(
     resource: LearningResource, department_data: list[str]
 ) -> list[LearningResourceDepartment]:
     """Load the departments for a resource into the database"""
-    if department_data:
-        departments = []
+    departments = []
 
+    if department_data:
         for department_id in department_data:
             department = LearningResourceDepartment.objects.get(
                 department_id=department_id
             )
             departments.append(department)
-        resource.departments.set(departments)
+
+    resource.departments.set(departments)
+
     return resource.departments.all()
 
 
-def load_next_start_date_and_prices(
+def load_run_dependent_values(
     resource: LearningResource,
-) -> tuple[datetime.time | None, list[Decimal]]:
+) -> ResourceNextRunConfig:
+    """
+    Assign prices, availability, and next_start_date to a resource based on its runs
+
+    Args:
+        resource (LearningResource): the resource to update
+
+    Returns:
+        tuple[datetime.time | None, list[Decimal], str]: date, prices, and availability
+    """
     next_upcoming_run = resource.next_run
     if next_upcoming_run:
         resource.next_start_date = next_upcoming_run.start_date
@@ -126,13 +138,18 @@ def load_next_start_date_and_prices(
         next_upcoming_run
         or resource.runs.filter(published=True).order_by("-start_date").first()
     )
+    resource.availability = best_run.availability if best_run else resource.availability
     resource.prices = (
         best_run.prices
         if resource.certification and best_run and best_run.prices
         else []
     )
     resource.save()
-    return resource.next_start_date, resource.prices
+    return ResourceNextRunConfig(
+        next_start_date=resource.next_start_date,
+        prices=resource.prices,
+        availability=resource.availability,
+    )
 
 
 def load_instructors(
@@ -230,12 +247,10 @@ def load_run(
     """
     run_id = run_data.pop("run_id")
     image_data = run_data.pop("image", None)
+    status = run_data.pop("status", None)
     instructors_data = run_data.pop("instructors", [])
 
-    if (
-        run_data.get("availability") == RunAvailability.archived.value
-        or learning_resource.certification is False
-    ):
+    if status == RunStatus.archived.value or learning_resource.certification is False:
         # Archived runs or runs of resources w/out certificates should not have prices
         run_data["prices"] = []
     else:
@@ -424,8 +439,9 @@ def load_course(
             ).filter(published=True):
                 run.published = False
                 run.save()
+                resource_run_unpublished_actions(run)
 
-        load_next_start_date_and_prices(learning_resource)
+        load_run_dependent_values(learning_resource)
         load_topics(learning_resource, topics_data)
         load_offered_by(learning_resource, offered_bys_data)
         load_image(learning_resource, image_data)
@@ -539,7 +555,7 @@ def load_program(
                 run.published = False
                 run.save()
 
-        load_next_start_date_and_prices(learning_resource)
+        load_run_dependent_values(learning_resource)
 
         for course_data in courses_data:
             # skip courses that don't define a readable_id
@@ -618,8 +634,68 @@ def load_content_file(
         )
 
 
+def calculate_completeness(
+    run: LearningResourceRun, content_tags: list[list[str]] | None = None
+):
+    """Calculate the completeness score of an OCW course"""
+    ocw_resource = run.learning_resource
+    if any(
+        coursenum["value"]
+        for coursenum in ocw_resource.course.course_numbers
+        if coursenum["value"].endswith("SC")
+    ):
+        # SC courses get an automatic 1.0 score
+        new_score = 1.0
+    else:
+        if content_tags is None:
+            content_tags = [
+                [tag.name for tag in content_file.content_tags.all()]
+                for content_file in run.content_files.only("content_tags")
+            ]
+        content_keys = CONTENT_TAG_CATEGORIES.values()
+        content_tags_dict = dict(zip(content_keys, [0] * len(content_keys)))
+        for content_file_tags in content_tags:
+            for content_tag in content_file_tags:
+                category = CONTENT_TAG_CATEGORIES.get(content_tag)
+                if category:
+                    content_tags_dict[category] = content_tags_dict.get(category, 0) + 1
+        lecture_video_rating = min(
+            content_tags_dict.get(ContentTagCategory.videos.value, 0) / 24, 1.0
+        )
+        lecture_notes_rating = min(
+            content_tags_dict.get(ContentTagCategory.notes.value, 0) / 24, 1.0
+        )
+        exams_rating = min(
+            content_tags_dict.get(ContentTagCategory.exams.value, 0), 1.0
+        )
+        problem_set_rating = min(
+            content_tags_dict.get(ContentTagCategory.problem_sets.value, 0) / 10, 1.0
+        )
+        log.info(
+            "Videos: %.2f, Notes: %.2f, Exams: %.2f Problems/Assignments: %.2f",
+            lecture_video_rating,
+            lecture_notes_rating,
+            exams_rating,
+            problem_set_rating,
+        )
+        new_score = (
+            0.4 * lecture_video_rating
+            + 0.2 * lecture_notes_rating
+            + 0.2 * exams_rating
+            + 0.2 * problem_set_rating
+        )
+    if ocw_resource.completeness != new_score:
+        ocw_resource.completeness = new_score
+        ocw_resource.save()
+        update_index(ocw_resource, newly_created=False)
+    return new_score
+
+
 def load_content_files(
-    course_run: LearningResourceRun, content_files_data: list[dict]
+    course_run: LearningResourceRun,
+    content_files_data: list[dict],
+    *,
+    calc_completeness: bool = False,
 ) -> list[int]:
     """
     Sync all content files for a course run to database and S3 if not present in DB
@@ -627,21 +703,21 @@ def load_content_files(
     Args:
         course_run (LearningResourceRun): a course run
         content_files_data (list or generator): Details about the content files
+        calc_completeness: bool: Whether to calculate the completeness score
 
     Returns:
         list of int: Ids of the ContentFile objects that were created/updated
 
     """
     if course_run.learning_resource.resource_type == LearningResourceType.course.name:
-        content_files_ids = [
-            load_content_file(course_run, content_file)
-            for content_file in content_files_data
-        ]
-
-        if course_run.published:
-            resource_run_upserted_actions(course_run)
-        else:
-            resource_run_unpublished_actions(course_run)
+        content_files_ids = []
+        content_tags = []
+        for content_file in content_files_data:
+            content_tags.append(content_file.get("content_tags", []))
+            content_files_ids.append(load_content_file(course_run, content_file))
+        if calc_completeness:
+            calculate_completeness(course_run, content_tags=content_tags)
+        content_files_loaded_actions(run=course_run, deindex_only=False)
 
         return content_files_ids
     return None

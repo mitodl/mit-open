@@ -9,7 +9,6 @@ from dateutil.parser import parse
 from django.conf import settings
 
 from learning_resources.constants import (
-    Availability,
     CertificationType,
     LearningResourceType,
     OfferedBy,
@@ -18,7 +17,7 @@ from learning_resources.constants import (
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
     generate_course_numbers_json,
-    transform_format,
+    transform_delivery,
     transform_topics,
 )
 from main.utils import clean_data
@@ -51,6 +50,27 @@ def _parse_datetime(value):
     return parse(value).replace(tzinfo=UTC) if value else None
 
 
+def parse_topics(resource_data: dict) -> list[dict]:
+    """
+    Get a list containing {"name": <topic>} dict objects
+    Args:
+        resource_data: course or program data
+    Returns:
+        list of dict: list containing topic dicts with a name attribute
+    """
+    extracted_topics = resource_data["topics"]
+    if not extracted_topics:
+        return []
+    return transform_topics(
+        [
+            {"name": topic["name"].split(":")[-1].strip()}
+            for topic in extracted_topics
+            if topic
+        ],
+        OfferedBy.xpro.name,
+    )
+
+
 def extract_programs():
     """Loads the xPro catalog data"""  # noqa: D401
     if settings.XPRO_CATALOG_API_URL:
@@ -67,16 +87,17 @@ def extract_courses():
     return []
 
 
-def _transform_run(course_run):
+def _transform_run(course_run: dict, course: dict) -> dict:
     """
-    Transforms a course run into our normalized data structure
+    Transform a course run into our normalized data structure
 
     Args:
         course_run (dict): course run data
+        course (dict): course data
 
     Returns:
         dict: normalized course run data
-    """  # noqa: D401
+    """
     return {
         "run_id": course_run["courseware_id"],
         "title": course_run["title"],
@@ -88,14 +109,14 @@ def _transform_run(course_run):
         "enrollment_end": _parse_datetime(course_run["enrollment_end"]),
         "published": bool(course_run["current_price"]),
         "prices": (
-            [course_run["current_price"]]
-            if course_run.get("current_price", None)
-            else []
+            [course_run["current_price"]] if course_run.get("current_price") else []
         ),
         "instructors": [
             {"full_name": instructor["name"]}
             for instructor in course_run["instructors"]
         ],
+        "availability": course["availability"],
+        "delivery": transform_delivery(course.get("format")),
     }
 
 
@@ -122,10 +143,13 @@ def _transform_learning_resource_course(course):
         "published": any(
             course_run.get("current_price", None) for course_run in course["courseruns"]
         ),
-        "topics": transform_topics(course.get("topics", []), OFFERED_BY["code"]),
-        "runs": [_transform_run(course_run) for course_run in course["courseruns"]],
+        "topics": parse_topics(course),
+        "runs": [
+            _transform_run(course_run, course) for course_run in course["courseruns"]
+        ],
         "resource_type": LearningResourceType.course.name,
-        "learning_format": transform_format(course.get("format")),
+        "learning_format": transform_delivery(course.get("format")),
+        "delivery": transform_delivery(course.get("format")),
         "course": {
             "course_numbers": generate_course_numbers_json(
                 course["readable_id"], is_ocw=False
@@ -133,7 +157,8 @@ def _transform_learning_resource_course(course):
         },
         "certification": True,
         "certification_type": CertificationType.professional.name,
-        "availability": Availability.dated.name,
+        "availability": course["availability"],
+        "continuing_ed_credits": course["credits"],
     }
 
 
@@ -167,10 +192,11 @@ def transform_programs(programs):
                 program["current_price"]
             ),  # a program is only considered published if it has a product/price
             "url": program["url"],
-            "topics": transform_topics(program.get("topics", []), OFFERED_BY["code"]),
+            "topics": parse_topics(program),
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.name,
-            "learning_format": transform_format(program.get("format")),
+            "learning_format": transform_delivery(program.get("format")),
+            "delivery": transform_delivery(program.get("format")),
             "runs": [
                 {
                     "prices": (
@@ -190,12 +216,15 @@ def transform_programs(programs):
                         {"full_name": instructor["name"]}
                         for instructor in program.get("instructors", [])
                     ],
+                    "delivery": transform_delivery(program.get("format")),
+                    "availability": program["availability"],
                 }
             ],
             "courses": transform_courses(program["courses"]),
             "certification": True,
             "certification_type": CertificationType.professional.name,
-            "availability": Availability.dated.name,
+            "availability": program["availability"],
+            "continuing_ed_credits": program["credits"],
         }
         for program in programs
     ]

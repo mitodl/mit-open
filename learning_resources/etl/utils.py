@@ -34,7 +34,7 @@ from learning_resources.constants import (
     LearningResourceFormat,
     LevelType,
     OfferedBy,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import (
     RESOURCE_FORMAT_MAPPING,
@@ -426,29 +426,37 @@ def transform_content_files(
             if not existing_content or existing_content.checksum != metadata.get(
                 "checksum"
             ):
-                tika_output = extract_text_metadata(
-                    document,
-                    other_headers={"Content-Type": mime_type} if mime_type else {},
-                )
+                if settings.SKIP_TIKA and settings.ENVIRONMENT != "production":
+                    content_dict = {
+                        "content": "",
+                        "content_title": "",
+                        "content_author": "",
+                        "content_language": "",
+                    }
+                else:
+                    tika_output = extract_text_metadata(
+                        document,
+                        other_headers={"Content-Type": mime_type} if mime_type else {},
+                    )
 
-                if tika_output is None:
-                    log.info("No tika response for %s", key)
-                    continue
+                    if tika_output is None:
+                        log.info("No tika response for %s", key)
+                        continue
 
-                tika_content = tika_output.get("content") or ""
-                tika_metadata = tika_output.get("metadata") or {}
-                content_dict = {
-                    "content": tika_content.strip(),
-                    "content_title": (
-                        metadata.get("title") or tika_metadata.get("title") or ""
-                    )[: get_max_contentfile_length("content_title")],
-                    "content_author": (tika_metadata.get("Author") or "")[
-                        : get_max_contentfile_length("content_author")
-                    ],
-                    "content_language": (tika_metadata.get("language") or "")[
-                        : get_max_contentfile_length("content_language")
-                    ],
-                }
+                    tika_content = tika_output.get("content") or ""
+                    tika_metadata = tika_output.get("metadata") or {}
+                    content_dict = {
+                        "content": tika_content.strip(),
+                        "content_title": (
+                            metadata.get("title") or tika_metadata.get("title") or ""
+                        )[: get_max_contentfile_length("content_title")],
+                        "content_author": (tika_metadata.get("Author") or "")[
+                            : get_max_contentfile_length("content_author")
+                        ],
+                        "content_language": (tika_metadata.get("language") or "")[
+                            : get_max_contentfile_length("content_language")
+                        ],
+                    }
             else:
                 content_dict = {
                     "content": existing_content.content,
@@ -679,7 +687,7 @@ def most_common_topics(
     return [{"name": topic} for topic in common_topics]
 
 
-def transform_format(resource_format: str) -> list[str]:
+def transform_delivery(resource_delivery: str) -> list[str]:
     """
     Return the correct format of the resource
 
@@ -691,25 +699,23 @@ def transform_format(resource_format: str) -> list[str]:
 
     """
     try:
-        return [RESOURCE_FORMAT_MAPPING[resource_format]]
+        return [RESOURCE_FORMAT_MAPPING[resource_delivery]]
     except KeyError:
-        log.exception("Invalid format %s", resource_format)
+        log.exception("Invalid format %s", resource_delivery)
         return [LearningResourceFormat.online.name]
 
 
 def parse_certification(offeror, runs_data):
-    """Return true/false depending on offeror and run availability"""
+    """Return true/false depending on offeror and run status"""
     if offeror != OfferedBy.mitx.name:
         return False
     return bool(
         [
-            availability
-            for availability in [
-                run.get("availability")
-                for run in runs_data
-                if run.get("published", True)
+            status
+            for status in [
+                run.get("status") for run in runs_data if run.get("published", True)
             ]
-            if (availability and availability != RunAvailability.archived.value)
+            if (status and status != RunStatus.archived.value)
         ]
     )
 

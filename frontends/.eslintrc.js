@@ -2,11 +2,12 @@ module.exports = {
   extends: [
     "eslint-config-mitodl",
     "eslint-config-mitodl/jest",
+    "plugin:styled-components-a11y/recommended",
     "plugin:import/typescript",
     "plugin:mdx/recommended",
     "prettier",
   ],
-  plugins: ["testing-library", "import"],
+  plugins: ["testing-library", "import", "styled-components-a11y"],
   ignorePatterns: [
     "**/build/**",
     "ol-ckeditor-2/dist",
@@ -17,6 +18,16 @@ module.exports = {
     "import/resolver": {
       typescript: {
         project: "*/tsconfig.json",
+      },
+    },
+    "jsx-a11y": {
+      components: {
+        "ListCard.Image": "img",
+        "Card.Image": "img",
+        Button: "button",
+        ButtonLink: "a",
+        ActionButton: "button",
+        ActionButtonLink: "a",
       },
     },
   },
@@ -30,6 +41,12 @@ module.exports = {
         },
       ],
     }),
+    // This rule is disabled in the default a11y config, but unclear why.
+    // It does catch useful errors, e.g., buttons with no text or label.
+    // If it proves to be flaky, we can find other ways to check for this.
+    // We need both rules below. One for normal elements, one for styled
+    "jsx-a11y/control-has-associated-label": ["error"],
+    "styled-components-a11y/control-has-associated-label": ["error"],
     "@typescript-eslint/triple-slash-reference": [
       "error",
       {
@@ -103,7 +120,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["./ol-components/**/*.ts", "./ol-components/**/*.tsx"],
+      files: ["./**/ol-components/**/*.ts", "./**/ol-components/**/*.tsx"],
       rules: {
         ...restrictedImports(),
       },

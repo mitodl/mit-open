@@ -6,8 +6,8 @@ import { LearningResourceExpanded } from "./LearningResourceExpanded"
 import type { LearningResourceExpandedProps } from "./LearningResourceExpanded"
 import { ResourceTypeEnum, PodcastEpisodeResource, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
+import { formatDate } from "ol-utilities"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
-import { getReadableResourceType } from "ol-utilities"
 import invariant from "tiny-invariant"
 import type { LearningResource } from "api"
 import { faker } from "@faker-js/faker/locale/en"
@@ -58,7 +58,7 @@ describe("Learning Resource Expanded", () => {
         resource.resource_type === ResourceTypeEnum.Podcast ||
         resource.resource_type === ResourceTypeEnum.PodcastEpisode
           ? "Listen to Podcast"
-          : `Take ${getReadableResourceType(resource.resource_type)}`
+          : "Learn More"
 
       const url =
         resource.resource_type === ResourceTypeEnum.PodcastEpisode
@@ -97,8 +97,7 @@ describe("Learning Resource Expanded", () => {
 
       setup(resource)
 
-      const linkName = `Take ${getReadableResourceType(resource.resource_type)}`
-
+      const linkName = "Learn More"
       if (linkName) {
         const link = screen.getByRole("link", {
           name: linkName,
@@ -130,28 +129,6 @@ describe("Learning Resource Expanded", () => {
           `^${(resource as PodcastEpisodeResource).podcast_episode?.episode_link}/?$`,
         ),
       )
-    },
-  )
-
-  test.each(RESOURCE_TYPES.filter((type) => !isVideo(type)))(
-    'Renders topic section for resource type "%s"',
-    (resourceType) => {
-      const resource = factories.learningResources.resource({
-        resource_type: resourceType,
-      })
-
-      setup(resource)
-
-      const section = screen
-        .getByRole("heading", { name: "Topics" })!
-        .closest("section")!
-
-      const links = within(section).getAllByRole("link")
-
-      resource.topics!.forEach((topic, index) => {
-        expect(links[index]).toHaveAttribute("href", topic.channel_url)
-        expect(links[index]).toHaveTextContent(topic.name)
-      })
     },
   )
 
@@ -272,7 +249,7 @@ describe("Learning Resource Expanded", () => {
           }),
         ],
       }),
-      expectedDates: ["Fall 2020", "Spring 2021", "May, 2022"],
+      expectedDates: ["Spring 2021", "May, 2022", "Fall 2020"],
     },
   ])(
     "Renders a dropdown for run picker",
@@ -290,6 +267,79 @@ describe("Learning Resource Expanded", () => {
       })
     },
   )
+
+  test("Dates are ordered in dropdown and closest is selected", async () => {
+    const nextFutureDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1,
+      1,
+    ).toISOString()
+    const farFutureDate = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth() + 8,
+      1,
+    ).toISOString()
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.Course,
+      runs: [
+        factories.learningResources.run({
+          semester: "Spring",
+          year: null,
+          start_date: "2021-02-03",
+        }),
+        factories.learningResources.run({
+          semester: null,
+          year: null,
+          start_date: "2022-05-06",
+        }),
+        factories.learningResources.run({
+          semester: "Spring",
+          year: null,
+          start_date: formatDate(nextFutureDate, "YYYY-MM-DD"),
+        }),
+        factories.learningResources.run({
+          semester: "Spring",
+          year: null,
+          start_date: formatDate(farFutureDate, "YYYY-MM-DD"),
+        }),
+      ],
+    })
+    setup(resource)
+    const select = screen.getByRole("combobox")
+    await user.click(select)
+
+    const options = screen.getAllByRole("option")
+    expect(options[0]).toHaveTextContent(
+      formatDate("2021-02-03", "MMMM DD, YYYY"),
+    )
+    expect(options[3]).toHaveTextContent(
+      formatDate(farFutureDate, "MMMM DD, YYYY"),
+    )
+
+    const selected = screen.getByRole("option", { selected: true })
+    expect(selected).toHaveTextContent(
+      formatDate(nextFutureDate, "MMMM DD, YYYY"),
+    )
+  })
+
+  test("Renders info section topics correctly", () => {
+    const resource = factories.learningResources.resource({
+      resource_type: ResourceTypeEnum.Course,
+      topics: [
+        factories.learningResources.topic({ name: "Topic 1" }),
+        factories.learningResources.topic({ name: "Topic 2" }),
+        factories.learningResources.topic({ name: "Topic 3" }),
+      ],
+    })
+
+    setup(resource)
+
+    const section = screen
+      .getByRole("heading", { name: "Info" })!
+      .closest("section")!
+
+    within(section).getByText("Topic 1, Topic 2, Topic 3")
+  })
 
   test("Renders info section languages correctly", () => {
     const resource = factories.learningResources.resource({

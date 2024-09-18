@@ -2,8 +2,10 @@
 
 import logging
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models import Prefetch
+from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import mixins, viewsets
@@ -17,6 +19,7 @@ from channels.constants import CHANNEL_ROLE_MODERATORS
 from channels.models import Channel, ChannelGroupRole, ChannelList
 from channels.permissions import ChannelModeratorPermissions, HasChannelPermission
 from channels.serializers import (
+    ChannelCountsSerializer,
     ChannelCreateSerializer,
     ChannelModeratorSerializer,
     ChannelSerializer,
@@ -25,6 +28,7 @@ from channels.serializers import (
 from learning_resources.views import DefaultPagination
 from main.constants import VALID_HTTP_METHODS
 from main.permissions import AnonymousAccessReadonlyPermission
+from main.utils import cache_page_for_all_users
 
 log = logging.getLogger(__name__)
 
@@ -191,3 +195,32 @@ class ChannelModeratorDetailView(APIView):
             Channel.objects.get(id=self.kwargs["id"]), CHANNEL_ROLE_MODERATORS, user
         )
         return Response(status=HTTP_204_NO_CONTENT)
+
+
+@extend_schema_view(
+    list=extend_schema(summary="Channel Detail Lookup by channel type and name"),
+)
+class ChannelCountsView(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    View for retrieving an individual channel by type and name
+    """
+
+    serializer_class = ChannelCountsSerializer
+    permission_classes = (AnonymousAccessReadonlyPermission,)
+
+    def get_queryset(self):
+        """
+        Return the channel by type and name
+        """
+        return Channel.objects.filter(
+            channel_type=self.kwargs["channel_type"],
+            published=True,
+        )
+
+    @method_decorator(
+        cache_page_for_all_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)

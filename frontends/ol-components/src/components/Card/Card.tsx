@@ -83,7 +83,7 @@ const Info = styled.div<{ size?: Size }>`
   margin-bottom: ${({ size }) => (size === "small" ? 4 : 8)}px;
 `
 
-const Title = styled.h3<{ lines?: number; size?: Size }>`
+const Title = styled.span<{ lines?: number; size?: Size }>`
   text-overflow: ellipsis;
   height: ${({ lines, size }) => {
     const lineHeightPx = size === "small" ? 18 : 20
@@ -212,6 +212,8 @@ const Card: Card = ({ children, className, size, href }) => {
     <Wrapper className={allClassNames} size={size}>
       <_Container to={href!}>
         {image && (
+          // alt text will be checked on Card.Image
+          // eslint-disable-next-line styled-components-a11y/alt-text
           <Image
             className="MitCard-image"
             size={size}

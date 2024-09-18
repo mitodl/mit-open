@@ -13,7 +13,7 @@ from learning_resources.constants import (
     CertificationType,
     LearningResourceType,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import CourseNumberType, ETLSource
 from learning_resources.etl.mitxonline import (
@@ -41,21 +41,21 @@ from main.utils import clean_data
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_mitxonline_programs_data():
     """Mock mitxonline data"""
     with open("./test_json/mitxonline_programs.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_mitxonline_courses_data():
     """Mock mitxonline data"""
     with open("./test_json/mitxonline_courses.json") as f:  # noqa: PTH123
         return json.loads(f.read())
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_mitxonline_programs_responses(
     mocked_responses, settings, mock_mitxonline_programs_data
 ):
@@ -69,7 +69,7 @@ def mocked_mitxonline_programs_responses(
     return mocked_responses
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_mitxonline_courses_responses(
     mocked_responses, settings, mock_mitxonline_courses_data
 ):
@@ -167,9 +167,10 @@ def test_mitxonline_transform_programs(
                         program_data.get("page", {}).get("description", None)
                     ),
                     "url": parse_page_attribute(program_data, "page_url", is_url=True),
-                    "availability": RunAvailability.current.value
+                    "status": RunStatus.current.value
                     if parse_page_attribute(program_data, "page_url")
-                    else RunAvailability.archived.value,
+                    else RunStatus.archived.value,
+                    "availability": program_data["availability"],
                 }
             ],
             "courses": [
@@ -245,9 +246,10 @@ def test_mitxonline_transform_programs(
                                     course_run_data, "instructors", is_list=True
                                 )
                             ],
-                            "availability": RunAvailability.current.value
+                            "status": RunStatus.current.value
                             if parse_page_attribute(course_data, "page_url")
-                            else RunAvailability.archived.value,
+                            else RunStatus.archived.value,
+                            "availability": course_data["availability"],
                         }
                         for course_run_data in course_data["courseruns"]
                     ],
@@ -373,9 +375,10 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
                             course_run_data, "instructors", is_list=True
                         )
                     ],
-                    "availability": RunAvailability.current.value
+                    "status": RunStatus.current.value
                     if parse_page_attribute(course_data, "page_url")
-                    else RunAvailability.archived.value,
+                    else RunStatus.archived.value,
+                    "availability": course_data["availability"],
                 }
                 for course_run_data in course_data["courseruns"]
             ],
@@ -398,7 +401,7 @@ def test_mitxonline_transform_courses(settings, mock_mitxonline_courses_data):
     assert expected == result
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("start_dt", "enrollment_dt", "expected_dt"),
     [
@@ -433,7 +436,7 @@ def test_course_run_start_date_value(
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("start_dt", "enrollment_dt", "expected_dt"),
     [

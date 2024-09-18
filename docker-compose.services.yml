@@ -1,0 +1,83 @@
+include:
+  - docker-compose.opensearch.${OPENSEARCH_CLUSTER_TYPE:-single-node}.yml
+
+services:
+  db:
+    profiles:
+      - backend
+    image: postgres:12.20
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    ports:
+      - 5432:5432
+    environment:
+      - PGUSER=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+  redis:
+    profiles:
+      - backend
+    image: redis:7.4.0
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping", "|", "grep", "PONG"]
+      interval: 3s
+      timeout: 3s
+      retries: 10
+    ports:
+      - "6379"
+
+  nginx:
+    profiles:
+      - backend
+    build:
+      context: ./nginx
+    ports:
+      - "8063:8063"
+    links:
+      - web
+    environment:
+      PORT: 8063
+      NGINX_UWSGI_PASS: "web:8061"
+    volumes:
+      - ./config:/etc/nginx/templates
+
+  tika:
+    profiles:
+      - backend
+    image: apache/tika:2.5.0
+    ports:
+      - "9998:9998"
+
+  locust:
+    image: locustio/locust
+    ports:
+      - "8089:8089"
+    volumes:
+      - ./load_testing:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --master -H http://nginx:8063 --class-picker
+    links:
+      - nginx
+    profiles:
+      - load-testing
+
+  locust-worker:
+    image: locustio/locust
+    volumes:
+      - ./load_testing:/mnt/locust
+    command: -f /mnt/locust/locustfile.py --worker --master-host locust
+    links:
+      - nginx
+    profiles:
+      - load-testing
+
+volumes:
+  pgdata:
+  # note: these are here instead of docker-compose.apps.yml because `extends` doesn't pull them in
+  django_media:
+  yarn-cache:

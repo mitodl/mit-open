@@ -24,7 +24,11 @@ nested_learning_resources_router.register(
     views.LearningResourceContentFilesViewSet,
     basename="learning_resource_content_files_api",
 )
-
+learning_resource_set_list_relationships = router.register(
+    r"learning_resources",
+    views.LearningResourceListRelationshipViewSet,
+    basename="learning_resource_relationships_api",
+)
 
 router.register(r"courses", views.CourseViewSet, basename="courses_api")
 nested_courses_router = NestedSimpleRouter(

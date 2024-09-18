@@ -47,18 +47,24 @@ def test_item_filter_feed_type(client, multifilter):
     )
 
 
-@pytest.mark.parametrize("sortby", ["created", "event_date"])
+@pytest.mark.parametrize(
+    ("sortby", "feed_type"),
+    [
+        ("news_date", FeedType.news.name),
+        ("event_date", FeedType.events.name),
+    ],
+)
 @pytest.mark.parametrize("descending", [True, False])
-def test_learning_resource_sortby(client, sortby, descending):
+def test_learning_resource_sortby(client, sortby, feed_type, descending):
     """Test that the query is sorted in the correct order"""
-    source = FeedSourceFactory.create(feed_type=FeedType.events.name)
+    source = FeedSourceFactory.create(feed_type=feed_type)
     items = FeedItemFactory.create_batch(4, source=source, is_event=True)
     sortby_param = sortby
     if descending:
         sortby_param = f"-{sortby}"
 
     results = client.get(
-        f"{ITEM_API_URL}?feed_type=events&sortby={sortby_param}"
+        f"{ITEM_API_URL}?feed_type={feed_type}&sortby={sortby_param}"
     ).json()["results"]
 
     def get_sort_field(item):

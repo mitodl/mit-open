@@ -4,7 +4,9 @@
     "fields": {
       "department_id": "1",
       "name": "Civil and Environmental Engineering",
-      "school_id": 2
+      "school_id": 2,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -12,7 +14,9 @@
     "fields": {
       "department_id": "2",
       "name": "Mechanical Engineering",
-      "school_id": 2
+      "school_id": 2,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -20,7 +24,9 @@
     "fields": {
       "department_id": "3",
       "name": "Materials Science and Engineering",
-      "school_id": 2
+      "school_id": 2,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -28,7 +34,9 @@
     "fields": {
       "department_id": "4",
       "name": "Architecture",
-      "school_id": 1
+      "school_id": 1,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -36,7 +44,9 @@
     "fields": {
       "department_id": "5",
       "name": "Chemistry",
-      "school_id": 5
+      "school_id": 5,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -44,7 +54,9 @@
     "fields": {
       "department_id": "6",
       "name": "Electrical Engineering and Computer Science",
-      "school_id": 2
+      "school_id": 2,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -52,7 +64,9 @@
     "fields": {
       "department_id": "7",
       "name": "Biology",
-      "school_id": 5
+      "school_id": 5,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -60,7 +74,9 @@
     "fields": {
       "department_id": "8",
       "name": "Physics",
-      "school_id": 5
+      "school_id": 5,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -68,7 +84,9 @@
     "fields": {
       "department_id": "9",
       "name": "Brain and Cognitive Sciences",
-      "school_id": 5
+      "school_id": 5,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -76,7 +94,9 @@
     "fields": {
       "department_id": "10",
       "name": "Chemical Engineering",
-      "school_id": 2
+      "school_id": 2,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -84,7 +104,9 @@
     "fields": {
       "department_id": "11",
       "name": "Urban Studies and Planning",
-      "school_id": 1
+      "school_id": 1,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -92,7 +114,9 @@
     "fields": {
       "department_id": "12",
       "name": "Earth, Atmospheric, and Planetary Sciences",
-      "school_id": 5
+      "school_id": 5,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -100,7 +124,9 @@
     "fields": {
       "department_id": "14",
       "name": "Economics",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -108,7 +134,9 @@
     "fields": {
       "department_id": "15",
       "name": "Management",
-      "school_id": 4
+      "school_id": 4,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -116,7 +144,9 @@
     "fields": {
       "department_id": "16",
       "name": "Aeronautics and Astronautics",
-      "school_id": 2
+      "school_id": 2,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -124,7 +154,9 @@
     "fields": {
       "department_id": "17",
       "name": "Political Science",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -132,7 +164,9 @@
     "fields": {
       "department_id": "18",
       "name": "Mathematics",
-      "school_id": 5
+      "school_id": 5,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -140,7 +174,9 @@
     "fields": {
       "department_id": "20",
       "name": "Biological Engineering",
-      "school_id": 2
+      "school_id": 2,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -148,7 +184,9 @@
     "fields": {
       "department_id": "21A",
       "name": "Anthropology",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -156,7 +194,9 @@
     "fields": {
       "department_id": "21G",
       "name": "Global Languages",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -164,7 +204,9 @@
     "fields": {
       "department_id": "21H",
       "name": "History",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -172,7 +214,9 @@
     "fields": {
       "department_id": "21L",
       "name": "Literature",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -180,7 +224,9 @@
     "fields": {
       "department_id": "21M",
       "name": "Music and Theater Arts",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -188,7 +234,9 @@
     "fields": {
       "department_id": "22",
       "name": "Nuclear Science and Engineering",
-      "school_id": 2
+      "school_id": 2,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -196,7 +244,9 @@
     "fields": {
       "department_id": "24",
       "name": "Linguistics and Philosophy",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -204,7 +254,9 @@
     "fields": {
       "department_id": "CC",
       "name": "Concourse",
-      "school_id": null
+      "school_id": null,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -212,7 +264,9 @@
     "fields": {
       "department_id": "CMS-W",
       "name": "Comparative Media Studies/Writing",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -220,7 +274,9 @@
     "fields": {
       "department_id": "EC",
       "name": "Edgerton Center",
-      "school_id": null
+      "school_id": null,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -228,7 +284,9 @@
     "fields": {
       "department_id": "ES",
       "name": "Experimental Study Group",
-      "school_id": null
+      "school_id": null,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -236,7 +294,9 @@
     "fields": {
       "department_id": "ESD",
       "name": "Engineering Systems Division",
-      "school_id": null
+      "school_id": null,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -244,7 +304,9 @@
     "fields": {
       "department_id": "HST",
       "name": "Medical Engineering and Science",
-      "school_id": 2
+      "school_id": 2,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -252,7 +314,9 @@
     "fields": {
       "department_id": "IDS",
       "name": "Data, Systems, and Society",
-      "school_id": 6
+      "school_id": 6,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -260,7 +324,9 @@
     "fields": {
       "department_id": "MAS",
       "name": "Media Arts and Sciences",
-      "school_id": 1
+      "school_id": 1,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -268,15 +334,9 @@
     "fields": {
       "department_id": "PE",
       "name": "Athletics, Physical Education and Recreation",
-      "school_id": null
-    }
-  },
-  {
-    "model": "learning_resources.LearningResourceDepartment",
-    "fields": {
-      "department_id": "RES",
-      "name": "Supplemental Resources",
-      "school_id": null
+      "school_id": null,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -284,7 +344,9 @@
     "fields": {
       "department_id": "STS",
       "name": "Science, Technology, and Society",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   },
   {
@@ -292,7 +354,19 @@
     "fields": {
       "department_id": "WGS",
       "name": "Women's and Gender Studies",
-      "school_id": 3
+      "school_id": 3,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
+    }
+  },
+  {
+    "model": "learning_resources.LearningResourceDepartment",
+    "fields": {
+      "department_id": "SP",
+      "name": "Special Programs",
+      "school_id": null,
+      "created_on": "2024-04-17T00:00:00.000000+00:00",
+      "updated_on": "2024-04-17T00:00:00.000000+00:00"
     }
   }
 ]

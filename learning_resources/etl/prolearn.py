@@ -11,7 +11,7 @@ from django.conf import settings
 
 from learning_resources.constants import Availability, CertificationType
 from learning_resources.etl.constants import ETLSource
-from learning_resources.etl.utils import transform_format, transform_topics
+from learning_resources.etl.utils import transform_delivery, transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
 from main.utils import clean_data, now_in_utc
 
@@ -29,6 +29,10 @@ PROLEARN_BASE_URL = "https://prolearn.mit.edu"
 # List of query fields for prolearn, deduced from its website api calls
 PROLEARN_QUERY_FIELDS = "title\nnid\nurl\ncertificate_name\ncourse_application_url\ncourse_link\nfield_course_or_program\nstart_value\nend_value\ndepartment\ndepartment_url\nbody\nbody_override\nfield_time_commitment\nfield_duration\nfeatured_image_url\nfield_featured_video\nfield_non_degree_credits\nfield_price\nfield_related_courses_programs\nrelated_courses_programs_title\nfield_time_commitment\nucc_hot_topic\nucc_name\nucc_tid\napplication_process\napplication_process_override\nformat_name\nimage_override_url\nvideo_override_url\nfield_new_course_program\nfield_tooltip"  # noqa: E501
 
+SEE_EXCLUSION = (
+    '{operator: "<>", name: "department", value: "MIT Sloan Executive Education"}'
+)
+
 # Performs the query made on https://prolearn.mit.edu/graphql, with a filter for program or course  # noqa: E501
 PROLEARN_QUERY = """
 query {
@@ -43,6 +47,7 @@ query {
                     conditions: [
                         {operator: \"=\", name: \"field_course_or_program\", value: \"%s\"},
                         {operator: \"<>\", name: \"department\", value: \"MIT xPRO\"}
+                        %s
                     ]
                 }
             ]
@@ -184,6 +189,7 @@ def update_format(unique_resource: dict, resource_format: list[str]):
     unique_resource["learning_format"] = sorted(
         set(unique_resource["learning_format"] + resource_format)
     )
+    unique_resource["delivery"] = unique_resource["learning_format"]
 
 
 def extract_data(course_or_program: str) -> list[dict]:
@@ -197,9 +203,14 @@ def extract_data(course_or_program: str) -> list[dict]:
         list of dict: courses or programs
     """  # noqa: D401, E501
     if settings.PROLEARN_CATALOG_API_URL:
-        response = requests.post(  # noqa: S113
+        sloan_filter = SEE_EXCLUSION if settings.SEE_API_ENABLED else ""
+        response = requests.post(
             settings.PROLEARN_CATALOG_API_URL,
-            json={"query": PROLEARN_QUERY % (course_or_program, PROLEARN_QUERY_FIELDS)},
+            json={
+                "query": PROLEARN_QUERY
+                % (course_or_program, sloan_filter, PROLEARN_QUERY_FIELDS)
+            },
+            timeout=30,
         ).json()
         return response["data"]["searchAPISearch"]["documents"]
     log.warning("Missing required setting PROLEARN_CATALOG_API_URL")
@@ -255,7 +266,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                 "professional": True,
                 "certification": True,
                 "certification_type": CertificationType.professional.name,
-                "learning_format": transform_format(program["format_name"]),
+                "learning_format": transform_delivery(program["format_name"]),
                 "runs": runs,
                 "topics": parse_topic(program, offered_by.code) if offered_by else None,
                 "courses": [
@@ -311,6 +322,8 @@ def _transform_runs(resource: dict) -> list[dict]:
                     "published": True,
                     "prices": parse_price(resource),
                     "url": parse_url(resource),
+                    "delivery": transform_delivery(resource["format_name"]),
+                    "availability": Availability.dated.name,
                 }
             )
     return runs
@@ -345,7 +358,8 @@ def _transform_course(
             "course": {
                 "course_numbers": [],
             },
-            "learning_format": transform_format(course["format_name"]),
+            "learning_format": transform_delivery(course["format_name"]),
+            "delivery": transform_delivery(course["format_name"]),
             "published": True,
             "topics": parse_topic(course, offered_by.code) if offered_by else None,
             "runs": runs,

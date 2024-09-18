@@ -114,6 +114,7 @@ const Banner = ({
           <HeaderContainer>
             {avatar ? <div>{avatar}</div> : null}
             <Typography
+              component="h1"
               variant="h1"
               typography={headerTypography}
               sx={headerStyles}

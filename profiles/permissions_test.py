@@ -2,6 +2,7 @@
 """Tests for profile permissions"""
 
 import pytest
+from pytest_lazy_fixtures import lf
 
 from main.factories import UserFactory
 from profiles.permissions import (
@@ -10,16 +11,14 @@ from profiles.permissions import (
     is_owner_or_privileged_user,
 )
 
-lazy = pytest.lazy_fixture
 
-
-@pytest.fixture()
+@pytest.fixture
 def user1():
     """Simple test user fixture"""  # noqa: D401
     return UserFactory.build()
 
 
-@pytest.fixture()
+@pytest.fixture
 def user2():
     """Another simple test user fixture"""
     return UserFactory.build()
@@ -28,10 +27,10 @@ def user2():
 @pytest.mark.parametrize(
     ("object_user", "request_user", "is_super", "is_staff", "exp_result"),
     [
-        (lazy("user1"), lazy("user2"), False, False, False),
-        (lazy("user1"), lazy("user1"), False, False, True),
-        (lazy("user1"), lazy("user2"), True, False, True),
-        (lazy("user1"), lazy("user2"), False, True, True),
+        (lf("user1"), lf("user2"), False, False, False),
+        (lf("user1"), lf("user1"), False, False, True),
+        (lf("user1"), lf("user2"), True, False, True),
+        (lf("user1"), lf("user2"), False, True, True),
     ],
 )
 def test_is_owner_or_privileged_user(  # noqa: PLR0913

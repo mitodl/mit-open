@@ -13,16 +13,19 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
 
+from channels.factories import ChannelUnitDetailFactory
 from learning_resources import factories
 from learning_resources.constants import (
     DEPARTMENTS,
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
+    LearningResourceRelationTypes,
     LearningResourceType,
 )
 from learning_resources.etl.constants import CourseNumberType
 from learning_resources.factories import (
     CourseFactory,
+    LearningPathFactory,
     LearningPathRelationshipFactory,
     LearningResourceRunFactory,
     UserListFactory,
@@ -77,6 +80,18 @@ response_test_raw_data_1 = {
                             "name": "Online",
                         }
                     ],
+                    "delivery": [
+                        {
+                            "code": "online",
+                            "name": "Online",
+                        },
+                        {
+                            "code": "offline",
+                            "name": "Offline",
+                        },
+                    ],
+                    "continuing_ed_credits": 2.50,
+                    "license_cc": False,
                     "professional": True,
                     "certification": "Certificates",
                     "prices": [2250.0],
@@ -219,6 +234,18 @@ response_test_response_1 = {
                     "name": "Online",
                 }
             ],
+            "delivery": [
+                {
+                    "code": "online",
+                    "name": "Online",
+                },
+                {
+                    "code": "offline",
+                    "name": "Offline",
+                },
+            ],
+            "continuing_ed_credits": 2.50,
+            "license_cc": False,
             "professional": True,
             "certification": "Certificates",
             "prices": [2250.0],
@@ -345,6 +372,18 @@ response_test_raw_data_2 = {
                             "name": "Online",
                         }
                     ],
+                    "delivery": [
+                        {
+                            "code": "online",
+                            "name": "Online",
+                        },
+                        {
+                            "code": "offline",
+                            "name": "Offline",
+                        },
+                    ],
+                    "continuing_ed_credits": None,
+                    "license_cc": True,
                     "prices": [0.00],
                     "last_modified": None,
                     "runs": [],
@@ -443,6 +482,17 @@ response_test_raw_data_2 = {
                 "buckets": [{"key": 0, "key_as_string": "online", "doc_count": 1}],
             },
         },
+        "delivery": {
+            "doc_count": 1,
+            "delivery": {
+                "doc_count_error_upper_bound": 0,
+                "sum_other_doc_count": 0,
+                "buckets": [
+                    {"key": 0, "key_as_string": "online", "doc_count": 1},
+                    {"key": 0, "key_as_string": "offline", "doc_count": 1},
+                ],
+            },
+        },
     },
     "suggest": {
         "description.trigram": [
@@ -509,6 +559,18 @@ response_test_response_2 = {
                     "name": "Online",
                 }
             ],
+            "delivery": [
+                {
+                    "code": "online",
+                    "name": "Online",
+                },
+                {
+                    "code": "offline",
+                    "name": "Offline",
+                },
+            ],
+            "continuing_ed_credits": None,
+            "license_cc": True,
             "prices": [0.00],
             "last_modified": None,
             "runs": [],
@@ -531,13 +593,17 @@ response_test_response_2 = {
             "certification": [{"key": "false", "doc_count": 1}],
             "free": [{"key": "false", "doc_count": 1}],
             "learning_format": [{"key": "online", "doc_count": 1}],
+            "delivery": [
+                {"key": "online", "doc_count": 1},
+                {"key": "offline", "doc_count": 1},
+            ],
         },
         "suggest": ["broadignite"],
     },
 }
 
 
-@pytest.fixture()
+@pytest.fixture
 def learning_resources_search_view():
     """Fixture with relevant properties for testing the search view"""
     return SimpleNamespace(url=reverse("lr_search:v1:learning_resources_search"))
@@ -550,7 +616,7 @@ def get_request_object(url):
     return Request(api_request)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_serialize_bulk_learning_resources(mocker):
     """
     Test that serialize_bulk_learning_resource calls serialize_learning_resource_for_bulk for
@@ -581,6 +647,7 @@ def test_serialize_bulk_learning_resources(mocker):
             "created_on": mocker.ANY,
             "resource_age_date": mocker.ANY,
             "is_learning_material": mocker.ANY,
+            "featured_rank": None,
             **LearningResourceSerializer(instance=resource).data,
         }
 
@@ -595,15 +662,16 @@ def test_serialize_bulk_learning_resources(mocker):
         assert result == exp
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     "resource_type",
     sorted(set(LearningResourceType.names()) - {LearningResourceType.course.name}),
 )
 @pytest.mark.parametrize("is_professional", [True, False])
 @pytest.mark.parametrize("no_price", [True, False])
+@pytest.mark.parametrize("has_featured_rank", [True, False])
 def test_serialize_learning_resource_for_bulk(
-    mocker, resource_type, is_professional, no_price
+    mocker, resource_type, is_professional, no_price, has_featured_rank
 ):
     """
     Test that serialize_program_for_bulk yields a valid LearningResourceSerializer for resource types other than "course"
@@ -625,7 +693,32 @@ def test_serialize_learning_resource_for_bulk(
         "learning_resources_search.serializers.get_resource_age_date",
         return_value=datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
     )
-    resource = LearningResource.objects.for_serialization().get(pk=resource.pk)
+
+    if has_featured_rank:
+        mocker.patch(
+            "learning_resources_search.serializers.random",
+            return_value=0.4,
+        )
+
+        offeror = resource.offered_by
+        featured_path = LearningPathFactory.create(resources=[]).learning_resource
+
+        featured_path.resources.add(
+            resource,
+            through_defaults={
+                "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
+                "position": 3,
+            },
+        )
+        channel = ChannelUnitDetailFactory.create(unit=offeror).channel
+        channel.featured_list = featured_path
+        channel.save()
+
+    resource = (
+        LearningResource.objects.for_serialization()
+        .for_search_serialization()
+        .get(pk=resource.pk)
+    )
 
     assert serializers.serialize_learning_resource_for_bulk(resource) == {
         "_id": resource.id,
@@ -633,12 +726,13 @@ def test_serialize_learning_resource_for_bulk(
         "created_on": resource.created_on,
         "is_learning_material": resource.resource_type not in ["course", "program"],
         "resource_age_date": datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
+        "featured_rank": 3.4 if has_featured_rank else None,
         **free_dict,
         **LearningResourceSerializer(resource).data,
     }
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_get_resource_age_date():
     ocw_offeror = factories.LearningResourceOfferorFactory.create(is_ocw=True)
 
@@ -703,7 +797,7 @@ def test_get_resource_age_date():
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("readable_id", "sort_course_num"), [("1", "01"), ("15", "15"), ("CMS-W", "CMS-W")]
 )
@@ -738,7 +832,11 @@ def test_serialize_course_numbers_for_bulk(
     resource = factories.CourseFactory.create(
         course_numbers=course_numbers
     ).learning_resource
-    resource = LearningResource.objects.for_serialization().get(pk=resource.pk)
+    resource = (
+        LearningResource.objects.for_serialization()
+        .for_search_serialization()
+        .get(pk=resource.pk)
+    )
     assert resource.course.course_numbers == course_numbers
 
     mocker.patch(
@@ -752,6 +850,7 @@ def test_serialize_course_numbers_for_bulk(
         "free": False,
         "is_learning_material": False,
         "resource_age_date": datetime(2024, 1, 1, 1, 1, 1, 0, tzinfo=UTC),
+        "featured_rank": None,
         **LearningResourceSerializer(resource).data,
     }
     expected_data["course"]["course_numbers"][0] = {
@@ -768,7 +867,7 @@ def test_serialize_course_numbers_for_bulk(
     assert serializers.serialize_learning_resource_for_bulk(resource) == expected_data
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_serialize_bulk_learning_resources_for_deletion():
     """
     Test that serialize_bulk_learning_resources_for_deletion yields correct data
@@ -779,7 +878,7 @@ def test_serialize_bulk_learning_resources_for_deletion():
     ) == [{"_id": resource.id, "_op_type": "delete"}]
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_serialize_content_file_for_bulk():
     """
     Test that serialize_content_file_for_bulk yields correct data
@@ -795,7 +894,7 @@ def test_serialize_content_file_for_bulk():
     }
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_serialize_content_file_for_bulk_deletion():
     """
     Test that serialize_content_file_for_bulk_deletio yields correct data
@@ -839,6 +938,10 @@ def test_learning_resources_search_request_serializer():
         "course_feature": ["Lecture Videos"],
         "aggregations": ["resource_type", "platform", "level", "resource_category"],
         "yearly_decay_percent": "0.25",
+        "search_mode": "phrase",
+        "slop": 2,
+        "min_score": 0,
+        "max_incompleteness_penalty": 25,
     }
 
     cleaned = {
@@ -861,6 +964,10 @@ def test_learning_resources_search_request_serializer():
         "aggregations": ["resource_type", "platform", "level", "resource_category"],
         "yearly_decay_percent": 0.25,
         "dev_mode": False,
+        "search_mode": "phrase",
+        "slop": 2,
+        "min_score": 0,
+        "max_incompleteness_penalty": 25,
     }
 
     serialized = LearningResourcesSearchRequestSerializer(data=data)
@@ -959,7 +1066,7 @@ def test_learning_resources_search_response_serializer(
         (False, False, False, False),
     ],
 )
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_learning_resources_search_response_serializer_user_parents(  # noqa: PLR0913
     settings,
     learning_resources_search_view,
@@ -1008,7 +1115,7 @@ def test_learning_resources_search_response_serializer_user_parents(  # noqa: PL
     ) == JSONRenderer().render(response)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @factory.django.mute_signals(signals.post_delete, signals.post_save)
 def test_percolate_serializer():
     """

@@ -1,10 +1,10 @@
-import React, { useCallback, useState } from "react"
+import React, { useCallback, useId, useState } from "react"
 import styled from "@emotion/styled"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { default as MuiDialog } from "@mui/material/Dialog"
 import type { DialogProps as MuiDialogProps } from "@mui/material/Dialog"
 import { Button, ActionButton } from "../Button/Button"
-import DialogActions from "@mui/material/DialogActions"
+import MuiDialogActions from "@mui/material/DialogActions"
 import { RiCloseLine } from "@remixicon/react"
 import Typography from "@mui/material/Typography"
 import Slide from "@mui/material/Slide"
@@ -26,7 +26,7 @@ const Content = styled.div`
   margin: 28px 28px 40px;
 `
 
-export const Actions = styled(DialogActions)`
+const DialogActions = styled(MuiDialogActions)`
   margin: 0 28px 28px;
   padding: 0;
   gap: 4px;
@@ -62,10 +62,9 @@ type DialogProps = {
    * [Dialog Props](https://mui.com/material-ui/api/dialog/#props).
    */
   fullWidth?: boolean
-  showFooter?: boolean
   isSubmitting?: boolean
   PaperProps?: MuiDialogProps["PaperProps"]
-
+  actions?: React.ReactNode
   disableEnforceFocus?: MuiDialogProps["disableEnforceFocus"]
 }
 
@@ -87,12 +86,13 @@ const Dialog: React.FC<DialogProps> = ({
   confirmText = "Confirm",
   fullWidth,
   className,
-  showFooter = true,
+  actions,
   isSubmitting = false,
   PaperProps,
   disableEnforceFocus,
 }) => {
   const [confirming, setConfirming] = useState(isSubmitting)
+  const titleId = useId()
 
   const handleConfirm = useCallback(async () => {
     try {
@@ -115,6 +115,7 @@ const Dialog: React.FC<DialogProps> = ({
       disableEnforceFocus={disableEnforceFocus}
       PaperProps={PaperProps}
       TransitionComponent={Transition}
+      aria-labelledby={titleId}
     >
       <Close>
         <ActionButton
@@ -128,15 +129,19 @@ const Dialog: React.FC<DialogProps> = ({
       </Close>
       {title && (
         <Header>
-          <Typography variant="h5">{title}</Typography>
+          <Typography id={titleId} component="h1" variant="h5">
+            {title}
+          </Typography>
         </Header>
       )}
       <Content>
         {message && <Typography variant="body1">{message}</Typography>}
         {children}
       </Content>
-      {showFooter && (
-        <Actions>
+      {actions ? (
+        actions
+      ) : (
+        <DialogActions>
           <Button variant="secondary" onClick={onClose}>
             {cancelText}
           </Button>
@@ -148,11 +153,11 @@ const Dialog: React.FC<DialogProps> = ({
           >
             {confirmText}
           </Button>
-        </Actions>
+        </DialogActions>
       )}
     </MuiDialog>
   )
 }
 
-export { Dialog }
+export { Dialog, DialogActions }
 export type { DialogProps }

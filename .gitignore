@@ -137,3 +137,4 @@ storybook-static/
 !/e2e_testing/.env
 
 e2e_testing/.yarn/cache
+.swc

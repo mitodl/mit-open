@@ -27,7 +27,7 @@ from main.utils import frontend_absolute_url
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_github_client(mocker):
     """Return a mock github client"""
     return mocker.patch("github.Github")
@@ -63,7 +63,7 @@ apple_podcasts_url: {apple_podcasts_url}
     return Mock(decoded_content=content)
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_rss_request(mocker):  # noqa: PT004
     """
     Mock request data
@@ -75,7 +75,7 @@ def mock_rss_request(mocker):  # noqa: PT004
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_rss_request_with_bad_rss_file(mocker):  # noqa: PT004
     """
     Mock request data
@@ -230,7 +230,7 @@ def test_transform_with_error(mocker, mock_github_client):
     assert results[0]["url"] == "http://website.url/podcast"
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @freeze_time("2020-07-20")
 def test_generate_aggregate_podcast_rss():
     """Test generate_aggregate_podcast_rss"""
@@ -251,7 +251,7 @@ def test_generate_aggregate_podcast_rss():
     expected_rss = f"""<?xml version='1.0' encoding='UTF-8'?>
     <rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" version="2.0">
         <channel>
-            <title>MIT Open Aggregated Podcast Feed</title>
+            <title>MIT Learn Aggregated Podcast Feed</title>
             <link>{podcasts_url}</link>
             <language>en-us</language>
             <pubDate>Mon, 20 Jul 2020  00:00:00 +0000</pubDate>
@@ -267,7 +267,7 @@ def test_generate_aggregate_podcast_rss():
             </itunes:owner>
             <image>
               <url>{cover_image_url}</url>
-              <title>MIT Open Aggregated Podcast Feed</title>
+              <title>MIT Learn Aggregated Podcast Feed</title>
               <link>{podcasts_url}</link>
             </image>
             <itunes:explicit>no</itunes:explicit>

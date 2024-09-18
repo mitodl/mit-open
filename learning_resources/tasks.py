@@ -17,14 +17,14 @@ from learning_resources.etl.edx_shared import (
     get_most_recent_course_archives,
     sync_edx_course_files,
 )
-from learning_resources.etl.loaders import load_next_start_date_and_prices
+from learning_resources.etl.loaders import load_run_dependent_values
 from learning_resources.etl.pipelines import ocw_courses_etl
 from learning_resources.etl.utils import get_learning_course_bucket_name
 from learning_resources.models import LearningResource
 from learning_resources.utils import load_course_blocklist
 from main.celery import app
 from main.constants import ISOFORMAT
-from main.utils import chunks
+from main.utils import chunks, clear_search_cache
 
 log = logging.getLogger(__name__)
 
@@ -34,7 +34,8 @@ def update_next_start_date_and_prices():
     """Update expired next start dates and prices"""
     resources = LearningResource.objects.filter(next_start_date__lt=timezone.now())
     for resource in resources:
-        load_next_start_date_and_prices(resource)
+        load_run_dependent_values(resource)
+    clear_search_cache()
     return len(resources)
 
 
@@ -42,6 +43,7 @@ def update_next_start_date_and_prices():
 def get_micromasters_data():
     """Execute the MicroMasters ETL pipeline"""
     programs = pipelines.micromasters_etl()
+    clear_search_cache()
     return len(programs)
 
 
@@ -53,8 +55,10 @@ def get_mit_edx_data(api_datafile=None) -> int:
         api_datafile (str): If provided, use this file as the source of API data
             Otherwise, the API is queried directly.
     """
-    courses = pipelines.mit_edx_etl(api_datafile)
-    return len(courses)
+    courses = pipelines.mit_edx_courses_etl(api_datafile)
+    programs = pipelines.mit_edx_programs_etl(api_datafile)
+    clear_search_cache()
+    return len(courses) + len(programs)
 
 
 @app.task
@@ -62,19 +66,21 @@ def get_mitxonline_data() -> int:
     """Execute the MITX Online ETL pipeline"""
     courses = pipelines.mitxonline_courses_etl()
     programs = pipelines.mitxonline_programs_etl()
-    return len(courses + programs)
+    clear_search_cache()
+    return len(courses) + len(programs)
 
 
 @app.task
-def get_oll_data(api_datafile=None):
+def get_oll_data(sheets_id=None):
     """Execute the OLL ETL pipeline.
 
     Args:
-        api_datafile (str): If provided, use this file as the source of API data
-            Otherwise, the API is queried directly.
+        sheets_id (str): If provided, retrieved data from the
+        google spreadsheet with this id.
 
     """
-    courses = pipelines.oll_etl(api_datafile)
+    courses = pipelines.oll_etl(sheets_id)
+    clear_search_cache()
     return len(courses)
 
 
@@ -83,7 +89,15 @@ def get_prolearn_data():
     """Execute the ProLearn ETL pipelines"""
     courses = pipelines.prolearn_courses_etl()
     programs = pipelines.prolearn_programs_etl()
-    return len(programs + courses)
+    clear_search_cache()
+    return len(courses) + len(programs)
+
+
+@app.task
+def get_sloan_data():
+    """Execute the ProLearn ETL pipelines"""
+    courses = pipelines.sloan_courses_etl()
+    return len(courses)
 
 
 @app.task
@@ -91,7 +105,8 @@ def get_xpro_data():
     """Execute the xPro ETL pipeline"""
     courses = pipelines.xpro_courses_etl()
     programs = pipelines.xpro_programs_etl()
-    return len(courses + programs)
+    clear_search_cache()
+    return len(courses) + len(programs)
 
 
 @app.task
@@ -109,6 +124,7 @@ def get_content_files(
         log.warning("Required settings missing for %s files", etl_source)
         return
     sync_edx_course_files(etl_source, ids, keys, s3_prefix=s3_prefix)
+    clear_search_cache()
 
 
 def get_content_tasks(
@@ -202,7 +218,7 @@ def get_podcast_data():
             The number of results that were fetched
     """
     results = pipelines.podcast_etl()
-
+    clear_search_cache()
     return len(list(results))
 
 
@@ -229,6 +245,7 @@ def get_ocw_courses(
         start_timestamp=utc_start_timestamp,
         skip_content_files=skip_content_files,
     )
+    clear_search_cache()
 
 
 @app.task(bind=True, acks_late=True)
@@ -310,7 +327,7 @@ def get_youtube_data(*, channel_ids=None):
             The number of results that were fetched
     """
     results = pipelines.youtube_etl(channel_ids=channel_ids)
-
+    clear_search_cache()
     return len(list(results))
 
 
@@ -338,6 +355,7 @@ def get_youtube_transcripts(
 
     log.info("Updating transcripts for %i videos", videos.count())
     youtube.get_youtube_transcripts(videos)
+    clear_search_cache()
 
 
 @app.task

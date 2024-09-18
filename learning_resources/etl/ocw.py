@@ -20,10 +20,11 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
     VALID_TEXT_FILE_TYPES,
     Availability,
+    LearningResourceDelivery,
     LearningResourceType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import (
@@ -33,7 +34,7 @@ from learning_resources.etl.utils import (
     transform_levels,
     transform_topics,
 )
-from learning_resources.models import ContentFile, LearningResource
+from learning_resources.models import ContentFile, LearningResource, default_delivery
 from learning_resources.utils import (
     get_s3_object_and_read,
     parse_instructors,
@@ -46,6 +47,22 @@ log = logging.getLogger(__name__)
 OFFERED_BY = {"code": OfferedBy.ocw.name}
 PRIMARY_COURSE_ID = "primary_course_number"
 UNIQUE_FIELD = "url"
+
+
+def parse_delivery(course_data: dict) -> list[str]:
+    """
+    Parse delivery methods
+
+    Args:
+        url (str): The course url
+
+    Returns:
+        list[str]: The delivery method(s)
+    """
+    delivery = default_delivery()
+    if not course_data.get("hide_download"):
+        delivery.append(LearningResourceDelivery.offline.name)
+    return delivery
 
 
 def transform_content_files(
@@ -204,7 +221,7 @@ def transform_contentfile(
 
     title = contentfile_data.get("title")
 
-    if title == "3play caption file" or title == "3play pdf file" or not file_s3_path:
+    if title in ("3play caption file", "3play pdf file") or not file_s3_path:
         return None
 
     contentfile_data = {
@@ -245,7 +262,7 @@ def transform_run(course_data: dict) -> dict:
         "description": clean_data(course_data.get("course_description_html")),
         "year": year,
         "semester": semester,
-        "availability": RunAvailability.current.value,
+        "status": RunStatus.current.value,
         "image": {
             "url": urljoin(settings.OCW_BASE_URL, image_src) if image_src else None,
             "description": course_data.get("course_image_metadata", {}).get(
@@ -262,6 +279,8 @@ def transform_run(course_data: dict) -> dict:
         "title": course_data.get("course_title"),
         "slug": course_data.get("slug"),
         "url": course_data["url"],
+        "availability": Availability.anytime.name,
+        "delivery": parse_delivery(course_data),
     }
 
 
@@ -343,6 +362,8 @@ def transform_course(course_data: dict) -> dict:
         "resource_type": LearningResourceType.course.name,
         "unique_field": UNIQUE_FIELD,
         "availability": Availability.anytime.name,
+        "delivery": parse_delivery(course_data),
+        "license_cc": True,
     }
 
 

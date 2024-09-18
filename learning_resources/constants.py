@@ -6,9 +6,9 @@ from named_enum import ExtendedEnum
 FAVORITES_TITLE = "Favorites"
 
 
-class RunAvailability(ExtendedEnum):
+class RunStatus(ExtendedEnum):
     """
-    Enum for Course availability options dictated by edX API values.
+    Enum for run status options dictated by edX API values.
     """
 
     current = "Current"
@@ -98,7 +98,7 @@ class PrivacyLevel(ExtendedEnum):
     unlisted = "unlisted"
 
 
-semester_mapping = {"1T": "spring", "2T": "summer", "3T": "fall"}
+semester_mapping = {"1T": "Spring", "2T": "Summer", "3T": "Fall"}
 
 
 class LearningResourceRelationTypes(TextChoices):
@@ -189,7 +189,7 @@ DEPARTMENTS = {
     "IDS": "Data, Systems, and Society",
     "MAS": "Media Arts and Sciences",
     "PE": "Athletics, Physical Education and Recreation",
-    "RES": "Supplemental Resources",
+    "SP": "Special Programs",
     "STS": "Science, Technology, and Society",
     "WGS": "Women's and Gender Studies",
 }
@@ -270,11 +270,23 @@ class LevelType(ExtendedEnum):
 
 
 class LearningResourceFormat(ExtendedEnum):
-    """Enum for resource formats"""
+    """Enum for resource learning format"""
 
     online = "Online"
     hybrid = "Hybrid"
     in_person = "In person"
+
+
+class LearningResourceDelivery(ExtendedEnum):
+    """
+    Enum for resource delivery methods. This
+    will eventually replace LearningResourceFormat
+    """
+
+    online = "Online"
+    hybrid = "Hybrid"
+    in_person = "In person"
+    offline = "Offline"
 
 
 class CertificationType(ExtendedEnum):

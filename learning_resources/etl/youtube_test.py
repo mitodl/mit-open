@@ -25,7 +25,7 @@ from learning_resources.factories import VideoFactory
 from main.utils import clean_data
 
 
-@pytest.fixture()
+@pytest.fixture
 def youtube_api_responses():
     """Load the api responses"""
     mock_responses = defaultdict(list)
@@ -110,7 +110,7 @@ def mock_channel_file(content):
     return f"---{content}"
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_github_channel_response(mocker):  # noqa: PT004
     """Mock response from github api requst to open-video-data"""
 
@@ -137,7 +137,7 @@ def mocked_github_channel_response(mocker):  # noqa: PT004
     mock_requests.get.return_value.content = mock_file
 
 
-@pytest.fixture()
+@pytest.fixture
 def extracted_and_transformed_values(youtube_api_responses):
     # pylint: disable=too-many-locals
     """Mock data for the API responses and how they are transformed"""
@@ -258,13 +258,13 @@ def _resolve_extracted_playlist(playlist):
     return (playlist_data, list(videos))
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_raw_caption_data():
     """Mock data for raw youtube video caption"""
     return '<?xml version="1.0" encoding="utf-8" ?><transcript><text start="0" dur="0.5"></text><text start="0.5" dur="3.36">PROFESSOR: So, now we come to\nthe place where arithmetic,</text><text start="3.86" dur="2.67">modulo n or\nremainder arithmetic,</text><text start="6.53" dur="3.05">starts to be a little bit\ndifferent and that involves</text><text start="9.58" dur="2.729">taking inverses and cancelling.</text></transcript>'
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_parsed_transcript_data():
     """Mock data for parsed video caption"""
     return "PROFESSOR: So, now we come to the place where arithmetic,\nmodulo n or remainder arithmetic,\nstarts to be a little bit different and that involves\ntaking inverses and cancelling."
@@ -359,7 +359,7 @@ def test_extract_with_no_channels(mocker, yaml_parser_response):
     assert _resolve_extracted_channels(youtube.extract()) == []
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("error", "raised_exception", "message"),
     [
@@ -376,7 +376,7 @@ def test_extract_videos_errors(error, raised_exception, message):
         assert message in str(err)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("error", "raised_exception", "message"),
     [
@@ -393,7 +393,7 @@ def test_extract_playlist_items_errors(error, raised_exception, message):
         assert message in str(err)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("error", "raised_exception", "message"),
     [
@@ -416,7 +416,7 @@ def test_extract_playlists_errors(
         assert message in str(err)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("error", "raised_exception", "message"),
     [
@@ -503,7 +503,7 @@ def test_validate_channel_config(config, expected):
     assert youtube.validate_channel_configs(config) == expected
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.usefixtures("video_settings")
 def test_get_youtube_transcripts(mocker):
     """Verify that get_youtube_transcript downloads, saves and upserts video data"""
@@ -524,7 +524,7 @@ def test_get_youtube_transcripts(mocker):
     assert mock_resource.video.transcript == mock_caption_parsed
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("overwrite", [True, False])
 @pytest.mark.parametrize("created_after", [datetime(2019, 10, 4, tzinfo=UTC), None])
 @pytest.mark.parametrize("created_minutes", [2000, None])

@@ -1,0 +1,68 @@
+include:
+  - docker-compose.opensearch.${OPENSEARCH_CLUSTER_TYPE:-single-node}.yml
+
+services:
+  web:
+    profiles:
+      - backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    extends:
+      file: docker-compose.opensearch.${OPENSEARCH_CLUSTER_TYPE:-single-node}.apps.yml
+      service: web
+    mem_limit: 1gb
+    cpus: 2
+    command: ./scripts/run-django-dev.sh
+    stdin_open: true
+    tty: true
+    ports:
+      - "8061:8061"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/src
+      - django_media:/var/media
+
+  watch:
+    profiles:
+      - frontend
+    working_dir: /src
+    image: node:20.17
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        yarn install --immutable
+        yarn workspace mit-learn storybook --no-open &
+        yarn workspace mit-learn watch:docker
+    ports:
+      - "8062:8062"
+      - "6006:6006"
+    volumes:
+      - .:/src
+
+  celery:
+    profiles:
+      - backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    extends:
+      file: docker-compose.opensearch.${OPENSEARCH_CLUSTER_TYPE:-single-node}.apps.yml
+      service: web
+    command: >
+      /bin/bash -c '
+      sleep 3;
+      celery -A main.celery:app worker -Q default -B -l ${MITOL_LOG_LEVEL:-INFO} &
+      celery -A main.celery:app worker -Q edx_content,default -l ${MITOL_LOG_LEVEL:-INFO}'
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - .:/src
+      - django_media:/var/media

@@ -1,5 +1,5 @@
 {
-  "addons": ["heroku-postgresql:hobby-dev", "newrelic:wayne", "rediscloud:30"],
+  "addons": ["heroku-postgresql:hobby-dev", "rediscloud:30"],
   "buildpacks": [
     {
       "url": "https://github.com/heroku/heroku-buildpack-apt"
@@ -17,7 +17,7 @@
       "url": "https://github.com/heroku/heroku-buildpack-nginx"
     }
   ],
-  "description": "mit-open",
+  "description": "mit-learn",
   "env": {
     "ALLOWED_HOSTS": {
       "description": "",
@@ -101,6 +101,10 @@
     },
     "EDX_LEARNING_COURSE_BUCKET_PREFIX": {
       "description": "S3 prefix for MITx bucket keys",
+      "required": false
+    },
+    "EDX_PROGRAMS_API_URL": {
+      "description": "The catalog url for MITx programs",
       "required": false
     },
     "OPENSEARCH_HTTP_AUTH": {
@@ -261,118 +265,122 @@
       "description": "Authentication parameter value that should be passed in a webhook",
       "required": false
     },
-    "OLL_ALT_URL": {
-      "description": "Base alternate URL for OLL courses",
+    "OLL_LEARNING_COURSE_BUCKET_NAME": {
+      "description": "Name of S3 bucket containing OLL content files",
       "required": false
     },
-    "OLL_API_ACCESS_TOKEN_URL": {
-      "description": "URL to retrieve a OLL access token",
+    "OLL_LEARNING_COURSE_BUCKET_PREFIX": {
+      "description": "Prefix to use with the OLL S3 bucket",
       "required": false
     },
-    "OLL_API_URL": {
-      "description": "URL to retrieve OLL course data from",
+    "MITOL_ADMIN_EMAIL": {
+      "description": "E-mail to send 500 reports to.",
       "required": false
     },
-    "OLL_API_CLIENT_ID": {
-      "description": "Openedx client id to access the OLL course catalog API",
-      "required": false
-    },
-    "OLL_API_CLIENT_SECRET": {
-      "description": "Openedx secret key to access the OLL course catalog API",
-      "required": false
-    },
-    "OLL_BASE_URL": {
-      "description": "Base default URL for OLL courses",
-      "required": false
-    },
-    "MITOPEN_ADMIN_EMAIL": {
-      "description": "E-mail to send 500 reports to."
-    },
-    "MITOPEN_AUTHENTICATION_PLUGINS": {
+    "MITOL_AUTHENTICATION_PLUGINS": {
       "description": "List of pluggy plugins to use for authentication",
       "required": false
     },
-    "MITOPEN_LEARNING_RESOURCES_PLUGINS": {
+    "MITOL_LEARNING_RESOURCES_PLUGINS": {
       "description": "List of pluggy plugins to use for learning resources",
       "required": false
     },
-    "MITOPEN_APP_BASE_URL": {
-      "description": "Base url to create links to the app"
+    "MITOL_APP_BASE_URL": {
+      "description": "Base url to create links to the app",
+      "required": false
     },
-    "MITOPEN_COOKIE_NAME": {
-      "description": "Name of the cookie for the JWT auth token"
+    "MITOL_COOKIE_NAME": {
+      "description": "Name of the cookie for the JWT auth token",
+      "required": false
     },
-    "MITOPEN_COOKIE_DOMAIN": {
-      "description": "Domain for the cookie for the JWT auth token"
+    "MITOL_COOKIE_DOMAIN": {
+      "description": "Domain for the cookie for the JWT auth token",
+      "required": false
     },
-    "MITOPEN_DB_CONN_MAX_AGE": {
-      "value": "0"
+    "MITOL_DB_CONN_MAX_AGE": {
+      "value": "0",
+      "required": false
     },
-    "MITOPEN_DB_DISABLE_SSL": {
-      "value": "True"
+    "MITOL_DB_DISABLE_SSL": {
+      "value": "True",
+      "required": false
     },
-    "MITOPEN_DB_DISABLE_SS_CURSORS": {
+    "MITOL_DB_DISABLE_SS_CURSORS": {
       "description": "Disable server-side cursors",
       "required": false
     },
-    "MITOPEN_EMAIL_HOST": {
-      "description": "Outgoing e-mail settings"
-    },
-    "MITOPEN_EMAIL_PASSWORD": {
-      "description": "Outgoing e-mail settings"
-    },
-    "MITOPEN_EMAIL_PORT": {
+    "MITOL_EMAIL_HOST": {
       "description": "Outgoing e-mail settings",
-      "value": "587"
+      "required": false
     },
-    "MITOPEN_EMAIL_TLS": {
+    "MITOL_EMAIL_PASSWORD": {
       "description": "Outgoing e-mail settings",
-      "value": "True"
+      "required": false
     },
-    "MITOPEN_EMAIL_USER": {
-      "description": "Outgoing e-mail settings"
+    "MITOL_EMAIL_PORT": {
+      "description": "Outgoing e-mail settings",
+      "value": "587",
+      "required": false
     },
-    "MITOPEN_ENVIRONMENT": {
-      "description": "The execution environment that the app is in (e.g. dev, staging, prod)"
+    "MITOL_EMAIL_TLS": {
+      "description": "Outgoing e-mail settings",
+      "value": "True",
+      "required": false
     },
-    "MITOPEN_FROM_EMAIL": {
-      "description": "E-mail to use for the from field"
+    "MITOL_EMAIL_USER": {
+      "description": "Outgoing e-mail settings",
+      "required": false
     },
-    "MITOPEN_LOG_LEVEL": {
+    "MITOL_ENVIRONMENT": {
+      "description": "The execution environment that the app is in (e.g. dev, staging, prod)",
+      "required": false
+    },
+    "MITOL_FROM_EMAIL": {
+      "description": "E-mail to use for the from field",
+      "required": false
+    },
+    "MITOL_LOG_LEVEL": {
       "description": "The log level for the application",
-      "required": true,
+      "required": false,
       "value": "INFO"
     },
-    "MITOPEN_NEW_USER_LOGIN_URL": {
+    "MITOL_NEW_USER_LOGIN_URL": {
       "description": "Url to redirect new users to",
       "required": false
     },
-    "MITOPEN_JWT_SECRET": {
+    "MITOL_JWT_SECRET": {
       "description": "Shared secret for JWT auth tokens",
-      "required": true
+      "required": false
     },
-    "MITOPEN_SECURE_SSL_REDIRECT": {
+    "MITOL_NOINDEX": {
+      "description": "Prevent search engines from indexing the site",
+      "required": false
+    },
+    "MITOL_SECURE_SSL_REDIRECT": {
       "description": "Application-level SSL redirect setting.",
-      "value": "True"
+      "value": "True",
+      "required": false
     },
-    "MITOPEN_SIMILAR_RESOURCES_COUNT": {
+    "MITOL_SIMILAR_RESOURCES_COUNT": {
       "description": "Number of similar resources to return",
       "required": false
     },
-    "MITOPEN_TITLE": {
-      "description": "Title of the MIT Open site",
+    "MITOL_TITLE": {
+      "description": "Title of the MIT Learn site",
       "required": false
     },
-    "MITOPEN_SUPPORT_EMAIL": {
-      "description": "Email address listed for customer support"
+    "MITOL_SUPPORT_EMAIL": {
+      "description": "Email address listed for customer support",
+      "required": false
     },
-    "MITOPEN_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS": {
+    "MITOL_UNSUBSCRIBE_TOKEN_MAX_AGE_SECONDS": {
       "description": "Maximum age of unsubscribe tokens in seconds",
       "required": false
     },
-    "MITOPEN_USE_S3": {
+    "MITOL_USE_S3": {
       "description": "Use S3 for storage backend (required on Heroku)",
-      "value": "False"
+      "value": "False",
+      "required": false
     },
     "NEWS_EVENTS_MEDIUM_NEWS_SCHEDULE_SECONDS": {
       "description": "Time in seconds between periodic syncs of Medium MIT News feed",
@@ -471,8 +479,24 @@
       "description": "Django secret key.",
       "generator": "secret"
     },
-    "SEE_BASE_URL": {
-      "description": "The base URL for Sloan Executive Education",
+    "SEE_API_ACCESS_TOKEN_URL": {
+      "description": "URL to retrieve a MITx access token",
+      "required": false
+    },
+    "SEE_API_ENABLED": {
+      "description": "Whether the Sloan ETL shouold be enabled",
+      "required": false
+    },
+    "SEE_API_URL": {
+      "description": "URL to retrieve MITx course data from",
+      "required": false
+    },
+    "SEE_API_CLIENT_ID": {
+      "description": "EdX client id to access the MITx course catalog API",
+      "required": false
+    },
+    "SEE_API_CLIENT_SECRET": {
+      "description": "EdX secret key to access the MITx course catalog API",
       "required": false
     },
     "SENTRY_DSN": {
@@ -604,10 +628,10 @@
   },
   "keywords": ["Django", "Python", "MIT", "Office of Digital Learning"],
   "name": "mit_open",
-  "repository": "https://github.com/mitodl/mit-open",
+  "repository": "https://github.com/mitodl/mit-learn",
   "scripts": {
     "postdeploy": "./manage.py migrate --noinput"
   },
   "success_url": "/",
-  "website": "https://github.com/mitodl/mit-open"
+  "website": "https://github.com/mitodl/mit-learn"
 }

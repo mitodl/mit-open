@@ -33,7 +33,7 @@ yarn test
 To target specific environments, set `BASE_URL` on the environment, e.g:
 
 ```bash
-BASE_URL=https://mitopen.odl.mit.edu/ yarn test
+BASE_URL=https://learn.mit.edu/ yarn test
 ```
 
 NPM scripts are provided for our RC and Production environments:
@@ -93,4 +93,4 @@ yarn test --grep @sanity
 
 A GitHub Actions job runs the full test suite against locally running services.
 
-Test reports deploy to the GitHub Pages site at https://mitodl.github.io/mit-open/playwright-report/.
+Test reports deploy to the GitHub Pages site at https://mitodl.github.io/mit-learn/playwright-report/.

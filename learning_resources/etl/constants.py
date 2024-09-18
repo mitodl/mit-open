@@ -1,9 +1,13 @@
 """Constants for learning_resources ETL processes"""
 
 from collections import namedtuple
+from dataclasses import dataclass, field
+from datetime import datetime
+from decimal import Decimal
 from enum import Enum
 
 from django.conf import settings
+from named_enum import ExtendedEnum
 
 from learning_resources.constants import LearningResourceFormat
 
@@ -53,6 +57,7 @@ class ETLSource(Enum):
     ocw = "ocw"
     prolearn = "prolearn"
     podcast = "podcast"
+    see = "see"
     youtube = "youtube"
 
 
@@ -75,8 +80,39 @@ RESOURCE_FORMAT_MAPPING = {
     None: LearningResourceFormat.online.name,
     "": LearningResourceFormat.online.name,
     "Blended": LearningResourceFormat.hybrid.name,
+    "In Person": LearningResourceFormat.in_person.name,
     **{
         value: LearningResourceFormat(value).name
         for value in LearningResourceFormat.values()
     },
 }
+
+
+class ContentTagCategory(ExtendedEnum):
+    """
+    Enum for content tag categories.
+    """
+
+    videos = "Videos"
+    notes = "Notes"
+    exams = "Exams"
+    problem_sets = "Problem Sets"
+
+
+CONTENT_TAG_CATEGORIES = {
+    "Lecture Videos": ContentTagCategory.videos.value,
+    "Lecture Notes": ContentTagCategory.notes.value,
+    "Exams with Solutions": ContentTagCategory.exams.value,
+    "Exams": ContentTagCategory.exams.value,
+    "Problem Sets with Solutions": ContentTagCategory.problem_sets.value,
+    "Problem Sets": ContentTagCategory.problem_sets.value,
+    "Assignments": ContentTagCategory.problem_sets.value,
+    # Can add more here if ever needed, in format tag_name:category
+}
+
+
+@dataclass
+class ResourceNextRunConfig:
+    next_start_date: datetime = None
+    prices: list[Decimal] = field(default_factory=list)
+    availability: str = None

@@ -64,6 +64,7 @@ class FeedEventDetail(TimestampedModel):
     location = ArrayField(models.CharField(max_length=255, blank=True))
     event_type = ArrayField(models.CharField(max_length=255, blank=True))
     event_datetime = models.DateTimeField(db_index=True)
+    event_end_datetime = models.DateTimeField(db_index=True, null=True)
 
 
 class FeedNewsDetail(TimestampedModel):

@@ -1,71 +1,11 @@
-x-environment: &py-environment
+include:
+  - docker-compose.services.yml
 
 services:
-  db:
-    profiles:
-      - backend
-    image: postgres:12.19
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_PASSWORD=postgres
-    volumes:
-      - pgdata:/var/lib/postgresql
-
-  redis:
-    profiles:
-      - backend
-    image: redis:5.0.14
-    ports:
-      - "6379"
-
-  opensearch-node-mitopen:
-    profiles:
-      - backend
-    image: opensearchproject/opensearch:2.15.0
-    container_name: opensearch-node-mitopen
-    environment:
-      - cluster.name=opensearch-cluster
-      - node.name=opensearch-node-mitopen
-      - bootstrap.memory_lock=true # along with the memlock settings below, disables swapping
-      - "OPENSEARCH_JAVA_OPTS=-Xms1024m -Xmx1024m" # Set min and max JVM heap sizes to at least 50% of system RAM
-      - "DISABLE_INSTALL_DEMO_CONFIG=true" # disables execution of install_demo_configuration.sh bundled with security plugin, which installs demo certificates and security configurations to OpenSearch
-      - "DISABLE_SECURITY_PLUGIN=true" # disables security plugin entirely in OpenSearch by setting plugins.security.disabled: true in opensearch.yml
-      - "discovery.type=single-node" # disables bootstrap checks that are enabled when network.host is set to a non-loopback address
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536 # maximum number of open files for the OpenSearch user, set to at least 65536 on modern systems
-        hard: 65536
-    volumes:
-      - opensearch-data1:/usr/share/opensearch/data
-    ports:
-      - 9100:9200
-
-  nginx:
-    profiles:
-      - backend
-    build:
-      context: ./nginx
-    ports:
-      - "8063:8063"
-    links:
-      - web
-    environment:
-      PORT: 8063
-      NGINX_WORKERS: 1
-      NGINX_UWSGI_PASS: "web:8061"
-    volumes:
-      - ./config:/etc/nginx/templates
-
   web:
-    profiles:
-      - backend
-    build:
-      context: .
-      dockerfile: Dockerfile
+    extends:
+      file: docker-compose.apps.yml
+      service: web
     env_file:
       - path: env/shared.env
       - path: env/shared.local.env
@@ -76,30 +16,11 @@ services:
       # DEPRECATED: legacy .env file at the repo root
       - path: .env
         required: false
-    command: ./scripts/run-django-dev.sh
-    stdin_open: true
-    tty: true
-    ports:
-      - "8061:8061"
-    links:
-      - db
-      - opensearch-node-mitopen
-      - redis
-    volumes:
-      - .:/src
-      - django_media:/var/media
 
   watch:
-    profiles:
-      - frontend
-    working_dir: /src
-    image: node:20.15
-    entrypoint: ["/bin/sh", "-c"]
-    command:
-      - |
-        yarn install --immutable
-        yarn workspace mit-open storybook --no-open &
-        yarn workspace mit-open watch:docker
+    extends:
+      file: docker-compose.apps.yml
+      service: watch
     env_file:
       - path: env/shared.env
       - path: env/shared.local.env
@@ -110,18 +31,11 @@ services:
       # DEPRECATED: legacy .env file at the repo root
       - path: .env
         required: false
-    ports:
-      - "8062:8062"
-      - "6006:6006"
-    volumes:
-      - .:/src
 
   celery:
-    profiles:
-      - backend
-    build:
-      context: .
-      dockerfile: Dockerfile
+    extends:
+      file: docker-compose.apps.yml
+      service: celery
     env_file:
       - path: env/shared.env
       - path: env/shared.local.env
@@ -132,27 +46,3 @@ services:
       # DEPRECATED: legacy .env file at the repo root
       - path: .env
         required: false
-    command: >
-      /bin/bash -c '
-      sleep 3;
-      celery -A main.celery:app worker -Q default -B -l ${MITOPEN_LOG_LEVEL:-INFO} &
-      celery -A main.celery:app worker -Q edx_content,default -l ${MITOPEN_LOG_LEVEL:-INFO}'
-    links:
-      - db
-      - opensearch-node-mitopen
-      - redis
-    volumes:
-      - .:/src
-      - django_media:/var/media
-  tika:
-    profiles:
-      - backend
-    image: apache/tika:2.5.0
-    ports:
-      - "9998:9998"
-
-volumes:
-  opensearch-data1:
-  django_media:
-  yarn-cache:
-  pgdata:

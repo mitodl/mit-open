@@ -35,15 +35,15 @@ def reload_mocked_pipeline(*patchers):
     reload(pipelines)
 
 
-def test_mit_edx_etl():
-    """Verify that mit edx etl pipeline executes correctly"""
+def test_mit_edx_courses_etl():
+    """Verify that mit edx courses etl pipeline executes correctly"""
     with reload_mocked_pipeline(
         patch("learning_resources.etl.mit_edx.extract", autospec=True),
         patch("learning_resources.etl.mit_edx.transform", autospec=False),
         patch("learning_resources.etl.loaders.load_courses", autospec=True),
     ) as patches:
         mock_extract, mock_transform, mock_load_courses = patches
-        result = pipelines.mit_edx_etl()
+        result = pipelines.mit_edx_courses_etl()
 
     mock_extract.assert_called_once_with()
 
@@ -58,6 +58,33 @@ def test_mit_edx_etl():
     )
 
     assert result == mock_load_courses.return_value
+
+
+def test_mit_edx_programs_etl():
+    """Verify that mit edx programs etl pipeline executes correctly"""
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.mit_edx_programs.extract", autospec=True),
+        patch("learning_resources.etl.mit_edx_programs.transform", autospec=False),
+        patch("learning_resources.etl.loaders.load_programs", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_programs = patches
+        result = pipelines.mit_edx_programs_etl()
+
+    mock_extract.assert_called_once_with()
+
+    # each of these should be called with the return value of the extract
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+
+    # load_courses should be called *only* with the return value of transform
+    mock_load_programs.assert_called_once_with(
+        ETLSource.mit_edx.name,
+        mock_transform.return_value,
+        config=ProgramLoaderConfig(
+            courses=CourseLoaderConfig(fetch_only=True), prune=True
+        ),
+    )
+
+    assert result == mock_load_programs.return_value
 
 
 def test_mitxonline_programs_etl():
@@ -196,7 +223,7 @@ def test_podcast_etl():
 
 
 @mock_s3
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("skip_content_files", [True, False])
 def test_ocw_courses_etl(settings, mocker, skip_content_files):
     """Test ocw_courses_etl"""
@@ -207,11 +234,11 @@ def test_ocw_courses_etl(settings, mocker, skip_content_files):
         return_value={"content": "TEXT"},
     )
     mocker.patch("learning_resources.etl.pipelines.loaders.resource_upserted_actions")
-    mocker.patch(
-        "learning_resources.etl.pipelines.loaders.resource_run_upserted_actions"
+    mock_cf_actions = mocker.patch(
+        "learning_resources.etl.pipelines.loaders.content_files_loaded_actions"
     )
-    mocker.patch(
-        "learning_resources.etl.pipelines.loaders.resource_unpublished_actions"
+    mock_calc_score = mocker.patch(
+        "learning_resources.etl.loaders.calculate_completeness"
     )
 
     pipelines.ocw_courses_etl(
@@ -237,10 +264,12 @@ def test_ocw_courses_etl(settings, mocker, skip_content_files):
     assert run.instructors.count() == 10
     assert run.run_id == "97db384ef34009a64df7cb86cf701979"
     assert run.content_files.count() == (0 if skip_content_files else 4)
+    assert mock_cf_actions.call_count == (0 if skip_content_files else 1)
+    assert mock_calc_score.call_count == (0 if skip_content_files else 1)
 
 
 @mock_s3
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_ocw_courses_etl_no_data(settings, mocker):
     """Test ocw_courses_etl when no S3 data is present"""
 
@@ -257,7 +286,7 @@ def test_ocw_courses_etl_no_data(settings, mocker):
 
 
 @mock_s3
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_ocw_courses_etl_exception(settings, mocker):
     """Test ocw_courses_etl when bad data raises an exception"""
 
@@ -306,6 +335,27 @@ def test_micromasters_etl():
     )
 
     assert result == mock_load_programs.return_value
+
+
+def test_sloan_courses_etl():
+    """Verify that sloan courses etl pipeline executes correctly"""
+    with reload_mocked_pipeline(
+        patch("learning_resources.etl.sloan.extract", autospec=True),
+        patch("learning_resources.etl.sloan.transform_courses", autospec=True),
+        patch("learning_resources.etl.loaders.load_courses", autospec=True),
+    ) as patches:
+        mock_extract, mock_transform, mock_load_courses = patches
+        result = pipelines.sloan_courses_etl()
+
+    mock_extract.assert_called_once_with()
+    mock_transform.assert_called_once_with(mock_extract.return_value)
+    mock_load_courses.assert_called_once_with(
+        ETLSource.see.name,
+        mock_transform.return_value,
+        config=CourseLoaderConfig(prune=True),
+    )
+
+    assert result == mock_load_courses.return_value
 
 
 def test_prolearn_programs_etl():

@@ -9,7 +9,7 @@ import pytest
 from news_events.etl import ol_events
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_get_json_data(mocker, ol_events_json_data):
     """Mock requests.get to return json data"""
     return mocker.patch(
@@ -21,7 +21,7 @@ def mock_get_json_data(mocker, ol_events_json_data):
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def expected_event():
     """Return the expected event data"""
     with Path.open(Path("test_json/ol_events_output.json")) as in_file:

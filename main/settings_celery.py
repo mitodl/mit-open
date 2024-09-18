@@ -23,35 +23,29 @@ CELERY_WORKER_MAX_MEMORY_PER_CHILD = get_int(
 CELERY_BEAT_SCHEDULE = {
     "update_next-start-date-every-1-days": {
         "task": "learning_resources.tasks.update_next_start_date_and_prices",
-        "schedule": crontab(minute=0, hour=4),  # midnight EST
+        "schedule": crontab(minute=0, hour=7),  # 3:00am EST
     },
     "update_edx-courses-every-1-days": {
         "task": "learning_resources.tasks.get_mit_edx_data",
-        "schedule": crontab(minute=30, hour=15),  # 11:30am EST
+        "schedule": crontab(minute=0, hour=5),  # 1:00am EST
     },
     "update-edx-files-every-1-weeks": {
         "task": "learning_resources.tasks.import_all_mit_edx_files",
-        "schedule": crontab(
-            minute=0, hour=16, day_of_week=1
-        ),  # 12:00 PM EST on Mondays
+        "schedule": crontab(minute=0, hour=5, day_of_week=1),  # 12:00 PM EST on Mondays
     },
     "update-micromasters-programs-every-1-days": {
         "task": "learning_resources.tasks.get_micromasters_data",
-        "schedule": crontab(minute=30, hour=16),
+        "schedule": crontab(minute=0, hour=5),  # 1:00am EST
     },
     "update-mitxonline-courses-every-1-days": {
         "task": "learning_resources.tasks.get_mitxonline_data",
-        "schedule": crontab(minute=30, hour=19),  # 3:30pm EST
+        "schedule": crontab(minute=0, hour=5),  # 1:00am EST
     },
     "update-mitxonline-files-every-1-weeks": {
         "task": "learning_resources.tasks.import_all_mitxonline_files",
         "schedule": crontab(
-            minute=0, hour=16, day_of_week=3
+            minute=0, hour=5, day_of_week=3
         ),  # 12:00 PM EST on Wednesdays
-    },
-    "update-oll-courses-every-1-days": {
-        "task": "learning_resources.tasks.get_oll_data",
-        "schedule": crontab(minute=30, hour=18),  # 2:30pm EST
     },
     "update-podcasts": {
         "task": "learning_resources.tasks.get_podcast_data",
@@ -61,23 +55,17 @@ CELERY_BEAT_SCHEDULE = {
     },
     "update-prolearn-courses-every-1-days": {
         "task": "learning_resources.tasks.get_prolearn_data",
-        "schedule": crontab(minute=30, hour=21),  # 5:30pm EST
+        "schedule": crontab(minute=0, hour=5),  # 1:00am EST
     },
     "update-xpro-courses-every-1-days": {
         "task": "learning_resources.tasks.get_xpro_data",
-        "schedule": crontab(minute=30, hour=17),  # 1:30pm EST
+        "schedule": crontab(minute=0, hour=5),  # 1:00am EST
     },
     "update-xpro-files-every-1-weeks": {
         "task": "learning_resources.tasks.import_all_xpro_files",
         "schedule": crontab(
-            minute=0, hour=16, day_of_week=2
+            minute=0, hour=5, day_of_week=2
         ),  # 12:00 PM EST on Tuesdays
-    },
-    "update-oll-files-every-1-weeks": {
-        "task": "learning_resources.tasks.import_all_oll_files",
-        "schedule": crontab(
-            minute=0, hour=16, day_of_week=3
-        ),  # 12:00 PM EST on Wednesdays
     },
     "update-youtube-videos": {
         "task": "learning_resources.tasks.get_youtube_data",
@@ -97,6 +85,18 @@ CELERY_BEAT_SCHEDULE = {
             "NEWS_EVENTS_MEDIUM_NEWS_SCHEDULE_SECONDS", 60 * 60 * 3
         ),  # default is every 3 hours
     },
+    "update_mitpe_events": {
+        "task": "news_events.tasks.get_mitpe_events",
+        "schedule": get_int(
+            "NEWS_EVENTS_MITPE_EVENTS_SCHEDULE_SECONDS", 60 * 60 * 3
+        ),  # default is every 3 hours
+    },
+    "update_mitpe_news": {
+        "task": "news_events.tasks.get_mitpe_news",
+        "schedule": get_int(
+            "NEWS_EVENTS_MITPE_NEWS_SCHEDULE_SECONDS", 60 * 60 * 3
+        ),  # default is every 3 hours
+    },
     "update_sloan_news": {
         "task": "news_events.tasks.get_sloan_exec_news",
         "schedule": get_int(
@@ -108,6 +108,10 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": get_int(
             "NEWS_EVENTS_SLOAN_EXEC_WEBINAR_SCHEDULE_SECONDS", 60 * 60 * 12
         ),  # default is every 12 hours
+    },
+    "update_sloan_courses": {
+        "task": "learning_resources.tasks.get_sloan_data",
+        "schedule": crontab(minute=30, hour=4),  # 12:30am EST
     },
     "update_ol_events": {
         "task": "news_events.tasks.get_ol_events",
@@ -125,6 +129,10 @@ CELERY_BEAT_SCHEDULE = {
         "task": "learning_resources_search.tasks.send_subscription_emails",
         "schedule": crontab(minute=30, hour=18),  # 2:30pm EST
         "kwargs": {"period": "daily", "subscription_type": "channel_subscription_type"},
+    },
+    "update-search-featured-ranks-1-days": {
+        "task": "learning_resources_search.tasks.update_featured_rank",
+        "schedule": crontab(minute=30, hour=7),  # 3:30am EST
     },
 }
 

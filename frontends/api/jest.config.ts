@@ -9,8 +9,9 @@ const config: Config.InitialOptions = {
   ],
   globals: {
     APP_SETTINGS: {
-      MITOPEN_AXIOS_WITH_CREDENTIALS: false,
-      MITOPEN_API_BASE_URL: "https://api.mitopen-test.odl.mit.edu",
+      MITOL_AXIOS_WITH_CREDENTIALS: false,
+      MITOL_API_BASE_URL: "https://api.test.learn.mit.edu",
+      CSRF_COOKIE_NAME: "csrftoken-test",
     },
   },
 }

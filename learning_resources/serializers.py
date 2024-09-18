@@ -15,6 +15,7 @@ from learning_resources import constants, models
 from learning_resources.constants import (
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
+    LearningResourceDelivery,
     LearningResourceFormat,
     LearningResourceType,
     LevelType,
@@ -236,6 +237,21 @@ class LearningResourceFormatSerializer(serializers.Field):
         return {"code": value, "name": LearningResourceFormat[value].value}
 
 
+@extend_schema_field(
+    {
+        "type": "object",
+        "properties": {
+            "code": {"enum": LearningResourceDelivery.names()},
+            "name": {"type": "string"},
+        },
+        "required": ["code", "name"],
+    }
+)
+class LearningResourceDeliverySerializer(serializers.Field):
+    def to_representation(self, value):
+        return {"code": value, "name": LearningResourceDelivery[value].value}
+
+
 class LearningResourceRunSerializer(serializers.ModelSerializer):
     """Serializer for the LearningResourceRun model"""
 
@@ -245,10 +261,13 @@ class LearningResourceRunSerializer(serializers.ModelSerializer):
     image = LearningResourceImageSerializer(read_only=True, allow_null=True)
 
     level = serializers.ListField(child=LearningResourceLevelSerializer())
+    delivery = serializers.ListField(
+        child=LearningResourceDeliverySerializer(), read_only=True
+    )
 
     class Meta:
         model = models.LearningResourceRun
-        exclude = ["learning_resource", "availability", *COMMON_IGNORED_FIELDS]
+        exclude = ["learning_resource", *COMMON_IGNORED_FIELDS]
 
 
 class ResourceListMixin(serializers.Serializer):
@@ -409,6 +428,9 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     views = serializers.IntegerField(source="views_count", read_only=True)
     learning_format = serializers.ListField(
         child=LearningResourceFormatSerializer(), read_only=True
+    )
+    delivery = serializers.ListField(
+        child=LearningResourceDeliverySerializer(), read_only=True
     )
     free = serializers.SerializerMethodField()
     resource_category = serializers.SerializerMethodField()

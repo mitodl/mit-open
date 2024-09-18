@@ -392,7 +392,7 @@ def send_template_email(recipients, subject, template, context):
     if not context:
         context = {}
     context["APP_BASE_URL"] = settings.APP_BASE_URL
-    context["STATIC_URL"] = settings.STATIC_URL
+    context["ABSOLUTE_STATIC_URL"] = urljoin(settings.APP_BASE_URL, settings.STATIC_URL)
     html_content = render_to_string(template, context)
     return send_email(recipients, subject, html_content, text_only=False)
 

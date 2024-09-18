@@ -76,25 +76,29 @@ def get_int(name, default):
     return parsed_value
 
 
-def get_any(name, default):
+def get_float(name, default):
     """
-    Get an environment variable as a bool, int, or a string.
+    Get an environment variable as an int.
 
     Args:
         name (str): An environment variable name
-        default (any): The default value to use if the environment variable doesn't exist.
+        default (float): The default value to use if the environment variable doesn't exist.
 
     Returns:
-        any:
-            The environment variable value parsed as a bool, int, or a string
+        float:
+            The environment variable value parsed as an float
     """  # noqa: E501
+    value = os.environ.get(name)
+    if value is None:
+        return default
+
     try:
-        return get_bool(name, default)
-    except EnvironmentVariableParseException:
-        try:
-            return get_int(name, default)
-        except EnvironmentVariableParseException:
-            return get_string(name, default)
+        parsed_value = float(value)
+    except ValueError as ex:
+        msg = f"Expected value in {name}={value} to be a float"
+        raise EnvironmentVariableParseException(msg) from ex
+
+    return parsed_value
 
 
 def get_list_of_str(name, default):

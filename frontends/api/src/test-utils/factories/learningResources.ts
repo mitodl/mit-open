@@ -28,6 +28,8 @@ import type {
   VideoResource,
 } from "api"
 import {
+  AvailabilityEnum,
+  DeliveryEnum,
   ResourceTypeEnum,
   LearningResourceRunLevelInnerCodeEnum,
   PlatformEnum,
@@ -177,6 +179,13 @@ const learningResourceRun: Factory<LearningResourceRun> = (overrides = {}) => {
     languages: maybe(() => repeat(language, { min: 0, max: 3 })),
     start_date: start.toISOString(),
     end_date: end.toISOString(),
+    availability: faker.helpers.arrayElement(Object.values(AvailabilityEnum)),
+    delivery: [
+      {
+        code: faker.helpers.arrayElement(Object.values(DeliveryEnum)),
+        name: uniqueEnforcerWords.enforce(() => faker.lorem.words()),
+      },
+    ],
     level: [
       {
         code: faker.helpers.arrayElement(

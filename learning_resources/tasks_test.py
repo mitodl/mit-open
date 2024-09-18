@@ -36,7 +36,7 @@ def does_not_raise():
     yield
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_logger(mocker):
     """
     Mock log exception
@@ -44,12 +44,41 @@ def mock_logger(mocker):
     return mocker.patch("learning_resources.api.log.exception")
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_blocklist(mocker):
     """Mock the load_course_blocklist function"""
     return mocker.patch(
         "learning_resources.tasks.load_course_blocklist", return_value=[]
     )
+
+
+def test_cache_is_cleared_after_task_run(mocker, mocked_celery):
+    """Test that the search cache is cleared out after every task run"""
+    mocker.patch("learning_resources.tasks.ocw_courses_etl", autospec=True)
+    mocker.patch("learning_resources.tasks.get_content_tasks", autospec=True)
+    mocker.patch("learning_resources.tasks.pipelines")
+    mocked_clear_search_cache = mocker.patch(
+        "learning_resources.tasks.clear_search_cache"
+    )
+    tasks.get_mit_edx_data.delay()
+    tasks.update_next_start_date_and_prices.delay()
+    tasks.get_micromasters_data.delay()
+    tasks.get_mit_edx_data.delay()
+    tasks.get_mitxonline_data.delay()
+    tasks.get_oll_data.delay()
+    tasks.get_prolearn_data.delay()
+    tasks.get_xpro_data.delay()
+    tasks.get_podcast_data.delay()
+
+    tasks.get_ocw_courses.delay(
+        url_paths=[OCW_TEST_PREFIX],
+        force_overwrite=False,
+        skip_content_files=True,
+    )
+
+    tasks.get_youtube_data.delay()
+    tasks.get_youtube_transcripts.delay()
+    assert mocked_clear_search_cache.call_count == 12
 
 
 def test_get_micromasters_data(mocker):
@@ -61,11 +90,12 @@ def test_get_micromasters_data(mocker):
 
 
 def test_get_mit_edx_data_valid(mocker):
-    """Verify that the get_mit_edx_data invokes the MIT edX ETL pipeline"""
+    """Verify that the get_mit_edx_data invokes the MIT edX ETL pipelines"""
     mock_pipelines = mocker.patch("learning_resources.tasks.pipelines")
 
     tasks.get_mit_edx_data.delay()
-    mock_pipelines.mit_edx_etl.assert_called_once_with(None)
+    mock_pipelines.mit_edx_courses_etl.assert_called_once_with(None)
+    mock_pipelines.mit_edx_programs_etl.assert_called_once_with(None)
 
 
 def test_get_mitxonline_data(mocker):
@@ -347,7 +377,7 @@ def test_update_next_start_date(mocker):
     LearningResourceFactory.create(next_start_date=(timezone.now() + timedelta(1)))
 
     mock_load_next_start_date = mocker.patch(
-        "learning_resources.tasks.load_next_start_date_and_prices"
+        "learning_resources.tasks.load_run_dependent_values"
     )
     update_next_start_date_and_prices()
     mock_load_next_start_date.assert_called_once_with(learning_resource)

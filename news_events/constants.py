@@ -29,12 +29,15 @@ NEWS_EVENTS_SORTBY_OPTIONS = {
         "title": "Event date  descending",
         "sort": "-event_details__event_datetime",
     },
-    "created": {
+    "news_date": {
         "title": "Creation date ascending",
-        "sort": "created_on",
+        "sort": "news_details__publish_date",
     },
-    "-created": {
+    "-news_date": {
         "title": "Creation date descending",
-        "sort": "-created_on",
+        "sort": "-news_details__publish_date",
     },
 }
+
+
+ALL_AUDIENCES = ["Faculty", "MIT Community", "Public", "Students"]

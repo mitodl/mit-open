@@ -20,6 +20,7 @@
     ],
     "format": "Online",
     "platform": "xPRO",
+    "credits": "11.25",
     "courses": [
       {
         "id": 18,
@@ -35,7 +36,9 @@
           }
         ],
         "platform": "xPRO",
-        "format": "Online"
+        "format": "Online",
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 20,
@@ -62,7 +65,9 @@
             "product_id": 13
           }
         ],
-        "next_run_id": 49
+        "next_run_id": 49,
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 19,
@@ -93,7 +98,9 @@
             "product_id": 12
           }
         ],
-        "next_run_id": 48
+        "next_run_id": 48,
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 21,
@@ -104,9 +111,12 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [],
-        "platform": "xPRO"
+        "platform": "xPRO",
+        "availability": "dated",
+        "credits": "11.25"
       }
-    ]
+    ],
+    "availability": "dated"
   },
   {
     "title": "SEED Digital Learning",
@@ -126,6 +136,7 @@
     ],
     "format": "In person",
     "platform": "xPRO",
+    "credits": "101.25",
     "courses": [
       {
         "id": 30,
@@ -156,7 +167,8 @@
               }
             ],
             "id": 73,
-            "product_id": null
+            "product_id": null,
+            "availability": "dated"
           },
           {
             "title": "SEED Digital Learning 100 - August 2021",
@@ -177,7 +189,9 @@
             "product_id": null
           }
         ],
-        "next_run_id": 73
+        "next_run_id": 73,
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 31,
@@ -192,7 +206,9 @@
             "name": "Business:Leadership & Organizations"
           }
         ],
-        "platform": "xPRO"
+        "platform": "xPRO",
+        "availability": "dated",
+        "credits": "11.25"
       },
       {
         "id": 32,
@@ -203,8 +219,11 @@
         "courseruns": [],
         "next_run_id": null,
         "topics": [],
-        "platform": "xPRO"
+        "platform": "xPRO",
+        "availability": "dated",
+        "credits": "11.25"
       }
-    ]
+    ],
+    "availability": "dated"
   }
 ]

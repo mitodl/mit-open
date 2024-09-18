@@ -1,9 +1,9 @@
 import React, { useId, useCallback, useEffect, useMemo, useState } from "react"
 import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+  MuiDialog,
+  MuiDialogActions,
+  MuiDialogContent,
+  MuiDialogTitle,
   Button,
   RadioChoiceField,
 } from "ol-components"
@@ -122,7 +122,7 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
   )
   return (
     <>
-      <DialogTitle>{title}</DialogTitle>
+      <MuiDialogTitle>{title}</MuiDialogTitle>
       <Formik
         initialValues={widget as AnonymousWidget<Record<string, unknown>>}
         validationSchema={validationSchema}
@@ -132,11 +132,16 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
         {({ handleSubmit, values, errors }) => {
           const titleFieldId = `${formId}:${title}`
           const titleAttrs = formFieldAttrs(titleFieldId, errors.title)
+          const { htmlFor: labelFor, ...labelAttrs } = titleAttrs.label
           return (
             <Form onSubmit={handleSubmit}>
-              <DialogContent>
+              <MuiDialogContent>
                 <div className={classes?.fieldGroup}>
-                  <label className={classes?.label} {...titleAttrs.label}>
+                  <label
+                    className={classes?.label}
+                    htmlFor={labelFor}
+                    {...labelAttrs}
+                  >
                     Title
                   </label>
                   <Field
@@ -203,15 +208,15 @@ const DialogContentEditing: React.FC<WidgetEditingProps> = ({
                     </div>
                   )
                 })}
-              </DialogContent>
-              <DialogActions>
+              </MuiDialogContent>
+              <MuiDialogActions>
                 <Button variant="secondary" onClick={onCancel}>
                   Cancel
                 </Button>
                 <Button type="submit" variant="primary">
                   Submit
                 </Button>
-              </DialogActions>
+              </MuiDialogActions>
             </Form>
           )
         }}
@@ -270,11 +275,11 @@ const DialogContentAdding: React.FC<WidgetAddingProps> = ({
   )
   return (
     <>
-      <DialogTitle>New widget</DialogTitle>
+      <MuiDialogTitle>New widget</MuiDialogTitle>
       <Formik initialValues={initialValues} onSubmit={onSubmitType}>
         {({ handleSubmit, values }) => (
           <Form onSubmit={handleSubmit}>
-            <DialogContent>
+            <MuiDialogContent>
               <Field
                 className={classes?.field}
                 name="widget_type"
@@ -291,15 +296,15 @@ const DialogContentAdding: React.FC<WidgetAddingProps> = ({
                   />
                 )}
               </Field>
-            </DialogContent>
-            <DialogActions>
+            </MuiDialogContent>
+            <MuiDialogActions>
               <Button variant="secondary" onClick={onCancel}>
                 Cancel
               </Button>
               <Button type="submit" variant="primary">
                 Next
               </Button>
-            </DialogActions>
+            </MuiDialogActions>
           </Form>
         )}
       </Formik>
@@ -340,7 +345,7 @@ const ManageWidgetDialog: React.FC<ManageWidgetDialogProps> = ({
     [],
   )
   return (
-    <Dialog
+    <MuiDialog
       fullWidth
       className={classNames("ol-widget-dialog", classes?.dialog)}
       open={isOpen}
@@ -371,7 +376,7 @@ const ManageWidgetDialog: React.FC<ManageWidgetDialogProps> = ({
           classes={classes}
         />
       )}
-    </Dialog>
+    </MuiDialog>
   )
 }
 

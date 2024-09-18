@@ -1,6 +1,6 @@
 openapi: 3.0.3
 info:
-  title: MIT Open API
+  title: MIT Learn API
   version: 0.0.1 (v0)
   description: MIT public API
 paths:
@@ -225,6 +225,29 @@ paths:
       responses:
         '204':
           description: No response body
+  /api/v0/channels/counts/{channel_type}/:
+    get:
+      operationId: channels_counts_list
+      description: View for retrieving an individual channel by type and name
+      summary: Channel Detail Lookup by channel type and name
+      parameters:
+      - in: path
+        name: channel_type
+        schema:
+          type: string
+          pattern: ^[A-Za-z0-9_\-]+$
+        required: true
+      tags:
+      - channels
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ChannelCounts'
+          description: ''
   /api/v0/channels/type/{channel_type}/{name}/:
     get:
       operationId: channels_type_retrieve
@@ -303,12 +326,12 @@ paths:
         schema:
           type: string
           enum:
-          - -created
           - -event_date
           - -id
-          - created
+          - -news_date
           - event_date
           - id
+          - news_date
         description: |-
           Sort By
 
@@ -316,8 +339,8 @@ paths:
           * `-id` - Object ID descending
           * `event_date` - Event date ascending
           * `-event_date` - Event date  descending
-          * `created` - Creation date ascending
-          * `-created` - Creation date descending
+          * `news_date` - Creation date ascending
+          * `-news_date` - Creation date descending
       tags:
       - news_events
       responses:
@@ -982,6 +1005,50 @@ components:
           department: '#/components/schemas/DepartmentChannel'
           unit: '#/components/schemas/UnitChannel'
           pathway: '#/components/schemas/PathwayChannel'
+    ChannelCounts:
+      type: object
+      description: Serializer for resource counts associated with Channel
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        counts:
+          allOf:
+          - $ref: '#/components/schemas/Counts'
+          readOnly: true
+        channel_url:
+          type: string
+          description: Get the URL for the channel
+          readOnly: true
+        created_on:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_on:
+          type: string
+          format: date-time
+          readOnly: true
+        name:
+          type: string
+          pattern: ^[A-Za-z0-9_-]+$
+          maxLength: 100
+        title:
+          type: string
+          maxLength: 100
+        channel_type:
+          $ref: '#/components/schemas/ChannelTypeEnum'
+        search_filter:
+          type: string
+          maxLength: 2048
+      required:
+      - channel_type
+      - channel_url
+      - counts
+      - created_on
+      - id
+      - name
+      - title
+      - updated_on
     ChannelCreateRequest:
       type: object
       description: |-
@@ -1125,6 +1192,16 @@ components:
           readOnly: true
       required:
       - unit
+    Counts:
+      type: object
+      properties:
+        courses:
+          type: integer
+        programs:
+          type: integer
+      required:
+      - courses
+      - programs
     CurrentEducationEnum:
       enum:
       - Doctorate
@@ -1133,7 +1210,6 @@ components:
       - Associate degree
       - Secondary/high school
       - Junior secondary/junior high/middle school
-      - Elementary/primary school
       - No formal education
       - Other education
       type: string
@@ -1145,7 +1221,6 @@ components:
         * `Associate degree` - Associate degree
         * `Secondary/high school` - Secondary/high school
         * `Junior secondary/junior high/middle school` - Junior secondary/junior high/middle school
-        * `Elementary/primary school` - Elementary/primary school
         * `No formal education` - No formal education
         * `Other education` - Other education
       x-enum-descriptions:
@@ -1155,7 +1230,6 @@ components:
       - Associate degree
       - Secondary/high school
       - Junior secondary/junior high/middle school
-      - Elementary/primary school
       - No formal education
       - Other education
     DepartmentChannel:
@@ -1337,6 +1411,10 @@ components:
         event_datetime:
           type: string
           format: date-time
+        event_end_datetime:
+          type: string
+          format: date-time
+          nullable: true
       required:
       - audience
       - event_datetime

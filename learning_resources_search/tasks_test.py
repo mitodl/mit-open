@@ -3,7 +3,7 @@
 from collections import OrderedDict
 
 import pytest
-from celery.exceptions import Retry
+from celery.exceptions import Ignore, Retry
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from opensearchpy.exceptions import ConnectionError as ESConnectionError
@@ -19,6 +19,7 @@ from learning_resources.factories import (
     ProgramFactory,
 )
 from learning_resources.models import LearningResource
+from learning_resources.views import FeaturedViewSet
 from learning_resources_search.api import gen_content_file_id
 from learning_resources_search.constants import (
     CONTENT_FILE_TYPE,
@@ -49,6 +50,7 @@ from learning_resources_search.tasks import (
     send_subscription_emails,
     start_recreate_index,
     start_update_index,
+    update_featured_rank,
     upsert_content_file,
     upsert_learning_resource,
     wrap_retry_exception,
@@ -60,7 +62,7 @@ pytestmark = pytest.mark.django_db
 User = get_user_model()
 
 
-@pytest.fixture()
+@pytest.fixture
 def _wrap_retry_mock(mocker):
     """
     Patches the wrap_retry_exception context manager and asserts that it was
@@ -71,7 +73,7 @@ def _wrap_retry_mock(mocker):
     wrap_mock.assert_called_once()
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_api(mocker):
     """Mock object that patches the channels API"""
     return mocker.patch("learning_resources_search.tasks.api")
@@ -81,7 +83,9 @@ def test_upsert_learning_resource(mocked_api):
     """Test that upsert_learning_resourc will serialize the learning resource data and upsert it to the OS index"""
     resource = LearningResourceFactory.create()
     upsert_learning_resource(resource.id)
-    data = serialize_learning_resource_for_update(resource)
+    data = serialize_learning_resource_for_update(
+        LearningResource.objects.for_search_serialization().get(id=resource.id)
+    )
     mocked_api.upsert_document.assert_called_once_with(
         resource.id,
         data,
@@ -622,7 +626,7 @@ def test_start_update_index(mocker, mocked_celery, indexes, etl_source, settings
             assert index_content_mock.si.call_count == 4
 
     assert mocked_celery.replace.call_count == 1
-    assert mocked_celery.replace.call_args[0][1] == mocked_celery.group.return_value
+    assert mocked_celery.replace.call_args[0][1] == mocked_celery.chain.return_value
 
 
 def test_upsert_content_file_task(mocked_api):
@@ -707,7 +711,7 @@ def test_delete_run_content_files(mocker, with_error, unpublished_only):
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_send_subscription_emails(mocked_api, mocker, mocked_celery):
     """
     Test that a subscribed user receives
@@ -725,7 +729,7 @@ def test_send_subscription_emails(mocked_api, mocker, mocked_celery):
     user = UserFactory.create()
     queries = []
     query_ids = []
-    user_documents = dict.fromkeys(topics, [])
+    user_documents = {key: [] for key in topics}
     for topic in topics:
         query = PercolateQueryFactory.create()
         query.original_query["topic"] = [topic]
@@ -759,7 +763,7 @@ def test_send_subscription_emails(mocked_api, mocker, mocked_celery):
         assert topic in template_data
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_send_multiple_subscription_emails(mocked_api, mocker, mocked_celery):
     """
     Test that subscription email with
@@ -777,7 +781,7 @@ def test_send_multiple_subscription_emails(mocked_api, mocker, mocked_celery):
 
     queries = []
     query_ids = []
-    user_documents = dict.fromkeys(topics, [])
+    user_documents = {key: [] for key in topics}
     for topic in topics:
         user = UserFactory.create()
         query = PercolateQueryFactory.create()
@@ -856,7 +860,7 @@ def test_email_grouping_function(mocked_api, mocker):
     queries = []
     query_ids = []
     user_ids = []
-    user_documents = dict.fromkeys(topics, [])
+    user_documents = {key: [] for key in topics}
     for topic in topics:
         user = UserFactory.create()
         query = PercolateQueryFactory.create()
@@ -976,3 +980,95 @@ def test_subscription_digest_subject():
         sample_course, "management", resource_types, 19, shortform=True
     )
     assert subject_line == "New Courses from management"
+
+
+def test_update_featured_rank(mocker, offeror_featured_lists):
+    """The updated_featured_rank task should make the expected calls"""
+
+    mocker.patch(
+        "learning_resources_search.tasks.random",
+        return_value=0.4,
+    )
+
+    clear_featured_rank = mocker.patch(
+        "learning_resources_search.tasks.api.clear_featured_rank"
+    )
+
+    update_with_partial = mocker.patch(
+        "learning_resources_search.tasks.api.update_document_with_partial"
+    )
+
+    featured_view_set = FeaturedViewSet()
+    featured_resources = featured_view_set.get_queryset()
+
+    update_featured_rank()
+
+    for rank in range(3):
+        clear_featured_rank.assert_any_call(rank, clear_all_greater_than=False)
+    clear_featured_rank.assert_any_call(3, clear_all_greater_than=True)
+
+    for resource in featured_resources:
+        update_with_partial.assert_any_call(
+            resource.id,
+            {"featured_rank": resource.position + 0.4},
+            resource.resource_type,
+        )
+
+
+def test_cache_clears_after_update_featured_rank(mocker, offeror_featured_lists):
+    """The updated_featured_rank task should make the expected calls"""
+
+    mocker.patch(
+        "learning_resources_search.tasks.random",
+        return_value=0.4,
+    )
+
+    mocker.patch("learning_resources_search.tasks.api.clear_featured_rank")
+    mocked_clear_search_cache = mocker.patch(
+        "learning_resources_search.tasks.clear_search_cache"
+    )
+    mocker.patch("learning_resources_search.tasks.api.update_document_with_partial")
+
+    update_featured_rank()
+    assert mocked_clear_search_cache.call_count == 1
+
+
+def test_cache_is_cleared_after_reindex(mocker):
+    """Test that the search cache is cleared out after every reindex"""
+
+    mocked_clear_search_cache = mocker.patch(
+        "learning_resources_search.tasks.clear_search_cache"
+    )
+
+    backing_indices = {"course": "backing", "program": "backing"}
+    results = []
+    mocker.patch("learning_resources_search.indexing_api.switch_indices", autospec=True)
+    mocker.patch("learning_resources_search.indexing_api.delete_orphaned_indexes")
+    finish_recreate_index.delay(results, backing_indices)
+    assert mocked_clear_search_cache.call_count == 1
+
+
+def test_cache_is_cleared_after_update_index(mocker, settings):
+    """Test that the search cache is cleared out after an update of the index"""
+    settings.OPENSEARCH_INDEXING_CHUNK_SIZE = 2
+    settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE = 2
+    mocker.patch(
+        "learning_resources_search.tasks.index_learning_resources", autospec=True
+    )
+    mocker.patch(
+        "learning_resources_search.tasks.get_update_courses_tasks", autospec=True
+    )
+    mocked_clear_search_cache = mocker.patch(
+        "learning_resources_search.tasks.clear_search_cache"
+    )
+    mocker.patch(
+        "learning_resources_search.tasks.load_course_blocklist", return_value=[]
+    )
+    sorted(
+        CourseFactory.create_batch(4, etl_source=ETLSource.ocw.value),
+        key=lambda course: course.learning_resource_id,
+    )
+
+    with pytest.raises(Ignore):
+        start_update_index.run(["course"], None)
+    assert mocked_clear_search_cache.call_count == 1

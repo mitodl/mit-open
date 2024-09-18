@@ -3,6 +3,7 @@
 import logging
 from itertools import chain
 
+from django.conf import settings
 from django.utils.decorators import method_decorator
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from opensearchpy.exceptions import TransportError
@@ -30,6 +31,7 @@ from learning_resources_search.serializers import (
     PercolateQuerySerializer,
     PercolateQuerySubscriptionRequestSerializer,
 )
+from main.utils import cache_page_for_anonymous_users
 
 log = logging.getLogger(__name__)
 
@@ -63,6 +65,11 @@ class LearningResourcesSearchView(ESView):
 
     permission_classes = ()
 
+    @method_decorator(
+        cache_page_for_anonymous_users(
+            settings.SEARCH_PAGE_CACHE_DURATION, cache="redis", key_prefix="search"
+        )
+    )
     @extend_schema(summary="Search")
     def get(self, request):
         request_data = LearningResourcesSearchRequestSerializer(data=request.GET)
@@ -75,11 +82,11 @@ class LearningResourcesSearchView(ESView):
             if request_data.data.get("dev_mode"):
                 return Response(response)
             else:
-                return Response(
-                    LearningResourcesSearchResponseSerializer(
-                        response, context={"request": request}
-                    ).data
-                )
+                response = LearningResourcesSearchResponseSerializer(
+                    response, context={"request": request}
+                ).data
+                response["results"] = list(response["results"])
+                return Response(response)
         else:
             errors = {}
             for key, errors_obj in request_data.errors.items():

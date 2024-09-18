@@ -9,7 +9,7 @@ import pytest
 from news_events.etl import sloan_webinars
 
 
-@pytest.fixture()
+@pytest.fixture
 def sloan_webinars_json_data():
     json_files = [
         "test_json/sloan_webinars_output.json",
@@ -21,7 +21,7 @@ def sloan_webinars_json_data():
     return json_data
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_get_json_data(mocker, sloan_webinars_json_data):
     """Mock requests.get to return json data"""
     return mocker.patch(
@@ -45,7 +45,7 @@ def _mock_post_json(mocker, sloan_webinars_json_data):
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def expected_event():
     """Return the expected event data"""
     with Path.open(Path("test_json/sloan_webinars_output.json")) as in_file:

@@ -11,6 +11,15 @@ import responses
 from pytest_mock import PytestMockWarning
 from urllib3.exceptions import InsecureRequestWarning
 
+from channels.factories import ChannelUnitDetailFactory
+from learning_resources.constants import LearningResourceRelationTypes, OfferedBy
+from learning_resources.factories import (
+    LearningPathFactory,
+    LearningResourceFactory,
+    LearningResourceOfferorFactory,
+)
+from learning_resources.models import LearningResourceRun
+
 
 @pytest.fixture(autouse=True)
 def silence_factory_logging():  # noqa: PT004
@@ -43,13 +52,13 @@ def warnings_as_errors():  # noqa: PT004
         warnings.resetwarnings()
 
 
-@pytest.fixture()
+@pytest.fixture
 def randomness():  # noqa: PT004
     """Ensure a fixed seed for factoryboy"""
     factory.fuzzy.reseed_random("happy little clouds")
 
 
-@pytest.fixture()
+@pytest.fixture
 def indexing_decorator(session_indexing_decorator):
     """
     Fixture that resets the indexing function mock and returns the indexing decorator fixture.
@@ -60,7 +69,7 @@ def indexing_decorator(session_indexing_decorator):
     return session_indexing_decorator
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_celery(mocker):
     """Mock object that patches certain celery functions"""
     exception_class = TabError
@@ -78,8 +87,35 @@ def mocked_celery(mocker):
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_responses():
     """Mock responses fixture"""
     with responses.RequestsMock() as rsps:
         yield rsps
+
+
+@pytest.fixture
+def offeror_featured_lists():  # noqa: PT004
+    """Generate featured offeror lists for testing"""
+    for offered_by in OfferedBy.names():
+        offeror = LearningResourceOfferorFactory.create(code=offered_by)
+        featured_path = LearningPathFactory.create(resources=[]).learning_resource
+        for i in range(3):
+            resource = LearningResourceFactory.create(
+                offered_by=offeror,
+                is_course=True,
+            )
+            if offered_by == OfferedBy.ocw.name:
+                LearningResourceRun.objects.filter(
+                    learning_resource=resource.id
+                ).update(prices=[])
+            featured_path.resources.add(
+                resource,
+                through_defaults={
+                    "relation_type": LearningResourceRelationTypes.LEARNING_PATH_ITEMS,
+                    "position": i,
+                },
+            )
+        channel = ChannelUnitDetailFactory.create(unit=offeror).channel
+        channel.featured_list = featured_path
+        channel.save()

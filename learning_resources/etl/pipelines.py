@@ -11,12 +11,14 @@ from learning_resources.etl import (
     loaders,
     micromasters,
     mit_edx,
+    mit_edx_programs,
     mitxonline,
     ocw,
     oll,
     podcast,
     posthog,
     prolearn,
+    sloan,
     xpro,
     youtube,
 )
@@ -43,13 +45,24 @@ micromasters_etl = compose(
     micromasters.extract,
 )
 
-mit_edx_etl = compose(
+mit_edx_courses_etl = compose(
     load_courses(
         ETLSource.mit_edx.name,
         config=CourseLoaderConfig(prune=True),
     ),
     mit_edx.transform,
     mit_edx.extract,
+)
+
+mit_edx_programs_etl = compose(
+    load_programs(
+        ETLSource.mit_edx.name,
+        config=ProgramLoaderConfig(
+            courses=CourseLoaderConfig(fetch_only=True), prune=True
+        ),
+    ),
+    mit_edx_programs.transform,
+    mit_edx_programs.extract,
 )
 
 mitxonline_programs_etl = compose(
@@ -89,6 +102,13 @@ prolearn_courses_etl = compose(
     load_courses(ETLSource.prolearn.name, config=CourseLoaderConfig(prune=True)),
     prolearn.transform_courses,
     prolearn.extract_courses,
+)
+
+
+sloan_courses_etl = compose(
+    load_courses(ETLSource.see.name, config=CourseLoaderConfig(prune=True)),
+    sloan.transform_courses,
+    sloan.extract,
 )
 
 
@@ -150,6 +170,7 @@ def ocw_courses_etl(
                         ocw.transform_content_files(
                             s3_resource, url_path, force_overwrite
                         ),
+                        calc_completeness=True,
                     )
             else:
                 log.info("No course data found for %s", url_path)

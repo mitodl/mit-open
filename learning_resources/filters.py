@@ -16,6 +16,7 @@ from learning_resources.constants import (
     LEARNING_RESOURCE_SORTBY_OPTIONS,
     RESOURCE_CATEGORY_VALUES,
     CertificationType,
+    LearningResourceDelivery,
     LearningResourceFormat,
     LearningResourceType,
     LevelType,
@@ -109,6 +110,12 @@ class LearningResourceFilter(FilterSet):
         choices=LearningResourceFormat.as_list(),
     )
 
+    delivery = MultipleChoiceFilter(
+        label="The delivery of course/program resources",
+        method="filter_delivery",
+        choices=LearningResourceDelivery.as_list(),
+    )
+
     certification_type = MultipleChoiceFilter(
         label="The type of certification offered",
         choices=CertificationType.as_tuple(),
@@ -192,6 +199,11 @@ class LearningResourceFilter(FilterSet):
         values = [[LearningResourceFormat[val].name] for val in value]
         return multi_or_filter(queryset, "learning_format__contains", values)
 
+    def filter_delivery(self, queryset, _, value):
+        """Format Filter for learning resources"""
+        values = [[LearningResourceDelivery[val].name] for val in value]
+        return multi_or_filter(queryset, "delivery__contains", values)
+
     class Meta:
         model = LearningResource
         fields = ["professional", "certification"]
@@ -264,9 +276,9 @@ class TopicFilter(FilterSet):
         label="Topic name",
         method="filter_name",
     )
-    parent_topic_name = CharInFilter(
-        label="Parent topic name",
-        method="filter_parent_topic_name",
+    parent_topic_id = NumberInFilter(
+        label="Parent topic ID",
+        method="filter_parent_topic_id",
     )
     is_toplevel = BooleanFilter(
         label="Filter top-level topics",
@@ -281,18 +293,6 @@ class TopicFilter(FilterSet):
         """Filter by top-level (parent == null)"""
         return queryset.filter(parent__isnull=value)
 
-    def filter_parent_topic_name(self, queryset, _, values):
-        """Filter by parent topic name (up to 2 levels deep)"""
-
-        nested_topic_filter = Q()
-
-        for topic in values:
-            nested_topic_filter |= Q(
-                parent__isnull=False, parent__name__iexact=topic
-            ) | Q(
-                parent__isnull=False,
-                parent__parent__isnull=False,
-                parent__parent__name__iexact=topic,
-            )
-
-        return queryset.filter(nested_topic_filter)
+    def filter_parent_topic_id(self, queryset, _, values):
+        """Get direct children of a topic"""
+        return queryset.filter(parent_id__in=values)

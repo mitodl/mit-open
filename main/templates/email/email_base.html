@@ -265,10 +265,10 @@
               {% block logo %}
               <h1 style="text-align: center">
                 <img
-                  src="{{APP_BASE_URL}}{{STATIC_URL}}/images/mit-logo-learn.jpg"
+                  src="{{ABSOLUTE_STATIC_URL}}images/mit-logo-learn.jpg"
                   width="113"
                   height="32"
-                  alt="MIT-Open"
+                  alt="MIT-Learn"
                   style="
                     height: 32px;
                     width: 113px;
@@ -332,7 +332,7 @@
 
               If you don't want to receive these emails in the future, you can
               <a
-                href="{{APP_BASE_URL}}/dashboard/settings"
+                href="{{APP_BASE_URL}}dashboard/settings"
                 style="text-decoration: underline"
                 >unsubscribe</a
               >. <br /><br />

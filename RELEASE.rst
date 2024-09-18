@@ -1,6 +1,216 @@
 Release Notes
 =============
 
+Version 0.19.0 (Released September 16, 2024)
+--------------
+
+- Update docker-compose config to support OS cluster (#1540)
+- Update dependency faker to v28 (#1550)
+- Update actions/upload-artifact digest to 5076954 (#1528)
+- Update dependency attrs to v24 (#1535)
+- Update dependency @faker-js/faker to v9 (#1533)
+- Update dependency pytest-cov to v5 (#1549)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v8 (#1260)
+- ETL pipeline for MIT edX programs (#1536)
+- license_cc and continuing_ed_credits fields (#1544)
+- Fix data migration erroring if a record exists (#1543)
+- learning resource drawer list buttons (#1537)
+- Add LearningResource.delivery field (eventually to replace learning_format) (#1510)
+- Update mcr.microsoft.com/playwright Docker tag to v1.47.0 (#1531)
+- Update dependency ruff to v0.6.4 (#1530)
+- Update dependency Django to v4.2.16 (#1529)
+- display sub topics on topic channels (#1511)
+- Sort news items by publish_date (#1522)
+
+Version 0.18.2 (Released September 12, 2024)
+--------------
+
+- Use new OLL column for secondary topic; fix semester capitalization mismatch (#1519)
+- Shanbady/fix course panel start date (#1521)
+- Update dependency cryptography to v43 [SECURITY] (#1513)
+- [pre-commit.ci] pre-commit autoupdate (#1504)
+- Update dependency @ckeditor/ckeditor5-dev-utils to v42 (#1503)
+- Update dependency @testing-library/react to v16.0.1 (#1496)
+- Update dependency @ckeditor/ckeditor5-dev-translations to v42 (#1502)
+- Update actions/setup-python digest to f677139 (#1493)
+- Cache unit page counts (#1507)
+- dfs_query_then_fetch (#1518)
+- Add completeness discount to search (#1512)
+
+Version 0.18.1 (Released September 05, 2024)
+--------------
+
+- Remove unnecessary searchparms check (#1514)
+- Ingest OLL courses from a spreadsheet/csv (#1508)
+
+Version 0.18.0 (Released September 04, 2024)
+--------------
+
+- Setup sentry tracing and profiling (#1492)
+- Update Yarn to v4.4.1 (#1494)
+- Update postgres Docker tag to v12.20 (#1501)
+- Update opensearchproject/opensearch Docker tag to v2.16.0 (#1500)
+- Update mcr.microsoft.com/playwright Docker tag to v1.46.1 (#1499)
+- Update Node.js to v20.17.0 (#1498)
+- Update dependency ruff to v0.6.3 (#1497)
+- Update dependency @testing-library/react to v16.0.1 (#1495)
+
+Version 0.17.14 (Released August 30, 2024)
+---------------
+
+- put hero image into its own component and set the random image in a state variable so it doesn't change on re-render (#1490)
+- fix codespace backend (#1488)
+- score cutoff (#1466)
+
+Version 0.17.13 (Released August 30, 2024)
+---------------
+
+- Fix a flaky test (#1487)
+- homepage search revisions (#1485)
+- Better Headings Structure (#1473)
+- Fix dialog spacing + reset AddToListDialog (#1484)
+
+Version 0.17.12 (Released August 29, 2024)
+---------------
+
+- Remove Pathways (Coming Soon) (#1482)
+- add to list dialog updates (#1463)
+- Fix syntax that a pre-commit check was failing (#1480)
+
+Version 0.17.11 (Released August 29, 2024)
+---------------
+
+- Switched imagekit caching from in-memory to redis (#1475)
+- [pre-commit.ci] pre-commit autoupdate (#1468)
+- OCW course completeness score (#1461)
+- Shanbady/fix multiple instances of subscriptions (#1469)
+
+Version 0.17.10 (Released August 28, 2024)
+---------------
+
+- Remove the in-memory cache for now (#1477)
+- change drawer CTA label (#1471)
+- update the footer logo (#1467)
+- Add caching for imagekit (#1472)
+- [pre-commit.ci] pre-commit autoupdate (#1215)
+- Update redis Docker tag to v7 (#1261)
+
+Version 0.17.9 (Released August 28, 2024)
+--------------
+
+- Update newrelic agent (#1464)
+- Update actions/upload-artifact digest to 834a144 (#1396)
+- Update snok/install-poetry digest to 76e04a9 (#1397)
+- Update dependency ruff to v0.6.2 (#1426)
+- Carousel accessibility improvements (#1462)
+- Add search mode selector to admin (#1456)
+- Update Python to v3.12.5 (#1398)
+- Sloan ETL pipeline (#1394)
+- Setup codespaces (#1444)
+- fix certification search url (#1460)
+- randomize the hero image (#1459)
+
+Version 0.17.8 (Released August 26, 2024)
+--------------
+
+- search box adornment buttons should be 56px wide on mobile (#1457)
+- homepage hero search updates (#1454)
+- Fix departments and schools fixtures (#1453)
+- Renaming the s3 buckets used for storing the app. (#1455)
+
+Version 0.17.7 (Released August 21, 2024)
+--------------
+
+- Add SP as a department  (#1451)
+- adding test for redirect view (#1448)
+- News and events for MIT Professional Education (#1365)
+
+Version 0.17.6 (Released August 21, 2024)
+--------------
+
+- change default og:image (#1449)
+
+Version 0.17.5 (Released August 21, 2024)
+--------------
+
+- restorin g redirect route (#1446)
+
+Version 0.17.4 (Released August 21, 2024)
+--------------
+
+- update departments fixture (#1439)
+- department is optional (#1437)
+- restrict learning path pages to learning path editors (#1442)
+- remove privacy chip from add to user list dialog (#1440)
+
+Version 0.17.3 (Released August 21, 2024)
+--------------
+
+- allow empty APPZI_URL (#1441)
+- Get availability value from xpro api (#1432)
+- add appzi for feedback (#1435)
+- Fix frontend sentry_env and release version (#1386)
+- Remove remaining frontend routes (#1424)
+- Only process best/next run contentfiles, and make sure other run contentfiles are deindexed (#1383)
+
+Version 0.17.2 (Released August 20, 2024)
+--------------
+
+- Add locust load testing (#1422)
+
+Version 0.17.1 (Released August 19, 2024)
+--------------
+
+- Replace topic chips with info section text (#1379)
+- Handle topics with colons from xpro in ETL pipeline (#1429)
+- Set default sort to featured (#1414) (#1423)
+
+Version 0.17.0 (Released August 19, 2024)
+--------------
+
+- Add migration to adjust mappings, make some minor changes to the dump to yaml util function (#1408)
+- uncapitalize with (#1428)
+- Update nginx Docker tag to v1.27.1 (#1425)
+- search query clean up (#1393)
+- remove elementary / primary school as an education option (#1415)
+- Per Page metadata tags  (#1411)
+
+Version 0.16.1 (Released August 15, 2024)
+--------------
+
+- set csrf cookie name from env var (#1420)
+- Expose the SESSION_COOKIE_NAME setting (#1418)
+- Update the ETL pipelines times (#1416)
+- Add accessibility linting (#1395)
+- Undo Change to default sort (#1414)
+- Make MITOL_ settings optional in app.json (#1412)
+- Rename the variables on release workflows (#1409)
+- Fix typo in env variable prefix (#1406)
+- cache learning resources search api view (#1392)
+- rename MIT Open to MIT Learn (#1389)
+- Rename env var prefix MITOPEN_ to MITOL_ (#1388)
+- adding fix for logo in email (#1404)
+- Change Default sort to featured (#1377)
+- Empty user list items view (#1376)
+
+Version 0.16.0 (Released August 13, 2024)
+--------------
+
+- Update values of hostnames to use learn.mit.edu (#1401)
+- Add featured ranks to the opensearch index (#1381)
+- Fix homepage contrast issues (#1371)
+- copy update for mitx channel page (#1400)
+- Update Yarn to v4.4.0 (#1399)
+- Update search term event handler to clear page if the term changes and is submitted, updating tests for this (#1387)
+- fix prettier and eslint in pre-commit (#1391)
+- Rename MIT Open to MIT Learn for subscription emails (#1390)
+- enable mailgun and analytics (#1370)
+- update suppport email (#1385)
+- Update topic boxes to support multiple lines (#1380)
+- Update dependency Django to v4.2.15 [SECURITY] (#1384)
+- adding version specifier for renovate (#1378)
+- Create, Edit and Delete User List modal UI (#1356)
+
 Version 0.15.1 (Released August 07, 2024)
 --------------
 
@@ -358,7 +568,7 @@ Version 0.13.4 (Released June 14, 2024)
 Version 0.13.3 (Released June 14, 2024)
 --------------
 
-- Adds ScrollRestoration to the spot in the routes; sets it up so it works only if the path change; adds a mit-open mock for window.scrollTo (#1071)
+- Adds ScrollRestoration to the spot in the routes; sets it up so it works only if the path change; adds a mit-learn mock for window.scrollTo (#1071)
 - Change LOGIN_REDIRECT_URL and LOGOUT_REDIRECT_URL to use the base URL (#1075)
 - dashboard home (#1062)
 
@@ -366,7 +576,7 @@ Version 0.13.2 (Released June 13, 2024)
 --------------
 
 - Update education options and add to schema (#1069)
-- local dev: Read `MITOPEN_AXIOS_BASE_PATH` from env (#1065)
+- local dev: Read `MITOL_AXIOS_BASE_PATH` from env (#1065)
 - Add featured courses carousel to unit channel page (#1059)
 - Add ordering to testimonials, adjust view on homepage testimonial carousel (#1067)
 - Change channel type and url from "offeror" to "unit" (#1031)

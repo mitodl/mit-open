@@ -109,9 +109,6 @@ function Select<Value = unknown>({ size, ...props }: SelectProps<Value>) {
     <MuiSelect
       variant="standard"
       {...props}
-      // @ts-expect-error MUI Typescript really wants Input and Select sizes
-      // to be the same. But our Select has an extra "small" size.
-      // Passing the size here generates the expected classes on root select.
       size={size}
       IconComponent={SelectIcon}
       input={<SelectInput size={size} />}

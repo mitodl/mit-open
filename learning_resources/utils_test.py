@@ -42,19 +42,19 @@ from learning_resources.utils import (
 pytestmark = pytest.mark.django_db
 
 
-@pytest.fixture()
+@pytest.fixture
 def mock_plugin_manager(mocker):
     """Fixture for mocking the plugin manager"""
     return mocker.patch("learning_resources.utils.get_plugin_manager").return_value
 
 
-@pytest.fixture()
+@pytest.fixture
 def fixture_resource(mocker):
     """Fixture for returning a learning resource of resource_type course"""
     return CourseFactory.create().learning_resource
 
 
-@pytest.fixture()
+@pytest.fixture
 def fixture_resource_run(mocker):
     """Fixture for returning a learning resource run"""
     return LearningResourceRunFactory.create()
@@ -182,7 +182,7 @@ def test_get_content_type(file_type, output):
     assert get_content_type(file_type) == output
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_platform_data():
     """
     Test that the platform data is upserted correctly
@@ -239,16 +239,6 @@ def test_resource_delete_actions(mock_plugin_manager, fixture_resource):
 
     mock_plugin_manager.hook.resource_before_delete.assert_called_once_with(
         resource=fixture_resource
-    )
-
-
-def test_resource_run_upserted_actions(mock_plugin_manager, fixture_resource_run):
-    """
-    resource_run_upserted_actions function should trigger plugin hook's resource_run_upserted function
-    """
-    utils.resource_run_upserted_actions(fixture_resource_run)
-    mock_plugin_manager.hook.resource_run_upserted.assert_called_once_with(
-        run=fixture_resource_run
     )
 
 

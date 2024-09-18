@@ -14,6 +14,7 @@ from learning_resources import constants, models
 from learning_resources.constants import (
     DEPARTMENTS,
     Availability,
+    LearningResourceDelivery,
     LearningResourceFormat,
     LevelType,
     PlatformType,
@@ -90,6 +91,22 @@ class LearningResourceTopicFactory(DjangoModelFactory):
     class Meta:
         model = models.LearningResourceTopic
         django_get_or_create = ("name",)
+
+
+class LearningResourceTopicMappingFactory(DjangoModelFactory):
+    """Factory for learning resource topic mappings"""
+
+    offeror = factory.SubFactory(
+        "learning_resources.factories.LearningResourceOfferorFactory"
+    )
+    topic = factory.SubFactory(
+        "learning_resources.factories.LearningResourceTopicFactory"
+    )
+    topic_name = Faker("word")
+
+    class Meta:
+        model = models.LearningResourceTopicMapping
+        django_get_or_create = ("offeror", "topic")
 
 
 class LearningResourceImageFactory(DjangoModelFactory):
@@ -199,6 +216,7 @@ class LearningResourceFactory(DjangoModelFactory):
     content_tags = factory.PostGeneration(_post_gen_tags)
     published = True
     learning_format = factory.List(random.choices(LearningResourceFormat.names()))  # noqa: S311
+    delivery = factory.List(random.choices(LearningResourceDelivery.names()))  # noqa: S311
     professional = factory.LazyAttribute(
         lambda o: o.resource_type
         in (
@@ -474,14 +492,7 @@ class LearningResourceRunFactory(DjangoModelFactory):
     languages = factory.List(random.choices(["en", "es"]))  # noqa: S311
     year = factory.Faker("year")
     image = factory.SubFactory(LearningResourceImageFactory)
-    availability = FuzzyChoice(
-        (
-            constants.RunAvailability.current.value,
-            constants.RunAvailability.upcoming.value,
-            constants.RunAvailability.starting_soon.value,
-            constants.RunAvailability.archived.value,
-        )
-    )
+    availability = FuzzyChoice(Availability.names())
     enrollment_start = factory.Faker("future_datetime", tzinfo=UTC)
     enrollment_end = factory.LazyAttribute(
         lambda obj: (

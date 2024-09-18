@@ -23,12 +23,9 @@ def prevent_requests(mocker, request):  # noqa: PT004
 
 
 @pytest.fixture(autouse=True)
-def _disable_silky(settings):
-    """Disable django-silky during tests"""
-    settings.SILKY_INTERCEPT_PERCENT = 0
-
-    settings.MIDDLEWARE = tuple(
-        middleware
-        for middleware in settings.MIDDLEWARE
-        if middleware != "silk.middleware.SilkyMiddleware"
-    )
+def _use_dummy_redis_cache_backend(settings):
+    new_cache_settings = settings.CACHES.copy()
+    new_cache_settings["redis"] = {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    }
+    settings.CACHES = new_cache_settings

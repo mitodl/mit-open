@@ -66,7 +66,7 @@ def test_process_exception_non_auth_error(mocker, rf, settings):
     )
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("is_blocked", [True, False])
 @pytest.mark.parametrize("is_super", [True, False])
 @pytest.mark.parametrize("exempt_view", [True, False])

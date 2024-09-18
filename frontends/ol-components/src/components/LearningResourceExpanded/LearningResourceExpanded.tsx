@@ -3,29 +3,25 @@ import styled from "@emotion/styled"
 import Skeleton from "@mui/material/Skeleton"
 import Typography from "@mui/material/Typography"
 import { ButtonLink } from "../Button/Button"
-import Chip from "@mui/material/Chip"
-import type {
-  LearningResource,
-  LearningResourceRun,
-  LearningResourceTopic,
-} from "api"
+import type { LearningResource, LearningResourceRun } from "api"
 import { ResourceTypeEnum, PlatformEnum } from "api"
 import {
   formatDate,
   capitalize,
   resourceThumbnailSrc,
-  getReadableResourceType,
   DEFAULT_RESOURCE_IMG,
   showStartAnytime,
 } from "ol-utilities"
+import { RiExternalLinkLine } from "@remixicon/react"
 import type { EmbedlyConfig } from "ol-utilities"
 import { theme } from "../ThemeProvider/ThemeProvider"
 import { SimpleSelect } from "../SimpleSelect/SimpleSelect"
 import type { SimpleSelectProps } from "../SimpleSelect/SimpleSelect"
 import { EmbedlyCard } from "../EmbedlyCard/EmbedlyCard"
 import { PlatformLogo, PLATFORMS } from "../Logo/Logo"
-import { ChipLink } from "../Chips/ChipLink"
 import InfoSection from "./InfoSection"
+import type { User } from "api/hooks/user"
+import { LearningResourceCardProps } from "../LearningResourceCard/LearningResourceCard"
 
 const Container = styled.div<{ padTop?: boolean }>`
   display: flex;
@@ -39,7 +35,7 @@ const Container = styled.div<{ padTop?: boolean }>`
   }
 `
 
-const Date = styled.div`
+const DateContainer = styled.div`
   display: flex;
   justify-content: start;
   align-self: stretch;
@@ -66,7 +62,7 @@ const Date = styled.div`
   }
 `
 
-const DateSingle = styled(Date)`
+const DateSingle = styled(DateContainer)`
   margin-top: 10px;
 `
 
@@ -104,7 +100,7 @@ const CallToAction = styled.div`
 
 const StyledLink = styled(ButtonLink)`
   text-align: center;
-  width: 220px;
+  width: 224px;
   ${({ theme }) => theme.breakpoints.down("sm")} {
     width: 100%;
     margin-top: 10px;
@@ -142,23 +138,13 @@ const OnPlatform = styled.span`
   color: ${theme.custom.colors.black};
 `
 
-const Topics = styled.section`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`
-
-const TopicsList = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0;
-  margin: 0;
-  gap: 8px;
-`
-
 type LearningResourceExpandedProps = {
   resource?: LearningResource
+  user?: User
   imgConfig: EmbedlyConfig
+  onAddToLearningPathClick?: LearningResourceCardProps["onAddToLearningPathClick"]
+  onAddToUserListClick?: LearningResourceCardProps["onAddToUserListClick"]
+  signupUrl?: string
 }
 
 const ImageSection: React.FC<{
@@ -183,7 +169,11 @@ const ImageSection: React.FC<{
     )
   } else if (resource) {
     return (
-      <Image src={DEFAULT_RESOURCE_IMG} aspect={config.width / config.height} />
+      <Image
+        src={DEFAULT_RESOURCE_IMG}
+        alt={resource.image?.alt ?? ""}
+        aspect={config.width / config.height}
+      />
     )
   } else {
     return (
@@ -227,19 +217,27 @@ const CallToActionSection = ({
   const platformImage =
     PLATFORMS[resource?.platform?.code as PlatformEnum]?.image
 
-  const { resource_type: type, platform } = resource!
+  const { platform } = resource!
 
-  const cta =
-    type === ResourceTypeEnum.Podcast ||
-    type === ResourceTypeEnum.PodcastEpisode
-      ? "Listen to Podcast"
-      : `Take ${getReadableResourceType(type)}`
+  const getCallToActionText = (resource: LearningResource): string => {
+    if (resource?.platform?.code === PlatformEnum.Ocw) {
+      return "Access Course Materials"
+    } else if (
+      resource?.resource_type === ResourceTypeEnum.Podcast ||
+      resource?.resource_type === ResourceTypeEnum.PodcastEpisode
+    ) {
+      return "Listen to Podcast"
+    }
+    return "Learn More"
+  }
 
+  const cta = getCallToActionText(resource)
   return (
     <CallToAction>
       <StyledLink
         target="_blank"
-        size="large"
+        size="medium"
+        endIcon={<RiExternalLinkLine />}
         href={getCallToActionUrl(resource) || ""}
       >
         {cta}
@@ -298,41 +296,6 @@ const ResourceDescription = ({ resource }: { resource?: LearningResource }) => {
   )
 }
 
-const TopicsSection: React.FC<{ topics?: LearningResourceTopic[] }> = ({
-  topics,
-}) => {
-  if (!topics?.length) {
-    return null
-  }
-  return (
-    <Topics>
-      <Typography variant="subtitle2" component="h3">
-        Topics
-      </Typography>
-      <TopicsList>
-        {topics.map((topic) =>
-          topic.channel_url ? (
-            <ChipLink
-              key={topic.id}
-              size="medium"
-              label={topic.name}
-              href={topic.channel_url}
-              variant="outlined"
-            />
-          ) : (
-            <Chip
-              key={topic.id}
-              size="medium"
-              label={topic.name}
-              variant="outlined"
-            />
-          ),
-        )}
-      </TopicsList>
-    </Topics>
-  )
-}
-
 const formatRunDate = (
   run: LearningResourceRun,
   asTaughtIn: boolean,
@@ -357,7 +320,11 @@ const formatRunDate = (
 
 const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
   resource,
+  user,
   imgConfig,
+  onAddToLearningPathClick,
+  onAddToUserListClick,
+  signupUrl,
 }) => {
   const [selectedRun, setSelectedRun] = useState(resource?.runs?.[0])
 
@@ -367,7 +334,17 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
 
   useEffect(() => {
     if (resource) {
-      setSelectedRun(resource!.runs![0])
+      const closest = resource?.runs?.reduce(function (prev, current) {
+        const now = Date.now()
+        return prev.start_date &&
+          current.start_date &&
+          Date.parse(prev.start_date) > now &&
+          Date.parse(prev.start_date) - now <
+            Date.parse(current.start_date) - now
+          ? prev
+          : current
+      }, resource!.runs![0])
+      setSelectedRun(closest)
     }
   }, [resource])
 
@@ -385,13 +362,21 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     if (!resource) {
       return <Skeleton height={40} style={{ marginTop: 0, width: "60%" }} />
     }
+
     const dateOptions: SimpleSelectProps["options"] =
-      resource.runs?.map((run) => {
-        return {
-          value: run.id.toString(),
-          label: formatRunDate(run, asTaughtIn),
-        }
-      }) ?? []
+      resource.runs
+        ?.sort((a, b) => {
+          if (a?.start_date && b?.start_date) {
+            return Date.parse(a.start_date) - Date.parse(b.start_date)
+          }
+          return 0
+        })
+        .map((run) => {
+          return {
+            value: run.id.toString(),
+            label: formatRunDate(run, asTaughtIn),
+          }
+        }) ?? []
 
     if (
       [ResourceTypeEnum.Course, ResourceTypeEnum.Program].includes(
@@ -400,14 +385,14 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       multipleRuns
     ) {
       return (
-        <Date>
+        <DateContainer>
           <DateLabel>{label}</DateLabel>
           <SimpleSelect
             value={selectedRun?.id.toString() ?? ""}
             onChange={onDateChange}
             options={dateOptions}
           />
-        </Date>
+        </DateContainer>
       )
     }
 
@@ -417,11 +402,10 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
     if (!formatted) {
       return <NoDateSpacer />
     }
-
     return (
       <DateSingle>
         <DateLabel>{label}</DateLabel>
-        {formatted}
+        {formatted ?? ""}
       </DateSingle>
     )
   }
@@ -437,8 +421,14 @@ const LearningResourceExpanded: React.FC<LearningResourceExpandedProps> = ({
       <ImageSection resource={resource} config={imgConfig} />
       <CallToActionSection resource={resource} hide={isVideo} />
       <DetailSection resource={resource} />
-      <TopicsSection topics={resource?.topics} />
-      <InfoSection resource={resource} run={selectedRun} />
+      <InfoSection
+        resource={resource}
+        run={selectedRun}
+        user={user}
+        onAddToLearningPathClick={onAddToLearningPathClick}
+        onAddToUserListClick={onAddToUserListClick}
+        signupUrl={signupUrl}
+      />
     </Container>
   )
 }

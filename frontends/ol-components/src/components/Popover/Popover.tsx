@@ -5,13 +5,14 @@ import type { PopperProps } from "@mui/material/Popper"
 import Fade from "@mui/material/Fade"
 import { FocusTrap } from "@mui/base/FocusTrap"
 import ClickAwayListener from "@mui/material/ClickAwayListener"
+import { MUI_DRAWER_Z_INDEX } from "../../constants/styleOverrides"
 
 /**
  * Based on MUI demo:
  * https://github.com/mui/material-ui/blob/d3ef60158ba066779102fba775dda6765e2cc0f5/docs/data/material/components/popper/ScrollPlayground.js#L175
  */
 const StyledPopper = styled(MuiPopper)(({ theme }) => ({
-  zIndex: 1,
+  zIndex: MUI_DRAWER_Z_INDEX + 1,
   "& > div": {
     position: "relative",
   },

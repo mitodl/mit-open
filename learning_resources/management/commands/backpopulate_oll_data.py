@@ -22,9 +22,9 @@ class Command(BaseCommand):
             help="Delete all existing records first",
         )
         parser.add_argument(
-            "--api_datafile",
-            dest="api_datafile",
-            help="If provided, use this file as the source of API data",
+            "--sheets_id",
+            dest="sheets_id",
+            help="If provided, use this google sheets id to get the data",
             default=None,
         )
         super().add_arguments(parser)
@@ -41,7 +41,7 @@ class Command(BaseCommand):
             ):
                 resource_delete_actions(learning_resource)
         else:
-            task = get_oll_data.delay(options["api_datafile"])
+            task = get_oll_data.delay(sheets_id=options["sheets_id"])
             self.stdout.write(f"Started task {task} to get oll course data")
             self.stdout.write("Waiting on task...")
             start = now_in_utc()

@@ -6,6 +6,7 @@ from main.envs import get_bool, get_int, get_string
 
 # EDX API Credentials
 EDX_API_URL = get_string("EDX_API_URL", None)
+EDX_PROGRAMS_API_URL = get_string("EDX_PROGRAMS_API_URL", None)
 EDX_API_ACCESS_TOKEN_URL = get_string("EDX_API_ACCESS_TOKEN_URL", None)
 EDX_API_CLIENT_ID = get_string("EDX_API_CLIENT_ID", None)
 EDX_API_CLIENT_SECRET = get_string("EDX_API_CLIENT_SECRET", None)
@@ -57,22 +58,24 @@ MITX_ONLINE_BASE_URL = get_string("MITX_ONLINE_BASE_URL", None)
 MITX_ONLINE_PROGRAMS_API_URL = get_string("MITX_ONLINE_PROGRAMS_API_URL", None)
 MITX_ONLINE_COURSES_API_URL = get_string("MITX_ONLINE_COURSES_API_URL", None)
 
+
 # Open Learning Library settings
-OLL_API_URL = get_string("OLL_API_URL", None)
-OLL_API_ACCESS_TOKEN_URL = get_string("OLL_API_ACCESS_TOKEN_URL", None)
-OLL_API_CLIENT_ID = get_string("OLL_API_CLIENT_ID", None)
-OLL_API_CLIENT_SECRET = get_string("OLL_API_CLIENT_SECRET", None)
-OLL_BASE_URL = get_string("OLL_BASE_URL", None)
-OLL_ALT_URL = get_string("OLL_ALT_URL", None)
 OLL_LEARNING_COURSE_BUCKET_NAME = get_string("OLL_LEARNING_COURSE_BUCKET_NAME", None)
 OLL_LEARNING_COURSE_BUCKET_PREFIX = get_string(
     "OLL_LEARNING_COURSE_BUCKET_PREFIX", "open-learning-library/courses"
 )
 
 # More MIT URLs
-SEE_BASE_URL = get_string("SEE_BASE_URL", None)
-MITPE_BASE_URL = get_string("MITPE_BASE_URL", None)
+SEE_API_URL = get_string("SEE_API_URL", None)
+SEE_API_ACCESS_TOKEN_URL = get_string("SEE_API_ACCESS_TOKEN_URL", None)
+SEE_API_CLIENT_ID = get_string("SEE_API_CLIENT_ID", None)
+SEE_API_CLIENT_SECRET = get_string("SEE_API_CLIENT_SECRET", None)
+SEE_API_ENABLED = get_bool("SEE_API_ENABLED", default=False)
+
 CSAIL_BASE_URL = get_string("CSAIL_BASE_URL", None)
+SEE_BASE_URL = get_string("SEE_BASE_URL", None)
+MITPE_BASE_URL = get_string("MITPE_BASE_URL", "https://professional.mit.edu/")
+MITPE_BASE_API_URL = get_string("MITPE_BASE_API_URL", None)
 
 # course catalog video etl settings
 OPEN_VIDEO_DATA_BRANCH = get_string("OPEN_VIDEO_DATA_BRANCH", "master")
@@ -91,3 +94,4 @@ OPEN_PODCAST_DATA_BRANCH = get_string("OPEN_PODCAST_DATA_BRANCH", "master")
 TIKA_ACCESS_TOKEN = get_string("TIKA_ACCESS_TOKEN", None)
 TIKA_TIMEOUT = get_int("TIKA_TIMEOUT", 60)
 TIKA_OCR_STRATEGY = get_string("TIKA_OCR_STRATEGY", "no_ocr")
+SKIP_TIKA = get_bool("SKIP_TIKA", default=False)

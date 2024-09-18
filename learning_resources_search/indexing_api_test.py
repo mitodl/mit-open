@@ -8,7 +8,7 @@ from types import SimpleNamespace
 
 import pytest
 from anys import ANY_DICT, ANY_STR
-from opensearchpy.exceptions import NotFoundError
+from opensearchpy.exceptions import ConflictError, NotFoundError
 
 from learning_resources.factories import (
     ContentFileFactory,
@@ -29,6 +29,7 @@ from learning_resources_search.exceptions import ReindexError
 from learning_resources_search.factories import PercolateQueryFactory
 from learning_resources_search.indexing_api import (
     clear_and_create_index,
+    clear_featured_rank,
     create_backing_index,
     deindex_content_files,
     deindex_document,
@@ -43,6 +44,7 @@ from learning_resources_search.indexing_api import (
     index_learning_resources,
     index_run_content_files,
     switch_indices,
+    update_document_with_partial,
 )
 from learning_resources_search.models import PercolateQuery
 from learning_resources_search.utils import remove_child_queries
@@ -51,7 +53,7 @@ from main.utils import chunks
 pytestmark = [pytest.mark.django_db, pytest.mark.usefixtures("mocked_es")]
 
 
-@pytest.fixture()
+@pytest.fixture
 def mocked_es(mocker, settings):
     """ES client objects/functions mock"""
     index_name = "test"
@@ -809,4 +811,80 @@ def test_index_percolate_query(mocker):
 
     mock_index_percolators.assert_any_call(
         [query.id], IndexestoUpdate.current_index.value
+    )
+
+
+@pytest.mark.parametrize("object_type", [COURSE_TYPE, PROGRAM_TYPE])
+def test_update_document_with_partial(mocked_es, mocker, object_type):
+    """
+    Test that update_document_with_partial gets a connection and calls the correct opensearch-dsl function
+    """
+    mock_get_aliases = mocker.patch(
+        "learning_resources_search.indexing_api.get_active_aliases",
+        return_value=[object_type],
+    )
+    doc_id, data = ("doc_id", {"key1": "value1"})
+    update_document_with_partial(doc_id, data, object_type)
+    mock_get_aliases.assert_called_once_with(mocked_es.conn, object_types=[object_type])
+    mocked_es.get_conn.assert_called_once_with()
+    mocked_es.conn.update.assert_called_once_with(
+        index=object_type,
+        body={"doc": data},
+        id=doc_id,
+        params={"retry_on_conflict": 0},
+    )
+
+
+def test_update_partial_conflict_logging(mocker, mocked_es):
+    """
+    Test that update_document_with_partial logs an error if a version conflict occurs
+    """
+    patched_logger = mocker.patch("learning_resources_search.indexing_api.log")
+    doc_id, data = ("doc_id", {"key1": "value1", "object_type": COURSE_TYPE})
+    mocked_es.conn.update.side_effect = ConflictError
+    update_document_with_partial(doc_id, data, COURSE_TYPE)
+    assert patched_logger.error.called is True
+
+
+@pytest.mark.parametrize("clear_all_greater_than", [True, False])
+def test_clear_featured_rank(mocked_es, mocker, clear_all_greater_than):
+    """
+    Test that clear_featured_rank makest the correct opensearch-dsl call
+    """
+    mock_get_aliases = mocker.patch(
+        "learning_resources_search.indexing_api.get_active_aliases",
+        return_value=["index"],
+    )
+    if clear_all_greater_than:
+        query = {
+            "range": {
+                "featured_rank": {
+                    "gte": 3,
+                }
+            }
+        }
+    else:
+        query = {
+            "range": {
+                "featured_rank": {
+                    "gte": 3,
+                    "lt": 4,
+                }
+            }
+        }
+
+    clear_featured_rank(3, clear_all_greater_than)
+    mock_get_aliases.assert_called_once_with(mocked_es.conn)
+    mocked_es.get_conn.assert_called_once_with()
+    mocked_es.conn.update_by_query.assert_called_once_with(
+        index="index",
+        conflicts="proceed",
+        body={
+            "script": {
+                "source": "ctx._source.featured_rank = params.newValue",
+                "lang": "painless",
+                "params": {"newValue": None},
+            },
+            "query": query,
+        },
     )

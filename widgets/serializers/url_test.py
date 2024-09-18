@@ -6,7 +6,7 @@ from widgets.factories import WidgetInstanceFactory
 from widgets.serializers.url import URLWidgetSerializer
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_url_widget_serialize():
     """Tests that the url widget serializes correctly"""
     widget_instance = WidgetInstanceFactory.create(type_url=True)

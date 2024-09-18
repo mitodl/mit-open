@@ -26,7 +26,7 @@ import type {
 import type { BaseAPI } from "../generated/v1/base"
 import type { BaseAPI as BaseAPIv0 } from "../generated/v0/base"
 
-const { MITOPEN_API_BASE_URL: API_BASE_URL } = APP_SETTINGS
+const { MITOL_API_BASE_URL: API_BASE_URL } = APP_SETTINGS
 
 // OpenAPI Generator declares parameters using interfaces, which makes passing
 // them to functions a little annoying.
@@ -34,7 +34,15 @@ const { MITOPEN_API_BASE_URL: API_BASE_URL } = APP_SETTINGS
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const query = (params: any) => {
   if (!params || Object.keys(params).length === 0) return ""
-  return `?${new URLSearchParams(params).toString()}`
+  const queryString = new URLSearchParams()
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) {
+      value.forEach((v) => queryString.append(key, String(v)))
+    } else {
+      queryString.append(key, String(value))
+    }
+  }
+  return `?${queryString.toString()}`
 }
 
 const queryify = (params: unknown) => {
@@ -67,6 +75,14 @@ const learningResources = {
     `${API_BASE_URL}/api/v1/learning_resources/${params.id}/`,
   featured: (params?: Params<FeaturedApi, "featuredList">) =>
     `${API_BASE_URL}/api/v1/featured/${query(params)}`,
+  setLearningPathRelationships: (
+    params?: Params<LRApi, "learningResourcesLearningPathsPartialUpdate">,
+  ) =>
+    `${API_BASE_URL}/api/v1/learning_resources/${params?.id}/learning_paths/${params?.learning_path_id ? query({ learning_path_id: params?.learning_path_id }) : ""}`,
+  setUserListRelationships: (
+    params?: Params<LRApi, "learningResourcesUserlistsPartialUpdate">,
+  ) =>
+    `${API_BASE_URL}/api/v1/learning_resources/${params?.id}/userlists/${params?.userlist_id ? query({ userlist_id: params?.userlist_id }) : ""}`,
 }
 
 const offerors = {
@@ -153,6 +169,8 @@ const userSubscription = {
 }
 
 const channels = {
+  counts: (channelType: string) =>
+    `${API_BASE_URL}/api/v0/channels/counts/${channelType}/`,
   details: (channelType: string, name: string) =>
     `${API_BASE_URL}/api/v0/channels/type/${channelType}/${name}/`,
   patch: (id: number) => `${API_BASE_URL}/api/v0/channels/${id}/`,

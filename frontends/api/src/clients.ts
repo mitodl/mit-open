@@ -24,9 +24,9 @@ import {
 
 import axiosInstance from "./axios"
 
-const { MITOPEN_API_BASE_URL } = APP_SETTINGS
+const { MITOL_API_BASE_URL } = APP_SETTINGS
 
-const BASE_PATH = MITOPEN_API_BASE_URL?.replace(/\/+$/, "") ?? ""
+const BASE_PATH = MITOL_API_BASE_URL?.replace(/\/+$/, "") ?? ""
 
 const learningResourcesApi = new LearningResourcesApi(
   undefined,

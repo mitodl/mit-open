@@ -5,7 +5,7 @@ from django.urls import reverse
 
 from learning_resources import factories
 from learning_resources.constants import PrivacyLevel
-from learning_resources.models import UserList
+from learning_resources.models import UserList, UserListRelationship
 from main.factories import UserFactory
 
 # pylint:disable=redefined-outer-name, use-maxsplit-arg
@@ -283,3 +283,70 @@ def test_get_resource_user_lists(client, user, is_author, is_unlisted):
             assert item.get("child") == course.learning_resource.id
     else:
         assert items_json == []
+
+
+def test_set_userlist_relationships(client, user):
+    """Test the userlists endpoint for setting multiple userlist relationships"""
+    course = factories.CourseFactory.create()
+    userlists = factories.UserListFactory.create_batch(3, author=user)
+    previous_list = factories.UserListFactory.create(author=user)
+    factories.UserListRelationshipFactory.create(
+        parent=previous_list, child=course.learning_resource
+    )
+    url = reverse(
+        "lr:v1:learning_resource_relationships_api-userlists",
+        args=[course.learning_resource.id],
+    )
+    client.force_login(user)
+    resp = client.patch(
+        f"{url}?{"".join([f"userlist_id={userlist.id}&" for userlist in userlists])}"
+    )
+    assert resp.status_code == 200
+    for userlist in userlists:
+        assert userlist.resources.filter(id=course.learning_resource.id).exists()
+    assert not previous_list.resources.filter(id=course.learning_resource.id).exists()
+
+
+def test_set_userlist_relationships_unauthorized(client, user):
+    """Test the userlists endpoint for unauthorized users"""
+    course = factories.CourseFactory.create()
+    userlists = factories.UserListFactory.create_batch(3)
+    url = reverse(
+        "lr:v1:learning_resource_relationships_api-userlists",
+        args=[course.learning_resource.id],
+    )
+    client.force_login(user)
+    with pytest.raises(PermissionError):
+        client.patch(
+            f"{url}?{"".join([f"userlist_id={userlist.id}&" for userlist in userlists])}"
+        )
+    for userlist in userlists:
+        assert not userlist.resources.filter(id=course.learning_resource.id).exists()
+
+
+def test_set_userlist_relationships_empty_list(client, user):
+    """Test that sending an empty list in the request does not unassign the wrong userlists"""
+
+    def assign_userlists(course, userlists):
+        for userlist in userlists:
+            factories.UserListRelationshipFactory.create(
+                parent=userlist, child=course.learning_resource
+            )
+
+    course = factories.CourseFactory.create()
+    unowned_userlists = factories.UserListFactory.create_batch(3)
+    owned_userlists = factories.UserListFactory.create_batch(3, author=user)
+    assign_userlists(course, unowned_userlists)
+    assign_userlists(course, owned_userlists)
+    assert (
+        UserListRelationship.objects.filter(child=course.learning_resource).count() == 6
+    )
+    url = reverse(
+        "lr:v1:learning_resource_relationships_api-userlists",
+        args=[course.learning_resource.id],
+    )
+    client.force_login(user)
+    client.patch(url)
+    assert (
+        UserListRelationship.objects.filter(child=course.learning_resource).count() == 3
+    )

@@ -1,6 +1,66 @@
+import logging
+import urllib
+
 from opensearch_dsl import Search
 
+from channels.models import Channel
 from learning_resources.hooks import get_plugin_manager
+from learning_resources_search.constants import LEARNING_RESOURCE
+from learning_resources_search.models import PercolateQuery
+
+log = logging.getLogger()
+
+
+def prune_channel_subscriptions():
+    from learning_resources_search.api import (
+        adjust_original_query_for_percolate,
+        adjust_query_for_percolator,
+    )
+    from learning_resources_search.serializers import (
+        PercolateQuerySubscriptionRequestSerializer,
+    )
+
+    for channel in Channel.objects.all():
+        query_string = channel.search_filter
+        if not query_string:
+            continue
+        percolate_serializer = PercolateQuerySubscriptionRequestSerializer(
+            data=urllib.parse.parse_qs(query_string)
+        )
+        percolate_serializer.is_valid()
+        adjusted_original_query = adjust_original_query_for_percolate(
+            percolate_serializer.get_search_request_data()
+            | {"endpoint": LEARNING_RESOURCE}
+        )
+        actual_query, _ = PercolateQuery.objects.get_or_create(
+            source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+            original_query=adjusted_original_query,
+            query=adjust_query_for_percolator(adjusted_original_query),
+        )
+        queries = PercolateQuery.objects.filter(
+            original_query__contains=urllib.parse.parse_qs(query_string),
+            source_type=PercolateQuery.CHANNEL_SUBSCRIPTION_TYPE,
+        )
+
+        duplicates = [q for q in queries if q.original_query != adjusted_original_query]
+        if actual_query:
+            for dup in duplicates:
+                if (
+                    dup.source_type == actual_query.source_type
+                    and dup.source_channel() == channel
+                    and dup.original_query != actual_query.original_query
+                ):
+                    for user in dup.users.all():
+                        dup.users.remove(user)
+                        dup.save()
+                        actual_query.users.add(user)
+                    msg = (
+                        f"removing duplicate percolate query ({dup.id}) "
+                        f"for channel {channel.title}"
+                    )
+                    log.info(msg)
+                    dup.delete()
+                actual_query.save()
 
 
 def remove_child_queries(query):

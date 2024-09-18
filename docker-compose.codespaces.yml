@@ -1,0 +1,21 @@
+include:
+  - docker-compose.services.yml
+
+services:
+  web:
+    extends:
+      file: docker-compose.apps.yml
+      service: web
+    env_file: env/codespaces.env
+
+  watch:
+    extends:
+      file: docker-compose.apps.yml
+      service: watch
+    env_file: env/codespaces.env
+
+  celery:
+    extends:
+      file: docker-compose.apps.yml
+      service: celery
+    env_file: env/codespaces.env

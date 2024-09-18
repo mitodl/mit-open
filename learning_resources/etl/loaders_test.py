@@ -11,12 +11,13 @@ from django.forms.models import model_to_dict
 from django.utils import timezone
 
 from learning_resources.constants import (
+    Availability,
     LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     OfferedBy,
     PlatformType,
-    RunAvailability,
+    RunStatus,
 )
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
@@ -25,13 +26,13 @@ from learning_resources.etl.constants import (
 )
 from learning_resources.etl.exceptions import ExtractException
 from learning_resources.etl.loaders import (
+    calculate_completeness,
     load_content_file,
     load_content_files,
     load_course,
     load_courses,
     load_image,
     load_instructors,
-    load_next_start_date_and_prices,
     load_offered_by,
     load_playlist,
     load_playlists,
@@ -41,6 +42,7 @@ from learning_resources.etl.loaders import (
     load_program,
     load_programs,
     load_run,
+    load_run_dependent_values,
     load_topics,
     load_video,
     load_video_channels,
@@ -50,6 +52,8 @@ from learning_resources.etl.xpro import _parse_datetime
 from learning_resources.factories import (
     ContentFileFactory,
     CourseFactory,
+    LearningResourceContentTagFactory,
+    LearningResourceDepartmentFactory,
     LearningResourceFactory,
     LearningResourceInstructorFactory,
     LearningResourceOfferorFactory,
@@ -131,7 +135,7 @@ def mock_upsert_tasks(mocker):
     )
 
 
-@pytest.fixture()
+@pytest.fixture
 def learning_resource_offeror():
     """Return a LearningResourceOfferer"""
     return LearningResourceOfferorFactory.create()
@@ -301,7 +305,8 @@ def test_load_program_bad_platform(mocker):
 @pytest.mark.parametrize("blocklisted", [True, False])
 @pytest.mark.parametrize("resource_format", [LearningResourceFormat.hybrid.name, None])
 @pytest.mark.parametrize("has_upcoming_run", [True, False])
-def test_load_course(  # noqa: PLR0913
+@pytest.mark.parametrize("has_departments", [True, False])
+def test_load_course(  # noqa: PLR0913,PLR0912,PLR0915
     mock_upsert_tasks,
     course_exists,
     is_published,
@@ -309,6 +314,7 @@ def test_load_course(  # noqa: PLR0913
     blocklisted,
     resource_format,
     has_upcoming_run,
+    has_departments,
 ):
     """Test that load_course loads the course"""
     platform = LearningResourcePlatformFactory.create()
@@ -349,7 +355,11 @@ def test_load_course(  # noqa: PLR0913
             start_date=old_start_date,
         )
     assert Course.objects.count() == (1 if course_exists else 0)
-
+    if has_departments:
+        department = LearningResourceDepartmentFactory.create()
+        departments = [department.department_id]
+    else:
+        departments = []
     format_data = {"learning_format": [resource_format]} if resource_format else {}
     props = {
         "readable_id": learning_resource.readable_id,
@@ -360,6 +370,7 @@ def test_load_course(  # noqa: PLR0913
         "description": learning_resource.description,
         "url": learning_resource.url,
         "published": is_published,
+        "departments": departments,
         **format_data,
     }
 
@@ -434,6 +445,12 @@ def test_load_course(  # noqa: PLR0913
             else LearningResourceFormat.online.name
         ]
     )
+
+    if departments == []:
+        assert result.departments.count() == 0
+    else:
+        assert result.departments.count() == 1
+        assert result.departments.first().department_id == departments[0]
 
     props.pop("learning_format")
     for key, value in props.items():
@@ -610,7 +627,7 @@ def test_load_course_unique_urls(unique_url):
 def test_load_course_fetch_only(mocker, course_exists):
     """When fetch_only is True, course should just be fetched from db"""
     mock_next_runs_prices = mocker.patch(
-        "learning_resources.etl.loaders.load_next_start_date_and_prices"
+        "learning_resources.etl.loaders.load_run_dependent_values"
     )
     mock_warn = mocker.patch("learning_resources.etl.loaders.log.warning")
     platform = LearningResourcePlatformFactory.create(code=PlatformType.mitpe.name)
@@ -637,11 +654,9 @@ def test_load_course_fetch_only(mocker, course_exists):
 
 
 @pytest.mark.parametrize("run_exists", [True, False])
-@pytest.mark.parametrize(
-    "availability", [RunAvailability.archived.value, RunAvailability.current.value]
-)
+@pytest.mark.parametrize("status", [RunStatus.archived.value, RunStatus.current.value])
 @pytest.mark.parametrize("certification", [True, False])
-def test_load_run(run_exists, availability, certification):
+def test_load_run(run_exists, status, certification):
     """Test that load_run loads the course run"""
     course = LearningResourceFactory.create(
         is_course=True, runs=[], certification=certification
@@ -654,10 +669,10 @@ def test_load_run(run_exists, availability, certification):
     props = model_to_dict(
         LearningResourceRunFactory.build(
             run_id=learning_resource_run.run_id,
-            availability=availability,
             prices=["70.00", "20.00"],
         )
     )
+    props["status"] = status
 
     del props["id"]
     del props["learning_resource"]
@@ -675,7 +690,7 @@ def test_load_run(run_exists, availability, certification):
 
     assert result.prices == (
         []
-        if (availability == RunAvailability.archived.value or certification is False)
+        if (status == RunStatus.archived.value or certification is False)
         else sorted(props["prices"])
     )
     props.pop("prices")
@@ -843,12 +858,22 @@ def test_load_programs(mocker, mock_blocklist, mock_duplicates):
 
 
 @pytest.mark.parametrize("is_published", [True, False])
-def test_load_content_files(mocker, is_published):
+@pytest.mark.parametrize("extra_run", [True, False])
+@pytest.mark.parametrize("calc_score", [True, False])
+def test_load_content_files(mocker, is_published, extra_run, calc_score):
     """Test that load_content_files calls the expected functions"""
-    course = CourseFactory.create()
+    course = LearningResourceFactory.create(is_course=True, create_runs=False)
     course_run = LearningResourceRunFactory.create(
-        published=is_published, learning_resource=course.learning_resource
+        published=is_published, learning_resource=course
     )
+    if extra_run:
+        LearningResourceRunFactory.create(
+            published=is_published,
+            learning_resource=course,
+            start_date=now_in_utc() - timedelta(days=365),
+        )
+    run_count = 2 if extra_run else 1
+    assert course.runs.count() == run_count
 
     returned_content_file_id = 1
 
@@ -859,16 +884,22 @@ def test_load_content_files(mocker, is_published):
         autospec=True,
     )
     mock_bulk_index = mocker.patch(
-        "learning_resources.etl.loaders.resource_run_upserted_actions",
+        "learning_resources_search.plugins.tasks.index_run_content_files",
     )
     mock_bulk_delete = mocker.patch(
-        "learning_resources.etl.loaders.resource_run_unpublished_actions",
+        "learning_resources_search.plugins.tasks.deindex_run_content_files",
         autospec=True,
     )
-    load_content_files(course_run, content_data)
+    mock_calc_score = mocker.patch(
+        "learning_resources.etl.loaders.calculate_completeness"
+    )
+    load_content_files(course_run, content_data, calc_completeness=calc_score)
     assert mock_load_content_file.call_count == len(content_data)
     assert mock_bulk_index.call_count == (1 if is_published else 0)
-    assert mock_bulk_delete.call_count == (0 if is_published else 1)
+    assert mock_bulk_delete.call_count == (
+        run_count if not is_published else run_count - 1
+    )
+    assert mock_calc_score.call_count == (1 if calc_score else 0)
 
 
 def test_load_content_file():
@@ -1429,16 +1460,80 @@ def test_load_course_percolation(
 
 
 @pytest.mark.parametrize("certification", [True, False])
-def test_load_prices_by_certificate(certification):
-    """Prices should be empty for a course without certificates, else equal to only published run"""
+def test_load_run_dependent_values(certification):
+    """Prices and availability should be correctly assigned based on run data"""
     course = LearningResourceFactory.create(
         is_course=True, certification=certification, runs=[]
     )
+    closest_date = now_in_utc() + timedelta(days=1)
+    furthest_date = now_in_utc() + timedelta(days=2)
     run = LearningResourceRunFactory.create(
         learning_resource=course,
         published=True,
-        availability=RunAvailability.current.value,
+        availability=Availability.dated.name,
         prices=[Decimal("0.00"), Decimal("20.00")],
+        start_date=closest_date,
     )
-    load_next_start_date_and_prices(course)
-    assert course.prices == ([] if not certification else run.prices)
+    LearningResourceRunFactory.create(
+        learning_resource=course,
+        published=True,
+        availability=Availability.dated.name,
+        prices=[Decimal("0.00"), Decimal("50.00")],
+        start_date=furthest_date,
+    )
+    result = load_run_dependent_values(course)
+    assert result.next_start_date == course.next_start_date == closest_date
+    assert result.prices == course.prices == ([] if not certification else run.prices)
+    assert result.availability == course.availability == Availability.dated.name
+
+
+@pytest.mark.parametrize(
+    ("is_scholar_course", "tag_counts", "expected_score"),
+    [
+        (False, [24, 24, 1, 1, 8, 1, 1], 1.0),
+        (False, [24, 0, 0, 0, 0, 0, 0], 0.4),
+        (False, [12, 0, 0, 0, 0, 0, 0], 0.2),
+        (False, [0, 24, 0, 0, 0, 0, 0], 0.2),
+        (False, [0, 0, 1, 0, 0, 0, 0], 0.2),
+        (False, [0, 0, 0, 1, 0, 0, 0], 0.2),
+        (False, [0, 0, 0, 0, 4, 4, 2], 0.2),
+        (False, [0, 0, 0, 0, 2, 2, 1], 0.1),
+        (True, [0, 0, 0, 0, 0, 1, 0], 1.0),
+    ],
+)
+def test_calculate_completeness(mocker, is_scholar_course, tag_counts, expected_score):
+    """Test that calculate_completeness returns the expected value"""
+    mock_index = mocker.patch("learning_resources.etl.loaders.update_index")
+    tag_names = [
+        "Lecture Videos",
+        "Lecture Notes",
+        "Exams with Solutions",
+        "Exams",
+        "Problem Sets with Solutions",
+        "Problem Sets",
+        "Assignments",
+    ]
+    resource = LearningResourceFactory.create(
+        is_course=True,
+        etl_source=ETLSource.ocw.name,
+        platform=LearningResourcePlatformFactory.create(code=PlatformType.ocw.name),
+        offered_by=LearningResourceOfferorFactory.create(is_ocw=True),
+        completeness=1.0,
+    )
+    run = resource.runs.first()
+    if is_scholar_course:
+        course = resource.course
+        course.course_numbers = [{"value": "scholarly-course-18.01SC"}]
+        course.save()
+    tags_with_counts = zip(tag_names, tag_counts)
+    tags_list = []
+    for tag_name, count in tags_with_counts:
+        content_tag = LearningResourceContentTagFactory.create(name=tag_name)
+        ContentFileFactory.create_batch(count, run=run, content_tags=[content_tag])
+        tags_list.extend([[tag_name]] * count)
+    assert round(calculate_completeness(run), ndigits=2) == expected_score
+    assert (
+        round(calculate_completeness(run, content_tags=tags_list), ndigits=2)
+        == expected_score
+    )
+    assert mock_index.call_count == (1 if resource.completeness != 1.0 else 0)

@@ -7,7 +7,12 @@ import Grid from "@mui/material/Grid"
 import { RiCalendarLine, RiCloseLine, RiSearchLine } from "@remixicon/react"
 import { fn } from "@storybook/test"
 
-const SIZES = ["medium", "hero"] satisfies InputProps["size"][]
+const SIZES = [
+  "hero",
+  "large",
+  "medium",
+  "small",
+] satisfies InputProps["size"][]
 const ADORNMENTS = {
   None: undefined,
   SearchIcon: (
@@ -85,7 +90,9 @@ export const Sizes: Story = {
   render: (args) => {
     return (
       <Stack direction="row" gap={1}>
-        <Input {...args} />
+        <Input {...args} size="small" />
+        <Input {...args} size="medium" />
+        <Input {...args} size="large" />
         <Input {...args} size="hero" />
       </Stack>
     )
@@ -104,11 +111,11 @@ export const Adornments: Story = {
       },
     ]
     return (
-      <Grid container maxWidth="600px" spacing={2}>
+      <Grid container maxWidth="1400px" spacing={2}>
         {Object.values(adornments).flatMap((props, i) =>
           SIZES.map((size) => {
             return (
-              <Grid item xs={6} key={`${i}-${size}`}>
+              <Grid item xs={3} key={`${i}-${size}`}>
                 <Input {...args} size={size} {...props} />
               </Grid>
             )
@@ -143,7 +150,12 @@ export const States: Story = {
           Initially Focused
         </Grid>
         <Grid item xs={8}>
-          <Input autoFocus {...args} />
+          <Input
+            // This is a story just demonstrating the autofocus prop
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
+            {...args}
+          />
         </Grid>
         <Grid item xs={4}>
           Error

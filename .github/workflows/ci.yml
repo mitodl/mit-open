@@ -8,7 +8,7 @@ jobs:
       # Label used to access the service container
       db:
         # Docker Hub image
-        image: postgres:12.19
+        image: postgres:12.20
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -23,12 +23,12 @@ jobs:
           - 5432:5432
 
       redis:
-        image: redis:5.0.14
+        image: redis:7.4.0
         ports:
           - 6379:6379
 
       elastic:
-        image: docker.elastic.co/elasticsearch/elasticsearch:7.17.23
+        image: docker.elastic.co/elasticsearch/elasticsearch:8.15.1
         env:
           network.host: "0.0.0.0"
           http.cors.enabled: "true"
@@ -50,15 +50,15 @@ jobs:
         run: cat Aptfile | sudo xargs apt-get install
 
       - name: Install poetry
-        uses: snok/install-poetry@93ada01c735cc8a383ce0ce2ae205a21c415379b # v1
+        uses: snok/install-poetry@76e04a911780d5b312d89783f7b1cd627778900a # v1
         with:
           version: 1.7.1
           virtualenvs-create: true
           virtualenvs-in-project: true
 
-      - uses: actions/setup-python@39cd14951b08e74b54015e9e001cdefcf80e669f # v5
+      - uses: actions/setup-python@f677139bbe7f9c59b41e40162b753c062f5d49a3 # v5
         with:
-          python-version: "3.12.4"
+          python-version: "3.12.5"
           cache: "poetry"
 
       - name: Validate lockfile
@@ -77,21 +77,21 @@ jobs:
           ./scripts/test/python_tests.sh
         env:
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres # pragma: allowlist secret
-          MITOPEN_SECURE_SSL_REDIRECT: "False"
-          MITOPEN_DB_DISABLE_SSL: "True"
-          MITOPEN_FEATURES_DEFAULT: "True"
+          MITOL_SECURE_SSL_REDIRECT: "False"
+          MITOL_DB_DISABLE_SSL: "True"
+          MITOL_FEATURES_DEFAULT: "True"
           OPENSEARCH_URL: localhost:9200
           CELERY_TASK_ALWAYS_EAGER: "True"
           CELERY_BROKER_URL: redis://localhost:6379/4
           CELERY_RESULT_BACKEND: redis://localhost:6379/4
           TIKA_CLIENT_ONLY: "True"
-          MITOPEN_APP_BASE_URL: http://localhost:8062/
+          MITOL_APP_BASE_URL: http://localhost:8062/
           MAILGUN_KEY: fake_mailgun_key
           MAILGUN_SENDER_DOMAIN: other.fake.site
           OPENSEARCH_INDEX: testindex
           INDEXING_API_USERNAME: mitodl
-          MITOPEN_COOKIE_DOMAIN: localhost
-          MITOPEN_COOKIE_NAME: cookie_monster
+          MITOL_COOKIE_DOMAIN: localhost
+          MITOL_COOKIE_NAME: cookie_monster
 
       - name: Upload coverage to CodeCov
         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4.5.0
@@ -117,13 +117,16 @@ jobs:
       - name: Dependencies are consistent
         run: yarn syncpack list-mismatches
 
+      - name: Format check
+        run: yarn workspace frontends fmt-check
+
       - name: Style lint
         run: yarn run style-lint
 
       - name: Webpack build
         run: yarn run build
         env:
-          MITOPEN_API_BASE_URL: https://api.mitopen-test.odl.mit.edu
+          MITOL_API_BASE_URL: https://api.mitlearn-test.odl.mit.edu
 
       - name: Lints
         run: yarn run lint-check
@@ -142,10 +145,10 @@ jobs:
           NODE_ENV: test
 
       - name: Upload frontend build
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4
         with:
           name: frontend-build
-          path: frontends/mit-open/build
+          path: frontends/mit-learn/build
 
       - name: Upload coverage to CodeCov
         uses: codecov/codecov-action@e28ff129e5465c2c0dcc6f003fc735cb6ae0c673 # v4.5.0
@@ -168,7 +171,7 @@ jobs:
         run: yarn install
 
       - name: Build Storybook
-        run: yarn workspace mit-open build-storybook
+        run: yarn workspace mit-learn build-storybook
 
   openapi-generated-client-check-v0:
     # This job checks that the output of openapi-generator-typescript-axios that
@@ -269,7 +272,7 @@ jobs:
         run: NODE_ENV=production yarn build
 
       - name: Build exported components
-        run: NODE_ENV=production yarn workspace mit-open build-exports
+        run: NODE_ENV=production yarn workspace mit-learn build-exports
 
       - name: Build services
         run: docker compose -f docker-compose-e2e-tests.yml build
@@ -298,7 +301,7 @@ jobs:
 
       - name: Upload artifact
         if: always()
-        uses: actions/upload-artifact@0b2256b8c012f0828dc542b3febcab082c67f72b # v4
+        uses: actions/upload-artifact@50769540e7f4bd5e21e526ee35c689e35e0d6874 # v4
         with:
           name: playwright-report
           path: e2e_testing/playwright-report

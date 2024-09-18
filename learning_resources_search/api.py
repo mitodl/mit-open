@@ -9,7 +9,6 @@ from opensearch_dsl import Search
 from opensearch_dsl.query import MoreLikeThis, Percolate
 from opensearchpy.exceptions import NotFoundError
 
-from learning_resources.constants import LEARNING_RESOURCE_SORTBY_OPTIONS
 from learning_resources.models import LearningResource
 from learning_resources_search.connection import (
     get_default_alias_name,
@@ -21,6 +20,7 @@ from learning_resources_search.constants import (
     DEPARTMENT_QUERY_FIELDS,
     LEARNING_RESOURCE,
     LEARNING_RESOURCE_QUERY_FIELDS,
+    LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS,
     LEARNING_RESOURCE_TYPES,
     RESOURCEFILE_QUERY_FIELDS,
     RUN_INSTRUCTORS_QUERY_FIELDS,
@@ -39,7 +39,7 @@ log = logging.getLogger(__name__)
 
 LEARN_SUGGEST_FIELDS = ["title.trigram", "description.trigram"]
 COURSENUM_SORT_FIELD = "course.course_numbers.sort_coursenum"
-DEFAULT_SORT = ["is_learning_material", "-views"]
+DEFAULT_SORT = ["featured_rank", "is_learning_material", "-created_on"]
 
 
 def gen_content_file_id(content_file_id):
@@ -89,7 +89,7 @@ def generate_sort_clause(search_params):
     """
 
     sort = (
-        LEARNING_RESOURCE_SORTBY_OPTIONS.get(search_params.get("sortby"), {})
+        LEARNING_RESOURCE_SEARCH_SORTBY_OPTIONS.get(search_params.get("sortby"), {})
         .get("sort")
         .replace("0__", "")
         .replace("__", ".")
@@ -193,7 +193,7 @@ def generate_content_file_text_clause(text):
     return wrap_text_clause(text_query)
 
 
-def generate_learning_resources_text_clause(text):
+def generate_learning_resources_text_clause(text, search_mode, slop):
     """
     Return text clause for the query
 
@@ -207,15 +207,33 @@ def generate_learning_resources_text_clause(text):
         "query_string" if text.startswith('"') and text.endswith('"') else "multi_match"
     )
 
+    extra_params = {}
+
+    if query_type == "multi_match" and search_mode:
+        extra_params["type"] = search_mode
+
+        if search_mode == "phrase" and slop:
+            extra_params["slop"] = slop
+
     if text:
         text_query = {
             "should": [
-                {query_type: {"query": text, "fields": LEARNING_RESOURCE_QUERY_FIELDS}},
+                {
+                    query_type: {
+                        "query": text,
+                        "fields": LEARNING_RESOURCE_QUERY_FIELDS,
+                        **extra_params,
+                    }
+                },
                 {
                     "nested": {
                         "path": "topics",
                         "query": {
-                            query_type: {"query": text, "fields": TOPICS_QUERY_FIELDS}
+                            query_type: {
+                                "query": text,
+                                "fields": TOPICS_QUERY_FIELDS,
+                                **extra_params,
+                            }
                         },
                     }
                 },
@@ -226,23 +244,20 @@ def generate_learning_resources_text_clause(text):
                             query_type: {
                                 "query": text,
                                 "fields": DEPARTMENT_QUERY_FIELDS,
+                                **extra_params,
                             }
                         },
-                    }
-                },
-                {
-                    "wildcard": {
-                        "readable_id": {
-                            "value": f"{text.upper()}*",
-                            "rewrite": "constant_score",
-                        }
                     }
                 },
                 {
                     "nested": {
                         "path": "course.course_numbers",
                         "query": {
-                            query_type: {"query": text, "fields": COURSE_QUERY_FIELDS}
+                            query_type: {
+                                "query": text,
+                                "fields": COURSE_QUERY_FIELDS,
+                                **extra_params,
+                            }
                         },
                     }
                 },
@@ -250,7 +265,11 @@ def generate_learning_resources_text_clause(text):
                     "nested": {
                         "path": "runs",
                         "query": {
-                            query_type: {"query": text, "fields": RUNS_QUERY_FIELDS}
+                            query_type: {
+                                "query": text,
+                                "fields": RUNS_QUERY_FIELDS,
+                                **extra_params,
+                            }
                         },
                     }
                 },
@@ -264,6 +283,7 @@ def generate_learning_resources_text_clause(text):
                                     query_type: {
                                         "query": text,
                                         "fields": RUN_INSTRUCTORS_QUERY_FIELDS,
+                                        **extra_params,
                                     }
                                 },
                             }
@@ -277,6 +297,7 @@ def generate_learning_resources_text_clause(text):
                             query_type: {
                                 "query": text,
                                 "fields": RESOURCEFILE_QUERY_FIELDS,
+                                **extra_params,
                             }
                         },
                         "score_mode": "avg",
@@ -513,37 +534,61 @@ def percolate_matches_for_document(document_id):
     return percolated_queries
 
 
-def add_text_query_to_search(
-    search, text, endpoint, yearly_decay_percent, query_type_query
-):
-    if endpoint == CONTENT_FILE_TYPE:
+def add_text_query_to_search(search, text, search_params, query_type_query):
+    if search_params.get("endpoint") == CONTENT_FILE_TYPE:
         text_query = generate_content_file_text_clause(text)
     else:
-        text_query = generate_learning_resources_text_clause(text)
+        text_query = generate_learning_resources_text_clause(
+            text, search_params.get("search_mode"), search_params.get("slop")
+        )
 
-    if yearly_decay_percent and yearly_decay_percent > 0:
-        d = {
+    yearly_decay_percent = search_params.get("yearly_decay_percent")
+    min_score = search_params.get("min_score")
+    max_incompleteness_penalty = (
+        search_params.get("max_incompleteness_penalty", 0) / 100
+    )
+
+    if yearly_decay_percent or min_score or max_incompleteness_penalty:
+        script_query = {
             "script_score": {
-                "query": {"bool": {"must": [text_query], "filter": query_type_query}},
-                "script": {
-                    "source": (
-                        "doc['resource_age_date'].size() == 0 ? _score : "
-                        "_score * decayDateLinear(params.origin, params.scale, "
-                        "params.offset, params.decay, doc['resource_age_date'].value)"
-                    ),
-                    "params": {
-                        "origin": datetime.now(tz=UTC).strftime(
-                            "%Y-%m-%dT%H:%M:%S.%fZ"
-                        ),
-                        "offset": "0",
-                        "scale": "354d",
-                        "decay": 1 - (yearly_decay_percent / 100),
-                    },
-                },
+                "query": {"bool": {"must": [text_query], "filter": query_type_query}}
             }
         }
 
-        search = search.query(d)
+        completeness_term = (
+            "(doc['completeness'].value * params.max_incompleteness_penalty + "
+            "(1-params.max_incompleteness_penalty))"
+        )
+
+        staleness_term = (
+            "(doc['resource_age_date'].size() == 0 ? 1 : "
+            "decayDateLinear(params.origin, params.scale, params.offset, params.decay, "
+            "doc['resource_age_date'].value))"
+        )
+
+        source = "_score"
+        params = {}
+
+        if max_incompleteness_penalty:
+            source = f"{source} * {completeness_term}"
+            params["max_incompleteness_penalty"] = max_incompleteness_penalty
+
+        if yearly_decay_percent:
+            source = f"{source} * {staleness_term}"
+            params["decay"] = 1 - (yearly_decay_percent / 100)
+            params["offset"] = "0"
+            params["scale"] = "365d"
+            params["origin"] = datetime.now(tz=UTC).strftime("%Y-%m-%dT%H:%M:%S.%fZ")
+
+        script_query["script_score"]["script"] = {
+            "source": source,
+            "params": params,
+        }
+
+        if min_score:
+            script_query["script_score"]["min_score"] = min_score
+
+        search = search.query(script_query)
     else:
         search = search.query("bool", must=[text_query], filter=query_type_query)
 
@@ -578,7 +623,7 @@ def construct_search(search_params):
     search = Search(index=",".join(indexes))
 
     search = search.source(fields={"excludes": SOURCE_EXCLUDED_FIELDS})
-
+    search = search.params(search_type="dfs_query_then_fetch")
     if search_params.get("offset"):
         search = search.extra(from_=search_params.get("offset"))
 
@@ -602,8 +647,7 @@ def construct_search(search_params):
         search = add_text_query_to_search(
             search,
             text,
-            search_params.get("endpoint"),
-            search_params.get("yearly_decay_percent"),
+            search_params,
             query_type_query,
         )
 

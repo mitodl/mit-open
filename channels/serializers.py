@@ -5,7 +5,7 @@ import logging
 
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from drf_spectacular.utils import extend_schema_field
+from drf_spectacular.utils import extend_schema_field, inline_serializer
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
@@ -158,6 +158,53 @@ class ChannelBaseSerializer(ChannelAppearanceMixin, serializers.ModelSerializer)
     class Meta:
         model = Channel
         exclude = ["published"]
+
+
+class ChannelCountsSerializer(serializers.ModelSerializer):
+    """
+    Serializer for resource counts associated with Channel
+    """
+
+    counts = serializers.SerializerMethodField(read_only=True)
+    channel_url = serializers.SerializerMethodField(read_only=True)
+
+    def get_channel_url(self, instance) -> str:
+        """Get the URL for the channel"""
+        return instance.channel_url
+
+    @extend_schema_field(
+        inline_serializer(
+            name="Counts",
+            fields={
+                "courses": serializers.IntegerField(),
+                "programs": serializers.IntegerField(),
+            },
+        )
+    )
+    def get_counts(self, instance):
+        if instance.channel_type == "unit":
+            resources = instance.unit_detail.unit.learningresource_set.all()
+        elif instance.channel_type == "department":
+            resources = instance.department_detail.department.learningresource_set.all()
+        elif instance.channel_type == "topic":
+            resources = instance.topic_detail.topic.learningresource_set.all()
+        course_count = resources.filter(course__isnull=False, published=True).count()
+        program_count = resources.filter(program__isnull=False, published=True).count()
+        return {"courses": course_count, "programs": program_count}
+
+    class Meta:
+        model = Channel
+        exclude = [
+            "avatar",
+            "published",
+            "banner",
+            "about",
+            "configuration",
+            "public_description",
+            "ga_tracking_id",
+            "featured_list",
+            "widget_list",
+        ]
 
 
 class ChannelTopicDetailSerializer(serializers.ModelSerializer):

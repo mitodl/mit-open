@@ -107,7 +107,7 @@ export const Info = styled.div`
   align-items: center;
 `
 
-export const Title = styled.h3`
+export const Title = styled.span`
   flex-grow: 1;
   color: ${theme.custom.colors.darkGray2};
   text-overflow: ellipsis;
@@ -232,6 +232,8 @@ const ListCard: Card = ({ children, className, href, draggable }) => {
           </Bottom>
         </Body>
         {imageProps && (
+          // alt text will be checked on ListCard.Image
+          // eslint-disable-next-line styled-components-a11y/alt-text
           <Image {...(imageProps as ImgHTMLAttributes<HTMLImageElement>)} />
         )}
       </_Container>

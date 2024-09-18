@@ -19,7 +19,7 @@ The category any module belongs to can be unambiguously determined according to 
 
 - `page-components` - These are sub page components that may be routable (React Router nesting) and/or are page sections or areas of functionality that incorporate several components.
 
-- `components` - React components that are specific to mit-open.
+- `components` - React components that are specific to mit-learn.
 
 - `services` - any over network dependencies (notably the adaptor for the backend api) and any library initialization.
 
@@ -71,7 +71,7 @@ The component hierarchy is flat and wide and avoids deeply nested or interwoven 
 
 - An exception - sometimes it is useful to group similar components. Where there is no single entrypoint, an index.ts file is useful for single line imports and each component should have its own unit test file, see for example the ErrorPages/ below.
 
-- Styles are implemented in TypeScript inside their component files and sass files (scss/\*.scss) are removed in line with [#239](https://github.com/mitodl/mit-open/issues/239).
+- Styles are implemented in TypeScript inside their component files and sass files (scss/\*.scss) are removed in line with [#239](https://github.com/mitodl/mit-learn/issues/239).
 
 ## Shared workspaces
 
@@ -85,7 +85,7 @@ Workspaces that can be shared across application root workspaces can follow the 
 
 - `ol-utilities` - shared utility code.
 
-- `ol-common` - For code common to `mit-open`, `ol-page-components` and `ol-components`. Used for TypeScript definitions and anything that has visibility of the app or is not a utility or service.
+- `ol-common` - For code common to `mit-learn`, `ol-page-components` and `ol-components`. Used for TypeScript definitions and anything that has visibility of the app or is not a utility or service.
 
 ## Import rules example
 

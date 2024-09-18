@@ -165,7 +165,7 @@ def test_markdown_to_plain_text():
     assert html_to_plain_text(normal_text) == normal_text
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize("chunk_size", [2, 3, 5, 7, 9, 10])
 def test_prefetched_iterator(chunk_size):
     """

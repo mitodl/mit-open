@@ -1,6 +1,6 @@
 """Tests for profiles.utils"""
 
-import xml.etree.ElementTree as etree  # noqa: N813
+import xml.etree.ElementTree as ET
 from io import BytesIO
 from urllib.parse import parse_qs, urlparse
 
@@ -83,7 +83,7 @@ def test_too_long_prefix(user):
     assert str(ex.value).startswith("path is longer than max length even without name")
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_profile_img_url_uploaded_image():
     """
     Test that the correct profile image URL is returned for a profile with an uploaded image
@@ -99,7 +99,7 @@ def test_profile_img_url_uploaded_image():
     assert image_uri(profile, "image_small") == profile.image_small_file.url
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_profile_img_url_micromaster_image():
     """
     Test that the correct profile image URL is returned for a profile with a micromasters profile URL
@@ -111,7 +111,7 @@ def test_profile_img_url_micromaster_image():
     assert image_uri(profile, "image_medium").endswith(profile.image_medium)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_profile_img_url_gravatar_fullname():
     """Test that the correct profile gravatar image URL is returned for a profile with a name"""
     profile = UserFactory.create().profile
@@ -124,7 +124,7 @@ def test_profile_img_url_gravatar_fullname():
     assert params_d.endswith(f"profile/{profile.user.username}/64/fff/579cf9.png")
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_profile_img_url_gravatar_nameless():
     """Test that the correct profile gravatar image URL is returned for a profile with no name"""
     profile = UserFactory.create().profile
@@ -138,7 +138,7 @@ def test_profile_img_url_gravatar_nameless():
     assert params_d.endswith(DEFAULT_PROFILE_IMAGE)
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 @pytest.mark.parametrize(
     ("first_name", "last_name"),
     [
@@ -162,7 +162,7 @@ def test_get_svg_avatar():
     bgcolor = "dedede"
     size = 92
     svg = generate_svg_avatar(username, size, color, bgcolor)
-    root = etree.fromstring(svg)  # noqa: S314
+    root = ET.fromstring(svg)  # noqa: S314
     assert root.tag == "{http://www.w3.org/2000/svg}svg"
     circle = root.find("{http://www.w3.org/2000/svg}circle")
     assert circle.get("cx") == str(int(size / 2))
@@ -188,7 +188,7 @@ def test_generate_initials(text, initials):
     assert generate_initials(text) == initials
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_fetch_program_letter_template_data_malformed_api_response(
     mocker, user, settings
 ):
@@ -206,7 +206,7 @@ def test_fetch_program_letter_template_data_malformed_api_response(
     assert fetch_program_letter_template_data(program_letter) is None
 
 
-@pytest.mark.django_db()
+@pytest.mark.django_db
 def test_fetch_program_letter_template_data_has_results(mocker, user, settings):
     """
     Tests that a response from micromasters api
