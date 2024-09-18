@@ -200,6 +200,16 @@ const AdornmentButtonStyled = styled("button")(({ theme }) => ({
   ":hover": {
     background: "rgba(0, 0, 0, 0.06)",
   },
+  color: theme.custom.colors.silverGray,
+  ".MuiInputBase-root:hover &": {
+    color: "inherit",
+  },
+  ".MuiInputBase-root.Mui-focused &": {
+    color: "inherit",
+  },
+  ".MuiInputBase-root.Mui-disabled &": {
+    color: "inherit",
+  },
   height: "100%",
 }))
 
