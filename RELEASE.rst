@@ -1,7 +1,7 @@
 Release Notes
 =============
 
-Version 0.19.1
+Version 0.19.1 (Released September 18, 2024)
 --------------
 
 - fix testimonial color title attribute (#1580)
