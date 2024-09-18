@@ -1,0 +1,58 @@
+{
+  "associations": {
+    "topics": [
+      {
+        "id": "0TO6g000000YbRIGA0",
+        "name": "Upcoming Webinars"
+      }
+    ]
+  },
+  "contentKey": "MC23XAW2E77RAXJJI5OB3PGSETCI",
+  "contentNodes": {
+    "Card_Image": {
+      "altText": "Coming Soon",
+      "contentKey": "MC5WOBGPJSGBH55HH6UH74G3HM6Q",
+      "fileName": "coming soon.jpg",
+      "mediaType": "Image",
+      "mimeType": "image/jpeg",
+      "nodeType": "Media",
+      "resourceUrl": "/services/data/v51.0/connect/cms/delivery/channels/0ap6g000000Z5oZ/media/MC5WOBGPJSGBH55HH6UH74G3HM6Q/content",
+      "thumbnailUrl": null,
+      "title": "Coming Soon",
+      "unauthenticatedUrl": "/cms/delivery/media/MC5WOBGPJSGBH55HH6UH74G3HM6Q",
+      "url": "/cms/delivery/media/MC5WOBGPJSGBH55HH6UH74G3HM6Q"
+    },
+    "Description": {
+      "nodeType": "Text",
+      "value": "Take a sneak peek at what we&#39;ve got planned..."
+    },
+    "Headline_Text": {
+      "nodeType": "Text",
+      "value": "Save the date for:"
+    },
+    "Image_Text": {
+      "nodeType": "Text",
+      "value": "January - December 2024"
+    },
+    "CTA_Button_URL": {
+      "nodeType": "Url",
+      "value": "https://exec.mit.edu/s/webinar-post/save-the-date-20Y6g000000VETQEA4"
+    },
+    "Call_to_Action_Text": {
+      "nodeType": "Text",
+      "value": "Learn More"
+    },
+    "Name": {
+      "nodeType": "NameField",
+      "value": "Save the Date Webinar"
+    }
+  },
+  "contentUrlName": "save-the-date-webinar",
+  "language": "en_US",
+  "managedContentId": "20Y6g000000VETVEA4",
+  "publishedDate": "2024-06-24T20:28:43.000Z",
+  "title": "Save the Date Webinar",
+  "type": "Card_Display_Item",
+  "typeLabel": "Card Display Item",
+  "unauthenticatedUrl": "/cms/delivery/v51.0/0DB6g0000004FHZGA2/contents/20Y6g000000VETVEA4?oid=00D6g000006yH4pEAE"
+}

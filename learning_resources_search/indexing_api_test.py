@@ -3,9 +3,11 @@ Tests for the indexing API
 """
 
 import json
+from math import ceil
 from types import SimpleNamespace
 
 import pytest
+from anys import ANY_DICT, ANY_STR
 from opensearchpy.exceptions import NotFoundError
 
 from learning_resources.factories import (
@@ -14,6 +16,7 @@ from learning_resources.factories import (
     LearningResourceRunFactory,
 )
 from learning_resources.models import ContentFile
+from learning_resources.serializers import ContentFileSerializer
 from learning_resources_search import indexing_api
 from learning_resources_search.connection import get_default_alias_name
 from learning_resources_search.constants import (
@@ -465,6 +468,95 @@ def test_index_course_content_files(mocker):
             mock_index_run_content_files.assert_any_call(
                 run.id, IndexestoUpdate.current_index.value
             )
+
+
+@pytest.mark.parametrize("content_file_count", [3, 17])
+@pytest.mark.parametrize(
+    "index_types",
+    [None, IndexestoUpdate.current_index.value, IndexestoUpdate.all_indexes.value],
+)
+def test_index_run_content_files(settings, mocker, content_file_count, index_types):
+    """
+    Run ContentFiles should be indexed correctly
+    """
+    chunk_size = 5
+    settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE = chunk_size
+    run = LearningResourceRunFactory.create(published=True)
+    content_files = ContentFileFactory.create_batch(
+        content_file_count, run=run, published=True
+    )
+    ContentFileFactory.create_batch(5, run=run, published=False)
+    mock_index_content_files = mocker.patch(
+        "learning_resources_search.indexing_api.index_content_files", autospec=True
+    )
+
+    index_run_content_files(run.id, index_types)
+
+    expected_call_count = ceil(content_file_count / chunk_size)
+    expected_ids = {f.id for f in content_files}
+
+    assert mock_index_content_files.call_count == expected_call_count
+
+    # We want to ensure that all content files are indexed, but the order isn't
+    # guaranteed, so walk all the calls and at the end assert there are no file
+    # ids that weren't passed.
+    # As such, we are doing this a bit different rather than assert_any_call.
+    for call in mock_index_content_files.call_args_list:
+        ids, _, _ = call.args
+
+        assert call.args == (ids, run.learning_resource.id, index_types)
+
+        ids = set(ids)
+
+        assert ids <= expected_ids
+
+        expected_ids = expected_ids - ids
+
+    assert expected_ids == set()
+
+
+@pytest.mark.parametrize(
+    "index_types",
+    [None, IndexestoUpdate.current_index.value, IndexestoUpdate.all_indexes.value],
+)
+def test_index_content_files_serialization(mocker, index_types):
+    """index_content_files should prefetch and serialize the records correctly"""
+    run = LearningResourceRunFactory.create(published=True)
+    ContentFileFactory.create_batch(5, run=run, published=True)
+
+    mock_index_items = mocker.patch(
+        "learning_resources_search.indexing_api.index_items",
+        autospec=True,
+    )
+
+    content_files = ContentFile.objects.for_serialization().filter(run=run)
+
+    # NOTE: this seems like we're also testing the indexing serialization but what we're really testing this that the for_serialization() call is being done to correctly annotate the objects before serialization
+    expected_documents = [
+        {
+            "_id": ANY_STR,
+            "resource_relations": ANY_DICT,
+            **ContentFileSerializer(instance=cfile).data,
+        }
+        for cfile in content_files
+    ]
+
+    index_content_files(
+        [cfile.id for cfile in content_files], run.learning_resource.id, index_types
+    )
+    # list() forces an eval here, which we need for django_assert_num_queries()
+    documents, ctype = mock_index_items.call_args.args
+    documents = list(mock_index_items.call_args.args[0])
+
+    for expected_doc in expected_documents:
+        assert expected_doc in documents
+
+    mock_index_items.assert_called_once_with(
+        mocker.ANY,
+        COURSE_TYPE,
+        index_types=index_types,
+        routing=run.learning_resource.id,
+    )
 
 
 @pytest.mark.parametrize(

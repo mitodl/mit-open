@@ -12,7 +12,7 @@ import {
   Breadcrumbs,
 } from "ol-components"
 import { Link } from "react-router-dom"
-import { MetaTags } from "ol-utilities"
+import { MetaTags, propsNotNil } from "ol-utilities"
 
 import {
   useLearningResourceTopics,
@@ -34,15 +34,16 @@ type ChannelSummary = {
 
 type TopicBoxHeaderProps = {
   title: string
+  icon?: string
   href?: string
   className?: string
 }
 const TopicBoxHeader = styled(
-  ({ title, href, className }: TopicBoxHeaderProps) => {
+  ({ title, icon, href, className }: TopicBoxHeaderProps) => {
     return (
       <Typography variant="h5" component="h3" className={className}>
         <Link to={href ?? ""}>
-          <RootTopicIcon name={title} aria-hidden="true" />
+          <RootTopicIcon icon={icon} aria-hidden="true" />
           <span>
             <span className="topic-title">{title}</span>
             <span className="view-topic" aria-hidden="true">
@@ -128,10 +129,10 @@ const TopicBox = ({
     { label: "Courses", count: courseCount },
     { label: "Programs", count: programCount },
   ].filter((item) => item.count)
-  const { title, href, channels } = topicGroup
+  const { title, href, icon, channels } = topicGroup
   return (
     <li className={className}>
-      <TopicBoxHeader title={title} href={href} />
+      <TopicBoxHeader title={title} href={href} icon={icon} />
       <TopicBoxBody>
         <TopicCounts>
           {counts.map((item) => (
@@ -194,6 +195,7 @@ const aggregateByTopic = (
 type TopicGroup = {
   id: number
   title: string
+  icon?: string
   href?: string
   courses: number
   programs: number
@@ -204,7 +206,7 @@ const groupTopics = (
   courseCounts: Record<string, number>,
   programCounts: Record<string, number>,
 ): TopicGroup[] => {
-  const sorted = topics.sort((a, b) => {
+  const sorted = topics.filter(propsNotNil(["channel_url"])).sort((a, b) => {
     return a.name.localeCompare(b.name)
   })
   const groups: Record<number, TopicGroup> = Object.fromEntries(
@@ -218,7 +220,8 @@ const groupTopics = (
           courses: courseCounts[topic.name],
           programs: programCounts[topic.name],
           title: topic.name,
-          href: topic.channel_url || undefined,
+          href: topic.channel_url,
+          icon: topic.icon,
         },
       ]),
   )
@@ -288,7 +291,7 @@ const ToopicsListingPage: React.FC = () => {
           />
         }
         header="Browse by Topic"
-        subheader=""
+        subheader="Select a topic below to explore relevant learning resources across all Academic and Professional units."
         backgroundUrl={TOPICS_BANNER_IMAGE}
       />
       <Container>

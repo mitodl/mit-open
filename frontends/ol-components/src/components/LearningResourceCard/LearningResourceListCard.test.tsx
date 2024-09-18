@@ -2,17 +2,18 @@ import React from "react"
 import { BrowserRouter } from "react-router-dom"
 import { screen, render, act } from "@testing-library/react"
 import { LearningResourceListCard } from "./LearningResourceListCard"
+import type { LearningResourceListCardProps } from "./LearningResourceListCard"
 import { DEFAULT_RESOURCE_IMG, embedlyCroppedImage } from "ol-utilities"
-import { LearningResource, ResourceTypeEnum, PlatformEnum } from "api"
+import { ResourceTypeEnum, PlatformEnum, AvailabilityEnum } from "api"
 import { factories } from "api/test-utils"
 import { ThemeProvider } from "../ThemeProvider/ThemeProvider"
 
-const setup = (resource: LearningResource) => {
+const setup = (props: LearningResourceListCardProps) => {
   return render(
     <BrowserRouter>
       <LearningResourceListCard
-        resource={resource}
-        href={`?resource=${resource.id}`}
+        resource={props.resource}
+        href={`?resource=${props.resource?.id}`}
       />
     </BrowserRouter>,
     { wrapper: ThemeProvider },
@@ -26,7 +27,7 @@ describe("Learning Resource List Card", () => {
       next_start_date: "2026-01-01",
     })
 
-    setup(resource)
+    setup({ resource })
 
     screen.getByText("Course")
     screen.getByRole("heading", { name: resource.title })
@@ -45,29 +46,45 @@ describe("Learning Resource List Card", () => {
       ],
     })
 
-    setup(resource)
+    setup({ resource })
 
     screen.getByText("Starts:")
     screen.getByText("January 01, 2026")
   })
 
-  test("Displays taught in date for OCW", () => {
-    const resource = factories.learningResources.resource({
-      resource_type: ResourceTypeEnum.Course,
-      platform: { code: PlatformEnum.Ocw },
-      runs: [
-        factories.learningResources.run({
-          semester: "Fall",
-          year: 2002,
-        }),
-      ],
-    })
+  test.each([
+    {
+      resource: factories.learningResources.resource({
+        resource_type: ResourceTypeEnum.Course,
+        availability: AvailabilityEnum.Anytime,
+      }),
+      showsAnytime: true,
+    },
+    {
+      resource: factories.learningResources.resource({
+        resource_type: ResourceTypeEnum.Program,
+        availability: AvailabilityEnum.Anytime,
+      }),
+      showsAnytime: true,
+    },
+    {
+      resource: factories.learningResources.resource({
+        resource_type: ResourceTypeEnum.Video,
+        availability: AvailabilityEnum.Anytime,
+      }),
+      showsAnytime: false,
+    },
+  ] as const)(
+    "Displays 'Anytime' for availability 'Anytime' courses and programs",
+    ({ resource, showsAnytime }) => {
+      setup({ resource })
 
-    setup(resource)
-
-    expect(screen.getByRole("link")).toHaveTextContent("As taught in:")
-    expect(screen.getByRole("link")).toHaveTextContent("Fall 2002")
-  })
+      const anytime = screen.queryByText("Anytime")
+      const starts = screen.queryByText("Starts:")
+      expect(!!anytime).toEqual(showsAnytime)
+      expect(!!starts).toBe(showsAnytime)
+    },
+  )
 
   test("Click to navigate", async () => {
     const resource = factories.learningResources.resource({
@@ -75,7 +92,7 @@ describe("Learning Resource List Card", () => {
       platform: { code: PlatformEnum.Ocw },
     })
 
-    setup(resource)
+    setup({ resource })
 
     const heading = screen.getByRole("heading", { name: resource.title })
     await act(async () => {
@@ -132,7 +149,7 @@ describe("Learning Resource List Card", () => {
       certification: true,
     })
 
-    setup(resource)
+    setup({ resource })
 
     screen.getByText("Certificate")
   })
@@ -142,7 +159,7 @@ describe("Learning Resource List Card", () => {
       certification: false,
     })
 
-    setup(resource)
+    setup({ resource })
 
     const badge = screen.queryByText("Certificate")
 
@@ -150,21 +167,32 @@ describe("Learning Resource List Card", () => {
   })
 
   test.each([
-    { image: null, expected: { src: DEFAULT_RESOURCE_IMG, alt: "" } },
+    {
+      image: null,
+      expected: { src: DEFAULT_RESOURCE_IMG, alt: "", role: "presentation" },
+    },
     {
       image: { url: "https://example.com/image.jpg", alt: "An image" },
-      expected: { src: "https://example.com/image.jpg", alt: "An image" },
+      expected: {
+        src: "https://example.com/image.jpg",
+        alt: "An image",
+        role: "img",
+      },
     },
     {
       image: { url: "https://example.com/image.jpg", alt: null },
-      expected: { src: "https://example.com/image.jpg", alt: "" },
+      expected: {
+        src: "https://example.com/image.jpg",
+        alt: "",
+        role: "presentation",
+      },
     },
   ])("Image is displayed if present", ({ expected, image }) => {
     const resource = factories.learningResources.resource({ image })
 
-    setup(resource)
+    setup({ resource })
 
-    const imageEls = screen.getAllByRole<HTMLImageElement>("img")
+    const imageEls = screen.getAllByRole<HTMLImageElement>(expected.role)
 
     const matching = imageEls.filter((im) =>
       expected.src === DEFAULT_RESOURCE_IMG
@@ -187,7 +215,7 @@ describe("Learning Resource List Card", () => {
         free: true,
         prices: ["0"],
       })
-      setup(resource)
+      setup({ resource })
       screen.getByText("Free")
     })
 
@@ -197,8 +225,9 @@ describe("Learning Resource List Card", () => {
         free: true,
         prices: ["0", "49"],
       })
-      setup(resource)
-      screen.getByText("Certificate: $49")
+      setup({ resource })
+      screen.getByText("Certificate")
+      screen.getByText(": $49")
       screen.getByText("Free")
     })
 
@@ -208,8 +237,9 @@ describe("Learning Resource List Card", () => {
         free: true,
         prices: ["0", "99", "49"],
       })
-      setup(resource)
-      screen.getByText("Certificate: $49 - $99")
+      setup({ resource })
+      screen.getByText("Certificate")
+      screen.getByText(": $49 – $99")
       screen.getByText("Free")
     })
 
@@ -219,7 +249,7 @@ describe("Learning Resource List Card", () => {
         free: false,
         prices: ["49"],
       })
-      setup(resource)
+      setup({ resource })
       screen.getByText("$49")
     })
 
@@ -229,7 +259,7 @@ describe("Learning Resource List Card", () => {
         free: false,
         prices: ["49.50"],
       })
-      setup(resource)
+      setup({ resource })
       screen.getByText("$49.50")
     })
 
@@ -239,7 +269,7 @@ describe("Learning Resource List Card", () => {
         free: true,
         prices: [],
       })
-      setup(resource)
+      setup({ resource })
       screen.getByText("Free")
     })
 
@@ -249,7 +279,7 @@ describe("Learning Resource List Card", () => {
         free: false,
         prices: ["0"],
       })
-      setup(resource)
+      setup({ resource })
       screen.getByText("Paid")
     })
   })

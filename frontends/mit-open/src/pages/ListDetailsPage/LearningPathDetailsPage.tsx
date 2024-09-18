@@ -1,21 +1,21 @@
 import React, { useMemo } from "react"
-
 import { useParams } from "react-router"
-
+import { useUserMe } from "api/hooks/user"
 import {
   useInfiniteLearningPathItems,
   useLearningPathsDetail,
 } from "api/hooks/learningResources"
-
-import { ListDetailsPage } from "./ListDetailsPage"
-import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
 import { ListType } from "api/constants"
+import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
+import { ListDetailsPage } from "./ListDetailsPage"
 
 type RouteParams = {
   id: string
 }
 
 const LearningPathDetailsPage: React.FC = () => {
+  const { data: user } = useUserMe()
+
   const id = Number(useParams<RouteParams>().id)
   const pathQuery = useLearningPathsDetail(id)
   const itemsQuery = useInfiniteLearningPathItems({
@@ -42,6 +42,8 @@ const LearningPathDetailsPage: React.FC = () => {
       listType={ListType.LearningPath}
       list={list}
       items={items}
+      showSort={!!user?.is_authenticated}
+      canEdit={!!user?.is_learning_path_editor}
       isLoading={itemsQuery.isLoading}
       isFetching={itemsQuery.isFetching}
       handleEdit={() => manageListDialogs.upsertLearningPath(pathQuery.data)}

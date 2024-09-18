@@ -962,13 +962,13 @@ components:
       - not-sure-yet
       type: string
       description: |-
-        * `yes` - Yes
-        * `no` - No
-        * `not-sure-yet` - Not Sure Yet
+        * `yes` - Yes, I am looking for a certificate
+        * `no` - No, I am not looking for a certificate
+        * `not-sure-yet` - Not Sure
       x-enum-descriptions:
-      - 'Yes'
-      - 'No'
-      - Not Sure Yet
+      - Yes, I am looking for a certificate
+      - No, I am not looking for a certificate
+      - Not Sure
     Channel:
       oneOf:
       - $ref: '#/components/schemas/TopicChannel'
@@ -1432,18 +1432,18 @@ components:
       - Events
     GoalsEnum:
       enum:
+      - academic-excellence
       - career-growth
-      - supplemental-learning
-      - just-to-learn
+      - lifelong-learning
       type: string
       description: |-
+        * `academic-excellence` - Academic Boost
         * `career-growth` - Career Growth
-        * `supplemental-learning` - Supplemental Learning
-        * `just-to-learn` - Just to Learn
+        * `lifelong-learning` - Lifelong Learning
       x-enum-descriptions:
+      - Academic Boost
       - Career Growth
-      - Supplemental Learning
-      - Just to Learn
+      - Lifelong Learning
     LearningFormatEnum:
       enum:
       - online
@@ -1453,11 +1453,11 @@ components:
       description: |-
         * `online` - Online
         * `hybrid` - Hybrid
-        * `in_person` - In person
+        * `in_person` - In-Person
       x-enum-descriptions:
       - Online
       - Hybrid
-      - In person
+      - In-Person
     LearningPathPreview:
       type: object
       description: Serializer for a minimal preview of Learning Paths
@@ -1485,9 +1485,8 @@ components:
           maxLength: 12
         channel_url:
           type: string
-          nullable: true
-          description: Get the channel url for the offeror if it exists
           readOnly: true
+          nullable: true
         name:
           type: string
           maxLength: 256
@@ -1602,11 +1601,17 @@ components:
         name:
           type: string
           maxLength: 128
+        icon:
+          type: string
+          description: The icon to display for the topic.
+          maxLength: 128
         parent:
           type: integer
           nullable: true
         channel_url:
           type: string
+          readOnly: true
+          nullable: true
       required:
       - channel_url
       - id
@@ -1862,9 +1867,9 @@ components:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
         learning_format:
-          oneOf:
-          - $ref: '#/components/schemas/LearningFormatEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningFormatEnum'
     PatchedUserRequest:
       type: object
       description: Serializer for User
@@ -2082,9 +2087,9 @@ components:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
         learning_format:
-          oneOf:
-          - $ref: '#/components/schemas/LearningFormatEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningFormatEnum'
         preference_search_filters:
           allOf:
           - $ref: '#/components/schemas/PreferencesSearch'
@@ -2157,9 +2162,9 @@ components:
           - $ref: '#/components/schemas/TimeCommitmentEnum'
           - $ref: '#/components/schemas/BlankEnum'
         learning_format:
-          oneOf:
-          - $ref: '#/components/schemas/LearningFormatEnum'
-          - $ref: '#/components/schemas/BlankEnum'
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningFormatEnum'
     ProgramCertificate:
       type: object
       description: Serializer for Program Certificates

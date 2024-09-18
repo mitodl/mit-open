@@ -6,7 +6,7 @@ import {
 } from "ol-components"
 import type { RoutedDrawerProps } from "ol-components"
 import { useLearningResourcesDetail } from "api/hooks/learningResources"
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams, useLocation } from "react-router-dom"
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { usePostHog } from "posthog-js/react"
 
@@ -16,12 +16,10 @@ const useCapturePageView = (resourceId: number) => {
   const { data, isSuccess } = useLearningResourcesDetail(Number(resourceId))
   const posthog = usePostHog()
 
+  const { POSTHOG } = APP_SETTINGS
+
   useEffect(() => {
-    if (
-      !APP_SETTINGS.posthog?.api_key ||
-      APP_SETTINGS.posthog.api_key.length < 1
-    )
-      return
+    if (!POSTHOG?.api_key || POSTHOG.api_key.length < 1) return
     if (!isSuccess) return
     posthog.capture("lrd_view", {
       resourceId: data?.id,
@@ -36,6 +34,7 @@ const useCapturePageView = (resourceId: number) => {
     data?.readable_id,
     data?.platform?.code,
     data?.resource_type,
+    POSTHOG?.api_key,
   ])
 }
 
@@ -95,13 +94,15 @@ const useOpenLearningResourceDrawer = () => {
 
 const useResourceDrawerHref = () => {
   const [search] = useSearchParams()
+  const { hash } = useLocation()
 
   return useCallback(
     (id: number) => {
       search.set(RESOURCE_DRAWER_QUERY_PARAM, id.toString())
-      return `?${search.toString()}`
+
+      return `?${search.toString()}${hash}`
     },
-    [search],
+    [search, hash],
   )
 }
 

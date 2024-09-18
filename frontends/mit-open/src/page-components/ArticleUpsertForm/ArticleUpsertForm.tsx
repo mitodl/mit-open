@@ -12,7 +12,7 @@ import {
   FormHelperText,
   Grid,
   TextField,
-  BasicDialog,
+  Dialog,
   styled,
 } from "ol-components"
 import * as Yup from "yup"
@@ -23,8 +23,8 @@ import invariant from "tiny-invariant"
 const configOverrides = { placeholder: "Write your article here..." }
 
 const postSchema = Yup.object().shape({
-  title: Yup.string().default("").required("Title is required."),
-  html: Yup.string().default("").required("Article body is required."),
+  title: Yup.string().default("").required("Title is required"),
+  html: Yup.string().default("").required("Article body is required"),
 })
 
 type FormValues = Yup.InferType<typeof postSchema>
@@ -151,7 +151,7 @@ const ArticleUpsertForm = ({
           </Button>
         </FormControls>
       </FormFooter>
-      <BasicDialog
+      <Dialog
         open={confirmationOpen}
         onClose={toggleConfirmationOpen.off}
         title="Are you sure?"
@@ -159,7 +159,7 @@ const ArticleUpsertForm = ({
         confirmText="Yes, delete"
       >
         Are you sure you want to delete {article.data?.title}?
-      </BasicDialog>
+      </Dialog>
     </form>
   )
 }

@@ -5,7 +5,7 @@ import type {
   PaginatedLearningPathRelationshipList,
 } from "api"
 import { manageListDialogs } from "@/page-components/ManageListDialogs/ManageListDialogs"
-import ItemsListing from "./ItemsListing"
+import ItemsListing from "@/page-components/ItemsListing/ItemsListing"
 import { learningPathsView } from "@/common/urls"
 import {
   screen,
@@ -20,8 +20,10 @@ import { User } from "../../types/settings"
 import { ControlledPromise } from "ol-test-utilities"
 import invariant from "tiny-invariant"
 
-jest.mock("./ItemsListing", () => {
-  const actual = jest.requireActual("./ItemsListing")
+jest.mock("../../page-components/ItemsListing/ItemsListing", () => {
+  const actual = jest.requireActual(
+    "../../page-components/ItemsListing/ItemsListing",
+  )
   return {
     __esModule: true,
     ...actual,
@@ -92,16 +94,35 @@ describe("ListDetailsPage", () => {
       canEdit: true,
     },
   ])(
-    "Users can edit/reorder if and only if is_learning_path_editor=true",
+    "Users can edit if and only if is_learning_path_editor",
     async ({ userSettings, canEdit }) => {
       const path = factories.learningResources.learningPath()
       setup({ path, userSettings })
       await screen.findByRole("heading", { name: path.title })
 
-      const editButton = screen.queryByRole("button", { name: "Edit" })
+      const editButton = screen.queryByRole("button", { name: "Edit List" })
       expect(!!editButton).toBe(canEdit)
+    },
+  )
+
+  test.each([
+    {
+      userSettings: { is_authenticated: false },
+      canSort: false,
+    },
+    {
+      userSettings: { is_authenticated: true },
+      canSort: true,
+    },
+  ])(
+    "Users can reorder if and only if authenticated",
+    async ({ userSettings, canSort }) => {
+      const path = factories.learningResources.learningPath()
+      setup({ path, userSettings })
+      await screen.findByRole("heading", { name: path.title })
+
       const reorderButton = screen.queryByRole("button", { name: "Reorder" })
-      expect(!!reorderButton).toBe(canEdit)
+      expect(!!reorderButton).toBe(canSort)
     },
   )
 
@@ -147,7 +168,7 @@ describe("ListDetailsPage", () => {
   test("Edit buttons opens editing dialog", async () => {
     const path = factories.learningResources.learningPath()
     setup({ path, userSettings: { is_learning_path_editor: true } })
-    const editButton = await screen.findByRole("button", { name: "Edit" })
+    const editButton = await screen.findByRole("button", { name: "Edit List" })
 
     const editList = jest.spyOn(manageListDialogs, "upsertLearningPath")
     editList.mockImplementationOnce(jest.fn())

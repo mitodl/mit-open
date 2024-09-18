@@ -195,14 +195,6 @@ const ButtonStyled = styled.button<ButtonStyleProps>((props) => {
   ]
 })
 
-/**
- * Typically, SVG Icons are structured as `<svg> <path/> </svg>`; the svg is
- * 24x24px by default, but the path may be smaller. I.e., there is generally
- * whitespace around the path.
- *
- * The negative margin below accounts (approximately) for this whitespace.
- * The whitespace varies by icon, so it's not perfect.
- */
 const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
   ({ size, side }) => [
     {
@@ -211,11 +203,16 @@ const IconContainer = styled.span<{ side: "start" | "end"; size: ButtonSize }>(
       alignItems: "center",
     },
     side === "start" && {
+      /**
+       * The negative margin is to counteract the padding on the button itself.
+       * Without icons, the left space is 24/16/12 px.
+       * With icons, the left space is 20/12/8 px.
+       */
       marginLeft: "-4px",
-      marginRight: "4px",
+      marginRight: "8px",
     },
     side === "end" && {
-      marginLeft: "4px",
+      marginLeft: "8px",
       marginRight: "-4px",
     },
     {

@@ -17,15 +17,15 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.Mitxonline]: {
     name: "MITx Online",
-    image: "mitx-online-logo.png",
+    image: "mitx-online-logo.svg",
   },
   [PlatformEnum.Bootcamps]: {
     name: "Bootcamps",
-    image: null,
+    image: "bootcamps_logo.svg",
   },
   [PlatformEnum.Xpro]: {
     name: "MIT xPRO",
-    image: "mit-xpro-logo.png",
+    image: "unit_logos/xpro.svg",
   },
   [PlatformEnum.Podcast]: {
     name: "Podcast",
@@ -33,7 +33,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.Csail]: {
     name: "CSAIL",
-    image: "csail-logo.png",
+    image: "csail_logo.svg",
   },
   [PlatformEnum.Mitpe]: {
     name: "MIT Professional Education",
@@ -41,7 +41,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.See]: {
     name: "MIT Sloan Executive Education",
-    image: "sloan-logo.png",
+    image: "unit_logos/see.svg",
   },
   [PlatformEnum.Scc]: {
     name: "Schwarzman College of Computing",
@@ -73,7 +73,7 @@ export const PLATFORMS: Record<PlatformEnum, PlatformObject> = {
   },
   [PlatformEnum.Oll]: {
     name: "Open Learning Library",
-    image: "oll_logo.png",
+    image: "oll_logo.svg",
   },
   [PlatformEnum.Youtube]: {
     name: "YouTube",

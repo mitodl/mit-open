@@ -157,6 +157,13 @@ paths:
         description: The feature type of the content file. Possible options are at
           api/v1/course_features/
       - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
+      - in: query
         name: id
         schema:
           type: array
@@ -612,13 +619,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -629,8 +636,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -1212,13 +1219,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -1229,8 +1236,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -1605,13 +1612,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -1622,8 +1629,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -2256,13 +2263,13 @@ paths:
               * `11` - Urban Studies and Planning
               * `12` - Earth, Atmospheric, and Planetary Sciences
               * `14` - Economics
-              * `15` - Sloan School of Management
+              * `15` - Management
               * `16` - Aeronautics and Astronautics
               * `17` - Political Science
               * `18` - Mathematics
               * `20` - Biological Engineering
               * `21A` - Anthropology
-              * `21G` - Global Studies and Languages
+              * `21G` - Global Languages
               * `21H` - History
               * `21L` - Literature
               * `21M` - Music and Theater Arts
@@ -2273,8 +2280,8 @@ paths:
               * `EC` - Edgerton Center
               * `ES` - Experimental Study Group
               * `ESD` - Engineering Systems Division
-              * `HST` - Health Sciences and Technology
-              * `IDS` - Institute for Data, Systems, and Society
+              * `HST` - Medical Engineering and Science
+              * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
               * `RES` - Supplemental Resources
@@ -2287,18 +2294,24 @@ paths:
           \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
           \ - Chemical Engineering\n* `11` - Urban Studies and Planning\n* `12` -\
           \ Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n* `15`\
-          \ - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-          * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n\
-          * `21A` - Anthropology\n* `21G` - Global Studies and Languages\n* `21H`\
-          \ - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n* `22`\
-          \ - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-          * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-          \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-          \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS` -\
-          \ Institute for Data, Systems, and Society\n* `MAS` - Media Arts and Sciences\n\
-          * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
-          \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
-          \ and Gender Studies"
+          \ - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+          \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+          \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+          \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+          \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+          * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+          * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+          * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+          \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
+          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+      - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
       - in: query
         name: free
         schema:
@@ -2535,6 +2548,17 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+          default: 2.5
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_search
       responses:
@@ -2676,13 +2700,13 @@ paths:
               * `11` - Urban Studies and Planning
               * `12` - Earth, Atmospheric, and Planetary Sciences
               * `14` - Economics
-              * `15` - Sloan School of Management
+              * `15` - Management
               * `16` - Aeronautics and Astronautics
               * `17` - Political Science
               * `18` - Mathematics
               * `20` - Biological Engineering
               * `21A` - Anthropology
-              * `21G` - Global Studies and Languages
+              * `21G` - Global Languages
               * `21H` - History
               * `21L` - Literature
               * `21M` - Music and Theater Arts
@@ -2693,8 +2717,8 @@ paths:
               * `EC` - Edgerton Center
               * `ES` - Experimental Study Group
               * `ESD` - Engineering Systems Division
-              * `HST` - Health Sciences and Technology
-              * `IDS` - Institute for Data, Systems, and Society
+              * `HST` - Medical Engineering and Science
+              * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
               * `RES` - Supplemental Resources
@@ -2707,18 +2731,24 @@ paths:
           \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
           \ - Chemical Engineering\n* `11` - Urban Studies and Planning\n* `12` -\
           \ Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n* `15`\
-          \ - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-          * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n\
-          * `21A` - Anthropology\n* `21G` - Global Studies and Languages\n* `21H`\
-          \ - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n* `22`\
-          \ - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-          * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-          \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-          \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS` -\
-          \ Institute for Data, Systems, and Society\n* `MAS` - Media Arts and Sciences\n\
-          * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
-          \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
-          \ and Gender Studies"
+          \ - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+          \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+          \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+          \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+          \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+          * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+          * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+          * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+          \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
+          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+      - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
       - in: query
         name: free
         schema:
@@ -2955,6 +2985,17 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+          default: 2.5
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_user_subscription
       responses:
@@ -3121,13 +3162,13 @@ paths:
               * `11` - Urban Studies and Planning
               * `12` - Earth, Atmospheric, and Planetary Sciences
               * `14` - Economics
-              * `15` - Sloan School of Management
+              * `15` - Management
               * `16` - Aeronautics and Astronautics
               * `17` - Political Science
               * `18` - Mathematics
               * `20` - Biological Engineering
               * `21A` - Anthropology
-              * `21G` - Global Studies and Languages
+              * `21G` - Global Languages
               * `21H` - History
               * `21L` - Literature
               * `21M` - Music and Theater Arts
@@ -3138,8 +3179,8 @@ paths:
               * `EC` - Edgerton Center
               * `ES` - Experimental Study Group
               * `ESD` - Engineering Systems Division
-              * `HST` - Health Sciences and Technology
-              * `IDS` - Institute for Data, Systems, and Society
+              * `HST` - Medical Engineering and Science
+              * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
               * `RES` - Supplemental Resources
@@ -3152,18 +3193,24 @@ paths:
           \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
           \ - Chemical Engineering\n* `11` - Urban Studies and Planning\n* `12` -\
           \ Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n* `15`\
-          \ - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-          * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n\
-          * `21A` - Anthropology\n* `21G` - Global Studies and Languages\n* `21H`\
-          \ - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n* `22`\
-          \ - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-          * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-          \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-          \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS` -\
-          \ Institute for Data, Systems, and Society\n* `MAS` - Media Arts and Sciences\n\
-          * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
-          \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
-          \ and Gender Studies"
+          \ - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+          \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+          \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+          \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+          \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+          * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+          * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+          * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+          \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
+          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+      - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
       - in: query
         name: free
         schema:
@@ -3414,6 +3461,17 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+          default: 2.5
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_user_subscription
       responses:
@@ -3557,13 +3615,13 @@ paths:
               * `11` - Urban Studies and Planning
               * `12` - Earth, Atmospheric, and Planetary Sciences
               * `14` - Economics
-              * `15` - Sloan School of Management
+              * `15` - Management
               * `16` - Aeronautics and Astronautics
               * `17` - Political Science
               * `18` - Mathematics
               * `20` - Biological Engineering
               * `21A` - Anthropology
-              * `21G` - Global Studies and Languages
+              * `21G` - Global Languages
               * `21H` - History
               * `21L` - Literature
               * `21M` - Music and Theater Arts
@@ -3574,8 +3632,8 @@ paths:
               * `EC` - Edgerton Center
               * `ES` - Experimental Study Group
               * `ESD` - Engineering Systems Division
-              * `HST` - Health Sciences and Technology
-              * `IDS` - Institute for Data, Systems, and Society
+              * `HST` - Medical Engineering and Science
+              * `IDS` - Data, Systems, and Society
               * `MAS` - Media Arts and Sciences
               * `PE` - Athletics, Physical Education and Recreation
               * `RES` - Supplemental Resources
@@ -3588,18 +3646,24 @@ paths:
           \ - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n* `10`\
           \ - Chemical Engineering\n* `11` - Urban Studies and Planning\n* `12` -\
           \ Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n* `15`\
-          \ - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-          * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n\
-          * `21A` - Anthropology\n* `21G` - Global Studies and Languages\n* `21H`\
-          \ - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n* `22`\
-          \ - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-          * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-          \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-          \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS` -\
-          \ Institute for Data, Systems, and Society\n* `MAS` - Media Arts and Sciences\n\
-          * `PE` - Athletics, Physical Education and Recreation\n* `RES` - Supplemental\
-          \ Resources\n* `STS` - Science, Technology, and Society\n* `WGS` - Women's\
-          \ and Gender Studies"
+          \ - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+          \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+          \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+          \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+          \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+          * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+          * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+          * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+          \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+          \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS` -\
+          \ Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
+      - in: query
+        name: dev_mode
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+        description: If true return raw open search results with score explanations
       - in: query
         name: free
         schema:
@@ -3850,6 +3914,17 @@ paths:
             type: string
             minLength: 1
         description: The topic name. To see a list of options go to api/v1/topics/
+      - in: query
+        name: yearly_decay_percent
+        schema:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+          default: 2.5
+        description: Relevance score penalty percent per year for for resources without
+          upcoming runs. Only affects results if there is a search term.
       tags:
       - learning_resources_user_subscription
       requestBody:
@@ -3969,13 +4044,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -3986,8 +4061,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -4687,13 +4762,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -4704,8 +4779,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -5080,13 +5155,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -5097,8 +5172,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -5560,13 +5635,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -5577,8 +5652,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -6343,13 +6418,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -6360,8 +6435,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -6802,13 +6877,13 @@ paths:
           * `11` - Urban Studies and Planning
           * `12` - Earth, Atmospheric, and Planetary Sciences
           * `14` - Economics
-          * `15` - Sloan School of Management
+          * `15` - Management
           * `16` - Aeronautics and Astronautics
           * `17` - Political Science
           * `18` - Mathematics
           * `20` - Biological Engineering
           * `21A` - Anthropology
-          * `21G` - Global Studies and Languages
+          * `21G` - Global Languages
           * `21H` - History
           * `21L` - Literature
           * `21M` - Music and Theater Arts
@@ -6819,8 +6894,8 @@ paths:
           * `EC` - Edgerton Center
           * `ES` - Experimental Study Group
           * `ESD` - Engineering Systems Division
-          * `HST` - Health Sciences and Technology
-          * `IDS` - Institute for Data, Systems, and Society
+          * `HST` - Medical Engineering and Science
+          * `IDS` - Data, Systems, and Society
           * `MAS` - Media Arts and Sciences
           * `PE` - Athletics, Physical Education and Recreation
           * `RES` - Supplemental Resources
@@ -7171,6 +7246,17 @@ components:
       required:
       - html
       - title
+    AvailabilityEnum:
+      enum:
+      - dated
+      - anytime
+      type: string
+      description: |-
+        * `dated` - Dated
+        * `anytime` - Anytime
+      x-enum-descriptions:
+      - Dated
+      - Anytime
     CertificationTypeEnum:
       enum:
       - micromasters
@@ -7467,7 +7553,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -7484,17 +7570,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -7565,6 +7648,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -7632,6 +7720,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -7693,13 +7786,13 @@ components:
         * `11` - Urban Studies and Planning
         * `12` - Earth, Atmospheric, and Planetary Sciences
         * `14` - Economics
-        * `15` - Sloan School of Management
+        * `15` - Management
         * `16` - Aeronautics and Astronautics
         * `17` - Political Science
         * `18` - Mathematics
         * `20` - Biological Engineering
         * `21A` - Anthropology
-        * `21G` - Global Studies and Languages
+        * `21G` - Global Languages
         * `21H` - History
         * `21L` - Literature
         * `21M` - Music and Theater Arts
@@ -7710,8 +7803,8 @@ components:
         * `EC` - Edgerton Center
         * `ES` - Experimental Study Group
         * `ESD` - Engineering Systems Division
-        * `HST` - Health Sciences and Technology
-        * `IDS` - Institute for Data, Systems, and Society
+        * `HST` - Medical Engineering and Science
+        * `IDS` - Data, Systems, and Society
         * `MAS` - Media Arts and Sciences
         * `PE` - Athletics, Physical Education and Recreation
         * `RES` - Supplemental Resources
@@ -7731,13 +7824,13 @@ components:
       - Urban Studies and Planning
       - Earth, Atmospheric, and Planetary Sciences
       - Economics
-      - Sloan School of Management
+      - Management
       - Aeronautics and Astronautics
       - Political Science
       - Mathematics
       - Biological Engineering
       - Anthropology
-      - Global Studies and Languages
+      - Global Languages
       - History
       - Literature
       - Music and Theater Arts
@@ -7748,8 +7841,8 @@ components:
       - Edgerton Center
       - Experimental Study Group
       - Engineering Systems Division
-      - Health Sciences and Technology
-      - Institute for Data, Systems, and Society
+      - Medical Engineering and Science
+      - Data, Systems, and Society
       - Media Arts and Sciences
       - Athletics, Physical Education and Recreation
       - Supplemental Resources
@@ -7878,7 +7971,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -7895,17 +7988,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -7975,6 +8065,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -8039,6 +8134,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - title
     LearningPathResourceResourceTypeEnum:
@@ -8066,7 +8166,10 @@ components:
           video_playlist: '#/components/schemas/VideoPlaylistResource'
     LearningResourceBaseDepartment:
       type: object
-      description: Serializer for LearningResourceDepartment, minus school
+      description: |-
+        Serializer for LearningResourceDepartment, minus school
+
+        The absence of the departments list is to avoid a circular serialization structure.
       properties:
         department_id:
           type: string
@@ -8076,17 +8179,18 @@ components:
           maxLength: 256
         channel_url:
           type: string
-          nullable: true
-          description: Get the channel url for the department if it exists
           readOnly: true
+          nullable: true
       required:
       - channel_url
       - department_id
       - name
     LearningResourceBaseSchool:
       type: object
-      description: Base serializer for LearningResourceSchool model, minus departments
-        list
+      description: |-
+        Base serializer for LearningResourceSchool model, minus departments list
+
+        The absence of the departments list is to avoid a circular serialization structure.
       properties:
         id:
           type: integer
@@ -8104,8 +8208,10 @@ components:
       - url
     LearningResourceBaseSchoolRequest:
       type: object
-      description: Base serializer for LearningResourceSchool model, minus departments
-        list
+      description: |-
+        Base serializer for LearningResourceSchool model, minus departments list
+
+        The absence of the departments list is to avoid a circular serialization structure.
       properties:
         name:
           type: string
@@ -8144,9 +8250,8 @@ components:
           maxLength: 256
         channel_url:
           type: string
-          nullable: true
-          description: Get the channel url for the department if it exists
           readOnly: true
+          nullable: true
         school:
           allOf:
           - $ref: '#/components/schemas/LearningResourceBaseSchool'
@@ -8260,9 +8365,8 @@ components:
           maxLength: 256
         channel_url:
           type: string
-          nullable: true
-          description: Get the channel url for the offeror if it exists
           readOnly: true
+          nullable: true
       required:
       - channel_url
       - code
@@ -8276,9 +8380,8 @@ components:
           maxLength: 12
         channel_url:
           type: string
-          nullable: true
-          description: Get the channel url for the offeror if it exists
           readOnly: true
+          nullable: true
         name:
           type: string
           maxLength: 256
@@ -8480,10 +8583,6 @@ components:
           type: string
           nullable: true
           maxLength: 1024
-        availability:
-          type: string
-          nullable: true
-          maxLength: 128
         semester:
           type: string
           nullable: true
@@ -8587,10 +8686,6 @@ components:
           type: string
           nullable: true
           maxLength: 1024
-        availability:
-          type: string
-          nullable: true
-          maxLength: 128
         semester:
           type: string
           nullable: true
@@ -8665,11 +8760,17 @@ components:
         name:
           type: string
           maxLength: 128
+        icon:
+          type: string
+          description: The icon to display for the topic.
+          maxLength: 128
         parent:
           type: integer
           nullable: true
         channel_url:
           type: string
+          readOnly: true
+          nullable: true
       required:
       - channel_url
       - id
@@ -8791,6 +8892,9 @@ components:
       - child
       - id
       - parent
+    NullEnum:
+      enum:
+      - null
     OfferedByEnum:
       enum:
       - mitx
@@ -9339,6 +9443,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
     PatchedUserListRelationshipRequest:
       type: object
       description: Serializer for UserListRelationship model
@@ -9374,6 +9483,12 @@ components:
         id:
           type: integer
           readOnly: true
+        source_description:
+          type: string
+          readOnly: true
+        source_label:
+          type: string
+          readOnly: true
         original_query: {}
         query: {}
         source_type:
@@ -9382,6 +9497,8 @@ components:
       - id
       - original_query
       - query
+      - source_description
+      - source_label
       - source_type
     PercolateQuerySubscriptionRequestRequest:
       type: object
@@ -9426,6 +9543,11 @@ components:
             type: string
             minLength: 1
           description: The topic name. To see a list of options go to api/v1/topics/
+        dev_mode:
+          type: boolean
+          nullable: true
+          default: false
+          description: If true return raw open search results with score explanations
         id:
           type: array
           items:
@@ -9465,6 +9587,15 @@ components:
         professional:
           type: boolean
           nullable: true
+        yearly_decay_percent:
+          type: number
+          format: double
+          maximum: 10
+          minimum: 0
+          nullable: true
+          default: 2.5
+          description: Relevance score penalty percent per year for for resources
+            without upcoming runs. Only affects results if there is a search term.
         certification:
           type: boolean
           nullable: true
@@ -9487,18 +9618,17 @@ components:
             * `7` - Biology\n* `8` - Physics\n* `9` - Brain and Cognitive Sciences\n\
             * `10` - Chemical Engineering\n* `11` - Urban Studies and Planning\n*\
             \ `12` - Earth, Atmospheric, and Planetary Sciences\n* `14` - Economics\n\
-            * `15` - Sloan School of Management\n* `16` - Aeronautics and Astronautics\n\
-            * `17` - Political Science\n* `18` - Mathematics\n* `20` - Biological\
-            \ Engineering\n* `21A` - Anthropology\n* `21G` - Global Studies and Languages\n\
-            * `21H` - History\n* `21L` - Literature\n* `21M` - Music and Theater Arts\n\
-            * `22` - Nuclear Science and Engineering\n* `24` - Linguistics and Philosophy\n\
-            * `CC` - Concourse\n* `CMS-W` - Comparative Media Studies/Writing\n* `EC`\
-            \ - Edgerton Center\n* `ES` - Experimental Study Group\n* `ESD` - Engineering\
-            \ Systems Division\n* `HST` - Health Sciences and Technology\n* `IDS`\
-            \ - Institute for Data, Systems, and Society\n* `MAS` - Media Arts and\
-            \ Sciences\n* `PE` - Athletics, Physical Education and Recreation\n* `RES`\
-            \ - Supplemental Resources\n* `STS` - Science, Technology, and Society\n\
-            * `WGS` - Women's and Gender Studies"
+            * `15` - Management\n* `16` - Aeronautics and Astronautics\n* `17` - Political\
+            \ Science\n* `18` - Mathematics\n* `20` - Biological Engineering\n* `21A`\
+            \ - Anthropology\n* `21G` - Global Languages\n* `21H` - History\n* `21L`\
+            \ - Literature\n* `21M` - Music and Theater Arts\n* `22` - Nuclear Science\
+            \ and Engineering\n* `24` - Linguistics and Philosophy\n* `CC` - Concourse\n\
+            * `CMS-W` - Comparative Media Studies/Writing\n* `EC` - Edgerton Center\n\
+            * `ES` - Experimental Study Group\n* `ESD` - Engineering Systems Division\n\
+            * `HST` - Medical Engineering and Science\n* `IDS` - Data, Systems, and\
+            \ Society\n* `MAS` - Media Arts and Sciences\n* `PE` - Athletics, Physical\
+            \ Education and Recreation\n* `RES` - Supplemental Resources\n* `STS`\
+            \ - Science, Technology, and Society\n* `WGS` - Women's and Gender Studies"
         level:
           type: array
           items:
@@ -9630,8 +9760,6 @@ components:
           readOnly: true
         episode_count:
           type: integer
-          description: Return the number of episodes in the podcast
-          readOnly: true
         apple_podcasts_url:
           type: string
           format: uri
@@ -9748,7 +9876,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -9765,17 +9893,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -9846,6 +9971,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -9913,6 +10043,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -9924,6 +10059,8 @@ components:
       type: object
       description: Serializer for Podcasts
       properties:
+        episode_count:
+          type: integer
         apple_podcasts_url:
           type: string
           format: uri
@@ -9942,6 +10079,8 @@ components:
           nullable: true
           minLength: 1
           maxLength: 2048
+      required:
+      - episode_count
     PodcastResource:
       type: object
       description: Serializer for podcast resources
@@ -9998,7 +10137,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -10015,17 +10154,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -10096,6 +10232,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -10163,6 +10304,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -10185,14 +10331,11 @@ components:
       type: object
       description: Serializer for the Program model
       properties:
-        courses:
-          type: array
-          items:
-            $ref: '#/components/schemas/CourseResource'
-          nullable: true
+        course_count:
+          type: integer
           readOnly: true
       required:
-      - courses
+      - course_count
     ProgramCertificate:
       type: object
       description: Serializer for Program Certificates
@@ -10385,7 +10528,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -10402,17 +10545,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -10483,6 +10623,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -10550,6 +10695,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -10822,11 +10972,17 @@ components:
           nullable: true
         video_count:
           type: integer
-          description: Return the number of videos in the playlist
-          readOnly: true
       required:
       - channel
       - id
+      - video_count
+    VideoPlaylistRequest:
+      type: object
+      description: Serializer for the VideoPlaylist model
+      properties:
+        video_count:
+          type: integer
+      required:
       - video_count
     VideoPlaylistResource:
       type: object
@@ -10884,7 +11040,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -10901,17 +11057,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -10982,6 +11135,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -11049,6 +11207,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title
@@ -11124,7 +11287,7 @@ components:
           items:
             type: string
             format: decimal
-            pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+            pattern: ^-?\d{0,10}(?:\.\d{0,2})?$
           readOnly: true
         runs:
           type: array
@@ -11141,17 +11304,14 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/MicroLearningPathRelationship'
-          nullable: true
           readOnly: true
         user_list_parents:
           type: array
           items:
             $ref: '#/components/schemas/MicroUserListRelationship'
-          nullable: true
           readOnly: true
         views:
           type: integer
-          description: Return the number of views for the resource.
           readOnly: true
         learning_format:
           type: array
@@ -11222,6 +11382,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - certification
       - certification_type
@@ -11289,6 +11454,11 @@ components:
           type: string
           format: date-time
           nullable: true
+        availability:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/AvailabilityEnum'
+          - $ref: '#/components/schemas/NullEnum'
       required:
       - readable_id
       - title

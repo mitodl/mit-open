@@ -22,7 +22,7 @@ CELERY_WORKER_MAX_MEMORY_PER_CHILD = get_int(
 
 CELERY_BEAT_SCHEDULE = {
     "update_next-start-date-every-1-days": {
-        "task": "learning_resources.tasks.update_next_start_date",
+        "task": "learning_resources.tasks.update_next_start_date_and_prices",
         "schedule": crontab(minute=0, hour=4),  # midnight EST
     },
     "update_edx-courses-every-1-days": {
@@ -102,6 +102,12 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": get_int(
             "NEWS_EVENTS_SLOAN_EXEC_NEWS_SCHEDULE_SECONDS", 60 * 60 * 3
         ),  # default is every 3 hours
+    },
+    "update_sloan_webinars": {
+        "task": "news_events.tasks.get_sloan_exec_webinars",
+        "schedule": get_int(
+            "NEWS_EVENTS_SLOAN_EXEC_WEBINAR_SCHEDULE_SECONDS", 60 * 60 * 12
+        ),  # default is every 12 hours
     },
     "update_ol_events": {
         "task": "news_events.tasks.get_ol_events",

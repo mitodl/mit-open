@@ -137,7 +137,7 @@ def test_get_profile(logged_in, user, user_client):
         "time_commitment": profile.time_commitment,
         "learning_format": profile.learning_format,
         "preference_search_filters": {
-            "learning_format": [profile.learning_format],
+            "learning_format": profile.learning_format,
             "certification": (
                 profile.certificate_desired == Profile.CertificateDesired.YES.value
             ),
@@ -271,7 +271,12 @@ def test_patch_topic_interests(client, logged_in_profile):
 @pytest.mark.parametrize(
     ("field", "before", "value", "after"),
     [
-        ("goals", [], [Profile.Goal.JUST_TO_LEARN], [Profile.Goal.JUST_TO_LEARN]),
+        (
+            "goals",
+            [],
+            [Profile.Goal.LIFELONG_LEARNING],
+            [Profile.Goal.LIFELONG_LEARNING],
+        ),
         (
             "certificate_desired",
             "",
@@ -292,9 +297,9 @@ def test_patch_topic_interests(client, logged_in_profile):
         ),
         (
             "learning_format",
-            "",
-            LearningResourceFormat.hybrid.name,
-            LearningResourceFormat.hybrid.name,
+            [],
+            [LearningResourceFormat.hybrid.name],
+            [LearningResourceFormat.hybrid.name],
         ),
     ],
 )

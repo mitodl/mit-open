@@ -14,7 +14,6 @@ import * as factories from "api/test-utils/factories"
 import {
   GoalsEnum,
   LearningFormatEnum,
-  TimeCommitmentEnum,
   CurrentEducationEnum,
   CertificateDesiredEnum,
   type Profile,
@@ -27,19 +26,16 @@ const STEPS_DATA: Partial<Profile>[] = [
     topic_interests: [factories.learningResources.topic()],
   },
   {
-    goals: [GoalsEnum.JustToLearn],
+    goals: [GoalsEnum.LifelongLearning],
   },
   {
     certificate_desired: CertificateDesiredEnum.Yes,
   },
   {
-    time_commitment: TimeCommitmentEnum._0To5Hours,
-  },
-  {
     current_education: CurrentEducationEnum.SecondaryHighSchool,
   },
   {
-    learning_format: LearningFormatEnum.Hybrid,
+    learning_format: [LearningFormatEnum.Hybrid],
   },
 ]
 
@@ -52,10 +48,9 @@ const profileForStep = (step: number) => {
 
 const STEP_TITLES = [
   "What are you interested in learning about?",
-  "What do you want MIT online education to help you reach?",
-  "Are you seeking to receive a certificate?",
+  "What are your learning goals?",
+  "Are you seeking a certificate?",
   "What is your current level of education?",
-  "How much time per week do you want to commit to learning?",
   "What course format are you interested in?",
 ]
 
@@ -220,7 +215,7 @@ describe("OnboardingPage", () => {
     })
   })
 
-  describe("Time commitment step", () => {
+  describe("Learning format step", () => {
     const STEP = 4
     const TITLE = STEP_TITLES[STEP]
 
@@ -232,42 +227,7 @@ describe("OnboardingPage", () => {
       expect(await screen.findByText(TITLE, { exact: false })).not.toBeNil()
     })
 
-    test("Has 'Next' and 'Back' buttons", async () => {
-      const backButton = await findBackButton()
-      const nextButton = await findNextButton()
-      const finishButton = queryFinishButton()
-
-      expect(backButton).not.toBeNil()
-      expect(nextButton).not.toBeNil()
-      expect(finishButton).toBeNil()
-    })
-
-    test("Back button should go to previous step", async () => {
-      const backButton = await findBackButton()
-
-      await user.click(backButton)
-
-      await waitFor(async () => {
-        expect(
-          await screen.findByText(STEP_TITLES[STEP - 1], { exact: false }),
-        ).not.toBeNil()
-      })
-    })
-  })
-
-  describe("Learning format step", () => {
-    const STEP = 5
-    const TITLE = STEP_TITLES[STEP]
-
-    beforeEach(async () => {
-      await setupAndProgressToStep(STEP)
-    })
-
-    test(`Title should be '${TITLE}'`, async () => {
-      expect(await screen.findByText(TITLE, { exact: false })).not.toBeNil()
-    })
-
-    test("Has 'Next' and 'Back' buttons", async () => {
+    test("Has 'Next' and 'Finish' buttons", async () => {
       const backButton = await findBackButton()
       const nextButton = queryNextButton()
       const finishButton = await findFinishButton()

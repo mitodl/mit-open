@@ -43,6 +43,7 @@ test("Shows subscription popover if user is NOT authenticated", async () => {
   setMockResponse.get(urls.userMe.get(), {}, { code: 403 })
   renderWithProviders(
     <SearchSubscriptionToggle
+      itemName="Test"
       searchParams={new URLSearchParams()}
       sourceType="channel_subscription_type"
     />,
@@ -68,6 +69,7 @@ test.each(Object.values(SourceTypeEnum))(
     })
     renderWithProviders(
       <SearchSubscriptionToggle
+        itemName="Test"
         searchParams={new URLSearchParams([["offered_by", "ocw"]])}
         sourceType={sourceType}
       />,
@@ -76,6 +78,7 @@ test.each(Object.values(SourceTypeEnum))(
       name: "Follow",
     })
     await user.click(subscribeButton)
+
     expect(makeRequest).toHaveBeenCalledWith("post", subscribeUrl, {
       source_type: sourceType,
       offered_by: ["ocw"],
@@ -97,6 +100,7 @@ test.each(Object.values(SourceTypeEnum))(
 
     renderWithProviders(
       <SearchSubscriptionToggle
+        itemName="Test"
         searchParams={new URLSearchParams([["offered_by", "ocw"]])}
         sourceType={sourceType}
       />,

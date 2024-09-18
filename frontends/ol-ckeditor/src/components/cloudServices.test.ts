@@ -12,8 +12,8 @@ describe("cloudServicesConfig", () => {
     expect(token).toBe("the-cool-token")
   })
 
-  test("ckeditor_upload_url is set from global SETTINGS", () => {
-    APP_SETTINGS.ckeditor_upload_url = "https://meowmeow.com"
+  test("CKEDITOR_UPLOAD_URL is set from global APP_SETTINGS", () => {
+    APP_SETTINGS.CKEDITOR_UPLOAD_URL = "https://meowmeow.com"
     const cloud = getCloudServicesConfig()
     expect(cloud.uploadUrl).toBe("https://meowmeow.com")
   })

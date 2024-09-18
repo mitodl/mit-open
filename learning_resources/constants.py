@@ -6,20 +6,24 @@ from named_enum import ExtendedEnum
 FAVORITES_TITLE = "Favorites"
 
 
-class AvailabilityType(ExtendedEnum):
+class RunAvailability(ExtendedEnum):
     """
     Enum for Course availability options dictated by edX API values.
-    While these are the options coming in from edX that we store as is, we
-    display some values differently. Namely "Current" is displayed to the user
-    as "Available Now" and "Archived" is displayed as "Prior".
-    As of 06/21/2019, the above mapping occurs in `learning_resources.js:availabilityLabel()`.
-    All OCW courses should be set to "Current".
-    """  # noqa: E501
+    """
 
-    current = "Current"  # displayed as "Available Now"
+    current = "Current"
     upcoming = "Upcoming"
     starting_soon = "Starting Soon"
-    archived = "Archived"  # displayed as "Prior"
+    archived = "Archived"
+
+
+class Availability(ExtendedEnum):
+    """
+    Describes when a resource is available to users.
+    """
+
+    dated = "Dated"  # available within specific date ranges
+    anytime = "Anytime"  # available any time
 
 
 class LearningResourceType(ExtendedEnum):
@@ -164,13 +168,13 @@ DEPARTMENTS = {
     "11": "Urban Studies and Planning",
     "12": "Earth, Atmospheric, and Planetary Sciences",
     "14": "Economics",
-    "15": "Sloan School of Management",
+    "15": "Management",
     "16": "Aeronautics and Astronautics",
     "17": "Political Science",
     "18": "Mathematics",
     "20": "Biological Engineering",
     "21A": "Anthropology",
-    "21G": "Global Studies and Languages",
+    "21G": "Global Languages",
     "21H": "History",
     "21L": "Literature",
     "21M": "Music and Theater Arts",
@@ -181,8 +185,8 @@ DEPARTMENTS = {
     "EC": "Edgerton Center",
     "ES": "Experimental Study Group",
     "ESD": "Engineering Systems Division",
-    "HST": "Health Sciences and Technology",
-    "IDS": "Institute for Data, Systems, and Society",
+    "HST": "Medical Engineering and Science",
+    "IDS": "Data, Systems, and Society",
     "MAS": "Media Arts and Sciences",
     "PE": "Athletics, Physical Education and Recreation",
     "RES": "Supplemental Resources",

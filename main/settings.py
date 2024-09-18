@@ -33,7 +33,7 @@ from main.settings_course_etl import *  # noqa: F403
 from main.settings_pluggy import *  # noqa: F403
 from openapi.settings_spectacular import open_spectacular_settings
 
-VERSION = "0.13.18"
+VERSION = "0.15.1"
 
 log = logging.getLogger()
 
@@ -357,7 +357,7 @@ AUTHORIZATION_URL = get_string(
 STATIC_URL = "/static/"
 
 STATIC_ROOT = "staticfiles"
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "frontends/mit-open/public")]  # noqa: PTH118
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]  # noqa: PTH118
 
 # Important to define this so DEBUG works properly
 INTERNAL_IPS = (get_string("HOST_IP", "127.0.0.1"),)
@@ -395,6 +395,9 @@ ANYMAIL = {
     "MAILGUN_SENDER_DOMAIN": MAILGUN_SENDER_DOMAIN,
 }
 
+NOTIFICATION_EMAIL_BACKEND = get_string(
+    "MITOPEN_NOTIFICATION_EMAIL_BACKEND", "anymail.backends.test.EmailBackend"
+)
 # e-mail configurable admins
 ADMIN_EMAIL = get_string("MITOPEN_ADMIN_EMAIL", "")
 ADMINS = (("Admins", ADMIN_EMAIL),) if ADMIN_EMAIL != "" else ()
@@ -721,6 +724,7 @@ SILKY_MAX_RECORDED_REQUESTS = get_int(name="SILKY_MAX_RECORDED_REQUESTS", defaul
 SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT = get_int(
     name="SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT", default=10
 )
+SILKY_PYTHON_PROFILER = get_bool("SILKY_PYTHON_PROFILER", default=False)
 SILKY_AUTHENTICATION = True  # User must login
 SILKY_AUTHORISATION = True
 SILKY_PERMISSIONS = lambda user: user.is_superuser  # noqa: E731

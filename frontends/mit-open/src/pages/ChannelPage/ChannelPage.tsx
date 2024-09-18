@@ -3,18 +3,12 @@ import { useParams } from "react-router"
 import { ChannelPageTemplate } from "./ChannelPageTemplate"
 import { useChannelDetail } from "api/hooks/channels"
 import FieldSearch from "./ChannelSearch"
-import {
-  type Facets,
-  type FacetKey,
-  type BooleanFacets,
+import type {
+  Facets,
+  FacetKey,
+  BooleanFacets,
 } from "@mitodl/course-search-utils"
 import { ChannelTypeEnum } from "api/v0"
-import TestimonialDisplay from "@/page-components/TestimonialDisplay/TestimonialDisplay"
-import { styled } from "ol-components"
-
-export const StyledTestimonialDisplay = styled(TestimonialDisplay)`
-  margin-bottom: 80px;
-`
 
 type RouteParams = {
   channelType: ChannelTypeEnum
@@ -41,18 +35,17 @@ const ChannelPage: React.FC = () => {
   return (
     name &&
     channelType && (
-      <ChannelPageTemplate name={name} channelType={channelType}>
-        <p>{channelQuery.data?.public_description}</p>
-        {channelType === "unit" ? (
-          <StyledTestimonialDisplay offerors={[name]} />
-        ) : null}
-        {channelQuery.data?.search_filter && (
-          <FieldSearch
-            constantSearchParams={searchParams}
-            channelType={channelType}
-          />
-        )}
-      </ChannelPageTemplate>
+      <>
+        <ChannelPageTemplate name={name} channelType={channelType}>
+          <p>{channelQuery.data?.public_description}</p>
+          {channelQuery.data?.search_filter && (
+            <FieldSearch
+              constantSearchParams={searchParams}
+              channelType={channelType}
+            />
+          )}
+        </ChannelPageTemplate>
+      </>
     )
   )
 }

@@ -9,7 +9,6 @@ from django.db import models, transaction
 from django.db.models import JSONField
 from django_scim.models import AbstractSCIMUserMixin
 
-from learning_resources.constants import LearningResourceFormat
 from main.utils import frontend_absolute_url
 from profiles.utils import (
     IMAGE_MEDIUM_MAX_DIMENSION,
@@ -73,16 +72,16 @@ class Profile(AbstractSCIMUserMixin):
     class Goal(models.TextChoices):
         """User goals choices"""
 
+        ACADEMIC_EXCELLENCE = "academic-excellence", "Academic Boost"
         CAREER_GROWTH = "career-growth", "Career Growth"
-        SUPPLEMENTAL_LEARNING = "supplemental-learning", "Supplemental Learning"
-        JUST_TO_LEARN = "just-to-learn", "Just to Learn"
+        LIFELONG_LEARNING = "lifelong-learning", "Lifelong Learning"
 
     class CertificateDesired(models.TextChoices):
         """User certificate desired choices"""
 
-        YES = "yes", "Yes"
-        NO = "no", "No"
-        NOT_SURE_YET = "not-sure-yet", "Not Sure Yet"
+        YES = "yes", "Yes, I am looking for a certificate"
+        NO = "no", "No, I am not looking for a certificate"
+        NOT_SURE_YET = "not-sure-yet", "Not Sure"
 
     class CurrentEducation(models.TextChoices):
         """User current education choices"""
@@ -109,6 +108,13 @@ class Profile(AbstractSCIMUserMixin):
         TEN_TO_TWENTY_HOURS = "10-to-20-hours", "10-20 hours/week"
         TWENTY_TO_THIRTY_HOURS = "20-to-30-hours", "20-30 hours/week"
         THIRTY_PLUS_HOURS = "30-plus-hours", "30+ hours/week"
+
+    class LearningResourceFormat(models.TextChoices):
+        """User learning format choices"""
+
+        ONLINE = "online", "Online"
+        HYBRID = "hybrid", "Hybrid"
+        IN_PERSON = "in_person", "In-Person"
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -163,8 +169,10 @@ class Profile(AbstractSCIMUserMixin):
     time_commitment = models.CharField(
         max_length=50, choices=TimeCommitment.choices, blank=True, default=""
     )
-    learning_format = models.CharField(
-        max_length=50, choices=LearningResourceFormat.as_tuple(), blank=True, default=""
+    learning_format = ArrayField(
+        models.CharField(max_length=50, choices=LearningResourceFormat.choices),
+        default=list,
+        blank=True,
     )
 
     @transaction.atomic

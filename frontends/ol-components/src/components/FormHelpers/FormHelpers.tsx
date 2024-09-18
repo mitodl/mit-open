@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "@emotion/styled"
-import { RiInformationLine } from "@remixicon/react"
+import { RiErrorWarningLine } from "@remixicon/react"
 import Typography from "@mui/material/Typography"
 
 const Required = styled.span(({ theme }) => ({
@@ -16,9 +16,16 @@ const Description = styled.div<{ error?: boolean }>(({ theme, error }) => [
       : theme.custom.colors.silverGrayDark,
   },
   error && {
+    textIndent: "-24px",
+    paddingLeft: "24px",
+
     "> svg:first-of-type": {
       marginRight: "4px",
       transform: "translateY(2px)",
+      width: "18px",
+      height: "18px",
+      position: "relative",
+      top: "2px",
     },
   },
 ])
@@ -42,12 +49,14 @@ type ControlLabelProps = {
   label: React.ReactNode
   required?: boolean
   id?: string
+  fullWidth?: boolean
 }
 const ControlLabel: React.FC<ControlLabelProps> = ({
   htmlFor,
   label,
   required,
   id,
+  fullWidth,
 }) => {
   return (
     <Typography
@@ -55,7 +64,7 @@ const ControlLabel: React.FC<ControlLabelProps> = ({
       component="label"
       htmlFor={htmlFor}
       variant="subtitle2"
-      sx={{ marginBottom: "4px" }}
+      sx={{ marginBottom: "4px", width: fullWidth ? "100%" : "auto" }}
     >
       {label}
       {required ? <Required aria-hidden="true">*</Required> : null}
@@ -117,6 +126,7 @@ const FormFieldWrapper: React.FC<FormFieldWrapperProps> = ({
         id={labelId}
         label={label}
         required={required}
+        fullWidth={fullWidth}
       />
       {children({
         id: inputId,
@@ -129,7 +139,7 @@ const FormFieldWrapper: React.FC<FormFieldWrapperProps> = ({
       {helpText && <Description id={helpId}>{helpText}</Description>}
       {error && errorText && (
         <Description id={errorId} error>
-          <RiInformationLine fontSize="inherit" />
+          <RiErrorWarningLine fontSize="inherit" />
           {errorText}
         </Description>
       )}

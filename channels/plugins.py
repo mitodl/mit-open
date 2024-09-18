@@ -1,5 +1,7 @@
 """Plugins for channels"""
 
+from urllib.parse import urlencode
+
 from django.apps import apps
 from django.utils.text import slugify
 
@@ -10,6 +12,29 @@ from channels.models import (
     ChannelTopicDetail,
     ChannelUnitDetail,
 )
+from learning_resources.models import LearningResource
+
+
+def unpublish_topics_for_resource(resource):
+    """
+    Unpublish channels for topics that are used exclusively by the resource
+
+    Args:
+        resource(LearningResource): The resource that was unpublished
+    """
+    other_published = LearningResource.objects.filter(
+        published=True,
+    ).exclude(id=resource.id)
+
+    channels = Channel.objects.filter(
+        topic_detail__topic__in=resource.topics.all(),
+        channel_type=ChannelType.topic.name,  # Redundant, but left for clarity
+        published=True,
+    ).exclude(topic_detail__topic__learningresource__in=other_published)
+
+    for channel in channels:
+        channel.published = False
+        channel.save()
 
 
 class ChannelPlugin:
@@ -34,7 +59,10 @@ class ChannelPlugin:
             channel, _ = Channel.objects.update_or_create(
                 name=slugify(topic.name),
                 channel_type=ChannelType.topic.name,
-                defaults={"title": topic.name, "search_filter": f"topic={topic.name}"},
+                defaults={
+                    "title": topic.name,
+                    "search_filter": urlencode({"topic": topic.name}),
+                },
             )
             ChannelTopicDetail.objects.update_or_create(channel=channel, topic=topic)
             return channel, True
@@ -73,11 +101,11 @@ class ChannelPlugin:
             channel = None
         elif department.school and (overwrite or not channel):
             channel, _ = Channel.objects.update_or_create(
-                name=slugify(department.name),
+                search_filter=urlencode({"department": department.department_id}),
                 channel_type=ChannelType.department.name,
                 defaults={
+                    "name": slugify(department.name),
                     "title": department.name,
-                    "search_filter": f"department={department.department_id}",
                 },
             )
             ChannelDepartmentDetail.objects.update_or_create(
@@ -117,7 +145,7 @@ class ChannelPlugin:
                 channel_type=ChannelType.unit.name,
                 defaults={
                     "title": offeror.name,
-                    "search_filter": f"offered_by={offeror.code}",
+                    "search_filter": urlencode({"offered_by": offeror.code}),
                 },
             )
             ChannelUnitDetail.objects.update_or_create(channel=channel, unit=offeror)
@@ -135,3 +163,29 @@ class ChannelPlugin:
         """
         Channel.objects.filter(unit_detail__unit=offeror).delete()
         offeror.delete()
+
+    @hookimpl
+    def resource_upserted(self, resource, percolate):  # noqa: ARG002
+        """
+        Publish channels for the resource's topics
+        """
+        channels = Channel.objects.filter(
+            topic_detail__topic__in=resource.topics.all(), published=False
+        )
+        for channel in channels:
+            channel.published = True
+            channel.save()
+
+    @hookimpl
+    def resource_before_delete(self, resource):
+        """
+        Unpublish channels for the resource's topics
+        """
+        unpublish_topics_for_resource(resource)
+
+    @hookimpl
+    def resource_unpublished(self, resource):
+        """
+        Unpublish channels for the resource's topics
+        """
+        unpublish_topics_for_resource(resource)

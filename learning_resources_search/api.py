@@ -3,6 +3,7 @@
 import logging
 import re
 from collections import Counter
+from datetime import UTC, datetime
 
 from opensearch_dsl import Search
 from opensearch_dsl.query import MoreLikeThis, Percolate
@@ -20,11 +21,11 @@ from learning_resources_search.constants import (
     DEPARTMENT_QUERY_FIELDS,
     LEARNING_RESOURCE,
     LEARNING_RESOURCE_QUERY_FIELDS,
-    LEARNING_RESOURCE_SEARCH_FILTERS,
     LEARNING_RESOURCE_TYPES,
     RESOURCEFILE_QUERY_FIELDS,
     RUN_INSTRUCTORS_QUERY_FIELDS,
     RUNS_QUERY_FIELDS,
+    SEARCH_FILTERS,
     SOURCE_EXCLUDED_FIELDS,
     TOPICS_QUERY_FIELDS,
 )
@@ -339,7 +340,7 @@ def generate_filter_clauses(search_params):
     """
     all_filter_clauses = {}
 
-    for filter_name, filter_config in LEARNING_RESOURCE_SEARCH_FILTERS.items():
+    for filter_name, filter_config in SEARCH_FILTERS.items():
         if search_params.get(filter_name):
             clauses_for_filter = [
                 generate_filter_clause(
@@ -446,7 +447,7 @@ def generate_aggregation_clauses(search_params, filter_clauses):
         for aggregation in search_params.get("aggregations"):
             # Each aggregation clause contains a filter which includes all the filters
             # except it's own
-            path = LEARNING_RESOURCE_SEARCH_FILTERS[aggregation].path
+            path = SEARCH_FILTERS[aggregation].path
             unfiltered_aggs = generate_aggregation_clause(aggregation, path)
             other_filters = [
                 filter_clauses[key] for key in filter_clauses if key != aggregation
@@ -485,7 +486,7 @@ def adjust_original_query_for_percolate(query):
     Remove keys that are irrelevent when storing original queries
     for percolate uniqueness such as "limit" and "offset"
     """
-    for key in ["limit", "offset", "sortby"]:
+    for key in ["limit", "offset", "sortby", "yearly_decay_percent", "dev_mode"]:
         query.pop(key, None)
     return order_params(query)
 
@@ -510,6 +511,43 @@ def percolate_matches_for_document(document_id):
     if len(percolate_ids) > 0:
         document_percolated_actions(resource, percolated_queries)
     return percolated_queries
+
+
+def add_text_query_to_search(
+    search, text, endpoint, yearly_decay_percent, query_type_query
+):
+    if endpoint == CONTENT_FILE_TYPE:
+        text_query = generate_content_file_text_clause(text)
+    else:
+        text_query = generate_learning_resources_text_clause(text)
+
+    if yearly_decay_percent and yearly_decay_percent > 0:
+        d = {
+            "script_score": {
+                "query": {"bool": {"must": [text_query], "filter": query_type_query}},
+                "script": {
+                    "source": (
+                        "doc['resource_age_date'].size() == 0 ? _score : "
+                        "_score * decayDateLinear(params.origin, params.scale, "
+                        "params.offset, params.decay, doc['resource_age_date'].value)"
+                    ),
+                    "params": {
+                        "origin": datetime.now(tz=UTC).strftime(
+                            "%Y-%m-%dT%H:%M:%S.%fZ"
+                        ),
+                        "offset": "0",
+                        "scale": "354d",
+                        "decay": 1 - (yearly_decay_percent / 100),
+                    },
+                },
+            }
+        }
+
+        search = search.query(d)
+    else:
+        search = search.query("bool", must=[text_query], filter=query_type_query)
+
+    return search
 
 
 def construct_search(search_params):
@@ -560,13 +598,16 @@ def construct_search(search_params):
 
     if search_params.get("q"):
         text = re.sub("[\u201c\u201d]", '"', search_params.get("q"))
-        if search_params.get("endpoint") == CONTENT_FILE_TYPE:
-            text_query = generate_content_file_text_clause(text)
-        else:
-            text_query = generate_learning_resources_text_clause(text)
+
+        search = add_text_query_to_search(
+            search,
+            text,
+            search_params.get("endpoint"),
+            search_params.get("yearly_decay_percent"),
+            query_type_query,
+        )
 
         suggest = generate_suggest_clause(text)
-        search = search.query("bool", must=[text_query], filter=query_type_query)
         search = search.extra(suggest=suggest)
     else:
         search = search.query(query_type_query)
@@ -580,6 +621,9 @@ def construct_search(search_params):
             search_params, filter_clauses
         )
         search = search.extra(aggs=aggregation_clauses)
+
+    if search_params.get("dev_mode"):
+        search = search.extra(explain=True)
 
     return search
 
@@ -596,7 +640,6 @@ def execute_learn_search(search_params):
     Returns:
         dict: The opensearch response dict
     """
-
     search = construct_search(search_params)
     return search.execute().to_dict()
 

@@ -330,17 +330,7 @@ def index_run_content_files(run_id, index_types):
     for ids_chunk in chunks(
         content_file_ids, chunk_size=settings.OPENSEARCH_DOCUMENT_INDEXING_CHUNK_SIZE
     ):
-        documents = (
-            serialize_content_file_for_bulk(content_file)
-            for content_file in ContentFile.objects.filter(pk__in=ids_chunk)
-        )
-
-        index_items(
-            documents,
-            COURSE_TYPE,
-            index_types=index_types,
-            routing=run.learning_resource.id,
-        )
+        index_content_files(ids_chunk, run.learning_resource.id, index_types)
 
 
 def index_content_files(content_file_ids, learning_resource_id, index_types):
@@ -356,7 +346,9 @@ def index_content_files(content_file_ids, learning_resource_id, index_types):
 
     documents = (
         serialize_content_file_for_bulk(content_file)
-        for content_file in ContentFile.objects.filter(pk__in=content_file_ids)
+        for content_file in ContentFile.objects.filter(
+            pk__in=content_file_ids
+        ).for_serialization()
     )
 
     index_items(

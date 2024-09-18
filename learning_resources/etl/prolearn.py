@@ -9,7 +9,7 @@ from urllib.parse import urljoin, urlparse
 import requests
 from django.conf import settings
 
-from learning_resources.constants import CertificationType
+from learning_resources.constants import Availability, CertificationType
 from learning_resources.etl.constants import ETLSource
 from learning_resources.etl.utils import transform_format, transform_topics
 from learning_resources.models import LearningResourceOfferor, LearningResourcePlatform
@@ -122,18 +122,19 @@ def parse_price(document: dict) -> Decimal:
     return [round(Decimal(price_str), 2)] if price_str else []
 
 
-def parse_topic(document: dict) -> list[dict]:
+def parse_topic(document: dict, offeror_code: str) -> list[dict]:
     """
     Get a list containing one {"name": <topic>} dict object
 
     Args:
         document: course or program data
+        offeror_code: the parsed offeror code
 
     Returns:
         list of dict: list containing one topic dict with a name attribute
     """
     topic = document.get("ucc_name")
-    return transform_topics([{"name": topic}]) if topic else []
+    return transform_topics([{"name": topic}], offeror_code) if topic else []
 
 
 def parse_image(document: dict) -> dict:
@@ -256,7 +257,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                 "certification_type": CertificationType.professional.name,
                 "learning_format": transform_format(program["format_name"]),
                 "runs": runs,
-                "topics": parse_topic(program),
+                "topics": parse_topic(program, offered_by.code) if offered_by else None,
                 "courses": [
                     {
                         "readable_id": course_id,
@@ -346,9 +347,10 @@ def _transform_course(
             },
             "learning_format": transform_format(course["format_name"]),
             "published": True,
-            "topics": parse_topic(course),
+            "topics": parse_topic(course, offered_by.code) if offered_by else None,
             "runs": runs,
             "unique_field": UNIQUE_FIELD,
+            "availability": Availability.dated.name,
         }
     return None
 

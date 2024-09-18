@@ -1,5 +1,6 @@
 import { resolve, join, dirname } from "path"
 import * as dotenv from "dotenv"
+import * as webpack from "webpack"
 
 dotenv.config({ path: resolve(__dirname, "../../../.env") })
 
@@ -19,6 +20,7 @@ const config = {
     "../../ol-components/src/**/*.mdx",
     "../../ol-components/src/**/*.stories.@(tsx|ts)",
   ],
+  staticDirs: [{ from: "../public", to: "/static" }],
   addons: [
     getAbsolutePath("@storybook/addon-links"),
     getAbsolutePath("@storybook/addon-essentials"),
@@ -31,14 +33,17 @@ const config = {
   docs: {
     autodocs: "tag",
   },
-  env: (config: any) => ({
-    ...config,
-    PUBLIC_URL: process.env.PUBLIC_URL || "",
-    EMBEDLY_KEY: process.env.EMBEDLY_KEY || "",
-    APP_SETTINGS: {
-      embedlyKey: process.env.EMBEDLY_KEY || "",
-    },
-  }),
+  webpackFinal: async (config: any) => {
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        APP_SETTINGS: {
+          EMBEDLY_KEY: JSON.stringify(process.env.EMBEDLY_KEY),
+          PUBLIC_URL: JSON.stringify(process.env.PUBLIC_URL),
+        },
+      }),
+    )
+    return config
+  },
 }
 
 export default config

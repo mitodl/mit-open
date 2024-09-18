@@ -19,7 +19,7 @@ jobs:
         with:
           ref: release
 
-      - uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4
+      - uses: actions/setup-node@1e60f620b9541d16bece96c5465dc8ee9832be0b # v4
         with:
           node-version: "^20"
           cache: yarn
@@ -31,6 +31,9 @@ jobs:
       - name: Install frontend dependencies
         run: yarn install --immutable
 
+      - name: Set VERSION
+        run: echo "VERSION=$(./scripts/get_version.sh)" >> $GITHUB_ENV
+
       - name: Build frontend
         run: NODE_ENV=production yarn build
         env:
@@ -40,9 +43,11 @@ jobs:
           POSTHOG_TIMEOUT_MS: 1000
           POSTHOG_PROJECT_ID: ${{ secrets.POSTHOG_PROJECT_ID_PROD }}
           POSTHOG_PROJECT_API_KEY: ${{ secrets.POSTHOG_PROJECT_API_KEY_PROD }}
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN_PROD }}
+          SENTRY_ENV: ${{ secrets.MITOPEN_ENV_PROD }}
           MITOPEN_AXIOS_WITH_CREDENTIALS: true
           MITOPEN_API_BASE_URL: https://api.mitopen.odl.mit.edu
-          MITOPEN_SUPPORT_EMAIL: mitopen-support@mit.edu
+          MITOPEN_SUPPORT_EMAIL: mitlearn-support@mit.edu
 
       - uses: akhileshns/heroku-deploy@581dd286c962b6972d427fcf8980f60755c15520
         with:

@@ -8,18 +8,22 @@ import {
   RiArrowRightLine,
   RiDeleteBinLine,
   RiEditLine,
+  RiTestTubeLine,
+  RiMailLine,
 } from "@remixicon/react"
 
 import { withRouter } from "storybook-addon-react-router-v6"
 import { fn } from "@storybook/test"
 import { capitalize } from "ol-utilities"
 
-const icons = {
+const ICONS = {
   None: undefined,
   ArrowForwardIcon: <RiArrowRightLine />,
   ArrowBackIcon: <RiArrowLeftLine />,
   DeleteIcon: <RiDeleteBinLine />,
   EditIcon: <RiEditLine />,
+  TestTubeIcon: <RiTestTubeLine />,
+  MailIcon: <RiMailLine />,
 }
 
 const meta: Meta<typeof Button> = {
@@ -46,12 +50,12 @@ const meta: Meta<typeof Button> = {
       control: { type: "select" },
     },
     startIcon: {
-      options: Object.keys(icons),
-      mapping: icons,
+      options: Object.keys(ICONS),
+      mapping: ICONS,
     },
     endIcon: {
-      options: Object.keys(icons),
-      mapping: icons,
+      options: Object.keys(ICONS),
+      mapping: ICONS,
     },
   },
   args: {
@@ -184,19 +188,12 @@ export const EdgeStory: Story = {
 
 export const WithIconStory: Story = {
   render: (args) => (
-    <Stack direction="row" gap={2} sx={{ my: 2 }}>
-      <Button {...args} startIcon={<RiArrowLeftLine />}>
-        Back
-      </Button>
-      <Button {...args} startIcon={<RiDeleteBinLine />}>
-        Delete
-      </Button>
-      <Button {...args} startIcon={<RiEditLine />}>
-        Edit
-      </Button>
-      <Button {...args} endIcon={<RiArrowRightLine />}>
-        Forward
-      </Button>
+    <Stack direction="column" alignItems="start" gap={2} sx={{ my: 2 }}>
+      {Object.entries(ICONS).map(([key, icon]) => (
+        <Button {...args} startIcon={icon} key={key}>
+          {key}
+        </Button>
+      ))}
     </Stack>
   ),
 }
@@ -225,8 +222,16 @@ const EDGES = ["rounded", "circular", "none"] as const
 const VARIANTS = ["primary", "secondary", "tertiary", "text"] as const
 const EXTRA_PROPS = [
   {},
-  { startIcon: <RiArrowLeftLine /> },
-  { endIcon: <RiArrowRightLine /> },
+  /**
+   * Show RiTestTubeLine because it is a fairly thin icon
+   */
+  { startIcon: <RiTestTubeLine /> },
+  /**
+   * Show RiTestTubeLine because it is a fairly thick icon
+   */
+  { startIcon: <RiMailLine /> },
+  { endIcon: <RiTestTubeLine /> },
+  { endIcon: <RiMailLine /> },
 ]
 
 export const LinkStory: Story = {
@@ -302,24 +307,6 @@ export const WrappingButtonShowcase: Story = {
   },
 }
 
-const ICONS = [
-  {
-    component: <RiArrowLeftLine />,
-    key: "back",
-  },
-  {
-    component: <RiDeleteBinLine />,
-    key: "delete",
-  },
-  {
-    component: <RiEditLine />,
-    key: "edit",
-  },
-  {
-    component: <RiArrowRightLine />,
-    key: "forward",
-  },
-]
 export const ActionButtonsShowcase: Story = {
   render: (args) => (
     <>
@@ -339,15 +326,15 @@ export const ActionButtonsShowcase: Story = {
             </pre>
             {SIZES.map((size) => (
               <React.Fragment key={size}>
-                {ICONS.map((icon) => (
+                {Object.entries(ICONS).map(([key, icon]) => (
                   <ActionButton
-                    key={icon.key}
+                    key={key}
                     variant={variant}
                     edge={edge}
                     size={size}
                     {...args}
                   >
-                    {icon.component}
+                    {icon}
                   </ActionButton>
                 ))}
               </React.Fragment>

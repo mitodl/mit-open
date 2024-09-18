@@ -1,0 +1,118 @@
+topics:
+  - name: Art, Design & Architecture
+    id:
+    icon: RiPaletteLine
+    mappings:
+      ocw:
+        - Fine Arts
+      invalid_code:
+        - Underwater Basketweaving
+    children:
+      - name: Architecture
+        id:
+        icon: RiPaletteLine
+        mappings:
+          ocw:
+            - Architecture
+            - Architectural Design
+            - Architectural Engineering
+            - Architectural History and Criticism
+            - Religious Architecture
+      - name: Environmental Deisgn
+        id:
+        icon: RiPaletteLine
+        mappings:
+      - name: Game Design
+        id:
+        icon: RiPaletteLine
+        mappings:
+      - name: Performing Arts
+        id:
+        icon: RiPaletteLine
+        mappings:
+      - name: Visual Arts
+        id:
+        icon: RiPaletteLine
+        mappings:
+      - name: Media Studies
+        id:
+        icon: RiPaletteLine
+        mappings:
+      - name: Real Estate
+        id:
+        icon: RiPaletteLine
+        mappings:
+      - name: Art History
+        id:
+        icon: RiPaletteLine
+        mappings:
+  - name: Business & Management
+    id:
+    icon: RiBriefcase3Line
+    mappings:
+    children:
+      - name: Entrepreneurship
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Organizations & Leadership
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Negotiation & Communication
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Marketing
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Supply Chain
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Finance & Accounting
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Operations
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Family Enterprise
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Business Analytics
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Systems Thinking
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Strategy & Innovation
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Digital Business & IT
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:
+      - name: Management
+        id:
+        icon: RiBriefcase3Line
+        mappings:
+        children:

@@ -1,10 +1,31 @@
 import React, { useCallback, useMemo, useId } from "react"
 import FormControl from "@mui/material/FormControl"
 import FormControlLabel from "@mui/material/FormControlLabel"
-import FormLabel from "@mui/material/FormLabel"
 import Radio from "@mui/material/Radio"
 import RadioGroup from "@mui/material/RadioGroup"
 import type { RadioGroupProps } from "@mui/material/RadioGroup"
+import styled from "@emotion/styled"
+
+const RadioGroupStyled = styled(RadioGroup)(({ theme }) => ({
+  display: "flex",
+  flexDirection: "row",
+  gap: "16px",
+  [theme.breakpoints.down("md")]: {
+    flexDirection: "column",
+  },
+  ".MuiRadio-root:not(.Mui-checked) + .MuiFormControlLabel-label": {
+    color: theme.custom.colors.silverGrayDark,
+  },
+}))
+
+const Label = styled.div(({ theme }) => ({
+  marginTop: "0",
+  marginBottom: "16px",
+  width: "100%",
+  cursor: "default",
+  color: theme.custom.colors.darkGray2,
+  ...theme.typography.subtitle2,
+}))
 
 interface RadioChoiceProps {
   value: string
@@ -18,7 +39,6 @@ interface RadioChoiceFieldProps {
   defaultValue?: string
   name: string
   choices: RadioChoiceProps[]
-  row?: boolean
   onChange?: RadioGroupProps["onChange"]
   className?: string
 }
@@ -34,7 +54,6 @@ interface RadioChoiceFieldProps {
 const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
   label,
   value,
-  row,
   defaultValue,
   name,
   choices,
@@ -44,12 +63,11 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
   const labelId = useId()
   return (
     <FormControl className={className}>
-      <FormLabel id={labelId}>{label}</FormLabel>
-      <RadioGroup
+      <Label id={labelId}>{label}</Label>
+      <RadioGroupStyled
         aria-labelledby={labelId}
         name={name}
         defaultValue={defaultValue}
-        row={row}
         value={value}
         onChange={onChange}
       >
@@ -65,7 +83,7 @@ const RadioChoiceField: React.FC<RadioChoiceFieldProps> = ({
             />
           )
         })}
-      </RadioGroup>
+      </RadioGroupStyled>
     </FormControl>
   )
 }
@@ -81,7 +99,6 @@ interface BooleanRadioChoiceFieldProps {
   defaultValue?: string
   name: string
   choices: BooleanRadioChoiceProps[]
-  row?: boolean
   onChange?: (event: { name: string; value: boolean }) => void
   className?: string
 }

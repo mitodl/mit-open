@@ -36,39 +36,43 @@ handler404 = "main.views.handle_404"
 features_router = DefaultRouter()
 features_router.register(r"_/features", FeaturesViewSet, basename="features")
 
-urlpatterns = [  # noqa: RUF005
-    path("scim/v2/", include("django_scim.urls")),
-    re_path(r"^o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
-    re_path(r"^admin/", admin.site.urls),
-    re_path(r"", include("authentication.urls")),
-    re_path(r"", include("channels.urls")),
-    re_path(r"", include("profiles.urls")),
-    re_path(r"", include("embedly.urls")),
-    re_path(r"", include("learning_resources_search.urls")),
-    re_path(r"", include("ckeditor.urls")),
-    re_path(r"", include("widgets.urls")),
-    re_path(r"", include("openapi.urls")),
-    re_path(r"", include("learning_resources.urls")),
-    re_path(r"", include("articles.urls")),
-    re_path(r"", include("testimonials.urls")),
-    # React App
-    re_path(r"^$", index, name="main-index"),
-    re_path(r"^privacy-statement/", index, name="privacy-statement"),
-    re_path(r"^search/", index, name="site-search"),
-    re_path(r"^departments/", index, name="departments"),
-    re_path(r"^learningpaths/", index, name="learningpaths"),
-    re_path(r"^userlists/", index, name="userlists"),
-    re_path(r"^articles/", index, name="articles"),
-    re_path(r"^dashboard/", index, name="dashboard"),
-    re_path(r"^program_letter/", index, name="programletter"),
-    re_path(r"^c/", index, name="channels"),
-    re_path(r"", include(features_router.urls)),
-    # Hijack
-    re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
-    re_path(r"", include("news_events.urls")),
-    re_path(r"^app", RedirectView.as_view(url=settings.APP_BASE_URL)),
-    re_path(r"^silk/", include("silk.urls", namespace="silk")),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns = (
+    [  # noqa: RUF005
+        path("scim/v2/", include("django_scim.urls")),
+        re_path(r"^o/", include("oauth2_provider.urls", namespace="oauth2_provider")),
+        re_path(r"^admin/", admin.site.urls),
+        re_path(r"", include("authentication.urls")),
+        re_path(r"", include("channels.urls")),
+        re_path(r"", include("profiles.urls")),
+        re_path(r"", include("embedly.urls")),
+        re_path(r"", include("learning_resources_search.urls")),
+        re_path(r"", include("ckeditor.urls")),
+        re_path(r"", include("widgets.urls")),
+        re_path(r"", include("openapi.urls")),
+        re_path(r"", include("learning_resources.urls")),
+        re_path(r"", include("articles.urls")),
+        re_path(r"", include("testimonials.urls")),
+        re_path(r"", include("news_events.urls")),
+        # React App
+        re_path(r"^$", index, name="main-index"),
+        re_path(r"^privacy-statement/", index, name="privacy-statement"),
+        re_path(r"^search/", index, name="site-search"),
+        re_path(r"^departments/", index, name="departments"),
+        re_path(r"^learningpaths/", index, name="learningpaths"),
+        re_path(r"^userlists/", index, name="userlists"),
+        re_path(r"^articles/", index, name="articles"),
+        re_path(r"^dashboard/", index, name="dashboard"),
+        re_path(r"^program_letter/", index, name="programletter"),
+        re_path(r"^c/", index, name="channels"),
+        re_path(r"", include(features_router.urls)),
+        re_path(r"^app", RedirectView.as_view(url=settings.APP_BASE_URL)),
+        re_path(r"^silk/", include("silk.urls", namespace="silk")),
+        # Hijack
+        re_path(r"^hijack/", include("hijack.urls", namespace="hijack")),
+    ]
+    + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+)
 
 if settings.DEBUG:
     import debug_toolbar  # pylint: disable=wrong-import-position, wrong-import-order

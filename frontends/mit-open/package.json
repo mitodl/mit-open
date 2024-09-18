@@ -8,9 +8,8 @@
     "url": "https://github.com/mitodl/mit-open.git"
   },
   "scripts": {
-    "watch": "NODE_ENV=development ENVIRONMENT=local webpack serve",
-    "watch:docker": "API_DEV_PROXY_BASE_URL=http://nginx:8063 NODE_ENV=development ENVIRONMENT=docker webpack serve",
-    "watch:rc": "API_DEV_PROXY_BASE_URL=https://api.mitopen-rc.odl.mit.edu/ NODE_ENV=development ENVIRONMENT=local webpack serve",
+    "watch": "NODE_ENV=development LOAD_ENV_FILES=true webpack serve",
+    "watch:docker": "NODE_ENV=development webpack serve",
     "build": "webpack --config webpack.config.js --bail",
     "build-exports": "webpack --config webpack.exports.js --bail",
     "storybook": "storybook dev -p 6006",
@@ -75,8 +74,8 @@
     "ol-utilities": "0.0.0",
     "ol-widgets": "0.0.0",
     "posthog-js": "^1.128.2",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
     "react-helmet-async": "^2.0.3",
     "react-infinite-scroller": "^1.2.6",
     "react-router": "^6.22.2",

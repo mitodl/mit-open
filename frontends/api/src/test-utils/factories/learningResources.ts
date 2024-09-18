@@ -286,7 +286,7 @@ const program: PartialFactory<ProgramResource> = (overrides = {}) => {
       platform: learningResourcePlatform(),
       certification: faker.datatype.boolean(),
       program: {
-        courses: repeat(course, { min: 0, max: 5 }),
+        course_count: faker.number.int({ min: 0, max: 8 }),
       },
     },
     overrides,

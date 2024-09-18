@@ -8,7 +8,7 @@ from _pytest.fixtures import fixture
 from django.utils import timezone
 from rest_framework.reverse import reverse
 
-from channels.factories import ChannelUnitDetailFactory
+from channels.factories import ChannelTopicDetailFactory, ChannelUnitDetailFactory
 from channels.models import Channel
 from learning_resources.constants import (
     LearningResourceRelationTypes,
@@ -190,26 +190,17 @@ def test_program_endpoint(client, url, params):
 @pytest.mark.parametrize(
     "url", ["lr:v1:programs_api-detail", "lr:v1:learning_resources_api-detail"]
 )
-def test_program_detail_endpoint(client, url):
+def test_program_detail_endpoint(client, django_assert_num_queries, url):
     """Test program endpoint"""
     program = ProgramFactory.create()
-    resp = client.get(reverse(url, args=[program.learning_resource.id]))
+    with django_assert_num_queries(14):
+        resp = client.get(reverse(url, args=[program.learning_resource.id]))
     assert resp.data.get("title") == program.learning_resource.title
     assert resp.data.get("resource_type") == LearningResourceType.program.name
-    response_courses = sorted(resp.data["program"]["courses"], key=lambda i: i["id"])
-
-    courses = sorted(
-        [relation.child for relation in program.courses.all()], key=lambda lr: lr.id
+    assert (
+        resp.data["program"]["course_count"]
+        == program.learning_resource.children.count()
     )
-    assert len(response_courses) == len(courses)
-    assert [course.id for course in courses] == [
-        course["id"] for course in response_courses
-    ]
-    for idx, course in enumerate(courses):
-        assert course.id == response_courses[idx]["id"]
-        assert (
-            response_courses[idx]["resource_type"] == LearningResourceType.course.name
-        )
 
 
 def test_list_resources_endpoint(client):
@@ -234,8 +225,8 @@ def test_list_resources_endpoint(client):
         assert result["id"] in resource_ids
 
 
-@pytest.mark.parametrize("course_count", [1, 5, 10])
-def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
+@pytest.mark.parametrize("course_count", [1, 5, 20])
+def test_no_excess_queries(rf, user, mocker, django_assert_num_queries, course_count):
     """
     There should be a constant number of queries made (based on number of
     related models), regardless of number of results returned.
@@ -244,10 +235,34 @@ def test_no_excess_queries(mocker, django_assert_num_queries, course_count):
 
     CourseFactory.create_batch(course_count)
 
-    with django_assert_num_queries(10):
-        view = CourseViewSet(request=mocker.Mock(query_params=[]))
+    request = rf.get("/")
+    request.user = user
+
+    with django_assert_num_queries(16):
+        view = CourseViewSet(request=request)
         results = view.get_queryset().all()
         assert len(results) == course_count
+
+
+@pytest.mark.parametrize("offeror_count", [1, 2, 4])
+def test_no_excess_offeror_queries(client, django_assert_num_queries, offeror_count):
+    """
+    There should be a constant number of queries made (based on number of
+    related models), regardless of number of offeror results returned.
+    """
+    for offeror_code in OfferedBy.names()[:offeror_count]:
+        ChannelUnitDetailFactory.create(
+            unit=LearningResourceOfferorFactory.create(code=offeror_code)
+        )
+
+    assert LearningResourceOfferor.objects.count() == offeror_count
+    assert Channel.objects.count() == offeror_count
+
+    with django_assert_num_queries(2):
+        results = client.get(reverse("lr:v1:offerors_api-list"))
+        assert len(results.data["results"]) == offeror_count
+        for result in results.data["results"]:
+            assert result["channel_url"] is not None
 
 
 def test_list_content_files_list_endpoint(client):
@@ -581,6 +596,26 @@ def test_topics_detail_endpoint(client):
     topic = LearningResourceTopicFactory.create()
     resp = client.get(reverse("lr:v1:topics_api-detail", args=[topic.pk]))
     assert resp.data == LearningResourceTopicSerializer(instance=topic).data
+
+
+@pytest.mark.parametrize("published", [True, False])
+def test_topic_channel_url(client, published):
+    """
+    Check that the topic API returns 'None' for channel_url of unpublished channels.
+
+    Note: The channel_url being None is also tested on the Channel model itself,
+    but the API may generate the channel_url in a slightly different manner (for
+    example, queryset annotation)
+    """
+    topic = LearningResourceTopicFactory.create()
+    channel = ChannelTopicDetailFactory.create(
+        topic=topic, is_unpublished=not published
+    ).channel
+    resp = client.get(reverse("lr:v1:topics_api-detail", args=[topic.pk]))
+
+    assert resp.data["channel_url"] == channel.channel_url
+    if not published:
+        assert resp.data["channel_url"] is None
 
 
 def test_departments_list_endpoint(client):

@@ -167,7 +167,6 @@
       }
       .button-td-primary:hover,
       .button-a-primary:hover {
-        background: #ffffff !important;
         border-color: #a31f34 !important;
       }
 
@@ -231,17 +230,20 @@
       margin: 0;
       padding: 0 !important;
       mso-line-height-rule: exactly;
-      background-color: #ffffff;
+      background-color: #f3f4f8;
     "
   >
-    <center style="width: 100%; background-color: #ffffff">
+    <center style="background-color: #f3f4f8">
       <!--[if mso | IE]>
     <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #ffffff;">
     <tr>
     <td>
     <![endif]-->
 
-      <div style="max-width: 680px; margin: 0 auto" class="email-container">
+      <div
+        style="max-width: 680px; background: #fff; margin: 0 auto"
+        class="email-container"
+      >
         <!--[if mso]>
             <table align="center" role="presentation" cellspacing="0" cellpadding="0" border="0" width="680">
             <tr>
@@ -261,25 +263,32 @@
           <tr>
             <td style="padding: 20px">
               {% block logo %}
-              <h1>
+              <h1 style="text-align: center">
                 <img
-                  src="https://mitopen.odl.mit.edu/static/images/mit-logo.jpg"
+                  src="{{APP_BASE_URL}}{{STATIC_URL}}/images/mit-logo-learn.jpg"
                   width="113"
-                  height="60"
+                  height="32"
                   alt="MIT-Open"
                   style="
-                    height: 60px;
+                    height: 32px;
                     width: 113px;
                     background: #ffffff;
                     font-family: sans-serif;
                     font-size: 15px;
                     line-height: 15px;
+                    display: block;
                     color: #a31f34;
+                    margin: 0 auto;
                     margin-bottom: -10px;
                   "
                 />
               </h1>
               {% endblock %}
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <p style="border-top: 1px solid #f3f4f8"></p>
             </td>
           </tr>
           <!-- Email Header : END -->
@@ -297,13 +306,46 @@
             </td>
           </tr>
           <!-- Clear Spacer : END -->
-
-          <tr>
-            <td style="padding: 0 20px; text-align: left">--</td>
-          </tr>
         </table>
         <!-- Email Body : END -->
+        <!-- Email Footer : BEGIN -->
+        <table
+          role="presentation"
+          cellspacing="0"
+          cellpadding="0"
+          border="0"
+          width="100%"
+          style="font-size: 12px"
+        >
+          <tr>
+            <td
+              style="
+                padding: 20px;
+                font-family: sans-serif;
+                font-size: 12px;
+                line-height: 15px;
+                color: #000;
+                text-align: center;
+              "
+            >
+              {% block footer %}
 
+              If you don't want to receive these emails in the future, you can
+              <a
+                href="{{APP_BASE_URL}}/dashboard/settings"
+                style="text-decoration: underline"
+                >unsubscribe</a
+              >. <br /><br />
+
+              {% endblock %}
+              {% block footer-address %}
+              <b>MIT Learn</b>&nbsp;&bull;&nbsp;77 Massachusetts
+              Avenue&nbsp;&bull;&nbsp;Cambridge, MA 02139&nbsp;&bull;&nbsp;USA
+              {% endblock %}
+            </td>
+          </tr>
+        </table>
+        <!-- Email Footer : END -->
         <!--[if mso]>
         </td>
         </tr>

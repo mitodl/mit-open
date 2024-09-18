@@ -1,6 +1,167 @@
 Release Notes
 =============
 
+Version 0.15.1 (Released August 07, 2024)
+--------------
+
+- Update dependency redis to v5 (#1244)
+- sort before comparing (#1372)
+- Rename my 0008 to 0009 to prevent conflict (#1374)
+- Add Manufacturing topic; update upserter to make adding child topics easier (#1364)
+- Publish topic channels based on resource count (#1349)
+- Update dependency opensearch-dsl to v2 (#1242)
+- Update dependency opensearch-py to v2 (#1243)
+- Fix issue with User List cards not updating on edit (#1361)
+- Update dependency django-anymail to v11 (#1207)
+- Update CI to check data migrations for conflicts (#1368)
+- Fix frontend sentry configuration (#1362)
+- Migrate config renovate.json (#1367)
+- Update dependency sentry-sdk to v2 [SECURITY] (#1366)
+- add a bullet about collecting demographics to PrivacyPage.tsx (#1355)
+- user list UI updates (#1348)
+- Subscription email template updates (#1311)
+
+Version 0.15.0 (Released August 05, 2024)
+--------------
+
+- Performance fixes on LR queries (#1303)
+- Subscription management page (#1331)
+- Add certificate badge to drawer (#1307)
+- Lock file maintenance (#1360)
+- Update mcr.microsoft.com/playwright Docker tag to v1.45.3 (#1358)
+- Update docker.elastic.co/elasticsearch/elasticsearch Docker tag to v7.17.23 (#1357)
+
+Version 0.14.7 (Released August 01, 2024)
+--------------
+
+- Renaming my topic update migration from 0006 to 0007 (#1353)
+- Update the mappings for PWT topic "Programming & Coding"  (#1344)
+
+Version 0.14.6 (Released August 01, 2024)
+--------------
+
+- Use resource_delete_actions instead of resource.delete directly (#1347)
+- Show "Start Anytime" based on resource "availability" property (#1336)
+- Handle alternate unique id fields better in load_course (#1342)
+- topic / privacy / onboarding / profile copy updates (#1334)
+
+Version 0.14.5 (Released July 31, 2024)
+--------------
+
+- Flatten OCW topics so all of them get mapped to PWT topics when running the ETL pipeline (#1343)
+
+Version 0.14.4 (Released July 31, 2024)
+--------------
+
+- fix bug (#1340)
+- dev mode (#1333)
+- Updated designs for the unit page (#1325)
+- Avoid course overwrites in program ETL pipelines (#1332)
+- Assign mitxonline certificate type from api values (#1335)
+- add default yearly_decay_percent (#1330)
+- Modal dialog component and styles
+- tab widths (#1309)
+- Resource availability: backend changes (#1301)
+- styling and icon updates (#1316)
+
+Version 0.14.3 (Released July 29, 2024)
+--------------
+
+- Remove some styling for topic box names so they wrap, adjusting icons (#1328)
+- Lock file maintenance (#1262)
+- fix flaky tests (#1324)
+- urlencode search_filter (#1326)
+- Moves all env vars to global APP_SETTINGS (#1310)
+- Remap topic icons according to what's in the topics listing (#1322)
+- Fix podcast duration frontend display (#1321)
+- Update topics code for PWT topic mappings (#1275)
+- Convert durations to ISO8601 format (podcast episodes) (#1317)
+- No prices for archived runs or resources w/out certificates (#1305)
+
+Version 0.14.2 (Released July 25, 2024)
+--------------
+
+- Reorder where the testimonial displays in the unit/offeror page to fix spacing and background (#1314)
+- fix banner background width (#1315)
+- fix price display and update vertical cards (#1296)
+- Fix channel views test (#1318)
+- free section css (#1312)
+- Extract department info for mitxonline from correct external API fields (#1308)
+- Determine can edit and can sort permission upstream (#1299)
+
+Version 0.14.1 (Released July 24, 2024)
+--------------
+
+- Add a database index on FeedEventDetail.event_datetime (#1304)
+- Update platform logos (#1302)
+
+Version 0.14.0 (Released July 23, 2024)
+--------------
+
+- Save resource prices in a new database model and calculate during ETL/nightly task (#1290)
+- set search page size to 20 (#1298)
+- Add a slider to prioritize newer resources (#1283)
+- Fix bug with background image obscuring search controls (#1293)
+- allow hitting local edx datafile in dev mode (#1297)
+- fix restricted redirect (#1287)
+
+Version 0.13.23 (Released July 18, 2024)
+---------------
+
+- Revert "Fix bug with background image obscuring search controls (#1286)" (#1289)
+- Improve channels api performance (#1278)
+
+Version 0.13.22 (Released July 18, 2024)
+---------------
+
+- Optimize queries for learning resource APIs
+- Fix bug with background image obscuring search controls (#1286)
+- Draggable list card styles (#1282)
+- Update actions/setup-node digest to 1e60f62 (#1267)
+- Update actions/upload-artifact digest to 0b2256b (#1269)
+- Update actions/setup-python digest to 39cd149 (#1268)
+
+Version 0.13.21 (Released July 17, 2024)
+---------------
+
+- Unit Detail Banner Updates (#1272)
+- Shanbady/clicking item routes away from list fix (#1280)
+- adding migrations for copy update (#1276)
+- Shanbady/ingest sloan events (#1270)
+- fix keyboard drag and drop (#1279)
+- Use newer Learning Resource list cards in Learning Paths lists (#1256)
+- Improve offeror api performance (#1274)
+- Shanbady/clicking item routes away from list (#1273)
+- refactor profile and onboarding (#1266)
+- add a story showing platform logos (#1277)
+- Add profile option for silky to settings (#1271)
+- Take is_enrollable attribute into account for publish status of edx resources (#1264)
+- Update react monorepo to v18.3.1 (#874)
+
+Version 0.13.20 (Released July 17, 2024)
+---------------
+
+- Make static/hash.txt served again (#1259)
+- Update actions/checkout digest to 692973e (#1263)
+- adjust department names (#1253)
+- Update eslint-config and friends (#1246)
+
+Version 0.13.19 (Released July 12, 2024)
+---------------
+
+- remove erronous export string (#1257)
+- Install django-silk nad fix topics api perf (#1250)
+- change xpro ETL dict key back (#1252)
+- reindexing fixes (#1247)
+- Pin dependencies (#1225)
+- Plain text news/events titles/authors; standardize html cleanup (#1248)
+- Condensed list card components for user lists (#1251)
+- Change readable_id values for podcasts and episodes (#1232)
+- adjust / refactor channel detail header (#1234)
+- use main not "$default-branch" (#1249)
+- Update dependency ruff to v0.5.1 (#1241)
+- Update dependency Django to v4.2.14 (#1240)
+
 Version 0.13.18 (Released July 10, 2024)
 ---------------
 

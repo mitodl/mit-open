@@ -1,16 +1,20 @@
 """Models for learning resources and related entities"""
 
-from decimal import Decimal
+import uuid
+from abc import abstractmethod
+from functools import cached_property
+from typing import Optional
 
 from django.contrib.auth.models import User
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-from django.db.models import JSONField, OuterRef, Q
+from django.db.models import Count, JSONField, OuterRef, Prefetch, Q
 from django.db.models.functions import Lower
 from django.utils import timezone
 
 from learning_resources import constants
 from learning_resources.constants import (
+    Availability,
     CertificationType,
     LearningResourceFormat,
     LearningResourceRelationTypes,
@@ -41,15 +45,19 @@ class LearningResourcePlatform(TimestampedModel):
 class LearningResourceTopicQuerySet(TimestampedModelQuerySet):
     """QuerySet for LearningResourceTopic"""
 
+    def for_serialization(self):
+        """Return a queryset for serialization"""
+        return self.annotate_channel_url()
+
     def annotate_channel_url(self):
         """Annotate with the channel url"""
         from channels.models import Channel
 
         return self.annotate(
-            _channel_url=(
+            channel_url=(
                 Channel.objects.filter(topic_detail__topic=OuterRef("pk"))
                 .annotate_channel_url()
-                .values_list("_channel_url", flat=True)[:1]
+                .values_list("channel_url", flat=True)[:1]
             ),
         )
 
@@ -61,6 +69,14 @@ class LearningResourceTopic(TimestampedModel):
 
     objects = LearningResourceTopicQuerySet.as_manager()
 
+    topic_uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        help_text=(
+            "An immutable ID for the topic, used if the topic needs to"
+            " be changed via migration."
+        ),
+    )
     name = models.CharField(max_length=128)
     parent = models.ForeignKey(
         "LearningResourceTopic",
@@ -68,17 +84,20 @@ class LearningResourceTopic(TimestampedModel):
         null=True,
         on_delete=models.CASCADE,
     )
+    icon = models.CharField(
+        max_length=128,
+        help_text="The icon to display for the topic.",
+        blank=True,
+        default="",
+    )
 
     def __str__(self):
         """Return the topic name."""
         return self.name
 
-    @property
+    @cached_property
     def channel_url(self):
         """Return the topic's channel url"""
-        if hasattr(self, "_channel_url"):
-            return self._channel_url
-
         topic_detail = self.channel_topic_details.first()
 
         return topic_detail.channel.channel_url if topic_detail is not None else None
@@ -89,8 +108,30 @@ class LearningResourceTopic(TimestampedModel):
         constraints = [models.UniqueConstraint(Lower("name"), name="unique_lower_name")]
 
 
+class LearningResourceOfferorQuerySet(TimestampedModelQuerySet):
+    """QuerySet for LearningResourceOfferor"""
+
+    def for_serialization(self):
+        """Return a queryset for serialization"""
+        return self.annotate_channel_url()
+
+    def annotate_channel_url(self):
+        """Annotate with the channel url"""
+        from channels.models import Channel
+
+        return self.annotate(
+            channel_url=(
+                Channel.objects.filter(unit_detail__unit=OuterRef("pk"))
+                .annotate_channel_url()
+                .values_list("channel_url", flat=True)[:1]
+            ),
+        )
+
+
 class LearningResourceOfferor(TimestampedModel):
     """Represents who is offering a learning resource"""
+
+    objects = LearningResourceOfferorQuerySet.as_manager()
 
     # Old fields
     code = models.CharField(max_length=12, primary_key=True)
@@ -108,8 +149,31 @@ class LearningResourceOfferor(TimestampedModel):
     # This field name means "value proposition"
     value_prop = models.TextField(blank=True)
 
+    @cached_property
+    def channel_url(self):
+        """Return the offeror's channel url"""
+        unit_detail = self.channel_unit_details.first()
+
+        return unit_detail.channel.channel_url if unit_detail is not None else None
+
     def __str__(self):
         return f"{self.code}: {self.name}"
+
+
+class LearningResourceTopicMapping(TimestampedModel):
+    """Stores offeror topic mappings for learning resource topics."""
+
+    topic = models.ForeignKey(
+        "LearningResourceTopic",
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    offeror = models.ForeignKey(
+        "LearningResourceOfferor",
+        on_delete=models.CASCADE,
+        related_name="+",
+    )
+    topic_name = models.CharField(max_length=128)
 
 
 class LearningResourceImage(TimestampedModel):
@@ -125,8 +189,23 @@ class LearningResourceImage(TimestampedModel):
         return self.url
 
 
+class LearningResourceSchoolQuerySet(TimestampedModelQuerySet):
+    """QuerySet for LearningResourceSchool"""
+
+    def for_serialization(self):
+        """Return a queryset for serialization"""
+        return self.prefetch_related(
+            Prefetch(
+                "departments",
+                queryset=LearningResourceDepartment.objects.for_serialization(),
+            )
+        )
+
+
 class LearningResourceSchool(TimestampedModel):
     """School data for a learning resource"""
+
+    objects = LearningResourceSchoolQuerySet.as_manager()
 
     name = models.CharField(max_length=256, null=False, blank=False)
     url = models.URLField()
@@ -138,8 +217,39 @@ class LearningResourceSchool(TimestampedModel):
         return self.name
 
 
+class LearningResourceDepartmentQuerySet(TimestampedModelQuerySet):
+    """QuerySet for LearningResourceDepartment"""
+
+    def for_serialization(self, *, prefetch_school: bool = False):
+        """Return a queryset for serialization"""
+        qs = self.annotate_channel_url()
+
+        if prefetch_school:
+            qs = qs.prefetch_related(
+                Prefetch(
+                    "school",
+                    queryset=LearningResourceSchool.objects.for_serialization(),
+                )
+            )
+        return qs
+
+    def annotate_channel_url(self):
+        """Annotate the queryset with channel_url"""
+        from channels.models import Channel
+
+        return self.annotate(
+            channel_url=(
+                Channel.objects.filter(department_detail__department=OuterRef("pk"))
+                .annotate_channel_url()
+                .values_list("channel_url", flat=True)[:1]
+            )
+        )
+
+
 class LearningResourceDepartment(TimestampedModel):
     """Department data for a learning resource"""
+
+    objects = LearningResourceDepartmentQuerySet.as_manager()
 
     department_id = models.CharField(max_length=6, primary_key=True)
     name = models.CharField(max_length=256, null=False, blank=False)
@@ -149,6 +259,14 @@ class LearningResourceDepartment(TimestampedModel):
         on_delete=models.SET_NULL,
         related_name="departments",
     )
+
+    @cached_property
+    def channel_url(self) -> str | None:
+        """Get the channel url for the department if it exists"""
+        from channels.models import Channel
+
+        channel = Channel.objects.filter(department_detail__department=self).first()
+        return channel.channel_url if channel is not None else None
 
     class Meta:
         ordering = ["name"]
@@ -182,35 +300,69 @@ class LearningResourceInstructor(TimestampedModel):
         return self.full_name or f"{self.first_name} {self.last_name}"
 
 
+class LearningResourceQuerySet(TimestampedModelQuerySet):
+    """QuerySet for LearningResource"""
+
+    def for_serialization(self, *, user: User | None = None):
+        """Return the list of prefetches"""
+        return (
+            self.prefetch_related(
+                Prefetch(
+                    "topics",
+                    queryset=LearningResourceTopic.objects.for_serialization(),
+                ),
+                Prefetch(
+                    "offered_by",
+                    queryset=LearningResourceOfferor.objects.for_serialization(),
+                ),
+                Prefetch(
+                    "departments",
+                    queryset=LearningResourceDepartment.objects.for_serialization().select_related(
+                        "school"
+                    ),
+                ),
+                "content_tags",
+                Prefetch(
+                    "runs",
+                    queryset=LearningResourceRun.objects.filter(
+                        published=True
+                    ).for_serialization(),
+                ),
+                Prefetch(
+                    "parents",
+                    queryset=LearningResourceRelationship.objects.filter(
+                        relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS.value
+                    )
+                    if user is not None
+                    and user.is_authenticated
+                    and (
+                        user.is_staff
+                        or user.is_superuser
+                        or user.groups.filter(
+                            name=constants.GROUP_STAFF_LISTS_EDITORS
+                        ).exists()
+                    )
+                    else LearningResourceRelationship.objects.none(),
+                    to_attr="_learning_path_parents",
+                ),
+                Prefetch(
+                    "user_lists",
+                    queryset=UserListRelationship.objects.filter(parent__author=user)
+                    if user is not None and user.is_authenticated
+                    else UserListRelationship.objects.none(),
+                    to_attr="_user_list_parents",
+                ),
+                *LearningResourceDetailModel.get_subclass_prefetches(),
+            )
+            .select_related("image", "platform")
+            .annotate(views_count=Count("views"))
+        )
+
+
 class LearningResource(TimestampedModel):
     """Core model for all learning resources"""
 
-    prefetches = [
-        "topics",
-        "offered_by",
-        "departments",
-        "departments__school",
-        "content_tags",
-        "runs",
-        "runs__instructors",
-        "runs__image",
-        "children__child",
-        "children__child__runs",
-        "children__child__runs__instructors",
-        "children__child__departments",
-        "children__child__platform",
-        "children__child__topics",
-        "children__child__image",
-        "children__child__offered_by",
-        "children__child__content_tags",
-        *[f"children__child__{item.name}" for item in LearningResourceType],
-    ]
-
-    related_selects = [
-        "image",
-        "platform",
-        *([item.name for item in LearningResourceType]),
-    ]
+    objects = LearningResourceQuerySet.as_manager()
 
     readable_id = models.CharField(max_length=512, null=False, blank=False)
     title = models.CharField(max_length=256)
@@ -258,6 +410,14 @@ class LearningResource(TimestampedModel):
     etl_source = models.CharField(max_length=12, default="")
     professional = models.BooleanField(default=False)
     next_start_date = models.DateTimeField(null=True, blank=True, db_index=True)
+    prices = ArrayField(
+        models.DecimalField(decimal_places=2, max_digits=12), default=list
+    )
+    availability = models.CharField(  # noqa: DJ001
+        max_length=24,
+        null=True,
+        choices=((member.name, member.value) for member in Availability),
+    )
 
     @property
     def audience(self) -> str | None:
@@ -266,8 +426,8 @@ class LearningResource(TimestampedModel):
             return self.platform.audience
         return None
 
-    @property
-    def next_run(self):
+    @cached_property
+    def next_run(self) -> Optional["LearningResourceRun"]:
         """Returns the next run for the learning resource"""
         return (
             self.runs.filter(Q(published=True) & Q(start_date__gt=timezone.now()))
@@ -275,29 +435,83 @@ class LearningResource(TimestampedModel):
             .first()
         )
 
-    @property
-    def prices(self) -> list[Decimal]:
-        """Returns the prices for the learning resource"""
-        if self.resource_type in [
-            LearningResourceType.course.name,
-            LearningResourceType.program.name,
-        ]:
-            next_run = (
-                self.next_run
-                or self.runs.filter(published=True).order_by("-start_date").first()
-            )
-            return next_run.prices if next_run and next_run.prices else []
-        else:
-            return [Decimal(0.00)]
+    @cached_property
+    def views_count(self) -> int:
+        """Return the number of views for the resource."""
+        return models.LearningResourceViewEvent.objects.filter(
+            learning_resource=self
+        ).count()
+
+    @cached_property
+    def user_list_parents(self) -> list["LearningResourceRelationship"]:
+        """Return a list of user lists that the resource is in"""
+        return getattr(self, "_user_list_parents", [])
+
+    @cached_property
+    def learning_path_parents(self) -> list["LearningResourceRelationship"]:
+        """Return a list of learning paths that the resource is in"""
+        return getattr(
+            self,
+            "_learning_path_parents",
+            self.parents.filter(
+                relation_type=LearningResourceRelationTypes.LEARNING_PATH_ITEMS
+            ),
+        )
 
     class Meta:
         unique_together = (("platform", "readable_id", "resource_type"),)
+
+
+class LearningResourceDetailQuerySet(TimestampedModelQuerySet):
+    """Base QuerySet for Learning resource detail models"""
+
+    @abstractmethod
+    def for_serialization(self):
+        """Return a QuerySet for serialization"""
+        return self
+
+
+class LearningResourceDetailModel(TimestampedModel):
+    """Base class for learning resource detail models"""
+
+    objects = LearningResourceDetailQuerySet.as_manager()
+
+    @classmethod
+    def get_subclass_prefetches(cls) -> list[Prefetch]:
+        """
+        Return the list of prefetches for all subclasses
+        """
+        return [
+            Prefetch(
+                subclass.get_learning_resource_related_name(),
+                queryset=subclass.objects.for_serialization(),
+            )
+            for subclass in cls.__subclasses__()
+        ]
+
+    @classmethod
+    def get_learning_resource_related_name(cls) -> str:
+        """Return the related name for the learning_resource field"""
+        return cls._meta.get_field("learning_resource").remote_field.get_accessor_name()
+
+    class Meta:
+        abstract = True
+
+
+class LearningResourceRunQuerySet(TimestampedModelQuerySet):
+    """QuerySet for LearningResourceRun"""
+
+    def for_serialization(self):
+        """QuerySet for serialization"""
+        return self.select_related("image").prefetch_related("instructors")
 
 
 class LearningResourceRun(TimestampedModel):
     """
     Model for course and program runs
     """
+
+    objects = LearningResourceRunQuerySet.as_manager()
 
     learning_resource = models.ForeignKey(
         LearningResource, related_name="runs", on_delete=models.deletion.CASCADE
@@ -341,8 +555,18 @@ class LearningResourceRun(TimestampedModel):
         unique_together = (("learning_resource", "run_id"),)
 
 
-class Course(TimestampedModel):
+class CourseQuerySet(LearningResourceDetailQuerySet):
+    """QuerySet for Course"""
+
+    def for_serialization(self):
+        """Prefetch for serialization"""
+        return self
+
+
+class Course(LearningResourceDetailModel):
     """Model for representing a course"""
+
+    objects = CourseQuerySet.as_manager()
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -358,12 +582,34 @@ class Course(TimestampedModel):
         return self.learning_resource.runs
 
 
-class Program(TimestampedModel):
+class ProgramQuerySet(LearningResourceDetailQuerySet):
+    """QuerySet for Program"""
+
+    def for_serialization(self):
+        """Prefetch for serialization"""
+        return (
+            super()
+            .for_serialization()
+            .annotate(
+                course_count=Count(
+                    "learning_resource__children",
+                    filter=Q(
+                        learning_resource__children__relation_type=LearningResourceRelationTypes.PROGRAM_COURSES.value,
+                        learning_resource__children__child__published=True,
+                    ),
+                )
+            )
+        )
+
+
+class Program(LearningResourceDetailModel):
     """
     A program is essentially a list of courses.
     There is nothing specific to programs at this point, but the relationship between
     programs and courses may end up being Program->Courses instead of an LR-LR relationship.
     """  # noqa: E501
+
+    objects = ProgramQuerySet.as_manager()
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -382,12 +628,30 @@ class Program(TimestampedModel):
         """Get the associated resources (should all be courses)"""
         return self.learning_resource.children
 
+    @cached_property
+    def course_count(self):
+        """Return the number of courses in the program"""
+        return self.learning_resource.children.filter(
+            relation_type=LearningResourceRelationTypes.PROGRAM_COURSES,
+            child__published=True,
+        ).count()
 
-class LearningPath(TimestampedModel):
+
+class LearningPathQuerySet(LearningResourceDetailQuerySet):
+    """QuerySet for LearningPath"""
+
+    def for_serialization(self):
+        """Prefetch for serialization"""
+        return self
+
+
+class LearningPath(LearningResourceDetailModel):
     """
     Model for representing a publishable list of  learning resources
     The LearningResource readable_id should probably be something like an auto-generated UUID.
     """  # noqa: E501
+
+    objects = LearningPathQuerySet.as_manager()
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -426,10 +690,31 @@ class LearningResourceRelationship(TimestampedModel):
         ordering = ["position"]
 
 
+class ContentFileQuerySet(TimestampedModelQuerySet):
+    """QuerySet for ContentFile"""
+
+    def for_serialization(self):
+        """Return a queryset ready for serialization"""
+        return self.select_related("run").prefetch_related(
+            "content_tags",
+            "run__learning_resource",
+            Prefetch(
+                "run__learning_resource__topics",
+                queryset=LearningResourceTopic.objects.for_serialization(),
+            ),
+            Prefetch(
+                "run__learning_resource__departments",
+                queryset=LearningResourceDepartment.objects.for_serialization(),
+            ),
+        )
+
+
 class ContentFile(TimestampedModel):
     """
     ContentFile model for LearningResourceRun files
     """
+
+    objects = ContentFileQuerySet.as_manager()
 
     uid = models.CharField(max_length=36, null=True, blank=True)  # noqa: DJ001
     key = models.CharField(max_length=1024, null=True, blank=True)  # noqa: DJ001
@@ -508,8 +793,26 @@ class UserListRelationship(TimestampedModel):
         ordering = ["position"]
 
 
-class Podcast(TimestampedModel):
+class PodcastQuerySet(LearningResourceDetailQuerySet):
+    """QuerySet for Podcast"""
+
+    def for_serialization(self):
+        """Prefetch for serialization"""
+        return self.annotate(
+            episode_count=Count(
+                "learning_resource__children",
+                filter=Q(
+                    learning_resource__children__relation_type=LearningResourceRelationTypes.PODCAST_EPISODES.value,
+                    learning_resource__children__child__published=True,
+                ),
+            )
+        )
+
+
+class Podcast(LearningResourceDetailModel):
     """Data model for podcasts"""
+
+    objects = PodcastQuerySet.as_manager()
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -520,6 +823,13 @@ class Podcast(TimestampedModel):
     google_podcasts_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     rss_url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
 
+    @cached_property
+    def episode_count(self) -> int:
+        """Return the number of episodes in the podcast"""
+        return self.learning_resource.children.filter(
+            relation_type=constants.LearningResourceRelationTypes.PODCAST_EPISODES.value
+        ).count()
+
     def __str__(self):
         return f"Podcast {self.id}"
 
@@ -527,8 +837,18 @@ class Podcast(TimestampedModel):
         ordering = ("id",)
 
 
-class PodcastEpisode(TimestampedModel):
+class PodcastEpisodeQuerySet(LearningResourceDetailQuerySet):
+    """QuerySet for PodcastEpisode"""
+
+    def for_serialization(self):
+        """Prefetch for serialization"""
+        return self
+
+
+class PodcastEpisode(LearningResourceDetailModel):
     """Data model for podcast episodes"""
+
+    objects = PodcastEpisodeQuerySet.as_manager()
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -559,8 +879,18 @@ class VideoChannel(TimestampedModel):
         return f"VideoChannel: {self.title} - {self.channel_id}"
 
 
-class Video(TimestampedModel):
+class VideoQuerySet(LearningResourceDetailQuerySet):
+    """QuerySet for Video"""
+
+    def for_serialization(self):
+        """Return queryset for serialization"""
+        return self
+
+
+class Video(LearningResourceDetailModel):
     """Data model for video resources"""
+
+    objects = VideoQuerySet.as_manager()
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -574,10 +904,28 @@ class Video(TimestampedModel):
         return f"Video: {self.id} - {self.learning_resource.readable_id}"
 
 
-class VideoPlaylist(TimestampedModel):
+class VideoPlaylistQuerySet(LearningResourceDetailQuerySet):
+    """QuerySet for VideoPlaylist"""
+
+    def for_serialization(self):
+        """Return queryset for serialization"""
+        return self.annotate(
+            video_count=Count(
+                "learning_resource__children",
+                filter=Q(
+                    learning_resource__children__relation_type=LearningResourceRelationTypes.PLAYLIST_VIDEOS.value,
+                    learning_resource__children__child__published=True,
+                ),
+            )
+        ).prefetch_related("channel")
+
+
+class VideoPlaylist(LearningResourceDetailModel):
     """
     Video playlist model, contains videos
     """
+
+    objects = VideoPlaylistQuerySet.as_manager()
 
     learning_resource = models.OneToOneField(
         LearningResource,
@@ -588,6 +936,13 @@ class VideoPlaylist(TimestampedModel):
     channel = models.ForeignKey(
         VideoChannel, on_delete=models.CASCADE, related_name="playlists"
     )
+
+    @cached_property
+    def video_count(self) -> int:
+        """Return the number of videos in the playlist"""
+        return self.learning_resource.children.filter(
+            relation_type=constants.LearningResourceRelationTypes.PLAYLIST_VIDEOS.value
+        ).count()
 
     def __str__(self):
         return (

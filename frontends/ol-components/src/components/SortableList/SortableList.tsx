@@ -29,11 +29,10 @@ const DragStyles = styled.div`
   .ol-draggable {
     cursor: grab;
   }
+`
 
-  .ol-dragging,
-  .ol-dragging * {
-    cursor: grabbing;
-  }
+const DraggingContainer = styled.div`
+  cursor: grabbing;
 `
 
 type SortableItemProps<I extends UniqueIdentifier = UniqueIdentifier> = {
@@ -61,6 +60,7 @@ const SortableItem = <I extends UniqueIdentifier = UniqueIdentifier>(
     isDragging,
     setActivatorNodeRef,
   } = useSortable({ id: props.id, data: props.data, disabled: props.disabled })
+
   const style = {
     transform: CSS.Translate.toString(transform),
     transition,
@@ -69,16 +69,17 @@ const SortableItem = <I extends UniqueIdentifier = UniqueIdentifier>(
   const handleProps: HandleProps = useMemo(
     () => ({
       ...listeners,
+      ...attributes,
       ref: setActivatorNodeRef,
       className: !props.disabled ? "ol-draggable" : undefined,
     }),
-    [setActivatorNodeRef, listeners, props.disabled],
+    [setActivatorNodeRef, attributes, listeners, props.disabled],
   )
 
   const { Component = "div" } = props
 
   return (
-    <Component ref={setNodeRef} style={style} {...attributes}>
+    <Component ref={setNodeRef} style={style}>
       <DragStyles>{props.children && props.children(handleProps)}</DragStyles>
     </Component>
   )
@@ -233,7 +234,7 @@ const SortableList = <I extends UniqueIdentifier = UniqueIdentifier>({
         {children}
       </SortableContext>
       <DragOverlay dropAnimation={dropAnimationConfig}>
-        <div className="ol-dragging">{active && renderActive(active)}</div>
+        <DraggingContainer>{active && renderActive(active)}</DraggingContainer>
       </DragOverlay>
     </DndContext>
   )

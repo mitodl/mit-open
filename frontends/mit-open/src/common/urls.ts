@@ -8,10 +8,6 @@ export const LEARNINGPATH_LISTING = "/learningpaths/"
 export const LEARNINGPATH_VIEW = "/learningpaths/:id"
 export const learningPathsView = (id: number) =>
   generatePath(LEARNINGPATH_VIEW, { id: String(id) })
-export const USERLIST_LISTING = "/userlists/"
-export const USERLIST_VIEW = "/userlists/:id"
-export const userListView = (id: number) =>
-  generatePath(USERLIST_VIEW, { id: String(id) })
 export const PROGRAMLETTER_VIEW = "/program_letter/:id/view/"
 export const programLetterView = (id: string) =>
   generatePath(PROGRAMLETTER_VIEW, { id: String(id) })
@@ -40,8 +36,10 @@ export const makeChannelManageWidgetsPath = (
   name: string,
 ) => generatePath(CHANNEL_EDIT_WIDGETS, { channelType, name })
 
-export const LOGIN = `${process.env.MITOPEN_API_BASE_URL}/login/ol-oidc/`
-export const LOGOUT = `${process.env.MITOPEN_API_BASE_URL}/logout/`
+const { MITOPEN_API_BASE_URL } = APP_SETTINGS
+
+export const LOGIN = `${MITOPEN_API_BASE_URL}/login/ol-oidc/`
+export const LOGOUT = `${MITOPEN_API_BASE_URL}/logout/`
 
 /**
  * Returns the URL to the login page, with a `next` parameter to redirect back
@@ -50,9 +48,11 @@ export const LOGOUT = `${process.env.MITOPEN_API_BASE_URL}/logout/`
 export const login = ({
   pathname = "/",
   search = "",
+  hash = "",
 }: {
   pathname?: string
   search?: string
+  hash?: string
 } = {}) => {
   /**
    * To include search parameters in the next URL, we need to encode them.
@@ -62,11 +62,20 @@ export const login = ({
    * There's no need to encode the path parameter (it might contain slashes,
    * but those are allowed in search parameters) so let's keep it readable.
    */
-  const next = `${window.location.origin}${pathname}${encodeURIComponent(search)}`
+  const next = `${window.location.origin}${pathname}${encodeURIComponent(search)}${encodeURIComponent(hash)}`
   return `${LOGIN}?next=${next}`
 }
 
-export const DASHBOARD = "/dashboard/"
+export const DASHBOARD_HOME = "/dashboard/"
+
+export const MY_LISTS = "/dashboard/my-lists/"
+export const USERLIST_VIEW = "/dashboard/my-lists/:id"
+export const userListView = (id: number) =>
+  generatePath(USERLIST_VIEW, { id: String(id) })
+
+export const PROFILE = "/dashboard/profile/"
+
+export const SETTINGS = "/dashboard/settings/"
 
 export const SEARCH = "/search/"
 
@@ -80,7 +89,7 @@ export const TERMS = "/terms/"
 
 export const UNITS = "/units/"
 
-export const CONTACT = "mailto:odl-discussions-support@mit.edu"
+export const CONTACT = "mailto:mitlearn-support@mit.edu"
 
 export const RESOURCE_DRAWER_QUERY_PARAM = "resource"
 

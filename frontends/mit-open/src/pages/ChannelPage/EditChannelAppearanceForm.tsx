@@ -15,33 +15,29 @@ const CHANNEL_TYPE_CHOICES = [
   {
     value: "department",
     label: "Department",
-    className: "radio-option",
   },
   {
     value: "topic",
     label: "Topic",
-    className: "radio-option",
   },
   {
     value: "unit",
     label: "Unit",
-    className: "radio-option",
   },
   {
     value: "pathway",
     label: "Pathway",
-    className: "radio-option",
   },
 ]
 const postSchema = Yup.object().shape({
-  title: Yup.string().default("").required("Title is required."),
+  title: Yup.string().default("").required("Title is required"),
   public_description: Yup.string()
     .default("")
-    .required("Description is required."),
+    .required("Description is required"),
   channel_type: Yup.string()
     .oneOf(Object.values(ChannelTypeEnum))
     .default("pathway")
-    .required("Channel Type is required."),
+    .required("Channel Type is required"),
 })
 type FormData = Yup.InferType<typeof postSchema>
 
@@ -104,7 +100,6 @@ const EditChannelAppearanceForm = (props: FormProps): JSX.Element => {
         label="Channel Type"
         choices={CHANNEL_TYPE_CHOICES}
         value={formik.values.channel_type}
-        row
         onChange={(e) => formik.setFieldValue(e.target.name, e.target.value)}
       />
       <div className="form-row actions">

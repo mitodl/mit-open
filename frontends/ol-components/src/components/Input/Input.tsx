@@ -25,6 +25,9 @@ const baseInputStyles = (theme: Theme) => ({
   borderColor: theme.custom.colors.silverGrayLight,
   borderWidth: "1px",
   borderStyle: "solid",
+  "&.Mui-disabled": {
+    backgroundColor: theme.custom.colors.lightGray1,
+  },
   "&:hover:not(.Mui-disabled)": {
     borderColor: theme.custom.colors.darkGray2,
   },
@@ -42,6 +45,10 @@ const baseInputStyles = (theme: Theme) => ({
   },
   "& input:placeholder-shown": {
     textOverflow: "ellipsis",
+  },
+  "& textarea": {
+    paddingTop: "6px",
+    paddingBottom: "7px",
   },
 })
 

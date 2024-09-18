@@ -13,6 +13,7 @@ from factory.fuzzy import FuzzyChoice, FuzzyText
 from learning_resources import constants, models
 from learning_resources.constants import (
     DEPARTMENTS,
+    Availability,
     LearningResourceFormat,
     LevelType,
     PlatformType,
@@ -168,6 +169,9 @@ class LearningResourceOfferorFactory(DjangoModelFactory):
         is_ocw = factory.Trait(
             code=constants.OfferedBy.ocw.name, name=constants.OfferedBy.ocw.value
         )
+        is_see = factory.Trait(
+            code=constants.OfferedBy.see.name, name=constants.OfferedBy.see.value
+        )
 
 
 class LearningResourceFactory(DjangoModelFactory):
@@ -275,6 +279,8 @@ class LearningResourceFactory(DjangoModelFactory):
             size=2,
         ),
     )
+
+    availability = FuzzyChoice(Availability.names())
 
     class Meta:
         model = models.LearningResource
@@ -470,10 +476,10 @@ class LearningResourceRunFactory(DjangoModelFactory):
     image = factory.SubFactory(LearningResourceImageFactory)
     availability = FuzzyChoice(
         (
-            constants.AvailabilityType.current.value,
-            constants.AvailabilityType.upcoming.value,
-            constants.AvailabilityType.starting_soon.value,
-            constants.AvailabilityType.archived.value,
+            constants.RunAvailability.current.value,
+            constants.RunAvailability.upcoming.value,
+            constants.RunAvailability.starting_soon.value,
+            constants.RunAvailability.archived.value,
         )
     )
     enrollment_start = factory.Faker("future_datetime", tzinfo=UTC)

@@ -1,7 +1,7 @@
 """Tests for ETL loaders"""
 
-import json
 from datetime import timedelta
+from decimal import Decimal
 
 # pylint: disable=redefined-outer-name,too-many-locals,too-many-lines
 from types import SimpleNamespace
@@ -16,6 +16,7 @@ from learning_resources.constants import (
     LearningResourceType,
     OfferedBy,
     PlatformType,
+    RunAvailability,
 )
 from learning_resources.etl.constants import (
     CourseLoaderConfig,
@@ -30,6 +31,7 @@ from learning_resources.etl.loaders import (
     load_courses,
     load_image,
     load_instructors,
+    load_next_start_date_and_prices,
     load_offered_by,
     load_playlist,
     load_playlists,
@@ -149,7 +151,7 @@ def test_load_program(  # noqa: PLR0913
     courses_exist,
     has_retired_course,
     resource_format,
-):  # pylint: disable=too-many-arguments
+):
     """Test that load_program loads the program"""
     platform = LearningResourcePlatformFactory.create()
 
@@ -210,10 +212,12 @@ def test_load_program(  # noqa: PLR0913
             "image": {"url": program.learning_resource.image.url},
             "published": is_published,
             "runs": [run_data],
+            "availability": program.learning_resource.availability,
             "courses": [
                 {
                     "readable_id": course.learning_resource.readable_id,
                     "platform": platform.code,
+                    "availability": course.learning_resource.availability,
                 }
                 for course in courses
             ],
@@ -222,20 +226,6 @@ def test_load_program(  # noqa: PLR0913
         [],
         [],
     )
-
-    if program_exists and not is_published:
-        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
-            result.id, result.resource_type
-        )
-    elif is_published:
-        if program_exists:
-            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
-        else:
-            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
-                result.id
-            )
-    else:
-        mock_upsert_tasks.upsert_learning_resource.assert_not_called()
 
     assert Program.objects.count() == 1
     assert Course.objects.count() == after_course_count
@@ -268,6 +258,20 @@ def test_load_program(  # noqa: PLR0913
         assert isinstance(relationship.child, LearningResource)
         assert relationship.child.readable_id == data.learning_resource.readable_id
 
+    if program_exists and not is_published:
+        mock_upsert_tasks.deindex_learning_resource.assert_called_with(
+            result.id, result.resource_type
+        )
+    elif is_published:
+        if program_exists:
+            mock_upsert_tasks.upsert_learning_resource.assert_called_with(result.id)
+        else:
+            mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
+                result.id
+            )
+    else:
+        mock_upsert_tasks.upsert_learning_resource.assert_not_called()
+
 
 def test_load_program_bad_platform(mocker):
     """A bad platform should log an exception and not create the program"""
@@ -287,7 +291,7 @@ def test_load_program_bad_platform(mocker):
     result = load_program(props, [], [], config=ProgramLoaderConfig(prune=True))
     assert result is None
     mock_log.assert_called_once_with(
-        "Platform %s is null or not in database: %s", bad_platform, json.dumps(props)
+        "Platform %s is null or not in database: %s", bad_platform, "abc123"
     )
 
 
@@ -324,15 +328,26 @@ def test_load_course(  # noqa: PLR0913
         if has_upcoming_run
         else timezone.now() - timedelta(1)
     )
+    old_start_date = timezone.now() - timedelta(365)
 
     if course_exists:
         run = LearningResourceRunFactory.create(
             learning_resource=learning_resource, published=True, start_date=start_date
         )
+        old_run = LearningResourceRunFactory.create(
+            learning_resource=learning_resource,
+            published=True,
+            start_date=old_start_date,
+        )
         learning_resource.runs.set([run])
         learning_resource.save()
     else:
         run = LearningResourceRunFactory.build(start_date=start_date)
+        old_run = LearningResourceRunFactory.build(
+            learning_resource=learning_resource,
+            published=True,
+            start_date=old_start_date,
+        )
     assert Course.objects.count() == (1 if course_exists else 0)
 
     format_data = {"learning_format": [resource_format]} if resource_format else {}
@@ -349,13 +364,23 @@ def test_load_course(  # noqa: PLR0913
     }
 
     if is_run_published:
-        run = {
-            "run_id": run.run_id,
-            "enrollment_start": run.enrollment_start,
-            "start_date": start_date,
-            "end_date": run.end_date,
-        }
-        props["runs"] = [run]
+        runs = [
+            {
+                "run_id": old_run.run_id,
+                "enrollment_start": old_run.enrollment_start,
+                "start_date": old_run.start_date,
+                "end_date": old_run.end_date,
+                "prices": [30.00, 120.00],
+            },
+            {
+                "run_id": run.run_id,
+                "enrollment_start": run.enrollment_start,
+                "start_date": start_date,
+                "end_date": run.end_date,
+                "prices": [0.00, 49.00],
+            },
+        ]
+        props["runs"] = runs
     else:
         props["runs"] = []
 
@@ -368,6 +393,11 @@ def test_load_course(  # noqa: PLR0913
         start_date if has_upcoming_run and is_run_published else None
     )
     assert result.next_start_date == expected_next_start_date
+    assert result.prices == (
+        [Decimal(0.00), Decimal(49.00)]
+        if is_run_published and result.certification
+        else []
+    )
 
     if course_exists and ((not is_published or not is_run_published) or blocklisted):
         mock_upsert_tasks.deindex_learning_resource.assert_called_with(
@@ -391,7 +421,7 @@ def test_load_course(  # noqa: PLR0913
 
     assert Course.objects.count() == 1
     assert LearningResourceRun.objects.filter(published=True).count() == (
-        1 if is_run_published else 0
+        2 if is_run_published else 0
     )
 
     # assert we got a course back
@@ -435,7 +465,7 @@ def test_load_course_bad_platform(mocker):
     result = load_course(props, [], [], config=CourseLoaderConfig(prune=True))
     assert result is None
     mock_log.assert_called_once_with(
-        "Platform %s is null or not in database: %s", bad_platform, '"abc123"'
+        "Platform %s is null or not in database: %s", bad_platform, "abc123"
     )
 
 
@@ -533,13 +563,19 @@ def test_load_duplicate_course(
 
 
 @pytest.mark.parametrize("unique_url", [True, False])
-def test_load_course_dupe_urls(unique_url):
-    """If url is supposed to be unique field, unpublish old courses with same url"""
+def test_load_course_unique_urls(unique_url):
+    """
+    If url is supposed to be unique field, unpublish unpublished courses with same url
+    and update the published course with the new readable id
+    """
     unique_url = "https://mit.edu/unique.html"
     readable_id = "new_unique_course_id"
     platform = LearningResourcePlatformFactory.create(code=PlatformType.ocw.name)
-    old_courses = LearningResourceFactory.create_batch(
-        2, url=unique_url, platform=platform, is_course=True
+    old_unpublished_courses = LearningResourceFactory.create_batch(
+        2, url=unique_url, platform=platform, is_course=True, published=False
+    )
+    old_course = LearningResourceFactory.create(
+        url=unique_url, platform=platform, is_course=True
     )
     props = {
         "readable_id": readable_id,
@@ -562,37 +598,87 @@ def test_load_course_dupe_urls(unique_url):
     assert result.readable_id == readable_id
     assert result.url == unique_url
     assert result.published is True
-    for course in old_courses:
-        course.refresh_from_db()
-        assert course.published is (unique_url is False)
+    for unpublished_course in old_unpublished_courses:
+        assert (
+            LearningResource.objects.filter(pk=unpublished_course.id).exists() is False
+        )
+    old_course.refresh_from_db()
+    assert old_course == result
+
+
+@pytest.mark.parametrize("course_exists", [True, False])
+def test_load_course_fetch_only(mocker, course_exists):
+    """When fetch_only is True, course should just be fetched from db"""
+    mock_next_runs_prices = mocker.patch(
+        "learning_resources.etl.loaders.load_next_start_date_and_prices"
+    )
+    mock_warn = mocker.patch("learning_resources.etl.loaders.log.warning")
+    platform = LearningResourcePlatformFactory.create(code=PlatformType.mitpe.name)
+    if course_exists:
+        resource = LearningResourceFactory.create(is_course=True, platform=platform)
+    else:
+        resource = LearningResourceFactory.build(is_course=True, platform=platform)
+
+    props = {
+        "readable_id": resource.readable_id,
+        "platform": platform.code,
+        "offered_by": {"code": OfferedBy.ocw.name},
+    }
+    result = load_course(props, [], [], config=CourseLoaderConfig(fetch_only=True))
+    if course_exists:
+        assert result == resource
+        mock_warn.assert_not_called()
+    else:
+        assert result is None
+        mock_warn.assert_called_once_with(
+            "No published resource found for %s", resource.readable_id
+        )
+    mock_next_runs_prices.assert_not_called()
 
 
 @pytest.mark.parametrize("run_exists", [True, False])
-def test_load_run(run_exists):
+@pytest.mark.parametrize(
+    "availability", [RunAvailability.archived.value, RunAvailability.current.value]
+)
+@pytest.mark.parametrize("certification", [True, False])
+def test_load_run(run_exists, availability, certification):
     """Test that load_run loads the course run"""
-    course = CourseFactory.create(learning_resource__runs=[])
+    course = LearningResourceFactory.create(
+        is_course=True, runs=[], certification=certification
+    )
     learning_resource_run = (
-        LearningResourceRunFactory.create(learning_resource=course.learning_resource)
+        LearningResourceRunFactory.create(learning_resource=course)
         if run_exists
         else LearningResourceRunFactory.build()
     )
     props = model_to_dict(
-        LearningResourceRunFactory.build(run_id=learning_resource_run.run_id)
+        LearningResourceRunFactory.build(
+            run_id=learning_resource_run.run_id,
+            availability=availability,
+            prices=["70.00", "20.00"],
+        )
     )
 
     del props["id"]
     del props["learning_resource"]
 
     assert LearningResourceRun.objects.count() == (1 if run_exists else 0)
+    assert course.certification == certification
 
-    result = load_run(course.learning_resource, props)
+    result = load_run(course, props)
 
     assert LearningResourceRun.objects.count() == 1
 
-    assert result.learning_resource == course.learning_resource
+    assert result.learning_resource == course
 
     assert isinstance(result, LearningResourceRun)
 
+    assert result.prices == (
+        []
+        if (availability == RunAvailability.archived.value or certification is False)
+        else sorted(props["prices"])
+    )
+    props.pop("prices")
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"
 
@@ -1340,3 +1426,19 @@ def test_load_course_percolation(
         mock_upsert_tasks.upsert_learning_resource_immutable_signature.assert_called_with(
             result.id
         )
+
+
+@pytest.mark.parametrize("certification", [True, False])
+def test_load_prices_by_certificate(certification):
+    """Prices should be empty for a course without certificates, else equal to only published run"""
+    course = LearningResourceFactory.create(
+        is_course=True, certification=certification, runs=[]
+    )
+    run = LearningResourceRunFactory.create(
+        learning_resource=course,
+        published=True,
+        availability=RunAvailability.current.value,
+        prices=[Decimal("0.00"), Decimal("20.00")],
+    )
+    load_next_start_date_and_prices(course)
+    assert course.prices == ([] if not certification else run.prices)

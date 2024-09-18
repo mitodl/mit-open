@@ -35,6 +35,7 @@ from learning_resources_search.serializers import (
     serialize_learning_resource_for_update,
 )
 from learning_resources_search.tasks import (
+    _generate_subscription_digest_subject,
     _get_percolated_rows,
     _group_percolated_rows,
     _infer_percolate_group,
@@ -929,3 +930,49 @@ def test_digest_email_template(mocked_api, mocker, mocked_celery):
     assert user.id == task_args[0]
     for topic in topics:
         assert topic in template_data
+
+
+def test_subscription_digest_subject():
+    """
+    Test that email generates a dynamic subject based
+    on the unique resource types included
+    """
+    resource_types = {"program"}
+    sample_course = {"source_channel_type": "topic", "resource_title": "robotics"}
+
+    subject_line = _generate_subscription_digest_subject(
+        sample_course,
+        "electronics",
+        resource_types,
+        total_count=1,
+        shortform=False,
+    )
+    assert subject_line == "MIT Learn: New Program in electronics: robotics"
+
+    sample_course = {"source_channel_type": "podcast", "resource_title": "robotics"}
+    resource_types = {"program"}
+
+    subject_line = _generate_subscription_digest_subject(
+        sample_course,
+        "xpro",
+        resource_types,
+        total_count=9,
+        shortform=False,
+    )
+    assert subject_line == "MIT Learn: New Programs from xpro: robotics"
+
+    resource_types = {"podcast"}
+    subject_line = _generate_subscription_digest_subject(
+        sample_course,
+        "engineering",
+        resource_types,
+        total_count=19,
+        shortform=False,
+    )
+    assert subject_line == "MIT Learn: New Podcasts from engineering: robotics"
+
+    resource_types = {"course"}
+    subject_line = _generate_subscription_digest_subject(
+        sample_course, "management", resource_types, 19, shortform=True
+    )
+    assert subject_line == "New Courses from management"

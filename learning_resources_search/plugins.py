@@ -140,12 +140,11 @@ class SearchIndexPlugin:
             )
 
     @hookimpl
-    def resource_delete(self, resource):
+    def resource_before_delete(self, resource):
         """
         Remove a resource from the search index and then delete the object
         """
         self.resource_unpublished(resource)
-        resource.delete()
 
     @hookimpl
     def resource_run_upserted(self, run):
