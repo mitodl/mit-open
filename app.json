@@ -441,6 +441,10 @@
       "description": "bucket for ocw-next storage data",
       "required": false
     },
+    "OCW_OFFLINE_DELIVERY": {
+      "description": "Enable offline delivery of OCW courses",
+      "required": false
+    },
     "PGBOUNCER_DEFAULT_POOL_SIZE": {
       "value": "50"
     },

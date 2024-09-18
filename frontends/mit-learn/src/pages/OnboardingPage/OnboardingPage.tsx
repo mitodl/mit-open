@@ -29,7 +29,7 @@ import {
   CERTIFICATE_CHOICES,
   EDUCATION_LEVEL_OPTIONS,
   GOALS_CHOICES,
-  LEARNING_FORMAT_CHOICES,
+  DELIVERY_CHOICES,
   ProfileSchema,
 } from "@/common/profile"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
@@ -266,10 +266,10 @@ const OnboardingPage: React.FC = () => {
         onChange={formik.handleChange}
       />
     </Container>,
-    <Container key="learning_format" maxWidth="md">
+    <Container key="delivery" maxWidth="md">
       <CheckboxChoiceBoxField
-        name="learning_format"
-        choices={LEARNING_FORMAT_CHOICES}
+        name="delivery"
+        choices={DELIVERY_CHOICES}
         {...GridStyle()}
         label={
           <Label>
@@ -279,7 +279,7 @@ const OnboardingPage: React.FC = () => {
             <Prompt>Select all that apply:</Prompt>
           </Label>
         }
-        values={formik.values.learning_format}
+        values={formik.values.delivery}
         onChange={formik.handleChange}
       />
     </Container>,

@@ -683,27 +683,6 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-              maxLength: 24
-            enum:
-            - hybrid
-            - in_person
-            - online
-        description: |-
-          The learning format of course/program resources
-
-          * `online` - Online
-          * `hybrid` - Hybrid
-          * `in_person` - In person
-        explode: true
-        style: form
-      - in: query
         name: level
         schema:
           type: array
@@ -1315,27 +1294,6 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-              maxLength: 24
-            enum:
-            - hybrid
-            - in_person
-            - online
-        description: |-
-          The learning format of course/program resources
-
-          * `online` - Online
-          * `hybrid` - Hybrid
-          * `in_person` - In person
-        explode: true
-        style: form
-      - in: query
         name: level
         schema:
           type: array
@@ -1739,27 +1697,6 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
-      - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-              maxLength: 24
-            enum:
-            - hybrid
-            - in_person
-            - online
-        description: |-
-          The learning format of course/program resources
-
-          * `online` - Online
-          * `hybrid` - Hybrid
-          * `in_person` - In person
-        explode: true
-        style: form
       - in: query
         name: level
         schema:
@@ -2332,7 +2269,6 @@ paths:
             - course_feature
             - professional
             - free
-            - learning_format
             - delivery
             - resource_category
             type: string
@@ -2348,7 +2284,6 @@ paths:
               * `course_feature` - course_feature
               * `professional` - professional
               * `free` - free
-              * `learning_format` - learning_format
               * `delivery` - delivery
               * `resource_category` - resource_category
         description: Show resource counts by category
@@ -2523,23 +2458,6 @@ paths:
           items:
             type: integer
         description: The id value for the learning resource
-      - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            enum:
-            - online
-            - hybrid
-            - in_person
-            type: string
-            description: |-
-              * `online` - Online
-              * `hybrid` - Hybrid
-              * `in_person` - In person
-        description: "The format(s) in which the learning resource is offered    \
-          \         \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person` -\
-          \ In person"
       - in: query
         name: level
         schema:
@@ -2834,7 +2752,6 @@ paths:
             - course_feature
             - professional
             - free
-            - learning_format
             - delivery
             - resource_category
             type: string
@@ -2850,7 +2767,6 @@ paths:
               * `course_feature` - course_feature
               * `professional` - professional
               * `free` - free
-              * `learning_format` - learning_format
               * `delivery` - delivery
               * `resource_category` - resource_category
         description: Show resource counts by category
@@ -3025,23 +2941,6 @@ paths:
           items:
             type: integer
         description: The id value for the learning resource
-      - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            enum:
-            - online
-            - hybrid
-            - in_person
-            type: string
-            description: |-
-              * `online` - Online
-              * `hybrid` - Hybrid
-              * `in_person` - In person
-        description: "The format(s) in which the learning resource is offered    \
-          \         \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person` -\
-          \ In person"
       - in: query
         name: level
         schema:
@@ -3361,7 +3260,6 @@ paths:
             - course_feature
             - professional
             - free
-            - learning_format
             - delivery
             - resource_category
             type: string
@@ -3377,7 +3275,6 @@ paths:
               * `course_feature` - course_feature
               * `professional` - professional
               * `free` - free
-              * `learning_format` - learning_format
               * `delivery` - delivery
               * `resource_category` - resource_category
         description: Show resource counts by category
@@ -3552,23 +3449,6 @@ paths:
           items:
             type: integer
         description: The id value for the learning resource
-      - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            enum:
-            - online
-            - hybrid
-            - in_person
-            type: string
-            description: |-
-              * `online` - Online
-              * `hybrid` - Hybrid
-              * `in_person` - In person
-        description: "The format(s) in which the learning resource is offered    \
-          \         \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person` -\
-          \ In person"
       - in: query
         name: level
         schema:
@@ -3879,7 +3759,6 @@ paths:
             - course_feature
             - professional
             - free
-            - learning_format
             - delivery
             - resource_category
             type: string
@@ -3895,7 +3774,6 @@ paths:
               * `course_feature` - course_feature
               * `professional` - professional
               * `free` - free
-              * `learning_format` - learning_format
               * `delivery` - delivery
               * `resource_category` - resource_category
         description: Show resource counts by category
@@ -4070,23 +3948,6 @@ paths:
           items:
             type: integer
         description: The id value for the learning resource
-      - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            enum:
-            - online
-            - hybrid
-            - in_person
-            type: string
-            description: |-
-              * `online` - Online
-              * `hybrid` - Hybrid
-              * `in_person` - In person
-        description: "The format(s) in which the learning resource is offered    \
-          \         \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person` -\
-          \ In person"
       - in: query
         name: level
         schema:
@@ -4545,27 +4406,6 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
-      - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-              maxLength: 24
-            enum:
-            - hybrid
-            - in_person
-            - online
-        description: |-
-          The learning format of course/program resources
-
-          * `online` - Online
-          * `hybrid` - Hybrid
-          * `in_person` - In person
-        explode: true
-        style: form
       - in: query
         name: level
         schema:
@@ -5295,27 +5135,6 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-              maxLength: 24
-            enum:
-            - hybrid
-            - in_person
-            - online
-        description: |-
-          The learning format of course/program resources
-
-          * `online` - Online
-          * `hybrid` - Hybrid
-          * `in_person` - In person
-        explode: true
-        style: form
-      - in: query
         name: level
         schema:
           type: array
@@ -5719,27 +5538,6 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
-      - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-              maxLength: 24
-            enum:
-            - hybrid
-            - in_person
-            - online
-        description: |-
-          The learning format of course/program resources
-
-          * `online` - Online
-          * `hybrid` - Hybrid
-          * `in_person` - In person
-        explode: true
-        style: form
       - in: query
         name: level
         schema:
@@ -6231,27 +6029,6 @@ paths:
         schema:
           type: boolean
         description: The course/program is offered for free
-      - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-              maxLength: 24
-            enum:
-            - hybrid
-            - in_person
-            - online
-        description: |-
-          The learning format of course/program resources
-
-          * `online` - Online
-          * `hybrid` - Hybrid
-          * `in_person` - In person
-        explode: true
-        style: form
       - in: query
         name: level
         schema:
@@ -7047,27 +6824,6 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-              maxLength: 24
-            enum:
-            - hybrid
-            - in_person
-            - online
-        description: |-
-          The learning format of course/program resources
-
-          * `online` - Online
-          * `hybrid` - Hybrid
-          * `in_person` - In person
-        explode: true
-        style: form
-      - in: query
         name: level
         schema:
           type: array
@@ -7538,27 +7294,6 @@ paths:
           type: boolean
         description: The course/program is offered for free
       - in: query
-        name: learning_format
-        schema:
-          type: array
-          items:
-            type: array
-            items:
-              type: string
-              maxLength: 24
-            enum:
-            - hybrid
-            - in_person
-            - online
-        description: |-
-          The learning format of course/program resources
-
-          * `online` - Online
-          * `hybrid` - Hybrid
-          * `in_person` - In person
-        explode: true
-        style: form
-      - in: query
         name: level
         schema:
           type: array
@@ -7815,7 +7550,6 @@ components:
       - course_feature
       - professional
       - free
-      - learning_format
       - delivery
       - resource_category
       type: string
@@ -7831,7 +7565,6 @@ components:
         * `course_feature` - course_feature
         * `professional` - professional
         * `free` - free
-        * `learning_format` - learning_format
         * `delivery` - delivery
         * `resource_category` - resource_category
       x-enum-descriptions:
@@ -7846,7 +7579,6 @@ components:
       - course_feature
       - professional
       - free
-      - learning_format
       - delivery
       - resource_category
     Article:
@@ -8211,22 +7943,6 @@ components:
         views:
           type: integer
           readOnly: true
-        learning_format:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                enum:
-                - online
-                - hybrid
-                - in_person
-              name:
-                type: string
-            required:
-            - code
-            - name
-          readOnly: true
         delivery:
           type: array
           items:
@@ -8322,7 +8038,6 @@ components:
       - free
       - id
       - image
-      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -8535,20 +8250,6 @@ components:
       - Special Programs
       - Science, Technology, and Society
       - Women's and Gender Studies
-    LearningFormatEnum:
-      enum:
-      - online
-      - hybrid
-      - in_person
-      type: string
-      description: |-
-        * `online` - Online
-        * `hybrid` - Hybrid
-        * `in_person` - In person
-      x-enum-descriptions:
-      - Online
-      - Hybrid
-      - In person
     LearningPath:
       type: object
       description: Serializer for the LearningPath model
@@ -8684,22 +8385,6 @@ components:
         views:
           type: integer
           readOnly: true
-        learning_format:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                enum:
-                - online
-                - hybrid
-                - in_person
-              name:
-                type: string
-            required:
-            - code
-            - name
-          readOnly: true
         delivery:
           type: array
           items:
@@ -8793,7 +8478,6 @@ components:
       - free
       - id
       - image
-      - learning_format
       - learning_path
       - learning_path_parents
       - offered_by
@@ -10422,13 +10106,6 @@ components:
           items:
             $ref: '#/components/schemas/AggregationsEnum'
           description: Show resource counts by category
-        learning_format:
-          type: array
-          items:
-            $ref: '#/components/schemas/LearningFormatEnum'
-          description: "The format(s) in which the learning resource is offered  \
-            \           \n\n* `online` - Online\n* `hybrid` - Hybrid\n* `in_person`\
-            \ - In person"
         delivery:
           type: array
           items:
@@ -10718,22 +10395,6 @@ components:
         views:
           type: integer
           readOnly: true
-        learning_format:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                enum:
-                - online
-                - hybrid
-                - in_person
-              name:
-                type: string
-            required:
-            - code
-            - name
-          readOnly: true
         delivery:
           type: array
           items:
@@ -10828,7 +10489,6 @@ components:
       - free
       - id
       - image
-      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -11017,22 +10677,6 @@ components:
         views:
           type: integer
           readOnly: true
-        learning_format:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                enum:
-                - online
-                - hybrid
-                - in_person
-              name:
-                type: string
-            required:
-            - code
-            - name
-          readOnly: true
         delivery:
           type: array
           items:
@@ -11127,7 +10771,6 @@ components:
       - free
       - id
       - image
-      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -11446,22 +11089,6 @@ components:
         views:
           type: integer
           readOnly: true
-        learning_format:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                enum:
-                - online
-                - hybrid
-                - in_person
-              name:
-                type: string
-            required:
-            - code
-            - name
-          readOnly: true
         delivery:
           type: array
           items:
@@ -11556,7 +11183,6 @@ components:
       - free
       - id
       - image
-      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -12017,22 +11643,6 @@ components:
         views:
           type: integer
           readOnly: true
-        learning_format:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                enum:
-                - online
-                - hybrid
-                - in_person
-              name:
-                type: string
-            required:
-            - code
-            - name
-          readOnly: true
         delivery:
           type: array
           items:
@@ -12127,7 +11737,6 @@ components:
       - free
       - id
       - image
-      - learning_format
       - learning_path_parents
       - offered_by
       - platform
@@ -12302,22 +11911,6 @@ components:
         views:
           type: integer
           readOnly: true
-        learning_format:
-          type: array
-          items:
-            type: object
-            properties:
-              code:
-                enum:
-                - online
-                - hybrid
-                - in_person
-              name:
-                type: string
-            required:
-            - code
-            - name
-          readOnly: true
         delivery:
           type: array
           items:
@@ -12412,7 +12005,6 @@ components:
       - free
       - id
       - image
-      - learning_format
       - learning_path_parents
       - offered_by
       - platform

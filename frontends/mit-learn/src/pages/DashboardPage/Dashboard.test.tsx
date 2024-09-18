@@ -16,7 +16,7 @@ import { faker } from "@faker-js/faker/locale/en"
 import {
   CourseResource,
   LearningResource,
-  LearningResourcesSearchRetrieveLearningFormatEnum,
+  LearningResourcesSearchRetrieveDeliveryEnum,
 } from "api"
 import { ControlledPromise } from "ol-test-utilities"
 import React from "react"
@@ -48,20 +48,21 @@ describe("DashboardPage", () => {
           .topics({ count: 3 })
           .results.map((topic) => topic.name),
         certification: faker.helpers.arrayElement([true, false]),
-        learning_format: faker.helpers.arrayElements([
+        delivery: faker.helpers.arrayElements([
           "online",
           "in-person",
           "hybrid",
+          "offline",
         ]),
       },
     })
     const certification: boolean | undefined =
       profile?.preference_search_filters.certification
     const topics = profile?.preference_search_filters.topic
-    const learningFormat = Object.values(
-      LearningResourcesSearchRetrieveLearningFormatEnum,
+    const delivery = Object.values(
+      LearningResourcesSearchRetrieveDeliveryEnum,
     ).filter((format) =>
-      profile?.preference_search_filters.learning_format?.includes(format),
+      profile?.preference_search_filters.delivery?.includes(format),
     )
 
     const topPicks = factories.learningResources.courses({ count: 10 })
@@ -71,7 +72,7 @@ describe("DashboardPage", () => {
         factories.learningResources.topic({ name: topic }),
       )
       course.certification = certification || false
-      course.learning_format = learningFormat.map((format) =>
+      course.delivery = delivery.map((format) =>
         format
           ? { code: format, name: format }
           : { code: "online", name: "Online" },
@@ -115,7 +116,7 @@ describe("DashboardPage", () => {
       expect.stringContaining(
         urls.search.resources({
           certification: certification,
-          learning_format: learningFormat,
+          delivery: delivery,
           limit: 12,
           resource_type: ["course"],
           sortby: "-views",

@@ -17,7 +17,7 @@ import {
   CERTIFICATE_CHOICES,
   EDUCATION_LEVEL_OPTIONS,
   GOALS_CHOICES,
-  LEARNING_FORMAT_CHOICES,
+  DELIVERY_CHOICES,
   ProfileSchema,
 } from "@/common/profile"
 import { useUserMe } from "api/hooks/user"
@@ -158,10 +158,10 @@ const ProfileEditForm: React.FC<Props> = ({ profile }) => {
           onChange={formik.handleChange}
         />
         <CheckboxChoiceField
-          name="learning_format"
-          choices={LEARNING_FORMAT_CHOICES}
+          name="delivery"
+          choices={DELIVERY_CHOICES}
           label={"What course format are you interested in?"}
-          values={formik.values.learning_format}
+          values={formik.values.delivery}
           onChange={formik.handleChange}
         />
         <ButtonContainer>

@@ -116,9 +116,9 @@ describe("SearchPage", () => {
       const apiSearchParams = getLastApiSearchParams()
       expect(apiSearchParams.getAll("aggregations").sort()).toEqual([
         "certification_type",
+        "delivery",
         "department",
         "free",
-        "learning_format",
         "offered_by",
         "professional",
         "resource_category",

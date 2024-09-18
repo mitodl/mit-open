@@ -21,7 +21,6 @@ from learning_resources.constants import (
     RESOURCE_CATEGORY_VALUES,
     CertificationType,
     LearningResourceDelivery,
-    LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     LevelType,
@@ -239,7 +238,6 @@ LEARNING_RESOURCE_AGGREGATIONS = [
     "course_feature",
     "professional",
     "free",
-    "learning_format",
     "delivery",
     "resource_category",
 ]
@@ -381,15 +379,6 @@ class LearningResourcesSearchRequestSerializer(SearchRequestSerializer):
         required=False,
         help_text="Show resource counts by category",
         child=serializers.ChoiceField(choices=LEARNING_RESOURCE_AGGREGATIONS),
-    )
-    learning_format_choices = LearningResourceFormat.as_list()
-    learning_format = serializers.ListField(
-        required=False,
-        child=serializers.ChoiceField(choices=learning_format_choices),
-        help_text=(
-            f"The format(s) in which the learning resource is offered \
-            \n\n{build_choice_description_list(learning_format_choices)}"
-        ),
     )
     delivery_choices = LearningResourceDelivery.as_list()
     delivery = serializers.ListField(

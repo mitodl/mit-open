@@ -141,10 +141,9 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
     assert transformed["runs"] == [
         transform_run(run, course_data) for run in course_runs_data
     ]
-    assert transformed["learning_format"] == list(
+    assert transformed["delivery"] == list(
         {transform_delivery(run["Delivery"])[0] for run in course_runs_data}
     )
-    assert transformed["delivery"] == transformed["learning_format"]
     assert transformed["runs"][0]["availability"] == parse_availability(
         course_runs_data[0]
     )
@@ -167,7 +166,6 @@ def test_transform_course(mock_sloan_courses_data, mock_sloan_runs_data):
             "certification_type",
             "professional",
             "published",
-            "learning_format",
             "delivery",
             "topics",
             "course",

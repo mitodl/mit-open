@@ -31,13 +31,13 @@ from learning_resources.constants import (
     CONTENT_TYPE_VIDEO,
     DEPARTMENTS,
     VALID_TEXT_FILE_TYPES,
-    LearningResourceFormat,
+    LearningResourceDelivery,
     LevelType,
     OfferedBy,
     RunStatus,
 )
 from learning_resources.etl.constants import (
-    RESOURCE_FORMAT_MAPPING,
+    RESOURCE_DELIVERY_MAPPING,
     CourseNumberType,
     ETLSource,
 )
@@ -699,10 +699,10 @@ def transform_delivery(resource_delivery: str) -> list[str]:
 
     """
     try:
-        return [RESOURCE_FORMAT_MAPPING[resource_delivery]]
+        return [RESOURCE_DELIVERY_MAPPING[resource_delivery]]
     except KeyError:
-        log.exception("Invalid format %s", resource_delivery)
-        return [LearningResourceFormat.online.name]
+        log.exception("Invalid delivery %s", resource_delivery)
+        return [LearningResourceDelivery.online.name]
 
 
 def parse_certification(offeror, runs_data):

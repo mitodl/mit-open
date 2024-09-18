@@ -13,7 +13,7 @@ import { urls } from "api/test-utils"
 import * as factories from "api/test-utils/factories"
 import {
   GoalsEnum,
-  LearningFormatEnum,
+  DeliveryEnum,
   CurrentEducationEnum,
   CertificateDesiredEnum,
   type Profile,
@@ -35,7 +35,7 @@ const STEPS_DATA: Partial<Profile>[] = [
     current_education: CurrentEducationEnum.SecondaryHighSchool,
   },
   {
-    learning_format: [LearningFormatEnum.Hybrid],
+    delivery: [DeliveryEnum.Hybrid],
   },
 ]
 

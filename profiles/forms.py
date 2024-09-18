@@ -29,5 +29,5 @@ class ProfileForm(forms.ModelForm):
             "certificate_desired",
             "current_education",
             "time_commitment",
-            "learning_format",
+            "delivery",
         ]

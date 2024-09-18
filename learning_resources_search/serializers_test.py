@@ -74,12 +74,6 @@ response_test_raw_data_1 = {
                     "offered_by": "MIT xPRO",
                     "course_feature": [],
                     "department": None,
-                    "learning_format": [
-                        {
-                            "code": "online",
-                            "name": "Online",
-                        }
-                    ],
                     "delivery": [
                         {
                             "code": "online",
@@ -228,12 +222,6 @@ response_test_response_1 = {
             "offered_by": "MIT xPRO",
             "course_feature": [],
             "department": None,
-            "learning_format": [
-                {
-                    "code": "online",
-                    "name": "Online",
-                }
-            ],
             "delivery": [
                 {
                     "code": "online",
@@ -366,12 +354,6 @@ response_test_raw_data_2 = {
                     },
                     "id": 7363,
                     "departments": [],
-                    "learning_format": [
-                        {
-                            "code": "online",
-                            "name": "Online",
-                        }
-                    ],
                     "delivery": [
                         {
                             "code": "online",
@@ -474,14 +456,6 @@ response_test_raw_data_2 = {
                 "buckets": [{"key": 0, "key_as_string": "false", "doc_count": 1}],
             },
         },
-        "learning_format": {
-            "doc_count": 1,
-            "learning_format": {
-                "doc_count_error_upper_bound": 0,
-                "sum_other_doc_count": 0,
-                "buckets": [{"key": 0, "key_as_string": "online", "doc_count": 1}],
-            },
-        },
         "delivery": {
             "doc_count": 1,
             "delivery": {
@@ -553,12 +527,6 @@ response_test_response_2 = {
             },
             "id": 7363,
             "departments": [],
-            "learning_format": [
-                {
-                    "code": "online",
-                    "name": "Online",
-                }
-            ],
             "delivery": [
                 {
                     "code": "online",
@@ -592,7 +560,6 @@ response_test_response_2 = {
             "professional": [{"key": "false", "doc_count": 1}],
             "certification": [{"key": "false", "doc_count": 1}],
             "free": [{"key": "false", "doc_count": 1}],
-            "learning_format": [{"key": "online", "doc_count": 1}],
             "delivery": [
                 {"key": "online", "doc_count": 1},
                 {"key": "offline", "doc_count": 1},

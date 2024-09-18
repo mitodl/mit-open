@@ -230,7 +230,7 @@ describe("ChannelSearch", () => {
               platform: [{ key: "ocw", doc_count: 100 }],
               offered_by: [{ key: "ocw", doc_count: 100 }],
               certification: [{ key: "true", doc_count: 100 }],
-              learning_format: [{ key: "online", doc_count: 100 }],
+              delivery: [{ key: "online", doc_count: 100 }],
               certification_type: [{ key: "micromasters", doc_count: 100 }],
             },
             suggestions: [],

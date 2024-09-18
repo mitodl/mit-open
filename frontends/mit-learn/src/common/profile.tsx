@@ -7,18 +7,19 @@ import {
   CurrentEducationEnumDescriptions,
   GoalsEnum,
   GoalsEnumDescriptions,
-  LearningFormatEnum,
-  LearningFormatEnumDescriptions,
+  DeliveryEnum,
+  DeliveryEnumDescriptions,
 } from "api/v0"
 import { SimpleSelectOption } from "ol-components"
 
-const LEARNING_FORMAT_CHOICES = [
-  LearningFormatEnum.Online,
-  LearningFormatEnum.InPerson,
-  LearningFormatEnum.Hybrid,
+const DELIVERY_CHOICES = [
+  DeliveryEnum.Online,
+  DeliveryEnum.InPerson,
+  DeliveryEnum.Hybrid,
+  DeliveryEnum.Offline,
 ].map((value) => ({
   value,
-  label: LearningFormatEnumDescriptions[value],
+  label: DeliveryEnumDescriptions[value],
 }))
 
 const GOALS_CHOICES = [
@@ -71,15 +72,13 @@ const ProfileSchema = yup.object().shape({
   current_education: yup
     .string()
     .oneOf(EDUCATION_LEVEL_OPTIONS.map((choice) => choice.value)),
-  learning_format: yup
+  delivery: yup
     .array()
-    .of(
-      yup.string().oneOf(LEARNING_FORMAT_CHOICES.map((choice) => choice.value)),
-    ),
+    .of(yup.string().oneOf(DELIVERY_CHOICES.map((choice) => choice.value))),
 })
 
 export {
-  LEARNING_FORMAT_CHOICES,
+  DELIVERY_CHOICES,
   GOALS_CHOICES,
   EDUCATION_LEVEL_OPTIONS,
   CERTIFICATE_CHOICES,

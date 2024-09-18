@@ -108,12 +108,13 @@ class Profile(AbstractSCIMUserMixin):
         TWENTY_TO_THIRTY_HOURS = "20-to-30-hours", "20-30 hours/week"
         THIRTY_PLUS_HOURS = "30-plus-hours", "30+ hours/week"
 
-    class LearningResourceFormat(models.TextChoices):
-        """User learning format choices"""
+    class LearningResourceDelivery(models.TextChoices):
+        """User learning resource delivery choices"""
 
         ONLINE = "online", "Online"
         HYBRID = "hybrid", "Hybrid"
         IN_PERSON = "in_person", "In-Person"
+        OFFLINE = "offline", "Offline"
 
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -168,8 +169,8 @@ class Profile(AbstractSCIMUserMixin):
     time_commitment = models.CharField(
         max_length=50, choices=TimeCommitment.choices, blank=True, default=""
     )
-    learning_format = ArrayField(
-        models.CharField(max_length=50, choices=LearningResourceFormat.choices),
+    delivery = ArrayField(
+        models.CharField(max_length=50, choices=LearningResourceDelivery.choices),
         default=list,
         blank=True,
     )

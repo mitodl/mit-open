@@ -269,18 +269,9 @@ class LevelType(ExtendedEnum):
     introductory = "Introductory"
 
 
-class LearningResourceFormat(ExtendedEnum):
-    """Enum for resource learning format"""
-
-    online = "Online"
-    hybrid = "Hybrid"
-    in_person = "In person"
-
-
 class LearningResourceDelivery(ExtendedEnum):
     """
-    Enum for resource delivery methods. This
-    will eventually replace LearningResourceFormat
+    Enum for resource delivery methods.
     """
 
     online = "Online"

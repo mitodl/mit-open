@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 
 from learning_resources.constants import (
-    LearningResourceFormat,
+    LearningResourceDelivery,
     LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
@@ -405,7 +405,7 @@ def load_course(
     course_data = resource_data.pop("course", None)
     department_data = resource_data.pop("departments", [])
     content_tags_data = resource_data.pop("content_tags", [])
-    resource_data.setdefault("learning_format", [LearningResourceFormat.online.name])
+    resource_data.setdefault("delivery", [LearningResourceDelivery.online.name])
     runs_data = resource_data.get("runs", [])
 
     with transaction.atomic():
@@ -524,7 +524,7 @@ def load_program(
     offered_by_data = program_data.pop("offered_by", None)
     departments_data = program_data.pop("departments", None)
     image_data = program_data.pop("image", None)
-    program_data.setdefault("learning_format", [LearningResourceFormat.online.name])
+    program_data.setdefault("delivery", [LearningResourceDelivery.online.name])
     runs_data = program_data.get("runs", [])
 
     course_resources = []

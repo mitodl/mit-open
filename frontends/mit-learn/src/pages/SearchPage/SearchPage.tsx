@@ -110,7 +110,7 @@ export const getFacetManifest = (
       preserveItems: true,
     },
     {
-      name: "learning_format",
+      name: "delivery",
       title: "Format",
       type: "static",
       expandedOnLoad: true,
@@ -150,7 +150,7 @@ export const getFacetManifest = (
 const facetNames = [
   "resource_type",
   "certification_type",
-  "learning_format",
+  "delivery",
   "department",
   "topic",
   "offered_by",

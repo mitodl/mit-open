@@ -1,5 +1,5 @@
 import type { ResourceCarouselProps } from "@/page-components/ResourceCarousel/ResourceCarousel"
-import { LearningResourcesSearchRetrieveLearningFormatEnum } from "api"
+import { LearningResourcesSearchRetrieveDeliveryEnum } from "api"
 import { Profile } from "api/v0"
 
 type TopPicksCarouselConfigProps = (
@@ -12,10 +12,10 @@ const TopPicksCarouselConfig: TopPicksCarouselConfigProps = (
   const certification: boolean | undefined =
     profile?.preference_search_filters.certification
   const topics = profile?.preference_search_filters.topic
-  const learningFormat = Object.values(
-    LearningResourcesSearchRetrieveLearningFormatEnum,
+  const delivery = Object.values(
+    LearningResourcesSearchRetrieveDeliveryEnum,
   ).filter((format) =>
-    profile?.preference_search_filters.learning_format?.includes(format),
+    profile?.preference_search_filters.delivery?.includes(format),
   )
   return [
     {
@@ -28,7 +28,7 @@ const TopPicksCarouselConfig: TopPicksCarouselConfigProps = (
           limit: 12,
           certification: certification,
           topic: topics,
-          learning_format: learningFormat,
+          delivery: delivery,
           sortby: "-views",
         },
       },

@@ -10,7 +10,7 @@ import pytest
 from learning_resources.constants import (
     Availability,
     CertificationType,
-    LearningResourceFormat,
+    LearningResourceDelivery,
     OfferedBy,
     PlatformType,
 )
@@ -30,7 +30,7 @@ from learning_resources.etl.prolearn import (
     parse_topic,
     transform_courses,
     transform_programs,
-    update_format,
+    update_delivery,
 )
 from learning_resources.etl.utils import transform_delivery
 from learning_resources.factories import (
@@ -157,7 +157,6 @@ def test_prolearn_transform_programs(mock_csail_programs_data):
             else None,
             "etl_source": ETLSource.prolearn.name,
             "professional": True,
-            "learning_format": transform_delivery(program["format_name"]),
             "delivery": transform_delivery(program["format_name"]),
             "certification": True,
             "certification_type": CertificationType.professional.name,
@@ -229,7 +228,6 @@ def test_prolearn_transform_courses(mock_mitpe_courses_data):
             "professional": True,
             "certification": True,
             "certification_type": CertificationType.professional.name,
-            "learning_format": transform_delivery(course["format_name"]),
             "delivery": transform_delivery(course["format_name"]),
             "topics": parse_topic(course, "mitpe"),
             "url": course["course_link"]
@@ -369,39 +367,44 @@ def test_parse_image(featured_image_url, expected_url):
 
 
 @pytest.mark.parametrize(
-    ("old_format", "new_format", "expected_format"),
+    ("old_delivery", "new_delivery", "expected_delivery"),
     [
         (
-            [LearningResourceFormat.online.name],
-            [LearningResourceFormat.online.name],
-            [LearningResourceFormat.online.name],
+            [LearningResourceDelivery.online.name],
+            [LearningResourceDelivery.online.name],
+            [LearningResourceDelivery.online.name],
         ),
         (
-            [LearningResourceFormat.online.name],
-            [LearningResourceFormat.hybrid.name],
-            [LearningResourceFormat.online.name, LearningResourceFormat.hybrid.name],
+            [LearningResourceDelivery.online.name],
+            [LearningResourceDelivery.hybrid.name],
+            [
+                LearningResourceDelivery.online.name,
+                LearningResourceDelivery.hybrid.name,
+            ],
         ),
         (
             [
-                LearningResourceFormat.online.name,
-                LearningResourceFormat.in_person.name,
+                LearningResourceDelivery.online.name,
+                LearningResourceDelivery.in_person.name,
             ],
-            [LearningResourceFormat.hybrid.name],
-            list(LearningResourceFormat.names()),
+            [
+                LearningResourceDelivery.hybrid.name,
+                LearningResourceDelivery.offline.name,
+            ],
+            list(LearningResourceDelivery.names()),
         ),
     ],
 )
-def test_update_format(
-    mock_mitpe_courses_data, old_format, new_format, expected_format
+def test_update_delivery(
+    mock_mitpe_courses_data, old_delivery, new_delivery, expected_delivery
 ):
-    """update_format should combine old format and new format appropriately"""
+    """update_delivery should combine old delivery and new delivery appropriately"""
     first_course = transform_courses(
         mock_mitpe_courses_data["data"]["searchAPISearch"]["documents"]
     )[0]
-    first_course["learning_format"] = old_format
-    update_format(first_course, new_format)
-    assert first_course["learning_format"] == sorted(expected_format)
-    assert first_course["delivery"] == sorted(expected_format)
+    first_course["delivery"] = old_delivery
+    update_delivery(first_course, new_delivery)
+    assert first_course["delivery"] == sorted(expected_delivery)
 
 
 @pytest.mark.parametrize("sloan_api_enabled", [True, False])
