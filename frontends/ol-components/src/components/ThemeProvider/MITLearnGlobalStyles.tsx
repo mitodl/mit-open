@@ -9,7 +9,7 @@ import { preload } from "react-dom"
     Font files for Adobe neue haas grotesk.
     WARNING: This is linked to chudzick@mit.edu's Adobe account.
     We'd prefer a non-personal MIT account to be used.
-    See XXX for more.
+    See https://github.com/mitodl/hq/issues/4237 for more.
 
     Ideally the font would be loaded via a <link /> tag; see
       - https://nextjs.org/docs/app/api-reference/functions/generate-metadata#unsupported-metadata
