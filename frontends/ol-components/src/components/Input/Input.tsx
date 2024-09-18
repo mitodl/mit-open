@@ -3,6 +3,7 @@ import styled from "@emotion/styled"
 import InputBase from "@mui/material/InputBase"
 import type { InputBaseProps } from "@mui/material/InputBase"
 import type { Theme } from "@mui/material/styles"
+import ClassNames from "classnames"
 
 type Size = NonNullable<InputBaseProps["size"]>
 
@@ -218,7 +219,10 @@ type AdornmentButtonProps = React.ComponentProps<typeof AdornmentButtonStyled>
  *    click. The button is still focusable via keyboard events. You can override
  *    this behavior by passing your own `onMouseDown` handler.
  */
-const AdornmentButton: React.FC<AdornmentButtonProps> = (props) => {
+const AdornmentButton: React.FC<AdornmentButtonProps> = ({
+  className,
+  ...others
+}) => {
   return (
     <AdornmentButtonStyled
       /**
@@ -226,7 +230,8 @@ const AdornmentButton: React.FC<AdornmentButtonProps> = (props) => {
        * want to steal focus from the input.
        */
       onMouseDown={noFocus}
-      {...props}
+      className={ClassNames("Mit-AdornmentButton", className)}
+      {...others}
     />
   )
 }
