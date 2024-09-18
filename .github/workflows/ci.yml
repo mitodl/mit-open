@@ -129,6 +129,7 @@ jobs:
       - name: Build Next.js frontend
         run: yarn workspace main build
         env:
+          NODE_ENV: production
           NEXT_PUBLIC_ORIGIN: https://ci.learn.mit.edu
           NEXT_PUBLIC_MITOL_API_BASE_URL: https://api.ci.learn.mit.edu
           NEXT_PUBLIC_CSRF_COOKIE_NAME: cookie-monster
