@@ -12,6 +12,10 @@ type MetadataAsyncProps = {
   social?: boolean
 }
 
+/*
+ * Fetch metadata for the current page.
+ * the method handles resource param override if necessary.
+ */
 export const getMetadataAsync = async ({
   title = "MIT Learn",
   description = "Learn with MIT",
@@ -51,6 +55,10 @@ export const getMetadataAsync = async ({
 
 type MetadataProps = Omit<MetadataAsyncProps, "searchParams">
 
+/*
+ * Method that returns standardized metadata including
+ * social tags for the current page
+ */
 export const getMetadata = ({
   title = "MIT Learn",
   description = "Learn with MIT",
