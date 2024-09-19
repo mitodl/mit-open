@@ -17,17 +17,11 @@ from learning_resources.constants import (
     Availability,
     CertificationType,
     LearningResourceDelivery,
-    LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     PrivacyLevel,
 )
 from main.models import TimestampedModel, TimestampedModelQuerySet
-
-
-def default_learning_format():
-    """Return the default learning_format as a list"""
-    return [LearningResourceFormat.online.name]
 
 
 def default_delivery():
@@ -383,10 +377,6 @@ class LearningResource(TimestampedModel):
     url = models.URLField(null=True, max_length=2048)  # noqa: DJ001
     image = models.ForeignKey(
         LearningResourceImage, null=True, blank=True, on_delete=models.deletion.SET_NULL
-    )
-    learning_format = ArrayField(
-        models.CharField(max_length=24, db_index=True),
-        default=default_learning_format,
     )
     platform = models.ForeignKey(
         LearningResourcePlatform,

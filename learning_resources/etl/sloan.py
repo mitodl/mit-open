@@ -218,7 +218,6 @@ def transform_course(course_data: dict, runs_data: dict) -> dict:
         "certification_type": CertificationType.professional.name,
         "professional": True,
         "published": True,
-        "learning_format": format_delivery,
         "delivery": format_delivery,
         "topics": parse_topics(course_data["Topics"]),
         "course": {

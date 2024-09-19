@@ -16,7 +16,6 @@ from learning_resources.constants import (
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
     LearningResourceDelivery,
-    LearningResourceFormat,
     LearningResourceType,
     LevelType,
 )
@@ -226,21 +225,6 @@ class LearningResourceLevelSerializer(serializers.Field):
     {
         "type": "object",
         "properties": {
-            "code": {"enum": LearningResourceFormat.names()},
-            "name": {"type": "string"},
-        },
-        "required": ["code", "name"],
-    }
-)
-class LearningResourceFormatSerializer(serializers.Field):
-    def to_representation(self, value):
-        return {"code": value, "name": LearningResourceFormat[value].value}
-
-
-@extend_schema_field(
-    {
-        "type": "object",
-        "properties": {
             "code": {"enum": LearningResourceDelivery.names()},
             "name": {"type": "string"},
         },
@@ -426,9 +410,6 @@ class LearningResourceBaseSerializer(serializers.ModelSerializer, WriteableTopic
     )
     user_list_parents = MicroUserListRelationshipSerializer(many=True, read_only=True)
     views = serializers.IntegerField(source="views_count", read_only=True)
-    learning_format = serializers.ListField(
-        child=LearningResourceFormatSerializer(), read_only=True
-    )
     delivery = serializers.ListField(
         child=LearningResourceDeliverySerializer(), read_only=True
     )

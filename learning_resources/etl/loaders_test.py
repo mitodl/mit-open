@@ -12,7 +12,7 @@ from django.utils import timezone
 
 from learning_resources.constants import (
     Availability,
-    LearningResourceFormat,
+    LearningResourceDelivery,
     LearningResourceRelationTypes,
     LearningResourceType,
     OfferedBy,
@@ -90,7 +90,7 @@ non_transformable_attributes = (
     "departments",
     "content_tags",
     "resources",
-    "learning_format",
+    "delivery",
 )
 
 
@@ -145,16 +145,14 @@ def learning_resource_offeror():
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("courses_exist", [True, False])
 @pytest.mark.parametrize("has_retired_course", [True, False])
-@pytest.mark.parametrize(
-    "resource_format", [LearningResourceFormat.in_person.name, None]
-)
+@pytest.mark.parametrize("delivery", [LearningResourceDelivery.in_person.name, None])
 def test_load_program(  # noqa: PLR0913
     mock_upsert_tasks,
     program_exists,
     is_published,
     courses_exist,
     has_retired_course,
-    resource_format,
+    delivery,
 ):
     """Test that load_program loads the program"""
     platform = LearningResourcePlatformFactory.create()
@@ -205,7 +203,7 @@ def test_load_program(  # noqa: PLR0913
         "end_date": "2017-06-20T00:00:00Z",
     }
 
-    format_data = {"learning_format": [resource_format]} if resource_format else {}
+    delivery_data = {"delivery": [delivery]} if delivery else {}
     result = load_program(
         {
             "platform": platform.code,
@@ -225,7 +223,7 @@ def test_load_program(  # noqa: PLR0913
                 }
                 for course in courses
             ],
-            **format_data,
+            **delivery_data,
         },
         [],
         [],
@@ -236,12 +234,8 @@ def test_load_program(  # noqa: PLR0913
 
     # assert we got a program back and that each course is in a program
     assert isinstance(result, LearningResource)
-    assert result.learning_format == (
-        [
-            resource_format
-            if resource_format is not None
-            else LearningResourceFormat.online.name
-        ]
+    assert result.delivery == (
+        [delivery if delivery is not None else LearningResourceDelivery.online.name]
     )
     assert result.professional is False
     assert result.children.count() == len(courses)
@@ -303,7 +297,7 @@ def test_load_program_bad_platform(mocker):
 @pytest.mark.parametrize("is_published", [True, False])
 @pytest.mark.parametrize("is_run_published", [True, False])
 @pytest.mark.parametrize("blocklisted", [True, False])
-@pytest.mark.parametrize("resource_format", [LearningResourceFormat.hybrid.name, None])
+@pytest.mark.parametrize("delivery", [LearningResourceDelivery.hybrid.name, None])
 @pytest.mark.parametrize("has_upcoming_run", [True, False])
 @pytest.mark.parametrize("has_departments", [True, False])
 def test_load_course(  # noqa: PLR0913,PLR0912,PLR0915
@@ -312,7 +306,7 @@ def test_load_course(  # noqa: PLR0913,PLR0912,PLR0915
     is_published,
     is_run_published,
     blocklisted,
-    resource_format,
+    delivery,
     has_upcoming_run,
     has_departments,
 ):
@@ -360,7 +354,7 @@ def test_load_course(  # noqa: PLR0913,PLR0912,PLR0915
         departments = [department.department_id]
     else:
         departments = []
-    format_data = {"learning_format": [resource_format]} if resource_format else {}
+    delivery_data = {"delivery": [delivery]} if delivery else {}
     props = {
         "readable_id": learning_resource.readable_id,
         "platform": platform.code,
@@ -371,7 +365,7 @@ def test_load_course(  # noqa: PLR0913,PLR0912,PLR0915
         "url": learning_resource.url,
         "published": is_published,
         "departments": departments,
-        **format_data,
+        **delivery_data,
     }
 
     if is_run_published:
@@ -438,12 +432,8 @@ def test_load_course(  # noqa: PLR0913,PLR0912,PLR0915
     # assert we got a course back
     assert isinstance(result, LearningResource)
 
-    assert result.learning_format == (
-        [
-            resource_format
-            if resource_format is not None
-            else LearningResourceFormat.online.name
-        ]
+    assert result.delivery == (
+        [delivery if delivery is not None else LearningResourceDelivery.online.name]
     )
 
     if departments == []:
@@ -452,7 +442,7 @@ def test_load_course(  # noqa: PLR0913,PLR0912,PLR0915
         assert result.departments.count() == 1
         assert result.departments.first().department_id == departments[0]
 
-    props.pop("learning_format")
+    props.pop("delivery")
     for key, value in props.items():
         assert getattr(result, key) == value, f"Property {key} should equal {value}"
 
@@ -991,7 +981,7 @@ def test_load_podcasts(learning_resource_offeror, podcast_platform):
 
     for result in results:
         assert isinstance(result, LearningResource)
-        assert result.learning_format == [LearningResourceFormat.online.name]
+        assert result.delivery == [LearningResourceDelivery.online.name]
         assert result.resource_type == LearningResourceType.podcast.name
         assert result.platform.code == PlatformType.podcast.name
         assert result.children.count() > 0

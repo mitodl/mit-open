@@ -6,7 +6,7 @@ from django.db import migrations, models
 from learning_resources.constants import (
     LearningResourceType,
 )
-from learning_resources.models import default_learning_format
+from learning_resources.models import default_delivery
 
 
 def populate_video_podcast_format(apps, schema_editor):
@@ -19,7 +19,7 @@ def populate_video_podcast_format(apps, schema_editor):
             LearningResourceType.course.name,
             LearningResourceType.program.name,
         ]
-    ).update(learning_format=default_learning_format())
+    ).update(learning_format=default_delivery())
 
 
 class Migration(migrations.Migration):
@@ -33,7 +33,7 @@ class Migration(migrations.Migration):
             name="learning_format",
             field=django.contrib.postgres.fields.ArrayField(
                 base_field=models.CharField(db_index=True, max_length=24),
-                default=default_learning_format,
+                default=default_delivery,
                 size=None,
             ),
         ),

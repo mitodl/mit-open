@@ -15,7 +15,6 @@ from learning_resources.constants import (
     DEPARTMENTS,
     Availability,
     LearningResourceDelivery,
-    LearningResourceFormat,
     LevelType,
     PlatformType,
 )
@@ -215,7 +214,6 @@ class LearningResourceFactory(DjangoModelFactory):
     topics = factory.PostGeneration(_post_gen_topics)
     content_tags = factory.PostGeneration(_post_gen_tags)
     published = True
-    learning_format = factory.List(random.choices(LearningResourceFormat.names()))  # noqa: S311
     delivery = factory.List(random.choices(LearningResourceDelivery.names()))  # noqa: S311
     professional = factory.LazyAttribute(
         lambda o: o.resource_type

@@ -3,7 +3,7 @@
 import django.contrib.postgres.fields
 from django.db import migrations, models
 
-from learning_resources.constants import LearningResourceFormat, LearningResourceType
+from learning_resources.constants import LearningResourceDelivery, LearningResourceType
 
 
 def populate_format(apps, schema_editor):
@@ -16,7 +16,7 @@ def populate_format(apps, schema_editor):
             LearningResourceType.program.name,
             LearningResourceType.course.name,
         )
-    ).update(format=[LearningResourceFormat.online.value])
+    ).update(format=[LearningResourceDelivery.online.value])
 
 
 class Migration(migrations.Migration):

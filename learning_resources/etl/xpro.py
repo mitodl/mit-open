@@ -148,7 +148,6 @@ def _transform_learning_resource_course(course):
             _transform_run(course_run, course) for course_run in course["courseruns"]
         ],
         "resource_type": LearningResourceType.course.name,
-        "learning_format": transform_delivery(course.get("format")),
         "delivery": transform_delivery(course.get("format")),
         "course": {
             "course_numbers": generate_course_numbers_json(
@@ -195,7 +194,6 @@ def transform_programs(programs):
             "topics": parse_topics(program),
             "platform": XPRO_PLATFORM_TRANSFORM.get(program["platform"], None),
             "resource_type": LearningResourceType.program.name,
-            "learning_format": transform_delivery(program.get("format")),
             "delivery": transform_delivery(program.get("format")),
             "runs": [
                 {

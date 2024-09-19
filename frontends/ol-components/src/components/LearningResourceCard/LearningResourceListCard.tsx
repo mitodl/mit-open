@@ -171,7 +171,7 @@ export const StartDate: React.FC<{ resource: LearningResource }> = ({
 }
 
 export const Format = ({ resource }: { resource: LearningResource }) => {
-  const format = resource.learning_format?.[0]?.name
+  const format = resource.delivery?.[0]?.name
   if (!format) return null
   return (
     <div>

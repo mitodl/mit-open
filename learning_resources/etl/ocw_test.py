@@ -212,6 +212,7 @@ def test_transform_course(  # noqa: PLR0913
 ):
     """transform_course should return expected data"""
     settings.OCW_BASE_URL = "http://test.edu/"
+    settings.OCW_OFFLINE_DELIVERY = True
     with Path.open(
         Path(__file__).parent.parent.parent
         / "test_json/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006"

@@ -17,7 +17,6 @@ from learning_resources.constants import (
     RESOURCE_CATEGORY_VALUES,
     CertificationType,
     LearningResourceDelivery,
-    LearningResourceFormat,
     LearningResourceType,
     LevelType,
     OfferedBy,
@@ -104,12 +103,6 @@ class LearningResourceFilter(FilterSet):
         ),
     )
 
-    learning_format = MultipleChoiceFilter(
-        label="The learning format of course/program resources",
-        method="filter_format",
-        choices=LearningResourceFormat.as_list(),
-    )
-
     delivery = MultipleChoiceFilter(
         label="The delivery of course/program resources",
         method="filter_delivery",
@@ -194,13 +187,8 @@ class LearningResourceFilter(FilterSet):
 
         return queryset.order_by(sort_param)
 
-    def filter_format(self, queryset, _, value):
-        """Format Filter for learning resources"""
-        values = [[LearningResourceFormat[val].name] for val in value]
-        return multi_or_filter(queryset, "learning_format__contains", values)
-
     def filter_delivery(self, queryset, _, value):
-        """Format Filter for learning resources"""
+        """Delivery Filter for learning resources"""
         values = [[LearningResourceDelivery[val].name] for val in value]
         return multi_or_filter(queryset, "delivery__contains", values)
 

@@ -9,7 +9,7 @@ from enum import Enum
 from django.conf import settings
 from named_enum import ExtendedEnum
 
-from learning_resources.constants import LearningResourceFormat
+from learning_resources.constants import LearningResourceDelivery
 
 # A custom UA so that operators of OpenEdx will know who is pinging their service
 COMMON_HEADERS = {
@@ -76,14 +76,14 @@ RESOURCE_FILE_ETL_SOURCES = [
 ]
 
 
-RESOURCE_FORMAT_MAPPING = {
-    None: LearningResourceFormat.online.name,
-    "": LearningResourceFormat.online.name,
-    "Blended": LearningResourceFormat.hybrid.name,
-    "In Person": LearningResourceFormat.in_person.name,
+RESOURCE_DELIVERY_MAPPING = {
+    None: LearningResourceDelivery.online.name,
+    "": LearningResourceDelivery.online.name,
+    "Blended": LearningResourceDelivery.hybrid.name,
+    "In Person": LearningResourceDelivery.in_person.name,
     **{
-        value: LearningResourceFormat(value).name
-        for value in LearningResourceFormat.values()
+        value: LearningResourceDelivery(value).name
+        for value in LearningResourceDelivery.values()
     },
 }
 

@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
 
-from learning_resources.constants import LearningResourceFormat
+from learning_resources.constants import LearningResourceDelivery
 from learning_resources.factories import LearningResourceTopicFactory
 from learning_resources.serializers import LearningResourceTopicSerializer
 from learning_resources_search.serializers_test import get_request_object
@@ -135,9 +135,9 @@ def test_get_profile(logged_in, user, user_client):
         "current_education": profile.current_education,
         "certificate_desired": profile.certificate_desired,
         "time_commitment": profile.time_commitment,
-        "learning_format": profile.learning_format,
+        "delivery": profile.delivery,
         "preference_search_filters": {
-            "learning_format": profile.learning_format,
+            "delivery": profile.delivery,
             "certification": (
                 profile.certificate_desired == Profile.CertificateDesired.YES.value
             ),
@@ -296,10 +296,10 @@ def test_patch_topic_interests(client, logged_in_profile):
             Profile.TimeCommitment.ZERO_TO_FIVE_HOURS,
         ),
         (
-            "learning_format",
+            "delivery",
             [],
-            [LearningResourceFormat.hybrid.name],
-            [LearningResourceFormat.hybrid.name],
+            [LearningResourceDelivery.hybrid.name],
+            [LearningResourceDelivery.hybrid.name],
         ),
     ],
 )

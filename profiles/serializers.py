@@ -75,9 +75,7 @@ class PreferencesSearchSerializer(serializers.Serializer):
 
     certification = serializers.BooleanField(required=False)
     topic = serializers.ListField(child=serializers.CharField(), required=False)
-    learning_format = serializers.ListField(
-        child=serializers.CharField(), required=False
-    )
+    delivery = serializers.ListField(child=serializers.CharField(), required=False)
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -123,8 +121,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             )
         if obj.topic_interests and obj.topic_interests.count() > 0:
             filters["topic"] = obj.topic_interests.values_list("name", flat=True)
-        if obj.learning_format:
-            filters["learning_format"] = obj.learning_format
+        if obj.delivery:
+            filters["delivery"] = obj.delivery
         return PreferencesSearchSerializer(instance=filters).data
 
     def validate_location(self, location):
@@ -187,7 +185,7 @@ class ProfileSerializer(serializers.ModelSerializer):
             "current_education",
             "certificate_desired",
             "time_commitment",
-            "learning_format",
+            "delivery",
             "preference_search_filters",
         )
         read_only_fields = (

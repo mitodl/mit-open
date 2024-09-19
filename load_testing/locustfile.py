@@ -78,7 +78,7 @@ class SearchPage(TaskSet):
             "aggregations": [
                 "resource_type",
                 "certification_type",
-                "learning_format",
+                "delivery",
                 "department",
                 "topic",
                 "offered_by",

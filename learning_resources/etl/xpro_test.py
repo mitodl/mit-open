@@ -110,7 +110,6 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
             "topics": parse_topics(program_data),
             "platform": PlatformType.xpro.name,
             "resource_type": LearningResourceType.program.name,
-            "learning_format": transform_delivery(program_data.get("format")),
             "delivery": transform_delivery(program_data.get("format")),
             "continuing_ed_credits": program_data.get("credits"),
             "runs": [
@@ -144,7 +143,6 @@ def test_xpro_transform_programs(mock_xpro_programs_data):
                     "description": course_data["description"],
                     "url": course_data.get("url", None),
                     "offered_by": xpro.OFFERED_BY,
-                    "learning_format": transform_delivery(course_data.get("format")),
                     "delivery": transform_delivery(course_data.get("format")),
                     "professional": True,
                     "published": any(
@@ -219,7 +217,6 @@ def test_xpro_transform_courses(mock_xpro_courses_data):
             "description": course_data["description"],
             "url": course_data.get("url"),
             "offered_by": xpro.OFFERED_BY,
-            "learning_format": transform_delivery(course_data.get("format")),
             "delivery": transform_delivery(course_data.get("format")),
             "published": any(
                 course_run.get("current_price", None)

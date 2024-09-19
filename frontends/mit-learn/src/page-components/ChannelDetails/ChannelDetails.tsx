@@ -9,18 +9,8 @@ type ChannelDetailsProps = {
 }
 
 const FACETS_BY_CHANNEL_TYPE: Record<ChannelTypeEnum, string[]> = {
-  [ChannelTypeEnum.Topic]: [
-    "free",
-    "department",
-    "offered_by",
-    "learning_format",
-  ],
-  [ChannelTypeEnum.Department]: [
-    "free",
-    "topic",
-    "offered_by",
-    "learning_format",
-  ],
+  [ChannelTypeEnum.Topic]: ["free", "department", "offered_by", "delivery"],
+  [ChannelTypeEnum.Department]: ["free", "topic", "offered_by", "delivery"],
   [ChannelTypeEnum.Unit]: [
     "offerings",
     "audience",
@@ -125,7 +115,7 @@ const getFacetManifest = (channelType: ChannelTypeEnum) => {
       order: 0,
     },
     {
-      name: "learning_format",
+      name: "delivery",
       title: "Format",
       order: 0,
       labelFunction: (key: string) =>

@@ -177,19 +177,16 @@ def parse_url(document: dict) -> str:
     return course_link or document["course_application_url"] or prolearn_link
 
 
-def update_format(unique_resource: dict, resource_format: list[str]):
+def update_delivery(unique_resource: dict, delivery: list[str]):
     """
-    Merge the formats for multiple instances of the same resource.
+    Merge the delivery values for multiple instances of the same resource.
 
     Args:
         unique_resource: previously transformed resource w/a unique url
         resource_data: another resource with the same url
 
     """
-    unique_resource["learning_format"] = sorted(
-        set(unique_resource["learning_format"] + resource_format)
-    )
-    unique_resource["delivery"] = unique_resource["learning_format"]
+    unique_resource["delivery"] = sorted(set(unique_resource["delivery"] + delivery))
 
 
 def extract_data(course_or_program: str) -> list[dict]:
@@ -266,7 +263,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
                 "professional": True,
                 "certification": True,
                 "certification_type": CertificationType.professional.name,
-                "learning_format": transform_delivery(program["format_name"]),
+                "delivery": transform_delivery(program["format_name"]),
                 "runs": runs,
                 "topics": parse_topic(program, offered_by.code) if offered_by else None,
                 "courses": [
@@ -292,7 +289,7 @@ def transform_programs(programs: list[dict]) -> list[dict]:
             unique_program = unique_programs.setdefault(
                 transformed_program["url"], transformed_program
             )
-            update_format(unique_program, transformed_program["learning_format"])
+            update_delivery(unique_program, transformed_program["delivery"])
             unique_programs[transformed_program["url"]] = unique_program
     return list(unique_programs.values())
 
@@ -358,7 +355,6 @@ def _transform_course(
             "course": {
                 "course_numbers": [],
             },
-            "learning_format": transform_delivery(course["format_name"]),
             "delivery": transform_delivery(course["format_name"]),
             "published": True,
             "topics": parse_topic(course, offered_by.code) if offered_by else None,
@@ -389,6 +385,6 @@ def transform_courses(courses: list[dict]) -> list[dict]:
                 unique_course = unique_courses.setdefault(
                     transformed_course["url"], transformed_course
                 )
-                update_format(unique_course, transformed_course["learning_format"])
+                update_delivery(unique_course, transformed_course["delivery"])
                 unique_courses[transformed_course["url"]] = unique_course
     return list(unique_courses.values())

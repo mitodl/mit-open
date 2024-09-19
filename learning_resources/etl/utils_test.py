@@ -13,7 +13,7 @@ from lxml import etree
 from learning_resources.constants import (
     CONTENT_TYPE_FILE,
     CONTENT_TYPE_VERTICAL,
-    LearningResourceFormat,
+    LearningResourceDelivery,
     LearningResourceType,
     OfferedBy,
     PlatformType,
@@ -363,10 +363,10 @@ def test_most_common_topics():
 @pytest.mark.parametrize(
     ("original", "expected"),
     [
-        (None, LearningResourceFormat.online.name),
-        (LearningResourceFormat.online.value, LearningResourceFormat.online.name),
-        ("Blended", LearningResourceFormat.hybrid.name),
-        ("In person", LearningResourceFormat.in_person.name),
+        (None, LearningResourceDelivery.online.name),
+        (LearningResourceDelivery.online.value, LearningResourceDelivery.online.name),
+        ("Blended", LearningResourceDelivery.hybrid.name),
+        ("In person", LearningResourceDelivery.in_person.name),
     ],
 )
 def test_parse_format(original, expected):
@@ -378,9 +378,9 @@ def test_parse_bad_format(mocker):
     """An exception log should be called for invalid formats"""
     mock_log = mocker.patch("learning_resources.etl.utils.log.exception")
     assert utils.transform_delivery("bad_format") == [
-        LearningResourceFormat.online.name
+        LearningResourceDelivery.online.name
     ]
-    mock_log.assert_called_once_with("Invalid format %s", "bad_format")
+    mock_log.assert_called_once_with("Invalid delivery %s", "bad_format")
 
 
 @pytest.mark.parametrize(

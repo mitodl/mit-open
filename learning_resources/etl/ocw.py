@@ -34,7 +34,11 @@ from learning_resources.etl.utils import (
     transform_levels,
     transform_topics,
 )
-from learning_resources.models import ContentFile, LearningResource, default_delivery
+from learning_resources.models import (
+    ContentFile,
+    LearningResource,
+    default_delivery,
+)
 from learning_resources.utils import (
     get_s3_object_and_read,
     parse_instructors,
@@ -60,7 +64,7 @@ def parse_delivery(course_data: dict) -> list[str]:
         list[str]: The delivery method(s)
     """
     delivery = default_delivery()
-    if not course_data.get("hide_download"):
+    if settings.OCW_OFFLINE_DELIVERY and not course_data.get("hide_download"):
         delivery.append(LearningResourceDelivery.offline.name)
     return delivery
 

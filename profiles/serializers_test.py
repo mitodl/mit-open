@@ -27,7 +27,7 @@ small_gif = (
     b"\x01\x0a\x00\x01\x00\x2c\x00\x00\x00\x00\x01\x00\x01\x00\x00\x02"
     b"\x02\x4c\x01\x00\x3b"
 )
-lr_format_keys = [key for key, _ in Profile.LearningResourceFormat.choices]
+lr_delivery_keys = [key for key, _ in Profile.LearningResourceDelivery.choices]
 
 
 def test_serialize_user(user):
@@ -83,7 +83,7 @@ def test_serialize_create_user(db, mocker):
             "current_education": user.profile.current_education,
             "certificate_desired": user.profile.certificate_desired,
             "time_commitment": user.profile.time_commitment,
-            "learning_format": user.profile.learning_format,
+            "delivery": user.profile.delivery,
         }
     )
     assert UserSerializer(instance=user).data == {
@@ -195,7 +195,7 @@ def test_location_validation(user, data, is_valid):
         ("bio", "bio_value"),
         ("headline", "headline_value"),
         ("location", {"value": "Hobbiton, The Shire, Middle-Earth"}),
-        ("learning_format", lr_format_keys),
+        ("delivery", lr_delivery_keys),
         ("certificate_desired", Profile.CertificateDesired.YES.value),
     ],
 )
@@ -223,7 +223,7 @@ def test_update_profile(mocker, user, key, value):
         "bio",
         "headline",
         "location",
-        "learning_format",
+        "delivery",
         "certificate_desired",
         "topic_interests",
     ):
@@ -247,14 +247,14 @@ def test_update_profile(mocker, user, key, value):
     ],
 )
 @pytest.mark.parametrize("topics", [["Biology", "Chemistry"], []])
-@pytest.mark.parametrize("lr_format", [lr_format_keys, []])
+@pytest.mark.parametrize("lr_delivery", [lr_delivery_keys, []])
 def test_serialize_profile_preference_search_filters(
-    user, cert_desired, cert_filter, topics, lr_format
+    user, cert_desired, cert_filter, topics, lr_delivery
 ):
     """Tests that the ProfileSerializer includes search filters when an option is set via the context"""
     profile = user.profile
     profile.certificate_desired = cert_desired
-    profile.learning_format = lr_format
+    profile.delivery = lr_delivery
     if topics:
         profile.topic_interests.set(
             [LearningResourceTopicFactory.create(name=topic) for topic in topics]
@@ -264,8 +264,8 @@ def test_serialize_profile_preference_search_filters(
     search_filters = ProfileSerializer(profile).data["preference_search_filters"]
     assert search_filters.get("certification", None) == cert_filter
     assert search_filters.get("topic", None) == (topics if topics else None)
-    assert search_filters.get("learning_format", None) == (
-        lr_format if lr_format else None
+    assert search_filters.get("delivery", None) == (
+        lr_delivery if lr_delivery else None
     )
 
 

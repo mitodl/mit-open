@@ -13,7 +13,6 @@ from learning_resources.constants import (
     LEARNING_MATERIAL_RESOURCE_CATEGORY,
     CertificationType,
     LearningResourceDelivery,
-    LearningResourceFormat,
     LearningResourceRelationTypes,
     LearningResourceType,
     PlatformType,
@@ -259,10 +258,6 @@ def test_learning_resource_serializer(  # noqa: PLR0913
         ],
         detail_key: detail_serializer_cls(instance=getattr(resource, detail_key)).data,
         "views": resource.views.count(),
-        "learning_format": [
-            {"code": lr_format, "name": LearningResourceFormat[lr_format].value}
-            for lr_format in resource.learning_format
-        ],
         "delivery": [
             {"code": lr_delivery, "name": LearningResourceDelivery[lr_delivery].value}
             for lr_delivery in resource.delivery

@@ -44,7 +44,7 @@ class ProfileFactory(DjangoModelFactory):
 
     location = Faker("location")
 
-    learning_format = [key for key, _ in Profile.LearningResourceFormat.choices]
+    delivery = [key for key, _ in Profile.LearningResourceDelivery.choices]
     certificate_desired = FuzzyChoice(
         [Profile.CertificateDesired.YES.value, Profile.CertificateDesired.NO.value]
     )
