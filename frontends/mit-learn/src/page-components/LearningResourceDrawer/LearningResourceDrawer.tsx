@@ -19,7 +19,7 @@ import {
   AddToLearningPathDialog,
   AddToUserListDialog,
 } from "../Dialogs/AddToListDialog"
-import * as urls from "@/common/urls"
+import { SignupPopover } from "../SignupPopover/SignupPopover"
 
 const RESOURCE_DRAWER_PARAMS = [RESOURCE_DRAWER_QUERY_PARAM] as const
 
@@ -65,8 +65,8 @@ const unsafe_html2plaintext = (text: string) => {
 const DrawerContent: React.FC<{
   resourceId: number
 }> = ({ resourceId }) => {
-  const loc = useLocation()
   const resource = useLearningResourcesDetail(Number(resourceId))
+  const [signupEl, setSignupEl] = React.useState<HTMLElement | null>(null)
   const { data: user } = useUserMe()
   const handleAddToLearningPathClick: LearningResourceCardProps["onAddToLearningPathClick"] =
     useMemo(() => {
@@ -79,12 +79,13 @@ const DrawerContent: React.FC<{
     }, [user])
   const handleAddToUserListClick: LearningResourceCardProps["onAddToUserListClick"] =
     useMemo(() => {
-      if (user?.is_authenticated) {
-        return (event, resourceId: number) => {
-          NiceModal.show(AddToUserListDialog, { resourceId })
+      return (event, resourceId: number) => {
+        if (!user?.is_authenticated) {
+          setSignupEl(event.currentTarget)
+          return
         }
+        NiceModal.show(AddToUserListDialog, { resourceId })
       }
-      return null
     }, [user])
   useCapturePageView(Number(resourceId))
 
@@ -103,11 +104,8 @@ const DrawerContent: React.FC<{
         user={user}
         onAddToLearningPathClick={handleAddToLearningPathClick}
         onAddToUserListClick={handleAddToUserListClick}
-        signupUrl={urls.login({
-          pathname: loc.pathname,
-          search: loc.search,
-        })}
       />
+      <SignupPopover anchorEl={signupEl} onClose={() => setSignupEl(null)} />
     </>
   )
 }

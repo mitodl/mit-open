@@ -1,3 +1,0 @@
-const MUI_DRAWER_Z_INDEX = 1200
-
-export { MUI_DRAWER_Z_INDEX }
