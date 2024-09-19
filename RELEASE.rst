@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+Version 0.19.2
+--------------
+
+- Codespace opensearch service fix (#1582)
+- Remove learning_format, use delivery for search filter/facet (#1567)
+- Signup popover owns url (#1576)
+- [pre-commit.ci] pre-commit autoupdate (#1541)
+- Remove an unused dependency (#1571)
+
 Version 0.19.1 (Released September 18, 2024)
 --------------
 
