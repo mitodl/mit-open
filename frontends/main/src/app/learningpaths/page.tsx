@@ -3,10 +3,8 @@ import LearningPathListingPage from "@/app-pages/LearningPathListingPage/Learnin
 import { getMetadata } from "@/common/metadata"
 import { Metadata } from "next"
 
-const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME
-
 export const metadata: Metadata = getMetadata({
-  title: `Learning Paths | ${SITE_NAME}`,
+  title: "Learning Paths",
 })
 
 const Page: React.FC = () => {

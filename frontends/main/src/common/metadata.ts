@@ -20,8 +20,6 @@ export const getMetadataAsync = async ({
   searchParams,
   social = true,
 }: MetadataAsyncProps) => {
-  title = `${title} | ${process.env.NEXT_PUBLIC_SITE_NAME}`
-
   // The learning resource drawer is open
   const learningResourceId = searchParams?.[RESOURCE_DRAWER_QUERY_PARAM]
   if (learningResourceId) {
@@ -30,7 +28,7 @@ export const getMetadataAsync = async ({
         id: Number(learningResourceId),
       })
 
-      title = `${data?.title} | ${process.env.NEXT_PUBLIC_SITE_NAME}`
+      title = data?.title
       description = data?.description?.replace(/<\/[^>]+(>|$)/g, "") ?? ""
       image = data?.image?.url || image
       imageAlt = image === data?.image?.url ? imageAlt : data?.image?.alt || ""
@@ -60,12 +58,12 @@ export const getMetadata = ({
   imageAlt,
   social = true,
 }: MetadataProps) => {
+  title = `${title} | ${process.env.NEXT_PUBLIC_SITE_NAME}`
   const socialMetadata = social
     ? {
         openGraph: {
           title,
           description,
-          // url: process.env.NEXT_PUBLIC_ORIGIN,
           siteName: process.env.NEXT_PUBLIC_SITE_NAME,
           images: [
             {

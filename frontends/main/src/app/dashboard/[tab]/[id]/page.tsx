@@ -4,7 +4,7 @@ import { getMetadata } from "@/common/metadata"
 import { Metadata } from "next"
 
 export const metadata: Metadata = getMetadata({
-  title: "Your MIT Learning Journey | MIT Learn",
+  title: "Your MIT Learning Journey",
   social: false,
 })
 

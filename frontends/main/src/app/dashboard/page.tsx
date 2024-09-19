@@ -4,7 +4,7 @@ import { getMetadata } from "@/common/metadata"
 import DashboardPage from "@/app-pages/DashboardPage/DashboardPage"
 
 export const metadata: Metadata = getMetadata({
-  title: "Your MIT Learning Journey | MIT Learn",
+  title: "Your MIT Learning Journey",
   social: false,
 })
 
