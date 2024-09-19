@@ -3,7 +3,6 @@ import ChannelPage from "@/app-pages/ChannelPage/ChannelPage"
 import { channelsApi } from "api/clients"
 import { ChannelTypeEnum } from "api/v0"
 import { getMetadataAsync } from "@/common/metadata"
-const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME
 
 type RouteParams = {
   channelType: ChannelTypeEnum
@@ -22,21 +21,13 @@ export async function generateMetadata({
   const channelDetails = await channelsApi
     .channelsTypeRetrieve({ channel_type: channelType, name: name })
     .then((res) => res.data)
-  if (searchParams?.resource) {
-    return await getMetadataAsync({
-      title: "Learn with MIT",
-      searchParams,
-    })
-  }
-  return {
-    title: `${channelDetails.title} | ${SITE_NAME}`,
+  return getMetadataAsync({
+    searchParams,
+    title: `${channelDetails.title}`,
     description: channelDetails.public_description,
-    openGraph: {
-      images: channelDetails.configuration.logo,
-      url: channelDetails.channel_url,
-      siteName: SITE_NAME,
-    },
-  }
+    image: channelDetails.configuration.logo,
+    url: channelDetails.channel_url,
+  })
 }
 
 const Page: React.FC = () => {
