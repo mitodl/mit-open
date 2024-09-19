@@ -26,7 +26,6 @@ export async function generateMetadata({
     title: `${channelDetails.title}`,
     description: channelDetails.public_description,
     image: channelDetails.configuration.logo,
-    url: channelDetails.channel_url,
   })
 }
 

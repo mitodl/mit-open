@@ -23,7 +23,7 @@ const ListDetailsPage: React.FC<ItemsListingComponentProps> = ({
       src="/images/backgrounds/course_search_banner.png"
       className="learningpaths-page"
     >
-      <PrivateTitle title={list?.title} />
+      <PrivateTitle title={list?.title || ""} />
       <StyledContainer maxWidth="md">
         <ItemsListingComponent
           listType={listType}
