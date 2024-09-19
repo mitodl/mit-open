@@ -1,9 +1,10 @@
 import React from "react"
 import { Metadata } from "next"
-import { getMetadata } from "@/common/metadata"
-import { AboutPage } from "@/app-pages/AboutPage/AboutPage"
 
-export const metadata: Metadata = getMetadata({
+import { AboutPage } from "@/app-pages/AboutPage/AboutPage"
+import { getMetadataAsync } from "@/common/metadata"
+
+export const metadata: Metadata = getMetadataAsync({
   title: "About Us",
 })
 

@@ -1,9 +1,9 @@
 import React from "react"
 import { Metadata } from "next"
-import { getMetadata } from "@/common/metadata"
-import PrivacyPage from "@/app-pages/PrivacyPage/PrivacyPage"
 
-export const metadata: Metadata = getMetadata({
+import PrivacyPage from "@/app-pages/PrivacyPage/PrivacyPage"
+import { getMetadataAsync } from "@/common/metadata"
+export const metadata: Metadata = getMetadataAsync({
   title: "Privacy Policy",
 })
 

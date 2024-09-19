@@ -44,7 +44,7 @@ export const getMetadataAsync = async ({
     }
   }
 
-  return getMetadata({
+  return standardizeMetadata({
     title,
     description,
     image,
@@ -59,7 +59,7 @@ type MetadataProps = Omit<MetadataAsyncProps, "searchParams">
  * Method that returns standardized metadata including
  * social tags for the current page
  */
-export const getMetadata = ({
+export const standardizeMetadata = ({
   title = "MIT Learn",
   description = "Learn with MIT",
   image = DEFAULT_OG_IMAGE,
