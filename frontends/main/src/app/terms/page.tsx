@@ -2,8 +2,8 @@ import React from "react"
 import { Metadata } from "next"
 
 import TermsPage from "@/app-pages/TermsPage/TermsPage"
-import { getMetadataAsync } from "@/common/metadata"
-export const metadata: Metadata = getMetadataAsync({
+import { standardizeMetadata } from "@/common/metadata"
+export const metadata: Metadata = standardizeMetadata({
   title: "Terms of Service",
 })
 

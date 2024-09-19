@@ -2,9 +2,9 @@ import React from "react"
 import DashboardPage from "@/app-pages/DashboardPage/DashboardPage"
 
 import { Metadata } from "next"
-import { getMetadataAsync } from "@/common/metadata"
+import { standardizeMetadata } from "@/common/metadata"
 
-export const metadata: Metadata = getMetadataAsync({
+export const metadata: Metadata = standardizeMetadata({
   title: "Your MIT Learning Journey",
   social: false,
 })

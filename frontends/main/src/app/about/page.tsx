@@ -2,9 +2,9 @@ import React from "react"
 import { Metadata } from "next"
 
 import { AboutPage } from "@/app-pages/AboutPage/AboutPage"
-import { getMetadataAsync } from "@/common/metadata"
+import { standardizeMetadata } from "@/common/metadata"
 
-export const metadata: Metadata = getMetadataAsync({
+export const metadata: Metadata = standardizeMetadata({
   title: "About Us",
 })
 

@@ -2,8 +2,8 @@ import React from "react"
 import { Metadata } from "next"
 
 import UnitsListingPage from "@/app-pages/UnitsListingPage/UnitsListingPage"
-import { getMetadataAsync } from "@/common/metadata"
-export const metadata: Metadata = getMetadataAsync({
+import { standardizeMetadata } from "@/common/metadata"
+export const metadata: Metadata = standardizeMetadata({
   title: "Units",
 })
 
