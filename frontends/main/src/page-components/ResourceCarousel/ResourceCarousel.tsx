@@ -15,7 +15,11 @@ import {
 import type { TabConfig } from "./types"
 import { LearningResource, PaginatedLearningResourceList } from "api"
 import { ResourceCard } from "../ResourceCard/ResourceCard"
-import { useQueries, UseQueryResult, UseQueryOptions } from "api/ssr"
+import {
+  useQueries,
+  UseQueryResult,
+  UseQueryOptions,
+} from "@tanstack/react-query"
 
 const StyledCarousel = styled(Carousel)({
   /**

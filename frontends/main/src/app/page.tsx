@@ -1,6 +1,6 @@
 import React from "react"
 import type { Metadata } from "next"
-import { dehydrate, Hydrate } from "api/ssr"
+import { dehydrate, Hydrate } from "@tanstack/react-query"
 import HomePage from "@/app-pages/HomePage/HomePage"
 import * as carousels from "@/app-pages/HomePage/carousels"
 import { learningResourcesKeyFactory } from "api/hooks/learningResources"

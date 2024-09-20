@@ -1,6 +1,6 @@
 // Based on https://tanstack.com/query/v5/docs/framework/react/guides/advanced-ssr
 
-import { QueryClient, isServer } from "api/ssr"
+import { QueryClient, isServer } from "@tanstack/react-query"
 
 function makeQueryClient() {
   return new QueryClient({
