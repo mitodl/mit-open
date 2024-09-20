@@ -79,6 +79,8 @@ test.each(Object.values(SourceTypeEnum))(
     })
     await user.click(subscribeButton)
 
+    const followButton = screen.getByTestId("action-follow")
+    await user.click(followButton)
     expect(makeRequest).toHaveBeenCalledWith("post", subscribeUrl, {
       source_type: sourceType,
       offered_by: ["ocw"],
@@ -111,11 +113,8 @@ test.each(Object.values(SourceTypeEnum))(
     })
 
     await user.click(subscribedButton)
+    const unsubscribeButton = screen.getByTestId("action-unfollow")
 
-    const menu = screen.getByRole("menu")
-    const unsubscribeButton = within(menu).getByRole("menuitem", {
-      name: "Unfollow",
-    })
     await user.click(unsubscribeButton)
 
     expect(makeRequest).toHaveBeenCalledWith(

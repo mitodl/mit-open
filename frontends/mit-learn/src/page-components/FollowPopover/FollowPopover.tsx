@@ -117,7 +117,11 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
           </BodyText>
           <Footer>
             <ButtonsContainer>
-              <Button variant="inverted" onClick={handleFollowAction}>
+              <Button
+                variant="inverted"
+                data-testid="action-unfollow"
+                onClick={handleFollowAction}
+              >
                 Unfollow
               </Button>
               <Button onClick={() => props.onClose()}>Close</Button>
@@ -139,7 +143,9 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
             <Button variant="inverted" onClick={() => props.onClose()}>
               Close
             </Button>
-            <Button onClick={handleFollowAction}>Follow</Button>
+            <Button data-testid="action-follow" onClick={handleFollowAction}>
+              Follow
+            </Button>
           </ButtonsContainer>
         </Footer>
       </StyledPopover>
