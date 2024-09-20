@@ -40,7 +40,8 @@ const ButtonsContainer = styled.div(({ theme }) => ({
   },
 }))
 
-interface FollowPopoverProps extends PopoverProps {
+interface FollowPopoverProps
+  extends Pick<PopoverProps, "anchorEl" | "onClose" | "placement"> {
   itemName?: string
   searchParams: URLSearchParams
   sourceType: SourceTypeEnum
