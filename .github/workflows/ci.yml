@@ -257,7 +257,7 @@ jobs:
   #       env:
   #         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
-  build-deploy-frontend-4:
+  build-deploy-frontend:
     # needs: javascript-tests
     runs-on: ubuntu-latest
     steps:
@@ -272,14 +272,16 @@ jobs:
       - name: Build the Docker image
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
         run: |
-          heroku container:push frontend \
+          heroku container:push web \
           --app mitopen-rc-nextjs \
           --recursive \
           --arg NEXT_PUBLIC_ORIGIN=https://next.rc.learn.mit.edu \
           --arg NEXT_PUBLIC_MITOL_API_BASE_URL=https://api.rc.learn.mit.edu \
           --arg NEXT_PUBLIC_SITE_NAME="MIT Learn" \
           --arg NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=mitlearn-support@mit.edu \
+          --arg NEXT_PUBLIC_EMBEDLY_KEY="$EMBEDLY_KEY" \
           --arg NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=true \
           --arg NEXT_PUBLIC_CSRF_COOKIE_NAME=learn-rc-csrftoken \
           --context-path .
