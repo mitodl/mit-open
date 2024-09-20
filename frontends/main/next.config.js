@@ -1,4 +1,7 @@
 // @ts-check
+const { validateEnv } = require("./validateEnv")
+
+validateEnv()
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
