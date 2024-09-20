@@ -12,6 +12,10 @@ type MetadataAsyncProps = {
   social?: boolean
 }
 
+/*
+ * Fetch metadata for the current page.
+ * the method handles resource param override if necessary.
+ */
 export const getMetadataAsync = async ({
   title = "MIT Learn",
   description = "Learn with MIT",
@@ -20,8 +24,6 @@ export const getMetadataAsync = async ({
   searchParams,
   social = true,
 }: MetadataAsyncProps) => {
-  title = `${title} | ${process.env.NEXT_PUBLIC_SITE_NAME}`
-
   // The learning resource drawer is open
   const learningResourceId = searchParams?.[RESOURCE_DRAWER_QUERY_PARAM]
   if (learningResourceId) {
@@ -30,7 +32,7 @@ export const getMetadataAsync = async ({
         id: Number(learningResourceId),
       })
 
-      title = `${data?.title} | ${process.env.NEXT_PUBLIC_SITE_NAME}`
+      title = data?.title
       description = data?.description?.replace(/<\/[^>]+(>|$)/g, "") ?? ""
       image = data?.image?.url || image
       imageAlt = image === data?.image?.url ? imageAlt : data?.image?.alt || ""
@@ -42,7 +44,7 @@ export const getMetadataAsync = async ({
     }
   }
 
-  return getMetadata({
+  return standardizeMetadata({
     title,
     description,
     image,
@@ -53,19 +55,23 @@ export const getMetadataAsync = async ({
 
 type MetadataProps = Omit<MetadataAsyncProps, "searchParams">
 
-export const getMetadata = ({
+/*
+ * Method that returns standardized metadata including
+ * social tags for the current page
+ */
+export const standardizeMetadata = ({
   title = "MIT Learn",
   description = "Learn with MIT",
   image = DEFAULT_OG_IMAGE,
   imageAlt,
   social = true,
 }: MetadataProps) => {
+  title = `${title} | ${process.env.NEXT_PUBLIC_SITE_NAME}`
   const socialMetadata = social
     ? {
         openGraph: {
           title,
           description,
-          // url: process.env.NEXT_PUBLIC_ORIGIN,
           siteName: process.env.NEXT_PUBLIC_SITE_NAME,
           images: [
             {

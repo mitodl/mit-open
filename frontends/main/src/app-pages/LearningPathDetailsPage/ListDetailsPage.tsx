@@ -1,6 +1,6 @@
 import React from "react"
 import { Container, BannerPage, styled } from "ol-components"
-// import MetaTags from "@/page-components/MetaTags/MetaTags"
+import PrivateTitle from "@/components/PrivateTitle/PrivateTitle"
 import ItemsListingComponent from "@/page-components/ItemsListing/ItemsListingComponent"
 import type { ItemsListingComponentProps } from "@/page-components/ItemsListing/ItemsListingComponent"
 
@@ -23,7 +23,7 @@ const ListDetailsPage: React.FC<ItemsListingComponentProps> = ({
       src="/images/backgrounds/course_search_banner.png"
       className="learningpaths-page"
     >
-      {/* TODO <MetaTags title={list?.title} social={false} /> */}
+      <PrivateTitle title={list?.title || ""} />
       <StyledContainer maxWidth="md">
         <ItemsListingComponent
           listType={listType}
