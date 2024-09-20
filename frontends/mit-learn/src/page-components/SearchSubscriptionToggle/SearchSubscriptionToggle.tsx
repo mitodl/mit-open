@@ -1,16 +1,15 @@
-import React, { useState, useMemo } from "react"
+import React, { useMemo } from "react"
 import { getSearchParamMap } from "@/common/utils"
 import {
   useSearchSubscriptionCreate,
-  useSearchSubscriptionDelete,
   useSearchSubscriptionList,
 } from "api/hooks/searchSubscription"
-import { Button, SimpleMenu, styled } from "ol-components"
-import type { SimpleMenuItem } from "ol-components"
-import { RiArrowDownSLine, RiMailLine } from "@remixicon/react"
+import { Button, styled } from "ol-components"
+
+import { RiMailLine } from "@remixicon/react"
 import { useUserMe } from "api/hooks/user"
 import { SourceTypeEnum } from "api"
-import { SignupPopover } from "../SignupPopover/SignupPopover"
+import { FollowPopover } from "../FollowPopover/FollowPopover"
 
 const StyledButton = styled(Button)({
   minWidth: "130px",
@@ -23,6 +22,7 @@ type SearchSubscriptionToggleProps = {
 }
 
 const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
+  itemName,
   searchParams,
   sourceType,
 }) => {
@@ -33,35 +33,17 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
   }, [searchParams, sourceType])
 
   const { data: user } = useUserMe()
-  const subscriptionDelete = useSearchSubscriptionDelete()
+
   const subscriptionCreate = useSearchSubscriptionCreate()
   const subscriptionList = useSearchSubscriptionList(subscribeParams, {
     enabled: !!user?.is_authenticated,
   })
 
-  const unsubscribe = subscriptionDelete.mutate
   const subscriptionId = subscriptionList.data?.[0]?.id
   const isSubscribed = !!subscriptionId
 
-  const unsubscribeItems: SimpleMenuItem[] = useMemo(() => {
-    if (!subscriptionId) return []
-    return [
-      {
-        key: "unsubscribe",
-        label: "Unfollow",
-        onClick: () => unsubscribe(subscriptionId),
-      },
-    ]
-  }, [unsubscribe, subscriptionId])
-
   const onFollowClick = async (event: React.MouseEvent<HTMLElement>) => {
-    if (user?.is_authenticated) {
-      await subscriptionCreate.mutateAsync({
-        PercolateQuerySubscriptionRequestRequest: subscribeParams,
-      })
-    } else {
-      setButtonEl(event.currentTarget)
-    }
+    setButtonEl(event.currentTarget)
   }
 
   if (user?.is_authenticated && subscriptionList.isLoading) return null
@@ -69,14 +51,22 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
 
   if (isSubscribed) {
     return (
-      <SimpleMenu
-        trigger={
-          <StyledButton variant="primary" endIcon={<RiArrowDownSLine />}>
-            Following
-          </StyledButton>
-        }
-        items={unsubscribeItems}
-      />
+      <>
+        <StyledButton
+          variant="success"
+          onClick={onFollowClick}
+          startIcon={<RiMailLine />}
+        >
+          Following
+        </StyledButton>
+        <FollowPopover
+          searchParams={searchParams}
+          itemName={itemName}
+          sourceType={sourceType}
+          anchorEl={buttonEl}
+          onClose={() => setButtonEl(null)}
+        />
+      </>
     )
   }
 
@@ -90,7 +80,13 @@ const SearchSubscriptionToggle: React.FC<SearchSubscriptionToggleProps> = ({
       >
         Follow
       </StyledButton>
-      <SignupPopover anchorEl={buttonEl} onClose={() => setButtonEl(null)} />
+      <FollowPopover
+        searchParams={searchParams}
+        itemName={itemName}
+        sourceType={sourceType}
+        anchorEl={buttonEl}
+        onClose={() => setButtonEl(null)}
+      />
     </>
   )
 }
