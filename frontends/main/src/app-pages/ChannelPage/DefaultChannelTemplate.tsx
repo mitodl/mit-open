@@ -60,7 +60,6 @@ const DefaultChannelTemplate: React.FC<DefaultChannelTemplateProps> = ({
   const displayConfiguration = channel.data?.configuration
   return (
     <>
-      {/* TODO <MetaTags title={channel.data?.title} /> */}
       <Banner
         navText={
           <Breadcrumbs
