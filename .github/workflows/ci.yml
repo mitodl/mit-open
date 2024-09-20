@@ -156,6 +156,7 @@ jobs:
           file: coverage/lcov.info
 
   build-deploy-frontend:
+    if: github.ref == 'refs/heads/nextjs'
     needs: javascript-tests
     runs-on: ubuntu-latest
     steps:
