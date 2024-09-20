@@ -30,6 +30,16 @@ const Footer = styled.div({
   justifyContent: "end",
 })
 
+const ButtonsContainer = styled.div(({ theme }) => ({
+  display: "flex",
+  justifyContent: "right",
+  margin: "4px auto 0",
+  gap: "16px",
+  [theme.breakpoints.down("sm")]: {
+    marginTop: "16px",
+  },
+}))
+
 interface FollowPopoverProps extends PopoverProps {
   itemName?: string
   searchParams: URLSearchParams
@@ -102,13 +112,15 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
             You are following {itemName}
           </HeaderText>
           <BodyText variant="body2">
-            Unfollow to stop getting emails for new X courses
+            Unfollow to stop getting emails for new {itemName} courses
           </BodyText>
           <Footer>
-            <Button variant="inverted" onClick={handleFollowAction}>
-              Unfollow
-            </Button>
-            <Button onClick={() => props.onClose()}>Close</Button>
+            <ButtonsContainer>
+              <Button variant="inverted" onClick={handleFollowAction}>
+                Unfollow
+              </Button>
+              <Button onClick={() => props.onClose()}>Close</Button>
+            </ButtonsContainer>
           </Footer>
         </StyledPopover>
       </>
@@ -122,10 +134,12 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
           You will get an email when new courses are available
         </BodyText>
         <Footer>
-          <Button variant="inverted" onClick={() => props.onClose()}>
-            Close
-          </Button>
-          <Button onClick={handleFollowAction}>Follow</Button>
+          <ButtonsContainer>
+            <Button variant="inverted" onClick={() => props.onClose()}>
+              Close
+            </Button>
+            <Button onClick={handleFollowAction}>Follow</Button>
+          </ButtonsContainer>
         </Footer>
       </StyledPopover>
     </>
