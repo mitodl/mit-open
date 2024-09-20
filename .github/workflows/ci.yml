@@ -128,6 +128,13 @@ jobs:
 
       - name: Build Next.js frontend
         run: yarn workspace main build
+        env:
+          NODE_ENV: production
+          NEXT_PUBLIC_ORIGIN: https://ci.learn.mit.edu
+          NEXT_PUBLIC_MITOL_API_BASE_URL: https://api.ci.learn.mit.edu
+          NEXT_PUBLIC_CSRF_COOKIE_NAME: cookie-monster
+          NEXT_PUBLIC_SITE_NAME: MIT Learn
+          NEXT_PUBLIC_MITOL_SUPPORT_EMAIL: help@ci.learn.mit.edu
         # do this before typecheck. See https://github.com/vercel/next.js/issues/53959#issuecomment-1735563224
 
       - name: Typecheck

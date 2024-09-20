@@ -1,5 +1,6 @@
 import { RESOURCE_DRAWER_QUERY_PARAM } from "@/common/urls"
 import { learningResourcesApi } from "api/clients"
+import type { Metadata } from "next"
 
 const DEFAULT_OG_IMAGE = `${process.env.NEXT_PUBLIC_ORIGIN}/images/opengraph-image.jpg`
 
@@ -10,7 +11,7 @@ type MetadataAsyncProps = {
   imageAlt?: string
   searchParams?: { [key: string]: string | string[] | undefined }
   social?: boolean
-}
+} & Metadata
 
 /*
  * Fetch metadata for the current page.
@@ -23,6 +24,7 @@ export const getMetadataAsync = async ({
   imageAlt,
   searchParams,
   social = true,
+  ...otherMeta
 }: MetadataAsyncProps) => {
   // The learning resource drawer is open
   const learningResourceId = searchParams?.[RESOURCE_DRAWER_QUERY_PARAM]
@@ -50,6 +52,7 @@ export const getMetadataAsync = async ({
     image,
     imageAlt,
     social,
+    ...otherMeta,
   })
 }
 
@@ -65,7 +68,8 @@ export const standardizeMetadata = ({
   image = DEFAULT_OG_IMAGE,
   imageAlt,
   social = true,
-}: MetadataProps) => {
+  ...otherMeta
+}: MetadataProps): Metadata => {
   title = `${title} | ${process.env.NEXT_PUBLIC_SITE_NAME}`
   const socialMetadata = social
     ? {
@@ -98,5 +102,6 @@ export const standardizeMetadata = ({
     title,
     description,
     ...socialMetadata,
+    ...otherMeta,
   }
 }
