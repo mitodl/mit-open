@@ -69,6 +69,7 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
 
   const isSubscribed = !!subscriptionId
   const handleFollowAction = async (): Promise<void> => {
+    props.onClose()
     if (!isSubscribed) {
       await subscriptionCreate.mutateAsync({
         PercolateQuerySubscriptionRequestRequest: subscribeParams,
@@ -76,7 +77,6 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
     } else {
       unsubscribe(subscriptionId)
     }
-    props.onClose()
   }
 
   if (user?.is_authenticated && subscriptionList.isLoading) return null
