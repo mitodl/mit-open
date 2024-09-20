@@ -3,10 +3,16 @@ import { FollowPopover } from "./FollowPopover"
 import { renderWithProviders, screen, within } from "@/test-utils"
 import invariant from "tiny-invariant"
 import * as urls from "@/common/urls"
+import { SourceTypeEnum } from "api"
 
 test("FollowPopover shows link to sign up", async () => {
   renderWithProviders(
-    <FollowPopover anchorEl={document.body} onClose={jest.fn} />,
+    <FollowPopover
+      searchParams={new URLSearchParams()}
+      sourceType={SourceTypeEnum.ChannelSubscriptionType}
+      anchorEl={document.body}
+      onClose={jest.fn}
+    />,
     {
       url: "/some-path?dog=woof",
     },
