@@ -156,7 +156,7 @@ jobs:
           file: coverage/lcov.info
 
   build-deploy-frontend:
-    # needs: javascript-tests
+    needs: javascript-tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -171,11 +171,17 @@ jobs:
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           EMBEDLY_KEY: ${{ secrets.EMBEDLY_KEY_RC }}
+          ORIGIN: https://next.rc.learn.mit.edu
+          MITOL_API_BASE_URL: https://api.rc.learn.mit.edu
+          SITE_NAME: MIT Learn
+          SUPPORT_EMAIL: mitlearn-support@mit.edu
+          MITOL_AXIOS_WITH_CREDENTIALS: true
+          CSRF_COOKIE_NAME: learn-rc-csrftoken
         run: |
           heroku container:push web \
           --app mitopen-rc-nextjs \
           --recursive \
-          --arg NEXT_PUBLIC_ORIGIN=https://next.rc.learn.mit.edu,NEXT_PUBLIC_MITOL_API_BASE_URL=https://api.rc.learn.mit.edu,NEXT_PUBLIC_SITE_NAME="MIT Learn",NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=mitlearn-support@mit.edu,NEXT_PUBLIC_EMBEDLY_KEY="$EMBEDLY_KEY",NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=true,NEXT_PUBLIC_CSRF_COOKIE_NAME=learn-rc-csrftoken \
+          --arg NEXT_PUBLIC_ORIGIN=$ORIGIN,NEXT_PUBLIC_MITOL_API_BASE_URL=$MITOL_API_BASE_URL,NEXT_PUBLIC_SITE_NAME="$SITE_NAME",NEXT_PUBLIC_MITOL_SUPPORT_EMAIL=$SUPPORT_EMAIL,NEXT_PUBLIC_EMBEDLY_KEY=$EMBEDLY_KEY,NEXT_PUBLIC_MITOL_AXIOS_WITH_CREDENTIALS=$MITOL_AXIOS_WITH_CREDENTIALS,NEXT_PUBLIC_CSRF_COOKIE_NAME=$CSRF_COOKIE_NAME \
           --context-path .
 
       - name: Release on Heroku
