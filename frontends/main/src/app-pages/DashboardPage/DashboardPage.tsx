@@ -313,7 +313,7 @@ const DashboardPage: React.FC = () => {
   const { isLoading: isLoadingProfile, data: profile } = useProfileMeQuery()
   const params = useParams<{ tab: string }>()
 
-  const appRouterPath = `${DASHBOARD_HOME}${params.tab}/`
+  const appRouterPath = `${DASHBOARD_HOME}/${params.tab}`
 
   const id = Number(useParams<RouteParams>().id) || -1
   const showUserListDetail = appRouterPath === MY_LISTS && id !== -1

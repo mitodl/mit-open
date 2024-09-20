@@ -4,13 +4,12 @@ import { useRouter, useLocation, useParams } from "next/navigation"
 import Link from "next/link"
 import { Container, TabList, Tab, TabContext, TabPanel } from "ol-components"
 
-// import { MetaTags } from "ol-utilities"
-
 import { GridColumn, GridContainer } from "@/components/GridLayout/GridLayout"
 import { useChannelDetail } from "api/hooks/channels"
 import EditChannelAppearanceForm from "./EditChannelAppearanceForm"
 import { ChannelPageTemplate } from "./ChannelPageTemplate"
 import MetaTags from "@/page-components/MetaTags/MetaTags"
+
 type RouteParams = {
   channelType: string
   name: string
@@ -41,7 +40,7 @@ const EditChannelPage: React.FC = () => {
       name={channel.data?.name}
       channelType={channel.data?.channel_type}
     >
-      {/* TODO <MetaTags title={`Editing | ${channel.data.title}`} social={false} /> */}
+      <MetaTags title={`Editing | ${channel.data.title}`} social={false} />
       {channel.data.is_moderator ? (
         <TabContext value={tabValue}>
           <div className="page-subbanner">

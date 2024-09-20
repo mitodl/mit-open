@@ -1,9 +1,9 @@
 import React from "react"
 import { Metadata } from "next"
-import { getMetadata } from "@/common/metadata"
 import OnboardingPage from "@/app-pages/OnboardingPage/OnboardingPage"
+import { standardizeMetadata } from "@/common/metadata"
 
-export const metadata: Metadata = getMetadata({
+export const metadata: Metadata = standardizeMetadata({
   title: "Onboarding",
   social: false,
 })
