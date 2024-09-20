@@ -5,13 +5,14 @@ from pathlib import Path
 
 from django.core.management import BaseCommand
 
-from learning_resources.etl import mit_edx, oll
+from learning_resources.etl import mit_edx, mit_edx_programs, oll
 from learning_resources.etl.constants import ETLSource
 from main.utils import now_in_utc
 
 EXTRACTORS = {
     ETLSource.oll.name: oll.extract,
     ETLSource.mit_edx.name: mit_edx.extract,
+    f"{ETLSource.mit_edx.name}_programs": mit_edx_programs.extract,
 }
 
 

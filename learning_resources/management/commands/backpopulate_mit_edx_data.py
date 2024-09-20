@@ -22,9 +22,15 @@ class Command(BaseCommand):
             help="Delete all existing records first",
         )
         parser.add_argument(
-            "--api_datafile",
-            dest="api_datafile",
-            help="If provided, use this file as the source of API data",
+            "--api_course_datafile",
+            dest="api_course_datafile",
+            help="If provided, use this file as the source of course API data",
+            default=None,
+        )
+        parser.add_argument(
+            "--api_program_datafile",
+            dest="api_program_datafile",
+            help="If provided, use this file as the source of program API data",
             default=None,
         )
         super().add_arguments(parser)
@@ -40,7 +46,9 @@ class Command(BaseCommand):
             ):
                 resource_delete_actions(learning_resource)
         else:
-            task = get_mit_edx_data.delay(options["api_datafile"])
+            task = get_mit_edx_data.delay(
+                options["api_course_datafile"], options["api_program_datafile"]
+            )
             self.stdout.write(f"Started task {task} to get MIT edX course data")
             self.stdout.write("Waiting on task...")
             start = now_in_utc()
