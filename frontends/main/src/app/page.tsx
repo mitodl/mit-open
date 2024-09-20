@@ -13,11 +13,12 @@ export async function generateMetadata({
 }: {
   searchParams: { [key: string]: string | string[] | undefined }
 }): Promise<Metadata> {
+  const robots =
+    process.env.MITOL_NOINDEX === "false" ? undefined : "noindex, nofollow"
   return await getMetadataAsync({
     title: "Learn with MIT",
     searchParams,
-    robots:
-      process.env.MITOL_NOINDEX === "true" ? "noindex, nofollow" : undefined,
+    robots,
   })
 }
 
