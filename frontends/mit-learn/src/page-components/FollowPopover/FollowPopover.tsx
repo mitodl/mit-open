@@ -1,9 +1,10 @@
 import React, { useMemo } from "react"
-import { Popover, Typography, styled, ButtonLink, Button } from "ol-components"
+import { Popover, Typography, styled, Button } from "ol-components"
 import type { PopoverProps } from "ol-components"
 import { getSearchParamMap } from "@/common/utils"
-import * as urls from "@/common/urls"
-import { useLocation } from "react-router"
+
+import { SignupPopover } from "../SignupPopover/SignupPopover"
+
 import { useUserMe } from "api/hooks/user"
 import { SourceTypeEnum } from "api"
 import {
@@ -28,17 +29,8 @@ const BodyText = styled(Typography)(({ theme }) => ({
 const Footer = styled.div({
   display: "flex",
   justifyContent: "end",
-})
-
-const ButtonsContainer = styled.div(({ theme }) => ({
-  display: "flex",
-  justifyContent: "right",
-  margin: "4px auto 0",
   gap: "16px",
-  [theme.breakpoints.down("sm")]: {
-    marginTop: "16px",
-  },
-}))
+})
 
 interface FollowPopoverProps
   extends Pick<PopoverProps, "anchorEl" | "onClose" | "placement"> {
@@ -58,7 +50,6 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
     return { source_type: sourceType, ...getSearchParamMap(searchParams) }
   }, [searchParams, sourceType])
 
-  const loc = useLocation()
   const subscriptionDelete = useSearchSubscriptionDelete()
   const subscriptionCreate = useSearchSubscriptionCreate()
   const subscriptionList = useSearchSubscriptionList(subscribeParams, {
@@ -82,27 +73,7 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
   if (user?.is_authenticated && subscriptionList.isLoading) return null
   if (!user) return null
   if (!user?.is_authenticated) {
-    return (
-      <StyledPopover {...props} open={!!props.anchorEl}>
-        <HeaderText variant="subtitle2">
-          Join {APP_SETTINGS.SITE_NAME} for free.
-        </HeaderText>
-        <BodyText variant="body2">
-          As a member, get personalized recommendations, curate learning lists,
-          and follow your areas of interest.
-        </BodyText>
-        <Footer>
-          <ButtonLink
-            href={urls.login({
-              pathname: loc.pathname,
-              search: loc.search,
-            })}
-          >
-            Sign Up
-          </ButtonLink>
-        </Footer>
-      </StyledPopover>
-    )
+    return <SignupPopover {...props}></SignupPopover>
   }
 
   if (isSubscribed) {
@@ -116,16 +87,14 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
             Unfollow to stop getting emails for new {itemName} courses
           </BodyText>
           <Footer>
-            <ButtonsContainer>
-              <Button
-                variant="inverted"
-                data-testid="action-unfollow"
-                onClick={handleFollowAction}
-              >
-                Unfollow
-              </Button>
-              <Button onClick={() => props.onClose()}>Close</Button>
-            </ButtonsContainer>
+            <Button
+              variant="inverted"
+              data-testid="action-unfollow"
+              onClick={handleFollowAction}
+            >
+              Unfollow
+            </Button>
+            <Button onClick={() => props.onClose()}>Close</Button>
           </Footer>
         </StyledPopover>
       </>
@@ -139,14 +108,12 @@ const FollowPopover: React.FC<FollowPopoverProps> = ({
           You will get an email when new courses are available
         </BodyText>
         <Footer>
-          <ButtonsContainer>
-            <Button variant="inverted" onClick={() => props.onClose()}>
-              Close
-            </Button>
-            <Button data-testid="action-follow" onClick={handleFollowAction}>
-              Follow
-            </Button>
-          </ButtonsContainer>
+          <Button variant="inverted" onClick={() => props.onClose()}>
+            Close
+          </Button>
+          <Button data-testid="action-follow" onClick={handleFollowAction}>
+            Follow
+          </Button>
         </Footer>
       </StyledPopover>
     </>
